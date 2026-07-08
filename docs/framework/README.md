@@ -16,10 +16,10 @@ Use this layer when work needs one of these:
 
 1. Start with the normal handbook workflow.
 2. If the work is still single-agent and clear, stay single-agent.
-3. If the work needs a reusable flow, start with `rail-composition.md` and `_rail-template.md`.
-4. If the work needs a module, check `module-registry.md`.
+3. If the work needs a reusable flow, start with `rail-composition.md`, `_rail-template.md`, and `docs/rails/`.
+4. If the work needs a module, check `docs/modules/` and `module-registry.md`.
 5. If a module exists, use its contract and templates.
-6. If an external tool is proposed, complete `_adapter-evaluation-template.md` before installing anything.
+6. If an external tool or pack is proposed, read `docs/packs/` and complete `_adapter-evaluation-template.md` before installing anything.
 7. If the goal may fan out, complete `_decomposition-plan-template.md`.
 8. If agents actually fan out, record the run with `_orchestration-run-template.md`.
 9. Verify, review, and update memory as usual.
@@ -30,6 +30,9 @@ Use this layer when work needs one of these:
 | --- | --- | --- |
 | Operating surface | Human and agent quick path. | `AGENTS.md`, `docs/ai/handbook.md` |
 | Rail composition | Pipe-like composition model for modules, artifacts, gates, and outcomes. | `docs/framework/rail-composition.md`, `docs/framework/_rail-template.md` |
+| Rail catalog | Standard reusable rails. | `docs/rails/` |
+| Module catalog | Core and adapter-inspired modules using one interface. | `docs/modules/` |
+| Pack system | Optional downloads, recommended packs, community packs, and local overrides. | `docs/packs/` |
 | Module contracts | Reusable capability definitions. | `docs/framework/_module-template.md` |
 | Module registry | Governance for accepted modules and optional adapters. | `docs/framework/module-registry.md` |
 | Pattern selection | Choose single-agent, skill, router, subagent, handoff, graph, or crew-style coordination. | `docs/framework/orchestration-patterns.md` |
@@ -66,6 +69,12 @@ Every module defines:
 - Adapter options.
 - Adoption status.
 
+## Pack Definition
+
+A pack is an optional bundle of rails, modules, adapters, examples, or review gates for a use case. Packs are not required by core TraceRail.
+
+Use `docs/packs/` for lifecycle, template, and conformance guidance.
+
 ## Adapter Definition
 
 An adapter connects the portable file-based workflow to an external tool, framework, skill, plugin, MCP server, or service. Adapters are optional unless the user explicitly approves installation.
@@ -97,6 +106,9 @@ The V5 baseline defines these modules:
 - Modular orchestration module.
 - Tool adapter module.
 - Capability adapter module.
+- Rail catalog.
+- Module catalog.
+- Pack system.
 
 ## Adoption Rule
 

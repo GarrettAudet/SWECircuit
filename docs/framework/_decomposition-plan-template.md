@@ -15,6 +15,15 @@ State the shared outcome in one paragraph.
 - Research snapshot:
 - Relevant memory:
 
+## Branch And State
+
+- Source branch:
+- Target branch:
+- Baseline commit or state:
+- Dirty state:
+- Approval gate:
+- Merge target:
+
 ## Module Selection
 
 | Needed Capability | Module | Reason |

@@ -9,7 +9,7 @@ Use milestones when a workflow version is completed, approved, or ready for appr
 | Artifact | Purpose |
 | --- | --- |
 | Feature package | Defines the work, plan, tasks, evidence, and review for a version or feature. |
-| Milestone | Summarizes shipped progress, validation, risks, and next work for humans. |
+| Milestone | Summarizes shipped progress, validation, approval gate, risks, and next work for humans. |
 | History ledger | Chronological pointer to source artifacts and memory updates. |
 | Retrieval index | Fast lookup map for future agents. |
 
@@ -21,7 +21,7 @@ When a version finishes:
 2. Link the feature package and review.
 3. Summarize shipped changes in plain language.
 4. Record verification evidence.
-5. Record residual risks and next recommended work.
+5. Record approval gate state, residual risks, and next recommended work.
 6. Update memory, history ledger, and retrieval index.
 7. Notify the user with the milestone overview.
 
@@ -38,4 +38,3 @@ For smaller non-version releases, use:
 ```txt
 docs/milestones/YYYY-MM-DD-slug.md
 ```
-

@@ -62,7 +62,7 @@ module(input) -> output + evidence + outcome
 ### Feature Rail
 
 ```txt
-goal | clarify | spec | architecture_check | task_plan | implement | verify | review | memory
+goal | clarify | spec | architecture_review | task_plan | implement | verify | review | memory
 ```
 
 Use for ordinary features, refactors, process changes, and bounded docs work.
@@ -78,7 +78,7 @@ Use when a failure is unclear, recurring, flaky, or starts producing bug cascade
 ### Decomposition Rail
 
 ```txt
-goal | retrieve | spec | architecture_check | decompose | contract_work_units | fanout | synthesize | integrate | verify | review | memory
+goal | retrieve | spec | architecture_review | decompose | contract_work_units | fanout | synthesize | integrate | verify | review | memory
 ```
 
 Use when the work can safely fan out across agents or independent work units.

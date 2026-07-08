@@ -1,0 +1,42 @@
+name: TraceRail Checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "codex/**"
+
+jobs:
+  template-check:
+    name: Template Check
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run TraceRail checker
+        shell: pwsh
+        run: .\scripts\check-template.ps1
+
+      - name: Check tracked whitespace
+        shell: pwsh
+        run: |
+          $binaryExtensions = @(".png", ".jpg", ".jpeg", ".gif", ".pdf")
+          $failures = @()
+          foreach ($file in git ls-files) {
+            $extension = [System.IO.Path]::GetExtension($file).ToLowerInvariant()
+            if ($binaryExtensions -contains $extension) { continue }
+            if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { continue }
+            $lineNumber = 0
+            foreach ($line in Get-Content -LiteralPath $file) {
+              $lineNumber += 1
+              if ($line -match "[ \t]+$") {
+                $failures += "${file}:${lineNumber}: trailing whitespace"
+              }
+            }
+          }
+          if ($failures.Count -gt 0) {
+            $failures | ForEach-Object { Write-Error $_ }
+            exit 1
+          }

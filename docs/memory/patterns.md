@@ -26,7 +26,11 @@ When a workflow version is complete, use that version for the next workflow-stac
 
 ### Development Milestone
 
-When a version finishes, create a short milestone overview that summarizes goal, shipped changes, evidence, residual risks, and next work. Use it to notify the user.
+When a version finishes, create a short milestone overview that summarizes goal, shipped changes, evidence, approval gate, residual risks, and next work. Use it to notify the user.
+
+### Milestone Approval Gate
+
+Every version milestone should state source branch, target branch, current merge state, required human decision, and post-approval merge action. This keeps approval state visible without turning the milestone into a full release log.
 
 ### Branch Baseline Loop
 
@@ -39,6 +43,10 @@ For meaningful IDE work, show workflow or branch, stage, active artifact, assump
 ### Standalone Agent Work Package
 
 For one agent owning a meaningful goal end to end, define goal, completion evidence, scope, authority, context bundle, independence readiness, verification plan, stop conditions, handoff, and memory updates.
+
+### Read-Only Fan-Out Before Write Fan-Out
+
+When proving a new orchestration workflow, start with read-only review agents on disjoint scopes. Preserve handoffs, synthesize through one integration owner, then move to write-enabled fan-out only after branch state, conflict zones, contracts, and verification evidence are explicit.
 
 ### Parallel Work-Unit Contract
 
@@ -81,6 +89,25 @@ Model meaningful work as `input | module | module | output`. Each module has inp
 ### Gate As Router
 
 A gate decides whether a rail continues, loops, splits, blocks, diagnoses, or records learning. Failed gates must emit typed outcomes instead of becoming silent retries.
+### Rail And Module Catalogs
+
+Normalize reusable workflow behavior into catalog entries. Rails compose modules; modules expose input, action, output, gate, outcome, artifacts, and adapter.
+
+### Swappable Review Gates
+
+Architecture review (`architecture_review`), security, performance, documentation, and other focused reviews should be modeled as modules. Insert them into rails where their gates matter, require evidence and a typed outcome, and delegate to a dedicated subagent only after scope, context, authority, and handoff are clear.
+
+### Pack Field Conformance
+
+Official packs need field-level checks for status, provides, requirements, permissions, contracts, verification, maintenance, and recommendation evidence. Heading checks make packs visible; field checks make them safer to use.
+
+### Packs Before Core
+
+Community and ecosystem extensions should start as packs. Promote into recommended or core status only after conformance, dogfooding, permissions review, rollback, and maintainer ownership are clear.
+
+### Optional Downloads
+
+External best-practice tools are optional downloads or adapters. Core TraceRail must remain useful with only files, templates, checks, review, and memory.
 ## Memory Patterns
 
 ### Source First, Summary Second
@@ -93,12 +120,16 @@ Use `history-ledger.md` for chronological traceability and `retrieval-index.md` 
 
 ## Documentation Patterns
 
+### Agent Contract And Router
+Keep `AGENTS.md` as the must-follow agent contract and routing index. Put long explanations, examples, and detailed protocols in the handbook, rails, modules, packs, feature packages, research snapshots, or memory files.
+
 ### One Handbook
 
 Keep process guidance in `docs/ai/handbook.md` unless a separate artifact is required for work execution.
 
+### Professional Public Surface
+
+A framework repository should expose contribution, security, support, conduct, changelog, docs index, file architecture, quality standards, issue templates, and CI validation as part of the baseline. The checker should require these files so repository polish remains durable.
 ### File-Based First
 
 Start with Markdown and a local checker. Add tools only when they remove real friction.
-
-

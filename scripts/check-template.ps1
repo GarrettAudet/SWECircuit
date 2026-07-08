@@ -72,6 +72,60 @@ function Test-NoUnresolvedPlaceholders {
     }
 }
 
+function Get-MarkdownSection {
+    param(
+        [string]$Text,
+        [string]$Heading
+    )
+
+    $escaped = [regex]::Escape($Heading)
+    $match = [regex]::Match($Text, "(?ms)^##\s+$escaped\s*(.*?)(?=^##\s+|\z)")
+    if ($match.Success) {
+        return $match.Groups[1].Value.Trim()
+    }
+    return ""
+}
+
+function Test-SectionContains {
+    param(
+        [string]$RelativePath,
+        [string]$SectionName,
+        [string[]]$RequiredTerms
+    )
+
+    $path = Join-Path $Root $RelativePath
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        Add-Failure "Missing file for section conformance check: $RelativePath"
+        return
+    }
+
+    $text = Read-Text $path
+    $section = Get-MarkdownSection $text $SectionName
+    if ([string]::IsNullOrWhiteSpace($section)) {
+        Add-Failure "Missing or empty section '$SectionName' in $RelativePath"
+        return
+    }
+
+    foreach ($term in $RequiredTerms) {
+        if ($section -notmatch [regex]::Escape($term)) {
+            Add-Failure "Section '$SectionName' in $RelativePath must include '$term'"
+        }
+    }
+}
+
+function Test-PackConformance {
+    param([string]$RelativePath)
+
+    Test-SectionContains $RelativePath "Status" @("Official")
+    Test-SectionContains $RelativePath "Provides" @("| Type | Name | Path |", "Rail", "Module", "Template", "Example")
+    Test-SectionContains $RelativePath "Requires" @("TraceRail version:", "Required files:", "Optional tools:")
+    Test-SectionContains $RelativePath "Permissions" @("Filesystem read", "Filesystem write", "Network", "Secrets", "External service", "Data retention")
+    Test-SectionContains $RelativePath "Contracts" @("Inputs:", "Actions:", "Outputs:", "Gates:", "Outcomes:", "Artifacts:", "Verification:", "Rollback:")
+    Test-SectionContains $RelativePath "Verification" @("Conformance checks:", "Manual checks:", "Example run:")
+    Test-SectionContains $RelativePath "Maintenance" @("Owner:", "Review cadence:", "Compatibility policy:")
+    Test-SectionContains $RelativePath "Recommendation Evidence" @("Dogfooding history:", "Failure mode solved:", "Known risks:")
+}
+
 function Get-FeatureDirectories {
     $specRoot = Join-Path $Root "docs\specs"
     if (-not (Test-Path -LiteralPath $specRoot -PathType Container)) {
@@ -157,8 +211,19 @@ function Test-FeaturePackage {
 }
 
 $requiredFiles = @(
+    ".editorconfig",
+    ".gitattributes",
+    ".gitignore",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "SUPPORT.md",
+    "CODE_OF_CONDUCT.md",
+    "CHANGELOG.md",
     "README.md",
     "AGENTS.md",
+    "docs/README.md",
+    "docs/architecture/file-architecture.md",
+    "docs/quality/repository-standards.md",
     "docs/ai/handbook.md",
     "docs/research/practice-register.md",
     "docs/research/snapshots/2026-07-08-ecosystem-scan.md",
@@ -187,6 +252,33 @@ $requiredFiles = @(
     "docs/framework/_decomposition-plan-template.md",
     "docs/framework/_adapter-evaluation-template.md",
     "docs/framework/_orchestration-run-template.md",
+    "docs/rails/README.md",
+    "docs/rails/feature-rail.md",
+    "docs/rails/diagnosis-rail.md",
+    "docs/rails/decomposition-rail.md",
+    "docs/rails/adapter-rail.md",
+    "docs/rails/release-rail.md",
+    "docs/modules/README.md",
+    "docs/modules/clarify.md",
+    "docs/modules/spec.md",
+    "docs/modules/architecture-review.md",
+    "docs/modules/plan.md",
+    "docs/modules/implement.md",
+    "docs/modules/verify.md",
+    "docs/modules/review.md",
+    "docs/modules/memory.md",
+    "docs/modules/superpowers-transition.md",
+    "docs/modules/astraeus-orchestration-compiler.md",
+    "docs/modules/spec-kit-adapter.md",
+    "docs/modules/retrieval-adapters.md",
+    "docs/modules/memory-adapters.md",
+    "docs/packs/README.md",
+    "docs/packs/_pack-template.md",
+    "docs/packs/pack-lifecycle.md",
+    "docs/packs/conformance.md",
+    "docs/packs/official/README.md",
+    "docs/packs/official/tracepack-orchestration-readiness/README.md",
+    "docs/packs/official/tracepack-orchestration-readiness/examples/three-agent-docs-run.md",
     "docs/specs/_template/spec.md",
     "docs/specs/_template/plan.md",
     "docs/specs/_template/tasks.md",
@@ -203,7 +295,12 @@ $requiredFiles = @(
     "docs/memory/glossary.md",
     "docs/memory/history-ledger.md",
     "docs/memory/retrieval-index.md",
-    ".github/pull_request_template.md"
+    ".github/pull_request_template.md",
+    ".github/ISSUE_TEMPLATE/bug_report.md",
+    ".github/ISSUE_TEMPLATE/feature_request.md",
+    ".github/ISSUE_TEMPLATE/workflow_improvement.md",
+    ".github/ISSUE_TEMPLATE/config.yml",
+    ".github/workflows/template-check.yml"
 )
 
 foreach ($file in $requiredFiles) {
@@ -213,6 +310,8 @@ foreach ($file in $requiredFiles) {
 Test-HasHeadings "README.md" @(
     "Why TraceRail Exists",
     "Core Idea",
+    "How Modules Plug Into Rails",
+    "Quality Bar",
     "What TraceRail Provides",
     "Quick Start",
     "When Work Gets Bigger",
@@ -221,6 +320,84 @@ Test-HasHeadings "README.md" @(
     "Design Principles",
     "Current Status"
 )
+Test-HasHeadings "CONTRIBUTING.md" @(
+    "Quick Path",
+    "Contribution Rules",
+    "Workflow",
+    "Validation",
+    "Pull Request Standard",
+    "Extension Standard"
+)
+Test-HasHeadings "SECURITY.md" @(
+    "Reporting Security Issues",
+    "Scope",
+    "Handling Expectations",
+    "Security Review Rules"
+)
+Test-HasHeadings "SUPPORT.md" @(
+    "Getting Help",
+    "What To Include",
+    "Support Boundaries"
+)
+Test-HasHeadings "CODE_OF_CONDUCT.md" @(
+    "Expected Behavior",
+    "Unacceptable Behavior",
+    "Enforcement"
+)
+Test-HasHeadings "CHANGELOG.md" @(
+    "Unreleased",
+    "Version History"
+)
+Test-HasHeadings "docs/README.md" @(
+    "Start Here",
+    "Documentation Map",
+    "Common Paths",
+    "Review Standard"
+)
+Test-HasHeadings "docs/architecture/file-architecture.md" @(
+    "Purpose",
+    "Root Surface",
+    "Docs Architecture",
+    "Artifact Ownership",
+    "Extension Points",
+    "Naming Conventions",
+    "Change Rules"
+)
+Test-HasHeadings "docs/quality/repository-standards.md" @(
+    "Purpose",
+    "Quality Bar",
+    "File Standards",
+    "Documentation Standards",
+    "Validation Standards",
+    "Review Standards",
+    "Release Standards"
+)
+
+Test-HasHeadings ".github/ISSUE_TEMPLATE/bug_report.md" @(
+    "Summary",
+    "Expected Behavior",
+    "Actual Behavior",
+    "Evidence",
+    "Reproduction",
+    "TraceRail Area",
+    "Validation"
+)
+Test-HasHeadings ".github/ISSUE_TEMPLATE/feature_request.md" @(
+    "Goal",
+    "Problem Solved",
+    "Proposed Shape",
+    "Acceptance Criteria",
+    "Risks"
+)
+Test-HasHeadings ".github/ISSUE_TEMPLATE/workflow_improvement.md" @(
+    "Current Workflow",
+    "Friction",
+    "Evidence",
+    "Suggested Improvement",
+    "Promotion Layer",
+    "Validation"
+)
+
 Test-HasHeadings "docs/ai/handbook.md" @(
     "Daily Quick Path",
     "Design Invariants",
@@ -257,12 +434,15 @@ foreach ($milestone in @(
         "Why It Matters",
         "Source Artifacts",
         "Verification",
+        "Approval Gate",
         "Residual Risks",
         "Next Recommended Work",
         "User-Facing Overview"
     )
 }
 
+
+Test-SectionContains "docs/milestones/v6.md" "Approval Gate" @("Source branch:", "Target branch:", "Current state:", "Required decision:", "Merge action after approval:")
 
 Test-HasHeadings "docs/ide/README.md" @(
     "When To Use",
@@ -386,6 +566,7 @@ Test-HasHeadings "docs/framework/_decomposition-plan-template.md" @(
     "Status",
     "Goal",
     "Source Artifacts",
+    "Branch And State",
     "Module Selection",
     "Decomposition Summary",
     "Dependency Graph",
@@ -417,7 +598,9 @@ Test-HasHeadings "docs/framework/_orchestration-run-template.md" @(
     "Pattern Chosen",
     "Why This Pattern",
     "Source Artifacts",
+    "Branch And State",
     "Roster",
+    "Work-Unit Contract References",
     "Fan-Out Log",
     "Handoffs",
     "Integration Notes",
@@ -455,12 +638,148 @@ foreach ($featureDir in Get-FeatureDirectories) {
             "Why It Matters",
             "Source Artifacts",
             "Verification",
+            "Approval Gate",
             "Residual Risks",
             "Next Recommended Work",
             "User-Facing Overview"
         )
     }
 }
+
+Test-HasHeadings "docs/rails/README.md" @(
+    "Purpose",
+    "Catalog",
+    "Selection Rule",
+    "Common Interface",
+    "Extension Rule"
+)
+
+foreach ($railFile in @(
+    "docs/rails/feature-rail.md",
+    "docs/rails/diagnosis-rail.md",
+    "docs/rails/decomposition-rail.md",
+    "docs/rails/adapter-rail.md",
+    "docs/rails/release-rail.md"
+)) {
+    Test-HasHeadings $railFile @(
+        "Purpose",
+        "Composition",
+        "Modules",
+        "Artifacts",
+        "Stop Conditions"
+    )
+}
+
+Test-HasHeadings "docs/modules/README.md" @(
+    "Purpose",
+    "Module Interface",
+    "Catalog",
+    "Promotion Rule"
+)
+
+foreach ($moduleFile in @(
+    "docs/modules/clarify.md",
+    "docs/modules/spec.md",
+    "docs/modules/architecture-review.md",
+    "docs/modules/plan.md",
+    "docs/modules/implement.md",
+    "docs/modules/verify.md",
+    "docs/modules/review.md",
+    "docs/modules/memory.md",
+    "docs/modules/superpowers-transition.md",
+    "docs/modules/astraeus-orchestration-compiler.md",
+    "docs/modules/spec-kit-adapter.md",
+    "docs/modules/retrieval-adapters.md",
+    "docs/modules/memory-adapters.md"
+)) {
+    Test-HasHeadings $moduleFile @(
+        "Purpose",
+        "Input",
+        "Action",
+        "Output",
+        "Gate",
+        "Outcome",
+        "Artifacts",
+        "Adapter"
+    )
+}
+
+Test-HasHeadings "docs/packs/README.md" @(
+    "Purpose",
+    "Tiers",
+    "Pack Rule",
+    "Current Official Packs",
+    "Suggested Official Packs",
+    "Extension Path",
+    "Local Overrides"
+)
+
+Test-HasHeadings "docs/packs/_pack-template.md" @(
+    "Pack Name",
+    "Status",
+    "Purpose",
+    "Provides",
+    "Requires",
+    "Permissions",
+    "Contracts",
+    "Installation",
+    "Verification",
+    "Maintenance",
+    "Recommendation Evidence"
+)
+
+Test-HasHeadings "docs/packs/pack-lifecycle.md" @(
+    "Purpose",
+    "Lifecycle",
+    "Promotion Criteria",
+    "Demotion Criteria",
+    "Recommendation Rule"
+)
+
+Test-HasHeadings "docs/packs/conformance.md" @(
+    "Purpose",
+    "Required Files",
+    "Required Contract Fields",
+    "Permission Review",
+    "Verification Review",
+    "Recommendation Checklist",
+    "Non-Conformance"
+)
+
+Test-HasHeadings "docs/packs/official/README.md" @(
+    "Purpose",
+    "Current Official Packs",
+    "Use Rule",
+    "Promotion Rule"
+)
+
+Test-HasHeadings "docs/packs/official/tracepack-orchestration-readiness/README.md" @(
+    "Pack Name",
+    "Status",
+    "Purpose",
+    "Provides",
+    "Requires",
+    "Permissions",
+    "Contracts",
+    "Installation",
+    "Verification",
+    "Maintenance",
+    "Recommendation Evidence"
+)
+
+Test-PackConformance "docs/packs/official/tracepack-orchestration-readiness/README.md"
+
+Test-HasHeadings "docs/packs/official/tracepack-orchestration-readiness/examples/three-agent-docs-run.md" @(
+    "Purpose",
+    "Shared Goal",
+    "Pattern",
+    "Work Units",
+    "Fan-Out",
+    "Fan-In",
+    "Verification",
+    "Memory",
+    "Stop Conditions"
+)
 Test-HasHeadings "docs/specs/_template/spec.md" @(
     "Problem",
     "Goals",
@@ -503,7 +822,7 @@ Test-HasHeadings "docs/specs/_template/root-cause-analysis.md" @(
 $prTemplatePath = Join-Path $Root ".github\pull_request_template.md"
 if (Test-Path -LiteralPath $prTemplatePath -PathType Leaf) {
     $pr = Read-Text $prTemplatePath
-    foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "IDE Interaction", "Standalone Agent Work", "Framework Modules", "Traceability", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
+    foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "IDE Interaction", "Standalone Agent Work", "Framework Modules", "Rails affected", "Modules affected", "Packs affected", "Traceability", "Repository Quality", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
         if ($pr -notmatch [regex]::Escape($requiredPhrase)) {
             Add-Failure "PR template missing '$requiredPhrase'"
         }
@@ -523,14 +842,3 @@ if ($failures.Count -gt 0) {
 }
 
 Write-Host "Template check passed." -ForegroundColor Green
-
-
-
-
-
-
-
-
-
-
-
