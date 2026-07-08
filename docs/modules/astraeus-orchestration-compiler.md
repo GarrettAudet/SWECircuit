@@ -1,0 +1,42 @@
+# Astraeus Orchestration Compiler Module
+
+## Purpose
+
+Synthesize project-specific agent roles, work units, critic path, synthesis path, permissions, and integration order from repository context.
+
+## Input
+
+- Goal.
+- Repository context.
+- Spec.
+- Architecture constraints.
+- Memory and history.
+
+## Action
+
+Compile an orchestration plan with specialized roles, scopes, context bundles, stop conditions, critic responsibilities, synthesizer responsibilities, and integration ownership.
+
+## Output
+
+- Decomposition plan.
+- Work-unit contracts.
+- Orchestration run record.
+- Permission boundaries.
+
+## Gate
+
+Work units are scoped, safe, and integratable, or work routes to `redesign`, `clarify`, or `block`.
+
+## Outcome
+
+`pass`, `redesign`, `clarify`, or `block`.
+
+## Artifacts
+
+- Decomposition plan.
+- Orchestration run record.
+- Worker handoff format.
+
+## Adapter
+
+Astraeus is an optional orchestration compiler adapter. TraceRail extracts the contract by default and installs nothing.

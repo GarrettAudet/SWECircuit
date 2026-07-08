@@ -45,6 +45,9 @@ That small contract gives agents a shared language for moving forward, looping b
 - `docs/ai/handbook.md`: the human and agent operating manual.
 - `docs/specs/`: feature packages for meaningful work.
 - `docs/framework/`: modular framework contracts and adapter governance.
+- `docs/rails/`: reusable workflow rails.
+- `docs/modules/`: composable module contracts.
+- `docs/packs/`: optional pack and community extension governance.
 - `docs/memory/`: durable memory, history, decisions, patterns, and retrieval pointers.
 - `docs/research/`: dated ecosystem scans and practice decisions.
 - `docs/milestones/`: version progress summaries.
@@ -106,6 +109,9 @@ This keeps the workflow modular without turning every project into a dependency 
 | `docs/ai/handbook.md` | Full workflow manual. |
 | `docs/framework/README.md` | Modular framework overview. |
 | `docs/framework/rail-composition.md` | Core pipe-like composition model for rails, modules, gates, and artifacts. |
+| `docs/rails/` | Standard reusable rails such as feature, diagnosis, decomposition, adapter, and release. |
+| `docs/modules/` | Core and adapter-inspired modules with one common interface. |
+| `docs/packs/` | Optional pack lifecycle, template, and conformance rules. |
 | `docs/framework/module-registry.md` | Accepted modules and optional adapters. |
 | `docs/framework/orchestration-patterns.md` | Pattern guide for single-agent and multi-agent work. |
 | `docs/framework/capability-adapters.md` | Capability contracts inspired by external projects such as Superpowers and Astraeus. |
@@ -130,6 +136,6 @@ This keeps the workflow modular without turning every project into a dependency 
 
 ## Current Status
 
-TraceRail is currently a file-based baseline. It is designed to be copied into projects, dogfooded, and extended through modules before any runtime framework is installed.
+TraceRail is currently a file-based baseline. It is designed to be copied into projects, dogfooded, and extended through rails, modules, and optional packs before any runtime framework is installed.
 
 The next frontier is proving the decomposition and orchestration templates on real agent-parallel work, then evaluating the first runtime adapter only after a repeated friction point appears.

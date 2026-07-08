@@ -29,10 +29,14 @@
 
 ## Framework Modules
 
+- Rails affected:
+- Modules affected:
+- Packs affected:
 - Framework modules affected:
 - External adapters evaluated or changed:
 - Decomposition or orchestration run linked if applicable:
 - Module registry updated:
+- Pack conformance or lifecycle impact:
 ## Traceability
 
 - Goal/spec -> tasks -> verification -> review chain complete:

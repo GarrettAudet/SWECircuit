@@ -187,6 +187,29 @@ $requiredFiles = @(
     "docs/framework/_decomposition-plan-template.md",
     "docs/framework/_adapter-evaluation-template.md",
     "docs/framework/_orchestration-run-template.md",
+    "docs/rails/README.md",
+    "docs/rails/feature-rail.md",
+    "docs/rails/diagnosis-rail.md",
+    "docs/rails/decomposition-rail.md",
+    "docs/rails/adapter-rail.md",
+    "docs/rails/release-rail.md",
+    "docs/modules/README.md",
+    "docs/modules/clarify.md",
+    "docs/modules/spec.md",
+    "docs/modules/plan.md",
+    "docs/modules/implement.md",
+    "docs/modules/verify.md",
+    "docs/modules/review.md",
+    "docs/modules/memory.md",
+    "docs/modules/superpowers-transition.md",
+    "docs/modules/astraeus-orchestration-compiler.md",
+    "docs/modules/spec-kit-adapter.md",
+    "docs/modules/retrieval-adapters.md",
+    "docs/modules/memory-adapters.md",
+    "docs/packs/README.md",
+    "docs/packs/_pack-template.md",
+    "docs/packs/pack-lifecycle.md",
+    "docs/packs/conformance.md",
     "docs/specs/_template/spec.md",
     "docs/specs/_template/plan.md",
     "docs/specs/_template/tasks.md",
@@ -461,6 +484,104 @@ foreach ($featureDir in Get-FeatureDirectories) {
         )
     }
 }
+
+Test-HasHeadings "docs/rails/README.md" @(
+    "Purpose",
+    "Catalog",
+    "Selection Rule",
+    "Common Interface",
+    "Extension Rule"
+)
+
+foreach ($railFile in @(
+    "docs/rails/feature-rail.md",
+    "docs/rails/diagnosis-rail.md",
+    "docs/rails/decomposition-rail.md",
+    "docs/rails/adapter-rail.md",
+    "docs/rails/release-rail.md"
+)) {
+    Test-HasHeadings $railFile @(
+        "Purpose",
+        "Composition",
+        "Modules",
+        "Artifacts",
+        "Stop Conditions"
+    )
+}
+
+Test-HasHeadings "docs/modules/README.md" @(
+    "Purpose",
+    "Module Interface",
+    "Catalog",
+    "Promotion Rule"
+)
+
+foreach ($moduleFile in @(
+    "docs/modules/clarify.md",
+    "docs/modules/spec.md",
+    "docs/modules/plan.md",
+    "docs/modules/implement.md",
+    "docs/modules/verify.md",
+    "docs/modules/review.md",
+    "docs/modules/memory.md",
+    "docs/modules/superpowers-transition.md",
+    "docs/modules/astraeus-orchestration-compiler.md",
+    "docs/modules/spec-kit-adapter.md",
+    "docs/modules/retrieval-adapters.md",
+    "docs/modules/memory-adapters.md"
+)) {
+    Test-HasHeadings $moduleFile @(
+        "Purpose",
+        "Input",
+        "Action",
+        "Output",
+        "Gate",
+        "Outcome",
+        "Artifacts",
+        "Adapter"
+    )
+}
+
+Test-HasHeadings "docs/packs/README.md" @(
+    "Purpose",
+    "Tiers",
+    "Pack Rule",
+    "Suggested Official Packs",
+    "Extension Path",
+    "Local Overrides"
+)
+
+Test-HasHeadings "docs/packs/_pack-template.md" @(
+    "Pack Name",
+    "Status",
+    "Purpose",
+    "Provides",
+    "Requires",
+    "Permissions",
+    "Contracts",
+    "Installation",
+    "Verification",
+    "Maintenance",
+    "Recommendation Evidence"
+)
+
+Test-HasHeadings "docs/packs/pack-lifecycle.md" @(
+    "Purpose",
+    "Lifecycle",
+    "Promotion Criteria",
+    "Demotion Criteria",
+    "Recommendation Rule"
+)
+
+Test-HasHeadings "docs/packs/conformance.md" @(
+    "Purpose",
+    "Required Files",
+    "Required Contract Fields",
+    "Permission Review",
+    "Verification Review",
+    "Recommendation Checklist",
+    "Non-Conformance"
+)
 Test-HasHeadings "docs/specs/_template/spec.md" @(
     "Problem",
     "Goals",
@@ -503,7 +624,7 @@ Test-HasHeadings "docs/specs/_template/root-cause-analysis.md" @(
 $prTemplatePath = Join-Path $Root ".github\pull_request_template.md"
 if (Test-Path -LiteralPath $prTemplatePath -PathType Leaf) {
     $pr = Read-Text $prTemplatePath
-    foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "IDE Interaction", "Standalone Agent Work", "Framework Modules", "Traceability", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
+    foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "IDE Interaction", "Standalone Agent Work", "Framework Modules", "Rails affected", "Modules affected", "Packs affected", "Traceability", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
         if ($pr -notmatch [regex]::Escape($requiredPhrase)) {
             Add-Failure "PR template missing '$requiredPhrase'"
         }

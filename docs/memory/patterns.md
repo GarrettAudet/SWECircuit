@@ -81,6 +81,17 @@ Model meaningful work as `input | module | module | output`. Each module has inp
 ### Gate As Router
 
 A gate decides whether a rail continues, loops, splits, blocks, diagnoses, or records learning. Failed gates must emit typed outcomes instead of becoming silent retries.
+### Rail And Module Catalogs
+
+Normalize reusable workflow behavior into catalog entries. Rails compose modules; modules expose input, action, output, gate, outcome, artifacts, and adapter.
+
+### Packs Before Core
+
+Community and ecosystem extensions should start as packs. Promote into recommended or core status only after conformance, dogfooding, permissions review, rollback, and maintainer ownership are clear.
+
+### Optional Downloads
+
+External best-practice tools are optional downloads or adapters. Core TraceRail must remain useful with only files, templates, checks, review, and memory.
 ## Memory Patterns
 
 ### Source First, Summary Second

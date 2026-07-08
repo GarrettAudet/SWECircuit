@@ -24,6 +24,9 @@
 | 2026-07-08 | Use decomposition plans and orchestration run records for scale. | Ten agents need one shared goal, bounded contracts, conflict zones, handoffs, fan-in, verification, and memory updates. | If real runs show the templates are too heavy or miss important coordination data. |
 | 2026-07-08 | Factor Superpowers into TraceRail as a capability adapter, not a default install. | Its skills-driven methodology strengthens the transition from idea to spec to approved implementation while preserving TraceRail's file-based baseline. | If a project wants plugin-backed skills and adapter evaluation clears security, telemetry, and maintenance concerns. |
 | 2026-07-08 | Factor Astraeus into TraceRail as an orchestration compiler capability, not a default install. | Its repository-aware agent synthesis, critic/synthesizer pattern, and scoped write-access defaults fit TraceRail's multi-agent direction. | If a project needs repeatable agent-team synthesis beyond static decomposition templates. |
+| 2026-07-08 | Add rail and module catalogs as the V6 composition layer. | Rail Composition needs concrete catalog entries so best-in-class practices become composable modules instead of narrative guidance. | If catalogs make the quick path harder or duplicate the handbook. |
+| 2026-07-08 | Use optional packs for ecosystem and community extensions. | Core should stay small while community work extends TraceRail through conformance-reviewed bundles. | If pack governance becomes too heavy or a capability proves core across multiple projects. |
+| 2026-07-08 | Treat recommended packs as curated optional downloads, not requirements. | This supports ecosystem growth without turning TraceRail into a dependency stack. | If a recommended pack becomes necessary for ordinary TraceRail use. |
 
 
 

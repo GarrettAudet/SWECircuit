@@ -16,7 +16,7 @@ This registry records which workflow modules are part of the baseline and which 
 
 | Module | Status | Source Inspiration | Contract | Rationale |
 | --- | --- | --- | --- | --- |
-| Rail composition module | accepted-file-contract | LangChain composition model, PromptChainer research | `docs/framework/rail-composition.md`, `docs/framework/_rail-template.md` | Establishes the simple pipe-like primitive that all TraceRail workflows compose around. |
+| Rail composition module | accepted-file-contract | LangChain composition model, PromptChainer research | `docs/framework/rail-composition.md`, `docs/framework/_rail-template.md`, `docs/rails/`, `docs/modules/` | Establishes the simple pipe-like primitive and concrete catalogs that all TraceRail workflows compose around. |
 | Spec module | accepted-file-contract | GitHub Spec Kit | `docs/specs/_template/`, handbook stages | Spec, plan, tasks, clarify, analyze, implement, and converge concepts are central but file-based V5 avoids tool lock-in. |
 | Architecture and ADR module | accepted-file-contract | ADR practice, Spec Kit planning | Handbook architecture check, feature plan | Keeps design decisions explicit before implementation. |
 | Agent instruction module | accepted-file-contract | Codex `AGENTS.md` | `AGENTS.md` | Gives agents a canonical project entrypoint. |
@@ -28,6 +28,7 @@ This registry records which workflow modules are part of the baseline and which 
 | Parallel work module | accepted-file-contract | Codex subagents, agent-team practices | Handbook parallel section, work-unit contract | Enables safe fan-out through contracts and integration ownership. |
 | Modular orchestration module | accepted-file-contract | LangChain patterns, AutoGen teams, CrewAI crews, BMAD lifecycle | `docs/framework/` | Lets the system choose patterns and adapters without installing a runtime by default. |
 | Tool adapter module | accepted-file-contract | Spec Kit extensions and presets, framework plugin patterns | `_adapter-evaluation-template.md` | Evaluates external tools before adoption. |
+| Pack system module | accepted-file-contract | Package/plugin ecosystem practice | `docs/packs/` | Keeps optional downloads, recommended packs, community packs, and local overrides separate from core. |
 | Capability adapter module | accepted-file-contract | Superpowers and Astraeus | `docs/framework/capability-adapters.md` | Extracts useful external project capabilities as TraceRail contracts before installation. |
 
 ## Optional Adapter Candidates

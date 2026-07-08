@@ -36,6 +36,12 @@
 | Gate | A decision point between modules that checks evidence and routes with a typed outcome. |
 | Rail | An ordered composition of modules, typed artifacts, and gates. |
 | Rail Composition | The core TraceRail abstraction: `input | module | module | output`. |
+| Community pack | A third-party TraceRail extension that declares rail, module, adapter, permission, verification, and rollback contracts but is not recommended by default. |
+| Core TraceRail | The required file-based baseline that works without optional downloads. |
+| Local override | A project-specific rail, module, adapter, or memory override kept outside core. |
+| Official pack | A curated optional extension maintained by the TraceRail project. |
+| Pack | An optional bundle of rails, modules, adapters, examples, or review gates for a specific use case. |
+| Recommended pack | An optional pack that passed conformance checks and has dogfooding evidence, permissions review, rollback, and maintainer ownership. |
 | TraceRail | The public name for this portable AI SWE workflow system: a contract-first framework kernel for traceable human-agent development. |
 | Version branch | A branch for one workflow version, named `codex/vVERSION-slug`, that merges to `main` after approval. |
 | Work-unit contract | A structured handoff for a parallel agent that defines objective, scope, context, conflicts, allowed actions, verification, handoff, and stop conditions. |

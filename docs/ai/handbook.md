@@ -795,6 +795,9 @@ The framework artifacts are:
 | --- | --- |
 | `docs/framework/README.md` | Explains the modular framework and quick path. |
 | `docs/framework/rail-composition.md` | Defines rails, modules, gates, artifacts, and standard compositions. |
+| `docs/rails/` | Catalogs reusable rails. |
+| `docs/modules/` | Catalogs composable module contracts. |
+| `docs/packs/` | Defines optional downloads, recommended packs, community packs, and local overrides. |
 | `docs/framework/_rail-template.md` | Defines reusable rail contracts. |
 | `docs/framework/module-registry.md` | Records accepted file contracts and optional adapters. |
 | `docs/framework/orchestration-patterns.md` | Helps choose single-agent, skill, router, subagent, handoff, graph, or crew-style coordination. |
@@ -812,6 +815,13 @@ Adapter policy:
 - Keep the first screen simple. Deeper module contracts should appear only when risk, ambiguity, scale, or repetition requires them.
 
 At scale, decomposition is the product. A ten-agent run needs one shared goal, one decomposition plan, one integration owner, and ten bounded contracts. If a ticket reveals bug after bug, fan out diagnosis before implementation fixes.
+Pack policy:
+
+- Core TraceRail must stay usable without downloads.
+- Official and recommended packs are optional by use case.
+- Community packs must declare inputs, actions, outputs, gates, outcomes, artifacts, permissions, verification, and rollback.
+- Local project overrides belong under a project-local `.tracerail/` folder when a project needs different rails or modules.
+- Promote a pack toward core only after repeated use proves it solves a stable failure mode without making the quick path harder.
 ## 21. Starting A New Feature
 
 1. Copy `docs/specs/_template/` to a new feature folder under `docs/specs/`.

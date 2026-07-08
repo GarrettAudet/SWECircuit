@@ -143,6 +143,18 @@ Use `docs/framework/README.md` when work needs a reusable module, external tool 
 Before installing or relying on an external framework, preserve a dated research snapshot, evaluate the adapter with `docs/framework/_adapter-evaluation-template.md`, record the decision in `docs/research/practice-register.md`, update `docs/framework/module-registry.md`, and promote only required guidance into the handbook, templates, checker, or agent instructions.
 
 Prefer file-based contracts first. External tools should plug into the workflow only when they remove repeated friction, improve correctness, or reduce coordination risk enough to justify their complexity.
+## Catalog And Pack Rule
+
+Use `docs/rails/` for reusable workflow rails, `docs/modules/` for composable module contracts, and `docs/packs/` for optional pack and community extension rules.
+
+External best-practice repositories should enter TraceRail as one of:
+
+- A module contract.
+- A rail contract.
+- An optional adapter.
+- An optional pack.
+
+Do not treat community packs as required core behavior. Recommended pack status requires conformance, dogfooding evidence, explicit permissions, rollback, and a maintainer.
 ## Problem-Solving Rule
 
 Do not repeatedly patch a failing ticket without diagnosis. When verification or review reveals a non-obvious or recurring failure:
