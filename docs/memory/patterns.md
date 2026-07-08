@@ -104,6 +104,9 @@ Use `history-ledger.md` for chronological traceability and `retrieval-index.md` 
 
 ## Documentation Patterns
 
+### Agent Contract And Router
+Keep `AGENTS.md` as the must-follow agent contract and routing index. Put long explanations, examples, and detailed protocols in the handbook, rails, modules, packs, feature packages, research snapshots, or memory files.
+
 ### One Handbook
 
 Keep process guidance in `docs/ai/handbook.md` unless a separate artifact is required for work execution.

@@ -4,6 +4,8 @@
 
 TraceRail is a portable operating system for AI-assisted software engineering. It favors a simple human surface with deeper protocols for specification, diagnosis, retrieval, verification, review, parallel agent work, traceability, and memory.
 
+Keep this file as the agent contract and routing index. Detailed explanations, examples, and long protocols belong in the handbook, feature packages, rails, modules, packs, research snapshots, or memory files.
+
 ## Required Reading
 
 Before meaningful work, read:
@@ -21,6 +23,13 @@ For research or workflow changes, also read:
 
 - `docs/research/practice-register.md`
 - Latest relevant file under `docs/research/snapshots/`
+
+For rail, module, pack, or adapter changes, also read:
+
+- `docs/rails/README.md`
+- `docs/modules/README.md`
+- `docs/packs/README.md`
+- `docs/framework/module-registry.md`
 
 ## Operating Invariants
 
@@ -100,6 +109,7 @@ Make the workflow visible in chat. For meaningful work, start by stating the wor
 Use `docs/ide/README.md` and `docs/ide/_message-templates.md` for start banners, stage updates, clarification prompts, diagnosis notices, verification reports, and completion handoffs.
 
 When asking the user for a decision, explain why it matters and what will happen next. When proceeding on a low-risk assumption, say where it is recorded. When finishing a version, use the milestone overview and state the branch or merge gate.
+
 ## Standalone Agent Rule
 
 Make the single-agent/IDE workflow excellent before expanding multi-agent orchestration. For a bounded goal, one agent should be able to run the full loop: retrieve context, clarify, plan, implement, verify, review, update memory, and hand off evidence.
@@ -134,6 +144,7 @@ input | module | module | output
 Each module must define input, action, output, gate, and outcome. The active rail should make artifacts and gates visible enough that the user can see how work is moving from goal to evidence to memory.
 
 Use `docs/framework/rail-composition.md` and `docs/framework/_rail-template.md` when defining or modifying reusable workflow rails.
+
 ## Modular Framework Rule
 
 Treat this repository as a lightweight framework kernel: simple operating surface, modular contracts underneath, optional adapters around the edges.
@@ -143,6 +154,7 @@ Use `docs/framework/README.md` when work needs a reusable module, external tool 
 Before installing or relying on an external framework, preserve a dated research snapshot, evaluate the adapter with `docs/framework/_adapter-evaluation-template.md`, record the decision in `docs/research/practice-register.md`, update `docs/framework/module-registry.md`, and promote only required guidance into the handbook, templates, checker, or agent instructions.
 
 Prefer file-based contracts first. External tools should plug into the workflow only when they remove repeated friction, improve correctness, or reduce coordination risk enough to justify their complexity.
+
 ## Catalog And Pack Rule
 
 Use `docs/rails/` for reusable workflow rails, `docs/modules/` for composable module contracts, and `docs/packs/` for optional pack and community extension rules.
@@ -155,6 +167,7 @@ External best-practice repositories should enter TraceRail as one of:
 - An optional pack.
 
 Do not treat community packs as required core behavior. Recommended pack status requires conformance, dogfooding evidence, explicit permissions, rollback, and a maintainer.
+
 ## Problem-Solving Rule
 
 Do not repeatedly patch a failing ticket without diagnosis. When verification or review reveals a non-obvious or recurring failure:
@@ -203,7 +216,7 @@ If code is later added to this repository, add project-specific format, lint, ty
 
 ## Tool Policy
 
-The v5 template is file-based and adapter-oriented. Do not install Spec Kit, BMAD, LangChain, LangGraph, AutoGen, CrewAI, Serena, Repomix, Basic Memory, agentmemory, Context7, Mem0, Zep, Graphiti, A-MEM, or other external tools unless the user explicitly approves that integration after adapter evaluation.
+The current TraceRail baseline is file-based, catalog-backed, and adapter-oriented. Do not install Spec Kit, BMAD, LangChain, LangGraph, AutoGen, CrewAI, Serena, Repomix, Basic Memory, agentmemory, Context7, Mem0, Zep, Graphiti, A-MEM, or other external tools unless the user explicitly approves that integration after adapter evaluation.
 
 
 

@@ -12,12 +12,14 @@ Ready for approval.
 - Added module catalog under `docs/modules/`.
 - Added pack governance under `docs/packs/`.
 - Updated README, handbook, framework overview, registry, PR template, checker, memory, and milestone.
+- Hardened `AGENTS.md` after user review so it remains a concise contract and routing index, includes V6 catalog routes, and avoids stale version-specific tool-policy wording.
 
 ## Assumptions Used
 
 - User approval to proceed meant V5 could be merged and V6 could begin.
 - V6 should normalize the existing work into catalogs rather than install external tooling.
 - Packs should be optional downloads, with recommended status earned by conformance and dogfooding.
+- The attached `AGENTS.md` shape was directionally right, but V6 should preserve the catalog and pack rule and avoid stale version-specific phrasing.
 
 ## Friction Observed
 
@@ -30,6 +32,7 @@ Ready for approval.
 - Modules describe composable work units.
 - Packs bundle rails and modules for optional extension.
 - Community contributions should target packs first, not core.
+- `AGENTS.md` should stay a concise agent contract and routing index; detailed protocols belong in the handbook, catalogs, feature packages, research, and memory.
 
 ## Files Changed
 

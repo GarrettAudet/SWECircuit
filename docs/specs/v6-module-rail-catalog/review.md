@@ -10,7 +10,7 @@ Approved for user review.
 
 ## Spec Alignment
 
-V6 satisfies the spec by adding rail, module, and pack catalogs; updating navigation and governance; mapping best-in-class repos into module or adapter contracts; and validating the new structure through the checker.
+V6 satisfies the spec by adding rail, module, and pack catalogs; updating navigation and governance; mapping best-in-class repos into module or adapter contracts; hardening `AGENTS.md` as the concise agent contract and routing index; and validating the new structure through the checker.
 
 ## Architecture Alignment
 
@@ -38,4 +38,4 @@ The change preserves TraceRail's architecture. Rail Composition remains the core
 
 ## Memory And Docs
 
-Updated rails, modules, packs, README, AGENTS, handbook, framework docs, PR template, checker, milestone, feature package, and memory files.
+Updated rails, modules, packs, README, AGENTS, handbook, framework docs, PR template, checker, milestone, feature package, and memory files. Post-review AGENTS hardening is recorded in implementation notes and memory patterns.
