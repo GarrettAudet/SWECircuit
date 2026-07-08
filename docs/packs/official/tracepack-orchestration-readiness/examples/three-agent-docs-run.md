@@ -18,11 +18,71 @@ goal | retrieve | spec | decompose | fanout | synthesize | integrate | verify | 
 
 ## Work Units
 
-| Work Unit | Scope | Allowed Actions | Evidence |
-| --- | --- | --- | --- |
-| Rail reviewer | `docs/rails/` and related handbook references | Read and propose changes; edit only if assigned | Findings with file paths and required updates |
-| Module reviewer | `docs/modules/` and module registry | Read and propose changes; edit only if assigned | Findings with module names and contract gaps |
-| Verification reviewer | checker, PR template, review notes | Run checks and inspect validation coverage | Command results and uncovered risks |
+### Rail Reviewer
+
+Objective: Check whether rail guidance is consistent with the feature package and handbook.
+
+Scope boundary: `docs/rails/` and related handbook references.
+
+Dependencies: Shared goal, feature package, and decomposition plan.
+
+Conflict zones: Handbook references shared with other reviewers; no edits without integration-owner assignment.
+
+Context bundle: Feature spec, relevant rail docs, handbook stage contracts, known issues.
+
+Agent role or capability: Read-only explorer or documentation worker.
+
+Allowed actions: Read and propose changes; edit only if assigned a disjoint write scope.
+
+Verification evidence: Findings with file paths, headings, and required updates.
+
+Handoff format: Findings ordered by severity, with risks and follow-ups.
+
+Stop conditions: Requirements ambiguity, architecture mismatch, shared-file conflict, unclear verification, or sensitive data concern.
+
+### Module Reviewer
+
+Objective: Check whether module contracts and registry entries expose the fields needed by the selected rail.
+
+Scope boundary: `docs/modules/` and `docs/framework/module-registry.md`.
+
+Dependencies: Shared goal, feature package, decomposition plan, relevant rail docs.
+
+Conflict zones: Module registry and handbook references shared with other reviewers; no edits without integration-owner assignment.
+
+Context bundle: Feature spec, module docs, registry, relevant adapter decisions.
+
+Agent role or capability: Read-only explorer or module-contract reviewer.
+
+Allowed actions: Read and propose changes; edit only if assigned a disjoint write scope.
+
+Verification evidence: Findings with module names, file paths, contract gaps, and suggested routing outcome.
+
+Handoff format: Findings ordered by severity, with risks and follow-ups.
+
+Stop conditions: Missing module ownership, conflicting contracts, unclear adapter status, or unsafe permission needs.
+
+### Verification Reviewer
+
+Objective: Check whether validation, review, and memory evidence can prove the integrated change.
+
+Scope boundary: `scripts/check-template.ps1`, PR template, review notes, milestone, and memory pointers.
+
+Dependencies: Shared goal, feature package, decomposition plan, expected acceptance criteria.
+
+Conflict zones: Checker and PR template are shared validation surfaces; no edits without integration-owner assignment.
+
+Context bundle: Feature spec, tasks, test plan, checker, review file, milestone, memory files.
+
+Agent role or capability: Read-only verification reviewer.
+
+Allowed actions: Run or inspect checks if permitted; otherwise read and propose validation changes.
+
+Verification evidence: Command results, uncovered risks, missing checks, and source file references.
+
+Handoff format: Findings ordered by severity, with skipped checks and follow-ups.
+
+Stop conditions: Verification cannot be run, evidence contradicts acceptance criteria, or failure cause becomes unclear.
 
 ## Fan-Out
 

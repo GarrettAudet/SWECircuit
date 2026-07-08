@@ -44,6 +44,10 @@ For meaningful IDE work, show workflow or branch, stage, active artifact, assump
 
 For one agent owning a meaningful goal end to end, define goal, completion evidence, scope, authority, context bundle, independence readiness, verification plan, stop conditions, handoff, and memory updates.
 
+### Read-Only Fan-Out Before Write Fan-Out
+
+When proving a new orchestration workflow, start with read-only review agents on disjoint scopes. Preserve handoffs, synthesize through one integration owner, then move to write-enabled fan-out only after branch state, conflict zones, contracts, and verification evidence are explicit.
+
 ### Parallel Work-Unit Contract
 
 Do not fan out work until each unit has objective, scope boundary, likely files, dependencies, conflict zones, context bundle, agent role, verification evidence, handoff format, and stop conditions.

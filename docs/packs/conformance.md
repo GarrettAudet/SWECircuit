@@ -49,12 +49,14 @@ The pack must provide:
 
 ## Recommendation Checklist
 
-- [x] Contract fields are present.
-- [x] Permissions are explicit.
-- [x] Verification is documented.
-- [x] Rollback is documented.
-- [x] Maintainer is named.
-- [x] Source evidence is preserved.
+Use this checklist when evaluating a specific pack for recommended status. Unchecked boxes here are criteria, not a claim that every pack already satisfies them.
+
+- [ ] Contract fields are present.
+- [ ] Permissions are explicit.
+- [ ] Verification is documented.
+- [ ] Rollback is documented.
+- [ ] Maintainer is named.
+- [ ] Source evidence is preserved.
 
 ## Non-Conformance
 

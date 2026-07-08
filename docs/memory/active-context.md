@@ -6,7 +6,7 @@ TraceRail V6 module and rail catalog on branch `codex/v6-module-rail-catalog`.
 
 ## Current Stage
 
-V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening, the first official orchestration-readiness pack, explicit milestone approval gates, and pack conformance checker coverage on top of the V5 Rail Composition baseline.
+V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening, the first official orchestration-readiness pack, explicit milestone approval gates, pack conformance checker coverage, and a read-only subagent dogfood run on top of the V5 Rail Composition baseline.
 
 ## Important Current Constraints
 
@@ -15,7 +15,7 @@ V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening
 - Keep core usable without downloads.
 - Treat official and community packs as optional extensions.
 - Recommended pack status requires conformance, dogfooding evidence, explicit permissions, rollback, and a maintainer.
-- `tracepack-orchestration-readiness` is official but not recommended until it is dogfooded on real multi-agent work.
+- `tracepack-orchestration-readiness` has read-only multi-agent dogfood evidence but is not recommended until repeated use and implementation fan-out evidence exist.
 - Preserve source artifacts before memory summaries.
 - Keep `main` as the stable baseline; V6 remains on its version branch until user approval.
 
@@ -30,10 +30,11 @@ V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening
 - The first official pack should be dependency-free and status-clear: official means maintained, recommended means proven.
 - Milestones need explicit approval gates so merge readiness is source-visible instead of reconstructed from chat.
 - Pack conformance needs field-level checks for official packs, not only heading checks.
+- Read-only subagent review is a useful first orchestration dogfood before write-enabled implementation fan-out.
 
 ## Next Likely Work
 
 - Review and approve V6 on `codex/v6-module-rail-catalog`.
 - Merge V6 to `main` only after approval.
 - Dogfood V6 on the next TraceRail version or a real project feature.
-- Dogfood `tracepack-orchestration-readiness` on real multi-agent work before marking it recommended.
+- Dogfood `tracepack-orchestration-readiness` on write-enabled implementation fan-out before marking it recommended.

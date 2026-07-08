@@ -14,7 +14,7 @@ Synthesize project-specific agent roles, work units, critic path, synthesis path
 
 ## Action
 
-Compile an orchestration plan with specialized roles, scopes, context bundles, stop conditions, critic responsibilities, synthesizer responsibilities, and integration ownership.
+Compile an orchestration plan with specialized roles, scopes, dependencies, conflict zones, context bundles, allowed actions, verification evidence, handoff format, stop conditions, critic responsibilities, synthesizer responsibilities, and integration ownership.
 
 ## Output
 
@@ -22,6 +22,7 @@ Compile an orchestration plan with specialized roles, scopes, context bundles, s
 - Work-unit contracts.
 - Orchestration run record.
 - Permission boundaries.
+- Conflict zones, dependencies, allowed actions, verification evidence, and handoff format.
 
 ## Gate
 

@@ -119,7 +119,7 @@ function Test-PackConformance {
     Test-SectionContains $RelativePath "Status" @("Official")
     Test-SectionContains $RelativePath "Provides" @("| Type | Name | Path |", "Rail", "Module", "Template", "Example")
     Test-SectionContains $RelativePath "Requires" @("TraceRail version:", "Required files:", "Optional tools:")
-    Test-SectionContains $RelativePath "Permissions" @("Filesystem read", "Filesystem write", "Network", "Secrets", "External service")
+    Test-SectionContains $RelativePath "Permissions" @("Filesystem read", "Filesystem write", "Network", "Secrets", "External service", "Data retention")
     Test-SectionContains $RelativePath "Contracts" @("Inputs:", "Actions:", "Outputs:", "Gates:", "Outcomes:", "Artifacts:", "Verification:", "Rollback:")
     Test-SectionContains $RelativePath "Verification" @("Conformance checks:", "Manual checks:", "Example run:")
     Test-SectionContains $RelativePath "Maintenance" @("Owner:", "Review cadence:", "Compatibility policy:")
@@ -345,6 +345,8 @@ foreach ($milestone in @(
 }
 
 
+Test-SectionContains "docs/milestones/v6.md" "Approval Gate" @("Source branch:", "Target branch:", "Current state:", "Required decision:", "Merge action after approval:")
+
 Test-HasHeadings "docs/ide/README.md" @(
     "When To Use",
     "Start-Of-Work Banner",
@@ -467,6 +469,7 @@ Test-HasHeadings "docs/framework/_decomposition-plan-template.md" @(
     "Status",
     "Goal",
     "Source Artifacts",
+    "Branch And State",
     "Module Selection",
     "Decomposition Summary",
     "Dependency Graph",
@@ -498,7 +501,9 @@ Test-HasHeadings "docs/framework/_orchestration-run-template.md" @(
     "Pattern Chosen",
     "Why This Pattern",
     "Source Artifacts",
+    "Branch And State",
     "Roster",
+    "Work-Unit Contract References",
     "Fan-Out Log",
     "Handoffs",
     "Integration Notes",

@@ -23,11 +23,26 @@ Explain why this pattern is simpler or safer than the alternatives.
 - Module contracts:
 - Memory:
 
+## Branch And State
+
+- Source branch:
+- Target branch:
+- Baseline commit or state:
+- Dirty state before fan-out:
+- Approval gate:
+- Merge target:
+
 ## Roster
 
 | Agent Or Role | Work Unit | Authority | Stop Condition |
 | --- | --- | --- | --- |
 | Integration owner | Integration | Own final assembly, verification, review, and memory. | Stop if scope or safety boundary becomes unclear. |
+
+## Work-Unit Contract References
+
+| Agent Or Role | Work Unit | Contract Source | Scope Boundary | Conflict Zones | Allowed Actions | Verification Evidence | Handoff Format |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |  |  |
 
 ## Fan-Out Log
 

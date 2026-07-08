@@ -42,6 +42,7 @@ Do not use it when product intent, acceptance criteria, architecture constraints
 | Network | No by default | Research or dependency lookup must be separately approved when needed. |
 | Secrets | No | This pack does not require credentials or private tokens. |
 | External service | No | Runtime orchestration tools are optional future adapters. |
+| Data retention | Yes, local Markdown only | Decomposition plans, run records, handoffs, verification notes, and memory updates are preserved in repository artifacts. |
 
 ## Contracts
 
@@ -74,6 +75,6 @@ Do not install Astraeus, LangChain, LangGraph, AutoGen, CrewAI, or other orchest
 
 ## Recommendation Evidence
 
-- Dogfooding history: first manual pilot added during V6 on `codex/v6-module-rail-catalog`.
+- Dogfooding history: first manual pilot added during V6 on `codex/v6-module-rail-catalog`; first read-only subagent review run recorded in `docs/specs/v6-orchestration-readiness-dogfood/`.
 - Failure mode solved: prevents vague multi-agent fan-out by requiring a shared goal, scoped work units, conflict zones, integration ownership, verification evidence, and memory updates.
-- Known risks: the pack is policy-only until it is used on a real multi-agent run; do not mark recommended until repeated usage proves the contract is useful and not too heavy.
+- Known risks: the pack has read-only dogfood evidence but not implementation fan-out evidence; do not mark recommended until repeated usage proves the contract is useful and not too heavy.
