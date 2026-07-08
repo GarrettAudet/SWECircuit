@@ -21,6 +21,8 @@
 | 2026-07-08 | Require adapter evaluation before installing external frameworks. | Best-in-class tools should plug in only after they solve a proven friction point and preserve source evidence, security, rollback, and reviewability. | If a project explicitly needs a runtime tool and evaluation shows clear value. |
 | 2026-07-08 | Keep single-agent as the default orchestration pattern. | Ecosystem guidance and V4 dogfooding both show that multi-agent work should extend a strong standalone baseline, not replace it. | If a goal has independent work units with clear contracts and integration ownership. |
 | 2026-07-08 | Use decomposition plans and orchestration run records for scale. | Ten agents need one shared goal, bounded contracts, conflict zones, handoffs, fan-in, verification, and memory updates. | If real runs show the templates are too heavy or miss important coordination data. |
+| 2026-07-08 | Factor Superpowers into TraceRail as a capability adapter, not a default install. | Its skills-driven methodology strengthens the transition from idea to spec to approved implementation while preserving TraceRail's file-based baseline. | If a project wants plugin-backed skills and adapter evaluation clears security, telemetry, and maintenance concerns. |
+| 2026-07-08 | Factor Astraeus into TraceRail as an orchestration compiler capability, not a default install. | Its repository-aware agent synthesis, critic/synthesizer pattern, and scoped write-access defaults fit TraceRail's multi-agent direction. | If a project needs repeatable agent-team synthesis beyond static decomposition templates. |
 
 
 

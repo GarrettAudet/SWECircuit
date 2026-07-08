@@ -20,6 +20,7 @@ The workflow now has strong single-agent, IDE-visible, traceable execution, but 
 
 - Name the system and define a public README surface.
 - Define a modular orchestration layer that keeps the simple workflow surface intact.
+- Factor Superpowers and Astraeus into the framework as capability-adapter contracts.
 - Create a registry for framework modules and optional external adapters.
 - Add templates for module contracts, adapter evaluation, decomposition plans, and orchestration run records.
 - Promote current ecosystem practices into the repo only as source-preserving, file-based contracts unless installation is explicitly approved.
@@ -38,6 +39,7 @@ The workflow now has strong single-agent, IDE-visible, traceable execution, but 
 - Add `README.md` as the public TraceRail overview.
 - Add a `docs/framework/` layer that explains the portable modular orchestration framework.
 - Add a module registry that separates accepted file contracts from optional tool adapters and watched integrations.
+- Add capability-adapter guidance for skills-driven development transition and orchestration compiler patterns.
 - Add a module template with clear inputs, outputs, stage hooks, verification, failure modes, and adoption status.
 - Add a decomposition plan template for breaking goals into independently owned work units.
 - Add an adapter evaluation template for deciding whether an external tool should be installed or merely referenced.
@@ -51,6 +53,8 @@ The workflow now has strong single-agent, IDE-visible, traceable execution, but 
 
 - [x] Given a new user opens the repository, when they read the root README, then they see the TraceRail name, purpose, quick start, repository map, adapter policy, and scale model.
 - [x] Given a future workflow or app project, when a user wants to add a best-in-class practice, then the repo has an adapter evaluation path before installation.
+- [x] Given a user wants Superpowers-like design-to-implementation support, when they consult the framework, then TraceRail provides a skills-driven development transition contract without requiring installation.
+- [x] Given a user wants Astraeus-like orchestration, when they consult the framework, then TraceRail provides an orchestration compiler contract with repository-aware synthesis, critic/synthesizer fan-in, scoped permissions, and continuity.
 - [x] Given a goal that may need many agents, when the task plan reaches decomposition, then there is a template for work units, dependency graph, conflict zones, fan-out, fan-in, and verification.
 - [x] Given a future agent reading `AGENTS.md`, when the work may need external frameworks, then the agent sees that file-based module contracts come before tool installation.
 - [x] Given a reviewer checking V5, when the local checker runs, then the new framework docs and required headings are validated.

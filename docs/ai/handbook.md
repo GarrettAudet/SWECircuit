@@ -752,6 +752,8 @@ Tool adoption defaults:
 
 Optional future integrations:
 
+- Superpowers for skills-driven design-to-implementation transitions.
+- Astraeus for repository-aware orchestration compiler patterns.
 - Spec Kit for spec-driven workflow automation.
 - BMAD as a full lifecycle reference.
 - Serena for semantic code retrieval.
@@ -770,6 +772,7 @@ Use `docs/framework/README.md` when work needs:
 - A decomposition plan for many work units.
 - A recorded orchestration run.
 - A pattern choice beyond the standalone agent loop.
+- A capability inspired by an external project, such as Superpowers or Astraeus.
 
 The default path remains single-agent:
 
@@ -784,6 +787,7 @@ The framework artifacts are:
 | `docs/framework/README.md` | Explains the modular framework and quick path. |
 | `docs/framework/module-registry.md` | Records accepted file contracts and optional adapters. |
 | `docs/framework/orchestration-patterns.md` | Helps choose single-agent, skill, router, subagent, handoff, graph, or crew-style coordination. |
+| `docs/framework/capability-adapters.md` | Captures reusable external project capabilities such as skills-driven development transition and orchestration compiler. |
 | `docs/framework/_module-template.md` | Defines a reusable module contract. |
 | `docs/framework/_decomposition-plan-template.md` | Breaks a goal into work units, dependencies, conflict zones, verification, fan-out, and fan-in. |
 | `docs/framework/_adapter-evaluation-template.md` | Evaluates external tools before installation. |

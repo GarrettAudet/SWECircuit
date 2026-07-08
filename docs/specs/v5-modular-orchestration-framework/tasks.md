@@ -44,6 +44,10 @@ Use this format for each task:
 - [x] T007: Add the public TraceRail README surface.
   Scope: Add root `README.md` and align core operating docs with the TraceRail name.
   Verification: Checker validates the README and docs refer to the named system consistently.
+
+- [x] T008: Factor Superpowers and Astraeus into framework capabilities.
+  Scope: Add capability-adapter docs, registry entries, practice-register entries, research snapshot, and checker coverage.
+  Verification: Checker validates capability adapter files and the review links source evidence.
 ## Dependencies
 
 - T001 precedes all other tasks.
@@ -52,6 +56,7 @@ Use this format for each task:
 - T005 follows implementation so memory points to finished artifacts.
 - T006 validates the framework artifacts before commit.
 - T007 is V5 public-surface polish before approval.
+- T008 follows the V5 adapter policy: snapshot first, contract second, optional install later.
 
 ## Out Of Scope
 

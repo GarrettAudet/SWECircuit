@@ -80,7 +80,7 @@ The rule is simple: ten agents need one shared goal, one decomposition plan, one
 
 ## Tool Adapters
 
-TraceRail can absorb ideas from tools like Spec Kit, BMAD, LangChain, LangGraph, AutoGen, CrewAI, Codex subagents, Serena, Repomix, Context7, Basic Memory, Mem0, Zep, Graphiti, and A-MEM.
+TraceRail can absorb ideas from tools like Superpowers, Astraeus, Spec Kit, BMAD, LangChain, LangGraph, AutoGen, CrewAI, Codex subagents, Serena, Repomix, Context7, Basic Memory, Mem0, Zep, Graphiti, and A-MEM.
 
 The default is not to install them.
 
@@ -101,6 +101,7 @@ This keeps the workflow modular without turning every project into a dependency 
 | `docs/framework/README.md` | Modular framework overview. |
 | `docs/framework/module-registry.md` | Accepted modules and optional adapters. |
 | `docs/framework/orchestration-patterns.md` | Pattern guide for single-agent and multi-agent work. |
+| `docs/framework/capability-adapters.md` | Capability contracts inspired by external projects such as Superpowers and Astraeus. |
 | `docs/specs/_template/` | Feature package template. |
 | `docs/memory/` | Durable project memory and retrieval pointers. |
 | `docs/research/practice-register.md` | Accepted, optional, watched, deferred, and rejected practices. |

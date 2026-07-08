@@ -9,6 +9,7 @@ Ready for approval.
 | Acceptance Criterion | Evidence |
 | --- | --- |
 | Root README names and explains the system. | `README.md` includes TraceRail purpose, quick start, repository map, scale model, adapter policy, and status. |
+| Superpowers and Astraeus capabilities are factored into framework contracts. | `docs/framework/capability-adapters.md`, `docs/framework/module-registry.md`, `docs/research/snapshots/2026-07-08-capability-adapter-scan.md`, and `docs/research/practice-register.md`. |
 | Adapter path exists before installation. | `docs/framework/_adapter-evaluation-template.md`, `docs/framework/module-registry.md`, `AGENTS.md`, handbook updates. |
 | Goal decomposition has a work-unit template. | `docs/framework/_decomposition-plan-template.md` and `docs/framework/_orchestration-run-template.md`. |
 | Agents see file-based contracts before tools. | `AGENTS.md` Modular Framework Rule and Tool Policy. |
@@ -36,6 +37,7 @@ git diff --check
 - Confirm the root README gives a clear first-read experience.
 - Confirm the V5 framework keeps single-agent workflow as the default.
 - Confirm optional external tools are represented as adapters rather than dependencies.
+- Confirm Superpowers maps to skills-driven development transition and Astraeus maps to orchestration compiler.
 - Confirm the decomposition template supports large-scale agent fan-out and fan-in.
 - Confirm milestone and memory point future agents to V5 source artifacts.
 

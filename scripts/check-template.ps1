@@ -164,6 +164,7 @@ $requiredFiles = @(
     "docs/research/snapshots/2026-07-08-ecosystem-scan.md",
     "docs/research/snapshots/2026-07-08-parallel-agent-and-memory-scan.md",
     "docs/research/snapshots/2026-07-08-modular-orchestration-scan.md",
+    "docs/research/snapshots/2026-07-08-capability-adapter-scan.md",
     "docs/milestones/README.md",
     "docs/milestones/_template.md",
     "docs/milestones/v1.md",
@@ -178,6 +179,7 @@ $requiredFiles = @(
     "docs/framework/README.md",
     "docs/framework/module-registry.md",
     "docs/framework/orchestration-patterns.md",
+    "docs/framework/capability-adapters.md",
     "docs/framework/_module-template.md",
     "docs/framework/_decomposition-plan-template.md",
     "docs/framework/_adapter-evaluation-template.md",
@@ -308,6 +310,17 @@ Test-HasHeadings "docs/framework/module-registry.md" @(
     "Removal Path"
 )
 
+
+Test-HasHeadings "docs/framework/capability-adapters.md" @(
+    "Purpose",
+    "Capability Classes",
+    "Skills-Driven Development Transition",
+    "Orchestration Compiler",
+    "Safety Defaults",
+    "Adapter Mapping",
+    "Promotion Path",
+    "Review Questions"
+)
 Test-HasHeadings "docs/framework/orchestration-patterns.md" @(
     "Purpose",
     "Selection Rule",

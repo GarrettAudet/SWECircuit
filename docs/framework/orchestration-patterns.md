@@ -23,10 +23,11 @@ single-agent -> skill/context module -> router -> subagents -> handoffs -> direc
 | Handoffs | A user or task needs to move between specialized agents while preserving state. | The work can be completed with one owner. | Handoff reason, state transferred, acceptance criteria. |
 | Directed graph | The process has deterministic stages, gates, retries, or fan-in. | The work is exploratory and the graph would be fiction. | Graph stages, gate outcomes, retry rules, terminal states. |
 | Hierarchical crew | Many tasks need manager-style coordination and role assignment. | Coordination overhead exceeds the task size. | Manager role, delegation rules, checkpoints, integrated verification. |
+| Orchestration compiler | A repository-aware compiler can synthesize project-specific agents, critic path, synthesis path, permissions, and integration order. | The work is small enough for the normal decomposition template. | Capability contract, generated work units, critic and synthesizer duties, integration plan. |
 
 ## Scale Rule
 
-For ten agents, do not create ten independent interpretations of the same goal. Create one shared goal, one decomposition plan, one integration owner, and ten bounded contracts.
+For ten agents, do not create ten independent interpretations of the same goal. Create one shared goal, one decomposition plan, one integration owner, and ten bounded contracts. Use the orchestration compiler capability in `docs/framework/capability-adapters.md` when the agent roster itself needs to be synthesized from repository context.
 
 At scale, each worker needs:
 

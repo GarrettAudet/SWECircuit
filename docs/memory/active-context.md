@@ -6,7 +6,7 @@ TraceRail V5 modular orchestration framework on branch `codex/v5-modular-orchest
 
 ## Current Stage
 
-V5 ready for approval after naming the system TraceRail and adding the framework layer for modules, adapters, decomposition plans, orchestration patterns, and run records.
+V5 ready for approval after naming the system TraceRail and adding the framework layer for modules, adapters, capability adapters, decomposition plans, orchestration patterns, and run records.
 
 ## Important Current Constraints
 
@@ -22,6 +22,8 @@ V5 ready for approval after naming the system TraceRail and adding the framework
 ## Recently Learned
 
 - Best-in-class ecosystem practice points toward modular contracts and adapter governance, not one mandatory mega-framework.
+- Superpowers is useful as a skills-driven development transition pattern from idea to spec to approved implementation plan.
+- Astraeus is useful as an orchestration compiler pattern for repository-aware agent synthesis, critic/synthesizer fan-in, and scoped permissions.
 - Spec Kit contributes the strongest spec-driven spine, while LangChain, AutoGen, CrewAI, BMAD, and Codex subagents contribute pattern and orchestration ideas.
 - At scale, decomposition is the core artifact: shared goal, work-unit contracts, dependency graph, conflict zones, fan-in, verification, and integration ownership.
 - When a ticket reveals bug after bug, parallelize diagnosis before implementation fixes.

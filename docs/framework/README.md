@@ -34,6 +34,7 @@ Use this layer when work needs one of these:
 | Decomposition | Break a goal into work units with dependencies, conflicts, and evidence. | `docs/framework/_decomposition-plan-template.md` |
 | Run record | Preserve fan-out, handoffs, integration, and verification. | `docs/framework/_orchestration-run-template.md` |
 | Adapter adoption | Evaluate external tools before installation. | `docs/framework/_adapter-evaluation-template.md` |
+| Capability adapters | Extract reusable external project capabilities as contracts before installing tools. | `docs/framework/capability-adapters.md` |
 
 ## Module Definition
 
@@ -82,6 +83,7 @@ The V5 baseline defines these modules:
 - Parallel work module.
 - Modular orchestration module.
 - Tool adapter module.
+- Capability adapter module.
 
 ## Adoption Rule
 

@@ -63,6 +63,17 @@ For many agents, create one shared goal, a dependency graph, conflict zones, bou
 ### Diagnosis Fan-Out Before Fix Fan-Out
 
 When one ticket reveals bug after bug, parallelize reproduction, evidence gathering, history review, related-code inspection, and hypothesis tests before applying fixes.
+### Capability Adapter
+
+When an external project has a useful practice but should not become a dependency, extract the capability as a TraceRail contract, preserve a dated source scan, and keep installation optional.
+
+### Skills-Driven Development Transition
+
+Use a triggered-skill style bridge from idea to spec to approved implementation plan when the user intent is still forming and the agent needs readable checkpoints before code.
+
+### Orchestration Compiler
+
+For larger multi-agent work, synthesize project-specific roles, scopes, handoffs, critic duties, synthesis duties, permissions, and integration order from repository context before fan-out.
 ## Memory Patterns
 
 ### Source First, Summary Second

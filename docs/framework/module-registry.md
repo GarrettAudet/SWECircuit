@@ -27,6 +27,7 @@ This registry records which workflow modules are part of the baseline and which 
 | Parallel work module | accepted-file-contract | Codex subagents, agent-team practices | Handbook parallel section, work-unit contract | Enables safe fan-out through contracts and integration ownership. |
 | Modular orchestration module | accepted-file-contract | LangChain patterns, AutoGen teams, CrewAI crews, BMAD lifecycle | `docs/framework/` | Lets the system choose patterns and adapters without installing a runtime by default. |
 | Tool adapter module | accepted-file-contract | Spec Kit extensions and presets, framework plugin patterns | `_adapter-evaluation-template.md` | Evaluates external tools before adoption. |
+| Capability adapter module | accepted-file-contract | Superpowers and Astraeus | `docs/framework/capability-adapters.md` | Extracts useful external project capabilities as TraceRail contracts before installation. |
 
 ## Optional Adapter Candidates
 
@@ -38,6 +39,8 @@ This registry records which workflow modules are part of the baseline and which 
 | AutoGen AgentChat | optional-adapter | Teams, selector group chat, swarm, GraphFlow, memory, logging, and stateful multi-agent experiments. | A project needs programmable multi-agent teams with explicit team patterns. | Use as reference for team/run concepts. |
 | CrewAI | optional-adapter | Crews, tasks, sequential or hierarchical processes, memory, knowledge, callbacks, and checkpointing. | A project needs role/task crews and resumable long-running workflows. | Use as reference for crew and checkpoint concepts. |
 | Codex subagents | optional-adapter | Read-heavy exploration, review, testing, diagnosis, and isolated bounded implementation slices. | Current environment provides subagent tooling and work-unit contracts are ready. | Preferred future fan-out mechanism inside Codex. |
+| Superpowers | optional-adapter | Skills-driven development transition from idea to spec to approved implementation plan and subagent execution. | The team wants plugin-backed skills and has evaluated privacy, telemetry, and cross-agent fit. | Extract methodology now; install only after adapter evaluation. |
+| Astraeus | optional-adapter | Repository-aware orchestration compiler for synthesizing project-specific subagents, critic path, synthesis path, and scoped permissions. | A project needs repeatable agent-team synthesis beyond static decomposition templates. | Extract orchestration contract now; install only after adapter evaluation. |
 | Serena | optional-adapter | Semantic code retrieval in larger repositories. | Text search becomes insufficient for code navigation. | Defer until a large repo needs it. |
 | Repomix | optional-adapter | Packaging repository context for external review or model handoff. | A reviewer or external model needs a compact repo bundle. | Defer until needed. |
 | Context7 or official docs MCPs | optional-adapter | Current dependency docs for unstable libraries. | Dependency behavior is uncertain and official docs lookup is repeatedly needed. | Use official docs or browsing case by case. |

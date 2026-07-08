@@ -1,0 +1,108 @@
+# Capability Adapters
+
+## Purpose
+
+Capability adapters let TraceRail factor in useful external project patterns without installing the external project by default. They describe a capability class, when to use it, what evidence it must produce, and which optional tools could implement it later.
+
+Use this file when a tool is more than a generic dependency but less than a required runtime. The capability becomes part of TraceRail as a contract first; the tool remains optional until adapter evaluation and user approval.
+
+## Capability Classes
+
+| Capability Class | Purpose | Inspired By | TraceRail Home |
+| --- | --- | --- | --- |
+| Skills-driven development transition | Move from idea to design to implementation through triggered skills and readable checkpoints. | Superpowers | Handbook stages, feature package, IDE interaction, standalone agent module |
+| Orchestration compiler | Synthesize a project-specific agent team, handoffs, critic path, and integration plan from repository context. | Astraeus | Decomposition plan, orchestration run record, module registry |
+
+## Skills-Driven Development Transition
+
+This capability helps the IDE agent avoid jumping from a vague idea straight into code. It turns the design-to-implementation bridge into a sequence of small readable checkpoints.
+
+Use it when:
+
+- The user has an idea but not a crisp spec.
+- The agent needs to ask what the user is really trying to do.
+- Design must be shown in chunks the user can review.
+- Implementation needs a plan clear enough for another agent or junior engineer to follow.
+- Test-first or red-green development would reduce risk.
+- A subagent-driven implementation phase is ready after user approval.
+
+TraceRail contract:
+
+1. Clarify the user goal before implementation.
+2. Produce a readable spec with acceptance criteria.
+3. Get approval or record assumptions before planning.
+4. Produce an implementation plan with verification mapping.
+5. Prefer small testable tasks and YAGNI scope control.
+6. Start implementation only after the user or feature package gives the go-ahead.
+7. Use subagents only after decomposition readiness is met.
+8. Review and update memory before closing.
+
+Failure routes:
+
+- If the user cannot approve the design, emit `clarify`.
+- If the plan reveals architectural mismatch, emit `redesign`.
+- If implementation work can be split, emit `split`.
+- If failures recur, emit `diagnose`.
+
+## Orchestration Compiler
+
+This capability reads repository context and compiles an agent plan: roles, scopes, handoffs, critic path, synthesis path, permissions, and integration order.
+
+Use it when:
+
+- The goal is too broad for one agent but can be decomposed.
+- Several specialist roles are useful.
+- Alternatives should be explored in parallel.
+- A critic and synthesizer path would improve quality.
+- Existing generic agents or skill packs need project-specific roles.
+- The project needs a repeatable agent roster for a class of work.
+
+TraceRail contract:
+
+1. Retrieve README, handbook, active spec, architecture notes, memory, and likely code areas.
+2. Generate role-specific work units with objectives, scope boundaries, context bundles, permissions, and stop conditions.
+3. Keep direct editing disabled by default unless explicitly approved.
+4. Define branch, path, and commit policy before write access.
+5. Add critic and synthesizer responsibilities before fan-in.
+6. Require all workers to return evidence, risks, and handoff notes.
+7. Let the integration owner merge results and run integrated verification.
+8. Preserve the orchestration run record for future reuse.
+
+Failure routes:
+
+- If repository context is insufficient, emit `clarify` or `block`.
+- If work units share conflict zones, emit `redesign` before fan-out.
+- If worker findings conflict, route to critic and synthesizer before implementation.
+- If tool permissions are unclear, emit `block`.
+
+## Safety Defaults
+
+- File-based contracts come first.
+- Read-only research and planning come before write access.
+- Direct edits require explicit scope, allowed paths, branch policy, and verification.
+- Every agent gets a stop condition.
+- Every parallel run has one integration owner.
+- Critic and synthesis happen before merge.
+- Source evidence is preserved before memory summaries.
+
+## Adapter Mapping
+
+| External Project | Capability To Extract | Optional Runtime Role | Default TraceRail Decision |
+| --- | --- | --- | --- |
+| Superpowers | Triggered skills for brainstorming, spec, planning, TDD, implementation, review, and branch completion. | Optional skills/plugin adapter. | Extract methodology now; install only after adapter evaluation. |
+| Astraeus | Repository-aware agent synthesis, branching and parallel execution, critic and synthesizer chain, continuity, least-privilege permissions. | Optional orchestration compiler adapter. | Extract orchestration contract now; install only after adapter evaluation. |
+
+## Promotion Path
+
+```txt
+source scan -> capability contract -> module registry -> practice register -> handbook link -> checker or review gate -> dogfood
+```
+
+## Review Questions
+
+- Does the capability reduce a real failure mode?
+- Can a new user understand when to use it?
+- Does it preserve goal-to-evidence traceability?
+- Does it keep the simple path simple?
+- Does it improve single-agent work before scaling to many agents?
+- Does it make multi-agent work safer through contracts and fan-in?

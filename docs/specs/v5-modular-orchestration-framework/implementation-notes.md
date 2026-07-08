@@ -12,6 +12,7 @@ Ready for approval.
 - Scanned current ecosystem sources for modular specification, orchestration, team, and lifecycle patterns.
 - Selected TraceRail as the public name after light exact-name search found no obvious top-level collision.
 - Added root `README.md` as the public first-read surface.
+- Reviewed Astraeus and Superpowers and factored their useful patterns into `docs/framework/capability-adapters.md` without installing either tool.
 - Added file-based framework contracts and optional adapter governance instead of installing tools.
 - Updated the checker so framework artifacts are required.
 

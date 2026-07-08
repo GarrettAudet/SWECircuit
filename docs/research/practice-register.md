@@ -36,6 +36,10 @@ Status values:
 | LangChain or LangGraph adapter | optional | LangChain multi-agent docs | Keep as optional runtime adapter | Useful for product agent runtimes and graph workflows, not needed for this file-based SWE workflow yet. |
 | AutoGen AgentChat adapter | optional | Microsoft AutoGen docs | Keep as optional team-pattern adapter | Useful reference for teams, selector group chat, swarm, GraphFlow, state, and human-in-loop. |
 | CrewAI adapter | optional | CrewAI crews docs | Keep as optional crew adapter | Useful reference for sequential or hierarchical crews, memory, knowledge, callbacks, and checkpointing. |
+| Skills-driven development transition | accepted | Superpowers | Add capability-adapter contract | Strengthens the handoff from idea to spec to approved implementation plan while keeping the simple path visible. |
+| Orchestration compiler capability | accepted | Astraeus | Add capability-adapter contract | Provides a contract for repository-aware agent synthesis, critic/synthesizer fan-in, scoped permissions, and continuity. |
+| Superpowers adapter | optional | Superpowers | Keep as optional skills/plugin adapter | Strong methodology and plugin candidate, but install only after adapter evaluation and user approval. |
+| Astraeus adapter | optional | Astraeus | Keep as optional orchestration compiler adapter | Strong orchestration prompt candidate, but install only after adapter evaluation and user approval. |
 | Semantic code retrieval | optional | Serena | Document as future integration | Valuable for larger repos, unnecessary in the V5 baseline. |
 | Repo packing | optional | Repomix | Document as future integration | Useful for external review, not required in core workflow. |
 | Live dependency docs | optional | Context7 and official docs MCPs | Document as future integration | Useful for unstable libraries; V5 records the retrieval policy and adapter path only. |
