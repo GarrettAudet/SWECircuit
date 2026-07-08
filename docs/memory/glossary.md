@@ -32,6 +32,10 @@
 | Capability adapter | A TraceRail contract that extracts a useful external-project capability without making the external project a required dependency. |
 | Orchestration compiler | A capability that reads repository context and synthesizes project-specific agent roles, work units, handoffs, critic path, synthesis path, permissions, and integration order. |
 | Skills-driven development transition | A capability that moves from idea to spec to implementation through triggered skills, readable checkpoints, approval gates, and verification mapping. |
+| Artifact | A typed work object that moves through a rail, such as goal, context, spec, task plan, diff, evidence, review, milestone, or memory entry. |
+| Gate | A decision point between modules that checks evidence and routes with a typed outcome. |
+| Rail | An ordered composition of modules, typed artifacts, and gates. |
+| Rail Composition | The core TraceRail abstraction: `input | module | module | output`. |
 | TraceRail | The public name for this portable AI SWE workflow system: a contract-first framework kernel for traceable human-agent development. |
 | Version branch | A branch for one workflow version, named `codex/vVERSION-slug`, that merges to `main` after approval. |
 | Work-unit contract | A structured handoff for a parallel agent that defines objective, scope, context, conflicts, allowed actions, verification, handoff, and stop conditions. |

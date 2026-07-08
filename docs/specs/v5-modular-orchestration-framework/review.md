@@ -10,7 +10,7 @@ Approved for user review.
 
 ## Spec Alignment
 
-V5 satisfies the spec by naming the system TraceRail, adding a root README, adding a modular framework layer, and factoring Superpowers/Astraeus patterns into capability adapters, module registry, adapter evaluation path, decomposition templates, orchestration run records, ecosystem snapshots, capability-adapter snapshot, practice-register updates, checker enforcement, and memory pointers.
+V5 satisfies the spec by naming the system TraceRail, adding a root README, adding a modular framework layer, and factoring Superpowers/Astraeus patterns into capability adapters, and making Rail Composition the core primitive, module registry, adapter evaluation path, decomposition templates, orchestration run records, ecosystem snapshots, capability-adapter snapshot, practice-register updates, checker enforcement, and memory pointers.
 
 ## Architecture Alignment
 
@@ -29,6 +29,7 @@ The change respects the existing architecture: `AGENTS.md` remains the agent ent
 | --- | --- | --- |
 | Low | The framework is still file-based and does not execute agents itself. | Dogfood V5 before evaluating a runtime adapter. |
 | Low | Superpowers and Astraeus are represented as capability contracts, not installed tools. | Run adapter evaluation and user approval before installing either. |
+| Low | Rail Composition is file-based and descriptive, not a runtime pipe operator. | Dogfood the file contract before building runtime syntax. |
 | Low | The checker validates structure more than judgment quality. | Continue using review and milestone gates for quality. |
 
 ## Residual Risks
@@ -39,4 +40,4 @@ The change respects the existing architecture: `AGENTS.md` remains the agent ent
 
 ## Memory And Docs
 
-Updated README, framework docs, capability adapter docs, handbook, `AGENTS.md`, PR template, practice register, research snapshot, milestone, active context, decisions, known issues, patterns, glossary, history ledger, and retrieval index.
+Updated README, framework docs, rail composition docs, capability adapter docs, handbook, `AGENTS.md`, PR template, practice register, research snapshot, milestone, active context, decisions, known issues, patterns, glossary, history ledger, and retrieval index.

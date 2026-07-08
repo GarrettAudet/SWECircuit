@@ -6,7 +6,7 @@ TraceRail's framework layer lets the workflow absorb best-in-class practices wit
 
 Use this layer when work needs one of these:
 
-- A new workflow module.
+- A new rail or workflow module.
 - A new external tool or agent-framework adapter.
 - A goal decomposition that may fan out across agents.
 - A repeatable orchestration pattern.
@@ -16,18 +16,20 @@ Use this layer when work needs one of these:
 
 1. Start with the normal handbook workflow.
 2. If the work is still single-agent and clear, stay single-agent.
-3. If the work needs a module, check `module-registry.md`.
-4. If a module exists, use its contract and templates.
-5. If an external tool is proposed, complete `_adapter-evaluation-template.md` before installing anything.
-6. If the goal may fan out, complete `_decomposition-plan-template.md`.
-7. If agents actually fan out, record the run with `_orchestration-run-template.md`.
-8. Verify, review, and update memory as usual.
+3. If the work needs a reusable flow, start with `rail-composition.md` and `_rail-template.md`.
+4. If the work needs a module, check `module-registry.md`.
+5. If a module exists, use its contract and templates.
+6. If an external tool is proposed, complete `_adapter-evaluation-template.md` before installing anything.
+7. If the goal may fan out, complete `_decomposition-plan-template.md`.
+8. If agents actually fan out, record the run with `_orchestration-run-template.md`.
+9. Verify, review, and update memory as usual.
 
 ## Framework Layers
 
 | Layer | Purpose | Core Artifact |
 | --- | --- | --- |
 | Operating surface | Human and agent quick path. | `AGENTS.md`, `docs/ai/handbook.md` |
+| Rail composition | Pipe-like composition model for modules, artifacts, gates, and outcomes. | `docs/framework/rail-composition.md`, `docs/framework/_rail-template.md` |
 | Module contracts | Reusable capability definitions. | `docs/framework/_module-template.md` |
 | Module registry | Governance for accepted modules and optional adapters. | `docs/framework/module-registry.md` |
 | Pattern selection | Choose single-agent, skill, router, subagent, handoff, graph, or crew-style coordination. | `docs/framework/orchestration-patterns.md` |
@@ -35,6 +37,16 @@ Use this layer when work needs one of these:
 | Run record | Preserve fan-out, handoffs, integration, and verification. | `docs/framework/_orchestration-run-template.md` |
 | Adapter adoption | Evaluate external tools before installation. | `docs/framework/_adapter-evaluation-template.md` |
 | Capability adapters | Extract reusable external project capabilities as contracts before installing tools. | `docs/framework/capability-adapters.md` |
+
+## Rail Definition
+
+A rail is an ordered composition of modules, typed artifacts, and gates.
+
+```txt
+input | module | module | output
+```
+
+Use `docs/framework/rail-composition.md` for the core model and `docs/framework/_rail-template.md` to define reusable rails.
 
 ## Module Definition
 
@@ -72,6 +84,7 @@ Adapter decisions must preserve:
 
 The V5 baseline defines these modules:
 
+- Rail composition module.
 - Spec module.
 - Architecture and ADR module.
 - Agent instruction module.

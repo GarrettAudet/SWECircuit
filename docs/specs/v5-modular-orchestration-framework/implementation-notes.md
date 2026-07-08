@@ -13,6 +13,7 @@ Ready for approval.
 - Selected TraceRail as the public name after light exact-name search found no obvious top-level collision.
 - Added root `README.md` as the public first-read surface.
 - Reviewed Astraeus and Superpowers and factored their useful patterns into `docs/framework/capability-adapters.md` without installing either tool.
+- Added Rail Composition as the core primitive: `input | module | module | output`, with modules emitting artifacts, evidence, gates, and typed outcomes.
 - Added file-based framework contracts and optional adapter governance instead of installing tools.
 - Updated the checker so framework artifacts are required.
 

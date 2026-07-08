@@ -752,6 +752,7 @@ Tool adoption defaults:
 
 Optional future integrations:
 
+- LangChain and LangGraph for composition, orchestration, and runtime adapter inspiration.
 - Superpowers for skills-driven design-to-implementation transitions.
 - Astraeus for repository-aware orchestration compiler patterns.
 - Spec Kit for spec-driven workflow automation.
@@ -774,6 +775,14 @@ Use `docs/framework/README.md` when work needs:
 - A pattern choice beyond the standalone agent loop.
 - A capability inspired by an external project, such as Superpowers or Astraeus.
 
+The core composition model is a rail:
+
+```txt
+input | module | module | output
+```
+
+Every module receives an input artifact, performs an action, emits an output artifact plus evidence, and passes through a gate with a typed outcome. Use `docs/framework/rail-composition.md` for the full contract.
+
 The default path remains single-agent:
 
 ```txt
@@ -785,6 +794,8 @@ The framework artifacts are:
 | Artifact | Purpose |
 | --- | --- |
 | `docs/framework/README.md` | Explains the modular framework and quick path. |
+| `docs/framework/rail-composition.md` | Defines rails, modules, gates, artifacts, and standard compositions. |
+| `docs/framework/_rail-template.md` | Defines reusable rail contracts. |
 | `docs/framework/module-registry.md` | Records accepted file contracts and optional adapters. |
 | `docs/framework/orchestration-patterns.md` | Helps choose single-agent, skill, router, subagent, handoff, graph, or crew-style coordination. |
 | `docs/framework/capability-adapters.md` | Captures reusable external project capabilities such as skills-driven development transition and orchestration compiler. |

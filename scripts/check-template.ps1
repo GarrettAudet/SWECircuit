@@ -165,6 +165,7 @@ $requiredFiles = @(
     "docs/research/snapshots/2026-07-08-parallel-agent-and-memory-scan.md",
     "docs/research/snapshots/2026-07-08-modular-orchestration-scan.md",
     "docs/research/snapshots/2026-07-08-capability-adapter-scan.md",
+    "docs/research/snapshots/2026-07-08-rail-composition-scan.md",
     "docs/milestones/README.md",
     "docs/milestones/_template.md",
     "docs/milestones/v1.md",
@@ -177,6 +178,8 @@ $requiredFiles = @(
     "docs/agents/README.md",
     "docs/agents/_template.md",
     "docs/framework/README.md",
+    "docs/framework/rail-composition.md",
+    "docs/framework/_rail-template.md",
     "docs/framework/module-registry.md",
     "docs/framework/orchestration-patterns.md",
     "docs/framework/capability-adapters.md",
@@ -290,10 +293,41 @@ Test-HasHeadings "docs/agents/README.md" @(
 )
 
 
+
+Test-HasHeadings "docs/framework/rail-composition.md" @(
+    "Purpose",
+    "Core Formula",
+    "Module Interface",
+    "Composition Rules",
+    "Standard Rails",
+    "Gates",
+    "Artifacts",
+    "Human-Visible Form",
+    "Adapter Mapping",
+    "Done Definition"
+)
+
+Test-HasHeadings "docs/framework/_rail-template.md" @(
+    "Rail Name",
+    "Status",
+    "Purpose",
+    "When To Use",
+    "When Not To Use",
+    "Composition",
+    "Modules",
+    "Artifacts",
+    "Gates",
+    "Branching Or Fan-Out",
+    "Verification",
+    "Review",
+    "Memory Updates",
+    "Example"
+)
 Test-HasHeadings "docs/framework/README.md" @(
     "Purpose",
     "Quick Path",
     "Framework Layers",
+    "Rail Definition",
     "Module Definition",
     "Adapter Definition",
     "Default Modules",

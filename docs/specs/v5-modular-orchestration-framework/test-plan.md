@@ -8,6 +8,7 @@ Ready for approval.
 
 | Acceptance Criterion | Evidence |
 | --- | --- |
+| Rail Composition is documented and validated. | `docs/framework/rail-composition.md`, `docs/framework/_rail-template.md`, `AGENTS.md`, handbook, registry, and checker updates. |
 | Root README names and explains the system. | `README.md` includes TraceRail purpose, quick start, repository map, scale model, adapter policy, and status. |
 | Superpowers and Astraeus capabilities are factored into framework contracts. | `docs/framework/capability-adapters.md`, `docs/framework/module-registry.md`, `docs/research/snapshots/2026-07-08-capability-adapter-scan.md`, and `docs/research/practice-register.md`. |
 | Adapter path exists before installation. | `docs/framework/_adapter-evaluation-template.md`, `docs/framework/module-registry.md`, `AGENTS.md`, handbook updates. |
@@ -34,6 +35,7 @@ git diff --check
 
 ## Manual Review
 
+- Confirm Rail Composition provides a simple LangChain-like primitive around modules, gates, artifacts, and outcomes.
 - Confirm the root README gives a clear first-read experience.
 - Confirm the V5 framework keeps single-agent workflow as the default.
 - Confirm optional external tools are represented as adapters rather than dependencies.

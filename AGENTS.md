@@ -123,6 +123,17 @@ Parallelize only after the task plan defines work-unit contracts. Each parallel 
 
 Use subagents first for read-heavy exploration, review, testing, diagnosis, and independent implementation slices. Keep the main agent as the integration owner unless another owner is explicitly assigned. Do not parallelize ambiguous requirements, shared-state edits, broad refactors, or security-sensitive changes until the contract is clear.
 
+## Rail Composition Rule
+
+Use Rail Composition as the default mental model for meaningful work:
+
+```txt
+input | module | module | output
+```
+
+Each module must define input, action, output, gate, and outcome. The active rail should make artifacts and gates visible enough that the user can see how work is moving from goal to evidence to memory.
+
+Use `docs/framework/rail-composition.md` and `docs/framework/_rail-template.md` when defining or modifying reusable workflow rails.
 ## Modular Framework Rule
 
 Treat this repository as a lightweight framework kernel: simple operating surface, modular contracts underneath, optional adapters around the edges.

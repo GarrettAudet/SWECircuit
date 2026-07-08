@@ -48,6 +48,10 @@ Use this format for each task:
 - [x] T008: Factor Superpowers and Astraeus into framework capabilities.
   Scope: Add capability-adapter docs, registry entries, practice-register entries, research snapshot, and checker coverage.
   Verification: Checker validates capability adapter files and the review links source evidence.
+
+- [x] T009: Add Rail Composition as the core framework primitive.
+  Scope: Add rail composition docs, rail template, registry entries, practice-register entry, research snapshot, checker coverage, and memory updates.
+  Verification: Checker validates rail composition docs and V5 acceptance criteria include the core primitive.
 ## Dependencies
 
 - T001 precedes all other tasks.
@@ -57,6 +61,7 @@ Use this format for each task:
 - T006 validates the framework artifacts before commit.
 - T007 is V5 public-surface polish before approval.
 - T008 follows the V5 adapter policy: snapshot first, contract second, optional install later.
+- T009 follows the user-approved LangChain-like composition direction and becomes the base abstraction for future versions.
 
 ## Out Of Scope
 

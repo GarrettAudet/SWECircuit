@@ -19,13 +19,19 @@ TraceRail fills that gap with a portable, file-based system that keeps humans an
 
 ## Core Idea
 
-Use one simple surface with deeper protocols underneath.
+Use one simple composition model with deeper protocols underneath.
 
 ```txt
-intake -> clarify -> spec -> architecture check -> task plan -> implement -> verify -> review -> memory update
+rail = input | module | module | output
 ```
 
-Each stage emits one outcome:
+For normal software work:
+
+```txt
+goal | clarify | spec | plan | implement | verify | review | memory
+```
+
+Each module has a common interface: input, action, output, gate, and outcome. Each gate emits one outcome:
 
 ```txt
 pass | fix | diagnose | clarify | redesign | split | block | learn
@@ -99,6 +105,7 @@ This keeps the workflow modular without turning every project into a dependency 
 | `AGENTS.md` | Agent rules, routing, invariants, and tool policy. |
 | `docs/ai/handbook.md` | Full workflow manual. |
 | `docs/framework/README.md` | Modular framework overview. |
+| `docs/framework/rail-composition.md` | Core pipe-like composition model for rails, modules, gates, and artifacts. |
 | `docs/framework/module-registry.md` | Accepted modules and optional adapters. |
 | `docs/framework/orchestration-patterns.md` | Pattern guide for single-agent and multi-agent work. |
 | `docs/framework/capability-adapters.md` | Capability contracts inspired by external projects such as Superpowers and Astraeus. |
@@ -110,6 +117,7 @@ This keeps the workflow modular without turning every project into a dependency 
 
 ## Design Principles
 
+- Rail composition as the core primitive.
 - Simple surface, deep protocols.
 - Spec first, implementation second.
 - Source evidence before summaries.

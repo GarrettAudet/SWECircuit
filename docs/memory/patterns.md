@@ -74,6 +74,13 @@ Use a triggered-skill style bridge from idea to spec to approved implementation 
 ### Orchestration Compiler
 
 For larger multi-agent work, synthesize project-specific roles, scopes, handoffs, critic duties, synthesis duties, permissions, and integration order from repository context before fan-out.
+### Rail Composition
+
+Model meaningful work as `input | module | module | output`. Each module has input, action, output, gate, and outcome so the same primitive can represent features, diagnosis, adapters, releases, and multi-agent decomposition.
+
+### Gate As Router
+
+A gate decides whether a rail continues, loops, splits, blocks, diagnoses, or records learning. Failed gates must emit typed outcomes instead of becoming silent retries.
 ## Memory Patterns
 
 ### Source First, Summary Second

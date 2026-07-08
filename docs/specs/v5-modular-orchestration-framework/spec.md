@@ -19,6 +19,7 @@ The workflow now has strong single-agent, IDE-visible, traceable execution, but 
 ## Goals
 
 - Name the system and define a public README surface.
+- Define Rail Composition as the simple pipe-like primitive for TraceRail workflows.
 - Define a modular orchestration layer that keeps the simple workflow surface intact.
 - Factor Superpowers and Astraeus into the framework as capability-adapter contracts.
 - Create a registry for framework modules and optional external adapters.
@@ -37,6 +38,7 @@ The workflow now has strong single-agent, IDE-visible, traceable execution, but 
 ## Requirements
 
 - Add `README.md` as the public TraceRail overview.
+- Add Rail Composition docs and a reusable rail template.
 - Add a `docs/framework/` layer that explains the portable modular orchestration framework.
 - Add a module registry that separates accepted file contracts from optional tool adapters and watched integrations.
 - Add capability-adapter guidance for skills-driven development transition and orchestration compiler patterns.
@@ -52,6 +54,7 @@ The workflow now has strong single-agent, IDE-visible, traceable execution, but 
 ## Acceptance Criteria
 
 - [x] Given a new user opens the repository, when they read the root README, then they see the TraceRail name, purpose, quick start, repository map, adapter policy, and scale model.
+- [x] Given a future agent wants to understand TraceRail, when they open the framework docs, then they see the core composition primitive: `input | module | module | output`.
 - [x] Given a future workflow or app project, when a user wants to add a best-in-class practice, then the repo has an adapter evaluation path before installation.
 - [x] Given a user wants Superpowers-like design-to-implementation support, when they consult the framework, then TraceRail provides a skills-driven development transition contract without requiring installation.
 - [x] Given a user wants Astraeus-like orchestration, when they consult the framework, then TraceRail provides an orchestration compiler contract with repository-aware synthesis, critic/synthesizer fan-in, scoped permissions, and continuity.
