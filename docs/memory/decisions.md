@@ -14,4 +14,8 @@
 | 2026-07-08 | Use development milestones as the version progress layer. | The user needs clear start-to-finish progress and a concise overview whenever a version finishes. | If milestones duplicate reviews or become too verbose. |
 | 2026-07-08 | Use `main` as the stable baseline and version branches for future workflow versions. | Branches separate draft version work from approved baselines and make merges explicit. | If a project has a different default branch convention. |
 | 2026-07-08 | Treat V1-V3 as the bootstrap exception. | The first baseline had to be created before normal version branches could apply. | If another project starts from an existing baseline. |
+| 2026-07-08 | Build the standalone single-agent/IDE baseline before expanding multi-agent workflows. | Multi-agent reliability depends on one agent being able to execute a bounded goal end to end with strong structure. | If standalone workflow proves too slow or incomplete in real project work. |
+| 2026-07-08 | Treat IDE-user interaction as a first-class workflow surface. | The user needs to see that the system is operating methodically while chatting with the IDE agent. | If interaction updates become noisy or fail to improve orientation. |
+
+
 

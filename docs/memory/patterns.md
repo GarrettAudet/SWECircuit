@@ -32,6 +32,14 @@ When a version finishes, create a short milestone overview that summarizes goal,
 
 Use a clean baseline branch, create a version branch, complete feature package and review, write the milestone, get approval, then merge back to the stable baseline.
 
+### IDE Workflow Visibility
+
+For meaningful IDE work, show workflow or branch, stage, active artifact, assumptions, evidence, next action, verification state, and approval gate in concise chat updates.
+
+### Standalone Agent Work Package
+
+For one agent owning a meaningful goal end to end, define goal, completion evidence, scope, authority, context bundle, independence readiness, verification plan, stop conditions, handoff, and memory updates.
+
 ### Parallel Work-Unit Contract
 
 Do not fan out work until each unit has objective, scope boundary, likely files, dependencies, conflict zones, context bundle, agent role, verification evidence, handoff format, and stop conditions.
@@ -59,3 +67,5 @@ Keep process guidance in `docs/ai/handbook.md` unless a separate artifact is req
 ### File-Based First
 
 Start with Markdown and a local checker. Add tools only when they remove real friction.
+
+

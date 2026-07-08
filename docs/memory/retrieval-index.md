@@ -12,4 +12,8 @@ Use this file as a compact map to source artifacts. Keep entries short and link 
 | V2 source-preserving memory | `docs/ai/handbook.md`; `docs/memory/history-ledger.md`; `docs/memory/retrieval-index.md`; `docs/research/snapshots/2026-07-08-parallel-agent-and-memory-scan.md` | Preserving traceability while keeping future retrieval fast. | memory, traceability, retrieval |
 | V3 development milestones | `docs/specs/v3-milestones-and-branch-flow/`; `docs/milestones/README.md`; `docs/milestones/v3.md` | Understanding version closeout and user-facing progress summaries. | v3, milestones, progress, closeout |
 | V3 branch workflow | `docs/specs/v3-milestones-and-branch-flow/`; `docs/ai/handbook.md`; `AGENTS.md`; `docs/milestones/v3.md` | Understanding desired edit state, version branches, merge readiness, and bootstrap exception. | v3, branch, merge, main, baseline |
+| V4 IDE interaction protocol | `docs/specs/v4-agent-work-packages/`; `docs/ide/README.md`; `docs/ide/_message-templates.md`; `docs/ai/handbook.md`; `AGENTS.md` | Making workflow use visible during IDE-user chat. | v4, ide, interaction, visibility, chat |
+| V4 standalone agent baseline | `docs/specs/v4-agent-work-packages/`; `docs/agents/README.md`; `docs/agents/_template.md`; `docs/ai/handbook.md`; `AGENTS.md` | Building the single-agent/IDE execution contract before multi-agent expansion. | v4, standalone, ide, agent, execution |
 | Known V2 limitations | `docs/memory/known-issues.md`; `docs/specs/v2-dogfood-parallel-agents/review.md` | Understanding what V2 does not automate yet. | limitation, memory, checker |
+
+

@@ -16,6 +16,16 @@
 - Merge readiness:
 - Bootstrap exception used:
 
+## IDE Interaction
+
+- Was the workflow visible in chat for meaningful work?
+- Stage/outcome/evidence updates provided:
+- User decisions or assumptions surfaced:
+## Standalone Agent Work
+
+- Was a standalone agent work package used?
+- Work package link:
+- Autonomy boundaries and stop conditions followed:
 ## Traceability
 
 - Goal/spec -> tasks -> verification -> review chain complete:
@@ -51,3 +61,5 @@
 
 - Approved / changes requested / needs diagnosis / needs clarification / needs split:
 - Residual risks:
+
+

@@ -26,6 +26,8 @@ Status values:
 | Source-preserving memory layers | accepted | Basic Memory, Mem0, Zep/Graphiti, A-MEM, MemMachine, structured distillation research | Add history ledger and retrieval index before tools | The system should preserve source truth while keeping retrieval fast. |
 | Development milestones | accepted | V3 user direction and release/progress tracking practice | Add `docs/milestones/` and require version closeout overview | Gives the human a concise progress view without replacing specs or reviews. |
 | Branch-based version workflow | accepted | V3 user direction and standard git review practice | Use `main` as stable baseline and version branches for future workflow changes | Keeps draft version work isolated until approved and merged. |
+| Single-agent-first workflow baseline | accepted | V4 user direction and dogfooding evidence | Strengthen one-agent/IDE execution before multi-agent expansion | Multi-agent work should be built on a reliable standalone execution loop, not used to compensate for weak structure. |
+| IDE workflow visibility | accepted | V4 user direction and dogfooding evidence | Add explicit IDE-user interaction protocol | The user must be able to see that the workflow is active and methodical during chat-based IDE work. |
 | Semantic code retrieval | optional | Serena | Document as future integration | Valuable for larger repos, unnecessary in the v3 template. |
 | Repo packing | optional | Repomix | Document as future integration | Useful for external review, not required in core workflow. |
 | Live dependency docs | optional | Context7 and official docs MCPs | Document as future integration | Useful for unstable libraries; v2 records the retrieval policy only. |
@@ -57,5 +59,7 @@ Reject or defer a practice when it:
 - Makes the system harder to understand.
 - Cannot be verified in normal project work.
 - Stores sensitive history without clear privacy and deletion behavior.
+
+
 
 

@@ -90,6 +90,23 @@ The desired edit state is: clean `main` baseline -> version branch -> feature pa
 
 The V1-V3 bootstrap creates the first approved baseline on `main`. After that baseline is committed, do not start new version work directly on `main` unless the user explicitly asks.
 
+
+
+## IDE Interaction Rule
+
+Make the workflow visible in chat. For meaningful work, start by stating the workflow/version or branch, current stage, active artifact, next action, and assumptions. During work, use short stage/outcome/evidence/next-action updates so the user can see the system operating.
+
+Use `docs/ide/README.md` and `docs/ide/_message-templates.md` for start banners, stage updates, clarification prompts, diagnosis notices, verification reports, and completion handoffs.
+
+When asking the user for a decision, explain why it matters and what will happen next. When proceeding on a low-risk assumption, say where it is recorded. When finishing a version, use the milestone overview and state the branch or merge gate.
+## Standalone Agent Rule
+
+Make the single-agent/IDE workflow excellent before expanding multi-agent orchestration. For a bounded goal, one agent should be able to run the full loop: retrieve context, clarify, plan, implement, verify, review, update memory, and hand off evidence.
+
+Use `docs/agents/_template.md` when an agent is expected to own a meaningful goal end to end. The template must define goal, completion evidence, scope boundary, authority, context bundle, independence readiness, verification plan, stop conditions, handoff, and memory updates.
+
+Do not treat autonomy as permission for broad edits. If the goal, scope, verification, branch state, or safety boundary is unclear, clarify or narrow the work before implementing.
+
 ## Parallel Work Rule
 
 Parallelize only after the task plan defines work-unit contracts. Each parallel work unit needs:
@@ -153,7 +170,9 @@ If code is later added to this repository, add project-specific format, lint, ty
 
 ## Tool Policy
 
-The v3 template is file-based. Do not install Spec Kit, BMAD, Serena, Repomix, Basic Memory, agentmemory, Context7, Mem0, Zep, Graphiti, A-MEM, or other external tools unless the user explicitly approves that integration.
+The v4 template is file-based. Do not install Spec Kit, BMAD, Serena, Repomix, Basic Memory, agentmemory, Context7, Mem0, Zep, Graphiti, A-MEM, or other external tools unless the user explicitly approves that integration.
+
+
 
 
 

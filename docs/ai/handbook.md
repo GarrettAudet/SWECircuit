@@ -590,7 +590,78 @@ Merge readiness checklist:
 - Milestone overview complete.
 - History ledger and retrieval index updated.
 - User has approved the version for merge.
-## 16. Parallel Agent Development
+## 16. IDE User Interaction Protocol
+
+The workflow should be visible while the user chats with an IDE agent. The user should not have to infer whether the system is being followed.
+
+For meaningful work, begin with a compact start banner:
+
+```txt
+Workflow:
+Branch:
+Stage:
+Active artifact:
+Next:
+Assumptions:
+```
+
+During work, use short stage updates:
+
+```txt
+Stage:
+Outcome:
+Evidence:
+Next:
+```
+
+Use `docs/ide/README.md` and `docs/ide/_message-templates.md` for reusable chat shapes.
+
+Interaction rules:
+
+- Show the active workflow version or branch at the start of meaningful work.
+- Name the current stage and typed outcome when it changes.
+- Point to the active artifact: feature package, agent work package, debug notes, milestone, or memory file.
+- State assumptions before relying on them, and record durable assumptions in the source artifact.
+- Ask clarification questions only when the answer changes the plan.
+- When diagnosing, announce diagnosis mode, trigger, evidence, hypotheses, next experiment, and stop condition.
+- After verification, report commands, result, evidence location, skipped checks, and routing for failures.
+- At completion, report outcome, files changed, verification, review state, memory updates, milestone, branch state, and next gate.
+
+The tone should stay concise and natural. Visibility is not the same as noisy narration.
+## 17. Standalone Agent And IDE Workflow
+
+The standalone agent workflow is the baseline for everything else. Before adding more agents, make one agent excellent at owning a bounded goal end to end inside an IDE or Codex-like environment.
+
+A standalone agent can proceed independently only when:
+
+- The goal is clear enough to restate.
+- Completion evidence is explicit.
+- Scope boundaries and out-of-scope areas are known.
+- The current branch and dirty state are understood.
+- Required context can be retrieved.
+- Verification commands or manual checks are available.
+- Stop conditions are documented.
+
+Use `docs/agents/_template.md` when the agent is expected to own a meaningful goal end to end. The work package complements the feature package: the feature package defines what should change, while the agent work package defines how one agent is allowed to execute the goal.
+
+The standalone execution loop is:
+
+```txt
+intake -> clarify -> spec/check existing spec -> architecture check -> task plan -> implement -> verify -> review -> memory update -> handoff
+```
+
+The agent must stop and ask, diagnose, or narrow scope when:
+
+- Requirements or acceptance criteria are unclear.
+- The work crosses the scope boundary.
+- A failure recurs or root cause is unknown.
+- Verification cannot be run or interpreted.
+- Security, privacy, destructive, dependency, or branch-safety risk appears.
+
+The expected handoff is concise: summary, files changed, files inspected, verification evidence, assumptions, decisions, risks, follow-ups, and memory updates.
+
+Multi-agent development should extend this pattern later. It should not compensate for a weak standalone loop.
+## 18. Parallel Agent Development
 
 Parallel agents are for acceleration through clear decomposition, not for making ambiguous work louder.
 
@@ -654,7 +725,7 @@ The main agent or assigned integration owner must:
 
 When a ticket hits bug after bug, do not spawn implementation agents to patch blindly. Split diagnostic work instead: one agent can reproduce, another can inspect related code, another can review history or docs, and another can test a hypothesis. Only implement after root cause is supported by evidence.
 
-## 17. Practice Intake And Tool Adoption
+## 19. Practice Intake And Tool Adoption
 
 The system should absorb best practices without becoming chaotic.
 
@@ -687,18 +758,21 @@ Optional future integrations:
 - Basic Memory, Mem0, Zep/Graphiti, A-MEM, or related systems for persistent memory.
 - Context7 or official docs MCPs for dependency documentation.
 
-## 18. Starting A New Feature
+## 20. Starting A New Feature
 
 1. Copy `docs/specs/_template/` to a new feature folder under `docs/specs/`.
 2. Fill `spec.md` until acceptance criteria are testable.
 3. Fill `plan.md` with approach and architecture impact.
 4. Fill `tasks.md` with verification mapping and parallelization readiness if relevant.
 5. Fill `test-plan.md`.
-6. Implement task by task or work-unit by work-unit.
-7. Use `debug-notes.md` and `root-cause-analysis.md` if diagnosis is needed.
-8. Fill `review.md`.
-9. Update memory, history ledger, and retrieval index.
-10. Run `scripts/check-template.ps1`.
+6. Use `docs/ide/README.md` to make the workflow visible in chat.
+7. Use `docs/agents/_template.md` if one agent will own a meaningful goal end to end.
+8. Implement task by task or work-unit by work-unit.
+9. Use `debug-notes.md` and `root-cause-analysis.md` if diagnosis is needed.
+10. Fill `review.md`.
+11. Update memory, history ledger, and retrieval index.
+12. Update the development milestone if this completes a workflow version.
+13. Run `scripts/check-template.ps1`.
 
 If local PowerShell execution policy blocks direct script execution, run:
 
@@ -706,7 +780,7 @@ If local PowerShell execution policy blocks direct script execution, run:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1
 ```
 
-## 19. Done Definition
+## 21. Done Definition
 
 Work is done when:
 
@@ -719,6 +793,8 @@ Work is done when:
 - Durable memory is updated or explicitly not needed.
 - History ledger and retrieval index are updated for meaningful work.
 - The template checker passes.
+
+
 
 
 

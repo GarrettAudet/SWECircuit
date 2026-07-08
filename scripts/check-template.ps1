@@ -167,6 +167,10 @@ $requiredFiles = @(
     "docs/milestones/v1.md",
     "docs/milestones/v2.md",
     "docs/milestones/v3.md",
+    "docs/ide/README.md",
+    "docs/ide/_message-templates.md",
+    "docs/agents/README.md",
+    "docs/agents/_template.md",
     "docs/specs/_template/spec.md",
     "docs/specs/_template/plan.md",
     "docs/specs/_template/tasks.md",
@@ -228,6 +232,71 @@ foreach ($milestone in @(
         "User-Facing Overview"
     )
 }
+
+
+Test-HasHeadings "docs/ide/README.md" @(
+    "When To Use",
+    "Start-Of-Work Banner",
+    "Stage Updates",
+    "Clarification Prompts",
+    "Diagnosis Notices",
+    "Verification Reports",
+    "Completion Or Handoff",
+    "Interaction Principles"
+)
+
+Test-HasHeadings "docs/ide/_message-templates.md" @(
+    "Start Banner",
+    "Stage Update",
+    "Assumption Notice",
+    "Clarification Request",
+    "Diagnosis Notice",
+    "Verification Report",
+    "Completion Handoff"
+)
+Test-HasHeadings "docs/agents/README.md" @(
+    "When To Use",
+    "Relationship To Other Artifacts",
+    "Independence Readiness",
+    "End-To-End Loop",
+    "Handoff Standard"
+)
+
+Test-HasHeadings "docs/agents/_template.md" @(
+    "Goal",
+    "Completion Evidence",
+    "Non-Goals",
+    "Agent Role",
+    "Scope Boundary",
+    "Authority And Permissions",
+    "Context Bundle",
+    "Independence Readiness",
+    "Execution Loop",
+    "Clarification And Stop Conditions",
+    "Verification Plan",
+    "Handoff",
+    "Review Result",
+    "Memory Updates"
+)
+
+foreach ($featureDir in Get-FeatureDirectories) {
+    if ($featureDir.Name -match "^v(?<Version>\d+)-") {
+        $version = $matches.Version
+        $milestone = "docs/milestones/v$version.md"
+        Test-FileExists $milestone | Out-Null
+        Test-HasHeadings $milestone @(
+            "Status",
+            "Goal",
+            "Shipped",
+            "Why It Matters",
+            "Source Artifacts",
+            "Verification",
+            "Residual Risks",
+            "Next Recommended Work",
+            "User-Facing Overview"
+        )
+    }
+}
 Test-HasHeadings "docs/specs/_template/spec.md" @(
     "Problem",
     "Goals",
@@ -270,7 +339,7 @@ Test-HasHeadings "docs/specs/_template/root-cause-analysis.md" @(
 $prTemplatePath = Join-Path $Root ".github\pull_request_template.md"
 if (Test-Path -LiteralPath $prTemplatePath -PathType Leaf) {
     $pr = Read-Text $prTemplatePath
-    foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "Traceability", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
+    foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "IDE Interaction", "Standalone Agent Work", "Traceability", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
         if ($pr -notmatch [regex]::Escape($requiredPhrase)) {
             Add-Failure "PR template missing '$requiredPhrase'"
         }
@@ -290,6 +359,10 @@ if ($failures.Count -gt 0) {
 }
 
 Write-Host "Template check passed." -ForegroundColor Green
+
+
+
+
 
 
 
