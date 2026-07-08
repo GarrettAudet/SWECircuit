@@ -23,6 +23,7 @@
 | Typed outcome | The explicit result emitted by each workflow stage: `pass`, `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, or `learn`. |
 | Adapter | An optional external tool, framework, skill, plugin, MCP server, service, or runtime connected to the file-based workflow after evaluation and approval. |
 | Adapter evaluation | The V5 process for deciding whether an external tool should be accepted, optional, watched, deferred, or rejected before installation. |
+| Approval gate | The milestone section that records source branch, target branch, current merge state, required decision, and post-approval merge action. |
 | Decomposition plan | A framework artifact that turns a shared goal into work units, dependencies, conflict zones, fan-out, fan-in, and verification. |
 | Framework kernel | The file-based core of this workflow: stable contracts, templates, checks, and memory that external tools can plug into. |
 | Module | A reusable workflow capability with defined purpose, inputs, outputs, stage hooks, verification, failure modes, and memory updates. |

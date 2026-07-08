@@ -283,6 +283,7 @@ foreach ($milestone in @(
         "Why It Matters",
         "Source Artifacts",
         "Verification",
+        "Approval Gate",
         "Residual Risks",
         "Next Recommended Work",
         "User-Facing Overview"
@@ -481,6 +482,7 @@ foreach ($featureDir in Get-FeatureDirectories) {
             "Why It Matters",
             "Source Artifacts",
             "Verification",
+            "Approval Gate",
             "Residual Risks",
             "Next Recommended Work",
             "User-Facing Overview"

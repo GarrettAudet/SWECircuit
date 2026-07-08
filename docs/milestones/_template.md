@@ -28,6 +28,14 @@ Explain the user-visible or workflow-visible value.
 - Commands:
 - Manual review:
 
+## Approval Gate
+
+- Source branch:
+- Target branch:
+- Current state:
+- Required decision:
+- Merge action after approval:
+
 ## Residual Risks
 
 - List known limitations or follow-ups.
@@ -39,4 +47,3 @@ Explain the user-visible or workflow-visible value.
 ## User-Facing Overview
 
 Write the concise overview to send when the version is finished.
-

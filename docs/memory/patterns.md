@@ -26,7 +26,11 @@ When a workflow version is complete, use that version for the next workflow-stac
 
 ### Development Milestone
 
-When a version finishes, create a short milestone overview that summarizes goal, shipped changes, evidence, residual risks, and next work. Use it to notify the user.
+When a version finishes, create a short milestone overview that summarizes goal, shipped changes, evidence, approval gate, residual risks, and next work. Use it to notify the user.
+
+### Milestone Approval Gate
+
+Every version milestone should state source branch, target branch, current merge state, required human decision, and post-approval merge action. This keeps approval state visible without turning the milestone into a full release log.
 
 ### Branch Baseline Loop
 
@@ -114,5 +118,3 @@ Keep process guidance in `docs/ai/handbook.md` unless a separate artifact is req
 ### File-Based First
 
 Start with Markdown and a local checker. Add tools only when they remove real friction.
-
-
