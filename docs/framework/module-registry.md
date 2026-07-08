@@ -18,7 +18,7 @@ This registry records which workflow modules are part of the baseline and which 
 | --- | --- | --- | --- | --- |
 | Rail composition module | accepted-file-contract | LangChain composition model, PromptChainer research | `docs/framework/rail-composition.md`, `docs/framework/_rail-template.md`, `docs/rails/`, `docs/modules/` | Establishes the simple pipe-like primitive and concrete catalogs that all TraceRail workflows compose around. |
 | Spec module | accepted-file-contract | GitHub Spec Kit | `docs/specs/_template/`, handbook stages | Spec, plan, tasks, clarify, analyze, implement, and converge concepts are central but file-based V5 avoids tool lock-in. |
-| Architecture and ADR module | accepted-file-contract | ADR practice, Spec Kit planning | Handbook architecture check, feature plan | Keeps design decisions explicit before implementation. |
+| Architecture and ADR module | accepted-file-contract | ADR practice, Spec Kit planning | `docs/modules/architecture-review.md`, handbook architecture check, feature plan | Keeps design decisions explicit before implementation. |
 | Agent instruction module | accepted-file-contract | Codex `AGENTS.md` | `AGENTS.md` | Gives agents a canonical project entrypoint. |
 | Memory module | accepted-file-contract | Basic Memory, Mem0, Zep, Graphiti, A-MEM | `docs/memory/` | Preserves durable context without installing a memory runtime. |
 | Retrieval module | accepted-file-contract | Serena, Repomix, Context7, official docs patterns | Handbook retrieval policy, retrieval index | Makes context stage-aware and source-preserving. |

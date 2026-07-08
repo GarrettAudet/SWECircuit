@@ -7,7 +7,7 @@ Use the feature rail for ordinary product, documentation, refactor, process, and
 ## Composition
 
 ```txt
-goal | clarify | spec | architecture_check | task_plan | implement | verify | review | memory
+goal | clarify | spec | architecture_review | task_plan | implement | verify | review | memory
 ```
 
 ## Modules
@@ -16,7 +16,7 @@ goal | clarify | spec | architecture_check | task_plan | implement | verify | re
 | --- | --- | --- | --- |
 | Clarify | User goal and context | Requirements, assumptions, questions | Requirements are clear enough or route to `clarify`. |
 | Spec | Requirements | Acceptance criteria and constraints | Criteria are testable or route to `clarify` or `split`. |
-| Architecture check | Spec and system context | ADR decision or local-design note | Design is compatible or route to `redesign`. |
+| Architecture review | Spec and system context | ADR decision or local-design note | Design is compatible or route to `redesign`. |
 | Task plan | Spec and design | Verifiable task list | Tasks map to verification or route to `split`. |
 | Implement | Task and context | Diff or artifact change | Implementation is ready for verification or route to `diagnose`. |
 | Verify | Diff and acceptance criteria | Test evidence | Evidence passes or route to `fix` or `diagnose`. |

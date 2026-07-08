@@ -28,7 +28,7 @@ rail = input | module | module | output
 For normal software work:
 
 ```txt
-goal | clarify | spec | plan | implement | verify | review | memory
+goal | clarify | spec | architecture_review | task_plan | implement | verify | review | memory
 ```
 
 Each module has a common interface: input, action, output, gate, and outcome. Each gate emits one outcome:
@@ -39,6 +39,59 @@ pass | fix | diagnose | clarify | redesign | split | block | learn
 
 That small contract gives agents a shared language for moving forward, looping back, diagnosing failures, asking for help, or recording durable learning.
 
+## How Modules Plug Into Rails
+
+TraceRail core is meant to be a standard framework, not a fixed checklist. A rail is a workflow path. A module is a swappable stage with one common contract. IDEs and agents do not need to understand every possible module in advance; they follow the module contract, check the gate, emit an outcome, and preserve the artifact.
+
+For example, an architecture review can be inserted into the feature rail without rewriting the whole workflow:
+
+```txt
+goal | clarify | spec | architecture_review | task_plan | implement | verify | review | memory
+```
+
+The same rail can accept other review gates when the project needs them:
+
+```txt
+goal | clarify | spec | security_review | architecture_review | task_plan | implement | performance_review | verify | review | memory
+```
+
+```mermaid
+flowchart LR
+    Goal["Goal"] --> Clarify["Clarify module"]
+    Clarify --> Spec["Spec module"]
+    Spec --> Arch{"Architecture review gate"}
+    Arch -->|pass| Plan["Task plan module"]
+    Arch -->|redesign| Redesign["Revise spec or ADR"]
+    Redesign --> Spec
+    Plan --> Implement["Implement module"]
+    Implement --> Verify{"Verification gate"}
+    Verify -->|pass| Review["Review module"]
+    Verify -->|fix or diagnose| Diagnose["Fix or diagnosis rail"]
+    Diagnose --> Implement
+    Review --> Memory["Memory module"]
+
+    subgraph Optional["Optional modules inserted by rail"]
+        Security["Security review"]
+        Performance["Performance review"]
+        Docs["Docs review"]
+    end
+
+    Spec -.->|insert when risk requires| Security
+    Security -.->|before architecture gate| Arch
+    Plan -.->|before implementation| Performance
+    Review -.->|before merge| Docs
+```
+
+To add a module:
+
+1. Define its input, action, output, gate, outcome, artifacts, and adapter options.
+2. Add it to a rail at the point where its gate should run.
+3. Decide whether the main IDE agent runs it or a dedicated subagent owns it.
+4. Require the module to return evidence and a typed outcome.
+5. Preserve the result in the feature package, review, or memory.
+
+That means a project can start with the simple feature rail and later insert stronger review gates, domain checks, or tool-backed adapters without changing TraceRail core.
+
 ## What TraceRail Provides
 
 - `AGENTS.md`: the AI entrypoint and operating contract.
@@ -46,7 +99,7 @@ That small contract gives agents a shared language for moving forward, looping b
 - `docs/specs/`: feature packages for meaningful work.
 - `docs/framework/`: modular framework contracts and adapter governance.
 - `docs/rails/`: reusable workflow rails.
-- `docs/modules/`: composable module contracts.
+- `docs/modules/`: composable module contracts, including `architecture-review`.
 - `docs/packs/`: optional pack and community extension governance, including official packs.
 - `docs/memory/`: durable memory, history, decisions, patterns, and retrieval pointers.
 - `docs/research/`: dated ecosystem scans and practice decisions.

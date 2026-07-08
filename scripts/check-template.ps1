@@ -250,6 +250,7 @@ $requiredFiles = @(
     "docs/modules/README.md",
     "docs/modules/clarify.md",
     "docs/modules/spec.md",
+    "docs/modules/architecture-review.md",
     "docs/modules/plan.md",
     "docs/modules/implement.md",
     "docs/modules/verify.md",
@@ -583,6 +584,7 @@ Test-HasHeadings "docs/modules/README.md" @(
 foreach ($moduleFile in @(
     "docs/modules/clarify.md",
     "docs/modules/spec.md",
+    "docs/modules/architecture-review.md",
     "docs/modules/plan.md",
     "docs/modules/implement.md",
     "docs/modules/verify.md",

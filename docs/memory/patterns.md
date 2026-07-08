@@ -93,6 +93,10 @@ A gate decides whether a rail continues, loops, splits, blocks, diagnoses, or re
 
 Normalize reusable workflow behavior into catalog entries. Rails compose modules; modules expose input, action, output, gate, outcome, artifacts, and adapter.
 
+### Swappable Review Gates
+
+Architecture review (`architecture_review`), security, performance, documentation, and other focused reviews should be modeled as modules. Insert them into rails where their gates matter, require evidence and a typed outcome, and delegate to a dedicated subagent only after scope, context, authority, and handoff are clear.
+
 ### Pack Field Conformance
 
 Official packs need field-level checks for status, provides, requirements, permissions, contracts, verification, maintenance, and recommendation evidence. Heading checks make packs visible; field checks make them safer to use.

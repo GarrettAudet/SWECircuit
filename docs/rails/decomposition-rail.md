@@ -7,7 +7,7 @@ Use the decomposition rail when a goal can safely fan out across modules, agents
 ## Composition
 
 ```txt
-goal | retrieve | spec | architecture_check | decompose | contract_work_units | fanout | synthesize | integrate | verify | review | memory
+goal | retrieve | spec | architecture_review | decompose | contract_work_units | fanout | synthesize | integrate | verify | review | memory
 ```
 
 ## Modules
@@ -16,7 +16,7 @@ goal | retrieve | spec | architecture_check | decompose | contract_work_units | 
 | --- | --- | --- | --- |
 | Retrieve | Goal | Shared context bundle | Context is enough for decomposition or route to `clarify`. |
 | Spec | Goal and context | Acceptance criteria | Criteria are stable or route to `clarify`. |
-| Architecture check | Spec | Constraints and conflict zones | Design is safe to split or route to `redesign`. |
+| Architecture review | Spec | Constraints and conflict zones | Design is safe to split or route to `redesign`. |
 | Decompose | Spec and constraints | Work-unit graph | Units are independent enough or route to `split` or `redesign`. |
 | Contract work units | Work-unit graph | Work-unit contracts | Contracts include scope, context, evidence, and stop conditions. |
 | Fanout | Contracts | Worker handoffs | Work stays inside contracts or route to integration owner. |

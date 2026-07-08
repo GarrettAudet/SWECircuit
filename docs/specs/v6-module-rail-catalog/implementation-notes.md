@@ -14,6 +14,7 @@ Ready for approval.
 - Updated README, handbook, framework overview, registry, PR template, checker, memory, and milestone.
 - Hardened `AGENTS.md` after user review so it remains a concise contract and routing index, includes V6 catalog routes, and avoids stale version-specific tool-policy wording.
 - Added `pr-body.md` after discovering GitHub CLI was unavailable locally, preserving the review-loop handoff without installing tooling.
+- Clarified the README module/rail plug-in model with a Mermaid flow and added a concrete `architecture-review` core module.
 
 ## Assumptions Used
 
@@ -32,6 +33,7 @@ Ready for approval.
 - Core TraceRail stays small and file-based.
 - Rails describe reusable flows.
 - Modules describe composable work units.
+- Review gates such as architecture, security, performance, or documentation review should be modules that can be inserted into rails without rewriting TraceRail core.
 - Packs bundle rails and modules for optional extension.
 - Community contributions should target packs first, not core.
 - `AGENTS.md` should stay a concise agent contract and routing index; detailed protocols belong in the handbook, catalogs, feature packages, research, and memory.
@@ -40,6 +42,7 @@ Ready for approval.
 
 - `docs/rails/`
 - `docs/modules/`
+- `docs/modules/architecture-review.md`
 - `docs/packs/`
 - `docs/specs/v6-module-rail-catalog/`
 - `docs/milestones/v6.md`

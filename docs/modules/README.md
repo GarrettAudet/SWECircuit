@@ -22,6 +22,7 @@ Every module records:
 | --- | --- | --- |
 | Clarify | Core | Turning vague goals into clear requirements or recorded assumptions. |
 | Spec | Core | Producing testable acceptance criteria. |
+| Architecture review | Core | Checking architecture fit, coding best practices, boundaries, and ADR impact before implementation. |
 | Plan | Core | Turning a spec into approach, tasks, and verification mapping. |
 | Implement | Core | Making the smallest coherent change. |
 | Verify | Core | Producing deterministic evidence. |

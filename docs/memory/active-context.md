@@ -31,6 +31,7 @@ V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening
 - Milestones need explicit approval gates so merge readiness is source-visible instead of reconstructed from chat.
 - Pack conformance needs field-level checks for official packs, not only heading checks.
 - Read-only subagent review is a useful first orchestration dogfood before write-enabled implementation fan-out.
+- README needs to show modules as swappable rail gates; `architecture-review` is the concrete core example.
 
 ## Next Likely Work
 

@@ -33,7 +33,7 @@
 ## Framework Modules
 
 - Rails affected: `docs/rails/`
-- Modules affected: `docs/modules/`
+- Modules affected: `docs/modules/`, `docs/modules/architecture-review.md`
 - Packs affected: `docs/packs/`
 - Framework modules affected: `docs/framework/`, `docs/framework/module-registry.md`
 - External adapters evaluated or changed: no installs; adapter contracts only
@@ -53,7 +53,7 @@
 - Commands run: unresolved-placeholder scan across docs, README, AGENTS, and PR template
 - Commands run: `rg -n "[^\x00-\x7F]" docs README.md AGENTS.md .github\pull_request_template.md scripts`
 - Commands run: `git diff --check`
-- Manual checks: rail, module, pack, AGENTS, milestone, memory, and dogfood artifacts reviewed against V6 acceptance criteria
+- Manual checks: README module visual, rail, module, pack, AGENTS, milestone, memory, and dogfood artifacts reviewed against V6 acceptance criteria
 - Skipped checks and reasons: no runtime tests exist; no external tool installs; no merge to `main` before approval
 
 ## Diagnosis
