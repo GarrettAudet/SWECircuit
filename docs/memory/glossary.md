@@ -21,6 +21,14 @@
 | Standalone agent baseline | The single-agent/IDE workflow foundation where one agent can execute a bounded goal end to end with traceability and verification. |
 | Standalone agent work package | A contract for one agent owning a bounded goal, including scope, authority, context, verification, stop conditions, handoff, and memory updates. |
 | Typed outcome | The explicit result emitted by each workflow stage: `pass`, `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, or `learn`. |
+| Adapter | An optional external tool, framework, skill, plugin, MCP server, service, or runtime connected to the file-based workflow after evaluation and approval. |
+| Adapter evaluation | The V5 process for deciding whether an external tool should be accepted, optional, watched, deferred, or rejected before installation. |
+| Decomposition plan | A framework artifact that turns a shared goal into work units, dependencies, conflict zones, fan-out, fan-in, and verification. |
+| Framework kernel | The file-based core of this workflow: stable contracts, templates, checks, and memory that external tools can plug into. |
+| Module | A reusable workflow capability with defined purpose, inputs, outputs, stage hooks, verification, failure modes, and memory updates. |
+| Module registry | The framework governance file that records accepted file contracts and optional adapters. |
+| Orchestration pattern | A selected coordination shape such as single-agent, skill, router, subagents, handoffs, directed graph, or hierarchical crew. |
+| Orchestration run record | A source artifact that preserves agent roster, handoffs, integration, verification, review, and memory updates for fan-out work. |
 | Version branch | A branch for one workflow version, named `codex/vVERSION-slug`, that merges to `main` after approval. |
 | Work-unit contract | A structured handoff for a parallel agent that defines objective, scope, context, conflicts, allowed actions, verification, handoff, and stop conditions. |
 

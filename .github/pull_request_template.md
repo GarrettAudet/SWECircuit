@@ -26,6 +26,13 @@
 - Was a standalone agent work package used?
 - Work package link:
 - Autonomy boundaries and stop conditions followed:
+
+## Framework Modules
+
+- Framework modules affected:
+- External adapters evaluated or changed:
+- Decomposition or orchestration run linked if applicable:
+- Module registry updated:
 ## Traceability
 
 - Goal/spec -> tasks -> verification -> review chain complete:

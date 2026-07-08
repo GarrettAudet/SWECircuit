@@ -758,7 +758,45 @@ Optional future integrations:
 - Basic Memory, Mem0, Zep/Graphiti, A-MEM, or related systems for persistent memory.
 - Context7 or official docs MCPs for dependency documentation.
 
-## 20. Starting A New Feature
+## 20. Modular Orchestration Framework
+
+The V5 framework layer lets this workflow absorb best-in-class practices without making every project install the same stack. It works like a small framework kernel: stable contracts in this repository, optional adapters around it.
+
+Use `docs/framework/README.md` when work needs:
+
+- A reusable module.
+- An external tool or framework adapter.
+- A decomposition plan for many work units.
+- A recorded orchestration run.
+- A pattern choice beyond the standalone agent loop.
+
+The default path remains single-agent:
+
+```txt
+single-agent -> module if useful -> adapter only after evaluation -> fan-out only after decomposition readiness
+```
+
+The framework artifacts are:
+
+| Artifact | Purpose |
+| --- | --- |
+| `docs/framework/README.md` | Explains the modular framework and quick path. |
+| `docs/framework/module-registry.md` | Records accepted file contracts and optional adapters. |
+| `docs/framework/orchestration-patterns.md` | Helps choose single-agent, skill, router, subagent, handoff, graph, or crew-style coordination. |
+| `docs/framework/_module-template.md` | Defines a reusable module contract. |
+| `docs/framework/_decomposition-plan-template.md` | Breaks a goal into work units, dependencies, conflict zones, verification, fan-out, and fan-in. |
+| `docs/framework/_adapter-evaluation-template.md` | Evaluates external tools before installation. |
+| `docs/framework/_orchestration-run-template.md` | Records agent roster, handoffs, integration, verification, review, and memory updates. |
+
+Adapter policy:
+
+- Use ecosystem concepts immediately when they can be expressed as files, templates, checks, or review gates.
+- Install external tools only after a dated research snapshot, adapter evaluation, practice-register decision, module-registry update, and explicit user approval.
+- Prefer adapters that preserve source evidence, have clear rollback, keep memory inspectable, and reduce repeated friction or coordination risk.
+- Keep the first screen simple. Deeper module contracts should appear only when risk, ambiguity, scale, or repetition requires them.
+
+At scale, decomposition is the product. A ten-agent run needs one shared goal, one decomposition plan, one integration owner, and ten bounded contracts. If a ticket reveals bug after bug, fan out diagnosis before implementation fixes.
+## 21. Starting A New Feature
 
 1. Copy `docs/specs/_template/` to a new feature folder under `docs/specs/`.
 2. Fill `spec.md` until acceptance criteria are testable.
@@ -780,7 +818,7 @@ If local PowerShell execution policy blocks direct script execution, run:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1
 ```
 
-## 21. Done Definition
+## 22. Done Definition
 
 Work is done when:
 

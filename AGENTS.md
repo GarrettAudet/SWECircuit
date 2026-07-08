@@ -122,6 +122,15 @@ Parallelize only after the task plan defines work-unit contracts. Each parallel 
 
 Use subagents first for read-heavy exploration, review, testing, diagnosis, and independent implementation slices. Keep the main agent as the integration owner unless another owner is explicitly assigned. Do not parallelize ambiguous requirements, shared-state edits, broad refactors, or security-sensitive changes until the contract is clear.
 
+## Modular Framework Rule
+
+Treat this repository as a lightweight framework kernel: simple operating surface, modular contracts underneath, optional adapters around the edges.
+
+Use `docs/framework/README.md` when work needs a reusable module, external tool adapter, orchestration pattern, decomposition plan, or fan-out run record.
+
+Before installing or relying on an external framework, preserve a dated research snapshot, evaluate the adapter with `docs/framework/_adapter-evaluation-template.md`, record the decision in `docs/research/practice-register.md`, update `docs/framework/module-registry.md`, and promote only required guidance into the handbook, templates, checker, or agent instructions.
+
+Prefer file-based contracts first. External tools should plug into the workflow only when they remove repeated friction, improve correctness, or reduce coordination risk enough to justify their complexity.
 ## Problem-Solving Rule
 
 Do not repeatedly patch a failing ticket without diagnosis. When verification or review reveals a non-obvious or recurring failure:
@@ -170,7 +179,7 @@ If code is later added to this repository, add project-specific format, lint, ty
 
 ## Tool Policy
 
-The v4 template is file-based. Do not install Spec Kit, BMAD, Serena, Repomix, Basic Memory, agentmemory, Context7, Mem0, Zep, Graphiti, A-MEM, or other external tools unless the user explicitly approves that integration.
+The v5 template is file-based and adapter-oriented. Do not install Spec Kit, BMAD, LangChain, LangGraph, AutoGen, CrewAI, Serena, Repomix, Basic Memory, agentmemory, Context7, Mem0, Zep, Graphiti, A-MEM, or other external tools unless the user explicitly approves that integration after adapter evaluation.
 
 
 

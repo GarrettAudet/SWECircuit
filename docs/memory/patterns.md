@@ -48,6 +48,21 @@ Do not fan out work until each unit has objective, scope boundary, likely files,
 
 Parallel agents can explore and implement slices, but one owner must integrate, verify, review, and record lessons across the full change.
 
+### Modular Framework Kernel
+
+Keep the core workflow file-based and stable, then use modules and optional adapters to plug in best-in-class practices only when they solve a real problem.
+
+### Adapter Evaluation Before Installation
+
+Before adding a tool dependency, preserve a dated source snapshot, evaluate fit, record the practice-register decision, update the module registry, and define rollback.
+
+### Decomposition As The Scaling Artifact
+
+For many agents, create one shared goal, a dependency graph, conflict zones, bounded work-unit contracts, fan-in plan, integrated verification, and memory updates.
+
+### Diagnosis Fan-Out Before Fix Fan-Out
+
+When one ticket reveals bug after bug, parallelize reproduction, evidence gathering, history review, related-code inspection, and hypothesis tests before applying fixes.
 ## Memory Patterns
 
 ### Source First, Summary Second

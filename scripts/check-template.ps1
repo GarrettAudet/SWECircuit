@@ -162,15 +162,25 @@ $requiredFiles = @(
     "docs/research/practice-register.md",
     "docs/research/snapshots/2026-07-08-ecosystem-scan.md",
     "docs/research/snapshots/2026-07-08-parallel-agent-and-memory-scan.md",
+    "docs/research/snapshots/2026-07-08-modular-orchestration-scan.md",
     "docs/milestones/README.md",
     "docs/milestones/_template.md",
     "docs/milestones/v1.md",
     "docs/milestones/v2.md",
     "docs/milestones/v3.md",
+    "docs/milestones/v4.md",
+    "docs/milestones/v5.md",
     "docs/ide/README.md",
     "docs/ide/_message-templates.md",
     "docs/agents/README.md",
     "docs/agents/_template.md",
+    "docs/framework/README.md",
+    "docs/framework/module-registry.md",
+    "docs/framework/orchestration-patterns.md",
+    "docs/framework/_module-template.md",
+    "docs/framework/_decomposition-plan-template.md",
+    "docs/framework/_adapter-evaluation-template.md",
+    "docs/framework/_orchestration-run-template.md",
     "docs/specs/_template/spec.md",
     "docs/specs/_template/plan.md",
     "docs/specs/_template/tasks.md",
@@ -210,7 +220,8 @@ Test-HasHeadings "docs/ai/handbook.md" @(
     "Development Milestones",
     "Branch And Merge Workflow",
     "Parallel Agent Development",
-    "Practice Intake And Tool Adoption"
+    "Practice Intake And Tool Adoption",
+    "Modular Orchestration Framework"
 )
 
 
@@ -218,7 +229,9 @@ foreach ($milestone in @(
     "docs/milestones/_template.md",
     "docs/milestones/v1.md",
     "docs/milestones/v2.md",
-    "docs/milestones/v3.md"
+    "docs/milestones/v3.md",
+    "docs/milestones/v4.md",
+    "docs/milestones/v5.md"
 )) {
     Test-HasHeadings $milestone @(
         "Status",
@@ -262,6 +275,98 @@ Test-HasHeadings "docs/agents/README.md" @(
     "Handoff Standard"
 )
 
+
+Test-HasHeadings "docs/framework/README.md" @(
+    "Purpose",
+    "Quick Path",
+    "Framework Layers",
+    "Module Definition",
+    "Adapter Definition",
+    "Default Modules",
+    "Adoption Rule",
+    "Done Definition"
+)
+
+Test-HasHeadings "docs/framework/module-registry.md" @(
+    "Purpose",
+    "Status Values",
+    "Baseline Modules",
+    "Optional Adapter Candidates",
+    "Promotion Path",
+    "Removal Path"
+)
+
+Test-HasHeadings "docs/framework/orchestration-patterns.md" @(
+    "Purpose",
+    "Selection Rule",
+    "Pattern Matrix",
+    "Scale Rule",
+    "Bug Cascade Rule",
+    "Cost Rule"
+)
+
+Test-HasHeadings "docs/framework/_module-template.md" @(
+    "Module Name",
+    "Status",
+    "Purpose",
+    "When To Use",
+    "When Not To Use",
+    "Inputs",
+    "Outputs",
+    "Stage Hooks",
+    "Context Bundle",
+    "Verification",
+    "Failure Modes",
+    "Adapter Options",
+    "Adoption Criteria",
+    "Rollback",
+    "Memory Updates"
+)
+
+Test-HasHeadings "docs/framework/_decomposition-plan-template.md" @(
+    "Status",
+    "Goal",
+    "Source Artifacts",
+    "Module Selection",
+    "Decomposition Summary",
+    "Dependency Graph",
+    "Work Units",
+    "Fan-Out Plan",
+    "Fan-In Plan",
+    "Verification Matrix",
+    "Stop Or Redesign Triggers",
+    "Memory Updates"
+)
+
+Test-HasHeadings "docs/framework/_adapter-evaluation-template.md" @(
+    "Status",
+    "Adapter Name",
+    "Problem Solved",
+    "Current File-Based Alternative",
+    "Source Snapshot",
+    "Fit Assessment",
+    "Adoption Scope",
+    "Decision",
+    "Rationale",
+    "Pilot Plan",
+    "Memory And Registry Updates"
+)
+
+Test-HasHeadings "docs/framework/_orchestration-run-template.md" @(
+    "Status",
+    "Goal",
+    "Pattern Chosen",
+    "Why This Pattern",
+    "Source Artifacts",
+    "Roster",
+    "Fan-Out Log",
+    "Handoffs",
+    "Integration Notes",
+    "Verification",
+    "Review",
+    "Memory Updates",
+    "Completion Handoff"
+)
 Test-HasHeadings "docs/agents/_template.md" @(
     "Goal",
     "Completion Evidence",
@@ -339,7 +444,7 @@ Test-HasHeadings "docs/specs/_template/root-cause-analysis.md" @(
 $prTemplatePath = Join-Path $Root ".github\pull_request_template.md"
 if (Test-Path -LiteralPath $prTemplatePath -PathType Leaf) {
     $pr = Read-Text $prTemplatePath
-    foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "IDE Interaction", "Standalone Agent Work", "Traceability", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
+    foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "IDE Interaction", "Standalone Agent Work", "Framework Modules", "Traceability", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
         if ($pr -notmatch [regex]::Escape($requiredPhrase)) {
             Add-Failure "PR template missing '$requiredPhrase'"
         }

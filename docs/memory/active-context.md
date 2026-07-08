@@ -2,32 +2,32 @@
 
 ## Current Focus
 
-V4 standalone agent, IDE execution, and user interaction baseline on branch `codex/v4-agent-work-packages`.
+V5 modular orchestration framework on branch `codex/v5-modular-orchestration-framework`.
 
 ## Current Stage
 
-V4 ready for approval on branch `codex/v4-agent-work-packages` after adding explicit IDE-user interaction and standalone agent execution rules.
+V5 ready for approval after adding the framework layer for modules, adapters, decomposition plans, orchestration patterns, and run records.
 
 ## Important Current Constraints
 
-- Make the workflow visibly active in IDE chat: workflow, branch, stage, artifact, assumptions, evidence, and next gate.
-- Build an excellent standalone single-agent/IDE workflow before expanding multi-agent orchestration.
-- Keep the system simple at the surface and robust underneath.
-- Use milestones as concise version overviews, not replacements for specs or reviews.
-- Preserve source artifacts before summarizing memory.
-- Develop this version on the dedicated V4 branch and do not merge to `main` before approval.
-- Do not install external frameworks or memory tools by default.
+- Keep the workflow simple on the surface and modular underneath.
+- Keep single-agent and IDE-visible execution as the default baseline.
+- Use framework modules only when they clarify real work.
+- Evaluate external tools as adapters before installation.
+- Preserve source artifacts before summaries.
+- Keep `main` as the stable baseline; V5 remains on its version branch until user approval.
+- Do not install external frameworks or memory tools without explicit approval after adapter evaluation.
 
 ## Recently Learned
 
-- Strong multi-agent development depends on a strong visible single-agent/IDE baseline first.
-- The IDE-user conversation is part of the workflow surface, not just a transport for commands.
-- A standalone agent needs explicit goal, completion evidence, scope, authority, context, verification, stop conditions, handoff, and memory obligations.
-- The branch workflow is now being dogfooded: V4 started from the committed `main` baseline on a dedicated branch.
+- Best-in-class ecosystem practice points toward modular contracts and adapter governance, not one mandatory mega-framework.
+- Spec Kit contributes the strongest spec-driven spine, while LangChain, AutoGen, CrewAI, BMAD, and Codex subagents contribute pattern and orchestration ideas.
+- At scale, decomposition is the core artifact: shared goal, work-unit contracts, dependency graph, conflict zones, fan-in, verification, and integration ownership.
+- When a ticket reveals bug after bug, parallelize diagnosis before implementation fixes.
 
 ## Next Likely Work
 
-- Complete V4 docs, checker, memory, review, and milestone.
-- Validate V4 on the branch before requesting approval to merge.
-
-
+- Review and approve V5 on `codex/v5-modular-orchestration-framework`.
+- Merge V5 to `main` only after approval.
+- Dogfood V5 on the next workflow version or a real project feature.
+- Evaluate the first runtime adapter only after a repeated friction point appears.

@@ -16,6 +16,10 @@
 | 2026-07-08 | Treat V1-V3 as the bootstrap exception. | The first baseline had to be created before normal version branches could apply. | If another project starts from an existing baseline. |
 | 2026-07-08 | Build the standalone single-agent/IDE baseline before expanding multi-agent workflows. | Multi-agent reliability depends on one agent being able to execute a bounded goal end to end with strong structure. | If standalone workflow proves too slow or incomplete in real project work. |
 | 2026-07-08 | Treat IDE-user interaction as a first-class workflow surface. | The user needs to see that the system is operating methodically while chatting with the IDE agent. | If interaction updates become noisy or fail to improve orientation. |
+| 2026-07-08 | Treat the workflow as a lightweight modular framework kernel. | The user wants a LangChain-like plug-in structure while preserving simplicity and traceability. | If modules become too abstract or duplicate the handbook. |
+| 2026-07-08 | Require adapter evaluation before installing external frameworks. | Best-in-class tools should plug in only after they solve a proven friction point and preserve source evidence, security, rollback, and reviewability. | If a project explicitly needs a runtime tool and evaluation shows clear value. |
+| 2026-07-08 | Keep single-agent as the default orchestration pattern. | Ecosystem guidance and V4 dogfooding both show that multi-agent work should extend a strong standalone baseline, not replace it. | If a goal has independent work units with clear contracts and integration ownership. |
+| 2026-07-08 | Use decomposition plans and orchestration run records for scale. | Ten agents need one shared goal, bounded contracts, conflict zones, handoffs, fan-in, verification, and memory updates. | If real runs show the templates are too heavy or miss important coordination data. |
 
 
 

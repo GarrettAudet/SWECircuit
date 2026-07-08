@@ -28,11 +28,19 @@ Status values:
 | Branch-based version workflow | accepted | V3 user direction and standard git review practice | Use `main` as stable baseline and version branches for future workflow changes | Keeps draft version work isolated until approved and merged. |
 | Single-agent-first workflow baseline | accepted | V4 user direction and dogfooding evidence | Strengthen one-agent/IDE execution before multi-agent expansion | Multi-agent work should be built on a reliable standalone execution loop, not used to compensate for weak structure. |
 | IDE workflow visibility | accepted | V4 user direction and dogfooding evidence | Add explicit IDE-user interaction protocol | The user must be able to see that the workflow is active and methodical during chat-based IDE work. |
-| Semantic code retrieval | optional | Serena | Document as future integration | Valuable for larger repos, unnecessary in the v3 template. |
+| Modular framework kernel | accepted | V5 user direction, GitHub Spec Kit extensions and presets, LangChain pattern docs | Add `docs/framework/` with module registry and templates | Provides a simple way to plug in best-in-class practices without installing tools by default. |
+| Adapter evaluation before installation | accepted | Spec Kit extension model, BMAD modules, LangChain and AutoGen runtime patterns | Require adapter evaluation for external tools | Prevents tool sprawl while preserving a path to adopt useful frameworks. |
+| Orchestration pattern selection | accepted | LangChain multi-agent docs, AutoGen AgentChat, CrewAI crews | Add orchestration pattern guide | Keeps single-agent as default and selects fan-out only when the work shape justifies it. |
+| Decomposition plan for scale | accepted | Codex subagents, LangChain context engineering, CrewAI task processes | Add decomposition plan and orchestration run templates | Large agent fan-out needs shared goal, contracts, conflict zones, fan-in, and integrated verification. |
+| GitHub Spec Kit adapter | optional | GitHub Spec Kit | Keep as optional adapter | Strong spec-driven automation candidate, but file contracts are sufficient for V5. |
+| LangChain or LangGraph adapter | optional | LangChain multi-agent docs | Keep as optional runtime adapter | Useful for product agent runtimes and graph workflows, not needed for this file-based SWE workflow yet. |
+| AutoGen AgentChat adapter | optional | Microsoft AutoGen docs | Keep as optional team-pattern adapter | Useful reference for teams, selector group chat, swarm, GraphFlow, state, and human-in-loop. |
+| CrewAI adapter | optional | CrewAI crews docs | Keep as optional crew adapter | Useful reference for sequential or hierarchical crews, memory, knowledge, callbacks, and checkpointing. |
+| Semantic code retrieval | optional | Serena | Document as future integration | Valuable for larger repos, unnecessary in the V5 baseline. |
 | Repo packing | optional | Repomix | Document as future integration | Useful for external review, not required in core workflow. |
-| Live dependency docs | optional | Context7 and official docs MCPs | Document as future integration | Useful for unstable libraries; v2 records the retrieval policy only. |
+| Live dependency docs | optional | Context7 and official docs MCPs | Document as future integration | Useful for unstable libraries; V5 records the retrieval policy and adapter path only. |
 | Basic Memory | optional | Basic Memory GitHub/docs | Consider after file-based memory is dogfooded | Attractive because it uses local Markdown and MCP, but installation would add a tool dependency. |
-| Mem0 | optional | Mem0 GitHub/paper | Consider for future memory integration | Strong ecosystem momentum and hybrid retrieval, but not needed for v2's portable file layer. |
+| Mem0 | optional | Mem0 GitHub/paper | Consider for future memory integration | Strong ecosystem momentum and hybrid retrieval, but not needed for the V5 file-based memory layer. |
 | Zep/Graphiti temporal knowledge graph | optional | Zep/Graphiti paper and repo | Consider for temporal/cross-session reasoning | Powerful for large memory graphs, but heavier than this template needs now. |
 | A-MEM/Zettelkasten memory | watch | A-MEM paper/repo | Watch for workflow-memory inspiration | Useful dynamic memory organization idea, but would add complexity today. |
 | Codex Chronicle | watch | OpenAI Codex Chronicle docs | Do not require in v2 | Promising source of automatic local memories, but currently platform/account constrained and has privacy/prompt-injection considerations. |
