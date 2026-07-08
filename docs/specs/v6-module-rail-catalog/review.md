@@ -14,7 +14,7 @@ V6 satisfies the spec by adding rail, module, and pack catalogs; updating naviga
 
 ## Architecture Alignment
 
-The change preserves TraceRail's architecture. Rail Composition remains the core primitive, the framework stays file-based, external repos remain optional adapters or packs, and core remains separate from official/community extensions.
+The change preserves TraceRail's architecture. Rail Composition remains the core primitive, the framework stays file-based, external repos remain optional adapters or packs, core remains separate from official/community extensions, and the first official pack remains dependency-free and not recommended until real dogfooding evidence exists.
 
 ## Verification Evidence
 
@@ -27,7 +27,7 @@ The change preserves TraceRail's architecture. Rail Composition remains the core
 
 | Severity | Finding | Required Action |
 | --- | --- | --- |
-| Low | V6 defines pack governance but does not implement pack installation. | Pilot one pack manually before adding tooling. |
+| Low | V6 defines pack governance but does not implement pack installation. | Use the manual `tracepack-orchestration-readiness` pilot before adding tooling. |
 | Low | Catalog quality depends on review, not only headings. | Continue dogfooding and keep checker structural. |
 
 ## Residual Risks

@@ -18,8 +18,17 @@ Packs let TraceRail grow without bloating core. A pack bundles rails, modules, a
 
 Packs are optional downloads. Core should not depend on a pack. A pack can become recommended only after it passes conformance checks, has clear ownership, and solves a real repeated failure mode.
 
+## Current Official Packs
+
+| Pack | Status | Purpose |
+| --- | --- | --- |
+| `tracepack-orchestration-readiness` | Official, not recommended yet | Prepares safe agent fan-out with decomposition, contracts, verification, and memory. |
+
+See `docs/packs/official/` for curated optional packs. Official and recommended are separate labels: official means maintained by TraceRail; recommended means proven through repeated dogfooding.
+
 ## Suggested Official Packs
 
+- `tracepack-orchestration-readiness`
 - `tracepack-superpowers-transition`
 - `tracepack-astraeus-orchestration`
 - `tracepack-spec-kit`
@@ -30,7 +39,7 @@ Packs are optional downloads. Core should not depend on a pack. A pack can becom
 ## Extension Path
 
 ```txt
-idea -> community pack -> experimental pack -> recommended pack -> core candidate -> core
+idea -> community pack -> experimental pack -> official or recommended pack -> core candidate -> core
 ```
 
 Most extensions should remain packs. Core promotion should be rare.

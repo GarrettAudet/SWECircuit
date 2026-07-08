@@ -29,6 +29,7 @@
 | Module registry | The framework governance file that records accepted file contracts and optional adapters. |
 | Orchestration pattern | A selected coordination shape such as single-agent, skill, router, subagents, handoffs, directed graph, or hierarchical crew. |
 | Orchestration run record | A source artifact that preserves agent roster, handoffs, integration, verification, review, and memory updates for fan-out work. |
+| Orchestration-readiness pack | The first official TraceRail pack, used to prepare safe agent fan-out with decomposition, contracts, permissions, verification, integration ownership, and memory updates. |
 | Capability adapter | A TraceRail contract that extracts a useful external-project capability without making the external project a required dependency. |
 | Orchestration compiler | A capability that reads repository context and synthesizes project-specific agent roles, work units, handoffs, critic path, synthesis path, permissions, and integration order. |
 | Skills-driven development transition | A capability that moves from idea to spec to implementation through triggered skills, readable checkpoints, approval gates, and verification mapping. |
@@ -45,7 +46,3 @@
 | TraceRail | The public name for this portable AI SWE workflow system: a contract-first framework kernel for traceable human-agent development. |
 | Version branch | A branch for one workflow version, named `codex/vVERSION-slug`, that merges to `main` after approval. |
 | Work-unit contract | A structured handoff for a parallel agent that defines objective, scope, context, conflicts, allowed actions, verification, handoff, and stop conditions. |
-
-
-
-

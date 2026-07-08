@@ -11,8 +11,8 @@ Define how a pack moves from idea to recommendation without weakening TraceRail 
 | Idea | A useful extension has been proposed. | Source scan exists. |
 | Community | A third party or local project defines the pack. | Pack template is complete. |
 | Experimental | Pack is being dogfooded. | Evidence from real use exists. |
-| Recommended | Pack passed conformance and solves a repeated failure mode. | Maintainer and rollback path are clear. |
-| Official | TraceRail maintainers curate the pack. | Long-term maintenance is accepted. |
+| Official | TraceRail maintainers curate the pack. | Maintenance ownership and permission review are accepted. |
+| Recommended | Pack passed conformance and solves a repeated failure mode. | Repeated dogfooding evidence, rollback, and maintainer are clear. |
 | Core candidate | Pack behavior may belong in core. | Multiple projects need it and it remains simple. |
 | Core | Capability is part of the baseline. | Checker and handbook support it. |
 | Retired | Pack is obsolete or harmful. | Migration or removal note exists. |
@@ -39,4 +39,4 @@ Define how a pack moves from idea to recommendation without weakening TraceRail 
 
 ## Recommendation Rule
 
-Recommended means useful and conformant. It does not mean required.
+Official means maintained by TraceRail. Recommended means useful, conformant, and proven through repeated dogfooding. Neither status makes a pack required core behavior.

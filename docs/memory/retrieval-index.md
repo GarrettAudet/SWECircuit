@@ -25,5 +25,4 @@ Use this file as a compact map to source artifacts. Keep entries short and link 
 | V6 module catalog | `docs/modules/`; `docs/specs/v6-module-rail-catalog/`; `docs/milestones/v6.md` | Finding core modules and best-practice adapter modules. | v6, modules, catalog, adapters |
 | V6 pack system | `docs/packs/`; `docs/specs/v6-module-rail-catalog/`; `docs/milestones/v6.md` | Understanding optional downloads, recommended packs, community packs, conformance, and local overrides. | v6, packs, community, conformance |
 | V5 capability adapters | `docs/framework/capability-adapters.md`; `docs/research/snapshots/2026-07-08-capability-adapter-scan.md`; `docs/research/practice-register.md` | Understanding Superpowers-style skills-driven transition and Astraeus-style orchestration compiler as TraceRail contracts. | v5, capability-adapter, superpowers, astraeus |
-
-
+| V6 official orchestration-readiness pack | `docs/packs/official/tracepack-orchestration-readiness/`; `docs/specs/v6-official-orchestration-pack/`; `docs/framework/_decomposition-plan-template.md`; `docs/framework/_orchestration-run-template.md` | Preparing safe multi-agent fan-out with shared goal, work-unit contracts, permissions, verification, handoffs, and memory. | v6, pack, official, orchestration, multi-agent |

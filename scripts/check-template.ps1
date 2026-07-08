@@ -210,6 +210,9 @@ $requiredFiles = @(
     "docs/packs/_pack-template.md",
     "docs/packs/pack-lifecycle.md",
     "docs/packs/conformance.md",
+    "docs/packs/official/README.md",
+    "docs/packs/official/tracepack-orchestration-readiness/README.md",
+    "docs/packs/official/tracepack-orchestration-readiness/examples/three-agent-docs-run.md",
     "docs/specs/_template/spec.md",
     "docs/specs/_template/plan.md",
     "docs/specs/_template/tasks.md",
@@ -582,6 +585,39 @@ Test-HasHeadings "docs/packs/conformance.md" @(
     "Recommendation Checklist",
     "Non-Conformance"
 )
+
+Test-HasHeadings "docs/packs/official/README.md" @(
+    "Purpose",
+    "Current Official Packs",
+    "Use Rule",
+    "Promotion Rule"
+)
+
+Test-HasHeadings "docs/packs/official/tracepack-orchestration-readiness/README.md" @(
+    "Pack Name",
+    "Status",
+    "Purpose",
+    "Provides",
+    "Requires",
+    "Permissions",
+    "Contracts",
+    "Installation",
+    "Verification",
+    "Maintenance",
+    "Recommendation Evidence"
+)
+
+Test-HasHeadings "docs/packs/official/tracepack-orchestration-readiness/examples/three-agent-docs-run.md" @(
+    "Purpose",
+    "Shared Goal",
+    "Pattern",
+    "Work Units",
+    "Fan-Out",
+    "Fan-In",
+    "Verification",
+    "Memory",
+    "Stop Conditions"
+)
 Test-HasHeadings "docs/specs/_template/spec.md" @(
     "Problem",
     "Goals",
@@ -644,14 +680,3 @@ if ($failures.Count -gt 0) {
 }
 
 Write-Host "Template check passed." -ForegroundColor Green
-
-
-
-
-
-
-
-
-
-
-

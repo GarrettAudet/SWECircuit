@@ -27,6 +27,4 @@
 | 2026-07-08 | Add rail and module catalogs as the V6 composition layer. | Rail Composition needs concrete catalog entries so best-in-class practices become composable modules instead of narrative guidance. | If catalogs make the quick path harder or duplicate the handbook. |
 | 2026-07-08 | Use optional packs for ecosystem and community extensions. | Core should stay small while community work extends TraceRail through conformance-reviewed bundles. | If pack governance becomes too heavy or a capability proves core across multiple projects. |
 | 2026-07-08 | Treat recommended packs as curated optional downloads, not requirements. | This supports ecosystem growth without turning TraceRail into a dependency stack. | If a recommended pack becomes necessary for ordinary TraceRail use. |
-
-
-
+| 2026-07-08 | Pilot `tracepack-orchestration-readiness` as the first official pack. | Orchestration readiness directly supports the long-term multi-agent goal while remaining file-based, optional, and dependency-free. | If real dogfooding shows the pack is too heavy, unclear, or should be split. |
