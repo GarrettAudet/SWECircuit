@@ -13,6 +13,7 @@ Ready for approval.
 - Added pack governance under `docs/packs/`.
 - Updated README, handbook, framework overview, registry, PR template, checker, memory, and milestone.
 - Hardened `AGENTS.md` after user review so it remains a concise contract and routing index, includes V6 catalog routes, and avoids stale version-specific tool-policy wording.
+- Added `pr-body.md` after discovering GitHub CLI was unavailable locally, preserving the review-loop handoff without installing tooling.
 
 ## Assumptions Used
 
@@ -24,6 +25,7 @@ Ready for approval.
 ## Friction Observed
 
 - Git checkout, merge, and branch creation required elevated permission because `.git` lock creation was blocked by the sandbox.
+- GitHub CLI was not installed, so PR creation could not be performed locally without adding tooling.
 
 ## Design Notes
 
@@ -48,3 +50,4 @@ Ready for approval.
 - `docs/framework/`
 - `.github/pull_request_template.md`
 - `scripts/check-template.ps1`
+- `docs/specs/v6-module-rail-catalog/pr-body.md`
