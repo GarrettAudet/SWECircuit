@@ -8,6 +8,7 @@ Ready for approval.
 
 | Acceptance Criterion | Evidence |
 | --- | --- |
+| Root README names and explains the system. | `README.md` includes TraceRail purpose, quick start, repository map, scale model, adapter policy, and status. |
 | Adapter path exists before installation. | `docs/framework/_adapter-evaluation-template.md`, `docs/framework/module-registry.md`, `AGENTS.md`, handbook updates. |
 | Goal decomposition has a work-unit template. | `docs/framework/_decomposition-plan-template.md` and `docs/framework/_orchestration-run-template.md`. |
 | Agents see file-based contracts before tools. | `AGENTS.md` Modular Framework Rule and Tool Policy. |
@@ -32,6 +33,7 @@ git diff --check
 
 ## Manual Review
 
+- Confirm the root README gives a clear first-read experience.
 - Confirm the V5 framework keeps single-agent workflow as the default.
 - Confirm optional external tools are represented as adapters rather than dependencies.
 - Confirm the decomposition template supports large-scale agent fan-out and fan-in.

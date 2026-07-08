@@ -157,6 +157,7 @@ function Test-FeaturePackage {
 }
 
 $requiredFiles = @(
+    "README.md",
     "AGENTS.md",
     "docs/ai/handbook.md",
     "docs/research/practice-register.md",
@@ -204,6 +205,17 @@ foreach ($file in $requiredFiles) {
     Test-FileExists $file | Out-Null
 }
 
+Test-HasHeadings "README.md" @(
+    "Why TraceRail Exists",
+    "Core Idea",
+    "What TraceRail Provides",
+    "Quick Start",
+    "When Work Gets Bigger",
+    "Tool Adapters",
+    "Repository Map",
+    "Design Principles",
+    "Current Status"
+)
 Test-HasHeadings "docs/ai/handbook.md" @(
     "Daily Quick Path",
     "Design Invariants",

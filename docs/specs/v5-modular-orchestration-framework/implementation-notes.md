@@ -10,6 +10,8 @@ Ready for approval.
 - Created branch `codex/v5-modular-orchestration-framework`.
 - Reviewed current handbook, agent instructions, memory, practice register, and research snapshots before editing.
 - Scanned current ecosystem sources for modular specification, orchestration, team, and lifecycle patterns.
+- Selected TraceRail as the public name after light exact-name search found no obvious top-level collision.
+- Added root `README.md` as the public first-read surface.
 - Added file-based framework contracts and optional adapter governance instead of installing tools.
 - Updated the checker so framework artifacts are required.
 
@@ -35,6 +37,7 @@ Ready for approval.
 
 ## Files Changed
 
+- `README.md`
 - `AGENTS.md`
 - `.github/pull_request_template.md`
 - `docs/ai/handbook.md`

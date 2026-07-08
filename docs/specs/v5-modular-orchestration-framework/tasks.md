@@ -40,13 +40,18 @@ Use this format for each task:
   Scope: Run checker, scan for unresolved placeholders and non-ASCII text, inspect diff, and complete review.
   Verification: Commands pass or findings are recorded.
 
+
+- [x] T007: Add the public TraceRail README surface.
+  Scope: Add root `README.md` and align core operating docs with the TraceRail name.
+  Verification: Checker validates the README and docs refer to the named system consistently.
 ## Dependencies
 
 - T001 precedes all other tasks.
 - T002 precedes T003 because operating-surface guidance should point to real framework artifacts.
 - T004 should precede final review so sources are preserved before summaries.
 - T005 follows implementation so memory points to finished artifacts.
-- T006 is final before commit.
+- T006 validates the framework artifacts before commit.
+- T007 is V5 public-surface polish before approval.
 
 ## Out Of Scope
 

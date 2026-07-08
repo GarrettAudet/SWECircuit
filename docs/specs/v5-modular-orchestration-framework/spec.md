@@ -18,6 +18,7 @@ The workflow now has strong single-agent, IDE-visible, traceable execution, but 
 
 ## Goals
 
+- Name the system and define a public README surface.
 - Define a modular orchestration layer that keeps the simple workflow surface intact.
 - Create a registry for framework modules and optional external adapters.
 - Add templates for module contracts, adapter evaluation, decomposition plans, and orchestration run records.
@@ -34,6 +35,7 @@ The workflow now has strong single-agent, IDE-visible, traceable execution, but 
 
 ## Requirements
 
+- Add `README.md` as the public TraceRail overview.
 - Add a `docs/framework/` layer that explains the portable modular orchestration framework.
 - Add a module registry that separates accepted file contracts from optional tool adapters and watched integrations.
 - Add a module template with clear inputs, outputs, stage hooks, verification, failure modes, and adoption status.
@@ -47,6 +49,7 @@ The workflow now has strong single-agent, IDE-visible, traceable execution, but 
 
 ## Acceptance Criteria
 
+- [x] Given a new user opens the repository, when they read the root README, then they see the TraceRail name, purpose, quick start, repository map, adapter policy, and scale model.
 - [x] Given a future workflow or app project, when a user wants to add a best-in-class practice, then the repo has an adapter evaluation path before installation.
 - [x] Given a goal that may need many agents, when the task plan reaches decomposition, then there is a template for work units, dependency graph, conflict zones, fan-out, fan-in, and verification.
 - [x] Given a future agent reading `AGENTS.md`, when the work may need external frameworks, then the agent sees that file-based module contracts come before tool installation.

@@ -2,12 +2,13 @@
 
 ## Purpose
 
-This repository is a portable operating system for AI-assisted software engineering. It favors a simple human surface with deeper protocols for specification, diagnosis, retrieval, verification, review, parallel agent work, traceability, and memory.
+TraceRail is a portable operating system for AI-assisted software engineering. It favors a simple human surface with deeper protocols for specification, diagnosis, retrieval, verification, review, parallel agent work, traceability, and memory.
 
 ## Required Reading
 
 Before meaningful work, read:
 
+- `README.md`
 - `docs/ai/handbook.md`
 - Relevant feature package under `docs/specs/`
 - `docs/memory/active-context.md`

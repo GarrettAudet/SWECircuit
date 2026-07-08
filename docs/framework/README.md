@@ -1,8 +1,8 @@
-# Portable Modular Orchestration Framework
+# TraceRail Framework
 
 ## Purpose
 
-This framework layer lets the workflow absorb best-in-class practices without making every project install a heavy agent stack. The handbook remains the simple operating manual. The framework layer defines modular contracts underneath it.
+TraceRail's framework layer lets the workflow absorb best-in-class practices without making every project install a heavy agent stack. The handbook remains the simple operating manual. The framework layer defines modular contracts underneath it.
 
 Use this layer when work needs one of these:
 

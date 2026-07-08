@@ -10,7 +10,7 @@ Approved for user review.
 
 ## Spec Alignment
 
-V5 satisfies the spec by adding a modular framework layer, module registry, adapter evaluation path, decomposition templates, orchestration run records, ecosystem snapshot, practice-register updates, checker enforcement, and memory pointers.
+V5 satisfies the spec by naming the system TraceRail, adding a root README, and adding a modular framework layer, module registry, adapter evaluation path, decomposition templates, orchestration run records, ecosystem snapshot, practice-register updates, checker enforcement, and memory pointers.
 
 ## Architecture Alignment
 
@@ -38,4 +38,4 @@ The change respects the existing architecture: `AGENTS.md` remains the agent ent
 
 ## Memory And Docs
 
-Updated framework docs, handbook, `AGENTS.md`, PR template, practice register, research snapshot, milestone, active context, decisions, known issues, patterns, glossary, history ledger, and retrieval index.
+Updated README, framework docs, handbook, `AGENTS.md`, PR template, practice register, research snapshot, milestone, active context, decisions, known issues, patterns, glossary, history ledger, and retrieval index.

@@ -2,10 +2,11 @@
 
 ## 1. What This System Is
 
-This repository defines a portable workflow for AI-assisted software engineering. The goal is a system that is simple to follow day to day, but deep enough to prevent common failure modes: unclear requirements, context drift, repeated patching, weak verification, uncoordinated parallel work, and forgotten lessons.
+TraceRail defines a portable workflow for AI-assisted software engineering. The goal is a system that is simple to follow day to day, but deep enough to prevent common failure modes: unclear requirements, context drift, repeated patching, weak verification, uncoordinated parallel work, and forgotten lessons.
 
 The visible operating surface is:
 
+- `README.md` for the public overview.
 - `AGENTS.md` for AI agents.
 - This handbook for humans and agents.
 - A feature package under `docs/specs/` for meaningful work.
@@ -760,7 +761,7 @@ Optional future integrations:
 
 ## 20. Modular Orchestration Framework
 
-The V5 framework layer lets this workflow absorb best-in-class practices without making every project install the same stack. It works like a small framework kernel: stable contracts in this repository, optional adapters around it.
+The TraceRail V5 framework layer lets this workflow absorb best-in-class practices without making every project install the same stack. It works like a small framework kernel: stable contracts in this repository, optional adapters around it.
 
 Use `docs/framework/README.md` when work needs:
 

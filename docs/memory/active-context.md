@@ -2,14 +2,15 @@
 
 ## Current Focus
 
-V5 modular orchestration framework on branch `codex/v5-modular-orchestration-framework`.
+TraceRail V5 modular orchestration framework on branch `codex/v5-modular-orchestration-framework`.
 
 ## Current Stage
 
-V5 ready for approval after adding the framework layer for modules, adapters, decomposition plans, orchestration patterns, and run records.
+V5 ready for approval after naming the system TraceRail and adding the framework layer for modules, adapters, decomposition plans, orchestration patterns, and run records.
 
 ## Important Current Constraints
 
+- Use TraceRail as the public name for the workflow system.
 - Keep the workflow simple on the surface and modular underneath.
 - Keep single-agent and IDE-visible execution as the default baseline.
 - Use framework modules only when they clarify real work.
