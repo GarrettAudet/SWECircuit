@@ -14,7 +14,7 @@ Ready for approval.
 - Updated README, handbook, framework overview, registry, PR template, checker, memory, and milestone.
 - Hardened `AGENTS.md` after user review so it remains a concise contract and routing index, includes V6 catalog routes, and avoids stale version-specific tool-policy wording.
 - Added `pr-body.md` after discovering GitHub CLI was unavailable locally, preserving the review-loop handoff without installing tooling.
-- Clarified the README module/rail plug-in model with a Mermaid flow and added a concrete `architecture-review` core module.
+- Clarified the README module/rail plug-in model with an animated GIF flow and added a concrete `architecture-review` core module.
 
 ## Assumptions Used
 

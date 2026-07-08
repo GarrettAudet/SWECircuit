@@ -45,6 +45,7 @@
 
 - Goal/spec -> tasks -> verification -> review chain complete: yes
 - Source artifacts preserved: yes
+- README GIF asset preserved: `docs/assets/tracerail-module-flow.gif`
 - History ledger or retrieval index updated: yes
 
 ## Repository Quality
@@ -59,7 +60,7 @@
 - Commands run: unresolved-placeholder scan across docs, README, AGENTS, GitHub templates, and governance files
 - Commands run: `rg -n "[^\x00-\x7F]" docs README.md AGENTS.md .github scripts CONTRIBUTING.md SECURITY.md SUPPORT.md CODE_OF_CONDUCT.md CHANGELOG.md`
 - Commands run: `git diff --check`
-- Manual checks: README module visual, rail, module, pack, repository quality, AGENTS, milestone, memory, and dogfood artifacts reviewed against V6 acceptance criteria
+- Manual checks: README module GIF, rail, module, pack, repository quality, AGENTS, milestone, memory, and dogfood artifacts reviewed against V6 acceptance criteria
 - Skipped checks and reasons: no runtime tests exist; no external tool installs; no merge to `main` before approval
 
 ## Diagnosis

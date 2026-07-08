@@ -24,6 +24,7 @@ This document explains how the repository is organized so humans and agents can 
 | Area | Ownership Rule |
 | --- | --- |
 | `docs/ai/` | Long-form operating manual. |
+| `docs/assets/` | README and documentation visual assets. |
 | `docs/framework/` | Framework primitives, templates, adapter evaluation, and orchestration patterns. |
 | `docs/rails/` | Reusable workflow paths. |
 | `docs/modules/` | Standard module contracts. |
@@ -43,6 +44,7 @@ This document explains how the repository is organized so humans and agents can 
 - Specs preserve work evidence; they should not become permanent policy unless promoted.
 - Memory summarizes durable lessons; it should link to source artifacts instead of replacing them.
 - Rails and modules define reusable contracts; they should stay concise and composable.
+- Assets clarify concepts visually; they should not replace source contracts or workflow docs.
 - Packs extend the system; they should not become required core behavior without promotion.
 
 ## Extension Points

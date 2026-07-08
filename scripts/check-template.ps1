@@ -222,6 +222,8 @@ $requiredFiles = @(
     "README.md",
     "AGENTS.md",
     "docs/README.md",
+    "docs/assets/README.md",
+    "docs/assets/tracerail-module-flow.gif",
     "docs/architecture/file-architecture.md",
     "docs/quality/repository-standards.md",
     "docs/ai/handbook.md",
@@ -320,6 +322,11 @@ Test-HasHeadings "README.md" @(
     "Design Principles",
     "Current Status"
 )
+$readme = Read-Text (Join-Path $Root "README.md")
+if ($readme -notmatch [regex]::Escape("docs/assets/tracerail-module-flow.gif")) {
+    Add-Failure "README missing TraceRail module flow GIF embed"
+}
+
 Test-HasHeadings "CONTRIBUTING.md" @(
     "Quick Path",
     "Contribution Rules",
@@ -354,6 +361,12 @@ Test-HasHeadings "docs/README.md" @(
     "Common Paths",
     "Review Standard"
 )
+Test-HasHeadings "docs/assets/README.md" @(
+    "Purpose",
+    "Assets",
+    "Update Rule"
+)
+
 Test-HasHeadings "docs/architecture/file-architecture.md" @(
     "Purpose",
     "Root Surface",

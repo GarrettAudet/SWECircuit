@@ -55,32 +55,9 @@ The same rail can accept other review gates when the project needs them:
 goal | clarify | spec | security_review | architecture_review | task_plan | implement | performance_review | verify | review | memory
 ```
 
-```mermaid
-flowchart LR
-    Goal["Goal"] --> Clarify["Clarify module"]
-    Clarify --> Spec["Spec module"]
-    Spec --> Arch{"Architecture review gate"}
-    Arch -->|pass| Plan["Task plan module"]
-    Arch -->|redesign| Redesign["Revise spec or ADR"]
-    Redesign --> Spec
-    Plan --> Implement["Implement module"]
-    Implement --> Verify{"Verification gate"}
-    Verify -->|pass| Review["Review module"]
-    Verify -->|fix or diagnose| Diagnose["Fix or diagnosis rail"]
-    Diagnose --> Implement
-    Review --> Memory["Memory module"]
+![TraceRail module rail animation showing swappable modules and typed gates](docs/assets/tracerail-module-flow.gif)
 
-    subgraph Optional["Optional modules inserted by rail"]
-        Security["Security review"]
-        Performance["Performance review"]
-        Docs["Docs review"]
-    end
-
-    Spec -.->|insert when risk requires| Security
-    Security -.->|before architecture gate| Arch
-    Plan -.->|before implementation| Performance
-    Review -.->|before merge| Docs
-```
+The animation shows the core shape: a stable rail advances through modules, optional review gates plug into the same contract, and every stage returns evidence plus a typed outcome.
 
 To add a module:
 
@@ -109,6 +86,7 @@ The standard is simple: every meaningful change should be easy to find, easy to 
 - `AGENTS.md`: the AI entrypoint and operating contract.
 - `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md`: public project governance.
 - `docs/README.md`: documentation index.
+- `docs/assets/`: README and documentation visual assets.
 - `docs/ai/handbook.md`: the human and agent operating manual.
 - `docs/specs/`: feature packages for meaningful work.
 - `docs/framework/`: modular framework contracts and adapter governance.
@@ -181,6 +159,7 @@ This keeps the workflow modular without turning every project into a dependency 
 | `CODE_OF_CONDUCT.md` | Community behavior expectations. |
 | `CHANGELOG.md` | Human-readable version history. |
 | `docs/README.md` | Documentation index and navigation map. |
+| `docs/assets/` | README and documentation visual assets. |
 | `docs/ai/handbook.md` | Full workflow manual. |
 | `docs/framework/README.md` | Modular framework overview. |
 | `docs/framework/rail-composition.md` | Core pipe-like composition model for rails, modules, gates, and artifacts. |
