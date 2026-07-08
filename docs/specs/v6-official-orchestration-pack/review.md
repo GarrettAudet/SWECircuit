@@ -10,7 +10,7 @@ Approved for user review.
 
 ## Spec Alignment
 
-The change satisfies the spec by adding a first official pack, keeping it optional and dependency-free, adding a concrete fan-out example, updating checker coverage, and recording traceability in V6 memory and milestone artifacts.
+The change satisfies the spec by adding a first official pack, keeping it optional and dependency-free, adding a concrete fan-out example, making the pack discoverable from the public README, updating checker coverage, and recording traceability in V6 memory and milestone artifacts.
 
 ## Architecture Alignment
 

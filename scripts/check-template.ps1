@@ -549,6 +549,7 @@ Test-HasHeadings "docs/packs/README.md" @(
     "Purpose",
     "Tiers",
     "Pack Rule",
+    "Current Official Packs",
     "Suggested Official Packs",
     "Extension Path",
     "Local Overrides"

@@ -47,7 +47,7 @@ That small contract gives agents a shared language for moving forward, looping b
 - `docs/framework/`: modular framework contracts and adapter governance.
 - `docs/rails/`: reusable workflow rails.
 - `docs/modules/`: composable module contracts.
-- `docs/packs/`: optional pack and community extension governance.
+- `docs/packs/`: optional pack and community extension governance, including official packs.
 - `docs/memory/`: durable memory, history, decisions, patterns, and retrieval pointers.
 - `docs/research/`: dated ecosystem scans and practice decisions.
 - `docs/milestones/`: version progress summaries.
@@ -87,6 +87,8 @@ Before fan-out, create a decomposition plan that defines:
 
 The rule is simple: ten agents need one shared goal, one decomposition plan, one integration owner, and ten bounded contracts.
 
+For repeatable fan-out prep, use `docs/packs/official/tracepack-orchestration-readiness/`. It is an official pack, not a recommended pack yet, and stays dependency-free until real dogfooding proves a runtime adapter is worth evaluating.
+
 ## Tool Adapters
 
 TraceRail can absorb ideas from tools like Superpowers, Astraeus, Spec Kit, BMAD, LangChain, LangGraph, AutoGen, CrewAI, Codex subagents, Serena, Repomix, Context7, Basic Memory, Mem0, Zep, Graphiti, and A-MEM.
@@ -111,7 +113,8 @@ This keeps the workflow modular without turning every project into a dependency 
 | `docs/framework/rail-composition.md` | Core pipe-like composition model for rails, modules, gates, and artifacts. |
 | `docs/rails/` | Standard reusable rails such as feature, diagnosis, decomposition, adapter, and release. |
 | `docs/modules/` | Core and adapter-inspired modules with one common interface. |
-| `docs/packs/` | Optional pack lifecycle, template, and conformance rules. |
+| `docs/packs/` | Optional pack lifecycle, template, conformance rules, and official pack index. |
+| `docs/packs/official/tracepack-orchestration-readiness/` | First official pack for safe multi-agent fan-out preparation. |
 | `docs/framework/module-registry.md` | Accepted modules and optional adapters. |
 | `docs/framework/orchestration-patterns.md` | Pattern guide for single-agent and multi-agent work. |
 | `docs/framework/capability-adapters.md` | Capability contracts inspired by external projects such as Superpowers and Astraeus. |
@@ -136,6 +139,6 @@ This keeps the workflow modular without turning every project into a dependency 
 
 ## Current Status
 
-TraceRail is currently a file-based baseline. It is designed to be copied into projects, dogfooded, and extended through rails, modules, and optional packs before any runtime framework is installed.
+TraceRail is currently a file-based baseline. It is designed to be copied into projects, dogfooded, and extended through rails, modules, and optional packs before any runtime framework is installed. The first official pack is `tracepack-orchestration-readiness`, which packages safe multi-agent fan-out preparation without installing orchestration tooling.
 
 The next frontier is proving the decomposition and orchestration templates on real agent-parallel work, then evaluating the first runtime adapter only after a repeated friction point appears.

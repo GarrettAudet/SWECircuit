@@ -10,8 +10,10 @@
   Verification: example documents shared goal, work units, fan-out, fan-in, verification, memory, and stop conditions.
 - [x] Update pack navigation and V6 traceability artifacts.
   Verification: pack system README, milestone, review, active context, history ledger, retrieval index, decisions, and known issues reference the pack where relevant.
+- [x] Harden public README discoverability.
+  Verification: README points to the first official pack and distinguishes official from recommended status.
 - [x] Update validation.
-  Verification: checker requires the official pack files and headings.
+  Verification: checker requires the official pack files and headings, including the pack-system current-official-packs section.
 - [x] Run final checks.
   Verification: checker, placeholder scan, non-ASCII scan, and diff whitespace check pass.
 

@@ -10,6 +10,7 @@ Complete.
 - Added `docs/packs/official/tracepack-orchestration-readiness/README.md`.
 - Added `docs/packs/official/tracepack-orchestration-readiness/examples/three-agent-docs-run.md`.
 - Updated pack navigation and checker requirements.
+- Hardened public README discoverability for the first official pack.
 - Updated V6 milestone, review, memory, and retrieval artifacts.
 
 ## Assumptions Used
@@ -27,11 +28,13 @@ Complete.
 - The pack bundles existing TraceRail primitives instead of duplicating them.
 - The example is documentation-oriented so it can be understood without code or external tools.
 - Recommendation is deliberately deferred to avoid overstating the pack before real use.
+- Public docs should make the first official pack findable without making it look required or recommended.
 
 ## Files Changed
 
 - `docs/packs/README.md`
 - `docs/packs/official/`
+- `README.md`
 - `docs/specs/v6-official-orchestration-pack/`
 - `scripts/check-template.ps1`
 - `docs/milestones/v6.md`
