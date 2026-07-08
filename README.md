@@ -92,9 +92,23 @@ To add a module:
 
 That means a project can start with the simple feature rail and later insert stronger review gates, domain checks, or tool-backed adapters without changing TraceRail core.
 
+## Quality Bar
+
+TraceRail should look and behave like a serious framework repository even while it stays lightweight. The repository includes:
+
+- Contribution, support, security, conduct, and changelog guidance.
+- A documentation index and file architecture map.
+- Repository standards for Markdown, validation, review, and release readiness.
+- GitHub issue templates and a checker workflow.
+- Editor, Git attributes, and ignore rules for consistent local work.
+
+The standard is simple: every meaningful change should be easy to find, easy to review, easy to validate, and easy for the next human or agent to continue.
+
 ## What TraceRail Provides
 
 - `AGENTS.md`: the AI entrypoint and operating contract.
+- `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md`: public project governance.
+- `docs/README.md`: documentation index.
 - `docs/ai/handbook.md`: the human and agent operating manual.
 - `docs/specs/`: feature packages for meaningful work.
 - `docs/framework/`: modular framework contracts and adapter governance.
@@ -161,6 +175,12 @@ This keeps the workflow modular without turning every project into a dependency 
 | Path | Purpose |
 | --- | --- |
 | `AGENTS.md` | Agent rules, routing, invariants, and tool policy. |
+| `CONTRIBUTING.md` | Contribution workflow, validation, and extension standards. |
+| `SECURITY.md` | Security reporting and permission guidance. |
+| `SUPPORT.md` | Support entrypoints and boundaries. |
+| `CODE_OF_CONDUCT.md` | Community behavior expectations. |
+| `CHANGELOG.md` | Human-readable version history. |
+| `docs/README.md` | Documentation index and navigation map. |
 | `docs/ai/handbook.md` | Full workflow manual. |
 | `docs/framework/README.md` | Modular framework overview. |
 | `docs/framework/rail-composition.md` | Core pipe-like composition model for rails, modules, gates, and artifacts. |
@@ -172,13 +192,18 @@ This keeps the workflow modular without turning every project into a dependency 
 | `docs/framework/orchestration-patterns.md` | Pattern guide for single-agent and multi-agent work. |
 | `docs/framework/capability-adapters.md` | Capability contracts inspired by external projects such as Superpowers and Astraeus. |
 | `docs/specs/_template/` | Feature package template. |
+| `docs/architecture/file-architecture.md` | Repository file architecture and ownership model. |
+| `docs/quality/repository-standards.md` | Repository quality bar and review standards. |
 | `docs/memory/` | Durable project memory and retrieval pointers. |
 | `docs/research/practice-register.md` | Accepted, optional, watched, deferred, and rejected practices. |
 | `docs/milestones/` | Version progress and approval summaries. |
 | `scripts/check-template.ps1` | Local validation command. |
+| `.github/ISSUE_TEMPLATE/` | Issue templates for bugs, features, and workflow improvements. |
+| `.github/workflows/template-check.yml` | CI workflow for TraceRail structural validation. |
 
 ## Design Principles
 
+- Professional repository surface with enforced quality artifacts.
 - Rail composition as the core primitive.
 - Simple surface, deep protocols.
 - Spec first, implementation second.

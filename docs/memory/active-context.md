@@ -6,7 +6,7 @@ TraceRail V6 module and rail catalog on branch `codex/v6-module-rail-catalog`.
 
 ## Current Stage
 
-V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening, the first official orchestration-readiness pack, explicit milestone approval gates, pack conformance checker coverage, and a read-only subagent dogfood run on top of the V5 Rail Composition baseline.
+V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening, the first official orchestration-readiness pack, explicit milestone approval gates, pack conformance checker coverage, a read-only subagent dogfood run, and a repository professionalization pass on top of the V5 Rail Composition baseline.
 
 ## Important Current Constraints
 
@@ -18,6 +18,7 @@ V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening
 - `tracepack-orchestration-readiness` has read-only multi-agent dogfood evidence but is not recommended until repeated use and implementation fan-out evidence exist.
 - Preserve source artifacts before memory summaries.
 - Keep `main` as the stable baseline; V6 remains on its version branch until user approval.
+- License selection remains owner-controlled; do not add a `LICENSE` file without explicit approval.
 
 ## Recently Learned
 
@@ -32,6 +33,7 @@ V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening
 - Pack conformance needs field-level checks for official packs, not only heading checks.
 - Read-only subagent review is a useful first orchestration dogfood before write-enabled implementation fan-out.
 - README needs to show modules as swappable rail gates; `architecture-review` is the concrete core example.
+- A professional public repo surface should be enforced by the checker so polish remains part of the workflow, not one-time cleanup.
 
 ## Next Likely Work
 
@@ -39,3 +41,4 @@ V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening
 - Merge V6 to `main` only after approval.
 - Dogfood V6 on the next TraceRail version or a real project feature.
 - Dogfood `tracepack-orchestration-readiness` on write-enabled implementation fan-out before marking it recommended.
+- Choose a public license before broad external reuse or package distribution.

@@ -1,0 +1,29 @@
+# OS and editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Logs and local runtime output
+*.log
+logs/
+tmp/
+temp/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Generated dependency folders
+node_modules/
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+
+# TraceRail local scratch artifacts
+.local/
+.out/

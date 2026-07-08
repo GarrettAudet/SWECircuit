@@ -21,6 +21,7 @@
 - Was the workflow visible in chat for meaningful work?
 - Stage/outcome/evidence updates provided:
 - User decisions or assumptions surfaced:
+
 ## Standalone Agent Work
 
 - Was a standalone agent work package used?
@@ -37,11 +38,19 @@
 - Decomposition or orchestration run linked if applicable:
 - Module registry updated:
 - Pack conformance or lifecycle impact:
+
 ## Traceability
 
 - Goal/spec -> tasks -> verification -> review chain complete:
 - Source artifacts preserved:
 - History ledger or retrieval index updated:
+
+## Repository Quality
+
+- Public docs or governance changed:
+- File architecture or docs index updated:
+- Checker coverage updated for new required artifacts:
+- License/security/support implications:
 
 ## Verification
 
@@ -72,5 +81,3 @@
 
 - Approved / changes requested / needs diagnosis / needs clarification / needs split:
 - Residual risks:
-
-

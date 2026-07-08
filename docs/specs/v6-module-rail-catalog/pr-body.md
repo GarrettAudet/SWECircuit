@@ -47,13 +47,19 @@
 - Source artifacts preserved: yes
 - History ledger or retrieval index updated: yes
 
+## Repository Quality
+
+- Public docs or governance changed: yes, root governance files, docs index, architecture map, quality standards, issue templates, and CI workflow added
+- File architecture or docs index updated: yes, `docs/README.md`, `docs/architecture/file-architecture.md`, `docs/quality/repository-standards.md`
+- Checker coverage updated for new required artifacts: yes
+- License/security/support implications: security and support guidance added; license remains owner decision
 ## Verification
 
 - Commands run: `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1`
-- Commands run: unresolved-placeholder scan across docs, README, AGENTS, and PR template
-- Commands run: `rg -n "[^\x00-\x7F]" docs README.md AGENTS.md .github\pull_request_template.md scripts`
+- Commands run: unresolved-placeholder scan across docs, README, AGENTS, GitHub templates, and governance files
+- Commands run: `rg -n "[^\x00-\x7F]" docs README.md AGENTS.md .github scripts CONTRIBUTING.md SECURITY.md SUPPORT.md CODE_OF_CONDUCT.md CHANGELOG.md`
 - Commands run: `git diff --check`
-- Manual checks: README module visual, rail, module, pack, AGENTS, milestone, memory, and dogfood artifacts reviewed against V6 acceptance criteria
+- Manual checks: README module visual, rail, module, pack, repository quality, AGENTS, milestone, memory, and dogfood artifacts reviewed against V6 acceptance criteria
 - Skipped checks and reasons: no runtime tests exist; no external tool installs; no merge to `main` before approval
 
 ## Diagnosis
@@ -78,4 +84,4 @@
 ## Review Outcome
 
 - Approved / changes requested / needs diagnosis / needs clarification / needs split: approved for user review
-- Residual risks: manual pack installation, official pack not recommended yet, catalog may need trimming after real use
+- Residual risks: manual pack installation, official pack not recommended yet, catalog may need trimming after real use, license remains owner decision

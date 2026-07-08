@@ -127,6 +127,9 @@ Keep `AGENTS.md` as the must-follow agent contract and routing index. Put long e
 
 Keep process guidance in `docs/ai/handbook.md` unless a separate artifact is required for work execution.
 
+### Professional Public Surface
+
+A framework repository should expose contribution, security, support, conduct, changelog, docs index, file architecture, quality standards, issue templates, and CI validation as part of the baseline. The checker should require these files so repository polish remains durable.
 ### File-Based First
 
 Start with Markdown and a local checker. Add tools only when they remove real friction.
