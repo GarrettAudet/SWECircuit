@@ -72,6 +72,60 @@ function Test-NoUnresolvedPlaceholders {
     }
 }
 
+function Get-MarkdownSection {
+    param(
+        [string]$Text,
+        [string]$Heading
+    )
+
+    $escaped = [regex]::Escape($Heading)
+    $match = [regex]::Match($Text, "(?ms)^##\s+$escaped\s*(.*?)(?=^##\s+|\z)")
+    if ($match.Success) {
+        return $match.Groups[1].Value.Trim()
+    }
+    return ""
+}
+
+function Test-SectionContains {
+    param(
+        [string]$RelativePath,
+        [string]$SectionName,
+        [string[]]$RequiredTerms
+    )
+
+    $path = Join-Path $Root $RelativePath
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        Add-Failure "Missing file for section conformance check: $RelativePath"
+        return
+    }
+
+    $text = Read-Text $path
+    $section = Get-MarkdownSection $text $SectionName
+    if ([string]::IsNullOrWhiteSpace($section)) {
+        Add-Failure "Missing or empty section '$SectionName' in $RelativePath"
+        return
+    }
+
+    foreach ($term in $RequiredTerms) {
+        if ($section -notmatch [regex]::Escape($term)) {
+            Add-Failure "Section '$SectionName' in $RelativePath must include '$term'"
+        }
+    }
+}
+
+function Test-PackConformance {
+    param([string]$RelativePath)
+
+    Test-SectionContains $RelativePath "Status" @("Official")
+    Test-SectionContains $RelativePath "Provides" @("| Type | Name | Path |", "Rail", "Module", "Template", "Example")
+    Test-SectionContains $RelativePath "Requires" @("TraceRail version:", "Required files:", "Optional tools:")
+    Test-SectionContains $RelativePath "Permissions" @("Filesystem read", "Filesystem write", "Network", "Secrets", "External service")
+    Test-SectionContains $RelativePath "Contracts" @("Inputs:", "Actions:", "Outputs:", "Gates:", "Outcomes:", "Artifacts:", "Verification:", "Rollback:")
+    Test-SectionContains $RelativePath "Verification" @("Conformance checks:", "Manual checks:", "Example run:")
+    Test-SectionContains $RelativePath "Maintenance" @("Owner:", "Review cadence:", "Compatibility policy:")
+    Test-SectionContains $RelativePath "Recommendation Evidence" @("Dogfooding history:", "Failure mode solved:", "Known risks:")
+}
+
 function Get-FeatureDirectories {
     $specRoot = Join-Path $Root "docs\specs"
     if (-not (Test-Path -LiteralPath $specRoot -PathType Container)) {
@@ -609,6 +663,8 @@ Test-HasHeadings "docs/packs/official/tracepack-orchestration-readiness/README.m
     "Maintenance",
     "Recommendation Evidence"
 )
+
+Test-PackConformance "docs/packs/official/tracepack-orchestration-readiness/README.md"
 
 Test-HasHeadings "docs/packs/official/tracepack-orchestration-readiness/examples/three-agent-docs-run.md" @(
     "Purpose",

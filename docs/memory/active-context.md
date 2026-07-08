@@ -6,7 +6,7 @@ TraceRail V6 module and rail catalog on branch `codex/v6-module-rail-catalog`.
 
 ## Current Stage
 
-V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening, the first official orchestration-readiness pack, and explicit milestone approval gates on top of the V5 Rail Composition baseline.
+V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening, the first official orchestration-readiness pack, explicit milestone approval gates, and pack conformance checker coverage on top of the V5 Rail Composition baseline.
 
 ## Important Current Constraints
 
@@ -29,6 +29,7 @@ V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening
 - Community growth should target packs before core changes.
 - The first official pack should be dependency-free and status-clear: official means maintained, recommended means proven.
 - Milestones need explicit approval gates so merge readiness is source-visible instead of reconstructed from chat.
+- Pack conformance needs field-level checks for official packs, not only heading checks.
 
 ## Next Likely Work
 

@@ -89,6 +89,10 @@ A gate decides whether a rail continues, loops, splits, blocks, diagnoses, or re
 
 Normalize reusable workflow behavior into catalog entries. Rails compose modules; modules expose input, action, output, gate, outcome, artifacts, and adapter.
 
+### Pack Field Conformance
+
+Official packs need field-level checks for status, provides, requirements, permissions, contracts, verification, maintenance, and recommendation evidence. Heading checks make packs visible; field checks make them safer to use.
+
 ### Packs Before Core
 
 Community and ecosystem extensions should start as packs. Promote into recommended or core status only after conformance, dogfooding, permissions review, rollback, and maintainer ownership are clear.

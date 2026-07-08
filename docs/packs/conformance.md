@@ -59,3 +59,9 @@ The pack must provide:
 ## Non-Conformance
 
 If a pack fails conformance, mark it community or experimental. Do not recommend it until the failure is fixed or consciously accepted with a documented risk.
+
+## Checker Coverage
+
+The local checker validates official pack structure and required contract content. For the current official pack, it checks status, provides, requires, permissions, contracts, verification, maintenance, and recommendation evidence fields.
+
+The checker is still not a substitute for review. It proves required fields are present, while review decides whether the fields are useful, accurate, and proportionate.
