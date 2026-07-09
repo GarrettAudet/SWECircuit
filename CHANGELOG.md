@@ -8,6 +8,10 @@
 
 ## Version History
 
+### V7 README Demo Polish
+
+- Polished the README demo GIF sequence and added deterministic visual source generation for text-heavy documentation assets.
+
 ### V6 Module And Rail Catalog
 
 - Added rails, modules, packs, pack conformance, official orchestration-readiness pack, approval gates, read-only orchestration dogfood evidence, README module visualization, and architecture-review module.
