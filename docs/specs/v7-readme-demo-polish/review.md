@@ -31,7 +31,7 @@ No architecture changes were made. The change stays within existing documentatio
 
 | Severity | Finding | Required Action |
 | --- | --- | --- |
-| Low | Live GitHub rendering still needs branch push before the user can inspect it remotely. | Push the V7 branch after validation. |
+| Low | Live GitHub rendering should still be reviewed remotely before merge. | Review the pushed branch or PR before merging to `main`. |
 
 ## Residual Risks
 

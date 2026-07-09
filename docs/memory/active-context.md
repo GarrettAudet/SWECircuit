@@ -6,7 +6,7 @@ TraceRail V7 README demo polish on `codex/v7-readme-demo-polish`.
 
 ## Current Stage
 
-V7 is implemented, validated, and ready for user review. The branch replaces the README module/rail/platform GIF sequence with a clearer professional visual system and adds a deterministic source generator under `docs/assets/source/`.
+V7 is implemented, validated, pushed to origin, and ready for user approval. The branch replaces the README module/rail/platform GIF sequence with a clearer professional visual system and adds a deterministic source generator under `docs/assets/source/`.
 
 ## Important Current Constraints
 
@@ -40,7 +40,7 @@ V7 is implemented, validated, and ready for user review. The branch replaces the
 
 ## Next Likely Work
 
-- Push the V7 branch and request approval before merging to `main`.
+- Review the pushed V7 branch and approve or request changes before merging to `main`.
 - Dogfood V7 visual asset standards on future README or documentation visuals.
 - Dogfood `tracepack-orchestration-readiness` on write-enabled implementation fan-out before marking it recommended.
 - Choose a public license before broad external reuse or package distribution.
