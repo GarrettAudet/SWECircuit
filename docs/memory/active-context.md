@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-TraceRail `main` baseline after V7 merge.
+TraceRail V8 README visual clarity on branch `codex/v8-readme-visual-clarity`.
 
 ## Current Stage
 
-V7 has been approved by the user and merged into `main` via GitHub PR #2. The baseline now includes the polished README module/rail/platform GIF sequence, deterministic README visual source generation under `docs/assets/source/`, updated asset governance, checker coverage for the generator, and V7 traceability artifacts.
+V8 replaces the GIF-first README explanation with a static primary concept visual centered on `goal | module | gate | evidence | memory`. Implementation and local validation are complete; commit, push, and user approval are the remaining gates before merge to `main`.
 
 ## Important Current Constraints
 
@@ -20,6 +20,7 @@ V7 has been approved by the user and merged into `main` via GitHub PR #2. The ba
 - Keep `main` as the stable baseline; workflow versions should start from `main` on a new `codex/vVERSION-slug` branch.
 - License selection remains owner-controlled; do not add a `LICENSE` file without explicit approval.
 - Text-heavy README visuals should preserve deterministic source when practical.
+- Public README visuals must teach the first-reader mental model before internal framework vocabulary.
 
 ## Recently Learned
 
@@ -37,10 +38,11 @@ V7 has been approved by the user and merged into `main` via GitHub PR #2. The ba
 - A professional public repo surface should be enforced by the checker so polish remains part of the workflow, not one-time cleanup.
 - A promised README visual should be tracked assets and checker-enforced embeds, not only a Mermaid block or chat plan.
 - V7 showed that checker-enforced asset presence is not enough for visual quality; exact text-heavy visuals need source generation plus manual frame inspection.
+- V8 showed that polished animation can still fail if the concept is unclear; the README should lead with a static, scannable mental model.
 
 ## Next Likely Work
 
-- Dogfood V7 on the next TraceRail version or real project feature.
-- Dogfood V7 visual asset standards on future README or documentation visuals.
+- Review the V8 concept visual on GitHub after push.
+- If approved, merge V8 into `main` and dogfood V8 on the next TraceRail version.
 - Dogfood `tracepack-orchestration-readiness` on write-enabled implementation fan-out before marking it recommended.
 - Choose a public license before broad external reuse or package distribution.

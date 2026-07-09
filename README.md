@@ -55,19 +55,17 @@ The same rail can accept other review gates when the project needs them:
 goal | clarify | spec | security_review | architecture_review | task_plan | implement | performance_review | verify | review | memory
 ```
 
-The demo sequence shows TraceRail in three moves: define the module contract, compose modules into rails, then connect rails, packs, adapters, memory, and agents into a modular platform. The assets are generated from deterministic source under `docs/assets/source/` so the visuals stay traceable.
+The primary visual is intentionally static: the core abstraction should be obvious before motion or implementation detail. Read it like a pipeline:
 
-**1. Define the core module contract**
+```txt
+goal | module | gate | evidence | memory
+```
 
-![TraceRail demo showing the five-part module contract](docs/assets/tracerail-module-contract.gif)
+A rail is the reusable path built from those parts. A module is a swappable stage on the rail. A gate decides whether the next move is to continue, fix, diagnose, clarify, redesign, split, block, or learn.
 
-**2. Compose modules into a rail**
+![TraceRail concept showing the core expression, module contract, rail composition, and bounded subagent scale](docs/assets/tracerail-concept.png)
 
-![TraceRail demo showing modules composed into a workflow rail](docs/assets/tracerail-rail-flow.gif)
-
-**3. Expand rails into a platform**
-
-![TraceRail demo showing modules, rails, packs, adapters, memory, and agents composing into a platform](docs/assets/tracerail-platform-composition.gif)
+Generated supporting assets live under `docs/assets/` and are preserved from source so future maintainers can iterate on the pitch without losing traceability.
 
 To add a module:
 
