@@ -6,7 +6,7 @@ TraceRail V8 README visual clarity on branch `codex/v8-readme-visual-clarity`.
 
 ## Current Stage
 
-V8 replaces the GIF-first README explanation with a static primary concept visual centered on `goal | module | gate | evidence | memory`. Implementation and local validation are complete; commit, push, and user approval are the remaining gates before merge to `main`.
+V8 replaces the GIF-first README explanation with a static primary concept visual centered on `goal | module | gate | evidence | memory`. Implementation, local validation, commit, and branch push are complete; user approval is the remaining gate before merge to `main`.
 
 ## Important Current Constraints
 
