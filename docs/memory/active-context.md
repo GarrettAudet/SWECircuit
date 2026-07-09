@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-TraceRail `main` baseline after V6 merge.
+TraceRail V7 README demo polish on `codex/v7-readme-demo-polish`.
 
 ## Current Stage
 
-V6 has been approved by the user and merged into `main`. The baseline now includes rail, module, and pack catalogs; AGENTS hardening; the official orchestration-readiness pack; milestone approval gates; pack conformance checker coverage; read-only subagent dogfood evidence; repository professionalization; and the README module/rail/platform GIF sequence.
+V7 is implemented, validated, pushed to origin, and ready for user approval. The branch replaces the README module/rail/platform GIF sequence with a clearer professional visual system, adds a deterministic source generator under `docs/assets/source/`, and now includes a PR-ready review body.
 
 ## Important Current Constraints
 
@@ -17,8 +17,9 @@ V6 has been approved by the user and merged into `main`. The baseline now includ
 - Recommended pack status requires conformance, dogfooding evidence, explicit permissions, rollback, and a maintainer.
 - `tracepack-orchestration-readiness` has read-only multi-agent dogfood evidence but is not recommended until repeated use and implementation fan-out evidence exist.
 - Preserve source artifacts before memory summaries.
-- Keep `main` as the stable baseline; future workflow versions should start from `main` on a new `codex/vVERSION-slug` branch.
+- Keep `main` as the stable baseline; workflow versions should start from `main` on a new `codex/vVERSION-slug` branch.
 - License selection remains owner-controlled; do not add a `LICENSE` file without explicit approval.
+- Text-heavy README visuals should preserve deterministic source when practical.
 
 ## Recently Learned
 
@@ -35,9 +36,12 @@ V6 has been approved by the user and merged into `main`. The baseline now includ
 - README needs to show modules as swappable rail gates; `architecture-review` is the concrete core example.
 - A professional public repo surface should be enforced by the checker so polish remains part of the workflow, not one-time cleanup.
 - A promised README visual should be tracked assets and checker-enforced embeds, not only a Mermaid block or chat plan.
+- V7 showed that checker-enforced asset presence is not enough for visual quality; exact text-heavy visuals need source generation plus manual frame inspection.
 
 ## Next Likely Work
 
-- Dogfood V6 on the next TraceRail version or a real project feature.
+- Review the pushed V7 branch or PR body and approve or request changes before merging to `main`.
+- V7 PR creation link: `https://github.com/GarrettAudet/TraceRail/pull/new/codex/v7-readme-demo-polish`
+- Dogfood V7 visual asset standards on future README or documentation visuals.
 - Dogfood `tracepack-orchestration-readiness` on write-enabled implementation fan-out before marking it recommended.
 - Choose a public license before broad external reuse or package distribution.

@@ -133,3 +133,7 @@ A framework repository should expose contribution, security, support, conduct, c
 ### File-Based First
 
 Start with Markdown and a local checker. Add tools only when they remove real friction.
+
+### Deterministic Text-Heavy Visuals
+
+For README or docs visuals with exact labels, prefer deterministic source generation over opaque one-off images. Keep tracked output assets, preserve the generator when practical, inspect representative frames, and link the feature package that explains the visual change.

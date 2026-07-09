@@ -223,6 +223,7 @@ $requiredFiles = @(
     "AGENTS.md",
     "docs/README.md",
     "docs/assets/README.md",
+    "docs/assets/source/generate-readme-demo-gifs.py",
     "docs/assets/tracerail-module-contract.gif",
     "docs/assets/tracerail-rail-flow.gif",
     "docs/assets/tracerail-platform-composition.gif",
