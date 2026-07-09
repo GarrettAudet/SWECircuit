@@ -1,8 +1,6 @@
 """Generate the TraceRail README visual assets.
 
-The README visuals are text-heavy onboarding diagrams, so the source is
-deterministic. The design goal is comprehension before polish: one sentence,
-one diagram, one takeaway per visual. The primary README asset is a static concept visual; the GIFs are supporting generated examples.
+The README GIFs are supporting onboarding examples, so the source is deterministic. The primary README concept visual is the hand-authored SVG beside the generated GIFs.
 """
 
 from __future__ import annotations
@@ -153,85 +151,6 @@ def takeaway(img: Image.Image, text: str) -> None:
 
 
 
-def concept_image() -> Image.Image:
-    img = Image.new("RGBA", (W, H), COLORS["bg"])
-    draw = ImageDraw.Draw(img)
-    draw_grid(draw)
-
-    rounded(img, (72, 58, 262, 106), 16, "#132033", outline="#263B56", width=1)
-    draw.text((96, 72), "TraceRail", font=FONT["body"], fill="#F8FAFC")
-    draw.text((72, 140), "Composable rails for AI software engineering", font=FONT["title"], fill="#F8FAFC")
-    draw.text(
-        (76, 202),
-        "A goal moves through modules. Gates route outcomes. Evidence becomes memory.",
-        font=FONT["subtitle"],
-        fill="#CBD5E1",
-    )
-
-    rounded(img, (72, 252, 1368, 404), 24, "#F8FAFC", outline="#D8E0EA", width=2, shadow=True)
-    draw.text((116, 286), "Core expression", font=FONT["section"], fill=COLORS["ink"])
-    expression = [
-        ("goal", "teal", 132, 334, 292),
-        ("module", "blue", 360, 334, 560),
-        ("gate", "amber", 628, 334, 798),
-        ("evidence", "rose", 866, 334, 1086),
-        ("memory", "green", 1154, 334, 1314),
-    ]
-    for label, accent, x1, y1, x2 in expression:
-        rounded(img, (x1, y1, x2, y1 + 50), 16, COLORS[f"{accent}_soft"], outline=COLORS[accent], width=3)
-        centered(draw, (x1, y1, x2, y1 + 50), label, FONT["body"], COLORS["ink"])
-    for x in [318, 586, 824, 1112]:
-        draw.text((x, 340), "|", font=FONT["label"], fill="#334155")
-
-    panel_specs = [
-        (72, 446, 446, 704, "Module", "one reusable contract"),
-        (533, 446, 907, 704, "Rail", "modules composed in order"),
-        (994, 446, 1368, 704, "Scale", "bounded slices"),
-    ]
-    for x1, y1, x2, y2, title, subtitle in panel_specs:
-        rounded(img, (x1, y1, x2, y2), 20, "#F8FAFC", outline="#D8E0EA", width=2, shadow=True)
-        draw.text((x1 + 28, y1 + 28), title, font=FONT["section"], fill=COLORS["ink"])
-        draw.text((x1 + 28, y1 + 70), subtitle, font=FONT["body"], fill=COLORS["muted"])
-
-    contract_items = ["input", "action", "output", "gate", "outcome"]
-    for idx, item in enumerate(contract_items):
-        y = 546 + idx * 30
-        rounded(img, (116, y, 400, y + 22), 8, "#E6EDFF", outline="#A9BDFE", width=1)
-        draw.text((136, y - 1), item, font=FONT["small"], fill=COLORS["slate"])
-
-    rail_items = [
-        ("clarify", COLORS["teal"]),
-        ("spec", COLORS["blue"]),
-        ("arch", COLORS["amber"]),
-        ("build", COLORS["rose"]),
-        ("verify", COLORS["green"]),
-    ]
-    x = 570
-    for idx, (item, color) in enumerate(rail_items):
-        rounded(img, (x, 552, x + 58, 598), 10, "#FFFFFF", outline=color, width=3)
-        centered(draw, (x, 552, x + 58, 598), item, FONT["small"], COLORS["ink"])
-        if idx < len(rail_items) - 1:
-            draw.text((x + 62, 562), "|", font=FONT["body"], fill=COLORS["muted"])
-        x += 65
-    rounded(img, (578, 628, 862, 664), 12, COLORS["amber_soft"], outline=COLORS["amber"], width=2)
-    centered(draw, (578, 628, 862, 664), "+ add security_review", FONT["small"], COLORS["amber"])
-
-    rounded(img, (1038, 574, 1164, 622), 12, COLORS["teal_soft"], outline=COLORS["teal"], width=2)
-    centered(draw, (1038, 574, 1164, 622), "goal", FONT["small"], COLORS["teal"])
-    rounded(img, (1222, 520, 1346, 562), 12, COLORS["blue_soft"], outline=COLORS["blue"], width=2)
-    centered(draw, (1222, 520, 1346, 562), "agent A", FONT["small"], COLORS["blue"])
-    rounded(img, (1222, 580, 1346, 622), 12, COLORS["amber_soft"], outline=COLORS["amber"], width=2)
-    centered(draw, (1222, 580, 1346, 622), "agent B", FONT["small"], COLORS["amber"])
-    rounded(img, (1222, 640, 1346, 682), 12, COLORS["rose_soft"], outline=COLORS["rose"], width=2)
-    centered(draw, (1222, 640, 1346, 682), "agent C", FONT["small"], COLORS["rose"])
-    draw_arrow(draw, (1164, 598), (1222, 541), COLORS["blue"], width=3)
-    draw_arrow(draw, (1164, 598), (1222, 601), COLORS["amber"], width=3)
-    draw_arrow(draw, (1164, 598), (1222, 661), COLORS["rose"], width=3)
-
-    rounded(img, (260, 736, 1180, 782), 18, "#334155", outline=None)
-    centered(draw, (260, 736, 1180, 782), "Simple surface. Strong gates. Traceable parallel work.", FONT["takeaway"], "#F8FAFC")
-    return img.convert("RGB")
-
 def workflow_frame(stage: int) -> Image.Image:
     img = base_frame(
         "01 / START",
@@ -351,7 +270,6 @@ def save_gif(path: Path, frames: list[Image.Image], duration: int = 900) -> None
 
 
 def main() -> None:
-    concept_image().save(ASSET_DIR / "tracerail-concept.png")
     save_gif(
         ASSET_DIR / "tracerail-module-contract.gif",
         [workflow_frame(i) for i in [1, 2, 3, 4, 5, 5]],
@@ -364,7 +282,7 @@ def main() -> None:
         ASSET_DIR / "tracerail-platform-composition.gif",
         [scale_frame(i) for i in [1, 2, 3, 4, 4]],
     )
-    print("Generated comprehension-first README assets in docs/assets.")
+    print("Generated supporting README GIFs in docs/assets.")
 
 
 if __name__ == "__main__":

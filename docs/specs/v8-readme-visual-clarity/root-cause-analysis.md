@@ -8,41 +8,41 @@ Complete.
 
 ## Trigger
 
-The user reported that the GIFs remained wildly unclear after V7 and clarified that the real need was a clear concept visualization, not necessarily animation.
+The user reported that the GIFs remained unclear after V7, then reported that the first V8 concept PNG did not look professional. The user provided a simple linked-component reference as the desired level of clarity, while asking for a unique TraceRail version.
 
 ## Reproduction
 
-The V7 README visual sequence required the reader to understand module, rail, gate, pack, adapter, and platform before it explained the simple user-facing TraceRail model.
+The V7 README sequence required the reader to understand TraceRail vocabulary before the simple idea. The first V8 PNG explained more, but it looked like a custom generated diagram rather than a polished repo concept visual.
 
 ## Confirmed Root Cause
 
-V7 optimized visual polish and generated asset quality but did not validate conceptual comprehension. The README visual started with internal framework vocabulary instead of a simple core expression.
+The visual work optimized for generated diagrams instead of a memorable public concept mark. TraceRail needed a simple metaphor that communicates the repo concept at a glance.
 
 ## Why It Was Missed
 
-V7 verification checked layout, typography, deterministic generation, and frame quality. It did not include a first-reader comprehension gate.
+Validation focused on deterministic generation, text readability, and checker coverage. It did not include a public-facing taste gate: does this look like something a serious framework would use to explain itself?
 
 ## Fix
 
-Create a primary static concept visual and update the README to lead with:
+Create `docs/assets/tracerail-core-rail.svg` as a source-controlled linked-component visual showing:
 
 ```txt
-goal | module | gate | evidence | memory
+goal | spec | rail | gates | evidence | memory
 ```
 
-The generated GIFs remain as supporting assets, but they no longer carry the first explanation.
+Update README, checker, asset docs, and memory to make the SVG the primary concept asset.
 
 ## Regression Coverage
 
-- Checker requires `docs/assets/tracerail-concept.png` and the generator.
-- `docs/assets/README.md` now states comprehension before polish.
-- `docs/memory/patterns.md` records the comprehension-first visual pattern.
+- Checker requires `docs/assets/tracerail-core-rail.svg` and the supporting GIF generator.
+- `docs/assets/README.md` now states that the primary README concept visual should be simple, memorable, and source-controlled as SVG.
+- `docs/memory/patterns.md` records the repo-concept visual pattern.
 
 ## Follow-Up Work
 
-- Consider renaming the generator to match its broader asset role.
+- Consider a dedicated naming review because `TraceRail` may require more explanation than ideal.
 - Reassess whether supporting GIFs should remain after GitHub README review.
 
 ## Memory Update
 
-V8 updates memory with a durable rule: public visuals should teach the mental model before internal framework vocabulary, and animation should not be the primary explanation when a static concept visual is clearer.
+V8 updates memory with a durable rule: public README visuals should explain the repo concept through a simple memorable metaphor before showing internal framework detail.

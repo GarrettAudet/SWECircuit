@@ -6,7 +6,7 @@ TraceRail V8 README visual clarity on branch `codex/v8-readme-visual-clarity`.
 
 ## Current Stage
 
-V8 replaces the GIF-first README explanation with a static primary concept visual centered on `goal | module | gate | evidence | memory`. Implementation, local validation, commit, and branch push are complete; user approval is the remaining gate before merge to `main`.
+V8 replaces the GIF-first README explanation and rejected generated PNG with a primary SVG concept visual centered on `goal | spec | rail | gates | evidence | memory`. The SVG fix passed local validation on the V8 branch; commit, push, and user review remain before merge to `main`.
 
 ## Important Current Constraints
 
@@ -20,7 +20,7 @@ V8 replaces the GIF-first README explanation with a static primary concept visua
 - Keep `main` as the stable baseline; workflow versions should start from `main` on a new `codex/vVERSION-slug` branch.
 - License selection remains owner-controlled; do not add a `LICENSE` file without explicit approval.
 - Text-heavy README visuals should preserve deterministic source when practical.
-- Public README visuals must teach the first-reader mental model before internal framework vocabulary.
+- Public README visuals must teach the first-reader repo concept before internal framework vocabulary or implementation detail.
 
 ## Recently Learned
 
@@ -38,11 +38,12 @@ V8 replaces the GIF-first README explanation with a static primary concept visua
 - A professional public repo surface should be enforced by the checker so polish remains part of the workflow, not one-time cleanup.
 - A promised README visual should be tracked assets and checker-enforced embeds, not only a Mermaid block or chat plan.
 - V7 showed that checker-enforced asset presence is not enough for visual quality; exact text-heavy visuals need source generation plus manual frame inspection.
-- V8 showed that polished animation can still fail if the concept is unclear; the README should lead with a static, scannable mental model.
+- V8 showed that generated diagrams can still fail if they do not look like a professional repo concept visual; the README should lead with a simple source-controlled SVG metaphor.
 
 ## Next Likely Work
 
-- Review the V8 concept visual on GitHub after push.
+- Review the V8 SVG concept visual on GitHub after push.
 - If approved, merge V8 into `main` and dogfood V8 on the next TraceRail version.
 - Dogfood `tracepack-orchestration-readiness` on write-enabled implementation fan-out before marking it recommended.
+- Consider a dedicated TraceRail naming review if the name still needs too much explanation.
 - Choose a public license before broad external reuse or package distribution.

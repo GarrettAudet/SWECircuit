@@ -6,14 +6,14 @@ Complete.
 
 ## Summary
 
-Replace the README's GIF-first visual explanation with a primary static concept visual. The visual should communicate TraceRail as a simple composable model before introducing module, rail, gate, and scaling vocabulary.
+Replace the README's GIF-first and generated-PNG visual explanation with a primary static SVG concept visual. The visual should communicate TraceRail as a simple set of linked repo components before introducing deeper module, rail, gate, and scaling detail.
 
 ## Impacted Areas
 
 - `README.md`
 - `docs/assets/README.md`
+- `docs/assets/tracerail-core-rail.svg`
 - `docs/assets/source/generate-readme-demo-gifs.py`
-- `docs/assets/tracerail-concept.png`
 - Supporting generated GIFs under `docs/assets/`
 - `scripts/check-template.ps1`
 - `docs/specs/v8-readme-visual-clarity/`
@@ -26,17 +26,17 @@ Replace the README's GIF-first visual explanation with a primary static concept 
 
 ## Approach
 
-- Dogfood V7 by preserving deterministic source generation for text-heavy README assets.
 - Treat the user's critique as a diagnosis trigger, not a superficial design tweak.
-- Use `goal | module | gate | evidence | memory` as the first visual model.
-- Generate `docs/assets/tracerail-concept.png` as the primary README asset.
+- Replace the generated PNG concept diagram with a source-controlled SVG.
+- Use a linked-component metaphor to show `goal | spec | rail | gates | evidence | memory`.
+- Keep the visual unique to TraceRail: traceability, rails, gates, evidence, and durable memory.
 - Keep the GIFs as generated support assets, but remove them from the first README explanation.
-- Update the checker so the concept visual is required in README.
-- Promote the durable lesson into asset docs and memory: comprehension before polish.
+- Update the checker so the SVG concept visual is required in README.
+- Promote the durable lesson into asset docs and memory: use a simple repo concept visual before custom diagrams.
 
 ## Interfaces And Data
 
-No public API, schema, command, data, or dependency changes. The README now embeds `docs/assets/tracerail-concept.png` as its primary visual asset.
+No public API, schema, command, data, or dependency changes. The README now embeds `docs/assets/tracerail-core-rail.svg` as its primary visual asset.
 
 ## Architecture And ADR Impact
 
@@ -48,13 +48,13 @@ No authentication, authorization, secrets, privacy, retention, or destructive-ac
 
 ## Rollback Or Recovery
 
-Revert the V8 branch or restore the V7 README GIF embeds if the static concept visual is rejected.
+Revert the V8 branch or restore the V7 README GIF embeds if the SVG concept visual is rejected.
 
 ## Risks And Mitigations
 
-- Risk: The static visual becomes too simple and undersells modularity.
-  Mitigation: Keep module, rail, and scale panels inside the same visual and preserve deeper README text below it.
-- Risk: Supporting GIF assets become confusing if they are no longer embedded.
-  Mitigation: Document them as supporting generated assets in `docs/assets/README.md`.
-- Risk: Automated checks cannot prove clarity.
-  Mitigation: Preserve debug notes, manual visual inspection, and user critique as review evidence.
+- Risk: The SVG metaphor is too close to existing chain-style examples.
+  Mitigation: Use TraceRail-specific components, labels, color treatment, tagline, and rail/evidence/memory framing.
+- Risk: The repository name still needs more explanation than ideal.
+  Mitigation: Preserve a naming open question and make the tagline explicit: traceable rails for AI software work.
+- Risk: Automated checks cannot prove clarity or taste.
+  Mitigation: Preserve debug notes, visual preview, and user critique as review evidence.

@@ -224,7 +224,7 @@ $requiredFiles = @(
     "docs/README.md",
     "docs/assets/README.md",
     "docs/assets/source/generate-readme-demo-gifs.py",
-    "docs/assets/tracerail-concept.png",
+    "docs/assets/tracerail-core-rail.svg",
     "docs/assets/tracerail-module-contract.gif",
     "docs/assets/tracerail-rail-flow.gif",
     "docs/assets/tracerail-platform-composition.gif",
@@ -328,10 +328,10 @@ Test-HasHeadings "README.md" @(
 )
 $readme = Read-Text (Join-Path $Root "README.md")
 foreach ($assetPath in @(
-    "docs/assets/tracerail-concept.png"
+    "docs/assets/tracerail-core-rail.svg"
 )) {
     if ($readme -notmatch [regex]::Escape($assetPath)) {
-        Add-Failure "README missing TraceRail concept visual embed: $assetPath"
+        Add-Failure "README missing TraceRail core rail visual embed: $assetPath"
     }
 }
 

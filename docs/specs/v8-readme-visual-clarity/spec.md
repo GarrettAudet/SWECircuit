@@ -6,7 +6,7 @@ Complete.
 
 ## Problem
 
-The V7 README GIFs were more polished than the prior assets, but the user still found them wildly unclear. The issue was not only visual style; the sequence taught TraceRail from internal abstractions outward instead of quickly communicating the core mental model.
+The V7 README GIFs were more polished than the prior assets, but the user still found them wildly unclear. The first V8 PNG made the concept clearer, but it still looked unprofessional because it was a bespoke diagram rather than a simple public-facing repo concept visual.
 
 ## Users Or Actors
 
@@ -17,32 +17,35 @@ The V7 README GIFs were more polished than the prior assets, but the user still 
 ## Goals
 
 - Replace the GIF-first README explanation with a primary static concept visual.
-- Explain TraceRail using a simple pipeline expression before introducing module, rail, and scale details.
-- Preserve deterministic generation and traceability for visual assets.
+- Use a simple memorable visual metaphor, inspired by linked components but unique to TraceRail.
+- Explain TraceRail using the expression `goal | spec | rail | gates | evidence | memory`.
+- Preserve deterministic, source-controlled visual assets.
 - Keep generated GIFs as supporting assets instead of the main README story.
-- Record the V7 clarity failure as durable learning.
+- Record the V7/V8 clarity and professionalism failure as durable learning.
 
 ## Non-Goals
 
 - Add a website, runtime demo, package manager, or external design dependency.
+- Rename the repository in V8.
 - Change TraceRail's underlying workflow contracts.
 - Install external visualization tooling.
 - Solve all future README positioning or branding questions.
 
 ## Requirements
 
-- The README visual section must explain the simple expression `goal | module | gate | evidence | memory` before deeper module and rail detail.
-- The primary README asset must be static, readable, and concept-first.
+- The README visual section must explain `goal | spec | rail | gates | evidence | memory` before deeper module and rail detail.
+- The primary README asset must be static, readable, professional, and concept-first.
+- The primary visual must be source-controlled as SVG, not generated through the rejected Pillow concept diagram.
 - Generated support assets must remain deterministic and project-local.
-- The checker must require the primary README concept asset and visual generator.
-- The feature package, milestone, and memory must preserve the V7 clarity failure and V8 fix.
+- The checker must require the primary README SVG concept asset and supporting visual generator.
+- The feature package, milestone, and memory must preserve the clarity failure, visual-quality failure, and V8 fix.
 
 ## Acceptance Criteria
 
-- [x] Given a developer has never seen TraceRail, when they scan the README visual section, then they can understand the story as goal -> module -> gate -> evidence -> memory with modules, rails, and bounded scale underneath.
-- [x] Given the user criticized the GIFs as unclear, when V8 is reviewed, then the source package explains why V7 failed and how V8 changes the teaching order.
-- [x] Given an agent validates the repository, when the checker runs, then it requires the primary README concept asset and generator.
-- [x] Given future agents update README visuals, when they read docs assets and memory, then they see the rule to optimize for comprehension before polish.
+- [x] Given a developer has never seen TraceRail, when they scan the README visual section, then they can understand the story as goal -> spec -> rail -> gates -> evidence -> memory.
+- [x] Given the user criticized the prior visuals as unclear and unprofessional, when V8 is reviewed, then the source package explains why the generated PNG failed and why the linked-component SVG replaced it.
+- [x] Given an agent validates the repository, when the checker runs, then it requires the primary README SVG concept asset and generator for supporting GIFs.
+- [x] Given future agents update README visuals, when they read docs assets and memory, then they see the rule to optimize for simple repo-concept comprehension before custom visual complexity.
 
 ## Architecture Impact
 
@@ -51,14 +54,15 @@ No architecture, public API, data, security, deployment, or runtime dependency i
 ## Risks
 
 - The visual may still need real GitHub rendering review after push.
-- The generator filename still references GIFs even though it now also creates the concept PNG.
+- The repository name may still need evaluation because `TraceRail` is less instantly self-explanatory than names like `LangChain`.
 - Visual clarity still requires human judgment beyond automated checks.
 
 ## Open Questions
 
-- Whether future docs should remove the supporting GIF assets entirely if the static concept visual proves sufficient.
+- Whether TraceRail should keep its name or evaluate alternatives that are more instantly literal.
+- Whether future docs should remove the supporting GIF assets entirely if the SVG concept visual proves sufficient.
 
 ## Assumptions
 
-- A static concept visual is a better primary README asset than a GIF sequence for explaining the TraceRail mental model.
+- A linked-component SVG is a better primary README asset than a GIF sequence or generated PNG diagram for explaining the repo concept.
 - Keeping the supporting GIFs in the asset folder is useful for future iteration, even though the README should not depend on them for the first explanation.

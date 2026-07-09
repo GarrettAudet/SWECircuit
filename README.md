@@ -55,17 +55,17 @@ The same rail can accept other review gates when the project needs them:
 goal | clarify | spec | security_review | architecture_review | task_plan | implement | performance_review | verify | review | memory
 ```
 
-The primary visual is intentionally static: the core abstraction should be obvious before motion or implementation detail. Read it like a pipeline:
+The primary visual is intentionally simple: the repo concept should be obvious before implementation detail. Read it like linked components:
 
 ```txt
-goal | module | gate | evidence | memory
+goal | spec | rail | gates | evidence | memory
 ```
 
-A rail is the reusable path built from those parts. A module is a swappable stage on the rail. A gate decides whether the next move is to continue, fix, diagnose, clarify, redesign, split, block, or learn.
+The visual below uses linked components because TraceRail is meant to feel composable at a glance: a goal becomes a spec, the spec runs through a rail, gates route outcomes, evidence proves the work, and memory keeps the learning durable.
 
-![TraceRail concept showing the core expression, module contract, rail composition, and bounded subagent scale](docs/assets/tracerail-concept.png)
+![TraceRail core components shown as linked rail segments: goal, spec, rail, gates, evidence, and memory](docs/assets/tracerail-core-rail.svg)
 
-Generated supporting assets live under `docs/assets/` and are preserved from source so future maintainers can iterate on the pitch without losing traceability.
+Supporting assets live under `docs/assets/` and are preserved from source so future maintainers can iterate on the pitch without losing traceability.
 
 To add a module:
 

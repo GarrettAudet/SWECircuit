@@ -10,17 +10,17 @@ Complete.
 
 ## Spec Alignment
 
-The implementation satisfies the V8 spec by replacing the GIF-first README explanation with a primary static concept visual, preserving deterministic asset generation, and documenting the V7 clarity failure.
+The implementation satisfies the V8 spec by replacing the GIF-first and generated-PNG README explanation with a primary SVG concept visual, preserving source-controlled assets, and documenting the clarity/professionalism failure.
 
 ## Architecture Alignment
 
-No architecture, runtime, dependency, public API, security, or data handling changes were introduced. The change stays within documentation, generated assets, checker coverage, and memory.
+No architecture, runtime, dependency, public API, security, or data handling changes were introduced. The change stays within documentation, visual assets, checker coverage, and memory.
 
 ## Verification Evidence
 
+- Browser preview of `docs/assets/tracerail-core-rail.svg` using the system Edge channel.
 - Python compile for `docs/assets/source/generate-readme-demo-gifs.py`.
-- Asset generation for `docs/assets/tracerail-concept.png` and supporting GIFs.
-- Manual visual preview of the concept PNG.
+- Supporting GIF generation.
 - Template checker.
 - Placeholder scan.
 - Non-ASCII scan.
@@ -30,13 +30,13 @@ No architecture, runtime, dependency, public API, security, or data handling cha
 
 | Severity | Finding | Required Action |
 | --- | --- | --- |
-| Low | The generator filename still says GIFs even though it now generates a PNG too. | Consider a future rename if the asset pipeline grows. |
+| Low | The repository name may still need stronger self-explanation than `TraceRail` provides alone. | Consider a dedicated naming review rather than renaming inside V8. |
 | Low | Local preview is not the same as live GitHub README rendering. | Review on GitHub after the branch is pushed. |
 
 ## Residual Risks
 
-- The static visual may still need copy or layout tuning after the user sees it in GitHub context.
-- Supporting GIF assets may become unnecessary if the static concept visual fully replaces them.
+- The SVG may still need small spacing or copy tuning after the user sees it in GitHub context.
+- Supporting GIF assets may become unnecessary if the SVG fully replaces them.
 
 ## Memory And Docs
 

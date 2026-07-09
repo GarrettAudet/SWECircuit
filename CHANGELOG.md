@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Added a static README concept visual centered on goal | module | gate | evidence | memory.
+- Added a source-controlled SVG README concept visual centered on goal | spec | rail | gates | evidence | memory.
 - Polished the README demo GIF sequence and added deterministic visual source generation.
 - Professionalized the public repository surface with contribution, support, security, conduct, documentation, quality, issue-template, and CI guidance.
 - Added a repository documentation index, file architecture guide, and repository standards guide.
@@ -11,7 +11,7 @@
 
 ### V8 README Concept Visual
 
-- Replaced the GIF-first README explanation with a static concept visual and comprehension-first asset guidance.
+- Replaced the GIF-first README explanation with a source-controlled SVG concept visual and repo-concept asset guidance.
 
 ### V7 README Demo Polish
 

@@ -8,34 +8,35 @@ Complete.
 
 | Acceptance Criterion | Verification |
 | --- | --- |
-| New developer can understand goal -> module -> gate -> evidence -> memory | Manual preview of `docs/assets/tracerail-concept.png` and README section review |
-| V8 explains why V7 failed and how teaching order changed | `debug-notes.md`, `root-cause-analysis.md`, `implementation-notes.md`, and `review.md` |
-| Checker requires concept asset and generator | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1` |
-| Future agents see comprehension-first visual rule | `docs/assets/README.md`, `docs/memory/patterns.md`, `docs/memory/retrieval-index.md` |
+| New developer can understand goal -> spec -> rail -> gates -> evidence -> memory | Browser preview of `docs/assets/tracerail-core-rail.svg` and README section review |
+| V8 explains why generated visuals failed and how the SVG changes the teaching pattern | `debug-notes.md`, `root-cause-analysis.md`, `implementation-notes.md`, and `review.md` |
+| Checker requires SVG asset and supporting generator | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1` |
+| Future agents see simple repo-concept visual rule | `docs/assets/README.md`, `docs/memory/patterns.md`, `docs/memory/retrieval-index.md` |
 
 ## Automated Checks
 
 - Unit: Not applicable.
 - Integration: Template checker.
 - E2E: Not applicable.
-- Typecheck: Python compile for the generator.
-- Lint: Placeholder and non-ASCII scans.
-- Build: README asset generation command.
+- Typecheck: Python compile for the supporting GIF generator.
+- Lint: Placeholder and non-ASCII scans for changed docs/source.
+- Build: Supporting GIF generation command.
 
 ## Manual Checks
 
-- Previewed `docs/assets/tracerail-concept.png` after generation.
+- Rendered `docs/assets/tracerail-core-rail.svg` through a browser preview.
 - Checked for clipped labels, overlapping text, and concept readability.
-- Reviewed README section order so the pipeline expression appears before module and rail detail.
+- Reviewed README section order so the linked-component expression appears before module and rail detail.
+- Checked that the visual is unique to TraceRail and does not copy the reference image.
 
 ## Regression Coverage
 
-- Checker now requires `docs/assets/tracerail-concept.png` and the source generator.
-- Asset docs and memory record that README visuals need comprehension-first review, not only polish review.
+- Checker now requires `docs/assets/tracerail-core-rail.svg` and the source generator.
+- Asset docs and memory record that README visuals need simple repo-concept review, not only deterministic generation or diagram polish.
 
 ## Skipped Checks
 
-- Live GitHub rendering is skipped until the branch is pushed; local image emission covers pre-push review.
+- Live GitHub rendering is skipped until the branch is pushed; local browser preview covers pre-push review.
 
 ## Verification Evidence
 

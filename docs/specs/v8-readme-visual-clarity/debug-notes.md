@@ -8,21 +8,22 @@ Complete.
 
 ## Failure Summary
 
-The V7 GIFs were visually cleaner but still unclear to the user. The failure was that the README visual story optimized presentation polish before onboarding comprehension.
+The V7 GIFs were visually cleaner but still unclear to the user. The first V8 PNG improved the concept but still looked unprofessional because it was a bespoke diagram instead of a simple repo concept visual.
 
 ## Reproduction
 
-Open the README visual sequence after V7 and try to understand TraceRail without already knowing the terms module, rail, gate, pack, adapter, and platform.
+Open the README visual sequence after V7 or the first V8 concept PNG and try to understand TraceRail without already knowing its vocabulary. The visuals either assume too much framework language or look like a custom internal diagram rather than a polished public repo concept.
 
 ## Stable Evidence
 
-The user directly reported: "This is wildly unclear to be honest for the gifs." The user later clarified that GIFs were not required; the broader need was a cool, clear visualization of the concept, closer to the simplicity of LangChain's composable mental model.
+The user directly reported: "This is wildly unclear to be honest for the gifs." After seeing the first V8 PNG, the user said it did not look professional and later pointed to a simple linked-component reference as the type of visual that works, while asking not to copy it.
 
 ## Failure Classification
 
 - Requirement ambiguity.
 - Incorrect or incomplete test.
 - Visual communication failure.
+- Public-surface quality failure.
 
 ## Context Retrieved
 
@@ -31,27 +32,28 @@ The user directly reported: "This is wildly unclear to be honest for the gifs." 
 - `docs/assets/README.md`
 - `docs/specs/v7-readme-demo-polish/`
 - `docs/memory/active-context.md`
+- User-provided linked-component reference image.
 
 ## Hypotheses
 
 | Hypothesis | Evidence For | Evidence Against | Experiment |
 | --- | --- | --- | --- |
-| H1: The visuals are unclear because they start with framework vocabulary. | V7 sequence starts with module, rail, and platform instead of user outcome. | TraceRail does need those terms eventually. | Reorder the story around the simple expression `goal | module | gate | evidence | memory`. |
-| H2: There are too many labels per frame. | V7 frames show many terms at once. | Some labels are needed. | Use one primary static visual with fewer words and clearer hierarchy. |
-| H3: Animation is the wrong primary medium. | GIFs can distract from the mental model and hide the final concept. | Supporting animation may still be useful later. | Make a static primary PNG and keep GIFs only as generated support assets. |
+| H1: The visuals are unclear because they start with framework vocabulary. | V7 sequence starts with module, rail, and platform instead of user outcome. | TraceRail does need those terms eventually. | Reorder the story around a simple expression. |
+| H2: The first V8 visual still fails because it looks like a custom diagram, not a polished concept visual. | User called it unprofessional and showed a simpler linked-component reference. | The V8 PNG was deterministic and source-controlled. | Replace the PNG with a source-controlled SVG concept mark. |
+| H3: The name needs more semantic support. | User compared `LangChain` as self-explanatory and asked whether TraceRail needs a different name. | TraceRail still maps to traceability plus rails. | Keep name for V8 but add explicit tagline and record naming as follow-up. |
 
 ## Experiments
 
 | Experiment | Hypothesis | Result | Conclusion |
 | --- | --- | --- | --- |
-| E1 | H1 | Passed. | README now starts with `goal | module | gate | evidence | memory`. |
-| E2 | H2 | Passed after one fix loop. | Removed chip sublabels from the core row and reduced clutter. |
-| E3 | H3 | Passed. | Static concept PNG is clearer as the primary README asset; GIFs are no longer the first explanation. |
+| E1 | H1 | Passed partially. | The first V8 PNG improved the teaching order but not professionalism. |
+| E2 | H2 | Passed. | The linked-component SVG is simpler, more memorable, and closer to a public repo concept visual. |
+| E3 | H3 | Deferred. | Naming should be evaluated separately instead of changing V8 opportunistically. |
 
 ## Current Status
 
-Root cause confirmed and fixed in V8: the public README visual must teach the mental model before showing the framework vocabulary.
+Root cause confirmed and fixed in V8: the public README visual must teach the repo concept through a simple memorable metaphor, not through a bespoke workflow diagram.
 
 ## Next Action
 
-Validate the repository, review the branch, and push V8 for user approval before merge.
+Validate the repository, review the branch, and push the V8 fix for user approval before merge.

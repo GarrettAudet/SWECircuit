@@ -135,9 +135,13 @@ A framework repository should expose contribution, security, support, conduct, c
 Start with Markdown and a local checker. Add tools only when they remove real friction.
 
 
+
+### Repo Concept Visual
+
+For a public framework README, the first visual should explain the repository concept, not the internal implementation map. Prefer a simple memorable SVG metaphor that makes the name, primitive, and value legible in seconds.
 ### Comprehension Before Visual Polish
 
-For public README visuals, teach the reader's mental model before internal framework vocabulary. Prefer one clear static concept visual when animation makes the idea harder to scan; use generated GIFs only as support when they clarify a specific motion or state change.
+For public README visuals, teach the reader's repo concept before internal framework vocabulary. Prefer one clear static SVG concept visual when animation or generated diagrams make the idea harder to scan; use generated GIFs only as support when they clarify a specific motion or state change.
 ### Deterministic Text-Heavy Visuals
 
 For README or docs visuals with exact labels, prefer deterministic source generation over opaque one-off images. Keep tracked output assets, preserve the generator when practical, inspect representative frames, and link the feature package that explains the visual change.
