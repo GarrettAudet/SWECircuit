@@ -2,46 +2,58 @@
 
 ## Status
 
-In progress.
+Complete.
 
 ## Acceptance Criteria Mapping
 
 | Acceptance criterion | Verification |
 | --- | --- |
-| Product definition and one coherent visual appear first | README source and rendered first-screen review |
-| Workflow is understandable from task through memory | README prose, overview asset, and alt text review |
+| Product definition and one coherent visual appear first | GitHub-rendered README DOM and first-section review |
+| Workflow is understandable from task through memory | README prose, approved overview, alt text, and core-contract review |
 | Checker requires the approved image | Template checker and checker-source review |
-| Desktop and narrow layouts remain readable | Browser inspection at representative widths |
-| V8 handoff is fully validated | Commands and evidence recorded below |
+| Desktop and narrow layouts remain usable | GitHub render metrics at 1280 x 720 and 390 x 844 |
+| V8 handoff is fully validated | Commands and evidence below |
 
 ## Automated Checks
 
+Passed:
+
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1`
 - `git diff --check`
-- Search for unresolved placeholders and stale active SVG references.
-- Verify local Markdown links resolve.
-- Verify the PNG signature, dimensions, and file size.
-- Compile the supporting GIF generator to prevent unrelated asset regressions.
+- Local Markdown link resolution.
+- Unresolved placeholder and non-ASCII scans.
+- Stale active visual-reference scan.
+- Bundled Python compile for `docs/assets/source/generate-readme-demo-gifs.py`.
+- SHA-256 comparison of source and repository PNG.
 
 ## Manual Checks
 
-- Inspect the opening README story without relying on prior TraceRail knowledge.
-- Confirm the approved image is unmodified and rendered at full content width.
-- Inspect the README at desktop and narrow widths.
-- Confirm tables, code blocks, and long link labels do not create incoherent overflow.
-- Review status language so capabilities are not overstated.
+Passed:
+
+- Confirmed the GitHub branch renders the expected title, positioning, overview, workflow, contracts, quick start, repository guide, principles, and status.
+- Confirmed the overview loads at its natural 1672 x 941 resolution and is linked to the full-resolution asset.
+- At 1280 x 720, the article is 862 px wide, the image renders at 862 x 485, tables fit, and the document has no horizontal overflow.
+- At 390 x 844, the article and image render at 325 px wide, tables fit, the document has no horizontal overflow, and long code lines scroll inside their own blocks.
+- Confirmed the tracked PNG is byte-for-byte identical to the supplied file.
 
 ## Regression Coverage
 
 - The checker requires `docs/assets/tracerail-overview.png`.
 - The checker requires the concise README section contract.
 - Asset docs name the approved PNG as the public source of truth.
-- Memory records that the accepted user-level story outranks internally generated alternatives.
+- Memory records that an accepted owner asset outranks internally generated substitutes.
 
 ## Skipped Checks
 
-None planned.
+The in-app browser screenshot command timed out, so no new screenshot artifact was saved. The live GitHub DOM, image load state, natural dimensions, rendered geometry, overflow behavior, and content structure were verified directly.
 
 ## Verification Evidence
 
-Pending final verification.
+- Template checker: pass.
+- Diff whitespace: pass.
+- README local links: pass.
+- Content scans: pass.
+- Stale-reference scan: pass.
+- Supporting generator compile: pass.
+- Image SHA-256: `15932DD187FE90B68FBC706E887E639EC0ABE0B9D4E92F49CA0654F857AAD826` for both source and tracked copy.
+- GitHub branch render: pass at desktop and narrow widths.

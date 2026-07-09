@@ -45,12 +45,12 @@ The user repeatedly described the visuals as unclear and unprofessional, rejecte
 | --- | --- | --- | --- |
 | E1 | H1 | Passed. | The rewritten README reaches the product and visual immediately. |
 | E2 | H2 | Passed. | The exact supplied asset communicates the accepted story without another interpretation layer. |
-| E3 | H3 | Pending rendered review. | Final desktop and narrow-width inspection remains the release gate. |
+| E3 | H3 | Passed. | GitHub renders one coherent page with no document overflow; the image links to full resolution and the text carries the workflow at narrow widths. |
 
 ## Current Status
 
-Root cause confirmed. The accepted fix is the supplied overview plus a concise README, with final rendered verification pending.
+Root cause confirmed and fixed. The supplied overview plus concise README passed the live GitHub desktop and narrow-width checks.
 
 ## Next Action
 
-Complete structural and rendered verification, then update review and milestone evidence.
+Hand off V8 for user approval before merge to `main`.

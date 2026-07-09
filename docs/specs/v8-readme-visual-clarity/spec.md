@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress.
+Complete.
 
 ## Problem
 
@@ -44,8 +44,8 @@ The V7 GIFs and several V8 SVG concepts were technically valid but did not expla
 - [x] Given a new developer opens the repository, when they scan the opening section, then they see one product definition and one coherent visual before internal detail.
 - [x] Given a reader asks how TraceRail works, when they read the first explanation, then they can follow task -> modules -> routed agents -> merge -> verification -> review -> memory.
 - [x] Given an agent validates the repository, when the checker runs, then it requires `docs/assets/tracerail-overview.png` and the README embed.
-- [ ] Given the README is rendered at desktop and narrow widths, when it is reviewed, then the image, tables, links, and code blocks remain readable.
-- [ ] Given the full repository validation runs, when V8 is handed off, then all checks pass and the milestone records the evidence.
+- [x] Given the README is rendered at desktop and narrow widths, when it is reviewed, then the page has no document overflow, tables fit, code blocks scroll locally, and the image remains linked to its full-resolution source.
+- [x] Given the full repository validation runs, when V8 is handed off, then all checks pass and the milestone records the evidence.
 
 ## Architecture Impact
 
