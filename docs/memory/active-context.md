@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-TraceRail V6 module and rail catalog on branch `codex/v6-module-rail-catalog`.
+TraceRail `main` baseline after V6 merge.
 
 ## Current Stage
 
-V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening, the first official orchestration-readiness pack, explicit milestone approval gates, pack conformance checker coverage, a read-only subagent dogfood run, a repository professionalization pass, and a README module/rail/platform GIF sequence on top of the V5 Rail Composition baseline.
+V6 has been approved by the user and merged into `main`. The baseline now includes rail, module, and pack catalogs; AGENTS hardening; the official orchestration-readiness pack; milestone approval gates; pack conformance checker coverage; read-only subagent dogfood evidence; repository professionalization; and the README module/rail/platform GIF sequence.
 
 ## Important Current Constraints
 
@@ -17,8 +17,7 @@ V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening
 - Recommended pack status requires conformance, dogfooding evidence, explicit permissions, rollback, and a maintainer.
 - `tracepack-orchestration-readiness` has read-only multi-agent dogfood evidence but is not recommended until repeated use and implementation fan-out evidence exist.
 - Preserve source artifacts before memory summaries.
-- Keep `main` as the stable baseline; V6 remains on its version branch until user approval.
-- GitHub `main` will not show V6 README changes, including the GIF sequence, until V6 is merged after approval.
+- Keep `main` as the stable baseline; future workflow versions should start from `main` on a new `codex/vVERSION-slug` branch.
 - License selection remains owner-controlled; do not add a `LICENSE` file without explicit approval.
 
 ## Recently Learned
@@ -39,8 +38,6 @@ V6 ready for approval after adding rail, module, pack catalogs, AGENTS hardening
 
 ## Next Likely Work
 
-- Review and approve V6 on `codex/v6-module-rail-catalog`.
-- Merge V6 to `main` only after approval.
 - Dogfood V6 on the next TraceRail version or a real project feature.
 - Dogfood `tracepack-orchestration-readiness` on write-enabled implementation fan-out before marking it recommended.
 - Choose a public license before broad external reuse or package distribution.
