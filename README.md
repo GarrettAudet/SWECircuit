@@ -55,9 +55,19 @@ The same rail can accept other review gates when the project needs them:
 goal | clarify | spec | security_review | architecture_review | task_plan | implement | performance_review | verify | review | memory
 ```
 
-![TraceRail module rail animation showing swappable modules and typed gates](docs/assets/tracerail-module-flow.gif)
+The demo sequence shows TraceRail in three moves: define the module contract, compose modules into rails, then connect rails, packs, adapters, memory, and agents into a modular platform.
 
-The animation shows the core shape: a stable rail advances through modules, optional review gates plug into the same contract, and every stage returns evidence plus a typed outcome.
+**1. Define the core module contract**
+
+![TraceRail demo showing the five-part module contract](docs/assets/tracerail-module-contract.gif)
+
+**2. Compose modules into a rail**
+
+![TraceRail demo showing modules composed into a workflow rail](docs/assets/tracerail-rail-flow.gif)
+
+**3. Expand rails into a platform**
+
+![TraceRail demo showing modules, rails, packs, adapters, memory, and agents composing into a platform](docs/assets/tracerail-platform-composition.gif)
 
 To add a module:
 

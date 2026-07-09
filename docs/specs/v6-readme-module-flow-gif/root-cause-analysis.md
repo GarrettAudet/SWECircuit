@@ -26,7 +26,7 @@ Not applicable.
 
 ## Regression Coverage
 
-Checker validates the GIF asset and README embed.
+Checker validates the three GIF assets and README embeds.
 
 ## Memory Update
 

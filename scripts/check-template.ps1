@@ -223,7 +223,9 @@ $requiredFiles = @(
     "AGENTS.md",
     "docs/README.md",
     "docs/assets/README.md",
-    "docs/assets/tracerail-module-flow.gif",
+    "docs/assets/tracerail-module-contract.gif",
+    "docs/assets/tracerail-rail-flow.gif",
+    "docs/assets/tracerail-platform-composition.gif",
     "docs/architecture/file-architecture.md",
     "docs/quality/repository-standards.md",
     "docs/ai/handbook.md",
@@ -323,8 +325,14 @@ Test-HasHeadings "README.md" @(
     "Current Status"
 )
 $readme = Read-Text (Join-Path $Root "README.md")
-if ($readme -notmatch [regex]::Escape("docs/assets/tracerail-module-flow.gif")) {
-    Add-Failure "README missing TraceRail module flow GIF embed"
+foreach ($assetPath in @(
+    "docs/assets/tracerail-module-contract.gif",
+    "docs/assets/tracerail-rail-flow.gif",
+    "docs/assets/tracerail-platform-composition.gif"
+)) {
+    if ($readme -notmatch [regex]::Escape($assetPath)) {
+        Add-Failure "README missing TraceRail demo GIF embed: $assetPath"
+    }
 }
 
 Test-HasHeadings "CONTRIBUTING.md" @(

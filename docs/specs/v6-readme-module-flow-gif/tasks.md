@@ -7,12 +7,12 @@ Complete.
 ## Task List
 
 ```txt
-- [x] T001: Generate README module-flow GIF.
-  Scope: docs/assets/tracerail-module-flow.gif.
-  Verification: GIF exists, dimensions and frame count inspected.
-- [x] T002: Embed GIF in README.
+- [x] T001: Generate README pitch-demo GIF sequence.
+  Scope: module contract, rail flow, and platform composition GIFs.
+  Verification: GIFs exist, dimensions and frame counts inspected.
+- [x] T002: Embed GIF sequence in README.
   Scope: README module composition section and repository map.
-  Verification: README references docs/assets/tracerail-module-flow.gif.
+  Verification: README references all three docs/assets GIFs.
 - [x] T003: Add asset governance.
   Scope: docs/assets/README.md.
   Verification: Checker requires headings.
@@ -23,12 +23,12 @@ Complete.
 
 ## Tasks
 
-- [x] T001: Generate README module-flow GIF.
-  Scope: docs/assets/tracerail-module-flow.gif.
-  Verification: GIF exists, dimensions and frame count inspected.
-- [x] T002: Embed GIF in README.
+- [x] T001: Generate README pitch-demo GIF sequence.
+  Scope: module contract, rail flow, and platform composition GIFs.
+  Verification: GIFs exist, dimensions and frame counts inspected.
+- [x] T002: Embed GIF sequence in README.
   Scope: README module composition section and repository map.
-  Verification: README references docs/assets/tracerail-module-flow.gif.
+  Verification: README references all three docs/assets GIFs.
 - [x] T003: Add asset governance.
   Scope: docs/assets/README.md.
   Verification: Checker requires headings.

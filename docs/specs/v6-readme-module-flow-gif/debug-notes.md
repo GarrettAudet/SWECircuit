@@ -2,19 +2,19 @@
 
 ## Status
 
-Not needed.
+Complete.
 
 ## Reproduction
 
-No recurring product or runtime bug required diagnosis.
+The visual problem was reproduced from the user-provided screenshot: the optional-module connector was diagonal, visually awkward, and made the GIF look unpolished.
 
 ## Stable Evidence
 
-The first GIF generation attempt produced no asset. The second attempt used an ignored `.local/` script and created `docs/assets/tracerail-module-flow.gif` successfully.
+The original single GIF existed but had a broken-looking optional-module connector. The replacement sequence removes diagonal optional connectors and splits the concept into module, rail, and platform demos.
 
 ## Failure Classification
 
-Tool invocation issue.
+Documentation visual design issue.
 
 ## Context Retrieved
 
@@ -22,11 +22,11 @@ README module visualization section, checker required files, and V6 milestone.
 
 ## Hypotheses
 
-The script was not passed to Python as stdin in the original command.
+The visual tried to show too many concepts in one frame, which forced an awkward connector and weakened the pitch.
 
 ## Experiments
 
-Generated the asset from a temporary script file under `.local/`.
+Generated three focused GIFs from an ignored `.local/` script: module contract, rail flow, and platform composition.
 
 ## Current Status
 

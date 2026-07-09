@@ -23,7 +23,7 @@ The change preserves TraceRail's architecture. Rail Composition remains the core
 - Non-ASCII scan returned no matches.
 - `git diff --check` passed.
 - Repository professionalization feature package reviewed: `docs/specs/v6-repo-professionalization/`.
-- README module-flow GIF feature package reviewed: `docs/specs/v6-readme-module-flow-gif/`.
+- README module/rail/platform GIF sequence feature package reviewed: `docs/specs/v6-readme-module-flow-gif/`.
 
 ## Findings
 
@@ -42,4 +42,4 @@ The change preserves TraceRail's architecture. Rail Composition remains the core
 
 ## Memory And Docs
 
-Updated rails, modules, packs, README, AGENTS, handbook, framework docs, PR template, checker, milestone, repository professionalization package, root governance files, docs index, architecture and quality docs, issue templates, CI workflow, and memory files, including the architecture-review module and README GIF visual. Post-review AGENTS hardening is recorded in implementation notes and memory patterns.
+Updated rails, modules, packs, README, AGENTS, handbook, framework docs, PR template, checker, milestone, repository professionalization package, root governance files, docs index, architecture and quality docs, issue templates, CI workflow, and memory files, including the architecture-review module and README GIF demo sequence. Post-review AGENTS hardening is recorded in implementation notes and memory patterns.
