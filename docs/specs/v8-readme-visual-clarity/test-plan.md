@@ -2,51 +2,46 @@
 
 ## Status
 
-Complete.
+In progress.
 
 ## Acceptance Criteria Mapping
 
-| Acceptance Criterion | Verification |
+| Acceptance criterion | Verification |
 | --- | --- |
-| New developer can understand goal -> spec -> rail -> gates -> evidence -> memory | Browser preview of `docs/assets/tracerail-core-rail.svg` and README section review |
-| V8 explains why generated visuals failed and how the SVG changes the teaching pattern | `debug-notes.md`, `root-cause-analysis.md`, `implementation-notes.md`, and `review.md` |
-| Checker requires SVG asset and supporting generator | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1` |
-| Future agents see simple repo-concept visual rule | `docs/assets/README.md`, `docs/memory/patterns.md`, `docs/memory/retrieval-index.md` |
+| Product definition and one coherent visual appear first | README source and rendered first-screen review |
+| Workflow is understandable from task through memory | README prose, overview asset, and alt text review |
+| Checker requires the approved image | Template checker and checker-source review |
+| Desktop and narrow layouts remain readable | Browser inspection at representative widths |
+| V8 handoff is fully validated | Commands and evidence recorded below |
 
 ## Automated Checks
 
-- Unit: Not applicable.
-- Integration: Template checker.
-- E2E: Not applicable.
-- Typecheck: Python compile for the supporting GIF generator.
-- Lint: Placeholder and non-ASCII scans for changed docs/source.
-- Build: Supporting GIF generation command.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1`
+- `git diff --check`
+- Search for unresolved placeholders and stale active SVG references.
+- Verify local Markdown links resolve.
+- Verify the PNG signature, dimensions, and file size.
+- Compile the supporting GIF generator to prevent unrelated asset regressions.
 
 ## Manual Checks
 
-- Rendered `docs/assets/tracerail-core-rail.svg` through a browser preview.
-- Checked for clipped labels, overlapping text, and concept readability.
-- Reviewed README section order so the linked-component expression appears before module and rail detail.
-- Checked that the visual is unique to TraceRail and does not copy the reference image.
+- Inspect the opening README story without relying on prior TraceRail knowledge.
+- Confirm the approved image is unmodified and rendered at full content width.
+- Inspect the README at desktop and narrow widths.
+- Confirm tables, code blocks, and long link labels do not create incoherent overflow.
+- Review status language so capabilities are not overstated.
 
 ## Regression Coverage
 
-- Checker now requires `docs/assets/tracerail-core-rail.svg` and the source generator.
-- Asset docs and memory record that README visuals need simple repo-concept review, not only deterministic generation or diagram polish.
+- The checker requires `docs/assets/tracerail-overview.png`.
+- The checker requires the concise README section contract.
+- Asset docs name the approved PNG as the public source of truth.
+- Memory records that the accepted user-level story outranks internally generated alternatives.
 
 ## Skipped Checks
 
-- Live GitHub rendering is skipped until the branch is pushed; local browser preview covers pre-push review.
+None planned.
 
 ## Verification Evidence
 
-Passed locally:
-
-```powershell
-& "C:\Users\garre\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" -m py_compile docs\assets\source\generate-readme-demo-gifs.py
-& "C:\Users\garre\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" docs\assets\source\generate-readme-demo-gifs.py
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1
-rg placeholder markers in changed docs and memory
-rg non-ASCII characters in changed docs, source, and checker
-git diff --check
-```
+Pending final verification.

@@ -1,48 +1,46 @@
 # Root-Cause Analysis
 
-Use this file when a failure required diagnosis or when a fix should teach future work.
-
 ## Status
 
 Complete.
 
 ## Trigger
 
-The user reported that the GIFs remained unclear after V7, then reported that the first V8 concept PNG did not look professional. The user provided a simple linked-component reference as the desired level of clarity, while asking for a unique TraceRail version.
+Repeated user rejection of README visuals culminated in a direct instruction to use a supplied TraceRail overview and make the README clean, concise, and crisp.
 
 ## Reproduction
 
-The V7 README sequence required the reader to understand TraceRail vocabulary before the simple idea. The first V8 PNG explained more, but it looked like a custom generated diagram rather than a polished repo concept visual.
+The prior README led with internal framework explanation and embedded a visual that required readers to infer the value proposition. Repeated replacements changed visual metaphors without first locking the exact public story.
 
 ## Confirmed Root Cause
 
-The visual work optimized for generated diagrams instead of a memorable public concept mark. TraceRail needed a simple metaphor that communicates the repo concept at a glance.
+The work lacked a concrete public-surface acceptance contract. We optimized generated artifacts for internal conceptual completeness instead of validating whether the repository owner would use the visual to explain TraceRail to another developer.
 
 ## Why It Was Missed
 
-Validation focused on deterministic generation, text readability, and checker coverage. It did not include a public-facing taste gate: does this look like something a serious framework would use to explain itself?
+Checks proved file existence, deterministic generation, label rendering, and Markdown structure. None of those proved product clarity or owner acceptance. The implementation continued to reinterpret the request after the user had narrowed it.
 
 ## Fix
 
-Create `docs/assets/tracerail-core-rail.svg` as a source-controlled linked-component visual showing:
-
-```txt
-goal | spec | rail | gates | evidence | memory
-```
-
-Update README, checker, asset docs, and memory to make the SVG the primary concept asset.
+- Preserve the supplied image exactly as `docs/assets/tracerail-overview.png`.
+- Position it immediately after one plain-language product definition.
+- Explain the rail in five short steps.
+- Keep contract detail compact and route deeper material to canonical docs.
+- Require the accepted asset and README headings in the checker.
+- Remove rejected V8 SVG drafts from the final branch.
 
 ## Regression Coverage
 
-- Checker requires `docs/assets/tracerail-core-rail.svg` and the supporting GIF generator.
-- `docs/assets/README.md` now states that the primary README concept visual should be simple, memorable, and source-controlled as SVG.
-- `docs/memory/patterns.md` records the repo-concept visual pattern.
+- Checker requires the approved overview asset and its README embed.
+- Asset docs designate the PNG as the public source of truth.
+- V8 trace artifacts record the acceptance failure and final direction.
+- Rendered desktop and narrow-width review is a release gate.
 
 ## Follow-Up Work
 
-- Consider a dedicated naming review because `TraceRail` may require more explanation than ideal.
-- Reassess whether supporting GIFs should remain after GitHub README review.
+- Consider preserving editable design source if the asset is revised later.
+- Conduct naming review only as a separate product decision.
 
 ## Memory Update
 
-V8 updates memory with a durable rule: public README visuals should explain the repo concept through a simple memorable metaphor before showing internal framework detail.
+Public communication changes need a human acceptance gate in addition to deterministic generation and structural checks. Once an owner-approved asset exists, preserve it directly.

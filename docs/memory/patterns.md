@@ -138,10 +138,14 @@ Start with Markdown and a local checker. Add tools only when they remove real fr
 
 ### Repo Concept Visual
 
-For a public framework README, the first visual should explain the repository concept, not the internal implementation map. Prefer a simple memorable SVG metaphor that makes the name, primitive, and value legible in seconds.
+For a public framework README, the first visual should explain the user-level path, not the internal implementation map. Make the product, primitive, and outcome legible in seconds.
 ### Comprehension Before Visual Polish
 
-For public README visuals, teach the reader's repo concept before internal framework vocabulary. Prefer one clear static SVG concept visual when animation or generated diagrams make the idea harder to scan; use generated GIFs only as support when they clarify a specific motion or state change.
+For public README visuals, teach the reader's product story before internal framework vocabulary. Use one accepted primary visual and concise text; keep animations only when they clarify a specific state change.
 ### Deterministic Text-Heavy Visuals
 
 For README or docs visuals with exact labels, prefer deterministic source generation over opaque one-off images. Keep tracked output assets, preserve the generator when practical, inspect representative frames, and link the feature package that explains the visual change.
+
+### Accepted Asset Over Generated Substitute
+
+When the owner supplies and approves a public asset, preserve that exact artifact and build the copy hierarchy around it. Do not replace it with another generated interpretation unless a new version explicitly reopens the design.

@@ -2,40 +2,37 @@
 
 ## Status
 
-Complete.
+In progress.
 
 ## Summary Of Changes
 
-- Added `docs/assets/tracerail-core-rail.svg` as the primary README concept visual.
-- Updated README to explain TraceRail as `goal | spec | rail | gates | evidence | memory`.
-- Updated the checker to require the SVG concept visual in README.
-- Updated asset documentation so the SVG is the public concept source of truth.
-- Cleaned the supporting GIF generator so it no longer generates the rejected PNG concept visual.
-- Preserved generated GIFs for supporting examples, but removed them from the primary README story.
+- Added the exact user-supplied visual as `docs/assets/tracerail-overview.png`.
+- Rewrote the README around the product positioning and a single visual.
+- Reduced the public explanation to five workflow steps and six core contracts.
+- Kept the detailed operating system in `AGENTS.md` and the handbook.
+- Updated the checker to require the approved visual and concise README headings.
+- Began replacing stale V8 SVG claims with the accepted PNG direction.
 
 ## Deviations From Plan
 
-The initial V8 plan was to make the GIF sequence clearer. User feedback clarified that the need was a simple repo concept visual. A first generated PNG still looked unprofessional, so V8 pivoted again to a hand-authored deterministic SVG inspired by simple linked-component visuals, but with TraceRail-specific language and structure.
+Earlier V8 iterations attempted to generate or hand-author a new SVG. The user rejected those outputs and supplied the visual to use. The final revision therefore preserves the accepted raster asset exactly instead of generating another substitute.
 
 ## Assumptions Used
 
-- The main failure was not just concept density; it was using a custom generated diagram where a simple polished concept mark was needed.
-- SVG is the right primary README format because it is sharp, source-controlled, deterministic, and directly reviewable.
-- The repository name can remain TraceRail for V8 if the tagline and concept visual make the meaning clearer.
+- The supplied TraceRail-branded image confirms TraceRail as the name for this V8 revision.
+- The asset is approved for repository use because the user explicitly asked to use it in the README.
+- The README should explain and route; the handbook should carry protocol depth.
 
 ## Follow-Up Work
 
-- Consider a dedicated naming review if `TraceRail` still does not communicate quickly enough.
-- Consider removing supporting GIFs if they no longer serve a documentation purpose after real README review.
-- Consider a future visual identity pass once the core concept is approved.
+- Complete rendered verification and final review.
+- Consider a dedicated naming decision separately from README production readiness.
+- Add editable design source later only if it preserves the approved visual language.
 
 ## Verification Performed
 
-- Rendered `docs/assets/tracerail-core-rail.svg` through a browser preview using the system Edge channel.
-- Python compile for `docs/assets/source/generate-readme-demo-gifs.py`.
-- Asset generation for supporting GIFs.
-- Template checker, placeholder scan, non-ASCII scan, and diff whitespace check before commit.
+Pending final verification.
 
 ## Durable Learnings
 
-A repo concept visual should be a simple memorable explanation, not an exhaustive workflow diagram. For TraceRail, the first README visual should make the name and idea legible: traceable rails for AI software work, linked from goal to spec to gates to evidence and memory.
+When the owner supplies an accepted public visual, preserve it directly and build the copy hierarchy around its story. Do not replace it with another internally generated interpretation.

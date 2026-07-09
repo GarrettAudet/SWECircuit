@@ -1,6 +1,6 @@
 """Generate the TraceRail README visual assets.
 
-The README GIFs are supporting onboarding examples, so the source is deterministic. The primary README concept visual is the hand-authored SVG beside the generated GIFs.
+The README GIFs are supporting onboarding examples, so the source is deterministic. The primary README visual is the user-approved PNG beside the generated GIFs.
 """
 
 from __future__ import annotations

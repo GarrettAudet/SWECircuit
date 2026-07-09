@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Added a source-controlled SVG README concept visual centered on goal | spec | rail | gates | evidence | memory.
+- Added the approved TraceRail overview and a concise, product-first README.
 - Polished the README demo GIF sequence and added deterministic visual source generation.
 - Professionalized the public repository surface with contribution, support, security, conduct, documentation, quality, issue-template, and CI guidance.
 - Added a repository documentation index, file architecture guide, and repository standards guide.
@@ -11,7 +11,7 @@
 
 ### V8 README Concept Visual
 
-- Replaced the GIF-first README explanation with a source-controlled SVG concept visual and repo-concept asset guidance.
+- Replaced the rejected visual sequence with the approved task-to-verified-merge overview and concise public documentation.
 
 ### V7 README Demo Polish
 

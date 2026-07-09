@@ -2,42 +2,38 @@
 
 ## Status
 
-Complete.
+In progress.
 
 ## Review Outcome
 
-- Pass with residual risk.
+Pending final verification.
 
 ## Spec Alignment
 
-The implementation satisfies the V8 spec by replacing the GIF-first and generated-PNG README explanation with a primary SVG concept visual, preserving source-controlled assets, and documenting the clarity/professionalism failure.
+The implementation now uses the supplied overview, opens with the agreed positioning, explains the workflow in plain language, distinguishes TraceRail from an agent runtime, and routes readers to canonical docs.
 
 ## Architecture Alignment
 
-No architecture, runtime, dependency, public API, security, or data handling changes were introduced. The change stays within documentation, visual assets, checker coverage, and memory.
+No runtime, architecture, API, dependency, security, or data behavior changed.
 
 ## Verification Evidence
 
-- Browser preview of `docs/assets/tracerail-core-rail.svg` using the system Edge channel.
-- Python compile for `docs/assets/source/generate-readme-demo-gifs.py`.
-- Supporting GIF generation.
-- Template checker.
-- Placeholder scan.
-- Non-ASCII scan.
-- `git diff --check`.
+Pending template, link, image, rendered-layout, and diff checks.
 
 ## Findings
 
-| Severity | Finding | Required Action |
+| Severity | Finding | Required action |
 | --- | --- | --- |
-| Low | The repository name may still need stronger self-explanation than `TraceRail` provides alone. | Consider a dedicated naming review rather than renaming inside V8. |
-| Low | Local preview is not the same as live GitHub README rendering. | Review on GitHub after the branch is pushed. |
+| Medium | Raster labels may be small at narrow widths. | Verify narrow rendering and retain complete alt text plus textual workflow. |
+| Low | The repository still has no selected license. | Keep as a separate owner decision before broad public reuse. |
+| Low | TraceRail versus DevRail remains an unresolved naming thread. | Do not mix names in V8; handle rename as a dedicated version if chosen. |
 
 ## Residual Risks
 
-- The SVG may still need small spacing or copy tuning after the user sees it in GitHub context.
-- Supporting GIF assets may become unnecessary if the SVG fully replaces them.
+- GitHub rendering can differ slightly from local Markdown rendering.
+- The supplied PNG has no tracked editable design source.
+- Runtime orchestration remains a framework contract, not an implemented engine.
 
 ## Memory And Docs
 
-Updated README, asset docs, V8 feature package, memory patterns, known issues, history ledger, retrieval index, active context, changelog, and milestone.
+V8 feature, asset, checker, milestone, changelog, and memory updates are included in this revision.

@@ -224,7 +224,7 @@ $requiredFiles = @(
     "docs/README.md",
     "docs/assets/README.md",
     "docs/assets/source/generate-readme-demo-gifs.py",
-    "docs/assets/tracerail-core-rail.svg",
+    "docs/assets/tracerail-overview.png",
     "docs/assets/tracerail-module-contract.gif",
     "docs/assets/tracerail-rail-flow.gif",
     "docs/assets/tracerail-platform-composition.gif",
@@ -314,24 +314,19 @@ foreach ($file in $requiredFiles) {
 }
 
 Test-HasHeadings "README.md" @(
-    "Why TraceRail Exists",
-    "Core Idea",
-    "How Modules Plug Into Rails",
-    "Quality Bar",
-    "What TraceRail Provides",
-    "Quick Start",
-    "When Work Gets Bigger",
-    "Tool Adapters",
-    "Repository Map",
-    "Design Principles",
-    "Current Status"
+    "How It Works",
+    "Core Contracts",
+    "Start Here",
+    "Repository Guide",
+    "Principles",
+    "Status"
 )
 $readme = Read-Text (Join-Path $Root "README.md")
 foreach ($assetPath in @(
-    "docs/assets/tracerail-core-rail.svg"
+    "docs/assets/tracerail-overview.png"
 )) {
     if ($readme -notmatch [regex]::Escape($assetPath)) {
-        Add-Failure "README missing TraceRail core rail visual embed: $assetPath"
+        Add-Failure "README missing TraceRail overview visual embed: $assetPath"
     }
 }
 

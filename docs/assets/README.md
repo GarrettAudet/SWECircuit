@@ -2,33 +2,33 @@
 
 ## Purpose
 
-This folder stores visual assets used by the public README and documentation. Assets should clarify TraceRail concepts without becoming a second source of workflow truth.
+This folder stores public README and documentation visuals. Assets should clarify TraceRail without becoming a second source of workflow truth.
 
 ## Assets
 
 | File | Used By | Purpose |
 | --- | --- | --- |
-| `tracerail-core-rail.svg` | `README.md` | Primary SVG concept visual for the TraceRail model: goal, spec, rail, gates, evidence, and memory as linked components. |
-| `tracerail-module-contract.gif` | Supporting docs | Generated supporting demo of a goal becoming a traceable work package. |
-| `tracerail-rail-flow.gif` | Supporting docs | Generated supporting demo of gates routing pass, fix, diagnose, and clarify outcomes. |
-| `tracerail-platform-composition.gif` | Supporting docs | Generated supporting demo of bounded work units scaling into integration ownership. |
-| `source/generate-readme-demo-gifs.py` | Maintainers | Deterministic source generator for the supporting GIF sequence. |
+| `tracerail-overview.png` | `README.md` | Primary overview of a task moving through standardized modules, agent routing, verified integration, and memory. |
+| `tracerail-module-contract.gif` | Supporting docs | Generated example of a goal becoming a traceable work package. |
+| `tracerail-rail-flow.gif` | Supporting docs | Generated example of gates routing typed outcomes. |
+| `tracerail-platform-composition.gif` | Supporting docs | Generated example of bounded work units returning to an integration owner. |
+| `source/generate-readme-demo-gifs.py` | Maintainers | Deterministic source for the supporting GIF sequence. |
 
 ## Source
 
-The primary README concept visual is a deterministic SVG asset. The supporting GIFs are generated from `source/generate-readme-demo-gifs.py` with the bundled Codex Python runtime and Pillow. The SVG is the source of truth for the public concept pitch; the GIF generator exists only for supporting examples.
+`tracerail-overview.png` is the exact user-approved public overview supplied for V8. Keep the tracked PNG as the presentation source of truth unless a later version explicitly replaces it.
+
+The supporting GIFs are generated from `source/generate-readme-demo-gifs.py` with the bundled Codex Python runtime and Pillow. They are not part of the primary README story.
 
 ## Visual Standard
 
-- Optimize for comprehension before polish, animation, or framework vocabulary.
-- Use a simple memorable metaphor for the repo concept before showing implementation detail.
-- Lead with the user-level story before showing internal module, rail, pack, or adapter detail.
-- Use large labels that remain readable when GitHub scales the image.
-- Keep diagrams focused on one concept per asset.
-- Prefer simple source-controlled SVG for the primary README concept visual.
-- Use a restrained professional palette with strong contrast in GitHub dark mode.
-- Preserve exact text through deterministic rendering when labels matter.
+- Explain the product before introducing framework vocabulary.
+- Show one coherent path from user task to verified change and durable memory.
+- Keep labels readable when GitHub scales the image.
+- Use one primary README visual, not a sequence that readers must decode.
+- Preserve the approved output exactly unless a new visual passes public-surface review.
+- Treat visual comprehension as a human review gate; file existence alone is not evidence of clarity.
 
 ## Update Rule
 
-When an asset changes, update the README or documentation that embeds it, preserve the source reason in the relevant feature package, inspect the public visual output, and run the template checker before committing.
+When the primary visual changes, update the README embed, checker requirement, feature package, milestone, and memory. Inspect the rendered README at desktop and narrow widths before committing.

@@ -2,45 +2,36 @@
 
 ## Status
 
-Complete.
+In progress.
 
 ## Task List
 
-Use this format for each task:
-
-```txt
-- [ ] T001: Short action statement
-  Scope: What changes.
-  Verification: Test, check, review, or evidence that proves completion.
-```
-
-## Tasks
-
-- [x] T001: Capture the V8 clarity failure.
-  Scope: Feature package, debug notes, and acceptance criteria.
-  Verification: V8 spec, debug notes, and RCA explicitly name the V7 failure mode.
-- [x] T002: Redesign and regenerate visual assets.
-  Scope: `docs/assets/tracerail-core-rail.svg`, `docs/assets/source/generate-readme-demo-gifs.py`, and supporting GIFs.
-  Verification: Python compile, supporting GIF generation, and browser SVG preview.
-- [x] T003: Update README and asset docs.
-  Scope: README visual section and `docs/assets/README.md`.
-  Verification: README teaches `goal | spec | rail | gates | evidence | memory` before deeper module details.
-- [x] T004: Update memory and milestone.
-  Scope: active context, history ledger, retrieval index, patterns, known issues, and V8 milestone.
-  Verification: Future agents can find V8 visual clarity rationale and source artifacts.
-- [x] T005: Validate, review, commit, and push.
-  Scope: template checker, generator compile, placeholder scan, non-ASCII scan, diff check, review notes, commit, push.
-  Verification: Recorded in `test-plan.md` and `review.md`.
+- [x] T001: Install the approved overview asset.
+  Scope: Add `docs/assets/tracerail-overview.png` without altering the supplied image.
+  Verification: Confirm PNG format, dimensions, file size, and repository path.
+- [x] T002: Rewrite the public README.
+  Scope: Replace the long framework-first copy with positioning, one visual, five workflow steps, core contracts, quick start, repository guide, principles, and status.
+  Verification: Review heading structure, line count, links, terminology, and first-screen story.
+- [x] T003: Align structural validation.
+  Scope: Require the new overview asset and concise README headings in `scripts/check-template.ps1`.
+  Verification: The checker passes with the new asset and fails when its requirement is absent.
+- [x] T004: Align trace artifacts and remove rejected drafts.
+  Scope: V8 feature package, asset docs, milestone, changelog, memory, and superseded SVG files.
+  Verification: Search finds no active claim that the rejected SVG is the V8 source of truth.
+- [ ] T005: Validate and review the final V8 revision.
+  Scope: Template checker, image inspection, links, placeholders, ASCII, whitespace, rendered desktop and narrow views, and diff review.
+  Verification: Evidence is recorded in `test-plan.md` and `review.md`.
+- [ ] T006: Commit and push for approval.
+  Scope: Stage only V8 production-readiness changes, commit, and push the version branch.
+  Verification: Clean branch status and remote branch commit.
 
 ## Dependencies
 
-- T002 depended on T001.
-- T003 depended on T002.
-- T004 depended on T003.
-- T005 depended on T004.
+T001 and T002 establish the public surface. T003 and T004 make it durable. T005 gates T006.
 
 ## Out Of Scope
 
-- Renaming TraceRail.
-- Adding a live demo site.
-- Installing animation, diagramming, or design dependencies.
+- Merge to `main` without a new approval.
+- Repository rename.
+- Runtime orchestration implementation.
+- License selection.
