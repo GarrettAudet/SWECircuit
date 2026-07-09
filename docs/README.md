@@ -13,7 +13,7 @@
 | Area | Path | Purpose |
 | --- | --- | --- |
 | AI workflow | `ai/` | Human and agent operating manual. |
-| Assets | `assets/` | README and documentation visual assets. |
+| Assets | `assets/` | README and documentation visual assets plus source generators. |
 | Agents | `agents/` | Standalone agent work package guidance. |
 | IDE interaction | `ide/` | Chat-visible workflow protocol. |
 | Framework | `framework/` | Rail composition, modules, adapters, orchestration, and templates. |

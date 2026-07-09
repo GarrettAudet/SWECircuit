@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Polished the README demo GIF sequence and added deterministic visual source generation.
 - Professionalized the public repository surface with contribution, support, security, conduct, documentation, quality, issue-template, and CI guidance.
 - Added a repository documentation index, file architecture guide, and repository standards guide.
 

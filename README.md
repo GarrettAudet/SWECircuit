@@ -55,7 +55,7 @@ The same rail can accept other review gates when the project needs them:
 goal | clarify | spec | security_review | architecture_review | task_plan | implement | performance_review | verify | review | memory
 ```
 
-The demo sequence shows TraceRail in three moves: define the module contract, compose modules into rails, then connect rails, packs, adapters, memory, and agents into a modular platform.
+The demo sequence shows TraceRail in three moves: define the module contract, compose modules into rails, then connect rails, packs, adapters, memory, and agents into a modular platform. The assets are generated from deterministic source under `docs/assets/source/` so the visuals stay traceable.
 
 **1. Define the core module contract**
 
