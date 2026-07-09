@@ -6,7 +6,7 @@ TraceRail V8 README visual clarity on branch `codex/v8-readme-visual-clarity`.
 
 ## Current Stage
 
-V8 replaces the GIF-first README explanation and rejected generated PNG with a primary SVG concept visual centered on `goal | spec | rail | gates | evidence | memory`. The SVG fix passed local validation on the V8 branch; commit, push, and user review remain before merge to `main`.
+V8 replaces the GIF-first README explanation and rejected generated PNG with a primary SVG concept visual centered on `goal | spec | rail | gates | evidence | memory`. The SVG fix passed local validation and was pushed to the V8 branch; user review remains before merge to `main`.
 
 ## Important Current Constraints
 
