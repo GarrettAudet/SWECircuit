@@ -10,7 +10,7 @@ Approved for user review.
 
 ## Spec Alignment
 
-V6 satisfies the spec by adding rail, module, and pack catalogs; updating navigation and governance; mapping best-in-class repos into module or adapter contracts; clarifying the README module/rail plug-in model with an architecture-review example; hardening `AGENTS.md` as the concise agent contract and routing index; validating the new structure through the checker; and adding a professional repository surface with governance, docs navigation, quality standards, issue templates, and CI validation.
+V6 satisfies the spec by adding rail, module, and pack catalogs; updating navigation and governance; mapping best-in-class repos into module or adapter contracts; clarifying the README module/rail plug-in model with an architecture-review example and animated GIF; hardening `AGENTS.md` as the concise agent contract and routing index; validating the new structure through the checker; and adding a professional repository surface with governance, docs navigation, quality standards, issue templates, and CI validation.
 
 ## Architecture Alignment
 
@@ -23,6 +23,7 @@ The change preserves TraceRail's architecture. Rail Composition remains the core
 - Non-ASCII scan returned no matches.
 - `git diff --check` passed.
 - Repository professionalization feature package reviewed: `docs/specs/v6-repo-professionalization/`.
+- README module/rail/platform GIF sequence feature package reviewed: `docs/specs/v6-readme-module-flow-gif/`.
 
 ## Findings
 
@@ -41,4 +42,4 @@ The change preserves TraceRail's architecture. Rail Composition remains the core
 
 ## Memory And Docs
 
-Updated rails, modules, packs, README, AGENTS, handbook, framework docs, PR template, checker, milestone, repository professionalization package, root governance files, docs index, architecture and quality docs, issue templates, CI workflow, and memory files, including the architecture-review module and README visual. Post-review AGENTS hardening is recorded in implementation notes and memory patterns.
+Updated rails, modules, packs, README, AGENTS, handbook, framework docs, PR template, checker, milestone, repository professionalization package, root governance files, docs index, architecture and quality docs, issue templates, CI workflow, and memory files, including the architecture-review module and README GIF demo sequence. Post-review AGENTS hardening is recorded in implementation notes and memory patterns.
