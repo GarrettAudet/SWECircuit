@@ -53,4 +53,4 @@ Fixed for V7. Representative frames were regenerated and visually inspected.
 
 ## Next Action
 
-Run final validation, review the diff, commit, and push the V7 branch for approval.
+Review the pushed branch or PR, then merge only after user approval.

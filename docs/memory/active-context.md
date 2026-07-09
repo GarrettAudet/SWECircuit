@@ -41,6 +41,7 @@ V7 is implemented, validated, pushed to origin, and ready for user approval. The
 ## Next Likely Work
 
 - Review the pushed V7 branch or PR body and approve or request changes before merging to `main`.
+- V7 PR creation link: `https://github.com/GarrettAudet/TraceRail/pull/new/codex/v7-readme-demo-polish`
 - Dogfood V7 visual asset standards on future README or documentation visuals.
 - Dogfood `tracepack-orchestration-readiness` on write-enabled implementation fan-out before marking it recommended.
 - Choose a public license before broad external reuse or package distribution.

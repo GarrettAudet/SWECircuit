@@ -36,7 +36,7 @@ Complete.
 
 ## Skipped Checks
 
-- Live GitHub preview is skipped because this branch is local until approval and push; local frame inspection covers the changed assets.
+- Live GitHub preview should be reviewed on the pushed branch or PR before merge; local frame inspection covers the changed assets before remote review.
 
 ## Verification Evidence
 
