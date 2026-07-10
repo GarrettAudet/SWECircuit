@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Hardened the V8.1 manual baseline with honest positioning, standardized contracts, dynamic validation, provenance, negative fixtures, and write-enabled dogfood evidence.
+- Hardened the V8.1 manual baseline with honest positioning, standardized contracts, dynamic validation, provenance, negative fixtures, cross-edition CI handling, and write-enabled dogfood evidence.
 
 - Added the approved TraceRail overview and a concise, product-first README.
 - Polished the README demo GIF sequence and added deterministic visual source generation.

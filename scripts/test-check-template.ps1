@@ -43,13 +43,41 @@ function Invoke-CheckerProcess {
     param([string]$Fixture)
 
     $checker = Join-Path $Fixture "scripts\check-template.ps1"
-    $output = & $powerShellExe -NoProfile -ExecutionPolicy Bypass -File $checker -Root $Fixture 2>&1 | Out-String
-    $exitCode = $LASTEXITCODE
+    $previousErrorActionPreference = $ErrorActionPreference
+    $nativePreference = Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue
+    $previousNativePreference = if ($null -ne $nativePreference) { $nativePreference.Value } else { $null }
+
+    try {
+        $ErrorActionPreference = "Continue"
+        if ($null -ne $nativePreference) {
+            Set-Variable -Name PSNativeCommandUseErrorActionPreference -Value $false -Scope Local
+        }
+
+        $output = & $powerShellExe -NoProfile -ExecutionPolicy Bypass -File $checker -Root $Fixture 2>&1
+        $exitCode = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $previousErrorActionPreference
+        if ($null -ne $nativePreference) {
+            Set-Variable -Name PSNativeCommandUseErrorActionPreference -Value $previousNativePreference -Scope Local
+        }
+    }
 
     return [pscustomobject]@{
         ExitCode = $exitCode
-        Output = $output.Trim()
+        Output = ($output | Out-String).Trim()
     }
+}
+
+function Write-RegressionFailure {
+    param([string]$Message)
+
+    if ($env:GITHUB_ACTIONS -eq "true") {
+        $escaped = $Message.Replace("%", "%25").Replace([string][char]13, "%0D").Replace([string][char]10, "%0A")
+        Write-Host "::error title=TraceRail checker regression::$escaped"
+        return
+    }
+
+    Write-Error $Message -ErrorAction Continue
 }
 
 function Assert-CheckerResult {
@@ -175,7 +203,9 @@ try {
     Assert-CheckerResult "patterns missing source map" $patternFixture $false
 
     if ($failures.Count -gt 0) {
-        $failures | ForEach-Object { Write-Error $_ }
+        foreach ($failure in $failures) {
+            Write-RegressionFailure $failure
+        }
         exit 1
     }
 

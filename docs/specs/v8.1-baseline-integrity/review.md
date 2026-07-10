@@ -31,6 +31,7 @@ V8.1 remains file-based and dependency-free. It does not preempt V9 language, sc
 | --- | --- | --- |
 | Medium | Only two of four worker attempts produced write handoffs. | Preserve evidence; require liveness controls and isolated runtime tests in V9+. |
 | Medium | Checker semantics still operate on Markdown rather than typed manifests. | Build machine-readable V9 kernel. |
+| Medium | Initial branch CI passed the positive checker but failed the regression harness under PowerShell Core. | Make expected child exits edition-explicit, retain the failed run, and require a green retry. |
 | Medium | No public license is selected. | Owner decision required before broad reuse. |
 | Low | V1 decision provenance is retrospective. | Preserve strongest available milestone source. |
 | Low | V8.1 is stacked on unmerged V8. | Review and merge as one approved baseline. |

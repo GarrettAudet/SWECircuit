@@ -26,6 +26,7 @@ V8.1 passed local implementation, integration, verification, and review. The bra
 - Positive validation needs permanent malformed-artifact fixtures.
 - Every distinct parser path needs a dedicated negative fixture; green adjacent tests are not proof.
 - Generated-script recovery should use baseline restoration plus literal boundary-checked replay.
+- Expected child-process failures must be insulated from PowerShell-edition native-command preferences.
 - Durable decisions and named patterns need source provenance.
 - Public documentation must distinguish current capabilities from the target model.
 

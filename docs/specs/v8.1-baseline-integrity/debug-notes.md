@@ -10,6 +10,8 @@ The contract-normalization work unit failed twice to produce a shared diff: the 
 
 The checker regression harness exposed two local bootstrap issues. Independent review then found that the rail-outcome parser had lost escape characters while crossing command-string layers, so the existing suite could pass without exercising rail outcome values. An initial regex-based repair expanded dollar-sign replacement tokens and corrupted the checker before parser validation rejected it.
 
+The first pushed CI run passed the positive checker but failed the regression step under PowerShell Core. Public job metadata isolated the failing step; the harness had not explicitly insulated expected nonzero child-checker exits from edition-specific native-command error preferences.
+
 ## Reproduction
 
 1. Assign Work Unit A with apply_patch as the required editor.
@@ -20,6 +22,7 @@ The checker regression harness exposed two local bootstrap issues. Independent r
 6. Inspect the passing checker and observe that the rail parser contains a multiline split pattern and unescaped pipe expressions.
 7. Attempt a regex replacement with a PowerShell source body and observe dollar-sign replacement expansion corrupt the script.
 8. Restore the checker from the branch baseline, replay changes with literal boundary checks, and run the rail-specific negative fixture.
+9. Push commit a3d94cc and observe GitHub Actions run 29068335104 pass the positive checker but fail the regression step.
 
 ## Stable Evidence
 
@@ -29,7 +32,9 @@ The checker regression harness exposed two local bootstrap issues. Independent r
 - Regression harness outputs captured PSScriptRoot parameter timing and Path/PATH Start-Process collision.
 - Review exposed malformed rail parser escapes despite a green nine-case suite.
 - PowerShell parser rejected the unsafe regex-replacement result.
-- Final positive checker and fifteen-case regression suite pass, including completed-criteria, dynamic-discovery, and rail-outcome rejection paths.
+- Final positive checker and fifteen-case regression suite pass locally, including completed-criteria, dynamic-discovery, and rail-outcome rejection paths.
+- GitHub Actions run 29068335104 isolates the remote failure to Run checker regression tests; the positive checker succeeded.
+- The official actions/checkout release API identifies v7.0.0 as current, while the failed run warned that v4 was using a deprecated Node runtime.
 
 ## Failure Classification
 
@@ -39,6 +44,7 @@ The checker regression harness exposed two local bootstrap issues. Independent r
 - Cross-layer string escaping failure.
 - Negative-test coverage gap.
 - Unsafe source transformation.
+- Cross-edition native-process preference mismatch.
 - Successful baseline restoration and centralized recovery.
 
 ## Context Retrieved
@@ -49,6 +55,9 @@ The checker regression harness exposed two local bootstrap issues. Independent r
 - scripts/check-template.ps1
 - scripts/test-check-template.ps1
 - PowerShell parser and replacement-string behavior in the current environment.
+- .github/workflows/template-check.yml
+- https://github.com/GarrettAudet/TraceRail/actions/runs/29068335104
+- https://github.com/actions/checkout/releases/tag/v7.0.0
 
 ## Hypotheses
 
@@ -60,6 +69,7 @@ The checker regression harness exposed two local bootstrap issues. Independent r
 | Start-Process is portable in this host. | It works in ordinary Windows sessions. | Host environment exposed duplicate Path/PATH keys. | Replace it with direct child-process invocation. |
 | A green module-outcome fixture also proves rail-outcome parsing. | Both use the same canonical value set. | Rails have a separate Markdown-table parser. | Add a non-canonical rail-outcome fixture. |
 | Regex replacement is safe for PowerShell source bodies. | It can replace a bounded function in one operation. | Dollar-sign sequences have replacement semantics. | Parse the rewritten script, then restore and use literal substring splicing. |
+| Expected child exit codes behave identically across PowerShell editions. | Local Windows PowerShell runs passed. | The first pwsh CI run failed only in the regression step. | Temporarily disable native-command error promotion around child checker invocations and preserve LASTEXITCODE. |
 
 ## Experiments
 
@@ -72,10 +82,12 @@ The checker regression harness exposed two local bootstrap issues. Independent r
 | Regex-based function replacement | Source body can be inserted as a replacement string | Failed | Source containing dollar signs must use literal splicing or a match evaluator. |
 | Restore from HEAD and replay bounded edits | Baseline plus literal edits can recover safely | Passed | The checker returned to a parseable, reviewable state without touching other files. |
 | Permanent malformed-repository fixtures | Checker rejects semantic contract failures | Passed | Fifteen positive/negative cases now protect the baseline. |
+| Explicit native child-process preferences | Expected failing fixtures remain assertion data under pwsh | Passed locally; remote retry required | The harness now preserves child exit codes across PowerShell editions and emits CI-visible failure annotations. |
+| Update actions/checkout from v4 to v7 | Remove the deprecated Node runtime warning | Pending remote retry | The workflow now references the current official major release. |
 
 ## Current Status
 
-The integration owner completed Work Unit A, recovered the checker from its branch baseline, and all fifteen local regression cases pass. Worker and repair failures remain preserved as V9 and tooling requirements.
+The integration owner completed Work Unit A, recovered the checker from its branch baseline, and all fifteen local regression cases pass. The harness now handles expected child failures explicitly across PowerShell editions; merge still requires a green branch CI retry. Worker, repair, and first-CI failures remain preserved as V9 and tooling requirements.
 
 ## Next Action
 
