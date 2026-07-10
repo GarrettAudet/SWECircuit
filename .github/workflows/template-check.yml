@@ -19,6 +19,10 @@ jobs:
         shell: pwsh
         run: .\scripts\check-template.ps1
 
+      - name: Run checker regression tests
+        shell: pwsh
+        run: .\scripts\test-check-template.ps1
+
       - name: Check tracked whitespace
         shell: pwsh
         run: |

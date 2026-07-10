@@ -12,18 +12,18 @@ failure | reproduce | evidence | classify | retrieve | hypotheses | experiment |
 
 ## Modules
 
-| Module | Input | Output | Gate |
-| --- | --- | --- | --- |
-| Reproduce | Failure report | Reproduction steps or reason reproduction is impossible | Failure is stable enough to inspect or route to `block`. |
-| Evidence | Reproduction | Logs, screenshots, traces, failing commands | Evidence is captured or route to `block`. |
-| Classify | Evidence | Failure class | Class is plausible or route to `clarify`. |
-| Retrieve | Failure class | Related code, docs, history, memory | Context is enough or route to `block`. |
-| Hypotheses | Evidence and context | Competing hypotheses | Hypotheses are testable or route to `clarify`. |
-| Experiment | Hypothesis | Result and updated belief | One hypothesis advances or route to next hypothesis. |
-| Root cause | Experiment results | Confirmed cause | Cause is supported by evidence or continue diagnosis. |
-| Fix | Root cause | Small causal fix | Fix addresses cause or route to `diagnose`. |
-| Regression | Fix | Test or guard | Regression coverage exists or risk is recorded. |
-| Memory | RCA | Durable learning | Learning is recorded or explicitly unnecessary. |
+| Module | Input | Action | Output | Gate | Outcomes | Artifacts |
+| --- | --- | --- | --- | --- | --- | --- |
+| Reproduce | Failure report | Establish deterministic steps or document why reproduction is unavailable. | Reproduction steps or constraint | Failure is stable enough to inspect. | `pass`, `clarify`, `block` | Debug notes |
+| Evidence | Reproduction | Capture commands, logs, screenshots, traces, and observed state. | Stable evidence bundle | Evidence is sufficient to classify. | `pass`, `clarify`, `block` | Logs, failing command |
+| Classify | Evidence | Classify requirements, environment, integration, implementation, data, security, performance, or test failure. | Failure class | Classification is evidence-backed. | `pass`, `clarify`, `diagnose` | Debug classification |
+| Retrieve | Failure class | Retrieve related code, docs, history, issues, and prior attempts. | Related context bundle | Context is enough to form hypotheses. | `pass`, `clarify`, `block` | Retrieval pointers |
+| Hypotheses | Evidence and context | Generate competing causal explanations. | Ranked testable hypotheses | At least one safe discriminating test exists. | `pass`, `clarify`, `diagnose` | Hypothesis table |
+| Experiment | One hypothesis | Run one controlled test and update belief. | Result and updated belief | Evidence advances or rejects the hypothesis. | `pass`, `diagnose`, `block` | Experiment record |
+| Root cause | Experiment results | Confirm the causal mechanism and rule out patch-only explanations. | Confirmed cause | Cause is supported by stable evidence. | `pass`, `diagnose`, `clarify` | RCA |
+| Fix | Root cause | Apply the smallest causal change. | Causal fix | Change addresses the confirmed cause. | `pass`, `fix`, `diagnose`, `redesign` | Diff, implementation notes |
+| Regression | Fix | Add a test, guard, or explicit residual-risk record. | Regression coverage | Recurrence is detectable or accepted as risk. | `pass`, `fix`, `block` | Regression test |
+| Memory | RCA and verification | Promote the durable cause, failed attempts, and retrieval pointers. | Durable learning | Future agents can retrieve the lesson. | `pass`, `learn`, `block` | Memory update |
 
 ## Artifacts
 

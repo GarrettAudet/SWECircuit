@@ -2,12 +2,18 @@
 
 ## Unreleased
 
+- Hardened the V8.1 manual baseline with honest positioning, standardized contracts, dynamic validation, provenance, negative fixtures, and write-enabled dogfood evidence.
+
 - Added the approved TraceRail overview and a concise, product-first README.
 - Polished the README demo GIF sequence and added deterministic visual source generation.
 - Professionalized the public repository surface with contribution, support, security, conduct, documentation, quality, issue-template, and CI guidance.
 - Added a repository documentation index, file architecture guide, and repository standards guide.
 
 ## Version History
+
+### V8.1 Baseline Integrity
+
+- Aligned current-versus-target positioning, module and rail contracts, typed outcomes, checker semantics, memory provenance, and parallel-worker evidence.
 
 ### V8 README Concept Visual
 

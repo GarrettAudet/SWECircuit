@@ -40,7 +40,7 @@ Every module must have the same basic shape.
 | Action | What the module does: transform, decide, retrieve, execute, verify, synthesize, or record. |
 | Output | The artifact, evidence, decision, or handoff the module emits. |
 | Gate | The condition that decides whether the rail continues, loops, splits, blocks, or learns. |
-| Outcome | One of `pass`, `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, or `learn`. |
+| Outcome | One of `pass`, `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, or `learn`. Governance states belong in output artifacts, not this channel. |
 
 Short form:
 
@@ -109,7 +109,7 @@ Useful gate types:
 - Architecture gate: design is local and compatible or the rail routes to `redesign`.
 - Verification gate: evidence proves the acceptance criteria or the rail routes to `fix` or `diagnose`.
 - Review gate: implementation aligns with intent or the rail routes to `fix`, `split`, or `redesign`.
-- Adapter gate: tool value beats complexity or the rail routes to `deferred`, `watch`, or `rejected` in the register.
+- Adapter gate: tool value beats complexity or the module records a watch, deferred, or rejected governance decision and emits `learn`; unresolved authority or risk emits `block`.
 - Merge gate: branch is verified, reviewed, documented, and approved.
 
 ## Artifacts

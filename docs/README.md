@@ -35,6 +35,7 @@
 - Adding a pack: start from `packs/_pack-template.md` and pass conformance review.
 - Evaluating a tool: use `framework/_adapter-evaluation-template.md` and update the practice register.
 - Recording durable context: update `memory/history-ledger.md` and `memory/retrieval-index.md`.
+- Validating workflow changes: run both `scripts/check-template.ps1` and `scripts/test-check-template.ps1`.
 
 ## Review Standard
 

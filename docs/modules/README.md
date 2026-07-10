@@ -16,6 +16,10 @@ Every module records:
 - Artifacts.
 - Adapter.
 
+Catalog modules have dedicated files in this directory. A rail may also define a rail-local module inline when the behavior is specific to that rail, but its table must expose the same input, action, output, gate, outcome, and artifact fields. Promote a rail-local module to this catalog when it is reused across rails or projects.
+
+Workflow outcomes are limited to `pass`, `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, and `learn`. Governance states such as `watch`, `deferred`, and `rejected` belong in output artifacts or registers, not in the workflow outcome channel.
+
 ## Catalog
 
 | Module | Type | Use For |
@@ -36,4 +40,4 @@ Every module records:
 
 ## Promotion Rule
 
-New modules begin as project-local or pack-provided modules. Promote into core only when repeated use proves the module solves a stable failure mode and keeps the quick path simple.
+New modules begin as rail-local, project-local, or pack-provided modules. Promote into core only when repeated use proves the module solves a stable failure mode and keeps the quick path simple.

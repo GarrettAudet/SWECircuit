@@ -149,3 +149,41 @@ For README or docs visuals with exact labels, prefer deterministic source genera
 ### Accepted Asset Over Generated Substitute
 
 When the owner supplies and approves a public asset, preserve that exact artifact and build the copy hierarchy around it. Do not replace it with another generated interpretation unless a new version explicitly reopens the design.
+
+### Current Capability Versus Target Model
+
+When a public visual shows an intended end-to-end system, state which steps the current release executes and which remain human-, IDE-, or adapter-driven.
+
+### Negative Fixtures For Semantic Checks
+
+A structural checker needs permanent malformed-artifact fixtures. A positive pass proves the repository fits the checker; negative fixtures prove the checker rejects the failure modes it claims to enforce.
+
+### Bounded Worker Recovery
+
+Parallel work needs explicit deadlines, observable worker state, typed failure outcomes, and a single integration owner who can retry, narrow, or recover a failed unit without hiding the failure.
+### Literal Replay For Generated Scripts
+
+When a generated or mechanically edited script is corrupted, restore that file from a known branch baseline and replay bounded edits through literal, boundary-checked transformations. Validate syntax after every rewrite; do not pass source containing dollar signs through regex replacement-string semantics.
+## Source Map
+
+Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
+
+| Source Artifacts | Named Patterns |
+| --- | --- |
+| [V1 milestone](../milestones/v1.md) | Simple Surface, Deep Protocols; One Handbook; File-Based First |
+| [Handbook state machine](../ai/handbook.md#4-state-machine) | Typed Stage Outcomes |
+| [Handbook problem-solving protocol](../ai/handbook.md#8-problem-solving-and-root-cause-protocol) | Diagnosis Before Broad Fixes |
+| [V2 spec](../specs/v2-dogfood-parallel-agents/spec.md) | Version Dogfooding; Parallel Work-Unit Contract; Integration Owner; Diagnosis Fan-Out Before Fix Fan-Out; Source First, Summary Second; Ledger Plus Index |
+| [V3 spec](../specs/v3-milestones-and-branch-flow/spec.md) | Development Milestone; Branch Baseline Loop |
+| [Approval-gate spec](../specs/v6-approval-gate-hardening/spec.md) | Milestone Approval Gate |
+| [V4 spec](../specs/v4-agent-work-packages/spec.md) | IDE Workflow Visibility; Standalone Agent Work Package |
+| [Dogfood-run spec](../specs/v6-orchestration-readiness-dogfood/spec.md) | Read-Only Fan-Out Before Write Fan-Out |
+| [V5 spec](../specs/v5-modular-orchestration-framework/spec.md) | Modular Framework Kernel; Adapter Evaluation Before Installation; Decomposition As The Scaling Artifact |
+| [Capability adapter snapshot](../research/snapshots/2026-07-08-capability-adapter-scan.md) | Capability Adapter; Skills-Driven Development Transition; Orchestration Compiler |
+| [Rail Composition snapshot](../research/snapshots/2026-07-08-rail-composition-scan.md) | Rail Composition; Gate As Router |
+| [V6 catalog spec](../specs/v6-module-rail-catalog/spec.md) and [implementation notes](../specs/v6-module-rail-catalog/implementation-notes.md) | Rail And Module Catalogs; Swappable Review Gates; Packs Before Core; Optional Downloads; Agent Contract And Router |
+| [Pack conformance spec](../specs/v6-pack-conformance-checker/spec.md) | Pack Field Conformance |
+| [Repository professionalization spec](../specs/v6-repo-professionalization/spec.md) | Professional Public Surface |
+| [V8 root-cause analysis](../specs/v8-readme-visual-clarity/root-cause-analysis.md) and [implementation notes](../specs/v8-readme-visual-clarity/implementation-notes.md) | Repo Concept Visual; Comprehension Before Visual Polish; Accepted Asset Over Generated Substitute |
+| [V7 implementation notes](../specs/v7-readme-demo-polish/implementation-notes.md) | Deterministic Text-Heavy Visuals |
+| [V8.1 spec](../specs/v8.1-baseline-integrity/spec.md), [test plan](../specs/v8.1-baseline-integrity/test-plan.md), [debug notes](../specs/v8.1-baseline-integrity/debug-notes.md), [root-cause analysis](../specs/v8.1-baseline-integrity/root-cause-analysis.md), and [orchestration run](../specs/v8.1-baseline-integrity/orchestration-run.md) | Current Capability Versus Target Model; Negative Fixtures For Semantic Checks; Bounded Worker Recovery; Literal Replay For Generated Scripts |

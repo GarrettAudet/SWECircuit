@@ -20,13 +20,36 @@ State the problem this module solves.
 
 - List cases where the default workflow is enough.
 
-## Inputs
+## Input
 
 - Required source artifacts, decisions, files, commands, or user context.
 
-## Outputs
+## Action
+
+State the transformation, decision, retrieval, execution, verification, synthesis, or recording step.
+
+## Output
 
 - Required artifacts, evidence, decisions, memory updates, or handoffs.
+
+## Gate
+
+State the evidence required to continue and the route when it is missing.
+
+## Outcome
+
+Use only: `pass`, `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, or `learn`.
+
+## Artifacts
+
+- Inputs preserved.
+- Intermediate evidence.
+- Final output.
+- Memory or handoff records.
+
+## Adapter
+
+State whether the module is file-based or name optional tools that can implement or accelerate it.
 
 ## Stage Hooks
 

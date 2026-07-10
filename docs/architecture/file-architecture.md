@@ -19,6 +19,13 @@ This document explains how the repository is organized so humans and agents can 
 | `.gitattributes` | Maintainers | Line-ending and binary-file rules. |
 | `.gitignore` | Maintainers | Local noise and generated output exclusions. |
 
+## Script Surface
+
+| Path | Owner | Purpose |
+| --- | --- | --- |
+| scripts/check-template.ps1 | Maintainers | Positive structural and semantic validation for the current file-based baseline. |
+| scripts/test-check-template.ps1 | Maintainers | Permanent malformed-repository fixtures proving claimed checker failures are rejected. |
+
 ## Docs Architecture
 
 | Area | Ownership Rule |

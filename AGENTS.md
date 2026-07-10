@@ -212,13 +212,14 @@ If local PowerShell execution policy blocks direct script execution, use:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1
 ```
 
+After changing the checker, module or rail contracts, pack discovery, milestone versioning, or memory provenance rules, also run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-check-template.ps1
+```
+
 If code is later added to this repository, add project-specific format, lint, typecheck, test, and build commands here.
 
 ## Tool Policy
 
 The current TraceRail baseline is file-based, catalog-backed, and adapter-oriented. Do not install Spec Kit, BMAD, LangChain, LangGraph, AutoGen, CrewAI, Serena, Repomix, Basic Memory, agentmemory, Context7, Mem0, Zep, Graphiti, A-MEM, or other external tools unless the user explicitly approves that integration after adapter evaluation.
-
-
-
-
-

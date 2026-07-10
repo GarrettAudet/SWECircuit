@@ -5,7 +5,7 @@
 1. Read `AGENTS.md` and `docs/ai/handbook.md`.
 2. Open or create a feature package under `docs/specs/` for meaningful work.
 3. Keep the change small enough to verify and review.
-4. Run `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1` before requesting review.
+4. Run the template checker and checker regression suite before requesting review.
 5. Update memory, milestone, or retrieval pointers when the work creates durable context.
 
 ## Contribution Rules
@@ -32,6 +32,7 @@ The required local check is:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-check-template.ps1
 ```
 
 For documentation-heavy changes, also scan for unresolved placeholders and non-ASCII text unless the file intentionally needs them.

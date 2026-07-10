@@ -75,6 +75,6 @@ Do not install Astraeus, LangChain, LangGraph, AutoGen, CrewAI, or other orchest
 
 ## Recommendation Evidence
 
-- Dogfooding history: first manual pilot added during V6 on `codex/v6-module-rail-catalog`; first read-only subagent review run recorded in `docs/specs/v6-orchestration-readiness-dogfood/`.
+- Dogfooding history: first manual pilot added during V6 on `codex/v6-module-rail-catalog`; first read-only subagent review run recorded in `docs/specs/v6-orchestration-readiness-dogfood/`; first write-enabled run recorded in `docs/specs/v8.1-baseline-integrity/`, where two of four worker attempts completed and the integration owner recovered the remaining bounded work without file conflicts.
 - Failure mode solved: prevents vague multi-agent fan-out by requiring a shared goal, scoped work units, conflict zones, integration ownership, verification evidence, and memory updates.
-- Known risks: the pack has read-only dogfood evidence but not implementation fan-out evidence; do not mark recommended until repeated usage proves the contract is useful and not too heavy.
+- Known risks: the pack has one partial write-enabled run but no isolated code-slice merge evidence. Worker liveness and retry remain manual. Do not mark recommended until repeated implementation runs prove the contracts, recovery path, and coordination cost are acceptable.

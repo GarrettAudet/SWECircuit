@@ -41,6 +41,7 @@ Required local validation for workflow changes:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-check-template.ps1
 ```
 
 Recommended supplemental checks:

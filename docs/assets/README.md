@@ -8,7 +8,7 @@ This folder stores public README and documentation visuals. Assets should clarif
 
 | File | Used By | Purpose |
 | --- | --- | --- |
-| `tracerail-overview.png` | `README.md` | Primary overview of a task moving through standardized modules, agent routing, verified integration, and memory. |
+| `tracerail-overview.png` | `README.md` | Target operating model for a task moving through standardized modules, agent routing, verified integration, and memory. |
 | `tracerail-module-contract.gif` | Supporting docs | Generated example of a goal becoming a traceable work package. |
 | `tracerail-rail-flow.gif` | Supporting docs | Generated example of gates routing typed outcomes. |
 | `tracerail-platform-composition.gif` | Supporting docs | Generated example of bounded work units returning to an integration owner. |
@@ -16,7 +16,7 @@ This folder stores public README and documentation visuals. Assets should clarif
 
 ## Source
 
-`tracerail-overview.png` is the exact user-approved public overview supplied for V8. Keep the tracked PNG as the presentation source of truth unless a later version explicitly replaces it.
+`tracerail-overview.png` is the exact user-approved public overview supplied for V8. It represents the target operating model, while the README status text defines which parts are currently manual or implemented. Keep the tracked PNG as the presentation source of truth unless a later version explicitly replaces it.
 
 The supporting GIFs are generated from `source/generate-readme-demo-gifs.py` with the bundled Codex Python runtime and Pillow. They are not part of the primary README story.
 

@@ -501,11 +501,13 @@ Update:
 - `active-context.md` when current focus changes.
 - `history-ledger.md` when meaningful work is completed or a workflow version changes.
 - `retrieval-index.md` when a future agent needs a fast pointer to source artifacts.
-- `decisions.md` when a durable decision is made.
+- `decisions.md` when a durable decision is made; every new row must link its `Source` column to the strongest supporting feature package, milestone, research snapshot, review/RCA, or governing core artifact.
 - `known-issues.md` when a real limitation or unresolved bug is discovered.
 - `failed-attempts.md` when an attempted fix did not work and may be repeated later.
-- `patterns.md` when a reusable implementation or workflow pattern emerges.
+- `patterns.md` when a reusable implementation or workflow pattern emerges; every new named pattern must appear in its Source Map with a relative repository link to supporting evidence.
 - `glossary.md` when domain terms need stable definitions.
+
+Do not promote a decision or pattern without existing source evidence. If provenance is uncertain, keep the candidate in feature notes or label the source as uncertain until evidence exists; never invent a link.
 
 Promote to `AGENTS.md` only when a lesson should affect every future agent session.
 
@@ -857,10 +859,3 @@ Work is done when:
 - Durable memory is updated or explicitly not needed.
 - History ledger and retrieval index are updated for meaningful work.
 - The template checker passes.
-
-
-
-
-
-
-

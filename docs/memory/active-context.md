@@ -2,38 +2,37 @@
 
 ## Current Focus
 
-TraceRail V8 README production readiness on branch `codex/v8-readme-visual-clarity`.
+TraceRail V8.1 baseline integrity on branch codex/v8.1-baseline-integrity.
 
 ## Current Stage
 
-V8 passed verification and review after replacing the rejected generated visual direction with the exact user-approved `docs/assets/tracerail-overview.png` and a concise, product-first README. The branch is awaiting user approval before merge to `main`.
+V8.1 passed local implementation, integration, verification, and review. The branch is stacked on the unmerged V8 README work; merge requires green branch CI, user approval, and a license decision or explicit deferral.
 
 ## Important Current Constraints
 
-- Use TraceRail as the public name for this V8 revision because the approved asset is TraceRail-branded.
-- Use Rail Composition as the core primitive: `input | module | module | output`.
-- Keep core usable without downloads or runtime dependencies.
-- Keep the README concise; detailed protocols belong in canonical workflow artifacts.
-- Treat the approved overview PNG as the public visual source of truth for V8.
-- Keep `main` stable until explicit approval.
-- Preserve source artifacts before memory summaries.
-- License selection remains owner-controlled.
-- Public-surface clarity requires rendered human review, not only structural checks.
+- TraceRail is currently a checked, file-based operating protocol, not an executable agent runtime.
+- The README overview represents the target operating model.
+- Canonical workflow outcomes are pass, fix, diagnose, clarify, redesign, split, block, and learn.
+- Governance states such as watch, deferred, and rejected belong in output artifacts.
+- Module and rail contracts are dynamically discovered and checker-enforced.
+- Public reuse remains legally unclear until the owner selects a license.
+- Main remains the stable V7 baseline until stacked V8 and V8.1 approval.
 
 ## Recently Learned
 
-- TraceRail is clearest when described as modular rails that decompose tasks, route bounded work to specialized agents, verify integrated outputs, and preserve a full execution trace.
-- A strong README needs one product definition, one coherent visual, a short workflow explanation, and links to deeper sources.
-- Repeated generated visual attempts can satisfy technical checks and still fail owner acceptance.
-- Once the owner supplies the accepted visual, preserve it directly instead of producing another interpretation.
-- Alt text and concise workflow prose are required because raster labels shrink on narrow screens.
-- Best-practice repositories still fit TraceRail as rails, modules, adapters, or optional packs.
-- Multi-agent fan-out remains safe only after bounded work-unit contracts and integration ownership are explicit.
+- Two of four write-enabled worker attempts completed; disjoint scopes prevented conflicts.
+- A clean worker failure and a timed-out retry both required centralized recovery.
+- File contracts alone cannot enforce heartbeat, deadline, cancellation, retry, or liveness.
+- Positive validation needs permanent malformed-artifact fixtures.
+- Every distinct parser path needs a dedicated negative fixture; green adjacent tests are not proof.
+- Generated-script recovery should use baseline restoration plus literal boundary-checked replay.
+- Durable decisions and named patterns need source provenance.
+- Public documentation must distinguish current capabilities from the target model.
 
 ## Next Likely Work
 
-- Obtain user approval for V8.
-- Merge V8 to `main` only after approval and dogfood it on the next version.
-- Treat any DevRail rename as a dedicated product decision.
-- Dogfood the orchestration-readiness pack on write-enabled implementation fan-out.
-- Choose a public license before broad external reuse.
+- Push V8.1 and confirm CI.
+- Obtain user approval and a license decision or explicit deferral.
+- Merge stacked V8 and V8.1 only after approval.
+- Start V9 from updated main.
+- Define V9 architecture for TypeScript or another owner-approved implementation language, schemas, initializer, validator, event trace, and runtime liveness controls.

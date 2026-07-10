@@ -86,6 +86,255 @@ function Get-MarkdownSection {
     return ""
 }
 
+function Get-NormalizedStatus {
+    param([string]$Text)
+
+    $status = Get-MarkdownSection $Text "Status"
+    if ([string]::IsNullOrWhiteSpace($status)) {
+        return ""
+    }
+
+    $firstLine = @($status -split "\r?\n" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })[0]
+    return $firstLine.Trim().TrimEnd([char[]]".").Trim()
+}
+
+function ConvertTo-RepoRelativePath {
+    param([string]$Path)
+
+    $trimChars = [char[]]@('\', '/')
+    $rootPrefix = [System.IO.Path]::GetFullPath($Root).TrimEnd($trimChars) + [System.IO.Path]::DirectorySeparatorChar
+    $fullPath = [System.IO.Path]::GetFullPath($Path)
+    if (-not $fullPath.StartsWith($rootPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Path is outside the repository root: $Path"
+    }
+
+    return $fullPath.Substring($rootPrefix.Length).Replace('\', '/')
+}
+
+function Get-MarkdownFiles {
+    param([string]$RelativeDirectory)
+
+    $directory = Join-Path $Root $RelativeDirectory
+    if (-not (Test-Path -LiteralPath $directory -PathType Container)) {
+        Add-Failure "Missing required directory: $RelativeDirectory"
+        return @()
+    }
+
+    return @(Get-ChildItem -LiteralPath $directory -Recurse -File -Filter "*.md" |
+        Where-Object { $_.Name -ne "README.md" } |
+        Sort-Object FullName)
+}
+
+function Test-SectionsNonEmpty {
+    param(
+        [string]$RelativePath,
+        [string[]]$SectionNames
+    )
+
+    $path = Join-Path $Root $RelativePath
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        Add-Failure "Missing file for non-empty section check: $RelativePath"
+        return
+    }
+
+    $text = Read-Text $path
+    foreach ($sectionName in $SectionNames) {
+        $section = Get-MarkdownSection $text $sectionName
+        if ([string]::IsNullOrWhiteSpace($section)) {
+            Add-Failure "Section '$sectionName' in $RelativePath must not be empty"
+        }
+    }
+}
+
+function Test-SectionTableColumns {
+    param(
+        [string]$RelativePath,
+        [string]$SectionName,
+        [string[]]$RequiredColumns
+    )
+
+    $path = Join-Path $Root $RelativePath
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        Add-Failure "Missing file for table conformance check: $RelativePath"
+        return
+    }
+
+    $section = Get-MarkdownSection (Read-Text $path) $SectionName
+    if ([string]::IsNullOrWhiteSpace($section)) {
+        Add-Failure "Missing or empty section '$SectionName' in $RelativePath"
+        return
+    }
+
+    $lines = @($section -split "\r?\n")
+    $headerColumns = $null
+    $headerLineIndex = -1
+    for ($i = 0; $i -lt ($lines.Count - 1); $i++) {
+        $headerLine = $lines[$i].Trim()
+        $separatorLine = $lines[$i + 1].Trim()
+        if ($headerLine -notmatch '^\|.*\|$' -or $separatorLine -notmatch '^\|.*\|$') {
+            continue
+        }
+
+        $separatorColumns = @($separatorLine.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
+        $isSeparator = $separatorColumns.Count -gt 0
+        foreach ($column in $separatorColumns) {
+            if ($column -notmatch '^:?-{3,}:?$') {
+                $isSeparator = $false
+                break
+            }
+        }
+
+        if ($isSeparator) {
+            $headerColumns = @($headerLine.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
+            $headerLineIndex = $i
+            break
+        }
+    }
+
+    if ($null -eq $headerColumns) {
+        Add-Failure "Section '$SectionName' in $RelativePath must include a Markdown table"
+        return
+    }
+
+    foreach ($requiredColumn in $RequiredColumns) {
+        if ($headerColumns -notcontains $requiredColumn) {
+            Add-Failure "Table in section '$SectionName' in $RelativePath must include column '$requiredColumn'"
+        }
+    }
+
+    $dataRowCount = 0
+    for ($i = $headerLineIndex + 2; $i -lt $lines.Count; $i++) {
+        $row = $lines[$i].Trim()
+        if ($row -notmatch '^\|.*\|$') {
+            break
+        }
+
+        $dataRowCount++
+        $cells = @($row.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
+        foreach ($requiredColumn in $RequiredColumns) {
+            $columnIndex = [array]::IndexOf($headerColumns, $requiredColumn)
+            if ($columnIndex -lt 0) {
+                continue
+            }
+            if ($cells.Count -le $columnIndex -or [string]::IsNullOrWhiteSpace($cells[$columnIndex])) {
+                Add-Failure "Table row $dataRowCount in section '$SectionName' in $RelativePath has an empty '$requiredColumn' value"
+            }
+        }
+    }
+
+    if ($dataRowCount -eq 0) {
+        Add-Failure "Table in section '$SectionName' in $RelativePath must include at least one data row"
+    }
+}
+$script:CanonicalOutcomes = @(
+    "pass",
+    "fix",
+    "diagnose",
+    "clarify",
+    "redesign",
+    "split",
+    "block",
+    "learn"
+)
+
+function Test-CanonicalOutcomeText {
+    param(
+        [string]$RelativePath,
+        [string]$Context,
+        [string]$Text
+    )
+
+    $tick = [regex]::Escape([string][char]96)
+    $outcomeMatches = [regex]::Matches($Text, "$tick(?<Outcome>[a-z][a-z-]*)$tick")
+    if ($outcomeMatches.Count -eq 0) {
+        Add-Failure "$Context in $RelativePath must include at least one typed outcome"
+        return
+    }
+
+    foreach ($outcomeMatch in $outcomeMatches) {
+        $outcome = $outcomeMatch.Groups["Outcome"].Value
+        if ($script:CanonicalOutcomes -notcontains $outcome) {
+            Add-Failure "$Context in $RelativePath includes non-canonical workflow outcome '$outcome'"
+        }
+    }
+}
+
+function Test-ModuleOutcomes {
+    param([string]$RelativePath)
+
+    $path = Join-Path $Root $RelativePath
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        return
+    }
+
+    $outcomeSection = Get-MarkdownSection (Read-Text $path) "Outcome"
+    if (-not [string]::IsNullOrWhiteSpace($outcomeSection)) {
+        Test-CanonicalOutcomeText $RelativePath "Outcome section" $outcomeSection
+    }
+}
+
+function Test-RailOutcomes {
+    param([string]$RelativePath)
+
+    $path = Join-Path $Root $RelativePath
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        return
+    }
+
+    $section = Get-MarkdownSection (Read-Text $path) "Modules"
+    $lines = @($section -split "\r?\n")
+    $headerIndex = -1
+    $outcomesIndex = -1
+
+    for ($i = 0; $i -lt ($lines.Count - 1); $i++) {
+        $headerLine = $lines[$i].Trim()
+        $separatorLine = $lines[$i + 1].Trim()
+        if ($headerLine -notmatch '^\|.*\|$' -or $separatorLine -notmatch '^\|.*\|$') {
+            continue
+        }
+
+        $separatorColumns = @($separatorLine.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
+        $isSeparator = $separatorColumns.Count -gt 0
+        foreach ($column in $separatorColumns) {
+            if ($column -notmatch '^:?-{3,}:?$') {
+                $isSeparator = $false
+                break
+            }
+        }
+        if (-not $isSeparator) {
+            continue
+        }
+
+        $headers = @($headerLine.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
+        $candidateIndex = [array]::IndexOf($headers, "Outcomes")
+        if ($candidateIndex -ge 0) {
+            $headerIndex = $i
+            $outcomesIndex = $candidateIndex
+            break
+        }
+    }
+
+    if ($headerIndex -lt 0) {
+        return
+    }
+
+    for ($i = $headerIndex + 2; $i -lt $lines.Count; $i++) {
+        $row = $lines[$i].Trim()
+        if ($row -notmatch '^\|.*\|$') {
+            break
+        }
+
+        $cells = @($row.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
+        if ($cells.Count -le $outcomesIndex) {
+            Add-Failure "Module row in $RelativePath is missing its Outcomes value"
+            continue
+        }
+
+        $moduleName = if ($cells.Count -gt 0) { $cells[0] } else { "Unknown module" }
+        Test-CanonicalOutcomeText $RelativePath "Outcomes for module '$moduleName'" $cells[$outcomesIndex]
+    }
+}
+
 function Test-SectionContains {
     param(
         [string]$RelativePath,
@@ -159,12 +408,20 @@ function Test-FeaturePackage {
     $specPath = Join-Path $FeatureDir.FullName "spec.md"
     if (Test-Path -LiteralPath $specPath -PathType Leaf) {
         $spec = Read-Text $specPath
-        if ($spec -notmatch "(?ms)^##\s+Acceptance Criteria\s*(.+?)(^##\s+|\z)") {
+        $specStatus = Get-NormalizedStatus $spec
+        $criteriaMatch = [regex]::Match($spec, "(?ms)^##\s+Acceptance Criteria\s*(.+?)(^##\s+|\z)")
+        if (-not $criteriaMatch.Success) {
             Add-Failure "Missing Acceptance Criteria section in docs/specs/$($FeatureDir.Name)/spec.md"
         } else {
-            $criteria = $matches[1]
-            if ($criteria -notmatch "- \[[ xX]\]") {
+            $criteria = $criteriaMatch.Groups[1].Value
+            $checklistItems = [regex]::Matches($criteria, "(?m)^\s*-\s+\[(?<Mark>[ xX])\]\s+")
+            if ($checklistItems.Count -eq 0) {
                 Add-Failure "Acceptance Criteria must contain checklist items in docs/specs/$($FeatureDir.Name)/spec.md"
+            } elseif ($specStatus -ieq "Complete") {
+                $uncheckedCount = @($checklistItems | Where-Object { $_.Groups["Mark"].Value -notmatch "[xX]" }).Count
+                if ($uncheckedCount -gt 0) {
+                    Add-Failure "Complete feature package has $uncheckedCount unchecked Acceptance Criteria item(s) in docs/specs/$($FeatureDir.Name)/spec.md"
+                }
             }
         }
     }
@@ -180,11 +437,8 @@ function Test-FeaturePackage {
     $debugPath = Join-Path $FeatureDir.FullName "debug-notes.md"
     if (Test-Path -LiteralPath $debugPath -PathType Leaf) {
         $debug = Read-Text $debugPath
-        $status = ""
-        if ($debug -match "(?ms)^##\s+Status\s*(.+?)(^##\s+|\z)") {
-            $status = $matches[1].Trim()
-        }
-        if ($status -notmatch "Not started|Not needed|Draft|Complete") {
+        $status = Get-NormalizedStatus $debug
+        if ($status -notin @("Not started", "Not needed")) {
             foreach ($heading in @("Reproduction", "Stable Evidence", "Failure Classification", "Hypotheses", "Experiments")) {
                 if ($debug -notmatch "(?m)^##\s+$([regex]::Escape($heading))\s*$") {
                     Add-Failure "Debug notes missing $heading in docs/specs/$($FeatureDir.Name)/debug-notes.md"
@@ -214,6 +468,7 @@ $requiredFiles = @(
     ".editorconfig",
     ".gitattributes",
     ".gitignore",
+    "scripts/test-check-template.ps1",
     "CONTRIBUTING.md",
     "SECURITY.md",
     "SUPPORT.md",
@@ -566,8 +821,13 @@ Test-HasHeadings "docs/framework/_module-template.md" @(
     "Purpose",
     "When To Use",
     "When Not To Use",
-    "Inputs",
-    "Outputs",
+    "Input",
+    "Action",
+    "Output",
+    "Gate",
+    "Outcome",
+    "Artifacts",
+    "Adapter",
     "Stage Hooks",
     "Context Bundle",
     "Verification",
@@ -643,7 +903,7 @@ Test-HasHeadings "docs/agents/_template.md" @(
 )
 
 foreach ($featureDir in Get-FeatureDirectories) {
-    if ($featureDir.Name -match "^v(?<Version>\d+)-") {
+    if ($featureDir.Name -match "^v(?<Version>\d+(?:\.\d+)*)-") {
         $version = $matches.Version
         $milestone = "docs/milestones/v$version.md"
         Test-FileExists $milestone | Out-Null
@@ -670,20 +930,29 @@ Test-HasHeadings "docs/rails/README.md" @(
     "Extension Rule"
 )
 
-foreach ($railFile in @(
-    "docs/rails/feature-rail.md",
-    "docs/rails/diagnosis-rail.md",
-    "docs/rails/decomposition-rail.md",
-    "docs/rails/adapter-rail.md",
-    "docs/rails/release-rail.md"
-)) {
-    Test-HasHeadings $railFile @(
+$railFiles = @(Get-MarkdownFiles "docs/rails")
+if ($railFiles.Count -eq 0) {
+    Add-Failure "No rail Markdown files found under docs/rails"
+}
+foreach ($railFile in $railFiles) {
+    $relativeRailPath = ConvertTo-RepoRelativePath $railFile.FullName
+    Test-HasHeadings $relativeRailPath @(
         "Purpose",
         "Composition",
         "Modules",
         "Artifacts",
         "Stop Conditions"
     )
+    Test-SectionTableColumns $relativeRailPath "Modules" @(
+        "Module",
+        "Input",
+        "Action",
+        "Output",
+        "Gate",
+        "Outcomes",
+        "Artifacts"
+    )
+    Test-RailOutcomes $relativeRailPath
 }
 
 Test-HasHeadings "docs/modules/README.md" @(
@@ -693,33 +962,26 @@ Test-HasHeadings "docs/modules/README.md" @(
     "Promotion Rule"
 )
 
-foreach ($moduleFile in @(
-    "docs/modules/clarify.md",
-    "docs/modules/spec.md",
-    "docs/modules/architecture-review.md",
-    "docs/modules/plan.md",
-    "docs/modules/implement.md",
-    "docs/modules/verify.md",
-    "docs/modules/review.md",
-    "docs/modules/memory.md",
-    "docs/modules/superpowers-transition.md",
-    "docs/modules/astraeus-orchestration-compiler.md",
-    "docs/modules/spec-kit-adapter.md",
-    "docs/modules/retrieval-adapters.md",
-    "docs/modules/memory-adapters.md"
-)) {
-    Test-HasHeadings $moduleFile @(
-        "Purpose",
-        "Input",
-        "Action",
-        "Output",
-        "Gate",
-        "Outcome",
-        "Artifacts",
-        "Adapter"
-    )
+$moduleContractSections = @(
+    "Purpose",
+    "Input",
+    "Action",
+    "Output",
+    "Gate",
+    "Outcome",
+    "Artifacts",
+    "Adapter"
+)
+$moduleFiles = @(Get-MarkdownFiles "docs/modules")
+if ($moduleFiles.Count -eq 0) {
+    Add-Failure "No module Markdown files found under docs/modules"
 }
-
+foreach ($moduleFile in $moduleFiles) {
+    $relativeModulePath = ConvertTo-RepoRelativePath $moduleFile.FullName
+    Test-HasHeadings $relativeModulePath $moduleContractSections
+    Test-SectionsNonEmpty $relativeModulePath $moduleContractSections
+    Test-ModuleOutcomes $relativeModulePath
+}
 Test-HasHeadings "docs/packs/README.md" @(
     "Purpose",
     "Tiers",
@@ -769,21 +1031,34 @@ Test-HasHeadings "docs/packs/official/README.md" @(
     "Promotion Rule"
 )
 
-Test-HasHeadings "docs/packs/official/tracepack-orchestration-readiness/README.md" @(
-    "Pack Name",
-    "Status",
-    "Purpose",
-    "Provides",
-    "Requires",
-    "Permissions",
-    "Contracts",
-    "Installation",
-    "Verification",
-    "Maintenance",
-    "Recommendation Evidence"
-)
-
-Test-PackConformance "docs/packs/official/tracepack-orchestration-readiness/README.md"
+$officialPacksRoot = Join-Path $Root "docs\packs\official"
+$officialPackDirectories = @()
+if (Test-Path -LiteralPath $officialPacksRoot -PathType Container) {
+    $officialPackDirectories = @(Get-ChildItem -LiteralPath $officialPacksRoot -Directory | Sort-Object Name)
+}
+if ($officialPackDirectories.Count -eq 0) {
+    Add-Failure "No official pack directories found under docs/packs/official"
+}
+foreach ($officialPackDirectory in $officialPackDirectories) {
+    $packReadmePath = Join-Path $officialPackDirectory.FullName "README.md"
+    $relativePackReadmePath = ConvertTo-RepoRelativePath $packReadmePath
+    if (Test-FileExists $relativePackReadmePath) {
+        Test-HasHeadings $relativePackReadmePath @(
+            "Pack Name",
+            "Status",
+            "Purpose",
+            "Provides",
+            "Requires",
+            "Permissions",
+            "Contracts",
+            "Installation",
+            "Verification",
+            "Maintenance",
+            "Recommendation Evidence"
+        )
+        Test-PackConformance $relativePackReadmePath
+    }
+}
 
 Test-HasHeadings "docs/packs/official/tracepack-orchestration-readiness/examples/three-agent-docs-run.md" @(
     "Purpose",
@@ -835,6 +1110,9 @@ Test-HasHeadings "docs/specs/_template/root-cause-analysis.md" @(
     "Memory Update"
 )
 
+Test-SectionTableColumns "docs/memory/decisions.md" "Decision Log" @("Source")
+Test-HasHeadings "docs/memory/patterns.md" @("Source Map")
+Test-SectionTableColumns "docs/memory/patterns.md" "Source Map" @("Source Artifacts", "Named Patterns")
 $prTemplatePath = Join-Path $Root ".github\pull_request_template.md"
 if (Test-Path -LiteralPath $prTemplatePath -PathType Leaf) {
     $pr = Read-Text $prTemplatePath

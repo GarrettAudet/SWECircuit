@@ -2,13 +2,17 @@
 
 [![Template check](https://github.com/GarrettAudet/TraceRail/actions/workflows/template-check.yml/badge.svg)](https://github.com/GarrettAudet/TraceRail/actions/workflows/template-check.yml)
 
-**Modular rails for AI software development teams.**
+**A checked operating protocol for modular AI software development.**
 
-TraceRail gives teams a standard way to decompose tasks, route work to specialized agents, verify outputs, and merge changes with a full execution trace.
+TraceRail gives humans and capable IDE agents a standard way to decompose tasks, coordinate specialized agents, verify outputs, and preserve an auditable development trail.
+
+_The diagram shows the target operating model. Today, TraceRail provides the file-based contracts, gates, artifacts, and memory that an IDE or external agent runtime follows; it does not yet execute the rail itself._
 
 ![TraceRail turns a task into a spec and plan, routes bounded work packets to specialized agents, merges and verifies their outputs, and preserves review evidence and memory.](docs/assets/tracerail-overview.png)
 
 ## How It Works
+
+Today, a human or capable IDE agent executes these steps by following the repository contracts:
 
 1. **Define the rail.** Compose reusable modules for the workflow your project needs.
 2. **Decompose the task.** Turn the goal into a spec, plan, and bounded work packets.
@@ -78,6 +82,6 @@ The core is file-based and dependency-free. External frameworks and agent runtim
 
 ## Status
 
-TraceRail is an early, file-based framework under active development. The current baseline supports disciplined single-agent work end to end and provides contracts for bounded multi-agent decomposition, routing, integration, and review. Runtime adapters remain optional until dogfooding proves they improve correctness or coordination.
+TraceRail is an early, file-based protocol under active development. The current baseline supports disciplined single-agent work end to end and provides manually executed contracts for bounded multi-agent decomposition, routing, integration, and review. It does not yet launch agents, evaluate gates, merge branches, capture full transcripts, or improve itself automatically. Those capabilities belong to the planned executable kernel and optional runtime adapters.
 
 See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Support](SUPPORT.md), and the [Changelog](CHANGELOG.md).

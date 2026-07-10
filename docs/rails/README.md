@@ -31,6 +31,8 @@ Every rail records:
 - Review.
 - Memory updates.
 
+Every row in a rail's Modules table defines either a catalog module or a rail-local module and must include module, input, action, output, gate, outcomes, and artifacts. Rail-local modules are promoted to standalone catalog files when repeated use proves they are reusable.
+
 ## Extension Rule
 
 New rails should start as project-local or pack-provided rails. Promote to core only after repeated use shows that the rail solves a stable failure mode.

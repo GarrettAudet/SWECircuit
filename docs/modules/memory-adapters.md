@@ -13,21 +13,22 @@ Connect source-preserving memory to optional external memory systems.
 
 ## Action
 
-Preserve source truth, distill durable summaries, and keep future retrieval fast.
+Preserve source truth, distill durable summaries, evaluate the adapter, and keep future retrieval fast.
 
 ## Output
 
 - Memory update.
 - Retrieval pointer.
 - Optional external memory record.
+- Governance decision recorded as accepted, watch, deferred, or rejected.
 
 ## Gate
 
-Memory remains inspectable, source-preserving, private enough, and reversible, or adapter adoption routes to `deferred` or `rejected`.
+Memory remains inspectable, source-preserving, private enough, and reversible. If adoption should not continue, record the governance decision in the output and route with `learn`; use `block` when authority, privacy, or evidence is unresolved.
 
 ## Outcome
 
-`pass`, `learn`, `deferred`, or `rejected`.
+`pass`, `learn`, or `block`.
 
 ## Artifacts
 
@@ -35,6 +36,7 @@ Memory remains inspectable, source-preserving, private enough, and reversible, o
 - History ledger.
 - Retrieval index.
 - Adapter evaluation.
+- Practice-register decision.
 
 ## Adapter
 
