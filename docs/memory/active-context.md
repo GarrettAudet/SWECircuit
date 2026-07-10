@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-TraceRail V8.1 baseline integrity on branch codex/v8.1-baseline-integrity.
+Approved V8/V8.1 baseline merge, followed by V9 intake.
 
 ## Current Stage
 
-V8.1 passed local implementation, integration, verification, review, and branch CI. The branch is stacked on the unmerged V8 README work; merge still requires user approval and a license decision or explicit deferral.
+V8.1 passed local implementation, integration, verification, review, and branch CI. The user approved the stacked V8/V8.1 merge on 2026-07-09. No license selection was provided, so the merge preserves the current unlicensed status.
 
 ## Important Current Constraints
 
@@ -16,7 +16,7 @@ V8.1 passed local implementation, integration, verification, review, and branch 
 - Governance states such as watch, deferred, and rejected belong in output artifacts.
 - Module and rail contracts are dynamically discovered and checker-enforced.
 - Public reuse remains legally unclear until the owner selects a license.
-- Main remains the stable V7 baseline until stacked V8 and V8.1 approval.
+- Main remains the stable V7 baseline until the approved V8/V8.1 fast-forward is pushed and verified.
 
 ## Recently Learned
 
@@ -32,7 +32,6 @@ V8.1 passed local implementation, integration, verification, review, and branch 
 
 ## Next Likely Work
 
-- Obtain user approval and a license decision or explicit deferral.
-- Merge stacked V8 and V8.1 only after approval.
+- Fast-forward the approved stacked V8/V8.1 baseline into `main`, push, and verify CI.
 - Start V9 from updated main.
 - Define V9 architecture for TypeScript or another owner-approved implementation language, schemas, initializer, validator, event trace, and runtime liveness controls.
