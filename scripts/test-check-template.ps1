@@ -39,35 +39,90 @@ function New-Fixture {
     return $fixture
 }
 
+function ConvertTo-ProcessArgument {
+    param([AllowEmptyString()][string]$Value)
+
+    if ($Value -notmatch '[\s"]') {
+        return $Value
+    }
+
+    $builder = New-Object System.Text.StringBuilder
+    $backslashes = 0
+    [void]$builder.Append([char]34)
+
+    foreach ($character in $Value.ToCharArray()) {
+        if ($character -eq [char]92) {
+            $backslashes++
+            continue
+        }
+
+        if ($character -eq [char]34) {
+            [void]$builder.Append([char]92, ($backslashes * 2) + 1)
+            [void]$builder.Append([char]34)
+            $backslashes = 0
+            continue
+        }
+
+        if ($backslashes -gt 0) {
+            [void]$builder.Append([char]92, $backslashes)
+            $backslashes = 0
+        }
+        [void]$builder.Append($character)
+    }
+
+    if ($backslashes -gt 0) {
+        [void]$builder.Append([char]92, $backslashes * 2)
+    }
+    [void]$builder.Append([char]34)
+    return $builder.ToString()
+}
+
 function Invoke-CheckerProcess {
     param([string]$Fixture)
 
     $checker = Join-Path $Fixture "scripts\check-template.ps1"
-    $previousErrorActionPreference = $ErrorActionPreference
-    $nativePreference = Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue
-    $previousNativePreference = if ($null -ne $nativePreference) { $nativePreference.Value } else { $null }
+    $arguments = @(
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        $checker,
+        "-Root",
+        $Fixture
+    )
+    $quotedArguments = @($arguments | ForEach-Object { ConvertTo-ProcessArgument $_ })
+
+    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $startInfo.FileName = $powerShellExe
+    $startInfo.Arguments = $quotedArguments -join " "
+    $startInfo.UseShellExecute = $false
+    $startInfo.CreateNoWindow = $true
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.RedirectStandardError = $true
+
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = $startInfo
 
     try {
-        $ErrorActionPreference = "Continue"
-        if ($null -ne $nativePreference) {
-            Set-Variable -Name PSNativeCommandUseErrorActionPreference -Value $false -Scope Local
+        if (-not $process.Start()) {
+            throw "Child checker process did not start."
         }
 
-        $output = & $powerShellExe -NoProfile -ExecutionPolicy Bypass -File $checker -Root $Fixture 2>&1
-        $exitCode = $LASTEXITCODE
+        $standardOutput = $process.StandardOutput.ReadToEnd()
+        $standardError = $process.StandardError.ReadToEnd()
+        $process.WaitForExit()
+
+        $combinedOutput = @($standardOutput, $standardError) |
+            Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+
+        return [pscustomobject]@{
+            ExitCode = $process.ExitCode
+            Output = ($combinedOutput -join [Environment]::NewLine).Trim()
+        }
     } finally {
-        $ErrorActionPreference = $previousErrorActionPreference
-        if ($null -ne $nativePreference) {
-            Set-Variable -Name PSNativeCommandUseErrorActionPreference -Value $previousNativePreference -Scope Local
-        }
-    }
-
-    return [pscustomobject]@{
-        ExitCode = $exitCode
-        Output = ($output | Out-String).Trim()
+        $process.Dispose()
     }
 }
-
 function Write-RegressionFailure {
     param([string]$Message)
 
@@ -210,11 +265,19 @@ try {
     }
 
     Write-Host "TraceRail checker regression tests passed."
+} catch {
+    Write-RegressionFailure ("Unhandled regression harness error: " + $_.Exception.Message)
+    exit 1
 } finally {
     if (Test-Path -LiteralPath $testRoot) {
         $resolvedCleanup = [System.IO.Path]::GetFullPath($testRoot)
         if ($resolvedCleanup.StartsWith($tempParent, [System.StringComparison]::OrdinalIgnoreCase)) {
-            Remove-Item -LiteralPath $resolvedCleanup -Recurse -Force
+            try {
+                Remove-Item -LiteralPath $resolvedCleanup -Recurse -Force
+            } catch {
+                Write-RegressionFailure ("Fixture cleanup failed: " + $_.Exception.Message)
+                throw
+            }
         }
     }
 }

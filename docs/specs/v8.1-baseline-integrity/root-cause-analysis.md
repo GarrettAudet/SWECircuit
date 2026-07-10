@@ -21,11 +21,11 @@ The failures had six causes:
 3. The first regression harness resolved PSScriptRoot too early and used Start-Process in an environment with duplicate case-insensitive Path keys.
 4. Rail-parser source crossed multiple command-string escape layers without a rail-specific negative fixture, allowing malformed escapes to survive positive validation.
 5. The first repair used a .NET regex replacement string for source containing dollar signs, which invoked replacement-token semantics instead of preserving the source literally.
-6. The regression harness treated expected nonzero child-checker exits as assertion data locally but did not explicitly disable PowerShell Core native-command error promotion around those invocations.
+6. The regression harness launched expected-failure fixtures through PowerShell native invocation. A local preference override was insufficient in GitHub Actions, so the harness did not reliably reach assertion reporting under PowerShell Core.
 
 ## Why It Was Missed
 
-The previous dogfood run was read-only and did not exercise worker editing, liveness, cancellation, or a subprocess-heavy negative fixture harness. The first V8.1 suite tested module outcome values and rail table columns but not rail outcome values, so it could not prove the separate table parser. Parser validation was initially run before, rather than after, the unsafe repair. Local verification used Windows PowerShell 5, so it did not exercise the PowerShell Core preference behavior used by GitHub Actions.
+The previous dogfood run was read-only and did not exercise worker editing, liveness, cancellation, or a subprocess-heavy negative fixture harness. The first V8.1 suite tested module outcome values and rail table columns but not rail outcome values, so it could not prove the separate table parser. Parser validation was initially run before, rather than after, the unsafe repair. Local verification used Windows PowerShell 5, so it did not exercise the PowerShell Core process behavior used by GitHub Actions. The first preference-only repair was based on an incomplete hypothesis and failed in run 29068699508.
 
 ## Fix
 
@@ -36,8 +36,8 @@ The previous dogfood run was read-only and did not exercise worker editing, live
 - Add permanent positive and negative regression tests for every semantic parser path.
 - Restore corrupted generated scripts from a known branch baseline and replay edits with literal, boundary-checked transformations.
 - Run parser validation after every source rewrite and before semantic tests.
-- Preserve and restore native-command preferences while child checkers intentionally return failure codes.
-- Emit explicit GitHub Actions error annotations when a regression assertion fails.
+- Launch child checkers with System.Diagnostics.Process so exit codes, stdout, and stderr are assertion data independent of PowerShell native-command policy.
+- Emit explicit GitHub Actions error annotations for failed assertions, unhandled harness exceptions, and cleanup failures.
 - Track the current official major of actions/checkout instead of retaining the deprecated v4 runtime.
 - Promote heartbeat, deadline, cancellation, retry, raw-handoff, and source-safe editing requirements into follow-up work.
 

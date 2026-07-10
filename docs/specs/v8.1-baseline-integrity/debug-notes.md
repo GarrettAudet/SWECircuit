@@ -23,6 +23,7 @@ The first pushed CI run passed the positive checker but failed the regression st
 7. Attempt a regex replacement with a PowerShell source body and observe dollar-sign replacement expansion corrupt the script.
 8. Restore the checker from the branch baseline, replay changes with literal boundary checks, and run the rail-specific negative fixture.
 9. Push commit a3d94cc and observe GitHub Actions run 29068335104 pass the positive checker but fail the regression step.
+10. Push the preference-only fix in commit d1d5e13 and observe run 29068699508 fail at the same step without reaching assertion annotations.
 
 ## Stable Evidence
 
@@ -33,7 +34,8 @@ The first pushed CI run passed the positive checker but failed the regression st
 - Review exposed malformed rail parser escapes despite a green nine-case suite.
 - PowerShell parser rejected the unsafe regex-replacement result.
 - Final positive checker and fifteen-case regression suite pass locally, including completed-criteria, dynamic-discovery, and rail-outcome rejection paths.
-- GitHub Actions run 29068335104 isolates the remote failure to Run checker regression tests; the positive checker succeeded.
+- GitHub Actions runs 29068335104 and 29068699508 isolate the remote failure to Run checker regression tests; the positive checker succeeded in both.
+- Run 29068699508 disproves the preference-only repair because it failed before the new assertion annotations were emitted.
 - The official actions/checkout release API identifies v7.0.0 as current, while the failed run warned that v4 was using a deprecated Node runtime.
 
 ## Failure Classification
@@ -69,7 +71,7 @@ The first pushed CI run passed the positive checker but failed the regression st
 | Start-Process is portable in this host. | It works in ordinary Windows sessions. | Host environment exposed duplicate Path/PATH keys. | Replace it with direct child-process invocation. |
 | A green module-outcome fixture also proves rail-outcome parsing. | Both use the same canonical value set. | Rails have a separate Markdown-table parser. | Add a non-canonical rail-outcome fixture. |
 | Regex replacement is safe for PowerShell source bodies. | It can replace a bounded function in one operation. | Dollar-sign sequences have replacement semantics. | Parse the rewritten script, then restore and use literal substring splicing. |
-| Expected child exit codes behave identically across PowerShell editions. | Local Windows PowerShell runs passed. | The first pwsh CI run failed only in the regression step. | Temporarily disable native-command error promotion around child checker invocations and preserve LASTEXITCODE. |
+| Expected child exit codes behave identically across PowerShell editions. | Local Windows PowerShell runs passed. | Both pwsh CI runs failed only in the regression step; a local preference override did not change the result. | Bypass the native invocation path with System.Diagnostics.Process and preserve the process exit code directly. |
 
 ## Experiments
 
@@ -82,12 +84,13 @@ The first pushed CI run passed the positive checker but failed the regression st
 | Regex-based function replacement | Source body can be inserted as a replacement string | Failed | Source containing dollar signs must use literal splicing or a match evaluator. |
 | Restore from HEAD and replay bounded edits | Baseline plus literal edits can recover safely | Passed | The checker returned to a parseable, reviewable state without touching other files. |
 | Permanent malformed-repository fixtures | Checker rejects semantic contract failures | Passed | Fifteen positive/negative cases now protect the baseline. |
-| Explicit native child-process preferences | Expected failing fixtures remain assertion data under pwsh | Passed locally; remote retry required | The harness now preserves child exit codes across PowerShell editions and emits CI-visible failure annotations. |
+| Explicit native child-process preferences | Expected failing fixtures remain assertion data under pwsh | Failed in run 29068699508 | Preference assignment alone did not reach assertion handling in CI. |
+| System.Diagnostics.Process child isolation | Bypass PowerShell native-command semantics while preserving process exit codes | Passed locally; remote retry required | The harness now reads exit code, stdout, and stderr directly and annotates top-level or cleanup failures. |
 | Update actions/checkout from v4 to v7 | Remove the deprecated Node runtime warning | Pending remote retry | The workflow now references the current official major release. |
 
 ## Current Status
 
-The integration owner completed Work Unit A, recovered the checker from its branch baseline, and all fifteen local regression cases pass. The harness now handles expected child failures explicitly across PowerShell editions; merge still requires a green branch CI retry. Worker, repair, and first-CI failures remain preserved as V9 and tooling requirements.
+The integration owner completed Work Unit A, recovered the checker from its branch baseline, and all fifteen local regression cases pass. The preference-only CI repair was rejected; child checkers now run through System.Diagnostics.Process, and merge still requires a green branch CI retry. Worker, repair, and first-CI failures remain preserved as V9 and tooling requirements.
 
 ## Next Action
 

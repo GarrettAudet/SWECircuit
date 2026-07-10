@@ -13,7 +13,7 @@ Complete.
 - Fixed completed-debug validation and added decimal milestone support.
 - Added source provenance to 28 decisions and 36 named patterns.
 - Added permanent negative checker tests and CI execution.
-- Made expected child-checker failures portable across Windows PowerShell and PowerShell Core, with CI-visible assertion annotations.
+- Moved child-checker execution to System.Diagnostics.Process so expected failures are independent of Windows PowerShell versus PowerShell Core native-command behavior, with CI-visible assertion and exception annotations.
 - Updated actions/checkout from deprecated v4 to the current official v7 release.
 - Updated agent, contributor, quality, feature, orchestration, memory, and milestone guidance.
 
