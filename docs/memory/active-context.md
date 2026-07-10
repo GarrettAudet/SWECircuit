@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Approved V8/V8.1 baseline merge, followed by V9 intake.
+V9 intake from the stable V8/V8.1 `main` baseline.
 
 ## Current Stage
 
-V8.1 passed local implementation, integration, verification, review, and branch CI. The user approved the stacked V8/V8.1 merge on 2026-07-09. No license selection was provided, so the merge preserves the current unlicensed status.
+The approved V8/V8.1 baseline was fast-forwarded into `main` at `fa2a73d`, pushed, and verified by main CI run 29069685873. No license selection was provided, so the repository remains unlicensed.
 
 ## Important Current Constraints
 
@@ -16,7 +16,7 @@ V8.1 passed local implementation, integration, verification, review, and branch 
 - Governance states such as watch, deferred, and rejected belong in output artifacts.
 - Module and rail contracts are dynamically discovered and checker-enforced.
 - Public reuse remains legally unclear until the owner selects a license.
-- Main remains the stable V7 baseline until the approved V8/V8.1 fast-forward is pushed and verified.
+- Main is the stable V8/V8.1 baseline for V9 dogfooding.
 
 ## Recently Learned
 
@@ -32,6 +32,6 @@ V8.1 passed local implementation, integration, verification, review, and branch 
 
 ## Next Likely Work
 
-- Fast-forward the approved stacked V8/V8.1 baseline into `main`, push, and verify CI.
+- Create the V9 version branch from verified `main`.
 - Start V9 from updated main.
 - Define V9 architecture for TypeScript or another owner-approved implementation language, schemas, initializer, validator, event trace, and runtime liveness controls.
