@@ -41,7 +41,7 @@ This document explains how the repository is organized so humans and agents can 
 | `docs/research/` | Dated external practice scans and decisions. |
 | `docs/milestones/` | Version closeout and approval gates. |
 | `docs/quality/` | Repository standards and quality expectations. |
-| `docs/architecture/` | Repository architecture and ownership guidance. |
+| `docs/architecture/` | Repository architecture, ownership guidance, and numbered decisions under `docs/architecture/decisions/`. |
 
 ## Artifact Ownership
 
@@ -69,6 +69,7 @@ Promotion requires repeated use, validation, memory updates, and a clear reason 
 - Use lowercase kebab-case for feature folders, rails, modules, packs, and quality docs.
 - Use version prefixes for TraceRail version packages, such as `v6-module-rail-catalog`.
 - Use dated research snapshots in `YYYY-MM-DD-topic.md` form.
+- Use zero-padded ADR numbers under `docs/architecture/decisions/`, such as `0001-executable-kernel-foundation.md`.
 - Use concise, descriptive root filenames for public governance files.
 
 ## Change Rules

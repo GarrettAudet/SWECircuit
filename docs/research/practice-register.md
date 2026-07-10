@@ -51,6 +51,20 @@ Status values:
 | Codex Chronicle | watch | OpenAI Codex Chronicle docs | Do not require in v2 | Promising source of automatic local memories, but currently platform/account constrained and has privacy/prompt-injection considerations. |
 | CI/spec guardrails | deferred | Spec Kit CI Guard and related extensions | Add local checker first | Deterministic checks are needed, but CI can wait until the template stabilizes. |
 
+| Primary-source architecture gate before public API freeze | accepted | V9 kernel architecture scan | Require a dated scan and ADR before executable contracts | Prevents runtime, schema, package, and trace choices from becoming accidental public APIs. |
+| Node LTS plus compiled TypeScript kernel | accepted | Node release, TypeScript, packages, util, and test docs | Use Node 22.14+ with Node 24 primary and compiled ESM output | Strong IDE reach, supported portability, explicit exports, stable built-in CLI parsing, and stable testing. |
+| Canonical JSON plus JSON Schema 2020-12 | accepted | JSON Schema specification and Ajv strict guidance | Make JSON canonical and validate with Ajv 2020 strict mode | Language-neutral, deterministic, directly consumable by IDEs and adapters, and structurally enforceable. |
+| YAML manifest input | deferred | V9 kernel architecture scan | Consider only as a canonical-JSON conversion adapter | Avoid parser, typing, anchor, duplicate-key, and normalization choices before demand exists. |
+| Append-only source-preserving run events | accepted | CloudEvents, W3C Trace Context, OpenTelemetry, and V8.1 evidence | Use JSONL with identity, causality, links, evidence references, and terminal state | Makes run reconstruction local and auditable without requiring hosted telemetry. |
+| Separate workflow outcomes and execution states | accepted | V8.1 contracts, MCP Tasks, Temporal protocol patterns | Keep routing outcomes, worker status, and governance status as distinct types | Prevents ambiguous state transitions and makes liveness failures explicit. |
+| Capability-declared adapter metadata | accepted | MCP lifecycle and capability negotiation | Define compatibility, capabilities, permissions, configuration schema, and failure behavior | Keeps extensions provider-neutral and inspectable without executing arbitrary code in core. |
+| Dynamic third-party adapter execution | deferred | V9 kernel architecture scan | Define metadata first; design isolation and trust later | Execution requires stronger permission, sandbox, cancellation, and provenance controls. |
+| MCP Tasks compatibility | watch | MCP 2025-11-25 Tasks and 2026 release candidate | Borrow task-lifecycle concepts without claiming protocol compatibility | Tasks remains experimental and the newer MCP revision is not final on the scan date. |
+| Trace minimization and redaction | accepted | OWASP logging guidance and W3C Trace Context privacy | Store references and bounded structured evidence by default; exclude secrets and PII | Full transcript or environment capture creates privacy, security, and retention risk. |
+| OIDC package publishing with provenance | accepted | npm trusted publishing and provenance docs | Require before public npm publishing | Removes long-lived write tokens and links packages to source and build evidence. |
+| Public identity collision check | accepted | V9 scan and npm registry evidence | Resolve adjacent product, domain, repository, and package conflicts before freezing names | DevRail and TraceRail are both already active in adjacent product categories. |
+| Unscoped devrail npm package | rejected | npm registry query on 2026-07-09 | Do not publish under the occupied name | The package is owned by another security and quality guardrails project. |
+| DevRail public identity | watch | devrail.dev and V9 kernel architecture scan | Require explicit owner decision before current-surface rename or API namespace | An active adjacent project already uses DevRail, devrail init, .devrail.yml, agent instructions, and CI gates. |
 ## Promotion Criteria
 
 Promote a practice into the handbook or templates only when it:
