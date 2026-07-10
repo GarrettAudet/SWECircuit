@@ -66,4 +66,4 @@ The permanent regression suite accepts the valid repository and rejects:
 
 ## Verification Evidence
 
-The positive checker passed. Fifteen total regression cases passed: one valid baseline plus fourteen expected rejections. Branch CI is required before merge and is reported in the approval handoff.
+The positive checker passed. Fifteen total regression cases passed: one valid baseline plus fourteen expected rejections. GitHub Actions run 29068919530 passed every workflow step with no annotations; the latest branch commit must retain green CI before merge.

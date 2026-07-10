@@ -23,7 +23,8 @@ V8.1 remains file-based and dependency-free. It does not preempt V9 language, sc
 - PowerShell parser, links, outcomes, provenance, placeholders, ASCII, and whitespace checks passed.
 - Worker changes stayed inside disjoint write scopes.
 - No integration conflicts occurred.
-- Final CI is required after push.
+- GitHub Actions run 29068919530 passed checkout, the positive checker, the fifteen-case regression suite, and whitespace verification with no annotations.
+- The latest branch commit must retain green CI before merge.
 
 ## Findings
 

@@ -6,7 +6,7 @@ TraceRail V8.1 baseline integrity on branch codex/v8.1-baseline-integrity.
 
 ## Current Stage
 
-V8.1 passed local implementation, integration, verification, and review. The branch is stacked on the unmerged V8 README work; merge requires green branch CI, user approval, and a license decision or explicit deferral.
+V8.1 passed local implementation, integration, verification, review, and branch CI. The branch is stacked on the unmerged V8 README work; merge still requires user approval and a license decision or explicit deferral.
 
 ## Important Current Constraints
 
@@ -32,7 +32,6 @@ V8.1 passed local implementation, integration, verification, and review. The bra
 
 ## Next Likely Work
 
-- Push V8.1 and confirm CI.
 - Obtain user approval and a license decision or explicit deferral.
 - Merge stacked V8 and V8.1 only after approval.
 - Start V9 from updated main.

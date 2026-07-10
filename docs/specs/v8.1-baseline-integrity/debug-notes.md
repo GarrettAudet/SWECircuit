@@ -85,13 +85,13 @@ The first pushed CI run passed the positive checker but failed the regression st
 | Restore from HEAD and replay bounded edits | Baseline plus literal edits can recover safely | Passed | The checker returned to a parseable, reviewable state without touching other files. |
 | Permanent malformed-repository fixtures | Checker rejects semantic contract failures | Passed | Fifteen positive/negative cases now protect the baseline. |
 | Explicit native child-process preferences | Expected failing fixtures remain assertion data under pwsh | Failed in run 29068699508 | Preference assignment alone did not reach assertion handling in CI. |
-| System.Diagnostics.Process child isolation | Bypass PowerShell native-command semantics while preserving process exit codes | Passed locally; remote retry required | The harness now reads exit code, stdout, and stderr directly and annotates top-level or cleanup failures. |
-| Update actions/checkout from v4 to v7 | Remove the deprecated Node runtime warning | Pending remote retry | The workflow now references the current official major release. |
+| System.Diagnostics.Process child isolation | Bypass PowerShell native-command semantics while preserving process exit codes | Passed locally and in run 29068919530 | The harness reads exit code, stdout, and stderr directly and annotates top-level or cleanup failures. |
+| Update actions/checkout from v4 to v7 | Remove the deprecated Node runtime warning | Passed in run 29068919530 | The workflow uses the current official major release and the successful run has no annotations. |
 
 ## Current Status
 
-The integration owner completed Work Unit A, recovered the checker from its branch baseline, and all fifteen local regression cases pass. The preference-only CI repair was rejected; child checkers now run through System.Diagnostics.Process, and merge still requires a green branch CI retry. Worker, repair, and first-CI failures remain preserved as V9 and tooling requirements.
+The integration owner completed Work Unit A, recovered the checker from its branch baseline, and all fifteen local regression cases pass. The preference-only CI repair was rejected; child checkers now run through System.Diagnostics.Process, and GitHub Actions run 29068919530 passed every workflow step without annotations. Worker, repair, and first-CI failures remain preserved as V9 and tooling requirements.
 
 ## Next Action
 
-Complete final repository review, push V8.1, confirm CI, and request user approval plus a separate license decision before merge.
+Request user approval plus a separate license decision or explicit deferral before merge.

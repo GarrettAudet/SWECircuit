@@ -15,6 +15,7 @@ Complete.
 - Added permanent negative checker tests and CI execution.
 - Moved child-checker execution to System.Diagnostics.Process so expected failures are independent of Windows PowerShell versus PowerShell Core native-command behavior, with CI-visible assertion and exception annotations.
 - Updated actions/checkout from deprecated v4 to the current official v7 release.
+- Confirmed the process-boundary fix in GitHub Actions run 29068919530; all workflow steps passed with no annotations.
 - Updated agent, contributor, quality, feature, orchestration, memory, and milestone guidance.
 
 ## Deviations From Plan
