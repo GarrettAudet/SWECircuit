@@ -64,7 +64,8 @@ Status values:
 | OIDC package publishing with provenance | accepted | npm trusted publishing and provenance docs | Require before public npm publishing | Removes long-lived write tokens and links packages to source and build evidence. |
 | Public identity collision check | accepted | V9 scan and npm registry evidence | Resolve adjacent product, domain, repository, and package conflicts before freezing names | DevRail and TraceRail are both already active in adjacent product categories. |
 | Unscoped devrail npm package | rejected | npm registry query on 2026-07-09 | Do not publish under the occupied name | The package is owned by another security and quality guardrails project. |
-| DevRail public identity | watch | devrail.dev and V9 kernel architecture scan | Require explicit owner decision before current-surface rename or API namespace | An active adjacent project already uses DevRail, devrail init, .devrail.yml, agent instructions, and CI gates. |
+| DevRail public identity | rejected | devrail.dev, npm registry evidence, and V9 public identity scan | Reopen naming and do not use DevRail for current product surfaces | An active adjacent project already uses DevRail, devrail init, .devrail.yml, agent instructions, and CI gates. |
+| SWECircuit public identity | watch | V9 public identity scan | Recommend for owner approval before namespace acquisition and migration | The exact name is clear, maps strongly to modular parallel workflows, and had no exact npm, PyPI, crates.io, or GitHub repository collision in the point-in-time scan. |
 ## Promotion Criteria
 
 Promote a practice into the handbook or templates only when it:

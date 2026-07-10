@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed. Technical choices are recommended; public identity and package namespace require owner clarification before implementation.
+Proposed. Technical choices and the SWECircuit identity are recommended; owner approval and namespace acquisition are required before implementation.
 
 ## Date
 
@@ -48,7 +48,7 @@ Start with one package exposing:
 - A CLI binary with init, validate, and trace inspect commands.
 - Published schema files as explicit package exports.
 
-Keep publishing disabled until the owner resolves the product name, package namespace, and license. The unscoped devrail package is already taken.
+Keep publishing disabled until the owner approves the product name, secures the package namespace, and selects a license. SWECircuit had no exact npm package in the naming scan, but that result is not a reservation.
 
 ### Canonical Data
 
@@ -161,16 +161,16 @@ CI will run:
 - Clean initializer and clean consumer installation.
 - npm pack inspection without publishing.
 
-## Public Identity Blocker
+## Public Identity Recommendation
 
-The user selected DevRail, but the scan found:
+The owner reopened naming after DevRail and TraceRail collision evidence. The V9 public identity scan recommends SWECircuit because:
 
-- devrail.dev is an active adjacent framework for AI-agent development standards.
-- It already uses AGENTS.md-style shims, .devrail.yml, devrail init, and CI gates.
-- The unscoped npm package devrail is already owned.
-- TraceRail is also used by an agentic automation product.
+- SWE identifies the software-engineering domain.
+- Circuit is a composition primitive that naturally models components, connections, gates, branches, feedback loops, and traces.
+- The exact name had no npm, PyPI, crates.io, or GitHub repository collision in the point-in-time scan.
+- swecircuit.com, .dev, .ai, and .io returned not found in supported registry checks.
 
-No public identity token is frozen in package names, binary names, schema identifiers, directories, or domains until the owner chooses to reopen naming or explicitly accepts the collision.
+If approved, Circuit becomes the public end-to-end composition term. Historical Rail Composition artifacts remain provenance, and V9 documents a 0.x alias and migration rather than rewriting them. No identity token is frozen until owner approval and namespace acquisition.
 
 ## Consequences
 
@@ -190,7 +190,7 @@ No public identity token is frozen in package names, binary names, schema identi
 - Node 22 support constrains use of Node 24-only APIs.
 - A local event format still requires maintenance and compatibility tests.
 - One package may need splitting after the adapter ecosystem grows.
-- Implementation cannot begin until the public identity question is resolved.
+- Implementation cannot begin until SWECircuit is approved or replaced and the namespace plan is recorded.
 
 ## Alternatives Considered
 
@@ -229,6 +229,7 @@ Deferred. One package is easier to understand and release before extension press
 ## Source Evidence
 
 - docs/research/snapshots/2026-07-09-v9-kernel-architecture-scan.md
+- docs/research/snapshots/2026-07-09-v9-public-identity-scan.md
 - docs/specs/v9-devrail-kernel/
 - docs/specs/v8.1-baseline-integrity/orchestration-run.md
 - docs/specs/v8.1-baseline-integrity/root-cause-analysis.md
@@ -237,7 +238,7 @@ Deferred. One package is easier to understand and release before extension press
 
 Revisit when:
 
-- The owner resolves the public identity and package namespace.
+- The owner approves or rejects SWECircuit and resolves the package namespace.
 - A second package is justified by a real adapter or embedding use case.
 - Node 22 leaves support.
 - JSON Schema publishes a newer stable dialect that ecosystem validators broadly support.

@@ -1,4 +1,4 @@
-# Feature Spec: V9 DevRail Kernel
+# Feature Spec: V9 Executable Kernel And Identity
 
 ## Status
 
@@ -6,21 +6,21 @@ In progress.
 
 ## Problem
 
-The repository defines a checked, file-based operating protocol, but it cannot yet initialize a project, validate machine-readable rails, emit execution traces, or enforce runtime coordination controls. The product is still named TraceRail. The owner selected DevRail as a clearer candidate before research exposed an active adjacent product and occupied npm name.
+The repository defines a checked, file-based operating protocol, but it cannot yet initialize a project, validate machine-readable workflows, emit execution traces, or enforce runtime coordination controls. TraceRail and DevRail both conflict with active adjacent products. The owner reopened naming, and a collision scan now recommends SWECircuit pending approval.
 
 ## Users Or Actors
 
 - Developers using an AI-capable IDE for end-to-end software work.
 - Integration owners coordinating bounded work across specialized agents.
 - Module and pack authors extending a standard workflow contract.
-- CI systems validating DevRail projects and execution evidence.
+- CI systems validating projects and execution evidence under the selected identity.
 - Future runtime adapters that launch agents, manage workspaces, or merge changes.
 
 ## Goals
 
-- Resolve a distinctive public identity, using DevRail as the user-selected candidate, without losing historical provenance or accepting a collision silently.
+- Resolve a distinctive public identity, with SWECircuit as the researched recommendation, without losing historical provenance or accepting a collision silently.
 - Define a versioned, portable machine contract for modules, rails, gates, work packets, and execution traces.
-- Provide a small executable kernel that can initialize and validate a DevRail project.
+- Provide a small executable kernel that can initialize and validate a project under the selected identity.
 - Make invalid contracts fail deterministically with actionable, path-specific errors.
 - Define provider-neutral extension boundaries for agent runtimes, retrieval, memory, verification, and merge adapters.
 - Include liveness concepts learned from V8.1: heartbeat, deadline, cancellation, retry state, and raw handoff references.
@@ -38,7 +38,7 @@ The repository defines a checked, file-based operating protocol, but it cannot y
 ## Requirements
 
 - The architecture decision must select and justify the implementation runtime, canonical manifest representation, schema standard, package layout, and compatibility policy.
-- A project initializer must create the smallest valid DevRail project without hidden network access.
+- A project initializer must create the smallest valid project without hidden network access.
 - A validator must check schema, cross-reference, graph, and semantic invariants and return deterministic exit codes.
 - Module contracts must express input, action, output, gate, outcomes, evidence, permissions, and version compatibility.
 - Rail contracts must compose modules in order and define branches, fan-out, fan-in, ownership, and stop conditions when used.
@@ -78,13 +78,13 @@ This version introduces the first executable public surface, machine-readable sc
 - Should JSON be canonical with optional YAML input, or should both be first-class?
 - Which schema and compatibility standard should govern manifests and events?
 - What is the smallest CLI surface that proves the kernel without implying a complete agent runtime?
-- Should the owner select a distinctive new identity, or explicitly accept the DevRail collision and use an owner-controlled package scope?
+- Should the owner approve SWECircuit and its circuit-based public composition vocabulary?
 - What trace data is required by default, and what must be opt-in or redacted?
 - Which adapters belong in the first conformance interface without becoming dependencies?
 
 ## Assumptions
 
-- DevRail is the user-directed candidate identity, but no public namespace is frozen until the owner resolves the documented collision.
+- DevRail is rejected for public use. SWECircuit is recommended but not approved or reserved.
 - Core initialization and validation should be local, deterministic, and provider-neutral.
 - Historical TraceRail artifacts remain valid provenance and may retain their original name.
 - Public license selection remains a separate owner gate.

@@ -30,7 +30,7 @@ Draft.
 
 - Confirm the public explanation is understandable without reading the handbook.
 - Confirm errors identify the failing file, field, rule, and recovery action.
-- Confirm historical TraceRail records remain source-valid and current product surfaces use DevRail.
+- Confirm historical TraceRail and DevRail records remain source-valid while current product surfaces consistently use the owner-approved identity.
 - Confirm traces do not capture secret values or full conversations by default.
 - Confirm docs never imply that V9 launches agents or merges code unless that behavior exists.
 

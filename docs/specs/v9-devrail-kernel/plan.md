@@ -6,7 +6,7 @@ In progress.
 
 ## Summary
 
-Use the V8.1 release rail to turn the file-based protocol into a small executable DevRail kernel. Research and architecture decisions come first; implementation then proceeds in vertical slices for schemas, validation, initialization, trace inspection, documentation, and dogfood evidence.
+Use the V8.1 release rail to turn the file-based protocol into a small executable kernel under a distinctive public identity. Naming research and architecture decisions come first; implementation then proceeds in vertical slices for schemas, validation, initialization, trace inspection, documentation, and dogfood evidence.
 
 ## Impacted Areas
 
@@ -24,13 +24,13 @@ Use the V8.1 release rail to turn the file-based protocol into a small executabl
 3. Define the smallest versioned data model and adversarial fixture set before CLI behavior.
 4. Implement a deterministic validator and project initializer as separate core capabilities.
 5. Add append-only event validation and trace inspection without launching agents.
-6. Rename current product surfaces to DevRail while preserving historical sources.
+6. Migrate current product surfaces to the approved identity and composition vocabulary while preserving historical sources.
 7. Dogfood the kernel against repository-owned examples and record timings, failures, and recovery.
 8. Verify on the declared platform matrix, review public claims, update memory, and prepare the approval milestone.
 
 ## Interfaces And Data
 
-Planned public surfaces are a DevRail project manifest, versioned module and rail manifests, work-packet and execution-event schemas, a local CLI, and provider-neutral adapter interfaces. Exact command names and canonical serialization remain gated on the architecture decision.
+Planned public surfaces are a project manifest, versioned module and workflow manifests, work-packet and execution-event schemas, a local CLI, and provider-neutral adapter interfaces. Exact names and canonical serialization remain gated on owner approval of the public identity and architecture decision.
 
 ## Architecture And ADR Impact
 
