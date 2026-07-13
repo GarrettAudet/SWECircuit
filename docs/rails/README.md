@@ -1,26 +1,26 @@
-# Rail Catalog
+# Circuit Catalog
 
 ## Purpose
 
-Rails are reusable compositions of modules, gates, artifacts, and outcomes. They are the high-level flows that make TraceRail feel simple while keeping work traceable.
+Circuits are reusable compositions of modules, gates, artifacts, and outcomes. They are the high-level flows that make SWECircuit feel simple while keeping work traceable.
 
 ## Catalog
 
-| Rail | Use For | Composition |
+| Circuit | Use For | Composition |
 | --- | --- | --- |
-| Feature rail | Normal feature, docs, refactor, or process work. | `goal | clarify | spec | plan | implement | verify | review | memory` |
-| Diagnosis rail | Unknown, recurring, flaky, or cascading failures. | `failure | reproduce | evidence | hypotheses | root_cause | fix | regression | memory` |
-| Decomposition rail | Multi-agent or multi-work-unit execution. | `goal | retrieve | decompose | contract | fanout | synthesize | integrate | verify` |
-| Adapter rail | Tool, framework, plugin, MCP, or service adoption. | `candidate | source_scan | evaluate | register | pilot | review | memory` |
-| Release rail | TraceRail versions and milestone-driven work. | `version_goal | package | verify | review | milestone | approval | merge | memory` |
+| Feature circuit | Normal feature, docs, refactor, or process work. | `goal | clarify | spec | plan | implement | verify | review | memory` |
+| Diagnosis circuit | Unknown, recurring, flaky, or cascading failures. | `failure | reproduce | evidence | hypotheses | root_cause | fix | regression | memory` |
+| Decomposition circuit | Multi-agent or multi-work-unit execution. | `goal | retrieve | decompose | contract | fanout | synthesize | integrate | verify` |
+| Adapter circuit | Tool, framework, plugin, MCP, or service adoption. | `candidate | source_scan | evaluate | register | pilot | review | memory` |
+| Release circuit | SWECircuit versions and milestone-driven work. | `version_goal | package | verify | review | milestone | approval | merge | memory` |
 
 ## Selection Rule
 
-Use the smallest rail that can complete the work with evidence. Do not use a larger rail because it feels more complete.
+Use the smallest circuit that can complete the work with evidence. Do not use a larger circuit because it feels more complete.
 
 ## Common Interface
 
-Every rail records:
+Every circuit records:
 
 - Input artifact.
 - Ordered modules.
@@ -31,8 +31,8 @@ Every rail records:
 - Review.
 - Memory updates.
 
-Every row in a rail's Modules table defines either a catalog module or a rail-local module and must include module, input, action, output, gate, outcomes, and artifacts. Rail-local modules are promoted to standalone catalog files when repeated use proves they are reusable.
+Every row in a circuit's Modules table defines either a catalog module or a circuit-local module and must include module, input, action, output, gate, outcomes, and artifacts. Circuit-local modules are promoted to standalone catalog files when repeated use proves they are reusable.
 
 ## Extension Rule
 
-New rails should start as project-local or pack-provided rails. Promote to core only after repeated use shows that the rail solves a stable failure mode.
+New circuits should start as project-local or pack-provided circuits. Promote to core only after repeated use shows that the circuit solves a stable failure mode.

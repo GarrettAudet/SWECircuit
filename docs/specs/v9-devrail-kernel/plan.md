@@ -6,13 +6,13 @@ In progress.
 
 ## Summary
 
-Use the V8.1 release rail to turn the file-based protocol into a small executable kernel under a distinctive public identity. Naming research and architecture decisions come first; implementation then proceeds in vertical slices for schemas, validation, initialization, trace inspection, documentation, and dogfood evidence.
+Use the V8.1 release circuit to turn the file-based protocol into a small executable kernel under a distinctive public identity. Naming research and architecture decisions come first; implementation then proceeds in vertical slices for schemas, validation, initialization, trace inspection, documentation, and dogfood evidence.
 
 ## Impacted Areas
 
 - Product identity across public and canonical current-state documentation.
 - New executable source, package metadata, schemas, fixtures, and tests.
-- Module, rail, work-packet, event, and adapter contracts.
+- Module, circuit, work-packet, event, and adapter contracts.
 - CI platform matrix and package verification.
 - README quick start and migration guidance.
 - Feature, milestone, research, review, and durable memory artifacts.
@@ -30,7 +30,7 @@ Use the V8.1 release rail to turn the file-based protocol into a small executabl
 
 ## Interfaces And Data
 
-Planned public surfaces are a project manifest, versioned module and workflow manifests, work-packet and execution-event schemas, a local CLI, and provider-neutral adapter interfaces. Exact names and canonical serialization remain gated on owner approval of the public identity and architecture decision.
+Planned executable surfaces are a project manifest, versioned module and circuit manifests, work-packet and execution-event schemas, a local CLI, and provider-neutral adapter interfaces. Machine-facing names remain private or deferred unless ADR 0001 establishes a concrete need; canonical serialization remains gated on the architecture decision.
 
 ## Architecture And ADR Impact
 

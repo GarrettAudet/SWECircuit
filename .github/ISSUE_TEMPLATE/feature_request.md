@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Propose a TraceRail feature, module, rail, pack, or workflow improvement
+about: Propose a SWECircuit feature, module, circuit, pack, or workflow improvement
 title: "[Feature] "
 labels: enhancement
 assignees: ""
@@ -16,7 +16,7 @@ What workflow failure or friction does this address?
 
 ## Proposed Shape
 
-Describe whether this should be core, a module, a rail, a pack, an adapter, or local guidance.
+Describe whether this should be core, a module, a circuit, a pack, an adapter, or local guidance.
 
 ## Acceptance Criteria
 

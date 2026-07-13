@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Official packs are curated optional bundles maintained by the TraceRail project. They let TraceRail package a repeatable capability without making it required core behavior.
+Official packs are curated optional bundles maintained by the SWECircuit project. They let SWECircuit package a repeatable capability without making it required core behavior.
 
 ## Current Official Packs
 

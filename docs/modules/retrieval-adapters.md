@@ -6,7 +6,7 @@ Connect stage-aware retrieval to optional external tools.
 
 ## Input
 
-- Active rail.
+- Active circuit.
 - Stage.
 - Context need.
 - Existing retrieval index.

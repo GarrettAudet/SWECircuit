@@ -8,14 +8,14 @@ Define the minimum checks a pack must pass before it can be recommended.
 
 - Pack README.
 - Pack manifest or completed pack template.
-- Rail or module contracts.
+- Circuit or module contracts.
 - Verification evidence.
 - Rollback notes.
 - Security and privacy notes.
 
 ## Required Contract Fields
 
-Every provided rail or module must define:
+Every provided circuit or module must define:
 
 - Input.
 - Action.

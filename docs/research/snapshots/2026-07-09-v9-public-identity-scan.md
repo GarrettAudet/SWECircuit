@@ -105,9 +105,9 @@ If approved:
 - V9 documents a 0.x migration alias from `rail` to `circuit` rather than silently rewriting history.
 - Current canonical docs, schemas, CLI, examples, and package surfaces use SWECircuit vocabulary consistently.
 
-## Proposed Namespace
+## Historical Namespace Proposal
 
-Nothing is reserved yet. After owner approval and namespace acquisition:
+The scan initially explored the following possible surfaces. The owner later approved only the project and GitHub repository name, so this table is research evidence rather than an active acquisition plan:
 
 | Surface | Proposed Value |
 | --- | --- |
@@ -119,7 +119,7 @@ Nothing is reserved yet. After owner approval and namespace acquisition:
 | Local state directory | .swecircuit/ |
 | Schema namespace | owner-controlled SWECircuit schema URL |
 
-Do not freeze or publish these values until the owner approves the recommendation and secures the desired namespace.
+Only the display name and GitHub repository were approved. Re-evaluate every other value if and when an implemented public interface creates a real need.
 
 ## Evidence Collected
 
@@ -129,12 +129,16 @@ Do not freeze or publish these values until the owner approves the recommendatio
 - RDAP checks for finalist .com, .dev, .ai, and .io domains where supported.
 - Exact PyPI and crates.io checks for SWECircuit.
 
-## Decision Gate
+## Resolution
 
-Owner approval is required before:
+The owner approved SWECircuit as the project and GitHub repository identity on 2026-07-10 and clarified that this decision concerns the repository name, not speculative package or domain acquisition. The GitHub repository was renamed to `GarrettAudet/SWECircuit` on 2026-07-13.
 
-- Renaming current product surfaces.
-- Changing the repository name.
-- Freezing the npm package or CLI binary.
-- Creating the schema namespace.
-- Migrating Rail Composition terminology to Circuit Composition.
+Circuit is approved as the public composition metaphor. Historical TraceRail, DevRail, Rail Composition, `tracepack-*`, `.tracerail/`, and rail-named paths remain source or 0.x compatibility artifacts until V9 defines tested machine-facing migration behavior.
+
+The following remain deferred until an implemented interface creates a real need:
+
+- npm package identity or publishing.
+- CLI binary naming.
+- Schema namespace.
+- Domain acquisition.
+- Local-state directory migration.

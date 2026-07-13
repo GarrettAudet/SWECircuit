@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define how a pack moves from idea to recommendation without weakening TraceRail core.
+Define how a pack moves from idea to recommendation without weakening SWECircuit core.
 
 ## Lifecycle
 
@@ -11,7 +11,7 @@ Define how a pack moves from idea to recommendation without weakening TraceRail 
 | Idea | A useful extension has been proposed. | Source scan exists. |
 | Community | A third party or local project defines the pack. | Pack template is complete. |
 | Experimental | Pack is being dogfooded. | Evidence from real use exists. |
-| Official | TraceRail maintainers curate the pack. | Maintenance ownership and permission review are accepted. |
+| Official | SWECircuit maintainers curate the pack. | Maintenance ownership and permission review are accepted. |
 | Recommended | Pack passed conformance and solves a repeated failure mode. | Repeated dogfooding evidence, rollback, and maintainer are clear. |
 | Core candidate | Pack behavior may belong in core. | Multiple projects need it and it remains simple. |
 | Core | Capability is part of the baseline. | Checker and handbook support it. |
@@ -35,8 +35,8 @@ Define how a pack moves from idea to recommendation without weakening TraceRail 
 - Stores sensitive data without clear controls.
 - Requires broad permissions without strong value.
 - Has no maintainer.
-- Conflicts with core rails.
+- Conflicts with core circuits.
 
 ## Recommendation Rule
 
-Official means maintained by TraceRail. Recommended means useful, conformant, and proven through repeated dogfooding. Neither status makes a pack required core behavior.
+Official means maintained by SWECircuit. Recommended means useful, conformant, and proven through repeated dogfooding. Neither status makes a pack required core behavior.

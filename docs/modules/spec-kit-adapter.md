@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Map Spec Kit-style specification phases into TraceRail modules.
+Map Spec Kit-style specification phases into SWECircuit modules.
 
 ## Input
 
@@ -12,7 +12,7 @@ Map Spec Kit-style specification phases into TraceRail modules.
 
 ## Action
 
-Support clarify, specify, plan, tasks, analyze, checklist, implement, and converge phases through TraceRail artifacts.
+Support clarify, specify, plan, tasks, analyze, checklist, implement, and converge phases through SWECircuit artifacts.
 
 ## Output
 
@@ -38,4 +38,4 @@ Spec-driven artifacts are clear and testable, or work routes to `clarify` or `sp
 
 ## Adapter
 
-GitHub Spec Kit remains optional. Use file-based TraceRail contracts first.
+GitHub Spec Kit remains optional. Use file-based SWECircuit contracts first.

@@ -13,10 +13,11 @@ In progress.
 - Completed a primary-source architecture scan and proposed ADR for Node/TypeScript, JSON Schema, strict validation, JSONL traces, liveness state, adapters, privacy, CI, and supply-chain controls.
 - Found that devrail.dev is an active adjacent product and the unscoped devrail npm package is occupied; no public namespace was frozen.
 - Screened 51 package candidates, queried exact GitHub collisions, checked finalist domains and cross-language registries, and recommended SWECircuit.
+- Recorded owner approval, renamed the GitHub repository to `GarrettAudet/SWECircuit`, updated `origin`, and constrained the decision to project and repository identity.
 
 ## Deviations From Plan
 
-The workspace patch helper failed before file access during intake and failed twice with the same sandbox refresh error during the naming consistency edit. The integration owner used the repository-authorized PowerShell fallback and retained diff and checker verification as the proof boundary.
+The workspace patch helper failed before file access during intake and recurred during the naming and identity-migration edits. The integration owner used the repository-authorized PowerShell fallback and retained diff and checker verification as the proof boundary.
 
 ## Assumptions Used
 
@@ -26,8 +27,8 @@ The workspace patch helper failed before file access during intake and failed tw
 
 ## Follow-Up Work
 
-- Obtain owner approval or rejection of SWECircuit, then acquire or revise the namespace plan.
-- If approved, define the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
+- Complete current canonical branding and replace the historical TraceRail overview image.
+- Define and test the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
 - Implement only after public-contract choices pass the architecture gate.
 
 ## Verification Performed
@@ -37,8 +38,10 @@ The workspace patch helper failed before file access during intake and failed tw
 - Confirmed GitHub Actions runs for the V8.1 merge and closeout were green.
 - The recovered intake passed the positive checker and all fifteen regression cases.
 - The npm registry query confirmed that the unscoped devrail package is owned by another project.
-- SWECircuit had no exact npm, PyPI, crates.io, or GitHub repository collision; swecircuit.com, .dev, .ai, and .io returned not found in point-in-time registry checks.
+- SWECircuit had no exact npm, PyPI, crates.io, or GitHub repository collision in the naming scan; the owner later clarified that only the GitHub repository name is in scope.
 - The completed naming packet passed the positive checker and all fifteen regression cases after stale DevRail assumptions were removed from the V9 plan and test plan.
+- The SWECircuit migration passed the positive checker and all seventeen regression cases, including rejection of a legacy README heading and retired GitHub URL.
+- GitHub returned `GarrettAudet/SWECircuit` with default branch `main`; `git ls-remote` resolved the updated origin and the public About description now uses the SWECircuit positioning.
 
 ## Durable Learnings
 

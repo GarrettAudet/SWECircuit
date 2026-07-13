@@ -1,4 +1,4 @@
-name: TraceRail Checks
+name: SWECircuit Checks
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
 
-      - name: Run TraceRail checker
+      - name: Run SWECircuit checker
         shell: pwsh
         run: .\scripts\check-template.ps1
 

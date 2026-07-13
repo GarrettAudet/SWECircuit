@@ -12,9 +12,9 @@ In progress.
 - [x] T002: Research kernel standards and comparable contracts.
   Scope: Runtime portability, JSON Schema, CLI conventions, plugin boundaries, event traces, liveness, and package identity.
   Verification: Dated primary-source snapshot and practice-register entries record accepted, deferred, and rejected choices.
-- [ ] T003: Select and secure the public identity.
-  Scope: Candidate criteria, collision scan, owner approval, package and domain acquisition plan, vocabulary migration, and historical provenance.
-  Verification: Owner approves the identity; namespace status and the public composition vocabulary are recorded.
+- [x] T003: Select and apply the public project identity.
+  Scope: Candidate criteria, collision scan, owner approval, GitHub repository rename, circuit vocabulary boundary, deferred machine identifiers, and historical provenance.
+  Verification: Owner approved SWECircuit; `GarrettAudet/SWECircuit`, the updated origin, and `identity-migration.md` record the executed repository rename and compatibility boundary.
 - [ ] T004: Decide and document the V9 architecture.
   Scope: Runtime, serialization, schema dialect, package layout, compatibility, trace persistence, privacy, and adapter interfaces.
   Verification: ADR maps every public choice to evidence, alternatives, consequences, and migration behavior.
@@ -31,8 +31,8 @@ In progress.
   Scope: Append-only event model, causality checks, terminal states, redaction boundary, and human-readable inspection.
   Verification: Success, retry, timeout, cancellation, and failed-handoff fixtures map to AC4 and AC5.
 - [ ] T009: Complete the selected identity migration and public quick start.
-  Scope: Current product surfaces, package and CLI naming, compatibility note, README, and canonical docs.
-  Verification: Link, stale-name, package-name, and public-claim reviews map to AC7 without rewriting historical evidence.
+  Scope: Current product surfaces, repository metadata, compatibility note, README, canonical docs, and the branded overview asset.
+  Verification: Link, stale-name, visual-brand, and public-claim reviews map to AC7 without rewriting historical evidence.
 - [ ] T010: Dogfood the V9 kernel and measure the run.
   Scope: Validate repository examples, record trace evidence, timing, failures, retries, and recovery.
   Verification: Dogfood record and evidence map to AC8.
@@ -42,7 +42,7 @@ In progress.
 
 ## Tasks
 
-Tasks are ordered by identity and architectural dependency. Implementation may fan out only after T003 through T005 define the namespace and stable, disjoint contracts with an integration owner.
+Tasks are ordered by identity and architectural dependency. Implementation may fan out only after T004 and T005 define stable, disjoint contracts with an integration owner.
 
 ## Dependencies
 
@@ -50,7 +50,7 @@ Tasks are ordered by identity and architectural dependency. Implementation may f
 - T004 depends on T003.
 - T005 depends on T004.
 - T006 through T008 depend on T005 and may be decomposed after conflict analysis.
-- T009 depends on stable package and CLI identity from T003.
+- T009 depends on the approved project identity from T003 and stable machine contracts from T005.
 - T010 depends on executable slices from T006 through T008.
 - T011 depends on all prior tasks.
 

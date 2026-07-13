@@ -11,7 +11,7 @@ if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
 
 $powerShellExe = (Get-Process -Id $PID).Path
 $tempParent = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
-$testRoot = Join-Path $tempParent "tracerail-checker-tests-$PID"
+$testRoot = Join-Path $tempParent "swecircuit-checker-tests-$PID"
 $failures = New-Object System.Collections.Generic.List[string]
 
 function Write-Utf8 {
@@ -128,7 +128,7 @@ function Write-RegressionFailure {
 
     if ($env:GITHUB_ACTIONS -eq "true") {
         $escaped = $Message.Replace("%", "%25").Replace([string][char]13, "%0D").Replace([string][char]10, "%0A")
-        Write-Host "::error title=TraceRail checker regression::$escaped"
+        Write-Host "::error title=SWECircuit checker regression::$escaped"
         return
     }
 
@@ -163,6 +163,21 @@ try {
 
     $baseline = New-Fixture "baseline"
     Assert-CheckerResult "valid repository" $baseline $true
+
+    $legacyHeadingFixture = New-Fixture "legacy-readme-heading"
+    $legacyHeadingPath = Join-Path $legacyHeadingFixture "README.md"
+    $legacyHeadingText = (Get-Content -LiteralPath $legacyHeadingPath -Raw).Replace("# SWECircuit", "# TraceRail")
+    Write-Utf8 $legacyHeadingPath $legacyHeadingText
+    Assert-CheckerResult "legacy README project heading" $legacyHeadingFixture $false
+
+    $legacyRemoteFixture = New-Fixture "legacy-readme-remote"
+    $legacyRemotePath = Join-Path $legacyRemoteFixture "README.md"
+    $legacyRemoteText = (Get-Content -LiteralPath $legacyRemotePath -Raw).Replace(
+        "https://github.com/GarrettAudet/SWECircuit",
+        "https://github.com/GarrettAudet/TraceRail"
+    )
+    Write-Utf8 $legacyRemotePath $legacyRemoteText
+    Assert-CheckerResult "legacy README repository URL" $legacyRemoteFixture $false
 
     $debugFixture = New-Fixture "missing-debug-evidence"
     $debugPath = Join-Path $debugFixture "docs\specs\v8-readme-visual-clarity\debug-notes.md"
@@ -264,7 +279,7 @@ try {
         exit 1
     }
 
-    Write-Host "TraceRail checker regression tests passed."
+    Write-Host "SWECircuit checker regression tests passed."
 } catch {
     Write-RegressionFailure ("Unhandled regression harness error: " + $_.Exception.Message)
     exit 1

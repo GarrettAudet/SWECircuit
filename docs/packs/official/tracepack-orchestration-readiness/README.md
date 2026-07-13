@@ -10,7 +10,7 @@ Official, not recommended yet.
 
 ## Purpose
 
-Prepare a goal for safe agent fan-out without losing simplicity, traceability, conflict control, or verification. This pack packages the TraceRail decomposition rail and orchestration contracts into one manual adoption bundle.
+Prepare a goal for safe agent fan-out without losing simplicity, traceability, conflict control, or verification. This pack packages the SWECircuit decomposition circuit and orchestration contracts into one manual adoption bundle.
 
 Use it when a goal is too broad for comfortable single-agent execution, but decomposition can create independent work units with clear boundaries and a single integration owner.
 
@@ -20,7 +20,7 @@ Do not use it when product intent, acceptance criteria, architecture constraints
 
 | Type | Name | Path |
 | --- | --- | --- |
-| Rail | Decomposition rail | `docs/rails/decomposition-rail.md` |
+| Circuit (0.x Rail) | Decomposition circuit | `docs/rails/decomposition-rail.md` |
 | Module | Astraeus orchestration compiler contract | `docs/modules/astraeus-orchestration-compiler.md` |
 | Template | Decomposition plan | `docs/framework/_decomposition-plan-template.md` |
 | Template | Orchestration run record | `docs/framework/_orchestration-run-template.md` |
@@ -29,7 +29,7 @@ Do not use it when product intent, acceptance criteria, architecture constraints
 
 ## Requires
 
-- TraceRail version: V6 or later.
+- SWECircuit version: V6 or later.
 - Required files: `AGENTS.md`, `docs/ai/handbook.md`, `docs/rails/decomposition-rail.md`, `docs/framework/_decomposition-plan-template.md`, `docs/framework/_orchestration-run-template.md`, and relevant feature package.
 - Optional tools: none. Future Astraeus or subagent runtimes require separate adapter evaluation and user approval.
 
@@ -69,8 +69,8 @@ Do not install Astraeus, LangChain, LangGraph, AutoGen, CrewAI, or other orchest
 
 ## Maintenance
 
-- Owner: TraceRail maintainers.
-- Review cadence: every TraceRail version that changes decomposition, orchestration, pack governance, permissions, or memory rules.
+- Owner: SWECircuit maintainers.
+- Review cadence: every SWECircuit version that changes decomposition, orchestration, pack governance, permissions, or memory rules.
 - Compatibility policy: compatible with V6 while the listed source artifacts exist and retain their required headings.
 
 ## Recommendation Evidence

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This folder stores public README and documentation visuals. Assets should clarify TraceRail without becoming a second source of workflow truth.
+This folder stores public README and documentation visuals. Assets should clarify SWECircuit without becoming a second source of workflow truth.
 
 ## Assets
 
@@ -18,7 +18,7 @@ This folder stores public README and documentation visuals. Assets should clarif
 
 `tracerail-overview.png` is the exact user-approved public overview supplied for V8. It represents the target operating model, while the README status text defines which parts are currently manual or implemented. Keep the tracked PNG as the presentation source of truth unless a later version explicitly replaces it.
 
-The supporting GIFs are generated from `source/generate-readme-demo-gifs.py` with the bundled Codex Python runtime and Pillow. They are not part of the primary README story.
+The primary PNG still contains the historical TraceRail label and must be replaced before V9 is merge-ready. The supporting GIFs are generated from `source/generate-readme-demo-gifs.py` with the bundled Codex Python runtime and Pillow; their source and current outputs use SWECircuit branding, but they are not part of the primary README story.
 
 ## Visual Standard
 

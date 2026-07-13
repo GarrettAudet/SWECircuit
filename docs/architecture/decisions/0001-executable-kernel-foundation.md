@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed. Technical choices and the SWECircuit identity are recommended; owner approval and namespace acquisition are required before implementation.
+Proposed. The SWECircuit project identity is approved and the GitHub repository rename is complete. Technical choices still require acceptance before implementation freezes machine-facing contracts.
 
 ## Date
 
@@ -42,13 +42,13 @@ Node 26 is Current rather than LTS on the decision date and is not the productio
 
 ### Package Shape
 
-Start with one package exposing:
+Start with one private workspace package exposing:
 
 - A library entry point for schema loading and validation.
 - A CLI binary with init, validate, and trace inspect commands.
 - Published schema files as explicit package exports.
 
-Keep publishing disabled until the owner approves the product name, secures the package namespace, and selects a license. SWECircuit had no exact npm package in the naming scan, but that result is not a reservation.
+Keep publishing disabled in V9. The owner approved only the project and GitHub repository identity; npm acquisition and public package publishing are not required. The internal package identifier will be treated as a private implementation detail until public distribution is separately approved.
 
 ### Canonical Data
 
@@ -68,11 +68,11 @@ Validation runs in this order:
 2. JSON parse.
 3. JSON Schema validation.
 4. Cross-reference resolution.
-5. Rail graph and state-machine semantics.
+5. Circuit graph and state-machine semantics, including supported 0.x rail aliases.
 6. Policy and permission checks.
 7. Deterministic normalized diagnostics.
 
-A valid schema does not imply a valid rail. Every semantic resolver or parser path requires its own malformed fixture.
+A valid schema does not imply a valid circuit. Every semantic resolver or parser path requires its own malformed fixture.
 
 ### Workflow And Execution Types
 
@@ -161,16 +161,16 @@ CI will run:
 - Clean initializer and clean consumer installation.
 - npm pack inspection without publishing.
 
-## Public Identity Recommendation
+## Public Identity Decision
 
-The owner reopened naming after DevRail and TraceRail collision evidence. The V9 public identity scan recommends SWECircuit because:
+The owner reopened naming after DevRail and TraceRail collision evidence, then approved SWECircuit as the project and GitHub repository identity because:
 
 - SWE identifies the software-engineering domain.
 - Circuit is a composition primitive that naturally models components, connections, gates, branches, feedback loops, and traces.
 - The exact name had no npm, PyPI, crates.io, or GitHub repository collision in the point-in-time scan.
 - swecircuit.com, .dev, .ai, and .io returned not found in supported registry checks.
 
-If approved, Circuit becomes the public end-to-end composition term. Historical Rail Composition artifacts remain provenance, and V9 documents a 0.x alias and migration rather than rewriting them. No identity token is frozen until owner approval and namespace acquisition.
+Circuit is the public end-to-end composition term. Historical Rail Composition artifacts remain provenance, and V9 documents a 0.x alias and migration rather than rewriting them. The repository was renamed to `GarrettAudet/SWECircuit`; package, domain, CLI, schema, and local-state identifiers remain deferred until an implemented interface needs them.
 
 ## Consequences
 
@@ -190,7 +190,7 @@ If approved, Circuit becomes the public end-to-end composition term. Historical 
 - Node 22 support constrains use of Node 24-only APIs.
 - A local event format still requires maintenance and compatibility tests.
 - One package may need splitting after the adapter ecosystem grows.
-- Implementation cannot begin until SWECircuit is approved or replaced and the namespace plan is recorded.
+- Current 0.x rail paths and TraceRail-branded visual assets require compatibility treatment before V9 is merge-ready.
 
 ## Alternatives Considered
 
@@ -238,7 +238,7 @@ Deferred. One package is easier to understand and release before extension press
 
 Revisit when:
 
-- The owner approves or rejects SWECircuit and resolves the package namespace.
+- Public package distribution, a domain, or another external namespace becomes a real requirement.
 - A second package is justified by a real adapter or embedding use case.
 - Node 22 leaves support.
 - JSON Schema publishes a newer stable dialect that ecosystem validators broadly support.

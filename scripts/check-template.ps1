@@ -367,7 +367,7 @@ function Test-PackConformance {
 
     Test-SectionContains $RelativePath "Status" @("Official")
     Test-SectionContains $RelativePath "Provides" @("| Type | Name | Path |", "Rail", "Module", "Template", "Example")
-    Test-SectionContains $RelativePath "Requires" @("TraceRail version:", "Required files:", "Optional tools:")
+    Test-SectionContains $RelativePath "Requires" @("SWECircuit version:", "Required files:", "Optional tools:")
     Test-SectionContains $RelativePath "Permissions" @("Filesystem read", "Filesystem write", "Network", "Secrets", "External service", "Data retention")
     Test-SectionContains $RelativePath "Contracts" @("Inputs:", "Actions:", "Outputs:", "Gates:", "Outcomes:", "Artifacts:", "Verification:", "Rollback:")
     Test-SectionContains $RelativePath "Verification" @("Conformance checks:", "Manual checks:", "Example run:")
@@ -577,11 +577,20 @@ Test-HasHeadings "README.md" @(
     "Status"
 )
 $readme = Read-Text (Join-Path $Root "README.md")
+if ($readme -notmatch '(?m)^# SWECircuit\s*$') {
+    Add-Failure "README must use SWECircuit as the current project heading"
+}
+if ($readme -notmatch [regex]::Escape("https://github.com/GarrettAudet/SWECircuit")) {
+    Add-Failure "README must link the current GarrettAudet/SWECircuit repository"
+}
+if ($readme -match [regex]::Escape("https://github.com/GarrettAudet/TraceRail")) {
+    Add-Failure "README contains the retired GarrettAudet/TraceRail repository URL"
+}
 foreach ($assetPath in @(
     "docs/assets/tracerail-overview.png"
 )) {
     if ($readme -notmatch [regex]::Escape($assetPath)) {
-        Add-Failure "README missing TraceRail overview visual embed: $assetPath"
+        Add-Failure "README missing SWECircuit overview visual embed: $assetPath"
     }
 }
 
@@ -650,7 +659,7 @@ Test-HasHeadings ".github/ISSUE_TEMPLATE/bug_report.md" @(
     "Actual Behavior",
     "Evidence",
     "Reproduction",
-    "TraceRail Area",
+    "SWECircuit Area",
     "Validation"
 )
 Test-HasHeadings ".github/ISSUE_TEMPLATE/feature_request.md" @(
@@ -750,7 +759,7 @@ Test-HasHeadings "docs/framework/rail-composition.md" @(
     "Core Formula",
     "Module Interface",
     "Composition Rules",
-    "Standard Rails",
+    "Standard Circuits",
     "Gates",
     "Artifacts",
     "Human-Visible Form",
@@ -759,7 +768,7 @@ Test-HasHeadings "docs/framework/rail-composition.md" @(
 )
 
 Test-HasHeadings "docs/framework/_rail-template.md" @(
-    "Rail Name",
+    "Circuit Name",
     "Status",
     "Purpose",
     "When To Use",
@@ -778,7 +787,7 @@ Test-HasHeadings "docs/framework/README.md" @(
     "Purpose",
     "Quick Path",
     "Framework Layers",
-    "Rail Definition",
+    "Circuit Definition",
     "Module Definition",
     "Adapter Definition",
     "Default Modules",
@@ -1116,7 +1125,7 @@ Test-SectionTableColumns "docs/memory/patterns.md" "Source Map" @("Source Artifa
 $prTemplatePath = Join-Path $Root ".github\pull_request_template.md"
 if (Test-Path -LiteralPath $prTemplatePath -PathType Leaf) {
     $pr = Read-Text $prTemplatePath
-    foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "IDE Interaction", "Standalone Agent Work", "Framework Modules", "Rails affected", "Modules affected", "Packs affected", "Traceability", "Repository Quality", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
+    foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "IDE Interaction", "Standalone Agent Work", "Framework Modules", "Circuits affected", "Modules affected", "Packs affected", "Traceability", "Repository Quality", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
         if ($pr -notmatch [regex]::Escape($requiredPhrase)) {
             Add-Failure "PR template missing '$requiredPhrase'"
         }

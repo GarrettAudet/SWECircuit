@@ -36,7 +36,7 @@ Draft.
 
 ## Regression Coverage
 
-- Preserve the V8.1 positive checker and fifteen-case malformed-artifact suite.
+- Preserve the V8.1 positive checker and expand the malformed-artifact suite; the identity migration now has seventeen regression cases.
 - Add one negative fixture for every distinct parser, resolver, graph rule, event transition, and CLI error path.
 - Add explicit regressions for worker timeout, cancellation, retry exhaustion, failed handoff, and ambiguous fan-in.
 - Add cross-platform path and newline fixtures before declaring portability.
@@ -48,4 +48,4 @@ Draft.
 
 ## Verification Evidence
 
-V9 intake passed scripts/check-template.ps1 and all fifteen scripts/test-check-template.ps1 cases after bounded recovery from the known patch-helper failure. Executable kernel checks remain pending implementation.
+V9 identity migration passes `scripts/check-template.ps1` and all seventeen `scripts/test-check-template.ps1` cases, including legacy-heading and retired-repository-URL rejection. Executable kernel checks remain pending implementation.
