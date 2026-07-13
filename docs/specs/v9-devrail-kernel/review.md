@@ -18,7 +18,7 @@ The plan preserves the file-based core, provider-neutral adapters, source-first 
 
 ## Verification Evidence
 
-V8.1 merged and passed main CI before V9 branch creation. The SWECircuit identity migration passes the positive checker and all seventeen regression cases, including two permanent identity regressions.
+V8.1 merged and passed main CI before V9 branch creation. The SWECircuit identity migration passes the positive checker and all seventeen regression cases, including two permanent identity regressions. GitHub Actions run `29263645888` passed on the renamed repository.
 
 ## Findings
 
