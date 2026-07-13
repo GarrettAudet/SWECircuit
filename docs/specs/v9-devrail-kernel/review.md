@@ -6,11 +6,11 @@ In progress.
 
 ## Review Outcome
 
-Identity, architecture, schema, deterministic project validation, offline initialization, and read-only trace inspection passed; public identity migration remains.
+Identity, architecture, schema, deterministic project validation, offline initialization, read-only trace inspection, and the public quick start passed locally; T009 branch CI remains.
 
 ## Spec Alignment
 
-The V9 package dogfoods the completed V8.2 baseline. DevRail is rejected, SWECircuit is approved only for the project and GitHub repository, ADR 0001 is accepted, v1alpha1 is frozen, T006 satisfies AC2 and AC3, T007 satisfies AC1, and T008 satisfies AC4 and the offline core portion of AC5.
+The V9 package dogfoods the completed V8.2 baseline. DevRail is rejected, SWECircuit is approved only for the project and GitHub repository, ADR 0001 is accepted, v1alpha1 is frozen, T006 satisfies AC2 and AC3, T007 satisfies AC1, T008 satisfies AC4 and AC5, and T009 satisfies AC7.
 
 ## Architecture Alignment
 
@@ -28,6 +28,8 @@ T007 used one independent read-only reviewer, integrated initial and focused `RE
 
 T008 froze its contract through `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, then integrated implementation review `REVISE -> REVISE -> PASS`. The canonical local gate passes 202 tests with zero skips, package inspection, strict framing and state reconstruction, matrix-bound evidence, a renderer-only internal CLI, and no public executable namespace. GitHub Actions run `29288359476` passes Template Check and all six Node 22/24 platform jobs.
 
+T009 froze its public contract through `REVISE -> PASS`, then integrated implementation review `REVISE -> REVISE -> PASS`. The canonical local gate passes 205 tests with zero skips. The source-checkout example executes literal relative commands and remains byte-for-byte unchanged; all 42 checker scenarios bind identity, visual, capability, navigation, and private distribution boundaries while preserving truthful provenance and negation. Branch CI remains before T009 closeout.
+
 ## Findings
 
 | Severity | Finding | Required Action |
@@ -35,16 +37,16 @@ T008 froze its contract through `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, 
 | Resolved | SWECircuit was approved and the GitHub repository was renamed; no package or domain acquisition is in scope. | Preserve the repo-only decision and 0.x compatibility boundary in `identity-migration.md`. |
 | Resolved | Runtime, serialization, schema, and compatibility choices define an unstable private 0.x API. | Preserve the accepted ADR and require a separate decision before public distribution. |
 | Resolved | Three specialist reviews found the first-run, diagnostic, compatibility, trace, security, and adapter contracts underspecified. | The owner accepted the integrated brief; T005 froze schemas and T006 verified validation semantics. |
-| Medium | Product rename can break current links and confuse historical evidence. | Define a current-surface migration rule and preserve historical provenance. |
+| Resolved | Product rename can break current links and confuse historical evidence. | T009 enforces current links and the SWECircuit embed while preserving the TraceRail file and dated provenance links. |
 | Resolved | Inspection could echo arbitrary event content or secrets. | RunEvent is closed and reference-shaped; summaries are bounded, whole-value suppression covers every rendered string slot, and the inspector never persists or dereferences evidence. |
 | Medium | A future producer can still create privacy and retention risk when writing traces. | Define persistence, retention, and deletion policy before adding a trace writer or hosted ingestion. |
 
 ## Residual Risks
 
-- The historical TraceRail overview image is not yet rebranded for SWECircuit.
+
 - No license has been selected.
 - The target architecture may need to be split if V9 exceeds a small, testable kernel.
 
 ## Memory And Docs
 
-The T008 source package preserves the frozen contract, both reviewer loops, six resolved implementation findings, canonical local evidence, and green cross-platform CI. Decisions, limitations, patterns, history, retrieval, and active context now advance T009 as the next implementation stage.
+The T009 source package preserves the frozen public contract, both reviewer loops, remediated findings, exact quick-start evidence, the 42-scenario checker matrix, and the current-versus-historical visual boundary. Memory closeout waits for branch CI.

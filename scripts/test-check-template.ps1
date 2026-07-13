@@ -30,7 +30,7 @@ function New-Fixture {
     New-Item -ItemType Directory -Path $fixture -Force | Out-Null
 
     foreach ($item in Get-ChildItem -LiteralPath $RepoRoot -Force) {
-        if ($item.Name -in @(".git", ".local")) {
+        if ($item.Name -in @(".git", ".local", ".out", "coverage", "dist", "node_modules")) {
             continue
         }
         Copy-Item -LiteralPath $item.FullName -Destination $fixture -Recurse -Force
@@ -178,6 +178,136 @@ try {
     )
     Write-Utf8 $legacyRemotePath $legacyRemoteText
     Assert-CheckerResult "legacy README repository URL" $legacyRemoteFixture $false
+
+    $historicalOverviewFixture = New-Fixture "historical-readme-overview"
+    $historicalOverviewPath = Join-Path $historicalOverviewFixture "README.md"
+    $historicalOverviewText = (Get-Content -LiteralPath $historicalOverviewPath -Raw).Replace(
+        "docs/assets/swecircuit-overview.png",
+        "docs/assets/tracerail-overview.png"
+    )
+    Write-Utf8 $historicalOverviewPath $historicalOverviewText
+    Assert-CheckerResult "historical README overview embed" $historicalOverviewFixture $false
+
+    $plainOverviewFixture = New-Fixture "plain-text-readme-overview"
+    $plainOverviewPath = Join-Path $plainOverviewFixture "README.md"
+    $plainOverviewText = [regex]::Replace(
+        (Get-Content -LiteralPath $plainOverviewPath -Raw),
+        '(?m)^!\[[^\r\n]*\]\(docs/assets/swecircuit-overview\.png\)\s*$',
+        "Current asset: docs/assets/swecircuit-overview.png"
+    )
+    Write-Utf8 $plainOverviewPath $plainOverviewText
+    Assert-CheckerResult "plain-text current overview reference" $plainOverviewFixture $false
+
+    $historicalLinkFixture = New-Fixture "historical-overview-link"
+    $historicalLinkPath = Join-Path $historicalLinkFixture "README.md"
+    $historicalLinkText = (Get-Content -LiteralPath $historicalLinkPath -Raw) + [Environment]::NewLine + "[Historical V8 overview](docs/assets/tracerail-overview.png)" + [Environment]::NewLine
+    Write-Utf8 $historicalLinkPath $historicalLinkText
+    Assert-CheckerResult "historical overview provenance link" $historicalLinkFixture $true
+
+    $missingOverviewFixture = New-Fixture "missing-current-overview"
+    Remove-Item -LiteralPath (Join-Path $missingOverviewFixture "docs\assets\swecircuit-overview.png") -Force
+    Assert-CheckerResult "missing current overview asset" $missingOverviewFixture $false
+
+    $operationCommands = @(
+        @{ Name = "init"; Text = "node dist/cli.js init --project <existing-empty-directory> --project-id quick-start" },
+        @{ Name = "validate"; Text = "node dist/cli.js validate --project examples/minimal" },
+        @{ Name = "inspect"; Text = "node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl" }
+    )
+    foreach ($operation in $operationCommands) {
+        $fixture = New-Fixture ("missing-readme-" + $operation.Name)
+        $path = Join-Path $fixture "README.md"
+        $content = (Get-Content -LiteralPath $path -Raw).Replace($operation.Text, "removed-command")
+        Write-Utf8 $path $content
+        Assert-CheckerResult ("README missing " + $operation.Name + " command") $fixture $false
+    }
+
+    $capabilityOverclaims = @(
+        @{ Name = "launches"; Text = "SWECircuit launches agents." },
+        @{ Name = "schedules"; Text = "SWECircuit schedules agents." },
+        @{ Name = "executes"; Text = "SWECircuit executes circuits." },
+        @{ Name = "writes"; Text = "SWECircuit writes traces." },
+        @{ Name = "retrieves"; Text = "SWECircuit retrieves evidence." },
+        @{ Name = "merges"; Text = "SWECircuit merges branches." },
+        @{ Name = "updates"; Text = "SWECircuit updates memory automatically." }
+    )
+    foreach ($claim in $capabilityOverclaims) {
+        $fixture = New-Fixture ("readme-overclaim-" + $claim.Name)
+        $path = Join-Path $fixture "README.md"
+        $content = (Get-Content -LiteralPath $path -Raw) + [Environment]::NewLine + $claim.Text + [Environment]::NewLine
+        Write-Utf8 $path $content
+        Assert-CheckerResult ("README capability overclaim: " + $claim.Name) $fixture $false
+    }
+
+    $truthfulNegationFixture = New-Fixture "truthful-capability-negation"
+    $truthfulNegationPath = Join-Path $truthfulNegationFixture "README.md"
+    $truthfulNegationText = (Get-Content -LiteralPath $truthfulNegationPath -Raw) + [Environment]::NewLine + "SWECircuit writes no traces; callers own trace production." + [Environment]::NewLine
+    Write-Utf8 $truthfulNegationPath $truthfulNegationText
+    Assert-CheckerResult "truthful capability negation" $truthfulNegationFixture $true
+
+    $publicCommandClaims = @(
+        @{ Name = "npx"; Text = "npx swecircuit" },
+        @{ Name = "npm"; Text = "npm install swecircuit" },
+        @{ Name = "global"; Text = "npm install -g swecircuit" },
+        @{ Name = "published-cli"; Text = "Use the published SWECircuit CLI." }
+    )
+    foreach ($claim in $publicCommandClaims) {
+        $fixture = New-Fixture ("readme-public-command-" + $claim.Name)
+        $path = Join-Path $fixture "README.md"
+        $content = (Get-Content -LiteralPath $path -Raw) + [Environment]::NewLine + $claim.Text + [Environment]::NewLine
+        Write-Utf8 $path $content
+        Assert-CheckerResult ("README public command claim: " + $claim.Name) $fixture $false
+    }
+
+    $publicPackageFixture = New-Fixture "public-package-metadata"
+    $publicPackagePath = Join-Path $publicPackageFixture "package.json"
+    $publicPackageText = (Get-Content -LiteralPath $publicPackagePath -Raw).Replace(
+        '"private": true',
+        '"private": false'
+    )
+    Write-Utf8 $publicPackagePath $publicPackageText
+    Assert-CheckerResult "public package metadata" $publicPackageFixture $false
+
+    $binaryPackageFixture = New-Fixture "package-binary-metadata"
+    $binaryPackagePath = Join-Path $binaryPackageFixture "package.json"
+    $binaryPackageText = (Get-Content -LiteralPath $binaryPackagePath -Raw).Replace(
+        '"private": true,',
+        '"private": true,' + [Environment]::NewLine + '  "bin": "dist/cli.js",'
+    )
+    Write-Utf8 $binaryPackagePath $binaryPackageText
+    Assert-CheckerResult "package binary metadata" $binaryPackageFixture $false
+
+    $navigationFixture = New-Fixture "missing-readme-navigation"
+    $navigationPath = Join-Path $navigationFixture "README.md"
+    $navigationText = (Get-Content -LiteralPath $navigationPath -Raw).Replace(
+        "docs/ai/handbook.md",
+        "docs/ai/handbook-removed.md"
+    )
+    Write-Utf8 $navigationPath $navigationText
+    Assert-CheckerResult "README missing required navigation" $navigationFixture $false
+
+    $staleKernelFixture = New-Fixture "stale-planned-kernel-claim"
+    $staleKernelPath = Join-Path $staleKernelFixture "README.md"
+    $staleKernelText = (Get-Content -LiteralPath $staleKernelPath -Raw) + [Environment]::NewLine + "The planned executable kernel comes next." + [Environment]::NewLine
+    Write-Utf8 $staleKernelPath $staleKernelText
+    Assert-CheckerResult "README stale planned-kernel claim" $staleKernelFixture $false
+
+    $missingCapabilityFixture = New-Fixture "missing-current-capability"
+    $missingCapabilityPath = Join-Path $missingCapabilityFixture "README.md"
+    $missingCapabilityText = (Get-Content -LiteralPath $missingCapabilityPath -Raw).Replace(
+        "The V9 kernel implements project initialization, offline validation, and read-only trace inspection",
+        "The V9 kernel status is undocumented"
+    )
+    Write-Utf8 $missingCapabilityPath $missingCapabilityText
+    Assert-CheckerResult "README missing current kernel capability" $missingCapabilityFixture $false
+
+    $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
+    $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
+    $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(
+        "The V9 kernel does not launch or schedule agents, execute circuits, write traces, retrieve evidence, merge branches, or update memory automatically.",
+        "Runtime boundary removed."
+    )
+    Write-Utf8 $missingBoundaryPath $missingBoundaryText
+    Assert-CheckerResult "README missing runtime boundary" $missingBoundaryFixture $false
 
     $debugFixture = New-Fixture "missing-debug-evidence"
     $debugPath = Join-Path $debugFixture "docs\specs\v8-readme-visual-clarity\debug-notes.md"

@@ -1,0 +1,10 @@
+{
+  "apiVersion": "swecircuit/v1alpha1",
+  "kind": "Project",
+  "metadata": {
+    "id": "example-project"
+  },
+  "spec": {
+    "artifacts": []
+  }
+}

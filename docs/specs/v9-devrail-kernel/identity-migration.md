@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved and in progress.
+Approved; current public surface complete, compatibility work remains.
 
 ## Owner Decision
 
@@ -44,9 +44,12 @@ The following identifiers remain historical or 0.x checker compatibility artifac
 
 Keeping these paths temporarily avoids a broad rename that would break source links before the executable kernel has a compatibility model. Current prose should call the composed workflow a circuit and identify rail as the 0.x file-contract term where clarification is needed.
 
+## Current Surface Completion
+
+- Replaced the current README embed with `docs/assets/swecircuit-overview.png`; preserved the TraceRail-branded V8 file as source provenance.
+
 ## Remaining Work
 
-- Replace the TraceRail-branded V8 overview image before V9 is merge-ready.
 - Document how maintainers create canonical Circuit JSON from legacy file contracts without rewriting source history.
 - Revisit external naming only if public distribution creates a concrete need.
 

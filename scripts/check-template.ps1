@@ -479,6 +479,7 @@ $requiredFiles = @(
     "docs/README.md",
     "docs/assets/README.md",
     "docs/assets/source/generate-readme-demo-gifs.py",
+    "docs/assets/swecircuit-overview.png",
     "docs/assets/tracerail-overview.png",
     "docs/assets/tracerail-module-contract.gif",
     "docs/assets/tracerail-rail-flow.gif",
@@ -540,6 +541,9 @@ $requiredFiles = @(
     "docs/packs/official/README.md",
     "docs/packs/official/tracepack-orchestration-readiness/README.md",
     "docs/packs/official/tracepack-orchestration-readiness/examples/three-agent-docs-run.md",
+    "examples/minimal/README.md",
+    "examples/minimal/swecircuit.json",
+    "examples/minimal/traces/example.jsonl",
     "docs/specs/_template/spec.md",
     "docs/specs/_template/plan.md",
     "docs/specs/_template/tasks.md",
@@ -586,12 +590,73 @@ if ($readme -notmatch [regex]::Escape("https://github.com/GarrettAudet/SWECircui
 if ($readme -match [regex]::Escape("https://github.com/GarrettAudet/TraceRail")) {
     Add-Failure "README contains the retired GarrettAudet/TraceRail repository URL"
 }
-foreach ($assetPath in @(
-    "docs/assets/tracerail-overview.png"
-)) {
-    if ($readme -notmatch [regex]::Escape($assetPath)) {
-        Add-Failure "README missing SWECircuit overview visual embed: $assetPath"
+$currentOverviewPath = "docs/assets/swecircuit-overview.png"
+$currentOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape($currentOverviewPath) + '\)\s*$'
+if ($readme -notmatch $currentOverviewPattern) {
+    Add-Failure "README missing current SWECircuit overview visual embed: $currentOverviewPath"
+}
+$historicalOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape("docs/assets/tracerail-overview.png") + '\)\s*$'
+if ($readme -match $historicalOverviewPattern) {
+    Add-Failure "README embeds the historical TraceRail overview instead of the current SWECircuit overview"
+}
+
+$requiredReadmeText = @(
+    "The V9 kernel implements project initialization, offline validation, and read-only trace inspection",
+    "node dist/cli.js init --project <existing-empty-directory> --project-id quick-start",
+    "node dist/cli.js validate --project examples/minimal",
+    "node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl",
+    "These are repository-local development commands for the private workspace",
+    "The V9 kernel does not launch or schedule agents, execute circuits, write traces, retrieve evidence, merge branches, or update memory automatically."
+)
+foreach ($requiredText in $requiredReadmeText) {
+    if ($readme -notmatch [regex]::Escape($requiredText)) {
+        Add-Failure "README missing required current public-surface text: $requiredText"
     }
+}
+
+$requiredReadmeLinks = @(
+    "AGENTS.md",
+    "docs/ai/handbook.md",
+    "examples/minimal/",
+    "docs/framework/",
+    "docs/specs/",
+    "docs/memory/"
+)
+foreach ($linkTarget in $requiredReadmeLinks) {
+    $linkPattern = '\]\(' + [regex]::Escape($linkTarget) + '\)'
+    if ($readme -notmatch $linkPattern) {
+        Add-Failure "README missing required local link: $linkTarget"
+    }
+
+    $resolvedLink = Join-Path $Root $linkTarget.TrimEnd('/')
+    if (-not (Test-Path -LiteralPath $resolvedLink)) {
+        Add-Failure "README local link target does not exist: $linkTarget"
+    }
+}
+
+$forbiddenReadmePatterns = @(
+    @{ Pattern = '(?i)\bplanned executable kernel\b'; Message = "README still describes the implemented kernel as planned" },
+    @{ Pattern = '(?i)\bSWECircuit\s+(?:launches\s+agents|schedules\s+agents|executes\s+circuits|writes\s+traces|retrieves\s+evidence|merges\s+branches|updates\s+memory\s+automatically)\b'; Message = "README positively claims a capability owned by an external runtime" },
+    @{ Pattern = '(?i)\bnpx\s+swecircuit\b'; Message = "README implies a published npx command" },
+    @{ Pattern = '(?i)\bnpm\s+install\s+(?:-g\s+)?swecircuit\b'; Message = "README implies an installable SWECircuit package" },
+    @{ Pattern = '(?i)\b(?:published|public)\s+SWECircuit\s+CLI\b'; Message = "README implies a published SWECircuit CLI" }
+)
+foreach ($rule in $forbiddenReadmePatterns) {
+    if ($readme -match $rule.Pattern) {
+        Add-Failure $rule.Message
+    }
+}
+
+try {
+    $packageJson = (Read-Text (Join-Path $Root "package.json")) | ConvertFrom-Json -ErrorAction Stop
+    if ($packageJson.private -ne $true) {
+        Add-Failure "package.json must keep the V9 workspace private"
+    }
+    if ($packageJson.PSObject.Properties.Name -contains "bin") {
+        Add-Failure "package.json must not expose a package binary in V9"
+    }
+} catch {
+    Add-Failure "package.json is not valid JSON: $($_.Exception.Message)"
 }
 
 Test-HasHeadings "CONTRIBUTING.md" @(

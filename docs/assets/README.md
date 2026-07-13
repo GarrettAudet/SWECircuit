@@ -8,7 +8,8 @@ This folder stores public README and documentation visuals. Assets should clarif
 
 | File | Used By | Purpose |
 | --- | --- | --- |
-| `tracerail-overview.png` | `README.md` | Target operating model for a task moving through standardized modules, agent routing, verified integration, and memory. |
+| `swecircuit-overview.png` | `README.md` | Current SWECircuit target operating model for a task moving through standardized modules, agent routing, verified integration, and memory. |
+| `tracerail-overview.png` | V8 source record | Historical user-approved TraceRail overview preserved as provenance. |
 | `tracerail-module-contract.gif` | Supporting docs | Generated example of a goal becoming a traceable work package. |
 | `tracerail-rail-flow.gif` | Supporting docs | Generated example of gates routing typed outcomes. |
 | `tracerail-platform-composition.gif` | Supporting docs | Generated example of bounded work units returning to an integration owner. |
@@ -16,9 +17,9 @@ This folder stores public README and documentation visuals. Assets should clarif
 
 ## Source
 
-`tracerail-overview.png` is the exact user-approved public overview supplied for V8. It represents the target operating model, while the README status text defines which parts are currently manual or implemented. Keep the tracked PNG as the presentation source of truth unless a later version explicitly replaces it.
+`swecircuit-overview.png` is the V9 public overview. It preserves the accepted V8 information hierarchy while updating the project identity and composition language. It represents the target operating model; the adjacent README text is authoritative about which operations the V9 kernel implements today.
 
-The primary PNG still contains the historical TraceRail label and must be replaced before V9 is merge-ready. The supporting GIFs are generated from `source/generate-readme-demo-gifs.py` with the bundled Codex Python runtime and Pillow; their source and current outputs use SWECircuit branding, but they are not part of the primary README story.
+`tracerail-overview.png` remains the exact user-approved V8 source artifact and is not a current README embed. The supporting GIFs are generated from `source/generate-readme-demo-gifs.py` with the bundled Codex Python runtime and Pillow; they remain historical supporting material rather than the primary README story.
 
 ## Visual Standard
 

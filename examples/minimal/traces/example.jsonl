@@ -1,0 +1,2 @@
+{"apiVersion":"swecircuit/v1alpha1","kind":"RunEvent","metadata":{"id":"example-started"},"spec":{"type":"run.started","eventTypeVersion":"1.0.0","runId":"example-run","sequence":0,"correlationId":"example-feature","actor":"integration-owner"}}
+{"apiVersion":"swecircuit/v1alpha1","kind":"RunEvent","metadata":{"id":"example-completed"},"spec":{"type":"run.completed","eventTypeVersion":"1.0.0","runId":"example-run","sequence":1,"correlationId":"example-feature","actor":"integration-owner","causationId":"example-started"}}
