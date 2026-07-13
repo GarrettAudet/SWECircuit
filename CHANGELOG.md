@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Adopted SWECircuit as the repository identity while preserving historical TraceRail and DevRail records.
+- Added the private v1alpha1 executable kernel for offline project initialization, deterministic validation, and read-only caller-owned trace inspection.
+- Added a current-versus-target README, reviewed SWECircuit workflow overview, executable source-checkout example, and public-surface regression matrix.
 - Hardened the V8.1 manual baseline with honest positioning, standardized contracts, dynamic validation, provenance, negative fixtures, cross-edition CI handling, and write-enabled dogfood evidence.
 
 - Added the approved TraceRail overview and a concise, product-first README.

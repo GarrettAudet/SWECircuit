@@ -2,7 +2,7 @@
 
 ## Status
 
-Local implementation checkpoint passed; branch CI remains.
+Complete; local and remote implementation checkpoints passed.
 
 ## Goal
 

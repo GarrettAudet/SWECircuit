@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Complete T009 current-surface identity migration and the public quick start over the verified initialize, validate, and inspect kernel.
+Execute T010 dogfooding of the verified initialize, validate, and inspect kernel, capture measurable evidence, and map it to AC8.
 
 ## Current Stage
 
-V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 is active. The repository remains unlicensed.
+V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 is active. The repository remains unlicensed.
 
 ## Important Current Constraints
 
@@ -24,7 +24,7 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - Trace bytes, lines, events, retained framing, evidence summaries, and read allocation are independently bounded; the byte limit is a ceiling rather than a fixed allocation.
 - Full chats, prompts, environment dumps, command output, credentials, and evidence content are excluded from traces by default.
 - Diagnostic codes, rules, severity, pointer conventions, sort order, and exit classes are frozen in schemas/v1alpha1/diagnostic-catalog.json.
-- The primary README overview PNG still contains the historical TraceRail label and must be replaced before V9 is merge-ready.
+- The primary README visual is the reviewed SWECircuit target model; it explicitly attributes execution to an external IDE or agent runtime and preserves the TraceRail image only as historical provenance.
 - Pure Node cannot inspect every opaque same-path Windows reparse attribute; links, junctions, canonical divergence, regular-file state, containment, and descriptor identity remain enforced, while that native metadata boundary is explicitly deferred.
 - Pure Node initialization cannot atomically bind directory creation to first identity capture or final identity checks to pathname removal. X07 names both malicious replacement windows; pending creations force `SC1022`, and detected mismatches are preserved.
 - Public reuse remains legally unclear until the owner selects a license.
@@ -53,11 +53,14 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - Allocate bounded readers from verified input size plus the smallest growth-detection margin, not from the maximum accepted size.
 - Bind case-matrix variants to table-driven tests so coverage statements fail when executable evidence drifts.
 - A single reviewer loop caught six T008 defects despite a green suite, reinforcing review as an evidence-producing gate rather than ceremony.
+- A public workflow visual must encode the executor, verification order, terminology, and scaled legibility; correct adjacent prose is not enough.
+- A documented quick start should execute literal relative arguments and compare the complete example tree before and after read-only operations.
+- Negative overclaim checks need passing provenance and truthful-negation cases so they enforce honesty without erasing history.
 
 ## Next Likely Work
 
-- Audit current product surfaces and classify historical TraceRail/DevRail provenance versus canonical SWECircuit content.
-- Replace the historical README overview asset with a reviewed SWECircuit visual and preserve current-capability versus target-model honesty.
-- Publish a concise quick start for the three implemented library operations without claiming a public package or CLI namespace.
-- Add stale-name, link, asset, and documented-command regressions, then run independent public-surface review and the remote matrix.
-- Keep V9 isolated on `codex/v9-devrail-kernel`; do not merge to `main` before T009-T011 and owner approval.
+- Freeze a bounded T010 dogfood plan over the shipped initialize, validate, and inspect operations.
+- Execute the source-checkout example and an isolated temporary-project run while capturing commands, timings, outputs, and cleanup evidence.
+- Build a caller-owned dogfood trace only from recorded V9 events; do not imply that the kernel produced or persisted it.
+- Record friction, failures, retries, recovery, and coverage against AC8, then promote durable findings into the T011 review and memory closeout.
+- Keep V9 isolated on `codex/v9-devrail-kernel`; do not merge to `main` before T010-T011 and owner approval.

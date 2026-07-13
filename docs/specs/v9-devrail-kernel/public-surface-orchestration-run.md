@@ -2,7 +2,7 @@
 
 ## Status
 
-Local implementation checkpoint passed; branch CI remains.
+Complete; independent review, local gates, and branch CI returned `PASS`.
 
 ## Pattern
 
@@ -71,4 +71,4 @@ Implementation review completed `REVISE -> REVISE -> PASS` with Ramanujan (`019f
 
 ## Verification
 
-Before implementation review, `npm.cmd run verify` passed 205 tests with zero skips and package dry run; the positive template checker and all 39 then-current checker scenarios passed. After remediation, all three focused quick-start tests, the positive template checker, and all 42 expanded checker scenarios passed. Final focused re-review returned `PASS`. The canonical implementation-checkpoint rerun then passed 205 tests with zero skips, format, lint, typecheck, build, package dry run, the positive template checker, and all 42 checker scenarios. Branch CI remains.
+Before implementation review, `npm.cmd run verify` passed 205 tests with zero skips and package dry run; the positive template checker and all 39 then-current checker scenarios passed. After remediation, all three focused quick-start tests, the positive template checker, and all 42 expanded checker scenarios passed. Final focused re-review returned `PASS`. The canonical implementation-checkpoint rerun then passed 205 tests with zero skips, format, lint, typecheck, build, package dry run, the positive template checker, and all 42 checker scenarios. Commit `c9d7e4f` passed all seven jobs in GitHub Actions run `29292597506`.

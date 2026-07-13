@@ -30,9 +30,9 @@ In progress.
 - [x] T008: Implement event-trace validation and inspection.
   Scope: Caller-owned JSONL event contract, detectable-mutation reads, causality, attempt/retry states, bounded privacy-safe summaries, and human/JSON inspection.
   Verification: Commit `36efbf1` passes 202 tests with zero skips and independent review `REVISE -> REVISE -> PASS`; GitHub Actions run `29288359476` passes Template Check and all six Node 22/24 jobs across Ubuntu, Windows, and macOS.
-- [ ] T009: Complete the selected identity migration and public quick start.
+- [x] T009: Complete the selected identity migration and public quick start.
   Scope: Current product surfaces, repository metadata, compatibility note, README, canonical docs, and the branded overview asset.
-  Verification: Link, stale-name, visual-brand, and public-claim reviews map to AC7 without rewriting historical evidence.
+  Verification: Commit `c9d7e4f` passes 205 tests with zero skips, the positive checker, all 42 checker scenarios, contract review `REVISE -> PASS`, implementation review `REVISE -> REVISE -> PASS`, and GitHub Actions run `29292597506` across all seven jobs without rewriting historical evidence.
 - [ ] T010: Dogfood the V9 kernel and measure the run.
   Scope: Validate repository examples, record trace evidence, timing, failures, retries, and recovery.
   Verification: Dogfood record and evidence map to AC8.

@@ -176,6 +176,18 @@ When the owner supplies and approves a public asset, preserve that exact artifac
 
 When a public visual shows an intended end-to-end system, state which steps the current release executes and which remain human-, IDE-, or adapter-driven.
 
+### Visual Semantics Are Contract
+
+Review a public workflow visual for actor, order, terminology, and scaled legibility. Adjacent prose cannot repair a diagram that assigns execution to the wrong system or places integration before evidence.
+
+### Literal Quick Start Replay
+
+Execute documented commands with their literal relative arguments and compare the complete example tree before and after read-only operations. Testing equivalent absolute paths or only one input file leaves documentation drift and side effects unproved.
+
+### Positive Exceptions For Negative Rules
+
+Pair public-claim rejection tests with passing provenance links and truthful negations. A rule that blocks overclaims must not erase history or reject accurate limitations.
+
 ### Negative Fixtures For Semantic Checks
 
 A structural checker needs permanent malformed-artifact fixtures. A positive pass proves the repository fits the checker; negative fixtures prove the checker rejects the failure modes it claims to enforce.
@@ -219,3 +231,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V9 T006 RCA](../specs/v9-devrail-kernel/root-cause-analysis.md) and [validation run](../specs/v9-devrail-kernel/validation-orchestration-run.md) | Parser-Consumer Boundary Probe; Decision Seam Before Native Fixture |
 | [V9 T007 initialization plan](../specs/v9-devrail-kernel/initialization-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/initialization-orchestration-run.md) | Pending Ownership Before Cleanup; Barrier At The Contended Boundary |
 | [V9 T008 trace plan](../specs/v9-devrail-kernel/trace-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/trace-orchestration-run.md) | Bound Before Materialization; Ceiling Is Not Allocation; Executable Coverage Claims |
+| [V9 T009 public-surface plan](../specs/v9-devrail-kernel/public-surface-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/public-surface-orchestration-run.md) | Visual Semantics Are Contract; Literal Quick Start Replay; Positive Exceptions For Negative Rules |

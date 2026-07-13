@@ -6,7 +6,7 @@ In progress.
 
 ## Review Outcome
 
-Identity, architecture, schema, deterministic project validation, offline initialization, read-only trace inspection, and the public quick start passed locally; T009 branch CI remains.
+Identity, architecture, schema, deterministic project validation, offline initialization, read-only trace inspection, and the public quick start passed locally and remotely; T010 dogfooding remains.
 
 ## Spec Alignment
 
@@ -28,7 +28,7 @@ T007 used one independent read-only reviewer, integrated initial and focused `RE
 
 T008 froze its contract through `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, then integrated implementation review `REVISE -> REVISE -> PASS`. The canonical local gate passes 202 tests with zero skips, package inspection, strict framing and state reconstruction, matrix-bound evidence, a renderer-only internal CLI, and no public executable namespace. GitHub Actions run `29288359476` passes Template Check and all six Node 22/24 platform jobs.
 
-T009 froze its public contract through `REVISE -> PASS`, then integrated implementation review `REVISE -> REVISE -> PASS`. The canonical local gate passes 205 tests with zero skips. The source-checkout example executes literal relative commands and remains byte-for-byte unchanged; all 42 checker scenarios bind identity, visual, capability, navigation, and private distribution boundaries while preserving truthful provenance and negation. Branch CI remains before T009 closeout.
+T009 froze its public contract through `REVISE -> PASS`, then integrated implementation review `REVISE -> REVISE -> PASS`. The canonical local gate passes 205 tests with zero skips. The source-checkout example executes literal relative commands and remains byte-for-byte unchanged; all 42 checker scenarios bind identity, visual, capability, navigation, and private distribution boundaries while preserving truthful provenance and negation. GitHub Actions run `29292597506` passes all seven jobs for commit `c9d7e4f`.
 
 ## Findings
 
@@ -49,4 +49,4 @@ T009 froze its public contract through `REVISE -> PASS`, then integrated impleme
 
 ## Memory And Docs
 
-The T009 source package preserves the frozen public contract, both reviewer loops, remediated findings, exact quick-start evidence, the 42-scenario checker matrix, and the current-versus-historical visual boundary. Memory closeout waits for branch CI.
+The T009 source package preserves the frozen public contract, both reviewer loops, remediated findings, exact quick-start evidence, the 42-scenario checker matrix, the current-versus-historical visual boundary, and green cross-platform CI. Memory now advances T010.
