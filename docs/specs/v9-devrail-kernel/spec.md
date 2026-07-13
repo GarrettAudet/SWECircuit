@@ -58,9 +58,9 @@ V9 must create that baseline without overclaiming orchestration. The kernel will
 
 ## Acceptance Criteria
 
-- [ ] AC1: Given an empty directory, when the documented initializer runs, then it creates a minimal project that immediately passes validation without network access.
-- [ ] AC2: Given valid and malformed canonical module or circuit manifests, when validation runs, then valid input passes and each malformed fixture fails with a stable code and actionable JSON Pointer.
-- [ ] AC3: Given a circuit with missing references, invalid outcomes, unsafe cycles, ambiguous fan-in, excessive graph size, or incomplete work-unit ownership, when semantic validation runs, then it rejects the circuit deterministically.
+- [x] AC1: Given an empty directory, when the documented initializer runs, then it creates a minimal project that immediately passes validation without network access.
+- [x] AC2: Given valid and malformed canonical module or circuit manifests, when validation runs, then valid input passes and each malformed fixture fails with a stable code and actionable JSON Pointer.
+- [x] AC3: Given a circuit with missing references, invalid outcomes, unsafe cycles, ambiguous fan-in, excessive graph size, or incomplete work-unit ownership, when semantic validation runs, then it rejects the circuit deterministically.
 - [ ] AC4: Given caller-supplied traces for success, retry, timeout, cancellation, and failed handoff, when inspection runs, then sequence, causality, attempt state, and terminal state remain reconstructable without dereferencing evidence.
 - [ ] AC5: Given a core project with no optional adapter installed and network access disabled, when core commands run, then initialization, validation, and trace inspection still work.
 - [ ] AC6: Given Node 22 and 24 on Ubuntu, Windows, and macOS, when automated checks run, then format, lint, typecheck, unit, integration, fixture, build, package, clean-init, and clean-consumer checks pass.

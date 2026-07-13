@@ -22,6 +22,8 @@ In progress.
 - Dogfooded a two-reviewer schema gate, integrated both REVISE handoffs, and froze the six-kind v1alpha1 schemas, permission and composition rules, diagnostic catalog, and adversarial case matrix.
 - Implemented strict JSON parsing, package-owned schema dispatch, deterministic diagnostics, bounded project loading, reference and graph semantics, work ownership, and permission-ceiling validation for T006.
 - Dogfooded an independent T006 review, integrated its path, portability, privacy, and fixture findings, and narrowed the reparse contract to behavior enforceable through the approved pure Node boundary.
+- Implemented T007 deterministic offline initialization with frozen manifest bytes and ID derivation, exclusive collisions, captured identity and pending ownership ledgers, guarded recovery, immediate self-validation, and no adapter/network/process execution.
+- Dogfooded an independent T007 review through two `REVISE` rounds and focused `PASS`; the second round corrected overclaimed pure-Node race guarantees, uncaptured successful-create handling, and a process test whose barrier initially sat before preflight.
 
 ## Deviations From Plan
 
@@ -37,8 +39,8 @@ The workspace patch helper failed before file access during intake and recurred 
 
 - Complete current canonical branding and replace the historical TraceRail overview image.
 - Define and test the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
-- Implement the T007 offline, non-overwriting project initializer over the validated project operation.
-- Keep trace reconstruction and CLI rendering behind the project-validation slice.
+- Implement T008 bounded event-trace validation, deterministic state reconstruction, and read-only inspection over caller-owned JSONL.
+- Keep CLI rendering behind the trace operation and preserve initialization/validation as pure library surfaces.
 
 ## Verification Performed
 
@@ -57,9 +59,12 @@ The workspace patch helper failed before file access during intake and recurred 
 - The accepted toolchain passes format, lint, TypeScript 7 typecheck and declaration build, Node test, Ajv/jsonc-parser ESM import, and dry-run package inspection, and a zero-vulnerability production audit. Ajv required its named Ajv2020 export under strict NodeNext; Node test discovery uses an explicit file glob on Windows; npm pack uses the ignored repository-local cache.
 - T005 passes eleven schema and fixture tests, the positive template checker, all seventeen malformed-repository regressions, and package inspection proving that the contract README, six schemas, common definitions, and diagnostic catalog ship in the private tarball.
 - T006 passes the canonical local gate with 49 tests and zero skips, including explicit-root preflight, mandatory native link checks, aliased ancestors, canonical `SC1013`/`SC1014` classification, multi-node cycles, structural fan-out, every permission kind, prefix boundaries, and encoded-pointer suppression. The template checker and all seventeen regression cases pass, independent re-review returned `PASS`, and GitHub Actions run `29277160551` passes all seven jobs.
+- T007 passes the canonical local gate with 82 tests covering exact output, ID edge cases, collisions, every fault checkpoint, all four pre-capture pending states, non-empty and identity-changed recovery, a process race synchronized after both preflights, dynamic offline/process traps, and immediate validation. Independent review returned `REVISE`, `REVISE`, then `PASS`; the template checker, all seventeen checker regressions, package inspection, encoding scan, and GitHub Actions run `29281182002` pass.
 
 ## Durable Learnings
 
 - A version branch should begin with explicit API decision gates when the version creates the first executable public surface.
 - The known Windows patch-helper failure remains reproducible; direct-write recovery must remain bounded and independently verified.
 - Public naming should be tested against adjacent products, multiple package registries, repository names, domains, semantics, pronunciation, and future extension vocabulary before implementation.
+- A successful path creation is not cleanup-owned until identity capture succeeds; pending ownership must fail conservatively.
+- A coordinated race test must block participants after preflight and immediately before the contended mutation.

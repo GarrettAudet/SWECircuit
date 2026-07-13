@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress.
+Complete.
 
 ## Goal
 
@@ -17,7 +17,7 @@ Implement the smallest offline, non-interactive, non-overwriting project initial
 - Creation uses exclusive filesystem operations and journals each captured created entry's type, canonical path, and BigInt device/inode identity. A successful create that cannot be captured stays pending, is preserved, and produces `SC1022`.
 - Recovery attempts reverse non-recursive removal only after root and entry identity checks. Detected changed, missing, linked, or non-empty entries survive and produce `SC1022`; the documented create-to-capture and check-to-remove race windows require a native adapter for categorical malicious-race protection.
 - The open manifest descriptor, exact bytes, generated project ID, and normal project-validation result are checked before success.
-- Pure Node identity checks bound races between operations; a malicious replacement inside one native path syscall remains an explicit deferred native boundary.
+- Pure Node identity checks bound observable state at explicit boundaries; creation-to-first-capture and final-check-to-remove replacement windows remain the explicit deferred native boundary X07.
 
 ## Work Unit A: Integrated Implementation
 

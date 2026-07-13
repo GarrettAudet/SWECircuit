@@ -173,6 +173,13 @@ Parallel work needs explicit deadlines, observable worker state, typed failure o
 ### Literal Replay For Generated Scripts
 
 When a generated or mechanically edited script is corrupted, restore that file from a known branch baseline and replay bounded edits through literal, boundary-checked transformations. Validate syntax after every rewrite; do not pass source containing dollar signs through regex replacement-string semantics.
+### Pending Ownership Before Cleanup
+
+A successful filesystem create is not safe to remove until the creator captures and later rechecks its identity. Track the create-to-capture interval explicitly; when capture or ownership proof fails, preserve the path and report incomplete cleanup.
+
+### Barrier At The Contended Boundary
+
+A concurrency test proves a race only when every participant reaches a barrier after preflight and immediately before the same exclusive mutation. Readiness before entering the operation can pass while exercising only ordinary collision detection.
 ## Source Map
 
 Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
@@ -197,3 +204,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V7 implementation notes](../specs/v7-readme-demo-polish/implementation-notes.md) | Deterministic Text-Heavy Visuals |
 | [V8.1 spec](../specs/v8.1-baseline-integrity/spec.md), [test plan](../specs/v8.1-baseline-integrity/test-plan.md), [debug notes](../specs/v8.1-baseline-integrity/debug-notes.md), [root-cause analysis](../specs/v8.1-baseline-integrity/root-cause-analysis.md), and [orchestration run](../specs/v8.1-baseline-integrity/orchestration-run.md) | Current Capability Versus Target Model; Negative Fixtures For Semantic Checks; Bounded Worker Recovery; Literal Replay For Generated Scripts |
 | [V9 T006 RCA](../specs/v9-devrail-kernel/root-cause-analysis.md) and [validation run](../specs/v9-devrail-kernel/validation-orchestration-run.md) | Parser-Consumer Boundary Probe; Decision Seam Before Native Fixture |
+| [V9 T007 initialization plan](../specs/v9-devrail-kernel/initialization-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/initialization-orchestration-run.md) | Pending Ownership Before Cleanup; Barrier At The Contended Boundary |

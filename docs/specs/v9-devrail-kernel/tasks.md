@@ -24,9 +24,9 @@ In progress.
 - [x] T006: Implement the validation kernel.
   Scope: Schema loading, semantic checks, deterministic diagnostics, and exit codes.
   Verification: Commit `a364bf6` passes 49 local tests with zero skips, independent reviewer `PASS`, the template checker and all seventeen regressions, package inspection, and GitHub Actions run `29277160551` across Node 22/24 on Ubuntu, Windows, and macOS.
-- [ ] T007: Implement project initialization.
+- [x] T007: Implement project initialization.
   Scope: Minimal project generation, collision handling, offline behavior, and immediate validation.
-  Verification: Temp-directory integration test maps to AC1 and proves no adapter or network requirement.
+  Verification: Commit `095a391` passes 82 tests covering frozen output, exact ID derivation, collisions, every fault checkpoint, pending ownership, identity-gated recovery, a post-preflight two-process race, dynamic offline/process traps, and immediate validation. Independent review progressed `REVISE` -> `REVISE` -> `PASS`; GitHub Actions run `29281182002` passes all seven jobs.
 - [ ] T008: Implement event-trace validation and inspection.
   Scope: Append-only event model, causality checks, terminal states, redaction boundary, and human-readable inspection.
   Verification: Success, retry, timeout, cancellation, and failed-handoff fixtures map to AC4 and AC5.

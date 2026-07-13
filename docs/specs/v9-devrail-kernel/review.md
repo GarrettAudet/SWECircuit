@@ -6,11 +6,11 @@ In progress.
 
 ## Review Outcome
 
-Identity, architecture, schema, and deterministic project-validation gates passed; initialization and trace inspection remain.
+Identity, architecture, schema, deterministic project validation, and offline project initialization passed; trace inspection remains.
 
 ## Spec Alignment
 
-The V9 package dogfoods the completed V8.2 baseline. DevRail is rejected, SWECircuit is approved only for the project and GitHub repository, ADR 0001 is accepted, v1alpha1 is frozen, and T006 implements the AC2/AC3 validation foundation.
+The V9 package dogfoods the completed V8.2 baseline. DevRail is rejected, SWECircuit is approved only for the project and GitHub repository, ADR 0001 is accepted, v1alpha1 is frozen, T006 satisfies AC2 and AC3, and T007 satisfies AC1.
 
 ## Architecture Alignment
 
@@ -23,6 +23,8 @@ V8.1 merged and passed main CI before V9 branch creation. The bounded V8.2 SWECi
 The V9 architecture gate used three bounded read-only specialist reviewers. All returned `REVISE`; their integrated review and decision brief passed the positive checker and all seventeen regression cases without shared-file edits.
 
 T006 used one independent read-only reviewer, integrated two `REVISE` rounds, and finished with focused `PASS`. The canonical local gate passes 49 tests with zero skips, package inspection, the template checker, and all seventeen checker regressions. GitHub Actions run `29277160551` passes all seven jobs.
+
+T007 used one independent read-only reviewer, integrated initial and focused `REVISE` rounds, and finished with focused `PASS`. The canonical local gate passes 82 tests, package inspection, the template checker, all seventeen checker regressions, and encoding inspection. GitHub Actions run `29281182002` passes all seven jobs.
 
 ## Findings
 
@@ -42,4 +44,4 @@ T006 used one independent read-only reviewer, integrated two `REVISE` rounds, an
 
 ## Memory And Docs
 
-Active context, decisions, known issues, patterns, history, and retrieval pointers now preserve the accepted architecture, v1alpha1 contract, T006 diagnosis and review loop, cross-platform evidence, and the next T007 stage.
+Active context, decisions, known issues, patterns, history, and retrieval pointers now preserve the accepted architecture, v1alpha1 contract, T006 and T007 review loops, initialization race boundaries, cross-platform evidence, and the next T008 stage.

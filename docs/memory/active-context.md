@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Implement T007 offline, non-overwriting project initialization over the verified validation operation.
+Implement T008 event-trace validation and read-only inspection over the verified validation and initialization operations.
 
 ## Current Stage
 
-V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 after independent `REVISE` and focused `PASS` handoffs; GitHub Actions run 29277160551 passed all seven jobs across Node 22/24 on Ubuntu, Windows, and macOS. T007 is active. The repository remains unlicensed.
+V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 after independent `REVISE` -> `REVISE` -> `PASS` review; 82 tests and GitHub Actions run 29281182002 pass all seven jobs. T008 is active. The repository remains unlicensed.
 
 ## Important Current Constraints
 
@@ -24,6 +24,7 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - Diagnostic codes, rules, severity, pointer conventions, sort order, and exit classes are frozen in schemas/v1alpha1/diagnostic-catalog.json.
 - The primary README overview PNG still contains the historical TraceRail label and must be replaced before V9 is merge-ready.
 - Pure Node cannot inspect every opaque same-path Windows reparse attribute; links, junctions, canonical divergence, regular-file state, containment, and descriptor identity remain enforced, while that native metadata boundary is explicitly deferred.
+- Pure Node initialization cannot atomically bind directory creation to first identity capture or final identity checks to pathname removal. X07 names both malicious replacement windows; pending creations force `SC1022`, and detected mismatches are preserved.
 - Public reuse remains legally unclear until the owner selects a license.
 - Main remains the stable V8.2 baseline while V9 is isolated on codex/v9-devrail-kernel.
 
@@ -43,11 +44,14 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - The known Windows patch-helper sandbox refresh failure still requires bounded direct-write recovery plus independent verification.
 - A duplicate-aware parser and a downstream validator must be integration-tested together; jsonc-parser's null-prototype values exposed an Ajv equality assumption that isolated library probes missed.
 - Deterministic security classification should be extracted and tested separately from native operating-system fixture creation; this preserved `SC1014` coverage without pretending pure Node can inspect every reparse attribute.
+- A successful filesystem create is not cleanup-owned until identity capture succeeds; track the gap as pending and preserve it on uncertainty.
+- A concurrency test must place its barrier after preflight and immediately before the contended mutation; worker readiness before entering the operation does not prove a race was exercised.
+- Independent review remained useful after the first hardening pass: two `REVISE` rounds found ownership and test-validity gaps that a green local suite missed.
 
 ## Next Likely Work
 
-- Freeze the smallest valid initialized project shape and collision behavior.
-- Implement an offline, non-interactive initializer that never overwrites existing paths.
-- Validate generated output immediately through the T006 operation.
-- Add temp-directory integration coverage for success, collision, invalid target, and no-network behavior.
-- Run an independent T007 contract review before remote matrix verification.
+- Freeze the T008 trace-operation contract and decomposition plan before implementation.
+- Implement bounded JSONL reading, event dispatch, causality, retry, and immutable terminal-state checks.
+- Reconstruct a deterministic read-only run summary without dereferencing evidence references or writing trace data.
+- Add success, retry, timeout, cancellation, failed-handoff, malformed-line, resource-limit, privacy, and offline tests.
+- Run an independent T008 review before remote matrix verification.

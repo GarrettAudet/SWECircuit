@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress.
+Complete.
 
 ## Pattern
 
@@ -52,4 +52,4 @@ Focused re-review 2 verdict: `PASS`, with no actionable findings. The reviewer c
 
 ## Verification
 
-Canonical local verification passes with 82 tests, package inspection, and the repository template checker. Independent fan-in is `PASS`. Pending commit and remote Node 22/24 matrix across Ubuntu, Windows, and macOS.
+Commit `095a391` passes canonical local verification with 82 tests, package inspection, the repository template checker, all seventeen checker regressions, encoding inspection, and clean-diff checks. Independent fan-in is `PASS`. GitHub Actions run `29281182002` passes the template job and all six Node 22/24 jobs across Ubuntu, Windows, and macOS.
