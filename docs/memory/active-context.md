@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-V8.2 SWECircuit identity baseline merge and V9 synchronization.
+Synchronize the completed V8.2 SWECircuit identity baseline into V9 and continue the executable kernel.
 
 ## Current Stage
 
-The GitHub repository is `GarrettAudet/SWECircuit`. The approved identity slice is isolated on `codex/swecircuit-identity-main` from verified V8.1 `main`; local validation is green and branch CI, fast-forward merge, final main CI, and V9 synchronization remain. The repository remains unlicensed.
+V8.2 is complete on `main`. The GitHub repository, origin, About description, README, canonical docs, workflow labels, and checker use SWECircuit; branch CI run `29264529026` and main CI run `29264704320` passed on release commit `7a08c37`. The V9 branch remains isolated and must now adopt this stable baseline. The repository remains unlicensed.
 
 ## Important Current Constraints
 
@@ -19,19 +19,18 @@ The GitHub repository is `GarrettAudet/SWECircuit`. The approved identity slice 
 - Module and circuit contracts under the 0.x rail path are dynamically discovered and checker-enforced.
 - No package, domain, CLI, schema, or local-state namespace acquisition is part of the repository rename.
 - Public reuse remains legally unclear until the owner selects a license.
-- Unfinished V9 architecture and runtime work must remain isolated from the V8.2 main-targeted identity branch.
 
 ## Recently Learned
 
 - A repository identity change inside an unfinished version should be extracted into a bounded baseline release rather than forcing premature merge.
 - Namespace work should match real interfaces; a GitHub rename does not imply package or domain acquisition.
 - Current identity and historical provenance require separate validation scopes.
-- Two permanent regressions now reject a legacy README heading and retired GitHub URL.
-- Two of four V8.1 write-enabled worker attempts completed; disjoint scopes prevented conflicts but file contracts did not enforce liveness.
-- Positive validation needs permanent malformed-artifact fixtures for every distinct parser and resolver path.
+- Two permanent regressions reject a legacy README heading and retired GitHub URL.
+- File contracts still cannot enforce worker heartbeat, deadline, cancellation, retry, or recovery.
+- Every distinct parser and resolver path needs a dedicated malformed-artifact fixture.
 
 ## Next Likely Work
 
-- Push V8.2, verify branch CI, fast-forward `main`, and verify final main CI.
-- Synchronize the merged V8.2 baseline into `codex/v9-devrail-kernel`.
-- Replace the primary overview visual, accept or revise ADR 0001, and implement the smallest executable-kernel slices.
+- Merge the V8.2 `main` baseline into `codex/v9-devrail-kernel` and resolve only source-preserving overlap.
+- Replace the primary overview visual with SWECircuit branding.
+- Accept or revise ADR 0001, then implement versioned schemas, validator, initializer, and trace inspection.

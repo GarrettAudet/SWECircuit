@@ -47,4 +47,4 @@ Complete.
 - Local positive checker passed.
 - All seventeen regression cases passed.
 - `git diff --check` passed.
-- GitHub branch and final main CI evidence is added before closeout.
+- GitHub branch CI run `29264529026` and final main CI run `29264704320` passed on release commit `7a08c37`.

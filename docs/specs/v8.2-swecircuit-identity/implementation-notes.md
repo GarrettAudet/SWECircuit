@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress.
+Complete.
 
 ## Summary Of Changes
 
@@ -35,6 +35,7 @@ The approved rename was first developed inside V9. Because V9 is not merge-ready
 - `git diff --check` passed.
 - Supporting GIF source and generated outputs use SWECircuit branding.
 - Branch and final main CI results are recorded during merge closeout.
+- Branch CI run `29264529026` and main CI run `29264704320` passed on release commit `7a08c37`.
 
 ## Durable Learnings
 

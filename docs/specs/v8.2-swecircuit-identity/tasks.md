@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress.
+Complete.
 
 ## Task List
 
@@ -21,9 +21,9 @@ In progress.
 - [x] T005: Record review, milestone, and memory.
   Scope: Feature package, V8.2 milestone, active context, decisions, history, retrieval, and known issues.
   Verification: Checker validates all required artifacts and provenance fields.
-- [ ] T006: Push, verify CI, and merge the approved identity slice.
-  Scope: Branch push, GitHub Actions, approved fast-forward to `main`, and V9 baseline synchronization.
-  Verification: Branch and final `main` CI pass; V9 records the new main baseline.
+- [x] T006: Push, verify CI, and merge the approved identity slice.
+  Scope: Branch push, GitHub Actions, and approved fast-forward to `main`.
+  Verification: Branch CI run `29264529026` and main CI run `29264704320` passed; V9 synchronization is the next version action.
 
 ## Tasks
 

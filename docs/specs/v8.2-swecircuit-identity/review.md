@@ -18,7 +18,7 @@ The change respects the file-based core, version branch workflow, approval gate,
 
 ## Verification Evidence
 
-The positive checker, all seventeen regression fixtures, `git diff --check`, repository metadata checks, and supporting asset generation pass. Branch and final main CI are required before merge closeout.
+The positive checker, all seventeen regression fixtures, `git diff --check`, repository metadata checks, and supporting asset generation pass. Branch CI run `29264529026` and main CI run `29264704320` both passed on release commit `7a08c37`.
 
 ## Findings
 
