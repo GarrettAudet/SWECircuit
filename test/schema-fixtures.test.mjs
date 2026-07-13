@@ -173,9 +173,12 @@ test("every concrete object boundary in all six valid fixtures rejects unknown f
         `${kind} allowed an unknown field at /${path.join("/")}`,
       );
       assert.equal(
-        validate.errors.some((error) => error.keyword === "additionalProperties"),
+        validate.errors.some(
+          (error) =>
+            error.keyword === "additionalProperties" || error.keyword === "unevaluatedProperties",
+        ),
         true,
-        `${kind} did not report additionalProperties at /${path.join("/")}`,
+        `${kind} did not report a closed-property violation at /${path.join("/")}`,
       );
     }
   }
@@ -217,9 +220,23 @@ test("schema boundaries reject permission, privacy, compatibility, and terminal-
   forbiddenPrompt.spec.prompt = "not allowed";
   assert.equal(validateEvent(forbiddenPrompt), false);
 
-  const missingTerminalReason = structuredClone(eventFixture);
-  missingTerminalReason.spec.attempt.state = "completed";
-  assert.equal(validateEvent(missingTerminalReason), false);
+  const missingTerminalCode = structuredClone(eventFixture);
+  missingTerminalCode.spec.attempt.state = "completed";
+  assert.equal(validateEvent(missingTerminalCode), false);
+
+  const wrongTerminalCode = structuredClone(eventFixture);
+  wrongTerminalCode.spec.attempt.state = "failed";
+  wrongTerminalCode.spec.attempt.terminalCode = "success";
+  assert.equal(validateEvent(wrongTerminalCode), false);
+
+  const proseEvidence = structuredClone(eventFixture);
+  proseEvidence.spec.type = "evidence.recorded";
+  delete proseEvidence.spec.stage;
+  delete proseEvidence.spec.attempt;
+  proseEvidence.spec.evidence = [
+    { id: "evidence", kind: "artifact", ref: "captured prose is not a reference" },
+  ];
+  assert.equal(validateEvent(proseEvidence), false);
 
   const adapterFixture = await readJson(new URL("adapter-manifest.json", fixtureRoot));
   const validateAdapter = ajv.getSchema(schemas.AdapterManifest.$id);

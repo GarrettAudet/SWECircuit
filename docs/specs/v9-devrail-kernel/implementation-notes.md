@@ -24,10 +24,13 @@ In progress.
 - Dogfooded an independent T006 review, integrated its path, portability, privacy, and fixture findings, and narrowed the reparse contract to behavior enforceable through the approved pure Node boundary.
 - Implemented T007 deterministic offline initialization with frozen manifest bytes and ID derivation, exclusive collisions, captured identity and pending ownership ledgers, guarded recovery, immediate self-validation, and no adapter/network/process execution.
 - Dogfooded an independent T007 review through two `REVISE` rounds and focused `PASS`; the second round corrected overclaimed pure-Node race guarantees, uncaptured successful-create handling, and a process test whose barrier initially sat before preflight.
+- Froze T008 through four preimplementation `REVISE` rounds and `PASS`, then implemented exact RunEvent dispatch, bounded JSONL framing, trace-global order and causation, attempt/retry reconstruction, evidence summaries, whole-value secret suppression, and read-only `inspectTrace`.
+- Added a thin internal CLI for initialize, validate, and inspect without a package `bin`, public executable, process execution, adapter invocation, or external namespace claim.
+- Dogfooded independent T008 implementation review through `REVISE -> REVISE -> PASS`; the gate caught unbounded dense-record retention, zero-event delimiter handling, evidence length drift, missing type exports, overstated matrix coverage, and fixed-ceiling buffer allocation.
 
 ## Deviations From Plan
 
-The workspace patch helper failed before file access during intake and recurred during naming, architecture acceptance, toolchain, and T006 edits. The integration owner used the repository-authorized PowerShell fallback and retained diff, formatter, typecheck, tests, package inspection, and checker verification as the proof boundary. Windows PowerShell initially added a UTF-8 BOM to one strict JSON fixture; the full gate caught it, all fallback-touched files were normalized with explicit BOM-free UTF-8, and the gate then passed. PowerShell execution policy also blocked npm.ps1, so Windows commands use npm.cmd without changing host policy.
+The workspace patch helper failed before file access during intake and recurred during naming, architecture acceptance, toolchain, and T006 edits. The integration owner used the repository-authorized PowerShell fallback and retained diff, formatter, typecheck, tests, package inspection, and checker verification as the proof boundary. Windows PowerShell initially added a UTF-8 BOM to one strict JSON fixture; the full gate caught it, all fallback-touched files were normalized with explicit BOM-free UTF-8, and the gate then passed. PowerShell execution policy also blocked npm.ps1, so Windows commands use npm.cmd without changing host policy. The T008 implementation reviewer exceeded the first expected wait window but completed through the agent-status gate; the delay was recorded without weakening the review requirement.
 
 ## Assumptions Used
 
@@ -39,7 +42,6 @@ The workspace patch helper failed before file access during intake and recurred 
 
 - Complete current canonical branding and replace the historical TraceRail overview image.
 - Define and test the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
-- Implement T008 bounded event-trace validation, deterministic state reconstruction, and read-only inspection over caller-owned JSONL.
 - Keep CLI rendering behind the trace operation and preserve initialization/validation as pure library surfaces.
 
 ## Verification Performed
@@ -60,6 +62,7 @@ The workspace patch helper failed before file access during intake and recurred 
 - T005 passes eleven schema and fixture tests, the positive template checker, all seventeen malformed-repository regressions, and package inspection proving that the contract README, six schemas, common definitions, and diagnostic catalog ship in the private tarball.
 - T006 passes the canonical local gate with 49 tests and zero skips, including explicit-root preflight, mandatory native link checks, aliased ancestors, canonical `SC1013`/`SC1014` classification, multi-node cycles, structural fan-out, every permission kind, prefix boundaries, and encoded-pointer suppression. The template checker and all seventeen regression cases pass, independent re-review returned `PASS`, and GitHub Actions run `29277160551` passes all seven jobs.
 - T007 passes the canonical local gate with 82 tests covering exact output, ID edge cases, collisions, every fault checkpoint, all four pre-capture pending states, non-empty and identity-changed recovery, a process race synchronized after both preflights, dynamic offline/process traps, and immediate validation. Independent review returned `REVISE`, `REVISE`, then `PASS`; the template checker, all seventeen checker regressions, package inspection, encoding scan, and GitHub Actions run `29281182002` pass.
+- T008 passes the canonical local gate with 202 tests and zero skips, including bound case-matrix coverage for framing, limit precedence, every legal/disallowed attempt transition, all terminal states, retry forks, missing references, evidence identifier boundaries, privacy slots, descriptor-sized allocation, CLI streams, and package shape. Preimplementation review completed `REVISE -> REVISE -> REVISE -> REVISE -> PASS`; implementation review completed `REVISE -> REVISE -> PASS`. Branch CI remains the release gate.
 
 ## Durable Learnings
 
@@ -68,3 +71,6 @@ The workspace patch helper failed before file access during intake and recurred 
 - Public naming should be tested against adjacent products, multiple package registries, repository names, domains, semantics, pronunciation, and future extension vocabulary before implementation.
 - A successful path creation is not cleanup-owned until identity capture succeeds; pending ownership must fail conservatively.
 - A coordinated race test must block participants after preflight and immediately before the contended mutation.
+- A resource limit must constrain retained structures before rejection; checking only after materialization does not prevent amplification.
+- A byte ceiling should not become a default allocation. Allocate from verified input size and reserve only the minimum growth-detection margin.
+- Case-matrix claims should bind directly to named table-driven variants so prose coverage cannot exceed executable evidence.

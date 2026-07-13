@@ -91,7 +91,7 @@ function syntaxDiagnostic(artifact: string, _errors: readonly ParseError[]): Dia
 export function parseJsonBuffer(
   bytes: Uint8Array,
   artifact: string,
-  byteLimit = LIMITS.artifactBytes,
+  byteLimit: number = LIMITS.artifactBytes,
 ): ParsedJson {
   if (bytes.byteLength > byteLimit) {
     return Object.freeze({

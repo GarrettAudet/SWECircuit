@@ -92,9 +92,15 @@ The WorkPacket does not represent mutable worker state. Runtime state is derived
 
 ## Trace Semantics
 
-The producer owns JSONL persistence. V9 validates and inspects the supplied file without claiming it was never rewritten.
+The producer owns JSONL persistence. V9 validates and inspects one explicit caller-owned file without claiming that it was never rewritten. The reader checks lexical and canonical containment, one open descriptor, regular-file identity, size, modification time, and change time before and after reading. Detectable mutation fails safely; same-inode/same-metadata races remain outside the pure Node guarantee. Its buffer is the verified descriptor size plus one growth-detection byte, so the 64 MiB resource limit is a ceiling rather than a fixed allocation.
 
-Sequence and causation are authoritative. time is optional evidence and never determines order.
+The whole-file limit includes delimiters. Line limits exclude LF or CRLF. A final delimiter is optional; internal blank records, repeated final delimiters, lone CR, BOM, invalid UTF-8, comments, trailing commas, duplicate keys, unsafe numbers, and excess depth fail. An empty file is a valid zero-event trace.
+
+Every line is exactly one `RunEvent` with event type version `1.0.0`. Its `spec` is a closed discriminated union: only `attempt.state` carries a full attempt declaration; heartbeat and cancellation events carry an `attemptId`; workflow outcomes carry stage/outcome; and evidence events carry typed references. RunEvent metadata is ID-only. Terminal and cancellation reasons use closed codes.
+
+Sequence and causation are authoritative. `time` is optional evidence and never determines order. Event IDs and sequences are trace-global; runs may interleave. Causes resolve to an earlier unique same-run event. Links are opaque non-causal identifiers and are not resolved.
+
+Attempt identity is `(runId, attempt.id)`. A lineage starts with one non-retry queued attempt numbered one. Repeated state events preserve work packet, number, retry link, and deadline exactly. A retry is a new queued attempt that names the immediately prior failed, cancelled, or timed-out attempt in the same work packet and increments its number by one. Lineages do not fork.
 
 Attempt transitions are:
 
@@ -102,9 +108,9 @@ Attempt transitions are:
     running -> input_required | completed | failed | cancelled | timed_out
     input_required -> running | cancelled | timed_out
 
-completed, failed, cancelled, and timed_out are immutable terminal states for one attempt. Timeout requires an explicit attempt.state event. A retry starts a new queued attempt with retryOf set to the prior attempt id.
+`completed`, `failed`, `cancelled`, and `timed_out` are immutable terminal states. Timeout requires an explicit state event. Heartbeat and cancellation requests are state-gated but do not change state. Outcome and evidence events may reference a terminal attempt.
 
-Evidence fields contain references only. The inspector never opens or fetches them.
+Evidence fields contain bounded, kind-specific references only; command and test identifiers are capped at 128 characters. The inspector never opens or fetches them. Summaries return at most 10,000 evidence references in logical order and report exact omissions. Every rendered string is checked against the normative high-confidence detector; a match suppresses the whole value and all matches aggregate to one root `SC4101` warning.
 
 ## Compatibility
 
@@ -113,6 +119,8 @@ v1alpha1 compatibility is exact: compatibility.apiVersions contains swecircuit/v
 Changing a schema, semantic rule, permission vocabulary, resource ceiling, diagnostic code, or event transition requires fixtures and a documented compatibility note.
 
 Unreleased T007 adds exit-class-4 `SC1021 init.path-exists` for owned-path collisions and `SC1022 init.cleanup-incomplete` when recovery cannot prove that a journaled entry is still safe to remove. It also broadens the stable `SC1001 io.safe-failure` wording from read-only input failures to filesystem operations. The diagnostic catalog advances to 1.1.0; the machine API remains `swecircuit/v1alpha1`.
+
+Unreleased T008 closes the RunEvent union, changes event metadata to ID-only, replaces free-form terminal/cancellation reasons with closed codes, and gives evidence references kind-specific grammars. It adds `SC1223` for non-string event versions and `SC3026` through `SC3029` for attempt identity, retry lineage, missing attempt references, and non-retry start state. It also publishes the 10,000-reference summary cap and exact secret detector. The diagnostic catalog advances to 1.2.0; event type version remains `1.0.0`, and the machine API remains `swecircuit/v1alpha1`.
 
 ## Diagnostics
 

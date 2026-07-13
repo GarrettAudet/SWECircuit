@@ -119,6 +119,55 @@ export interface AdapterManifestArtifact extends ArtifactEnvelope {
   };
 }
 
+export interface RunEventAttempt extends JsonObject {
+  readonly id: string;
+  readonly number: number;
+  readonly workPacket: string;
+  readonly state: import("./types.js").ExecutionState;
+  readonly retryOf?: string;
+  readonly deadline?: string;
+  readonly terminalCode?: import("./types.js").TerminalCode;
+}
+
+export interface RunEventEvidenceReference extends JsonObject {
+  readonly id: string;
+  readonly kind: import("./types.js").EvidenceKind;
+  readonly ref: string;
+  readonly digest?: string;
+  readonly immutable?: boolean;
+}
+
+export interface RunEventArtifact extends ArtifactEnvelope {
+  readonly kind: "RunEvent";
+  readonly metadata: {
+    readonly id: string;
+  };
+  readonly spec: JsonObject & {
+    readonly type: import("./types.js").RunEventType;
+    readonly eventTypeVersion: string;
+    readonly runId: string;
+    readonly sequence: number;
+    readonly correlationId: string;
+    readonly actor: string;
+    readonly time?: string;
+    readonly causationId?: string;
+    readonly links?: readonly string[];
+    readonly stage?: import("./types.js").WorkflowStage;
+    readonly outcome?: import("./types.js").WorkflowOutcome;
+    readonly workPacket?: string;
+    readonly attemptId?: string;
+    readonly attempt?: RunEventAttempt;
+    readonly heartbeat?: JsonObject & {
+      readonly observedAt: string;
+      readonly expectedEverySeconds: number;
+    };
+    readonly cancellation?: JsonObject & {
+      readonly requestedBy: string;
+      readonly reasonCode: import("./types.js").CancellationReasonCode;
+    };
+    readonly evidence?: readonly RunEventEvidenceReference[];
+  };
+}
 export type ProjectMemberArtifact =
   | ModuleArtifact
   | CircuitArtifact

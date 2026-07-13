@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "platformSets": {
     "ALL": [
       "node22-ubuntu",
@@ -106,10 +106,14 @@
     {
       "id": "D03",
       "phase": "T008",
-      "variants": ["missing", "unsupported"],
+      "variants": ["missing", "non-string", "unsupported"],
       "platforms": "ALL",
       "mode": "generated",
-      "rules": ["dispatch.event-version.required", "dispatch.event-version.unsupported"]
+      "rules": [
+        "dispatch.event-version.required",
+        "dispatch.event-version.type",
+        "dispatch.event-version.unsupported"
+      ]
     },
     {
       "id": "S01",
@@ -229,7 +233,19 @@
       "id": "T04",
       "phase": "T008",
       "rule": "trace.illegal-transition",
-      "variants": ["every-disallowed-state-pair"],
+      "variants": [
+        "queued-to-queued",
+        "queued-to-input_required",
+        "queued-to-completed",
+        "queued-to-failed",
+        "queued-to-timed_out",
+        "running-to-queued",
+        "running-to-running",
+        "input_required-to-queued",
+        "input_required-to-input_required",
+        "input_required-to-completed",
+        "input_required-to-failed"
+      ],
       "platforms": "ALL",
       "mode": "generated"
     },
@@ -254,6 +270,84 @@
       "phase": "T008",
       "rule": "trace.event-not-allowed-in-state",
       "variants": ["heartbeat", "cancellation-request"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T08",
+      "phase": "T008",
+      "rule": "trace.attempt.identity-conflict",
+      "variants": ["metadata-change", "duplicate-work-packet-number"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T09",
+      "phase": "T008",
+      "rule": "trace.retry.lineage-invalid",
+      "variants": ["wrong-predecessor", "completed-parent", "forked-successor"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T10",
+      "phase": "T008",
+      "rule": "trace.attempt.not-found",
+      "variants": ["heartbeat", "outcome", "evidence"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T11",
+      "phase": "T008",
+      "rule": "trace.attempt.must-start-queued",
+      "variants": ["non-retry"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T12",
+      "phase": "T008",
+      "variants": [
+        "empty-file",
+        "single-final-lf",
+        "single-final-crlf",
+        "repeated-final-lf",
+        "repeated-final-crlf"
+      ],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T13",
+      "phase": "T008",
+      "rule": "schema.constraint",
+      "variants": ["command-at-limit", "command-over-limit", "test-at-limit", "test-over-limit"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T14",
+      "phase": "T008",
+      "variants": [
+        "queued-to-running",
+        "queued-to-cancelled",
+        "running-to-input_required",
+        "running-to-completed",
+        "running-to-failed",
+        "running-to-cancelled",
+        "running-to-timed_out",
+        "input_required-to-running",
+        "input_required-to-cancelled",
+        "input_required-to-timed_out"
+      ],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T15",
+      "phase": "T008",
+      "variants": ["failed-handoff"],
       "platforms": "ALL",
       "mode": "generated"
     },
@@ -307,7 +401,9 @@
         "edge-count",
         "line-bytes",
         "trace-bytes",
-        "event-count"
+        "event-count",
+        "dense-short-records",
+        "line-before-event-count"
       ],
       "platforms": "ALL",
       "mode": "generated",
@@ -320,6 +416,13 @@
         "limit.trace-bytes",
         "limit.event-count"
       ]
+    },
+    {
+      "id": "L02",
+      "phase": "T008",
+      "variants": ["descriptor-size-plus-growth-byte"],
+      "platforms": "ALL",
+      "mode": "behavior"
     },
     {
       "id": "DG01",
@@ -374,7 +477,21 @@
       "id": "PR03",
       "phase": "T008",
       "rule": "privacy.secret-pattern",
-      "variants": ["every-rendered-string-slot"],
+      "variants": [
+        "trace-artifact",
+        "run-id",
+        "correlation-id",
+        "attempt-id",
+        "attempt-work-packet",
+        "attempt-retry-of",
+        "outcome-work-packet",
+        "outcome-attempt-id",
+        "evidence-id",
+        "evidence-ref",
+        "positive-negative-patterns",
+        "aggregate-warning",
+        "diagnostic-artifact"
+      ],
       "platforms": "ALL",
       "mode": "generated"
     }

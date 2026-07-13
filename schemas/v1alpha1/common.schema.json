@@ -132,7 +132,7 @@
         "ref": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 2048
+          "maxLength": 1286
         },
         "digest": {
           "type": "string",
@@ -141,7 +141,101 @@
         "immutable": {
           "type": "boolean"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["kind"],
+            "properties": {
+              "kind": {
+                "enum": ["artifact", "review", "decision", "handoff", "memory"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ref": {
+                "pattern": "^path:(?=[^#]{1,1024}(?:#|$))(?!\\.{1,2}(?:/|#|$))(?![^#]*/\\.{1,2}(?:/|#|$))[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*(?:#[A-Za-z0-9][A-Za-z0-9._~/-]{0,255})?$",
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["kind"],
+            "properties": {
+              "kind": {
+                "const": "command"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ref": {
+                "maxLength": 136,
+                "pattern": "^command:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["kind"],
+            "properties": {
+              "kind": {
+                "const": "test"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ref": {
+                "maxLength": 133,
+                "pattern": "^test:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["kind"],
+            "properties": {
+              "kind": {
+                "const": "commit"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ref": {
+                "pattern": "^git:[0-9a-f]{7,64}$",
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["kind"],
+            "properties": {
+              "kind": {
+                "const": "digest"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ref": {
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
     },
     "evidenceRequirement": {
       "type": "object",

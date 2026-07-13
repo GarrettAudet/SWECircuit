@@ -1,7 +1,12 @@
 import { Ajv2020 } from "ajv/dist/2020.js";
 import { parseTree } from "jsonc-parser";
 
-export { API_VERSION, ARTIFACT_KINDS, LIMITS } from "./constants.js";
+export {
+  API_VERSION,
+  ARTIFACT_KINDS,
+  EVENT_TYPE_VERSION,
+  LIMITS,
+} from "./constants.js";
 export {
   createDiagnostic,
   DIAGNOSTIC_DEFINITIONS,
@@ -10,17 +15,31 @@ export {
 } from "./diagnostics.js";
 export { initializeProject } from "./initialize.js";
 export { parseJsonBuffer } from "./json.js";
+export { inspectTrace } from "./trace.js";
 export { validateArtifactValue, validateProject } from "./validate.js";
 export type {
+  CancellationReasonCode,
   Diagnostic,
   DiagnosticSeverity,
+  EvidenceKind,
+  ExecutionState,
   ExitCode,
   InitializeProjectOptions,
+  InspectTraceOptions,
   OperationResult,
   ProjectInitializationSummary,
   ProjectValidationSummary,
+  RunEventType,
+  TerminalCode,
+  TraceAttemptSummary,
+  TraceEvidenceSummary,
+  TraceInspectionSummary,
+  TraceRunSummary,
+  TraceWorkflowOutcomeSummary,
   ValidateProjectOptions,
   ValidatedArtifactSummary,
+  WorkflowOutcome,
+  WorkflowStage,
 } from "./types.js";
 
 export const TOOLCHAIN = Object.freeze({

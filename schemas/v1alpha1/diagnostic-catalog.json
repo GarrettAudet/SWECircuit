@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "diagnosticShape": {
     "required": ["code", "severity", "artifact", "pointer", "rule", "message"],
     "optional": ["hint"],
@@ -139,6 +139,12 @@
     {
       "code": "SC1222",
       "rule": "dispatch.event-version.unsupported",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1223",
+      "rule": "dispatch.event-version.type",
       "severity": "error",
       "exitClass": 2
     },
@@ -319,6 +325,30 @@
     {
       "code": "SC3025",
       "rule": "trace.event-not-allowed-in-state",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3026",
+      "rule": "trace.attempt.identity-conflict",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3027",
+      "rule": "trace.retry.lineage-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3028",
+      "rule": "trace.attempt.not-found",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3029",
+      "rule": "trace.attempt.must-start-queued",
       "severity": "error",
       "exitClass": 2
     },

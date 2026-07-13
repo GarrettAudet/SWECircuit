@@ -22,10 +22,22 @@ export interface ProjectRootResult {
   readonly diagnostics: readonly Diagnostic[];
 }
 
+export interface ContainedBytesResult {
+  readonly bytes: Uint8Array | null;
+  readonly diagnostics: readonly Diagnostic[];
+}
+
 export interface ContainedJsonResult {
   readonly parsed: ParsedJson | null;
   readonly diagnostics: readonly Diagnostic[];
 }
+
+export interface ContainedReadHooks {
+  readonly afterBytesRead?: (absolutePath: string) => void;
+}
+
+type MissingCode = "SC1001" | "SC2001";
+type ByteLimitCode = "SC5001" | "SC5006";
 
 function isErrno(error: unknown, code: string): boolean {
   return (
@@ -61,7 +73,7 @@ export function inspectCanonicalArtifactPath(
 function lstatOrDiagnostic(
   pathValue: PathLike,
   artifact: string,
-  missingCode: "SC1001" | "SC2001",
+  missingCode: MissingCode,
 ): { readonly stats: BigIntStats | null; readonly diagnostic: Diagnostic | null } {
   try {
     return { stats: lstatSync(pathValue, { bigint: true }), diagnostic: null };
@@ -75,6 +87,15 @@ function lstatOrDiagnostic(
 
 function sameFile(left: BigIntStats, right: BigIntStats): boolean {
   return left.dev === right.dev && left.ino === right.ino;
+}
+
+function sameSnapshot(left: BigIntStats, right: BigIntStats): boolean {
+  return (
+    sameFile(left, right) &&
+    left.size === right.size &&
+    left.mtimeNs === right.mtimeNs &&
+    left.ctimeNs === right.ctimeNs
+  );
 }
 
 function inspectExplicitProjectPath(candidate: string): DiagnosticCode | null {
@@ -102,48 +123,82 @@ function readBoundedRegularFile(
   pathValue: string,
   expectedStats: BigIntStats,
   artifact: string,
+  byteLimit: number,
+  limitCode: ByteLimitCode,
+  hooks: ContainedReadHooks,
 ): { readonly bytes: Uint8Array | null; readonly diagnostic: Diagnostic | null } {
-  if (expectedStats.size > BigInt(LIMITS.artifactBytes)) {
-    return { bytes: null, diagnostic: createDiagnostic("SC5001", artifact) };
+  if (expectedStats.size > BigInt(byteLimit)) {
+    return { bytes: null, diagnostic: createDiagnostic(limitCode, artifact) };
   }
 
   let descriptor: number | null = null;
+  let result: { readonly bytes: Uint8Array | null; readonly diagnostic: Diagnostic | null } = {
+    bytes: null,
+    diagnostic: null,
+  };
+
   try {
     const noFollow = process.platform === "win32" ? 0 : constants.O_NOFOLLOW;
     descriptor = openSync(pathValue, constants.O_RDONLY | noFollow);
     const openedStats = fstatSync(descriptor, { bigint: true });
     if (!openedStats.isFile()) {
-      return { bytes: null, diagnostic: createDiagnostic("SC1015", artifact) };
-    }
-    if (!sameFile(expectedStats, openedStats)) {
-      return { bytes: null, diagnostic: createDiagnostic("SC1013", artifact) };
-    }
-
-    const buffer = Buffer.allocUnsafe(LIMITS.artifactBytes + 1);
-    let offset = 0;
-    while (offset < buffer.byteLength) {
-      const count = readSync(descriptor, buffer, offset, buffer.byteLength - offset, null);
-      if (count === 0) {
-        break;
+      result = { bytes: null, diagnostic: createDiagnostic("SC1015", artifact) };
+    } else if (!sameFile(expectedStats, openedStats)) {
+      result = { bytes: null, diagnostic: createDiagnostic("SC1013", artifact) };
+    } else if (!sameSnapshot(expectedStats, openedStats)) {
+      result = { bytes: null, diagnostic: createDiagnostic("SC1001", artifact) };
+    } else {
+      const buffer = Buffer.allocUnsafe(Number(openedStats.size) + 1);
+      let offset = 0;
+      while (offset < buffer.byteLength) {
+        const count = readSync(descriptor, buffer, offset, buffer.byteLength - offset, null);
+        if (count === 0) {
+          break;
+        }
+        offset += count;
       }
-      offset += count;
-    }
 
-    const finalState = lstatSync(pathValue, { bigint: true });
-    if (finalState.isSymbolicLink() || !sameFile(openedStats, finalState)) {
-      return { bytes: null, diagnostic: createDiagnostic("SC1013", artifact) };
+      if (offset > byteLimit) {
+        result = { bytes: null, diagnostic: createDiagnostic(limitCode, artifact) };
+      } else {
+        hooks.afterBytesRead?.(pathValue);
+        const finalDescriptorStats = fstatSync(descriptor, { bigint: true });
+        const finalPathStats = lstatSync(pathValue, { bigint: true });
+        if (
+          finalPathStats.isSymbolicLink() ||
+          !finalPathStats.isFile() ||
+          !sameFile(finalDescriptorStats, finalPathStats)
+        ) {
+          result = { bytes: null, diagnostic: createDiagnostic("SC1013", artifact) };
+        } else if (
+          !sameSnapshot(openedStats, finalDescriptorStats) ||
+          !sameSnapshot(finalDescriptorStats, finalPathStats) ||
+          BigInt(offset) !== openedStats.size
+        ) {
+          result = { bytes: null, diagnostic: createDiagnostic("SC1001", artifact) };
+        } else {
+          result = { bytes: buffer.subarray(0, offset), diagnostic: null };
+        }
+      }
     }
-    return { bytes: buffer.subarray(0, offset), diagnostic: null };
   } catch (error) {
-    return {
+    result = {
       bytes: null,
       diagnostic: createDiagnostic(isErrno(error, "ELOOP") ? "SC1013" : "SC1001", artifact),
     };
   } finally {
     if (descriptor !== null) {
-      closeSync(descriptor);
+      try {
+        closeSync(descriptor);
+      } catch {
+        if (result.diagnostic === null) {
+          result = { bytes: null, diagnostic: createDiagnostic("SC1001", artifact) };
+        }
+      }
     }
   }
+
+  return result;
 }
 
 export function inspectRelativeArtifactPath(candidate: string): DiagnosticCode | null {
@@ -229,16 +284,19 @@ export function resolveProjectRoot(project?: string): ProjectRootResult {
   }
 }
 
-export function readContainedJsonFile(
+export function readContainedFileBytesWithHooks(
   root: string,
   realRoot: string,
   candidate: string,
-  missingCode: "SC1001" | "SC2001",
-): ContainedJsonResult {
+  missingCode: MissingCode,
+  byteLimit: number,
+  limitCode: ByteLimitCode,
+  hooks: ContainedReadHooks = {},
+): ContainedBytesResult {
   const pathDiagnostic = inspectRelativeArtifactPath(candidate);
   if (pathDiagnostic !== null) {
     return Object.freeze({
-      parsed: null,
+      bytes: null,
       diagnostics: Object.freeze([createDiagnostic(pathDiagnostic, ".")]),
     });
   }
@@ -246,7 +304,7 @@ export function readContainedJsonFile(
   const absolutePath = resolve(root, ...candidate.split("/"));
   if (!isContained(root, absolutePath)) {
     return Object.freeze({
-      parsed: null,
+      bytes: null,
       diagnostics: Object.freeze([createDiagnostic("SC1011", ".")]),
     });
   }
@@ -258,13 +316,13 @@ export function readContainedJsonFile(
     const state = lstatOrDiagnostic(current, candidate, missingCode);
     if (state.diagnostic !== null || state.stats === null) {
       return Object.freeze({
-        parsed: null,
+        bytes: null,
         diagnostics: Object.freeze([state.diagnostic ?? createDiagnostic("SC1001", candidate)]),
       });
     }
     if (state.stats.isSymbolicLink()) {
       return Object.freeze({
-        parsed: null,
+        bytes: null,
         diagnostics: Object.freeze([createDiagnostic("SC1013", candidate)]),
       });
     }
@@ -273,7 +331,7 @@ export function readContainedJsonFile(
 
   if (finalStats === null || !finalStats.isFile()) {
     return Object.freeze({
-      parsed: null,
+      bytes: null,
       diagnostics: Object.freeze([createDiagnostic("SC1015", candidate)]),
     });
   }
@@ -283,7 +341,7 @@ export function readContainedJsonFile(
     resolvedFile = realpathSync.native(absolutePath);
   } catch {
     return Object.freeze({
-      parsed: null,
+      bytes: null,
       diagnostics: Object.freeze([createDiagnostic("SC1001", candidate)]),
     });
   }
@@ -295,19 +353,93 @@ export function readContainedJsonFile(
   );
   if (canonicalDiagnostic !== null) {
     return Object.freeze({
-      parsed: null,
+      bytes: null,
       diagnostics: Object.freeze([createDiagnostic(canonicalDiagnostic, candidate)]),
     });
   }
 
-  const boundedRead = readBoundedRegularFile(absolutePath, finalStats, candidate);
+  const boundedRead = readBoundedRegularFile(
+    absolutePath,
+    finalStats,
+    candidate,
+    byteLimit,
+    limitCode,
+    hooks,
+  );
   if (boundedRead.diagnostic !== null || boundedRead.bytes === null) {
     return Object.freeze({
-      parsed: null,
+      bytes: null,
       diagnostics: Object.freeze([boundedRead.diagnostic ?? createDiagnostic("SC1001", candidate)]),
     });
   }
-  const parsed = parseJsonBuffer(boundedRead.bytes, candidate);
+
+  let finalResolvedFile: string;
+  try {
+    finalResolvedFile = realpathSync.native(absolutePath);
+  } catch {
+    return Object.freeze({
+      bytes: null,
+      diagnostics: Object.freeze([createDiagnostic("SC1001", candidate)]),
+    });
+  }
+  const finalCanonicalDiagnostic = inspectCanonicalArtifactPath(
+    realRoot,
+    canonicalExpectedPath,
+    finalResolvedFile,
+  );
+  if (finalCanonicalDiagnostic !== null) {
+    return Object.freeze({
+      bytes: null,
+      diagnostics: Object.freeze([createDiagnostic(finalCanonicalDiagnostic, candidate)]),
+    });
+  }
+
+  return Object.freeze({
+    bytes: boundedRead.bytes,
+    diagnostics: Object.freeze([]),
+  });
+}
+
+export function readContainedFileBytes(
+  root: string,
+  realRoot: string,
+  candidate: string,
+  missingCode: MissingCode,
+  byteLimit: number,
+  limitCode: ByteLimitCode,
+): ContainedBytesResult {
+  return readContainedFileBytesWithHooks(
+    root,
+    realRoot,
+    candidate,
+    missingCode,
+    byteLimit,
+    limitCode,
+  );
+}
+
+export function readContainedJsonFile(
+  root: string,
+  realRoot: string,
+  candidate: string,
+  missingCode: MissingCode,
+): ContainedJsonResult {
+  const file = readContainedFileBytes(
+    root,
+    realRoot,
+    candidate,
+    missingCode,
+    LIMITS.artifactBytes,
+    "SC5001",
+  );
+  if (file.bytes === null) {
+    return Object.freeze({
+      parsed: null,
+      diagnostics: file.diagnostics,
+    });
+  }
+
+  const parsed = parseJsonBuffer(file.bytes, candidate);
   return Object.freeze({
     parsed,
     diagnostics: parsed.diagnostics,

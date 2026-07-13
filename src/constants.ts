@@ -1,4 +1,5 @@
 export const API_VERSION = "swecircuit/v1alpha1" as const;
+export const EVENT_TYPE_VERSION = "1.0.0" as const;
 
 export const ARTIFACT_KINDS = [
   "Project",
@@ -19,6 +20,7 @@ export const LIMITS = Object.freeze({
   jsonlLineBytes: 262_144,
   traceBytes: 67_108_864,
   traceEvents: 100_000,
+  traceSummaryEvidence: 10_000,
 });
 
 export const EXPECTED_KIND_BY_DIRECTORY = Object.freeze({

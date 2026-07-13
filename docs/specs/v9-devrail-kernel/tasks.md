@@ -28,8 +28,8 @@ In progress.
   Scope: Minimal project generation, collision handling, offline behavior, and immediate validation.
   Verification: Commit `095a391` passes 82 tests covering frozen output, exact ID derivation, collisions, every fault checkpoint, pending ownership, identity-gated recovery, a post-preflight two-process race, dynamic offline/process traps, and immediate validation. Independent review progressed `REVISE` -> `REVISE` -> `PASS`; GitHub Actions run `29281182002` passes all seven jobs.
 - [ ] T008: Implement event-trace validation and inspection.
-  Scope: Append-only event model, causality checks, terminal states, redaction boundary, and human-readable inspection.
-  Verification: Success, retry, timeout, cancellation, and failed-handoff fixtures map to AC4 and AC5.
+  Scope: Caller-owned JSONL event contract, detectable-mutation reads, causality, attempt/retry states, bounded privacy-safe summaries, and human/JSON inspection.
+  Verification: The canonical local gate passes 202 tests with zero skips and independent review completed `REVISE -> REVISE -> PASS`; Node 22/24 branch CI across Ubuntu, Windows, and macOS remains the completion gate.
 - [ ] T009: Complete the selected identity migration and public quick start.
   Scope: Current product surfaces, repository metadata, compatibility note, README, canonical docs, and the branded overview asset.
   Verification: Link, stale-name, visual-brand, and public-claim reviews map to AC7 without rewriting historical evidence.

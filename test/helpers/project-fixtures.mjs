@@ -82,7 +82,7 @@ export function workPacketArtifact({ id, owner, permissionCeiling }) {
         {
           id: "feature_spec",
           kind: "artifact",
-          ref: "docs/specs/v9-devrail-kernel/spec.md",
+          ref: "path:docs/specs/v9-devrail-kernel/spec.md",
         },
       ],
       authority: {

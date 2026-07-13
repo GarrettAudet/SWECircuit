@@ -13,11 +13,25 @@
       "const": "RunEvent"
     },
     "metadata": {
-      "$ref": "common.schema.json#/$defs/identity"
+      "$ref": "#/$defs/eventMetadata"
     },
     "spec": {
+      "$ref": "#/$defs/eventSpec"
+    }
+  },
+  "$defs": {
+    "eventMetadata": {
       "type": "object",
       "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "$ref": "common.schema.json#/$defs/identifier"
+        }
+      }
+    },
+    "baseSpec": {
+      "type": "object",
       "required": ["type", "eventTypeVersion", "runId", "sequence", "correlationId", "actor"],
       "properties": {
         "type": {
@@ -35,6 +49,9 @@
             "memory.updated",
             "merge.recorded"
           ]
+        },
+        "eventTypeVersion": {
+          "const": "1.0.0"
         },
         "runId": {
           "$ref": "common.schema.json#/$defs/identifier"
@@ -63,228 +80,339 @@
         },
         "actor": {
           "$ref": "common.schema.json#/$defs/identifier"
+        }
+      }
+    },
+    "attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "number", "workPacket", "state"],
+      "properties": {
+        "id": {
+          "$ref": "common.schema.json#/$defs/identifier"
         },
-        "stage": {
-          "$ref": "common.schema.json#/$defs/workflowStage"
+        "number": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
         },
         "workPacket": {
           "$ref": "common.schema.json#/$defs/identifier"
         },
-        "attempt": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["id", "number", "workPacket"],
-          "properties": {
-            "id": {
-              "$ref": "common.schema.json#/$defs/identifier"
-            },
-            "number": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 1000000
-            },
-            "workPacket": {
-              "$ref": "common.schema.json#/$defs/identifier"
-            },
-            "state": {
-              "$ref": "common.schema.json#/$defs/executionState"
-            },
-            "retryOf": {
-              "$ref": "common.schema.json#/$defs/identifier"
-            },
-            "deadline": {
-              "$ref": "common.schema.json#/$defs/timestamp"
-            },
-            "terminalReason": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 2048
-            }
-          }
+        "state": {
+          "$ref": "common.schema.json#/$defs/executionState"
         },
-        "heartbeat": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["observedAt", "expectedEverySeconds"],
-          "properties": {
-            "observedAt": {
-              "$ref": "common.schema.json#/$defs/timestamp"
-            },
-            "expectedEverySeconds": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 86400
-            }
-          }
+        "retryOf": {
+          "$ref": "common.schema.json#/$defs/identifier"
         },
-        "cancellation": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["requestedBy", "reason"],
-          "properties": {
-            "requestedBy": {
-              "$ref": "common.schema.json#/$defs/identifier"
-            },
-            "reason": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 2048
-            }
-          }
+        "deadline": {
+          "$ref": "common.schema.json#/$defs/timestamp"
         },
-        "outcome": {
-          "$ref": "common.schema.json#/$defs/workflowOutcome"
-        },
-        "evidence": {
-          "type": "array",
-          "minItems": 1,
-          "maxItems": 64,
-          "items": {
-            "$ref": "common.schema.json#/$defs/evidenceRef"
-          }
-        },
-        "eventTypeVersion": {
-          "$ref": "common.schema.json#/$defs/artifactVersion"
+        "terminalCode": {
+          "enum": [
+            "success",
+            "execution_failed",
+            "verification_failed",
+            "review_failed",
+            "handoff_failed",
+            "integration_failed",
+            "cancelled_by_user",
+            "cancelled_by_policy",
+            "cancelled_by_parent",
+            "deadline_exceeded",
+            "heartbeat_expired"
+          ]
         }
       },
-      "allOf": [
+      "oneOf": [
         {
-          "if": {
-            "required": ["type"],
-            "properties": {
-              "type": {
-                "const": "attempt.state"
-              }
-            },
-            "type": "object"
+          "properties": {
+            "state": {
+              "enum": ["queued", "running", "input_required"]
+            }
           },
-          "then": {
-            "required": ["attempt"],
+          "not": {
+            "type": "object",
+            "required": ["terminalCode"],
             "properties": {
-              "attempt": {
-                "required": ["state"],
-                "type": "object",
-                "properties": {
-                  "state": {}
-                }
-              }
-            },
-            "type": "object"
-          }
+              "terminalCode": {}
+            }
+          },
+          "type": "object"
         },
         {
-          "if": {
-            "required": ["type", "attempt"],
-            "properties": {
-              "type": {
-                "const": "attempt.state"
-              },
-              "attempt": {
-                "required": ["state"],
-                "properties": {
-                  "state": {
-                    "enum": ["completed", "failed", "cancelled", "timed_out"]
-                  }
+          "required": ["terminalCode"],
+          "properties": {
+            "state": {
+              "const": "completed"
+            },
+            "terminalCode": {
+              "const": "success"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "required": ["terminalCode"],
+          "properties": {
+            "state": {
+              "const": "failed"
+            },
+            "terminalCode": {
+              "enum": [
+                "execution_failed",
+                "verification_failed",
+                "review_failed",
+                "handoff_failed",
+                "integration_failed"
+              ]
+            }
+          },
+          "type": "object"
+        },
+        {
+          "required": ["terminalCode"],
+          "properties": {
+            "state": {
+              "const": "cancelled"
+            },
+            "terminalCode": {
+              "enum": ["cancelled_by_user", "cancelled_by_policy", "cancelled_by_parent"]
+            }
+          },
+          "type": "object"
+        },
+        {
+          "required": ["terminalCode"],
+          "properties": {
+            "state": {
+              "const": "timed_out"
+            },
+            "terminalCode": {
+              "enum": ["deadline_exceeded", "heartbeat_expired"]
+            }
+          },
+          "type": "object"
+        }
+      ]
+    },
+    "heartbeat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observedAt", "expectedEverySeconds"],
+      "properties": {
+        "observedAt": {
+          "$ref": "common.schema.json#/$defs/timestamp"
+        },
+        "expectedEverySeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        }
+      }
+    },
+    "cancellation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requestedBy", "reasonCode"],
+      "properties": {
+        "requestedBy": {
+          "$ref": "common.schema.json#/$defs/identifier"
+        },
+        "reasonCode": {
+          "enum": [
+            "user_request",
+            "policy",
+            "superseded",
+            "dependency_failed",
+            "parent_cancelled",
+            "shutdown"
+          ]
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "$ref": "common.schema.json#/$defs/evidenceRef"
+      }
+    },
+    "eventSpec": {
+      "oneOf": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/baseSpec"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "run.started"
+                }
+              }
+            }
+          ],
+          "unevaluatedProperties": false,
+          "type": "object"
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/baseSpec"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "run.completed"
+                }
+              }
+            }
+          ],
+          "unevaluatedProperties": false,
+          "type": "object"
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/baseSpec"
+            },
+            {
+              "type": "object",
+              "required": ["attempt"],
+              "properties": {
+                "type": {
+                  "const": "attempt.state"
                 },
-                "type": "object"
-              }
-            },
-            "type": "object"
-          },
-          "then": {
-            "properties": {
-              "attempt": {
-                "required": ["terminalReason"],
-                "type": "object",
-                "properties": {
-                  "terminalReason": {}
+                "stage": {
+                  "$ref": "common.schema.json#/$defs/workflowStage"
+                },
+                "attempt": {
+                  "$ref": "#/$defs/attempt"
                 }
               }
-            },
-            "type": "object"
-          }
+            }
+          ],
+          "unevaluatedProperties": false,
+          "type": "object"
         },
         {
-          "if": {
-            "required": ["type"],
-            "properties": {
-              "type": {
-                "const": "attempt.heartbeat"
-              }
+          "allOf": [
+            {
+              "$ref": "#/$defs/baseSpec"
             },
-            "type": "object"
-          },
-          "then": {
-            "required": ["attempt", "heartbeat"],
-            "type": "object",
-            "properties": {
-              "attempt": {},
-              "heartbeat": {}
+            {
+              "type": "object",
+              "required": ["attemptId", "heartbeat"],
+              "properties": {
+                "type": {
+                  "const": "attempt.heartbeat"
+                },
+                "attemptId": {
+                  "$ref": "common.schema.json#/$defs/identifier"
+                },
+                "heartbeat": {
+                  "$ref": "#/$defs/heartbeat"
+                }
+              }
             }
-          }
+          ],
+          "unevaluatedProperties": false,
+          "type": "object"
         },
         {
-          "if": {
-            "required": ["type"],
-            "properties": {
-              "type": {
-                "const": "attempt.cancellation_requested"
-              }
+          "allOf": [
+            {
+              "$ref": "#/$defs/baseSpec"
             },
-            "type": "object"
-          },
-          "then": {
-            "required": ["attempt", "cancellation"],
-            "type": "object",
-            "properties": {
-              "attempt": {},
-              "cancellation": {}
+            {
+              "type": "object",
+              "required": ["attemptId", "cancellation"],
+              "properties": {
+                "type": {
+                  "const": "attempt.cancellation_requested"
+                },
+                "attemptId": {
+                  "$ref": "common.schema.json#/$defs/identifier"
+                },
+                "cancellation": {
+                  "$ref": "#/$defs/cancellation"
+                }
+              }
             }
-          }
+          ],
+          "unevaluatedProperties": false,
+          "type": "object"
         },
         {
-          "if": {
-            "required": ["type"],
-            "properties": {
-              "type": {
-                "const": "workflow.outcome"
-              }
+          "allOf": [
+            {
+              "$ref": "#/$defs/baseSpec"
             },
-            "type": "object"
-          },
-          "then": {
-            "required": ["stage", "outcome"],
-            "type": "object",
-            "properties": {
-              "stage": {},
-              "outcome": {}
+            {
+              "type": "object",
+              "required": ["stage", "outcome"],
+              "properties": {
+                "type": {
+                  "const": "workflow.outcome"
+                },
+                "stage": {
+                  "$ref": "common.schema.json#/$defs/workflowStage"
+                },
+                "outcome": {
+                  "$ref": "common.schema.json#/$defs/workflowOutcome"
+                },
+                "workPacket": {
+                  "$ref": "common.schema.json#/$defs/identifier"
+                },
+                "attemptId": {
+                  "$ref": "common.schema.json#/$defs/identifier"
+                }
+              }
             }
-          }
+          ],
+          "unevaluatedProperties": false,
+          "type": "object"
         },
         {
-          "if": {
-            "required": ["type"],
-            "properties": {
-              "type": {
-                "enum": [
-                  "evidence.recorded",
-                  "handoff.recorded",
-                  "verification.recorded",
-                  "review.recorded",
-                  "memory.updated",
-                  "merge.recorded"
-                ]
-              }
+          "allOf": [
+            {
+              "$ref": "#/$defs/baseSpec"
             },
-            "type": "object"
-          },
-          "then": {
-            "required": ["evidence"],
-            "type": "object",
-            "properties": {
-              "evidence": {}
+            {
+              "type": "object",
+              "required": ["evidence"],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "evidence.recorded",
+                    "handoff.recorded",
+                    "verification.recorded",
+                    "review.recorded",
+                    "memory.updated",
+                    "merge.recorded"
+                  ]
+                },
+                "stage": {
+                  "$ref": "common.schema.json#/$defs/workflowStage"
+                },
+                "workPacket": {
+                  "$ref": "common.schema.json#/$defs/identifier"
+                },
+                "attemptId": {
+                  "$ref": "common.schema.json#/$defs/identifier"
+                },
+                "evidence": {
+                  "$ref": "#/$defs/evidence"
+                }
+              }
             }
-          }
+          ],
+          "unevaluatedProperties": false,
+          "type": "object"
         }
       ]
     }

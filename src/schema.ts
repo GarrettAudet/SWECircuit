@@ -2,7 +2,13 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import type { ErrorObject, ValidateFunction } from "ajv";
 import { Ajv2020 } from "ajv/dist/2020.js";
-import { API_VERSION, ARTIFACT_KINDS, type ArtifactKind, isArtifactKind } from "./constants.js";
+import {
+  API_VERSION,
+  ARTIFACT_KINDS,
+  EVENT_TYPE_VERSION,
+  type ArtifactKind,
+  isArtifactKind,
+} from "./constants.js";
 import { appendJsonPointer, createDiagnostic, type DiagnosticCode } from "./diagnostics.js";
 import type { JsonObject, JsonValue } from "./model.js";
 import type { Diagnostic } from "./types.js";
@@ -131,6 +137,25 @@ export function dispatchArtifact(value: JsonValue, artifact: string): DispatchRe
         : null,
     diagnostics: Object.freeze(diagnostics),
   });
+}
+
+export function dispatchRunEventVersion(value: JsonValue, artifact: string): readonly Diagnostic[] {
+  const object: JsonObject = isObject(value) ? value : {};
+  const rawSpec = property(object, "spec");
+  const spec: JsonObject = rawSpec !== undefined && isObject(rawSpec) ? rawSpec : {};
+  const version = property(spec, "eventTypeVersion");
+  const pointer = "/spec/eventTypeVersion";
+
+  if (version === undefined) {
+    return Object.freeze([createDiagnostic("SC1221", artifact, pointer)]);
+  }
+  if (typeof version !== "string") {
+    return Object.freeze([createDiagnostic("SC1223", artifact, pointer)]);
+  }
+  if (version !== EVENT_TYPE_VERSION) {
+    return Object.freeze([createDiagnostic("SC1222", artifact, pointer)]);
+  }
+  return Object.freeze([]);
 }
 
 function propertyPointer(error: ErrorObject): string {

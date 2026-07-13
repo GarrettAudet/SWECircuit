@@ -2,8 +2,7 @@
   "apiVersion": "swecircuit/v1alpha1",
   "kind": "RunEvent",
   "metadata": {
-    "id": "event-0001",
-    "description": "The first queued attempt in an example run."
+    "id": "event-0001"
   },
   "spec": {
     "type": "attempt.state",
@@ -13,7 +12,6 @@
     "correlationId": "feature-001",
     "actor": "integration-owner",
     "stage": "implement",
-    "workPacket": "frontend",
     "attempt": {
       "id": "frontend-attempt-1",
       "number": 1,

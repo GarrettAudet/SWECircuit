@@ -11,7 +11,7 @@ In progress.
 | AC1 | Temp-directory initializer integration test, offline assertion, collision test, and immediate validation |
 | AC2 | Valid and malformed schema fixtures with stable diagnostic snapshots and exit-code assertions |
 | AC3 | Semantic graph fixtures for references, outcomes, cycles, fan-out, fan-in, ownership, and stop conditions |
-| AC4 | Event-stream fixtures for success, retry, timeout, cancellation, failed handoff, causality, and terminal state |
+| AC4 | Bound T008 cases for success, retry, explicit timeout, cancellation, failed handoff, causality, every transition, and all terminal states |
 | AC5 | Clean-install core test with no optional adapters and no network access |
 | AC6 | Format, type, unit, integration, fixture, build, package, and CI platform checks |
 | AC7 | README quick-start execution plus manual current-versus-target claim review |
@@ -37,9 +37,9 @@ In progress.
 ## Regression Coverage
 
 - Preserve the V8.1 positive checker and expand the malformed-artifact suite; the identity migration now has seventeen regression cases.
-- Add one negative fixture for every distinct parser, resolver, graph rule, event transition, and CLI error path.
-- Add explicit regressions for worker timeout, cancellation, retry exhaustion, failed handoff, and ambiguous fan-in.
-- Add cross-platform path and newline fixtures before declaring portability.
+- Bind every T008 matrix claim to named table-driven cases for dispatch, framing, limits, transitions, terminal states, retry lineage, missing references, privacy slots, and evidence grammar.
+- Cover success, retry, explicit timeout, cancellation, failed handoff, causation, interleaved runs, bounded summaries, and renderer-only CLI behavior directly.
+- Keep portability provisional until the branch matrix passes Node 22 and 24 on Ubuntu, Windows, and macOS.
 
 ## Skipped Checks
 
@@ -48,4 +48,4 @@ In progress.
 
 ## Verification Evidence
 
-V9 identity migration passes `scripts/check-template.ps1` and all seventeen `scripts/test-check-template.ps1` cases. GitHub Actions run `29268926620` passes the private toolchain on Node 22 and 24 across Ubuntu, Windows, and macOS. T005 adds eleven passing schema and fixture tests plus package inspection of every v1alpha1 contract artifact. T006 adds deterministic parsing, dispatch, path, reference, graph, permission, limit, and diagnostic coverage: 49 tests pass with zero skips, independent re-review is `PASS`, and GitHub Actions run `29277160551` passes all seven jobs. T007 raises the suite to 82 tests with exact initializer bytes and IDs, collision and recovery safety, four pending-capture faults, a process race synchronized after preflight, dynamic offline/process traps, independent `PASS`, and seven green jobs in run `29281182002`. CLI and trace cases remain mapped to T008.
+V9 identity migration passes `scripts/check-template.ps1` and all seventeen `scripts/test-check-template.ps1` cases. GitHub Actions run `29268926620` passes the private toolchain on Node 22 and 24 across Ubuntu, Windows, and macOS. T005 adds eleven passing schema and fixture tests plus package inspection of every v1alpha1 contract artifact. T006 adds deterministic parsing, dispatch, path, reference, graph, permission, limit, and diagnostic coverage: 49 tests pass with zero skips, independent re-review is `PASS`, and GitHub Actions run `29277160551` passes all seven jobs. T007 raises the suite to 82 tests with exact initializer bytes and IDs, collision and recovery safety, four pending-capture faults, a process race synchronized after preflight, dynamic offline/process traps, independent `PASS`, and seven green jobs in run `29281182002`. T008 raises the canonical suite to 202 tests with zero skips; its named matrix cases cover strict JSONL framing, size and allocation bounds, exact event dispatch, causation, every legal and disallowed attempt transition, all terminal states, retries and forks, timeout, cancellation, failed handoff, evidence bounds, all rendered privacy slots, and exact CLI streams. Preimplementation review completed `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation review completed `REVISE -> REVISE -> PASS`, and branch CI remains pending.
