@@ -14,6 +14,8 @@ In progress.
 - Found that devrail.dev is an active adjacent product and the unscoped devrail npm package is occupied; no public namespace was frozen.
 - Screened 51 package candidates, queried exact GitHub collisions, checked finalist domains and cross-language registries, and recommended SWECircuit.
 - Recorded owner approval, renamed the GitHub repository to `GarrettAudet/SWECircuit`, updated `origin`, and constrained the decision to project and repository identity.
+- Released the bounded SWECircuit identity change as V8.2 on `main`, then merged that completed baseline back into V9 at `35f96d2`.
+- Started a recorded, read-only three-reviewer architecture gate and refreshed volatile architecture sources after TypeScript 7 became stable.
 
 ## Deviations From Plan
 
@@ -29,6 +31,7 @@ The workspace patch helper failed before file access during intake and recurred 
 
 - Complete current canonical branding and replace the historical TraceRail overview image.
 - Define and test the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
+- Integrate the architecture, security, and developer-experience review handoffs into one ADR decision brief.
 - Implement only after public-contract choices pass the architecture gate.
 
 ## Verification Performed
@@ -43,6 +46,8 @@ The workspace patch helper failed before file access during intake and recurred 
 - The SWECircuit migration passed the positive checker and all seventeen regression cases, including rejection of a legacy README heading and retired GitHub URL.
 - GitHub returned `GarrettAudet/SWECircuit` with default branch `main`; `git ls-remote` resolved the updated origin and the public About description now uses the SWECircuit positioning.
 - GitHub Actions run `29263645888` completed successfully under the `SWECircuit Checks` workflow for commit `1d5f82e`.
+- V8.2 completed on `main` at `5caaa29`; V9 baseline adoption passed the template checker, all seventeen regression cases, and GitHub Actions run `29265535389` at `35f96d2`.
+- The integrated architecture gate passed the template checker and all seventeen regression cases after three read-only reviewer handoffs were preserved and synthesized.
 
 ## Durable Learnings
 

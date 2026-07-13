@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Continue the V9 executable kernel from the synchronized V8.2 SWECircuit baseline.
+Complete the V9 executable-kernel architecture gate from the synchronized V8.2 SWECircuit baseline.
 
 ## Current Stage
 
-V8.2 is complete on `main` at `5caaa29`; branch CI run `29264529026`, release CI run `29264704320`, and closeout CI run `29264903672` passed. The GitHub repository, origin, About description, README, canonical docs, workflow labels, and checker use SWECircuit. V9 has adopted that stable baseline on `codex/v9-devrail-kernel`; its executable-kernel architecture remains proposed. The repository remains unlicensed.
+V8.2 is complete on `main` at `5caaa29`, and V9 adopted it at `35f96d2` with GitHub Actions run `29265535389` passing. Three bounded read-only reviewers independently returned `REVISE` on ADR 0001. The integrated architecture review and decision brief are complete; T005 remains gated on owner acceptance or revision of that bundle. The repository remains unlicensed.
 
 ## Important Current Constraints
 
@@ -41,10 +41,13 @@ V8.2 is complete on `main` at `5caaa29`; branch CI run `29264529026`, release CI
 - Namespace work should match real interfaces; a GitHub rename does not imply package or domain acquisition.
 - Current identity and historical provenance require separate validation scopes.
 - Two permanent regressions reject a legacy README heading and retired GitHub URL.
+- Independent architecture, security, and developer-experience reviews converged on the same contract gaps without shared edits or conflicts.
+- TypeScript 7 became stable after the original architecture scan; its missing 7.0 compiler API makes an explicit toolchain spike necessary before adoption.
+- Legacy Markdown remains simpler and safer as checker-supported provenance than as a second kernel input language.
 
 ## Next Likely Work
 
+- Obtain owner acceptance or requested revision of `docs/specs/v9-devrail-kernel/architecture-decision-brief.md`.
+- Revise and accept ADR 0001, then run the private TypeScript 7/Biome toolchain spike.
 - Replace the primary overview visual with SWECircuit branding.
-- Preserve the recorded 0.x Rail Composition compatibility boundary while making Circuit the public composition term.
-- Accept or revise ADR 0001 covering the runtime, canonical manifest, schema dialect, compatibility policy, trace persistence, privacy boundary, and adapter interfaces.
-- Implement the smallest initializer, validator, and trace-inspection slices only after that architecture gate passes.
+- Implement schemas, validator, initializer, and trace inspection only after the architecture gate passes.

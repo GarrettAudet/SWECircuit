@@ -7,8 +7,8 @@ In progress.
 ## Task List
 
 - [x] T001: Start V9 from the verified V8.1 baseline.
-  Scope: Merge approval, main synchronization, branch creation, source package, and milestone shell.
-  Verification: main and origin/main matched at 9f2b68d; branch is codex/v9-devrail-kernel; required artifacts exist.
+  Scope: Merge approval, main synchronization, branch creation, source package, milestone shell, and adoption of the later V8.2 identity baseline.
+  Verification: V9 began at verified baseline `9f2b68d`, then merged stable V8.2 commit `5caaa29`; branch `codex/v9-devrail-kernel` passed local checks and GitHub Actions run `29265535389` at merge commit `35f96d2`.
 - [x] T002: Research kernel standards and comparable contracts.
   Scope: Runtime portability, JSON Schema, CLI conventions, plugin boundaries, event traces, liveness, and package identity.
   Verification: Dated primary-source snapshot and practice-register entries record accepted, deferred, and rejected choices.

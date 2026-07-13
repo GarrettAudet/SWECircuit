@@ -6,7 +6,7 @@ In progress.
 
 ## Summary
 
-Use the V8.1 release circuit to turn the file-based protocol into a small executable kernel under a distinctive public identity. Naming research and architecture decisions come first; implementation then proceeds in vertical slices for schemas, validation, initialization, trace inspection, documentation, and dogfood evidence.
+Use the stable V8.2 circuit and its V8.1 integrity controls to turn the file-based protocol into a small executable kernel under the approved SWECircuit repository identity. Architecture decisions come first; implementation then proceeds in vertical slices for schemas, validation, initialization, trace inspection, documentation, and dogfood evidence.
 
 ## Impacted Areas
 
@@ -42,7 +42,7 @@ Core commands must not require network access, execute untrusted module content,
 
 ## Rollback Or Recovery
 
-All work remains isolated on codex/v9-devrail-kernel. Schema versions are additive during V9 development. The branch can be reverted without changing the V8.1 main baseline; product rename and package publication occur only after validation and review.
+All work remains isolated on `codex/v9-devrail-kernel`. Schema versions are additive during V9 development. The branch can be reverted without changing the V8.2 main baseline; public package publication remains out of scope without a separate owner decision.
 
 ## Risks And Mitigations
 

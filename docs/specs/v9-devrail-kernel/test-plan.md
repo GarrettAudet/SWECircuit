@@ -15,7 +15,7 @@ Draft.
 | AC5 | Clean-install core test with no optional adapters and no network access |
 | AC6 | Format, type, unit, integration, fixture, build, package, and CI platform checks |
 | AC7 | README quick-start execution plus manual current-versus-target claim review |
-| AC8 | V9 source package, dogfood trace, review, milestone, history, retrieval, and memory audit |
+| AC8 | V9 source package, V8.2 dogfood trace, review, milestone, history, retrieval, and memory audit |
 
 ## Automated Checks
 

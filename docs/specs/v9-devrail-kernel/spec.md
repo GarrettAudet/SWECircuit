@@ -57,11 +57,11 @@ The repository defines a checked, file-based operating protocol, but it cannot y
 - [ ] AC5: Given a core project with no optional adapter installed, when core commands run, then initialization, validation, and trace inspection still work.
 - [ ] AC6: Given the supported runtime matrix, when automated checks run locally and in CI, then format, type, unit, integration, fixture, build, and package checks pass on each declared platform.
 - [ ] AC7: Given a first-time reader, when they open the README and quick start, then the selected product identity, current executable capabilities, modular model, and future adapter boundary are concise, distinctive, and accurate.
-- [ ] AC8: Given the V9 feature package, when V9 closes, then its own spec, tasks, verification, review, trace evidence, milestone, and memory updates demonstrate dogfooding of the merged V8.1 baseline.
+- [ ] AC8: Given the V9 feature package, when V9 closes, then its own spec, tasks, verification, review, trace evidence, milestone, and memory updates demonstrate dogfooding of the stable V8.2 baseline and the V8.1 integrity controls it contains.
 
 ## Architecture Impact
 
-This version introduces the first executable public surface, machine-readable schemas, compatibility rules, event persistence, package identity, and adapter boundaries. A versioned architecture decision is required before implementation. Historical Markdown remains a source record; migration must not erase provenance.
+This version introduces the first executable public surface, machine-readable schemas, compatibility rules, event persistence, private package metadata, and adapter boundaries. A versioned architecture decision is required before implementation. Historical Markdown remains a source record; migration must not erase provenance.
 
 ## Risks
 
