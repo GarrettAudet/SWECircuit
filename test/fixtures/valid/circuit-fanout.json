@@ -1,0 +1,129 @@
+{
+  "apiVersion": "swecircuit/v1alpha1",
+  "kind": "Circuit",
+  "metadata": {
+    "id": "parallel-feature",
+    "version": "0.1.0",
+    "description": "Two bounded implementation branches with explicit fan-in ownership."
+  },
+  "spec": {
+    "entry": "route",
+    "nodes": [
+      {
+        "id": "route",
+        "module": "plan"
+      },
+      {
+        "id": "frontend",
+        "module": "implement-frontend",
+        "owner": "frontend-agent",
+        "workPacket": "frontend"
+      },
+      {
+        "id": "backend",
+        "module": "implement-backend",
+        "owner": "backend-agent",
+        "workPacket": "backend"
+      },
+      {
+        "id": "integrate",
+        "module": "integrate"
+      },
+      {
+        "id": "memory",
+        "module": "memory"
+      }
+    ],
+    "routes": [
+      {
+        "from": "route",
+        "outcome": "split",
+        "to": "frontend",
+        "transfers": [
+          {
+            "output": "frontend_packet",
+            "input": "work_packet"
+          }
+        ]
+      },
+      {
+        "from": "route",
+        "outcome": "split",
+        "to": "backend",
+        "transfers": [
+          {
+            "output": "backend_packet",
+            "input": "work_packet"
+          }
+        ]
+      },
+      {
+        "from": "frontend",
+        "outcome": "pass",
+        "to": "integrate",
+        "transfers": [
+          {
+            "output": "change",
+            "input": "frontend_change"
+          }
+        ]
+      },
+      {
+        "from": "backend",
+        "outcome": "pass",
+        "to": "integrate",
+        "transfers": [
+          {
+            "output": "change",
+            "input": "backend_change"
+          }
+        ]
+      },
+      {
+        "from": "integrate",
+        "outcome": "pass",
+        "to": "memory",
+        "transfers": [
+          {
+            "output": "integrated_change",
+            "input": "artifact"
+          }
+        ]
+      }
+    ],
+    "exits": ["memory"],
+    "fanOuts": [
+      {
+        "from": "route",
+        "outcome": "split",
+        "branches": ["frontend", "backend"],
+        "join": "integrate",
+        "integrationOwner": "integration-owner"
+      }
+    ],
+    "joins": [
+      {
+        "node": "integrate",
+        "sources": ["frontend", "backend"],
+        "strategy": "all",
+        "owner": "integration-owner"
+      }
+    ],
+    "stopConditions": [
+      "A branch exceeds its work-packet scope.",
+      "A branch cannot produce its required verification evidence.",
+      "Integration reveals an incompatible shared contract."
+    ],
+    "verification": [
+      {
+        "id": "integrated_tests",
+        "kind": "test",
+        "description": "The combined frontend and backend change passes integrated verification.",
+        "required": true
+      }
+    ],
+    "compatibility": {
+      "apiVersions": ["swecircuit/v1alpha1"]
+    }
+  }
+}

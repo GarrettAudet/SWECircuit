@@ -1,0 +1,26 @@
+{
+  "apiVersion": "swecircuit/v1alpha1",
+  "kind": "RunEvent",
+  "metadata": {
+    "id": "event-0001",
+    "description": "The first queued attempt in an example run."
+  },
+  "spec": {
+    "type": "attempt.state",
+    "runId": "run-001",
+    "sequence": 0,
+    "time": "2026-07-13T17:00:00Z",
+    "correlationId": "feature-001",
+    "actor": "integration-owner",
+    "stage": "implement",
+    "workPacket": "frontend",
+    "attempt": {
+      "id": "frontend-attempt-1",
+      "number": 1,
+      "workPacket": "frontend",
+      "state": "queued",
+      "deadline": "2026-07-13T20:00:00Z"
+    },
+    "eventTypeVersion": "1.0.0"
+  }
+}

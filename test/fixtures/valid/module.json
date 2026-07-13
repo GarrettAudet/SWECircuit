@@ -1,0 +1,64 @@
+{
+  "apiVersion": "swecircuit/v1alpha1",
+  "kind": "Module",
+  "metadata": {
+    "id": "spec",
+    "version": "0.1.0",
+    "description": "Turn a clarified goal into an acceptance-tested specification."
+  },
+  "spec": {
+    "input": [
+      {
+        "name": "goal",
+        "artifactType": "Goal",
+        "required": true,
+        "description": "The clarified product goal."
+      }
+    ],
+    "action": {
+      "type": "transform",
+      "description": "Write a bounded feature specification with observable acceptance criteria."
+    },
+    "output": [
+      {
+        "name": "spec",
+        "artifactType": "Spec",
+        "required": true,
+        "description": "The approved feature specification."
+      }
+    ],
+    "gate": {
+      "condition": "The specification has testable acceptance criteria and explicit non-goals.",
+      "evidence": ["acceptance_criteria"],
+      "failureOutcomes": ["clarify", "redesign"]
+    },
+    "outcomes": ["pass", "clarify", "redesign"],
+    "evidence": [
+      {
+        "id": "acceptance_criteria",
+        "kind": "artifact",
+        "description": "Acceptance criteria map product intent to observable behavior.",
+        "required": true
+      }
+    ],
+    "compatibility": {
+      "apiVersions": ["swecircuit/v1alpha1"]
+    },
+    "stopConditions": [
+      "Product intent or acceptance behavior remains ambiguous.",
+      "The proposed work exceeds the feature boundary."
+    ],
+    "requiredPermissions": [
+      {
+        "kind": "filesystem.read",
+        "scopes": ["docs/**"],
+        "reason": "Retrieve product, architecture, and memory context."
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": ["docs/specs/**"],
+        "reason": "Create the feature specification."
+      }
+    ]
+  }
+}

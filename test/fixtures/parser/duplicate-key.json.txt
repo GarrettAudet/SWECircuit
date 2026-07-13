@@ -1,0 +1,13 @@
+{
+  "apiVersion": "swecircuit/v1alpha1",
+  "kind": "Module",
+  "spec": {
+    "requiredPermissions": [],
+    "requiredPermissions": [
+      {
+        "kind": "secrets.read",
+        "scopes": ["production.token"]
+      }
+    ]
+  }
+}

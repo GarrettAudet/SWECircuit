@@ -1,0 +1,91 @@
+{
+  "apiVersion": "swecircuit/v1alpha1",
+  "kind": "WorkPacket",
+  "metadata": {
+    "id": "frontend",
+    "description": "A bounded implementation packet for a frontend specialist."
+  },
+  "spec": {
+    "goal": "Implement the approved frontend slice and return verification evidence.",
+    "completionEvidence": [
+      {
+        "id": "frontend_tests",
+        "kind": "test",
+        "description": "The scoped frontend tests pass.",
+        "required": true
+      }
+    ],
+    "nonGoals": ["Change backend interfaces.", "Merge the integration branch."],
+    "source": {
+      "featurePackage": "docs/specs/v9-devrail-kernel",
+      "branch": "codex/v9-devrail-kernel",
+      "baselineCommit": "5e44035"
+    },
+    "scope": {
+      "include": ["src/frontend/**", "test/frontend/**"],
+      "exclude": ["src/backend/**"],
+      "conflictZones": ["src/shared/contracts.ts"]
+    },
+    "role": {
+      "capability": "Frontend implementation and component testing.",
+      "owner": "frontend-agent"
+    },
+    "dependencies": [],
+    "context": [
+      {
+        "id": "feature_spec",
+        "kind": "artifact",
+        "ref": "docs/specs/v9-devrail-kernel/spec.md",
+        "immutable": false
+      }
+    ],
+    "authority": {
+      "allowedActions": ["Edit the scoped frontend files.", "Run scoped tests."],
+      "disallowedActions": ["Edit backend files.", "Merge branches."],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": ["src/frontend/**", "src/shared/contracts.ts", "test/frontend/**"]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": ["src/frontend/**", "test/frontend/**"]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": ["npm"]
+        }
+      ]
+    },
+    "verification": [
+      {
+        "id": "scope_diff",
+        "kind": "review",
+        "description": "The diff stays inside the declared scope.",
+        "required": true
+      },
+      {
+        "id": "frontend_tests",
+        "kind": "test",
+        "description": "The scoped frontend tests pass.",
+        "required": true
+      }
+    ],
+    "handoff": {
+      "destination": "integration-owner",
+      "requiredFields": [
+        "summary",
+        "filesChanged",
+        "verificationEvidence",
+        "assumptions",
+        "risks",
+        "followUps"
+      ]
+    },
+    "stopConditions": [
+      "A required backend contract is missing.",
+      "The change must cross a declared conflict zone without coordination."
+    ],
+    "deadline": "2026-07-13T20:00:00Z"
+  }
+}

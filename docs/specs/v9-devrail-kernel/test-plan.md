@@ -48,4 +48,4 @@ In progress.
 
 ## Verification Evidence
 
-V9 identity migration passes `scripts/check-template.ps1` and all seventeen `scripts/test-check-template.ps1` cases, including legacy-heading and retired-repository-URL rejection. The private toolchain spike passes Biome format and lint, TypeScript 7 typecheck and declaration build, Node test execution, Ajv/jsonc-parser ESM loading, and `npm pack --dry-run`. The full Node 22/24 and three-platform matrix remains pending CI implementation.
+V9 identity migration passes `scripts/check-template.ps1` and all seventeen `scripts/test-check-template.ps1` cases. GitHub Actions run `29268926620` passes the private toolchain on Node 22 and 24 across Ubuntu, Windows, and macOS. T005 adds eleven passing schema and fixture tests plus package inspection of every v1alpha1 contract artifact. Semantic project, path, limit, CLI, and trace cases remain mapped to T006 through T008.

@@ -45,7 +45,7 @@ jobs:
             exit 1
           }
   kernel-toolchain:
-    name: Kernel Toolchain (Node ${{ matrix.node }} / ${{ matrix.os }})
+    name: Kernel (Node ${{ matrix.node }} / ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -69,5 +69,5 @@ jobs:
       - name: Install pinned dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Verify private kernel toolchain
-        run: npm run verify:spike
+      - name: Verify kernel
+        run: npm run verify

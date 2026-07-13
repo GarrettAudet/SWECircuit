@@ -1,0 +1,3 @@
+{
+  "apiVersion": "swecircuit/v1alpha1",
+}

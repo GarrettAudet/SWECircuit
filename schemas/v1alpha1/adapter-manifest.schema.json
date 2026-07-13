@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/adapter-manifest.schema.json",
+  "title": "SWECircuit Adapter Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": {
+      "$ref": "common.schema.json#/$defs/apiVersion"
+    },
+    "kind": {
+      "const": "AdapterManifest"
+    },
+    "metadata": {
+      "$ref": "common.schema.json#/$defs/versionedIdentity"
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapterKind",
+        "compatibility",
+        "capabilities",
+        "requestedPermissions",
+        "inputKinds",
+        "outputKinds",
+        "behavior",
+        "provenance"
+      ],
+      "properties": {
+        "adapterKind": {
+          "enum": [
+            "ide",
+            "agent_runtime",
+            "retrieval",
+            "memory",
+            "verification",
+            "review",
+            "merge",
+            "telemetry"
+          ]
+        },
+        "compatibility": {
+          "$ref": "common.schema.json#/$defs/compatibility"
+        },
+        "capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "initialize",
+              "validate",
+              "inspect_trace",
+              "launch_agent",
+              "retrieve",
+              "persist_memory",
+              "verify",
+              "review",
+              "merge",
+              "export_trace"
+            ]
+          }
+        },
+        "requestedPermissions": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "common.schema.json#/$defs/permissionRequest"
+          }
+        },
+        "configSchemaRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "inputKinds": {
+          "type": "array",
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "common.schema.json#/$defs/artifactKind"
+          }
+        },
+        "outputKinds": {
+          "type": "array",
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "common.schema.json#/$defs/artifactKind"
+          }
+        },
+        "behavior": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["health", "timeout", "cancellation", "errors"],
+          "properties": {
+            "health": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["mode"],
+              "properties": {
+                "mode": {
+                  "enum": ["none", "passive", "active"]
+                },
+                "reference": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                }
+              }
+            },
+            "timeout": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["supported"],
+              "properties": {
+                "supported": {
+                  "type": "boolean"
+                },
+                "maximumSeconds": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 604800
+                }
+              }
+            },
+            "cancellation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["supported", "acknowledged"],
+              "properties": {
+                "supported": {
+                  "type": "boolean"
+                },
+                "acknowledged": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "errors": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["structured", "retryableDeclared"],
+              "properties": {
+                "structured": {
+                  "type": "boolean"
+                },
+                "retryableDeclared": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "maintainer"],
+          "properties": {
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "maintainer": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "attestationRef": {
+              "$ref": "common.schema.json#/$defs/evidenceRef"
+            }
+          }
+        }
+      }
+    }
+  }
+}

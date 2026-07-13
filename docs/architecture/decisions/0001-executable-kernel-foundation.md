@@ -92,7 +92,7 @@ The implementation must enforce public, fixture-tested ceilings before expensive
 | One JSON artifact | 1 MiB |
 | JSON nesting depth | 64 |
 | Referenced project artifacts | 10,000 |
-| Circuit graph edges | 50,000 |
+| Circuit graph edges | 10,000 |
 | One JSONL event line | 256 KiB |
 | One inspected trace | 64 MiB |
 | Events in one trace | 100,000 |

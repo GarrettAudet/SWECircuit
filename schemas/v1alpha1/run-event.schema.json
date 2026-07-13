@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/run-event.schema.json",
+  "title": "SWECircuit Run Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": {
+      "$ref": "common.schema.json#/$defs/apiVersion"
+    },
+    "kind": {
+      "const": "RunEvent"
+    },
+    "metadata": {
+      "$ref": "common.schema.json#/$defs/identity"
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "eventTypeVersion", "runId", "sequence", "correlationId", "actor"],
+      "properties": {
+        "type": {
+          "enum": [
+            "run.started",
+            "run.completed",
+            "attempt.state",
+            "attempt.heartbeat",
+            "attempt.cancellation_requested",
+            "workflow.outcome",
+            "evidence.recorded",
+            "handoff.recorded",
+            "verification.recorded",
+            "review.recorded",
+            "memory.updated",
+            "merge.recorded"
+          ]
+        },
+        "runId": {
+          "$ref": "common.schema.json#/$defs/identifier"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "time": {
+          "$ref": "common.schema.json#/$defs/timestamp"
+        },
+        "correlationId": {
+          "$ref": "common.schema.json#/$defs/identifier"
+        },
+        "causationId": {
+          "$ref": "common.schema.json#/$defs/identifier"
+        },
+        "links": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "common.schema.json#/$defs/identifier"
+          }
+        },
+        "actor": {
+          "$ref": "common.schema.json#/$defs/identifier"
+        },
+        "stage": {
+          "$ref": "common.schema.json#/$defs/workflowStage"
+        },
+        "workPacket": {
+          "$ref": "common.schema.json#/$defs/identifier"
+        },
+        "attempt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "number", "workPacket"],
+          "properties": {
+            "id": {
+              "$ref": "common.schema.json#/$defs/identifier"
+            },
+            "number": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "workPacket": {
+              "$ref": "common.schema.json#/$defs/identifier"
+            },
+            "state": {
+              "$ref": "common.schema.json#/$defs/executionState"
+            },
+            "retryOf": {
+              "$ref": "common.schema.json#/$defs/identifier"
+            },
+            "deadline": {
+              "$ref": "common.schema.json#/$defs/timestamp"
+            },
+            "terminalReason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          }
+        },
+        "heartbeat": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["observedAt", "expectedEverySeconds"],
+          "properties": {
+            "observedAt": {
+              "$ref": "common.schema.json#/$defs/timestamp"
+            },
+            "expectedEverySeconds": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 86400
+            }
+          }
+        },
+        "cancellation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["requestedBy", "reason"],
+          "properties": {
+            "requestedBy": {
+              "$ref": "common.schema.json#/$defs/identifier"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          }
+        },
+        "outcome": {
+          "$ref": "common.schema.json#/$defs/workflowOutcome"
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "common.schema.json#/$defs/evidenceRef"
+          }
+        },
+        "eventTypeVersion": {
+          "$ref": "common.schema.json#/$defs/artifactVersion"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "const": "attempt.state"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "required": ["attempt"],
+            "properties": {
+              "attempt": {
+                "required": ["state"],
+                "type": "object",
+                "properties": {
+                  "state": {}
+                }
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "required": ["type", "attempt"],
+            "properties": {
+              "type": {
+                "const": "attempt.state"
+              },
+              "attempt": {
+                "required": ["state"],
+                "properties": {
+                  "state": {
+                    "enum": ["completed", "failed", "cancelled", "timed_out"]
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "properties": {
+              "attempt": {
+                "required": ["terminalReason"],
+                "type": "object",
+                "properties": {
+                  "terminalReason": {}
+                }
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "if": {
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "const": "attempt.heartbeat"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "required": ["attempt", "heartbeat"],
+            "type": "object",
+            "properties": {
+              "attempt": {},
+              "heartbeat": {}
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "const": "attempt.cancellation_requested"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "required": ["attempt", "cancellation"],
+            "type": "object",
+            "properties": {
+              "attempt": {},
+              "cancellation": {}
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "const": "workflow.outcome"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "required": ["stage", "outcome"],
+            "type": "object",
+            "properties": {
+              "stage": {},
+              "outcome": {}
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "enum": [
+                  "evidence.recorded",
+                  "handoff.recorded",
+                  "verification.recorded",
+                  "review.recorded",
+                  "memory.updated",
+                  "merge.recorded"
+                ]
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "required": ["evidence"],
+            "type": "object",
+            "properties": {
+              "evidence": {}
+            }
+          }
+        }
+      ]
+    }
+  }
+}

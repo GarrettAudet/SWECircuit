@@ -218,7 +218,13 @@ After changing the checker, module or circuit contracts, pack discovery, milesto
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-check-template.ps1
 ```
 
-If code is later added to this repository, add project-specific format, lint, typecheck, test, and build commands here.
+After changing kernel code, schemas, fixtures, package metadata, or CI, run the canonical kernel gate:
+
+```powershell
+npm.cmd run verify
+```
+
+Use `npm run verify` on hosts where the npm PowerShell shim is not blocked. This gate runs format checks, lint, typecheck, build, tests, and dry-run package inspection.
 
 ## Tool Policy
 

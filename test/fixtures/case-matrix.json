@@ -1,0 +1,370 @@
+{
+  "version": "1.0.0",
+  "platformSets": {
+    "ALL": [
+      "node22-ubuntu",
+      "node22-windows",
+      "node22-macos",
+      "node24-ubuntu",
+      "node24-windows",
+      "node24-macos"
+    ],
+    "POSIX_AND_WINDOWS": ["ubuntu", "windows", "macos"]
+  },
+  "limits": {
+    "artifactBytes": 1048576,
+    "jsonDepth": 64,
+    "projectArtifacts": 10000,
+    "circuitEdges": 10000,
+    "jsonlLineBytes": 262144,
+    "traceBytes": 67108864,
+    "traceEvents": 100000
+  },
+  "mustHave": [
+    {
+      "id": "P01-artifact",
+      "phase": "T006",
+      "rule": "parse.invalid-utf8",
+      "variants": ["artifact"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "P01-event",
+      "phase": "T008",
+      "rule": "parse.invalid-utf8",
+      "variants": ["jsonl-event"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "P02",
+      "phase": "T006",
+      "rule": "parse.json-syntax",
+      "variants": ["comment", "trailing-comma", "truncated-jsonl-object"],
+      "platforms": "ALL",
+      "mode": "file"
+    },
+    {
+      "id": "P03",
+      "phase": "T006",
+      "rule": "parse.duplicate-key",
+      "variants": ["permission-key"],
+      "platforms": "ALL",
+      "mode": "file"
+    },
+    {
+      "id": "D01",
+      "phase": "T006",
+      "variants": ["missing", "non-string", "unsupported"],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": [
+        "dispatch.api-version.required",
+        "dispatch.api-version.type",
+        "dispatch.api-version.unsupported"
+      ]
+    },
+    {
+      "id": "D02",
+      "phase": "T006",
+      "variants": ["missing", "non-string", "Rail"],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": ["dispatch.kind.required", "dispatch.kind.type", "dispatch.kind.unsupported"]
+    },
+    {
+      "id": "D03",
+      "phase": "T008",
+      "variants": ["missing", "unsupported"],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": ["dispatch.event-version.required", "dispatch.event-version.unsupported"]
+    },
+    {
+      "id": "S01",
+      "phase": "T005",
+      "rule": "schema.additional-property",
+      "variants": ["every-object-boundary"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "S02",
+      "phase": "T005",
+      "variants": ["remote-ref", "unknown-keyword"],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": ["schema-registry.remote-ref", "schema-registry.unknown-keyword"]
+    },
+    {
+      "id": "R01",
+      "phase": "T006",
+      "rule": "reference.not-found",
+      "variants": [
+        "project-artifact",
+        "default-circuit",
+        "module",
+        "node",
+        "port",
+        "work-packet",
+        "dependency",
+        "fanout",
+        "join"
+      ],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "R02",
+      "phase": "T006",
+      "rule": "reference.kind-mismatch",
+      "variants": ["artifact-envelope"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "R03",
+      "phase": "T006",
+      "rule": "reference.duplicate-identity",
+      "variants": ["same-kind"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "G01",
+      "phase": "T006",
+      "rule": "graph.outcome-undeclared",
+      "variants": ["route-outcome"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "G02",
+      "phase": "T006",
+      "rule": "graph.unsafe-cycle",
+      "variants": ["self-loop", "multi-node-cycle"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "G03",
+      "phase": "T006",
+      "rule": "graph.ambiguous-fan-in",
+      "variants": ["missing-join", "source-mismatch"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "G04",
+      "phase": "T006",
+      "variants": ["fanout-owner", "work-packet", "stop-condition"],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": ["graph.owner-required", "graph.stop-required"]
+    },
+    {
+      "id": "G05",
+      "phase": "T006",
+      "variants": ["missing-port", "type-mismatch"],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": ["reference.port-not-found", "graph.transfer-type-mismatch"]
+    },
+    {
+      "id": "T01",
+      "phase": "T008",
+      "variants": ["duplicate", "regression"],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": ["trace.sequence.duplicate", "trace.sequence.regression"]
+    },
+    {
+      "id": "T02",
+      "phase": "T008",
+      "rule": "trace.duplicate-event-id",
+      "variants": ["duplicate"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T03",
+      "phase": "T008",
+      "variants": ["missing", "forward", "cross-run"],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": ["trace.cause.not-found", "trace.cause.forward", "trace.cause.cross-run"]
+    },
+    {
+      "id": "T04",
+      "phase": "T008",
+      "rule": "trace.illegal-transition",
+      "variants": ["every-disallowed-state-pair"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T05",
+      "phase": "T008",
+      "rule": "trace.terminal-immutable",
+      "variants": ["completed", "failed", "cancelled", "timed_out"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "T06",
+      "phase": "T008",
+      "variants": ["missing-link", "not-queued"],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": ["trace.retry.link-required", "trace.retry.must-start-queued"]
+    },
+    {
+      "id": "T07",
+      "phase": "T008",
+      "rule": "trace.event-not-allowed-in-state",
+      "variants": ["heartbeat", "cancellation-request"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "X01",
+      "phase": "T006",
+      "rule": "path.lexical-escape",
+      "variants": ["parent-segment"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "X02",
+      "phase": "T006",
+      "rule": "path.forbidden-form",
+      "variants": ["posix-absolute", "windows-absolute", "unc", "device", "ads", "uri"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "X03",
+      "phase": "T006",
+      "rule": "path.link-forbidden",
+      "variants": ["symlink", "junction", "reparse"],
+      "platforms": "POSIX_AND_WINDOWS",
+      "mode": "native"
+    },
+    {
+      "id": "X04",
+      "phase": "T006",
+      "rule": "path.resolved-escape",
+      "variants": ["ancestor-link"],
+      "platforms": "POSIX_AND_WINDOWS",
+      "mode": "native"
+    },
+    {
+      "id": "X05",
+      "phase": "T006",
+      "rule": "path.not-regular-file",
+      "variants": ["directory"],
+      "platforms": "ALL",
+      "mode": "native"
+    },
+    {
+      "id": "L01",
+      "phase": "T006",
+      "variants": [
+        "artifact-bytes",
+        "depth",
+        "reference-count",
+        "edge-count",
+        "line-bytes",
+        "trace-bytes",
+        "event-count"
+      ],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": [
+        "limit.artifact-bytes",
+        "limit.depth",
+        "limit.reference-count",
+        "limit.edge-count",
+        "limit.line-bytes",
+        "limit.trace-bytes",
+        "limit.event-count"
+      ]
+    },
+    {
+      "id": "DG01",
+      "phase": "T006",
+      "variants": ["sort", "deduplicate"],
+      "platforms": "ALL",
+      "mode": "behavior"
+    },
+    {
+      "id": "DG02",
+      "phase": "T006",
+      "variants": ["control-character", "absolute-host-path"],
+      "platforms": "ALL",
+      "mode": "behavior"
+    },
+    {
+      "id": "DG03",
+      "phase": "T006",
+      "rule": "io.safe-failure",
+      "variants": ["invalid-input-exit-2", "safe-io-exit-4"],
+      "platforms": "ALL",
+      "mode": "behavior"
+    },
+    {
+      "id": "PM01",
+      "phase": "T006",
+      "variants": [
+        "missing-list",
+        "unknown-kind",
+        "exceeds-ceiling",
+        "self-grant",
+        "self-attested-trust"
+      ],
+      "platforms": "ALL",
+      "mode": "generated",
+      "rules": [
+        "permission.required",
+        "permission.unknown",
+        "permission.exceeds-ceiling",
+        "permission.self-grant-forbidden"
+      ]
+    },
+    {
+      "id": "PR01",
+      "phase": "T005",
+      "rule": "privacy.forbidden-content",
+      "variants": ["prompt", "chat", "environment", "command-output", "secret", "inline-config"],
+      "platforms": "ALL",
+      "mode": "generated"
+    },
+    {
+      "id": "PR03",
+      "phase": "T008",
+      "rule": "privacy.secret-pattern",
+      "variants": ["every-rendered-string-slot"],
+      "platforms": "ALL",
+      "mode": "generated"
+    }
+  ],
+  "laterHardening": [
+    "numeric-domain-overflow",
+    "unicode-confusables",
+    "filesystem-aliases",
+    "deep-lineage",
+    "aggregate-project-bytes",
+    "randomized-diagnostic-order",
+    "encoded-secret-patterns"
+  ],
+  "atLimitControls": {
+    "artifactBytes": 1048576,
+    "jsonDepth": 64,
+    "projectArtifacts": 10000,
+    "circuitEdges": 10000,
+    "jsonlLineBytes": 262144,
+    "traceBytes": 67108864,
+    "traceEvents": 100000
+  }
+}

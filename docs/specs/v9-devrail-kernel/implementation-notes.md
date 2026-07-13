@@ -18,6 +18,8 @@ In progress.
 - Started a recorded, read-only three-reviewer architecture gate and refreshed volatile architecture sources after TypeScript 7 became stable.
 - Received owner approval for the integrated bundle, accepted ADR 0001, and clarified that SWECircuit is only the repository/project name rather than an external namespace claim.
 - Added one private root package with exact dependency versions and proved TypeScript 7.0.2, Biome 2.5.3, Ajv 8.20.0, and jsonc-parser 3.3.1 together before schema work.
+- Passed GitHub Actions run 29268926620 across Node 22 and 24 on Ubuntu, Windows, and macOS.
+- Dogfooded a two-reviewer schema gate, integrated both REVISE handoffs, and froze the six-kind v1alpha1 schemas, permission and composition rules, diagnostic catalog, and adversarial case matrix.
 
 ## Deviations From Plan
 
@@ -33,8 +35,8 @@ The workspace patch helper failed before file access during intake and recurred 
 
 - Complete current canonical branding and replace the historical TraceRail overview image.
 - Define and test the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
-- Define the v1alpha1 schemas and adversarial fixtures from accepted ADR 0001.
-- Implement the three-operation kernel only after those schema fixtures pass.
+- Implement deterministic parsing, dispatch, diagnostics, reference resolution, and Circuit semantics from the frozen v1alpha1 contract.
+- Keep trace reconstruction and CLI rendering behind the project-validation slice.
 
 ## Verification Performed
 
@@ -51,6 +53,7 @@ The workspace patch helper failed before file access during intake and recurred 
 - V8.2 completed on `main` at `5caaa29`; V9 baseline adoption passed the template checker, all seventeen regression cases, and GitHub Actions run `29265535389` at `35f96d2`.
 - The integrated architecture gate passed the template checker and all seventeen regression cases after three read-only reviewer handoffs were preserved and synthesized.
 - The accepted toolchain passes format, lint, TypeScript 7 typecheck and declaration build, Node test, Ajv/jsonc-parser ESM import, and dry-run package inspection, and a zero-vulnerability production audit. Ajv required its named Ajv2020 export under strict NodeNext; Node test discovery uses an explicit file glob on Windows; npm pack uses the ignored repository-local cache.
+- T005 passes eleven schema and fixture tests, the positive template checker, all seventeen malformed-repository regressions, and package inspection proving that the contract README, six schemas, common definitions, and diagnostic catalog ship in the private tarball.
 
 ## Durable Learnings
 

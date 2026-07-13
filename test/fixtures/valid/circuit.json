@@ -1,0 +1,78 @@
+{
+  "apiVersion": "swecircuit/v1alpha1",
+  "kind": "Circuit",
+  "metadata": {
+    "id": "feature",
+    "version": "0.1.0",
+    "description": "A minimal feature circuit with a bounded clarification loop."
+  },
+  "spec": {
+    "entry": "clarify",
+    "nodes": [
+      {
+        "id": "clarify",
+        "module": "clarify"
+      },
+      {
+        "id": "spec",
+        "module": "spec"
+      },
+      {
+        "id": "memory",
+        "module": "memory"
+      }
+    ],
+    "routes": [
+      {
+        "from": "clarify",
+        "outcome": "clarify",
+        "to": "clarify",
+        "maxTraversals": 3,
+        "transfers": [
+          {
+            "output": "context",
+            "input": "context"
+          }
+        ]
+      },
+      {
+        "from": "clarify",
+        "outcome": "pass",
+        "to": "spec",
+        "transfers": [
+          {
+            "output": "goal",
+            "input": "goal"
+          }
+        ]
+      },
+      {
+        "from": "spec",
+        "outcome": "pass",
+        "to": "memory",
+        "transfers": [
+          {
+            "output": "spec",
+            "input": "artifact"
+          }
+        ]
+      }
+    ],
+    "exits": ["memory"],
+    "stopConditions": [
+      "Required product intent remains unresolved.",
+      "Verification cannot prove the acceptance criteria."
+    ],
+    "verification": [
+      {
+        "id": "acceptance_map",
+        "kind": "review",
+        "description": "Every accepted change maps to a feature acceptance criterion.",
+        "required": true
+      }
+    ],
+    "compatibility": {
+      "apiVersions": ["swecircuit/v1alpha1"]
+    }
+  }
+}

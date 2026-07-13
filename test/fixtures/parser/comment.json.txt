@@ -1,0 +1,4 @@
+{
+  // comments are not canonical JSON
+  "apiVersion": "swecircuit/v1alpha1"
+}

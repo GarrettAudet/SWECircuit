@@ -18,9 +18,9 @@ In progress.
 - [x] T004: Decide and document the V9 architecture.
   Scope: Runtime, serialization, schema dialect, package layout, compatibility, trace persistence, privacy, and adapter interfaces.
   Verification: The owner approved the reviewed bundle on 2026-07-13; ADR 0001 is accepted, and the pinned TypeScript 7/Biome/Ajv/jsonc-parser spike passes format, lint, typecheck, build, test, and dry-run package inspection.
-- [ ] T005: Define versioned schemas and adversarial fixtures.
+- [x] T005: Define versioned schemas and adversarial fixtures.
   Scope: Project, module, workflow composition, work packet, event, adapter metadata, valid examples, and malformed cases.
-  Verification: Schema tests prove accepted examples and stable rejection of malformed references and graph semantics.
+  Verification: Strict Ajv compilation, valid fixtures for all six kinds, closed-boundary and parser tests, the diagnostic catalog, and the adversarial case matrix pass eleven tests. Reference, graph, path, limit, and trace cases have frozen expected rules for T006 through T008.
 - [ ] T006: Implement the validation kernel.
   Scope: Schema loading, semantic checks, deterministic diagnostics, and exit codes.
   Verification: Unit and integration tests map to AC2 and AC3 across the supported platform matrix.

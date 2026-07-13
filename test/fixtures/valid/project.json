@@ -1,0 +1,19 @@
+{
+  "apiVersion": "swecircuit/v1alpha1",
+  "kind": "Project",
+  "metadata": {
+    "id": "example",
+    "description": "Minimal explicit SWECircuit project."
+  },
+  "spec": {
+    "artifacts": [
+      "swecircuit/modules/clarify.json",
+      "swecircuit/modules/spec.json",
+      "swecircuit/modules/memory.json",
+      "swecircuit/circuits/feature.json",
+      "swecircuit/work-packets/frontend.json",
+      "swecircuit/adapters/ide.json"
+    ],
+    "defaultCircuit": "feature"
+  }
+}

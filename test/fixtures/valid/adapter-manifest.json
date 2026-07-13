@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/v1alpha1",
+  "kind": "AdapterManifest",
+  "metadata": {
+    "id": "example-ide",
+    "version": "0.1.0",
+    "description": "A declaration-only IDE adapter example."
+  },
+  "spec": {
+    "adapterKind": "ide",
+    "compatibility": {
+      "apiVersions": ["swecircuit/v1alpha1"]
+    },
+    "capabilities": ["validate", "inspect_trace"],
+    "requestedPermissions": [
+      {
+        "kind": "filesystem.read",
+        "scopes": ["swecircuit.json", "swecircuit/**"],
+        "reason": "Read project contracts selected by the user."
+      }
+    ],
+    "configSchemaRef": "adapter-config/example-ide.schema.json",
+    "inputKinds": ["Project", "RunEvent"],
+    "outputKinds": [],
+    "behavior": {
+      "health": {
+        "mode": "passive"
+      },
+      "timeout": {
+        "supported": false
+      },
+      "cancellation": {
+        "supported": false,
+        "acknowledged": false
+      },
+      "errors": {
+        "structured": true,
+        "retryableDeclared": false
+      }
+    },
+    "provenance": {
+      "source": "https://example.invalid/swecircuit-adapter",
+      "maintainer": "Example maintainer"
+    }
+  }
+}
