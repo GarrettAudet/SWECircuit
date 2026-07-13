@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation complete; independent review returned `PASS`, canonical local gates pass, and branch CI is pending.
+Complete; implementation, independent review, canonical local gates, and branch CI returned `PASS`.
 
 ## Pattern
 
@@ -12,7 +12,7 @@ Single implementation owner plus one independent read-only reviewer, followed by
 
 - Branch: `codex/v9-devrail-kernel`
 - Frozen input baseline: `b2a14ac`
-- Active task: T008 event-trace validation and inspection
+- Completed task: T008 event-trace validation and inspection
 - Integration owner: primary IDE agent
 - Merge target: none for reviewer handoffs
 
@@ -82,7 +82,7 @@ Initial Huygens verdict: `REVISE`.
 | High | A sole LF or CRLF was treated as an invalid empty record despite the zero-event contract. | Empty, sole-LF, and sole-CRLF traces return zero events; repeated final terminators remain invalid under bound T12 cases. |
 | Medium | Command and test evidence identifiers lacked their frozen 128-character suffix ceiling. | Kind-specific schema limits and at-limit/over-limit T13 cases enforce the boundary. |
 | Medium | Public trace input, summary, and constituent types were not re-exported from the library index. | The public type export list now includes the complete trace surface and its enums. |
-| Medium | Matrix claims exceeded direct regression evidence. | D03 and T04-T14/L01/PR03 now name and bind exhaustive transition, terminal, retry, missing-reference, newline, limit, evidence, and privacy cases. |
+| Medium | Matrix claims exceeded direct regression evidence. | D03 and T04-T15/L01-L02/PR03 now name and bind exhaustive transition, terminal, retry, missing-reference, newline, limit, evidence, and privacy cases. |
 
 The remediation also adds a final post-read canonical-path recheck.
 
@@ -102,4 +102,4 @@ Preimplementation contract review completed `REVISE -> REVISE -> REVISE -> REVIS
 
 ## Verification
 
-Preimplementation and implementation reviewer `PASS` verdicts are recorded. The canonical gate passes 202 tests with zero skips after both remediation rounds. Commit and remote matrix remain pending.
+Preimplementation and implementation reviewer `PASS` verdicts are recorded. Commit `36efbf1` passes the canonical gate with 202 tests and zero skips. GitHub Actions run `29288359476` passes Template Check and all six Node 22/24 jobs across Ubuntu, Windows, and macOS.

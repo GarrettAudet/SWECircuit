@@ -117,6 +117,19 @@ Community and ecosystem extensions should start as packs. Promote into recommend
 ### Optional Downloads
 
 External best-practice tools are optional downloads or adapters. Core SWECircuit must remain useful with only files, templates, checks, review, and memory.
+
+### Bound Before Materialization
+
+Enforce count and output ceilings while constructing retained state, not after every input has been materialized. Continue only the minimum scan needed to preserve higher-priority diagnostics.
+
+### Ceiling Is Not Allocation
+
+Treat a resource limit as the maximum accepted input, not the default buffer size. Allocate from verified input state plus only the margin needed to detect growth or truncation.
+
+### Executable Coverage Claims
+
+Give case-matrix variants stable names and bind them from table-driven tests. A coverage statement should fail automatically when its executable evidence disappears.
+
 ## Memory Patterns
 
 ### Source First, Summary Second
@@ -205,3 +218,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V8.1 spec](../specs/v8.1-baseline-integrity/spec.md), [test plan](../specs/v8.1-baseline-integrity/test-plan.md), [debug notes](../specs/v8.1-baseline-integrity/debug-notes.md), [root-cause analysis](../specs/v8.1-baseline-integrity/root-cause-analysis.md), and [orchestration run](../specs/v8.1-baseline-integrity/orchestration-run.md) | Current Capability Versus Target Model; Negative Fixtures For Semantic Checks; Bounded Worker Recovery; Literal Replay For Generated Scripts |
 | [V9 T006 RCA](../specs/v9-devrail-kernel/root-cause-analysis.md) and [validation run](../specs/v9-devrail-kernel/validation-orchestration-run.md) | Parser-Consumer Boundary Probe; Decision Seam Before Native Fixture |
 | [V9 T007 initialization plan](../specs/v9-devrail-kernel/initialization-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/initialization-orchestration-run.md) | Pending Ownership Before Cleanup; Barrier At The Contended Boundary |
+| [V9 T008 trace plan](../specs/v9-devrail-kernel/trace-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/trace-orchestration-run.md) | Bound Before Materialization; Ceiling Is Not Allocation; Executable Coverage Claims |

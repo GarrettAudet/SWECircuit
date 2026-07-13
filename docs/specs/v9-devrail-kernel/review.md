@@ -26,7 +26,7 @@ T006 used one independent read-only reviewer, integrated two `REVISE` rounds, an
 
 T007 used one independent read-only reviewer, integrated initial and focused `REVISE` rounds, and finished with focused `PASS`. The canonical local gate passes 82 tests, package inspection, the template checker, all seventeen checker regressions, and encoding inspection. GitHub Actions run `29281182002` passes all seven jobs.
 
-T008 froze its contract through `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, then integrated implementation review `REVISE -> REVISE -> PASS`. The canonical local gate passes 202 tests with zero skips, package inspection, strict framing and state reconstruction, matrix-bound evidence, a renderer-only internal CLI, and no public executable namespace. Branch CI remains pending.
+T008 froze its contract through `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, then integrated implementation review `REVISE -> REVISE -> PASS`. The canonical local gate passes 202 tests with zero skips, package inspection, strict framing and state reconstruction, matrix-bound evidence, a renderer-only internal CLI, and no public executable namespace. GitHub Actions run `29288359476` passes Template Check and all six Node 22/24 platform jobs.
 
 ## Findings
 
@@ -47,4 +47,4 @@ T008 froze its contract through `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, 
 
 ## Memory And Docs
 
-The T008 source package preserves the frozen contract, both reviewer loops, six resolved implementation findings, canonical local evidence, and the pending remote gate. Durable memory advances only after branch CI closes T008; T009 is the next implementation stage.
+The T008 source package preserves the frozen contract, both reviewer loops, six resolved implementation findings, canonical local evidence, and green cross-platform CI. Decisions, limitations, patterns, history, retrieval, and active context now advance T009 as the next implementation stage.

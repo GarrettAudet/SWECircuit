@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Implement T008 event-trace validation and read-only inspection over the verified validation and initialization operations.
+Complete T009 current-surface identity migration and the public quick start over the verified initialize, validate, and inspect kernel.
 
 ## Current Stage
 
-V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 after independent `REVISE` -> `REVISE` -> `PASS` review; 82 tests and GitHub Actions run 29281182002 pass all seven jobs. T008 is active. The repository remains unlicensed.
+V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 is active. The repository remains unlicensed.
 
 ## Important Current Constraints
 
@@ -20,6 +20,8 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - Module permissions are requirements, WorkPacket permissions are ceilings, and Adapter permissions are declaration-only requests. None grants runtime authority.
 - Circuit routes own exact port transfers; cyclic routes are bounded; parallel fan-out and fan-in are explicit.
 - Sequence and causation are authoritative; timestamps are optional evidence only.
+- Trace inspection takes one explicit repository-relative caller-owned JSONL file, does not scan the manifest, and never writes, executes, fetches, or dereferences content.
+- Trace bytes, lines, events, retained framing, evidence summaries, and read allocation are independently bounded; the byte limit is a ceiling rather than a fixed allocation.
 - Full chats, prompts, environment dumps, command output, credentials, and evidence content are excluded from traces by default.
 - Diagnostic codes, rules, severity, pointer conventions, sort order, and exit classes are frozen in schemas/v1alpha1/diagnostic-catalog.json.
 - The primary README overview PNG still contains the historical TraceRail label and must be replaced before V9 is merge-ready.
@@ -47,11 +49,15 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - A successful filesystem create is not cleanup-owned until identity capture succeeds; track the gap as pending and preserve it on uncertainty.
 - A concurrency test must place its barrier after preflight and immediately before the contended mutation; worker readiness before entering the operation does not prove a race was exercised.
 - Independent review remained useful after the first hardening pass: two `REVISE` rounds found ownership and test-validity gaps that a green local suite missed.
+- Event ceilings must bound retained records before rejection; validating a count after materialization leaves a memory-amplification path.
+- Allocate bounded readers from verified input size plus the smallest growth-detection margin, not from the maximum accepted size.
+- Bind case-matrix variants to table-driven tests so coverage statements fail when executable evidence drifts.
+- A single reviewer loop caught six T008 defects despite a green suite, reinforcing review as an evidence-producing gate rather than ceremony.
 
 ## Next Likely Work
 
-- Freeze the T008 trace-operation contract and decomposition plan before implementation.
-- Implement bounded JSONL reading, event dispatch, causality, retry, and immutable terminal-state checks.
-- Reconstruct a deterministic read-only run summary without dereferencing evidence references or writing trace data.
-- Add success, retry, timeout, cancellation, failed-handoff, malformed-line, resource-limit, privacy, and offline tests.
-- Run an independent T008 review before remote matrix verification.
+- Audit current product surfaces and classify historical TraceRail/DevRail provenance versus canonical SWECircuit content.
+- Replace the historical README overview asset with a reviewed SWECircuit visual and preserve current-capability versus target-model honesty.
+- Publish a concise quick start for the three implemented library operations without claiming a public package or CLI namespace.
+- Add stale-name, link, asset, and documented-command regressions, then run independent public-surface review and the remote matrix.
+- Keep V9 isolated on `codex/v9-devrail-kernel`; do not merge to `main` before T009-T011 and owner approval.
