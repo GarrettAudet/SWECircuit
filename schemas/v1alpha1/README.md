@@ -22,6 +22,23 @@ The target artifact envelope is authoritative for kind. Historical Markdown and 
 
 Explicit project roots reject remote, URI, device, alternate-stream, and control-character forms before filesystem access. Artifact paths are forward-slash repository-relative paths. Symlinks and junctions fail without target dereference; path-altering reparse behavior fails canonical containment. Opaque same-path Windows reparse metadata is outside the pure Node v1alpha1 inspection boundary, while regular-file and open-descriptor identity checks still apply.
 
+## Initialization
+
+The initializer targets one existing local directory and never searches ancestors. An explicit project ID is used unchanged and must pass the Project schema. Without one, the ID transform is exact:
+
+1. Take the target directory basename and normalize it with NFKD.
+2. Convert it to lowercase and remove combining characters in U+0300 through U+036F.
+3. Replace each run outside `a-z` and `0-9` with one hyphen, then trim outer hyphens.
+4. Fall back to `project` when nothing remains.
+5. Prefix `project-` when the first character is not a letter.
+6. Truncate to 128 characters, trim outer hyphens again, and fall back to `project` if needed.
+
+Unrelated repository files are allowed. Existing `swecircuit.json` or `swecircuit` paths observed during preflight are exit-class-4 collisions and are not replaced or traversed. A successful call creates `swecircuit.json`, `swecircuit/`, `swecircuit/modules/`, and `swecircuit/circuits/` with exclusive filesystem operations. The manifest is UTF-8 without a BOM, two-space indented JSON with stable field order and one final LF.
+
+The initializer journals the type, canonical path, and BigInt device/inode identity of every captured created entry. A successful create that cannot be captured is marked pending, preserved, and forces `SC1022 init.cleanup-incomplete`. It checks the root, parents, captured entries, open manifest descriptor, exact manifest bytes, generated project ID, and normal project-validation result before reporting success. Recovery walks the journal in reverse and attempts only non-recursive removal after identity checks. When missing, changed, linked, or non-empty state is detected, the entry is preserved and `SC1022` is emitted.
+
+Pure Node does not expose descriptor-relative create and remove operations on every supported platform. V1alpha1 therefore checks identity and canonical containment at explicit boundaries, but cannot bind directory creation to its first identity capture or bind the final identity check to pathname removal atomically. A malicious replacement in either window can be indistinguishable from attempt-owned state; categorical protection against that adversary requires a reviewed native adapter. Outside those documented windows, a detected mismatch fails closed and is preserved during recovery.
+
 ## Permission Model
 
 Permission kinds are closed:
@@ -94,6 +111,8 @@ Evidence fields contain references only. The inspector never opens or fetches th
 v1alpha1 compatibility is exact: compatibility.apiVersions contains swecircuit/v1alpha1. Package-version range grammar is deferred until public package compatibility exists.
 
 Changing a schema, semantic rule, permission vocabulary, resource ceiling, diagnostic code, or event transition requires fixtures and a documented compatibility note.
+
+Unreleased T007 adds exit-class-4 `SC1021 init.path-exists` for owned-path collisions and `SC1022 init.cleanup-incomplete` when recovery cannot prove that a journaled entry is still safe to remove. It also broadens the stable `SC1001 io.safe-failure` wording from read-only input failures to filesystem operations. The diagnostic catalog advances to 1.1.0; the machine API remains `swecircuit/v1alpha1`.
 
 ## Diagnostics
 

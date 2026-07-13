@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "diagnosticShape": {
     "required": ["code", "severity", "artifact", "pointer", "rule", "message"],
     "optional": ["hint"],
@@ -57,6 +57,18 @@
       "rule": "path.not-regular-file",
       "severity": "error",
       "exitClass": 2
+    },
+    {
+      "code": "SC1021",
+      "rule": "init.path-exists",
+      "severity": "error",
+      "exitClass": 4
+    },
+    {
+      "code": "SC1022",
+      "rule": "init.cleanup-incomplete",
+      "severity": "error",
+      "exitClass": 4
     },
     {
       "code": "SC1101",

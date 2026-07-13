@@ -23,6 +23,11 @@ export interface ValidateProjectOptions {
   readonly project?: string;
 }
 
+export interface InitializeProjectOptions {
+  readonly project?: string;
+  readonly projectId?: string;
+}
+
 export interface ValidatedArtifactSummary {
   readonly artifact: string;
   readonly kind: string;
@@ -34,4 +39,16 @@ export interface ProjectValidationSummary {
   readonly projectId: string;
   readonly projectArtifact: "swecircuit.json";
   readonly artifacts: readonly ValidatedArtifactSummary[];
+}
+
+export interface ProjectInitializationSummary {
+  readonly projectId: string;
+  readonly projectArtifact: "swecircuit.json";
+  readonly created: readonly [
+    "swecircuit.json",
+    "swecircuit",
+    "swecircuit/modules",
+    "swecircuit/circuits",
+  ];
+  readonly validation: ProjectValidationSummary;
 }

@@ -8,13 +8,16 @@ export {
   exitCodeForDiagnostics,
   sortAndDeduplicateDiagnostics,
 } from "./diagnostics.js";
+export { initializeProject } from "./initialize.js";
 export { parseJsonBuffer } from "./json.js";
 export { validateArtifactValue, validateProject } from "./validate.js";
 export type {
   Diagnostic,
   DiagnosticSeverity,
   ExitCode,
+  InitializeProjectOptions,
   OperationResult,
+  ProjectInitializationSummary,
   ProjectValidationSummary,
   ValidateProjectOptions,
   ValidatedArtifactSummary,

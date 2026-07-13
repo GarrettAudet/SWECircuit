@@ -35,8 +35,8 @@ export const DIAGNOSTIC_DEFINITIONS = Object.freeze({
     "io.safe-failure",
     "error",
     4,
-    "The input could not be read safely.",
-    "Check that the path exists and is readable, then retry.",
+    "The filesystem operation could not be completed safely.",
+    "Check path access and filesystem state, then retry.",
   ),
   SC1011: definition(
     "path.lexical-escape",
@@ -72,6 +72,20 @@ export const DIAGNOSTIC_DEFINITIONS = Object.freeze({
     2,
     "The referenced input is not a regular file.",
     "Reference a regular JSON file.",
+  ),
+  SC1021: definition(
+    "init.path-exists",
+    "error",
+    4,
+    "Initialization would overwrite an existing SWECircuit path.",
+    "Move the existing path, or validate the project already present.",
+  ),
+  SC1022: definition(
+    "init.cleanup-incomplete",
+    "error",
+    4,
+    "Initialization stopped, but one or more created paths could not be removed safely.",
+    "Inspect the reported project root; changed or non-empty paths were preserved.",
   ),
   SC1101: definition(
     "parse.invalid-utf8",

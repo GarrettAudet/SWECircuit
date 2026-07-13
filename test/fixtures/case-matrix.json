@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "platformSets": {
     "ALL": [
       "node22-ubuntu",
@@ -21,6 +21,36 @@
     "traceEvents": 100000
   },
   "mustHave": [
+    {
+      "id": "I01",
+      "phase": "T007",
+      "rule": "init.path-exists",
+      "variants": ["manifest", "catalog-directory", "concurrent-process"],
+      "platforms": "ALL",
+      "mode": "native"
+    },
+    {
+      "id": "I02",
+      "phase": "T007",
+      "rule": "init.cleanup-incomplete",
+      "variants": ["non-empty-entry", "identity-changed-entry"],
+      "platforms": "ALL",
+      "mode": "native"
+    },
+    {
+      "id": "I03",
+      "phase": "T007",
+      "variants": [
+        "every-checkpoint-fault",
+        "pre-capture-pending",
+        "post-preflight-process-race",
+        "exact-manifest-bytes",
+        "exact-id-transform",
+        "network-process-trap"
+      ],
+      "platforms": "ALL",
+      "mode": "behavior"
+    },
     {
       "id": "P01-artifact",
       "phase": "T006",
@@ -354,6 +384,11 @@
       "id": "X06",
       "boundary": "opaque-same-path-windows-reparse-metadata",
       "reason": "The approved pure Node kernel detects canonical divergence but cannot create or inspect every opaque same-path Windows reparse attribute without a native extension."
+    },
+    {
+      "id": "X07",
+      "boundary": "descriptor-relative-initialization-race-windows",
+      "reason": "Pure Node can verify identities and canonical containment at explicit boundaries but cannot atomically bind directory creation to first identity capture or final identity checks to pathname removal; categorical protection against malicious replacement in those windows requires a reviewed native adapter."
     }
   ],
   "laterHardening": [
