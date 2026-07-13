@@ -38,4 +38,4 @@ User or feature package approves the plan, or work routes to `clarify`.
 
 ## Adapter
 
-Superpowers is an optional skills or plugin adapter. TraceRail extracts the methodology by default and installs nothing.
+Superpowers is an optional skills or plugin adapter. SWECircuit extracts the methodology by default and installs nothing.

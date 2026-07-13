@@ -16,7 +16,7 @@ This registry records which workflow modules are part of the baseline and which 
 
 | Module | Status | Source Inspiration | Contract | Rationale |
 | --- | --- | --- | --- | --- |
-| Rail composition module | accepted-file-contract | LangChain composition model, PromptChainer research | `docs/framework/rail-composition.md`, `docs/framework/_rail-template.md`, `docs/rails/`, `docs/modules/` | Establishes the simple pipe-like primitive and concrete catalogs that all TraceRail workflows compose around. |
+| Circuit composition module | accepted-file-contract | LangChain composition model, PromptChainer research | `docs/framework/rail-composition.md`, `docs/framework/_rail-template.md`, `docs/rails/`, `docs/modules/` | Establishes the simple pipe-like primitive and concrete catalogs that all SWECircuit workflows compose around. |
 | Spec module | accepted-file-contract | GitHub Spec Kit | `docs/specs/_template/`, handbook stages | Spec, plan, tasks, clarify, analyze, implement, and converge concepts are central but file-based V5 avoids tool lock-in. |
 | Architecture and ADR module | accepted-file-contract | ADR practice, Spec Kit planning | `docs/modules/architecture-review.md`, handbook architecture check, feature plan | Keeps design decisions explicit before implementation. |
 | Agent instruction module | accepted-file-contract | Codex `AGENTS.md` | `AGENTS.md` | Gives agents a canonical project entrypoint. |
@@ -29,7 +29,7 @@ This registry records which workflow modules are part of the baseline and which 
 | Modular orchestration module | accepted-file-contract | LangChain patterns, AutoGen teams, CrewAI crews, BMAD lifecycle | `docs/framework/` | Lets the system choose patterns and adapters without installing a runtime by default. |
 | Tool adapter module | accepted-file-contract | Spec Kit extensions and presets, framework plugin patterns | `_adapter-evaluation-template.md` | Evaluates external tools before adoption. |
 | Pack system module | accepted-file-contract | Package/plugin ecosystem practice | `docs/packs/` | Keeps optional downloads, recommended packs, community packs, and local overrides separate from core. |
-| Capability adapter module | accepted-file-contract | Superpowers and Astraeus | `docs/framework/capability-adapters.md` | Extracts useful external project capabilities as TraceRail contracts before installation. |
+| Capability adapter module | accepted-file-contract | Superpowers and Astraeus | `docs/framework/capability-adapters.md` | Extracts useful external project capabilities as SWECircuit contracts before installation. |
 
 ## Optional Adapter Candidates
 
@@ -37,7 +37,7 @@ This registry records which workflow modules are part of the baseline and which 
 | --- | --- | --- | --- | --- |
 | GitHub Spec Kit | optional-adapter | Automating spec, plan, tasks, clarify, analyze, checklist, implement, and converge phases. | File-based specs become too manual or teams want slash-command automation. | Use concepts now; evaluate installation later. |
 | BMAD Method | optional-adapter | Full lifecycle, role-based agents, planning depth, and process packs. | A project needs a broader product-to-delivery lifecycle than this baseline. | Mine practices; do not install by default. |
-| LangChain or LangGraph | optional-adapter | Runtime pattern implementation, graph workflows, routers, subagents, handoffs, context engineering, and pipe-like composition. | A product needs an actual agent runtime, not just SWE workflow. | Adopt rail-composition principle and pattern vocabulary; defer runtime dependency. |
+| LangChain or LangGraph | optional-adapter | Runtime pattern implementation, graph workflows, routers, subagents, handoffs, context engineering, and pipe-like composition. | A product needs an actual agent runtime, not just SWE workflow. | Adopt Circuit Composition principle and pattern vocabulary; defer runtime dependency. |
 | AutoGen AgentChat | optional-adapter | Teams, selector group chat, swarm, GraphFlow, memory, logging, and stateful multi-agent experiments. | A project needs programmable multi-agent teams with explicit team patterns. | Use as reference for team/run concepts. |
 | CrewAI | optional-adapter | Crews, tasks, sequential or hierarchical processes, memory, knowledge, callbacks, and checkpointing. | A project needs role/task crews and resumable long-running workflows. | Use as reference for crew and checkpoint concepts. |
 | Codex subagents | optional-adapter | Read-heavy exploration, review, testing, diagnosis, and isolated bounded implementation slices. | Current environment provides subagent tooling and work-unit contracts are ready. | Preferred future fan-out mechanism inside Codex. |

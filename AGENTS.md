@@ -2,9 +2,9 @@
 
 ## Purpose
 
-TraceRail is a portable operating system for AI-assisted software engineering. It favors a simple human surface with deeper protocols for specification, diagnosis, retrieval, verification, review, parallel agent work, traceability, and memory.
+SWECircuit is a portable operating system for AI-assisted software engineering. It favors a simple human surface with deeper protocols for specification, diagnosis, retrieval, verification, review, parallel agent work, traceability, and memory.
 
-Keep this file as the agent contract and routing index. Detailed explanations, examples, and long protocols belong in the handbook, feature packages, rails, modules, packs, research snapshots, or memory files.
+Keep this file as the agent contract and routing index. Detailed explanations, examples, and long protocols belong in the handbook, feature packages, circuits, modules, packs, research snapshots, or memory files.
 
 ## Required Reading
 
@@ -24,7 +24,7 @@ For research or workflow changes, also read:
 - `docs/research/practice-register.md`
 - Latest relevant file under `docs/research/snapshots/`
 
-For rail, module, pack, or adapter changes, also read:
+For circuit, module, pack, or adapter changes, also read:
 
 - `docs/rails/README.md`
 - `docs/modules/README.md`
@@ -133,17 +133,17 @@ Parallelize only after the task plan defines work-unit contracts. Each parallel 
 
 Use subagents first for read-heavy exploration, review, testing, diagnosis, and independent implementation slices. Keep the main agent as the integration owner unless another owner is explicitly assigned. Do not parallelize ambiguous requirements, shared-state edits, broad refactors, or security-sensitive changes until the contract is clear.
 
-## Rail Composition Rule
+## Circuit Composition Rule
 
-Use Rail Composition as the default mental model for meaningful work:
+Use Circuit Composition as the default mental model for meaningful work:
 
 ```txt
 input | module | module | output
 ```
 
-Each module must define input, action, output, gate, and outcome. The active rail should make artifacts and gates visible enough that the user can see how work is moving from goal to evidence to memory.
+Each module must define input, action, output, gate, and outcome. The active circuit should make artifacts and gates visible enough that the user can see how work is moving from goal to evidence to memory.
 
-Use `docs/framework/rail-composition.md` and `docs/framework/_rail-template.md` when defining or modifying reusable workflow rails.
+The current 0.x file contract retains `rail` in paths and templates for compatibility. Use `docs/framework/rail-composition.md` and `docs/framework/_rail-template.md` when defining or modifying reusable workflow circuits until V9 ships a tested migration.
 
 ## Modular Framework Rule
 
@@ -157,12 +157,12 @@ Prefer file-based contracts first. External tools should plug into the workflow 
 
 ## Catalog And Pack Rule
 
-Use `docs/rails/` for reusable workflow rails, `docs/modules/` for composable module contracts, and `docs/packs/` for optional pack and community extension rules.
+Use `docs/rails/` for reusable workflow circuits under the 0.x compatibility path, `docs/modules/` for composable module contracts, and `docs/packs/` for optional pack and community extension rules.
 
-External best-practice repositories should enter TraceRail as one of:
+External best-practice repositories should enter SWECircuit as one of:
 
 - A module contract.
-- A rail contract.
+- A circuit contract.
 - An optional adapter.
 - An optional pack.
 
@@ -212,7 +212,7 @@ If local PowerShell execution policy blocks direct script execution, use:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1
 ```
 
-After changing the checker, module or rail contracts, pack discovery, milestone versioning, or memory provenance rules, also run:
+After changing the checker, module or circuit contracts, pack discovery, milestone versioning, or memory provenance rules, also run:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-check-template.ps1
@@ -222,4 +222,4 @@ If code is later added to this repository, add project-specific format, lint, ty
 
 ## Tool Policy
 
-The current TraceRail baseline is file-based, catalog-backed, and adapter-oriented. Do not install Spec Kit, BMAD, LangChain, LangGraph, AutoGen, CrewAI, Serena, Repomix, Basic Memory, agentmemory, Context7, Mem0, Zep, Graphiti, A-MEM, or other external tools unless the user explicitly approves that integration after adapter evaluation.
+The current SWECircuit baseline is file-based, catalog-backed, and adapter-oriented. Do not install Spec Kit, BMAD, LangChain, LangGraph, AutoGen, CrewAI, Serena, Repomix, Basic Memory, agentmemory, Context7, Mem0, Zep, Graphiti, A-MEM, or other external tools unless the user explicitly approves that integration after adapter evaluation.

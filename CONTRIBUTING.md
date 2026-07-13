@@ -10,15 +10,15 @@
 
 ## Contribution Rules
 
-- Preserve the simple public surface: README, AGENTS, handbook, rails, modules, packs, memory, and checker.
-- Keep TraceRail file-based unless an adapter evaluation proves a tool dependency is worth it.
+- Preserve the simple public surface: README, AGENTS, handbook, circuits, modules, packs, memory, and checker.
+- Keep SWECircuit file-based unless an adapter evaluation proves a tool dependency is worth it.
 - Prefer narrow, source-backed changes over broad rewrites.
 - Do not promote optional tools into core without research, adapter evaluation, registry updates, and dogfooding evidence.
 - Do not erase or overwrite user or agent work without explicit approval.
 
 ## Workflow
 
-Use the TraceRail rail for meaningful changes:
+Use the SWECircuit workflow for meaningful changes:
 
 ```txt
 goal | clarify | spec | architecture_review | task_plan | implement | verify | review | memory
@@ -50,4 +50,4 @@ A good pull request includes:
 
 ## Extension Standard
 
-New rails, modules, packs, and adapters must define their contract, verification path, ownership boundary, rollback path, and promotion criteria before they are treated as reusable framework pieces.
+New circuits, modules, packs, and adapters must define their contract, verification path, ownership boundary, rollback path, and promotion criteria before they are treated as reusable framework pieces.

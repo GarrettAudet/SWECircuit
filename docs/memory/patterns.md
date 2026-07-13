@@ -73,7 +73,7 @@ For many agents, create one shared goal, a dependency graph, conflict zones, bou
 When one ticket reveals bug after bug, parallelize reproduction, evidence gathering, history review, related-code inspection, and hypothesis tests before applying fixes.
 ### Capability Adapter
 
-When an external project has a useful practice but should not become a dependency, extract the capability as a TraceRail contract, preserve a dated source scan, and keep installation optional.
+When an external project has a useful practice but should not become a dependency, extract the capability as a SWECircuit contract, preserve a dated source scan, and keep installation optional.
 
 ### Skills-Driven Development Transition
 
@@ -82,20 +82,20 @@ Use a triggered-skill style bridge from idea to spec to approved implementation 
 ### Orchestration Compiler
 
 For larger multi-agent work, synthesize project-specific roles, scopes, handoffs, critic duties, synthesis duties, permissions, and integration order from repository context before fan-out.
-### Rail Composition
+### Circuit Composition
 
 Model meaningful work as `input | module | module | output`. Each module has input, action, output, gate, and outcome so the same primitive can represent features, diagnosis, adapters, releases, and multi-agent decomposition.
 
 ### Gate As Router
 
-A gate decides whether a rail continues, loops, splits, blocks, diagnoses, or records learning. Failed gates must emit typed outcomes instead of becoming silent retries.
-### Rail And Module Catalogs
+A gate decides whether a circuit continues, loops, splits, blocks, diagnoses, or records learning. Failed gates must emit typed outcomes instead of becoming silent retries.
+### Circuit And Module Catalogs
 
-Normalize reusable workflow behavior into catalog entries. Rails compose modules; modules expose input, action, output, gate, outcome, artifacts, and adapter.
+Normalize reusable workflow behavior into catalog entries. Circuits compose modules; modules expose input, action, output, gate, outcome, artifacts, and adapter.
 
 ### Swappable Review Gates
 
-Architecture review (`architecture_review`), security, performance, documentation, and other focused reviews should be modeled as modules. Insert them into rails where their gates matter, require evidence and a typed outcome, and delegate to a dedicated subagent only after scope, context, authority, and handoff are clear.
+Architecture review (`architecture_review`), security, performance, documentation, and other focused reviews should be modeled as modules. Insert them into circuits where their gates matter, require evidence and a typed outcome, and delegate to a dedicated subagent only after scope, context, authority, and handoff are clear.
 
 ### Pack Field Conformance
 
@@ -107,7 +107,7 @@ Community and ecosystem extensions should start as packs. Promote into recommend
 
 ### Optional Downloads
 
-External best-practice tools are optional downloads or adapters. Core TraceRail must remain useful with only files, templates, checks, review, and memory.
+External best-practice tools are optional downloads or adapters. Core SWECircuit must remain useful with only files, templates, checks, review, and memory.
 ## Memory Patterns
 
 ### Source First, Summary Second
@@ -121,7 +121,7 @@ Use `history-ledger.md` for chronological traceability and `retrieval-index.md` 
 ## Documentation Patterns
 
 ### Agent Contract And Router
-Keep `AGENTS.md` as the must-follow agent contract and routing index. Put long explanations, examples, and detailed protocols in the handbook, rails, modules, packs, feature packages, research snapshots, or memory files.
+Keep `AGENTS.md` as the must-follow agent contract and routing index. Put long explanations, examples, and detailed protocols in the handbook, circuits, modules, packs, feature packages, research snapshots, or memory files.
 
 ### One Handbook
 
@@ -180,8 +180,8 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [Dogfood-run spec](../specs/v6-orchestration-readiness-dogfood/spec.md) | Read-Only Fan-Out Before Write Fan-Out |
 | [V5 spec](../specs/v5-modular-orchestration-framework/spec.md) | Modular Framework Kernel; Adapter Evaluation Before Installation; Decomposition As The Scaling Artifact |
 | [Capability adapter snapshot](../research/snapshots/2026-07-08-capability-adapter-scan.md) | Capability Adapter; Skills-Driven Development Transition; Orchestration Compiler |
-| [Rail Composition snapshot](../research/snapshots/2026-07-08-rail-composition-scan.md) | Rail Composition; Gate As Router |
-| [V6 catalog spec](../specs/v6-module-rail-catalog/spec.md) and [implementation notes](../specs/v6-module-rail-catalog/implementation-notes.md) | Rail And Module Catalogs; Swappable Review Gates; Packs Before Core; Optional Downloads; Agent Contract And Router |
+| [Rail Composition snapshot](../research/snapshots/2026-07-08-rail-composition-scan.md) | Circuit Composition; Gate As Router |
+| [V6 catalog spec](../specs/v6-module-rail-catalog/spec.md) and [implementation notes](../specs/v6-module-rail-catalog/implementation-notes.md) | Circuit And Module Catalogs; Swappable Review Gates; Packs Before Core; Optional Downloads; Agent Contract And Router |
 | [Pack conformance spec](../specs/v6-pack-conformance-checker/spec.md) | Pack Field Conformance |
 | [Repository professionalization spec](../specs/v6-repo-professionalization/spec.md) | Professional Public Surface |
 | [V8 root-cause analysis](../specs/v8-readme-visual-clarity/root-cause-analysis.md) and [implementation notes](../specs/v8-readme-visual-clarity/implementation-notes.md) | Repo Concept Visual; Comprehension Before Visual Polish; Accepted Asset Over Generated Substitute |

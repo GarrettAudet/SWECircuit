@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a reproducible TraceRail problem
+about: Report a reproducible SWECircuit problem
 title: "[Bug] "
 labels: bug
 assignees: ""
@@ -26,9 +26,9 @@ Link the affected file, feature package, command output, or review note.
 
 List the smallest repeatable steps.
 
-## TraceRail Area
+## SWECircuit Area
 
-- Rail:
+- Circuit:
 - Module:
 - Pack:
 - Adapter:

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is the quality bar for TraceRail itself. The repository should look calm, intentional, and easy to audit. A new human or agent should understand where to start, what rules matter, how to validate changes, and how extension points work.
+This is the quality bar for SWECircuit itself. The repository should look calm, intentional, and easy to audit. A new human or agent should understand where to start, what rules matter, how to validate changes, and how extension points work.
 
 ## Quality Bar
 
@@ -11,7 +11,7 @@ A change is high quality when it is:
 - Simple on the surface and deep only where needed.
 - Traceable from request to spec, implementation, verification, review, and memory.
 - Source-preserving, with evidence stored before summaries.
-- Consistent with rail and module contracts.
+- Consistent with circuit and module contracts.
 - Validated by the checker and any relevant manual review.
 - Honest about residual risks and skipped checks.
 
@@ -32,7 +32,7 @@ A change is high quality when it is:
 - The handbook is the operating manual.
 - Specs are source evidence.
 - Memory is durable summary plus pointers.
-- Rails, modules, and packs are reusable framework contracts.
+- Circuits, modules, and packs are reusable framework contracts.
 - Research snapshots preserve dated external evidence.
 
 ## Validation Standards
@@ -53,11 +53,11 @@ Recommended supplemental checks:
 
 ## Review Standards
 
-Reviews should lead with findings, then evidence, then residual risk. For TraceRail changes, reviewers should check:
+Reviews should lead with findings, then evidence, then residual risk. For SWECircuit changes, reviewers should check:
 
 - Does the quick path remain understandable?
 - Are source artifacts preserved?
-- Are rails, modules, packs, and adapters in the right layer?
+- Are circuits, modules, packs, and adapters in the right layer?
 - Is the checker updated for new required files or contracts?
 - Is memory updated only for durable lessons?
 - Is merge approval explicit?

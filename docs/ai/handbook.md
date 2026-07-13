@@ -2,7 +2,7 @@
 
 ## 1. What This System Is
 
-TraceRail defines a portable workflow for AI-assisted software engineering. The goal is a system that is simple to follow day to day, but deep enough to prevent common failure modes: unclear requirements, context drift, repeated patching, weak verification, uncoordinated parallel work, and forgotten lessons.
+SWECircuit defines a portable workflow for AI-assisted software engineering. The goal is a system that is simple to follow day to day, but deep enough to prevent common failure modes: unclear requirements, context drift, repeated patching, weak verification, uncoordinated parallel work, and forgotten lessons.
 
 The visible operating surface is:
 
@@ -766,7 +766,7 @@ Optional future integrations:
 
 ## 20. Modular Orchestration Framework
 
-The TraceRail V5 framework layer lets this workflow absorb best-in-class practices without making every project install the same stack. It works like a small framework kernel: stable contracts in this repository, optional adapters around it.
+The SWECircuit V5 framework layer lets this workflow absorb best-in-class practices without making every project install the same stack. It works like a small framework kernel: stable contracts in this repository, optional adapters around it.
 
 Use `docs/framework/README.md` when work needs:
 
@@ -777,13 +777,13 @@ Use `docs/framework/README.md` when work needs:
 - A pattern choice beyond the standalone agent loop.
 - A capability inspired by an external project, such as Superpowers or Astraeus.
 
-The core composition model is a rail:
+The core composition model is a circuit:
 
 ```txt
 input | module | module | output
 ```
 
-Every module receives an input artifact, performs an action, emits an output artifact plus evidence, and passes through a gate with a typed outcome. Use `docs/framework/rail-composition.md` for the full contract.
+Every module receives an input artifact, performs an action, emits an output artifact plus evidence, and passes through a gate with a typed outcome. Use the 0.x compatibility path `docs/framework/rail-composition.md` for the full Circuit Composition contract.
 
 The default path remains single-agent:
 
@@ -796,11 +796,11 @@ The framework artifacts are:
 | Artifact | Purpose |
 | --- | --- |
 | `docs/framework/README.md` | Explains the modular framework and quick path. |
-| `docs/framework/rail-composition.md` | Defines rails, modules, gates, artifacts, and standard compositions. |
-| `docs/rails/` | Catalogs reusable rails. |
+| `docs/framework/rail-composition.md` | Defines Circuit Composition through the 0.x rail compatibility path. |
+| `docs/rails/` | Catalogs reusable circuits through the 0.x rail compatibility path. |
 | `docs/modules/` | Catalogs composable module contracts. |
 | `docs/packs/` | Defines optional downloads, recommended packs, community packs, and local overrides. |
-| `docs/framework/_rail-template.md` | Defines reusable rail contracts. |
+| `docs/framework/_rail-template.md` | Defines reusable circuit contracts through the 0.x rail compatibility template. |
 | `docs/framework/module-registry.md` | Records accepted file contracts and optional adapters. |
 | `docs/framework/orchestration-patterns.md` | Helps choose single-agent, skill, router, subagent, handoff, graph, or crew-style coordination. |
 | `docs/framework/capability-adapters.md` | Captures reusable external project capabilities such as skills-driven development transition and orchestration compiler. |
@@ -819,10 +819,10 @@ Adapter policy:
 At scale, decomposition is the product. A ten-agent run needs one shared goal, one decomposition plan, one integration owner, and ten bounded contracts. If a ticket reveals bug after bug, fan out diagnosis before implementation fixes.
 Pack policy:
 
-- Core TraceRail must stay usable without downloads.
+- Core SWECircuit must stay usable without downloads.
 - Official and recommended packs are optional by use case.
 - Community packs must declare inputs, actions, outputs, gates, outcomes, artifacts, permissions, verification, and rollback.
-- Local project overrides belong under a project-local `.tracerail/` folder when a project needs different rails or modules.
+- Local project overrides belong under a project-local `.tracerail/` folder when a project needs different circuits or modules.
 - Promote a pack toward core only after repeated use proves it solves a stable failure mode without making the quick path harder.
 ## 21. Starting A New Feature
 

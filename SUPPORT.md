@@ -2,7 +2,7 @@
 
 ## Getting Help
 
-For questions about using TraceRail, start with:
+For questions about using SWECircuit, start with:
 
 - `README.md` for the public overview.
 - `AGENTS.md` for agent behavior.
@@ -16,7 +16,7 @@ If the repository issue tracker is available, open an issue with the closest mat
 
 Good support requests include:
 
-- The rail or module you are using.
+- The circuit or module you are using.
 - The feature package or artifact path.
 - The expected outcome.
 - The actual outcome.
@@ -25,4 +25,4 @@ Good support requests include:
 
 ## Support Boundaries
 
-TraceRail is a workflow framework, not a hosted service or runtime agent platform. The repository can help with workflow structure, templates, validation, and extension design, but it does not provide support for third-party tools beyond adapter evaluation guidance.
+SWECircuit is a workflow framework, not a hosted service or runtime agent platform. The repository can help with workflow structure, templates, validation, and extension design, but it does not provide support for third-party tools beyond adapter evaluation guidance.

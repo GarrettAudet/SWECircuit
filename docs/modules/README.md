@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Modules are the composable units inside rails. Each module uses the same interface so TraceRail work can be assembled like a pipe while preserving artifacts, gates, and outcomes.
+Modules are the composable units inside circuits. Each module uses the same interface so SWECircuit work can be assembled like a pipe while preserving artifacts, gates, and outcomes.
 
 ## Module Interface
 
@@ -16,7 +16,7 @@ Every module records:
 - Artifacts.
 - Adapter.
 
-Catalog modules have dedicated files in this directory. A rail may also define a rail-local module inline when the behavior is specific to that rail, but its table must expose the same input, action, output, gate, outcome, and artifact fields. Promote a rail-local module to this catalog when it is reused across rails or projects.
+Catalog modules have dedicated files in this directory. A circuit may also define a circuit-local module inline when the behavior is specific to that circuit, but its table must expose the same input, action, output, gate, outcome, and artifact fields. Promote a circuit-local module to this catalog when it is reused across circuits or projects.
 
 Workflow outcomes are limited to `pass`, `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, and `learn`. Governance states such as `watch`, `deferred`, and `rejected` belong in output artifacts or registers, not in the workflow outcome channel.
 
@@ -40,4 +40,4 @@ Workflow outcomes are limited to `pass`, `fix`, `diagnose`, `clarify`, `redesign
 
 ## Promotion Rule
 
-New modules begin as rail-local, project-local, or pack-provided modules. Promote into core only when repeated use proves the module solves a stable failure mode and keeps the quick path simple.
+New modules begin as circuit-local, project-local, or pack-provided modules. Promote into core only when repeated use proves the module solves a stable failure mode and keeps the quick path simple.

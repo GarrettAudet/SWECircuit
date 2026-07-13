@@ -16,14 +16,14 @@ State the repeated workflow problem this pack solves.
 
 | Type | Name | Path |
 | --- | --- | --- |
-| Rail |  |  |
+| Circuit (0.x Rail) |  |  |
 | Module |  |  |
 | Adapter |  |  |
 | Example |  |  |
 
 ## Requires
 
-- TraceRail version:
+- SWECircuit version:
 - Required files:
 - Optional tools:
 

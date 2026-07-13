@@ -1,8 +1,8 @@
-# Rail Template
+# Circuit Template
 
-## Rail Name
+## Circuit Name
 
-Name the reusable rail.
+Name the reusable circuit.
 
 ## Status
 
@@ -10,15 +10,15 @@ Draft, active, accepted, optional, deferred, or retired.
 
 ## Purpose
 
-State what kind of work this rail handles.
+State what kind of work this circuit handles.
 
 ## When To Use
 
-- List triggers for using this rail.
+- List triggers for using this circuit.
 
 ## When Not To Use
 
-- List cases where a simpler rail or tiny-change path is enough.
+- List cases where a simpler circuit or tiny-change path is enough.
 
 ## Composition
 

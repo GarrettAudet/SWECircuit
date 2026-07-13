@@ -20,7 +20,7 @@ Review the proposed design for architecture fit, scope boundaries, interface imp
 - Architecture review note or section in the feature package.
 - Required design changes, if any.
 - ADR recommendation, if the decision is long-lived.
-- Typed outcome for the rail gate.
+- Typed outcome for the circuit gate.
 
 ## Gate
 

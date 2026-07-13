@@ -1,20 +1,20 @@
-# TraceRail
+# SWECircuit
 
-[![Template check](https://github.com/GarrettAudet/TraceRail/actions/workflows/template-check.yml/badge.svg)](https://github.com/GarrettAudet/TraceRail/actions/workflows/template-check.yml)
+[![Template check](https://github.com/GarrettAudet/SWECircuit/actions/workflows/template-check.yml/badge.svg)](https://github.com/GarrettAudet/SWECircuit/actions/workflows/template-check.yml)
 
 **A checked operating protocol for modular AI software development.**
 
-TraceRail gives humans and capable IDE agents a standard way to decompose tasks, coordinate specialized agents, verify outputs, and preserve an auditable development trail.
+SWECircuit gives humans and capable IDE agents a standard way to decompose tasks, coordinate specialized agents, verify outputs, and preserve an auditable development trail.
 
-_The diagram shows the target operating model. Today, TraceRail provides the file-based contracts, gates, artifacts, and memory that an IDE or external agent runtime follows; it does not yet execute the rail itself._
+_The diagram shows the target operating model. Today, SWECircuit provides the file-based contracts, gates, artifacts, and memory that an IDE or external agent runtime follows; it does not yet execute the circuit itself._
 
-![TraceRail turns a task into a spec and plan, routes bounded work packets to specialized agents, merges and verifies their outputs, and preserves review evidence and memory.](docs/assets/tracerail-overview.png)
+![SWECircuit turns a task into a spec and plan, routes bounded work packets to specialized agents, merges and verifies their outputs, and preserves review evidence and memory.](docs/assets/tracerail-overview.png)
 
 ## How It Works
 
 Today, a human or capable IDE agent executes these steps by following the repository contracts:
 
-1. **Define the rail.** Compose reusable modules for the workflow your project needs.
+1. **Define the circuit.** Compose reusable modules for the workflow your project needs.
 2. **Decompose the task.** Turn the goal into a spec, plan, and bounded work packets.
 3. **Route the work.** Send each packet to the best agent while preserving scope and dependencies.
 4. **Merge and verify.** Integrate outputs, run gates, review the result, and require evidence before merge.
@@ -24,20 +24,20 @@ Today, a human or capable IDE agent executes these steps by following the reposi
 task | spec | plan | route | merge | verify | review | memory
 ```
 
-TraceRail is not an agent runtime. It is the operating layer that tells an IDE or agent what work to do, what artifact to return, and what evidence is required to continue.
+SWECircuit is not an agent runtime. It is the operating layer that tells an IDE or agent what work to do, what artifact to return, and what evidence is required to continue.
 
 ## Core Contracts
 
 | Contract | Purpose |
 | --- | --- |
 | Module | A reusable stage with a defined input, action, output, gate, and outcome. |
-| Rail | An ordered composition of modules for a development workflow. |
+| Circuit | An ordered or branched composition of modules for a development workflow. |
 | Work packet | A bounded task with scope, context, dependencies, verification, and stop conditions. |
 | Gate | A decision point that passes, loops, diagnoses, splits, blocks, or records learning. |
 | Execution trace | The linked record from goal and spec through implementation, evidence, review, and merge. |
 | Memory | Durable project knowledge promoted from completed work. |
 
-Rails stay simple because every module uses the same interface:
+Circuits stay simple because every module uses the same interface:
 
 ```txt
 input | action | output | gate | outcome
@@ -64,8 +64,8 @@ The core is file-based and dependency-free. External frameworks and agent runtim
 | [`AGENTS.md`](AGENTS.md) | Required agent instructions and workflow routing. |
 | [`docs/ai/handbook.md`](docs/ai/handbook.md) | Human-readable operating manual. |
 | [`docs/specs/`](docs/specs/) | Traceable feature work packages. |
-| [`docs/framework/`](docs/framework/) | Rail composition, decomposition, orchestration, and adapter contracts. |
-| [`docs/rails/`](docs/rails/) | Reusable workflow rails. |
+| [`docs/framework/`](docs/framework/) | Circuit composition, decomposition, orchestration, and adapter contracts. |
+| [`docs/rails/`](docs/rails/) | Reusable workflow circuits under the 0.x rail compatibility path. |
 | [`docs/modules/`](docs/modules/) | Standardized module contracts. |
 | [`docs/packs/`](docs/packs/) | Optional first-party and community extensions. |
 | [`docs/memory/`](docs/memory/) | Decisions, history, known issues, patterns, and retrieval pointers. |
@@ -82,6 +82,6 @@ The core is file-based and dependency-free. External frameworks and agent runtim
 
 ## Status
 
-TraceRail is an early, file-based protocol under active development. The current baseline supports disciplined single-agent work end to end and provides manually executed contracts for bounded multi-agent decomposition, routing, integration, and review. It does not yet launch agents, evaluate gates, merge branches, capture full transcripts, or improve itself automatically. Those capabilities belong to the planned executable kernel and optional runtime adapters.
+SWECircuit is an early, file-based protocol under active development. The current baseline supports disciplined single-agent work end to end and provides manually executed contracts for bounded multi-agent decomposition, routing, integration, and review. It does not yet launch agents, evaluate gates, merge branches, capture full transcripts, or improve itself automatically. Those capabilities belong to the planned executable kernel and optional runtime adapters.
 
 See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Support](SUPPORT.md), and the [Changelog](CHANGELOG.md).

@@ -1,8 +1,8 @@
-# Release Rail
+# Release Circuit
 
 ## Purpose
 
-Use the release rail for TraceRail versions and other milestone-driven workflow changes.
+Use the release circuit for SWECircuit versions and other milestone-driven workflow changes.
 
 ## Composition
 

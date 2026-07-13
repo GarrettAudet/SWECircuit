@@ -1,5 +1,5 @@
 blank_issues_enabled: true
 contact_links:
-  - name: TraceRail documentation
-    url: https://github.com/GarrettAudet/TraceRail
+  - name: SWECircuit documentation
+    url: https://github.com/GarrettAudet/SWECircuit
     about: Start with the README, AGENTS.md, and docs index before opening an issue.

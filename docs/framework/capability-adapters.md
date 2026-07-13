@@ -2,13 +2,13 @@
 
 ## Purpose
 
-Capability adapters let TraceRail factor in useful external project patterns without installing the external project by default. They describe a capability class, when to use it, what evidence it must produce, and which optional tools could implement it later.
+Capability adapters let SWECircuit factor in useful external project patterns without installing the external project by default. They describe a capability class, when to use it, what evidence it must produce, and which optional tools could implement it later.
 
-Use this file when a tool is more than a generic dependency but less than a required runtime. The capability becomes part of TraceRail as a contract first; the tool remains optional until adapter evaluation and user approval.
+Use this file when a tool is more than a generic dependency but less than a required runtime. The capability becomes part of SWECircuit as a contract first; the tool remains optional until adapter evaluation and user approval.
 
 ## Capability Classes
 
-| Capability Class | Purpose | Inspired By | TraceRail Home |
+| Capability Class | Purpose | Inspired By | SWECircuit Home |
 | --- | --- | --- | --- |
 | Skills-driven development transition | Move from idea to design to implementation through triggered skills and readable checkpoints. | Superpowers | Handbook stages, feature package, IDE interaction, standalone agent module |
 | Orchestration compiler | Synthesize a project-specific agent team, handoffs, critic path, and integration plan from repository context. | Astraeus | Decomposition plan, orchestration run record, module registry |
@@ -26,7 +26,7 @@ Use it when:
 - Test-first or red-green development would reduce risk.
 - A subagent-driven implementation phase is ready after user approval.
 
-TraceRail contract:
+SWECircuit contract:
 
 1. Clarify the user goal before implementation.
 2. Produce a readable spec with acceptance criteria.
@@ -57,7 +57,7 @@ Use it when:
 - Existing generic agents or skill packs need project-specific roles.
 - The project needs a repeatable agent roster for a class of work.
 
-TraceRail contract:
+SWECircuit contract:
 
 1. Retrieve README, handbook, active spec, architecture notes, memory, and likely code areas.
 2. Generate role-specific work units with objectives, scope boundaries, context bundles, permissions, and stop conditions.
@@ -87,7 +87,7 @@ Failure routes:
 
 ## Adapter Mapping
 
-| External Project | Capability To Extract | Optional Runtime Role | Default TraceRail Decision |
+| External Project | Capability To Extract | Optional Runtime Role | Default SWECircuit Decision |
 | --- | --- | --- | --- |
 | Superpowers | Triggered skills for brainstorming, spec, planning, TDD, implementation, review, and branch completion. | Optional skills/plugin adapter. | Extract methodology now; install only after adapter evaluation. |
 | Astraeus | Repository-aware agent synthesis, branching and parallel execution, critic and synthesizer chain, continuity, least-privilege permissions. | Optional orchestration compiler adapter. | Extract orchestration contract now; install only after adapter evaluation. |

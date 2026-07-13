@@ -1,4 +1,4 @@
-"""Generate the TraceRail README visual assets.
+"""Generate the SWECircuit README visual assets.
 
 The README GIFs are supporting onboarding examples, so the source is deterministic. The primary README visual is the user-approved PNG beside the generated GIFs.
 """
@@ -120,7 +120,7 @@ def base_frame(step: str, title: str, subtitle: str) -> Image.Image:
     draw = ImageDraw.Draw(img)
     draw_grid(draw)
     rounded(img, (72, 58, 260, 106), 18, "#132033", outline="#243146")
-    draw.text((98, 72), "TraceRail", font=FONT["eyebrow"], fill="#E6F3EF")
+    draw.text((98, 72), "SWECircuit", font=FONT["eyebrow"], fill="#E6F3EF")
     draw.text((1110, 72), step, font=FONT["eyebrow"], fill="#8BD5C8")
     draw.text((72, 124), title, font=FONT["title"], fill="#F8FAFC")
     draw.text((76, 190), subtitle, font=FONT["subtitle"], fill="#C8D2DE")
@@ -155,7 +155,7 @@ def workflow_frame(stage: int) -> Image.Image:
     img = base_frame(
         "01 / START",
         "Turn a goal into evidence",
-        "TraceRail gives the agent a visible path from request to memory.",
+        "SWECircuit gives the agent a visible path from request to memory.",
     )
     draw = ImageDraw.Draw(img)
     draw.text((132, 300), "A normal request becomes a traceable work package.", font=FONT["section"], fill=COLORS["ink"])
@@ -187,7 +187,7 @@ def gates_frame(stage: int) -> Image.Image:
     img = base_frame(
         "02 / CONTROL",
         "Gates route the next move",
-        "When work gets stuck, TraceRail chooses a route instead of random retries.",
+        "When work gets stuck, SWECircuit chooses a route instead of random retries.",
     )
     draw = ImageDraw.Draw(img)
 

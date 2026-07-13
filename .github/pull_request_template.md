@@ -30,7 +30,7 @@
 
 ## Framework Modules
 
-- Rails affected:
+- Circuits affected:
 - Modules affected:
 - Packs affected:
 - Framework modules affected:

@@ -1,6 +1,6 @@
 ---
 name: Workflow improvement
-about: Improve TraceRail process, documentation, validation, or governance
+about: Improve SWECircuit process, documentation, validation, or governance
 title: "[Workflow] "
 labels: workflow
 assignees: ""
@@ -8,7 +8,7 @@ assignees: ""
 
 ## Current Workflow
 
-Name the rail, module, pack, template, or document involved.
+Name the circuit, module, pack, template, or document involved.
 
 ## Friction
 
@@ -26,7 +26,7 @@ Describe the smallest useful change.
 
 - Local note:
 - Module:
-- Rail:
+- Circuit:
 - Pack:
 - Core:
 

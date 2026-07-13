@@ -1,8 +1,8 @@
-# Diagnosis Rail
+# Diagnosis Circuit
 
 ## Purpose
 
-Use the diagnosis rail when a failure is unclear, recurring, flaky, surprising, or producing a cascade of bugs.
+Use the diagnosis circuit when a failure is unclear, recurring, flaky, surprising, or producing a cascade of bugs.
 
 ## Composition
 

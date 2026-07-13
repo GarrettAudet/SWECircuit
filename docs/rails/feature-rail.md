@@ -1,8 +1,8 @@
-# Feature Rail
+# Feature Circuit
 
 ## Purpose
 
-Use the feature rail for ordinary product, documentation, refactor, process, and bounded implementation work.
+Use the feature circuit for ordinary product, documentation, refactor, process, and bounded implementation work.
 
 ## Composition
 

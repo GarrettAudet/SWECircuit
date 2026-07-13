@@ -1,8 +1,8 @@
-# Decomposition Rail
+# Decomposition Circuit
 
 ## Purpose
 
-Use the decomposition rail when a goal can safely fan out across modules, agents, reviewers, or independent work units.
+Use the decomposition circuit when a goal can safely fan out across modules, agents, reviewers, or independent work units.
 
 ## Composition
 

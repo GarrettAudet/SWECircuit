@@ -33,7 +33,7 @@ This document explains how the repository is organized so humans and agents can 
 | `docs/ai/` | Long-form operating manual. |
 | `docs/assets/` | README and documentation visual assets plus source generators. |
 | `docs/framework/` | Framework primitives, templates, adapter evaluation, and orchestration patterns. |
-| `docs/rails/` | Reusable workflow paths. |
+| `docs/rails/` | Reusable workflow circuits under the 0.x compatibility path. |
 | `docs/modules/` | Standard module contracts. |
 | `docs/packs/` | Optional extension bundles and conformance rules. |
 | `docs/specs/` | Source evidence for meaningful work. |
@@ -41,7 +41,7 @@ This document explains how the repository is organized so humans and agents can 
 | `docs/research/` | Dated external practice scans and decisions. |
 | `docs/milestones/` | Version closeout and approval gates. |
 | `docs/quality/` | Repository standards and quality expectations. |
-| `docs/architecture/` | Repository architecture and ownership guidance. |
+| `docs/architecture/` | Repository architecture, ownership guidance, and numbered decisions under `docs/architecture/decisions/`. |
 
 ## Artifact Ownership
 
@@ -50,25 +50,26 @@ This document explains how the repository is organized so humans and agents can 
 - Handbook explains the workflow; it should not replace source packages.
 - Specs preserve work evidence; they should not become permanent policy unless promoted.
 - Memory summarizes durable lessons; it should link to source artifacts instead of replacing them.
-- Rails and modules define reusable contracts; they should stay concise and composable.
+- Circuits and modules define reusable contracts; they should stay concise and composable.
 - Assets clarify concepts visually; they should not replace source contracts or workflow docs. Text-heavy assets should keep deterministic source when practical.
 - Packs extend the system; they should not become required core behavior without promotion.
 
 ## Extension Points
 
-TraceRail grows in this order:
+SWECircuit grows in this order:
 
 ```txt
-local project note -> feature package -> module or rail -> pack -> recommended pack -> core
+local project note -> feature package -> module or circuit -> pack -> recommended pack -> core
 ```
 
 Promotion requires repeated use, validation, memory updates, and a clear reason why the change belongs in a reusable layer.
 
 ## Naming Conventions
 
-- Use lowercase kebab-case for feature folders, rails, modules, packs, and quality docs.
-- Use version prefixes for TraceRail version packages, such as `v6-module-rail-catalog`.
+- Use lowercase kebab-case for feature folders, circuits, modules, packs, and quality docs.
+- Use version prefixes for SWECircuit version packages, such as `v6-module-rail-catalog`.
 - Use dated research snapshots in `YYYY-MM-DD-topic.md` form.
+- Use zero-padded ADR numbers under `docs/architecture/decisions/`, such as `0001-executable-kernel-foundation.md`.
 - Use concise, descriptive root filenames for public governance files.
 
 ## Change Rules
