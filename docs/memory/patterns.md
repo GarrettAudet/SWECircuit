@@ -71,6 +71,15 @@ For many agents, create one shared goal, a dependency graph, conflict zones, bou
 ### Diagnosis Fan-Out Before Fix Fan-Out
 
 When one ticket reveals bug after bug, parallelize reproduction, evidence gathering, history review, related-code inspection, and hypothesis tests before applying fixes.
+
+### Parser-Consumer Boundary Probe
+
+Dependency spikes must pass real parser output into downstream validators, especially arrays of objects that trigger equality or uniqueness logic. Preserve duplicate-aware structural checks, then materialize ordinary JSON values only after strict parsing succeeds when a consumer requires standard object prototypes.
+
+### Decision Seam Before Native Fixture
+
+Extract deterministic security classification from operating-system mechanics. Test the decision seam on every platform, retain native fixtures for observable integration behavior, and defer only metadata the approved runtime genuinely cannot inspect.
+
 ### Capability Adapter
 
 When an external project has a useful practice but should not become a dependency, extract the capability as a SWECircuit contract, preserve a dated source scan, and keep installation optional.
@@ -187,3 +196,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V8 root-cause analysis](../specs/v8-readme-visual-clarity/root-cause-analysis.md) and [implementation notes](../specs/v8-readme-visual-clarity/implementation-notes.md) | Repo Concept Visual; Comprehension Before Visual Polish; Accepted Asset Over Generated Substitute |
 | [V7 implementation notes](../specs/v7-readme-demo-polish/implementation-notes.md) | Deterministic Text-Heavy Visuals |
 | [V8.1 spec](../specs/v8.1-baseline-integrity/spec.md), [test plan](../specs/v8.1-baseline-integrity/test-plan.md), [debug notes](../specs/v8.1-baseline-integrity/debug-notes.md), [root-cause analysis](../specs/v8.1-baseline-integrity/root-cause-analysis.md), and [orchestration run](../specs/v8.1-baseline-integrity/orchestration-run.md) | Current Capability Versus Target Model; Negative Fixtures For Semantic Checks; Bounded Worker Recovery; Literal Replay For Generated Scripts |
+| [V9 T006 RCA](../specs/v9-devrail-kernel/root-cause-analysis.md) and [validation run](../specs/v9-devrail-kernel/validation-orchestration-run.md) | Parser-Consumer Boundary Probe; Decision Seam Before Native Fixture |

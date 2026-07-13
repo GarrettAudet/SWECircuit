@@ -37,7 +37,7 @@ The workspace patch helper failed before file access during intake and recurred 
 
 - Complete current canonical branding and replace the historical TraceRail overview image.
 - Define and test the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
-- Complete T006 independent re-review and remote matrix verification.
+- Implement the T007 offline, non-overwriting project initializer over the validated project operation.
 - Keep trace reconstruction and CLI rendering behind the project-validation slice.
 
 ## Verification Performed
@@ -56,7 +56,7 @@ The workspace patch helper failed before file access during intake and recurred 
 - The integrated architecture gate passed the template checker and all seventeen regression cases after three read-only reviewer handoffs were preserved and synthesized.
 - The accepted toolchain passes format, lint, TypeScript 7 typecheck and declaration build, Node test, Ajv/jsonc-parser ESM import, and dry-run package inspection, and a zero-vulnerability production audit. Ajv required its named Ajv2020 export under strict NodeNext; Node test discovery uses an explicit file glob on Windows; npm pack uses the ignored repository-local cache.
 - T005 passes eleven schema and fixture tests, the positive template checker, all seventeen malformed-repository regressions, and package inspection proving that the contract README, six schemas, common definitions, and diagnostic catalog ship in the private tarball.
-- T006 currently passes the canonical local gate with 49 tests and zero skips, including explicit-root preflight, mandatory native link checks, aliased ancestors, canonical `SC1013`/`SC1014` classification, multi-node cycles, structural fan-out, every permission kind, prefix boundaries, and encoded-pointer suppression. The template checker and all seventeen regression cases pass, and independent re-review returned `PASS`; remote CI remains pending.
+- T006 passes the canonical local gate with 49 tests and zero skips, including explicit-root preflight, mandatory native link checks, aliased ancestors, canonical `SC1013`/`SC1014` classification, multi-node cycles, structural fan-out, every permission kind, prefix boundaries, and encoded-pointer suppression. The template checker and all seventeen regression cases pass, independent re-review returned `PASS`, and GitHub Actions run `29277160551` passes all seven jobs.
 
 ## Durable Learnings
 

@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Implement T006 deterministic project validation against the frozen swecircuit/v1alpha1 schemas, diagnostics, and adversarial case matrix.
+Implement T007 offline, non-overwriting project initialization over the verified validation operation.
 
 ## Current Stage
 
-V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, and accepted the private toolchain at 5e44035. GitHub Actions run 29268926620 passed Node 22 and 24 on Ubuntu, Windows, and macOS. T005 is complete after two independent REVISE handoffs were integrated into a passing schema and fixture gate. T006 is active. The repository remains unlicensed.
+V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 after independent `REVISE` and focused `PASS` handoffs; GitHub Actions run 29277160551 passed all seven jobs across Node 22/24 on Ubuntu, Windows, and macOS. T007 is active. The repository remains unlicensed.
 
 ## Important Current Constraints
 
@@ -23,6 +23,7 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - Full chats, prompts, environment dumps, command output, credentials, and evidence content are excluded from traces by default.
 - Diagnostic codes, rules, severity, pointer conventions, sort order, and exit classes are frozen in schemas/v1alpha1/diagnostic-catalog.json.
 - The primary README overview PNG still contains the historical TraceRail label and must be replaced before V9 is merge-ready.
+- Pure Node cannot inspect every opaque same-path Windows reparse attribute; links, junctions, canonical divergence, regular-file state, containment, and descriptor identity remain enforced, while that native metadata boundary is explicitly deferred.
 - Public reuse remains legally unclear until the owner selects a license.
 - Main remains the stable V8.2 baseline while V9 is isolated on codex/v9-devrail-kernel.
 
@@ -40,11 +41,13 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - Resource limits must be independently reachable. The graph ceiling is 10,000 edges so its overflow can be tested before the 1 MiB artifact ceiling.
 - Biome plus strict Ajv catches portability and contract-quality issues before implementation.
 - The known Windows patch-helper sandbox refresh failure still requires bounded direct-write recovery plus independent verification.
+- A duplicate-aware parser and a downstream validator must be integration-tested together; jsonc-parser's null-prototype values exposed an Ajv equality assumption that isolated library probes missed.
+- Deterministic security classification should be extracted and tested separately from native operating-system fixture creation; this preserved `SC1014` coverage without pretending pure Node can inspect every reparse attribute.
 
 ## Next Likely Work
 
-- Implement strict UTF-8 and duplicate-aware JSON parsing with pre-parse limits.
-- Implement fail-closed API and kind dispatch plus normalized diagnostics.
-- Implement explicit project loading, safe path containment, identity indexing, and reference checks.
-- Implement Circuit outcome, transfer, cycle, fan-out, join, and permission-ceiling semantics.
-- Execute the frozen T006 generated and native fixture matrix.
+- Freeze the smallest valid initialized project shape and collision behavior.
+- Implement an offline, non-interactive initializer that never overwrites existing paths.
+- Validate generated output immediately through the T006 operation.
+- Add temp-directory integration coverage for success, collision, invalid target, and no-network behavior.
+- Run an independent T007 contract review before remote matrix verification.

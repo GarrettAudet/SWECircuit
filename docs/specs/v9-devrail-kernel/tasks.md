@@ -21,9 +21,9 @@ In progress.
 - [x] T005: Define versioned schemas and adversarial fixtures.
   Scope: Project, module, workflow composition, work packet, event, adapter metadata, valid examples, and malformed cases.
   Verification: Strict Ajv compilation, valid fixtures for all six kinds, closed-boundary and parser tests, the diagnostic catalog, and the adversarial case matrix pass eleven tests. Reference, graph, path, limit, and trace cases have frozen expected rules for T006 through T008.
-- [ ] T006: Implement the validation kernel.
+- [x] T006: Implement the validation kernel.
   Scope: Schema loading, semantic checks, deterministic diagnostics, and exit codes.
-  Verification: Unit and integration tests map to AC2 and AC3 across the supported platform matrix.
+  Verification: Commit `a364bf6` passes 49 local tests with zero skips, independent reviewer `PASS`, the template checker and all seventeen regressions, package inspection, and GitHub Actions run `29277160551` across Node 22/24 on Ubuntu, Windows, and macOS.
 - [ ] T007: Implement project initialization.
   Scope: Minimal project generation, collision handling, offline behavior, and immediate validation.
   Verification: Temp-directory integration test maps to AC1 and proves no adapter or network requirement.

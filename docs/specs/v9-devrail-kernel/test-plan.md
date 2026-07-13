@@ -48,4 +48,4 @@ In progress.
 
 ## Verification Evidence
 
-V9 identity migration passes `scripts/check-template.ps1` and all seventeen `scripts/test-check-template.ps1` cases. GitHub Actions run `29268926620` passes the private toolchain on Node 22 and 24 across Ubuntu, Windows, and macOS. T005 adds eleven passing schema and fixture tests plus package inspection of every v1alpha1 contract artifact. Semantic project, path, limit, CLI, and trace cases remain mapped to T006 through T008.
+V9 identity migration passes `scripts/check-template.ps1` and all seventeen `scripts/test-check-template.ps1` cases. GitHub Actions run `29268926620` passes the private toolchain on Node 22 and 24 across Ubuntu, Windows, and macOS. T005 adds eleven passing schema and fixture tests plus package inspection of every v1alpha1 contract artifact. T006 adds deterministic parsing, dispatch, path, reference, graph, permission, limit, and diagnostic coverage: 49 tests pass with zero skips, independent re-review is `PASS`, and GitHub Actions run `29277160551` passes all seven jobs. Initializer, CLI, and trace cases remain mapped to T007 and T008.
