@@ -20,10 +20,12 @@ In progress.
 - Added one private root package with exact dependency versions and proved TypeScript 7.0.2, Biome 2.5.3, Ajv 8.20.0, and jsonc-parser 3.3.1 together before schema work.
 - Passed GitHub Actions run 29268926620 across Node 22 and 24 on Ubuntu, Windows, and macOS.
 - Dogfooded a two-reviewer schema gate, integrated both REVISE handoffs, and froze the six-kind v1alpha1 schemas, permission and composition rules, diagnostic catalog, and adversarial case matrix.
+- Implemented strict JSON parsing, package-owned schema dispatch, deterministic diagnostics, bounded project loading, reference and graph semantics, work ownership, and permission-ceiling validation for T006.
+- Dogfooded an independent T006 review, integrated its path, portability, privacy, and fixture findings, and narrowed the reparse contract to behavior enforceable through the approved pure Node boundary.
 
 ## Deviations From Plan
 
-The workspace patch helper failed before file access during intake and recurred during naming, architecture acceptance, and toolchain edits. The integration owner used the repository-authorized PowerShell fallback and retained diff, formatter, typecheck, tests, package inspection, and checker verification as the proof boundary. PowerShell execution policy also blocked npm.ps1, so Windows commands use npm.cmd without changing host policy.
+The workspace patch helper failed before file access during intake and recurred during naming, architecture acceptance, toolchain, and T006 edits. The integration owner used the repository-authorized PowerShell fallback and retained diff, formatter, typecheck, tests, package inspection, and checker verification as the proof boundary. Windows PowerShell initially added a UTF-8 BOM to one strict JSON fixture; the full gate caught it, all fallback-touched files were normalized with explicit BOM-free UTF-8, and the gate then passed. PowerShell execution policy also blocked npm.ps1, so Windows commands use npm.cmd without changing host policy.
 
 ## Assumptions Used
 
@@ -35,7 +37,7 @@ The workspace patch helper failed before file access during intake and recurred 
 
 - Complete current canonical branding and replace the historical TraceRail overview image.
 - Define and test the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
-- Implement deterministic parsing, dispatch, diagnostics, reference resolution, and Circuit semantics from the frozen v1alpha1 contract.
+- Complete T006 independent re-review and remote matrix verification.
 - Keep trace reconstruction and CLI rendering behind the project-validation slice.
 
 ## Verification Performed
@@ -54,6 +56,7 @@ The workspace patch helper failed before file access during intake and recurred 
 - The integrated architecture gate passed the template checker and all seventeen regression cases after three read-only reviewer handoffs were preserved and synthesized.
 - The accepted toolchain passes format, lint, TypeScript 7 typecheck and declaration build, Node test, Ajv/jsonc-parser ESM import, and dry-run package inspection, and a zero-vulnerability production audit. Ajv required its named Ajv2020 export under strict NodeNext; Node test discovery uses an explicit file glob on Windows; npm pack uses the ignored repository-local cache.
 - T005 passes eleven schema and fixture tests, the positive template checker, all seventeen malformed-repository regressions, and package inspection proving that the contract README, six schemas, common definitions, and diagnostic catalog ship in the private tarball.
+- T006 currently passes the canonical local gate with 49 tests and zero skips, including explicit-root preflight, mandatory native link checks, aliased ancestors, canonical `SC1013`/`SC1014` classification, multi-node cycles, structural fan-out, every permission kind, prefix boundaries, and encoded-pointer suppression. The template checker and all seventeen regression cases pass, and independent re-review returned `PASS`; remote CI remains pending.
 
 ## Durable Learnings
 

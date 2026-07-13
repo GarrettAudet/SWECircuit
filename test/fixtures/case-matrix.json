@@ -247,7 +247,7 @@
       "id": "X03",
       "phase": "T006",
       "rule": "path.link-forbidden",
-      "variants": ["symlink", "junction", "reparse"],
+      "variants": ["symlink", "junction"],
       "platforms": "POSIX_AND_WINDOWS",
       "mode": "native"
     },
@@ -255,9 +255,9 @@
       "id": "X04",
       "phase": "T006",
       "rule": "path.resolved-escape",
-      "variants": ["ancestor-link"],
-      "platforms": "POSIX_AND_WINDOWS",
-      "mode": "native"
+      "variants": ["canonical-divergence-outside-root"],
+      "platforms": "ALL",
+      "mode": "generated"
     },
     {
       "id": "X05",
@@ -347,6 +347,13 @@
       "variants": ["every-rendered-string-slot"],
       "platforms": "ALL",
       "mode": "generated"
+    }
+  ],
+  "deferredNativeBoundary": [
+    {
+      "id": "X06",
+      "boundary": "opaque-same-path-windows-reparse-metadata",
+      "reason": "The approved pure Node kernel detects canonical divergence but cannot create or inspect every opaque same-path Windows reparse attribute without a native extension."
     }
   ],
   "laterHardening": [

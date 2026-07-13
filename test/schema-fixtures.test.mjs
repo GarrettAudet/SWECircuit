@@ -130,6 +130,11 @@ test("the diagnostic catalog and adversarial matrix are closed and internally co
       assert.equal(knownRules.has(rule), true, `${fixture.id} references unknown rule ${rule}`);
     });
   }
+  for (const deferred of matrix.deferredNativeBoundary) {
+    assert.match(deferred.id, /^X[0-9]{2}$/);
+    assert.equal(typeof deferred.boundary, "string");
+    assert.equal(typeof deferred.reason, "string");
+  }
 
   assert.deepEqual(matrix.atLimitControls, matrix.limits);
   assert.equal(matrix.limits.circuitEdges, 10000);

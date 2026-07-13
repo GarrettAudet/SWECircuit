@@ -96,7 +96,7 @@ Human rendering uses stderr for failures. JSON rendering is machine-readable and
 - Event schemas use typed allowlisted fields rather than an arbitrary payload bag.
 - Full prompts, conversations, environment dumps, command output, credentials, and evidence content are excluded by default.
 - Redaction occurs before producer persistence; the inspector also suppresses high-confidence secret patterns without echoing them.
-- Inputs must be regular files contained lexically and after resolution within the project root; symlink, junction, reparse, URI, device, UNC, ADS, and traversal escapes fail.
+- Inputs must be regular files contained lexically and after resolution within the project root. URI, device, UNC, ADS, traversal, symlink, junction, and path-altering reparse forms fail; opaque same-path Windows reparse metadata is deferred because the approved pure Node API cannot observe it.
 - Resource ceilings apply before expensive parse or graph work; exact constants are public and fixture-tested.
 - Only package-owned schemas compile in V9; remote references and custom third-party keywords never execute.
 

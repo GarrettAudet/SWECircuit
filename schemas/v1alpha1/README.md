@@ -20,6 +20,8 @@ swecircuit.json is the only project discovery authority. Project.spec.artifacts 
 
 The target artifact envelope is authoritative for kind. Historical Markdown and rail-named files remain checker-supported provenance and are not v1alpha1 inputs.
 
+Explicit project roots reject remote, URI, device, alternate-stream, and control-character forms before filesystem access. Artifact paths are forward-slash repository-relative paths. Symlinks and junctions fail without target dereference; path-altering reparse behavior fails canonical containment. Opaque same-path Windows reparse metadata is outside the pure Node v1alpha1 inspection boundary, while regular-file and open-descriptor identity checks still apply.
+
 ## Permission Model
 
 Permission kinds are closed:

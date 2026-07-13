@@ -52,3 +52,39 @@ The cause is confirmed and the bounded recovery passed independent validation. N
 ## Next Action
 
 Retain this evidence and continue to the V9 architecture clarification gate.
+
+## T006 Parser And Validator Boundary Incident
+
+### Failure Summary
+
+The first complete-project validation crashed inside Ajv uniqueItems instead of returning structured diagnostics.
+
+### Reproduction
+
+1. Parse a valid artifact containing arrays of objects with jsonc-parser getNodeValue.
+2. Pass the parsed value to a package-owned schema containing uniqueItems.
+3. Observe TypeError: a.valueOf is not a function from Ajv's equality helper.
+
+### Stable Evidence
+
+- The new parallel-project integration fixture reproduced the failure consistently.
+- A focused probe confirmed that getNodeValue creates null-prototype objects and that their valueOf member is undefined.
+- Existing schema tests did not fail because they used ordinary objects returned by JSON.parse.
+
+### Failure Classification
+
+- Parser and validator integration defect.
+
+### Hypotheses And Experiment
+
+| Hypothesis | Evidence For | Experiment | Result |
+| --- | --- | --- | --- |
+| Ajv's object equality path assumes ordinary JSON object prototypes. | Stack trace entered fast-deep-equal; focused probe showed null prototypes and no valueOf. | Materialize the already validated strict JSON text with JSON.parse after duplicate-aware tree checks. | Confirmed; the value shape now matches ordinary JSON consumers without weakening duplicate detection. |
+
+### Current Status
+
+Root cause confirmed. The parser tree remains authoritative for syntax, duplicate keys, depth, and numeric checks; schema input is materialized as an ordinary JSON value.
+
+### Next Action
+
+Retain the complete parallel-project fixture as the regression and continue the T006 semantic matrix.

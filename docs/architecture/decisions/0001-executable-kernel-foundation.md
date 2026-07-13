@@ -185,7 +185,9 @@ input_required -> running | cancelled | timed_out
 - Full prompts, conversations, environment dumps, command output, credentials, and evidence contents are excluded by default.
 - Trace producers must redact before persistence. The inspector also suppresses high-confidence secret patterns without echoing them.
 - Inputs must be regular files contained both lexically and after resolution within the project root.
-- Symlinks, junctions, reparse points, URIs, device paths, UNC paths, alternate data streams, and traversal escapes fail closed.
+- Explicit project roots reject URIs, device paths, UNC paths, alternate data streams, and control characters before filesystem access.
+- Symlinks and junctions in artifact paths fail closed without target dereference. Path-altering reparse behavior also fails when canonical resolution diverges from the expected path.
+- Opaque same-path Windows reparse attributes are not exposed by the approved pure Node API and are deferred until a native mechanism is justified; regular-file, containment, and open-descriptor identity checks still apply.
 - Evidence references are not dereferenced.
 
 ### Adapter Boundary
