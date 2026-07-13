@@ -2,11 +2,11 @@
 
 ## Status
 
-Ready for owner decision.
+Approved by the owner on 2026-07-13 and incorporated into ADR 0001.
 
 ## Decision Requested
 
-Approve the following architecture bundle as the basis for the ADR 0001 revision and V9 toolchain spike. This does not publish or reserve a package, domain, executable name, schema registry, or hosted service.
+This architecture bundle is the approved basis for ADR 0001 and the V9 toolchain spike. It does not publish or reserve a package, domain, executable name, schema registry, or hosted service.
 
 ## Recommended Kernel
 
@@ -131,4 +131,4 @@ It keeps the public idea simple: one explicit project, one machine version, one 
 
 ## Approval Effect
 
-Approval authorizes the private toolchain spike and ADR revision. Production dependencies remain limited to the strict schema validator and a duplicate-aware JSON parser; package publication, license selection, and external naming remain separate decisions.
+The owner's approval authorizes the private toolchain spike and ADR revision. Production dependencies remain limited to the strict schema validator and a duplicate-aware JSON parser; package publication, license selection, and external naming remain separate decisions.

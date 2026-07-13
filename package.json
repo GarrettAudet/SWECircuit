@@ -1,0 +1,39 @@
+{
+  "name": "swecircuit",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Private development workspace for the SWECircuit executable kernel.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.14"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "schemas"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "format": "biome format --write src test package.json tsconfig.json biome.json",
+    "format:check": "biome format src test package.json tsconfig.json biome.json",
+    "lint": "biome lint src test",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build --silent && node --test test/*.test.mjs",
+    "pack:check": "npm pack --dry-run --cache .local/npm-cache",
+    "verify:spike": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run pack:check"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "jsonc-parser": "3.3.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.3",
+    "@types/node": "24.13.3",
+    "typescript": "7.0.2"
+  }
+}

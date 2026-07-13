@@ -8,7 +8,7 @@ Approved and in progress.
 
 The owner approved **SWECircuit** as the public project identity and **Circuit** as the public composition metaphor. The scope is the project and GitHub repository name only.
 
-No npm package, domain, CLI binary, schema namespace, or trademark acquisition is required for this decision. Those surfaces do not exist yet and remain deferred until a real V9 interface needs them.
+No npm package, domain, public CLI binary, external schema registry, or trademark acquisition is required for this decision. ADR 0001 now defines private local file and API identifiers for V9 implementation; those conventions do not expand the identity decision or reserve an external namespace.
 
 ## Executed Change
 
@@ -34,7 +34,7 @@ Use Circuit for the public description of a composed workflow. `Module`, `gate`,
 
 Do not mechanically rewrite historical evidence. TraceRail and DevRail remain valid names inside dated specs, milestones, decisions, research snapshots, changelog entries, and history records that describe work completed under those names.
 
-The following identifiers remain 0.x compatibility artifacts until V9 defines and tests machine-facing migration behavior:
+The following identifiers remain historical or 0.x checker compatibility artifacts. ADR 0001 excludes them as direct kernel inputs:
 
 - `docs/rails/` and rail-named templates.
 - `tracepack-*` pack identifiers and paths.
@@ -47,8 +47,8 @@ Keeping these paths temporarily avoids a broad rename that would break source li
 ## Remaining Work
 
 - Replace the TraceRail-branded V8 overview image before V9 is merge-ready.
-- Decide machine-facing project, CLI, schema, and local-state identifiers only when ADR 0001 and implementation require them.
-- Add compatibility tests before renaming any existing path or contract field.
+- Document how maintainers create canonical Circuit JSON from legacy file contracts without rewriting source history.
+- Revisit external naming only if public distribution creates a concrete need.
 
 ## Evidence
 

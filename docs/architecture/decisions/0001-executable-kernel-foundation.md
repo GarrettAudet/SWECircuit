@@ -2,245 +2,256 @@
 
 ## Status
 
-Proposed. The SWECircuit project identity is approved and the GitHub repository rename is complete. Technical choices still require acceptance before implementation freezes machine-facing contracts.
+Accepted on 2026-07-13. The owner approved the reviewed architecture bundle for the private V9 kernel. This decision does not reserve or publish a package, domain, command name, schema registry, or hosted service; SWECircuit is the repository and project name.
 
 ## Date
 
-2026-07-09
+2026-07-09; revised and accepted 2026-07-13.
 
 ## Context
 
-The V8.1 baseline is a checked, file-based protocol. V9 creates the first executable surface for initialization, machine-readable validation, trace inspection, and adapter conformance. These choices establish long-lived public contracts and must remain simple, portable, inspectable, and provider-neutral.
+The V8.2 baseline is a checked, file-based operating protocol. V9 creates the first executable surface for initializing a project, validating machine-readable workflow contracts, and inspecting caller-supplied execution traces.
 
-V8.1 also proved that file contracts cannot enforce worker liveness. Two of four write-enabled attempts failed, including one missed handoff deadline. The kernel must model the evidence needed by a later runtime without claiming to provide scheduling or agent execution in V9.
+The kernel must make the repository's modular model executable without implying that V9 launches agents, schedules work, writes traces, enforces heartbeats, executes adapters, merges code, or proves tamper-resistant history. It must also preserve historical Markdown and rail-named artifacts as source records without treating them as machine inputs.
 
 ## Decision Drivers
 
-- Simple first-run experience.
-- Windows, macOS, and Linux portability.
-- Strong IDE and CI fit.
-- Deterministic validation and actionable diagnostics.
-- Versioned contracts that community modules can implement.
-- Local and source-preserving traces.
-- Explicit privacy, permissions, liveness, and failure state.
-- Minimal core dependencies.
-- Honest separation between the kernel and future runtime adapters.
+- One understandable first-run path.
+- Deterministic behavior across Windows, macOS, and Linux.
+- Pure library operations that IDEs, CI, and future adapters can embed.
+- Strict version dispatch, validation, and actionable diagnostics.
+- Offline operation and fail-closed security boundaries.
+- Source-preserving, privacy-conscious trace inspection.
+- Minimal production dependencies.
+- Explicit separation between the V9 kernel and future orchestration runtimes.
 
-## Proposed Decision
+## Decision
 
-### Runtime
+### Scope
 
-- Author in TypeScript 5.8 or newer.
-- Compile to ESM JavaScript for distribution.
-- Support Node 22.14 and Node 24 LTS.
-- Use Node 24 as the primary development baseline.
-- Use explicit package exports.
-- Use built-in util.parseArgs for the first CLI surface.
-- Use node:test for core unit and integration tests.
+V9 provides exactly three operations:
 
-Node 26 is Current rather than LTS on the decision date and is not the production baseline.
+1. Initialize a minimal local project.
+2. Validate a project and its canonical machine artifacts.
+3. Validate and inspect a caller-supplied JSONL trace.
 
-### Package Shape
+V9 does not launch agents, schedule retries, enforce liveness, write traces, execute adapters, fetch evidence, modify source control, or merge changes.
 
-Start with one private workspace package exposing:
+### Runtime And Toolchain
 
-- A library entry point for schema loading and validation.
-- A CLI binary with init, validate, and trace inspect commands.
-- Published schema files as explicit package exports.
+- Node 24 is the primary development runtime; Node 22 is the compatibility line.
+- TypeScript 7 compiles strict ESM and emits declarations.
+- V9 does not import the TypeScript compiler API.
+- Biome provides formatting and linting.
+- `node:test` provides the test runner.
+- `util.parseArgs` provides CLI argument parsing.
+- A clean toolchain spike must pass before schemas are frozen. Failure routes this ADR to redesign instead of adding a second compiler or formatter.
 
-Keep publishing disabled in V9. The owner approved only the project and GitHub repository identity; npm acquisition and public package publishing are not required. The internal package identifier will be treated as a private implementation detail until public distribution is separately approved.
+### Private Package And Local Project Shape
 
-### Canonical Data
+- The repository uses one private root package and lockfile with publishing disabled.
+- Internal development invocation is `node dist/cli.js`; V9 makes no public binary or `npx` claim.
+- An initialized project contains `swecircuit.json`, `swecircuit/modules/`, and `swecircuit/circuits/`.
+- Project discovery uses only an explicit `--project` path or the current directory. It never searches ancestor directories.
+- Initialization is offline, non-interactive, non-overwriting, and immediately validates its output.
 
-- Canonical serialization: JSON encoded as UTF-8.
-- Schema dialect: JSON Schema Draft 2020-12.
-- Validator: Ajv 2020 in strict mode.
-- Local event stream: one canonical JSON event per line.
-- Optional YAML: deferred adapter that must normalize to canonical JSON before validation.
+These are local repository conventions, not external namespaces.
 
-Every public artifact carries an API version and kind. Package, schema, event, and repository milestone versions remain separate.
+### Library And CLI Boundary
 
-### Validation Layers
+The library exposes pure operations for initialization, project validation, and trace inspection. Expected user-input failures return a success state plus structured diagnostics; they do not throw. Unexpected internal failures may throw and are mapped by the CLI to the internal-failure exit class.
+
+The CLI is a thin renderer over the same structured results. The library surface is a supported but unstable 0.x API until a separate 1.0 decision.
+
+### Canonical Machine Contract
+
+- Canonical input is strict UTF-8 JSON. YAML is deferred.
+- Schema dialect is JSON Schema Draft 2020-12.
+- The first machine API version is `swecircuit/v1alpha1`.
+- Supported kinds are `Project`, `Module`, `Circuit`, `WorkPacket`, `RunEvent`, and `AdapterManifest`.
+- Unknown API versions and kinds fail closed.
+- Schema identifiers are stable URLs below `https://github.com/GarrettAudet/SWECircuit/` and never require network retrieval.
+- Package version, schema API version, event type version, and repository milestone version remain separate.
+
+Only package-owned schemas are compiled. Remote schema references and custom third-party keywords are rejected.
+
+### Compatibility Boundary
+
+Existing Markdown contracts, `docs/rails/`, rail-named templates, `.tracerail/`, and `tracepack-*` remain historical or 0.x file compatibility artifacts checked by the PowerShell protocol checker. They are not V9 kernel inputs.
+
+Canonical machine workflows use `Circuit`. V9 does not define a JSON `rail` alias. Migration guidance explains how maintainers create canonical JSON from legacy source without rewriting history.
+
+### Parsing, Discovery, And Resource Limits
+
+Inputs must be strict UTF-8 JSON with no comments, trailing commas, or duplicate object keys. Project artifacts are discovered only through explicit manifest references; the kernel does not recursively scan arbitrary directories.
+
+The implementation must enforce public, fixture-tested ceilings before expensive parsing or graph work. V9 starts with these limits:
+
+| Resource | Limit |
+| --- | ---: |
+| One JSON artifact | 1 MiB |
+| JSON nesting depth | 64 |
+| Referenced project artifacts | 10,000 |
+| Circuit graph edges | 50,000 |
+| One JSONL event line | 256 KiB |
+| One inspected trace | 64 MiB |
+| Events in one trace | 100,000 |
+
+Changing a limit is a documented compatibility change with fixtures.
+
+### Validation Order
 
 Validation runs in this order:
 
-1. File discovery and safe path handling.
-2. JSON parse.
-3. JSON Schema validation.
-4. Cross-reference resolution.
-5. Circuit graph and state-machine semantics, including supported 0.x rail aliases.
-6. Policy and permission checks.
-7. Deterministic normalized diagnostics.
+1. Path containment, file type, size, and UTF-8 checks.
+2. Duplicate-aware strict JSON parsing.
+3. API version and kind dispatch.
+4. Package-owned JSON Schema validation.
+5. Cross-reference resolution.
+6. Circuit graph or event-state semantics.
+7. Permission and policy validation.
+8. Diagnostic deduplication and deterministic sorting.
 
-A valid schema does not imply a valid circuit. Every semantic resolver or parser path requires its own malformed fixture.
+A schema-valid artifact is not necessarily a semantically valid project or trace.
 
-### Workflow And Execution Types
+### Diagnostics And Exit Classes
 
-Workflow stage outcomes remain closed:
+Every diagnostic has:
 
-~~~txt
+- A stable SWECircuit-owned code.
+- Severity.
+- Repository-relative artifact path.
+- JSON Pointer.
+- Rule identifier.
+- Human-readable message.
+- Optional recovery hint.
+
+Diagnostics are deduplicated and sorted by artifact, pointer, and code. JSON output never exposes raw validator ordering, absolute host paths, control characters, or secret values.
+
+CLI exit classes are:
+
+```txt
+0 success
+2 invalid project or trace
+3 invalid command usage
+4 safe I/O failure
+5 internal failure
+```
+
+Human-readable failures go to stderr.
+
+### Separate State Channels
+
+Workflow outcomes remain:
+
+```txt
 pass | fix | diagnose | clarify | redesign | split | block | learn
-~~~
+```
 
-Worker execution status is a different type:
+Worker execution states are separate:
 
-~~~txt
+```txt
 queued | running | input_required | completed | failed | cancelled | timed_out
-~~~
+```
 
-Governance status is also separate:
+Governance states are also separate:
 
-~~~txt
+```txt
 accepted | optional | watch | deferred | rejected
-~~~
+```
 
-These channels must never be merged into one enum.
+These channels must not be collapsed into one enum.
 
-### Event Model
+### Trace And Liveness Model
 
-The event envelope is inspired by CloudEvents and trace standards but remains a project-owned local format in V9.
+The inspector reads one caller-supplied JSONL file and creates no hidden trace directory. The producer owns persistence. V9 validates logical sequence and causation but does not claim to prove that a file was never rewritten.
 
-Required event concepts:
+Sequence and causation are authoritative; timestamps are evidence only. Current worker state is derived from events rather than duplicated in mutable summary fields. Evidence references are validated as references and are never opened or fetched.
 
-- Event id, type, source, time, schema version, and subject.
-- Run id, sequence, attempt, actor, work packet, and stage.
-- Correlation id and causation id.
-- Parent or link references for fan-out and fan-in.
-- Structured data and evidence references.
-- Redaction and omission metadata.
-- Terminal reason for terminal execution events.
+Allowed attempt-state transitions are:
 
-Run logs are append-only. The inspector reconstructs state from the event sequence and reports invalid transitions, missing causes, duplicate sequence numbers, orphaned attempts, and non-terminal active work.
+```txt
+queued -> running | cancelled
+running -> input_required | completed | failed | cancelled | timed_out
+input_required -> running | cancelled | timed_out
+```
 
-### Liveness Model
-
-The contract represents:
-
-- Heartbeat expectation and last heartbeat.
-- Deadline.
-- Cancellation request, acknowledgement, reason, and actor.
-- Retry policy, attempt count, backoff, and prior-attempt link.
-- Terminal state, time, reason, and handoff or failure-evidence reference.
-
-V9 validates these records but does not launch workers or enforce wall-clock actions. Runtime enforcement is an adapter responsibility in a later version.
-
-### Adapter Model
-
-V9 adapter manifests declare:
-
-- Identity and version.
-- Adapter kind.
-- Core and schema compatibility.
-- Capabilities.
-- Permissions and network requirements.
-- Configuration schema.
-- Input and output artifact kinds.
-- Timeout, cancellation, health, and error behavior.
-- Source, maintainer, and provenance.
-
-V9 does not dynamically execute third-party adapters. Future MCP, subprocess, IDE, model-provider, memory, retrieval, verification, and merge adapters implement this metadata contract.
+`completed`, `failed`, `cancelled`, and `timed_out` are immutable terminal states for one attempt. Timeout requires an explicit event and is never inferred from the current clock. Retry creates a new linked attempt in `queued` state.
 
 ### Security And Privacy
 
-- Init and validate are offline.
-- Manifests are data and are never executed.
-- Traces store references and bounded structured data by default.
-- Secrets, tokens, passwords, keys, connection strings, session identifiers, and sensitive personal data are excluded or redacted.
-- Paths are repository-relative, normalized, and traversal-checked.
-- Evidence capture, retention, and deletion are explicit.
-- Optional adapters declare permissions before use.
+- Core commands are offline and never execute manifest content or adapter code.
+- Event schemas use typed allowlisted fields rather than arbitrary payload bags.
+- Full prompts, conversations, environment dumps, command output, credentials, and evidence contents are excluded by default.
+- Trace producers must redact before persistence. The inspector also suppresses high-confidence secret patterns without echoing them.
+- Inputs must be regular files contained both lexically and after resolution within the project root.
+- Symlinks, junctions, reparse points, URIs, device paths, UNC paths, alternate data streams, and traversal escapes fail closed.
+- Evidence references are not dereferenced.
+
+### Adapter Boundary
+
+V9 validates adapter declaration structure only. Permissions are requests, not grants; missing or unknown permissions fail closed. Provenance is declared but unverified unless separately attested. Configuration schema references are metadata and are not fetched or compiled. Health, timeout, cancellation, and error behavior are declarations, not enforced conformance.
+
+### Dependencies
+
+Production dependencies are limited to:
+
+- Ajv in strict Draft 2020-12 mode.
+- One duplicate-aware JSON parser selected and proven by the toolchain spike.
+
+Development dependencies are limited initially to TypeScript 7, Biome, and Node type declarations. Any additional dependency requires a recorded justification.
 
 ### Verification
 
-CI will run:
+CI covers Node 22 and 24 on Ubuntu, Windows, and macOS. Required checks are format, lint, typecheck, unit, integration, fixtures, build, package inspection, clean initialization, and clean consumer use.
 
-- Existing PowerShell protocol checker and regression suite.
-- Format, lint, typecheck, unit, integration, fixture, build, and package checks.
-- Node 22 and 24.
-- Windows and Ubuntu for path and process portability.
-- Clean initializer and clean consumer installation.
-- npm pack inspection without publishing.
-
-## Public Identity Decision
-
-The owner reopened naming after DevRail and TraceRail collision evidence, then approved SWECircuit as the project and GitHub repository identity because:
-
-- SWE identifies the software-engineering domain.
-- Circuit is a composition primitive that naturally models components, connections, gates, branches, feedback loops, and traces.
-- The exact name had no npm, PyPI, crates.io, or GitHub repository collision in the point-in-time scan.
-- swecircuit.com, .dev, .ai, and .io returned not found in supported registry checks.
-
-Circuit is the public end-to-end composition term. Historical Rail Composition artifacts remain provenance, and V9 documents a 0.x alias and migration rather than rewriting them. The repository was renamed to `GarrettAudet/SWECircuit`; package, domain, CLI, schema, and local-state identifiers remain deferred until an implemented interface needs them.
+Every parser, resolver, graph rule, event transition, path boundary, resource ceiling, diagnostic class, and CLI error path receives a negative fixture. Core tests include network traps and prove no optional adapter is required.
 
 ## Consequences
 
 ### Positive
 
-- Small core with a direct path from files to executable validation.
-- Typed contracts are portable across IDEs and future runtimes.
-- Strict schemas plus semantic fixtures prevent false confidence.
-- Local traces stay inspectable without a hosted backend.
-- Adapter capabilities and permissions are explicit.
-- Runtime liveness requirements are represented without overclaiming execution.
+- The executable surface remains small: one project, one machine API, one diagnostic model, and three operations.
+- IDEs, CI, and future adapters can share the same pure library boundary.
+- Strict dispatch and deterministic errors make failures traceable.
+- Historical source records remain intact without creating a second machine vocabulary.
+- Privacy, path safety, and resource limits are part of the contract rather than later hardening.
 
 ### Negative
 
 - JSON is more verbose for humans than YAML.
-- Ajv is a production dependency.
-- Node 22 support constrains use of Node 24-only APIs.
-- A local event format still requires maintenance and compatibility tests.
-- One package may need splitting after the adapter ecosystem grows.
-- Current 0.x rail paths and TraceRail-branded visual assets require compatibility treatment before V9 is merge-ready.
+- Ajv and a duplicate-aware parser become production dependencies.
+- Node 22 compatibility constrains use of Node 24-only APIs.
+- Rejecting symlinks and external evidence paths is intentionally conservative.
+- The 0.x library API and resource limits require explicit migration notes when changed.
 
 ## Alternatives Considered
 
-### Python
-
-Rejected for V9 because the target distribution is an IDE-facing cross-platform CLI and TypeScript contracts integrate more directly with Node tooling and JSON Schema consumers. A Python adapter remains possible.
-
-### Rust
-
-Deferred because a native binary offers strong distribution and performance but raises contributor and build complexity before performance is a proven constraint.
-
-### Runtime TypeScript Without Compilation
-
-Rejected for distribution. Node's type stripping is useful for local execution but intentionally supports only erasable syntax and should not become a consumer requirement.
-
-### YAML As Canonical
-
-Deferred. It adds parser, typing, duplicate-key, anchor, and normalization choices before need is proven.
-
-### Zod As Canonical Schema
-
-Rejected as the wire-contract source. TypeScript inference is attractive, but JSON Schema is language-neutral and can be consumed by IDEs, CI, and non-TypeScript adapters. Runtime types may be generated or wrapped from the canonical schemas later.
-
-### Full CloudEvents Or OpenTelemetry Core Dependency
-
-Deferred. Their identity, causality, link, and privacy practices are useful, but V9 must remain a local, file-based kernel with optional telemetry export.
-
-### MCP Tasks As The Core Runtime Contract
-
-Deferred. Capability negotiation and task-state concepts are valuable, but Tasks is experimental and the next MCP revision is not final on the decision date.
-
-### Monorepo With Core, CLI, SDK, And Adapter Packages
-
-Deferred. One package is easier to understand and release before extension pressure exists.
+- **Python or Rust:** deferred because Node and TypeScript best match the initial IDE-facing, JSON-based surface with lower contributor friction.
+- **Runtime TypeScript without compilation:** rejected as a consumer requirement.
+- **YAML as canonical input:** deferred because it adds parser and normalization ambiguity before need is proven.
+- **Zod as the wire-contract source:** rejected because JSON Schema is language-neutral.
+- **Historical Markdown parsing or a JSON rail alias:** rejected because it would turn provenance into an ambiguous machine contract.
+- **A writer, scheduler, launcher, or adapter runtime:** deferred beyond the bounded V9 kernel.
+- **Dynamic third-party schemas:** rejected from core because they expand the execution and supply-chain boundary.
+- **A public package or command namespace:** deferred until public distribution is explicitly approved.
 
 ## Source Evidence
 
-- docs/research/snapshots/2026-07-09-v9-kernel-architecture-scan.md
-- docs/research/snapshots/2026-07-09-v9-public-identity-scan.md
-- docs/specs/v9-devrail-kernel/
-- docs/specs/v8.1-baseline-integrity/orchestration-run.md
-- docs/specs/v8.1-baseline-integrity/root-cause-analysis.md
+- `docs/research/snapshots/2026-07-09-v9-kernel-architecture-scan.md`
+- `docs/research/snapshots/2026-07-13-v9-architecture-refresh.md`
+- `docs/specs/v9-devrail-kernel/architecture-review.md`
+- `docs/specs/v9-devrail-kernel/architecture-decision-brief.md`
+- `docs/specs/v9-devrail-kernel/orchestration-run.md`
+- `docs/specs/v8.1-baseline-integrity/root-cause-analysis.md`
 
-## Review Trigger
+## Review Triggers
 
-Revisit when:
+Revisit this decision when:
 
 - Public package distribution, a domain, or another external namespace becomes a real requirement.
+- The V9 spike cannot pass with the selected toolchain.
 - A second package is justified by a real adapter or embedding use case.
 - Node 22 leaves support.
-- JSON Schema publishes a newer stable dialect that ecosystem validators broadly support.
-- MCP Tasks becomes stable and an adapter needs compatibility.
-- A hosted trace service or execution runtime is approved.
+- JSON Schema publishes a newer stable dialect with broad validator support.
+- A hosted trace service, trace writer, scheduler, or execution runtime is approved.

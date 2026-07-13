@@ -19,11 +19,14 @@ temp/
 
 # Generated dependency folders
 node_modules/
+dist/
+coverage/
+*.tgz
 .venv/
 venv/
 __pycache__/
 .pytest_cache/
 
-# TraceRail local scratch artifacts
+# SWECircuit local scratch artifacts
 .local/
 .out/

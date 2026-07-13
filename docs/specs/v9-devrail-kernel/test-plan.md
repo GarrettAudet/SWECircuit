@@ -2,7 +2,7 @@
 
 ## Status
 
-Draft.
+In progress.
 
 ## Acceptance Criteria Mapping
 
@@ -48,4 +48,4 @@ Draft.
 
 ## Verification Evidence
 
-V9 identity migration passes `scripts/check-template.ps1` and all seventeen `scripts/test-check-template.ps1` cases, including legacy-heading and retired-repository-URL rejection. Executable kernel checks remain pending implementation.
+V9 identity migration passes `scripts/check-template.ps1` and all seventeen `scripts/test-check-template.ps1` cases, including legacy-heading and retired-repository-URL rejection. The private toolchain spike passes Biome format and lint, TypeScript 7 typecheck and declaration build, Node test execution, Ajv/jsonc-parser ESM loading, and `npm pack --dry-run`. The full Node 22/24 and three-platform matrix remains pending CI implementation.

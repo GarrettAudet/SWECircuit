@@ -16,14 +16,16 @@ In progress.
 - Recorded owner approval, renamed the GitHub repository to `GarrettAudet/SWECircuit`, updated `origin`, and constrained the decision to project and repository identity.
 - Released the bounded SWECircuit identity change as V8.2 on `main`, then merged that completed baseline back into V9 at `35f96d2`.
 - Started a recorded, read-only three-reviewer architecture gate and refreshed volatile architecture sources after TypeScript 7 became stable.
+- Received owner approval for the integrated bundle, accepted ADR 0001, and clarified that SWECircuit is only the repository/project name rather than an external namespace claim.
+- Added one private root package with exact dependency versions and proved TypeScript 7.0.2, Biome 2.5.3, Ajv 8.20.0, and jsonc-parser 3.3.1 together before schema work.
 
 ## Deviations From Plan
 
-The workspace patch helper failed before file access during intake and recurred during the naming and identity-migration edits. The integration owner used the repository-authorized PowerShell fallback and retained diff and checker verification as the proof boundary.
+The workspace patch helper failed before file access during intake and recurred during naming, architecture acceptance, and toolchain edits. The integration owner used the repository-authorized PowerShell fallback and retained diff, formatter, typecheck, tests, package inspection, and checker verification as the proof boundary. PowerShell execution policy also blocked npm.ps1, so Windows commands use npm.cmd without changing host policy.
 
 ## Assumptions Used
 
-- Research and ADR drafting can proceed before finalizing the public CLI and schema.
+- The accepted private local manifest and API identifiers do not imply public package, CLI, domain, or registry ownership.
 - Historical TraceRail artifacts should remain intact as provenance.
 - No license change is implied by the merge approval or product rename.
 
@@ -31,8 +33,8 @@ The workspace patch helper failed before file access during intake and recurred 
 
 - Complete current canonical branding and replace the historical TraceRail overview image.
 - Define and test the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
-- Integrate the architecture, security, and developer-experience review handoffs into one ADR decision brief.
-- Implement only after public-contract choices pass the architecture gate.
+- Define the v1alpha1 schemas and adversarial fixtures from accepted ADR 0001.
+- Implement the three-operation kernel only after those schema fixtures pass.
 
 ## Verification Performed
 
@@ -48,6 +50,7 @@ The workspace patch helper failed before file access during intake and recurred 
 - GitHub Actions run `29263645888` completed successfully under the `SWECircuit Checks` workflow for commit `1d5f82e`.
 - V8.2 completed on `main` at `5caaa29`; V9 baseline adoption passed the template checker, all seventeen regression cases, and GitHub Actions run `29265535389` at `35f96d2`.
 - The integrated architecture gate passed the template checker and all seventeen regression cases after three read-only reviewer handoffs were preserved and synthesized.
+- The accepted toolchain passes format, lint, TypeScript 7 typecheck and declaration build, Node test, Ajv/jsonc-parser ESM import, and dry-run package inspection, and a zero-vulnerability production audit. Ajv required its named Ajv2020 export under strict NodeNext; Node test discovery uses an explicit file glob on Windows; npm pack uses the ignored repository-local cache.
 
 ## Durable Learnings
 

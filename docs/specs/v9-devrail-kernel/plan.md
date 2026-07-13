@@ -20,21 +20,21 @@ Use the stable V8.2 circuit and its V8.1 integrity controls to turn the file-bas
 ## Approach
 
 1. Research current primary standards and comparable framework contracts.
-2. Write an architecture decision covering runtime, manifest, schema, versioning, persistence, package, and adapter choices.
+2. Apply accepted ADR 0001 and prove its pinned toolchain before freezing schemas.
 3. Define the smallest versioned data model and adversarial fixture set before CLI behavior.
 4. Implement a deterministic validator and project initializer as separate core capabilities.
-5. Add append-only event validation and trace inspection without launching agents.
+5. Add caller-supplied event validation and read-only trace inspection without launching agents or writing traces.
 6. Migrate current product surfaces to the approved identity and composition vocabulary while preserving historical sources.
 7. Dogfood the kernel against repository-owned examples and record timings, failures, and recovery.
 8. Verify on the declared platform matrix, review public claims, update memory, and prepare the approval milestone.
 
 ## Interfaces And Data
 
-Planned executable surfaces are a project manifest, versioned module and circuit manifests, work-packet and execution-event schemas, a local CLI, and provider-neutral adapter interfaces. Machine-facing names remain private or deferred unless ADR 0001 establishes a concrete need; canonical serialization remains gated on the architecture decision.
+Approved executable surfaces are a swecircuit.json project manifest, versioned Module and Circuit manifests, WorkPacket and RunEvent schemas, pure library operations, an internal CLI, and structural AdapterManifest validation. These private local conventions do not reserve external namespaces. Canonical serialization is strict UTF-8 JSON under swecircuit/v1alpha1.
 
 ## Architecture And ADR Impact
 
-An ADR is required because this version creates the first executable runtime boundary and public compatibility contract. No implementation API is frozen until the research snapshot and ADR are reviewed.
+ADR 0001 was accepted on 2026-07-13 after independent architecture, security, and developer-experience review. Schema work may begin because the private toolchain spike passed; public package distribution remains a separate decision.
 
 ## Security And Privacy
 
