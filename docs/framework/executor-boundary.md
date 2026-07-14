@@ -96,9 +96,11 @@ The helper names in the example are host-owned placeholders. The packed-consumer
 | --- | --- |
 | `completed` | The executor returned a valid completed settlement. |
 | `failed` | The executor declared failure, threw, or returned an invalid settlement. |
-| `cancelled` | Caller cancellation was observed and executor completion was acknowledged. |
-| `timed_out` | The effective deadline won and executor completion was acknowledged. |
+| `cancelled` | Abort or deadline won before invocation, or caller cancellation won after invocation and the executor settled inside the acknowledgment bound. |
+| `timed_out` | The effective deadline won after invocation and the executor settled inside the acknowledgment bound. |
 | `abort_unconfirmed` | Abort was requested, but the executor did not settle before the acknowledgment bound; work may still be live. |
+
+`cancellationAcknowledged: true` means the kernel has terminal certainty: either no executor call occurred, or an invoked executor settled inside the acknowledgment bound. It does not claim executor acknowledgment on a no-call path.
 
 The returned journal is detached, deeply frozen, timestamp-free, and inspectable with `inspectTrace` after the caller writes it as JSONL. `abort_unconfirmed` intentionally omits a terminal attempt state and `run.completed`.
 

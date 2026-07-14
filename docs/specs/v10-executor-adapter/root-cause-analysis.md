@@ -96,3 +96,28 @@ The hardened suite passes 274 tests and `npm.cmd run verify` passes through dogf
 ### Durable Learning
 
 A green asynchronous suite is not enough for a timing boundary. Express timeout and acknowledgment as absolute monotonic observations, treat timers as fallible wake-ups, put the final gate beside the effectful call, and test live reflective traps rather than only revoked objects.
+
+## Exact-Candidate Settlement Detachment RCA
+
+### Trigger
+
+The correctness and API/documentation reviewers returned `REVISE` during exact review of commit `e3453e0`, despite green local and hosted verification.
+
+### Confirmed Root Causes
+
+- Promise fulfillment observation captured `observedAt` but retained the caller-owned raw settlement. Normalization happened only after `Promise.race` resumed, leaving a microtask interval in which the executor could mutate accepted content.
+- Active documentation treated terminal cancellation as one acknowledgment case even though ADR 0002 deliberately defines a separate queued-to-cancelled no-call path.
+
+### Causal Fix
+
+- Normalize the settlement synchronously inside the fulfillment callback and carry only `NormalizedSettlement | null` plus the post-normalization monotonic observation.
+- Keep rejected-settlement timing unchanged and discard normalized content whenever abort wins.
+- Define terminal certainty consistently: before invocation, no call is proof that work did not start; after invocation, bounded settlement is the only acknowledgment.
+
+### Regression Coverage
+
+A resolve-then-mutate test proves that a later microtask cannot change disposition, workflow, or evidence after fulfillment observation. Existing deadline, acknowledgment, hostile-value, and privacy tests remain in the canonical suite.
+
+### Durable Learning
+
+An observation timestamp and the data attributed to it must cross the ownership boundary together. For mutable asynchronous values, detach first and timestamp the completed snapshot; never carry provider-owned data into a later continuation.

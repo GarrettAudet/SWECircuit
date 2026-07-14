@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation hardened; immutable acceptance review is the remaining code gate.
+Exact-candidate revision implemented; full verification and a new immutable review candidate remain required.
 
 ## Summary Of Changes
 
@@ -26,6 +26,8 @@ V10 also added an independent packed-declaration compile after the first externa
 
 The first postimplementation review returned three `REVISE` verdicts despite a green suite. The integration owner removed the remaining invocation gap, anchored acknowledgment to the abort observation, re-armed early timer wake-ups, rejected proxies before reflection, bounded record keys before descriptors, narrowed the public grant type, repaired installed docs and consumer narrowing, and added focused regressions before preparing the acceptance candidate.
 
+Exact review of `e3453e0` then found a remaining settlement-ownership interval and imprecise no-call documentation. The observer now detaches and normalizes fulfillment before timestamping it, a resolve-then-mutate regression protects that boundary, and active guidance distinguishes no-call terminal certainty from post-invocation acknowledgment.
+
 ## Assumptions Used
 
 - Provider-neutral execution and explicit host authority are the smallest useful V10 increment.
@@ -44,11 +46,11 @@ The first postimplementation review returned three `REVISE` verdicts despite a g
 ## Verification Performed
 
 - V9 baseline on 2b7bef37fb2477e3fc8779171c5971a3db42f20b: canonical verification passed with 209 tests.
-- V10 hardened implementation suite: 274 tests passed, including cancellation races, proxy safety, snapshot bounds, execution lifecycle, and dogfood cleanup coverage.
+- V10 corrected implementation suite: 275 tests passed, including settlement detachment, cancellation races, proxy safety, snapshot bounds, execution lifecycle, and dogfood cleanup coverage.
 - V10 dogfood: under-authorized grant rejected with SC4206 and zero calls; corrected grant invoked once; seven-event journal reconstructed as completed.
 - Packed consumer: offline install, independent public-declaration compile, initialization, validation, one packet execution, and trace inspection passed.
 - Workflow checker passed and all 43 isolated checker regression scenarios passed.
-- `npm.cmd run verify` passed after hardening; both workflow checkers and exact-commit independent re-review remain the T006 acceptance gates.
+- `npm.cmd run verify`, the positive workflow checker, and all 43 negative checker scenarios passed after the exact-candidate correction; a new exact-commit independent review and hosted CI run remain the T006 acceptance gates.
 
 ## Durable Learnings
 

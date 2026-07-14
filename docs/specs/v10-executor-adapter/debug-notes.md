@@ -2,7 +2,7 @@
 
 ## Status
 
-Causal fixes complete for the packed declaration and postimplementation timing/reflection defects; exact-candidate re-review remains.
+Causal fixes complete for all diagnosed V10 review rounds; corrected-candidate freeze, exact review, and hosted CI remain.
 
 ## Failure Summary
 
@@ -108,3 +108,40 @@ Causal fixes are complete. Exact committed-candidate re-review remains the indep
 ### Next Action
 
 Freeze every new and modified V10 file in one candidate commit, push it, run exact-candidate checks and CI, and request explicit reviewer verdicts before the evidence-only closeout.
+
+## Exact-Candidate Settlement Observation Debug Record
+
+### Failure Summary
+
+Exact review of commit `e3453e0` found that the fulfillment observer recorded a timestamp but retained the executor-owned raw result until the async continuation normalized it. A queued mutation could therefore change accepted content after the recorded observation. The API and documentation review also found that three active guides described proven no-call cancellation as if an executor had settled.
+
+### Reproduction
+
+Resolve an executor promise with a valid completed object, then queue a microtask that mutates the same object to a valid failed settlement. Before the fix, the promise observer retained the object, the mutation ran, and the later continuation normalized the mutated state under the earlier fulfillment timestamp.
+
+### Stable Evidence
+
+- Correctness reviewer `019f618c-b855-7433-9980-8645a82aec9b` returned `REVISE` on `e3453e0` with the observer-to-normalizer mutation interval.
+- Security reviewer `019f618c-cd0c-72c0-adcb-650d3e031af8` returned `PASS` on `e3453e0`.
+- API/documentation reviewer `019f618c-e412-7183-9ce8-629ae2c192a5` returned `REVISE` on `e3453e0` for no-call acknowledgment wording.
+- GitHub Actions run `29355583567` passed all seven jobs for `e3453e0`; independent review still correctly blocked acceptance.
+
+### Failure Classification
+
+Settlement ownership and documentation-semantics defects.
+
+### Confirmed Cause
+
+The adapter token carried a raw unknown value instead of a detached normalized settlement. Documentation compressed two distinct terminal proofs into one sentence: no executor call occurred, or invoked work settled within the acknowledgment bound.
+
+### Causal Fix
+
+Normalize and detach synchronously in the fulfillment observer, timestamp only after that bounded normalization, and carry `NormalizedSettlement | null` in the adapter token. Clarify that `cancellationAcknowledged: true` means terminal certainty: either no call occurred or post-invocation settlement was acknowledged.
+
+### Regression
+
+`test/execution.test.mjs` now resolves a completed settlement, queues a valid failed-state mutation, and proves the returned disposition, workflow, and evidence retain the observed completed snapshot.
+
+### Next Action
+
+Run the full canonical and workflow gates, freeze a new immutable candidate, obtain three exact-commit verdicts, and record its hosted CI result.

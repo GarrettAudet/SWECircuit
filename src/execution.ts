@@ -200,7 +200,11 @@ interface NormalizedSettlement {
 }
 
 type AdapterToken =
-  | Readonly<{ kind: "settled"; value: unknown; observedAt: number }>
+  | Readonly<{
+      kind: "settled";
+      settlement: NormalizedSettlement | null;
+      observedAt: number;
+    }>
   | Readonly<{ kind: "rejected"; observedAt: number }>;
 
 type AbortCause = "caller" | "deadline";
@@ -1147,8 +1151,10 @@ function executionSuccess(
 }
 
 function observeAdapterResult(value: unknown, monotonicNow: () => number): Promise<AdapterToken> {
-  const settled = (result: unknown): AdapterToken =>
-    Object.freeze({ kind: "settled", value: result, observedAt: monotonicNow() });
+  const settled = (result: unknown): AdapterToken => {
+    const settlement = normalizeSettlement(result);
+    return Object.freeze({ kind: "settled", settlement, observedAt: monotonicNow() });
+  };
   const rejected = (): AdapterToken =>
     Object.freeze({ kind: "rejected", observedAt: monotonicNow() });
   try {
@@ -1333,7 +1339,7 @@ export async function executeWorkPacketWithHooks(
         if (first.kind === "rejected") {
           return operationResult([], executionFailure(context, journal, "executor_threw"));
         }
-        const settlement = normalizeSettlement(first.value);
+        const settlement = first.settlement;
         if (settlement === null) {
           return operationResult([], executionFailure(context, journal, "executor_result_invalid"));
         }

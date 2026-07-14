@@ -820,7 +820,7 @@ Use the [bounded executor boundary](../framework/executor-boundary.md) only afte
 
 The kernel validates identities, manifest compatibility, and permission coverage before invocation. A preflight rejection makes zero executor calls. After invocation, operation success and work outcome remain separate: inspect the result disposition rather than treating a successful API call as successful work.
 
-Cancellation is cooperative. A cancelled or timed-out terminal result means executor settlement was observed inside the acknowledgment window. An abort_unconfirmed result means work may still be live; quarantine the workspace or provider run and do not merge its output until the host resolves it.
+Cancellation is cooperative after invocation. A terminal `cancelled` result means either the abort or deadline won before any executor call, or caller cancellation won after invocation and settlement was observed inside the acknowledgment window. A terminal `timed_out` result means the deadline won after invocation and settlement was observed inside that window. `cancellationAcknowledged: true` therefore means terminal certainty, not executor acknowledgment on a no-call path. An `abort_unconfirmed` result means work may still be live; quarantine the workspace or provider run and do not merge its output until the host resolves it.
 
 The returned event journal is caller-owned. Persist it as JSONL only after host privacy checks, then inspect it through the normal trace boundary. V10 does not write the trace or update project memory automatically.
 Adapter policy:

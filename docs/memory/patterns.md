@@ -236,7 +236,7 @@ Before invocation, prove that every manifest request is granted, every grant ent
 
 ### Honest Abort State
 
-Treat cancellation as observed protocol state, not a wish. Emit a terminal cancellation or timeout only when settlement is observed before an acknowledgment bound anchored to the abort observation; otherwise retain a non-terminal potentially-live state.
+Treat cancellation as observed protocol state, not a wish. An abort or deadline that wins before invocation can be terminal because no executor work started. After invocation, emit a terminal cancellation or timeout only when settlement is observed before an acknowledgment bound anchored to the abort observation; otherwise retain a non-terminal potentially-live state.
 
 ### Absolute Monotonic Bound
 
@@ -249,6 +249,11 @@ Reject detectable proxies before `Array.isArray`, prototype, key, descriptor, si
 ### Independent Declaration Consumer
 
 Public declarations must compile from the installed tarball under consumer-owned compiler settings. Internal source typechecking cannot prove emitted declaration portability, package completeness, root-export narrowing, or installed documentation integrity.
+
+### Snapshot And Timestamp Together
+
+When asynchronous provider-owned data is attributed to an observation time, detach and normalize it in the fulfillment observer before recording the timestamp. Carry only the immutable snapshot into later continuations so queued mutation cannot rewrite earlier evidence.
+
 ## Source Map
 
 Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
@@ -278,4 +283,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V9 T009 public-surface plan](../specs/v9-devrail-kernel/public-surface-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/public-surface-orchestration-run.md) | Visual Semantics Are Contract; Literal Quick Start Replay; Positive Exceptions For Negative Rules |
 | [V9 T010 dogfood plan](../specs/v9-devrail-kernel/dogfood-decomposition-plan.md), [run](../specs/v9-devrail-kernel/dogfood-orchestration-run.md), and [RCA](../specs/v9-devrail-kernel/root-cause-analysis.md#t010-dogfood-review-and-cleanup-rca) | Measure Semantics, Observe Timing; Rebind Evidence After Review |
 | [V9 T011 final plan](../specs/v9-devrail-kernel/final-acceptance-decomposition-plan.md), [run](../specs/v9-devrail-kernel/final-acceptance-orchestration-run.md), and [RCA](../specs/v9-devrail-kernel/root-cause-analysis.md#t011-packed-consumer-gate-rca) | Lockfile-Driven Offline Consumer; Positive Read Authority; Immutable Acceptance Candidate |
-| [V10 ADR](../architecture/decisions/0002-bounded-executor-boundary.md), [implementation review](../specs/v10-executor-adapter/review.md), and [postimplementation RCA](../specs/v10-executor-adapter/root-cause-analysis.md#postimplementation-timing-and-reflection-rca) | Host-Injected Executor Port; Three-Direction Permission Coverage; Honest Abort State; Absolute Monotonic Bound; Proxy Before Reflection; Independent Declaration Consumer |
+| [V10 ADR](../architecture/decisions/0002-bounded-executor-boundary.md), [implementation review](../specs/v10-executor-adapter/review.md), [postimplementation RCA](../specs/v10-executor-adapter/root-cause-analysis.md#postimplementation-timing-and-reflection-rca), and [exact-candidate RCA](../specs/v10-executor-adapter/root-cause-analysis.md#exact-candidate-settlement-detachment-rca) | Host-Injected Executor Port; Three-Direction Permission Coverage; Honest Abort State; Absolute Monotonic Bound; Proxy Before Reflection; Independent Declaration Consumer; Snapshot And Timestamp Together |

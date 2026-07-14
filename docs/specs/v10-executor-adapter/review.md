@@ -2,11 +2,11 @@
 
 ## Status
 
-Acceptance candidate in preparation. Exact-commit independent re-review remains required.
+Corrected candidate verified locally. A new immutable commit, hosted CI run, and three exact-commit `PASS` verdicts remain required.
 
 ## Review Outcome
 
-The first postimplementation review round returned `REVISE` from correctness, security, and API/documentation reviewers. Every concrete finding has a causal implementation or contract fix plus focused regression coverage. Local verification is green; the candidate must still receive explicit `PASS` verdicts after it is committed and pushed.
+The first postimplementation round returned `REVISE` from all three reviewers. Exact review of committed candidate `e3453e0` then returned `PASS` from security and `REVISE` from correctness plus API/documentation. The remaining findings were a non-atomic fulfillment snapshot and documentation that collapsed no-call terminal certainty into post-invocation acknowledgment. Both now have causal corrections and focused regression evidence; a new immutable candidate remains to be frozen.
 
 ## Spec Alignment
 
@@ -25,10 +25,11 @@ The implementation follows ADR 0002:
 
 ## Verification Evidence
 
-- `npm.cmd run verify`: passed with 274 tests, format, lint, typecheck, build, V10 dogfood, package dry run, and clean offline consumer.
+- `npm.cmd run verify`: corrected candidate passed with 275 tests, format, lint, typecheck, build, V10 dogfood, package dry run, and clean offline consumer.
 - V10 dogfood: under-authorized grant returned `SC4206` with zero calls; corrected grant invoked once and produced seven inspectable events.
 - Installed consumer: shipped guide present; public declarations compile under independent settings; a class executor runs; the real result is narrowed and inspected.
-- Workflow checker: last pre-candidate run passed with all 43 isolated negative scenarios; exact-candidate rerun is still required.
+- Prior candidate `e3453e0` passed all seven jobs in GitHub Actions run `29355583567`, but exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE`; green CI did not override review.
+- Workflow checker: corrected candidate passed the positive check and all 43 isolated negative scenarios; exact committed-state rerun is still required.
 
 ## Findings
 
@@ -40,7 +41,9 @@ The implementation follows ADR 0002:
 | Medium | The acknowledgment timer began after abort delivery and accepted late settlement; deadline timers could fire early. | Anchor acknowledgment to `abort.observedAt`, compare settlement timestamps strictly to the bound, and re-arm early timer wake-ups. |
 | Medium | Public grant types, result narrowing, guide packaging, diagnostic wording, and adapter-table rendering drifted from runtime behavior. | Added `ExecutionGrantPermission`, explicit null narrowing, installed guide checks, broadened active exit-class wording, and repaired the table. |
 | Medium | Emitted declarations failed under independent consumer settings. | Replaced incompatible optional-interface declarations with portable intersection aliases and retained an installed TypeScript consumer gate. |
-| Gate | The first postimplementation round did not pass. | Preserve all three `REVISE` handoffs; require the same reviewers to inspect the immutable candidate and return explicit verdicts. |
+| Medium | Fulfillment was timestamped while retaining the executor-owned raw settlement, so a queued mutation could change content before normalization. | Normalize and detach synchronously inside the fulfillment observer, carry only the frozen normalized settlement, and add a resolve-then-mutate regression. |
+| Medium | Active guides implied every terminal cancellation acknowledged executor settlement, including no-call paths. | Distinguish proven no-call terminal certainty from post-invocation settlement acknowledgment in the framework guide, handbook, schema guide, ADR, research interpretation, and durable pattern. |
+| Gate | The first postimplementation round did not pass. | Preserve both review rounds; require all three reviewers to inspect the next immutable candidate and return explicit verdicts. |
 
 ## Residual Risks
 

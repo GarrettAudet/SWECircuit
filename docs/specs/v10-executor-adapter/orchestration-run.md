@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review complete; postimplementation acceptance re-review active.
+Preimplementation review complete; corrected postimplementation candidate is locally verified and awaiting exact-commit re-review.
 
 ## Goal
 
@@ -50,4 +50,14 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open until the same three reviewers inspect the exact committed candidate and return explicit verdicts. Merge to `main` remains owner-gated after the verdicts, candidate checks, CI, and evidence-only closeout are recorded.
+The gate remains open. Candidate `e3453e0` did not pass independent review; the corrected state must be committed, pushed, checked by hosted CI, and inspected by the same three reviewers. Merge to `main` remains owner-gated after three explicit `PASS` verdicts and the evidence-only closeout are recorded.
+
+## Exact Candidate e3453e0 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | Fulfillment timestamp and settlement detachment were separated by an async continuation. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | PASS | Prior lifecycle and hostile-object findings were resolved; residual host risks remained explicit. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | Active guides did not distinguish no-call terminal cancellation from post-invocation acknowledgment. |
+
+Hosted run `29355583567` passed all six Node 22/24 operating-system jobs plus the template checker for `e3453e0`. The gate remains open because independent review found material issues that tests and CI did not detect. A new exact candidate must receive three explicit `PASS` verdicts.

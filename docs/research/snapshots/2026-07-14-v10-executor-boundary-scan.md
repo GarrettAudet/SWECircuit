@@ -25,7 +25,7 @@ Source: `https://developers.openai.com/codex/subagents/` and the official Codex 
 
 The MCP Tasks extension uses capability negotiation and durable task handles with working, input-required, completed, failed, and cancelled states. Cancellation is cooperative and a task may still complete. Task identity must exist durably before a task response is returned.
 
-Implication: V10 should preserve explicit lifecycle states and avoid claiming terminal cancellation before acknowledgment. MCP compatibility is useful later but should not become a core dependency while Tasks remains an optional protocol extension.
+Implication: V10 should preserve explicit lifecycle states and, once invocation begins, avoid claiming terminal cancellation before acknowledgment. A proven no-call path can terminate without executor acknowledgment. MCP compatibility is useful later but should not become a core dependency while Tasks remains an optional protocol extension.
 
 Source: `https://modelcontextprotocol.io/extensions/tasks/overview`
 
@@ -92,7 +92,7 @@ Implement one operation shaped as:
 validated packet | compatible manifest | host grant | injected executor -> lifecycle journal + bounded result
 ```
 
-The host supplies and sandboxes executable code. SWECircuit validates identity and authority relationships, provides an abort signal, normalizes the result, and returns inspectable events. It must never load executable manifest content, interpret a shell string, persist provider output, or report terminal cancellation without executor acknowledgment.
+The host supplies and sandboxes executable code. SWECircuit validates identity and authority relationships, provides an abort signal, normalizes the result, and returns inspectable events. It must never load executable manifest content, interpret a shell string, persist provider output, or report terminal cancellation after invocation without executor acknowledgment; a proven no-call path is terminal without requiring acknowledgment.
 
 ## Promotion Targets
 

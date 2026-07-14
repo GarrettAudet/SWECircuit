@@ -457,6 +457,44 @@ test("throws and malformed settlements become fixed failures without raw values"
   }
 });
 
+test("fulfillment observation detaches settlement before later mutation", async () => {
+  let resolveExecutor;
+  const settlement = {
+    state: "completed",
+    workflow: { stage: "implement", outcome: "pass" },
+    evidence: [{ id: "unit.tests", kind: "test", ref: "test:unit" }],
+  };
+  const executor = {
+    id: "test.executor",
+    version: "1.0.0",
+    execute() {
+      return new Promise((resolve) => {
+        resolveExecutor = resolve;
+      });
+    },
+  };
+  const pending = executeWorkPacket(options({ executor }));
+  await flush();
+  assert.equal(typeof resolveExecutor, "function");
+
+  resolveExecutor(settlement);
+  queueMicrotask(() => {
+    settlement.state = "failed";
+    settlement.terminalCode = "verification_failed";
+    settlement.workflow.stage = "review";
+    settlement.workflow.outcome = "fix";
+    settlement.evidence[0].ref = "test:mutated";
+  });
+
+  const result = await pending;
+  assert.equal(settlement.state, "failed");
+  assert.notEqual(result.value, null);
+  assert.equal(result.value.disposition, "completed");
+  assert.deepEqual(result.value.workflow, { stage: "implement", outcome: "pass" });
+  assert.equal(JSON.stringify(result.value).includes("test:unit"), true);
+  assert.equal(JSON.stringify(result.value).includes("test:mutated"), false);
+});
+
 test("return-bound input canaries fail preflight without leaking", async (t) => {
   const canary = "sk-abcdefghijklmnopqrstuvwx";
   const scenarios = [

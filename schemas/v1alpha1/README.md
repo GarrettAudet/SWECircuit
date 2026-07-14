@@ -100,7 +100,7 @@ Preflight snapshots direct inputs into bounded, accessor-free, detached JSON val
 
 Once invocation begins, API processing success and work outcome are distinct. A valid call returns a frozen ExecutionSummary with completed, failed, cancelled, timed_out, or abort_unconfirmed disposition. Throws and malformed or secret-bearing settlements become fixed failure classes without copying raw provider values.
 
-The effective deadline is the earlier of the invocation timeout and packet deadline. Cancellation is cooperative. Terminal cancellation or timeout means executor settlement was observed within the acknowledgment bound. abort_unconfirmed preserves a running attempt and omits run.completed because work may still be live.
+The effective deadline is the earlier of the invocation timeout and packet deadline. Cancellation is cooperative after invocation. A terminal cancelled result means either no executor call occurred or an invoked executor settled within the acknowledgment bound; a terminal timed_out result means an invoked executor settled within that bound after the deadline won. cancellationAcknowledged therefore expresses terminal certainty and does not imply executor acknowledgment on a no-call path. abort_unconfirmed preserves a running attempt and omits run.completed because work may still be live.
 
 Each call creates one timestamp-free, V9-compatible in-memory journal with contiguous sequence numbers, deterministic event IDs, fixed kernel actor, linear causation, and a link to the grant. The kernel validates the whole journal before returning it but never persists it.
 ## Trace Semantics

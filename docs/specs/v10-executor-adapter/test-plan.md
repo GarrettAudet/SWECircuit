@@ -20,7 +20,7 @@ Acceptance-candidate verification active.
 ## Automated Checks
 
 - Preflight: valid artifacts, exact kinds, manifest capabilities, matching identities, closed grants, all three permission directions, policy bounds, and zero invocation on rejection.
-- Snapshots: nulls, cycles, accessors, mutation detachment, sparse arrays, dense oversized objects, excessive depth, revoked proxies, live proxy traps, forged signals, and revoked signal proxies.
+- Snapshots: nulls, cycles, accessors, input mutation detachment, fulfillment resolve-then-mutate detachment, sparse arrays, dense oversized objects, excessive depth, revoked proxies, live proxy traps, forged signals, and revoked signal proxies.
 - Lifecycle: completion, declared failure, throw, malformed settlement, pre-start cancellation, pre-start expiry, acknowledged caller cancellation, acknowledged timeout, unconfirmed abort, completion at or after deadline, early timer re-arming, final pre-call deadline crossing, and caller-versus-deadline precedence.
 - Privacy: return-bound identity canaries, thrown-value suppression, unknown-field suppression, and secret-bearing evidence rejection.
 - Journal: deterministic IDs, contiguous sequence, grant link, causation, immutability, internal V9 inspection for every returned summary, and file-backed inspection for a completed execution.
@@ -43,6 +43,7 @@ Acceptance-candidate verification active.
 - A settlement observed at or beyond the acknowledgment bound must remain `abort_unconfirmed`.
 - A live proxy must be rejected before its reflection traps execute.
 - A packed TypeScript consumer must compile and narrow the root-exported contract under independent compiler settings.
+- A fulfilled settlement must be normalized and detached before a later microtask can mutate the provider-owned source object.
 
 ## Skipped Checks
 
@@ -51,6 +52,6 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 ## Verification Evidence
 
 - Baseline `2b7bef37fb2477e3fc8779171c5971a3db42f20b`: `npm.cmd run verify` passed with 209 tests; both workflow checkers passed with 42 negative scenarios.
-- Hardened V10 implementation: `npm.cmd run verify` passed with 274 tests, deterministic V10 dogfood, dry-run package inspection, and the clean offline installed consumer.
-- Workflow evidence before final candidate freeze: the positive checker and all 43 V10-aware negative scenarios passed. Both workflow checkers will run again against the exact acceptance candidate.
+- Corrected V10 implementation: `npm.cmd run verify` passed with 275 tests, deterministic V10 dogfood, dry-run package inspection, and the clean offline installed consumer.
+- Corrected working-tree evidence before the next freeze: the positive checker and all 43 V10-aware negative scenarios passed. Both workflow checkers will run again against the exact committed candidate.
 - Independent postimplementation review returned three `REVISE` verdicts; the causal fixes and regressions are recorded in `review.md` and `root-cause-analysis.md`. Exact-commit re-review remains the acceptance gate.
