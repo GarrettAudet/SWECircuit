@@ -2,7 +2,7 @@
 
 ## Status
 
-Exact-candidate revision implemented; full verification and a new immutable review candidate remain required.
+Runtime revision verified on `9d8907a` with three exact `PASS` verdicts and green hosted CI; final feature-spec consistency correction awaits exact review.
 
 ## Summary Of Changes
 
@@ -51,6 +51,7 @@ Exact review of `e3453e0` then found a remaining settlement-ownership interval a
 - Packed consumer: offline install, independent public-declaration compile, initialization, validation, one packet execution, and trace inspection passed.
 - Workflow checker passed and all 43 isolated checker regression scenarios passed.
 - `npm.cmd run verify`, the positive workflow checker, and all 43 negative checker scenarios passed after the exact-candidate correction; a new exact-commit independent review and hosted CI run remain the T006 acceptance gates.
+- Exact candidate `9d8907a` passed correctness, security, and API/documentation review plus all seven jobs in GitHub Actions run `29357443883`. The pre-AC8 whole-repository search then found one stale feature-spec sentence; its docs-only correction must pass the final exact gate.
 
 ## Durable Learnings
 

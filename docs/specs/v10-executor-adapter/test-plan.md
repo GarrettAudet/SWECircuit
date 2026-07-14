@@ -54,4 +54,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Baseline `2b7bef37fb2477e3fc8779171c5971a3db42f20b`: `npm.cmd run verify` passed with 209 tests; both workflow checkers passed with 42 negative scenarios.
 - Corrected V10 implementation: `npm.cmd run verify` passed with 275 tests, deterministic V10 dogfood, dry-run package inspection, and the clean offline installed consumer.
 - Corrected working-tree evidence before the next freeze: the positive checker and all 43 V10-aware negative scenarios passed. Both workflow checkers will run again against the exact committed candidate.
-- Independent postimplementation review returned three `REVISE` verdicts; the causal fixes and regressions are recorded in `review.md` and `root-cause-analysis.md`. Exact-commit re-review remains the acceptance gate.
+- Independent postimplementation review first returned three `REVISE` verdicts. Candidate `e3453e0` then returned `REVISE / PASS / REVISE` despite green CI. Candidate `9d8907a` returned three `PASS` verdicts and passed all seven jobs in run `29357443883`.
+- A pre-closeout semantic search found one stale no-call requirement in the feature spec. The docs-only correction requires the positive and 43-scenario checker replay, exact review, and hosted CI before acceptance.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Corrected candidate verified locally. A new immutable commit, hosted CI run, and three exact-commit `PASS` verdicts remain required.
+Candidate `9d8907a` passed all three exact reviews and hosted CI, but the integration-owner closeout audit found one stale normative sentence in `spec.md`. A final docs-only candidate and exact review remain required.
 
 ## Review Outcome
 
@@ -29,6 +29,7 @@ The implementation follows ADR 0002:
 - V10 dogfood: under-authorized grant returned `SC4206` with zero calls; corrected grant invoked once and produced seven inspectable events.
 - Installed consumer: shipped guide present; public declarations compile under independent settings; a class executor runs; the real result is narrowed and inspected.
 - Prior candidate `e3453e0` passed all seven jobs in GitHub Actions run `29355583567`, but exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE`; green CI did not override review.
+- Candidate `9d8907a` received correctness, security, and API/documentation `PASS` verdicts and passed all seven jobs in GitHub Actions run `29357443883`.
 - Workflow checker: corrected candidate passed the positive check and all 43 isolated negative scenarios; exact committed-state rerun is still required.
 
 ## Findings
@@ -42,8 +43,9 @@ The implementation follows ADR 0002:
 | Medium | Public grant types, result narrowing, guide packaging, diagnostic wording, and adapter-table rendering drifted from runtime behavior. | Added `ExecutionGrantPermission`, explicit null narrowing, installed guide checks, broadened active exit-class wording, and repaired the table. |
 | Medium | Emitted declarations failed under independent consumer settings. | Replaced incompatible optional-interface declarations with portable intersection aliases and retained an installed TypeScript consumer gate. |
 | Medium | Fulfillment was timestamped while retaining the executor-owned raw settlement, so a queued mutation could change content before normalization. | Normalize and detach synchronously inside the fulfillment observer, carry only the frozen normalized settlement, and add a resolve-then-mutate regression. |
-| Medium | Active guides implied every terminal cancellation acknowledged executor settlement, including no-call paths. | Distinguish proven no-call terminal certainty from post-invocation settlement acknowledgment in the framework guide, handbook, schema guide, ADR, research interpretation, and durable pattern. |
+| Medium | Active guides implied every terminal cancellation acknowledged executor settlement, including no-call paths. | Distinguish proven no-call terminal certainty from post-invocation settlement acknowledgment in the feature spec, framework guide, handbook, schema guide, ADR, research interpretation, and durable pattern. |
 | Gate | The first postimplementation round did not pass. | Preserve both review rounds; require all three reviewers to inspect the next immutable candidate and return explicit verdicts. |
+| Gate | The `9d8907a` review prompt and closeout scan did not explicitly enumerate the feature spec, leaving one stale normative sentence after three `PASS` verdicts. | Correct the spec, search the complete contract surface, and require all three reviewers to inspect the final exact commit before AC8 closes. |
 
 ## Residual Risks
 

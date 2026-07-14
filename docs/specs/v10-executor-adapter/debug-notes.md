@@ -145,3 +145,25 @@ Normalize and detach synchronously in the fulfillment observer, timestamp only a
 ### Next Action
 
 Run the full canonical and workflow gates, freeze a new immutable candidate, obtain three exact-commit verdicts, and record its hosted CI result.
+
+## Closeout Contract-Surface Audit
+
+### Trigger
+
+After candidate `9d8907a` received three `PASS` verdicts and seven green hosted jobs, the integration owner ran a repository-wide semantic search before checking AC8.
+
+### Evidence
+
+`docs/specs/v10-executor-adapter/spec.md` still said terminal cancellation or timeout always required executor settlement acknowledgment. That contradicted the proven no-call path and the corrected ADR, handbook, framework guide, schema guide, research interpretation, and memory pattern.
+
+### Confirmed Cause
+
+The API/documentation prompt named the active guides and review records but did not explicitly include the feature spec. The causal correction list in `review.md` likewise omitted it, and the exact reviewer reasonably returned a verdict within the named surface.
+
+### Fix
+
+Correct the normative requirement, add the feature spec to the resolved finding, preserve the `9d8907a` verdicts without broadening their scope, and freeze a final docs-only candidate for exact review and CI.
+
+### Durable Learning
+
+Before closing a cross-document contract change, search the complete repository for the old semantic claim. An explicit file list is useful for focus but cannot substitute for a whole-contract consistency query.

@@ -121,3 +121,9 @@ A resolve-then-mutate test proves that a later microtask cannot change dispositi
 ### Durable Learning
 
 An observation timestamp and the data attributed to it must cross the ownership boundary together. For mutable asynchronous values, detach first and timestamp the completed snapshot; never carry provider-owned data into a later continuation.
+
+## Closeout Contract-Surface Addendum
+
+Candidate `9d8907a` fixed the runtime ownership defect and the named active guides, but one normative feature-spec sentence retained the old acknowledgment claim. The direct cause was incomplete contract-surface enumeration in the correction and review prompt. A repository-wide semantic search found the drift before AC8 closed.
+
+The causal fix is one sentence: a pre-invocation abort or deadline can terminate because no executor work started; after invocation, terminal cancellation or timeout requires bounded settlement acknowledgment. Future closeout reviews must include the feature spec and a whole-repository search for superseded normative language.
