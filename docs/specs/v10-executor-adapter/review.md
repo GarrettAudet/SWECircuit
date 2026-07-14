@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `394612d` returned `REVISE` from correctness, security, and API/documentation. Hosted run `29372879405` passed all six kernel-toolchain jobs but failed Template Check because a fixture assumed host-native newlines. The current correction recognizes container-contained fences, moves legacy structural checks to active Markdown, requires exact unique required headings, and makes the fixture CRLF/LF-neutral. All 77 local checker scenarios pass; exact-commit review and all seven hosted jobs remain. V10 is not merged.
+Candidate `0c42c64` passed all seven hosted jobs in run `29375642610` but returned `REVISE` from correctness, security, and API/documentation for raw README semantics, permissive indentation, newline-crossing heading patterns, and self-staling status prose. The current correction uses active README prose and links, line-safe LF/CRLF ownership, bounded fence indentation, and invariant gate wording. All 84 local checker scenarios pass; exact-commit review and all seven hosted jobs remain. V10 is not merged.
 
 ## Review Outcome
 
@@ -16,7 +16,9 @@ Candidate `4c6818d` corrected those sources and passed hosted CI. Exact review t
 
 Candidate `b2d73e7` corrected those findings and passed hosted CI, but all three reviewers found that the prerequisite still had not reached every public summary and that the packaged grant explanation still lacked a standalone complete disclaimer. Candidate `ac70efc` added the ADR-to-surface matrix and executable parity fixtures; its exact review then exposed the need for target-line enforcement, contradiction rejection, and invariant acceptance-state wording. Candidate `9209ff1` corrected those issues and passed hosted CI plus correctness and API/documentation review; security then demonstrated logical-line and exact-table-ownership bypasses. Candidate `b3ff0d3` corrected those gaps and again passed hosted CI, but correctness and security proved that raw fenced content and duplicate heading owners still bypassed active ownership.
 
-Candidate `394612d` corrected top-level fenced ownership and duplicate contract owners, but all three reviewers found the model was still incomplete: list-contained fences remained visible, older heading checks still inspected raw Markdown, required headings were not unique, and the docs overstated full migration. Its hosted run passed the six kernel jobs but exposed a separate Windows newline assumption in the Template Check fixture. The current correction addresses the complete document representation and portable fixture boundary.
+Candidate `394612d` corrected top-level fenced ownership and duplicate contract owners, but all three reviewers found the model was still incomplete: list-contained fences remained visible, older heading checks still inspected raw Markdown, required headings were not unique, and the docs overstated full migration. Its hosted run passed the six kernel jobs but exposed a separate Windows newline assumption in the Template Check fixture.
+
+Candidate `0c42c64` corrected those gaps and passed all seven hosted jobs. All three reviewers still returned `REVISE`: README prose, navigation, and semantic guards remained raw; fence indentation and heading whitespace were too broad; and candidate-creation status prose became false as soon as the commit existed. The current correction addresses active README ownership, exact line grammar, and invariant acceptance state.
 
 ## Spec Alignment
 
@@ -48,7 +50,8 @@ The implementation follows ADR 0002:
 - Candidate `9209ff1` passed all seven jobs in GitHub Actions run `29366578213`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `PASS`.
 - Candidate `b3ff0d3` passed all seven jobs in GitHub Actions run `29370427573`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS` for fenced-content and duplicate-owner bypasses.
 - Candidate `394612d` returned `REVISE` from correctness, security, and API/documentation for container-fence, legacy structural-owner, unique-heading, and documentation-scope gaps. GitHub Actions run `29372879405` passed all six kernel-toolchain jobs but failed Template Check because the fixture assumed host-native newlines.
-- Local gate: the positive checker and all 77 isolated scenarios pass, comprising 73 expected rejections and four expected acceptances; 30 are public-contract parity cases. The final strengthened run finished in 256.7 seconds after three prior full runs at 259.2, 258.2, and 259.1 seconds, and a direct probe locates the practice table under both LF and CRLF. The executable runtime is unchanged, and exact-commit review plus all seven hosted jobs remain before closeout.
+- Candidate `0c42c64` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29375642610`; correctness, security, and API/documentation all returned `REVISE` for active README scope, line-boundary, indentation, and acceptance-state defects.
+- Local gate: the positive checker and all 84 isolated scenarios pass, comprising 78 expected rejections and six expected acceptances; the 30 executor contract-parity cases are unchanged. Two complete runs finished in 279.3 and 303.8 seconds; the latter is the final pre-candidate run. A direct probe locates the practice table under both LF and CRLF, while the pre-fix line probe reproduced both split-heading and four-space-fence acceptance. The executable runtime is unchanged, and exact-commit review plus all seven hosted jobs remain before closeout.
 
 ## Findings
 
@@ -83,6 +86,10 @@ The implementation follows ADR 0002:
 | Gate | List-contained backtick or tilde fences remained visible to the active-content parser. | Recognize repeated blockquote, unordered-list, and ordered-list container prefixes before fence markers; add diagnostic-bound container fixtures. |
 | Gate | Legacy README, feature, task, debug, RCA, and PR-template structural checks still read raw Markdown or proved heading presence only. | Route structural ownership through active Markdown, require one exact README H1 and required H2 owner, and preserve raw content only for intentional fenced command examples. |
 | Gate | The hosted practice-table fixture used `[Environment]::NewLine` against an LF-normalized tracked file. | Match contiguous table boundaries with a CRLF/LF-neutral regex and directly probe both source newline forms. |
+| Gate | README capability and boundary prose, navigation links, and semantic overclaim guards still inspected raw Markdown. | Validate semantic public-surface content against active Markdown; keep only literal command examples and command-claim guards on raw source. |
+| Gate | Unlimited indentation let a four-space literal fence erase later active content. | Limit structural fence indentation to zero through three spaces around explicit blockquote and list containers; preserve an unmatched indented-literal acceptance fixture. |
+| Gate | `\s+` in exact heading rules consumed line breaks and allowed split-line pseudo-headings. | Use horizontal whitespace plus explicit optional carriage return for H1/H2, debug, RCA, and image-line owners; add split-line rejection fixtures. |
+| Gate | `0c42c64` status records required a new candidate after that immutable candidate already existed. | State only the invariant gate: the exact complete commit needs three `PASS` verdicts, all seven hosted jobs, evidence closeout, and owner approval. |
 
 ## Residual Risks
 

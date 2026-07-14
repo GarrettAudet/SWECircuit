@@ -46,6 +46,8 @@ Acceptance-candidate verification active.
 - A fulfilled settlement must be normalized and detached before a later microtask can mutate the provider-owned source object.
 - Markdown ownership must reject top-level and list-contained fenced contracts, duplicate exact owners, and required headings hidden in inactive content.
 - The practice-table fixture must locate the same contiguous table in LF and CRLF source.
+- README capability and boundary prose, repository identity, navigation, and semantic guards must be active, while literal command examples remain valid inside fences.
+- Split-line README/debug/RCA headings must fail, an unmatched four-space fence literal must not hide later active content, and inactive fenced semantic examples must not trigger overclaim rejection.
 
 ## Skipped Checks
 
@@ -64,4 +66,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `9209ff1` passed all seven jobs in run `29366578213`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `PASS` for logical-line, scope-ownership, contiguous-table, and diagnostic-provenance gaps.
 - Candidate `b3ff0d3` passed all seven jobs in run `29370427573`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS` for fenced-content and duplicate-owner gaps.
 - Candidate `394612d` returned `REVISE / REVISE / REVISE` for list-contained fences, legacy raw structural checks, presence-only required headings, and overstated docs. Run `29372879405` passed all six kernel-toolchain jobs but failed Template Check because its fixture assumed host-native newlines.
-- The current parity correction passes the positive checker and all 77 isolated scenarios: 73 expected rejections and four expected acceptances. Thirty parity cases cover missing terms, structural relocation, contradictory claims, soft wrapping, synonyms, first-table ownership, truthful negatives, expected diagnostics, top-level and container-contained fences, and unique owners. The final strengthened run finished in 256.7 seconds after prior full runs at 259.2, 258.2, and 259.1 seconds; the direct LF/CRLF probe passes. Exact-commit review and all seven hosted jobs remain.
+- Candidate `0c42c64` passed all seven jobs in run `29375642610` but returned `REVISE / REVISE / REVISE` for raw README semantics, permissive indentation, newline-crossing heading patterns, and self-staling status prose.
+- The current correction passes the positive checker and all 84 isolated scenarios: 78 expected rejections and six expected acceptances. Thirty executor parity cases continue to cover the lifecycle and grant surface; seven additional cases cover active README semantics, split headings, bounded indentation, and fenced-example acceptance. Two complete runs finished in 279.3 and 303.8 seconds, with the latter as the final pre-candidate run; the direct LF/CRLF table probe passes. Exact-commit review and all seven hosted jobs remain.

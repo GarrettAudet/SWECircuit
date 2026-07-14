@@ -51,6 +51,7 @@ Keep public declaration compilation under consumer-owned compiler settings in th
 ## Memory Update
 
 Promote the independent-declaration-consumer rule to durable patterns during the V10 memory update.
+
 ## Postimplementation Timing And Reflection RCA
 
 ### Trigger
@@ -183,3 +184,11 @@ Candidate `394612d` made top-level fenced ownership and exact contract sections 
 The root cause was treating active Markdown as a selected contract-locator concern rather than the shared representation for every structural owner, plus treating host-native newlines as source-file structure. The causal fix recognizes repeated blockquote and list container prefixes around fences, migrates legacy structural checks to active content, requires exact unique H1/H2 owners, preserves raw content only for intentional fenced command examples, and uses a CRLF/LF-neutral table regex.
 
 Six diagnostic-bound fixtures cover container-contained fences and legacy heading ownership. A direct LF/CRLF probe protects the table fixture itself. The final strengthened 77-case run passes 73 expected rejections, four expected acceptances, and 30 parity cases in 256.7 seconds; three prior full runs finished in 259.2, 258.2, and 259.1 seconds. The executable runtime remains unchanged.
+
+## Active README And Line-Boundary Addendum
+
+Candidate `0c42c64` passed all seven hosted jobs in run `29375642610`, but correctness, security, and API/documentation all returned `REVISE`. README prose, links, and semantic guards still inspected raw source; fence recognition accepted unlimited indentation; heading regexes crossed line boundaries; and active status records self-staled by requiring a candidate that already existed.
+
+The root cause was an incomplete active/raw ownership model plus line grammar expressed with broad whitespace. The causal fix moves README identity, prose, navigation, and semantic guards to active Markdown while retaining raw command examples, limits structural fence indentation to three spaces around explicit containers, uses horizontal whitespace plus optional CR for exact line owners, and describes only the invariant acceptance gate.
+
+Seven new fixtures prove both rejection and acceptance behavior: fenced-only capability and navigation fail, split README/debug/RCA headings fail, a four-space unmatched fence literal remains visible without hiding later headings, and an inactive fenced capability example does not trigger a semantic overclaim. The expanded harness passes 84 scenarios: 78 expected rejections, six expected acceptances, and 30 unchanged executor contract-parity cases; two complete runs finished in 279.3 and 303.8 seconds, with the latter as the final pre-candidate run. The executable runtime remains unchanged.

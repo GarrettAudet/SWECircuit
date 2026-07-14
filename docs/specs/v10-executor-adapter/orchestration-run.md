@@ -38,6 +38,7 @@ No subagent edited repository state. The integration owner accepted the material
 ## Preimplementation Gate
 
 Gate passed on 2026-07-14. ADR 0002 is accepted for implementation; merge to `main` remains separately owner-gated after code, verification, review, memory, and milestone completion.
+
 ## Postimplementation Review
 
 | Focus | Reviewer | First Verdict | Material Findings | Resolution State |
@@ -50,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; `ac70efc` returned `PASS / REVISE / REVISE`; `9209ff1` returned `PASS / REVISE / PASS`; `b3ff0d3` returned `REVISE / REVISE / PASS`; and `394612d` returned `REVISE / REVISE / REVISE`. Hosted run `29372879405` passed the six kernel-toolchain jobs but failed Template Check because its fixture assumed host-native newlines. The current correction makes fences container-aware, gives legacy structural checks the same active-content view, requires exact unique required headings, and makes the fixture source-newline-neutral. AC8 remains open until the next exact commit passes all three reviews and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; `ac70efc` returned `PASS / REVISE / REVISE`; `9209ff1` returned `PASS / REVISE / PASS`; `b3ff0d3` returned `REVISE / REVISE / PASS`; `394612d` returned `REVISE / REVISE / REVISE`; and `0c42c64` returned `REVISE / REVISE / REVISE` despite all seven hosted jobs passing. The current correction scopes README prose, links, and semantic guards to active Markdown, limits fence indentation, makes exact line owners newline-safe, and uses invariant acceptance-state wording. AC8 remains open until the exact commit containing the complete state records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -160,4 +161,16 @@ The correction that became candidate `394612d` gave every structural contract ch
 
 GitHub Actions run `29372879405` passed all six Node 22/24 operating-system jobs but failed Template Check for exact commit `394612d29b432491e7fee07695f5bcfea553af8f`. The regression fixture searched an LF-normalized tracked file with `[Environment]::NewLine` on Windows, so it failed before running the scenario matrix. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction recognizes container-contained fences, migrates legacy structural owners to active Markdown, requires exact unique README and required H2 owners, preserves raw fenced command examples, and uses a CRLF/LF-neutral fixture regex. The positive checker and all 77 isolated scenarios pass, including 30 parity cases; the gate remains open pending a new exact-commit review and all seven hosted jobs.
+The correction that became candidate `0c42c64` recognized container-contained fences, migrated legacy structural owners to active Markdown, required exact unique README and required H2 owners, preserved raw fenced command examples, and used a CRLF/LF-neutral fixture regex. Its positive checker and all 77 isolated scenarios passed, including 30 parity cases; the gate remained open pending exact-commit review and all seven hosted jobs.
+
+## Exact Candidate 0c42c64 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | README prose and links remained raw; fence indentation was unlimited; `\s+` crossed heading lines; active records still required a candidate that already existed. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | Raw README semantic checks allowed fenced-only requirements and false rejections, while split-line pseudo-headings still satisfied named owners. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | Active context and the milestone self-staled by requiring an unnamed future candidate after `0c42c64` was frozen. |
+
+GitHub Actions run `29375642610` passed Template Check plus all six Node 22/24 operating-system jobs in 4m16s for exact commit `0c42c64e9cef810efc284812e8024bf25419d87b`. Correctness and security each exceeded two bounded waits and returned their verdicts after one explicit immediate-conclusion request. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction moves README identity, prose, navigation, and semantic guards to active Markdown while preserving raw command examples; limits fence indentation to three spaces around explicit containers; makes exact line owners LF/CRLF-safe without newline-crossing whitespace; and describes only the invariant acceptance gate. The positive checker and all 84 isolated scenarios pass: 78 expected rejections, six expected acceptances, and 30 unchanged executor contract-parity cases. The gate remains open until the exact commit containing the complete state records three `PASS` verdicts and all seven hosted jobs.

@@ -190,6 +190,31 @@ try {
     $fencedReadmeHeadingText = $fencedReadmeHeadingText.Replace($requiredReadmeHeading, $fencedReadmeHeading)
     Write-Utf8 $fencedReadmeHeadingPath $fencedReadmeHeadingText
     Assert-CheckerResult "required README heading hidden in fence" $fencedReadmeHeadingFixture $false "Missing heading 'How It Works'"
+    $splitReadmeHeadingFixture = New-Fixture "split-readme-required-heading"
+    $splitReadmeHeadingPath = Join-Path $splitReadmeHeadingFixture "README.md"
+    $splitReadmeHeadingText = Get-Content -LiteralPath $splitReadmeHeadingPath -Raw
+    if (-not $splitReadmeHeadingText.Contains($requiredReadmeHeading)) {
+        throw "Split README fixture could not find the required heading."
+    }
+    $splitReadmeHeadingText = $splitReadmeHeadingText.Replace(
+        $requiredReadmeHeading,
+        "##" + [Environment]::NewLine + "How It Works"
+    )
+    Write-Utf8 $splitReadmeHeadingPath $splitReadmeHeadingText
+    Assert-CheckerResult "required README heading split across lines" $splitReadmeHeadingFixture $false "Missing heading 'How It Works'"
+
+    $indentedFenceLiteralFixture = New-Fixture "indented-fence-literal-before-heading"
+    $indentedFenceLiteralPath = Join-Path $indentedFenceLiteralFixture "README.md"
+    $indentedFenceLiteralText = Get-Content -LiteralPath $indentedFenceLiteralPath -Raw
+    if (-not $indentedFenceLiteralText.Contains($requiredReadmeHeading)) {
+        throw "Indented-literal fixture could not find the required heading."
+    }
+    $indentedFenceLiteralText = $indentedFenceLiteralText.Replace(
+        $requiredReadmeHeading,
+        '    ```' + [Environment]::NewLine + $requiredReadmeHeading
+    )
+    Write-Utf8 $indentedFenceLiteralPath $indentedFenceLiteralText
+    Assert-CheckerResult "four-space fence literal before active heading" $indentedFenceLiteralFixture $true
 
     $duplicateReadmeHeadingFixture = New-Fixture "duplicate-readme-required-heading"
     $duplicateReadmeHeadingPath = Join-Path $duplicateReadmeHeadingFixture "README.md"
@@ -274,6 +299,15 @@ try {
     $truthfulNegationText = (Get-Content -LiteralPath $truthfulNegationPath -Raw) + [Environment]::NewLine + "SWECircuit writes no traces; callers own trace production." + [Environment]::NewLine
     Write-Utf8 $truthfulNegationPath $truthfulNegationText
     Assert-CheckerResult "truthful capability negation" $truthfulNegationFixture $true
+    $fencedOverclaimFixture = New-Fixture "fenced-capability-overclaim-example"
+    $fencedOverclaimPath = Join-Path $fencedOverclaimFixture "README.md"
+    $fencedOverclaimText = (Get-Content -LiteralPath $fencedOverclaimPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '```text' + [Environment]::NewLine +
+        'SWECircuit launches agents.' + [Environment]::NewLine +
+        '```' + [Environment]::NewLine
+    Write-Utf8 $fencedOverclaimPath $fencedOverclaimText
+    Assert-CheckerResult "fenced capability overclaim example" $fencedOverclaimFixture $true
 
     $publicCommandClaims = @(
         @{ Name = "npx"; Text = "npx swecircuit" },
@@ -315,6 +349,19 @@ try {
     )
     Write-Utf8 $navigationPath $navigationText
     Assert-CheckerResult "README missing required navigation" $navigationFixture $false
+    $fencedNavigationFixture = New-Fixture "fenced-readme-navigation"
+    $fencedNavigationPath = Join-Path $fencedNavigationFixture "README.md"
+    $fencedNavigationText = Get-Content -LiteralPath $fencedNavigationPath -Raw
+    $navigationLine = @($fencedNavigationText -split "\r?\n" | Where-Object { $_.Contains("docs/ai/handbook.md") })[0]
+    if ([string]::IsNullOrWhiteSpace($navigationLine)) {
+        throw "Fenced navigation fixture could not find the handbook link line."
+    }
+    $fencedNavigationBlock = '```markdown' + [Environment]::NewLine +
+        $navigationLine + [Environment]::NewLine +
+        '```'
+    $fencedNavigationText = $fencedNavigationText.Replace($navigationLine, $fencedNavigationBlock)
+    Write-Utf8 $fencedNavigationPath $fencedNavigationText
+    Assert-CheckerResult "README navigation hidden in fence" $fencedNavigationFixture $false "README missing required active local link: AGENTS.md"
     $executionLinkFixture = New-Fixture "missing-executor-boundary-link"
     $executionLinkPath = Join-Path $executionLinkFixture "README.md"
     $executionLinkText = (Get-Content -LiteralPath $executionLinkPath -Raw).Replace(
@@ -338,6 +385,20 @@ try {
     )
     Write-Utf8 $missingCapabilityPath $missingCapabilityText
     Assert-CheckerResult "README missing current kernel capability" $missingCapabilityFixture $false
+    $fencedCapabilityFixture = New-Fixture "fenced-readme-current-capability"
+    $fencedCapabilityPath = Join-Path $fencedCapabilityFixture "README.md"
+    $fencedCapabilityText = Get-Content -LiteralPath $fencedCapabilityPath -Raw
+    $capabilityPhrase = "The V10 kernel can now validate and execute one host-selected work packet through a caller-injected executor"
+    $capabilityLine = @($fencedCapabilityText -split "\r?\n" | Where-Object { $_.Contains($capabilityPhrase) })[0]
+    if ([string]::IsNullOrWhiteSpace($capabilityLine)) {
+        throw "Fenced capability fixture could not find the current capability line."
+    }
+    $fencedCapabilityBlock = '~~~text' + [Environment]::NewLine +
+        $capabilityLine + [Environment]::NewLine +
+        '~~~'
+    $fencedCapabilityText = $fencedCapabilityText.Replace($capabilityLine, $fencedCapabilityBlock)
+    Write-Utf8 $fencedCapabilityPath $fencedCapabilityText
+    Assert-CheckerResult "README current capability hidden in fence" $fencedCapabilityFixture $false "README missing required active public-surface text"
 
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
@@ -670,6 +731,23 @@ try {
     $fencedDebugText = $fencedDebugText.Replace($debugHeading, $fencedDebugHeading)
     Write-Utf8 $fencedDebugPath $fencedDebugText
     Assert-CheckerResult "debug heading hidden in fence" $fencedDebugFixture $false "Debug notes missing Reproduction"
+    $splitDebugFixture = New-Fixture "split-debug-heading"
+    $splitDebugPath = Join-Path $splitDebugFixture "docs\specs\v8-readme-visual-clarity\debug-notes.md"
+    $splitDebugText = (Get-Content -LiteralPath $splitDebugPath -Raw).Replace(
+        $debugHeading,
+        "##" + [Environment]::NewLine + "Reproduction"
+    )
+    Write-Utf8 $splitDebugPath $splitDebugText
+    Assert-CheckerResult "debug heading split across lines" $splitDebugFixture $false "Debug notes missing Reproduction"
+
+    $splitRcaFixture = New-Fixture "split-rca-heading"
+    $splitRcaPath = Join-Path $splitRcaFixture "docs\specs\v8-readme-visual-clarity\root-cause-analysis.md"
+    $splitRcaText = (Get-Content -LiteralPath $splitRcaPath -Raw).Replace(
+        "## Reproduction",
+        "##" + [Environment]::NewLine + "Reproduction"
+    )
+    Write-Utf8 $splitRcaPath $splitRcaText
+    Assert-CheckerResult "RCA heading split across lines" $splitRcaFixture $false "RCA missing Reproduction"
 
     $fencedCriteriaFixture = New-Fixture "fenced-acceptance-criteria-heading"
     $fencedCriteriaPath = Join-Path $fencedCriteriaFixture "docs\specs\v8.1-baseline-integrity\spec.md"

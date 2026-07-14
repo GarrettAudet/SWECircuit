@@ -57,6 +57,7 @@ The root cause is confirmed and the causal fix is covered by the packed-consumer
 ## Next Action
 
 Retain independent declaration compilation and installed-runtime execution in the canonical package verification path.
+
 ## Postimplementation Review Debug Record
 
 ### Failure Summary
@@ -144,7 +145,7 @@ Normalize and detach synchronously in the fulfillment observer, timestamp only a
 
 ### Next Action
 
-Run the full canonical and workflow gates, freeze a new immutable candidate, obtain three exact-commit verdicts, and record its hosted CI result.
+Run the full canonical and workflow gates. On the exact complete commit, require three exact-commit verdicts and all seven hosted jobs; if either gate fails, diagnose and repeat from the corrected commit.
 
 ## Closeout Contract-Surface Audit
 
@@ -392,7 +393,7 @@ A Markdown contract owner must be active, unique, and structurally exact. Ignori
 
 ### Evidence
 
-The prior 67-scenario run completed in 186.8 seconds. The first fence-aware implementation rescanned the same Markdown on every section lookup; its 69-scenario run reached 63 passing cases before the 360.4-second wrapper limit terminated it. A process-local cache plus a no-fence fast path reduced the positive checker to 2.27 seconds. The unchanged 69-case matrix completed in 199.6 seconds, two complete 71-case runs finished in 211.2 and 208.2 seconds, and four complete 77-case runs finished in 259.2, 258.2, 259.1, and 256.7 seconds; the last includes the strengthened nested blockquote/list fixture.
+The prior 67-scenario run completed in 186.8 seconds. The first fence-aware implementation rescanned the same Markdown on every section lookup; its 69-scenario run reached 63 passing cases before the 360.4-second wrapper limit terminated it. A process-local cache plus a no-fence fast path reduced the positive checker to 2.27 seconds. The unchanged 69-case matrix completed in 199.6 seconds, two complete 71-case runs finished in 211.2 and 208.2 seconds, four complete 77-case runs finished in 259.2, 258.2, 259.1, and 256.7 seconds, and two complete 84-case runs finished in 279.3 and 303.8 seconds.
 
 ### Classification
 
@@ -438,3 +439,41 @@ PowerShell syntax and the positive checker pass. The final strengthened harness 
 ### Durable Learning
 
 Active Markdown is a document-wide ownership model, not a helper used by selected checks. Container syntax and source newline conventions are part of that model; every structural owner and every regression fixture must use the same portable representation.
+
+## Exact Candidate Active README And Line-Boundary Review
+
+### Trigger
+
+Exact review of `0c42c64e9cef810efc284812e8024bf25419d87b` returned `REVISE` from correctness, security, and API/documentation. GitHub Actions run `29375642610` passed Template Check plus all six Node 22/24 operating-system jobs in 4m16s.
+
+### Evidence
+
+- Correctness and security showed that README capability and boundary prose, local navigation, and semantic overclaim guards still inspected raw Markdown. Required claims or links could therefore exist only inside a fence, while an inactive fenced example could trigger a false overclaim rejection.
+- Correctness showed that unlimited leading indentation let a four-space-indented literal fence erase later active Markdown.
+- Correctness and security showed that `\s+` in named-heading checks consumed newlines, so `##` and a title on the next line could impersonate one heading.
+- API/documentation and correctness found that active context and the milestone still required a new candidate after `0c42c64` was already the immutable commit under review.
+- A direct reproduction returned `split-heading-accepted=True` and `four-space-literal-treated-as-fence=True` before the causal fix.
+
+### Classification
+
+Raw-versus-active README scope gap, permissive indentation, newline-crossing heading ownership, and candidate-dependent status drift.
+
+### Confirmed Cause
+
+The README correction separated active images and headings from raw command examples but left prose, links, and semantic guards in the raw view. Fence recognition used unlimited surrounding indentation, heading patterns used whitespace classes that included line breaks, and status prose described the mechanics of creating a candidate instead of the invariant acceptance gate.
+
+### Causal Fix
+
+- Validate README repository identity, capability and boundary prose, navigation links, and semantic capability guards against active Markdown; keep literal command examples and command-claim guards on raw source.
+- Limit structural fence indentation to zero through three spaces while retaining explicit blockquote and list container prefixes.
+- Use horizontal whitespace plus an explicit optional carriage return for exact H1/H2, debug, RCA, and image-line ownership.
+- Replace candidate-creation instructions with the invariant requirement for exact-commit review, all seven hosted jobs, evidence-only closeout, and owner approval.
+- Add seven diagnostic-bound fixtures for fenced-only prose and navigation, split README/debug/RCA headings, a four-space unmatched fence literal, and an inactive fenced overclaim example.
+
+### Regression
+
+PowerShell syntax and the positive checker pass. The expanded harness passes all 84 scenarios: 78 expected rejections, six expected acceptances, and the same 30 executor contract-parity cases. Two complete runs finished in 279.3 and 303.8 seconds; the latter is the final pre-candidate run. The executable runtime remains unchanged from `9d8907a`.
+
+### Durable Learning
+
+Active Markdown ownership includes prose, links, headings, and semantic guards, but not literal command examples. Line-oriented grammar must use horizontal whitespace and explicit CRLF handling; status records must encode the gate rather than the act of freezing a commit.

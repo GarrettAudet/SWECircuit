@@ -42,7 +42,7 @@ function Test-HasHeadings {
     $text = Remove-MarkdownFencedContent (Read-Text $path)
     foreach ($heading in $Headings) {
         $escaped = [regex]::Escape($heading)
-        $matches = [regex]::Matches($text, "(?m)^##\s+(?:\d+\.\s+)?$escaped\s*$")
+        $matches = [regex]::Matches($text, "(?m)^##[ \t]+(?:\d+\.[ \t]+)?$escaped[ \t]*\r?$")
         if ($matches.Count -eq 0) {
             Add-Failure "Missing heading '$heading' in $RelativePath"
         } elseif ($matches.Count -gt 1) {
@@ -99,7 +99,7 @@ function Remove-MarkdownFencedContent {
 
     foreach ($line in @($Text -split "\r?\n")) {
         if (-not $inFence) {
-            $opening = [regex]::Match($line, '^[ \t]*(?:(?:>[ \t]?|(?:[-+*]|\d+[.)])[ \t]+)[ \t]*)*(?<marker>`{3,}|~{3,})(?<info>.*)$')
+            $opening = [regex]::Match($line, '^[ ]{0,3}(?:(?:>[ \t]?|(?:[-+*]|\d+[.)])[ \t]+)[ ]{0,3})*(?<marker>`{3,}|~{3,})(?<info>.*)$')
             if (-not $opening.Success) {
                 $visibleLines.Add($line) | Out-Null
                 continue
@@ -119,7 +119,7 @@ function Remove-MarkdownFencedContent {
             continue
         }
 
-        $closing = [regex]::Match($line, '^[ \t]*(?:(?:>[ \t]?|(?:[-+*]|\d+[.)])[ \t]+)[ \t]*)*(?<marker>`{3,}|~{3,})[ \t]*$')
+        $closing = [regex]::Match($line, '^[ ]{0,3}(?:(?:>[ \t]?|(?:[-+*]|\d+[.)])[ \t]+)[ ]{0,3})*(?<marker>`{3,}|~{3,})[ \t]*$')
         if ($closing.Success) {
             $marker = $closing.Groups['marker'].Value
             if ($marker[0] -eq $fenceCharacter -and $marker.Length -ge $fenceLength) {
@@ -765,7 +765,7 @@ function Test-FeaturePackage {
         $status = Get-NormalizedStatus $debug
         if ($status -notin @("Not started", "Not needed")) {
             foreach ($heading in @("Reproduction", "Stable Evidence", "Failure Classification", "Hypotheses", "Experiments")) {
-                $headingCount = [regex]::Matches($activeDebug, "(?m)^##\s+$([regex]::Escape($heading))\s*$").Count
+                $headingCount = [regex]::Matches($activeDebug, "(?m)^##[ \t]+$([regex]::Escape($heading))[ \t]*\r?$").Count
                 if ($headingCount -ne 1) {
                     Add-Failure "Debug notes missing $heading in docs/specs/$($FeatureDir.Name)/debug-notes.md"
                 }
@@ -780,7 +780,7 @@ function Test-FeaturePackage {
         $status = Get-NormalizedStatus $rca
         if ($status -notmatch "Not started|Not needed") {
             foreach ($heading in @("Reproduction", "Confirmed Root Cause", "Fix", "Regression Coverage", "Memory Update")) {
-                $headingCount = [regex]::Matches($activeRca, "(?m)^##\s+$([regex]::Escape($heading))\s*$").Count
+                $headingCount = [regex]::Matches($activeRca, "(?m)^##[ \t]+$([regex]::Escape($heading))[ \t]*\r?$").Count
                 if ($headingCount -ne 1) {
                     Add-Failure "RCA missing $heading in docs/specs/$($FeatureDir.Name)/root-cause-analysis.md"
                 }
@@ -1084,38 +1084,46 @@ Test-HasHeadings "README.md" @(
 )
 $readme = Read-Text (Join-Path $Root "README.md")
 $activeReadme = Remove-MarkdownFencedContent $readme
-$readmeHeadingCount = [regex]::Matches($activeReadme, '(?m)^# SWECircuit\s*$').Count
+$readmeHeadingCount = [regex]::Matches($activeReadme, '(?m)^# SWECircuit[ \t]*\r?$').Count
 if ($readmeHeadingCount -ne 1) {
     Add-Failure "README must use SWECircuit as the current project heading"
 }
-if ($readme -notmatch [regex]::Escape("https://github.com/GarrettAudet/SWECircuit")) {
+if ($activeReadme -notmatch [regex]::Escape("https://github.com/GarrettAudet/SWECircuit")) {
     Add-Failure "README must link the current GarrettAudet/SWECircuit repository"
 }
 if ($readme -match [regex]::Escape("https://github.com/GarrettAudet/TraceRail")) {
     Add-Failure "README contains the retired GarrettAudet/TraceRail repository URL"
 }
 $currentOverviewPath = "docs/assets/swecircuit-overview.png"
-$currentOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape($currentOverviewPath) + '\)\s*$'
+$currentOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape($currentOverviewPath) + '\)[ \t]*\r?$'
 if ($activeReadme -notmatch $currentOverviewPattern) {
     Add-Failure "README missing current SWECircuit overview visual embed: $currentOverviewPath"
 }
-$historicalOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape("docs/assets/tracerail-overview.png") + '\)\s*$'
+$historicalOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape("docs/assets/tracerail-overview.png") + '\)[ \t]*\r?$'
 if ($activeReadme -match $historicalOverviewPattern) {
     Add-Failure "README embeds the historical TraceRail overview instead of the current SWECircuit overview"
 }
 
-$requiredReadmeText = @(
+$requiredReadmeActiveText = @(
     "The V10 kernel can now validate and execute one host-selected work packet through a caller-injected executor",
     "External hosts still select and schedule work, enforce permissions, isolate runtimes, persist traces, and merge changes.",
-    "node dist/cli.js init --project <existing-empty-directory> --project-id quick-start",
-    "node dist/cli.js validate --project examples/minimal",
-    "node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl",
     "These are repository-local development commands for the private workspace",
     "The V10 kernel does not dynamically load adapters, execute circuits, terminate process trees, merge branches, or update memory automatically."
 )
-foreach ($requiredText in $requiredReadmeText) {
-    if ($readme -notmatch [regex]::Escape($requiredText)) {
-        Add-Failure "README missing required current public-surface text: $requiredText"
+foreach ($requiredText in $requiredReadmeActiveText) {
+    if ($activeReadme -notmatch [regex]::Escape($requiredText)) {
+        Add-Failure "README missing required active public-surface text: $requiredText"
+    }
+}
+
+$requiredReadmeCommandExamples = @(
+    "node dist/cli.js init --project <existing-empty-directory> --project-id quick-start",
+    "node dist/cli.js validate --project examples/minimal",
+    "node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl"
+)
+foreach ($requiredCommand in $requiredReadmeCommandExamples) {
+    if ($readme -notmatch [regex]::Escape($requiredCommand)) {
+        Add-Failure "README missing required command example: $requiredCommand"
     }
 }
 
@@ -1130,8 +1138,8 @@ $requiredReadmeLinks = @(
 )
 foreach ($linkTarget in $requiredReadmeLinks) {
     $linkPattern = '\]\(' + [regex]::Escape($linkTarget) + '\)'
-    if ($readme -notmatch $linkPattern) {
-        Add-Failure "README missing required local link: $linkTarget"
+    if ($activeReadme -notmatch $linkPattern) {
+        Add-Failure "README missing required active local link: $linkTarget"
     }
 
     $resolvedLink = Join-Path $Root $linkTarget.TrimEnd('/')
@@ -1140,15 +1148,23 @@ foreach ($linkTarget in $requiredReadmeLinks) {
     }
 }
 
-$forbiddenReadmePatterns = @(
+$forbiddenActiveReadmePatterns = @(
     @{ Pattern = '(?i)\bplanned executable kernel\b'; Message = "README still describes the implemented kernel as planned" },
     @{ Pattern = '(?i)\bSWECircuit\s+(?:launches\s+agents|schedules\s+agents|executes\s+circuits|writes\s+traces|retrieves\s+evidence|merges\s+branches|updates\s+memory\s+automatically)\b'; Message = "README positively claims a capability owned by an external runtime" },
-    @{ Pattern = '(?i)\bSWECircuit\s+(?:enforces\s+(?:permissions|grants)|loads\s+(?:providers|adapters)|persists\s+(?:traces|events)|terminates\s+process(?:es|\s+trees))\b'; Message = "README positively claims host-owned execution authority or persistence" },
+    @{ Pattern = '(?i)\bSWECircuit\s+(?:enforces\s+(?:permissions|grants)|loads\s+(?:providers|adapters)|persists\s+(?:traces|events)|terminates\s+process(?:es|\s+trees))\b'; Message = "README positively claims host-owned execution authority or persistence" }
+)
+foreach ($rule in $forbiddenActiveReadmePatterns) {
+    if ($activeReadme -match $rule.Pattern) {
+        Add-Failure $rule.Message
+    }
+}
+
+$forbiddenReadmeCommandPatterns = @(
     @{ Pattern = '(?i)\bnpx\s+swecircuit\b'; Message = "README implies a published npx command" },
     @{ Pattern = '(?i)\bnpm\s+install\s+(?:-g\s+)?swecircuit\b'; Message = "README implies an installable SWECircuit package" },
     @{ Pattern = '(?i)\b(?:published|public)\s+SWECircuit\s+CLI\b'; Message = "README implies a published SWECircuit CLI" }
 )
-foreach ($rule in $forbiddenReadmePatterns) {
+foreach ($rule in $forbiddenReadmeCommandPatterns) {
     if ($readme -match $rule.Pattern) {
         Add-Failure $rule.Message
     }
