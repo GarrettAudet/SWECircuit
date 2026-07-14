@@ -50,7 +50,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; and `ac70efc` returned `PASS / REVISE / REVISE`, each despite green hosted CI. The current correction targets the last two findings with structural line checks, contradiction fixtures, and invariant gate wording. AC8 remains open until the current exact commit passes all three reviews and hosted CI. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; `ac70efc` returned `PASS / REVISE / REVISE`; and `9209ff1` returned `PASS / REVISE / PASS`, each despite green hosted CI. The current correction targets logical-statement parsing, exact subsection and first-table-row ownership, truthful-negative preservation, and diagnostic-bound fixtures. AC8 remains open until the current exact commit passes all three reviews and hosted CI. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -125,3 +125,15 @@ GitHub Actions run `29361203381` passed all six Node 22/24 operating-system jobs
 GitHub Actions run `29364033724` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `ac70efc6cdfc9d6d07e51db1a4203c6a15b7026c`. No reviewer edited files, ran tests, or used network.
 
 The current correction structurally targets the intended contract line, rejects known contradictory positive claims, adds 13 preserving or relocation fixtures, and uses invariant acceptance-state wording. The gate remains open pending exact-commit re-review and hosted CI.
+
+## Exact Candidate 9209ff1 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | PASS | All 18 locators, 13 fixtures, 62-scenario arithmetic, documentation links, and runtime non-change were accurate. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | Physical-line and narrow lexical checks missed soft wraps or synonyms, could reject truthful negatives, and did not prove exact subsection or first-contiguous-table ownership; fixtures asserted exit status but not causal diagnostics. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | PASS | Invariant acceptance wording, `ac70efc` provenance, links, counts, and current-versus-historical status were consistent. |
+
+GitHub Actions run `29366578213` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `9209ff16b9c0a77ca174eb88027676a9c91147e3`. No reviewer edited files, ran tests, or used network.
+
+The current correction models logical Markdown ownership, keys required practices to the first contiguous table, adds five preserving or bypass fixtures, and requires the intended diagnostic for every parity rejection. The local 67-scenario harness passes; the gate remains open pending exact-commit re-review and hosted CI.

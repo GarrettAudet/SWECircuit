@@ -314,3 +314,54 @@ The positive checker passes. The isolated harness passes 62 scenarios: 59 expect
 ### Durable Learning
 
 Presence is not parity. A high-risk public contract needs a structural locator for the active claim, explicit rejection of known contradictory claims, and status language that remains true before and after an immutable candidate is created.
+
+## Exact Candidate Logical Markdown Ownership Review
+
+### Trigger
+
+Exact review of `9209ff16b9c0a77ca174eb88027676a9c91147e3` returned correctness `PASS`, security `REVISE`, and API/documentation `PASS` while GitHub Actions run `29366578213` passed all six Node 22/24 operating-system jobs plus Template Check.
+
+### Evidence
+
+- Correctness confirmed all 18 contract locators, 13 preserving or relocation fixtures, the 62-scenario arithmetic, and the unchanged V10 runtime.
+- API/documentation confirmed the acceptance-gate wording, prior-candidate provenance, links, and evidence counts.
+- Security demonstrated that physical-line patterns could miss soft-wrapped claims or synonyms such as `confirms`, while broad lexical forms could reject truthful negatives such as `The kernel never authenticates the issuer`.
+- Security also showed that a line anywhere under a broad section did not prove exact subsection ownership, a table-like row after the first table could satisfy presence checks, and exit-only fixtures did not prove which rule caused rejection.
+
+### Classification
+
+Logical-Markdown parsing gap, active-owner ambiguity, and regression-provenance gap.
+
+### Confirmed Cause
+
+The checker modeled Markdown as physical lines and broad heading slices. That representation did not match the logical paragraphs, nested heading ownership, or contiguous table structure that humans and renderers treat as the active contract. The harness observed only process success or failure, so an unrelated rule could make a negative fixture appear effective.
+
+### Causal Fix
+
+- Scope paragraph contracts to exact `##` sections and, where required, exact `###` subsections.
+- Parse non-code Markdown into normalized logical statements so soft wrapping does not alter contradiction detection.
+- Locate practices by exact key in the first contiguous table under Current Practices.
+- Require every parity rejection fixture to include its intended `Contract locator`, `Contract table row`, or `Contract contradiction` diagnostic.
+- Preserve a truthful-negative acceptance fixture and treat finite lexical contradiction rules as defense in depth rather than proof of arbitrary semantic consistency.
+
+### Regression
+
+The positive checker passes. The isolated harness passes 67 scenarios: 63 expected rejections and four expected acceptances. Twenty-four parity cases now cover missing terms, relocations, logical soft wraps, synonyms, grant adjectives, first-table ownership, truthful negatives, and expected diagnostic provenance. The executable runtime remains unchanged.
+
+### Durable Learning
+
+Validate the rendered ownership model, not merely nearby bytes. Structural locators establish where a claim belongs; logical-statement checks catch bounded contradiction families; diagnostic-bound fixtures prove the intended rule fired; independent semantic review remains the acceptance backstop.
+
+## Checker Harness Performance Observation
+
+### Evidence
+
+The exact post-documentation 67-scenario run completed successfully in 186.8 seconds on the current Windows workspace. An earlier run with a 120-second command ceiling reached 57 passing scenarios before the wrapper terminated it; rerunning with a larger bound completed without test changes.
+
+### Classification
+
+Workflow performance friction, not a correctness or isolation defect.
+
+### Decision
+
+Preserve one fresh repository copy and one checker process per scenario for the V10 acceptance candidate. Optimize fixture materialization only in a later bounded work item with equivalence tests, because changing isolation strategy inside this security correction would widen the reviewed surface.

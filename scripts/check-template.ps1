@@ -79,11 +79,114 @@ function Get-MarkdownSection {
     )
 
     $escaped = [regex]::Escape($Heading)
-    $match = [regex]::Match($Text, "(?ms)^##\s+$escaped\s*(.*?)(?=^##\s+|\z)")
+    $match = [regex]::Match($Text, "(?ms)^##[ \t]+$escaped[ \t]*(?:\r?\n|\z)(.*?)(?=^##[ \t]+|\z)")
     if ($match.Success) {
         return $match.Groups[1].Value.Trim()
     }
     return ""
+}
+
+function Get-MarkdownScopedContent {
+    param(
+        [string]$Text,
+        [string]$SectionName,
+        [string]$SubsectionName = ""
+    )
+
+    $section = Get-MarkdownSection $Text $SectionName
+    if ([string]::IsNullOrWhiteSpace($section)) {
+        return ""
+    }
+
+    if ([string]::IsNullOrWhiteSpace($SubsectionName)) {
+        $nestedHeading = [regex]::Match($section, '(?m)^#{3,6}\s+')
+        if ($nestedHeading.Success) {
+            return $section.Substring(0, $nestedHeading.Index).Trim()
+        }
+        return $section.Trim()
+    }
+
+    $escaped = [regex]::Escape($SubsectionName)
+    $subsection = [regex]::Match($section, "(?ms)^###[ \t]+$escaped[ \t]*(?:\r?\n|\z)(.*?)(?=^###[ \t]+|\z)")
+    if (-not $subsection.Success) {
+        return ""
+    }
+
+    $content = $subsection.Groups[1].Value.Trim()
+    $nestedHeading = [regex]::Match($content, '(?m)^#{4,6}\s+')
+    if ($nestedHeading.Success) {
+        return $content.Substring(0, $nestedHeading.Index).Trim()
+    }
+    return $content
+}
+
+function Get-MarkdownStatements {
+    param([string]$Content)
+
+    $chunks = New-Object System.Collections.Generic.List[string]
+    $buffer = New-Object System.Collections.Generic.List[string]
+    $inFence = $false
+
+    foreach ($line in @($Content -split "\r?\n")) {
+        $trimmed = $line.Trim()
+
+        if ($trimmed.StartsWith('```', [System.StringComparison]::Ordinal)) {
+            if ($buffer.Count -gt 0) {
+                $chunks.Add(($buffer -join " ").Trim()) | Out-Null
+                $buffer.Clear()
+            }
+            $inFence = -not $inFence
+            continue
+        }
+        if ($inFence) {
+            continue
+        }
+
+        if ([string]::IsNullOrWhiteSpace($trimmed) -or $trimmed -match '^#{1,6}\s+') {
+            if ($buffer.Count -gt 0) {
+                $chunks.Add(($buffer -join " ").Trim()) | Out-Null
+                $buffer.Clear()
+            }
+            continue
+        }
+
+        if ($trimmed -match '^\|.*\|$') {
+            if ($buffer.Count -gt 0) {
+                $chunks.Add(($buffer -join " ").Trim()) | Out-Null
+                $buffer.Clear()
+            }
+            foreach ($cell in @($trimmed.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })) {
+                if (-not [string]::IsNullOrWhiteSpace($cell) -and $cell -notmatch '^:?-{3,}:?$') {
+                    $chunks.Add($cell) | Out-Null
+                }
+            }
+            continue
+        }
+
+        if ($trimmed -match '^(?:[-*+]\s+|\d+\.\s+)') {
+            if ($buffer.Count -gt 0) {
+                $chunks.Add(($buffer -join " ").Trim()) | Out-Null
+                $buffer.Clear()
+            }
+        }
+        $buffer.Add($trimmed) | Out-Null
+    }
+
+    if ($buffer.Count -gt 0) {
+        $chunks.Add(($buffer -join " ").Trim()) | Out-Null
+    }
+
+    $statements = New-Object System.Collections.Generic.List[string]
+    foreach ($chunk in $chunks) {
+        $normalized = [regex]::Replace($chunk, '\s+', ' ').Trim()
+        foreach ($statement in @([regex]::Split($normalized, '(?<=[.!?])\s+'))) {
+            if (-not [string]::IsNullOrWhiteSpace($statement)) {
+                $statements.Add($statement.Trim()) | Out-Null
+            }
+        }
+    }
+
+    return @($statements)
 }
 
 function Get-NormalizedStatus {
@@ -146,28 +249,31 @@ function Test-SectionsNonEmpty {
     }
 }
 
-function Test-SectionTableColumns {
+function Get-SectionMarkdownTable {
     param(
         [string]$RelativePath,
         [string]$SectionName,
-        [string[]]$RequiredColumns
+        [string]$SubsectionName = ""
     )
 
     $path = Join-Path $Root $RelativePath
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
-        Add-Failure "Missing file for table conformance check: $RelativePath"
-        return
+        Add-Failure "Contract table source is missing: $RelativePath"
+        return $null
     }
 
-    $section = Get-MarkdownSection (Read-Text $path) $SectionName
-    if ([string]::IsNullOrWhiteSpace($section)) {
-        Add-Failure "Missing or empty section '$SectionName' in $RelativePath"
-        return
+    $content = Get-MarkdownScopedContent (Read-Text $path) $SectionName $SubsectionName
+    $scopeLabel = if ([string]::IsNullOrWhiteSpace($SubsectionName)) {
+        "section '$SectionName'"
+    } else {
+        "subsection '$SubsectionName' under section '$SectionName'"
+    }
+    if ([string]::IsNullOrWhiteSpace($content)) {
+        Add-Failure "Contract table scope $scopeLabel in $RelativePath is missing or empty"
+        return $null
     }
 
-    $lines = @($section -split "\r?\n")
-    $headerColumns = $null
-    $headerLineIndex = -1
+    $lines = @($content -split "\r?\n")
     for ($i = 0; $i -lt ($lines.Count - 1); $i++) {
         $headerLine = $lines[$i].Trim()
         $separatorLine = $lines[$i + 1].Trim()
@@ -183,49 +289,111 @@ function Test-SectionTableColumns {
                 break
             }
         }
+        if (-not $isSeparator) {
+            continue
+        }
 
-        if ($isSeparator) {
-            $headerColumns = @($headerLine.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
-            $headerLineIndex = $i
-            break
+        $headers = @($headerLine.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
+        $rows = New-Object System.Collections.Generic.List[object]
+        for ($rowIndex = $i + 2; $rowIndex -lt $lines.Count; $rowIndex++) {
+            $rowLine = $lines[$rowIndex].Trim()
+            if ($rowLine -notmatch '^\|.*\|$') {
+                break
+            }
+
+            $rows.Add([pscustomobject]@{
+                Cells = @($rowLine.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
+                Text = $rowLine
+            }) | Out-Null
+        }
+
+        return [pscustomobject]@{
+            Headers = $headers
+            Rows = $rows.ToArray()
         }
     }
 
-    if ($null -eq $headerColumns) {
-        Add-Failure "Section '$SectionName' in $RelativePath must include a Markdown table"
+    Add-Failure "Contract table scope $scopeLabel in $RelativePath must include a Markdown table"
+    return $null
+}
+
+function Test-SectionTableColumns {
+    param(
+        [string]$RelativePath,
+        [string]$SectionName,
+        [string[]]$RequiredColumns,
+        [string]$SubsectionName = ""
+    )
+
+    $table = Get-SectionMarkdownTable $RelativePath $SectionName $SubsectionName
+    if ($null -eq $table) {
         return
     }
 
     foreach ($requiredColumn in $RequiredColumns) {
-        if ($headerColumns -notcontains $requiredColumn) {
-            Add-Failure "Table in section '$SectionName' in $RelativePath must include column '$requiredColumn'"
+        if ($table.Headers -notcontains $requiredColumn) {
+            Add-Failure "Contract table in section '$SectionName' of $RelativePath must include column '$requiredColumn'"
         }
     }
 
-    $dataRowCount = 0
-    for ($i = $headerLineIndex + 2; $i -lt $lines.Count; $i++) {
-        $row = $lines[$i].Trim()
-        if ($row -notmatch '^\|.*\|$') {
-            break
-        }
+    if ($table.Rows.Count -eq 0) {
+        Add-Failure "Contract table in section '$SectionName' of $RelativePath must include at least one contiguous data row"
+        return
+    }
 
-        $dataRowCount++
-        $cells = @($row.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
+    for ($rowIndex = 0; $rowIndex -lt $table.Rows.Count; $rowIndex++) {
+        $cells = @($table.Rows[$rowIndex].Cells)
         foreach ($requiredColumn in $RequiredColumns) {
-            $columnIndex = [array]::IndexOf($headerColumns, $requiredColumn)
+            $columnIndex = [array]::IndexOf([object[]]$table.Headers, $requiredColumn)
             if ($columnIndex -lt 0) {
                 continue
             }
             if ($cells.Count -le $columnIndex -or [string]::IsNullOrWhiteSpace($cells[$columnIndex])) {
-                Add-Failure "Table row $dataRowCount in section '$SectionName' in $RelativePath has an empty '$requiredColumn' value"
+                Add-Failure "Contract table row $($rowIndex + 1) in section '$SectionName' of $RelativePath has an empty '$requiredColumn' value"
             }
         }
     }
+}
 
-    if ($dataRowCount -eq 0) {
-        Add-Failure "Table in section '$SectionName' in $RelativePath must include at least one data row"
+function Test-SectionTableRowContains {
+    param(
+        [string]$RelativePath,
+        [string]$SectionName,
+        [string]$KeyColumn,
+        [string]$RowKey,
+        [string[]]$RequiredTerms,
+        [string]$SubsectionName = ""
+    )
+
+    $table = Get-SectionMarkdownTable $RelativePath $SectionName $SubsectionName
+    if ($null -eq $table) {
+        return
+    }
+
+    $keyIndex = [array]::IndexOf([object[]]$table.Headers, $KeyColumn)
+    if ($keyIndex -lt 0) {
+        Add-Failure "Contract table row '$RowKey' in section '$SectionName' of $RelativePath requires key column '$KeyColumn'"
+        return
+    }
+
+    $matches = @($table.Rows | Where-Object {
+        $cells = @($_.Cells)
+        $cells.Count -gt $keyIndex -and
+            $cells[$keyIndex].Equals($RowKey, [System.StringComparison]::Ordinal)
+    })
+    if ($matches.Count -ne 1) {
+        Add-Failure "Contract table row '$RowKey' in section '$SectionName' of $RelativePath must appear exactly once in the first contiguous table; found $($matches.Count)"
+        return
+    }
+
+    $rowText = $matches[0].Text
+    foreach ($term in $RequiredTerms) {
+        if ($rowText.IndexOf($term, [System.StringComparison]::OrdinalIgnoreCase) -lt 0) {
+            Add-Failure "Contract table row '$RowKey' in section '$SectionName' of $RelativePath must include '$term'"
+        }
     }
 }
+
 $script:CanonicalOutcomes = @(
     "pass",
     "fix",
@@ -367,32 +535,38 @@ function Test-SectionLineContains {
         [string]$RelativePath,
         [string]$SectionName,
         [string]$LinePrefix,
-        [string[]]$RequiredTerms
+        [string[]]$RequiredTerms,
+        [string]$SubsectionName = ""
     )
 
     $path = Join-Path $Root $RelativePath
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
-        Add-Failure "Missing file for section line conformance check: $RelativePath"
+        Add-Failure "Contract locator source is missing: $RelativePath"
         return
     }
 
-    $section = Get-MarkdownSection (Read-Text $path) $SectionName
-    if ([string]::IsNullOrWhiteSpace($section)) {
-        Add-Failure "Missing or empty section '$SectionName' in $RelativePath"
+    $content = Get-MarkdownScopedContent (Read-Text $path) $SectionName $SubsectionName
+    $scopeLabel = if ([string]::IsNullOrWhiteSpace($SubsectionName)) {
+        "section '$SectionName'"
+    } else {
+        "subsection '$SubsectionName' under section '$SectionName'"
+    }
+    if ([string]::IsNullOrWhiteSpace($content)) {
+        Add-Failure "Contract locator scope $scopeLabel in $RelativePath is missing or empty"
         return
     }
 
-    $matchingLines = @($section -split "\r?\n" | Where-Object {
+    $matchingLines = @($content -split "\r?\n" | Where-Object {
         $_.TrimStart().StartsWith($LinePrefix, [System.StringComparison]::Ordinal)
     })
     if ($matchingLines.Count -ne 1) {
-        Add-Failure "Section '$SectionName' in $RelativePath must contain exactly one line beginning '$LinePrefix'; found $($matchingLines.Count)"
+        Add-Failure "Contract locator in $scopeLabel of $RelativePath must contain exactly one line beginning '$LinePrefix'; found $($matchingLines.Count)"
         return
     }
 
     foreach ($term in $RequiredTerms) {
         if ($matchingLines[0].IndexOf($term, [System.StringComparison]::OrdinalIgnoreCase) -lt 0) {
-            Add-Failure "Line beginning '$LinePrefix' in section '$SectionName' of $RelativePath must include '$term'"
+            Add-Failure "Contract locator beginning '$LinePrefix' in $scopeLabel of $RelativePath must include '$term'"
         }
     }
 }
@@ -401,26 +575,61 @@ function Test-SectionRejectsPatterns {
     param(
         [string]$RelativePath,
         [string]$SectionName,
-        [string[]]$ForbiddenPatterns
+        [string[]]$ForbiddenPatterns,
+        [string]$SubsectionName = "",
+        [string]$TableKeyColumn = "",
+        [string]$TableRowKey = ""
     )
 
     $path = Join-Path $Root $RelativePath
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
-        Add-Failure "Missing file for contradictory-claim check: $RelativePath"
+        Add-Failure "Contract contradiction source is missing: $RelativePath"
         return
     }
 
-    $section = Get-MarkdownSection (Read-Text $path) $SectionName
-    if ([string]::IsNullOrWhiteSpace($section)) {
-        Add-Failure "Missing or empty section '$SectionName' in $RelativePath"
-        return
+    $scopeLabel = if ([string]::IsNullOrWhiteSpace($SubsectionName)) {
+        "section '$SectionName'"
+    } else {
+        "subsection '$SubsectionName' under section '$SectionName'"
     }
 
+    if (-not [string]::IsNullOrWhiteSpace($TableRowKey)) {
+        $table = Get-SectionMarkdownTable $RelativePath $SectionName $SubsectionName
+        if ($null -eq $table) {
+            return
+        }
+        $keyIndex = [array]::IndexOf([object[]]$table.Headers, $TableKeyColumn)
+        if ($keyIndex -lt 0) {
+            return
+        }
+        $matches = @($table.Rows | Where-Object {
+            $cells = @($_.Cells)
+            $cells.Count -gt $keyIndex -and
+                $cells[$keyIndex].Equals($TableRowKey, [System.StringComparison]::Ordinal)
+        })
+        if ($matches.Count -ne 1) {
+            return
+        }
+        $content = $matches[0].Text
+        $scopeLabel = "table row '$TableRowKey' in section '$SectionName'"
+    } else {
+        $content = Get-MarkdownScopedContent (Read-Text $path) $SectionName $SubsectionName
+        if ([string]::IsNullOrWhiteSpace($content)) {
+            Add-Failure "Contract contradiction scope $scopeLabel in $RelativePath is missing or empty"
+            return
+        }
+    }
+
+    $statements = @(Get-MarkdownStatements $content)
     $options = [System.Text.RegularExpressions.RegexOptions]::IgnoreCase -bor
-        [System.Text.RegularExpressions.RegexOptions]::Multiline
-    foreach ($pattern in $ForbiddenPatterns) {
-        if ([regex]::IsMatch($section, $pattern, $options)) {
-            Add-Failure "Section '$SectionName' in $RelativePath contains a forbidden contradictory claim matching '$pattern'"
+        [System.Text.RegularExpressions.RegexOptions]::CultureInvariant
+    for ($index = 0; $index -lt $ForbiddenPatterns.Count; $index++) {
+        $pattern = $ForbiddenPatterns[$index]
+        foreach ($statement in $statements) {
+            if ([regex]::IsMatch($statement, $pattern, $options)) {
+                Add-Failure "Contract contradiction policy $($index + 1) rejected a claim in $scopeLabel of $RelativePath"
+                break
+            }
         }
     }
 }
@@ -641,28 +850,54 @@ $executorLivenessPhrase = "all activity capable of advancing the invocation or p
 $executorLivenessSurfaces = @(
     @{ RelativePath = "docs/framework/executor-boundary.md"; SectionName = "Result Semantics"; LinePrefix = "For invoked work," },
     @{ RelativePath = "schemas/v1alpha1/README.md"; SectionName = "Execution Boundary"; LinePrefix = "For invoked work," },
-    @{ RelativePath = "docs/ai/handbook.md"; SectionName = "20. Modular Orchestration Framework"; LinePrefix = "Cancellation is cooperative after invocation." },
+    @{ RelativePath = "docs/ai/handbook.md"; SectionName = "20. Modular Orchestration Framework"; SubsectionName = "Bounded Executor Boundary"; LinePrefix = "Cancellation is cooperative after invocation." },
     @{ RelativePath = "docs/framework/capability-adapters.md"; SectionName = "Provider Executor Bridge"; LinePrefix = "4. After invocation," },
-    @{ RelativePath = "docs/research/practice-register.md"; SectionName = "Current Practices"; LinePrefix = "| Cooperative cancellation with abort_unconfirmed |" },
-    @{ RelativePath = "docs/memory/patterns.md"; SectionName = "Documentation Patterns"; LinePrefix = "Treat cancellation as observed protocol state, not a wish." },
+    @{ RelativePath = "docs/research/practice-register.md"; SectionName = "Current Practices"; KeyColumn = "Practice"; RowKey = "Cooperative cancellation with abort_unconfirmed" },
+    @{ RelativePath = "docs/memory/patterns.md"; SectionName = "Documentation Patterns"; SubsectionName = "Honest Abort State"; LinePrefix = "Treat cancellation as observed protocol state, not a wish." },
     @{ RelativePath = "docs/specs/v10-executor-adapter/spec.md"; SectionName = "Requirements"; LinePrefix = "- If abort or deadline wins before invocation," },
     @{ RelativePath = "docs/specs/v10-executor-adapter/plan.md"; SectionName = "Risks And Mitigations"; LinePrefix = "- Mitigation: terminalize a pre-invocation abort or deadline" },
     @{ RelativePath = "docs/memory/active-context.md"; SectionName = "Important Current Constraints"; LinePrefix = "- Cancellation uses absolute monotonic observations." }
 )
 foreach ($surface in $executorLivenessSurfaces) {
-    Test-SectionLineContains $surface.RelativePath $surface.SectionName $surface.LinePrefix @(
-        $executorLivenessPhrase,
-        "not acknowledgment"
-    )
+    if ($surface.ContainsKey("RowKey")) {
+        Test-SectionTableRowContains $surface.RelativePath $surface.SectionName $surface.KeyColumn $surface.RowKey @(
+            $executorLivenessPhrase,
+            "not acknowledgment"
+        )
+        continue
+    }
+
+    $locator = @{
+        RelativePath = $surface.RelativePath
+        SectionName = $surface.SectionName
+        LinePrefix = $surface.LinePrefix
+        RequiredTerms = @($executorLivenessPhrase, "not acknowledgment")
+    }
+    if ($surface.ContainsKey("SubsectionName")) {
+        $locator.SubsectionName = $surface.SubsectionName
+    }
+    Test-SectionLineContains @locator
 }
 
 $lifecycleContradictionPatterns = @(
-    '^(?![^\r\n]*(?:does not|cannot|never)\b)[^\r\n]*\b(?:timely settlement|in-window settlement|within-window settlement|settlement within (?:the )?(?:acknowledgment )?window)\b[^\r\n]*\b(?:proves|guarantees|means)\b[^\r\n]*\b(?:work|activity)\b[^\r\n]*\bstopped\b',
-    '^(?![^\r\n]*\b(?:not|never|cannot)\b[^\r\n]*\backnowledg(?:e)?ment\b)[^\r\n]*\b(?:transfer(?:ring)?|handoff|handing off)\b[^\r\n]*\blive work\b[^\r\n]*\b(?:is|counts as|constitutes|means)\b[^\r\n]*\backnowledg(?:e)?ment\b',
-    '^(?![^\r\n]*\b(?:not|never|cannot)\b[^\r\n]*\brequir)[^\r\n]*\bno-call\b[^\r\n]*\b(?:requires?|needs?|must have)\b[^\r\n]*\bexecutor acknowledgment\b'
+    '\b(?:timely|in-window|within-window|within (?:the )?(?:acknowledgment )?window)?\s*settlement\b.{0,160}(?<!not )(?<!never )(?<!cannot )(?<!can not )(?<!does not )(?<!do not )(?<!doesn''t )\b(?:proves?|guarantees?|means?|confirms?|ensures?|demonstrates?|establishes?)\b.{0,160}\b(?:work|activity|invocation effects?)\b.{0,80}\b(?:has |have |is |are )?stopped\b',
+    '\b(?:transfer(?:ring|red)?|handoff|handing off)\b.{0,120}\blive work\b.{0,120}\b(?:is|counts as|constitutes|means|confirms)\b(?![^.!?]{0,60}\b(?:not|never)\b)[^.!?]{0,80}\backnowledg(?:e)?ment\b',
+    '\bno-call\b.{0,120}(?<!not )(?<!never )(?<!cannot )(?<!can not )(?<!does not )(?<!do not )(?<!doesn''t )\b(?:requires?|needs?|must have|depends on)\b(?![^.!?]{0,50}\b(?:no|not|without)\s+executor acknowledgment\b)[^.!?]{0,80}\bexecutor acknowledgment\b'
 )
 foreach ($surface in $executorLivenessSurfaces) {
-    Test-SectionRejectsPatterns $surface.RelativePath $surface.SectionName $lifecycleContradictionPatterns
+    $contradiction = @{
+        RelativePath = $surface.RelativePath
+        SectionName = $surface.SectionName
+        ForbiddenPatterns = $lifecycleContradictionPatterns
+    }
+    if ($surface.ContainsKey("SubsectionName")) {
+        $contradiction.SubsectionName = $surface.SubsectionName
+    }
+    if ($surface.ContainsKey("RowKey")) {
+        $contradiction.TableKeyColumn = $surface.KeyColumn
+        $contradiction.TableRowKey = $surface.RowKey
+    }
+    Test-SectionRejectsPatterns @contradiction
 }
 
 $grantNonGuaranteeSentence = "The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay."
@@ -670,7 +905,7 @@ $grantGuaranteeSurfaces = @(
     @{
         RelativePath = "docs/framework/executor-boundary.md"
         SectionName = "Host Responsibilities"
-        LinePrefix = '`Invocation-scoped` describes'
+        LinePrefix = ([string][char]96 + "Invocation-scoped" + [string][char]96 + " describes")
     },
     @{
         RelativePath = "schemas/v1alpha1/README.md"
@@ -680,6 +915,7 @@ $grantGuaranteeSurfaces = @(
     @{
         RelativePath = "docs/ai/handbook.md"
         SectionName = "20. Modular Orchestration Framework"
+        SubsectionName = "Bounded Executor Boundary"
         LinePrefix = "Use the [bounded executor boundary]"
     },
     @{
@@ -690,11 +926,13 @@ $grantGuaranteeSurfaces = @(
     @{
         RelativePath = "docs/research/practice-register.md"
         SectionName = "Current Practices"
-        LinePrefix = "| Invocation-scoped authority grant |"
+        KeyColumn = "Practice"
+        RowKey = "Invocation-scoped authority grant"
     },
     @{
         RelativePath = "docs/memory/patterns.md"
         SectionName = "Documentation Patterns"
+        SubsectionName = "Guarantee-Calibrated Adjectives"
         LinePrefix = "Use lifecycle and security adjectives only"
     },
     @{
@@ -710,25 +948,49 @@ $grantGuaranteeSurfaces = @(
     @{
         RelativePath = "docs/memory/active-context.md"
         SectionName = "Important Current Constraints"
-        LinePrefix = '- An `ExecutionGrant` carries'
+        LinePrefix = ("- An " + [string][char]96 + "ExecutionGrant" + [string][char]96 + " carries")
     }
 )
 foreach ($surface in $grantGuaranteeSurfaces) {
-    Test-SectionLineContains $surface.RelativePath $surface.SectionName $surface.LinePrefix @($grantNonGuaranteeSentence)
+    if ($surface.ContainsKey("RowKey")) {
+        Test-SectionTableRowContains $surface.RelativePath $surface.SectionName $surface.KeyColumn $surface.RowKey @(
+            $grantNonGuaranteeSentence
+        )
+        continue
+    }
+
+    $locator = @{
+        RelativePath = $surface.RelativePath
+        SectionName = $surface.SectionName
+        LinePrefix = $surface.LinePrefix
+        RequiredTerms = @($grantNonGuaranteeSentence)
+    }
+    if ($surface.ContainsKey("SubsectionName")) {
+        $locator.SubsectionName = $surface.SubsectionName
+    }
+    Test-SectionLineContains @locator
 }
 
 $grantContradictionPatterns = @(
-    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\bauthenticates\b[^\r\n]*\bissuer\b',
-    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\bestablishes\b[^\r\n]*\b(?:grant )?freshness\b',
-    '^[^\r\n]*(?:\b(?:stateless )?kernel\b[^\r\n]*\b(?:makes|guarantees)\b[^\r\n]*\bgrants?\b[^\r\n]*\bsingle[- ]use\b|\b(?:each|every|the)\s+grant\b[^\r\n]*\b(?:is|becomes)\b[^\r\n]*\bsingle[- ]use\b)',
-    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\benforces\b[^\r\n]*\bgrant\b',
-    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\brevokes\b[^\r\n]*\bgrant\b',
-    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\bconsumes\b[^\r\n]*\bgrant\b',
-    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\bprevents\b[^\r\n]*\b(?:grant )?reuse\b',
-    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\bprevents\b[^\r\n]*\b(?:grant )?replay\b'
+    '\b(?:stateless )?kernel\b.{0,160}(?<!not )(?<!never )(?<!cannot )(?<!can not )(?<!does not )(?<!do not )(?<!doesn''t )\b(?:authenticates|establishes|enforces|revokes|consumes)\b.{0,120}\b(?:issuer|freshness|single[- ]use|grant)\b',
+    '\b(?:stateless )?kernel\b.{0,160}(?<!not )(?<!never )(?<!cannot )(?<!can not )(?<!does not )(?<!do not )(?<!doesn''t )\bprevents\b.{0,80}\b(?:grant )?(?:reuse|replay)\b',
+    '\b(?:stateless )?kernel\b.{0,160}(?<!not )(?<!never )(?<!cannot )(?<!can not )(?<!does not )(?<!do not )(?<!doesn''t )\b(?:guarantees|ensures|confirms|provides)\b.{0,100}\b(?:fresh(?:ness)?|single[- ]use|authenticated|enforced|revoked|consumed|reuse prevention|replay prevention|replay[- ]resistant)\b',
+    '(?<!not )\b(?:each|every|the|this|a)\s+grants?\b.{0,80}\b(?:is|are|becomes|remains)\b(?![^.!?]{0,40}\b(?:not|never)\b)[^.!?]{0,80}\b(?:fresh|single[- ]use|authenticated|enforced|revoked|consumed|replay[- ]resistant|non[- ]reusable)\b'
 )
 foreach ($surface in $grantGuaranteeSurfaces) {
-    Test-SectionRejectsPatterns $surface.RelativePath $surface.SectionName $grantContradictionPatterns
+    $contradiction = @{
+        RelativePath = $surface.RelativePath
+        SectionName = $surface.SectionName
+        ForbiddenPatterns = $grantContradictionPatterns
+    }
+    if ($surface.ContainsKey("SubsectionName")) {
+        $contradiction.SubsectionName = $surface.SubsectionName
+    }
+    if ($surface.ContainsKey("RowKey")) {
+        $contradiction.TableKeyColumn = $surface.KeyColumn
+        $contradiction.TableRowKey = $surface.RowKey
+    }
+    Test-SectionRejectsPatterns @contradiction
 }
 
 Test-SectionTableColumns "docs/research/practice-register.md" "Current Practices" @(
@@ -738,10 +1000,20 @@ Test-SectionTableColumns "docs/research/practice-register.md" "Current Practices
     "Decision",
     "Rationale"
 )
-Test-SectionContains "docs/research/practice-register.md" "Current Practices" @(
-    "Absolute monotonic lifecycle bounds",
-    "Proxy rejection before reflection",
-    "Public contract parity checks"
+Test-SectionTableRowContains "docs/research/practice-register.md" "Current Practices" "Practice" "Absolute monotonic lifecycle bounds" @(
+    "accepted",
+    "absolute deadline",
+    "acknowledgment"
+)
+Test-SectionTableRowContains "docs/research/practice-register.md" "Current Practices" "Practice" "Proxy rejection before reflection" @(
+    "accepted",
+    "Reject detectable proxies",
+    "reflection"
+)
+Test-SectionTableRowContains "docs/research/practice-register.md" "Current Practices" "Practice" "Public contract parity checks" @(
+    "accepted",
+    "intended paragraph or table row",
+    "contradictory positive claims"
 )
 $practiceRegister = Read-Text (Join-Path $Root "docs/research/practice-register.md")
 $rejectionCriteria = Get-MarkdownSection $practiceRegister "Rejection Criteria"

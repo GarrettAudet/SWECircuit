@@ -139,7 +139,8 @@ function Assert-CheckerResult {
     param(
         [string]$Name,
         [string]$Fixture,
-        [bool]$ShouldPass
+        [bool]$ShouldPass,
+        [string]$ExpectedOutputTerm = ""
     )
 
     $result = Invoke-CheckerProcess $Fixture
@@ -147,6 +148,12 @@ function Assert-CheckerResult {
     if ($passed -ne $ShouldPass) {
         $expectation = if ($ShouldPass) { "pass" } else { "fail" }
         $failures.Add("$Name expected checker to $expectation but exit code was $($result.ExitCode). Output: $($result.Output)") | Out-Null
+        return
+    }
+
+    if (-not [string]::IsNullOrWhiteSpace($ExpectedOutputTerm) -and
+        $result.Output.IndexOf($ExpectedOutputTerm, [System.StringComparison]::OrdinalIgnoreCase) -lt 0) {
+        $failures.Add("$Name expected checker output to include '$ExpectedOutputTerm'. Output: $($result.Output)") | Out-Null
         return
     }
 
@@ -331,7 +338,7 @@ try {
             throw "Liveness fixture source is missing the expected phrase: $($surface.Path)"
         }
         Write-Utf8 $path ($content.Replace($executorLivenessPhrase, "executor liveness prerequisite removed"))
-        Assert-CheckerResult ("executor liveness prerequisite: " + $surface.Name) $fixture $false
+        Assert-CheckerResult ("executor liveness prerequisite: " + $surface.Name) $fixture $false "Contract locator"
     }
 
     $grantFixture = New-Fixture "missing-packaged-grant-non-guarantees"
@@ -342,7 +349,7 @@ try {
         throw "Grant fixture source is missing the expected disclaimer."
     }
     Write-Utf8 $grantPath ($grantText.Replace($grantDisclaimer, "Grant non-guarantees removed."))
-    Assert-CheckerResult "packaged guide missing grant non-guarantees" $grantFixture $false
+    Assert-CheckerResult "packaged guide missing grant non-guarantees" $grantFixture $false "Contract locator"
 
     $schemaGrantFixture = New-Fixture "missing-schema-grant-non-guarantees"
     $schemaGrantPath = Join-Path $schemaGrantFixture "schemas\v1alpha1\README.md"
@@ -352,7 +359,7 @@ try {
         throw "Schema grant fixture source is missing the expected disclaimer."
     }
     Write-Utf8 $schemaGrantPath ($schemaGrantText.Replace($schemaGrantDisclaimer, "Schema grant non-guarantees removed."))
-    Assert-CheckerResult "schema guide missing grant non-guarantees" $schemaGrantFixture $false
+    Assert-CheckerResult "schema guide missing grant non-guarantees" $schemaGrantFixture $false "Contract locator"
 
     $practiceStructureFixture = New-Fixture "practice-row-outside-current-table"
     $practiceStructurePath = Join-Path $practiceStructureFixture "docs\research\practice-register.md"
@@ -370,7 +377,31 @@ try {
         $practiceRow.Value.TrimEnd([char]13, [char]10) +
         [Environment]::NewLine
     Write-Utf8 $practiceStructurePath $practiceStructureText
-    Assert-CheckerResult "accepted practice outside Current Practices table" $practiceStructureFixture $false
+    Assert-CheckerResult "accepted practice outside Current Practices table" $practiceStructureFixture $false "Contract table row"
+
+    $practiceInsideFixture = New-Fixture "practice-row-below-current-table"
+    $practiceInsidePath = Join-Path $practiceInsideFixture "docs\research\practice-register.md"
+    $practiceInsideText = Get-Content -LiteralPath $practiceInsidePath -Raw
+    $practiceInsideRow = [regex]::Match(
+        $practiceInsideText,
+        '(?m)^\| Public contract parity checks \|[^\r\n]*(?:\r?\n|$)'
+    )
+    if (-not $practiceInsideRow.Success) {
+        throw "Practice-in-section fixture could not find the accepted row."
+    }
+    $practiceInsideText = $practiceInsideText.Remove($practiceInsideRow.Index, $practiceInsideRow.Length)
+    $promotionMarker = "## Promotion Criteria"
+    if (-not $practiceInsideText.Contains($promotionMarker)) {
+        throw "Practice-in-section fixture could not find Promotion Criteria."
+    }
+    $relocatedPractice = "Relocated accepted row below the canonical table." +
+        [Environment]::NewLine + [Environment]::NewLine +
+        $practiceInsideRow.Value.TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        $promotionMarker
+    $practiceInsideText = $practiceInsideText.Replace($promotionMarker, $relocatedPractice)
+    Write-Utf8 $practiceInsidePath $practiceInsideText
+    Assert-CheckerResult "accepted practice below first Current Practices table" $practiceInsideFixture $false "Contract table row"
 
     $lifecycleAnchor = "For invoked work, the executor promise must remain pending until all activity capable of advancing the invocation or producing invocation effects has stopped. Transferring live work to host ownership is not acknowledgment. Harmless cleanup may continue only when it cannot affect the packet, exercise invocation authority, or produce invocation evidence."
     $lifecycleContradictions = @(
@@ -390,7 +421,34 @@ try {
             $lifecycleAnchor + [Environment]::NewLine + [Environment]::NewLine + $contradiction.Claim
         )
         Write-Utf8 $path $content
-        Assert-CheckerResult ("executor lifecycle contradiction: " + $contradiction.Name) $fixture $false
+        Assert-CheckerResult ("executor lifecycle contradiction: " + $contradiction.Name) $fixture $false "Contract contradiction"
+    }
+
+    $logicalLifecycleContradictions = @(
+        @{
+            Name = "soft-wrapped-confirmation"
+            Claim = "Timely settlement confirms all invocation" +
+                [Environment]::NewLine +
+                "activity has stopped."
+        },
+        @{
+            Name = "confirmation-synonym"
+            Claim = "Settlement confirms invocation work has stopped."
+        }
+    )
+    foreach ($contradiction in $logicalLifecycleContradictions) {
+        $fixture = New-Fixture ("executor-logical-lifecycle-contradiction-" + $contradiction.Name)
+        $path = Join-Path $fixture "docs\framework\executor-boundary.md"
+        $content = Get-Content -LiteralPath $path -Raw
+        if (-not $content.Contains($lifecycleAnchor)) {
+            throw "Logical lifecycle fixture could not find the intended contract line."
+        }
+        $content = $content.Replace(
+            $lifecycleAnchor,
+            $lifecycleAnchor + [Environment]::NewLine + [Environment]::NewLine + $contradiction.Claim
+        )
+        Write-Utf8 $path $content
+        Assert-CheckerResult ("logical lifecycle contradiction: " + $contradiction.Name) $fixture $false "Contract contradiction"
     }
 
     $grantAnchor = '`Invocation-scoped` describes the grant''s identity and permission binding only. The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay.'
@@ -398,6 +456,7 @@ try {
         @{ Name = "authenticates-issuer"; Claim = "The stateless kernel authenticates the issuer." },
         @{ Name = "establishes-freshness"; Claim = "The stateless kernel establishes grant freshness." },
         @{ Name = "single-use"; Claim = "Every grant is single-use." },
+        @{ Name = "fresh"; Claim = "Every grant is fresh." },
         @{ Name = "enforces-grant"; Claim = "The stateless kernel enforces the grant." },
         @{ Name = "revokes-grant"; Claim = "The stateless kernel revokes the grant." },
         @{ Name = "consumes-grant"; Claim = "The stateless kernel consumes the grant." },
@@ -416,27 +475,52 @@ try {
             $grantAnchor + [Environment]::NewLine + [Environment]::NewLine + $contradiction.Claim
         )
         Write-Utf8 $path $content
-        Assert-CheckerResult ("executor grant contradiction: " + $contradiction.Name) $fixture $false
+        Assert-CheckerResult ("executor grant contradiction: " + $contradiction.Name) $fixture $false "Contract contradiction"
     }
 
-    $livenessRelocationFixture = New-Fixture "executor-liveness-terms-relocated"
-    $livenessRelocationPath = Join-Path $livenessRelocationFixture "docs\framework\executor-boundary.md"
-    $livenessRelocationText = Get-Content -LiteralPath $livenessRelocationPath -Raw
-    if (-not $livenessRelocationText.Contains($lifecycleAnchor)) {
-        throw "Liveness relocation fixture could not find the intended contract line."
+    $truthfulContractFixture = New-Fixture "truthful-executor-contract-negations"
+    $truthfulContractPath = Join-Path $truthfulContractFixture "docs\framework\executor-boundary.md"
+    $truthfulContractText = Get-Content -LiteralPath $truthfulContractPath -Raw
+    if (-not $truthfulContractText.Contains($lifecycleAnchor) -or
+        -not $truthfulContractText.Contains($grantAnchor)) {
+        throw "Truthful-negative fixture could not find both contract anchors."
     }
-    $livenessRelocationTarget = $lifecycleAnchor.Replace(
-        $executorLivenessPhrase,
-        "the intended promise-liveness prerequisite was removed"
-    )
-    $livenessRelocationDecoy = "Glossary only: all activity capable of advancing the invocation or producing invocation effects has stopped; transferring live work is not acknowledgment."
-    $livenessRelocationText = $livenessRelocationText.Replace(
+    $truthfulLifecycleClaims = "Timely settlement does not prove invocation work has stopped." +
+        [Environment]::NewLine +
+        "A no-call terminal result does not require executor acknowledgment."
+    $truthfulGrantClaims = "The kernel never authenticates the issuer." +
+        [Environment]::NewLine +
+        "The stateless kernel does not establish grant freshness." +
+        [Environment]::NewLine +
+        "No grant is fresh or single-use by default."
+    $truthfulContractText = $truthfulContractText.Replace(
         $lifecycleAnchor,
+        $lifecycleAnchor + [Environment]::NewLine + [Environment]::NewLine + $truthfulLifecycleClaims
+    )
+    $truthfulContractText = $truthfulContractText.Replace(
+        $grantAnchor,
+        $grantAnchor + [Environment]::NewLine + [Environment]::NewLine + $truthfulGrantClaims
+    )
+    Write-Utf8 $truthfulContractPath $truthfulContractText
+    Assert-CheckerResult "truthful executor contract negations" $truthfulContractFixture $true
+
+    $livenessRelocationFixture = New-Fixture "handbook-liveness-sibling-subsection"
+    $livenessRelocationPath = Join-Path $livenessRelocationFixture "docs\ai\handbook.md"
+    $livenessRelocationText = Get-Content -LiteralPath $livenessRelocationPath -Raw
+    $handbookLivenessAnchor = 'Cancellation is cooperative after invocation. A terminal `cancelled` result means either the abort or deadline won before any executor call, or caller cancellation won after invocation and the executor produced contract-compliant acknowledgment inside the window. A terminal `timed_out` result means the deadline won after invocation and the executor produced that acknowledgment inside the window. `cancellationAcknowledged: true` therefore means terminal certainty, not executor acknowledgment on a no-call path. For invoked work, settlement counts as acknowledgment only when the executor promise remains pending until all activity capable of advancing the invocation or producing invocation effects has stopped; transferring live work is not acknowledgment. An `abort_unconfirmed` result means work may still be live; quarantine the workspace or provider run and do not merge its output until the host resolves it.'
+    if (-not $livenessRelocationText.Contains($handbookLivenessAnchor)) {
+        throw "Liveness subsection fixture could not find the intended handbook contract line."
+    }
+    $livenessRelocationTarget = "Active cancellation contract removed from the bounded executor subsection."
+    $livenessRelocationDecoy = "### Archived Executor Notes" +
+        [Environment]::NewLine + [Environment]::NewLine +
+        $handbookLivenessAnchor
+    $livenessRelocationText = $livenessRelocationText.Replace(
+        $handbookLivenessAnchor,
         $livenessRelocationTarget + [Environment]::NewLine + [Environment]::NewLine + $livenessRelocationDecoy
     )
     Write-Utf8 $livenessRelocationPath $livenessRelocationText
-    Assert-CheckerResult "executor liveness terms relocated within section" $livenessRelocationFixture $false
-
+    Assert-CheckerResult "executor liveness contract relocated to sibling subsection" $livenessRelocationFixture $false "Contract locator"
     $grantRelocationFixture = New-Fixture "executor-grant-disclaimer-relocated"
     $grantRelocationPath = Join-Path $grantRelocationFixture "docs\framework\executor-boundary.md"
     $grantRelocationText = Get-Content -LiteralPath $grantRelocationPath -Raw
@@ -449,7 +533,7 @@ try {
         $grantRelocationTarget + [Environment]::NewLine + [Environment]::NewLine + $grantDisclaimer
     )
     Write-Utf8 $grantRelocationPath $grantRelocationText
-    Assert-CheckerResult "executor grant disclaimer relocated within section" $grantRelocationFixture $false
+    Assert-CheckerResult "executor grant disclaimer relocated within section" $grantRelocationFixture $false "Contract locator"
 
     $debugFixture = New-Fixture "missing-debug-evidence"
     $debugPath = Join-Path $debugFixture "docs\specs\v8-readme-visual-clarity\debug-notes.md"
