@@ -2,7 +2,7 @@
 
 ## Status
 
-Causal fixes complete for all diagnosed V10 review rounds; corrected-candidate freeze, exact review, and hosted CI remain.
+All diagnosed findings have causal corrections and regression coverage. The current acceptance state awaits exact-commit review and hosted CI; V10 is not merged.
 
 ## Failure Summary
 
@@ -278,4 +278,39 @@ Use contract-compliant acknowledgment in terminal-state summaries; require promi
 
 ### Regression
 
-The positive checker passes. The isolated harness passes 49 scenarios: 46 expected rejections and three expected acceptances. Six parity scenarios now cover three liveness surfaces, two grant-summary surfaces, and register placement. Fresh `npm.cmd run verify` also passes format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the clean offline consumer. A new immutable exact-candidate review remains required.
+Candidate `ac70efc6cdfc9d6d07e51db1a4203c6a15b7026c` passed the positive checker and 49 isolated scenarios: 46 expected rejections and three expected acceptances. Its six parity cases covered three liveness removals, two grant-summary removals, and register placement. Fresh `npm.cmd run verify` also passed format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the clean offline consumer before exact review reopened the gate.
+
+## Exact Candidate Contradiction And Acceptance-State Review
+
+### Trigger
+
+Exact review of `ac70efc6cdfc9d6d07e51db1a4203c6a15b7026c` returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE` while GitHub Actions run `29364033724` passed all six Node 22/24 operating-system jobs plus Template Check.
+
+### Evidence
+
+- Correctness confirmed that the runtime and nine lifecycle plus nine grant surfaces matched ADR 0002.
+- Security showed that a required canonical sentence could remain somewhere in a broad section while the intended contract paragraph became incomplete or a contradictory positive claim was added nearby.
+- API/documentation found five current status records that still said another candidate had to be created, so those records became stale as soon as `ac70efc` was the immutable candidate under review.
+
+### Classification
+
+Checker false-negative risk and acceptance-state trace drift.
+
+### Confirmed Cause
+
+The parity checker verified required terms anywhere in each broad Markdown section but did not identify the one active paragraph or table row that carried the contract, and it did not reject known opposite positive claims. Status prose described the mechanics of producing a candidate instead of the invariant review and CI gate.
+
+### Causal Fix
+
+- Bind every lifecycle and grant invariant to exactly one intended line with `Test-SectionLineContains`.
+- Scan every checked active section for three lifecycle and eight grant contradiction classes with `Test-SectionRejectsPatterns`.
+- Add 13 fixtures that preserve required prose while injecting contradictions or relocating it away from the intended line.
+- Describe current state as awaiting exact-commit review and hosted CI, without requiring an unnamed future commit.
+
+### Regression
+
+The positive checker passes. The isolated harness passes 62 scenarios: 59 expected rejections and three expected acceptances. Nineteen parity cases cover three liveness removals, two grant removals, one register-placement defect, three lifecycle contradictions, eight grant contradictions, and two within-section relocations. The executable runtime remains unchanged by this correction.
+
+### Durable Learning
+
+Presence is not parity. A high-risk public contract needs a structural locator for the active claim, explicit rejection of known contradictory claims, and status language that remains true before and after an immutable candidate is created.

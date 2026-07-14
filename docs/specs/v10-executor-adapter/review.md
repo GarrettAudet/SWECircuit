@@ -2,11 +2,11 @@
 
 ## Status
 
-Candidate `b2d73e7` passed all seven hosted jobs, but correctness, security, and API/documentation each returned `REVISE` for cross-surface promise-liveness drift and incomplete packaged grant non-guarantees. The contract is now mapped to public surfaces and enforced by checker fixtures; another exact candidate remains required.
+Candidate `ac70efc` passed all seven hosted jobs and correctness review. Security returned `REVISE` because presence-only checks could coexist with contradictory claims, and API/documentation returned `REVISE` because current status records depended on creating another candidate. Both findings now have causal corrections. The current acceptance state awaits exact-commit review and hosted CI; V10 is not merged.
 
 ## Review Outcome
 
-The first postimplementation round returned `REVISE` from all three reviewers. Exact review of committed candidate `e3453e0` then returned `PASS` from security and `REVISE` from correctness plus API/documentation. The remaining findings were a non-atomic fulfillment snapshot and documentation that collapsed no-call terminal certainty into post-invocation acknowledgment. Both now have causal corrections and focused regression evidence; a new immutable candidate remains to be frozen.
+The first postimplementation round returned `REVISE` from all three reviewers. Exact review of committed candidate `e3453e0` then returned `PASS` from security and `REVISE` from correctness plus API/documentation. The remaining findings were a non-atomic fulfillment snapshot and documentation that collapsed no-call terminal certainty into post-invocation acknowledgment. Those corrections were frozen and reviewed in later candidates.
 
 Candidate `9d8907a` then passed all three reviews and hosted CI. The first integration-owner closeout search found a stale feature-spec sentence and produced `2c6dff4`. Expanded exact review of `2c6dff4` found the same old semantics in the practice register and plan, proving the first search was narrower than its completion claim.
 
@@ -14,7 +14,7 @@ Candidate `dbbeeb1` corrected the full cancellation claim family and passed host
 
 Candidate `4c6818d` corrected those sources and passed hosted CI. Exact review then found that two public summaries still compressed invocation-scoped identity checking into apparent single use, the packaged guide omitted the full settlement prerequisite for terminal certainty, and two accepted practices rendered outside their table.
 
-Candidate `b2d73e7` corrected those findings and passed hosted CI, but all three reviewers found that the prerequisite still had not reached every public summary and that the packaged grant explanation still lacked a standalone complete disclaimer. The correction now uses an ADR-to-surface matrix and executable checker fixtures instead of another prose-only search.
+Candidate `b2d73e7` corrected those findings and passed hosted CI, but all three reviewers found that the prerequisite still had not reached every public summary and that the packaged grant explanation still lacked a standalone complete disclaimer. Candidate `ac70efc` added the ADR-to-surface matrix and executable parity fixtures; its exact review then exposed the need for target-line enforcement, contradiction rejection, and invariant acceptance-state wording.
 
 ## Spec Alignment
 
@@ -42,7 +42,8 @@ The implementation follows ADR 0002:
 - Candidate `dbbeeb1` passed all seven jobs in GitHub Actions run `29358867851`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS`.
 - Candidate `4c6818d` passed all seven jobs in GitHub Actions run `29359564312`; exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE`.
 - Candidate `b2d73e7` passed all seven jobs in GitHub Actions run `29361203381`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`.
-- Local gate: fresh `npm.cmd run verify` passes format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the clean offline consumer. The positive checker and all 49 isolated scenarios pass, comprising 46 expected rejections and three expected acceptances. Exact-commit review and hosted CI remain.
+- Candidate `ac70efc` passed all seven jobs in GitHub Actions run `29364033724`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
+- Local gate: fresh `npm.cmd run verify` passes format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the clean offline consumer. The positive checker and all 62 isolated scenarios pass, comprising 59 expected rejections and three expected acceptances; 19 are public-contract parity cases. Exact-commit review and hosted CI remain.
 
 ## Findings
 
@@ -67,7 +68,9 @@ The implementation follows ADR 0002:
 | Low | Two accepted V10 practices were appended below Rejection Criteria rather than inside the Current Practices table. | Move both rows before Promotion Criteria and preserve a blank structural boundary before the heading. |
 | Medium | `b2d73e7` retained settlement-only shorthand in secondary public surfaces, so timely promise settlement could be read as sufficient terminal proof. | Map ADR 0002 to every public summary, use contract-compliant acknowledgment, and require stopped invocation-affecting activity plus no live-work transfer. |
 | Medium | The packaged grant explanation did not independently state all guarantees the stateless kernel lacks. | State issuer-authentication, freshness, single-use, enforcement, revocation, consumption, reuse, and replay limits in the installed and schema guides. |
-| Gate | Prose searches and positive structure checks did not prevent public-contract parity regressions. | Add an ADR-to-surface matrix, required checker terms, required register rows, and six isolated parity fixtures. |
+| Gate | Prose searches and positive structure checks did not prevent public-contract parity regressions. | Candidate `ac70efc` added an ADR-to-surface matrix, required checker terms, required register rows, and six isolated parity fixtures. |
+| Gate | Presence-only section checks could pass while the intended contract line was incomplete or a contradictory positive claim remained nearby. | Bind each invariant to exactly one intended line, reject 11 contradictory claim classes across all checked surfaces, and add 13 preserving or relocation fixtures. |
+| Gate | Candidate-dependent status prose became stale as soon as the candidate under review existed. | Describe the invariant acceptance gate instead: exact-commit review and hosted CI remain pending until recorded, without requiring an unnamed future commit. |
 
 ## Residual Risks
 

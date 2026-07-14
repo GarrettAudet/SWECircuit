@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Exact candidate `b2d73e7` passed hosted CI but returned `REVISE / REVISE / REVISE` because promise-liveness and grant non-guarantees still drifted across public summaries. The current correction maps those ADR claims to every checked surface and adds executable parity fixtures; a new exact candidate remains required.
+Runtime revision remains verified on `9d8907a`. Candidate `ac70efc` passed all seven hosted jobs and correctness review, while security found presence-only checker enforcement and API/documentation found candidate-dependent status prose. Both findings now have causal corrections and regressions. The current acceptance state awaits exact-commit review and hosted CI; V10 is not merged.
 
 ## Summary Of Changes
 
@@ -57,7 +57,8 @@ Subsequent exact candidates exposed progressively wider documentation drift: lif
 - Candidate `dbbeeb1` reconciled that claim family and passed run `29358867851`, but correctness found one unqualified ADR race rule and security found stale ephemeral grant terminology. Both source statements were corrected for the next exact gate.
 - Candidate `4c6818d` passed all seven jobs in run `29359564312`; exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE` for per-call grant wording, a missing packaged settlement precondition, and two misplaced practice rows.
 - Candidate `b2d73e7` passed all seven jobs in run `29361203381`; all three reviewers returned `REVISE` for cross-surface promise-liveness drift and incomplete packaged grant non-guarantees.
-- The current documentation-and-checker correction passes the positive checker and all 49 scenarios, comprising 46 expected rejections and three expected acceptances. Exact-commit review and hosted CI remain.
+- Candidate `ac70efc` passed all seven jobs in GitHub Actions run `29364033724`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
+- The current documentation-and-checker correction passes the positive checker and all 62 scenarios, comprising 59 expected rejections and three expected acceptances. Nineteen parity cases cover missing terms, relocation, contradictions, and table placement. Exact-commit review and hosted CI remain.
 
 ## Durable Learnings
 

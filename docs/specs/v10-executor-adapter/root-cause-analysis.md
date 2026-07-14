@@ -152,4 +152,12 @@ Candidate `b2d73e7` carried the previous named corrections and passed all seven 
 
 The root cause was procedural as well as textual: search families found words, but the workflow had no explicit mapping from each high-risk ADR claim to every public summary and no executable fixture proving that the mapping was enforced. A newly corrected sentence could pass while an adjacent summary retained only half of the contract.
 
-The causal fix establishes an ADR-to-surface matrix, rewrites terminal summaries around contract-compliant acknowledgment, propagates stopped-activity and live-transfer prerequisites, propagates grant non-guarantees, and makes those mappings executable in the checker. The 49-scenario harness now includes 46 expected rejections and three expected acceptances, with six parity cases covering liveness, grant semantics, and register structure.
+The causal fix establishes an ADR-to-surface matrix, rewrites terminal summaries around contract-compliant acknowledgment, propagates stopped-activity and live-transfer prerequisites, propagates grant non-guarantees, and makes those mappings executable in the checker. That correction became candidate `ac70efc`, whose 49-scenario harness included 46 expected rejections, three expected acceptances, and six removal or placement parity cases.
+
+## Contradiction-Resistant Parity And Acceptance-State Addendum
+
+Candidate `ac70efc` passed all seven hosted jobs and correctness review. Security nevertheless showed that presence-only section checks could accept an incomplete intended paragraph plus a contradictory nearby statement. API/documentation separately showed that current records written as pre-freeze instructions became stale once the candidate existed.
+
+The checker root cause was a mismatch between semantic ownership and validation scope: the contract belonged to one active paragraph or table row, while the rule searched an entire section. The trace root cause was encoding a transient next action instead of the invariant acceptance gate.
+
+The causal fix binds each lifecycle and grant invariant to exactly one intended line, rejects three lifecycle and eight grant contradiction classes across every checked active section, and adds 13 preserving or relocation fixtures. Current records now state that exact-commit review and hosted CI remain until their evidence is recorded. The expanded 62-scenario harness passes 59 expected rejections and three expected acceptances, including 19 public-contract parity cases.

@@ -362,6 +362,69 @@ function Test-SectionContains {
     }
 }
 
+function Test-SectionLineContains {
+    param(
+        [string]$RelativePath,
+        [string]$SectionName,
+        [string]$LinePrefix,
+        [string[]]$RequiredTerms
+    )
+
+    $path = Join-Path $Root $RelativePath
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        Add-Failure "Missing file for section line conformance check: $RelativePath"
+        return
+    }
+
+    $section = Get-MarkdownSection (Read-Text $path) $SectionName
+    if ([string]::IsNullOrWhiteSpace($section)) {
+        Add-Failure "Missing or empty section '$SectionName' in $RelativePath"
+        return
+    }
+
+    $matchingLines = @($section -split "\r?\n" | Where-Object {
+        $_.TrimStart().StartsWith($LinePrefix, [System.StringComparison]::Ordinal)
+    })
+    if ($matchingLines.Count -ne 1) {
+        Add-Failure "Section '$SectionName' in $RelativePath must contain exactly one line beginning '$LinePrefix'; found $($matchingLines.Count)"
+        return
+    }
+
+    foreach ($term in $RequiredTerms) {
+        if ($matchingLines[0].IndexOf($term, [System.StringComparison]::OrdinalIgnoreCase) -lt 0) {
+            Add-Failure "Line beginning '$LinePrefix' in section '$SectionName' of $RelativePath must include '$term'"
+        }
+    }
+}
+
+function Test-SectionRejectsPatterns {
+    param(
+        [string]$RelativePath,
+        [string]$SectionName,
+        [string[]]$ForbiddenPatterns
+    )
+
+    $path = Join-Path $Root $RelativePath
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        Add-Failure "Missing file for contradictory-claim check: $RelativePath"
+        return
+    }
+
+    $section = Get-MarkdownSection (Read-Text $path) $SectionName
+    if ([string]::IsNullOrWhiteSpace($section)) {
+        Add-Failure "Missing or empty section '$SectionName' in $RelativePath"
+        return
+    }
+
+    $options = [System.Text.RegularExpressions.RegexOptions]::IgnoreCase -bor
+        [System.Text.RegularExpressions.RegexOptions]::Multiline
+    foreach ($pattern in $ForbiddenPatterns) {
+        if ([regex]::IsMatch($section, $pattern, $options)) {
+            Add-Failure "Section '$SectionName' in $RelativePath contains a forbidden contradictory claim matching '$pattern'"
+        }
+    }
+}
+
 function Test-PackConformance {
     param([string]$RelativePath)
 
@@ -576,21 +639,30 @@ foreach ($file in $requiredFiles) {
 
 $executorLivenessPhrase = "all activity capable of advancing the invocation or producing invocation effects has stopped"
 $executorLivenessSurfaces = @(
-    @{ RelativePath = "docs/framework/executor-boundary.md"; SectionName = "Result Semantics" },
-    @{ RelativePath = "schemas/v1alpha1/README.md"; SectionName = "Execution Boundary" },
-    @{ RelativePath = "docs/ai/handbook.md"; SectionName = "20. Modular Orchestration Framework" },
-    @{ RelativePath = "docs/framework/capability-adapters.md"; SectionName = "Provider Executor Bridge" },
-    @{ RelativePath = "docs/research/practice-register.md"; SectionName = "Current Practices" },
-    @{ RelativePath = "docs/memory/patterns.md"; SectionName = "Documentation Patterns" },
-    @{ RelativePath = "docs/specs/v10-executor-adapter/spec.md"; SectionName = "Requirements" },
-    @{ RelativePath = "docs/specs/v10-executor-adapter/plan.md"; SectionName = "Risks And Mitigations" },
-    @{ RelativePath = "docs/memory/active-context.md"; SectionName = "Important Current Constraints" }
+    @{ RelativePath = "docs/framework/executor-boundary.md"; SectionName = "Result Semantics"; LinePrefix = "For invoked work," },
+    @{ RelativePath = "schemas/v1alpha1/README.md"; SectionName = "Execution Boundary"; LinePrefix = "For invoked work," },
+    @{ RelativePath = "docs/ai/handbook.md"; SectionName = "20. Modular Orchestration Framework"; LinePrefix = "Cancellation is cooperative after invocation." },
+    @{ RelativePath = "docs/framework/capability-adapters.md"; SectionName = "Provider Executor Bridge"; LinePrefix = "4. After invocation," },
+    @{ RelativePath = "docs/research/practice-register.md"; SectionName = "Current Practices"; LinePrefix = "| Cooperative cancellation with abort_unconfirmed |" },
+    @{ RelativePath = "docs/memory/patterns.md"; SectionName = "Documentation Patterns"; LinePrefix = "Treat cancellation as observed protocol state, not a wish." },
+    @{ RelativePath = "docs/specs/v10-executor-adapter/spec.md"; SectionName = "Requirements"; LinePrefix = "- If abort or deadline wins before invocation," },
+    @{ RelativePath = "docs/specs/v10-executor-adapter/plan.md"; SectionName = "Risks And Mitigations"; LinePrefix = "- Mitigation: terminalize a pre-invocation abort or deadline" },
+    @{ RelativePath = "docs/memory/active-context.md"; SectionName = "Important Current Constraints"; LinePrefix = "- Cancellation uses absolute monotonic observations." }
 )
 foreach ($surface in $executorLivenessSurfaces) {
-    Test-SectionContains $surface.RelativePath $surface.SectionName @(
+    Test-SectionLineContains $surface.RelativePath $surface.SectionName $surface.LinePrefix @(
         $executorLivenessPhrase,
         "not acknowledgment"
     )
+}
+
+$lifecycleContradictionPatterns = @(
+    '^(?![^\r\n]*(?:does not|cannot|never)\b)[^\r\n]*\b(?:timely settlement|in-window settlement|within-window settlement|settlement within (?:the )?(?:acknowledgment )?window)\b[^\r\n]*\b(?:proves|guarantees|means)\b[^\r\n]*\b(?:work|activity)\b[^\r\n]*\bstopped\b',
+    '^(?![^\r\n]*\b(?:not|never|cannot)\b[^\r\n]*\backnowledg(?:e)?ment\b)[^\r\n]*\b(?:transfer(?:ring)?|handoff|handing off)\b[^\r\n]*\blive work\b[^\r\n]*\b(?:is|counts as|constitutes|means)\b[^\r\n]*\backnowledg(?:e)?ment\b',
+    '^(?![^\r\n]*\b(?:not|never|cannot)\b[^\r\n]*\brequir)[^\r\n]*\bno-call\b[^\r\n]*\b(?:requires?|needs?|must have)\b[^\r\n]*\bexecutor acknowledgment\b'
+)
+foreach ($surface in $executorLivenessSurfaces) {
+    Test-SectionRejectsPatterns $surface.RelativePath $surface.SectionName $lifecycleContradictionPatterns
 }
 
 $grantNonGuaranteeSentence = "The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay."
@@ -598,51 +670,65 @@ $grantGuaranteeSurfaces = @(
     @{
         RelativePath = "docs/framework/executor-boundary.md"
         SectionName = "Host Responsibilities"
-        Terms = @($grantNonGuaranteeSentence)
+        LinePrefix = '`Invocation-scoped` describes'
     },
     @{
         RelativePath = "schemas/v1alpha1/README.md"
         SectionName = "Execution Boundary"
-        Terms = @($grantNonGuaranteeSentence)
+        LinePrefix = "ExecutionGrant is a closed runtime object"
     },
     @{
         RelativePath = "docs/ai/handbook.md"
         SectionName = "20. Modular Orchestration Framework"
-        Terms = @($grantNonGuaranteeSentence)
+        LinePrefix = "Use the [bounded executor boundary]"
     },
     @{
         RelativePath = "docs/framework/capability-adapters.md"
         SectionName = "Provider Executor Bridge"
-        Terms = @($grantNonGuaranteeSentence)
+        LinePrefix = "2. Check each invocation request"
     },
     @{
         RelativePath = "docs/research/practice-register.md"
         SectionName = "Current Practices"
-        Terms = @($grantNonGuaranteeSentence)
+        LinePrefix = "| Invocation-scoped authority grant |"
     },
     @{
         RelativePath = "docs/memory/patterns.md"
         SectionName = "Documentation Patterns"
-        Terms = @($grantNonGuaranteeSentence)
+        LinePrefix = "Use lifecycle and security adjectives only"
     },
     @{
         RelativePath = "docs/specs/v10-executor-adapter/spec.md"
         SectionName = "Requirements"
-        Terms = @($grantNonGuaranteeSentence)
+        LinePrefix = "- The host must supply an invocation-scoped"
     },
     @{
         RelativePath = "docs/specs/v10-executor-adapter/plan.md"
         SectionName = "Security And Privacy"
-        Terms = @($grantNonGuaranteeSentence)
+        LinePrefix = "- Declarations never grant authority"
     },
     @{
         RelativePath = "docs/memory/active-context.md"
         SectionName = "Important Current Constraints"
-        Terms = @($grantNonGuaranteeSentence)
+        LinePrefix = '- An `ExecutionGrant` carries'
     }
 )
 foreach ($surface in $grantGuaranteeSurfaces) {
-    Test-SectionContains $surface.RelativePath $surface.SectionName $surface.Terms
+    Test-SectionLineContains $surface.RelativePath $surface.SectionName $surface.LinePrefix @($grantNonGuaranteeSentence)
+}
+
+$grantContradictionPatterns = @(
+    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\bauthenticates\b[^\r\n]*\bissuer\b',
+    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\bestablishes\b[^\r\n]*\b(?:grant )?freshness\b',
+    '^[^\r\n]*(?:\b(?:stateless )?kernel\b[^\r\n]*\b(?:makes|guarantees)\b[^\r\n]*\bgrants?\b[^\r\n]*\bsingle[- ]use\b|\b(?:each|every|the)\s+grant\b[^\r\n]*\b(?:is|becomes)\b[^\r\n]*\bsingle[- ]use\b)',
+    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\benforces\b[^\r\n]*\bgrant\b',
+    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\brevokes\b[^\r\n]*\bgrant\b',
+    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\bconsumes\b[^\r\n]*\bgrant\b',
+    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\bprevents\b[^\r\n]*\b(?:grant )?reuse\b',
+    '^[^\r\n]*\b(?:stateless )?kernel\b[^\r\n]*\bprevents\b[^\r\n]*\b(?:grant )?replay\b'
+)
+foreach ($surface in $grantGuaranteeSurfaces) {
+    Test-SectionRejectsPatterns $surface.RelativePath $surface.SectionName $grantContradictionPatterns
 }
 
 Test-SectionTableColumns "docs/research/practice-register.md" "Current Practices" @(
