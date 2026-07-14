@@ -38,6 +38,8 @@
 - Recording durable context: update `memory/history-ledger.md` and `memory/retrieval-index.md`.
 - Validating workflow changes: run both `scripts/check-template.ps1` and `scripts/test-check-template.ps1`.
 
+- Embedding one packet executor: follow the [bounded executor boundary](framework/executor-boundary.md) and retain host-owned isolation, enforcement, persistence, and integration.
+
 ## Review Standard
 
 Every meaningful documentation or framework change should preserve source evidence, link the relevant feature package, run validation, update memory when durable, and leave the repository easier for a new human or agent to navigate.

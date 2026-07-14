@@ -21,6 +21,9 @@ export const LIMITS = Object.freeze({
   traceBytes: 67_108_864,
   traceEvents: 100_000,
   traceSummaryEvidence: 10_000,
+  executionSnapshotNodes: 100_000,
+  executionGrantPermissions: 64,
+  executionAbortAcknowledgementMs: 60_000,
 });
 
 export const EXPECTED_KIND_BY_DIRECTORY = Object.freeze({

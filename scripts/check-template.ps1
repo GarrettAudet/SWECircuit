@@ -601,12 +601,13 @@ if ($readme -match $historicalOverviewPattern) {
 }
 
 $requiredReadmeText = @(
-    "The V9 kernel implements project initialization, offline validation, and read-only trace inspection",
+    "The V10 kernel can now validate and execute one host-selected work packet through a caller-injected executor",
+    "External hosts still select and schedule work, enforce permissions, isolate runtimes, persist traces, and merge changes.",
     "node dist/cli.js init --project <existing-empty-directory> --project-id quick-start",
     "node dist/cli.js validate --project examples/minimal",
     "node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl",
     "These are repository-local development commands for the private workspace",
-    "The V9 kernel does not launch or schedule agents, execute circuits, write traces, retrieve evidence, merge branches, or update memory automatically."
+    "The V10 kernel does not dynamically load adapters, execute circuits, terminate process trees, merge branches, or update memory automatically."
 )
 foreach ($requiredText in $requiredReadmeText) {
     if ($readme -notmatch [regex]::Escape($requiredText)) {
@@ -619,6 +620,7 @@ $requiredReadmeLinks = @(
     "docs/ai/handbook.md",
     "examples/minimal/",
     "docs/framework/",
+    "docs/framework/executor-boundary.md",
     "docs/specs/",
     "docs/memory/"
 )
@@ -637,6 +639,7 @@ foreach ($linkTarget in $requiredReadmeLinks) {
 $forbiddenReadmePatterns = @(
     @{ Pattern = '(?i)\bplanned executable kernel\b'; Message = "README still describes the implemented kernel as planned" },
     @{ Pattern = '(?i)\bSWECircuit\s+(?:launches\s+agents|schedules\s+agents|executes\s+circuits|writes\s+traces|retrieves\s+evidence|merges\s+branches|updates\s+memory\s+automatically)\b'; Message = "README positively claims a capability owned by an external runtime" },
+    @{ Pattern = '(?i)\bSWECircuit\s+(?:enforces\s+(?:permissions|grants)|loads\s+(?:providers|adapters)|persists\s+(?:traces|events)|terminates\s+process(?:es|\s+trees))\b'; Message = "README positively claims host-owned execution authority or persistence" },
     @{ Pattern = '(?i)\bnpx\s+swecircuit\b'; Message = "README implies a published npx command" },
     @{ Pattern = '(?i)\bnpm\s+install\s+(?:-g\s+)?swecircuit\b'; Message = "README implies an installable SWECircuit package" },
     @{ Pattern = '(?i)\b(?:published|public)\s+SWECircuit\s+CLI\b'; Message = "README implies a published SWECircuit CLI" }
@@ -650,10 +653,10 @@ foreach ($rule in $forbiddenReadmePatterns) {
 try {
     $packageJson = (Read-Text (Join-Path $Root "package.json")) | ConvertFrom-Json -ErrorAction Stop
     if ($packageJson.private -ne $true) {
-        Add-Failure "package.json must keep the V9 workspace private"
+        Add-Failure "package.json must keep the V10 workspace private"
     }
     if ($packageJson.PSObject.Properties.Name -contains "bin") {
-        Add-Failure "package.json must not expose a package binary in V9"
+        Add-Failure "package.json must not expose a package binary in V10"
     }
 } catch {
     Add-Failure "package.json is not valid JSON: $($_.Exception.Message)"

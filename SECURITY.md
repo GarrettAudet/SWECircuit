@@ -6,13 +6,13 @@ Do not report secrets, credential exposure, or exploitable security issues in a 
 
 ## Scope
 
-This repository is currently a file-based workflow framework. Security-sensitive areas include:
+This repository is a file-based workflow framework with a private 0.x kernel and one caller-injected execution boundary. Security-sensitive areas include:
 
-- Agent instructions and tool permissions.
-- External adapter evaluation.
-- Pack installation guidance.
-- Memory and retrieval artifacts that may preserve private context.
-- CI and validation configuration.
+- Agent instructions, invocation grants, and host-enforced tool permissions.
+- Executor identity, input snapshotting, settlement normalization, and cancellation state.
+- External adapter evaluation and pack installation guidance.
+- Caller-owned traces, memory, and retrieval artifacts that may preserve private context.
+- Package declarations, CI, and validation configuration.
 
 ## Handling Expectations
 
@@ -20,6 +20,9 @@ Security reports should include the affected file or workflow, impact, reproduct
 
 ## Security Review Rules
 
-- Do not add network, credential, or external service requirements to core without explicit approval.
-- Do not store secrets in specs, memory, snapshots, issue templates, or examples.
-- Treat external tools as adapters until permissions, telemetry, data retention, rollback, and maintenance are reviewed.
+- Do not add network, credential, provider, process, or external service requirements to core without explicit approval.
+- Keep AdapterManifest declarative; never load executable code from manifest content.
+- Treat an ExecutionGrant as a checked invocation contract, not proof that host tools enforce it.
+- Treat abort_unconfirmed as potentially live work and keep its outputs out of integration.
+- Do not store secrets, raw provider payloads, prompts, transcripts, logs, or command output in specs, events, memory, snapshots, issue templates, or examples.
+- Treat external tools as adapters until permissions, isolation, telemetry, data retention, rollback, and maintenance are reviewed.

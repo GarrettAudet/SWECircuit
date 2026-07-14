@@ -284,6 +284,14 @@ try {
     )
     Write-Utf8 $navigationPath $navigationText
     Assert-CheckerResult "README missing required navigation" $navigationFixture $false
+    $executionLinkFixture = New-Fixture "missing-executor-boundary-link"
+    $executionLinkPath = Join-Path $executionLinkFixture "README.md"
+    $executionLinkText = (Get-Content -LiteralPath $executionLinkPath -Raw).Replace(
+        "docs/framework/executor-boundary.md",
+        "docs/framework/executor-boundary-removed.md"
+    )
+    Write-Utf8 $executionLinkPath $executionLinkText
+    Assert-CheckerResult "README missing executor boundary navigation" $executionLinkFixture $false
 
     $staleKernelFixture = New-Fixture "stale-planned-kernel-claim"
     $staleKernelPath = Join-Path $staleKernelFixture "README.md"
@@ -294,8 +302,8 @@ try {
     $missingCapabilityFixture = New-Fixture "missing-current-capability"
     $missingCapabilityPath = Join-Path $missingCapabilityFixture "README.md"
     $missingCapabilityText = (Get-Content -LiteralPath $missingCapabilityPath -Raw).Replace(
-        "The V9 kernel implements project initialization, offline validation, and read-only trace inspection",
-        "The V9 kernel status is undocumented"
+        "The V10 kernel can now validate and execute one host-selected work packet through a caller-injected executor",
+        "The V10 kernel status is undocumented"
     )
     Write-Utf8 $missingCapabilityPath $missingCapabilityText
     Assert-CheckerResult "README missing current kernel capability" $missingCapabilityFixture $false
@@ -303,7 +311,7 @@ try {
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
     $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(
-        "The V9 kernel does not launch or schedule agents, execute circuits, write traces, retrieve evidence, merge branches, or update memory automatically.",
+        "The V10 kernel does not dynamically load adapters, execute circuits, terminate process trees, merge branches, or update memory automatically.",
         "Runtime boundary removed."
     )
     Write-Utf8 $missingBoundaryPath $missingBoundaryText

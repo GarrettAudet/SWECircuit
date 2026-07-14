@@ -1,0 +1,46 @@
+{
+  "assertions": {
+    "cleanupConfirmed": true,
+    "correctedGrantInvokedOnce": true,
+    "journalInspectable": true,
+    "rejectedGrantInvokedZeroTimes": true
+  },
+  "evidence": {
+    "architectureReview": "docs/specs/v10-executor-adapter/architecture-review.md",
+    "featurePackage": "docs/specs/v10-executor-adapter"
+  },
+  "execution": {
+    "disposition": "completed",
+    "eventCount": 7,
+    "grantId": "grant.v10-dogfood",
+    "terminalCode": "success",
+    "workflow": {
+      "stage": "review",
+      "outcome": "pass"
+    }
+  },
+  "preflightControl": {
+    "correction": "Added the reviewed feature-package read scope to the invocation grant.",
+    "diagnosticCodes": [
+      "SC4206"
+    ],
+    "executorCallsAfterFailure": 0
+  },
+  "reportVersion": "1.0.0",
+  "result": "pass",
+  "runId": "v10-t006-executor-dogfood",
+  "runtimeBoundary": {
+    "durableTraceWriterUsed": false,
+    "mergeAuthorityUsed": false,
+    "providerCalls": 0,
+    "schedulerUsed": false,
+    "testExecutor": "deterministic-in-process"
+  },
+  "trace": {
+    "digest": "sha256:396d48e69e3b78c5ab3f4725ff7ba7cbcfbbff337095a36643130f972d2ec896",
+    "eventCount": 7,
+    "finalAttemptState": "completed",
+    "path": "docs/specs/v10-executor-adapter/evidence/v10-t006-execution-trace.jsonl",
+    "runCompleted": true
+  }
+}

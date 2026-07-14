@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added the V10 bounded executor boundary for one host-selected WorkPacket, with invocation-scoped grants, fail-closed permission checks, honest cancellation states, frozen V9-compatible journals, independent packed-type verification, and deterministic dogfood evidence.
+
 - Adopted SWECircuit as the repository identity while preserving historical TraceRail and DevRail records.
 - Added the private v1alpha1 executable kernel for offline project initialization, deterministic validation, and read-only caller-owned trace inspection.
 - Added a current-versus-target README, reviewed SWECircuit workflow overview, executable source-checkout example, and public-surface regression matrix.

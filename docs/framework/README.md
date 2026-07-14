@@ -9,6 +9,7 @@ Use this layer when work needs one of these:
 - A new circuit or workflow module.
 - A new external tool or agent-framework adapter.
 - A goal decomposition that may fan out across agents.
+- A host integration that executes one bounded work packet.
 - A repeatable orchestration pattern.
 - A durable way to compare best practices before promoting them.
 
@@ -41,6 +42,11 @@ Use this layer when work needs one of these:
 | Adapter adoption | Evaluate external tools before installation. | `docs/framework/_adapter-evaluation-template.md` |
 | Capability adapters | Extract reusable external project capabilities as contracts before installing tools. | `docs/framework/capability-adapters.md` |
 
+## Execution Boundary
+
+The [bounded executor boundary](executor-boundary.md) is the current bridge from declarative framework contracts to trusted host execution. It accepts one already-selected work packet, one compatible manifest, one invocation grant, and one caller-injected executor. It returns a frozen execution summary and V9-compatible event journal.
+
+This boundary standardizes handoff and evidence without making core a scheduler or sandbox. A host still owns agent selection, provider calls, workspaces, permission enforcement, persistence, retry, integration, and memory mutation.
 ## Circuit Definition
 
 A circuit is an ordered or branched composition of modules, typed artifacts, and gates.
@@ -91,7 +97,7 @@ Adapter decisions must preserve:
 
 ## Default Modules
 
-The V5 baseline defines these modules:
+The current baseline defines these framework capabilities:
 
 - Circuit composition module.
 - Spec module.
@@ -106,6 +112,7 @@ The V5 baseline defines these modules:
 - Modular orchestration module.
 - Tool adapter module.
 - Capability adapter module.
+- Bounded executor boundary.
 - Circuit catalog.
 - Module catalog.
 - Pack system.

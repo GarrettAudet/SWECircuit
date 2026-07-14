@@ -1,0 +1,98 @@
+# Root-Cause Analysis: V10 Packed Declaration Portability
+
+## Status
+
+Closed.
+
+## Trigger
+
+V10 added the first external TypeScript host check to the packed-consumer gate. That host could install the offline tarball but failed to compile its public declarations.
+
+## Reproduction
+
+Run:
+
+    npm.cmd run consumer:check
+
+Before the fix, TypeScript reported TS2411 in the installed **dist/model.d.ts** for optional properties on RunEventAttempt and RunEventEvidenceReference.
+
+## Confirmed Root Cause
+
+Both records were declared as interfaces extending JsonObject, whose string index signature requires every property to be a JsonValue. Under compiler settings that interpret optional properties as including undefined, their optional fields were incompatible with that index signature.
+
+The repository's source compiler uses exactOptionalPropertyTypes, while a consumer is not required to do so. The emitted declarations therefore compiled internally but were not portable across valid consumer settings.
+
+## Why It Was Missed
+
+The prior package check exercised only JavaScript runtime imports. Internal typechecking compiled source under the repository's own settings and never recompiled the emitted public declarations from an independent consumer project.
+
+## Fix
+
+- Expressed RunEventAttempt and RunEventEvidenceReference as JsonObject intersection aliases, matching established model patterns.
+- Added a strict external host fixture that imports and exhaustively narrows the public execution types from the installed tarball.
+- Extended the installed-runtime check to execute one deterministic packet and inspect its returned event journal.
+
+## Regression Coverage
+
+**scripts/check-packed-consumer.mjs** now:
+
+- Requires **dist/execution.d.ts** in the packed artifact.
+- Installs the tarball offline in a clean temporary consumer.
+- Compiles **scripts/fixtures/packed-consumer-host.ts** against that installation.
+- Executes one validated work packet through createDeterministicTestExecutor.
+- Reconstructs the resulting V9-compatible trace through inspectTrace.
+
+The gate passes after the fix.
+
+## Follow-Up Work
+
+Keep public declaration compilation under consumer-owned compiler settings in the canonical verify command. Any future public type addition must pass this installed-artifact gate.
+
+## Memory Update
+
+Promote the independent-declaration-consumer rule to durable patterns during the V10 memory update.
+## Postimplementation Timing And Reflection RCA
+
+### Trigger
+
+Three independent postimplementation reviewers returned `REVISE` after the initial 267-test hardening pass. They identified a remaining pre-call deadline interval, an acknowledgment window anchored after abort delivery, early deadline-timer wake-ups treated as expiry, and record/proxy traversal that still performed avoidable reflection before bounds.
+
+### Reproduction And Stable Evidence
+
+- A deterministic hook moved the monotonic clock from 99 to 100 after the prior final gate read; executor invocation was still possible before the fix.
+- An internal abort listener advanced the clock beyond `abort.observedAt + abortAcknowledgementMs` before settling; the old path accepted it because the timer started after `controller.abort()` returned.
+- A controlled deadline timer fired at monotonic 50 for a deadline of 100; the old callback recorded a permanent deadline abort.
+- A live proxy could reach `ownKeys` or descriptor reflection, and a dense object could materialize descriptors before its node budget was checked.
+- Reviewer evidence is preserved under agent IDs `019f618c-b855-7433-9980-8645a82aec9b`, `019f618c-cd0c-72c0-adcb-650d3e031af8`, and `019f618c-e412-7183-9ce8-629ae2c192a5` in `orchestration-run.md`.
+
+### Confirmed Root Causes
+
+- The running journal event and request construction sat between the last monotonic check and the actual executor call.
+- The acknowledgment duration was treated as a fresh timer duration rather than an absolute bound projected from the abort observation.
+- Timer completion was treated as proof of deadline instead of a wake-up requiring a monotonic recheck.
+- Revoked-proxy tests exercised exceptions but did not prove live proxy traps stayed dormant; object key count was checked too late to avoid descriptor-map expansion.
+
+### Causal Fix
+
+- Build the request first, sample monotonic time at the direct invocation boundary, recheck an already observed abort, and call the executor in the same synchronous stack. Emit `running` immediately after the call begins, including synchronous-throw paths, so no-call deadline journals remain queued-to-cancelled.
+- Compute acknowledgment end as `abort.observedAt + abortAcknowledgementMs` and accept only adapter observations strictly before that point.
+- Wrap host timers in an absolute-deadline helper that re-arms after every early wake-up.
+- Reject all Node-detectable proxies before reflection, check allowed keys or remaining node budget before descriptor traversal, and read bounded descriptors individually.
+
+### Regression Coverage
+
+`test/execution.test.mjs` now covers:
+
+- Deadline crossing after the prior final gate read but before invocation.
+- Early deadline wake-up followed by successful completion.
+- Settlement beyond the abort acknowledgment bound returning `abort_unconfirmed`.
+- Live proxy traps remaining at zero calls.
+- Revoked `AbortSignal` proxy rejection.
+- Small sparse arrays, huge sparse arrays, dense oversized objects, and excessive depth.
+- Normal class executors, forged signals, revoked values, and first-observation cause precedence.
+
+The hardened suite passes 274 tests and `npm.cmd run verify` passes through dogfood, package inspection, and the clean installed consumer.
+
+### Durable Learning
+
+A green asynchronous suite is not enough for a timing boundary. Express timeout and acknowledgment as absolute monotonic observations, treat timers as fallible wake-ups, put the final gate beside the effectful call, and test live reflective traps rather than only revoked objects.

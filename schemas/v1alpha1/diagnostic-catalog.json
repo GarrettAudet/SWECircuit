@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "1.3.0",
   "diagnosticShape": {
     "required": ["code", "severity", "artifact", "pointer", "rule", "message"],
     "optional": ["hint"],
@@ -10,7 +10,7 @@
   },
   "exitClasses": {
     "0": "Success; warnings may be present.",
-    "2": "Invalid project or trace.",
+    "2": "Invalid project, artifact, trace, or execution request.",
     "3": "Invalid command usage.",
     "4": "Safe I/O failure.",
     "5": "Unexpected internal failure."
@@ -391,6 +391,66 @@
     {
       "code": "SC4103",
       "rule": "privacy.capture-class-unknown",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4201",
+      "rule": "execution.input-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4202",
+      "rule": "execution.kind-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4203",
+      "rule": "execution.manifest-incompatible",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4204",
+      "rule": "execution.identity-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4205",
+      "rule": "execution.grant-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4206",
+      "rule": "execution.permission-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4207",
+      "rule": "execution.permission-exceeds-ceiling",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4208",
+      "rule": "execution.policy-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4209",
+      "rule": "execution.secret-pattern",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4210",
+      "rule": "execution.snapshot-limit",
       "severity": "error",
       "exitClass": 2
     },

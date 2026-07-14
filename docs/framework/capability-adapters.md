@@ -12,6 +12,7 @@ Use this file when a tool is more than a generic dependency but less than a requ
 | --- | --- | --- | --- |
 | Skills-driven development transition | Move from idea to design to implementation through triggered skills and readable checkpoints. | Superpowers | Handbook stages, feature package, IDE interaction, standalone agent module |
 | Orchestration compiler | Synthesize a project-specific agent team, handoffs, critic path, and integration plan from repository context. | Astraeus | Decomposition plan, orchestration run record, module registry |
+| Provider executor bridge | Map one frozen packet, invocation grant, and abort signal to a trusted host runtime. | Codex subagents, MCP Tasks, A2A, agent SDK hooks | Bounded executor boundary, AdapterManifest, ADR 0002 |
 
 ## Skills-Driven Development Transition
 
@@ -75,6 +76,37 @@ Failure routes:
 - If worker findings conflict, route to critic and synthesizer before implementation.
 - If tool permissions are unclear, emit `block`.
 
+## Provider Executor Bridge
+
+This capability connects SWECircuit's local execution port to a real IDE, agent runtime, remote protocol, container, or hosted worker without making that provider part of core.
+
+Use it when:
+
+- A host needs to execute a validated WorkPacket through a real specialized agent.
+- The host can enforce permissions and isolate the worker.
+- Provider lifecycle and cancellation can map honestly to the SWECircuit result states.
+- Returned provider content can be reduced to a closed settlement and bounded evidence references.
+- The adapter has passed evaluation and the user has approved installation or use.
+
+SWECircuit contract:
+
+1. Keep executable code host-injected; never load it from AdapterManifest content.
+2. Bind every invocation to a closed ExecutionGrant and matching executor identity.
+3. Enforce the grant in host-owned tools, credentials, workspace, and network controls.
+4. Map caller cancellation and deadline to the provider without claiming termination before settlement.
+5. Return only completed or failed settlement data; keep prompts, transcripts, logs, and raw exceptions out of the journal.
+6. Treat abort_unconfirmed as potentially live work and prevent its output from entering integration.
+7. Persist returned events only in caller-owned storage after privacy checks.
+8. Keep retry, merge, and memory mutation in separate reviewed policies.
+
+Failure routes:
+
+- If required authority cannot be enforced, emit block before invocation.
+- If provider cancellation is not observable, preserve abort_unconfirmed.
+- If provider output cannot fit the closed settlement, emit failed with an invalid-result classification.
+- If remote protocol state cannot map without losing meaning, redesign the adapter rather than weakening core states.
+
+See the [bounded executor boundary](executor-boundary.md) for the executable contract.
 ## Safety Defaults
 
 - File-based contracts come first.

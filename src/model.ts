@@ -36,6 +36,7 @@ export interface ArtifactPort {
 export interface PermissionRequest {
   readonly kind: string;
   readonly scopes: readonly string[];
+  readonly reason?: string;
 }
 
 export interface ModuleArtifact extends ArtifactEnvelope {
@@ -109,17 +110,39 @@ export interface WorkPacketArtifact extends ArtifactEnvelope {
       readonly permissionCeiling: readonly PermissionRequest[];
     };
     readonly stopConditions: readonly string[];
+    readonly deadline?: string;
   };
 }
 
 export interface AdapterManifestArtifact extends ArtifactEnvelope {
   readonly kind: "AdapterManifest";
   readonly spec: JsonObject & {
+    readonly adapterKind: string;
+    readonly compatibility: JsonObject & {
+      readonly apiVersions: readonly string[];
+    };
+    readonly capabilities: readonly string[];
     readonly requestedPermissions: readonly PermissionRequest[];
+    readonly inputKinds: readonly string[];
+    readonly outputKinds: readonly string[];
+    readonly behavior: JsonObject & {
+      readonly timeout: JsonObject & {
+        readonly supported: boolean;
+        readonly maximumSeconds?: number;
+      };
+      readonly cancellation: JsonObject & {
+        readonly supported: boolean;
+        readonly acknowledged: boolean;
+      };
+      readonly errors: JsonObject & {
+        readonly structured: boolean;
+        readonly retryableDeclared: boolean;
+      };
+    };
   };
 }
 
-export interface RunEventAttempt extends JsonObject {
+export type RunEventAttempt = JsonObject & {
   readonly id: string;
   readonly number: number;
   readonly workPacket: string;
@@ -127,15 +150,15 @@ export interface RunEventAttempt extends JsonObject {
   readonly retryOf?: string;
   readonly deadline?: string;
   readonly terminalCode?: import("./types.js").TerminalCode;
-}
+};
 
-export interface RunEventEvidenceReference extends JsonObject {
+export type RunEventEvidenceReference = JsonObject & {
   readonly id: string;
   readonly kind: import("./types.js").EvidenceKind;
   readonly ref: string;
   readonly digest?: string;
   readonly immutable?: boolean;
-}
+};
 
 export interface RunEventArtifact extends ArtifactEnvelope {
   readonly kind: "RunEvent";

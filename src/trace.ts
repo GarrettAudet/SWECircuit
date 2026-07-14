@@ -712,6 +712,24 @@ function reconstructTrace(
   });
 }
 
+export function inspectTraceBytes(
+  bytes: Uint8Array,
+  artifact = "execution-journal.jsonl",
+): OperationResult<TraceInspectionSummary> {
+  const diagnostics: Diagnostic[] = [];
+  if (bytes.byteLength > LIMITS.traceBytes) {
+    diagnostics.push(createDiagnostic("SC5006", artifact));
+    return operationResult<TraceInspectionSummary>(diagnostics, null);
+  }
+
+  const events = parseAndValidateRecords(bytes, artifact, diagnostics);
+  if (events === null || !validateOrderAndCausation(events, artifact, diagnostics)) {
+    return operationResult<TraceInspectionSummary>(diagnostics, null);
+  }
+
+  return operationResult(diagnostics, reconstructTrace(events, artifact, artifact, diagnostics));
+}
+
 export function inspectTraceWithHooks(
   options: InspectTraceOptions | undefined,
   hooks: InspectTraceHooks = {},

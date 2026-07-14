@@ -132,7 +132,7 @@ CLI exit classes are:
 
 ```txt
 0 success
-2 invalid project or trace
+2 invalid project, artifact, trace, or execution request
 3 invalid command usage
 4 safe I/O failure
 5 internal failure

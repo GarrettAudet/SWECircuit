@@ -226,6 +226,29 @@ A read-only reviewer contract must name the local inspection commands or tools i
 
 Freeze the complete implementation, milestone, and memory state before the final gate. Run CI and independent review against that exact commit, then use a bounded evidence-only attestation to record the commit, run, and verdict without implying that earlier evidence covered later files.
 
+### Host-Injected Executor Port
+
+Keep declarative manifests non-executable. Let the embedding host inject trusted code through one small typed port, bind it to one checked runtime grant, and retain host ownership of isolation, credentials, persistence, scheduling, and integration.
+
+### Three-Direction Permission Coverage
+
+Before invocation, prove that every manifest request is granted, every grant entry was requested, and every grant entry fits inside the work-packet ceiling. No single direction is sufficient, and the checked relationship still does not prove host enforcement.
+
+### Honest Abort State
+
+Treat cancellation as observed protocol state, not a wish. Emit a terminal cancellation or timeout only when settlement is observed before an acknowledgment bound anchored to the abort observation; otherwise retain a non-terminal potentially-live state.
+
+### Absolute Monotonic Bound
+
+Represent timeout and acknowledgment as absolute monotonic points. Treat timers as wake-up hints that may fire early, re-arm after early wake-ups, compare settlement observation timestamps to the bound, and place the final check beside the effectful call.
+
+### Proxy Before Reflection
+
+Reject detectable proxies before `Array.isArray`, prototype, key, descriptor, signal, or method reflection. Bound array length or object key count before descriptor traversal, then read descriptors individually without invoking accessors.
+
+### Independent Declaration Consumer
+
+Public declarations must compile from the installed tarball under consumer-owned compiler settings. Internal source typechecking cannot prove emitted declaration portability, package completeness, root-export narrowing, or installed documentation integrity.
 ## Source Map
 
 Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
@@ -255,3 +278,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V9 T009 public-surface plan](../specs/v9-devrail-kernel/public-surface-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/public-surface-orchestration-run.md) | Visual Semantics Are Contract; Literal Quick Start Replay; Positive Exceptions For Negative Rules |
 | [V9 T010 dogfood plan](../specs/v9-devrail-kernel/dogfood-decomposition-plan.md), [run](../specs/v9-devrail-kernel/dogfood-orchestration-run.md), and [RCA](../specs/v9-devrail-kernel/root-cause-analysis.md#t010-dogfood-review-and-cleanup-rca) | Measure Semantics, Observe Timing; Rebind Evidence After Review |
 | [V9 T011 final plan](../specs/v9-devrail-kernel/final-acceptance-decomposition-plan.md), [run](../specs/v9-devrail-kernel/final-acceptance-orchestration-run.md), and [RCA](../specs/v9-devrail-kernel/root-cause-analysis.md#t011-packed-consumer-gate-rca) | Lockfile-Driven Offline Consumer; Positive Read Authority; Immutable Acceptance Candidate |
+| [V10 ADR](../architecture/decisions/0002-bounded-executor-boundary.md), [implementation review](../specs/v10-executor-adapter/review.md), and [postimplementation RCA](../specs/v10-executor-adapter/root-cause-analysis.md#postimplementation-timing-and-reflection-rca) | Host-Injected Executor Port; Three-Direction Permission Coverage; Honest Abort State; Absolute Monotonic Bound; Proxy Before Reflection; Independent Declaration Consumer |

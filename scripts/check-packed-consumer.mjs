@@ -20,8 +20,10 @@ const NPM_EXEC_PATH = process.env.npm_execpath;
 assert.equal(typeof NPM_EXEC_PATH, "string", "Run the packed-consumer check through npm.");
 assert.notEqual(NPM_EXEC_PATH.length, 0, "npm_execpath must identify npm's JavaScript entrypoint.");
 const REQUIRED_PACKED_FILES = Object.freeze([
+  "dist/execution.d.ts",
   "dist/index.d.ts",
   "dist/index.js",
+  "docs/framework/executor-boundary.md",
   "package.json",
   "schemas/v1alpha1/common.schema.json",
   "schemas/v1alpha1/project.schema.json",
@@ -36,7 +38,9 @@ import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from
 import { isAbsolute, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  createDeterministicTestExecutor,
   createToolchainProbe,
+  executeWorkPacket,
   initializeProject,
   inspectTrace,
   TOOLCHAIN,
@@ -55,6 +59,7 @@ assert.notEqual(entryRelativeToPackage, "..");
 assert.equal(entryRelativeToPackage.startsWith("../"), false);
 assert.equal(entryRelativeToPackage.startsWith("..\\"), false);
 assert.equal(existsSync(join(installedPackage, "dist", "index.js")), true);
+assert.equal(existsSync(join(installedPackage, "docs", "framework", "executor-boundary.md")), true);
 assert.equal(existsSync(join(installedPackage, "schemas", "v1alpha1", "project.schema.json")), true);
 assert.equal(existsSync(join(installedPackage, "src")), false);
 
@@ -110,6 +115,160 @@ assert.equal(inspected.value?.eventCount, 2);
 assert.equal(inspected.value?.runs.length, 1);
 assert.equal(inspected.value?.runs[0]?.hasCompletedEvent, true);
 
+const executionPacket = {
+  apiVersion: "swecircuit/v1alpha1",
+  kind: "WorkPacket",
+  metadata: {
+    id: "consumer-packet",
+    description: "A bounded packet executed from the installed artifact.",
+  },
+  spec: {
+    goal: "Prove the packed execution boundary works.",
+    completionEvidence: [
+      {
+        id: "consumer_execution",
+        kind: "test",
+        description: "The installed package executes and reconstructs one packet.",
+        required: true,
+      },
+    ],
+    nonGoals: ["Invoke a real provider."],
+    source: {
+      featurePackage: "docs/specs/consumer",
+      branch: "consumer",
+      baselineCommit: "0000000",
+    },
+    scope: {
+      include: ["src/**"],
+      exclude: [],
+      conflictZones: [],
+    },
+    role: {
+      capability: "Deterministic package verification.",
+      owner: "consumer-agent",
+    },
+    dependencies: [],
+    context: [
+      {
+        id: "consumer_spec",
+        kind: "artifact",
+        ref: "path:docs/specs/consumer/spec.md",
+        immutable: false,
+      },
+    ],
+    authority: {
+      allowedActions: ["Read the declared source scope."],
+      disallowedActions: ["Write files or spawn processes."],
+      permissionCeiling: [
+        {
+          kind: "filesystem.read",
+          scopes: ["src/**"],
+        },
+      ],
+    },
+    verification: [
+      {
+        id: "consumer_execution",
+        kind: "test",
+        description: "The installed package executes and reconstructs one packet.",
+        required: true,
+      },
+    ],
+    handoff: {
+      destination: "integration-owner",
+      requiredFields: [
+        "summary",
+        "filesChanged",
+        "verificationEvidence",
+        "assumptions",
+        "risks",
+        "followUps",
+      ],
+    },
+    stopConditions: ["Stop when the declared boundary cannot be honored."],
+  },
+};
+const executionManifest = {
+  apiVersion: "swecircuit/v1alpha1",
+  kind: "AdapterManifest",
+  metadata: {
+    id: "consumer.executor",
+    version: "1.0.0",
+    description: "A deterministic installed-package executor.",
+  },
+  spec: {
+    adapterKind: "agent_runtime",
+    compatibility: { apiVersions: ["swecircuit/v1alpha1"] },
+    capabilities: ["launch_agent"],
+    requestedPermissions: [
+      {
+        kind: "filesystem.read",
+        scopes: ["src/**"],
+        reason: "Read the packet's declared source scope.",
+      },
+    ],
+    inputKinds: ["WorkPacket"],
+    outputKinds: [],
+    behavior: {
+      health: { mode: "passive" },
+      timeout: { supported: true, maximumSeconds: 10 },
+      cancellation: { supported: true, acknowledged: true },
+      errors: { structured: true, retryableDeclared: false },
+    },
+    provenance: {
+      source: "https://example.invalid/consumer-executor",
+      maintainer: "SWECircuit package check",
+    },
+  },
+};
+const executionGrant = {
+  id: "grant.consumer",
+  issuer: "integration.owner",
+  runId: "run.consumer",
+  attemptId: "attempt.consumer",
+  workPacket: "consumer-packet",
+  executor: { id: "consumer.executor", version: "1.0.0" },
+  permissions: [{ kind: "filesystem.read", scopes: ["src/**"] }],
+};
+const executed = await executeWorkPacket({
+  workPacket: executionPacket,
+  adapterManifest: executionManifest,
+  grant: executionGrant,
+  executor: createDeterministicTestExecutor({
+    id: "consumer.executor",
+    version: "1.0.0",
+    settlement: {
+      state: "completed",
+      workflow: { stage: "implement", outcome: "pass" },
+    },
+  }),
+  runId: "run.consumer",
+  attemptId: "attempt.consumer",
+  correlationId: "consumer-check",
+  policy: {
+    timeoutMs: 1_000,
+    abortAcknowledgementMs: 100,
+  },
+});
+assert.equal(executed.ok, true, JSON.stringify(executed.diagnostics));
+assert.equal(executed.value?.disposition, "completed");
+assert.equal(executed.value?.events.length, 6);
+
+const executionTrace = join(traceDirectory, "execution.jsonl");
+writeFileSync(
+  executionTrace,
+  executed.value.events.map((event) => JSON.stringify(event)).join("\n") + "\n",
+  "utf8",
+);
+const executionInspection = inspectTrace({
+  project: projectRoot,
+  trace: "traces/execution.jsonl",
+});
+assert.equal(executionInspection.ok, true, JSON.stringify(executionInspection.diagnostics));
+assert.equal(executionInspection.value?.eventCount, 6);
+assert.equal(executionInspection.value?.runs[0]?.attempts[0]?.state, "completed");
+assert.equal(executionInspection.value?.runs[0]?.hasCompletedEvent, true);
+
 const manifest = JSON.parse(readFileSync(join(projectRoot, "swecircuit.json"), "utf8"));
 assert.equal(manifest.metadata.id, "clean-consumer");
 assert.deepEqual(createToolchainProbe(), {
@@ -122,8 +281,11 @@ assert.equal(TOOLCHAIN.apiVersion, "swecircuit/v1alpha1");
 process.stdout.write(
   JSON.stringify({
     artifactSource: "installed-package",
+    executedEvents: executed.value.events.length,
+    executionDisposition: executed.value.disposition,
     initialized: true,
     inspectedEvents: inspected.value.eventCount,
+    inspectedExecutionEvents: executionInspection.value.eventCount,
     privateInterface: true,
     projectId: validated.value.projectId,
     validated: true,
@@ -299,6 +461,11 @@ try {
     "utf8",
   );
   writeFileSync(join(consumerDirectory, "verify.mjs"), CONSUMER_PROGRAM.trimStart(), "utf8");
+  writeFileSync(
+    join(consumerDirectory, "host.ts"),
+    readFileSync(join(ROOT, "scripts", "fixtures", "packed-consumer-host.ts"), "utf8"),
+    "utf8",
+  );
 
   runNpm(
     ["ci", "--offline", "--cache", NPM_CACHE, "--ignore-scripts", "--no-audit", "--no-fund"],
@@ -311,6 +478,27 @@ try {
   assert.equal(installedManifest.private, true);
   assert.equal(installedManifest.bin, undefined);
   assert.equal(installedManifest.exports?.["."]?.import, "./dist/index.js");
+  assert.equal(installedManifest.exports?.["."]?.types, "./dist/index.d.ts");
+
+  run(
+    process.execPath,
+    [
+      join(ROOT, "node_modules", "typescript", "bin", "tsc"),
+      "--noEmit",
+      "--strict",
+      "--module",
+      "NodeNext",
+      "--moduleResolution",
+      "NodeNext",
+      "--target",
+      "ES2022",
+      "--lib",
+      "ES2022,DOM",
+      "host.ts",
+    ],
+    consumerDirectory,
+    "packed consumer TypeScript host",
+  );
 
   const consumerOutput = run(
     process.execPath,
@@ -320,15 +508,18 @@ try {
   );
   assert.deepEqual(JSON.parse(consumerOutput), {
     artifactSource: "installed-package",
+    executedEvents: 6,
+    executionDisposition: "completed",
     initialized: true,
     inspectedEvents: 2,
+    inspectedExecutionEvents: 6,
     privateInterface: true,
     projectId: "clean-consumer",
     validated: true,
   });
 
   process.stdout.write(
-    "Packed consumer check passed (private artifact, offline install, init, validate, inspect).\n",
+    "Packed consumer check passed (private artifact, offline install, public types, init, validate, execute, inspect).\n",
   );
 } finally {
   if (existsSync(ownedRoot)) {

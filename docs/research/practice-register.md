@@ -50,7 +50,6 @@ Status values:
 | A-MEM/Zettelkasten memory | watch | A-MEM paper/repo | Watch for workflow-memory inspiration | Useful dynamic memory organization idea, but would add complexity today. |
 | Codex Chronicle | watch | OpenAI Codex Chronicle docs | Do not require in v2 | Promising source of automatic local memories, but currently platform/account constrained and has privacy/prompt-injection considerations. |
 | CI/spec guardrails | deferred | Spec Kit CI Guard and related extensions | Add local checker first | Deterministic checks are needed, but CI can wait until the template stabilizes. |
-
 | Primary-source architecture gate before public API freeze | accepted | V9 kernel architecture scan | Require a dated scan and ADR before executable contracts | Prevents runtime, schema, package, and trace choices from becoming accidental public APIs. |
 | Node LTS plus compiled TypeScript kernel | accepted | Node release, TypeScript, packages, util, and test docs | Use Node 22.14+ with Node 24 primary and compiled ESM output | Strong IDE reach, supported portability, explicit exports, stable built-in CLI parsing, and stable testing. |
 | TypeScript 7 native compiler for V9 | accepted | TypeScript 7 announcement, V9 architecture refresh, and passing private spike | Use TypeScript 7.0.2 plus Biome 2.5.3; do not use the compiler API in V9 | The accepted spike proves strict ESM compilation, declarations, lint, tests, and package inspection with the two approved production dependencies. |
@@ -67,6 +66,14 @@ Status values:
 | Unscoped devrail npm package | rejected | npm registry query on 2026-07-09 | Do not publish under the occupied name | The package is owned by another security and quality guardrails project. |
 | DevRail public identity | rejected | devrail.dev, npm registry evidence, and V9 public identity scan | Reopen naming and do not use DevRail for current product surfaces | An active adjacent project already uses DevRail, devrail init, .devrail.yml, agent instructions, and CI gates. |
 | SWECircuit public project identity | accepted | V9 public identity scan and owner approval | Use for current project and GitHub repository surfaces; defer unrelated machine namespaces | The repository is now `GarrettAudet/SWECircuit`; Circuit is the public composition metaphor and 0.x rail paths remain compatibility artifacts. |
+| Host-injected executor port | accepted | V10 executor scan, Codex subagents, MCP Tasks, A2A | Standardize one trusted host invocation without loading a provider in core | Preserves provider neutrality while giving IDEs and runtimes one checkable handoff and result boundary. |
+| Invocation-scoped authority grant | accepted | Agent SDK guardrails and hooks, GitHub Actions least privilege, V10 architecture review | Bind every call to packet, run, attempt, executor, issuer, and bounded permissions | Separates declared needs and ceilings from actual invocation authority without claiming kernel enforcement. |
+| Three-direction permission coverage | accepted | V10 threat model and capability negotiation practice | Require requests to be granted, grants to be requested, and grants to fit the packet ceiling | Prevents missing authority, authority injection, and ceiling escalation before executor code runs. |
+| Cooperative cancellation with abort_unconfirmed | accepted | MCP Tasks and Node process semantics | Report a terminal abort only after executor settlement; otherwise preserve potentially live work | Avoids false claims that remote, in-process, or descendant work stopped. |
+| Generic Node subprocess executor | deferred | Official Node child-process semantics | Do not ship as a portable isolation boundary | Sending a signal does not prove process or descendant termination across supported platforms. |
+| Dynamic executable loading from AdapterManifest | rejected | V10 executor scan and supply-chain boundary review | Keep manifests declarative and require trusted host injection | Prevents configuration from silently becoming code-loading authority. |
+| Independent packed declaration consumer | accepted | V10 packed declaration RCA | Compile emitted public types under consumer-owned settings during canonical verification | Internal source typechecking can miss declaration portability defects. |
+| Agent2Agent protocol mapping | optional | A2A 1.0 specification | Keep as a future remote executor adapter | Useful for cross-host task and artifact exchange, but unnecessary for the local core boundary. |
 ## Promotion Criteria
 
 Promote a practice into the handbook or templates only when it:
@@ -88,3 +95,5 @@ Reject or defer a practice when it:
 - Makes the system harder to understand.
 - Cannot be verified in normal project work.
 - Stores sensitive history without clear privacy and deletion behavior.
+| Absolute monotonic lifecycle bounds | accepted | V10 postimplementation review and Node timer semantics | Treat timers as wake-up hints, re-arm early wakes, and compare host observations to absolute deadline and acknowledgment points | Prevents premature timeout and late acknowledgment when timer delivery or abort handling is delayed. |
+| Proxy rejection before reflection | accepted | V10 postimplementation security review and Node util types | Reject detectable proxies before array, prototype, key, descriptor, signal, or method reflection | Keeps caller traps out of preflight and makes reflection cost subject to explicit key and node bounds. |

@@ -13,10 +13,35 @@ export {
   exitCodeForDiagnostics,
   sortAndDeduplicateDiagnostics,
 } from "./diagnostics.js";
+export {
+  createDeterministicTestExecutor,
+  executeWorkPacket,
+} from "./execution.js";
+export type {
+  ExecuteWorkPacketOptions,
+  ExecutionDisposition,
+  ExecutionFailureCode,
+  ExecutionGrant,
+  ExecutionGrantPermission,
+  ExecutionPolicy,
+  ExecutionSummary,
+  ExecutionWorkflow,
+  FailedTerminalCode,
+  WorkPacketExecutor,
+  WorkPacketExecutorRequest,
+  WorkPacketExecutorSettlement,
+} from "./execution.js";
 export { initializeProject } from "./initialize.js";
 export { parseJsonBuffer } from "./json.js";
 export { inspectTrace } from "./trace.js";
 export { validateArtifactValue, validateProject } from "./validate.js";
+export type {
+  AdapterManifestArtifact,
+  PermissionRequest,
+  RunEventArtifact,
+  RunEventEvidenceReference,
+  WorkPacketArtifact,
+} from "./model.js";
 export type {
   CancellationReasonCode,
   Diagnostic,

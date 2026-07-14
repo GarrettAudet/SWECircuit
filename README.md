@@ -6,23 +6,23 @@
 
 SWECircuit gives AI software teams a standard way to compose development workflows from reusable modules, split goals into bounded work packets, route those packets to external agents, verify evidence, and preserve the execution trace.
 
-The diagram shows the target operating model. The V9 kernel implements project initialization, offline validation, and read-only trace inspection today; external IDEs and agent runtimes still execute the workflow.
+The diagram shows the target operating model. The V10 kernel can now validate and execute one host-selected work packet through a caller-injected executor and return a caller-owned event journal. External hosts still select and schedule work, enforce permissions, isolate runtimes, persist traces, and merge changes.
 
 ![Target model executed by an external IDE or agent runtime: a task moves through Spec, Plan, and Route; bounded work packets fan out to specialized agents, converge at Verify, then continue through Integrate, Review, Memory, and a verified change.](docs/assets/swecircuit-overview.png)
 
 ## How It Works
 
 ```txt
-module -> circuit -> work packet -> external agent -> evidence gate -> verified integration -> caller-owned trace + project memory
+module -> circuit -> work packet -> host-injected executor -> evidence gate -> verified integration -> caller-owned trace + project memory
 ```
 
 1. **Define modules.** Give each stage an input, action, output, gate, and outcome.
 2. **Compose a circuit.** Connect the modules needed for a feature, fix, review, or release.
 3. **Decompose the goal.** Create bounded work packets with scope, dependencies, verification, and stop conditions.
-4. **Route and integrate.** External IDEs or runtimes assign packets to specialized agents and return evidence to an integration owner.
+4. **Execute and integrate.** A trusted IDE or runtime injects the executor for one packet; SWECircuit checks its grant and returns lifecycle evidence to the integration owner.
 5. **Verify and learn.** Gates control integration; the trace records what happened, and durable lessons enter project memory.
 
-SWECircuit defines and checks the workflow contract. It is not an agent scheduler or model runtime.
+SWECircuit defines and checks the workflow contract and bounds one injected execution. It is not an agent scheduler, model runtime, permission sandbox, or merge engine.
 
 ## Core Contracts
 
@@ -63,6 +63,8 @@ Initialization is one-time and never overwrites its owned files. Validation and 
 
 These are repository-local development commands for the private workspace; SWECircuit does not publish a package binary or public CLI.
 
+Library hosts can execute one validated packet through the [bounded executor boundary](docs/framework/executor-boundary.md). The host supplies trusted executable code and retains responsibility for isolation, approvals, persistence, and integration.
+
 For the full operating protocol, start with [AGENTS.md](AGENTS.md) and the [handbook](docs/ai/handbook.md).
 
 ## Repository Guide
@@ -87,10 +89,10 @@ For the full operating protocol, start with [AGENTS.md](AGENTS.md) and the [hand
 
 ## Status
 
-**Implemented now:** initialize one explicit project, validate canonical v1alpha1 artifacts offline, and inspect one caller-owned JSONL trace without opening evidence references.
+**Implemented now:** initialize one explicit project, validate canonical v1alpha1 artifacts offline, inspect caller-owned JSONL traces, and execute exactly one validated work packet through a trusted caller-injected executor with a checked invocation grant and frozen lifecycle journal.
 
 **Defined as workflow contracts:** specification, decomposition, bounded parallel work, gates, integration review, durable memory, modules, circuits, packs, and adapters.
 
-**Left to external runtimes:** model calls, agent scheduling, workspace isolation, trace production, evidence retrieval, and branch integration. The V9 kernel does not launch or schedule agents, execute circuits, write traces, retrieve evidence, merge branches, or update memory automatically.
+**Left to external hosts:** provider calls, packet selection and scheduling, permission enforcement, workspace isolation, durable trace writing, evidence retrieval, retries, branch integration, and memory mutation. The V10 kernel does not dynamically load adapters, execute circuits, terminate process trees, merge branches, or update memory automatically.
 
 See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Support](SUPPORT.md), and the [Changelog](CHANGELOG.md).

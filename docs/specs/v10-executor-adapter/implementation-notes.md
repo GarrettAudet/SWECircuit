@@ -1,0 +1,61 @@
+# Implementation Notes: V10 Bounded Executor Boundary
+
+## Status
+
+Implementation hardened; immutable acceptance review is the remaining code gate.
+
+## Summary Of Changes
+
+- Added a provider-neutral executeWorkPacket operation for exactly one host-selected WorkPacket and one trusted caller-injected WorkPacketExecutor.
+- Added a closed invocation-scoped ExecutionGrant, manifest compatibility checks, executor identity binding, and three-direction permission coverage.
+- Added bounded plain-JSON snapshots that reject cycles, accessors, symbols, custom prototypes, invalid numbers, array holes, depth overflow, and node overflow.
+- Added deterministic lifecycle journals with fixed actor, grant link, contiguous IDs and sequences, linear causation, immutable snapshots, and whole-journal V9 inspection before return.
+- Added honest cooperative cancellation semantics for acknowledged cancellation, timeout, and abort_unconfirmed potentially live work.
+- Added fixed failure normalization for executor throws, malformed settlements, and secret-bearing return data without copying raw provider values.
+- Added the no-I/O createDeterministicTestExecutor and root-exported public types.
+- Added SC4201 through SC4210 and advanced the diagnostic catalog to 1.3.0 without changing the six artifact schemas or event vocabulary.
+- Extended the packed-consumer gate to compile the emitted declarations under independent compiler settings, execute one installed packet, and inspect its journal offline.
+- Added a deterministic V10 dogfood circuit with a controlled permission failure, corrected grant, caller-owned trace, byte-checked observation, and identity-checked temporary cleanup.
+- Updated the README, handbook, framework guide, capability adapters, module registry, practice register, schema contract, and workflow checker to state the exact V10 boundary.
+
+## Deviations From Plan
+
+The intake recommendation considered an opt-in local child-process adapter. Primary-source research showed that pure Node cannot guarantee descendant process termination or cross-platform isolation, so V10 narrowed the executable surface to a caller-injected port plus a no-I/O test implementation. This redesign is preserved in the research snapshot, ADR 0002, and architecture review.
+
+V10 also added an independent packed-declaration compile after the first external host exposed a pre-existing declaration portability defect. The root cause and causal fix are preserved in debug-notes.md and root-cause-analysis.md.
+
+The first postimplementation review returned three `REVISE` verdicts despite a green suite. The integration owner removed the remaining invocation gap, anchored acknowledgment to the abort observation, re-armed early timer wake-ups, rejected proxies before reflection, bounded record keys before descriptors, narrowed the public grant type, repaired installed docs and consumer narrowing, and added focused regressions before preparing the acceptance candidate.
+
+## Assumptions Used
+
+- Provider-neutral execution and explicit host authority are the smallest useful V10 increment.
+- A trusted embedding host supplies executable code and enforces the actual sandbox, tools, credentials, and workspace.
+- The canonical artifact vocabulary remains unchanged because a runtime grant must not become a self-authorizing file.
+- A valid API call is not equivalent to successful work; callers branch on ExecutionSummary.disposition.
+- An unacknowledged abort leaves potentially live work and must not produce false terminal evidence.
+
+## Follow-Up Work
+
+- Evaluate one real provider adapter only after an adapter evaluation and explicit owner approval.
+- Design native, container, or hosted isolation before adding a command executor.
+- Add scheduling, retries, durable event sinks, resumed input, merge, and memory automation only as separate reviewed versions.
+- Decide whether the unstable 0.x library surface is ready for a public package in a later milestone.
+
+## Verification Performed
+
+- V9 baseline on 2b7bef37fb2477e3fc8779171c5971a3db42f20b: canonical verification passed with 209 tests.
+- V10 hardened implementation suite: 274 tests passed, including cancellation races, proxy safety, snapshot bounds, execution lifecycle, and dogfood cleanup coverage.
+- V10 dogfood: under-authorized grant rejected with SC4206 and zero calls; corrected grant invoked once; seven-event journal reconstructed as completed.
+- Packed consumer: offline install, independent public-declaration compile, initialization, validation, one packet execution, and trace inspection passed.
+- Workflow checker passed and all 43 isolated checker regression scenarios passed.
+- `npm.cmd run verify` passed after hardening; both workflow checkers and exact-commit independent re-review remain the T006 acceptance gates.
+
+## Durable Learnings
+
+- A process API is not a sandbox, and a sent termination signal is not proof that a process tree stopped.
+- Runtime authority must be supplied by the host and bound to one invocation; an artifact can only request or limit authority.
+- Permission safety needs all three predicates: requested authority is granted, granted authority was requested, and granted authority fits the packet ceiling.
+- Public declarations need an independent installed consumer because source typechecking under repository settings is not sufficient.
+- Cancellation evidence must describe what the host observed, including uncertainty, rather than what it hoped happened.
+- Timeout and acknowledgment bounds must be anchored to monotonic observations, defend against early timer wake-ups, and be checked at the actual invocation boundary.
+- Reject proxies before reflection and bound key counts before descriptor traversal; revoked-proxy tests alone do not prove live traps stay dormant.

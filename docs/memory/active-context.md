@@ -2,16 +2,22 @@
 
 ## Current Focus
 
-Use the owner-approved V9 kernel on `main` as the stable baseline for V10 intake and dogfooding.
+Freeze and independently review the complete V10 bounded-executor acceptance candidate on `codex/v10-executor-adapter`, while keeping owner-approved V9 on `main` as the stable baseline.
 
 ## Current Stage
+
+V10 implements one provider-neutral, host-injected work-packet executor with an invocation-scoped grant and caller-owned V9-compatible journal. The first postimplementation review returned three `REVISE` verdicts; causal timing, reflection, type, package, and documentation fixes now pass 274 tests and the canonical local gate. Candidate memory and milestone records are being frozen before exact-commit re-review, CI, evidence-only closeout, and owner approval. V10 is not merged, and `main` remains the V9 baseline.
 
 The reviewed V9 kernel payload at `3c7a876` is merged to `main` after owner approval; all seven jobs passed for that exact payload in GitHub Actions run `29316575767`. The V9 dogfood baseline additionally includes its merge-provenance record. V8.2 was the prior baseline at `5caaa29`. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 dogfooding is complete at `6d4e60a` after 209 local tests, 42 checker regressions, measured failure/retry evidence, independent `REVISE -> PASS`, and GitHub Actions run `29310133523` passing all seven jobs. T011 is complete. Package-gate commit `0341345` passes 209 local tests, the private packed-consumer gate, all 42 checker scenarios, package-review `PASS`, and GitHub Actions run `29312736158`. Final closeout review returned `REVISE`, then immutable candidate `0717c91` passed all seven jobs in run `29314459583` and independent re-review returned `PASS` with no findings. AC1-AC8 and T001-T011 are complete; milestone V9 is merged to `main` and is now the dogfood baseline. The repository remains unlicensed.
 
 ## Important Current Constraints
 
 - SWECircuit is the repository and project name, not a reserved package, domain, CLI, or hosted-service namespace.
-- V9 is bounded to initialize, validate, and read-only trace inspection.
+- V9 on `main` is bounded to initialize, validate, and read-only trace inspection.
+- V10 on its feature branch adds exactly one host-selected packet invocation through trusted injected code; it does not schedule, discover, retry, persist, merge, or update memory automatically.
+- An `ExecutionGrant` is a checked host assertion bounded by manifest requests and packet ceilings; SWECircuit does not enforce it against the executor.
+- Cancellation uses absolute monotonic observations. `abort_unconfirmed` is deliberately non-terminal and means work may still be live.
+- In-process executor code can block the event loop or retain ambient authority; hosts needing preemption must isolate it outside the kernel process.
 - V9 does not launch agents, schedule work, write traces, execute adapters, fetch evidence, or merge code.
 - swecircuit.json is the sole project discovery authority; no ancestor search or recursive artifact scan is allowed.
 - Canonical machine input is strict UTF-8 JSON under swecircuit/v1alpha1.
@@ -69,9 +75,16 @@ The reviewed V9 kernel payload at `3c7a876` is merged to `main` after owner appr
 - Completion claims must bind to an immutable commit and exact CI/review scope; a green implementation checkpoint does not verify a later milestone and memory diff.
 - An evidence-only attestation can close the record after an immutable candidate passes CI and independent review, without pretending the attestation changed or re-proved executable behavior.
 
+- A timer is a wake-up hint, not proof that an absolute deadline arrived; always recheck monotonic time and re-arm early wake-ups.
+- Cancellation acknowledgment must be measured from the abort observation, not from when abort delivery returns.
+- Put the last no-call gate directly beside the effectful invocation and emit running evidence immediately after invocation begins.
+- Reject live proxies before reflection; revoked-proxy tests alone do not prove traps remain dormant.
+- Compile and execute an installed TypeScript consumer because repository-local typechecking cannot prove emitted declaration portability or package completeness.
+- Untracked implementation files are invisible to ordinary commit diffs; stage the complete candidate before commit-bound review.
 ## Next Likely Work
 
-- Create a dedicated V10 branch from the merge-provenance baseline and dogfood V9 through a new feature package.
-- Research and specify the smallest provider-neutral external executor or bounded work-packet handoff before changing runtime authority.
-- Do not move provider execution or merge authority into the kernel without a new ADR.
+- Freeze, push, and run exact checks on the V10 acceptance candidate.
+- Obtain explicit correctness, security, and API/documentation `PASS` verdicts against the exact commit.
+- Record the evidence-only closeout and request owner approval before merging V10 to `main`.
+- After V10 adoption, evaluate one real provider adapter only through a new adapter evaluation and ADR; keep scheduling and merge authority outside core.
 - Resolve licensing before broad external reuse or package distribution.

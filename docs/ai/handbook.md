@@ -747,7 +747,7 @@ discover -> snapshot -> evaluate -> register -> promote -> verify
 
 Tool adoption defaults:
 
-- Do not install external tools in v3.
+- Do not install external tools by default; require a bounded need, adapter evaluation, and explicit user approval.
 - Prefer file-based contracts first.
 - Add tools only when they remove real work or reduce failure risk.
 - Record tool decisions in the practice register.
@@ -766,7 +766,7 @@ Optional future integrations:
 
 ## 20. Modular Orchestration Framework
 
-The SWECircuit V5 framework layer lets this workflow absorb best-in-class practices without making every project install the same stack. It works like a small framework kernel: stable contracts in this repository, optional adapters around it.
+The SWECircuit framework layer lets this workflow absorb best-in-class practices without making every project install the same stack. It works like a small framework kernel: stable contracts in this repository, optional adapters around it.
 
 Use `docs/framework/README.md` when work needs:
 
@@ -809,6 +809,20 @@ The framework artifacts are:
 | `docs/framework/_adapter-evaluation-template.md` | Evaluates external tools before installation. |
 | `docs/framework/_orchestration-run-template.md` | Records agent roster, handoffs, integration, verification, review, and memory updates. |
 
+### Bounded Executor Boundary
+
+V10 adds one narrow executable seam between the file contracts and a trusted host:
+
+    validated packet + manifest + invocation grant + injected executor
+      -> frozen execution summary + V9-compatible event journal
+
+Use the [bounded executor boundary](../framework/executor-boundary.md) only after the host has selected one dependency-ready packet. The host remains responsible for workspace isolation, user approval, credential protection, permission enforcement, provider behavior, persistence, retry, and integration.
+
+The kernel validates identities, manifest compatibility, and permission coverage before invocation. A preflight rejection makes zero executor calls. After invocation, operation success and work outcome remain separate: inspect the result disposition rather than treating a successful API call as successful work.
+
+Cancellation is cooperative. A cancelled or timed-out terminal result means executor settlement was observed inside the acknowledgment window. An abort_unconfirmed result means work may still be live; quarantine the workspace or provider run and do not merge its output until the host resolves it.
+
+The returned event journal is caller-owned. Persist it as JSONL only after host privacy checks, then inspect it through the normal trace boundary. V10 does not write the trace or update project memory automatically.
 Adapter policy:
 
 - Use ecosystem concepts immediately when they can be expressed as files, templates, checks, or review gates.

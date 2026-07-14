@@ -2,7 +2,7 @@
 
 ## Scope
 
-This directory defines the first package-owned machine contract for the private V9 kernel. The kernel initializes a project, validates explicit artifacts, and inspects caller-owned traces. It does not launch agents, grant permissions, write traces, execute adapters, fetch evidence, or merge code.
+This directory defines the first package-owned machine contract for the private V10 kernel. The kernel initializes a project, validates explicit artifacts, inspects caller-owned traces, and can execute one host-selected WorkPacket through a caller-injected executor. It does not schedule work, dynamically load adapters, enforce granted permissions, write traces, fetch evidence, retry work, merge code, or update memory.
 
 Canonical input is strict UTF-8 JSON. Every artifact is closed to unknown fields and carries apiVersion and kind. Only swecircuit/v1alpha1 and the six documented kinds are supported.
 
@@ -53,12 +53,12 @@ Module.requiredPermissions declares what a reusable module needs.
 
 WorkPacket.authority.permissionCeiling declares the maximum permission request an assigned work unit may make. It is a ceiling, not a runtime grant. For a Circuit node that names a WorkPacket, every Module requirement must fit within the packet ceiling.
 
-AdapterManifest.requestedPermissions is declaration metadata only. V9 validates its shape and never grants or exercises it.
+AdapterManifest.requestedPermissions remains declaration metadata rather than authority. V10 requires a host-issued, invocation-scoped ExecutionGrant before calling an injected executor. Every manifest request must be covered by the grant, every grant entry must have been requested, and every grant entry must fit within WorkPacket.authority.permissionCeiling. These checks validate the declared boundary; the embedding host must enforce the grant in its own tools or sandbox.
 
 Scope rules are deterministic:
 
 - Filesystem scopes are repository-relative literal paths or directory prefixes ending in /**. No other wildcard syntax is supported.
-- Network scopes are lowercase host names with an optional numeric port. Core V9 commands never use them.
+- Network scopes are lowercase host names with an optional numeric port. Core commands never use them.
 - Process scopes are executable basenames without arguments.
 - Secret scopes are logical identifiers, never values.
 - Kind matching is exact. A filesystem requirement is covered by an exact ceiling scope or a matching directory prefix ending in /**. Other scopes require exact equality.
@@ -67,7 +67,7 @@ Scope rules are deterministic:
 
 Module owns its ports, action, gate, allowed outcomes, evidence requirements, and permission requirements. Circuit owns routing.
 
-Every route names source and target nodes, one workflow outcome, and at least one output-to-input port transfer. The source output and target input names must exist and their artifact types must match exactly. V9 has no subtype or coercion system.
+Every route names source and target nodes, one workflow outcome, and at least one output-to-input port transfer. The source output and target input names must exist and their artifact types must match exactly. V1alpha1 has no subtype or coercion system.
 
 IDs are unique within kind. All references resolve to the expected kind.
 
@@ -90,9 +90,22 @@ A WorkPacket is a bounded, static handoff contract. It defines goal, completion 
 
 The WorkPacket does not represent mutable worker state. Runtime state is derived only from RunEvent sequence.
 
+## Execution Boundary
+
+ExecutionGrant is a closed runtime object, not a seventh artifact kind and not self-authorizing. It binds one issuer, grant ID, run ID, attempt ID, work-packet ID, executor identity, and bounded permission set to one call.
+
+The host must select a dependency-ready WorkPacket and inject trusted executable code whose identity matches both the manifest and grant. The manifest must declare an agent_runtime adapter, launch_agent capability, current API compatibility, WorkPacket input, no adapter-owned output artifact, structured errors, finite timeout support, and acknowledged cancellation. Manifest references are never imported, fetched, or executed.
+
+Preflight snapshots direct inputs into bounded, accessor-free, detached JSON values. Invalid artifacts, identities, grants, permissions, policies, or privacy canaries return stable SC4201 through SC4210 diagnostics and make zero executor calls.
+
+Once invocation begins, API processing success and work outcome are distinct. A valid call returns a frozen ExecutionSummary with completed, failed, cancelled, timed_out, or abort_unconfirmed disposition. Throws and malformed or secret-bearing settlements become fixed failure classes without copying raw provider values.
+
+The effective deadline is the earlier of the invocation timeout and packet deadline. Cancellation is cooperative. Terminal cancellation or timeout means executor settlement was observed within the acknowledgment bound. abort_unconfirmed preserves a running attempt and omits run.completed because work may still be live.
+
+Each call creates one timestamp-free, V9-compatible in-memory journal with contiguous sequence numbers, deterministic event IDs, fixed kernel actor, linear causation, and a link to the grant. The kernel validates the whole journal before returning it but never persists it.
 ## Trace Semantics
 
-The producer owns JSONL persistence. V9 validates and inspects one explicit caller-owned file without claiming that it was never rewritten. The reader checks lexical and canonical containment, one open descriptor, regular-file identity, size, modification time, and change time before and after reading. Detectable mutation fails safely; same-inode/same-metadata races remain outside the pure Node guarantee. Its buffer is the verified descriptor size plus one growth-detection byte, so the 64 MiB resource limit is a ceiling rather than a fixed allocation.
+The producer owns JSONL persistence. The kernel validates and inspects one explicit caller-owned file without claiming that it was never rewritten. The reader checks lexical and canonical containment, one open descriptor, regular-file identity, size, modification time, and change time before and after reading. Detectable mutation fails safely; same-inode/same-metadata races remain outside the pure Node guarantee. Its buffer is the verified descriptor size plus one growth-detection byte, so the 64 MiB resource limit is a ceiling rather than a fixed allocation.
 
 The whole-file limit includes delimiters. Line limits exclude LF or CRLF. A final delimiter is optional; internal blank records, repeated final delimiters, lone CR, BOM, invalid UTF-8, comments, trailing commas, duplicate keys, unsafe numbers, and excess depth fail. An empty file is a valid zero-event trace.
 
@@ -122,6 +135,7 @@ Unreleased T007 adds exit-class-4 `SC1021 init.path-exists` for owned-path colli
 
 Unreleased T008 closes the RunEvent union, changes event metadata to ID-only, replaces free-form terminal/cancellation reasons with closed codes, and gives evidence references kind-specific grammars. It adds `SC1223` for non-string event versions and `SC3026` through `SC3029` for attempt identity, retry lineage, missing attempt references, and non-retry start state. It also publishes the 10,000-reference summary cap and exact secret detector. The diagnostic catalog advances to 1.2.0; event type version remains `1.0.0`, and the machine API remains `swecircuit/v1alpha1`.
 
+Unreleased V10 adds the provider-neutral executeWorkPacket library boundary without adding an artifact kind or changing an artifact schema. It adds SC4201 through SC4210 for execution input, compatibility, identity, grant, permission, policy, privacy-canary, and snapshot-limit failures. The diagnostic catalog advances to 1.3.0; event type version remains 1.0.0, and the machine API remains swecircuit/v1alpha1.
 ## Diagnostics
 
 diagnostic-catalog.json is normative. Codes, rules, severities, and exit classes are stable for v1alpha1.
