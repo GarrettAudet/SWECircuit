@@ -50,7 +50,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. Candidate `e3453e0` failed review. Candidate `9d8907a` then passed all three reviews and hosted CI, but the integration-owner closeout audit found one stale no-call sentence in the feature spec. The final docs-only correction must be committed, pushed, checked by hosted CI, and inspected by the same three reviewers before AC8 closes. Merge to `main` remains owner-gated.
+The gate remains open. Candidate `e3453e0` failed review. Candidate `9d8907a` passed all three reviews and hosted CI, but the first closeout search found stale feature-spec wording. Candidate `2c6dff4` corrected that sentence and passed hosted CI, but expanded review returned `PASS / REVISE / REVISE` for synonymous claims in the plan and practice register. The complete claim family must be frozen and pass all three exact reviews before AC8 closes. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -73,3 +73,13 @@ Hosted run `29355583567` passed all six Node 22/24 operating-system jobs plus th
 GitHub Actions run `29357443883` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `9d8907a70b99c70070e057921a4dc01e5686a446`.
 
 Before AC8 closeout, the integration owner searched the full repository for terminal-acknowledgment claims and found `docs/specs/v10-executor-adapter/spec.md` still contained the pre-correction wording. That file had not been explicitly named in the API/documentation re-review prompt. The gate was reopened, the sentence was corrected, and a final exact-candidate review was required rather than treating the three passes as broader than their inspected contract.
+
+## Exact Candidate 2c6dff4 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | PASS | The feature-spec correction matched runtime behavior and no executable or packaged contract files changed. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | The practice register and V10 plan still omitted the pre-invocation no-call terminal path. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | The same two normative files contradicted the corrected spec; completion claims also overstated the first search scope. |
+
+GitHub Actions run `29358105210` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `2c6dff42fbb060394dcd582cca8a0ee2b38f6dcf`. Green CI again remained necessary but insufficient.

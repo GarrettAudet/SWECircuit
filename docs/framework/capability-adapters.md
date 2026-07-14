@@ -93,7 +93,7 @@ SWECircuit contract:
 1. Keep executable code host-injected; never load it from AdapterManifest content.
 2. Bind every invocation to a closed ExecutionGrant and matching executor identity.
 3. Enforce the grant in host-owned tools, credentials, workspace, and network controls.
-4. Map caller cancellation and deadline to the provider without claiming termination before settlement.
+4. After invocation, map caller cancellation and deadline to the provider without claiming termination before settlement; before invocation, preserve the kernel no-call terminal path.
 5. Return only completed or failed settlement data; keep prompts, transcripts, logs, and raw exceptions out of the journal.
 6. Treat abort_unconfirmed as potentially live work and prevent its output from entering integration.
 7. Persist returned events only in caller-owned storage after privacy checks.

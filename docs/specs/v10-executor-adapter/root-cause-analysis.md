@@ -127,3 +127,9 @@ An observation timestamp and the data attributed to it must cross the ownership 
 Candidate `9d8907a` fixed the runtime ownership defect and the named active guides, but one normative feature-spec sentence retained the old acknowledgment claim. The direct cause was incomplete contract-surface enumeration in the correction and review prompt. A repository-wide semantic search found the drift before AC8 closed.
 
 The causal fix is one sentence: a pre-invocation abort or deadline can terminate because no executor work started; after invocation, terminal cancellation or timeout requires bounded settlement acknowledgment. Future closeout reviews must include the feature spec and a whole-repository search for superseded normative language.
+
+## Expanded Claim-Family Addendum
+
+The first closeout search fixed the feature spec but was lexically narrow. `2c6dff4` still contained synonymous normative claims in the practice register and V10 plan, so exact security and API/documentation review correctly returned `REVISE` despite green CI and a correctness `PASS`.
+
+The root cause was treating one query as semantic completeness. The causal fix broadens both the active corrections and the verification vocabulary: pre-invocation no-call termination is explicit; all settlement-dependent terminal claims are scoped to invoked work; and future closeout evidence records the actual query family instead of calling one phrase search whole-contract.

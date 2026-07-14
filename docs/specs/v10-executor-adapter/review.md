@@ -2,11 +2,13 @@
 
 ## Status
 
-Candidate `9d8907a` passed all three exact reviews and hosted CI, but the integration-owner closeout audit found one stale normative sentence in `spec.md`. A final docs-only candidate and exact review remain required.
+Candidate `2c6dff4` passed hosted CI and correctness review, but security and API/documentation returned `REVISE` for two additional stale normative statements in the practice register and V10 plan. The complete claim family is now corrected; one final exact docs-only candidate remains required.
 
 ## Review Outcome
 
 The first postimplementation round returned `REVISE` from all three reviewers. Exact review of committed candidate `e3453e0` then returned `PASS` from security and `REVISE` from correctness plus API/documentation. The remaining findings were a non-atomic fulfillment snapshot and documentation that collapsed no-call terminal certainty into post-invocation acknowledgment. Both now have causal corrections and focused regression evidence; a new immutable candidate remains to be frozen.
+
+Candidate `9d8907a` then passed all three reviews and hosted CI. The first integration-owner closeout search found a stale feature-spec sentence and produced `2c6dff4`. Expanded exact review of `2c6dff4` found the same old semantics in the practice register and plan, proving the first search was narrower than its completion claim.
 
 ## Spec Alignment
 
@@ -30,6 +32,7 @@ The implementation follows ADR 0002:
 - Installed consumer: shipped guide present; public declarations compile under independent settings; a class executor runs; the real result is narrowed and inspected.
 - Prior candidate `e3453e0` passed all seven jobs in GitHub Actions run `29355583567`, but exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE`; green CI did not override review.
 - Candidate `9d8907a` received correctness, security, and API/documentation `PASS` verdicts and passed all seven jobs in GitHub Actions run `29357443883`.
+- Candidate `2c6dff4` passed all seven jobs in GitHub Actions run `29358105210`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
 - Workflow checker: corrected candidate passed the positive check and all 43 isolated negative scenarios; exact committed-state rerun is still required.
 
 ## Findings
@@ -43,9 +46,10 @@ The implementation follows ADR 0002:
 | Medium | Public grant types, result narrowing, guide packaging, diagnostic wording, and adapter-table rendering drifted from runtime behavior. | Added `ExecutionGrantPermission`, explicit null narrowing, installed guide checks, broadened active exit-class wording, and repaired the table. |
 | Medium | Emitted declarations failed under independent consumer settings. | Replaced incompatible optional-interface declarations with portable intersection aliases and retained an installed TypeScript consumer gate. |
 | Medium | Fulfillment was timestamped while retaining the executor-owned raw settlement, so a queued mutation could change content before normalization. | Normalize and detach synchronously inside the fulfillment observer, carry only the frozen normalized settlement, and add a resolve-then-mutate regression. |
-| Medium | Active guides implied every terminal cancellation acknowledged executor settlement, including no-call paths. | Distinguish proven no-call terminal certainty from post-invocation settlement acknowledgment in the feature spec, framework guide, handbook, schema guide, ADR, research interpretation, and durable pattern. |
+| Medium | Active guides implied every terminal cancellation acknowledged executor settlement, including no-call paths. | Distinguish proven no-call terminal certainty from post-invocation settlement acknowledgment in the feature spec, plan, practice register, capability-adapter guide, architecture review, framework guide, handbook, schema guide, ADR, research snapshot, and durable pattern. |
 | Gate | The first postimplementation round did not pass. | Preserve both review rounds; require all three reviewers to inspect the next immutable candidate and return explicit verdicts. |
 | Gate | The `9d8907a` review prompt and closeout scan did not explicitly enumerate the feature spec, leaving one stale normative sentence after three `PASS` verdicts. | Correct the spec, search the complete contract surface, and require all three reviewers to inspect the final exact commit before AC8 closes. |
+| Gate | The first closeout search matched only direct terminal-acknowledgment wording and missed synonymous claims in the plan and practice register. | Search the full claim family across all tracked docs, correct every active normative statement, narrow the historical completion claims, and repeat all three exact reviews. |
 
 ## Residual Risks
 

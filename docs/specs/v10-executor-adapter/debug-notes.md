@@ -154,7 +154,7 @@ After candidate `9d8907a` received three `PASS` verdicts and seven green hosted 
 
 ### Evidence
 
-`docs/specs/v10-executor-adapter/spec.md` still said terminal cancellation or timeout always required executor settlement acknowledgment. That contradicted the proven no-call path and the corrected ADR, handbook, framework guide, schema guide, research interpretation, and memory pattern.
+`docs/specs/v10-executor-adapter/spec.md` still said terminal cancellation or timeout always required executor settlement acknowledgment. At that audit point the direct claim had been corrected in the ADR, handbook, framework guide, schema guide, research snapshot, and memory pattern, but synonymous statements in the plan and practice register had not yet been searched and remained stale.
 
 ### Confirmed Cause
 
@@ -167,3 +167,27 @@ Correct the normative requirement, add the feature spec to the resolved finding,
 ### Durable Learning
 
 Before closing a cross-document contract change, search the complete repository for the old semantic claim. An explicit file list is useful for focus but cannot substitute for a whole-contract consistency query.
+
+## Expanded Claim-Family Audit
+
+### Trigger
+
+Exact review of docs-only commit `2c6dff4` returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE` while GitHub Actions run `29358105210` passed all seven jobs.
+
+### Evidence
+
+- `docs/research/practice-register.md` said terminal abort required executor settlement without a no-call exception.
+- `docs/specs/v10-executor-adapter/plan.md` said to terminalize only after adapter settlement.
+- Nearby capability-adapter, architecture-review, implementation-note, and ADR alternative wording was accurate in context but still broad enough to invite the same misreading.
+
+### Confirmed Cause
+
+The first repository search targeted direct terminal and acknowledgment phrases. It did not search semantic synonyms such as terminalize, termination, in-flight abort, or adapter settlement, and its completion records incorrectly called that narrower query whole-contract.
+
+### Causal Fix
+
+Correct all active normative variants, qualify every settlement rule as post-invocation, explicitly retain the no-call terminal path, and update review, debug, history, milestone, and memory records so the prior search is described as the first closeout search rather than complete coverage.
+
+### Verification Rule
+
+The final consistency query must combine abort, cancellation, timeout, deadline, terminal, terminalize, termination, acknowledgment, settle, settlement, no-call, and before-invocation terms across all tracked docs and schemas.

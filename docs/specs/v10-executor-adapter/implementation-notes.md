@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision verified on `9d8907a` with three exact `PASS` verdicts and green hosted CI; final feature-spec consistency correction awaits exact review.
+Runtime revision verified on `9d8907a`. Docs-only candidate `2c6dff4` passed hosted CI but exact review returned `PASS / REVISE / REVISE`; the complete claim-family correction awaits final exact review.
 
 ## Summary Of Changes
 
@@ -34,7 +34,7 @@ Exact review of `e3453e0` then found a remaining settlement-ownership interval a
 - A trusted embedding host supplies executable code and enforces the actual sandbox, tools, credentials, and workspace.
 - The canonical artifact vocabulary remains unchanged because a runtime grant must not become a self-authorizing file.
 - A valid API call is not equivalent to successful work; callers branch on ExecutionSummary.disposition.
-- An unacknowledged abort leaves potentially live work and must not produce false terminal evidence.
+- After invocation, an unacknowledged abort leaves potentially live work and must not produce false terminal evidence; before invocation, the no-call path may terminate.
 
 ## Follow-Up Work
 
@@ -51,7 +51,7 @@ Exact review of `e3453e0` then found a remaining settlement-ownership interval a
 - Packed consumer: offline install, independent public-declaration compile, initialization, validation, one packet execution, and trace inspection passed.
 - Workflow checker passed and all 43 isolated checker regression scenarios passed.
 - `npm.cmd run verify`, the positive workflow checker, and all 43 negative checker scenarios passed after the exact-candidate correction; a new exact-commit independent review and hosted CI run remain the T006 acceptance gates.
-- Exact candidate `9d8907a` passed correctness, security, and API/documentation review plus all seven jobs in GitHub Actions run `29357443883`. The pre-AC8 whole-repository search then found one stale feature-spec sentence; its docs-only correction must pass the final exact gate.
+- Exact candidate `9d8907a` passed correctness, security, and API/documentation review plus all seven jobs in GitHub Actions run `29357443883`. The first direct-phrase search then found one stale feature-spec sentence. Candidate `2c6dff4` corrected it and passed run `29358105210`, but expanded review found synonymous claims in the plan and practice register. The complete claim-family correction must pass the final exact gate.
 
 ## Durable Learnings
 

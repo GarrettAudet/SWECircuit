@@ -46,7 +46,7 @@ ADR 0002 is required because V10 introduces executable host code, runtime author
 - The kernel does not load adapter code, execute shell strings, inherit credentials, or persist provider data.
 - Direct values are traversed into detached, bounded, deeply frozen plain-data snapshots before validation.
 - Raw exceptions, rejection values, abort reasons, unknown-field values, and secret-bearing output are not copied into any return channel.
-- Timeout is cooperative and uses first-winner precedence plus an absolute deadline recheck. An unacknowledged abort is reported as live-work uncertainty, not terminal success or cancellation.
+- Timeout is cooperative and uses first-winner precedence plus an absolute deadline recheck. Before invocation, abort or deadline can terminate because no work started. After invocation, an unacknowledged abort is reported as live-work uncertainty, not terminal success or cancellation.
 - The host, not the kernel, enforces workspace readiness, sandboxing, permissions, credentials, and revocation.
 
 ## Rollback Or Recovery
@@ -58,7 +58,7 @@ The change is additive. Revert the V10 executor module, exports, tests, and docu
 - Risk: host code exceeds declared permissions.
 - Mitigation: make host sandboxing an explicit prerequisite and validate the grant boundary before invocation.
 - Risk: cancellation races produce false terminal evidence.
-- Mitigation: terminalize only after adapter settlement; otherwise return `abort_unconfirmed`.
+- Mitigation: terminalize a pre-invocation abort or deadline only on the proven no-call path; after invocation, terminalize only after adapter settlement and otherwise return `abort_unconfirmed`.
 - Risk: generated journals drift from the RunEvent schema.
 - Mitigation: validate generated events and inspect them in integration tests.
 - Risk: API surface grows into orchestration.

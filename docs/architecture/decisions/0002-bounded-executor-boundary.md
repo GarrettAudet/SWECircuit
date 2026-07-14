@@ -290,7 +290,7 @@ The six `swecircuit/v1alpha1` artifact kinds and V9 CLI remain unchanged. Root e
 - **ExecutionGrant as a seventh artifact kind:** rejected because a file must not grant its own runtime authority.
 - **Persist events inside the kernel:** deferred because durability and recovery need a separate boundary.
 - **Return raw provider responses:** rejected because it creates unstable contracts and privacy leakage.
-- **Treat abort as terminal immediately:** rejected because signal delivery is not execution acknowledgment.
+- **Treat an in-flight abort as terminal immediately:** rejected because signal delivery is not execution acknowledgment. A pre-invocation abort remains terminal on the proven no-call path.
 - **Adopt MCP Tasks or A2A in core:** deferred for future adapters.
 
 ## Source Evidence
