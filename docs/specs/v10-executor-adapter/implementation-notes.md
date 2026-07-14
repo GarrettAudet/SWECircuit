@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision verified on `9d8907a`. Docs-only candidate `2c6dff4` passed hosted CI but exact review returned `PASS / REVISE / REVISE`; the complete claim-family correction awaits final exact review.
+Runtime revision verified on `9d8907a`. Docs-only candidate `dbbeeb1` passed hosted CI but exact review returned `REVISE / REVISE / PASS`; the ADR lifecycle and grant-terminology corrections await exact review.
 
 ## Summary Of Changes
 
@@ -52,6 +52,7 @@ Exact review of `e3453e0` then found a remaining settlement-ownership interval a
 - Workflow checker passed and all 43 isolated checker regression scenarios passed.
 - `npm.cmd run verify`, the positive workflow checker, and all 43 negative checker scenarios passed after the exact-candidate correction; a new exact-commit independent review and hosted CI run remain the T006 acceptance gates.
 - Exact candidate `9d8907a` passed correctness, security, and API/documentation review plus all seven jobs in GitHub Actions run `29357443883`. The first direct-phrase search then found one stale feature-spec sentence. Candidate `2c6dff4` corrected it and passed run `29358105210`, but expanded review found synonymous claims in the plan and practice register. The complete claim-family correction must pass the final exact gate.
+- Candidate `dbbeeb1` reconciled that claim family and passed run `29358867851`, but correctness found one unqualified ADR race rule and security found stale ephemeral grant terminology. Both source statements are corrected for the next exact gate.
 
 ## Durable Learnings
 

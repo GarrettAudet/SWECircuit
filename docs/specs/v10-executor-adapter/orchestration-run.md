@@ -50,7 +50,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. Candidate `e3453e0` failed review. Candidate `9d8907a` passed all three reviews and hosted CI, but the first closeout search found stale feature-spec wording. Candidate `2c6dff4` corrected that sentence and passed hosted CI, but expanded review returned `PASS / REVISE / REVISE` for synonymous claims in the plan and practice register. The complete claim family must be frozen and pass all three exact reviews before AC8 closes. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; and `dbbeeb1` returned `REVISE / REVISE / PASS` despite green CI. The remaining ADR lifecycle rule and grant terminology are corrected. The next exact docs-only candidate must pass all three reviews and hosted CI before AC8 closes. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -83,3 +83,13 @@ Before AC8 closeout, the integration owner searched the full repository for term
 | API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | The same two normative files contradicted the corrected spec; completion claims also overstated the first search scope. |
 
 GitHub Actions run `29358105210` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `2c6dff42fbb060394dcd582cca8a0ee2b38f6dcf`. Green CI again remained necessary but insufficient.
+
+## Exact Candidate dbbeeb1 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | ADR 0002 rule 6 incorrectly sent the pre-invocation no-call path through bounded acknowledgment. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | The research decision table called the invocation-scoped grant ephemeral despite explicit freshness and replay disclaimers. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | PASS | The cancellation claim family and historical/current status records were otherwise consistent and truthful. |
+
+GitHub Actions run `29358867851` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `dbbeeb1e0ca1d91cc7bc44e3eae8f633caf61ff8`.

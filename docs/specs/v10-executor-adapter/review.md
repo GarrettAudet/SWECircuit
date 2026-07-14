@@ -2,13 +2,15 @@
 
 ## Status
 
-Candidate `2c6dff4` passed hosted CI and correctness review, but security and API/documentation returned `REVISE` for two additional stale normative statements in the practice register and V10 plan. The complete claim family is now corrected; one final exact docs-only candidate remains required.
+Candidate `dbbeeb1` passed hosted CI and API/documentation review, but correctness and security returned `REVISE` for one remaining ADR acknowledgment rule and stale `ephemeral` grant terminology in the research snapshot. Both source statements are corrected; another exact docs-only candidate remains required.
 
 ## Review Outcome
 
 The first postimplementation round returned `REVISE` from all three reviewers. Exact review of committed candidate `e3453e0` then returned `PASS` from security and `REVISE` from correctness plus API/documentation. The remaining findings were a non-atomic fulfillment snapshot and documentation that collapsed no-call terminal certainty into post-invocation acknowledgment. Both now have causal corrections and focused regression evidence; a new immutable candidate remains to be frozen.
 
 Candidate `9d8907a` then passed all three reviews and hosted CI. The first integration-owner closeout search found a stale feature-spec sentence and produced `2c6dff4`. Expanded exact review of `2c6dff4` found the same old semantics in the practice register and plan, proving the first search was narrower than its completion claim.
+
+Candidate `dbbeeb1` corrected the full cancellation claim family and passed hosted CI. Its broader correctness and security review found one final lifecycle rule in ADR 0002 and an independent authority-term defect in the research decision table. API/documentation passed.
 
 ## Spec Alignment
 
@@ -33,6 +35,7 @@ The implementation follows ADR 0002:
 - Prior candidate `e3453e0` passed all seven jobs in GitHub Actions run `29355583567`, but exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE`; green CI did not override review.
 - Candidate `9d8907a` received correctness, security, and API/documentation `PASS` verdicts and passed all seven jobs in GitHub Actions run `29357443883`.
 - Candidate `2c6dff4` passed all seven jobs in GitHub Actions run `29358105210`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
+- Candidate `dbbeeb1` passed all seven jobs in GitHub Actions run `29358867851`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS`.
 - Workflow checker: corrected candidate passed the positive check and all 43 isolated negative scenarios; exact committed-state rerun is still required.
 
 ## Findings
@@ -50,6 +53,9 @@ The implementation follows ADR 0002:
 | Gate | The first postimplementation round did not pass. | Preserve both review rounds; require all three reviewers to inspect the next immutable candidate and return explicit verdicts. |
 | Gate | The `9d8907a` review prompt and closeout scan did not explicitly enumerate the feature spec, leaving one stale normative sentence after three `PASS` verdicts. | Correct the spec, search the complete contract surface, and require all three reviewers to inspect the final exact commit before AC8 closes. |
 | Gate | The first closeout search matched only direct terminal-acknowledgment wording and missed synonymous claims in the plan and practice register. | Search the full claim family across all tracked docs, correct every active normative statement, narrow the historical completion claims, and repeat all three exact reviews. |
+| Medium | ADR 0002 rule 6 still sent every abort win through bounded acknowledgment, including pre-invocation no-call paths. | Split the rule at invocation: return the terminal no-call journal before invocation; wait for bounded acknowledgment only after invocation. |
+| Medium | The research decision table called the runtime grant ephemeral even though the kernel cannot prove freshness, single use, or replay prevention. | Rename it invocation-scoped and state the guarantees it does not provide. |
+| Gate | Cancellation-term consistency did not cover adjacent authority adjectives. | Search security-significant adjectives and their disclaimed guarantees before declaring the contract ready. |
 
 ## Residual Risks
 

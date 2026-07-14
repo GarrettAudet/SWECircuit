@@ -74,7 +74,7 @@ Sources: `https://docs.github.com/en/actions/reference/security/secure-use` and 
 | Practice | Disposition | Rationale |
 | --- | --- | --- |
 | Host-injected executor port | Accept for V10 | Keeps provider and sandbox policy outside the kernel while standardizing one invocation. |
-| Ephemeral invocation-bound authority grant | Accept for V10 | Separates actual authority from packet ceilings and adapter requests. |
+| Invocation-scoped authority grant | Accept for V10 | Separates actual authority from packet ceilings and adapter requests without claiming freshness, single use, or replay prevention. |
 | Caller-owned schema-valid lifecycle journal | Accept for V10 | Adds trace evidence without making durability or tamper-resistance claims. |
 | Cooperative cancellation with explicit unconfirmed state | Accept for V10 | Matches real executor semantics and prevents false terminal evidence. |
 | In-process deterministic test executor | Accept for V10 | Proves the port offline with no external authority or dependency. |

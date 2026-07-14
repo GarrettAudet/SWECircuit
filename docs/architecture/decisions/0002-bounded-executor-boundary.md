@@ -245,7 +245,7 @@ Race linearization uses the first event observed by the kernel, with an absolute
 3. Preserve settlement only when observed before cancellation and strictly before the effective deadline.
 4. If cancellation is observed first, or settlement is observed at or after the effective deadline, abort wins and its first cause is immutable.
 5. Caller cancellation wins over a later deadline; deadline wins over later caller cancellation.
-6. Once abort wins, discard settlement content and wait only for bounded acknowledgment.
+6. If abort wins before invocation, return the terminal no-call journal. If abort wins after invocation, discard settlement content and wait only for bounded acknowledgment.
 
 A host timer is only a wake-up signal. V10 rechecks monotonic time and re-arms when a timer wakes before its absolute deadline. The final monotonic and observed-abort gate sits directly beside the synchronous executor call; the `running` event is emitted immediately after invocation begins so an expired no-call path retains the queued-to-cancelled journal. The acknowledgment bound is `abort.observedAt + abortAcknowledgementMs`, and only settlement observed strictly before that absolute point is acknowledgment.
 

@@ -191,3 +191,26 @@ Correct all active normative variants, qualify every settlement rule as post-inv
 ### Verification Rule
 
 The final consistency query must combine abort, cancellation, timeout, deadline, terminal, terminalize, termination, acknowledgment, settle, settlement, no-call, and before-invocation terms across all tracked docs and schemas.
+
+## Broad Semantic And Authority-Term Review
+
+### Trigger
+
+Exact review of `dbbeeb1` returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS` while GitHub Actions run `29358867851` passed all seven jobs.
+
+### Evidence
+
+- ADR 0002 race rule 6 said every abort winner waits for bounded acknowledgment, while the runtime returns immediately on the terminal pre-invocation no-call path.
+- The research decision table called the grant ephemeral, while ADR 0002 and the architecture review explicitly disclaim freshness, single use, replay prevention, authentication, and revocation proof.
+
+### Classification
+
+One remaining lifecycle-scope defect and one security-significant terminology defect.
+
+### Causal Fix
+
+Split ADR rule 6 at the invocation boundary. Rename the research decision to invocation-scoped and state that it does not claim freshness, single use, or replay prevention.
+
+### Verification Expansion
+
+The final search must cover lifecycle verbs and security-significant authority adjectives, including ephemeral, single-use, freshness, replay, authenticated, enforced, sandboxed, isolated, and revoked, then reconcile every active claim with explicit kernel guarantees.

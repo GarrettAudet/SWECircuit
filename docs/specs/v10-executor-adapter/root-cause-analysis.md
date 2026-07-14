@@ -133,3 +133,9 @@ The causal fix is one sentence: a pre-invocation abort or deadline can terminate
 The first closeout search fixed the feature spec but was lexically narrow. `2c6dff4` still contained synonymous normative claims in the practice register and V10 plan, so exact security and API/documentation review correctly returned `REVISE` despite green CI and a correctness `PASS`.
 
 The root cause was treating one query as semantic completeness. The causal fix broadens both the active corrections and the verification vocabulary: pre-invocation no-call termination is explicit; all settlement-dependent terminal claims are scoped to invoked work; and future closeout evidence records the actual query family instead of calling one phrase search whole-contract.
+
+## Broad Semantic And Authority-Term Addendum
+
+`dbbeeb1` reconciled the cancellation phrase family but left one generic ADR race rule and an independent grant adjective outside that family. Correctness and security review found both; API/documentation passed and hosted CI remained green.
+
+The lifecycle root cause was one unqualified universal inside an otherwise scoped section. The authority root cause was using a colloquial lifecycle adjective for a binding that carries no freshness or anti-replay guarantee. The causal fixes split pre- and post-invocation abort handling in the ADR and replace ephemeral with invocation-scoped plus explicit disclaimers.
