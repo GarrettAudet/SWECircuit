@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision verified on `9d8907a`. Docs-only candidate `dbbeeb1` passed hosted CI but exact review returned `REVISE / REVISE / PASS`; the ADR lifecycle and grant-terminology corrections await exact review.
+Runtime revision remains verified on `9d8907a`. Docs-only candidate `4c6818d` passed hosted CI but exact review returned `REVISE / PASS / REVISE`: single-use wording remained in public docs, packaged terminal-certainty guidance omitted the executor-promise liveness precondition, and two practices were outside the register table. Those defects are corrected for a new exact candidate.
 
 ## Summary Of Changes
 
@@ -52,12 +52,13 @@ Exact review of `e3453e0` then found a remaining settlement-ownership interval a
 - Workflow checker passed and all 43 isolated checker regression scenarios passed.
 - `npm.cmd run verify`, the positive workflow checker, and all 43 negative checker scenarios passed after the exact-candidate correction; a new exact-commit independent review and hosted CI run remain the T006 acceptance gates.
 - Exact candidate `9d8907a` passed correctness, security, and API/documentation review plus all seven jobs in GitHub Actions run `29357443883`. The first direct-phrase search then found one stale feature-spec sentence. Candidate `2c6dff4` corrected it and passed run `29358105210`, but expanded review found synonymous claims in the plan and practice register. The complete claim-family correction must pass the final exact gate.
-- Candidate `dbbeeb1` reconciled that claim family and passed run `29358867851`, but correctness found one unqualified ADR race rule and security found stale ephemeral grant terminology. Both source statements are corrected for the next exact gate.
+- Candidate `dbbeeb1` reconciled that claim family and passed run `29358867851`, but correctness found one unqualified ADR race rule and security found stale ephemeral grant terminology. Both source statements were corrected for the next exact gate.
+- Candidate `4c6818d` passed all seven jobs in run `29359564312`; exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE` for per-call grant wording, a missing packaged settlement precondition, and two misplaced practice rows. The corrections remain documentation-only.
 
 ## Durable Learnings
 
 - A process API is not a sandbox, and a sent termination signal is not proof that a process tree stopped.
-- Runtime authority must be supplied by the host and bound to one invocation; an artifact can only request or limit authority.
+- Runtime authority must be supplied by the host and checked through invocation-scoped identity binding; an artifact can only request or limit authority. The stateless kernel does not consume grants or prevent reuse or replay.
 - Permission safety needs all three predicates: requested authority is granted, granted authority was requested, and granted authority fits the packet ceiling.
 - Public declarations need an independent installed consumer because source typechecking under repository settings is not sufficient.
 - Cancellation evidence must describe what the host observed, including uncertainty, rather than what it hoped happened.

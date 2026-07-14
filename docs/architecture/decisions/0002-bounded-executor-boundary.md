@@ -270,7 +270,7 @@ The six `swecircuit/v1alpha1` artifact kinds and V9 CLI remain unchanged. Root e
 ### Positive
 
 - IDEs and runtimes get one standard handoff and evidence boundary.
-- Actual authority is explicit, invocation-bound, and distinct from declarations.
+- Actual authority is explicit, checked through invocation-scoped identity and permission assertions, and distinct from declarations; the stateless kernel does not prevent reuse or replay.
 - The kernel stays provider-neutral and does not become a code loader.
 - Cancellation evidence remains honest under unresponsive executors.
 - V9 traces become useful runtime output without hidden persistence.

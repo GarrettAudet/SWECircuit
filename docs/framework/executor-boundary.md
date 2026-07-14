@@ -102,6 +102,8 @@ The helper names in the example are host-owned placeholders. The packed-consumer
 
 `cancellationAcknowledged: true` means the kernel has terminal certainty: either no executor call occurred, or an invoked executor settled inside the acknowledgment bound. It does not claim executor acknowledgment on a no-call path.
 
+For invoked work, the executor promise must remain pending until all activity capable of advancing the invocation or producing invocation effects has stopped. Transferring live work to host ownership is not acknowledgment. Harmless cleanup may continue only when it cannot affect the packet, exercise invocation authority, or produce invocation evidence.
+
 The returned journal is detached, deeply frozen, timestamp-free, and inspectable with `inspectTrace` after the caller writes it as JSONL. `abort_unconfirmed` intentionally omits a terminal attempt state and `run.completed`.
 
 ## Test Executor

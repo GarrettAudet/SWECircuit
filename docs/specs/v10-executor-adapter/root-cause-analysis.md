@@ -139,3 +139,9 @@ The root cause was treating one query as semantic completeness. The causal fix b
 `dbbeeb1` reconciled the cancellation phrase family but left one generic ADR race rule and an independent grant adjective outside that family. Correctness and security review found both; API/documentation passed and hosted CI remained green.
 
 The lifecycle root cause was one unqualified universal inside an otherwise scoped section. The authority root cause was using a colloquial lifecycle adjective for a binding that carries no freshness or anti-replay guarantee. The causal fixes split pre- and post-invocation abort handling in the ADR and replace ephemeral with invocation-scoped plus explicit disclaimers.
+
+## Public Contract Parity And Register Structure Addendum
+
+Candidate `4c6818d` corrected the prior ADR and research wording and passed hosted CI, but correctness found single-use implications in the schema guide and implementation notes. API/documentation found that the installed executor guide omitted the promise-liveness prerequisite for terminal certainty and that two accepted practices sat outside their table. Security passed.
+
+The root cause was contract compression across secondary public surfaces: identity matching became `one call`, settlement became sufficient without naming what settlement must cover, and append-only register maintenance ignored the table boundary. The causal fix carries explicit non-reuse guarantees and settlement preconditions into consumer-facing docs and restores both practices to the Current Practices table. Future contract audits must compare summaries to ADR prerequisites and inspect rendered Markdown structure, not only search semantic terms.

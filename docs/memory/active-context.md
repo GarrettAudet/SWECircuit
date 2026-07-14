@@ -6,7 +6,7 @@ Freeze and independently review the complete V10 bounded-executor acceptance can
 
 ## Current Stage
 
-V10 implements one provider-neutral, host-injected work-packet executor with an invocation-scoped grant and caller-owned V9-compatible journal. `e3453e0` returned `REVISE / PASS / REVISE`. Runtime candidate `9d8907a` passed 275 tests, all three exact reviews, and run `29357443883`. Closeout then found stale spec wording; `2c6dff4` returned `PASS / REVISE / REVISE`; and claim-family candidate `dbbeeb1` passed run `29358867851` but returned `REVISE / REVISE / PASS` for one ADR lifecycle rule and stale ephemeral grant terminology. Both source statements are corrected. Another exact commit, checker replay, review, hosted CI, evidence-only closeout, and owner approval remain. V10 is not merged, and `main` remains the V9 baseline.
+V10 implements one provider-neutral, host-injected work-packet executor with an invocation-scoped grant and caller-owned V9-compatible journal. Runtime candidate `9d8907a` passed 275 tests, all three exact reviews, and run `29357443883`. Closeout candidates `2c6dff4` and `dbbeeb1` exposed broader lifecycle and authority wording. Candidate `4c6818d` passed all seven jobs in run `29359564312` but returned `REVISE / PASS / REVISE` for single-use implications in public grant summaries, a missing packaged executor-promise precondition, and two practices outside their register table. Those documentation defects are corrected, and the working tree passes the canonical gate plus both workflow checkers. Another exact commit, review, hosted CI, evidence-only closeout, and owner approval remain. V10 is not merged, and `main` remains the V9 baseline.
 
 The reviewed V9 kernel payload at `3c7a876` is merged to `main` after owner approval; all seven jobs passed for that exact payload in GitHub Actions run `29316575767`. The V9 dogfood baseline additionally includes its merge-provenance record. V8.2 was the prior baseline at `5caaa29`. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 dogfooding is complete at `6d4e60a` after 209 local tests, 42 checker regressions, measured failure/retry evidence, independent `REVISE -> PASS`, and GitHub Actions run `29310133523` passing all seven jobs. T011 is complete. Package-gate commit `0341345` passes 209 local tests, the private packed-consumer gate, all 42 checker scenarios, package-review `PASS`, and GitHub Actions run `29312736158`. Final closeout review returned `REVISE`, then immutable candidate `0717c91` passed all seven jobs in run `29314459583` and independent re-review returned `PASS` with no findings. AC1-AC8 and T001-T011 are complete; milestone V9 is merged to `main` and is now the dogfood baseline. The repository remains unlicensed.
 
@@ -15,7 +15,7 @@ The reviewed V9 kernel payload at `3c7a876` is merged to `main` after owner appr
 - SWECircuit is the repository and project name, not a reserved package, domain, CLI, or hosted-service namespace.
 - V9 on `main` is bounded to initialize, validate, and read-only trace inspection.
 - V10 on its feature branch adds exactly one host-selected packet invocation through trusted injected code; it does not schedule, discover, retry, persist, merge, or update memory automatically.
-- An `ExecutionGrant` is a checked host assertion bounded by manifest requests and packet ceilings; SWECircuit does not enforce it against the executor.
+- An `ExecutionGrant` carries invocation-scoped identity and permission assertions bounded by manifest requests and packet ceilings; SWECircuit does not authenticate, enforce, consume, or prevent reuse or replay of it.
 - Cancellation uses absolute monotonic observations. A no-call abort or deadline can terminate because work never started; after invocation, settlement inside the acknowledgment bound is required. `abort_unconfirmed` is deliberately non-terminal and means work may still be live.
 - In-process executor code can block the event loop or retain ambient authority; hosts needing preemption must isolate it outside the kernel process.
 - V9 does not launch agents, schedule work, write traces, execute adapters, fetch evidence, or merge code.
@@ -85,9 +85,12 @@ The reviewed V9 kernel payload at `3c7a876` is merged to `main` after owner appr
 - Green local and cross-platform CI evidence cannot override an independent review finding against the same exact commit.
 - A focused exact-review file list and one literal phrase search can still miss normative synonyms; closeout needs a reviewed claim-family query across every tracked contract, governance, plan, and memory surface.
 - Security-significant adjectives must match enforceable guarantees; invocation-scoped does not imply ephemeral, fresh, single-use, authenticated, revoked, or replay-resistant.
+- Installed guides and schema READMEs are public contract surfaces; summaries must carry the ADR preconditions and explicit non-guarantees that make their outcomes truthful.
+- Markdown register rows require structural placement checks as well as text presence; a row below a later heading is not part of the intended table.
+
 ## Next Likely Work
 
-- Freeze, push, and run exact checks on the V10 lifecycle and authority-term correction.
+- Freeze and push the locally verified V10 public-contract parity correction.
 - Obtain explicit correctness, security, and API/documentation `PASS` verdicts against the exact commit.
 - Record the evidence-only closeout and request owner approval before merging V10 to `main`.
 - After V10 adoption, evaluate one real provider adapter only through a new adapter evaluation and ADR; keep scheduling and merge authority outside core.

@@ -22,7 +22,7 @@ Add one narrow asynchronous library operation that validates a work packet, adap
 
 - Keep canonical artifact schemas unchanged and snapshot packet, manifest, and grant values before strict validation.
 - Introduce a typed `WorkPacketExecutor` port implemented by a host object, never by executable manifest fields.
-- Introduce an invocation-scoped `ExecutionGrant` bound to one run, attempt, packet, and executor version.
+- Introduce an invocation-scoped `ExecutionGrant` whose run, attempt, packet, and executor identities are checked without claiming single-use or replay prevention.
 - Reuse directional permission coverage with three explicit predicates: request in grant, grant in request, and grant in packet ceiling.
 - Keep `OperationResult.ok` as the preflight and processing channel; represent work outcome only in a discriminated execution summary.
 - Generate one deterministic standalone `RunEvent` journal and re-inspect the complete in-memory JSONL through V9 semantics before return.
@@ -42,7 +42,7 @@ ADR 0002 is required because V10 introduces executable host code, runtime author
 
 ## Security And Privacy
 
-- Declarations never grant authority; only the invocation-bound host grant does.
+- Declarations never grant authority; only the host-issued grant represents actual authority. The kernel checks its invocation-scoped identities and permissions but does not prevent reuse or replay.
 - The kernel does not load adapter code, execute shell strings, inherit credentials, or persist provider data.
 - Direct values are traversed into detached, bounded, deeply frozen plain-data snapshots before validation.
 - Raw exceptions, rejection values, abort reasons, unknown-field values, and secret-bearing output are not copied into any return channel.

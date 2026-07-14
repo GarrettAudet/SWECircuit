@@ -92,7 +92,7 @@ The WorkPacket does not represent mutable worker state. Runtime state is derived
 
 ## Execution Boundary
 
-ExecutionGrant is a closed runtime object, not a seventh artifact kind and not self-authorizing. It binds one issuer, grant ID, run ID, attempt ID, work-packet ID, executor identity, and bounded permission set to one call.
+ExecutionGrant is a closed runtime object, not a seventh artifact kind and not self-authorizing. It carries invocation-scoped identity and permission assertions for one issuer, grant ID, run ID, attempt ID, work-packet ID, and executor identity. The stateless kernel does not consume the grant or prevent reuse or replay.
 
 The host must select a dependency-ready WorkPacket and inject trusted executable code whose identity matches both the manifest and grant. The manifest must declare an agent_runtime adapter, launch_agent capability, current API compatibility, WorkPacket input, no adapter-owned output artifact, structured errors, finite timeout support, and acknowledged cancellation. Manifest references are never imported, fetched, or executed.
 

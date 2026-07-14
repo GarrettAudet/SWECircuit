@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `dbbeeb1` passed hosted CI and API/documentation review, but correctness and security returned `REVISE` for one remaining ADR acknowledgment rule and stale `ephemeral` grant terminology in the research snapshot. Both source statements are corrected; another exact docs-only candidate remains required.
+Candidate `4c6818d` passed hosted CI and security review, but correctness and API/documentation returned `REVISE` for single-use implications in public grant wording, an omitted executor-promise liveness precondition in the packaged guide, and two accepted practices outside the register table. The defects are corrected; another exact docs-only candidate remains required.
 
 ## Review Outcome
 
@@ -11,6 +11,8 @@ The first postimplementation round returned `REVISE` from all three reviewers. E
 Candidate `9d8907a` then passed all three reviews and hosted CI. The first integration-owner closeout search found a stale feature-spec sentence and produced `2c6dff4`. Expanded exact review of `2c6dff4` found the same old semantics in the practice register and plan, proving the first search was narrower than its completion claim.
 
 Candidate `dbbeeb1` corrected the full cancellation claim family and passed hosted CI. Its broader correctness and security review found one final lifecycle rule in ADR 0002 and an independent authority-term defect in the research decision table. API/documentation passed.
+
+Candidate `4c6818d` corrected those sources and passed hosted CI. Exact review then found that two public summaries still compressed invocation-scoped identity checking into apparent single use, the packaged guide omitted the full settlement prerequisite for terminal certainty, and two accepted practices rendered outside their table.
 
 ## Spec Alignment
 
@@ -36,7 +38,8 @@ The implementation follows ADR 0002:
 - Candidate `9d8907a` received correctness, security, and API/documentation `PASS` verdicts and passed all seven jobs in GitHub Actions run `29357443883`.
 - Candidate `2c6dff4` passed all seven jobs in GitHub Actions run `29358105210`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `dbbeeb1` passed all seven jobs in GitHub Actions run `29358867851`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS`.
-- Workflow checker: corrected candidate passed the positive check and all 43 isolated negative scenarios; exact committed-state rerun is still required.
+- Candidate `4c6818d` passed all seven jobs in GitHub Actions run `29359564312`; exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE`.
+- Workflow checker: the public-contract parity working tree passed the positive check and all 43 isolated negative scenarios after correction; exact-commit review and hosted CI remain.
 
 ## Findings
 
@@ -56,6 +59,9 @@ The implementation follows ADR 0002:
 | Medium | ADR 0002 rule 6 still sent every abort win through bounded acknowledgment, including pre-invocation no-call paths. | Split the rule at invocation: return the terminal no-call journal before invocation; wait for bounded acknowledgment only after invocation. |
 | Medium | The research decision table called the runtime grant ephemeral even though the kernel cannot prove freshness, single use, or replay prevention. | Rename it invocation-scoped and state the guarantees it does not provide. |
 | Gate | Cancellation-term consistency did not cover adjacent authority adjectives. | Search security-significant adjectives and their disclaimed guarantees before declaring the contract ready. |
+| Medium | Public schema and implementation summaries said the grant was bound to one call or invocation, implying consumption the stateless kernel does not enforce. | Describe invocation-scoped identity and permission assertions and explicitly state that the kernel does not consume grants or prevent reuse or replay. |
+| Medium | The packaged executor guide defined terminal certainty without requiring the executor promise to cover all invocation-affecting activity. | Carry the ADR promise-liveness rule into the installed guide and state that transfer of live work is not acknowledgment. |
+| Low | Two accepted V10 practices were appended below Rejection Criteria rather than inside the Current Practices table. | Move both rows before Promotion Criteria and preserve a blank structural boundary before the heading. |
 
 ## Residual Risks
 

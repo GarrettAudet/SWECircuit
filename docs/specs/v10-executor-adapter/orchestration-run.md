@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review complete; corrected postimplementation candidate is locally verified and awaiting exact-commit re-review.
+Preimplementation review complete; the postimplementation gate remains open after exact candidate `4c6818d` returned `REVISE / PASS / REVISE` despite green hosted CI.
 
 ## Goal
 
@@ -50,7 +50,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; and `dbbeeb1` returned `REVISE / REVISE / PASS` despite green CI. The remaining ADR lifecycle rule and grant terminology are corrected. The next exact docs-only candidate must pass all three reviews and hosted CI before AC8 closes. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; and `4c6818d` returned `REVISE / PASS / REVISE` despite green CI. Public grant summaries, packaged settlement preconditions, and practice-register structure are corrected. The next exact docs-only candidate must pass all three reviews and hosted CI before AC8 closes. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -93,3 +93,13 @@ GitHub Actions run `29358105210` passed all six Node 22/24 operating-system jobs
 | API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | PASS | The cancellation claim family and historical/current status records were otherwise consistent and truthful. |
 
 GitHub Actions run `29358867851` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `dbbeeb1e0ca1d91cc7bc44e3eae8f633caf61ff8`.
+
+## Exact Candidate 4c6818d Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | Public schema and implementation summaries implied a one-call or one-invocation grant although the stateless kernel does not consume grants or prevent replay. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | PASS | Lifecycle, authority disclaimers, sandbox limits, and historical wording were consistent with the implementation. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | The packaged guide omitted the executor-promise liveness prerequisite, and two accepted practices rendered outside the Current Practices table. |
+
+GitHub Actions run `29359564312` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `4c6818d3fa8faaf02f46fcc32b2e2ed1242a7308`. The correctness reviewer exceeded two bounded waits and returned the actionable verdict after one immediate-conclusion request; no reviewer edited files, ran tests, or used network.

@@ -51,7 +51,7 @@
 | Work-unit contract | A structured handoff for a parallel agent that defines objective, scope, context, conflicts, allowed actions, verification, handoff, and stop conditions. |
 | Packed-consumer gate | A verification step that packs the private artifact, installs it into an isolated offline consumer from a pinned dependency closure, resolves the installed entry, executes supported operations, and proves cleanup. |
 | Acceptance candidate | An immutable commit containing the complete implementation and closeout state that receives exact CI and independent review before an evidence-only final attestation. |
-| Execution grant | A closed runtime object supplied by the embedding host that binds one run, attempt, work packet, executor identity, and permission set; it is checked evidence, not a self-authorizing artifact or enforcement mechanism. |
+| Execution grant | A closed runtime object supplied by the embedding host that carries invocation-scoped run, attempt, work-packet, executor, and permission assertions; it is checked evidence, not a self-authorizing artifact, enforcement mechanism, consumed token, or replay-prevention mechanism. |
 | Work-packet executor | A trusted caller-injected port that receives one frozen work packet, checked grant, and abort signal, then returns one closed settlement. |
 | Abort unconfirmed | A non-terminal execution disposition meaning abort was requested but executor settlement was not observed before the absolute acknowledgment bound, so work may still be live. |
 | Executor boundary | The V10 provider-neutral operation that preflights and invokes exactly one host-selected work packet and returns a frozen summary plus V9-compatible journal. |

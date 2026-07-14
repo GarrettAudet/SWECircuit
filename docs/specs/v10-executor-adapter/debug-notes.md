@@ -214,3 +214,31 @@ Split ADR rule 6 at the invocation boundary. Rename the research decision to inv
 ### Verification Expansion
 
 The final search must cover lifecycle verbs and security-significant authority adjectives, including ephemeral, single-use, freshness, replay, authenticated, enforced, sandboxed, isolated, and revoked, then reconcile every active claim with explicit kernel guarantees.
+
+## Exact Candidate Public-Contract Parity Review
+
+### Trigger
+
+Exact review of `4c6818d3fa8faaf02f46fcc32b2e2ed1242a7308` returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE` while GitHub Actions run `29359564312` passed all seven jobs.
+
+### Evidence
+
+- `schemas/v1alpha1/README.md` said a grant bound identities and permissions to one call, and implementation notes said authority was bound to one invocation, despite the accepted stateless no-replay guarantee.
+- The installed executor guide described terminal certainty through settlement but omitted the requirement that the executor promise remain pending until all invocation-affecting activity stops; transferring live work is not acknowledgment.
+- Two accepted V10 practices were appended below `## Rejection Criteria`, so Markdown rendered them outside the Current Practices table.
+
+### Classification
+
+Public-contract guarantee drift and Markdown structural placement defect.
+
+### Confirmed Cause
+
+The prior audit covered lifecycle claim families and security adjectives but did not compare every consumer-facing summary with all ADR preconditions or inspect the register's heading boundaries. `invocation-bound` compressed identity matching into apparent single use, the packaged summary omitted the executor-promise liveness condition, and append-only maintenance placed rows after the table.
+
+### Causal Fix
+
+Describe grants as invocation-scoped identity and permission assertions, state that the stateless kernel does not consume grants or prevent reuse or replay, carry the full promise-liveness rule into the packaged guide, and move both accepted practices into the Current Practices table.
+
+### Verification Expansion
+
+Search `one call`, `one invocation`, `invocation-bound`, `single-use`, `reuse`, and `replay`; compare packaged terminal semantics with ADR 0002; assert both accepted rows precede Promotion Criteria; then rerun both workflow checkers, exact review, and hosted CI.

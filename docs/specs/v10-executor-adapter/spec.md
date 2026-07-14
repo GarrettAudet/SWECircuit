@@ -20,7 +20,7 @@ V10 must add that boundary without turning manifest declarations into authority,
 ## Goals
 
 - Execute one schema-valid `WorkPacket` through one caller-injected, provider-neutral executor adapter.
-- Require a host-issued, invocation-bound authority grant before executor code runs.
+- Require a host-issued authority grant with invocation-scoped identity and permission assertions before executor code runs; do not claim that the stateless kernel prevents grant reuse or replay.
 - Record that the executor request and invocation grant passed the work-packet permission ceiling checks without claiming host enforcement.
 - Return a deterministic, schema-valid lifecycle journal that the caller may persist and inspect.
 - Bound timeout and cancellation behavior without falsely claiming that unresponsive work stopped.
