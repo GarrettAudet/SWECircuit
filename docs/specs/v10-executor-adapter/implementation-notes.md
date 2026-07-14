@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `b3ff0d3` passed all seven hosted jobs plus API/documentation review; correctness and security found fenced-content ownership bypasses, and correctness found duplicate exact heading owners. The current correction strips fenced content before all structural lookups, requires unique section and subsection owners, and retains logical statements, first-table rows, and expected diagnostics. All 71 local scenarios pass; exact-commit review and hosted CI remain. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `394612d` returned three `REVISE` verdicts for container-contained fences, legacy raw structural checks, non-unique required headings, and overstated documentation; hosted run `29372879405` passed six kernel jobs but failed Template Check on a host-newline-dependent fixture. The current correction uses one container-aware active Markdown representation, exact unique required heading owners, and a CRLF/LF-neutral fixture. All 77 local scenarios pass; exact-commit review and all seven hosted jobs remain. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -28,9 +28,11 @@ The first postimplementation review returned three `REVISE` verdicts despite a g
 
 Exact review of `e3453e0` then found a remaining settlement-ownership interval and imprecise no-call documentation. The observer now detaches and normalizes fulfillment before timestamping it, a resolve-then-mutate regression protects that boundary, and active guidance distinguishes no-call terminal certainty from post-invocation, contract-compliant promise settlement acknowledgment.
 
-Subsequent exact candidates exposed progressively wider documentation drift: lifecycle synonyms, an unqualified ADR rule, security-significant grant adjectives, secondary public summaries, and finally missing promise-liveness and grant prerequisites across several surfaces in `b2d73e7`. Later parity candidates exposed contradiction, logical-line, first-table, fenced-content, and duplicate-owner bypasses. The current correction promotes an ADR-to-surface matrix, public contract parity practice, and checker fixtures so the same defect cannot pass as prose-only consistency.
+Subsequent exact candidates exposed progressively wider documentation drift: lifecycle synonyms, an unqualified ADR rule, security-significant grant adjectives, secondary public summaries, and finally missing promise-liveness and grant prerequisites across several surfaces in `b2d73e7`. Later parity candidates exposed contradiction, logical-line, first-table, fenced-content, duplicate-owner, list-container, and legacy-heading bypasses. The current correction promotes an ADR-to-surface matrix, public contract parity practice, and checker fixtures so the same defect cannot pass as prose-only consistency.
 
-The first fence-aware parser rescanned Markdown for every section lookup and caused a 69-scenario run to exceed 360 seconds. A process-local cache and no-fence fast path restored the positive checker to 2.27 seconds while preserving isolated fixtures; two complete 71-case runs finished in 211.2 and 208.2 seconds.
+Candidate `394612d` also exposed a fixture-portability deviation: `.gitattributes` supplied LF Markdown while the Windows workflow searched with `[Environment]::NewLine`. The fixture now uses a CRLF/LF-neutral contiguous-table regex and a direct two-newline probe.
+
+The first fence-aware parser rescanned Markdown for every section lookup and caused a 69-scenario run to exceed 360 seconds. A process-local cache and no-fence fast path restored the positive checker to 2.27 seconds while preserving isolated fixtures; two complete 71-case runs finished in 211.2 and 208.2 seconds, and four complete 77-case runs finished in 259.2, 258.2, 259.1, and 256.7 seconds; the last includes the strengthened nested blockquote/list fixture.
 
 ## Assumptions Used
 
@@ -62,7 +64,8 @@ The first fence-aware parser rescanned Markdown for every section lookup and cau
 - Candidate `ac70efc` passed all seven jobs in GitHub Actions run `29364033724`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `9209ff1` passed all seven jobs in GitHub Actions run `29366578213`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `PASS`.
 - Candidate `b3ff0d3` passed all seven jobs in GitHub Actions run `29370427573`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS`.
-- The current documentation-and-checker correction passes the positive checker and all 71 scenarios, comprising 67 expected rejections and four expected acceptances. Twenty-eight parity cases cover missing terms, relocation, contradictions, logical statements, exact first-table ownership, truthful negatives, causal diagnostics, fenced content, and unique heading owners. Exact-commit review and hosted CI remain.
+- Candidate `394612d` returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`. GitHub Actions run `29372879405` passed all six kernel-toolchain jobs but failed Template Check on the host-newline-dependent practice-table fixture.
+- The current documentation-and-checker correction passes the positive checker and all 77 scenarios, comprising 73 expected rejections and four expected acceptances. Thirty parity cases cover missing terms, relocation, contradictions, logical statements, exact first-table ownership, truthful negatives, causal diagnostics, top-level and container-contained fences, and unique heading owners. The final strengthened run finished in 256.7 seconds after prior full runs at 259.2, 258.2, and 259.1 seconds; the LF/CRLF probe passes. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -73,3 +76,5 @@ The first fence-aware parser rescanned Markdown for every section lookup and cau
 - Cancellation evidence must describe what the host observed, including uncertainty, rather than what it hoped happened.
 - Timeout and acknowledgment bounds must be anchored to monotonic observations, defend against early timer wake-ups, and be checked at the actual invocation boundary.
 - Reject proxies before reflection and bound key counts before descriptor traversal; revoked-proxy tests alone do not prove live traps stay dormant.
+- Active Markdown must be the shared structural representation, including list-contained fences and exact unique heading owners; raw source is appropriate only for intentional code-example checks.
+- Regression fixtures must model tracked source newlines rather than the host newline convention and should prove both LF and CRLF when portability is part of the contract.

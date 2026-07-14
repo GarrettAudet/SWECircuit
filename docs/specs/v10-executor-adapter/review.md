@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `b3ff0d3` passed all seven hosted jobs in run `29370427573`; API/documentation returned `PASS`, while correctness and security returned `REVISE` because fenced canonical content could satisfy raw ownership locators and duplicate exact headings were ambiguous. The current correction strips fenced content before structural parsing, requires each exact section or subsection owner to occur once, and retains logical-statement, first-table-row, and causal-diagnostic checks. All 71 local checker scenarios pass; exact-commit review and hosted CI remain. V10 is not merged.
+Candidate `394612d` returned `REVISE` from correctness, security, and API/documentation. Hosted run `29372879405` passed all six kernel-toolchain jobs but failed Template Check because a fixture assumed host-native newlines. The current correction recognizes container-contained fences, moves legacy structural checks to active Markdown, requires exact unique required headings, and makes the fixture CRLF/LF-neutral. All 77 local checker scenarios pass; exact-commit review and all seven hosted jobs remain. V10 is not merged.
 
 ## Review Outcome
 
@@ -14,11 +14,13 @@ Candidate `dbbeeb1` corrected the full cancellation claim family and passed host
 
 Candidate `4c6818d` corrected those sources and passed hosted CI. Exact review then found that two public summaries still compressed invocation-scoped identity checking into apparent single use, the packaged guide omitted the full settlement prerequisite for terminal certainty, and two accepted practices rendered outside their table.
 
-Candidate `b2d73e7` corrected those findings and passed hosted CI, but all three reviewers found that the prerequisite still had not reached every public summary and that the packaged grant explanation still lacked a standalone complete disclaimer. Candidate `ac70efc` added the ADR-to-surface matrix and executable parity fixtures; its exact review then exposed the need for target-line enforcement, contradiction rejection, and invariant acceptance-state wording. Candidate `9209ff1` corrected those issues and passed hosted CI plus correctness and API/documentation review; security then demonstrated logical-line and exact-table-ownership bypasses. Candidate `b3ff0d3` corrected those gaps and again passed hosted CI, but correctness and security proved that raw fenced content and duplicate heading owners still bypassed active ownership. The current correction addresses both at the shared Markdown scope boundary.
+Candidate `b2d73e7` corrected those findings and passed hosted CI, but all three reviewers found that the prerequisite still had not reached every public summary and that the packaged grant explanation still lacked a standalone complete disclaimer. Candidate `ac70efc` added the ADR-to-surface matrix and executable parity fixtures; its exact review then exposed the need for target-line enforcement, contradiction rejection, and invariant acceptance-state wording. Candidate `9209ff1` corrected those issues and passed hosted CI plus correctness and API/documentation review; security then demonstrated logical-line and exact-table-ownership bypasses. Candidate `b3ff0d3` corrected those gaps and again passed hosted CI, but correctness and security proved that raw fenced content and duplicate heading owners still bypassed active ownership.
+
+Candidate `394612d` corrected top-level fenced ownership and duplicate contract owners, but all three reviewers found the model was still incomplete: list-contained fences remained visible, older heading checks still inspected raw Markdown, required headings were not unique, and the docs overstated full migration. Its hosted run passed the six kernel jobs but exposed a separate Windows newline assumption in the Template Check fixture. The current correction addresses the complete document representation and portable fixture boundary.
 
 ## Spec Alignment
 
-AC1 through AC7 are satisfied by local implementation evidence. AC8 is structurally complete through research, ADR, feature records, dogfood evidence, memory, and milestone preparation, but remains open until exact-candidate review is recorded.
+AC1 through AC7 are satisfied by local implementation evidence. AC8 is structurally complete through research, ADR, feature records, dogfood evidence, memory, and milestone preparation, but remains open until one exact candidate receives three `PASS` verdicts and all seven hosted jobs pass.
 
 ## Architecture Alignment
 
@@ -45,7 +47,8 @@ The implementation follows ADR 0002:
 - Candidate `ac70efc` passed all seven jobs in GitHub Actions run `29364033724`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `9209ff1` passed all seven jobs in GitHub Actions run `29366578213`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `PASS`.
 - Candidate `b3ff0d3` passed all seven jobs in GitHub Actions run `29370427573`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS` for fenced-content and duplicate-owner bypasses.
-- Local gate: the positive checker and all 71 isolated scenarios pass, comprising 67 expected rejections and four expected acceptances; 28 are public-contract parity cases. The latest complete checker run finished in 208.2 seconds. The executable runtime is unchanged, and exact-commit review plus hosted CI remain before closeout.
+- Candidate `394612d` returned `REVISE` from correctness, security, and API/documentation for container-fence, legacy structural-owner, unique-heading, and documentation-scope gaps. GitHub Actions run `29372879405` passed all six kernel-toolchain jobs but failed Template Check because the fixture assumed host-native newlines.
+- Local gate: the positive checker and all 77 isolated scenarios pass, comprising 73 expected rejections and four expected acceptances; 30 are public-contract parity cases. The final strengthened run finished in 256.7 seconds after three prior full runs at 259.2, 258.2, and 259.1 seconds, and a direct probe locates the practice table under both LF and CRLF. The executable runtime is unchanged, and exact-commit review plus all seven hosted jobs remain before closeout.
 
 ## Findings
 
@@ -77,6 +80,9 @@ The implementation follows ADR 0002:
 | Gate | Broad section scans and exit-only fixtures did not prove active subsection ownership, first-table row membership, or failure provenance. | Bind paragraph contracts to exact `##`/`###` scopes, bind practice contracts to keyed rows in the first contiguous table, and require the expected diagnostic in each negative fixture. |
 | Gate | Raw structural parsing let canonical paragraphs or complete tables inside fenced code satisfy active contract ownership. | Strip backtick and tilde fenced blocks before section, subsection, line, or table discovery; add diagnostic-bound fenced paragraph and table fixtures. |
 | Gate | Duplicate exact section or subsection owners were silently reduced to the first match. | Require exactly one matching `##` section and, where used, exactly one matching `###` subsection; reject duplicate-owner fixtures containing contradictory claims. |
+| Gate | List-contained backtick or tilde fences remained visible to the active-content parser. | Recognize repeated blockquote, unordered-list, and ordered-list container prefixes before fence markers; add diagnostic-bound container fixtures. |
+| Gate | Legacy README, feature, task, debug, RCA, and PR-template structural checks still read raw Markdown or proved heading presence only. | Route structural ownership through active Markdown, require one exact README H1 and required H2 owner, and preserve raw content only for intentional fenced command examples. |
+| Gate | The hosted practice-table fixture used `[Environment]::NewLine` against an LF-normalized tracked file. | Match contiguous table boundaries with a CRLF/LF-neutral regex and directly probe both source newline forms. |
 
 ## Residual Risks
 
@@ -88,4 +94,4 @@ The implementation follows ADR 0002:
 
 ## Memory And Docs
 
-The V10 candidate updates decisions, patterns, known issues, glossary, history, retrieval pointers, active context, public docs, ADRs, and the milestone. Final verdict identifiers and the exact candidate commit will be added as an evidence-only closeout after independent review.
+The V10 candidate updates decisions, patterns, known issues, glossary, history, retrieval pointers, active context, public docs, ADRs, and the milestone. The evidence-only closeout will add the accepted exact candidate and three final `PASS` verdicts only after the review and hosted-CI gate succeeds.

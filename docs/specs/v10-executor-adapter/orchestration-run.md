@@ -50,7 +50,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; `ac70efc` returned `PASS / REVISE / REVISE`; `9209ff1` returned `PASS / REVISE / PASS`; and `b3ff0d3` returned `REVISE / REVISE / PASS`, each despite green hosted CI. The current correction strips fenced content before structural parsing, requires unique exact section and subsection owners, retains first-table-row and logical-statement checks, and binds all bypass fixtures to causal diagnostics. AC8 remains open until the current exact commit passes all three reviews and hosted CI. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; `ac70efc` returned `PASS / REVISE / REVISE`; `9209ff1` returned `PASS / REVISE / PASS`; `b3ff0d3` returned `REVISE / REVISE / PASS`; and `394612d` returned `REVISE / REVISE / REVISE`. Hosted run `29372879405` passed the six kernel-toolchain jobs but failed Template Check because its fixture assumed host-native newlines. The current correction makes fences container-aware, gives legacy structural checks the same active-content view, requires exact unique required headings, and makes the fixture source-newline-neutral. AC8 remains open until the next exact commit passes all three reviews and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -124,7 +124,7 @@ GitHub Actions run `29361203381` passed all six Node 22/24 operating-system jobs
 
 GitHub Actions run `29364033724` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `ac70efc6cdfc9d6d07e51db1a4203c6a15b7026c`. No reviewer edited files, ran tests, or used network.
 
-The current correction structurally targets the intended contract line, rejects known contradictory positive claims, adds 13 preserving or relocation fixtures, and uses invariant acceptance-state wording. The gate remains open pending exact-commit re-review and hosted CI.
+The correction that became candidate `9209ff1` structurally targeted the intended contract line, rejected known contradictory positive claims, added 13 preserving or relocation fixtures, and used invariant acceptance-state wording. The gate remained open pending exact-commit re-review and hosted CI.
 
 ## Exact Candidate 9209ff1 Verdicts
 
@@ -136,7 +136,7 @@ The current correction structurally targets the intended contract line, rejects 
 
 GitHub Actions run `29366578213` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `9209ff16b9c0a77ca174eb88027676a9c91147e3`. No reviewer edited files, ran tests, or used network.
 
-The current correction models logical Markdown ownership, keys required practices to the first contiguous table, adds five preserving or bypass fixtures, and requires the intended diagnostic for every parity rejection. The local 67-scenario harness passes; the gate remains open pending exact-commit re-review and hosted CI.
+The correction that became candidate `b3ff0d3` modeled logical Markdown ownership, keyed required practices to the first contiguous table, added five preserving or bypass fixtures, and required the intended diagnostic for every parity rejection. Its local 67-scenario harness passed; the gate remained open pending exact-commit re-review and hosted CI.
 
 ## Exact Candidate b3ff0d3 Verdicts
 
@@ -148,4 +148,16 @@ The current correction models logical Markdown ownership, keys required practice
 
 GitHub Actions run `29370427573` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `b3ff0d3bd630ae2063d504f85184e34fd26c7a8a`. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction gives every structural contract check one fence-stripped active-content view, requires unique exact section and subsection owners, and adds four diagnostic-bound bypass fixtures. The positive checker and all 71 isolated scenarios pass, including 28 parity cases. The gate remains open pending a new exact-commit review and hosted CI.
+The correction that became candidate `394612d` gave every structural contract check one fence-stripped active-content view, required unique exact section and subsection owners, and added four diagnostic-bound bypass fixtures. Its positive checker and all 71 isolated scenarios passed, including 28 parity cases. The gate remained open pending exact-commit review and hosted CI.
+
+## Exact Candidate 394612d Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | List-contained fences remained visible, and legacy README, feature, debug, and RCA structural checks still inspected raw Markdown. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | Required headings were presence-only rather than unique, and list-contained backtick or tilde fences could still supply active ownership. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | Documentation claimed all structural lookup was fence-safe while legacy heading paths remained raw. |
+
+GitHub Actions run `29372879405` passed all six Node 22/24 operating-system jobs but failed Template Check for exact commit `394612d29b432491e7fee07695f5bcfea553af8f`. The regression fixture searched an LF-normalized tracked file with `[Environment]::NewLine` on Windows, so it failed before running the scenario matrix. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction recognizes container-contained fences, migrates legacy structural owners to active Markdown, requires exact unique README and required H2 owners, preserves raw fenced command examples, and uses a CRLF/LF-neutral fixture regex. The positive checker and all 77 isolated scenarios pass, including 30 parity cases; the gate remains open pending a new exact-commit review and all seven hosted jobs.

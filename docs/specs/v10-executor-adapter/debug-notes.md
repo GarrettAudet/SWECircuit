@@ -392,7 +392,7 @@ A Markdown contract owner must be active, unique, and structurally exact. Ignori
 
 ### Evidence
 
-The prior 67-scenario run completed in 186.8 seconds. The first fence-aware implementation rescanned the same Markdown on every section lookup; its 69-scenario run reached 63 passing cases before the 360.4-second wrapper limit terminated it. A process-local cache plus a no-fence fast path reduced the positive checker to 2.27 seconds. The unchanged 69-case matrix completed in 199.6 seconds, and two complete 71-case runs finished in 211.2 and 208.2 seconds.
+The prior 67-scenario run completed in 186.8 seconds. The first fence-aware implementation rescanned the same Markdown on every section lookup; its 69-scenario run reached 63 passing cases before the 360.4-second wrapper limit terminated it. A process-local cache plus a no-fence fast path reduced the positive checker to 2.27 seconds. The unchanged 69-case matrix completed in 199.6 seconds, two complete 71-case runs finished in 211.2 and 208.2 seconds, and four complete 77-case runs finished in 259.2, 258.2, 259.1, and 256.7 seconds; the last includes the strengthened nested blockquote/list fixture.
 
 ### Classification
 
@@ -401,3 +401,40 @@ Resolved checker-rescan regression plus residual fixture-copy performance fricti
 ### Decision
 
 Keep the fence cache and one fresh repository copy plus one checker process per scenario for V10 acceptance. Evaluate shared-baseline fixture materialization only in a later bounded work item with equivalence and contamination tests.
+
+## Exact Candidate Container And Heading Ownership Review
+
+### Trigger
+
+Exact review of `394612d29b432491e7fee07695f5bcfea553af8f` returned `REVISE` from correctness, security, and API/documentation. GitHub Actions run `29372879405` passed all six Node 22/24 operating-system jobs but failed Template Check before the scenario matrix because its fenced-practice fixture could not locate the Current Practices table.
+
+### Evidence
+
+- Correctness showed that list-contained fences such as unordered backtick and ordered tilde fences were not recognized, and that legacy README, feature, debug, and RCA heading checks still inspected raw Markdown.
+- Security independently found the list-contained-fence gap and showed that required headings were presence-only rather than uniquely owned.
+- API/documentation found that the active docs overstated the correction as covering every structural lookup while legacy heading paths still used raw content.
+- The hosted failure was platform-specific: the fixture searched an LF-normalized tracked Markdown file using `[Environment]::NewLine` on Windows.
+
+### Classification
+
+Container-aware Markdown parsing gap, incomplete structural-owner migration, and host-native newline assumption in a regression fixture.
+
+### Confirmed Cause
+
+The fence parser recognized only top-level fences. Several older heading paths bypassed the shared active-content helpers, and required headings proved only presence. Separately, the practice-table fixture treated the host newline convention as the source-file convention even though `.gitattributes` normalizes Markdown to LF.
+
+### Causal Fix
+
+- Recognize backtick and tilde fences after repeated blockquote, unordered-list, or ordered-list container prefixes.
+- Route required headings, feature acceptance criteria, task verification mappings, debug/RCA headings, README structural ownership, and PR-template contract text through active Markdown.
+- Require one exact README H1 and one exact required H2 owner while preserving raw fenced command examples as intentional examples.
+- Add six diagnostic-bound fixtures for hidden or duplicate README headings, fenced debug and acceptance-criteria headings, an ordered-list fenced practice table, and a nested blockquote/list fenced grant paragraph.
+- Replace the host-native table-boundary search with a CRLF/LF-neutral contiguous-table regex and prove it directly against both newline forms.
+
+### Regression
+
+PowerShell syntax and the positive checker pass. The final strengthened harness passes all 77 scenarios: 73 expected rejections, four expected acceptances, and 30 public-contract parity cases in 256.7 seconds. Three prior complete runs finished in 259.2, 258.2, and 259.1 seconds. A direct portability probe locates the practice table in both LF and CRLF source, and the executable runtime remains unchanged from `9d8907a`.
+
+### Durable Learning
+
+Active Markdown is a document-wide ownership model, not a helper used by selected checks. Container syntax and source newline conventions are part of that model; every structural owner and every regression fixture must use the same portable representation.

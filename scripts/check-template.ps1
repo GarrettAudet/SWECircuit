@@ -39,11 +39,14 @@ function Test-HasHeadings {
         return
     }
 
-    $text = Read-Text $path
+    $text = Remove-MarkdownFencedContent (Read-Text $path)
     foreach ($heading in $Headings) {
         $escaped = [regex]::Escape($heading)
-        if ($text -notmatch "(?m)^#{1,6}\s+(?:\d+\.\s+)?$escaped\s*$") {
+        $matches = [regex]::Matches($text, "(?m)^##\s+(?:\d+\.\s+)?$escaped\s*$")
+        if ($matches.Count -eq 0) {
             Add-Failure "Missing heading '$heading' in $RelativePath"
+        } elseif ($matches.Count -gt 1) {
+            Add-Failure "Duplicate heading '$heading' in $RelativePath"
         }
     }
 }
@@ -84,7 +87,7 @@ function Remove-MarkdownFencedContent {
         return $cachedText
     }
 
-    if ($Text -notmatch '(?m)^[ ]{0,3}(?:`{3,}|~{3,})') {
+    if ($Text -notmatch '(?m)(?:`{3,}|~{3,})') {
         $script:markdownFenceCache[$Text] = $Text
         return $Text
     }
@@ -96,7 +99,7 @@ function Remove-MarkdownFencedContent {
 
     foreach ($line in @($Text -split "\r?\n")) {
         if (-not $inFence) {
-            $opening = [regex]::Match($line, '^[ ]{0,3}(?<marker>`{3,}|~{3,})(?<info>.*)$')
+            $opening = [regex]::Match($line, '^[ \t]*(?:(?:>[ \t]?|(?:[-+*]|\d+[.)])[ \t]+)[ \t]*)*(?<marker>`{3,}|~{3,})(?<info>.*)$')
             if (-not $opening.Success) {
                 $visibleLines.Add($line) | Out-Null
                 continue
@@ -116,7 +119,7 @@ function Remove-MarkdownFencedContent {
             continue
         }
 
-        $closing = [regex]::Match($line, '^[ ]{0,3}(?<marker>`{3,}|~{3,})[ \t]*$')
+        $closing = [regex]::Match($line, '^[ \t]*(?:(?:>[ \t]?|(?:[-+*]|\d+[.)])[ \t]+)[ \t]*)*(?<marker>`{3,}|~{3,})[ \t]*$')
         if ($closing.Success) {
             $marker = $closing.Groups['marker'].Value
             if ($marker[0] -eq $fenceCharacter -and $marker.Length -ge $fenceLength) {
@@ -731,11 +734,10 @@ function Test-FeaturePackage {
     if (Test-Path -LiteralPath $specPath -PathType Leaf) {
         $spec = Read-Text $specPath
         $specStatus = Get-NormalizedStatus $spec
-        $criteriaMatch = [regex]::Match($spec, "(?ms)^##\s+Acceptance Criteria\s*(.+?)(^##\s+|\z)")
-        if (-not $criteriaMatch.Success) {
+        $criteria = Get-MarkdownSection $spec "Acceptance Criteria"
+        if ([string]::IsNullOrWhiteSpace($criteria)) {
             Add-Failure "Missing Acceptance Criteria section in docs/specs/$($FeatureDir.Name)/spec.md"
         } else {
-            $criteria = $criteriaMatch.Groups[1].Value
             $checklistItems = [regex]::Matches($criteria, "(?m)^\s*-\s+\[(?<Mark>[ xX])\]\s+")
             if ($checklistItems.Count -eq 0) {
                 Add-Failure "Acceptance Criteria must contain checklist items in docs/specs/$($FeatureDir.Name)/spec.md"
@@ -750,7 +752,7 @@ function Test-FeaturePackage {
 
     $tasksPath = Join-Path $FeatureDir.FullName "tasks.md"
     if (Test-Path -LiteralPath $tasksPath -PathType Leaf) {
-        $tasks = Read-Text $tasksPath
+        $tasks = Remove-MarkdownFencedContent (Read-Text $tasksPath)
         if ($tasks -notmatch "Verification:") {
             Add-Failure "Tasks must include verification mapping in docs/specs/$($FeatureDir.Name)/tasks.md"
         }
@@ -759,10 +761,12 @@ function Test-FeaturePackage {
     $debugPath = Join-Path $FeatureDir.FullName "debug-notes.md"
     if (Test-Path -LiteralPath $debugPath -PathType Leaf) {
         $debug = Read-Text $debugPath
+        $activeDebug = Remove-MarkdownFencedContent $debug
         $status = Get-NormalizedStatus $debug
         if ($status -notin @("Not started", "Not needed")) {
             foreach ($heading in @("Reproduction", "Stable Evidence", "Failure Classification", "Hypotheses", "Experiments")) {
-                if ($debug -notmatch "(?m)^##\s+$([regex]::Escape($heading))\s*$") {
+                $headingCount = [regex]::Matches($activeDebug, "(?m)^##\s+$([regex]::Escape($heading))\s*$").Count
+                if ($headingCount -ne 1) {
                     Add-Failure "Debug notes missing $heading in docs/specs/$($FeatureDir.Name)/debug-notes.md"
                 }
             }
@@ -772,13 +776,12 @@ function Test-FeaturePackage {
     $rcaPath = Join-Path $FeatureDir.FullName "root-cause-analysis.md"
     if (Test-Path -LiteralPath $rcaPath -PathType Leaf) {
         $rca = Read-Text $rcaPath
-        $status = ""
-        if ($rca -match "(?ms)^##\s+Status\s*(.+?)(^##\s+|\z)") {
-            $status = $matches[1].Trim()
-        }
+        $activeRca = Remove-MarkdownFencedContent $rca
+        $status = Get-NormalizedStatus $rca
         if ($status -notmatch "Not started|Not needed") {
             foreach ($heading in @("Reproduction", "Confirmed Root Cause", "Fix", "Regression Coverage", "Memory Update")) {
-                if ($rca -notmatch "(?m)^##\s+$([regex]::Escape($heading))\s*$") {
+                $headingCount = [regex]::Matches($activeRca, "(?m)^##\s+$([regex]::Escape($heading))\s*$").Count
+                if ($headingCount -ne 1) {
                     Add-Failure "RCA missing $heading in docs/specs/$($FeatureDir.Name)/root-cause-analysis.md"
                 }
             }
@@ -1080,7 +1083,9 @@ Test-HasHeadings "README.md" @(
     "Status"
 )
 $readme = Read-Text (Join-Path $Root "README.md")
-if ($readme -notmatch '(?m)^# SWECircuit\s*$') {
+$activeReadme = Remove-MarkdownFencedContent $readme
+$readmeHeadingCount = [regex]::Matches($activeReadme, '(?m)^# SWECircuit\s*$').Count
+if ($readmeHeadingCount -ne 1) {
     Add-Failure "README must use SWECircuit as the current project heading"
 }
 if ($readme -notmatch [regex]::Escape("https://github.com/GarrettAudet/SWECircuit")) {
@@ -1091,11 +1096,11 @@ if ($readme -match [regex]::Escape("https://github.com/GarrettAudet/TraceRail"))
 }
 $currentOverviewPath = "docs/assets/swecircuit-overview.png"
 $currentOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape($currentOverviewPath) + '\)\s*$'
-if ($readme -notmatch $currentOverviewPattern) {
+if ($activeReadme -notmatch $currentOverviewPattern) {
     Add-Failure "README missing current SWECircuit overview visual embed: $currentOverviewPath"
 }
 $historicalOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape("docs/assets/tracerail-overview.png") + '\)\s*$'
-if ($readme -match $historicalOverviewPattern) {
+if ($activeReadme -match $historicalOverviewPattern) {
     Add-Failure "README embeds the historical TraceRail overview instead of the current SWECircuit overview"
 }
 
@@ -1691,7 +1696,7 @@ Test-HasHeadings "docs/memory/patterns.md" @("Source Map")
 Test-SectionTableColumns "docs/memory/patterns.md" "Source Map" @("Source Artifacts", "Named Patterns")
 $prTemplatePath = Join-Path $Root ".github\pull_request_template.md"
 if (Test-Path -LiteralPath $prTemplatePath -PathType Leaf) {
-    $pr = Read-Text $prTemplatePath
+    $pr = Remove-MarkdownFencedContent (Read-Text $prTemplatePath)
     foreach ($requiredPhrase in @("Feature Package", "Development Milestone", "Branch And Merge", "IDE Interaction", "Standalone Agent Work", "Framework Modules", "Circuits affected", "Modules affected", "Packs affected", "Traceability", "Repository Quality", "Verification", "Diagnosis", "Parallel Work", "Architecture And Memory", "Review Outcome")) {
         if ($pr -notmatch [regex]::Escape($requiredPhrase)) {
             Add-Failure "PR template missing '$requiredPhrase'"

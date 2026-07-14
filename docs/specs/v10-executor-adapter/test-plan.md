@@ -44,6 +44,8 @@ Acceptance-candidate verification active.
 - A live proxy must be rejected before its reflection traps execute.
 - A packed TypeScript consumer must compile and narrow the root-exported contract under independent compiler settings.
 - A fulfilled settlement must be normalized and detached before a later microtask can mutate the provider-owned source object.
+- Markdown ownership must reject top-level and list-contained fenced contracts, duplicate exact owners, and required headings hidden in inactive content.
+- The practice-table fixture must locate the same contiguous table in LF and CRLF source.
 
 ## Skipped Checks
 
@@ -61,4 +63,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `ac70efc` passed all seven jobs in run `29364033724`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE` for presence-only parity checks and candidate-dependent status prose.
 - Candidate `9209ff1` passed all seven jobs in run `29366578213`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `PASS` for logical-line, scope-ownership, contiguous-table, and diagnostic-provenance gaps.
 - Candidate `b3ff0d3` passed all seven jobs in run `29370427573`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS` for fenced-content and duplicate-owner gaps.
-- The current parity correction passes the positive checker and all 71 isolated scenarios: 67 expected rejections and four expected acceptances. Twenty-eight parity cases cover missing terms, structural relocation, contradictory claims, soft wrapping, synonyms, first-table ownership, truthful negatives, expected diagnostics, fenced content, and unique owners. The latest complete run finished in 208.2 seconds. Exact-commit review and hosted CI remain.
+- Candidate `394612d` returned `REVISE / REVISE / REVISE` for list-contained fences, legacy raw structural checks, presence-only required headings, and overstated docs. Run `29372879405` passed all six kernel-toolchain jobs but failed Template Check because its fixture assumed host-native newlines.
+- The current parity correction passes the positive checker and all 77 isolated scenarios: 73 expected rejections and four expected acceptances. Thirty parity cases cover missing terms, structural relocation, contradictory claims, soft wrapping, synonyms, first-table ownership, truthful negatives, expected diagnostics, top-level and container-contained fences, and unique owners. The final strengthened run finished in 256.7 seconds after prior full runs at 259.2, 258.2, and 259.1 seconds; the direct LF/CRLF probe passes. Exact-commit review and all seven hosted jobs remain.

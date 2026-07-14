@@ -177,6 +177,30 @@ try {
     Write-Utf8 $legacyHeadingPath $legacyHeadingText
     Assert-CheckerResult "legacy README project heading" $legacyHeadingFixture $false
 
+    $fencedReadmeHeadingFixture = New-Fixture "fenced-readme-required-heading"
+    $fencedReadmeHeadingPath = Join-Path $fencedReadmeHeadingFixture "README.md"
+    $fencedReadmeHeadingText = Get-Content -LiteralPath $fencedReadmeHeadingPath -Raw
+    $requiredReadmeHeading = "## How It Works"
+    if (-not $fencedReadmeHeadingText.Contains($requiredReadmeHeading)) {
+        throw "Fenced README fixture could not find the required heading."
+    }
+    $fencedReadmeHeading = '```markdown' + [Environment]::NewLine +
+        $requiredReadmeHeading + [Environment]::NewLine +
+        '```'
+    $fencedReadmeHeadingText = $fencedReadmeHeadingText.Replace($requiredReadmeHeading, $fencedReadmeHeading)
+    Write-Utf8 $fencedReadmeHeadingPath $fencedReadmeHeadingText
+    Assert-CheckerResult "required README heading hidden in fence" $fencedReadmeHeadingFixture $false "Missing heading 'How It Works'"
+
+    $duplicateReadmeHeadingFixture = New-Fixture "duplicate-readme-required-heading"
+    $duplicateReadmeHeadingPath = Join-Path $duplicateReadmeHeadingFixture "README.md"
+    $duplicateReadmeHeadingText = Get-Content -LiteralPath $duplicateReadmeHeadingPath -Raw
+    $duplicateReadmeHeadingText = $duplicateReadmeHeadingText.TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        "## How It Works" + [Environment]::NewLine + [Environment]::NewLine +
+        "Duplicate active owner." + [Environment]::NewLine
+    Write-Utf8 $duplicateReadmeHeadingPath $duplicateReadmeHeadingText
+    Assert-CheckerResult "duplicate required README heading" $duplicateReadmeHeadingFixture $false "Duplicate heading 'How It Works'"
+
     $legacyRemoteFixture = New-Fixture "legacy-readme-remote"
     $legacyRemotePath = Join-Path $legacyRemoteFixture "README.md"
     $legacyRemoteText = (Get-Content -LiteralPath $legacyRemotePath -Raw).Replace(
@@ -406,21 +430,15 @@ try {
     $fencedPracticeFixture = New-Fixture "practice-current-table-fenced"
     $fencedPracticePath = Join-Path $fencedPracticeFixture "docs\research\practice-register.md"
     $fencedPracticeText = Get-Content -LiteralPath $fencedPracticePath -Raw
-    $practiceTableHeader = "| Practice | Status | Source | Decision | Rationale |"
-    $practiceTableStart = $fencedPracticeText.IndexOf($practiceTableHeader, [System.StringComparison]::Ordinal)
-    $practiceTableEndMarker = [Environment]::NewLine + [Environment]::NewLine + "## Promotion Criteria"
-    $practiceTableEnd = $fencedPracticeText.IndexOf(
-        $practiceTableEndMarker,
-        $practiceTableStart,
-        [System.StringComparison]::Ordinal
+    $practiceTableMatch = [regex]::Match(
+        $fencedPracticeText,
+        '(?m)^\| Practice \| Status \| Source \| Decision \| Rationale \|(?:\r?\n^\|[^\r\n]*\|)+(?=\r?\n\r?\n## Promotion Criteria(?:\r?\n|\z))'
     )
-    if ($practiceTableStart -lt 0 -or $practiceTableEnd -lt 0) {
+    if (-not $practiceTableMatch.Success) {
         throw "Fenced-practice fixture could not find the Current Practices table."
     }
-    $practiceTable = $fencedPracticeText.Substring(
-        $practiceTableStart,
-        $practiceTableEnd - $practiceTableStart
-    )
+    $practiceTableStart = $practiceTableMatch.Index
+    $practiceTable = $practiceTableMatch.Value
     $fencedPracticeTable = "~~~markdown" + [Environment]::NewLine +
         $practiceTable + [Environment]::NewLine +
         "~~~"
@@ -430,6 +448,20 @@ try {
     ).Insert($practiceTableStart, $fencedPracticeTable)
     Write-Utf8 $fencedPracticePath $fencedPracticeText
     Assert-CheckerResult "accepted practices hidden in fenced table" $fencedPracticeFixture $false "Contract table scope"
+
+    $nestedPracticeFixture = New-Fixture "practice-current-table-list-fenced"
+    $nestedPracticePath = Join-Path $nestedPracticeFixture "docs\research\practice-register.md"
+    $nestedPracticeText = Get-Content -LiteralPath $nestedPracticePath -Raw
+    $indentedPracticeTable = @($practiceTable -split "\r?\n" | ForEach-Object { "   $_" }) -join [Environment]::NewLine
+    $nestedPracticeFence = "1. ~~~markdown" + [Environment]::NewLine +
+        $indentedPracticeTable + [Environment]::NewLine +
+        "   ~~~"
+    if (-not $nestedPracticeText.Contains($practiceTable)) {
+        throw "Nested-practice fixture could not find the Current Practices table."
+    }
+    $nestedPracticeText = $nestedPracticeText.Replace($practiceTable, $nestedPracticeFence)
+    Write-Utf8 $nestedPracticePath $nestedPracticeText
+    Assert-CheckerResult "accepted practices hidden in ordered-list fence" $nestedPracticeFixture $false "Contract table scope"
 
     $lifecycleAnchor = "For invoked work, the executor promise must remain pending until all activity capable of advancing the invocation or producing invocation effects has stopped. Transferring live work to host ownership is not acknowledgment. Harmless cleanup may continue only when it cannot affect the packet, exercise invocation authority, or produce invocation evidence."
     $lifecycleContradictions = @(
@@ -576,6 +608,19 @@ try {
     Write-Utf8 $fencedGrantPath $fencedGrantText
     Assert-CheckerResult "executor grant contract hidden in fence" $fencedGrantFixture $false "Contract locator"
 
+    $nestedGrantFixture = New-Fixture "executor-grant-contract-nested-fenced"
+    $nestedGrantPath = Join-Path $nestedGrantFixture "docs\framework\executor-boundary.md"
+    $nestedGrantText = Get-Content -LiteralPath $nestedGrantPath -Raw
+    if (-not $nestedGrantText.Contains($grantAnchor)) {
+        throw "Nested-grant fixture could not find the intended contract line."
+    }
+    $nestedGrantContract = '> > - ```text' + [Environment]::NewLine +
+        "> >   " + $grantAnchor + [Environment]::NewLine +
+        '> >   ```'
+    $nestedGrantText = $nestedGrantText.Replace($grantAnchor, $nestedGrantContract)
+    Write-Utf8 $nestedGrantPath $nestedGrantText
+    Assert-CheckerResult "executor grant contract hidden in nested blockquote/list fence" $nestedGrantFixture $false "Contract locator"
+
     $duplicateSectionFixture = New-Fixture "executor-result-semantics-duplicate-owner"
     $duplicateSectionPath = Join-Path $duplicateSectionFixture "docs\framework\executor-boundary.md"
     $duplicateSectionText = Get-Content -LiteralPath $duplicateSectionPath -Raw
@@ -611,6 +656,34 @@ try {
     $debugText = (Get-Content -LiteralPath $debugPath -Raw).Replace("## Reproduction", "## Reproduction Removed")
     Write-Utf8 $debugPath $debugText
     Assert-CheckerResult "complete debug record missing reproduction" $debugFixture $false
+
+    $fencedDebugFixture = New-Fixture "fenced-debug-heading"
+    $fencedDebugPath = Join-Path $fencedDebugFixture "docs\specs\v8-readme-visual-clarity\debug-notes.md"
+    $fencedDebugText = Get-Content -LiteralPath $fencedDebugPath -Raw
+    $debugHeading = "## Reproduction"
+    if (-not $fencedDebugText.Contains($debugHeading)) {
+        throw "Fenced debug fixture could not find Reproduction."
+    }
+    $fencedDebugHeading = '~~~markdown' + [Environment]::NewLine +
+        $debugHeading + [Environment]::NewLine +
+        '~~~'
+    $fencedDebugText = $fencedDebugText.Replace($debugHeading, $fencedDebugHeading)
+    Write-Utf8 $fencedDebugPath $fencedDebugText
+    Assert-CheckerResult "debug heading hidden in fence" $fencedDebugFixture $false "Debug notes missing Reproduction"
+
+    $fencedCriteriaFixture = New-Fixture "fenced-acceptance-criteria-heading"
+    $fencedCriteriaPath = Join-Path $fencedCriteriaFixture "docs\specs\v8.1-baseline-integrity\spec.md"
+    $fencedCriteriaText = Get-Content -LiteralPath $fencedCriteriaPath -Raw
+    $criteriaHeading = "## Acceptance Criteria"
+    if (-not $fencedCriteriaText.Contains($criteriaHeading)) {
+        throw "Fenced criteria fixture could not find Acceptance Criteria."
+    }
+    $fencedCriteriaHeading = '```markdown' + [Environment]::NewLine +
+        $criteriaHeading + [Environment]::NewLine +
+        '```'
+    $fencedCriteriaText = $fencedCriteriaText.Replace($criteriaHeading, $fencedCriteriaHeading)
+    Write-Utf8 $fencedCriteriaPath $fencedCriteriaText
+    Assert-CheckerResult "Acceptance Criteria heading hidden in fence" $fencedCriteriaFixture $false "Missing Acceptance Criteria section"
 
     $criteriaFixture = New-Fixture "unchecked-complete-criteria"
     $criteriaPath = Join-Path $criteriaFixture "docs\specs\v8.1-baseline-integrity\spec.md"
