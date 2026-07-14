@@ -33,9 +33,9 @@ In progress.
 - [x] T009: Complete the selected identity migration and public quick start.
   Scope: Current product surfaces, repository metadata, compatibility note, README, canonical docs, and the branded overview asset.
   Verification: Commit `c9d7e4f` passes 205 tests with zero skips, the positive checker, all 42 checker scenarios, contract review `REVISE -> PASS`, implementation review `REVISE -> REVISE -> PASS`, and GitHub Actions run `29292597506` across all seven jobs without rewriting historical evidence.
-- [ ] T010: Dogfood the V9 kernel and measure the run.
+- [x] T010: Dogfood the V9 kernel and measure the run.
   Scope: Validate repository examples, record trace evidence, timing, failures, retries, and recovery.
-  Verification: Dogfood record and evidence map to AC8.
+  Verification: Commit `6d4e60a` passes 209 local tests with zero skips, the positive checker, all 42 checker regressions, and independent review ending `REVISE -> PASS`. The measured ten-step observation records two controlled failures, one explicit retry, source/manifest integrity, and identity-checked cleanup; its digest-bound caller-owned trace reconstructs 22 events and `diagnose -> pass`. GitHub Actions run `29310133523` passes Template Check and all six Node 22/24 jobs across Windows, Ubuntu, and macOS.
 - [ ] T011: Verify, review, update memory, and prepare V9 approval.
   Scope: CI, package checks, review, milestone, history, retrieval, decisions, patterns, known issues, and residual risks.
   Verification: All criteria are checked, the milestone has an explicit merge gate, and branch CI is green.

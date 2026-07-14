@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation checkpoint complete locally; remote CI pending.
+Complete; independent review, local gates, and all seven remote CI jobs returned `PASS`.
 
 ## Goal
 
@@ -118,7 +118,7 @@ The observation bytes have digest `sha256:4ddca0e5392256682d0335c547675eb8680c0f
 - Caller-owned trace inspection: passed with 22 events, one run, four terminal attempts, `diagnose -> pass`, and zero diagnostics.
 - Independent review: preimplementation `timed_out -> centrally cancelled -> retry -> PASS`; implementation `timed_out -> centrally cancelled -> REVISE -> PASS`.
 - Integrated commands: the template checker passes; `npm.cmd run verify` passes format, lint, typecheck, build, package dry run, and 209 tests with zero skips.
-- Remote CI: required for the committed T010 implementation checkpoint.
+- Remote CI: GitHub Actions run `29310133523` passes Template Check and all six Node 22/24 jobs on Windows, Ubuntu, and macOS for commit `6d4e60a`.
 
 ## Review
 
@@ -130,8 +130,13 @@ T010 contributes the dogfood plan, operation evidence, observed timings, expecte
 
 ## Memory Updates
 
-Memory updates are withheld until evidence and review stabilize. T010 closeout will update active context, history, retrieval, and any durable issue or pattern discovered by the run.
+- Active context advances to T011.
+- History ledger records the measured kernel dogfood and remote gate.
+- Retrieval index points to the harness, observation, trace, run record, and RCA.
+- Known issues preserves manual external-agent liveness and one-run timing limits.
+- Failed attempts preserves both initial reviewer stalls.
+- Patterns promotes semantic measurement and evidence rebinding after remediation.
 
 ## Completion Handoff
 
-The final handoff will name the implementation commit, remote CI run, exact evidence paths, independent review progression, residual risks, and the next T011 gate. V9 remains unmerged until owner approval.
+T010 is complete at implementation commit `6d4e60a`; GitHub Actions run `29310133523` is green across all seven jobs. Source evidence is under `docs/specs/v9-devrail-kernel/evidence/`, and independent review progressed through preserved liveness failures to `REVISE -> PASS`. T011 now owns the complete acceptance audit, AC6/AC8 closure, milestone, final memory review, and owner merge gate. V9 remains unmerged.

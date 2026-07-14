@@ -188,19 +188,27 @@ Execute documented commands with their literal relative arguments and compare th
 
 Pair public-claim rejection tests with passing provenance links and truthful negations. A rule that blocks overclaims must not erase history or reject accurate limitations.
 
+### Measure Semantics, Observe Timing
+
+For workflow dogfood, assert deterministic step order, outcomes, diagnostics, mutations, recovery, and cleanup while treating duration as environment-qualified observation data. Normalize timing before repeatability comparison and require a separate benchmark design before making performance claims.
+
+### Rebind Evidence After Review
+
+When review changes code that produced a measured artifact, rerun the final implementation, replace the observation, recompute its digest, and update every binding. A previously valid report becomes stale evidence after a causal implementation fix.
+
 ### Negative Fixtures For Semantic Checks
 
 A structural checker needs permanent malformed-artifact fixtures. A positive pass proves the repository fits the checker; negative fixtures prove the checker rejects the failure modes it claims to enforce.
 
 ### Bounded Worker Recovery
 
-Parallel work needs explicit deadlines, observable worker state, typed failure outcomes, and a single integration owner who can retry, narrow, or recover a failed unit without hiding the failure.
+Parallel work needs explicit deadlines, observable worker state, typed failure outcomes, and a single integration owner who can retry, narrow, or recover a failed unit without hiding the failure. When the runtime cannot enforce the deadline, record the still-running attempt and manual closure rather than presenting the retry as automatic.
 ### Literal Replay For Generated Scripts
 
 When a generated or mechanically edited script is corrupted, restore that file from a known branch baseline and replay bounded edits through literal, boundary-checked transformations. Validate syntax after every rewrite; do not pass source containing dollar signs through regex replacement-string semantics.
 ### Pending Ownership Before Cleanup
 
-A successful filesystem create is not safe to remove until the creator captures and later rechecks its identity. Track the create-to-capture interval explicitly; when capture or ownership proof fails, preserve the path and report incomplete cleanup.
+A successful filesystem create is not safe to remove until the creator captures and later rechecks its identity. Track the create-to-capture interval explicitly; when capture or ownership proof fails, preserve the path and report incomplete cleanup. Once identity is captured, begin cleanup protection before callbacks, child creation, or any other fallible setup action.
 
 ### Barrier At The Contended Boundary
 
@@ -232,3 +240,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V9 T007 initialization plan](../specs/v9-devrail-kernel/initialization-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/initialization-orchestration-run.md) | Pending Ownership Before Cleanup; Barrier At The Contended Boundary |
 | [V9 T008 trace plan](../specs/v9-devrail-kernel/trace-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/trace-orchestration-run.md) | Bound Before Materialization; Ceiling Is Not Allocation; Executable Coverage Claims |
 | [V9 T009 public-surface plan](../specs/v9-devrail-kernel/public-surface-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/public-surface-orchestration-run.md) | Visual Semantics Are Contract; Literal Quick Start Replay; Positive Exceptions For Negative Rules |
+| [V9 T010 dogfood plan](../specs/v9-devrail-kernel/dogfood-decomposition-plan.md), [run](../specs/v9-devrail-kernel/dogfood-orchestration-run.md), and [RCA](../specs/v9-devrail-kernel/root-cause-analysis.md#t010-dogfood-review-and-cleanup-rca) | Measure Semantics, Observe Timing; Rebind Evidence After Review |

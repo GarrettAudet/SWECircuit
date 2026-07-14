@@ -2,7 +2,7 @@
 
 ## Status
 
-Complete through implementation review and local verification; remote CI pending.
+Complete; implementation review, local verification, and all seven remote CI jobs passed.
 
 ## Goal
 

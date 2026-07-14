@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Execute T010 dogfooding of the verified initialize, validate, and inspect kernel, capture measurable evidence, and map it to AC8.
+Execute T011 final verification, acceptance audit, milestone, memory closure, and owner approval preparation for V9.
 
 ## Current Stage
 
-V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 is active. The repository remains unlicensed.
+V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 dogfooding is complete at `6d4e60a` after 209 local tests, 42 checker regressions, measured failure/retry evidence, independent `REVISE -> PASS`, and GitHub Actions run `29310133523` passing all seven jobs. T011 is active. The repository remains unlicensed.
 
 ## Important Current Constraints
 
@@ -23,6 +23,8 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - Trace inspection takes one explicit repository-relative caller-owned JSONL file, does not scan the manifest, and never writes, executes, fetches, or dereferences content.
 - Trace bytes, lines, events, retained framing, evidence summaries, and read allocation are independently bounded; the byte limit is a ceiling rather than a fixed allocation.
 - Full chats, prompts, environment dumps, command output, credentials, and evidence content are excluded from traces by default.
+- T010's harness is caller-side repository support: it measures and orchestrates the three kernel operations, authors no kernel trace, and removes only an identity-rechecked run-owned temporary root.
+- T010's 2,457.835 ms result is one Node v24.14.1/Windows x64 observation, not a benchmark, threshold, or production-readiness claim.
 - Diagnostic codes, rules, severity, pointer conventions, sort order, and exit classes are frozen in schemas/v1alpha1/diagnostic-catalog.json.
 - The primary README visual is the reviewed SWECircuit target model; it explicitly attributes execution to an external IDE or agent runtime and preserves the TraceRail image only as historical provenance.
 - Pure Node cannot inspect every opaque same-path Windows reparse attribute; links, junctions, canonical divergence, regular-file state, containment, and descriptor identity remain enforced, while that native metadata boundary is explicitly deferred.
@@ -56,11 +58,16 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - A public workflow visual must encode the executor, verification order, terminology, and scaled legibility; correct adjacent prose is not enough.
 - A documented quick start should execute literal relative arguments and compare the complete example tree before and after read-only operations.
 - Negative overclaim checks need passing provenance and truthful-negation cases so they enforce honesty without erasing history.
+- Measured dogfood tests should compare stable semantics while treating elapsed time as environment-qualified observation data.
+- Every action after workspace identity capture belongs inside cleanup protection; a setup callback is still a failure boundary.
+- When review changes measured code, recapture the observation and rebind its digest instead of carrying stale evidence forward.
+- Two T010 reviewer stalls confirmed that file contracts represent liveness but cannot enforce external runtime deadlines; centralized narrowing and retry remain necessary.
+- A caller-authored trace can honestly preserve failed state and retry lineage when its source observation is content-digested and the kernel is described only as the inspector.
 
 ## Next Likely Work
 
-- Freeze a bounded T010 dogfood plan over the shipped initialize, validate, and inspect operations.
-- Execute the source-checkout example and an isolated temporary-project run while capturing commands, timings, outputs, and cleanup evidence.
-- Build a caller-owned dogfood trace only from recorded V9 events; do not imply that the kernel produced or persisted it.
-- Record friction, failures, retries, recovery, and coverage against AC8, then promote durable findings into the T011 review and memory closeout.
-- Keep V9 isolated on `codex/v9-devrail-kernel`; do not merge to `main` before T010-T011 and owner approval.
+- Audit AC1-AC8, T001-T011, architecture decisions, evidence, and current package output requirement by requirement.
+- Run the final canonical gate, full checker regressions, clean-install/package-consumer checks, and cross-platform branch CI for the T011 closeout state.
+- Complete `docs/specs/v9-devrail-kernel/review.md`, create the V9 milestone, and close AC6/AC8 only where direct evidence proves them.
+- Reconcile final history, retrieval, decisions, issues, failed attempts, patterns, glossary, and active context without erasing source evidence.
+- Prepare the owner approval and merge gate; keep V9 isolated on `codex/v9-devrail-kernel` until explicit approval.

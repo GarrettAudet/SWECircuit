@@ -6,7 +6,7 @@ In progress.
 
 ## Review Outcome
 
-Identity, architecture, schema, deterministic project validation, offline initialization, read-only trace inspection, and the public quick start passed locally and remotely. T010 dogfooding passes locally and independent review; branch CI remains its implementation gate.
+Identity, architecture, schema, deterministic project validation, offline initialization, read-only trace inspection, and the public quick start passed locally and remotely. T010 dogfooding passes locally, independently, and across all seven branch CI jobs; T011 final closure remains.
 
 ## Spec Alignment
 
@@ -30,7 +30,7 @@ T008 froze its contract through `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, 
 
 T009 froze its public contract through `REVISE -> PASS`, then integrated implementation review `REVISE -> REVISE -> PASS`. The canonical local gate passes 205 tests with zero skips. The source-checkout example executes literal relative commands and remains byte-for-byte unchanged; all 42 checker scenarios bind identity, visual, capability, navigation, and private distribution boundaries while preserving truthful provenance and negation. GitHub Actions run `29292597506` passes all seven jobs for commit `c9d7e4f`.
 
-T010 freezes one measured circuit over the three shipped operations. The final local observation records ten steps, eight kernel calls, two controlled failures, one explicit retry, 2,457.835 ms on Node v24.14.1/Windows x64, unchanged source and manifest digests, and identity-checked cleanup. Its caller-authored 22-event trace binds the observation digest and reconstructs `inspect-trace-1` failed -> `inspect-trace-2` completed with `retryOf`, plus `diagnose -> pass`. Four focused regressions cover semantic repeatability, mid-run and early-setup cleanup, path suppression, digest binding, and trace reconstruction. The canonical gate passes 209 tests with zero skips. Review progressed through two centrally recovered liveness failures, then preimplementation `PASS` and implementation `REVISE -> PASS`; remote CI is pending.
+T010 freezes one measured circuit over the three shipped operations. The final local observation records ten steps, eight kernel calls, two controlled failures, one explicit retry, 2,457.835 ms on Node v24.14.1/Windows x64, unchanged source and manifest digests, and identity-checked cleanup. Its caller-authored 22-event trace binds the observation digest and reconstructs `inspect-trace-1` failed -> `inspect-trace-2` completed with `retryOf`, plus `diagnose -> pass`. Four focused regressions cover semantic repeatability, mid-run and early-setup cleanup, path suppression, digest binding, and trace reconstruction. The canonical gate passes 209 tests with zero skips. Review progressed through two centrally recovered liveness failures, then preimplementation `PASS` and implementation `REVISE -> PASS`. GitHub Actions run `29310133523` passes all seven jobs for commit `6d4e60a`.
 
 ## Findings
 
@@ -54,4 +54,4 @@ T010 freezes one measured circuit over the three shipped operations. The final l
 
 ## Memory And Docs
 
-The T010 source package preserves the frozen dogfood contract, measured observation, content digest, caller-owned retry trace, both reviewer liveness failures, remediation evidence, four focused regressions, and the 209-test local gate. Memory and completion state advance only after branch CI passes.
+The T010 source package preserves the frozen dogfood contract, measured observation, content digest, caller-owned retry trace, both reviewer liveness failures, remediation evidence, four focused regressions, and the 209-test local gate. Branch CI passed; T010 memory and completion state now advance to the T011 final audit.
