@@ -352,16 +352,52 @@ The positive checker passes. The isolated harness passes 67 scenarios: 63 expect
 
 Validate the rendered ownership model, not merely nearby bytes. Structural locators establish where a claim belongs; logical-statement checks catch bounded contradiction families; diagnostic-bound fixtures prove the intended rule fired; independent semantic review remains the acceptance backstop.
 
+## Exact Candidate Active Markdown Ownership Review
+
+### Trigger
+
+Exact review of `b3ff0d3bd630ae2063d504f85184e34fd26c7a8a` returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS` while GitHub Actions run `29370427573` passed all six Node 22/24 operating-system jobs plus Template Check.
+
+### Evidence
+
+- Correctness and security independently showed that canonical lines or a complete table inside fenced code could satisfy raw structural locators even though the content was not active prose or a rendered table.
+- Correctness additionally showed that duplicate exact `##` or `###` owners were silently reduced to the first match, allowing a contradictory later owner to escape inspection.
+- API/documentation confirmed the prior provenance, 67-scenario arithmetic, links, current gate wording, and unchanged 275-test runtime.
+- The executable runtime, schemas, package metadata, and runtime tests remained unchanged from `9d8907a`.
+
+### Classification
+
+Inactive-Markdown ownership bypass and duplicate-owner ambiguity.
+
+### Confirmed Cause
+
+`Get-MarkdownStatements` excluded backtick fences, but section, subsection, line, and table ownership still operated on raw Markdown. The heading parser also used first-match semantics instead of requiring one unambiguous owner.
+
+### Causal Fix
+
+- Strip both backtick and tilde fenced blocks before section or subsection discovery so every downstream locator receives the same active-content view.
+- Require each exact `##` section and exact `###` subsection owner to resolve exactly once.
+- Add diagnostic-bound fixtures for a fenced grant paragraph, a fenced Current Practices table, a duplicate contract section, and a duplicate handbook subsection.
+- Cache fence-stripped text within each checker process and bypass scanning when no fence opener exists.
+
+### Regression
+
+PowerShell syntax and the positive checker pass. The final isolated harness passes 71 scenarios: 67 expected rejections and four expected acceptances. Twenty-eight parity cases now include fenced paragraph and table rejection plus duplicate section and subsection ownership. Two complete runs finished in 211.2 and 208.2 seconds; the executable runtime remains unchanged.
+
+### Durable Learning
+
+A Markdown contract owner must be active, unique, and structurally exact. Ignoring code only during semantic scanning is insufficient when ownership locators still inspect raw source.
+
 ## Checker Harness Performance Observation
 
 ### Evidence
 
-The exact post-documentation 67-scenario run completed successfully in 186.8 seconds on the current Windows workspace. An earlier run with a 120-second command ceiling reached 57 passing scenarios before the wrapper terminated it; rerunning with a larger bound completed without test changes.
+The prior 67-scenario run completed in 186.8 seconds. The first fence-aware implementation rescanned the same Markdown on every section lookup; its 69-scenario run reached 63 passing cases before the 360.4-second wrapper limit terminated it. A process-local cache plus a no-fence fast path reduced the positive checker to 2.27 seconds. The unchanged 69-case matrix completed in 199.6 seconds, and two complete 71-case runs finished in 211.2 and 208.2 seconds.
 
 ### Classification
 
-Workflow performance friction, not a correctness or isolation defect.
+Resolved checker-rescan regression plus residual fixture-copy performance friction.
 
 ### Decision
 
-Preserve one fresh repository copy and one checker process per scenario for the V10 acceptance candidate. Optimize fixture materialization only in a later bounded work item with equivalence tests, because changing isolation strategy inside this security correction would widen the reviewed surface.
+Keep the fence cache and one fresh repository copy plus one checker process per scenario for V10 acceptance. Evaluate shared-baseline fixture materialization only in a later bounded work item with equivalence and contamination tests.

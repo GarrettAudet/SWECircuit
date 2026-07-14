@@ -50,7 +50,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; `ac70efc` returned `PASS / REVISE / REVISE`; and `9209ff1` returned `PASS / REVISE / PASS`, each despite green hosted CI. The current correction targets logical-statement parsing, exact subsection and first-table-row ownership, truthful-negative preservation, and diagnostic-bound fixtures. AC8 remains open until the current exact commit passes all three reviews and hosted CI. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; `ac70efc` returned `PASS / REVISE / REVISE`; `9209ff1` returned `PASS / REVISE / PASS`; and `b3ff0d3` returned `REVISE / REVISE / PASS`, each despite green hosted CI. The current correction strips fenced content before structural parsing, requires unique exact section and subsection owners, retains first-table-row and logical-statement checks, and binds all bypass fixtures to causal diagnostics. AC8 remains open until the current exact commit passes all three reviews and hosted CI. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -137,3 +137,15 @@ The current correction structurally targets the intended contract line, rejects 
 GitHub Actions run `29366578213` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `9209ff16b9c0a77ca174eb88027676a9c91147e3`. No reviewer edited files, ran tests, or used network.
 
 The current correction models logical Markdown ownership, keys required practices to the first contiguous table, adds five preserving or bypass fixtures, and requires the intended diagnostic for every parity rejection. The local 67-scenario harness passes; the gate remains open pending exact-commit re-review and hosted CI.
+
+## Exact Candidate b3ff0d3 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | Fenced code could satisfy active contract ownership, and duplicate exact `##` or `###` owners were silently reduced to the first match. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | Structural heading, line, and table parsing inspected raw fenced content; diagnostic-bound fenced-owner fixtures were missing. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | PASS | Prior provenance, 67-scenario arithmetic, links, current gate language, and runtime non-change were accurate. |
+
+GitHub Actions run `29370427573` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `b3ff0d3bd630ae2063d504f85184e34fd26c7a8a`. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction gives every structural contract check one fence-stripped active-content view, requires unique exact section and subsection owners, and adds four diagnostic-bound bypass fixtures. The positive checker and all 71 isolated scenarios pass, including 28 parity cases. The gate remains open pending a new exact-commit review and hosted CI.

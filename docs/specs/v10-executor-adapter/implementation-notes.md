@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `9209ff1` passed all seven hosted jobs plus correctness and API/documentation review; security found physical-line contradiction bypasses, imprecise Markdown ownership, and exit-only fixture provenance. The current correction parses logical statements, enforces exact subsection or first-table-row ownership, and binds negative fixtures to expected diagnostics. Local checker evidence is green; exact-commit review and hosted CI remain. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `b3ff0d3` passed all seven hosted jobs plus API/documentation review; correctness and security found fenced-content ownership bypasses, and correctness found duplicate exact heading owners. The current correction strips fenced content before all structural lookups, requires unique section and subsection owners, and retains logical statements, first-table rows, and expected diagnostics. All 71 local scenarios pass; exact-commit review and hosted CI remain. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -28,7 +28,9 @@ The first postimplementation review returned three `REVISE` verdicts despite a g
 
 Exact review of `e3453e0` then found a remaining settlement-ownership interval and imprecise no-call documentation. The observer now detaches and normalizes fulfillment before timestamping it, a resolve-then-mutate regression protects that boundary, and active guidance distinguishes no-call terminal certainty from post-invocation, contract-compliant promise settlement acknowledgment.
 
-Subsequent exact candidates exposed progressively wider documentation drift: lifecycle synonyms, an unqualified ADR rule, security-significant grant adjectives, secondary public summaries, and finally missing promise-liveness and grant prerequisites across several surfaces in `b2d73e7`. The current correction promotes an ADR-to-surface matrix, public contract parity practice, and checker fixtures so the same defect cannot pass as prose-only consistency.
+Subsequent exact candidates exposed progressively wider documentation drift: lifecycle synonyms, an unqualified ADR rule, security-significant grant adjectives, secondary public summaries, and finally missing promise-liveness and grant prerequisites across several surfaces in `b2d73e7`. Later parity candidates exposed contradiction, logical-line, first-table, fenced-content, and duplicate-owner bypasses. The current correction promotes an ADR-to-surface matrix, public contract parity practice, and checker fixtures so the same defect cannot pass as prose-only consistency.
+
+The first fence-aware parser rescanned Markdown for every section lookup and caused a 69-scenario run to exceed 360 seconds. A process-local cache and no-fence fast path restored the positive checker to 2.27 seconds while preserving isolated fixtures; two complete 71-case runs finished in 211.2 and 208.2 seconds.
 
 ## Assumptions Used
 
@@ -59,7 +61,8 @@ Subsequent exact candidates exposed progressively wider documentation drift: lif
 - Candidate `b2d73e7` passed all seven jobs in run `29361203381`; all three reviewers returned `REVISE` for cross-surface promise-liveness drift and incomplete packaged grant non-guarantees.
 - Candidate `ac70efc` passed all seven jobs in GitHub Actions run `29364033724`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `9209ff1` passed all seven jobs in GitHub Actions run `29366578213`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `PASS`.
-- The current documentation-and-checker correction passes the positive checker and all 67 scenarios, comprising 63 expected rejections and four expected acceptances. Twenty-four parity cases cover missing terms, relocation, contradictions, logical-line normalization, exact table ownership, truthful negatives, and diagnostic provenance. Exact-commit review and hosted CI remain.
+- Candidate `b3ff0d3` passed all seven jobs in GitHub Actions run `29370427573`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS`.
+- The current documentation-and-checker correction passes the positive checker and all 71 scenarios, comprising 67 expected rejections and four expected acceptances. Twenty-eight parity cases cover missing terms, relocation, contradictions, logical statements, exact first-table ownership, truthful negatives, causal diagnostics, fenced content, and unique heading owners. Exact-commit review and hosted CI remain.
 
 ## Durable Learnings
 

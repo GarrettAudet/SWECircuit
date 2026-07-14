@@ -72,16 +72,78 @@ function Test-NoUnresolvedPlaceholders {
     }
 }
 
+$script:markdownFenceCache = [System.Collections.Generic.Dictionary[string, string]]::new(
+    [System.StringComparer]::Ordinal
+)
+
+function Remove-MarkdownFencedContent {
+    param([string]$Text)
+
+    $cachedText = ""
+    if ($script:markdownFenceCache.TryGetValue($Text, [ref]$cachedText)) {
+        return $cachedText
+    }
+
+    if ($Text -notmatch '(?m)^[ ]{0,3}(?:`{3,}|~{3,})') {
+        $script:markdownFenceCache[$Text] = $Text
+        return $Text
+    }
+
+    $visibleLines = New-Object System.Collections.Generic.List[string]
+    $inFence = $false
+    $fenceCharacter = [char]0
+    $fenceLength = 0
+
+    foreach ($line in @($Text -split "\r?\n")) {
+        if (-not $inFence) {
+            $opening = [regex]::Match($line, '^[ ]{0,3}(?<marker>`{3,}|~{3,})(?<info>.*)$')
+            if (-not $opening.Success) {
+                $visibleLines.Add($line) | Out-Null
+                continue
+            }
+
+            $marker = $opening.Groups['marker'].Value
+            $info = $opening.Groups['info'].Value
+            if ($marker[0] -eq [char]96 -and $info.Contains('`')) {
+                $visibleLines.Add($line) | Out-Null
+                continue
+            }
+
+            $inFence = $true
+            $fenceCharacter = $marker[0]
+            $fenceLength = $marker.Length
+            $visibleLines.Add("") | Out-Null
+            continue
+        }
+
+        $closing = [regex]::Match($line, '^[ ]{0,3}(?<marker>`{3,}|~{3,})[ \t]*$')
+        if ($closing.Success) {
+            $marker = $closing.Groups['marker'].Value
+            if ($marker[0] -eq $fenceCharacter -and $marker.Length -ge $fenceLength) {
+                $inFence = $false
+                $fenceCharacter = [char]0
+                $fenceLength = 0
+            }
+        }
+        $visibleLines.Add("") | Out-Null
+    }
+
+    $visibleText = $visibleLines -join "`n"
+    $script:markdownFenceCache[$Text] = $visibleText
+    return $visibleText
+}
+
 function Get-MarkdownSection {
     param(
         [string]$Text,
         [string]$Heading
     )
 
+    $visibleText = Remove-MarkdownFencedContent $Text
     $escaped = [regex]::Escape($Heading)
-    $match = [regex]::Match($Text, "(?ms)^##[ \t]+$escaped[ \t]*(?:\r?\n|\z)(.*?)(?=^##[ \t]+|\z)")
-    if ($match.Success) {
-        return $match.Groups[1].Value.Trim()
+    $matches = [regex]::Matches($visibleText, "(?ms)^##[ \t]+$escaped[ \t]*(?:\r?\n|\z)(.*?)(?=^##[ \t]+|\z)")
+    if ($matches.Count -eq 1) {
+        return $matches[0].Groups[1].Value.Trim()
     }
     return ""
 }
@@ -107,12 +169,12 @@ function Get-MarkdownScopedContent {
     }
 
     $escaped = [regex]::Escape($SubsectionName)
-    $subsection = [regex]::Match($section, "(?ms)^###[ \t]+$escaped[ \t]*(?:\r?\n|\z)(.*?)(?=^###[ \t]+|\z)")
-    if (-not $subsection.Success) {
+    $subsections = [regex]::Matches($section, "(?ms)^###[ \t]+$escaped[ \t]*(?:\r?\n|\z)(.*?)(?=^###[ \t]+|\z)")
+    if ($subsections.Count -ne 1) {
         return ""
     }
 
-    $content = $subsection.Groups[1].Value.Trim()
+    $content = $subsections[0].Groups[1].Value.Trim()
     $nestedHeading = [regex]::Match($content, '(?m)^#{4,6}\s+')
     if ($nestedHeading.Success) {
         return $content.Substring(0, $nestedHeading.Index).Trim()
@@ -123,24 +185,12 @@ function Get-MarkdownScopedContent {
 function Get-MarkdownStatements {
     param([string]$Content)
 
+    $Content = Remove-MarkdownFencedContent $Content
     $chunks = New-Object System.Collections.Generic.List[string]
     $buffer = New-Object System.Collections.Generic.List[string]
-    $inFence = $false
 
     foreach ($line in @($Content -split "\r?\n")) {
         $trimmed = $line.Trim()
-
-        if ($trimmed.StartsWith('```', [System.StringComparison]::Ordinal)) {
-            if ($buffer.Count -gt 0) {
-                $chunks.Add(($buffer -join " ").Trim()) | Out-Null
-                $buffer.Clear()
-            }
-            $inFence = -not $inFence
-            continue
-        }
-        if ($inFence) {
-            continue
-        }
 
         if ([string]::IsNullOrWhiteSpace($trimmed) -or $trimmed -match '^#{1,6}\s+') {
             if ($buffer.Count -gt 0) {

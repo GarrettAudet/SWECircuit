@@ -403,6 +403,34 @@ try {
     Write-Utf8 $practiceInsidePath $practiceInsideText
     Assert-CheckerResult "accepted practice below first Current Practices table" $practiceInsideFixture $false "Contract table row"
 
+    $fencedPracticeFixture = New-Fixture "practice-current-table-fenced"
+    $fencedPracticePath = Join-Path $fencedPracticeFixture "docs\research\practice-register.md"
+    $fencedPracticeText = Get-Content -LiteralPath $fencedPracticePath -Raw
+    $practiceTableHeader = "| Practice | Status | Source | Decision | Rationale |"
+    $practiceTableStart = $fencedPracticeText.IndexOf($practiceTableHeader, [System.StringComparison]::Ordinal)
+    $practiceTableEndMarker = [Environment]::NewLine + [Environment]::NewLine + "## Promotion Criteria"
+    $practiceTableEnd = $fencedPracticeText.IndexOf(
+        $practiceTableEndMarker,
+        $practiceTableStart,
+        [System.StringComparison]::Ordinal
+    )
+    if ($practiceTableStart -lt 0 -or $practiceTableEnd -lt 0) {
+        throw "Fenced-practice fixture could not find the Current Practices table."
+    }
+    $practiceTable = $fencedPracticeText.Substring(
+        $practiceTableStart,
+        $practiceTableEnd - $practiceTableStart
+    )
+    $fencedPracticeTable = "~~~markdown" + [Environment]::NewLine +
+        $practiceTable + [Environment]::NewLine +
+        "~~~"
+    $fencedPracticeText = $fencedPracticeText.Remove(
+        $practiceTableStart,
+        $practiceTable.Length
+    ).Insert($practiceTableStart, $fencedPracticeTable)
+    Write-Utf8 $fencedPracticePath $fencedPracticeText
+    Assert-CheckerResult "accepted practices hidden in fenced table" $fencedPracticeFixture $false "Contract table scope"
+
     $lifecycleAnchor = "For invoked work, the executor promise must remain pending until all activity capable of advancing the invocation or producing invocation effects has stopped. Transferring live work to host ownership is not acknowledgment. Harmless cleanup may continue only when it cannot affect the packet, exercise invocation authority, or produce invocation evidence."
     $lifecycleContradictions = @(
         @{ Name = "timely-settlement-proves-stopped"; Claim = "Timely settlement proves all invocation activity has stopped." },
@@ -534,6 +562,49 @@ try {
     )
     Write-Utf8 $grantRelocationPath $grantRelocationText
     Assert-CheckerResult "executor grant disclaimer relocated within section" $grantRelocationFixture $false "Contract locator"
+
+    $fencedGrantFixture = New-Fixture "executor-grant-contract-fenced"
+    $fencedGrantPath = Join-Path $fencedGrantFixture "docs\framework\executor-boundary.md"
+    $fencedGrantText = Get-Content -LiteralPath $fencedGrantPath -Raw
+    if (-not $fencedGrantText.Contains($grantAnchor)) {
+        throw "Fenced-grant fixture could not find the intended contract line."
+    }
+    $fencedGrantContract = '```text' + [Environment]::NewLine +
+        $grantAnchor + [Environment]::NewLine +
+        '```'
+    $fencedGrantText = $fencedGrantText.Replace($grantAnchor, $fencedGrantContract)
+    Write-Utf8 $fencedGrantPath $fencedGrantText
+    Assert-CheckerResult "executor grant contract hidden in fence" $fencedGrantFixture $false "Contract locator"
+
+    $duplicateSectionFixture = New-Fixture "executor-result-semantics-duplicate-owner"
+    $duplicateSectionPath = Join-Path $duplicateSectionFixture "docs\framework\executor-boundary.md"
+    $duplicateSectionText = Get-Content -LiteralPath $duplicateSectionPath -Raw
+    $duplicateSectionText = $duplicateSectionText.TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        "## Result Semantics" + [Environment]::NewLine + [Environment]::NewLine +
+        "Timely settlement confirms all invocation activity has stopped." +
+        [Environment]::NewLine
+    Write-Utf8 $duplicateSectionPath $duplicateSectionText
+    Assert-CheckerResult "duplicate executor contract section" $duplicateSectionFixture $false "Contract locator"
+
+    $duplicateSubsectionFixture = New-Fixture "handbook-executor-duplicate-subsection"
+    $duplicateSubsectionPath = Join-Path $duplicateSubsectionFixture "docs\ai\handbook.md"
+    $duplicateSubsectionText = Get-Content -LiteralPath $duplicateSubsectionPath -Raw
+    $nextHandbookSection = "## 21. Starting A New Feature"
+    if (-not $duplicateSubsectionText.Contains($nextHandbookSection)) {
+        throw "Duplicate-subsection fixture could not find the next handbook section."
+    }
+    $duplicateSubsectionOwner = "### Bounded Executor Boundary" +
+        [Environment]::NewLine + [Environment]::NewLine +
+        "Settlement confirms invocation work has stopped." +
+        [Environment]::NewLine + [Environment]::NewLine +
+        $nextHandbookSection
+    $duplicateSubsectionText = $duplicateSubsectionText.Replace(
+        $nextHandbookSection,
+        $duplicateSubsectionOwner
+    )
+    Write-Utf8 $duplicateSubsectionPath $duplicateSubsectionText
+    Assert-CheckerResult "duplicate handbook contract subsection" $duplicateSubsectionFixture $false "Contract locator"
 
     $debugFixture = New-Fixture "missing-debug-evidence"
     $debugPath = Join-Path $debugFixture "docs\specs\v8-readme-visual-clarity\debug-notes.md"

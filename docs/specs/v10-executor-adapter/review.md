@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `9209ff1` passed all seven hosted jobs in run `29366578213`; correctness and API/documentation returned `PASS`, while security returned `REVISE` because physical-line contradiction checks could be bypassed by soft wrapping or synonyms and practice locators did not prove first-table row ownership. The current correction parses logical Markdown statements, binds claims to exact section/subsection owners or keyed rows in the first contiguous table, and requires the expected diagnostic in negative fixtures. Local checker evidence is green; exact-commit review and hosted CI remain. V10 is not merged.
+Candidate `b3ff0d3` passed all seven hosted jobs in run `29370427573`; API/documentation returned `PASS`, while correctness and security returned `REVISE` because fenced canonical content could satisfy raw ownership locators and duplicate exact headings were ambiguous. The current correction strips fenced content before structural parsing, requires each exact section or subsection owner to occur once, and retains logical-statement, first-table-row, and causal-diagnostic checks. All 71 local checker scenarios pass; exact-commit review and hosted CI remain. V10 is not merged.
 
 ## Review Outcome
 
@@ -14,7 +14,7 @@ Candidate `dbbeeb1` corrected the full cancellation claim family and passed host
 
 Candidate `4c6818d` corrected those sources and passed hosted CI. Exact review then found that two public summaries still compressed invocation-scoped identity checking into apparent single use, the packaged guide omitted the full settlement prerequisite for terminal certainty, and two accepted practices rendered outside their table.
 
-Candidate `b2d73e7` corrected those findings and passed hosted CI, but all three reviewers found that the prerequisite still had not reached every public summary and that the packaged grant explanation still lacked a standalone complete disclaimer. Candidate `ac70efc` added the ADR-to-surface matrix and executable parity fixtures; its exact review then exposed the need for target-line enforcement, contradiction rejection, and invariant acceptance-state wording. Candidate `9209ff1` corrected those issues and passed hosted CI plus correctness and API/documentation review; security then demonstrated logical-line and exact-table-ownership bypasses that the current correction addresses.
+Candidate `b2d73e7` corrected those findings and passed hosted CI, but all three reviewers found that the prerequisite still had not reached every public summary and that the packaged grant explanation still lacked a standalone complete disclaimer. Candidate `ac70efc` added the ADR-to-surface matrix and executable parity fixtures; its exact review then exposed the need for target-line enforcement, contradiction rejection, and invariant acceptance-state wording. Candidate `9209ff1` corrected those issues and passed hosted CI plus correctness and API/documentation review; security then demonstrated logical-line and exact-table-ownership bypasses. Candidate `b3ff0d3` corrected those gaps and again passed hosted CI, but correctness and security proved that raw fenced content and duplicate heading owners still bypassed active ownership. The current correction addresses both at the shared Markdown scope boundary.
 
 ## Spec Alignment
 
@@ -44,7 +44,8 @@ The implementation follows ADR 0002:
 - Candidate `b2d73e7` passed all seven jobs in GitHub Actions run `29361203381`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `ac70efc` passed all seven jobs in GitHub Actions run `29364033724`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `9209ff1` passed all seven jobs in GitHub Actions run `29366578213`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `PASS`.
-- Local gate: fresh `npm.cmd run verify` passes format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the clean offline consumer. The positive checker and all 67 isolated scenarios pass, comprising 63 expected rejections and four expected acceptances; 24 are public-contract parity cases. The executable runtime is unchanged, and exact-commit review plus hosted CI remain before closeout.
+- Candidate `b3ff0d3` passed all seven jobs in GitHub Actions run `29370427573`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS` for fenced-content and duplicate-owner bypasses.
+- Local gate: the positive checker and all 71 isolated scenarios pass, comprising 67 expected rejections and four expected acceptances; 28 are public-contract parity cases. The latest complete checker run finished in 208.2 seconds. The executable runtime is unchanged, and exact-commit review plus hosted CI remain before closeout.
 
 ## Findings
 
@@ -74,6 +75,8 @@ The implementation follows ADR 0002:
 | Gate | Candidate-dependent status prose became stale as soon as the candidate under review existed. | Describe the invariant acceptance gate instead: exact-commit review and hosted CI remain pending until recorded, without requiring an unnamed future commit. |
 | Gate | Physical-line contradiction checks missed soft-wrapped or synonymous claims and could reject truthful negatives. | Parse normalized logical statements, test named synonyms and soft wraps, preserve truthful-negative acceptance fixtures, and keep human semantic review as the final defense. |
 | Gate | Broad section scans and exit-only fixtures did not prove active subsection ownership, first-table row membership, or failure provenance. | Bind paragraph contracts to exact `##`/`###` scopes, bind practice contracts to keyed rows in the first contiguous table, and require the expected diagnostic in each negative fixture. |
+| Gate | Raw structural parsing let canonical paragraphs or complete tables inside fenced code satisfy active contract ownership. | Strip backtick and tilde fenced blocks before section, subsection, line, or table discovery; add diagnostic-bound fenced paragraph and table fixtures. |
+| Gate | Duplicate exact section or subsection owners were silently reduced to the first match. | Require exactly one matching `##` section and, where used, exactly one matching `###` subsection; reject duplicate-owner fixtures containing contradictory claims. |
 
 ## Residual Risks
 
