@@ -13,14 +13,14 @@ In progress.
 | AC3 | Semantic graph fixtures for references, outcomes, cycles, fan-out, fan-in, ownership, and stop conditions |
 | AC4 | Bound T008 cases for success, retry, explicit timeout, cancellation, failed handoff, causality, every transition, and all terminal states |
 | AC5 | Per-operation dynamic network/process traps with no optional adapter installed |
-| AC6 | Format, type, unit, integration, fixture, build, package, and CI platform checks |
+| AC6 | Format, lint, type, unit, integration, fixture, build, package dry run, clean init, isolated packed consumer, and CI platform checks |
 | AC7 | README quick-start execution plus manual current-versus-target claim review |
 | AC8 | V9 source package, V8.2 dogfood trace, review, milestone, history, retrieval, and memory audit |
 
 ## Automated Checks
 
 - Unit: schema utilities, diagnostics, graph rules, event state, redaction, and command behavior.
-- Integration: initialize, validate, inspect, package execution, clean install, and cross-platform path behavior.
+- Integration: initialize, validate, inspect, package execution, lockfile-driven offline clean install, isolated packed consumption, and cross-platform path behavior.
 - E2E: documented quick start in a temporary repository.
 - Typecheck: required for all executable source.
 - Lint: required for source, tests, and configuration.
@@ -41,6 +41,7 @@ In progress.
 - Cover success, retry, explicit timeout, cancellation, failed handoff, causation, interleaved runs, bounded summaries, and renderer-only CLI behavior directly.
 - Portability evidence is GitHub Actions run `29288359476`, which passes Node 22 and 24 on Ubuntu, Windows, and macOS.
 - T010 permanently exercises measured semantic replay, expected `SC1001` recovery, `SC1021` collision preservation, source-tree immutability, mid-run and post-capture cleanup, report path suppression, observation digest binding, and exact retry-trace reconstruction.
+- T011 makes clean package consumption a canonical gate: required packed files, forbidden source paths, private/no-`bin` metadata, exact production-lock closure, offline installation, isolated module resolution, all three shipped operations, and identity-checked cleanup must pass.
 
 ## Skipped Checks
 
@@ -56,3 +57,5 @@ T010 raises the canonical suite to 209 tests. Its repository-local harness execu
 GitHub Actions run `29292597506` passes Template Check and all six Node 22/24 kernel jobs across Ubuntu, Windows, and macOS for T009 commit `c9d7e4f`.
 
 GitHub Actions run `29310133523` passes the same seven-job matrix for T010 implementation commit `6d4e60a`.
+
+T011 local evidence passes `npm.cmd run verify` with 209 tests and the new packed-consumer gate, plus the positive checker and all 42 checker scenarios. Cross-platform branch CI and a returned independent review verdict remain required before AC6 closes.

@@ -90,3 +90,29 @@ Two read-only reviewer attempts exceeded the integration owner's bounded handoff
 ### Durable Boundary
 
 V9 can validate and reconstruct typed liveness evidence but cannot make an external agent runtime honor deadlines. Runtime enforcement remains future adapter or orchestrator work. Cleanup guarantees begin only after identity capture; if identity capture itself fails, conservative preservation remains safer than unproven deletion.
+## T011 Packed-Consumer Gate RCA
+
+### Trigger
+
+AC6 named clean-package and clean-consumer checks, but the existing canonical gate only performed a package dry run and source-checkout execution.
+
+### Confirmed Root Causes
+
+- A Windows command shim is not a portable direct `spawnSync` executable in this host; npm's JavaScript entrypoint is the stable shell-free boundary available inside an npm script.
+- The sandbox does not permit npm to mutate the user-profile cache, so cache ownership must remain inside the workspace.
+- `npm ci` warms exact tarball content from the root lock without necessarily caching registry package metadata. A loose offline install still asks the resolver for that metadata.
+
+### Smallest Causal Fix
+
+- Invoke `npm_execpath` through `process.execPath`.
+- Set the project cache to ignored `.local/npm-cache` and pass it explicitly inside the isolated consumer.
+- Pack the private repository artifact, derive only the production dependency closure from the pinned root lock, generate an isolated consumer lock with exact resolved URLs and integrities, and run `npm ci --offline`.
+- Execute the installed library from the consumer's `node_modules`, verify init, validate, and inspect, and remove only the identity-rechecked run-owned temporary root.
+
+### Regression Coverage
+
+`npm run verify` now includes the packed-consumer check after format, lint, typecheck, 209 tests, build, and package inspection. The check fails if required package files are absent, source/test/script files ship, package metadata gains a `bin`, installation needs the registry, module resolution escapes the consumer package, any shipped operation fails, or cleanup identity changes.
+
+### Durable Boundary
+
+This is a private artifact-consumption check, not package publication, registry ownership, or public CLI evidence. The root `npm ci` must warm the ignored repository-local cache before the explicitly offline consumer install. Cross-platform proof remains branch-CI evidence rather than a local inference.

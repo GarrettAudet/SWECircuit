@@ -6,6 +6,7 @@
       "test/**",
       "schemas/**",
       "scripts/run-v9-dogfood.mjs",
+      "scripts/check-packed-consumer.mjs",
       "package.json",
       "tsconfig.json",
       "biome.json"
