@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Present the completed V9 executable kernel for owner approval. Keep `codex/v9-devrail-kernel` unmerged until the owner explicitly approves the merge.
+Use the owner-approved V9 kernel on `main` as the stable baseline for V10 intake and dogfooding.
 
 ## Current Stage
 
-V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 dogfooding is complete at `6d4e60a` after 209 local tests, 42 checker regressions, measured failure/retry evidence, independent `REVISE -> PASS`, and GitHub Actions run `29310133523` passing all seven jobs. T011 is complete. Package-gate commit `0341345` passes 209 local tests, the private packed-consumer gate, all 42 checker scenarios, package-review `PASS`, and GitHub Actions run `29312736158`. Final closeout review returned `REVISE`, then immutable candidate `0717c91` passed all seven jobs in run `29314459583` and independent re-review returned `PASS` with no findings. AC1-AC8 and T001-T011 are complete; milestone V9 is ready for owner approval. The repository remains unlicensed.
+V9 is now the stable `main` baseline at `3c7a876` after owner approval and all seven jobs passed in GitHub Actions run `29316575767`. V8.2 was the prior baseline at `5caaa29`. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 dogfooding is complete at `6d4e60a` after 209 local tests, 42 checker regressions, measured failure/retry evidence, independent `REVISE -> PASS`, and GitHub Actions run `29310133523` passing all seven jobs. T011 is complete. Package-gate commit `0341345` passes 209 local tests, the private packed-consumer gate, all 42 checker scenarios, package-review `PASS`, and GitHub Actions run `29312736158`. Final closeout review returned `REVISE`, then immutable candidate `0717c91` passed all seven jobs in run `29314459583` and independent re-review returned `PASS` with no findings. AC1-AC8 and T001-T011 are complete; milestone V9 is merged to `main` and is now the dogfood baseline. The repository remains unlicensed.
 
 ## Important Current Constraints
 
@@ -30,7 +30,7 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - Pure Node cannot inspect every opaque same-path Windows reparse attribute; links, junctions, canonical divergence, regular-file state, containment, and descriptor identity remain enforced, while that native metadata boundary is explicitly deferred.
 - Pure Node initialization cannot atomically bind directory creation to first identity capture or final identity checks to pathname removal. X07 names both malicious replacement windows; pending creations force `SC1022`, and detected mismatches are preserved.
 - Public reuse remains legally unclear until the owner selects a license.
-- Main remains the stable V8.2 baseline while completed V9 stays isolated on `codex/v9-devrail-kernel` behind the explicit owner merge gate.
+- `main` contains the owner-approved V9 kernel at `3c7a876`; future version work must branch from the merge-provenance baseline.
 
 ## Recently Learned
 
@@ -71,8 +71,7 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 
 ## Next Likely Work
 
-- Present the V9 milestone overview, exact branch, candidate commit, CI evidence, residual risks, and merge decision to the owner.
-- If approved, merge `codex/v9-devrail-kernel` to `main`, verify main CI, and make V9 the current dogfood baseline.
-- Start the next version on a new `codex/vVERSION-slug` branch with a feature package and V9 contracts.
-- Prefer one bounded executor adapter or work-packet handoff as the next vertical slice; do not move provider execution or merge authority into the kernel without a new ADR.
+- Create a dedicated V10 branch from the merge-provenance baseline and dogfood V9 through a new feature package.
+- Research and specify the smallest provider-neutral external executor or bounded work-packet handoff before changing runtime authority.
+- Do not move provider execution or merge authority into the kernel without a new ADR.
 - Resolve licensing before broad external reuse or package distribution.
