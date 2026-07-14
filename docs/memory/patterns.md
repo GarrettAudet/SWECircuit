@@ -236,7 +236,7 @@ Before invocation, prove that every manifest request is granted, every grant ent
 
 ### Honest Abort State
 
-Treat cancellation as observed protocol state, not a wish. An abort or deadline that wins before invocation can be terminal because no executor work started. After invocation, emit a terminal cancellation or timeout only when settlement is observed before an acknowledgment bound anchored to the abort observation; otherwise retain a non-terminal potentially-live state.
+Treat cancellation as observed protocol state, not a wish. An abort or deadline that wins before invocation can be terminal because no executor work started. After invocation, emit a terminal cancellation or timeout only when settlement is observed before an acknowledgment bound anchored to the abort observation and the executor promise remained pending until all activity capable of advancing the invocation or producing invocation effects has stopped. Transfer of live work is not acknowledgment; otherwise retain a non-terminal potentially-live state.
 
 ### Absolute Monotonic Bound
 
@@ -260,11 +260,11 @@ A focused review file list does not prove repository-wide semantic consistency, 
 
 ### Guarantee-Calibrated Adjectives
 
-Use lifecycle and security adjectives only when the system enforces their implied guarantees. Invocation-scoped describes identity binding; it must not be shortened to ephemeral, fresh, single-use, authenticated, revoked, isolated, sandboxed, or replay-resistant unless the implementation can prove that property.
+Use lifecycle and security adjectives only when the system enforces their implied guarantees. Invocation-scoped describes identity binding; it must not be shortened to ephemeral, fresh, single-use, authenticated, revoked, isolated, sandboxed, or replay-resistant unless the implementation can prove that property. The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay.
 
 ### Public Contract Surface Parity
 
-Treat installed guides, schema READMEs, feature summaries, and governance tables as public contract surfaces. Carry each ADR prerequisite and explicit non-guarantee into consumer-facing summaries, and verify structural placement as well as text presence; a truthful phrase outside its intended table or without its precondition is still a defective contract.
+Treat installed guides, schema READMEs, feature summaries, and governance tables as public contract surfaces. Maintain an ADR-to-surface matrix for security- and lifecycle-significant claims, carry every prerequisite and explicit non-guarantee into each consumer-facing summary, and back the mapping with checker rules plus isolated negative fixtures. Verify structural placement as well as text presence; a truthful phrase outside its intended table or without its precondition is still a defective contract.
 
 ## Source Map
 
@@ -296,4 +296,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V9 T010 dogfood plan](../specs/v9-devrail-kernel/dogfood-decomposition-plan.md), [run](../specs/v9-devrail-kernel/dogfood-orchestration-run.md), and [RCA](../specs/v9-devrail-kernel/root-cause-analysis.md#t010-dogfood-review-and-cleanup-rca) | Measure Semantics, Observe Timing; Rebind Evidence After Review |
 | [V9 T011 final plan](../specs/v9-devrail-kernel/final-acceptance-decomposition-plan.md), [run](../specs/v9-devrail-kernel/final-acceptance-orchestration-run.md), and [RCA](../specs/v9-devrail-kernel/root-cause-analysis.md#t011-packed-consumer-gate-rca) | Lockfile-Driven Offline Consumer; Positive Read Authority; Immutable Acceptance Candidate |
 | [V10 ADR](../architecture/decisions/0002-bounded-executor-boundary.md), [implementation review](../specs/v10-executor-adapter/review.md), [postimplementation RCA](../specs/v10-executor-adapter/root-cause-analysis.md#postimplementation-timing-and-reflection-rca), [exact-candidate RCA](../specs/v10-executor-adapter/root-cause-analysis.md#exact-candidate-settlement-detachment-rca), [first closeout audit](../specs/v10-executor-adapter/debug-notes.md#closeout-contract-surface-audit), [expanded claim-family audit](../specs/v10-executor-adapter/debug-notes.md#expanded-claim-family-audit), and [broad semantic review](../specs/v10-executor-adapter/debug-notes.md#broad-semantic-and-authority-term-review) | Host-Injected Executor Port; Three-Direction Permission Coverage; Honest Abort State; Absolute Monotonic Bound; Proxy Before Reflection; Independent Declaration Consumer; Snapshot And Timestamp Together; Whole-Contract Closeout Search; Guarantee-Calibrated Adjectives |
-| [V10 public-contract parity review](../specs/v10-executor-adapter/debug-notes.md#exact-candidate-public-contract-parity-review) and [RCA](../specs/v10-executor-adapter/root-cause-analysis.md#public-contract-parity-and-register-structure-addendum) | Public Contract Surface Parity |
+| [V10 public-contract parity reviews](../specs/v10-executor-adapter/debug-notes.md#exact-candidate-public-contract-parity-review), [cross-surface matrix](../specs/v10-executor-adapter/debug-notes.md#exact-candidate-cross-surface-settlement-review), and [RCA](../specs/v10-executor-adapter/root-cause-analysis.md#cross-surface-contract-parity-addendum) | Public Contract Surface Parity |

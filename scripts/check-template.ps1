@@ -510,6 +510,7 @@ $requiredFiles = @(
     "docs/framework/module-registry.md",
     "docs/framework/orchestration-patterns.md",
     "docs/framework/capability-adapters.md",
+    "docs/framework/executor-boundary.md",
     "docs/framework/_module-template.md",
     "docs/framework/_decomposition-plan-template.md",
     "docs/framework/_adapter-evaluation-template.md",
@@ -544,6 +545,7 @@ $requiredFiles = @(
     "examples/minimal/README.md",
     "examples/minimal/swecircuit.json",
     "examples/minimal/traces/example.jsonl",
+    "schemas/v1alpha1/README.md",
     "docs/specs/_template/spec.md",
     "docs/specs/_template/plan.md",
     "docs/specs/_template/tasks.md",
@@ -570,6 +572,95 @@ $requiredFiles = @(
 
 foreach ($file in $requiredFiles) {
     Test-FileExists $file | Out-Null
+}
+
+$executorLivenessPhrase = "all activity capable of advancing the invocation or producing invocation effects has stopped"
+$executorLivenessSurfaces = @(
+    @{ RelativePath = "docs/framework/executor-boundary.md"; SectionName = "Result Semantics" },
+    @{ RelativePath = "schemas/v1alpha1/README.md"; SectionName = "Execution Boundary" },
+    @{ RelativePath = "docs/ai/handbook.md"; SectionName = "20. Modular Orchestration Framework" },
+    @{ RelativePath = "docs/framework/capability-adapters.md"; SectionName = "Provider Executor Bridge" },
+    @{ RelativePath = "docs/research/practice-register.md"; SectionName = "Current Practices" },
+    @{ RelativePath = "docs/memory/patterns.md"; SectionName = "Documentation Patterns" },
+    @{ RelativePath = "docs/specs/v10-executor-adapter/spec.md"; SectionName = "Requirements" },
+    @{ RelativePath = "docs/specs/v10-executor-adapter/plan.md"; SectionName = "Risks And Mitigations" },
+    @{ RelativePath = "docs/memory/active-context.md"; SectionName = "Important Current Constraints" }
+)
+foreach ($surface in $executorLivenessSurfaces) {
+    Test-SectionContains $surface.RelativePath $surface.SectionName @(
+        $executorLivenessPhrase,
+        "not acknowledgment"
+    )
+}
+
+$grantNonGuaranteeSentence = "The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay."
+$grantGuaranteeSurfaces = @(
+    @{
+        RelativePath = "docs/framework/executor-boundary.md"
+        SectionName = "Host Responsibilities"
+        Terms = @($grantNonGuaranteeSentence)
+    },
+    @{
+        RelativePath = "schemas/v1alpha1/README.md"
+        SectionName = "Execution Boundary"
+        Terms = @($grantNonGuaranteeSentence)
+    },
+    @{
+        RelativePath = "docs/ai/handbook.md"
+        SectionName = "20. Modular Orchestration Framework"
+        Terms = @($grantNonGuaranteeSentence)
+    },
+    @{
+        RelativePath = "docs/framework/capability-adapters.md"
+        SectionName = "Provider Executor Bridge"
+        Terms = @($grantNonGuaranteeSentence)
+    },
+    @{
+        RelativePath = "docs/research/practice-register.md"
+        SectionName = "Current Practices"
+        Terms = @($grantNonGuaranteeSentence)
+    },
+    @{
+        RelativePath = "docs/memory/patterns.md"
+        SectionName = "Documentation Patterns"
+        Terms = @($grantNonGuaranteeSentence)
+    },
+    @{
+        RelativePath = "docs/specs/v10-executor-adapter/spec.md"
+        SectionName = "Requirements"
+        Terms = @($grantNonGuaranteeSentence)
+    },
+    @{
+        RelativePath = "docs/specs/v10-executor-adapter/plan.md"
+        SectionName = "Security And Privacy"
+        Terms = @($grantNonGuaranteeSentence)
+    },
+    @{
+        RelativePath = "docs/memory/active-context.md"
+        SectionName = "Important Current Constraints"
+        Terms = @($grantNonGuaranteeSentence)
+    }
+)
+foreach ($surface in $grantGuaranteeSurfaces) {
+    Test-SectionContains $surface.RelativePath $surface.SectionName $surface.Terms
+}
+
+Test-SectionTableColumns "docs/research/practice-register.md" "Current Practices" @(
+    "Practice",
+    "Status",
+    "Source",
+    "Decision",
+    "Rationale"
+)
+Test-SectionContains "docs/research/practice-register.md" "Current Practices" @(
+    "Absolute monotonic lifecycle bounds",
+    "Proxy rejection before reflection",
+    "Public contract parity checks"
+)
+$practiceRegister = Read-Text (Join-Path $Root "docs/research/practice-register.md")
+$rejectionCriteria = Get-MarkdownSection $practiceRegister "Rejection Criteria"
+if ($rejectionCriteria -match '(?m)^\s*\|') {
+    Add-Failure "Practice Register rows must remain inside Current Practices and must not appear under Rejection Criteria"
 }
 
 Test-HasHeadings "README.md" @(

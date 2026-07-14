@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `4c6818d` passed hosted CI and security review, but correctness and API/documentation returned `REVISE` for single-use implications in public grant wording, an omitted executor-promise liveness precondition in the packaged guide, and two accepted practices outside the register table. The defects are corrected; another exact docs-only candidate remains required.
+Candidate `b2d73e7` passed all seven hosted jobs, but correctness, security, and API/documentation each returned `REVISE` for cross-surface promise-liveness drift and incomplete packaged grant non-guarantees. The contract is now mapped to public surfaces and enforced by checker fixtures; another exact candidate remains required.
 
 ## Review Outcome
 
@@ -13,6 +13,8 @@ Candidate `9d8907a` then passed all three reviews and hosted CI. The first integ
 Candidate `dbbeeb1` corrected the full cancellation claim family and passed hosted CI. Its broader correctness and security review found one final lifecycle rule in ADR 0002 and an independent authority-term defect in the research decision table. API/documentation passed.
 
 Candidate `4c6818d` corrected those sources and passed hosted CI. Exact review then found that two public summaries still compressed invocation-scoped identity checking into apparent single use, the packaged guide omitted the full settlement prerequisite for terminal certainty, and two accepted practices rendered outside their table.
+
+Candidate `b2d73e7` corrected those findings and passed hosted CI, but all three reviewers found that the prerequisite still had not reached every public summary and that the packaged grant explanation still lacked a standalone complete disclaimer. The correction now uses an ADR-to-surface matrix and executable checker fixtures instead of another prose-only search.
 
 ## Spec Alignment
 
@@ -39,7 +41,8 @@ The implementation follows ADR 0002:
 - Candidate `2c6dff4` passed all seven jobs in GitHub Actions run `29358105210`; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `dbbeeb1` passed all seven jobs in GitHub Actions run `29358867851`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS`.
 - Candidate `4c6818d` passed all seven jobs in GitHub Actions run `29359564312`; exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE`.
-- Workflow checker: the public-contract parity working tree passed the positive check and all 43 isolated negative scenarios after correction; exact-commit review and hosted CI remain.
+- Candidate `b2d73e7` passed all seven jobs in GitHub Actions run `29361203381`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`.
+- Local gate: fresh `npm.cmd run verify` passes format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the clean offline consumer. The positive checker and all 49 isolated scenarios pass, comprising 46 expected rejections and three expected acceptances. Exact-commit review and hosted CI remain.
 
 ## Findings
 
@@ -52,7 +55,7 @@ The implementation follows ADR 0002:
 | Medium | Public grant types, result narrowing, guide packaging, diagnostic wording, and adapter-table rendering drifted from runtime behavior. | Added `ExecutionGrantPermission`, explicit null narrowing, installed guide checks, broadened active exit-class wording, and repaired the table. |
 | Medium | Emitted declarations failed under independent consumer settings. | Replaced incompatible optional-interface declarations with portable intersection aliases and retained an installed TypeScript consumer gate. |
 | Medium | Fulfillment was timestamped while retaining the executor-owned raw settlement, so a queued mutation could change content before normalization. | Normalize and detach synchronously inside the fulfillment observer, carry only the frozen normalized settlement, and add a resolve-then-mutate regression. |
-| Medium | Active guides implied every terminal cancellation acknowledged executor settlement, including no-call paths. | Distinguish proven no-call terminal certainty from post-invocation settlement acknowledgment in the feature spec, plan, practice register, capability-adapter guide, architecture review, framework guide, handbook, schema guide, ADR, research snapshot, and durable pattern. |
+| Medium | Active guides implied every terminal cancellation acknowledged executor settlement, including no-call paths. | Distinguish proven no-call terminal certainty from post-invocation acknowledgment, and require the executor promise to remain pending until all activity capable of advancing the invocation or producing invocation effects has stopped; transfer of live work is not acknowledgment. |
 | Gate | The first postimplementation round did not pass. | Preserve both review rounds; require all three reviewers to inspect the next immutable candidate and return explicit verdicts. |
 | Gate | The `9d8907a` review prompt and closeout scan did not explicitly enumerate the feature spec, leaving one stale normative sentence after three `PASS` verdicts. | Correct the spec, search the complete contract surface, and require all three reviewers to inspect the final exact commit before AC8 closes. |
 | Gate | The first closeout search matched only direct terminal-acknowledgment wording and missed synonymous claims in the plan and practice register. | Search the full claim family across all tracked docs, correct every active normative statement, narrow the historical completion claims, and repeat all three exact reviews. |
@@ -62,6 +65,9 @@ The implementation follows ADR 0002:
 | Medium | Public schema and implementation summaries said the grant was bound to one call or invocation, implying consumption the stateless kernel does not enforce. | Describe invocation-scoped identity and permission assertions and explicitly state that the kernel does not consume grants or prevent reuse or replay. |
 | Medium | The packaged executor guide defined terminal certainty without requiring the executor promise to cover all invocation-affecting activity. | Carry the ADR promise-liveness rule into the installed guide and state that transfer of live work is not acknowledgment. |
 | Low | Two accepted V10 practices were appended below Rejection Criteria rather than inside the Current Practices table. | Move both rows before Promotion Criteria and preserve a blank structural boundary before the heading. |
+| Medium | `b2d73e7` retained settlement-only shorthand in secondary public surfaces, so timely promise settlement could be read as sufficient terminal proof. | Map ADR 0002 to every public summary, use contract-compliant acknowledgment, and require stopped invocation-affecting activity plus no live-work transfer. |
+| Medium | The packaged grant explanation did not independently state all guarantees the stateless kernel lacks. | State issuer-authentication, freshness, single-use, enforcement, revocation, consumption, reuse, and replay limits in the installed and schema guides. |
+| Gate | Prose searches and positive structure checks did not prevent public-contract parity regressions. | Add an ADR-to-surface matrix, required checker terms, required register rows, and six isolated parity fixtures. |
 
 ## Residual Risks
 

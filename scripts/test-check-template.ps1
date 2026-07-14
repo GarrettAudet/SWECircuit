@@ -317,6 +317,61 @@ try {
     Write-Utf8 $missingBoundaryPath $missingBoundaryText
     Assert-CheckerResult "README missing runtime boundary" $missingBoundaryFixture $false
 
+    $executorLivenessPhrase = "all activity capable of advancing the invocation or producing invocation effects has stopped"
+    $livenessSurfaces = @(
+        @{ Name = "executor-guide"; Path = "docs\framework\executor-boundary.md" },
+        @{ Name = "schema-guide"; Path = "schemas\v1alpha1\README.md" },
+        @{ Name = "handbook"; Path = "docs\ai\handbook.md" }
+    )
+    foreach ($surface in $livenessSurfaces) {
+        $fixture = New-Fixture ("missing-executor-liveness-" + $surface.Name)
+        $path = Join-Path $fixture $surface.Path
+        $content = Get-Content -LiteralPath $path -Raw
+        if ($content -notmatch [regex]::Escape($executorLivenessPhrase)) {
+            throw "Liveness fixture source is missing the expected phrase: $($surface.Path)"
+        }
+        Write-Utf8 $path ($content.Replace($executorLivenessPhrase, "executor liveness prerequisite removed"))
+        Assert-CheckerResult ("executor liveness prerequisite: " + $surface.Name) $fixture $false
+    }
+
+    $grantFixture = New-Fixture "missing-packaged-grant-non-guarantees"
+    $grantPath = Join-Path $grantFixture "docs\framework\executor-boundary.md"
+    $grantText = Get-Content -LiteralPath $grantPath -Raw
+    $grantDisclaimer = "The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay."
+    if ($grantText -notmatch [regex]::Escape($grantDisclaimer)) {
+        throw "Grant fixture source is missing the expected disclaimer."
+    }
+    Write-Utf8 $grantPath ($grantText.Replace($grantDisclaimer, "Grant non-guarantees removed."))
+    Assert-CheckerResult "packaged guide missing grant non-guarantees" $grantFixture $false
+
+    $schemaGrantFixture = New-Fixture "missing-schema-grant-non-guarantees"
+    $schemaGrantPath = Join-Path $schemaGrantFixture "schemas\v1alpha1\README.md"
+    $schemaGrantText = Get-Content -LiteralPath $schemaGrantPath -Raw
+    $schemaGrantDisclaimer = "The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay."
+    if ($schemaGrantText -notmatch [regex]::Escape($schemaGrantDisclaimer)) {
+        throw "Schema grant fixture source is missing the expected disclaimer."
+    }
+    Write-Utf8 $schemaGrantPath ($schemaGrantText.Replace($schemaGrantDisclaimer, "Schema grant non-guarantees removed."))
+    Assert-CheckerResult "schema guide missing grant non-guarantees" $schemaGrantFixture $false
+
+    $practiceStructureFixture = New-Fixture "practice-row-outside-current-table"
+    $practiceStructurePath = Join-Path $practiceStructureFixture "docs\research\practice-register.md"
+    $practiceStructureText = Get-Content -LiteralPath $practiceStructurePath -Raw
+    $practiceRow = [regex]::Match(
+        $practiceStructureText,
+        '(?m)^\| Proxy rejection before reflection \|[^\r\n]*(?:\r?\n|$)'
+    )
+    if (-not $practiceRow.Success) {
+        throw "Practice structure fixture could not find the accepted row."
+    }
+    $practiceStructureText = $practiceStructureText.Remove($practiceRow.Index, $practiceRow.Length)
+    $practiceStructureText = $practiceStructureText.TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        $practiceRow.Value.TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine
+    Write-Utf8 $practiceStructurePath $practiceStructureText
+    Assert-CheckerResult "accepted practice outside Current Practices table" $practiceStructureFixture $false
+
     $debugFixture = New-Fixture "missing-debug-evidence"
     $debugPath = Join-Path $debugFixture "docs\specs\v8-readme-visual-clarity\debug-notes.md"
     $debugText = (Get-Content -LiteralPath $debugPath -Raw).Replace("## Reproduction", "## Reproduction Removed")

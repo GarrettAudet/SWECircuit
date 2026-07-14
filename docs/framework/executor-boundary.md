@@ -27,6 +27,8 @@ The embedding host must:
 - Persist returned events only after its own storage and privacy checks.
 - Treat `abort_unconfirmed` as potentially live work.
 
+`Invocation-scoped` describes the grant's identity and permission binding only. The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay.
+
 SWECircuit does not discover projects, resolve dependencies, load providers, schedule retries, enforce filesystem or process permissions, terminate process trees, write traces, merge branches, or update memory through this API.
 
 ## Preflight Gate
@@ -96,11 +98,11 @@ The helper names in the example are host-owned placeholders. The packed-consumer
 | --- | --- |
 | `completed` | The executor returned a valid completed settlement. |
 | `failed` | The executor declared failure, threw, or returned an invalid settlement. |
-| `cancelled` | Abort or deadline won before invocation, or caller cancellation won after invocation and the executor settled inside the acknowledgment bound. |
-| `timed_out` | The effective deadline won after invocation and the executor settled inside the acknowledgment bound. |
+| `cancelled` | Abort or deadline won before invocation, or caller cancellation won after invocation and the executor produced contract-compliant acknowledgment inside the bound. |
+| `timed_out` | The effective deadline won after invocation and the executor produced contract-compliant acknowledgment inside the bound. |
 | `abort_unconfirmed` | Abort was requested, but the executor did not settle before the acknowledgment bound; work may still be live. |
 
-`cancellationAcknowledged: true` means the kernel has terminal certainty: either no executor call occurred, or an invoked executor settled inside the acknowledgment bound. It does not claim executor acknowledgment on a no-call path.
+`cancellationAcknowledged: true` means the kernel has terminal certainty: either no executor call occurred, or an invoked executor produced contract-compliant acknowledgment inside the bound. It does not claim executor acknowledgment on a no-call path.
 
 For invoked work, the executor promise must remain pending until all activity capable of advancing the invocation or producing invocation effects has stopped. Transferring live work to host ownership is not acknowledgment. Harmless cleanup may continue only when it cannot affect the packet, exercise invocation authority, or produce invocation evidence.
 

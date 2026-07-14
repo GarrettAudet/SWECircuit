@@ -136,7 +136,7 @@ The adapter token carried a raw unknown value instead of a detached normalized s
 
 ### Causal Fix
 
-Normalize and detach synchronously in the fulfillment observer, timestamp only after that bounded normalization, and carry `NormalizedSettlement | null` in the adapter token. Clarify that `cancellationAcknowledged: true` means terminal certainty: either no call occurred or post-invocation settlement was acknowledged.
+Normalize and detach synchronously in the fulfillment observer, timestamp only after that bounded normalization, and carry `NormalizedSettlement | null` in the adapter token. Clarify that `cancellationAcknowledged: true` means terminal certainty: either no call occurred or the invoked executor promise settled inside the window after all activity capable of advancing the invocation or producing invocation effects had stopped; transfer of live work is not acknowledgment.
 
 ### Regression
 
@@ -154,7 +154,7 @@ After candidate `9d8907a` received three `PASS` verdicts and seven green hosted 
 
 ### Evidence
 
-`docs/specs/v10-executor-adapter/spec.md` still said terminal cancellation or timeout always required executor settlement acknowledgment. At that audit point the direct claim had been corrected in the ADR, handbook, framework guide, schema guide, research snapshot, and memory pattern, but synonymous statements in the plan and practice register had not yet been searched and remained stale.
+`docs/specs/v10-executor-adapter/spec.md` still said terminal cancellation or timeout always required executor settlement acknowledgment. At that audit point the direct no-call distinction had been corrected in the ADR, handbook, framework guide, schema guide, research snapshot, and memory pattern, but synonymous statements in the plan and practice register had not yet been searched and remained stale; the later `b2d73e7` review separately exposed missing promise-liveness prerequisites.
 
 ### Confirmed Cause
 
@@ -242,3 +242,40 @@ Describe grants as invocation-scoped identity and permission assertions, state t
 ### Verification Expansion
 
 Search `one call`, `one invocation`, `invocation-bound`, `single-use`, `reuse`, and `replay`; compare packaged terminal semantics with ADR 0002; assert both accepted rows precede Promotion Criteria; then rerun both workflow checkers, exact review, and hosted CI.
+
+## Exact Candidate Cross-Surface Settlement Review
+
+### Trigger
+
+Exact review of `b2d73e7232271f13c31fa8a188d1631fced3b55e` returned `REVISE` from correctness, security, and API/documentation while GitHub Actions run `29361203381` passed all six Node 22/24 operating-system jobs plus Template Check.
+
+### Evidence
+
+- The schema guide described timely settlement as sufficient for terminal `cancelled` and `timed_out` results without carrying ADR 0002 promise-liveness into that public section.
+- The handbook, practice register, and durable pattern repeated settlement shorthand without the full stopped-activity prerequisite.
+- The packaged executor guide used `invocation-scoped` without a standalone statement that the kernel does not authenticate the issuer, prove freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay.
+- The checker passed because it validated file and heading structure but did not map these security- and lifecycle-significant ADR claims to every public summary.
+
+### Classification
+
+Cross-surface prerequisite loss and missing executable contract parity.
+
+### Confirmed Cause
+
+Each prior correction followed the latest named files or search vocabulary. No explicit ADR-to-public-surface matrix defined where the two high-risk guarantees had to appear, and no isolated checker fixture proved that removing a prerequisite from a secondary summary failed the gate.
+
+### Causal Fix
+
+Use contract-compliant acknowledgment in terminal-state summaries; require promise settlement to remain pending until all activity capable of advancing the invocation or producing invocation effects has stopped; state that transfer of live work is not acknowledgment; and carry complete grant non-guarantees into every checked public surface. Promote public contract parity as an accepted practice and durable pattern.
+
+### ADR-To-Surface Matrix
+
+| Claim | Normative Source | Checked Surfaces | Executable Evidence |
+| --- | --- | --- | --- |
+| Post-invocation terminal certainty requires stopped invocation-affecting activity; live-work transfer is not acknowledgment. | ADR 0002, Timeout, Deadline, And Cancellation | Executor guide, schema guide, handbook, capability adapters, practice register, memory pattern, V10 spec, V10 plan, active context | `executorLivenessSurfaces` plus executor-guide, schema-guide, and handbook removal fixtures |
+| Invocation-scoped grant data is not issuer authentication, freshness, single use, enforcement, revocation, consumption, or replay prevention. | ADR 0002, Invocation-Scoped Execution Grant | Executor guide, schema guide, handbook, capability adapters, practice register, memory pattern, V10 spec, V10 plan, active context | `grantGuaranteeSurfaces` plus packaged-guide and schema-guide removal fixtures |
+| Accepted V10 practices remain rows in the Current Practices table. | Practice register governance | Current Practices table before Promotion Criteria | Required columns and rows plus an outside-table fixture |
+
+### Regression
+
+The positive checker passes. The isolated harness passes 49 scenarios: 46 expected rejections and three expected acceptances. Six parity scenarios now cover three liveness surfaces, two grant-summary surfaces, and register placement. Fresh `npm.cmd run verify` also passes format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the clean offline consumer. A new immutable exact-candidate review remains required.

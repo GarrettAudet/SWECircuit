@@ -112,7 +112,7 @@ The correctness and API/documentation reviewers returned `REVISE` during exact r
 
 - Normalize the settlement synchronously inside the fulfillment callback and carry only `NormalizedSettlement | null` plus the post-normalization monotonic observation.
 - Keep rejected-settlement timing unchanged and discard normalized content whenever abort wins.
-- Define terminal certainty consistently: before invocation, no call is proof that work did not start; after invocation, bounded settlement is the only acknowledgment.
+- Define terminal certainty consistently: before invocation, no call is proof that work did not start; after invocation, only in-window executor promise settlement after all activity capable of advancing the invocation or producing invocation effects has stopped is acknowledgment. Transfer of live work is not acknowledgment.
 
 ### Regression Coverage
 
@@ -126,7 +126,7 @@ An observation timestamp and the data attributed to it must cross the ownership 
 
 Candidate `9d8907a` fixed the runtime ownership defect and the named active guides, but one normative feature-spec sentence retained the old acknowledgment claim. The direct cause was incomplete contract-surface enumeration in the correction and review prompt. A repository-wide semantic search found the drift before AC8 closed.
 
-The causal fix is one sentence: a pre-invocation abort or deadline can terminate because no executor work started; after invocation, terminal cancellation or timeout requires bounded settlement acknowledgment. Future closeout reviews must include the feature spec and a whole-repository search for superseded normative language.
+The causal fix is one rule: a pre-invocation abort or deadline can terminate because no executor work started; after invocation, terminal cancellation or timeout requires in-window executor promise settlement after all activity capable of advancing the invocation or producing invocation effects has stopped, and transfer of live work is not acknowledgment. Future closeout reviews must include the feature spec and a whole-repository search for superseded normative language.
 
 ## Expanded Claim-Family Addendum
 
@@ -145,3 +145,11 @@ The lifecycle root cause was one unqualified universal inside an otherwise scope
 Candidate `4c6818d` corrected the prior ADR and research wording and passed hosted CI, but correctness found single-use implications in the schema guide and implementation notes. API/documentation found that the installed executor guide omitted the promise-liveness prerequisite for terminal certainty and that two accepted practices sat outside their table. Security passed.
 
 The root cause was contract compression across secondary public surfaces: identity matching became `one call`, settlement became sufficient without naming what settlement must cover, and append-only register maintenance ignored the table boundary. The causal fix carries explicit non-reuse guarantees and settlement preconditions into consumer-facing docs and restores both practices to the Current Practices table. Future contract audits must compare summaries to ADR prerequisites and inspect rendered Markdown structure, not only search semantic terms.
+
+## Cross-Surface Contract Parity Addendum
+
+Candidate `b2d73e7` carried the previous named corrections and passed all seven hosted jobs, but all three exact reviewers returned `REVISE`. Public summaries still treated timely promise settlement as sufficient terminal proof without carrying the ADR promise-liveness contract, and one packaged grant summary still omitted the complete stateless-kernel non-guarantees.
+
+The root cause was procedural as well as textual: search families found words, but the workflow had no explicit mapping from each high-risk ADR claim to every public summary and no executable fixture proving that the mapping was enforced. A newly corrected sentence could pass while an adjacent summary retained only half of the contract.
+
+The causal fix establishes an ADR-to-surface matrix, rewrites terminal summaries around contract-compliant acknowledgment, propagates stopped-activity and live-transfer prerequisites, propagates grant non-guarantees, and makes those mappings executable in the checker. The 49-scenario harness now includes 46 expected rejections and three expected acceptances, with six parity cases covering liveness, grant semantics, and register structure.

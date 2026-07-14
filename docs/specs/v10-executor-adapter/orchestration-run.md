@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review complete; the postimplementation gate remains open after exact candidate `4c6818d` returned `REVISE / PASS / REVISE` despite green hosted CI.
+Preimplementation review complete; the postimplementation gate remains open after exact candidate `b2d73e7` returned `REVISE / REVISE / REVISE` despite green hosted CI.
 
 ## Goal
 
@@ -50,7 +50,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; and `4c6818d` returned `REVISE / PASS / REVISE` despite green CI. Public grant summaries, packaged settlement preconditions, and practice-register structure are corrected. The next exact docs-only candidate must pass all three reviews and hosted CI before AC8 closes. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; and `b2d73e7` returned `REVISE / REVISE / REVISE` despite green CI. The latest correction maps ADR liveness and grant guarantees to public surfaces and enforces them with isolated checker fixtures. The next exact candidate must pass all three reviews and hosted CI before AC8 closes. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -103,3 +103,13 @@ GitHub Actions run `29358867851` passed all six Node 22/24 operating-system jobs
 | API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | The packaged guide omitted the executor-promise liveness prerequisite, and two accepted practices rendered outside the Current Practices table. |
 
 GitHub Actions run `29359564312` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `4c6818d3fa8faaf02f46fcc32b2e2ed1242a7308`. The correctness reviewer exceeded two bounded waits and returned the actionable verdict after one immediate-conclusion request; no reviewer edited files, ran tests, or used network.
+
+## Exact Candidate b2d73e7 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | The schema guide treated timely promise settlement as sufficient terminal proof without the ADR promise-liveness contract. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | Schema, handbook, practice, and pattern summaries omitted the stopped-activity prerequisite and could overstate terminal certainty. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | The same schema gap remained, and the packaged guide lacked a standalone complete grant non-guarantee statement. |
+
+GitHub Actions run `29361203381` passed all six Node 22/24 operating-system jobs plus Template Check for exact commit `b2d73e7232271f13c31fa8a188d1631fced3b55e`. All three review findings remain acceptance-blocking despite green CI. No reviewer edited files, ran tests, or used network.

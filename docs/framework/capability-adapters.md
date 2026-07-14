@@ -91,9 +91,9 @@ Use it when:
 SWECircuit contract:
 
 1. Keep executable code host-injected; never load it from AdapterManifest content.
-2. Bind every invocation to a closed ExecutionGrant and matching executor identity.
+2. Check each invocation request against a closed ExecutionGrant and matching executor identity. Invocation-scoped describes checked identity and permission assertions only. The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay.
 3. Enforce the grant in host-owned tools, credentials, workspace, and network controls.
-4. After invocation, map caller cancellation and deadline to the provider without claiming termination before settlement; before invocation, preserve the kernel no-call terminal path.
+4. After invocation, claim terminal cancellation or timeout only after in-window executor promise settlement when all activity capable of advancing the invocation or producing invocation effects has stopped; transfer of live work is not acknowledgment. Before invocation, preserve the kernel no-call terminal path.
 5. Return only completed or failed settlement data; keep prompts, transcripts, logs, and raw exceptions out of the journal.
 6. Treat abort_unconfirmed as potentially live work and prevent its output from entering integration.
 7. Persist returned events only in caller-owned storage after privacy checks.

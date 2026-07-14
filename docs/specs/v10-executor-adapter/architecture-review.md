@@ -30,7 +30,7 @@ Disposition: accepted. Every V10 call creates one standalone, non-appendable jou
 
 Completion, caller abort, and deadline need one first-winner rule. Packet deadline, invocation timeout, pre-abort, grace expiry, late settlement, synchronous blocking, and simultaneous causes must be explicit.
 
-Disposition: accepted. The earliest observed external abort or effective monotonic deadline wins over later settlement. Deadline is checked again when settlement is observed, so a delayed timer cannot turn an over-deadline result into success. Once abort wins, result content is discarded. After invocation, unacknowledged abort stays non-terminal; before invocation, the proven no-call path can terminate. Synchronous event-loop blocking is an explicit host risk.
+Disposition: accepted. The earliest observed external abort or effective monotonic deadline wins over later settlement. Deadline is checked again when settlement is observed, so a delayed timer cannot turn an over-deadline result into success. Once abort wins, result content is discarded. Before invocation, the proven no-call path can terminate. After invocation, acknowledgment requires in-window executor promise settlement only after all activity capable of advancing the invocation or producing invocation effects has stopped; transfer of live work is not acknowledgment, and an unacknowledged abort stays non-terminal. Synchronous event-loop blocking is an explicit host risk.
 
 ### R4: Formalize Authority Direction And Trust Limits
 

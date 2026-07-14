@@ -92,7 +92,7 @@ The WorkPacket does not represent mutable worker state. Runtime state is derived
 
 ## Execution Boundary
 
-ExecutionGrant is a closed runtime object, not a seventh artifact kind and not self-authorizing. It carries invocation-scoped identity and permission assertions for one issuer, grant ID, run ID, attempt ID, work-packet ID, and executor identity. The stateless kernel does not consume the grant or prevent reuse or replay.
+ExecutionGrant is a closed runtime object, not a seventh artifact kind and not self-authorizing. It carries invocation-scoped identity and permission assertions for one issuer, grant ID, run ID, attempt ID, work-packet ID, and executor identity. The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay.
 
 The host must select a dependency-ready WorkPacket and inject trusted executable code whose identity matches both the manifest and grant. The manifest must declare an agent_runtime adapter, launch_agent capability, current API compatibility, WorkPacket input, no adapter-owned output artifact, structured errors, finite timeout support, and acknowledged cancellation. Manifest references are never imported, fetched, or executed.
 
@@ -100,7 +100,9 @@ Preflight snapshots direct inputs into bounded, accessor-free, detached JSON val
 
 Once invocation begins, API processing success and work outcome are distinct. A valid call returns a frozen ExecutionSummary with completed, failed, cancelled, timed_out, or abort_unconfirmed disposition. Throws and malformed or secret-bearing settlements become fixed failure classes without copying raw provider values.
 
-The effective deadline is the earlier of the invocation timeout and packet deadline. Cancellation is cooperative after invocation. A terminal cancelled result means either no executor call occurred or an invoked executor settled within the acknowledgment bound; a terminal timed_out result means an invoked executor settled within that bound after the deadline won. cancellationAcknowledged therefore expresses terminal certainty and does not imply executor acknowledgment on a no-call path. abort_unconfirmed preserves a running attempt and omits run.completed because work may still be live.
+The effective deadline is the earlier of the invocation timeout and packet deadline. Cancellation is cooperative after invocation. A terminal cancelled result means either no executor call occurred or caller cancellation won after invocation and the executor produced contract-compliant acknowledgment within the bound; a terminal timed_out result means the deadline won after invocation and the executor produced that acknowledgment within the bound. cancellationAcknowledged therefore expresses terminal certainty and does not imply executor acknowledgment on a no-call path. abort_unconfirmed preserves a running attempt and omits run.completed because work may still be live.
+
+For invoked work, executor promise settlement is acknowledgment only when the promise remains pending until all activity capable of advancing the invocation or producing invocation effects has stopped. Transferring live work to host ownership is not acknowledgment. Harmless cleanup may continue only when it cannot affect the packet, exercise invocation authority, or produce invocation evidence.
 
 Each call creates one timestamp-free, V9-compatible in-memory journal with contiguous sequence numbers, deterministic event IDs, fixed kernel actor, linear causation, and a link to the grant. The kernel validates the whole journal before returning it but never persists it.
 ## Trace Semantics

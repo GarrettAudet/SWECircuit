@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Docs-only candidate `4c6818d` passed hosted CI but exact review returned `REVISE / PASS / REVISE`: single-use wording remained in public docs, packaged terminal-certainty guidance omitted the executor-promise liveness precondition, and two practices were outside the register table. Those defects are corrected for a new exact candidate.
+Runtime revision remains verified on `9d8907a`. Exact candidate `b2d73e7` passed hosted CI but returned `REVISE / REVISE / REVISE` because promise-liveness and grant non-guarantees still drifted across public summaries. The current correction maps those ADR claims to every checked surface and adds executable parity fixtures; a new exact candidate remains required.
 
 ## Summary Of Changes
 
@@ -26,7 +26,9 @@ V10 also added an independent packed-declaration compile after the first externa
 
 The first postimplementation review returned three `REVISE` verdicts despite a green suite. The integration owner removed the remaining invocation gap, anchored acknowledgment to the abort observation, re-armed early timer wake-ups, rejected proxies before reflection, bounded record keys before descriptors, narrowed the public grant type, repaired installed docs and consumer narrowing, and added focused regressions before preparing the acceptance candidate.
 
-Exact review of `e3453e0` then found a remaining settlement-ownership interval and imprecise no-call documentation. The observer now detaches and normalizes fulfillment before timestamping it, a resolve-then-mutate regression protects that boundary, and active guidance distinguishes no-call terminal certainty from post-invocation acknowledgment.
+Exact review of `e3453e0` then found a remaining settlement-ownership interval and imprecise no-call documentation. The observer now detaches and normalizes fulfillment before timestamping it, a resolve-then-mutate regression protects that boundary, and active guidance distinguishes no-call terminal certainty from post-invocation, contract-compliant promise settlement acknowledgment.
+
+Subsequent exact candidates exposed progressively wider documentation drift: lifecycle synonyms, an unqualified ADR rule, security-significant grant adjectives, secondary public summaries, and finally missing promise-liveness and grant prerequisites across several surfaces in `b2d73e7`. The current correction promotes an ADR-to-surface matrix, public contract parity practice, and checker fixtures so the same defect cannot pass as prose-only consistency.
 
 ## Assumptions Used
 
@@ -49,16 +51,18 @@ Exact review of `e3453e0` then found a remaining settlement-ownership interval a
 - V10 corrected implementation suite: 275 tests passed, including settlement detachment, cancellation races, proxy safety, snapshot bounds, execution lifecycle, and dogfood cleanup coverage.
 - V10 dogfood: under-authorized grant rejected with SC4206 and zero calls; corrected grant invoked once; seven-event journal reconstructed as completed.
 - Packed consumer: offline install, independent public-declaration compile, initialization, validation, one packet execution, and trace inspection passed.
-- Workflow checker passed and all 43 isolated checker regression scenarios passed.
-- `npm.cmd run verify`, the positive workflow checker, and all 43 negative checker scenarios passed after the exact-candidate correction; a new exact-commit independent review and hosted CI run remain the T006 acceptance gates.
+- The pre-parity workflow checker passed its 43 scenarios: 40 expected rejections and three expected acceptances.
+- Fresh `npm.cmd run verify` passes format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the clean offline installed consumer.
 - Exact candidate `9d8907a` passed correctness, security, and API/documentation review plus all seven jobs in GitHub Actions run `29357443883`. The first direct-phrase search then found one stale feature-spec sentence. Candidate `2c6dff4` corrected it and passed run `29358105210`, but expanded review found synonymous claims in the plan and practice register. The complete claim-family correction must pass the final exact gate.
 - Candidate `dbbeeb1` reconciled that claim family and passed run `29358867851`, but correctness found one unqualified ADR race rule and security found stale ephemeral grant terminology. Both source statements were corrected for the next exact gate.
-- Candidate `4c6818d` passed all seven jobs in run `29359564312`; exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE` for per-call grant wording, a missing packaged settlement precondition, and two misplaced practice rows. The corrections remain documentation-only.
+- Candidate `4c6818d` passed all seven jobs in run `29359564312`; exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE` for per-call grant wording, a missing packaged settlement precondition, and two misplaced practice rows.
+- Candidate `b2d73e7` passed all seven jobs in run `29361203381`; all three reviewers returned `REVISE` for cross-surface promise-liveness drift and incomplete packaged grant non-guarantees.
+- The current documentation-and-checker correction passes the positive checker and all 49 scenarios, comprising 46 expected rejections and three expected acceptances. Exact-commit review and hosted CI remain.
 
 ## Durable Learnings
 
 - A process API is not a sandbox, and a sent termination signal is not proof that a process tree stopped.
-- Runtime authority must be supplied by the host and checked through invocation-scoped identity binding; an artifact can only request or limit authority. The stateless kernel does not consume grants or prevent reuse or replay.
+- Runtime authority must be supplied by the host and checked through invocation-scoped identity binding; an artifact can only request or limit authority. The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay.
 - Permission safety needs all three predicates: requested authority is granted, granted authority was requested, and granted authority fits the packet ceiling.
 - Public declarations need an independent installed consumer because source typechecking under repository settings is not sufficient.
 - Cancellation evidence must describe what the host observed, including uncertainty, rather than what it hoped happened.

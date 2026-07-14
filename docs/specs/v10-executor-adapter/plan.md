@@ -42,7 +42,7 @@ ADR 0002 is required because V10 introduces executable host code, runtime author
 
 ## Security And Privacy
 
-- Declarations never grant authority; only the host-issued grant represents actual authority. The kernel checks its invocation-scoped identities and permissions but does not prevent reuse or replay.
+- Declarations never grant authority; only the host-issued grant represents actual authority. The kernel checks its invocation-scoped identities and permissions. The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay.
 - The kernel does not load adapter code, execute shell strings, inherit credentials, or persist provider data.
 - Direct values are traversed into detached, bounded, deeply frozen plain-data snapshots before validation.
 - Raw exceptions, rejection values, abort reasons, unknown-field values, and secret-bearing output are not copied into any return channel.
@@ -58,7 +58,7 @@ The change is additive. Revert the V10 executor module, exports, tests, and docu
 - Risk: host code exceeds declared permissions.
 - Mitigation: make host sandboxing an explicit prerequisite and validate the grant boundary before invocation.
 - Risk: cancellation races produce false terminal evidence.
-- Mitigation: terminalize a pre-invocation abort or deadline only on the proven no-call path; after invocation, terminalize only after adapter settlement and otherwise return `abort_unconfirmed`.
+- Mitigation: terminalize a pre-invocation abort or deadline only on the proven no-call path; after invocation, terminalize only after in-window executor promise settlement when all activity capable of advancing the invocation or producing invocation effects has stopped. Transfer of live work is not acknowledgment; otherwise return `abort_unconfirmed`.
 - Risk: generated journals drift from the RunEvent schema.
 - Mitigation: validate generated events and inspect them in integration tests.
 - Risk: API surface grows into orchestration.
