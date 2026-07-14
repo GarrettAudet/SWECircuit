@@ -2,15 +2,15 @@
 
 ## Status
 
-In progress.
+In progress; final closeout review returned `REVISE`.
 
 ## Review Outcome
 
-Identity, architecture, schema, deterministic project validation, offline initialization, read-only trace inspection, and the public quick start passed locally and remotely. T010 dogfooding passes locally, independently, and across all seven branch CI jobs; T011 final closure remains.
+Implementation and private package acceptance pass locally, independently, and across all seven branch CI jobs. Owner handoff remains gated on a committed, pushed, green, independently reviewed closeout candidate.
 
 ## Spec Alignment
 
-The V9 package dogfoods the completed V8.2 baseline. DevRail is rejected, SWECircuit is approved only for the project and GitHub repository, ADR 0001 is accepted, v1alpha1 is frozen, T006 satisfies AC2 and AC3, T007 satisfies AC1, T008 satisfies AC4 and AC5, and T009 satisfies AC7. T010 supplies measured dogfood and retry evidence toward AC8; T011 still owns final package, milestone, CI, and memory closure.
+The V9 package dogfoods the completed V8.2 baseline. DevRail is rejected, SWECircuit is approved only for the project and GitHub repository, ADR 0001 is accepted, and v1alpha1 is frozen. T007 satisfies AC1; T006 satisfies AC2 and AC3; T008 satisfies AC4 and AC5; T011 implementation satisfies AC6; and T009 satisfies AC7. AC8 remains open until the closeout candidate receives green CI and independent review over its feature package, milestone, and memory state.
 
 ## Architecture Alignment
 
@@ -32,6 +32,8 @@ T009 froze its public contract through `REVISE -> PASS`, then integrated impleme
 
 T010 freezes one measured circuit over the three shipped operations. The final local observation records ten steps, eight kernel calls, two controlled failures, one explicit retry, 2,457.835 ms on Node v24.14.1/Windows x64, unchanged source and manifest digests, and identity-checked cleanup. Its caller-authored 22-event trace binds the observation digest and reconstructs `inspect-trace-1` failed -> `inspect-trace-2` completed with `retryOf`, plus `diagnose -> pass`. Four focused regressions cover semantic repeatability, mid-run and early-setup cleanup, path suppression, digest binding, and trace reconstruction. The canonical gate passes 209 tests with zero skips. Review progressed through two centrally recovered liveness failures, then preimplementation `PASS` and implementation `REVISE -> PASS`. GitHub Actions run `29310133523` passes all seven jobs for commit `6d4e60a`.
 
+T011 implements the package-consumption boundary; final acceptance closeout remains open. The canonical gate packs the private artifact, derives an exact production-only consumer lock, performs offline `npm ci` from the repository-local cache, resolves the canonical entry from isolated `node_modules`, runs init, validate, and inspect, rejects source/config leakage and public `bin` metadata, and identity-checks cleanup. Four reviewer attempts exceeded manual handoff windows and were centrally closed without edits. A fast focused reviewer first exposed ambiguous read authority, then returned `PASS` after explicit read-only command permission. GitHub Actions run `29312736158` passes Template Check and all six Node 22/24 jobs across Windows, Ubuntu, and macOS for commit `0341345`. Rawls then reviewed the uncommitted closeout diff and returned `REVISE`: the records overclaimed pushed closeout state, and Faraday's package-checkpoint review did not cover the milestone and memory diff.
+
 ## Findings
 
 | Severity | Finding | Required Action |
@@ -42,16 +44,21 @@ T010 freezes one measured circuit over the three shipped operations. The final l
 | Resolved | Product rename can break current links and confuse historical evidence. | T009 enforces current links and the SWECircuit embed while preserving the TraceRail file and dated provenance links. |
 | Resolved | Inspection could echo arbitrary event content or secrets. | RunEvent is closed and reference-shaped; summaries are bounded, whole-value suppression covers every rendered string slot, and the inspector never persists or dereferences evidence. |
 | Resolved | The first T010 harness left two post-capture setup actions outside cleanup protection. | Move all post-capture work into the guarded block and retain both mid-run and early-setup cleanup regressions. |
+| Resolved | AC6 lacked a real consumer of the packed private artifact. | Keep the lockfile-driven offline packed-consumer check in the canonical gate and cross-platform CI. |
+| Resolved | The first four T011 reviewers did not return, and the fast retry was initially denied read access by an over-restrictive contract. | Preserve every failed attempt, distinguish read-only inspection from no commands, and require a returned verdict before closure. |
+| High | Final closeout records described an uncommitted diff as pushed and treated a package-checkpoint review as coverage of milestone and memory. | Freeze and push an honest candidate, require exact green CI, and independently re-review that commit before completion. |
 | Medium | A future producer can still create privacy and retention risk when writing traces. | Define persistence, retention, and deletion policy before adding a trace writer or hosted ingestion. |
 
 ## Residual Risks
 
-
 - No license has been selected.
-- The target architecture may need to be split if V9 exceeds a small, testable kernel.
+- The package and CLI remain private source-checkout interfaces; publication requires a separate decision.
+- Pure Node retains documented filesystem race and opaque Windows metadata boundaries.
+- Trace inspection does not prove producer truth, append-only history, or retention policy.
 - One local timing observation is not comparative performance or production-readiness evidence.
-- The external reviewer runtime still needs manual deadline, cancellation, and retry handling; V9 represents such state but does not enforce it.
+- External reviewer liveness still needs manual deadline, central closure, and retry handling; V9 represents such state but does not enforce it.
+- Node and npm upgrades must rerun the package-consumer matrix.
 
 ## Memory And Docs
 
-The T010 source package preserves the frozen dogfood contract, measured observation, content digest, caller-owned retry trace, both reviewer liveness failures, remediation evidence, four focused regressions, and the 209-test local gate. Branch CI passed; T010 memory and completion state now advance to the T011 final audit.
+The V9 implementation preserves every slice contract, review loop, measured observation, digest-bound caller trace, package-consumer gate, four T011 liveness failures, authority clarification, local verification, and cross-platform implementation CI. Final closeout review returned `REVISE` because the milestone and memory diff was neither frozen nor covered by the earlier package review. No merge has occurred.

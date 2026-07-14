@@ -115,4 +115,27 @@ AC6 named clean-package and clean-consumer checks, but the existing canonical ga
 
 ### Durable Boundary
 
-This is a private artifact-consumption check, not package publication, registry ownership, or public CLI evidence. The root `npm ci` must warm the ignored repository-local cache before the explicitly offline consumer install. Cross-platform proof remains branch-CI evidence rather than a local inference.
+This is a private artifact-consumption check, not package publication, registry ownership, or public CLI evidence. The root `npm ci` must warm the ignored repository-local cache before the explicitly offline consumer install. GitHub Actions run `29312736158` supplies the cross-platform proof on Node 22 and 24 across Windows, Ubuntu, and macOS; future Node or npm changes must rerun the same gate.
+
+## T011 Review Authority And Liveness RCA
+
+### Trigger
+
+Four independent review attempts remained `running` beyond bounded waits and conclusion requests. A fast fifth reviewer returned immediately but correctly refused to inspect because its contract said both "inspect" and "do not run commands."
+
+### Confirmed Root Causes
+
+- The external agent runtime still does not enforce the file contract's handoff deadline or guarantee a response to interrupt requests.
+- The fast-review contract conflated no mutation with no command execution, removing the read authority needed to review repository files.
+
+### Smallest Causal Fix
+
+Preserve and centrally close every liveness failure, switch one bounded variable by using a faster focused reviewer, and explicitly allow local read-only commands while continuing to forbid edits, installs, tests, Git mutations, network, and external actions.
+
+### Verification
+
+Faraday inspected the immutable package-gate checkpoint after clarification and returned `PASS` with no actionable findings. The run record preserves all four liveness failures, the first no-verdict response, the corrected authority, and the final verdict.
+
+### Durable Boundary
+
+A reviewer contract must define positive read authority as clearly as mutation prohibitions. Model speed can reduce review latency, but it does not replace explicit scope, evidence, stop conditions, or a returned verdict.

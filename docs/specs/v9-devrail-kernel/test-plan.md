@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress.
+Complete.
 
 ## Acceptance Criteria Mapping
 
@@ -58,4 +58,4 @@ GitHub Actions run `29292597506` passes Template Check and all six Node 22/24 ke
 
 GitHub Actions run `29310133523` passes the same seven-job matrix for T010 implementation commit `6d4e60a`.
 
-T011 local evidence passes `npm.cmd run verify` with 209 tests and the new packed-consumer gate, plus the positive checker and all 42 checker scenarios. Cross-platform branch CI and a returned independent review verdict remain required before AC6 closes.
+T011 passes `npm.cmd run verify` with 209 tests and the packed-consumer gate, plus the positive checker and all 42 checker scenarios. Independent focused review returned `PASS`; GitHub Actions run `29312736158` passes Template Check and all six Node 22/24 jobs across Windows, Ubuntu, and macOS for commit `0341345`, closing AC6.

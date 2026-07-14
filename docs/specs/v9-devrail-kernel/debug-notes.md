@@ -122,11 +122,12 @@ Both liveness attempts and the centralized recovery are preserved in `dogfood-or
 ### Next Action
 
 Keep external runtime liveness as a known limitation and use the T010 retry trace plus run record as evidence during T011. Do not claim automated deadline or cancellation enforcement.
+
 ## T011 Packed-Consumer And Review-Liveness Incident
 
 ### Failure Summary
 
-The first packed-consumer run could not spawn `npm.cmd` from Node on Windows. The shell-free npm entrypoint fix then reached npm, but the sandbox rejected writes to the user cache. After moving cache ownership into `.local/npm-cache`, a loose offline install still failed because `npm ci` had cached tarballs but not the registry metadata required to resolve dependency ranges. Three independent read-only review attempts later remained `running` beyond bounded waits and immediate-conclusion requests and were centrally closed without edits.
+The first packed-consumer run could not spawn `npm.cmd` from Node on Windows. The shell-free npm entrypoint fix then reached npm, but the sandbox rejected writes to the user cache. After moving cache ownership into `.local/npm-cache`, a loose offline install still failed because `npm ci` had cached tarballs but not the registry metadata required to resolve dependency ranges. Four independent read-only review attempts later remained `running` beyond bounded waits and immediate-conclusion requests and were centrally closed without edits. A fast focused reviewer then declined because its contract prohibited all commands, including inspection; after explicit read-only command authority was added, it returned `PASS`.
 
 ### Stable Evidence
 
@@ -135,7 +136,8 @@ The first packed-consumer run could not spawn `npm.cmd` from Node on Windows. Th
 - Default-cache use failed with `EPERM` at the user-profile npm cache.
 - Loose `npm install --offline` failed with `ENOTCACHED` for Ajv despite its tarball being present in the repository-local cache.
 - A generated lockfile using the pinned production closure allowed `npm ci --offline` to install the local tarball and execute init, validate, and inspect from isolated `node_modules`.
-- Anscombe, Harvey, and Hilbert were each closed from `running` after the documented manual deadline sequence and made no repository change.
+- Anscombe, Harvey, Hilbert, and Mendel were each closed from `running` after the documented manual deadline sequence and made no repository change.
+- Faraday first returned no verdict because read authority was ambiguous, then returned `PASS` with no actionable findings after the contract explicitly allowed local read-only commands.
 - One bounded PowerShell fallback interpreted Markdown backticks in a double-quoted replacement, creating a backspace byte and a split command token; `git diff --check` and the changed-file control-character scan caught the corruption before commit.
 
 ### Failure Classification
@@ -152,9 +154,11 @@ The first packed-consumer run could not spawn `npm.cmd` from Node on Windows. Th
 | Use npm's default cache | Sandbox `EPERM` | Keep npm cache under the ignored repository-local `.local/` root. |
 | Install the local tarball offline without a consumer lock | `ENOTCACHED` for dependency metadata | Tarball caching alone does not satisfy loose offline resolution. |
 | Generate a consumer lock from the root lock and run offline `npm ci` | Pass | Exact resolved URLs and integrities let the warmed cache prove a clean install without registry access. |
-| Broad, narrowed, and context-light reviewer retries | All exceeded the manual handoff window | Preserve the failed attempts and retry review after the implementation checkpoint; do not infer a verdict. |
+| Broad, narrowed, context-light, and immutable-checkpoint reviewer retries | All exceeded the manual handoff window | Preserve the failed attempts and change one bounded variable before retry; do not infer a verdict. |
+| Fast review with a blanket no-command rule | Reviewer correctly declined inspection | Name allowed read-only commands separately from forbidden mutations, installs, tests, and network actions. |
+| Corrected focused read authority | `PASS` | Explicit read permissions recovered independent review without broadening mutation authority. |
 | PowerShell double-quoted Markdown replacement | Control-byte scan failed | Use literal here-strings for Markdown backticks, repair exact bytes, and rescan every changed text file. |
 
 ### Current Status
 
-The packed-consumer gate passes locally and is part of `npm run verify`. Independent review and cross-platform branch CI remain required before AC6, AC8, or T011 can close.
+The packed-consumer gate passes locally and in GitHub Actions run `29312736158` across all six Node/platform jobs. Faraday returned package-checkpoint `PASS` after the authority clarification. AC6 is closed; final closeout review returned `REVISE`, so AC8 and T011 remain open until the immutable candidate passes CI and independent re-review. V9 remains unmerged.

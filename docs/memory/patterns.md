@@ -213,6 +213,15 @@ A successful filesystem create is not safe to remove until the creator captures 
 ### Barrier At The Contended Boundary
 
 A concurrency test proves a race only when every participant reaches a barrier after preflight and immediately before the same exclusive mutation. Readiness before entering the operation can pass while exercising only ordinary collision detection.
+
+### Lockfile-Driven Offline Consumer
+
+A clean package-consumer gate should pack the actual artifact, derive the exact production dependency closure from the pinned lock, install with a run-owned or repository-owned cache in offline mode, resolve the installed entry canonically, execute supported operations, and identity-check cleanup. Cached tarballs alone are not enough for loose offline dependency resolution.
+
+### Positive Read Authority
+
+A read-only reviewer contract must name the local inspection commands or tools it may use. "Do not run commands" can accidentally prohibit the evidence retrieval required for review; forbid mutations, installs, tests, network, and external actions separately from allowed reads.
+
 ## Source Map
 
 Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
@@ -241,3 +250,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V9 T008 trace plan](../specs/v9-devrail-kernel/trace-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/trace-orchestration-run.md) | Bound Before Materialization; Ceiling Is Not Allocation; Executable Coverage Claims |
 | [V9 T009 public-surface plan](../specs/v9-devrail-kernel/public-surface-decomposition-plan.md) and [run](../specs/v9-devrail-kernel/public-surface-orchestration-run.md) | Visual Semantics Are Contract; Literal Quick Start Replay; Positive Exceptions For Negative Rules |
 | [V9 T010 dogfood plan](../specs/v9-devrail-kernel/dogfood-decomposition-plan.md), [run](../specs/v9-devrail-kernel/dogfood-orchestration-run.md), and [RCA](../specs/v9-devrail-kernel/root-cause-analysis.md#t010-dogfood-review-and-cleanup-rca) | Measure Semantics, Observe Timing; Rebind Evidence After Review |
+| [V9 T011 final plan](../specs/v9-devrail-kernel/final-acceptance-decomposition-plan.md), [run](../specs/v9-devrail-kernel/final-acceptance-orchestration-run.md), and [RCA](../specs/v9-devrail-kernel/root-cause-analysis.md#t011-packed-consumer-gate-rca) | Lockfile-Driven Offline Consumer; Positive Read Authority |

@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Execute T011 final verification, acceptance audit, milestone, memory closure, and owner approval preparation for V9.
+Freeze an honest V9 closeout candidate, push it through branch CI, and independently re-review that exact commit before owner handoff. Keep `codex/v9-devrail-kernel` unmerged.
 
 ## Current Stage
 
-V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 dogfooding is complete at `6d4e60a` after 209 local tests, 42 checker regressions, measured failure/retry evidence, independent `REVISE -> PASS`, and GitHub Actions run `29310133523` passing all seven jobs. T011 is active. The repository remains unlicensed.
+V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 dogfooding is complete at `6d4e60a` after 209 local tests, 42 checker regressions, measured failure/retry evidence, independent `REVISE -> PASS`, and GitHub Actions run `29310133523` passing all seven jobs. T011 implementation and package acceptance at `0341345` pass 209 local tests, the private packed-consumer gate, all 42 checker scenarios, focused package-review `PASS`, and GitHub Actions run `29312736158` across all seven jobs. Final closeout review returned `REVISE` because the milestone and memory diff was uncommitted and outside that earlier review scope. AC1-AC7 and T001-T010 are closed; AC8 and T011 remain open until the closeout candidate is committed, pushed, green in CI, and independently re-reviewed. The repository remains unlicensed.
 
 ## Important Current Constraints
 
@@ -30,7 +30,7 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - Pure Node cannot inspect every opaque same-path Windows reparse attribute; links, junctions, canonical divergence, regular-file state, containment, and descriptor identity remain enforced, while that native metadata boundary is explicitly deferred.
 - Pure Node initialization cannot atomically bind directory creation to first identity capture or final identity checks to pathname removal. X07 names both malicious replacement windows; pending creations force `SC1022`, and detected mismatches are preserved.
 - Public reuse remains legally unclear until the owner selects a license.
-- Main remains the stable V8.2 baseline while V9 is isolated on codex/v9-devrail-kernel.
+- Main remains the stable V8.2 baseline while the V9 acceptance candidate stays isolated on `codex/v9-devrail-kernel` behind final closeout and owner merge gates.
 
 ## Recently Learned
 
@@ -63,11 +63,16 @@ V8.2 is complete on main at 5caaa29. V9 adopted it at 35f96d2, recorded the arch
 - When review changes measured code, recapture the observation and rebind its digest instead of carrying stale evidence forward.
 - Two T010 reviewer stalls confirmed that file contracts represent liveness but cannot enforce external runtime deadlines; centralized narrowing and retry remain necessary.
 - A caller-authored trace can honestly preserve failed state and retry lineage when its source observation is content-digested and the kernel is described only as the inspector.
+- A packed-consumer check needs an exact lock-backed production closure; cached tarballs alone do not give loose offline resolution the registry metadata it would otherwise request.
+- Reviewer authority must name allowed read-only inspection commands separately from forbidden mutation, installation, test, network, and Git actions.
+- Four additional reviewer stalls confirm that liveness is an external-runtime concern even after contracts are narrowed; preserve every attempt and require a returned verdict.
+- Completion claims must bind to an immutable commit and exact CI/review scope; a green implementation checkpoint does not verify a later milestone and memory diff.
 
 ## Next Likely Work
 
-- Audit AC1-AC8, T001-T011, architecture decisions, evidence, and current package output requirement by requirement.
-- Run the final canonical gate, full checker regressions, clean-install/package-consumer checks, and cross-platform branch CI for the T011 closeout state.
-- Complete `docs/specs/v9-devrail-kernel/review.md`, create the V9 milestone, and close AC6/AC8 only where direct evidence proves them.
-- Reconcile final history, retrieval, decisions, issues, failed attempts, patterns, glossary, and active context without erasing source evidence.
-- Prepare the owner approval and merge gate; keep V9 isolated on `codex/v9-devrail-kernel` until explicit approval.
+- Commit and push the V9 closeout candidate, require exact green branch CI, and re-review that immutable candidate.
+- After a returned `PASS`, bind the candidate commit and run into the final records, rerun the gates, and present the owner merge decision.
+- If approved, merge `codex/v9-devrail-kernel` to `main`, verify main CI, and make V9 the current dogfood baseline.
+- Start the next version on a new `codex/vVERSION-slug` branch with a feature package and V9 contracts.
+- Prefer one bounded executor adapter or work-packet handoff as the next vertical slice; do not move provider execution or merge authority into the kernel without a new ADR.
+- Resolve licensing before broad external reuse or package distribution.

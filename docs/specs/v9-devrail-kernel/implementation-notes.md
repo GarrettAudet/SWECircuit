@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress.
+Implementation complete; final acceptance closeout remains open.
 
 ## Summary Of Changes
 
@@ -35,7 +35,7 @@ In progress.
 - Implemented and independently hardened the T010 measured dogfood circuit, expected failures, caller recovery, retry trace, digest binding, and identity-checked cleanup.
 - Audited AC1 through AC8 for T011 and found that package dry-run plus source-checkout execution did not prove a clean consumer of the packed artifact.
 - Added a private packed-consumer gate that invokes npm through its JavaScript entrypoint, uses an ignored repository-local cache, generates an exact consumer lock from the pinned production closure, performs offline `npm ci`, and exercises init, validate, and inspect from isolated `node_modules`.
-- Froze the T011 decomposition and run contracts and preserved three centrally closed read-only review attempts; independent review remains open rather than being inferred from green tests.
+- Froze the T011 decomposition and run contracts, preserved four centrally closed read-only review attempts, clarified an over-restrictive inspection contract, and completed focused independent package review with `PASS`.
 ## Deviations From Plan
 
 The workspace patch helper failed before file access during intake and recurred during naming, architecture acceptance, toolchain, T006, and T009 edits. The integration owner used the repository-authorized PowerShell fallback and retained diff, formatter, typecheck, tests, package inspection, and checker verification as the proof boundary. Windows PowerShell initially added a UTF-8 BOM to one strict JSON fixture; the full gate caught it, all fallback-touched files were normalized with explicit BOM-free UTF-8, and the gate then passed. PowerShell execution policy also blocked npm.ps1, so Windows commands use npm.cmd without changing host policy. The T008 implementation reviewer exceeded the first expected wait window but completed through the agent-status gate; the delay was recorded without weakening the review requirement. The image tool could not read the workspace PNG through the Windows sandbox helper, so the approved conversation image was used as the edit target and the generated result was copied into the workspace for explicit review.
@@ -48,7 +48,7 @@ The workspace patch helper failed before file access during intake and recurred 
 
 ## Follow-Up Work
 
-- Finish T011 independent review, cross-platform package CI, milestone, memory provenance, and owner merge gate.
+- After owner approval, merge V9, verify main CI, and use the completed kernel as the next version baseline.
 - Define and test the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
 - Keep CLI rendering behind the trace operation and preserve initialization/validation as pure library surfaces.
 
@@ -74,7 +74,7 @@ The workspace patch helper failed before file access during intake and recurred 
 - T009 passes the canonical kernel gate with 205 tests and zero skips, the exact quick-start test, package privacy/no `bin`, the positive template checker, and all 42 checker scenarios. Contract review completed `REVISE -> PASS`; implementation review completed `REVISE -> REVISE -> PASS`; GitHub Actions run `29292597506` passes all seven jobs for commit `c9d7e4f`.
 - T010 passes the local implementation checkpoint with 209 tests and zero skips, a measured ten-step dogfood circuit, two controlled failures, one explicit retry, exact collision preservation, source immutability, identity-checked cleanup, a digest-bound caller-owned trace, and independent review ending `REVISE -> PASS`. The trace reconstructs 22 events, one run, a failed inspection attempt, `retryOf` recovery, and `diagnose -> pass`; GitHub Actions run `29310133523` passes all seven jobs for commit `6d4e60a`.
 
-- T011 local verification keeps the suite at 209 tests with zero skips and adds an explicit package-consumer gate: the private tarball installs through lockfile-driven offline `npm ci`, resolves from isolated `node_modules`, runs init, validate, and inspect, and cleans its identity-rechecked temporary root. `npm.cmd run verify`, the positive checker, and all 42 checker scenarios pass; independent review and remote matrix evidence remain pending.
+- T011 keeps the suite at 209 tests with zero skips and adds an explicit package-consumer gate: the private tarball installs through lockfile-driven offline `npm ci`, resolves from isolated `node_modules`, runs init, validate, and inspect, and cleans its identity-rechecked temporary root. `npm.cmd run verify`, the positive checker, and all 42 checker scenarios pass. Focused independent review returned `PASS`; GitHub Actions run `29312736158` passes all seven jobs for commit `0341345`.
 ## Durable Learnings
 
 - A version branch should begin with explicit API decision gates when the version creates the first executable public surface.

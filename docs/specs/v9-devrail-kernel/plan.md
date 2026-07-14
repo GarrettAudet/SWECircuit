@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress.
+In progress; final closeout candidate gate remains open.
 
 ## Summary
 

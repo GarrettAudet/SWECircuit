@@ -49,3 +49,4 @@
 | TraceRail | The historical project identity used by V5-V8 artifacts and preserved as source provenance. |
 | Version branch | A branch for one workflow version, named `codex/vVERSION-slug`, that merges to `main` after approval. |
 | Work-unit contract | A structured handoff for a parallel agent that defines objective, scope, context, conflicts, allowed actions, verification, handoff, and stop conditions. |
+| Packed-consumer gate | A verification step that packs the private artifact, installs it into an isolated offline consumer from a pinned dependency closure, resolves the installed entry, executes supported operations, and proves cleanup. |

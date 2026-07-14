@@ -2,7 +2,7 @@
 
 ## Status
 
-Active.
+Active; package acceptance passes, while final closeout review remediation and candidate CI remain open.
 
 ## Goal
 
@@ -10,7 +10,7 @@ Execute the T011 contract in `final-acceptance-decomposition-plan.md`, close AC6
 
 ## Pattern Chosen
 
-Single integration owner with one independent read-only reviewer.
+Single integration owner with independent read-only review.
 
 ## Why This Pattern
 
@@ -21,13 +21,15 @@ Package metadata, CI, acceptance state, milestone, and memory are tightly couple
 - Feature package: `docs/specs/v9-devrail-kernel/`
 - Decomposition plan: `docs/specs/v9-devrail-kernel/final-acceptance-decomposition-plan.md`
 - Architecture: `docs/architecture/decisions/0001-executable-kernel-foundation.md`
+- Package gate: `.npmrc`, `package.json`, and `scripts/check-packed-consumer.mjs`
 - Memory: `docs/memory/active-context.md`, `docs/memory/decisions.md`, `docs/memory/known-issues.md`, `docs/memory/history-ledger.md`, `docs/memory/retrieval-index.md`
 
 ## Branch And State
 
 - Source branch: `codex/v9-devrail-kernel`
 - Target branch: `main`
-- Baseline commit: `35cadf3`
+- Frozen input baseline: `35cadf3`
+- Package-gate checkpoint: `0341345`
 - Dirty state before work: clean and synchronized with origin.
 - Approval gate: exact branch CI and owner approval are required before merge.
 - Merge target during this run: none.
@@ -40,6 +42,9 @@ Package metadata, CI, acceptance state, milestone, and memory are tightly couple
 | Anscombe (`019f5f55-5a50-7262-8fd0-46f511cb7d56`) | Initial broad Work Unit B review | Read and recommend only. | Closed from `running` after the bounded wait and immediate-conclusion request elapsed. |
 | Harvey (`019f5de0-c968-7af3-ac3e-e1127f8a88fd`) | Narrow replacement Work Unit B review | Read and recommend only. | Closed from `running` after the bounded wait and immediate-conclusion request elapsed. |
 | Hilbert (`019f5f5c-ca7e-7601-944d-1ccb07256c4d`) | Context-light replacement Work Unit B review | Read and recommend only. | Closed from `running` after the bounded wait and immediate-conclusion request elapsed. |
+| Mendel (`019f5f67-4020-7af2-b2d0-b4b8c617c360`) | Immutable-checkpoint Work Unit B review | Read and recommend only. | Closed from `running` after two minutes and an immediate-conclusion request elapsed. |
+| Faraday (`019f5f6b-568d-7c63-b6a7-7fa415aad6a5`) | Fast focused Work Unit B review | Read commands and recommend only. | Stop after strict `PASS` or `REVISE`. |
+| Rawls (`019f5f75-0e6e-7341-b95c-34914cf15e4e`) | Final closeout Work Unit B review | Read commands and recommend only. | Stop after strict `PASS` or `REVISE`. |
 
 ## Work-Unit Contract References
 
@@ -62,42 +67,59 @@ Package metadata, CI, acceptance state, milestone, and memory are tightly couple
 | 7 | Primary IDE agent | Second central reviewer recovery | Timed waits, immediate-conclusion request, running close state, no shared edits |
 | 8 | Hilbert | Context-light package-gate review | Six changed files and three-line handoff format |
 | 9 | Primary IDE agent | Third central reviewer recovery | Timed waits, immediate-conclusion request, running close state, no shared edits |
+| 10 | Primary IDE agent | Immutable implementation checkpoint | Commit `0341345`, local gates, push, exact CI lookup |
+| 11 | Mendel | Immutable-checkpoint review | Commit `0341345`, package boundary, local evidence |
+| 12 | Primary IDE agent | Fourth central reviewer recovery | Two-minute wait, immediate-conclusion request, running close state, no shared edits |
+| 13 | Faraday | Fast focused review | Four package-boundary files and green CI run `29312736158` |
+| 14 | Primary IDE agent | Clarification and review retry | Explicit permission for read-only inspection commands after an over-restrictive first handoff |
+| 15 | Rawls | Final closeout review | Uncommitted milestone, feature-package, and durable-memory diff plus checkpoint `0341345` |
+| 16 | Primary IDE agent | Closeout review remediation | Two source-state and review-scope findings returned as `REVISE` |
 
 ## Handoffs
 
-No reviewer returned a handoff from the first three attempts. Each remained `running` after a bounded wait and immediate-conclusion request, was closed centrally, and made no repository change. This is external-runtime liveness evidence rather than a review verdict. Work Unit B remains open and must return `PASS` after the implementation checkpoint; the failed attempts cannot be replaced by local tests or remote CI.
+Anscombe, Harvey, Hilbert, and Mendel returned no review handoff. Each remained `running` after a bounded wait and immediate-conclusion request, was closed centrally, and made no repository change. These are external-runtime liveness events rather than review verdicts.
+
+Faraday's first response correctly declined because the contract said both "inspect" and "do not run commands," leaving no explicit authority to read repository files. The integration owner clarified that read-only `git show`, `git diff`, `Get-Content`, and `rg` were allowed while edits, installs, tests, Git mutations, and network remained forbidden. Faraday then reviewed the immutable checkpoint and returned:
+
+> PASS. No actionable findings.
+
+Residual risk: the review relies on the passed GitHub Actions matrix and does not independently exercise future npm or Node behavior changes.
+
+Rawls exceeded the initial bounded window, then returned after an immediate-conclusion request. Rawls reviewed the final closeout diff with explicit read authority and returned `REVISE` on two process-integrity findings: the records described an uncommitted closeout as pushed and verified, and Faraday's `PASS` covered the package checkpoint rather than the milestone and memory diff. No executable-code finding was reported. The remediation is to freeze and push an honest closeout candidate, require green CI, and re-review that exact commit before owner handoff.
 
 ## Integration Notes
 
-- Merge order: package gate, review remediation, final docs and memory.
-- Conflicts found: none; every reviewer attempt was read-only and returned no shared diff.
+- Merge order: package gate, review recovery, final evidence, memory, milestone.
+- Conflicts found: none; every reviewer attempt was read-only and made no shared diff.
 - Decisions made: repository/project naming remains distinct from package publication; the package remains private with no `bin`.
-- Integrated behavior: the canonical gate now packs the private artifact, generates a clean consumer lock from the pinned production closure, performs an offline `npm ci` into an isolated consumer, imports from installed `node_modules`, initializes and validates a clean project, inspects a caller-written trace, and removes only its identity-rechecked temporary root.
+- Integrated behavior: the canonical gate packs the private artifact, generates a clean consumer lock from the pinned production closure, performs offline `npm ci` into an isolated consumer, imports from installed `node_modules`, initializes and validates a clean project, inspects a caller-written trace, and removes only its identity-rechecked temporary root.
 
 ## Verification
 
-- Worker-local evidence: the dedicated packed-consumer gate passes on Node v24.14.1/Windows x64.
-- Integrated commands: `npm.cmd run verify`, the positive template checker, and all 42 checker regression scenarios pass; the kernel suite remains 209 tests with zero skips.
-- Manual checks: package output contains required `dist`, schema, README, and manifest files; excludes source, tests, scripts, and a public `bin`; the installed entry resolves below the isolated consumer's `node_modules/swecircuit` directory.
-- Skipped checks: none planned.
+- Local kernel gate: `npm.cmd run verify` passes format, lint, typecheck, build, package dry run, 209 tests with zero skips, and the packed-consumer check.
+- Template integrity: the positive checker and all 42 malformed-repository scenarios pass.
+- Package boundary: required `dist`, schema, README, and manifest files ship; `.npmrc`, source, tests, and scripts do not; the installed manifest remains private with no `bin`.
+- Consumer behavior: lockfile-driven offline `npm ci` resolves the local tarball from the repository-local cache, imports the canonical installed entry, and executes init, validate, and inspect.
+- Cross-platform CI: GitHub Actions run `29312736158` passes Template Check and all six Node 22/24 jobs on Windows, Ubuntu, and macOS for commit `0341345`.
+- Independent review: four package-review liveness failures were preserved; Faraday returned package-checkpoint `PASS`; Rawls returned final-closeout `REVISE` with two process findings now under remediation.
+- Skipped checks: external model-provider execution, automatic worktree merge, hosted telemetry, marketplace behavior, public package publication, and licensing remain outside V9.
 
 ## Review
 
-- Review outcome: pending after three centrally closed liveness failures; a returned independent verdict remains required.
-- Findings: no finding was returned, so no `PASS` or implementation conclusion may be inferred from the failed attempts.
-- Residual risks: license remains undecided; external worker liveness remains caller-owned; one dogfood timing observation is not a performance baseline.
+- Review outcome: package checkpoint `PASS`; final closeout `REVISE`.
+- Findings: freeze a committed and pushed closeout candidate with green CI, then obtain independent review of that exact milestone and memory state before claiming completion.
+- Residual risks: license remains undecided; external worker liveness remains caller-owned; package behavior must be reverified when Node or npm changes; one dogfood timing observation is not a performance baseline.
 
-## Memory Updates
+## Memory Updates Prepared
 
-- History ledger: pending exact branch CI.
-- Retrieval index: pending stable final artifacts.
-- Decisions: no new decision at contract freeze.
-- Known issues: retain external worker liveness and add no package limitation unless cross-platform CI or review reveals one.
-- Patterns: the local result supports a lockfile-driven offline consumer gate, pending remote portability and final review.
+- History ledger records the V9 acceptance candidate and final-closeout `REVISE` outcome.
+- Retrieval index links the final plan, run, package checker, review, milestone, and evidence.
+- Decisions remains unchanged because no new product or distribution decision was made.
+- Known issues retains license, external liveness, pure-Node filesystem boundaries, trace-producer truth, and single-observation timing limits.
+- Failed attempts preserves the package-resolution false starts, four reviewer liveness failures, and the over-restrictive read-only contract.
+- Patterns promotes lockfile-driven offline consumer verification and explicit read-only reviewer authority.
+- Glossary adds the packed-consumer gate.
 
-## Completion Handoff
+## Candidate Handoff
 
-- Summary: pending.
-- Files changed: pending.
-- Evidence: pending.
-- Approval gate: owner approval after exact branch CI; no automatic merge.
+T011's executable and package conditions have direct evidence: 209 tests, all 42 checker scenarios, independent package-checkpoint `PASS`, and seven green jobs in GitHub Actions run `29312736158`. The final owner handoff remains gated on an immutable closeout candidate, green candidate CI, and a returned independent verdict over the candidate milestone and memory. The branch remains `codex/v9-devrail-kernel`; `main` remains the V8.2 baseline.

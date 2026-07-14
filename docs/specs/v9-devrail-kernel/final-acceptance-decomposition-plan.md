@@ -2,7 +2,7 @@
 
 ## Status
 
-Active.
+Acceptance candidate; implementation evidence passes, while final closeout review remediation and candidate CI remain open.
 
 ## Goal
 
@@ -158,3 +158,7 @@ Stop conditions: unresolved findings, red CI, incomplete evidence, branch drift,
 - Decisions: preserve private repo-only identity and distribution boundaries; add only a new durable decision.
 - Known issues: retain license, single-observation timing, external liveness, and any surviving package limitation.
 - Patterns: promote a clean-consumer gate only if the implementation proves reusable.
+
+## Candidate Gate
+
+The executable and package boundary passes locally and in GitHub Actions run `29312736158` on Node 22 and 24 across Windows, Ubuntu, and macOS. Independent package review returned `PASS`. Final closeout review returned `REVISE` because the uncommitted milestone and memory diff was described as pushed and had not itself been independently reviewed. Work Unit C remains open until an immutable closeout candidate is committed, pushed, green in CI, and independently re-reviewed.
