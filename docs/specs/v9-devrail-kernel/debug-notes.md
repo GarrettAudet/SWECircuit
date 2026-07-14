@@ -88,3 +88,37 @@ Root cause confirmed. The parser tree remains authoritative for syntax, duplicat
 ### Next Action
 
 Retain the complete parallel-project fixture as the regression and continue the T006 semantic matrix.
+## T010 Reviewer Liveness And Cleanup Incident
+
+### Failure Summary
+
+The first frozen-contract reviewer and the first broad implementation reviewer both remained running beyond repeated bounded waits, a conclusion request, and an interrupt request. The integration owner centrally closed each attempt without repository changes and retried a narrower read-only contract. The successful implementation review then found that two post-capture setup actions were outside the cleanup-protected block.
+
+### Stable Evidence
+
+- Schrodinger (`019f5dd9-9283-7841-a91f-236c09e976e5`) and Locke (`019f5f23-5886-7f10-9c17-6965efa34854`) were both closed from `running` state after the manual deadline sequence.
+- Harvey (`019f5de0-c968-7af3-ac3e-e1127f8a88fd`) returned frozen-contract `PASS`, implementation `REVISE`, and focused remediation `PASS`.
+- The reviewer identified `onWorkspaceCreated()` and `mkdirSync(project)` between ownership capture and the guarded run block.
+- The focused suite now injects failures during setup and during the operation sequence, and proves the captured workspace is absent after both.
+
+### Failure Classification
+
+- External reviewer-runtime liveness limitation.
+- Harness cleanup-scope defect.
+
+### Hypotheses And Experiments
+
+| Hypothesis | Evidence | Experiment | Result |
+| --- | --- | --- | --- |
+| A detailed contract alone guarantees a bounded reviewer handoff. | Both reviewers had explicit scope and stop conditions. | Wait, request conclusion, interrupt, then inspect close status. | Rejected; both remained running until central closure. |
+| Narrowing and reusing a proven reviewer can recover without edit conflicts. | Harvey had already completed the frozen-contract gate. | Resume Harvey with four exact implementation questions. | Confirmed; `REVISE` returned with two actionable findings. |
+| Cleanup beginning after setup is sufficient once a workspace is owned. | Normal and mid-run paths cleaned up. | Review the create-to-try sequence and inject failure from the setup callback. | Rejected; the guarded block began two actions too late. |
+| Moving every post-capture action into the guarded block closes the leak. | Identity is available before the moved actions. | Inject setup failure and assert the captured root no longer exists. | Confirmed; focused re-review returned `PASS`. |
+
+### Current Status
+
+Both liveness attempts and the centralized recovery are preserved in `dogfood-orchestration-run.md`. The cleanup scope is fixed, four focused dogfood tests pass, and independent re-review reports no remaining actionable issue. V9 represents liveness state but still does not enforce external reviewer deadlines.
+
+### Next Action
+
+Keep external runtime liveness as a known limitation and use the T010 retry trace plus run record as evidence during T011. Do not claim automated deadline or cancellation enforcement.

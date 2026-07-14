@@ -1,0 +1,203 @@
+{
+  "assertions": {
+    "cleanupConfirmed": true,
+    "manifestPreservedAfterCollision": true,
+    "recoveryRetrySucceeded": true,
+    "sourceExampleUnchanged": true
+  },
+  "collisionControl": {
+    "code": "SC1021",
+    "failureStep": "repeat-init-collision",
+    "manifestPreserved": true,
+    "verificationStep": "preserved-project-validate"
+  },
+  "digests": {
+    "initializedManifest": "sha256:3691c9d87e54cb3fb5fd6d0c72d2f958144c23cbcbd14255fb7fc5717985feff",
+    "sourceExample": "sha256:fde64608173c3f971b84e269d49ddfd09e8ee99690377b5001ec5f20ce6e41c1"
+  },
+  "failureRecovery": {
+    "code": "SC1001",
+    "failedStep": "missing-trace-inspect",
+    "interventionStep": "caller-recovery-copy",
+    "recovered": true,
+    "retryStep": "recovered-trace-inspect"
+  },
+  "reportVersion": "1.0.0",
+  "result": "pass",
+  "runId": "v9-t010-local-dogfood",
+  "runtime": {
+    "architecture": "x64",
+    "node": "v24.14.1",
+    "platform": "win32"
+  },
+  "steps": [
+    {
+      "actor": "kernel",
+      "diagnosticCodes": [],
+      "durationMs": 320.98,
+      "exitCode": 0,
+      "expectation": "success",
+      "gate": "pass",
+      "id": "source-validate",
+      "observed": "success",
+      "operation": "validate",
+      "summary": {
+        "artifactCount": 0,
+        "projectArtifact": "swecircuit.json",
+        "projectId": "example-project"
+      },
+      "target": "repository-example"
+    },
+    {
+      "actor": "kernel",
+      "diagnosticCodes": [],
+      "durationMs": 334.978,
+      "exitCode": 0,
+      "expectation": "success",
+      "gate": "pass",
+      "id": "source-inspect",
+      "observed": "success",
+      "operation": "inspect",
+      "summary": {
+        "eventCount": 2,
+        "runCount": 1,
+        "traceArtifact": "traces/example.jsonl"
+      },
+      "target": "repository-example-trace"
+    },
+    {
+      "actor": "kernel",
+      "diagnosticCodes": [],
+      "durationMs": 336.768,
+      "exitCode": 0,
+      "expectation": "success",
+      "gate": "pass",
+      "id": "isolated-init",
+      "observed": "success",
+      "operation": "init",
+      "summary": {
+        "projectArtifact": "swecircuit.json",
+        "projectId": "v9-dogfood"
+      },
+      "target": "isolated-project"
+    },
+    {
+      "actor": "kernel",
+      "diagnosticCodes": [],
+      "durationMs": 314.449,
+      "exitCode": 0,
+      "expectation": "success",
+      "gate": "pass",
+      "id": "isolated-validate",
+      "observed": "success",
+      "operation": "validate",
+      "summary": {
+        "artifactCount": 0,
+        "projectArtifact": "swecircuit.json",
+        "projectId": "v9-dogfood"
+      },
+      "target": "isolated-project"
+    },
+    {
+      "actor": "kernel",
+      "diagnosticCodes": ["SC1001"],
+      "durationMs": 181.87,
+      "exitCode": 4,
+      "expectation": "controlled-failure",
+      "gate": "pass",
+      "id": "missing-trace-inspect",
+      "observed": "failure",
+      "operation": "inspect",
+      "summary": {
+        "diagnosticCount": 1
+      },
+      "target": "missing-caller-trace"
+    },
+    {
+      "actor": "caller",
+      "diagnosticCodes": [],
+      "durationMs": 1.4,
+      "expectation": "success",
+      "gate": "pass",
+      "id": "caller-recovery-copy",
+      "observed": "success",
+      "operation": "copy-trace",
+      "summary": {
+        "destination": "traces/recovery.jsonl",
+        "source": "examples/minimal/traces/example.jsonl"
+      },
+      "target": "isolated-project-trace"
+    },
+    {
+      "actor": "kernel",
+      "diagnosticCodes": [],
+      "durationMs": 315.324,
+      "exitCode": 0,
+      "expectation": "success",
+      "gate": "pass",
+      "id": "recovered-trace-inspect",
+      "observed": "success",
+      "operation": "inspect",
+      "summary": {
+        "eventCount": 2,
+        "runCount": 1,
+        "traceArtifact": "traces/recovery.jsonl"
+      },
+      "target": "recovered-caller-trace"
+    },
+    {
+      "actor": "kernel",
+      "diagnosticCodes": ["SC1021", "SC1021"],
+      "durationMs": 321.261,
+      "exitCode": 4,
+      "expectation": "controlled-failure",
+      "gate": "pass",
+      "id": "repeat-init-collision",
+      "observed": "failure",
+      "operation": "init",
+      "summary": {
+        "diagnosticCount": 2
+      },
+      "target": "initialized-project"
+    },
+    {
+      "actor": "kernel",
+      "diagnosticCodes": [],
+      "durationMs": 317.753,
+      "exitCode": 0,
+      "expectation": "success",
+      "gate": "pass",
+      "id": "preserved-project-validate",
+      "observed": "success",
+      "operation": "validate",
+      "summary": {
+        "artifactCount": 0,
+        "projectArtifact": "swecircuit.json",
+        "projectId": "v9-dogfood"
+      },
+      "target": "preserved-project"
+    },
+    {
+      "actor": "caller",
+      "diagnosticCodes": [],
+      "durationMs": 3.845,
+      "expectation": "success",
+      "gate": "pass",
+      "id": "owned-temp-cleanup",
+      "observed": "success",
+      "operation": "remove-temp",
+      "summary": {
+        "removedOwnedWorkspace": true
+      },
+      "target": "owned-workspace"
+    }
+  ],
+  "totals": {
+    "callerActionCount": 2,
+    "controlledFailureCount": 2,
+    "durationMs": 2457.835,
+    "kernelOperationCount": 8,
+    "retryCount": 1,
+    "stepCount": 10
+  }
+}

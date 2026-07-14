@@ -1,7 +1,15 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.3/schema.json",
   "files": {
-    "includes": ["src/**", "test/**", "schemas/**", "package.json", "tsconfig.json", "biome.json"]
+    "includes": [
+      "src/**",
+      "test/**",
+      "schemas/**",
+      "scripts/run-v9-dogfood.mjs",
+      "package.json",
+      "tsconfig.json",
+      "biome.json"
+    ]
   },
   "formatter": {
     "enabled": true,

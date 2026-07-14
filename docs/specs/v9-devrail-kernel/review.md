@@ -6,11 +6,11 @@ In progress.
 
 ## Review Outcome
 
-Identity, architecture, schema, deterministic project validation, offline initialization, read-only trace inspection, and the public quick start passed locally and remotely; T010 dogfooding remains.
+Identity, architecture, schema, deterministic project validation, offline initialization, read-only trace inspection, and the public quick start passed locally and remotely. T010 dogfooding passes locally and independent review; branch CI remains its implementation gate.
 
 ## Spec Alignment
 
-The V9 package dogfoods the completed V8.2 baseline. DevRail is rejected, SWECircuit is approved only for the project and GitHub repository, ADR 0001 is accepted, v1alpha1 is frozen, T006 satisfies AC2 and AC3, T007 satisfies AC1, T008 satisfies AC4 and AC5, and T009 satisfies AC7.
+The V9 package dogfoods the completed V8.2 baseline. DevRail is rejected, SWECircuit is approved only for the project and GitHub repository, ADR 0001 is accepted, v1alpha1 is frozen, T006 satisfies AC2 and AC3, T007 satisfies AC1, T008 satisfies AC4 and AC5, and T009 satisfies AC7. T010 supplies measured dogfood and retry evidence toward AC8; T011 still owns final package, milestone, CI, and memory closure.
 
 ## Architecture Alignment
 
@@ -30,6 +30,8 @@ T008 froze its contract through `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, 
 
 T009 froze its public contract through `REVISE -> PASS`, then integrated implementation review `REVISE -> REVISE -> PASS`. The canonical local gate passes 205 tests with zero skips. The source-checkout example executes literal relative commands and remains byte-for-byte unchanged; all 42 checker scenarios bind identity, visual, capability, navigation, and private distribution boundaries while preserving truthful provenance and negation. GitHub Actions run `29292597506` passes all seven jobs for commit `c9d7e4f`.
 
+T010 freezes one measured circuit over the three shipped operations. The final local observation records ten steps, eight kernel calls, two controlled failures, one explicit retry, 2,457.835 ms on Node v24.14.1/Windows x64, unchanged source and manifest digests, and identity-checked cleanup. Its caller-authored 22-event trace binds the observation digest and reconstructs `inspect-trace-1` failed -> `inspect-trace-2` completed with `retryOf`, plus `diagnose -> pass`. Four focused regressions cover semantic repeatability, mid-run and early-setup cleanup, path suppression, digest binding, and trace reconstruction. The canonical gate passes 209 tests with zero skips. Review progressed through two centrally recovered liveness failures, then preimplementation `PASS` and implementation `REVISE -> PASS`; remote CI is pending.
+
 ## Findings
 
 | Severity | Finding | Required Action |
@@ -39,6 +41,7 @@ T009 froze its public contract through `REVISE -> PASS`, then integrated impleme
 | Resolved | Three specialist reviews found the first-run, diagnostic, compatibility, trace, security, and adapter contracts underspecified. | The owner accepted the integrated brief; T005 froze schemas and T006 verified validation semantics. |
 | Resolved | Product rename can break current links and confuse historical evidence. | T009 enforces current links and the SWECircuit embed while preserving the TraceRail file and dated provenance links. |
 | Resolved | Inspection could echo arbitrary event content or secrets. | RunEvent is closed and reference-shaped; summaries are bounded, whole-value suppression covers every rendered string slot, and the inspector never persists or dereferences evidence. |
+| Resolved | The first T010 harness left two post-capture setup actions outside cleanup protection. | Move all post-capture work into the guarded block and retain both mid-run and early-setup cleanup regressions. |
 | Medium | A future producer can still create privacy and retention risk when writing traces. | Define persistence, retention, and deletion policy before adding a trace writer or hosted ingestion. |
 
 ## Residual Risks
@@ -46,7 +49,9 @@ T009 froze its public contract through `REVISE -> PASS`, then integrated impleme
 
 - No license has been selected.
 - The target architecture may need to be split if V9 exceeds a small, testable kernel.
+- One local timing observation is not comparative performance or production-readiness evidence.
+- The external reviewer runtime still needs manual deadline, cancellation, and retry handling; V9 represents such state but does not enforce it.
 
 ## Memory And Docs
 
-The T009 source package preserves the frozen public contract, both reviewer loops, remediated findings, exact quick-start evidence, the 42-scenario checker matrix, the current-versus-historical visual boundary, and green cross-platform CI. Memory now advances T010.
+The T010 source package preserves the frozen dogfood contract, measured observation, content digest, caller-owned retry trace, both reviewer liveness failures, remediation evidence, four focused regressions, and the 209-test local gate. Memory and completion state advance only after branch CI passes.

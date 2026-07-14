@@ -67,3 +67,26 @@ Add parser-to-consumer compatibility to future dependency spikes whenever a libr
 ### Memory Update
 
 Promote the parser-boundary lesson to implementation notes now and to durable patterns when T006 passes independent review.
+## T010 Dogfood Review And Cleanup RCA
+
+### Trigger
+
+Two read-only reviewer attempts exceeded the integration owner's bounded handoff sequence, and the recovered implementation review found a possible temporary-workspace leak before the main guarded block.
+
+### Confirmed Root Causes
+
+- The external subagent runtime does not give V9 automatic heartbeat, deadline, interrupt-completion, or retry enforcement. File contracts supplied intent, but the integration owner still had to close and replace stalled attempts.
+- `runDogfood()` started its guarded operation block after invoking the workspace callback and creating the project directory. Ownership was known, but cleanup was not yet guaranteed if either action threw.
+
+### Smallest Causal Fix
+
+- Preserve each stalled attempt, close it centrally, and retry a narrower read-only contract with the proven reviewer. Do not describe this manual recovery as kernel enforcement.
+- Start the guarded block immediately after workspace identity capture, moving the callback and directory creation inside it.
+
+### Regression Coverage
+
+`test/dogfood-harness.test.mjs` injects one failure immediately after ownership capture and another during the operation circuit. Both capture the owned root and prove it is absent after failure. The run record preserves reviewer identities, failure sequence, recovery, findings, and final `PASS`.
+
+### Durable Boundary
+
+V9 can validate and reconstruct typed liveness evidence but cannot make an external agent runtime honor deadlines. Runtime enforcement remains future adapter or orchestrator work. Cleanup guarantees begin only after identity capture; if identity capture itself fails, conservative preservation remains safer than unproven deletion.

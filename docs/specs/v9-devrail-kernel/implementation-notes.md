@@ -44,7 +44,7 @@ The workspace patch helper failed before file access during intake and recurred 
 
 ## Follow-Up Work
 
-- Dogfood the three-operation kernel on the V9 repository artifacts and record measurable run evidence in T010.
+- Close T011 with the complete CI matrix, package audit, milestone, memory provenance, and owner merge gate.
 - Define and test the 0.x migration from Rail Composition to Circuit Composition without rewriting historical evidence.
 - Keep CLI rendering behind the trace operation and preserve initialization/validation as pure library surfaces.
 
@@ -68,6 +68,7 @@ The workspace patch helper failed before file access during intake and recurred 
 - T007 passes the canonical local gate with 82 tests covering exact output, ID edge cases, collisions, every fault checkpoint, all four pre-capture pending states, non-empty and identity-changed recovery, a process race synchronized after both preflights, dynamic offline/process traps, and immediate validation. Independent review returned `REVISE`, `REVISE`, then `PASS`; the template checker, all seventeen checker regressions, package inspection, encoding scan, and GitHub Actions run `29281182002` pass.
 - T008 passes the canonical local gate with 202 tests and zero skips, including bound case-matrix coverage for framing, limit precedence, every legal/disallowed attempt transition, all terminal states, retry forks, missing references, evidence identifier boundaries, privacy slots, descriptor-sized allocation, CLI streams, and package shape. Preimplementation review completed `REVISE -> REVISE -> REVISE -> REVISE -> PASS`; implementation review completed `REVISE -> REVISE -> PASS`. GitHub Actions run `29288359476` passes Template Check and all six Node 22/24 jobs across Ubuntu, Windows, and macOS.
 - T009 passes the canonical kernel gate with 205 tests and zero skips, the exact quick-start test, package privacy/no `bin`, the positive template checker, and all 42 checker scenarios. Contract review completed `REVISE -> PASS`; implementation review completed `REVISE -> REVISE -> PASS`; GitHub Actions run `29292597506` passes all seven jobs for commit `c9d7e4f`.
+- T010 passes the local implementation checkpoint with 209 tests and zero skips, a measured ten-step dogfood circuit, two controlled failures, one explicit retry, exact collision preservation, source immutability, identity-checked cleanup, a digest-bound caller-owned trace, and independent review ending `REVISE -> PASS`. The trace reconstructs 22 events, one run, a failed inspection attempt, `retryOf` recovery, and `diagnose -> pass`; remote CI remains the implementation merge gate.
 
 ## Durable Learnings
 
@@ -82,3 +83,7 @@ The workspace patch helper failed before file access during intake and recurred 
 - A public overview must encode its target/runtime boundary and verification order; adjacent prose cannot repair a contradictory visual.
 - A documented quick start should execute its literal relative arguments and prove the whole example tree is unchanged, not only its primary input.
 - Negative public-claim checks need passing provenance and truthful-negation fixtures so accuracy enforcement does not erase history or reject honest limits.
+- A measured dogfood run should test stable semantics while treating elapsed time as an environment-qualified observation, never a benchmark or threshold.
+- Cleanup protection begins immediately after ownership capture; setup callbacks and directory creation belong inside the guarded block.
+- When review changes the measured implementation, recapture the observation and rebind every digest before accepting the evidence.
+- Reviewer liveness failures are workflow evidence: preserve the failed attempt, recover through one integration owner, and never imply the kernel enforced the deadline.
