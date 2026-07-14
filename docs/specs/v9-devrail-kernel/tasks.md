@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress; final closeout candidate gate remains open.
+Complete.
 
 ## Task List
 
@@ -36,9 +36,9 @@ In progress; final closeout candidate gate remains open.
 - [x] T010: Dogfood the V9 kernel and measure the run.
   Scope: Validate repository examples, record trace evidence, timing, failures, retries, and recovery.
   Verification: Commit `6d4e60a` passes 209 local tests with zero skips, the positive checker, all 42 checker regressions, and independent review ending `REVISE -> PASS`. The measured ten-step observation records two controlled failures, one explicit retry, source/manifest integrity, and identity-checked cleanup; its digest-bound caller-owned trace reconstructs 22 events and `diagnose -> pass`. GitHub Actions run `29310133523` passes Template Check and all six Node 22/24 jobs across Windows, Ubuntu, and macOS.
-- [ ] T011: Verify, review, update memory, and prepare V9 approval.
+- [x] T011: Verify, review, update memory, and prepare V9 approval.
   Scope: CI, package checks, review, milestone, history, retrieval, decisions, patterns, known issues, and residual risks.
-  Verification: AC1-AC7, 209 tests, the packed-consumer gate, the positive checker, all 42 checker scenarios, independent package review, and GitHub Actions run `29312736158` pass. Final closeout review returned `REVISE`; T011 remains open until the immutable closeout candidate passes CI and independent re-review.
+  Verification: AC1-AC8 are checked; 209 tests, the packed-consumer gate, the positive checker, and all 42 checker scenarios pass. Independent review completed package `PASS` and closeout `REVISE -> PASS`; immutable candidate `0717c91` passes all seven jobs in GitHub Actions run `29314459583`; milestone V9 exposes the owner merge gate.
 
 ## Tasks
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress; final closeout candidate gate remains open.
+Complete.
 
 ## Problem
 
@@ -65,7 +65,7 @@ V9 must create that baseline without overclaiming orchestration. The kernel will
 - [x] AC5: Given a core project with no optional adapter installed and network access disabled, when core commands run, then initialization, validation, and trace inspection still work.
 - [x] AC6: Given Node 22 and 24 on Ubuntu, Windows, and macOS, when automated checks run, then format, lint, typecheck, unit, integration, fixture, build, package, clean-init, and clean-consumer checks pass.
 - [x] AC7: Given a first-time reader, when they open the README and quick start, then SWECircuit's current executable capabilities, modular model, and future adapter boundary are concise, distinctive, and accurate.
-- [ ] AC8: Given the V9 feature package, when V9 closes, then its spec, tasks, verification, review, trace evidence, milestone, and memory updates demonstrate dogfooding of the stable V8.2 baseline and V8.1 integrity controls.
+- [x] AC8: Given the V9 feature package, when V9 closes, then its spec, tasks, verification, review, trace evidence, milestone, and memory updates demonstrate dogfooding of the stable V8.2 baseline and V8.1 integrity controls.
 
 ## Architecture Impact
 

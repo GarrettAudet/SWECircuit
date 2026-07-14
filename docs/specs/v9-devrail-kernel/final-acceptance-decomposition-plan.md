@@ -2,7 +2,7 @@
 
 ## Status
 
-Acceptance candidate; implementation evidence passes, while final closeout review remediation and candidate CI remain open.
+Complete; immutable acceptance candidate `0717c91` passed local gates, all seven CI jobs, and independent re-review.
 
 ## Goal
 
@@ -159,6 +159,6 @@ Stop conditions: unresolved findings, red CI, incomplete evidence, branch drift,
 - Known issues: retain license, single-observation timing, external liveness, and any surviving package limitation.
 - Patterns: promote a clean-consumer gate only if the implementation proves reusable.
 
-## Candidate Gate
+## Completion Gate
 
-The executable and package boundary passes locally and in GitHub Actions run `29312736158` on Node 22 and 24 across Windows, Ubuntu, and macOS. Independent package review returned `PASS`. Final closeout review returned `REVISE` because the uncommitted milestone and memory diff was described as pushed and had not itself been independently reviewed. Work Unit C remains open until an immutable closeout candidate is committed, pushed, green in CI, and independently re-reviewed.
+T011 passes because AC1 through AC8 have direct source evidence. The private packed-consumer checkpoint passes in GitHub Actions run `29312736158`; immutable acceptance candidate `0717c91` passes all seven jobs in run `29314459583`; and independent review completed package `PASS` plus final-closeout `REVISE -> PASS`. The feature package, milestone, review, and durable memory are complete, while the source branch remains unmerged behind explicit owner approval.

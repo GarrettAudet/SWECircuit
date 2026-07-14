@@ -90,6 +90,7 @@ Two read-only reviewer attempts exceeded the integration owner's bounded handoff
 ### Durable Boundary
 
 V9 can validate and reconstruct typed liveness evidence but cannot make an external agent runtime honor deadlines. Runtime enforcement remains future adapter or orchestrator work. Cleanup guarantees begin only after identity capture; if identity capture itself fails, conservative preservation remains safer than unproven deletion.
+
 ## T011 Packed-Consumer Gate RCA
 
 ### Trigger
@@ -139,3 +140,25 @@ Faraday inspected the immutable package-gate checkpoint after clarification and 
 ### Durable Boundary
 
 A reviewer contract must define positive read authority as clearly as mutation prohibitions. Model speed can reduce review latency, but it does not replace explicit scope, evidence, stop conditions, or a returned verdict.
+
+## T011 Closeout Evidence-Binding RCA
+
+### Trigger
+
+The first final-closeout draft described its uncommitted milestone and memory state as pushed and treated package-checkpoint CI and review as proof of those later files.
+
+### Confirmed Root Cause
+
+Completion state, CI evidence, and independent review scope were not bound to one immutable commit before the records claimed closure.
+
+### Smallest Causal Fix
+
+Reopen AC8 and T011, record the `REVISE`, freeze the complete closeout as candidate `0717c91`, push it, require exact green CI, and re-review that commit before writing a bounded evidence-only attestation.
+
+### Verification
+
+GitHub Actions run `29314459583` passed Template Check and all six Node 22/24 platform jobs for candidate `0717c91`. Rawls re-reviewed that exact commit and returned `PASS` with no findings.
+
+### Durable Boundary
+
+An evidence-only attestation records a completed immutable gate; it must not imply that the attestation itself changed executable behavior or that earlier CI covered later source state.

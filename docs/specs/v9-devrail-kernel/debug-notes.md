@@ -161,4 +161,4 @@ The first packed-consumer run could not spawn `npm.cmd` from Node on Windows. Th
 
 ### Current Status
 
-The packed-consumer gate passes locally and in GitHub Actions run `29312736158` across all six Node/platform jobs. Faraday returned package-checkpoint `PASS` after the authority clarification. AC6 is closed; final closeout review returned `REVISE`, so AC8 and T011 remain open until the immutable candidate passes CI and independent re-review. V9 remains unmerged.
+The packed-consumer gate passes locally and in GitHub Actions run `29312736158` across all six Node/platform jobs. Faraday returned package-checkpoint `PASS` after the authority clarification. Final closeout review returned `REVISE`; immutable candidate `0717c91` then passed all seven jobs in run `29314459583`, and Rawls returned `PASS` with no findings. AC6, AC8, and T011 are closed; V9 remains unmerged behind owner approval.

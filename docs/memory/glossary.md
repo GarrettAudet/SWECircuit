@@ -50,3 +50,4 @@
 | Version branch | A branch for one workflow version, named `codex/vVERSION-slug`, that merges to `main` after approval. |
 | Work-unit contract | A structured handoff for a parallel agent that defines objective, scope, context, conflicts, allowed actions, verification, handoff, and stop conditions. |
 | Packed-consumer gate | A verification step that packs the private artifact, installs it into an isolated offline consumer from a pinned dependency closure, resolves the installed entry, executes supported operations, and proves cleanup. |
+| Acceptance candidate | An immutable commit containing the complete implementation and closeout state that receives exact CI and independent review before an evidence-only final attestation. |

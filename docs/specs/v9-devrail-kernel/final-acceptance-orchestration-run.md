@@ -2,7 +2,7 @@
 
 ## Status
 
-Active; package acceptance passes, while final closeout review remediation and candidate CI remain open.
+Complete; immutable acceptance candidate `0717c91` passed local gates, all seven remote CI jobs, and independent re-review.
 
 ## Goal
 
@@ -30,6 +30,8 @@ Package metadata, CI, acceptance state, milestone, and memory are tightly couple
 - Target branch: `main`
 - Frozen input baseline: `35cadf3`
 - Package-gate checkpoint: `0341345`
+- Immutable acceptance candidate: `0717c91`
+- Candidate CI: GitHub Actions run `29314459583`, all seven jobs green.
 - Dirty state before work: clean and synchronized with origin.
 - Approval gate: exact branch CI and owner approval are required before merge.
 - Merge target during this run: none.
@@ -74,6 +76,10 @@ Package metadata, CI, acceptance state, milestone, and memory are tightly couple
 | 14 | Primary IDE agent | Clarification and review retry | Explicit permission for read-only inspection commands after an over-restrictive first handoff |
 | 15 | Rawls | Final closeout review | Uncommitted milestone, feature-package, and durable-memory diff plus checkpoint `0341345` |
 | 16 | Primary IDE agent | Closeout review remediation | Two source-state and review-scope findings returned as `REVISE` |
+| 17 | Primary IDE agent | Immutable acceptance candidate | Commit `0717c91`, local checker gates, clean push |
+| 18 | GitHub Actions | Candidate cross-platform verification | Run `29314459583`, Template Check plus six Node/platform jobs |
+| 19 | Rawls | Immutable candidate re-review | Commit `0717c91`, exact green run, prior findings |
+| 20 | Primary IDE agent | Evidence-only final attestation | Bind candidate commit, CI, verdict, milestone, and memory without changing executable behavior |
 
 ## Handoffs
 
@@ -85,7 +91,7 @@ Faraday's first response correctly declined because the contract said both "insp
 
 Residual risk: the review relies on the passed GitHub Actions matrix and does not independently exercise future npm or Node behavior changes.
 
-Rawls exceeded the initial bounded window, then returned after an immediate-conclusion request. Rawls reviewed the final closeout diff with explicit read authority and returned `REVISE` on two process-integrity findings: the records described an uncommitted closeout as pushed and verified, and Faraday's `PASS` covered the package checkpoint rather than the milestone and memory diff. No executable-code finding was reported. The remediation is to freeze and push an honest closeout candidate, require green CI, and re-review that exact commit before owner handoff.
+Rawls exceeded the initial bounded window, then returned after an immediate-conclusion request. Rawls reviewed the final closeout diff with explicit read authority and returned `REVISE` on two process-integrity findings: the records described an uncommitted closeout as pushed and verified, and Faraday's `PASS` covered the package checkpoint rather than the milestone and memory diff. No executable-code finding was reported. The integration owner froze and pushed candidate `0717c91`; all seven jobs passed in run `29314459583`. Rawls re-reviewed that exact commit, again returned after an immediate-conclusion request, and concluded `PASS` with no findings.
 
 ## Integration Notes
 
@@ -100,26 +106,27 @@ Rawls exceeded the initial bounded window, then returned after an immediate-conc
 - Template integrity: the positive checker and all 42 malformed-repository scenarios pass.
 - Package boundary: required `dist`, schema, README, and manifest files ship; `.npmrc`, source, tests, and scripts do not; the installed manifest remains private with no `bin`.
 - Consumer behavior: lockfile-driven offline `npm ci` resolves the local tarball from the repository-local cache, imports the canonical installed entry, and executes init, validate, and inspect.
-- Cross-platform CI: GitHub Actions run `29312736158` passes Template Check and all six Node 22/24 jobs on Windows, Ubuntu, and macOS for commit `0341345`.
-- Independent review: four package-review liveness failures were preserved; Faraday returned package-checkpoint `PASS`; Rawls returned final-closeout `REVISE` with two process findings now under remediation.
+- Package CI: GitHub Actions run `29312736158` passes Template Check and all six Node 22/24 jobs on Windows, Ubuntu, and macOS for commit `0341345`.
+- Closeout CI: GitHub Actions run `29314459583` passes the same seven-job matrix for immutable candidate `0717c91`.
+- Independent review: four package-review liveness failures were preserved; Faraday returned package-checkpoint `PASS`; Rawls returned final-closeout `REVISE`, then candidate `PASS` with no findings.
 - Skipped checks: external model-provider execution, automatic worktree merge, hosted telemetry, marketplace behavior, public package publication, and licensing remain outside V9.
 
 ## Review
 
-- Review outcome: package checkpoint `PASS`; final closeout `REVISE`.
-- Findings: freeze a committed and pushed closeout candidate with green CI, then obtain independent review of that exact milestone and memory state before claiming completion.
+- Review outcome: package checkpoint `PASS`; final closeout `REVISE -> PASS`.
+- Findings: both closeout findings are resolved by immutable candidate `0717c91`, green run `29314459583`, and Rawls's returned `PASS`.
 - Residual risks: license remains undecided; external worker liveness remains caller-owned; package behavior must be reverified when Node or npm changes; one dogfood timing observation is not a performance baseline.
 
-## Memory Updates Prepared
+## Memory Updates
 
-- History ledger records the V9 acceptance candidate and final-closeout `REVISE` outcome.
+- History ledger records the completed V9 kernel, immutable candidate, exact CI, and final-closeout `REVISE -> PASS` outcome.
 - Retrieval index links the final plan, run, package checker, review, milestone, and evidence.
 - Decisions remains unchanged because no new product or distribution decision was made.
 - Known issues retains license, external liveness, pure-Node filesystem boundaries, trace-producer truth, and single-observation timing limits.
-- Failed attempts preserves the package-resolution false starts, four reviewer liveness failures, and the over-restrictive read-only contract.
-- Patterns promotes lockfile-driven offline consumer verification and explicit read-only reviewer authority.
-- Glossary adds the packed-consumer gate.
+- Failed attempts preserves the package-resolution false starts, four centrally closed reviewer failures, the over-restrictive read contract, and the first closeout `REVISE`.
+- Patterns promotes lockfile-driven offline consumer verification, positive read authority, and immutable acceptance candidates.
+- Glossary adds the packed-consumer gate and acceptance candidate.
 
-## Candidate Handoff
+## Completion Handoff
 
-T011's executable and package conditions have direct evidence: 209 tests, all 42 checker scenarios, independent package-checkpoint `PASS`, and seven green jobs in GitHub Actions run `29312736158`. The final owner handoff remains gated on an immutable closeout candidate, green candidate CI, and a returned independent verdict over the candidate milestone and memory. The branch remains `codex/v9-devrail-kernel`; `main` remains the V8.2 baseline.
+T011 is complete. V9 has direct evidence for AC1 through AC8: 209 tests, all 42 checker scenarios, package-checkpoint `PASS`, immutable candidate `0717c91`, seven green candidate jobs in run `29314459583`, and final-closeout `REVISE -> PASS`. This evidence-only attestation records the result without changing executable behavior. The branch remains `codex/v9-devrail-kernel`; `main` remains the V8.2 baseline until the owner explicitly approves merge.
