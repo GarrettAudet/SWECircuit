@@ -52,6 +52,10 @@ Acceptance-candidate verification active.
 - A closer in an unrelated list or quote container must not terminate a top-level fence, while a matching top-level closer must preserve later active prose.
 - Ending a list container while its nested fence remains open must end that nested ownership and reprocess the outer line.
 - Equivalent rejection and preservation fixtures must exercise the ambiguity-gated simple and rich parser paths.
+- Inner quote or list termination must preserve an outer list and expose active prose after a subsequent outer-list fence ends.
+- Indented quote/list container prefixes before a fence must route the document to rich parsing.
+- A tab may satisfy continuation columns plus up to three relative fence-indent columns; opener, content, closer, and later active prose must remain correctly owned.
+- Retired repository URLs inside fenced historical examples must remain inactive while active retired URLs fail.
 
 ## Skipped Checks
 
@@ -72,4 +76,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `394612d` returned `REVISE / REVISE / REVISE` for list-contained fences, legacy raw structural checks, presence-only required headings, and overstated docs. Run `29372879405` passed all six kernel-toolchain jobs but failed Template Check because its fixture assumed host-native newlines.
 - Candidate `0c42c64` passed all seven jobs in run `29375642610` but returned `REVISE / REVISE / REVISE` for raw README semantics, permissive indentation, newline-crossing heading patterns, and self-staling status prose.
 - Candidate `7f02b87` passed all seven jobs in run `29377581706` but returned `REVISE / REVISE / REVISE` for container-insensitive fence closure and multi-digit ordered-list continuation.
-- The current correction passes the positive checker and all 89 isolated scenarios: 82 expected rejections and seven expected acceptances. Thirty executor parity cases are unchanged; five additional cases prove matching container identity, marker-derived continuation, implicit container termination, and preserved later active prose. The first correct rich-parser run took 626.5 seconds; the authoritative final-tree ambiguity-gated run took 318.9 seconds and the positive checker 2.76 seconds. Exact-commit review and all seven hosted jobs remain.
+- Candidate `c4bfa01` passed all seven jobs in run `29380939276` but returned `REVISE / REVISE / REVISE` for surviving outer-container loss, indented nested-container ambiguity, tab continuation, one raw README guard, and self-staling next-action prose.
+- The current correction passes the positive checker, direct causal/preserving probes, and the complete 96-scenario matrix in 345.8 seconds: 87 expected rejections and nine expected acceptances. Thirty executor parity cases remain unchanged. Exact-commit review and all seven hosted jobs remain.

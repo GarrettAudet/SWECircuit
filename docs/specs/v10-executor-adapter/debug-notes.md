@@ -2,7 +2,7 @@
 
 ## Status
 
-All diagnosed findings have causal corrections and regression coverage. The current acceptance state awaits exact-commit review and hosted CI; V10 is not merged.
+All findings from exact candidate `c4bfa01` have causal corrections and focused fixtures. Direct probes, the positive checker, and the complete 96-scenario matrix pass; the matrix completed in 345.8 seconds. V10 is not merged.
 
 ## Failure Summary
 
@@ -523,8 +523,64 @@ All 89 scenarios pass: 82 expected rejections, seven expected acceptances, and 3
 
 ### Next Action
 
-Freeze the complete corrected commit, obtain three exact-commit `PASS` verdicts and all seven hosted jobs, then complete evidence-only closeout for owner approval.
+AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs; merge remains owner-gated.
 
 ## Container State Performance Observation
 
 The semantically correct rich parser was retained only where container syntax can change ownership. Equivalent reject and preserve fixtures cover both parser paths so the optimization cannot silently weaken public-contract enforcement.
+
+## Exact Candidate Nested Container And Tab Review
+
+### Trigger
+
+Exact review of `c4bfa016c82c0838b6198f936f5cbb6bbb20f09a` returned `REVISE` from correctness, security, and API/documentation even though GitHub Actions run `29380939276` passed Template Check plus all six Node 22/24 operating-system jobs in 6m19s.
+
+### Reproduction
+
+Direct pre-fix probes produced the wrong ownership results:
+
+- Fenced required prose under a four-space list continuation plus nested quote was visible.
+- Fenced required prose under a four-space list continuation plus nested list was visible.
+- Fenced required prose under a tab-expanded list continuation was visible.
+- Active overclaims after an inner quote or list fence, a surviving outer list, and a second outer-list fence were hidden.
+- A retired repository URL inside a fence was raw-visible but active-hidden, while its guard still inspected raw source.
+
+### Stable Evidence
+
+- Correctness and security independently identified loss of the surviving outer-list prefix at implicit inner-container termination.
+- Both identified tab expansion beyond the exact continuation width as valid continuation plus relative fence indentation.
+- Both identified ambiguity routing that recognized direct indented fences but missed an indented quote or list container before the fence.
+- Correctness found the retired URL guard outside active-Markdown ownership and the candidate-specific next action.
+- API/documentation supplied the first surviving-prefix reproduction and required source records to stop overstating complete container handling.
+
+### Failure Classification
+
+Parser state, ambiguity routing, tab-column normalization, active/raw ownership, and acceptance-state defects.
+
+### Hypotheses
+
+1. Implicit termination must retain the longest list-containing opener-stack prefix matched by the current line.
+2. Continuation indentation must consume tab-expanded columns and rematerialize surplus columns as relative fence indentation.
+3. The simple parser is safe only when no indented continuation line places a quote or list container before a fence.
+4. All README identity guards except intentional literal command checks belong to active Markdown.
+5. Review records must state invariant gates rather than candidate-creation actions.
+
+### Experiments
+
+The nested-stack correction initially assigned an array through an `if` expression; PowerShell unrolled its one-element result to a scalar, so `.Count` no longer preserved the list state. The Windows fallback edit also dropped the regex `d` escape. Separate branch assignment and exact readback corrected both mechanics. A normalized indentation helper then proved the three tabbed lines as fenced while retaining later active prose.
+
+### Confirmed Cause
+
+The parser preserved fence delimiter and full opener stack but treated a failed full-stack continuation as complete container loss. Its exact-width reader could not split a tab into required continuation columns plus permitted relative indentation, and its fast-path ambiguity signature recognized only a directly indented fence. One legacy README guard and one next-action sentence remained outside the active/invariant policy.
+
+### Causal Fix
+
+The parser now normalizes all leading indentation, removes required continuation columns, rematerializes surplus columns, retains the longest surviving list prefix before reprocessing an implicit container end, and routes indented nested-container fence signatures to the rich parser. The retired URL guard reads active Markdown, and the next action states only the invariant acceptance gate.
+
+### Regression
+
+Seven focused fixtures cover nested quote and list ambiguity, surviving outer-list prefixes after quote and list fences, hidden tabbed contract prose, tabbed closer preservation, and a fenced retired URL. Direct causal and preserving probes pass; the positive checker passes. The complete 96-scenario matrix passes in 345.8 seconds: 87 expected rejections, nine expected acceptances, and 30 unchanged executor parity cases.
+
+### Next Action
+
+AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs; merge remains owner-gated.

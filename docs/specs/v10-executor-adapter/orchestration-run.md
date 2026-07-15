@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `7f02b87` passed hosted CI but returned three `REVISE` verdicts; its container-context correction passes all 89 local scenarios and awaits exact-commit review plus hosted CI. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `c4bfa01` passed all seven hosted jobs but returned three `REVISE` verdicts. Its nested-container and tab correction passes direct probes, the positive checker, and all 96 scenarios in 345.8 seconds. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; `ac70efc` returned `PASS / REVISE / REVISE`; `9209ff1` returned `PASS / REVISE / PASS`; `b3ff0d3` returned `REVISE / REVISE / PASS`; `394612d`, `0c42c64`, and `7f02b87` each returned `REVISE / REVISE / REVISE` despite the latter two passing all seven hosted jobs. The current correction binds fence ownership to normalized block-container state, marker-derived continuation widths, matching closers, and container termination while preserving a fast path for ordinary top-level fences. AC8 remains open until the exact commit containing the complete state records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates `394612d`, `0c42c64`, `7f02b87`, and `c4bfa01` each returned `REVISE / REVISE / REVISE`; the last three passed all seven hosted jobs. The current correction retains surviving outer-list state, normalizes tab-expanded continuation, routes indented nested containers to the rich parser, and completes active README identity ownership. AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -186,3 +186,15 @@ The correction that became candidate `7f02b87` moved README identity, prose, nav
 GitHub Actions run `29377581706` passed Template Check plus all six Node 22/24 operating-system jobs in 5m35s for exact commit `7f02b87f61a767cd88ef6892cb78a7a37288fb4a`. All three findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
 The current correction tracks a normalized quote/list stack, derives continuation width from the complete list marker, requires a closer to match its opener container, ends nested fences when that container ends, and reprocesses the outer line. An ambiguity-gated fast path retains the simple parser for ordinary top-level fences. All 89 local scenarios pass: 82 expected rejections, seven expected acceptances, and 30 unchanged executor contract-parity cases. The authoritative final-tree run completed in 318.9 seconds after the first correct rich-parser run took 626.5 seconds. The gate remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs.
+
+## Exact Candidate c4bfa01 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | Surviving outer-container state was cleared; indented nested-container ambiguity and tab-expanded continuation remained; one raw URL guard and a self-staling next action remained. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | Indented nested-list fences, tab overshoot, and full-stack clearing enabled false active ownership or hidden active overclaims. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | Inner-container termination discarded an outer list despite docs claiming container-aware ownership. |
+
+GitHub Actions run `29380939276` passed Template Check plus all six Node 22/24 operating-system jobs in 6m19s for exact commit `c4bfa016c82c0838b6198f936f5cbb6bbb20f09a`. All findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction preserves the longest surviving list prefix, normalizes indentation columns and rematerializes tab surplus, recognizes indented nested-container fence signatures, moves the retired URL guard to active Markdown, and uses invariant next-action wording. All 96 scenarios pass in 345.8 seconds: 87 expected rejections, nine expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also pass; the gate remains open.

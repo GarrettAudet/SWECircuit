@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `7f02b87` passed all seven hosted jobs in run `29377581706` but returned `REVISE` from correctness, security, and API/documentation for container-insensitive fence ownership and ordered-list continuation handling. The current correction tracks normalized block-container state, marker-derived continuation widths, matching closers, and container termination while preserving an ambiguity-gated fast path. All 89 local checker scenarios pass; exact-commit review and all seven hosted jobs remain. V10 is not merged.
+Candidate `c4bfa01` passed all seven hosted jobs in run `29380939276` but returned `REVISE` from correctness, security, and API/documentation for surviving outer-container loss, indented nested-container ambiguity, tab continuation, one raw README guard, and self-staling next-action prose. The current correction addresses all five classes. Direct probes, the positive checker, and the complete 96-scenario matrix pass; the matrix completed in 345.8 seconds. V10 is not merged.
 
 ## Review Outcome
 
@@ -19,6 +19,8 @@ Candidate `b2d73e7` corrected those findings and passed hosted CI, but all three
 Candidate `394612d` corrected top-level fenced ownership and duplicate contract owners, but all three reviewers found the model was still incomplete: list-contained fences remained visible, older heading checks still inspected raw Markdown, required headings were not unique, and the docs overstated full migration. Its hosted run passed the six kernel jobs but exposed a separate Windows newline assumption in the Template Check fixture.
 
 Candidate `0c42c64` corrected those gaps and passed all seven hosted jobs. All three reviewers still returned `REVISE`: README prose, navigation, and semantic guards remained raw; fence indentation and heading whitespace were too broad; and candidate-creation status prose became false as soon as the commit existed. Candidate `7f02b87` corrected those findings and also passed all seven hosted jobs, but all three reviewers demonstrated that delimiter-only state still lost block-container identity: multi-digit list continuation was misread, unrelated container closers could terminate top-level fences, and valid container termination could hide later active content. The current correction implements container-state ownership and proves both causal rejection and preserving behavior.
+
+Candidate `c4bfa01` corrected the delimiter/container findings and passed all seven hosted jobs. All three reviewers still returned `REVISE`: partial container termination discarded an outer list, the fast-path signature missed nested containers after continuation indentation, tab overshoot was rejected, one retired-URL guard remained raw, and the debug next action self-staled. The current correction treats continuation and termination as column-normalized partial-state transitions and adds seven focused fixtures.
 
 ## Spec Alignment
 
@@ -52,7 +54,8 @@ The implementation follows ADR 0002:
 - Candidate `394612d` returned `REVISE` from correctness, security, and API/documentation for container-fence, legacy structural-owner, unique-heading, and documentation-scope gaps. GitHub Actions run `29372879405` passed all six kernel-toolchain jobs but failed Template Check because the fixture assumed host-native newlines.
 - Candidate `0c42c64` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29375642610`; correctness, security, and API/documentation all returned `REVISE` for active README scope, line-boundary, indentation, and acceptance-state defects.
 - Candidate `7f02b87` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29377581706`; correctness, security, and API/documentation all returned `REVISE` for valid list continuation, mismatched-container closure, and hidden active prose.
-- Local gate: the positive checker and all 89 isolated scenarios pass, comprising 82 expected rejections and seven expected acceptances; the 30 executor contract-parity cases are unchanged. The first correct container-state run completed in 626.5 seconds; the authoritative final-tree ambiguity-gated run completed in 318.9 seconds and the positive checker in 2.76 seconds. Direct probes prove mismatched-container, multi-digit continuation, implicit container-end, and later-active-prose behavior. The executable runtime is unchanged, and exact-commit review plus all seven hosted jobs remain before closeout.
+- Candidate `c4bfa01` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29380939276`; correctness, security, and API/documentation all returned `REVISE` for nested-container, tab, active/raw, and acceptance-state defects.
+- Local gate: the positive checker, direct causal/preserving probes, and all 96 scenarios pass. The matrix completed in 345.8 seconds with 87 expected rejections and nine expected acceptances; the 30 executor contract-parity cases are unchanged. The executable runtime remains unchanged from `9d8907a`.
 
 ## Findings
 
@@ -94,6 +97,11 @@ The implementation follows ADR 0002:
 | High | Valid multi-digit ordered-list continuation fences were not recognized, allowing fenced contract prose to become visible or later active contradictions to remain hidden. | Derive continuation width from the complete list marker, track the normalized container stack, and add causal rejection fixtures. |
 | High | Any container-prefixed closer could terminate an unrelated top-level fence and expose inactive prose as active. | Require closer context to match the opener, end nested fences at owning-container termination, reprocess the outer line, and add preserving fixtures. |
 | Medium | The first correct container-state parser doubled checker runtime by using the rich path for ordinary top-level fences. | Add an ambiguity gate and retain equivalent rejection and preservation coverage across simple and rich parser paths. |
+| High | Implicit inner-container termination cleared a still-active outer list and let the next outer-list fence be misclassified as top-level. | Preserve the longest matching list prefix before reprocessing and cover quote/list variants followed by active overclaims. |
+| High | The ambiguity gate missed a quote or nested list after continuation indentation, leaving fenced required prose active. | Recognize indented nested-container fence signatures and add diagnostic-bound quote/list fixtures. |
+| High | Exact-width continuation rejected a tab that supplied required columns plus permitted fence indentation. | Normalize leading columns, rematerialize surplus indentation, and cover hidden plus preserving tabbed cases. |
+| Medium | A retired repository URL guard still inspected raw README source. | Inspect active Markdown and preserve a fenced historical-URL example. |
+| Medium | Candidate-specific next-action prose self-staled after `c4bfa01` was created. | State only the invariant exact-commit review, hosted-CI, closeout, and owner gate. |
 
 ## Residual Risks
 

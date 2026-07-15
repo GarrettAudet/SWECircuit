@@ -235,6 +235,16 @@ try {
     Write-Utf8 $legacyRemotePath $legacyRemoteText
     Assert-CheckerResult "legacy README repository URL" $legacyRemoteFixture $false
 
+    $fencedLegacyRemoteFixture = New-Fixture "fenced-legacy-readme-remote"
+    $fencedLegacyRemotePath = Join-Path $fencedLegacyRemoteFixture "README.md"
+    $fencedLegacyRemoteText = (Get-Content -LiteralPath $fencedLegacyRemotePath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '```text' + [Environment]::NewLine +
+        'https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine +
+        '```' + [Environment]::NewLine
+    Write-Utf8 $fencedLegacyRemotePath $fencedLegacyRemoteText
+    Assert-CheckerResult "retired README URL hidden in fence" $fencedLegacyRemoteFixture $true
+
     $historicalOverviewFixture = New-Fixture "historical-readme-overview"
     $historicalOverviewPath = Join-Path $historicalOverviewFixture "README.md"
     $historicalOverviewText = (Get-Content -LiteralPath $historicalOverviewPath -Raw).Replace(
@@ -468,6 +478,92 @@ try {
         '    ```' + [Environment]::NewLine
     Write-Utf8 $continuationFencePath $continuationFenceText
     Assert-CheckerResult "ordered-list continuation fence hides contract prose" $continuationFenceFixture $false "README missing required active public-surface text"
+
+    $nestedQuoteFixture = New-Fixture "ordered-list-continuation-quote-fence"
+    $nestedQuotePath = Join-Path $nestedQuoteFixture "README.md"
+    $nestedQuoteText = (Get-Content -LiteralPath $nestedQuotePath -Raw).Replace(
+        $capabilityPhrase,
+        "current capability removed"
+    ).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '10. outer item' + [Environment]::NewLine +
+        '    > ```text' + [Environment]::NewLine +
+        '    > ' + $capabilityPhrase + [Environment]::NewLine +
+        '    > ```' + [Environment]::NewLine
+    Write-Utf8 $nestedQuotePath $nestedQuoteText
+    Assert-CheckerResult "ordered-list continuation quote fence hides contract prose" $nestedQuoteFixture $false "README missing required active public-surface text"
+
+    $nestedListFixture = New-Fixture "ordered-list-continuation-nested-list-fence"
+    $nestedListPath = Join-Path $nestedListFixture "README.md"
+    $nestedListText = (Get-Content -LiteralPath $nestedListPath -Raw).Replace(
+        $capabilityPhrase,
+        "current capability removed"
+    ).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '10. outer item' + [Environment]::NewLine +
+        '    - ```text' + [Environment]::NewLine +
+        '      ' + $capabilityPhrase + [Environment]::NewLine +
+        '## Fixture Boundary' + [Environment]::NewLine
+    Write-Utf8 $nestedListPath $nestedListText
+    Assert-CheckerResult "ordered-list continuation nested-list fence hides contract prose" $nestedListFixture $false "README missing required active public-surface text"
+
+    $survivingQuoteFixture = New-Fixture "surviving-outer-list-after-quote-fence"
+    $survivingQuotePath = Join-Path $survivingQuoteFixture "README.md"
+    $survivingQuoteText = (Get-Content -LiteralPath $survivingQuotePath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '1. outer item' + [Environment]::NewLine +
+        '   > ```text' + [Environment]::NewLine +
+        '   > inactive inner fence' + [Environment]::NewLine +
+        '   outer continuation' + [Environment]::NewLine +
+        '   ```text' + [Environment]::NewLine +
+        '   inactive outer fence' + [Environment]::NewLine +
+        'SWECircuit launches agents.' + [Environment]::NewLine
+    Write-Utf8 $survivingQuotePath $survivingQuoteText
+    Assert-CheckerResult "surviving outer list after quote fence exposes overclaim" $survivingQuoteFixture $false "README positively claims a capability owned by an external runtime"
+
+    $survivingListFixture = New-Fixture "surviving-outer-list-after-nested-list-fence"
+    $survivingListPath = Join-Path $survivingListFixture "README.md"
+    $survivingListText = (Get-Content -LiteralPath $survivingListPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '1. outer item' + [Environment]::NewLine +
+        '   1. ```text' + [Environment]::NewLine +
+        '      inactive inner fence' + [Environment]::NewLine +
+        '   outer continuation' + [Environment]::NewLine +
+        '   ```text' + [Environment]::NewLine +
+        '   inactive outer fence' + [Environment]::NewLine +
+        'SWECircuit launches agents.' + [Environment]::NewLine
+    Write-Utf8 $survivingListPath $survivingListText
+    Assert-CheckerResult "surviving outer list after nested-list fence exposes overclaim" $survivingListFixture $false "README positively claims a capability owned by an external runtime"
+
+    $tabbedFenceFixture = New-Fixture "tabbed-list-continuation-fence"
+    $tabbedFencePath = Join-Path $tabbedFenceFixture "README.md"
+    $tabCharacter = [string][char]9
+    $tabbedFenceText = (Get-Content -LiteralPath $tabbedFencePath -Raw).Replace(
+        $capabilityPhrase,
+        "current capability removed"
+    ).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '- outer item' + [Environment]::NewLine +
+        $tabCharacter + '```text' + [Environment]::NewLine +
+        $tabCharacter + $capabilityPhrase + [Environment]::NewLine +
+        $tabCharacter + '```' + [Environment]::NewLine
+    Write-Utf8 $tabbedFencePath $tabbedFenceText
+    Assert-CheckerResult "tabbed list continuation fence hides contract prose" $tabbedFenceFixture $false "README missing required active public-surface text"
+
+    $tabbedCloserFixture = New-Fixture "tabbed-list-closer-preserves-active-prose"
+    $tabbedCloserPath = Join-Path $tabbedCloserFixture "README.md"
+    $tabbedCloserText = (Get-Content -LiteralPath $tabbedCloserPath -Raw).Replace(
+        $capabilityPhrase,
+        "current capability removed"
+    ).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '- outer item' + [Environment]::NewLine +
+        $tabCharacter + '```text' + [Environment]::NewLine +
+        $tabCharacter + 'inactive example' + [Environment]::NewLine +
+        $tabCharacter + '```' + [Environment]::NewLine +
+        $capabilityPhrase + [Environment]::NewLine
+    Write-Utf8 $tabbedCloserPath $tabbedCloserText
+    Assert-CheckerResult "tabbed list closer preserves later active prose" $tabbedCloserFixture $true
 
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"

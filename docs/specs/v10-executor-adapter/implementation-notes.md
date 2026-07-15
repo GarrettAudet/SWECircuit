@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `7f02b87` passed all seven hosted jobs in run `29377581706` but returned three `REVISE` verdicts for container-insensitive fence ownership and ordered-list continuation handling. The current correction tracks normalized block-container state, marker-derived continuation widths, matched closing context, and container termination while retaining an ambiguity-gated fast path. All 89 local scenarios pass; exact-commit review and all seven hosted jobs remain. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `c4bfa01` passed all seven hosted jobs in run `29380939276` but correctness, security, and API/documentation all returned `REVISE` for surviving outer-container loss, indented nested-container ambiguity, tab continuation, one raw README guard, and self-staling next-action prose. The current correction normalizes tab-expanded indentation, preserves the longest surviving list prefix, broadens the bounded ambiguity gate, and moves the remaining identity guard to active Markdown. Direct probes, the positive checker, and the complete 96-scenario matrix pass; the matrix completed in 345.8 seconds. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -35,6 +35,8 @@ Candidate `394612d` exposed a fixture-portability deviation: `.gitattributes` su
 The first fence-aware parser rescanned Markdown for every section lookup and caused a 69-scenario run to exceed 360 seconds. A process-local cache and no-fence fast path restored the positive checker to 2.27 seconds while preserving isolated fixtures; two complete 71-case runs finished in 211.2 and 208.2 seconds, four complete 77-case runs finished in 259.2, 258.2, 259.1, and 256.7 seconds, and two complete 84-case runs finished in 279.3 and 303.8 seconds.
 
 Candidate `7f02b87` proved that delimiter-only fence state was still insufficient: valid continuation indentation depends on list-marker width, and a closer must belong to the opener's block-container context. The first causal state parser passed all 88 scenarios but took 626.5 seconds and about 7.2 seconds for the positive checker. An ambiguity gate now routes ordinary top-level fences through the simple path and container-sensitive Markdown through the rich parser; the same 88 scenarios complete in 305.4 seconds and the positive checker in 2.76 seconds.
+
+Candidate `c4bfa01` exposed a second container-state boundary: a failed full-stack continuation can leave an outer list alive, tab expansion can satisfy continuation and relative fence indentation in one character, and a continuation line can place a nested quote or list before the fence. The correction uses normalized indentation columns, surplus rematerialization, longest-prefix preservation, and an expanded ambiguity signature. Direct verification also caught PowerShell array unrolling and a lost regex escape in the first working-tree correction before they reached a candidate.
 
 ## Assumptions Used
 
@@ -69,7 +71,8 @@ Candidate `7f02b87` proved that delimiter-only fence state was still insufficien
 - Candidate `394612d` returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`. GitHub Actions run `29372879405` passed all six kernel-toolchain jobs but failed Template Check on the host-newline-dependent practice-table fixture.
 - Candidate `0c42c64` passed all seven jobs in GitHub Actions run `29375642610`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `7f02b87` passed all seven jobs in GitHub Actions run `29377581706`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE` for ordered-list continuation and mismatched-container fence ownership.
-- The current documentation-and-checker correction passes the positive checker and all 89 scenarios, comprising 82 expected rejections and seven expected acceptances. Thirty executor parity cases remain unchanged. Five additional cases prove multi-digit list continuation, matching container identity, implicit container termination, and preserving top-level closure behavior. The first correct state parser completed in 626.5 seconds; the authoritative final-tree ambiguity-gated run completed in 318.9 seconds and the positive checker in 2.76 seconds. Exact-commit review and all seven hosted jobs remain.
+- Candidate `c4bfa01` passed all seven jobs in GitHub Actions run `29380939276`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`.
+- The current checker correction passes the positive checker, direct causal/preserving probes, and all 96 isolated scenarios in 345.8 seconds: 87 expected rejections, nine expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -86,3 +89,6 @@ Candidate `7f02b87` proved that delimiter-only fence state was still insufficien
 - Line-oriented Markdown grammar must use horizontal whitespace, explicit carriage-return handling, and bounded indentation rather than broad whitespace classes.
 - Fence ownership must preserve normalized block-container state; ordered-list continuation indentation derives from the complete marker, and only a matching container may close the fence.
 - Performance fast paths need equivalent rejection and preservation fixtures so optimization cannot weaken the richer parser's ownership guarantees.
+- Container termination is partial state loss: preserve the longest matching outer list prefix before reprocessing the line.
+- Normalize indentation into columns and rematerialize tab surplus so one tab can supply continuation plus permitted relative fence indentation.
+- PowerShell array expressions can unroll one-element state; assign branch arrays directly and verify `.Count`-sensitive state with causal probes.

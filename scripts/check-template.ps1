@@ -114,6 +114,20 @@ function Read-MarkdownIndentation {
     }
 }
 
+function Remove-MarkdownIndentationColumns {
+    param(
+        [string]$Content,
+        [int]$RequiredColumns
+    )
+
+    $indentation = Read-MarkdownIndentation $Content 0 0
+    if ($indentation.Columns -lt $RequiredColumns) {
+        return $null
+    }
+
+    $surplusColumns = $indentation.Columns - $RequiredColumns
+    return (" " * $surplusColumns) + $Content.Substring($indentation.Index)
+}
 function Get-MarkdownExplicitContainer {
     param([string]$Line)
 
@@ -173,41 +187,32 @@ function Get-MarkdownContinuationContent {
         [object[]]$Stack
     )
 
-    $index = 0
-    $column = 0
+    $content = $Line
     foreach ($container in $Stack) {
         if ($container.Type -eq "quote") {
-            $leading = Read-MarkdownIndentation $Line $index $column 3
-            if ($leading.Index -ge $Line.Length -or $Line[$leading.Index] -ne [char]62) {
+            $leading = Read-MarkdownIndentation $content 0 0 3
+            if ($leading.Index -ge $content.Length -or $content[$leading.Index] -ne [char]62) {
                 return $null
             }
+
             $index = $leading.Index + 1
-            $column = $leading.Column + 1
-            if ($index -lt $Line.Length -and $Line[$index] -in @([char]32, [char]9)) {
-                if ($Line[$index] -eq [char]9) {
-                    $column += 4 - ($column % 4)
-                } else {
-                    $column++
-                }
+            if ($index -lt $content.Length -and $content[$index] -in @([char]32, [char]9)) {
                 $index++
             }
+            $content = $content.Substring($index)
             continue
         }
 
-        $requiredColumns = [int]$container.ContinuationColumns
-        $indentation = Read-MarkdownIndentation $Line $index $column $requiredColumns
-        if ($indentation.Columns -ne $requiredColumns) {
+        $content = Remove-MarkdownIndentationColumns $content ([int]$container.ContinuationColumns)
+        if ($null -eq $content) {
             return $null
         }
-        $index = $indentation.Index
-        $column = $indentation.Column
     }
 
     return [pscustomobject]@{
-        Content = $Line.Substring($index)
+        Content = $content
     }
 }
-
 function Test-MarkdownStackContainsList {
     param([object[]]$Stack)
 
@@ -336,7 +341,12 @@ function Remove-MarkdownFencedContent {
     $hasQuotedFence = $Text -match '(?m)^[ ]{0,3}>[^\r\n]*(?:`{3,}|~{3,})'
     $hasListMarker = $Text -match '(?m)^[ ]{0,3}(?:>[ \t]?[ ]{0,3})*(?:[-+*]|\d{1,9}[.)])[ \t]+'
     $hasIndentedFence = $Text -match '(?m)^(?: {2,}|\t)(?:`{3,}|~{3,})'
-    if (-not $hasExplicitContainerFence -and -not $hasQuotedFence -and -not ($hasListMarker -and $hasIndentedFence)) {
+    $hasIndentedContainerFence = $Text -match '(?m)^[ 	]+(?:(?:>[ 	]?|(?:[-+*]|\d{1,9}[.)])[ 	]+)[ ]{0,3})+(?:`{3,}|~{3,})'
+    if (
+        -not $hasExplicitContainerFence -and
+        -not $hasQuotedFence -and
+        -not ($hasListMarker -and ($hasIndentedFence -or $hasIndentedContainerFence))
+    ) {
         $visibleText = Remove-TopLevelMarkdownFencedContent $Text
         $script:markdownFenceCache[$Text] = $visibleText
         return $visibleText
@@ -391,11 +401,17 @@ function Remove-MarkdownFencedContent {
                     continue
                 }
 
+                # A nested fence can end while an outer list remains active.
+                $survivingList = Get-MarkdownBestContinuation $line $fenceStack
                 $inFence = $false
                 $fenceCharacter = [char]0
                 $fenceLength = 0
                 $fenceStack = @()
-                $activeListStack = @()
+                if ($null -eq $survivingList) {
+                    $activeListStack = @()
+                } else {
+                    $activeListStack = @($survivingList.Stack)
+                }
                 $activeListCanBeLazy = $false
                 continue
             }
@@ -1443,7 +1459,7 @@ if ($readmeHeadingCount -ne 1) {
 if ($activeReadme -notmatch [regex]::Escape("https://github.com/GarrettAudet/SWECircuit")) {
     Add-Failure "README must link the current GarrettAudet/SWECircuit repository"
 }
-if ($readme -match [regex]::Escape("https://github.com/GarrettAudet/TraceRail")) {
+if ($activeReadme -match [regex]::Escape("https://github.com/GarrettAudet/TraceRail")) {
     Add-Failure "README contains the retired GarrettAudet/TraceRail repository URL"
 }
 $currentOverviewPath = "docs/assets/swecircuit-overview.png"
