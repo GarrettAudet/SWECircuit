@@ -266,3 +266,13 @@ The root cause was parser-dispatch asymmetry. The rich parser already interprete
 The causal fix broadens only the two ambiguity signatures to accept horizontal whitespace after every container prefix. This is intentionally conservative routing: exact zero-through-three-column acceptance remains owned by the coordinate-aware rich parser, so the fast path does not acquire a second partial Markdown grammar.
 
 Three nested ordered-list fixtures cover fenced retired-URL preservation, fenced-only required-capability rejection, and post-closer active-URL rejection across tilde and backtick fences. The positive checker and `npm.cmd run verify` pass. The complete 115-scenario matrix passed in 705.2 seconds with 98 expected rejections, 17 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.
+
+## Mixed List-Continuation Dispatch Addendum
+
+Candidate `49b22ba` passed all seven hosted jobs in run `29393468684` in 11m56s. Correctness and security returned `REVISE` because a mixed space-tab prefix could provide valid list continuation plus fence indentation without matching the fast-path indented-fence signature. API/documentation also returned `REVISE` because the latest next action requested candidate creation after the candidate already existed.
+
+The parser defect was dispatch-shape asymmetry. `$hasIndentedFence` recognized two or more literal spaces or one column-zero tab immediately before a fence. One-space-tab and two-space-tab combinations matched neither form, even though the rich parser expands them to physical columns, consumes the list continuation requirement, and accepts the remaining zero-through-three fence indentation. The simple parser therefore exposed fenced content.
+
+The causal code fix recognizes any non-empty horizontal-whitespace prefix as an indented-fence candidate when list syntax exists. Exact continuation, tab expansion, and fence acceptance remain in the rich parser. An over-limit fixture proves that broad dispatch does not broaden grammar acceptance. The documentation fix replaces candidate-creation prose with the invariant exact-commit review, hosted-CI, evidence-closeout, owner-approval, and merge gates.
+
+Four fixtures cover one-space-tab fenced retired-URL preservation, two-space-tab fenced-only required-capability rejection, mixed closer exposure, and over-limit literal preservation. Three direct probes, the positive checker, and `npm.cmd run verify` pass. The complete 119-scenario matrix passed in 576.2 seconds with 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.

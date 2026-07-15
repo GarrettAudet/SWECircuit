@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `dd575d5` passed all seven hosted jobs in run `29391822367` in 9m39s; correctness and API/documentation returned `PASS`, while security returned `REVISE` because a nested ordered-list and block-quote fence with mixed tab indentation bypassed the ambiguity gate. The current correction routes that syntax to the coordinate-aware rich parser. The positive checker, `npm.cmd run verify`, and all 115 scenarios pass; the matrix completed in 705.2 seconds. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `49b22ba` passed all seven hosted jobs in run `29393468684` in 11m56s, but correctness, security, and API/documentation all returned `REVISE`. Continuation-only mixed space-tab fences bypassed rich-parser dispatch, and a next-action record self-staled after candidate creation. The current correction routes that syntax to the coordinate-aware rich parser without broadening its acceptance rules. Three direct probes, the positive checker, `npm.cmd run verify`, and all 119 scenarios pass; the matrix completed in 576.2 seconds. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -48,7 +48,7 @@ Candidate `f779cab` exposed the remaining delimiter-consumption boundary: a tab 
 
 Candidate `82c3bb1` exposed a final matching-boundary split: parser state measured a space-plus-tab prefix as valid zero-through-three fence indentation from its absolute column, but the fence regex still accepted literal spaces only. Candidate `dd575d5` corrected opener and closer matching at that coordinate.
 
-Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser understood the mixed tab indentation, but the fast-path ambiguity signatures missed it after nested list and quote prefixes. The current correction accepts horizontal whitespace at the dispatch boundary and leaves exact zero-through-three-column validation in the rich parser.
+Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser understood the mixed tab indentation, but the fast-path ambiguity signatures missed it after nested list and quote prefixes. Candidate `49b22ba` corrected that explicit-container path and passed hosted CI, but continuation-only mixed space-tab prefixes still bypassed the indented-fence signature. The current correction conservatively dispatches any horizontally indented potential fence when a list marker exists, leaves exact zero-through-three-column acceptance in the rich parser, and replaces temporal candidate-creation prose with the invariant AC8 gate.
 
 ## Assumptions Used
 
@@ -91,7 +91,8 @@ Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser unde
 - Candidate `f779cab` passed all seven jobs in GitHub Actions run `29388623286` in 9m20s; exact review returned API/documentation `PASS` and correctness plus security `REVISE`.
 - Candidate `82c3bb1` passed all seven jobs in GitHub Actions run `29390051639` in 10m21s; exact review returned correctness and API/documentation `PASS` plus security `REVISE`.
 - Candidate `dd575d5` passed all seven jobs in GitHub Actions run `29391822367` in 9m39s; exact review returned correctness and API/documentation `PASS` plus security `REVISE`.
-- The current checker correction passes the positive checker, `npm.cmd run verify` in 19.7 seconds, and all 115 isolated scenarios in 705.2 seconds: 98 expected rejections, 17 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
+- Candidate `49b22ba` passed all seven jobs in GitHub Actions run `29393468684` in 11m56s; exact review returned correctness, security, and API/documentation `REVISE`.
+- The current checker correction passes three direct probes, the positive checker, `npm.cmd run verify` in 16.8 seconds, and all 119 isolated scenarios in 576.2 seconds: 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -118,4 +119,6 @@ Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser unde
 - A multi-column source character can be consumed partially by a delimiter; preserve and rematerialize its unconsumed virtual columns rather than deleting the whole character.
 - Normalize permitted fence indentation at the final matcher using the carried absolute column; raw-character regexes cannot recover tab-expanded grammar state.
 - An ambiguity gate must conservatively route every syntax class the rich parser owns; it should detect possibility while the parser retains exact acceptance rules.
+- Dispatch probes must include continuation-only mixed horizontal whitespace, not only explicit nested-container prefixes.
+- Acceptance-state records should name invariant gates rather than candidate-creation actions that become false when committed.
 - Keep the checker bounded and dependency-free for V10; full parser conformance or replacement is a separate architecture decision.

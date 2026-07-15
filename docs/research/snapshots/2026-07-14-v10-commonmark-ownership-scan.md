@@ -3,7 +3,7 @@
 ## Snapshot
 
 - Date: 2026-07-14
-- Scope: active Markdown ownership, fenced blocks, quote and list containers, blank lines, tab columns, partial delimiter consumption, container-relative fence indentation, parser dispatch, and semantic checker boundaries
+- Scope: active Markdown ownership, fenced blocks, quote and list containers, blank lines, tab columns, partial delimiter consumption, container-relative fence indentation, explicit and continuation-only parser dispatch, and semantic checker boundaries
 - Decision target: close the exact V10 review findings without claiming or implementing a full Markdown renderer
 - Evidence policy: primary specification evidence plus exact-candidate reproductions
 
@@ -45,6 +45,14 @@ Implication: a continuation parser must carry the current physical column when i
 
 Source: https://spec.commonmark.org/0.31.2/#tabs
 
+### Continuation-Only Dispatch Boundary
+
+A list continuation can consume only part of a mixed space-tab prefix. The remaining expanded columns may then form valid zero-through-three-column fence indentation even when no explicit quote or nested-list marker appears before the fence.
+
+Implication: when a document contains a list marker, any horizontal indentation before a potential fence is dispatch ambiguity. The fast path should select the rich parser; only the rich parser decides whether list continuation and fence indentation are valid. An over-limit mixed prefix must remain literal, proving that broad dispatch does not broaden grammar acceptance.
+
+Source: https://spec.commonmark.org/0.31.2/#list-items and https://spec.commonmark.org/0.31.2/#tabs
+
 ## Evaluated Practices
 
 | Practice | Disposition | Rationale |
@@ -54,15 +62,16 @@ Source: https://spec.commonmark.org/0.31.2/#tabs
 | Absolute column propagation | Accept for V10 | Keeps tab width and nested indentation correct after quote or list prefixes are stripped. |
 | Partial tab consumption | Accept for V10 | A quote marker consumes one virtual indentation column from a following tab and preserves the remaining columns as content. |
 | Container-relative fence indentation | Accept for V10 | Openers and closers normalize only zero through three indentation columns from the carried absolute content position; over-limit tabs remain non-fence indentation. |
-| Conservative ambiguity dispatch | Accept for V10 | The fast path recognizes every plausible horizontal-whitespace container fence and delegates exact acceptance to the rich parser. |
+| Conservative ambiguity dispatch | Accept for V10 | With a list marker present, the fast path treats any horizontal whitespace before a potential fence as ambiguous, including continuation-only mixed indentation, and delegates exact acceptance to the rich parser. |
 | Paired rejection and preservation fixtures | Accept for V10 | Every adversarial rejection needs an equivalent valid example to constrain false positives. |
 | Full CommonMark parser in PowerShell | Reject from V10 | It would expand scope, complexity, and conformance claims far beyond the acceptance finding. |
 | Proven Markdown parser adapter | Defer | Evaluate separately if active-Markdown checking grows or a portable dependency is justified. |
 | Independent semantic review | Retain | Hosted CI repeatedly passed exact candidates that still contained ownership bypasses. |
+| Invariant acceptance-state prose | Accept for V10 | Current records name stable review, CI, closeout, and owner gates instead of candidate-creation actions that self-stale after commit. |
 
 ## V10 Decision
 
-Keep the checker bounded and dependency-free. Use exact CommonMark blank semantics, container-relative quote and list state, physical-column propagation, explicit partial-tab consumption, coordinate-aware fence-indentation normalization, conservative rich-parser dispatch, causal diagnostics, and paired fixtures for the contract surfaces V10 actually checks. Do not describe the checker as a CommonMark renderer or complete semantic verifier.
+Keep the checker bounded and dependency-free. Use exact CommonMark blank semantics, container-relative quote and list state, physical-column propagation, explicit partial-tab consumption, coordinate-aware fence-indentation normalization, conservative rich-parser dispatch across explicit containers and continuation-only mixed indentation, causal diagnostics, paired fixtures, and invariant acceptance-state prose for the contract surfaces V10 actually checks. Do not describe the checker as a CommonMark renderer or complete semantic verifier.
 
 The acceptance boundary is finite: close the reproduced findings, pass the complete regression matrix, and retain independent review. Broader grammar coverage or parser replacement belongs in a separately specified version.
 

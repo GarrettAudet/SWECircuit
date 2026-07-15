@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `dd575d5` passed all seven hosted jobs plus correctness and API/documentation review, but security returned `REVISE`. The current ambiguity-gate correction passes the positive checker, `npm.cmd run verify`, and all 115 scenarios in 705.2 seconds. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `49b22ba` passed all seven hosted jobs, but correctness, security, and API/documentation returned `REVISE`. The current continuation-dispatch correction passes three direct probes, the positive checker, `npm.cmd run verify`, and all 119 scenarios in 576.2 seconds. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `82c3bb1` remained review-blocked. Candidate `dd575d5` passed all seven hosted jobs plus correctness and API/documentation review, but security returned `REVISE` because the fast-path ambiguity gate missed a nested list-and-quote fence. The current correction conservatively routes horizontal-whitespace container fences to the rich parser. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidate `49b22ba` passed all seven hosted jobs but all three exact reviewers returned `REVISE` for continuation-only mixed-indentation dispatch and self-staling next-action prose. The current correction conservatively routes horizontally indented potential fences to the rich parser when a list marker exists while retaining exact parser acceptance. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -269,4 +269,16 @@ The correction that became candidate `dd575d5` gave fence matching the carried a
 
 GitHub Actions run `29391822367` passed Template Check plus all six Node 22/24 operating-system jobs in 9m39s for exact commit `dd575d590be412c3f2e5d20ee6e2161c76142ea3`; Template Check took 9m36s. The security `REVISE` remains acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction recognizes spaces or tabs after every repeated container prefix in the two ambiguity signatures while retaining exact column validation in the rich parser. The positive checker and `npm.cmd run verify` pass. All 115 scenarios pass in 705.2 seconds: 98 expected rejections, 17 expected acceptances, and 30 unchanged executor parity cases. The gate remains open.
+The current correction recognizes spaces or tabs after every repeated container prefix in the two ambiguity signatures while retaining exact column validation in the rich parser. The positive checker and `npm.cmd run verify` pass. All 115 scenarios pass in 705.2 seconds: 98 expected rejections, 17 expected acceptances, and 30 unchanged executor parity cases. That state became rejected candidate `49b22ba`.
+
+## Exact Candidate 49b22ba Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | A continuation-only list fence with a mixed space-tab prefix bypassed the rich parser because the indented-fence signature accepted only literal spaces or a column-zero tab. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | A one-space-tab or two-space-tab prefix could supply list continuation plus valid relative fence indentation while leaving fenced contract text visible to semantic checks. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | The latest debug next action requested candidate creation after exact candidate `49b22ba` already existed. |
+
+GitHub Actions run `29393468684` passed Template Check plus all six Node 22/24 operating-system jobs in 11m56s for exact commit `49b22bab45165b7d7395f7898f9e005000abd2d7`; Template Check took 11m52s. All three findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction broadens only ambiguity dispatch: with an active list marker, any horizontal whitespace before a potential fence selects the coordinate-aware rich parser. Exact list continuation and zero-through-three-column fence indentation remain parser-owned. Four new fixtures prove one-space-tab preservation, two-space-tab fenced-only rejection, mixed closer exposure, and over-limit literal preservation. Three direct probes, the positive checker, and `npm.cmd run verify` pass. All 119 scenarios pass in 576.2 seconds: 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. The gate remains open.

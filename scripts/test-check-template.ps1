@@ -773,6 +773,58 @@ try {
     Write-Utf8 $nestedMixedFenceCloserPath $nestedMixedFenceCloserText
     Assert-CheckerResult "nested mixed quote-fence closer exposes later retired URL" $nestedMixedFenceCloserFixture $false "README contains the retired GarrettAudet/TraceRail repository URL"
 
+    $fenceTicks = ([string][char]96) * 3
+
+    $mixedContinuationUrlFixture = New-Fixture "mixed-list-continuation-fence-preserves-retired-url"
+    $mixedContinuationUrlPath = Join-Path $mixedContinuationUrlFixture "README.md"
+    $mixedContinuationUrlText = (Get-Content -LiteralPath $mixedContinuationUrlPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '- outer item' + [Environment]::NewLine +
+        ' ' + [char]9 + '~~~text' + [Environment]::NewLine +
+        ' ' + [char]9 + 'https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine +
+        ' ' + [char]9 + '~~~' + [Environment]::NewLine
+    Write-Utf8 $mixedContinuationUrlPath $mixedContinuationUrlText
+    Assert-CheckerResult "mixed list continuation fence keeps retired URL inactive" $mixedContinuationUrlFixture $true
+
+    $mixedContinuationCapabilityFixture = New-Fixture "mixed-list-continuation-fence-hides-required-capability"
+    $mixedContinuationCapabilityPath = Join-Path $mixedContinuationCapabilityFixture "README.md"
+    $mixedContinuationCapabilityText = (Get-Content -LiteralPath $mixedContinuationCapabilityPath -Raw).Replace(
+        $capabilityPhrase,
+        "current capability removed"
+    ).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '- outer item' + [Environment]::NewLine +
+        '  ' + [char]9 + $fenceTicks + 'text' + [Environment]::NewLine +
+        '  ' + [char]9 + $capabilityPhrase + [Environment]::NewLine +
+        '  ' + [char]9 + $fenceTicks + [Environment]::NewLine
+    Write-Utf8 $mixedContinuationCapabilityPath $mixedContinuationCapabilityText
+    Assert-CheckerResult "mixed list continuation fence cannot own required capability" $mixedContinuationCapabilityFixture $false "README missing required active public-surface text"
+
+    $mixedContinuationCloserFixture = New-Fixture "mixed-list-continuation-closer-exposes-retired-url"
+    $mixedContinuationCloserPath = Join-Path $mixedContinuationCloserFixture "README.md"
+    $mixedContinuationCloserText = (Get-Content -LiteralPath $mixedContinuationCloserPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '- outer item' + [Environment]::NewLine +
+        ' ' + [char]9 + $fenceTicks + 'text' + [Environment]::NewLine +
+        ' ' + [char]9 + 'inactive example' + [Environment]::NewLine +
+        ' ' + [char]9 + $fenceTicks + [Environment]::NewLine +
+        '  https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine
+    Write-Utf8 $mixedContinuationCloserPath $mixedContinuationCloserText
+    Assert-CheckerResult "mixed list continuation closer exposes later retired URL" $mixedContinuationCloserFixture $false "README contains the retired GarrettAudet/TraceRail repository URL"
+
+    $overLimitMixedContinuationFixture = New-Fixture "over-limit-mixed-list-continuation-remains-literal"
+    $overLimitMixedContinuationPath = Join-Path $overLimitMixedContinuationFixture "README.md"
+    $overLimitMixedContinuationText = (Get-Content -LiteralPath $overLimitMixedContinuationPath -Raw).Replace(
+        $capabilityPhrase,
+        "current capability removed"
+    ).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '- outer item' + [Environment]::NewLine +
+        '    ' + [char]9 + $fenceTicks + 'text' + [Environment]::NewLine +
+        '  ' + $capabilityPhrase + [Environment]::NewLine
+    Write-Utf8 $overLimitMixedContinuationPath $overLimitMixedContinuationText
+    Assert-CheckerResult "over-limit mixed list continuation remains literal" $overLimitMixedContinuationFixture $true
+
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
     $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(

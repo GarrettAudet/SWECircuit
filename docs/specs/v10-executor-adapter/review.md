@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `dd575d5` passed all seven hosted jobs in run `29391822367` in 9m39s; correctness and API/documentation returned `PASS`, while security returned `REVISE` because a nested ordered-list and block-quote fence with mixed tab indentation bypassed the ambiguity gate. The current correction passes the positive checker, `npm.cmd run verify`, and all 115 scenarios in 705.2 seconds. V10 is not merged.
+Candidate `49b22ba` passed all seven hosted jobs in run `29393468684` in 11m56s, but correctness, security, and API/documentation all returned `REVISE`. Mixed space-tab indentation on a continuation-only list fence bypassed rich-parser dispatch, and the latest next action self-staled after candidate creation. The current correction passes three direct probes, the positive checker, `npm.cmd run verify`, and all 119 scenarios in 576.2 seconds. V10 is not merged.
 
 ## Review Outcome
 
@@ -28,7 +28,7 @@ Candidate `f990abc` corrected those findings and passed all seven hosted jobs. C
 
 Candidate `0f952d9` corrected those findings and passed all seven hosted jobs plus correctness review. Security found that quote stripping reset the physical column before tab expansion, and API/documentation found that a prior timing remained labeled authoritative after a later exact-tree run. The correction that became `f779cab` preserved absolute columns and made the 105-case timing unambiguous.
 
-Candidate `f779cab` passed all seven hosted jobs and API/documentation review. Correctness and security independently found that optional quote padding still deleted a whole tab instead of consuming one expanded column and preserving the remainder. Candidate `82c3bb1` corrected that defect and passed all seven hosted jobs plus correctness and API/documentation review. Security then found that valid mixed space-plus-tab fence indentation remained raw at a literal-space matcher. Candidate `dd575d5` corrected that boundary and also passed all seven hosted jobs plus correctness and API/documentation review. Security then nested the same syntax inside an ordered-list continuation and proved that the fast-path ambiguity gate never routed it to the rich parser. The current correction makes container-fence dispatch conservatively tab-aware while retaining exact column validation in the rich parser.
+Candidate `f779cab` passed all seven hosted jobs and API/documentation review. Correctness and security independently found that optional quote padding still deleted a whole tab instead of consuming one expanded column and preserving the remainder. Candidate `82c3bb1` corrected that defect and passed all seven hosted jobs plus correctness and API/documentation review. Security then found that valid mixed space-plus-tab fence indentation remained raw at a literal-space matcher. Candidate `dd575d5` corrected that boundary and also passed all seven hosted jobs plus correctness and API/documentation review. Security then nested the same syntax inside an ordered-list continuation and proved that the fast-path ambiguity gate never routed it to the rich parser. Candidate `49b22ba` corrected explicit nested-container dispatch and passed all seven hosted jobs, but correctness and security found the same ambiguity on continuation-only mixed-indentation fences; API/documentation independently found candidate-creation prose that had become stale. The current correction routes any horizontally indented potential fence through the rich parser when a list marker exists, retains exact acceptance there, and uses invariant gate wording.
 
 ## Spec Alignment
 
@@ -47,7 +47,7 @@ The implementation follows ADR 0002:
 
 ## Verification Evidence
 
-- `npm.cmd run verify`: the current ambiguity-gate correction passed in 19.7 seconds with 275 tests, format, lint, typecheck, build, V10 dogfood, package dry run, and the clean offline consumer.
+- `npm.cmd run verify`: the current ambiguity-gate correction passed in 16.8 seconds with 275 tests, format, lint, typecheck, build, V10 dogfood, package dry run, and the clean offline consumer.
 - V10 dogfood: under-authorized grant returned `SC4206` with zero calls; corrected grant invoked once and produced seven inspectable events.
 - Installed consumer: shipped guide present; public declarations compile under independent settings; a class executor runs; the real result is narrowed and inspected.
 - Prior candidate `e3453e0` passed all seven jobs in GitHub Actions run `29355583567`, but exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE`; green CI did not override review.
@@ -69,7 +69,8 @@ The implementation follows ADR 0002:
 - Candidate `f779cab` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29388623286` in 9m20s; API/documentation returned `PASS`, while correctness and security returned `REVISE`.
 - Candidate `82c3bb1` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29390051639` in 10m21s; correctness and API/documentation returned `PASS`, while security returned `REVISE`.
 - Candidate `dd575d5` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29391822367` in 9m39s; correctness and API/documentation returned `PASS`, while security returned `REVISE`.
-- Local gate: the positive checker, `npm.cmd run verify`, and all 115 scenarios pass. The matrix completed in 705.2 seconds with 98 expected rejections and 17 expected acceptances; the 30 executor contract-parity cases are unchanged. The executable runtime remains unchanged from `9d8907a`.
+- Candidate `49b22ba` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29393468684` in 11m56s; correctness, security, and API/documentation returned `REVISE` for continuation-only mixed indentation and self-staling next-action prose.
+- Local gate: three direct probes, the positive checker, `npm.cmd run verify`, and all 119 scenarios pass. The matrix completed in 576.2 seconds with 100 expected rejections and 19 expected acceptances; the 30 executor contract-parity cases are unchanged. The executable runtime remains unchanged from `9d8907a`.
 
 ## Findings
 
@@ -124,7 +125,9 @@ The implementation follows ADR 0002:
 | High | Optional quote padding consumed a whole tab, losing expanded columns that remained part of the content and causing both hidden active prose and false rejection. | Consume exactly one virtual delimiter column, rematerialize tab surplus, share the helper across opener and continuation parsing, and cover both thresholds with four fixtures. |
 | High | Mixed space-plus-tab fence indentation was measured in columns but matched as raw characters, exposing fenced content or hiding post-closer content. | Pass the carried absolute content column into fence matching, normalize only zero through three permitted indentation columns, and cover opener, fenced-only prose, and closer behavior. |
 | High | Nested container fences containing tab indentation bypassed the ambiguity gate and took the simple parser path. | Recognize horizontal whitespace after every repeated quote or list prefix at dispatch, retain exact column enforcement in the rich parser, and cover nested opener, fenced-only prose, and closer behavior. |
-| Medium | Historical timing labels could be mistaken for current evidence. | Keep one current complete-tree timing per candidate: 527.5 seconds belongs to rejected `82c3bb1`, 554.2 seconds to rejected `dd575d5`, and 705.2 seconds to the current 115-case correction. |
+| High | Continuation-only mixed space-tab fences bypassed rich-parser dispatch even though the list consumed part of the expanded indentation. | With an active list marker, treat any horizontal whitespace before a potential fence as ambiguous, keep exact zero-through-three-column acceptance in the rich parser, and cover preservation, hidden required prose, closer exposure, and over-limit literal behavior. |
+| Medium | The latest debug next action requested candidate creation after `49b22ba` already existed. | State the invariant AC8 conditions instead of a temporal candidate-creation instruction. |
+| Medium | Historical timing labels could be mistaken for current evidence. | Keep one current complete-tree timing per candidate: 527.5 seconds belongs to rejected `82c3bb1`, 554.2 seconds to rejected `dd575d5`, 705.2 seconds to rejected `49b22ba`, and 576.2 seconds to the current 119-case correction. |
 
 ## Residual Risks
 

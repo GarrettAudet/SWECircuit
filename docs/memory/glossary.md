@@ -62,3 +62,4 @@
 | Partial tab consumption | A grammar transition that consumes fewer columns than a tab spans; the remaining tab-expanded columns must stay in the content rather than disappear with the source character. |
 | Container-relative fence indentation | The zero through three indentation columns allowed before a fence marker after active quote or list containers; tabs must be expanded from the carried absolute column before matching. |
 | Conservative parser dispatch | An ambiguity gate that recognizes every plausible syntax class owned by a richer parser and delegates exact acceptance to that parser instead of maintaining a second partial grammar. |
+| Mixed-indentation list continuation | A list continuation whose leading spaces and tabs jointly satisfy the list's required columns and may leave zero through three container-relative columns before a fence marker. |

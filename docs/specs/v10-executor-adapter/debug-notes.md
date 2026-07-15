@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `dd575d5` passed all seven hosted jobs in run `29391822367` in 9m39s; correctness and API/documentation returned `PASS`, while security returned `REVISE` because a nested ordered-list and block-quote fence with mixed tab indentation bypassed the ambiguity gate. The causal correction passes the positive checker, `npm.cmd run verify`, and all 115 scenarios in 705.2 seconds. V10 is not merged.
+Candidate `49b22ba` passed all seven hosted jobs in run `29393468684` in 11m56s; correctness, security, and API/documentation returned `REVISE` for a continuation-only mixed-indentation dispatch gap and self-staling next-action prose. The causal correction passes three direct probes, the positive checker, `npm.cmd run verify`, and all 119 scenarios in 576.2 seconds. V10 is not merged.
 
 ## Failure Summary
 
@@ -975,4 +975,77 @@ Three nested ordered-list fixtures cover a retired URL inside a tilde fence, req
 
 ### Next Action
 
-Freeze the corrected tree as one exact candidate, obtain three independent `PASS` verdicts and all seven hosted jobs, then perform the bounded evidence-only closeout. Merge remains owner-gated.
+AC8 remains open until the exact complete commit under review records three independent `PASS` verdicts, all seven hosted jobs, the bounded evidence-only closeout, and owner approval; merge remains prohibited until then.
+
+## Exact Candidate Mixed Continuation Dispatch Review
+
+### Trigger
+
+Exact review of `49b22bab45165b7d7395f7898f9e005000abd2d7` returned `REVISE` from correctness, security, and API/documentation. GitHub Actions run `29393468684` passed Template Check and all six Node 22/24 operating-system jobs in 11m56s; Template Check took 11m52s.
+
+### Reproduction
+
+Correctness and security independently placed a fence on a list-continuation line without an explicit quote or list marker on that physical line. Both prefixes below are literal; `[SPACE]` and `[TAB]` denote U+0020 and U+0009.
+
+~~~~text
+- outer item
+[SPACE][TAB][BACKTICK][BACKTICK][BACKTICK]text
+[SPACE][TAB]required contract prose
+[SPACE][TAB][BACKTICK][BACKTICK][BACKTICK]
+~~~~
+
+~~~~text
+- outer item
+[SPACE][SPACE][TAB]~~~text
+[SPACE][SPACE][TAB]https://github.com/GarrettAudet/TraceRail
+[SPACE][SPACE][TAB]~~~
+~~~~
+
+The list marker was detected, but the ambiguity gate required either two or more spaces directly before the fence or one column-zero tab. Both mixed prefixes therefore left `Indented=False`, while the rich parser would consume the list-continuation columns and recognize the remaining zero-through-three fence-indentation columns. The simple parser exposed the fenced lines.
+
+API/documentation separately found that the latest next-action instruction said to freeze a candidate after `49b22ba` was already the frozen candidate. The imperative self-staled and conflicted with the invariant acceptance gate.
+
+### Stable Evidence
+
+- Two pre-fix route probes returned `List=True` with every fence-ambiguity flag false and retained all fenced lines in visible output.
+- Correctness and security independently identified the same dispatch class with one-space-tab and two-space-tab variants.
+- API/documentation confirmed the evidence arithmetic and provenance, then isolated the self-staling next action.
+- All seven hosted jobs passed, so the three `REVISE` verdicts remained acceptance-blocking.
+- Three post-fix probes route both valid mixed forms to rich parsing and preserve an over-limit mixed prefix as literal content.
+
+### Failure Classification
+
+The fast-path ambiguity gate recognized only two homogeneous indentation forms and omitted mixed horizontal whitespace on continuation-only fence lines. Separately, a candidate-creation instruction was used where an invariant gate statement was required.
+
+### Hypotheses
+
+1. When a list marker exists, any horizontal-whitespace-prefixed fence is a rich-parser candidate.
+2. Dispatch should recognize possibility; exact continuation and fence indentation remain parser-owned.
+3. Over-limit mixed indentation must remain literal after routing.
+4. Acceptance prose must state invariant gates rather than request a future candidate.
+
+### Experiments
+
+`$hasIndentedFence` now recognizes any non-empty leading sequence of spaces or tabs before a fence marker. The route still requires list syntax elsewhere, and `Get-MarkdownFenceMarker` retains exact zero-through-three-column enforcement after list continuation.
+
+Four fixtures cover a one-space-tab fenced retired URL, two-space-tab fenced-only required prose, a mixed closer followed by an active retired URL, and an over-limit mixed prefix followed by active required prose. The next action now states only the invariant exact-commit review, hosted-CI, closeout, owner-approval, and merge gates.
+
+Both PowerShell scripts parse, the positive repository checker passes, and `npm.cmd run verify` passes in 16.8 seconds with format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the offline installed consumer.
+
+The complete 119-scenario harness passed in 576.2 seconds: 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. Every prior ownership, blank, Unicode, tab, structural, and public-contract fixture remained correct.
+
+### Confirmed Cause
+
+The ambiguity layer modeled indentation as selected raw-character shapes instead of the broader horizontal-whitespace candidate class interpreted in physical columns by the rich parser. The documentation defect had the same ownership shape: mutable candidate state leaked into text that should describe an invariant gate.
+
+### Causal Fix
+
+Conservatively route every horizontal-whitespace-prefixed fence to the rich parser whenever list syntax is present, retain exact column acceptance in that parser, pair the broadened route with an over-limit preservation fixture, and keep next-action prose candidate-independent.
+
+### Regression
+
+Four fixtures cover mixed continuation opener, fenced-only required prose, closer exposure, and over-limit preservation. The complete 119-scenario matrix passes in 576.2 seconds with 100 rejections and 19 acceptances; the 30 executor contract-parity cases remain unchanged. The executable runtime remains unchanged from `9d8907a`.
+
+### Next Action
+
+AC8 remains open until the exact complete commit under review records three independent `PASS` verdicts, all seven hosted jobs, the bounded evidence-only closeout, and owner approval; merge remains prohibited until then.
