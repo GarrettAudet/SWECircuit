@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `e5f870e` passed all seven hosted jobs plus correctness review, but security and API/documentation returned `REVISE` for historical `7f30107` matrix-attribution gaps and ambiguous policy-compiler versus execution-adapter ownership. The correction makes both boundaries explicit. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `d0ef8f9` passed the exact local matrix, all seven hosted jobs, and security plus API/documentation review, but correctness returned `REVISE` because one milestone sentence changed three source records that omitted the same owner (`7f30107`) into three owners. The correction preserves that cardinality. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidate `e5f870e` passed all seven hosted jobs plus correctness review, but security and API/documentation returned `REVISE` because three historical records still blurred the later frozen `7f30107` matrix owner and generic adapter wording conflicted with the orchestration-compiler capability. The current correction fixes both without changing executable behavior. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidate `d0ef8f9` passed the exact local matrix, all seven hosted jobs, and security plus API/documentation review, but correctness returned `REVISE` for one evidence-cardinality error in the milestone. The current correction preserves one owner and three attribution gaps without changing executable behavior. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -318,3 +318,15 @@ The correction named `7f30107` as the owner of its complete local matrix and kep
 GitHub Actions run `29398170073` passed Template Check plus all six Node 22/24 operating-system jobs in 12m29s for exact commit `e5f870e26628734699a3847b74b14fe98dc3f37b`; Template Check took 12m25s. The two semantic findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
 The current correction names `7f30107` in every historical matrix source and defines capability adapter as an umbrella over policy-compiler adapters and execution adapters. Policy compilers emit SWECircuit-owned portable contracts; IDE, model, and provider execution adapters perform assigned side effects. Runtime, schemas, package metadata, and checker logic are unchanged. The gate remains open.
+
+## Exact Candidate d0ef8f9 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | The milestone overview said "three historical matrix owners" even though one owner, `7f30107`, was missing from three source records. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | PASS | Confirmed historical ownership, adapter authority, bounded V10 claims, and the documentation-only delta. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | PASS | Confirmed adapter taxonomy, current-versus-target positioning, links, chronology, statuses, durations, and open gates. |
+
+The exact local 119-scenario Windows checker matrix passed in 653.0 seconds. GitHub Actions run `29400365173` passed Template Check plus all six Node 22/24 operating-system jobs in 10m47s for exact commit `d0ef8f9cfd492fa5e0dc82da3c6bb583becb4686`; Template Check took 10m44s. The correctness finding remains acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction preserves one owner, `7f30107`, and three historical source records or attribution gaps. Runtime, schemas, package metadata, checker logic, and the orchestration architecture are unchanged. The gate remains open.

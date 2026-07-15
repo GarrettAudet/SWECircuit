@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `e5f870e` passed all seven hosted jobs in run `29398170073` in 12m29s and received correctness `PASS`, but security and API/documentation returned `REVISE` for historical `7f30107` matrix-attribution gaps and ambiguous orchestration-compiler versus execution-adapter ownership. The current correction makes both boundaries explicit and changes no executable surface. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `d0ef8f9` passed all seven hosted jobs in run `29400365173` in 10m47s, the exact local 119-scenario matrix in 653.0 seconds, and security plus API/documentation review. Correctness returned `REVISE` because one milestone sentence changed three source records that omitted the same owner (`7f30107`) into three owners. The current correction preserves that cardinality and changes no executable surface. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -48,7 +48,7 @@ Candidate `f779cab` exposed the remaining delimiter-consumption boundary: a tab 
 
 Candidate `82c3bb1` exposed a final matching-boundary split: parser state measured a space-plus-tab prefix as valid zero-through-three fence indentation from its absolute column, but the fence regex still accepted literal spaces only. Candidate `dd575d5` corrected opener and closer matching at that coordinate.
 
-Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser understood the mixed tab indentation, but the fast-path ambiguity signatures missed it after nested list and quote prefixes. Candidate `49b22ba` corrected that explicit-container path and passed hosted CI, but continuation-only mixed space-tab prefixes still bypassed the indented-fence signature. Candidate `7f30107` corrected the dispatch and invariant-gate prose, passed hosted CI plus correctness and security review, then exposed stale event-date provenance in two memory rows. Candidate `57bab44` corrected those dates and passed hosted CI plus security review, then exposed ambiguous ownership of the inherited `7f30107` matrix. Candidate `e5f870e` corrected current-state ownership and passed hosted CI plus correctness review, then exposed three historical source gaps and ambiguous policy-compiler versus execution-adapter terminology. The current correction fixes both without changing parser behavior.
+Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser understood the mixed tab indentation, but the fast-path ambiguity signatures missed it after nested list and quote prefixes. Candidate `49b22ba` corrected that explicit-container path and passed hosted CI, but continuation-only mixed space-tab prefixes still bypassed the indented-fence signature. Candidate `7f30107` corrected the dispatch and invariant-gate prose, passed hosted CI plus correctness and security review, then exposed stale event-date provenance in two memory rows. Candidate `57bab44` corrected those dates and passed hosted CI plus security review, then exposed ambiguous ownership of the inherited `7f30107` matrix. Candidate `e5f870e` corrected current-state ownership and passed hosted CI plus correctness review, then exposed three historical source gaps and ambiguous policy-compiler versus execution-adapter terminology. Candidate `d0ef8f9` corrected both and passed exact local plus hosted checks and two semantic reviews, then exposed one milestone sentence that confused three source records with three owners. The current correction preserves one owner and three attribution gaps without changing parser behavior.
 
 ## Assumptions Used
 
@@ -95,7 +95,8 @@ Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser unde
 - Candidate `7f30107` passed all seven jobs in GitHub Actions run `29395470172` in 11m39s; exact review returned correctness and security `PASS` plus API/documentation `REVISE`. Template Check took 11m34s.
 - Candidate `57bab44` passed all seven jobs in GitHub Actions run `29396782369` in 11m35s; exact review returned security `PASS` plus correctness and API/documentation `REVISE`. Template Check took 11m30s.
 - Candidate `e5f870e` passed all seven jobs in GitHub Actions run `29398170073` in 12m29s; exact review returned correctness `PASS` plus security and API/documentation `REVISE`. Template Check took 12m25s.
-- Candidate `7f30107` owns the three direct probes and complete local Windows 119-scenario matrix in 576.2 seconds: 100 expected rejections, 19 expected acceptances, and 30 executor parity cases. Candidate `57bab44` did not rerun that copied-input matrix. Candidate `e5f870e` owns its exact hosted 119-scenario Template Check in 12m25s, but semantic review rejected it. Exact-commit review and all seven hosted jobs remain for a successor.
+- Candidate `d0ef8f9` passed all seven jobs in GitHub Actions run `29400365173` in 10m47s; exact review returned correctness `REVISE` plus security and API/documentation `PASS`. Template Check took 10m44s.
+- Candidate `7f30107` owns its local Windows 119-scenario matrix in 576.2 seconds. Candidate `d0ef8f9` owns a separate exact local 119-scenario matrix in 653.0 seconds and its exact hosted Template Check in 10m44s, but semantic review rejected it. Exact-commit review and all seven hosted jobs remain for a successor.
 
 ## Durable Learnings
 
@@ -126,5 +127,6 @@ Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser unde
 - Acceptance-state records should name invariant gates rather than candidate-creation actions that become false when committed.
 - Review-event dates must come from the event-owning Git or hosted timestamp, not a session-start date that may survive a midnight boundary.
 - Verification evidence must name the exact candidate it exercised; inherited results remain useful only when labeled and separated from current-tree checks.
+- Evidence summaries must preserve both entity type and cardinality: three source records missing one owner are not three owners.
 - The product target is portable orchestration policy with execution-adapter effects: SWECircuit decomposes, matches capabilities, coordinates parallel work, joins, verifies, and traces; optional policy compilers emit those contracts; IDE, model, and provider execution adapters perform assigned packets and side effects.
 - Keep the checker bounded and dependency-free for V10; full parser conformance or replacement is a separate architecture decision.

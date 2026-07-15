@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `e5f870e` passed all seven hosted jobs in run `29398170073` in 12m29s; correctness returned `PASS`, while security and API/documentation returned `REVISE` for historical `7f30107` matrix-attribution gaps and ambiguous policy-compiler versus execution-adapter ownership. The correction makes both boundaries explicit. V10 is not merged.
+Candidate `d0ef8f9` passed all seven hosted jobs in run `29400365173` in 10m47s, the exact local 119-scenario matrix in 653.0 seconds, and security plus API/documentation review. Correctness returned `REVISE` because the milestone changed three source records that omitted the same owner (`7f30107`) into three owners. The correction preserves entity type and cardinality. V10 is not merged.
 
 ## Failure Summary
 
@@ -1192,6 +1192,53 @@ Define capability adapter as the umbrella, policy-compiler adapter as an optiona
 ### Regression
 
 The causal regression gate searches all adapter and scheduler surfaces for taxonomy contradictions, all 119-case sources for explicit ownership, checks links and arithmetic, confirms no executable drift, runs the positive checker and canonical kernel verification, and requires three exact `PASS` verdicts plus all seven hosted jobs on the successor.
+
+### Next Action
+
+AC8 remains open until the exact complete commit under review records three independent `PASS` verdicts, all seven hosted jobs, the bounded evidence-only closeout, and owner approval; merge remains prohibited until then.
+
+## Exact Candidate Evidence Cardinality Review
+
+### Trigger
+
+Exact review of `d0ef8f9cfd492fa5e0dc82da3c6bb583becb4686` returned correctness `REVISE` plus security and API/documentation `PASS`. The exact local Windows checker matrix passed all 119 scenarios in 653.0 seconds. GitHub Actions run `29400365173` passed Template Check and all six Node 22/24 operating-system jobs in 10m47s; Template Check took 10m44s.
+
+### Reproduction
+
+Correctness found that the user-facing overview in `docs/milestones/v10.md` said reviewers found "three historical matrix owners." The source evidence established one owner, `7f30107`, and three historical source records that omitted that attribution.
+
+### Stable Evidence
+
+- Candidate `7f30107` is the one owner named by the three corrected historical sources.
+- Three source records lacked that owner before `d0ef8f9`; there were not three owners.
+- Candidate `d0ef8f9` owns its exact local 119-scenario matrix in 653.0 seconds and exact hosted run `29400365173`.
+- Security and API/documentation found no blocking issue; correctness isolated one user-facing sentence.
+
+### Failure Classification
+
+This was evidence entity-type and cardinality drift in a compressed milestone summary.
+
+### Hypotheses
+
+1. The plural noun "owners" changed the reviewed fact, not merely its style.
+2. The source count and owner count must remain separate in every summary.
+3. A one-sentence causal correction plus provenance records is sufficient; runtime and architecture must remain unchanged.
+
+### Experiments
+
+The milestone sentence was compared with the exact correctness finding, the three historical source records, the debug reproduction, the history ledger, and the RCA. A repository search checked every current "three historical" and "three owners" phrase.
+
+### Confirmed Cause
+
+The overview compressed "three historical source records missing the owner" by retaining the number three but replacing the counted entity with owner. That turned one evidence owner into three and contradicted the detailed record.
+
+### Causal Fix
+
+State one owner, `7f30107`, and three source records or attribution gaps everywhere the finding is summarized. Record `d0ef8f9` as the rejected exact candidate and keep its local, hosted, and review evidence separate.
+
+### Regression
+
+The causal gate searches current summaries for source-owner cardinality, confirms exact run IDs and durations, checks links and arithmetic, verifies no executable drift, runs the positive checker and canonical kernel gate, and requires three exact `PASS` verdicts plus all seven hosted jobs on the successor.
 
 ### Next Action
 

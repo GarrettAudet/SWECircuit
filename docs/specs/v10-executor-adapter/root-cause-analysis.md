@@ -302,3 +302,11 @@ The evidence cause was incomplete provenance migration: current summaries were f
 The causal fix names `7f30107` in every historical source for its local 119-case matrix. It keeps capability adapter as the umbrella, defines optional policy compilers as implementations that emit SWECircuit-owned portable contracts, and reserves execution adapter for IDE, model, provider, worker, or process bridges that perform assigned side effects. V10 still executes only one host-selected packet and does not claim orchestration.
 
 The correction changes documentation and memory only. Exact semantic review must confirm historical evidence ownership, adapter taxonomy, current-versus-target positioning, links, chronology, bounded security claims, and open gates; hosted CI must verify the complete immutable successor before AC8 can close.
+
+## Evidence Cardinality Addendum
+
+Candidate `d0ef8f9` passed its exact local 119-scenario matrix in 653.0 seconds and all seven hosted jobs in run `29400365173` in 10m47s. Security and API/documentation returned `PASS`, but correctness returned `REVISE` because the milestone overview described three source records that omitted the same owner (`7f30107`) as "three historical matrix owners."
+
+The root cause was evidence entity-type and cardinality drift during summary compression. The number three described source records or attribution gaps; the owner count was one. Replacing the counted noun changed the fact even though the detailed source record remained correct.
+
+The causal fix names one owner, `7f30107`, and three historical source records or attribution gaps in every current summary. It records `d0ef8f9` as rejected and changes documentation and memory only. Exact semantic review plus hosted CI remain required before AC8 can close.
