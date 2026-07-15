@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 acceptance closeout active.
+Complete.
 
 ## Task List
 
@@ -25,9 +25,9 @@ Each task has a bounded scope and explicit verification evidence.
 - [x] T005: Add the deterministic test executor and public embedding docs.
   Scope: Provide an in-process, no-I/O adapter and document the current capability without implying provider execution or sandboxing.
   Verification: Consumer test imports the built package, runs the deterministic test executor, and inspects its returned journal offline.
-- [ ] T006: Run canonical verification and complete the V10 trace.
+- [x] T006: Run canonical verification and complete the V10 trace.
   Scope: Run checker tests and `npm.cmd run verify`, review the diff, record dogfood friction, update governance and memory, and publish the milestone.
-  Verification: `test-plan.md`, `review.md`, memory files, and `docs/milestones/v10.md` contain linked passing evidence and residual risks.
+  Verification: Immutable candidate `fa4371e` passes `npm.cmd run verify`, the exact local 119-scenario matrix, three independent reviews, and all seven jobs in run `29401791077`; `test-plan.md`, `review.md`, memory, and milestone records preserve the evidence and owner merge gate.
 
 ## Dependencies
 

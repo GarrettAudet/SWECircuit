@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `d0ef8f9` passed the exact local matrix, all seven hosted jobs, and security plus API/documentation review, but correctness returned `REVISE` because one milestone sentence changed three source records that omitted the same owner (`7f30107`) into three owners. The correction preserves that cardinality. V10 is not merged.
+Complete. Immutable acceptance candidate `fa4371e` passed the exact local 119-scenario matrix, all seven hosted jobs, and correctness, security, and API/documentation review. The evidence-only attestation closes AC8 and T006 without changing executable behavior. V10 is ready for owner approval and not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidate `d0ef8f9` passed the exact local matrix, all seven hosted jobs, and security plus API/documentation review, but correctness returned `REVISE` for one evidence-cardinality error in the milestone. The current correction preserves one owner and three attribution gaps without changing executable behavior. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The technical gate passed on immutable candidate `fa4371e`. Its exact local 119-scenario matrix, three independent reviews, and all seven hosted jobs are green. The evidence-only attestation closes AC8 and T006 without changing executable behavior. Merge to `main` remains explicitly owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -330,3 +330,17 @@ The current correction names `7f30107` in every historical matrix source and def
 The exact local 119-scenario Windows checker matrix passed in 653.0 seconds. GitHub Actions run `29400365173` passed Template Check plus all six Node 22/24 operating-system jobs in 10m47s for exact commit `d0ef8f9cfd492fa5e0dc82da3c6bb583becb4686`; Template Check took 10m44s. The correctness finding remains acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
 The current correction preserves one owner, `7f30107`, and three historical source records or attribution gaps. Runtime, schemas, package metadata, checker logic, and the orchestration architecture are unchanged. The gate remains open.
+
+## Exact Candidate fa4371e Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | PASS | Confirmed the 11-file documentation-only delta, one-owner/three-source distinction, exact d0 evidence, open owner gate, and current-versus-target boundary. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | PASS | Confirmed separate evidence owners, bounded V10 authority claims, exact hashes and timings, and the policy-compiler/execution-adapter boundary. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | PASS | Confirmed the milestone, links, chronology, public target flow, V10 one-packet limit, and no premature evidence attribution. |
+
+The exact local 119-scenario Windows checker matrix passed in 673.0 seconds. GitHub Actions run `29401791077` passed Template Check plus all six Node 22/24 operating-system jobs in 11m39s for exact commit `fa4371eacab56292c2779c4e6fcce4737e41ea0b`; Template Check took 11m34s. No reviewer edited files, ran tests, installed dependencies, used network, or mutated Git.
+
+## Completion Handoff
+
+T006 and AC8 are complete. V10 has direct evidence for all acceptance criteria: 275 canonical tests, deterministic dogfood, package and offline consumer checks, the exact 119-scenario matrix, immutable candidate `fa4371e`, seven green hosted jobs in run `29401791077`, and three independent `PASS` verdicts. This evidence-only attestation records the completed gate without changing or re-proving executable behavior. The branch remains `codex/v10-executor-adapter`; `main` remains the V9 baseline until the owner explicitly approves merge.

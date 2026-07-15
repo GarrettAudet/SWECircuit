@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `d0ef8f9` passed all seven hosted jobs in run `29400365173` in 10m47s, the exact local 119-scenario matrix in 653.0 seconds, and security plus API/documentation review. Correctness returned `REVISE` because one milestone sentence changed three source records that omitted the same owner (`7f30107`) into three owners. The current correction preserves that cardinality and changes no executable surface. V10 is not merged.
+Complete. The executable payload remains verified on `9d8907a`. Immutable complete-state candidate `fa4371e` passed `npm.cmd run verify` with 275 tests, the exact local 119-scenario matrix in 673.0 seconds, all seven hosted jobs in run `29401791077` in 11m39s, and correctness, security, and API/documentation review. Hosted Template Check took 11m34s. The evidence-only attestation changes no executable behavior. V10 is ready for owner approval and not merged.
 
 ## Summary Of Changes
 
@@ -96,7 +96,8 @@ Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser unde
 - Candidate `57bab44` passed all seven jobs in GitHub Actions run `29396782369` in 11m35s; exact review returned security `PASS` plus correctness and API/documentation `REVISE`. Template Check took 11m30s.
 - Candidate `e5f870e` passed all seven jobs in GitHub Actions run `29398170073` in 12m29s; exact review returned correctness `PASS` plus security and API/documentation `REVISE`. Template Check took 12m25s.
 - Candidate `d0ef8f9` passed all seven jobs in GitHub Actions run `29400365173` in 10m47s; exact review returned correctness `REVISE` plus security and API/documentation `PASS`. Template Check took 10m44s.
-- Candidate `7f30107` owns its local Windows 119-scenario matrix in 576.2 seconds. Candidate `d0ef8f9` owns a separate exact local 119-scenario matrix in 653.0 seconds and its exact hosted Template Check in 10m44s, but semantic review rejected it. Exact-commit review and all seven hosted jobs remain for a successor.
+- Immutable candidate `fa4371e` passed `npm.cmd run verify` with 275 tests, a separate exact local 119-scenario matrix in 673.0 seconds, and all seven jobs in GitHub Actions run `29401791077` in 11m39s. Template Check took 11m34s.
+- Correctness, security, and API/documentation each returned `PASS` against exact commit `fa4371eacab56292c2779c4e6fcce4737e41ea0b`. The evidence-only attestation records those exact results and changes no runtime, schema, package, checker, or CI behavior.
 
 ## Durable Learnings
 

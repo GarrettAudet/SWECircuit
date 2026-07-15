@@ -2,7 +2,7 @@
 
 ## Status
 
-Acceptance candidate; AC8 remains exact-review gated.
+Complete.
 
 ## Problem
 
@@ -65,7 +65,7 @@ V10 must add that boundary without turning manifest declarations into authority,
 - [x] AC5: Given a timeout or caller cancellation that the executor acknowledges, when execution ends, then cancellation intent and the correct terminal state are traceable.
 - [x] AC6: Given an executor that ignores cancellation beyond the acknowledgment window, when execution returns, then it reports `abort_unconfirmed`, emits no false terminal event, and documents the residual live-work risk.
 - [x] AC7: Given V9 projects and traces, when the canonical verification gate runs, then all existing behavior remains compatible and no external provider or network is required.
-- [ ] AC8: Given the V10 package, when the version reaches review, then research, architecture review, implementation evidence, dogfood observations, memory updates, and a milestone form one traceable chain.
+- [x] AC8: Given the V10 package, when the version reaches review, then research, architecture review, implementation evidence, dogfood observations, memory updates, and a milestone form one traceable chain.
 
 ## Architecture Impact
 

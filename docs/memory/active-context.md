@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Obtain exact-commit review and hosted CI for the complete V10 bounded-executor acceptance state on `codex/v10-executor-adapter`, while keeping owner-approved V9 on `main` as the stable baseline.
+Present the technically accepted V10 bounded-executor version for owner approval. Keep `codex/v10-executor-adapter` unmerged and owner-approved V9 on `main` as the stable baseline.
 
 ## Current Stage
 
-V10 implements one provider-neutral, host-injected work-packet executor with an invocation-scoped grant and caller-owned V9-compatible journal. Runtime candidate `9d8907a` passed 275 tests, all three exact reviews, and run `29357443883`. Later closeout candidates exposed lifecycle, authority, and public-summary drift. Candidate `d0ef8f9` passed all seven hosted jobs in run `29400365173` in 10m47s, its exact local 119-scenario matrix in 653.0 seconds, and security plus API/documentation review. Correctness returned `REVISE` because the milestone called three source records that omitted the same owner (`7f30107`) "three historical matrix owners." The correction preserves the one-owner/three-source distinction. The acceptance gate remains exact-commit review, all seven hosted jobs, evidence-only closeout, and owner approval. V10 is not merged, and `main` remains the V9 baseline.
+V10 technical acceptance is complete. The executable payload remains rooted at `9d8907a`; immutable complete-state candidate `fa4371e` passed `npm.cmd run verify` with 275 tests, the exact local 119-scenario matrix in 673.0 seconds, correctness, security, and API/documentation review, and all seven hosted jobs in run `29401791077` in 11m39s. Hosted Template Check took 11m34s. This evidence-only attestation records those exact results without implying that the attestation changed or re-proved executable behavior. AC1 through AC8 and T001 through T006 are complete. V10 is not merged, owner approval remains required, and `main` remains the V9 baseline.
 
 The reviewed V9 kernel payload at `3c7a876` is merged to `main` after owner approval; all seven jobs passed for that exact payload in GitHub Actions run `29316575767`. The V9 dogfood baseline additionally includes its merge-provenance record. V8.2 was the prior baseline at `5caaa29`. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 dogfooding is complete at `6d4e60a` after 209 local tests, 42 checker regressions, measured failure/retry evidence, independent `REVISE -> PASS`, and GitHub Actions run `29310133523` passing all seven jobs. T011 is complete. Package-gate commit `0341345` passes 209 local tests, the private packed-consumer gate, all 42 checker scenarios, package-review `PASS`, and GitHub Actions run `29312736158`. Final closeout review returned `REVISE`, then immutable candidate `0717c91` passed all seven jobs in run `29314459583` and independent re-review returned `PASS` with no findings. AC1-AC8 and T001-T011 are complete; milestone V9 is merged to `main` and is now the dogfood baseline. The repository remains unlicensed.
 
@@ -36,7 +36,7 @@ The reviewed V9 kernel payload at `3c7a876` is merged to `main` after owner appr
 - Pure Node cannot inspect every opaque same-path Windows reparse attribute; links, junctions, canonical divergence, regular-file state, containment, and descriptor identity remain enforced, while that native metadata boundary is explicitly deferred.
 - Pure Node initialization cannot atomically bind directory creation to first identity capture or final identity checks to pathname removal. X07 names both malicious replacement windows; pending creations force `SC1022`, and detected mismatches are preserved.
 - Public reuse remains legally unclear until the owner selects a license.
-- `main` contains the owner-approved V9 kernel at `3c7a876`; future version work must branch from the merge-provenance baseline.
+- `main` contains the owner-approved V9 kernel at `3c7a876`; completed V10 remains isolated on `codex/v10-executor-adapter` behind the explicit owner merge gate.
 
 ## Recently Learned
 
@@ -108,9 +108,8 @@ The reviewed V9 kernel payload at `3c7a876` is merged to `main` after owner appr
 
 ## Next Likely Work
 
-- Run the acceptance gate against the exact commit containing the complete V10 state: correctness, security, API/documentation, and hosted CI.
-- Obtain explicit correctness, security, and API/documentation `PASS` verdicts against the exact commit.
-- Record the evidence-only closeout and request owner approval before merging V10 to `main`.
+- Present the V10 milestone overview, exact branch, accepted candidate `fa4371e`, run `29401791077`, residual risks, and merge decision to the owner.
+- If approved, merge `codex/v10-executor-adapter` to `main`, verify main-branch CI, record merge provenance, and make V10 the dogfood baseline.
 - After V10 adoption, implement the smallest provider-independent orchestration planner for decomposition, capability matching, dependency-aware fan-out and fan-in, and integration gates; keep IDE and provider calls behind execution adapters.
 - Evaluate a real IDE or provider adapter only after the portable orchestration policy is explicit and through a new adapter evaluation and ADR.
 - Resolve licensing before broad external reuse or package distribution.

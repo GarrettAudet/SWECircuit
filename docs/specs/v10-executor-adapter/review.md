@@ -2,9 +2,11 @@
 
 ## Status
 
-Candidate `d0ef8f9` passed all seven hosted jobs in run `29400365173` in 10m47s, the exact local 119-scenario matrix in 653.0 seconds, and security plus API/documentation review. Correctness returned `REVISE` because one milestone sentence changed three source records that omitted the same owner (`7f30107`) into three owners. The correction preserves that cardinality. V10 is not merged.
+Complete. Immutable acceptance candidate `fa4371e` passed `npm.cmd run verify`, the exact local 119-scenario matrix, all seven hosted jobs, and correctness, security, and API/documentation review. V10 is ready for the owner merge gate and not merged.
 
 ## Review Outcome
+
+Approved for the owner merge gate. Immutable candidate `fa4371e` received correctness, security, and API/documentation `PASS` verdicts and passed all seven hosted jobs in run `29401791077`.
 
 The first postimplementation round returned `REVISE` from all three reviewers. Exact review of committed candidate `e3453e0` then returned `PASS` from security and `REVISE` from correctness plus API/documentation. The remaining findings were a non-atomic fulfillment snapshot and documentation that collapsed no-call terminal certainty into post-invocation acknowledgment. Those corrections were frozen and reviewed in later candidates.
 
@@ -32,7 +34,7 @@ Candidate `f779cab` passed all seven hosted jobs and API/documentation review. C
 
 ## Spec Alignment
 
-AC1 through AC7 are satisfied by local implementation evidence. AC8 is structurally complete through research, ADR, feature records, dogfood evidence, memory, and milestone preparation, but remains open until one exact candidate receives three `PASS` verdicts and all seven hosted jobs pass.
+AC1 through AC7 are satisfied by local implementation evidence. Immutable candidate `fa4371e`, exact local verification, run `29401791077`, three independent `PASS` verdicts, the feature package, milestone, and durable memory satisfy AC8.
 
 ## Architecture Alignment
 
@@ -74,7 +76,8 @@ The implementation follows ADR 0002:
 - Candidate `57bab44` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29396782369` in 11m35s; security returned `PASS`, while correctness and API/documentation returned `REVISE` for inherited-evidence attribution. Template Check took 11m30s.
 - Candidate `e5f870e` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29398170073` in 12m29s; correctness returned `PASS`, while security and API/documentation returned `REVISE` for historical evidence ownership and adapter taxonomy. Template Check took 12m25s.
 - Candidate `d0ef8f9` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29400365173` in 10m47s; correctness returned `REVISE`, while security and API/documentation returned `PASS`. Template Check took 10m44s.
-- Candidate `7f30107` owns its complete local Windows checker evidence in 576.2 seconds. Candidate `d0ef8f9` owns a separate exact local 119-scenario matrix in 653.0 seconds and its exact hosted 119-scenario Template Check in 10m44s, but semantic review rejected it. The executable runtime remains unchanged from `9d8907a`.
+- Immutable candidate `fa4371e` passed `npm.cmd run verify` with 275 tests and the exact local 119-scenario matrix in 673.0 seconds. Correctness, security, and API/documentation each returned `PASS`.
+- GitHub Actions run `29401791077` passed Template Check plus all six Node 22/24 operating-system jobs in 11m39s for exact commit `fa4371eacab56292c2779c4e6fcce4737e41ea0b`; Template Check took 11m34s. The executable runtime remains unchanged from `9d8907a`.
 
 ## Findings
 
@@ -149,4 +152,4 @@ The implementation follows ADR 0002:
 
 ## Memory And Docs
 
-The V10 candidate updates decisions, patterns, known issues, glossary, history, retrieval pointers, active context, public docs, ADRs, and the milestone. The evidence-only closeout will add the accepted exact candidate and three final `PASS` verdicts only after the review and hosted-CI gate succeeds.
+The complete V10 source package preserves every implementation boundary, review loop, failed candidate, exact local matrix, hosted run, dogfood artifact, memory update, and residual risk. Immutable candidate `fa4371e` completed the exact gate with three `PASS` verdicts and all seven hosted jobs. This evidence-only attestation records that result without changing executable behavior; no merge has occurred.

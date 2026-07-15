@@ -2,7 +2,7 @@
 
 ## Status
 
-Acceptance-candidate verification active.
+Complete. Immutable candidate `fa4371e` passed canonical, exact local, independent-review, and hosted verification.
 
 ## Acceptance Criteria Mapping
 
@@ -115,4 +115,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `57bab44` passed all seven jobs in run `29396782369` in 11m35s; exact review returned `REVISE / PASS / REVISE` for correctness, security, and API/documentation because inherited `7f30107` matrix evidence was described as current. Template Check took 11m30s.
 - Candidate `e5f870e` passed all seven jobs in run `29398170073` in 12m29s; exact review returned `PASS / REVISE / REVISE` for correctness, security, and API/documentation because three historical matrix sources lacked the `7f30107` owner and adapter taxonomy remained ambiguous. Template Check took 12m25s.
 - Candidate `d0ef8f9` passed all seven jobs in run `29400365173` in 10m47s; exact review returned `REVISE / PASS / PASS` because the milestone changed three source records missing one owner into three owners. Template Check took 10m44s.
-- Rejected `82c3bb1` used 109 scenarios in 527.5 seconds, rejected `dd575d5` used 112 scenarios in 554.2 seconds, and rejected `49b22ba` used 115 scenarios in 705.2 seconds. Rejected `7f30107` owns its local Windows 119-scenario matrix in 576.2 seconds. Rejected `d0ef8f9` owns a separate exact local 119-scenario matrix in 653.0 seconds and its exact hosted Template Check in 10m44s, but semantic review rejected it. Exact-commit review and all seven hosted jobs remain for a successor.
+- Immutable candidate `fa4371e` passed `npm.cmd run verify` with 275 tests and the exact local 119-scenario matrix in 673.0 seconds. Exact review returned `PASS / PASS / PASS` for correctness, security, and API/documentation.
+- GitHub Actions run `29401791077` passed all seven jobs in 11m39s for exact commit `fa4371eacab56292c2779c4e6fcce4737e41ea0b`; Template Check took 11m34s. The evidence-only attestation records those results without claiming another full-matrix run.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `d0ef8f9` passed all seven hosted jobs in run `29400365173` in 10m47s, the exact local 119-scenario matrix in 653.0 seconds, and security plus API/documentation review. Correctness returned `REVISE` because the milestone changed three source records that omitted the same owner (`7f30107`) into three owners. The correction preserves entity type and cardinality. V10 is not merged.
+Closed. Immutable acceptance candidate `fa4371e` passed the exact local 119-scenario matrix in 673.0 seconds, all seven hosted jobs in run `29401791077` in 11m39s, and correctness, security, and API/documentation review. Hosted Template Check took 11m34s. The evidence-only attestation changes no executable behavior. V10 is ready for owner approval and not merged.
 
 ## Failure Summary
 
