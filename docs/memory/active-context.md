@@ -2,22 +2,25 @@
 
 ## Current Focus
 
-Dogfood the technically accepted V10 contracts to design V11 as an IDE-, API-, model-, and provider-agnostic software-work coordinator. The target is one simple goal-to-evidence workflow that defaults to one IDE agent and scales by adding allowlisted specialist profiles and bounded capacity. Keep V10 immutable behind its owner gate and V11 planning-only until architecture revision 2 passes independent review.
+Dogfood the technically accepted V10 contracts to design V11 as an IDE-, API-, model-, and provider-agnostic software-work coordinator. The target is one resumable goal-to-evidence facade that requires one supplied allowlisted profile, defaults requested concurrency to one, and scales only through explicit bounded concurrency plus host-authored replication and specialist capacity. Keep V10 immutable behind its owner gate and V11 planning-only until architecture revision 3 passes independent review.
 
 ## Current Stage
 
 V10 technical acceptance is complete at immutable candidate `fa4371e` with evidence closeout `8ac3372`. The exact candidate passed the canonical local gate with 275 tests, the 119-scenario checker matrix, independent correctness, security, and API/documentation review, and all seven GitHub Actions jobs. V10 remains unmerged; `main` remains the owner-approved V9 baseline at `2b7bef3`.
 
-V11 bootstrap commit `f559b4a` passed local source-chain and canonical package gates with 275 inherited V9/V10 tests, then four independent read-only reviewers all returned `REVISE`: two high graph/handoff blockers and nineteen additional API, lifecycle, security, trace, and bounds findings. Implementation correctly stopped. Revision 2 now specifies one `runGoal` facade, Circuit-owned policy, a separate orchestration contract family, host-rooted RunAuthority, dynamic capability assignment, one serialized coordinator, claimed complete waves, conservative conflict rules, total V10/result/join lifecycle, source-preserving parent events, exact bounds, and explicit deferred scope. No V11 kernel, schema, package, executor, scheduler, merge, or memory-write behavior exists. Revision 2 passes placeholder, BOM-free LF byte, 138-reference source, whitespace, template, and canonical package checks with 275 inherited tests. The next gate is an immutable redesign commit and four fresh `PASS` reviews. V11 cannot be accepted or merged until V10 is owner-approved or V11 is rebased to an approved replacement.
+V11 architecture review has completed two immutable dogfood rounds. Round 1 against `f559b4a` returned four `REVISE` verdicts. Revision 2 commit `5d82394` passed placeholder, BOM-free LF, 138-reference source, diff, template, and canonical package gates with 275 inherited tests, then four fresh reviewers returned `REVISE` with 17 high and 8 medium raw findings. Implementation correctly stopped both times. Revision 3 now defines an exact PolicyBundle/template closure, host-owned criterion coverage, compiler-derived integration, explicit requested concurrency, logical-role/runtime-assignment separation, root RunAuthority, content-bound transition/journal cursors, total comparators/signatures, formal matching and reserved waves, attempt replay prevention, one-shot dispatch truth, four child variants, two-pass mixed batches, queued input/cancellation, MemoryProposal-to-Candidate production, post-terminal MergeReadyEvidence, graph-wide portability, and the actual additive export inventory. Product/API/lifecycle preflights informed these corrections; the interrupted security preflight returned no evidence. No V11 kernel, schema, package, scheduler, merge, or memory-write behavior exists. The revision-3 working tree passes source/template/declaration/export and canonical package gates with 275 inherited tests; the next gate is one immutable commit and four fresh `PASS` reviews. V11 cannot be accepted or merged until V10 is owner-approved or V11 is rebased to an approved replacement.
 
 ## Important Current Constraints
 
 - SWECircuit is an IDE-, model-, and provider-agnostic software-engineering control plane, not an API gateway or model router.
-- The human supplies the goal and material decisions; selected circuits and module contracts shape decomposition, capability requirements, gates, and completion evidence.
-- A host-injected planner may propose concrete work, but the selected Circuit and Modules own workflow policy; deterministic compilation, matching, readiness, routing, fan-in, and trace rules remain authoritative.
-- Specialized-agent matching uses exact capabilities, contract support, allowlisted profile digests, authority ceilings, live capacity, and stable tie-breakers; it ignores provider, model, API, IDE, price, prompt, and hidden quality identity.
-- V11 uses one serialized coordinator that commits a complete claimed wave before host callbacks and reduces one complete result batch. Distributed coordinators and cross-process claim guarantees are deferred.
-- Read/read overlap may parallelize. Write/write, write/read, shared writer conflict zones, and unknown writer scopes serialize with no V11 isolation exception.
+- The human supplies GoalContract coverage, material decisions, requested concurrency, and a host-authored PolicyBundle. OrchestrationPolicy binds one exact Circuit plus exact Module/WorkPacket-template closures and machine-checkable replication regions; planner data only chooses permitted lane counts and narrowed packet content.
+- Goal criteria map mechanically to compiler-derived producer, verifier, reviewer, integration, and evidence bindings. WorkPacket owner is a logical role; Assignment alone names the runtime specialist.
+- Specialized-agent matching uses the normative maximum-cardinality lexicographic objective over exact capabilities, authority, live slots, and stable identities; it ignores provider, model, API, IDE, price, prompt, and hidden quality metadata.
+- V11 uses one serialized coordinator that reserves worst-case reduction, consumes grant-attempt keys, installs a complete claimed wave before execution callbacks, and reduces one complete result batch in two passes. Distributed coordinators and cross-process claim guarantees are deferred.
+- Read/read overlap may parallelize. Write/write, write/read, shared writer conflict zones, and unresolved path/alias scopes serialize with no V11 isolation exception.
+- Child results are exactly executed, v10_rejected, not_started, or effect_unknown. A one-shot dispatch observation separates zero-call, settled, and ambiguous effects; post-dispatch overflow is uncertain.
+- Completion requires settled invocations, integration witnesses, independent gates, owner action, and memory proposals/candidates; MergeReadyEvidence is created only after the completed state/event exists.
+- `docs/specs/v11-orchestration-planner/orchestration-contract.md` is the property-level source for roots, fields, digests, signatures, comparators, transitions, algorithms, events, privacy, limits, portability, and exports.
 - V11 is stacked on owner-gated V10 for planning continuity only. Neither version may be merged without satisfying its own owner and technical gates.
 
 - SWECircuit is the repository and project name, not a reserved package, domain, CLI, or hosted-service namespace.
@@ -116,15 +119,22 @@ V11 bootstrap commit `f559b4a` passed local source-chain and canonical package g
 
 - Current orchestration ecosystems converge on inspectable graphs, bounded specialized contexts, explicit input-required pauses, dependency-aware claims, host-enforced isolation, independent fan-in, and one integration owner; SWECircuit can standardize those semantics without adopting a provider runtime.
 - Four independent V11 architecture reviews found material graph, handoff, API, lifecycle, and security gaps before code existed; pre-implementation fan-out is now evidenced as a quality gate, not just a proposed pattern.
-- Multi-agent simplicity comes from one contract: one agent is an allowlisted profile with one slot, and scale adds profiles and capacity without changing policy, trace, or completion semantics.
+- Multi-agent simplicity comes from one contract: requested concurrency defaults to one, profiles describe eligible capacity, and only an explicit bounded value above one permits parallel waves without changing policy, trace, or completion semantics.
 - Plans should own immutable work instances while assignments own live profile, availability, executor, and claim identity; compiling assignments too early makes portability and resume semantics dishonest.
 - Deterministic complete-wave reduction trades some tail latency for a much smaller race surface and a reconstructable one-coordinator baseline.
+- A fixed Circuit cannot imply variable task decomposition; dynamic lanes require a separate host-authored, digest-bound replication policy with exact graph derivation.
+- Acceptance criteria need stable IDs and host-authored producer/verifier/reviewer/evidence policy; compiler-derived coverage and integration must exist before parallel worker success can become traceable product quality.
+- A named union is not implementation-ready until required and forbidden fields, unbound rejection, digest projection, and identity ownership are explicit.
+- V10 operation rejection, zero-call work, executed summaries, and unknown effects are distinct facts and must never share a fabricated result envelope.
+- Preflight fan-out before an immutable review candidate is useful, but an interrupted agent without a handoff is no evidence and cannot satisfy a gate.
+- Memory and merge-readiness claims need explicit production paths and acyclic binding, not completion prose alone.
 
 ## Next Likely Work
 
-- Freeze and push the locally verified revision-2 source chain as one clean immutable redesign commit.
+- Freeze the locally validated revision-3 source chain, including the normative orchestration contract and both historical review records.
+- Commit and push one clean immutable revision-3 candidate.
 - Run fresh bounded read-only product, API, lifecycle, and security reviews against that exact commit.
-- Route any material finding back to redesign; authorize the first contract slice only after four `PASS` verdicts.
+- Route any material finding back to redesign; authorize the first schema slice only after four `PASS` verdicts.
 - Keep the separate V10 owner merge gate open; do not merge V10 or V11 during architecture review.
-- After architecture acceptance and an approved baseline, implement contracts, compilation, matching/waves, reduction/trace, then prove the one-agent E2E before the four-role parallel dogfood.
+- After architecture acceptance and an approved baseline, implement contracts first and prove one-agent continuation before multi-agent dogfood.
 - Resolve licensing before broad external reuse or package distribution.

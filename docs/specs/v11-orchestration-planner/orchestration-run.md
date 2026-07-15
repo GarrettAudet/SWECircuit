@@ -2,120 +2,100 @@
 
 ## Status
 
-Round 1 fan-out and fan-in complete with outcome `redesign`. Revision-2 integration is active. No implementation worker has been dispatched.
+Round 2 completed with outcome `redesign`. Revision-3 integration and local validation now emit `pass` to the immutable Round-3 review gate. No implementation worker has been dispatched.
 
 ## Goal
 
-Produce and independently review a portable architecture that moves a human software goal through user-selected modules, bounded decomposition, specialized capability assignment, safe parallel work, integration, verification, review, owner approval, trace, and learning without making an IDE, API, model, or provider the workflow authority.
+Independently prove an IDE/API/model/provider-neutral architecture that moves a human software goal through host-authored policy, bounded agent work, safe parallelism, integrated quality, owner approval, trace, and learning.
 
 ## Pattern Chosen
 
-Four bounded read-only specialist reviews in parallel, followed by one serialized integration owner.
-
-## Why This Pattern
-
-Product ownership, public contracts, concurrent lifecycle, and security are separable review dimensions. Read-only work removes file conflicts, fresh contexts reduce shared assumptions, exact-commit binding makes evidence attributable, and one integration owner preserves a coherent design.
+Four fresh bounded read-only specialist reviews followed by one serialized integration owner.
 
 ## Branch And State
 
 - Branch: `codex/v11-orchestration-planner`
-- Baseline: V10 closeout `8ac3372`, technically accepted and owner-gated
-- Round 1 reviewed commit: `f559b4aec54f0e12e947bd9feb00e7ba67e4bf32`
-- Round 1 tree: clean before and after every review
-- Current stage: architecture redesign
-- Merge authority: repository owner only after separate V10 and V11 gates
+- Baseline: V10 closeout `8ac3372`, owner-gated
+- Round 1 commit: `f559b4a`
+- Round 2 commit: `5d82394268a5e4af7769a3090c1a8e97213df2bf`
+- Round 2 local gate: passed with 275 inherited tests
+- Current stage: locally validated revision-3 candidate; immutable commit pending
+- Merge authority: repository owner only after separate baseline and V11 acceptance
 
-## Roster
+## Round-2 Roster
 
-| Role | Agent identifier | Scope | Authority |
-| --- | --- | --- | --- |
-| Integration owner | Main IDE agent | Complete V11 source chain | Edit planning docs, validate, commit, push; no implementation before gate; no merge |
-| Product/architecture | `019f6538-cf2a-7101-a2be-1fd4441ab674` | Product boundary, graph ownership, usability | Read-only findings |
-| API/compatibility | `019f6538-e38e-7aa3-9711-4ebdc10a53ee` | Types, identity, versions, invalid states | Read-only findings |
-| Lifecycle/concurrency | `019f6538-f7b1-74b0-a7ee-06c07c7f6ef9` | Claims, waves, results, joins, cancellation, liveness | Read-only findings |
-| Security/trace | `019f6539-0d40-7230-b2b9-f5926abc92ee` | Authority, provenance, privacy, evidence | Read-only findings |
+| Role | Reviewer | Verdict | High | Medium |
+| --- | --- | --- | ---: | ---: |
+| Product/architecture | `019f6566-a392-7c70-8ef4-ede275fe0998` | REVISE | 3 | 1 |
+| API/compatibility | `019f6566-b7da-7c50-bfb9-b6fb69993640` | REVISE | 6 | 1 |
+| Lifecycle/concurrency | `019f6566-ccef-73c3-968f-80ac5fd58654` | REVISE | 4 | 3 |
+| Security/trace | `019f6566-e136-7ae0-8240-117214bf852b` | REVISE | 4 | 3 |
+
+Every reviewer verified exact clean HEAD before and after, made no edits, ran no tests, installed nothing, used no network, and made no Git mutation.
 
 ## Fan-Out Log
 
-| Step | Work | Evidence | Outcome |
-| --- | --- | --- | --- |
-| 1 | Main agent audited V9/V10 and current product gap | Source chain and dated research snapshot | pass |
-| 2 | Bootstrap candidate committed and pushed | `f559b4a` | pass |
-| 3 | Four reviewers started from fresh read-only contexts | Exact commit verified by each | pass |
-| 4 | Product/architecture review | 2 high, 3 medium | REVISE |
-| 5 | API/compatibility review | 6 medium | REVISE |
-| 6 | Lifecycle/concurrency review | 7 medium | REVISE |
-| 7 | Security/trace review | 6 medium | REVISE |
-
-No reviewer edited files, ran tests, installed dependencies, used network, staged, committed, or pushed.
-
-## Handoffs
-
-| Role | Primary handoff | Integrated decision |
+| Step | Action | Outcome |
 | --- | --- | --- |
-| Product/architecture | Circuit/Plan authority conflict; incomplete child-output handoff | Circuit is sole policy graph; Plan is derived instance graph; define complete ChildResultEnvelope |
-| API/compatibility | Artifact/version ownership, result unions, assignment identity, matching, event version, bounds | Separate orchestration family; RFC 8785 digests; dynamic assignment; separate parent events; exact limits |
-| Lifecycle/concurrency | Missing total mappings, unsafe claim ordering, races, capacity, joins, liveness | PlanningSession; claimed complete waves before effects; serialized batch reduction; closed state and V10 matrices |
-| Security/trace | No independent authority root, weak profile provenance, ambiguous isolation and response binding | Host RunAuthority; allowlisted profile digests and executor binding; no overlap exceptions; full input/result identity |
+| 1 | Revision 2 synchronized and locally validated | pass |
+| 2 | `5d82394` committed and pushed | pass |
+| 3 | Four fresh reviewers spawned with bounded source bundles | pass |
+| 4 | Product/API/lifecycle/security independent review | four REVISE |
+| 5 | Agents closed after source-preserving handoffs | pass |
+| 6 | Findings deduplicated into 14 revision-3 obligations | redesign active |
 
-The complete source-preserving handoff is `architecture-review-round-1.md`.
+## Handoffs And Decisions
 
-## Integration Decisions
+| Convergence | Revision-3 decision |
+| --- | --- |
+| Circuit had no variable slots | Add host-authored OrchestrationPolicy replication regions |
+| Acceptance/owner ambiguity | GoalContract coverage and logical role/runtime Assignment split |
+| Named but incomplete contracts | One normative property-level orchestration contract |
+| Missing authority/digest chain | Root RunAuthority and predecessor digest table |
+| V10 rejection/not-started conflict | Four child variants with exact fields |
+| Nondeterministic matching/waves | Formal lexicographic matching and earliest-feasible subset |
+| Input/cancel/join/cycle ambiguity | One-use requests, precedence, width-independent branches, finite budgets |
+| Trace/path/privacy/resource gaps | Closed events, host observations, payload classes, incremental byte limits |
+| Compatibility uncertainty | Snapshot the actual current root exports; add only explicit orchestration names/paths |
+| Template/acceptance ambiguity | Exact PolicyBundle template closure; Goal-owned coverage; compiler-derived bindings |
+| Effect/resource ambiguity | One-shot dispatch observation, claim reserve, per-ticket limits, post-dispatch uncertainty |
+| Integration/memory promises | Compiler-derived integration bindings, MemoryProposal/Candidate, post-terminal MergeReadyEvidence |
 
-- One facade, `runGoal`, defaults to one profile and concurrency one.
-- Many agents are the same system with more allowlisted profiles and bounded slots.
-- Circuit/Module policy is immutable workflow authority; planner output is proposal data.
-- A separate orchestration contract family avoids breaking project artifacts and RunEvent.
-- RunAuthority is host-supplied and every later object narrows it.
-- Plans own immutable instances; state owns assignments and live availability.
-- One coordinator commits complete conflict-safe waves before callbacks.
-- Results reduce as one complete canonical batch.
-- V11 allows no overlapping writes and no automatic retry.
-- Tickets and results bind every parent, child, worker, packet, commit, port, and evidence identity.
-- V10 dispositions, joins, cancellation, deadlock, uncertainty, and completion are total.
-- Parent events reference child evidence; memory writes and merge remain owner/host actions.
-- Exact privacy and resource ceilings are test obligations.
+Complete source evidence is in `architecture-review-round-2.md`.
 
 ## Verification
 
-### Bootstrap Candidate
+### Revision 2
 
-- Placeholder scan: pass.
-- BOM-free LF audit: pass.
-- Source-reference audit: 26 references existed.
-- `git diff --check`: pass.
-- Template checker: pass.
-- `npm.cmd run verify`: pass in 19.9 seconds with 275 inherited tests, deterministic V10 dogfood, package inspection, and offline packed consumer.
-- Independent review: four `REVISE`; therefore architecture gate failed.
+- Placeholder, BOM-free LF, source-reference, diff, template checker: pass.
+- `npm.cmd run verify`: pass in 19.4 seconds with 275 inherited tests, deterministic V10 dogfood, package inspection, and offline consumer.
+- Remote branch and local HEAD matched exact `5d82394`.
+- Independent gate: fail with four REVISE.
 
-### Revision-2 Candidate
+### Revision 3
 
-- Placeholder scan: pass.
-- BOM-free LF audit: pass across 15 changed files.
-- Concrete source-reference audit: pass for 138 existing paths; future schema and illustrative scope paths excluded explicitly.
-- `git diff --check`: pass.
-- Template checker: pass.
-- `npm.cmd run verify`: pass in 19.7 seconds with 275 inherited tests, deterministic V10 dogfood, package inspection, and offline installed consumer.
-- Immutable commit, push, and four fresh reviews: pending.
+Three bounded read-only preflights (product `019f670f-7dd6-7fc2-a147-19b9a96a07bb`, API `019f670f-9261-70f0-98bb-4cce94a21c4a`, lifecycle `019f670f-959d-7692-bc9f-de3e7a6b7ef6`) returned actionable findings before commit; they are design feedback, not official verdicts. A security preflight (`019f670f-a846-7111-a28b-a4da1c559695`) was stopped without a handoff and counts as no evidence. Integrated corrections include host-owned coverage, exact template closure, explicit concurrency, content-bound tails, dispatch/resource truth, two-pass mixed batches, response-before-seed request handling, cancellation/attempt replay, integration/memory production, honest host-attested output evidence, readonly signatures, comparators, and accurate exports.
 
-## Performance And Friction Observations
+The working tree passes placeholder, BOM-free LF, source-reference, diff, template, readonly declaration, and exact export-inventory checks. `npm.cmd run verify` passed in 22.1 seconds with all 275 inherited tests, deterministic V10 dogfood, dry-run package inspection, and the offline packed consumer. The immutable commit/push and four fresh exact-commit reviews remain pending. No V11 runtime proof is claimed.
 
-- Parallel read-only review completed four independent analyses without edit conflicts.
-- The fan-out improved defect discovery before implementation but required one careful synthesis pass.
-- Exact-commit review prevented green baseline tests from being misread as V11 proof.
-- The bootstrap packet was too open-ended; revision 2 replaces review questions with closed decisions and executable negative fixtures.
-- `apply_patch` remains unavailable in this Windows sandbox, so exact direct writes require extra byte and diff verification.
+## Performance And Friction
+
+- Parallel read-only reviews again produced independent findings without edit conflicts.
+- The system prevented implementation twice, trading short-term velocity for much lower rework risk.
+- Revision 2 remained too prose-level for schema/runtime work; revision 3 moves details into one normative contract while keeping the facade simple.
+- Preflight review before the immutable gate caught contradictions cheaply and exercised the same fan-out/fan-in discipline V11 is intended to automate.
+- The longest review was lifecycle, matching the complexity of total wave and join semantics.
 
 ## Review
 
-Current outcome: `redesign`. The architecture is more precise but unaccepted until Round 2. V10 remains a separate owner-gated baseline. No merge is requested.
+Revision-3 integration outcome is `pass` to independent review. The serialized coordinator remains viable; prior missing machine-level policy and contract closure, not the product direction, caused the earlier gate failures.
 
 ## Memory Updates
 
-- Active context: Round 1 `REVISE`, revision-2 design, no implementation.
-- Retrieval index: source chain plus Round 1 evidence.
-- Decisions/practice register/history: deferred until the architecture becomes a completed accepted event.
+- Active context: Round 2 four REVISE, revision-3 contract active.
+- Retrieval index: both review rounds and normative contract.
+- Decisions/history/practice register: deferred until accepted architecture.
 
 ## Completion Handoff
 
-Not complete. The next action is to validate and commit revision 2, then dispatch four fresh read-only reviewers against that exact commit. Four `PASS` verdicts authorize the first implementation slice; any material finding returns to redesign.
+Not complete. Freeze, commit, and push the locally validated revision-3 tree, then run four fresh reviewers against that exact hash. Four PASS verdicts authorize the first schema slice; any material finding returns to redesign. No merge is requested.

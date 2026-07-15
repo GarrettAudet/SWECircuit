@@ -2,166 +2,229 @@
 
 ## Status
 
-Revision 2 architecture-gate plan. No V11 runtime tests exist yet. Every Round 1 finding below is converted into a required fixture before implementation can be accepted.
+Revision 3 architecture-gate plan. No V11 runtime test is claimed. Every Round 1 and Round 2 material finding maps to a required negative or equivalence fixture before implementation acceptance.
 
 ## Acceptance Mapping
 
 | Criterion | Required evidence |
 | --- | --- |
-| AC1 | One-profile `runGoal` E2E, concurrency-one default, no provider configuration, usability review |
-| AC2 | Circuit-to-plan derivation fixtures, proposal permutations, policy-escalation rejection, zero worker calls |
-| AC3 | PlanningSession transition matrix, clarification binding, stale/replay/wrong-role/round-limit negatives |
-| AC4 | Capacity-constrained matching properties, shuffled inputs, least-authority and metadata-influence negatives |
-| AC5 | Claim-before-effect assertions, path normalization, overlap matrix, unknown-scope serialization |
-| AC6 | Complete-wave batch matrix, arrival-order permutations, duplicate/substitution rejection, revision checks |
-| AC7 | Total V10-to-parent mapping, uncertainty quarantine, no retry/transfer/join after unknown effect |
-| AC8 | `all`/`any` matrices at concurrency one and many, deterministic winner and loser settlement |
-| AC9 | Completion-predicate negatives for every missing gate, deadlock, active claim, input, and owner approval |
-| AC10 | Parent/child trace reconstruction, evidence ownership, bounded journal, privacy canaries |
-| AC11 | Two independent host wrappers, canonical byte comparison, provenance-aware semantic projection |
-| AC12 | Four-role dogfood, clarification, failure-to-diagnosis, fan-in, integrated gates, timing and evidence equivalence |
-| AC13 | Inherited tests, package consumer, local/hosted gates, four independent PASS reviews, milestone and memory |
+| AC1 | Omitted/explicit concurrency facade start/input/wait/resume/terminal E2E and usability review |
+| AC2 | Replication-region zero/min/max lane fixtures and canonical graph derivation |
+| AC3 | PolicyBundle closure and planner escalation matrix with zero worker calls |
+| AC4 | Host-owned GoalContract coverage, compiler derivation, and logical evidence-owner matrix |
+| AC5 | WorkPacket narrowing/logical-role and exact matching property tests |
+| AC6 | Deterministic wave, claim reserve, attempt replay, conflicts, paths, and waiting tests |
+| AC7 | Four child variants, dispatch truth, result limits, and identity substitution |
+| AC8 | Mixed-batch permutations, two-pass winner routing, cancellation, and terminal matrix |
+| AC9 | Width-independent `all`/`any` branch, loser, and recovery matrices |
+| AC10 | Pre-execution/outcome/owner requests, queue order, role, replay, and direct completion |
+| AC11 | Existing/narrowed cycle budgets, diagnosis/fix, terminal reserve, failed/blocked tests |
+| AC12 | Content-bound parent journal and full-chain, reconstruction, memory/merge ownership, and privacy canaries |
+| AC13 | Every byte/count ceiling at minus one/exact/plus one with pre/post-dispatch effect counters |
+| AC14 | Two byte-identical hosts and one different-provenance graph-wide semantic projection |
+| AC15 | Four-role dogfood with memory/merge evidence and equivalent serial/parallel semantics/timing |
+| AC16 | Inherited suite, packed consumer, local/hosted gates, four independent PASS reviews |
 
-## Contract And Identity Matrix
+## Policy And Replication Matrix
 
-- Accept exactly the five orchestration root kinds and their closed nested unions.
-- Reject orchestration roots in the existing project-artifact validator and reject project artifacts in orchestration validators.
-- Keep all existing six project artifact kinds and V10 RunEvent 1.0.0 fixtures byte-compatible.
-- Prove RFC 8785 plus SHA-256 known vectors, property ordering, escaped strings, safe integers, digest-field exclusion, and no implicit Unicode normalization.
-- Reject unknown fields, wrong discriminators, unsafe numbers, missing identities, revision overflow, malformed digests, duplicate identifiers, cycles, accessors, proxies, and oversized snapshots.
-- Prove every published JSON schema and runtime validator accept and reject the same corpus.
+- Validate OrchestrationPolicy against one exact Circuit plus the exact Module and WorkPacket-template SnapshotDigest closures.
+- Reject a missing, extra, drifted, duplicate, unknown, or unreferenced Circuit/Module/template value or digest.
+- Validate five representative specializations (`frontend`, `backend`, `test`, `docs`, `security`) through the same variant contract without provider fields.
+- Accept zero replication regions and require one invocation per reachable Circuit node.
+- Test each region at zero when permitted, minimum, middle, maximum, and maximum plus one lanes.
+- Derive canonical lane/node invocation IDs independent of proposal object order.
+- Clone only region-internal routes and transfers lane-locally.
+- Derive shared join sources for every concrete lane terminal and preserve static branch sources.
+- Reject overlapping regions, external incoming routes, cross-lane routes, invalid roots, entry/exit/join/fan-out-source/integration-owner members, illegal region exits, and more than 256 concrete invocations.
+- Reject planner attempts to add or modify regions, cardinality, roles, node functions, routes, transfers, joins, gates, owners, authority, or completion.
+- Prove a Circuit without a region cannot become parallel through proposal data.
 
-## Operation Result And Transition Matrix
+## Goal, Coverage, And Ownership Matrix
 
-- Reject every planning result that combines an advanced session with rejection diagnostics or omits the unchanged session digest on rejection.
-- Reject every run result that combines successor state/events with `transition_rejected` or `transition_deferred`.
-- Require `transition_deferred` to preserve the exact ready-state digest and use only a closed temporary reason.
-- Require `runGoal` to return exactly one of `input_required`, `waiting`, `completed`, `failed`, `blocked`, `cancelled`, or `uncertain` with case-specific fields only.
-- Exercise every operation from every PlanningSession and OrchestrationState variant. Assert each accepted next state in ADR 0003 and byte-identical state for all invalid pairs.
-- Prove terminal states reject all operations and emit no event.
-- Prove no-capacity with statically compatible profiles returns `waiting`/deferred ready state, while an unreachable graph becomes terminal `blocked` and the facade never busy-loops.
+- Reject duplicate, unknown, missing, over-limit, or malformed criterion IDs.
+- Put exactly one coveragePolicy on each GoalContract criterion and forbid PlanProposal acceptance coverage.
+- Derive exactly one Plan acceptanceCoverage row per criterion after lane selection.
+- Exercise producer aggregation `all`, `join_winner`, and verification-only `none`; reject skipped alternatives as required winner coverage.
+- Require valid producer, verifier, reviewer, and qualified evidence requirement references according to approval policy.
+- Derive one integration binding per Circuit join plus exact primary-integrator and memory invocation IDs.
+- Reject worker-local evidence substituted for verifier/reviewer evidence.
+- Reject coverage that points to a node with the wrong Policy node function.
+- Require every generated WorkPacket `role.owner` to equal its Policy logical role.
+- Prove profile, executor, and planner IDs cannot appear as logical WorkPacket owners.
+- Derive OutputReference and evidence ownership from logical role, node function, and Assignment, ignoring hostile worker owner fields.
 
-## Planning And Graph Authority Matrix
+## Closed Contract And Digest Matrix
 
-| Scenario | Expected result | Effects |
-| --- | --- | ---: |
-| Valid proposal instantiates permitted fan-out | Canonical compiled plan | 0 workers |
-| Planner returns one bounded question | `input_required` revision | 0 workers |
-| Authorized exact response | Resume same session | 0 workers until compiled |
-| Wrong request, digest, revision, role, or session | Stable rejection, unchanged session | 0 |
-| Ninth planner round or second pending request | `blocked` with limit diagnostic | 0 |
-| Proposal adds module, route, gate, join, integration owner, exit, or optional path | Policy-escalation rejection | 0 |
-| Proposal omits required Circuit node or acceptance mapping | Contract rejection | 0 |
-| Prerequisite delays readiness only | Same policy routes and transfers | 0 |
-| Prerequisite activates, routes, transfers, or skips | Rejection | 0 |
-| Same proposal and inputs in shuffled object order | Byte-identical plan and digest | 0 |
+- Accept exactly seven orchestration root kinds and every documented nested discriminator, including MemoryProposal, MemoryCandidate, and MergeReadyEvidence.
+- Reject orchestration values in `validateArtifactValue` and project artifacts in `validateOrchestrationValue`.
+- Reject every unknown field and every required/forbidden variant-field violation.
+- Test RFC 8785 vectors, property order, escaping, safe integers, no Unicode normalization, nested digest retention, and own-field-only omission.
+- Test SnapshotDigest over complete detached Circuit, Module, WorkPacket, AdapterManifest, ExecutionGrant, V10 OperationResult, ExecutionSummary, and RunEvent values; reject arbitrary unchecked JSON and unknown/malformed digest kinds.
+- Reject malformed or substituted contentDigest, snapshot digest, identifier, ordinal, revision, or uniqueness scope.
+- Prove OrchestrationState has no ticket and ExecutionTicket is derived after claimed-state digest, avoiding a digest cycle.
+- Tamper each event tail/cause/prior-root/successor-projection/journal digest or byte count and require continuation rejection before callbacks.
+- Assert every documented sorted array uses its exact total comparator across shuffled inputs and equal-prefix edge cases.
+- Compile the normative public operation/callback signatures as closed exhaustive readonly TypeScript unions.
+- Test unbound rejection on malformed start input and bound rejection with exact unchanged session/state digest.
+- Reject generic success-plus-error, deferred-plus-successor, and terminal-plus-active fields.
 
-## Authority And Matching Matrix
+## Planning And Facade Matrix
 
-- Reject a RunAuthority created by planner output or altered after planning begins.
-- Reject Circuit, Module, WorkPacket, profile, availability, assignment, ticket, or V10 grant authority that expands its predecessor.
-- Reject an AgentProfile absent from the RunAuthority digest allowlist.
-- Reject availability that changes profile content, binds a different manifest, exceeds profile capacity, or targets the wrong state revision.
-- Reject free-form capability matching; require exact capability identifiers and Module/input/output compatibility.
-- Find a maximum-cardinality assignment under slot capacity before applying preferences.
-- Prefer non-dominated permission ceilings, then lower capability surplus, explicit non-quality priority, profile identifier, and version.
-- Prove shuffled profiles, invocations, object keys, and availability rows produce identical assignments.
-- Prove provider, model, API, IDE, price, prompt, and hidden score fields are rejected or have zero influence.
-- Prove a low-priority flexible profile is preserved for a uniquely constrained packet when that maximizes assignment count.
+| Scenario | Expected result | Planner calls | Worker calls |
+| --- | --- | ---: | ---: |
+| valid start, concurrency omitted | ready with requested concurrency 1 | bounded by L | 0 before compiled |
+| valid start, explicit bounded concurrency | ready with exact requested value | bounded by L | 0 before compiled |
+| no supplied profile | unbound rejection | 0 | 0 |
+| planner result before round L | proposal/question/block semantics | one each | 0 |
+| valid response | ready, same round | 0 until resumed facade calls planner | 0 |
+| proposal or block on call L | compiled or blocked at round L | one | 0 |
+| question on call L | blocked at round L | one | 0 |
+| result at round L | bound rejection unchanged | 0 | 0 |
+| result while input pending | bound rejection unchanged | 0 | 0 |
+| stale/wrong/replayed/role-mismatched response | rejection unchanged | 0 | 0 |
+| planning continuation | uses exact session | bounded | 0 until compiled |
+| run continuation after waiting | uses exact state and changed availability | 0 | bounded |
 
-## Scope And Wave Matrix
+Run the table for RunAuthority planner-call limits 1 through 8. Assert facade returns only input_required, waiting, completed, failed, blocked, cancelled, uncertain, or the two rejection variants with case-specific fields. Assert unchanged availability returns waiting once and never busy-loops. Prove extra profiles/slots cannot exceed omitted concurrency one.
 
-| A scope | B scope | Parallel |
+## Authority, Profile, And Matching Matrix
+
+- Reject any RunAuthority not independently host-supplied and digest-bound to GoalContract and PolicyBundle.
+- Reject any Plan, WorkPacket, profile, availability, assignment, manifest request, or V10 grant that expands an earlier ceiling.
+- Accept a WorkPacket with no filesystem permission when its non-empty include names metadata-only context; prove includes never grant authority and every filesystem permission is covered by an include.
+- Require every independence target to dominate the constrained activation from a strictly earlier SCC; reject same-SCC/cyclic or nondominating targets.
+- Reject profiles absent from the RunAuthority digest allowlist.
+- Build candidate edges only for exact Module, I/O, capability, authority, reservation, and grant compatibility.
+- Normalize permissions and capabilities as sorted sets; test every surplus tuple dimension.
+- Priority is required, range is 0-65535, lower wins, and callers use explicit neutral 32768; no schema default fills an omission.
+- Compare profile IDs, versions, reservation IDs, and slot ordinals by the documented ASCII/ordinal rule.
+- Enumerate small candidate graphs and compare implementation output to exhaustive maximum-cardinality plus lexicographically smallest assignment-vector truth.
+- Include the constrained-profile case where a flexible profile must remain available to maximize cardinality.
+- Shuffle profiles, slots, invocations, object keys, and capabilities and require identical assignments.
+- Reject or ignore IDE, API, model, provider, prompt, price, and hidden-score fields before candidate construction.
+
+## Path, Conflict, And Wave Matrix
+
+- Accept only the documented ASCII literal-prefix grammar.
+- Reject root, drive, colon, backslash, glob, empty/dot/parent, control, trailing-dot/space, Windows device, ADS, and Unicode path forms.
+- Compare segment prefixes in exact and ASCII-lowercase forms; reject false string prefix such as `src/a` versus `src/ab`.
+- Require host path observations for existing targets and observed parents for new targets.
+- Treat link/reparse, containment, alias, case, or canonicalization uncertainty as unknown.
+
+| Scope A | Scope B | Parallel |
 | --- | --- | --- |
-| read `src/a/` | read `src/a/` | Yes |
-| write `src/a/` | write `src/b/` | Yes |
-| write `src/a/` | write `src/a/x.ts` | No |
-| write `src/a/` | read `src/a/x.ts` | No |
-| conflict zone `schema` with writer | same zone with reader or writer | No |
-| complete reader | unknown reader | Yes when neither writes |
-| any writer | incomplete or unknown scope | No |
+| read same canonical prefix | read same canonical prefix | Yes |
+| disjoint complete writes | disjoint complete writes | Yes |
+| write ancestor | write or read descendant | No |
+| shared writer conflict zone | reader or writer same zone | No |
+| any writer | unknown scope | No |
 
-Also reject absolute paths, drive paths, backslashes, empty segments, dot segments, parent traversal, false string-prefix overlaps such as `src/a` versus `src/ab`, out-of-WorkPacket paths, duplicate scopes, and more than 256 entries.
+- Run the normative earliest-feasible wave algorithm against shuffled inputs and an independent reference implementation.
+- Test conflicting earlier versus nonconflicting later work, capacity-constrained candidates, matching-feasibility rejection, concurrency 1 and 32, and empty selection.
+- Assert requested concurrency caps selection, claim reserve fits before dispatch, claimed state is installed before the first execution callback, and tickets bind claimed-state digest plus exact result limits.
+- Reoffer a consumed grant-digest/run/attempt tuple after executed, rejected, not-started, cancellation, and cycle reactivation; every replay is ineligible.
+- Distinguish completed, blocked/deadlock, and capacity-deferred empty waves.
 
-`prepareWave` tests must prove the returned state is `claimed` before any execution callback. Tickets must form the complete committed wave, be ordered canonically, never exceed 32, and contain no conflicting pair. A stale prepare request, duplicate reservation, or reentrant callback must invoke zero workers.
+## Ticket, Observation, And Result Matrix
 
-## Result And Lifecycle Matrix
+- Substitute each ticket/result binding independently: authority, policy, plan, claimed state, wave, claim, Assignment, invocation, packet, logical role, profile, availability, reservation, executor, manifest, grant, V10 run/attempt/correlation, criterion, port, and evidence digest.
+- Require the complete batch to reject unchanged on the first mismatch.
 
-Every state-operation pair must have a closed expected result. Invalid operations leave the original immutable state byte-identical.
+| Variant | Positive case | Required negatives |
+| --- | --- | --- |
+| executed | successful V10 OperationResult/ExecutionSummary plus settled dispatch observation | missing summary, rejected result, result/journal mismatch, hostile outputs, memory proposal on non-memory node |
+| v10_rejected | rejection digest, settled dispatch observation, sanitized codes | fabricated summary/journal/output, raw diagnostic value |
+| not_started | zero-call plus not-dispatched observation | callback began, V10 fields present, forged attestor |
+| effect_unknown | fixed code plus unknown dispatch observation | workflow success, output/memory transfer, retry |
 
-| Child result | Parent transition |
-| --- | --- |
-| `not_started`, zero calls proven | Release to `ready` |
-| completed plus valid workflow outcome | Exact Circuit route |
-| completed without workflow outcome | `diagnose` route or `blocked` |
-| failed plus valid workflow outcome | Exact Circuit route |
-| failed without workflow outcome | `diagnose` route or `blocked` |
-| acknowledged cancellation during parent cancel | `cancelled` after complete batch |
-| unexpected child cancellation | Circuit route or `blocked` |
-| confirmed timeout | `diagnose` route or `blocked` |
-| `abort_unconfirmed` or ambiguous call state | Terminal `uncertain` |
+- Core-observed not-started requires a dispatch counter of zero; counter one plus exception or oversized report is effect_unknown.
+- Test second dispatch-capability use, exception before dispatch, exception after dispatch, V10 return, host-attested boundary ambiguity, and every resultLimits field at minus one/exact/plus one.
+- Host-attested not-started is labeled as host evidence and binds allowlisted attestor identity/digest.
+- Verify journal/output/VCS/path facts only through matching HostObservation kinds and digests.
+- Require core-counted `journal_bytes` for every executed result and one matching host-attested `output_bytes` observation for every OutputDraft; core validates the declared size/digest without claiming to observe external bytes.
+- For every filesystem-write ticket, require exactly one result-time `vcs_baseline` matching RunAuthority, one `vcs_head`, and one `changed_paths` observation binding both; missing or inconsistent post-dispatch evidence is `effect_unknown`, while a proven outside-scope change is `out_of_scope_effect`.
+- Derive evidence ownership independently of child payload.
 
-Required negatives include missing batch member, extra result, duplicate result, wrong run/plan/state/wave/assignment/claim/invocation/packet/profile/executor/manifest/V10 attempt, bad summary or journal digest, wrong output port, changed path outside scope, invalid commit lineage, and evidence ownership mismatch.
+## Batch, Cancellation, And Run Input Matrix
 
-Apply every permutation of a valid complete result batch and require the same next state and events. Apply the same batch twice and require unchanged state on the second call. Attempt input, new preparation, fan-in, verification, review, retry, and completion from `claimed` or `uncertain` and require rejection.
+- Apply every permutation of one valid complete result batch and require byte-identical state/events.
+- Reject missing, extra, duplicate, replayed, partial, or cross-wave batches unchanged.
+- Apply the same batch twice and require rejection unchanged on the second call.
+- Test uncertainty plus cancellation, cancellation plus completion/failure/timeout/not-started, and normal mixed results; require uncertainty then cancellation then two-pass routing precedence.
+- In a mixed normal batch, determine every `any` winner before mutation; claimed losers retain evidence but transfer no output, route no successor, and consume no budget.
+- Combine not-started with terminal results; install waits only for released work whose branch remains live after winner resolution.
+- First cancel advances parent revision while retaining immutable WaveClaim/ticket binding; an exact repeated digest defers before stale checks and a different active request rejects with cancellation_conflict.
+- Accept results against the active immutable claim after cancellation revision changes.
+- Require run InputRequest/InputResponse exact run/plan/policy/authority/prior/current state/request/responder/decision/digest binding.
+- Reject stale, replayed, consumed, wrong-purpose, wrong-role, wrong-attestor, and wrong-decision responses.
+- Create pre-execution risk requests before availability/execution, outcome clarification requests only from the declared `clarify` output, and final owner approval only after every other predicate.
+- Create multiple clarification triggers in one wave, store one active InputRequest plus canonical PendingRequestSeeds, apply each accepted response action before promoting the next seed against the new successor revision, and consume exactly one response per transition without staleness, loss, or replay; a terminal response deterministically discards unpromoted seeds.
+- Final owner approval transitions directly to completed when it is the last predicate; decline executes its fixed block action and cancel becomes cancelled.
 
-## Join, Routing, And Completion Matrix
+## Result Mapping, Routes, And Budgets
 
-- `all`: zero, one, and many branches; one failure; one block; one input; one uncertainty; claimed branch still active.
-- `any`: success in first, middle, and later contiguous wave; multiple successes in one wave; claimed losers; unclaimed losers; all branches fail; one uncertain branch.
-- Compare concurrency one, two, and maximum for identical canonical winner, output transfer, route, and final evidence.
-- Verify only the winning `any` output transfers and every settled loser keeps its evidence.
-- Verify diagnosis and fix are Circuit modules, not automatic retry labels.
-- Verify integration, architecture, verification, review, approval, and memory are scheduled through ordinary module contracts.
-- Remove each completion condition one at a time and require a non-completed state with a stable explanation.
-- Create an acyclic-looking but unreachable plan and a no-capacity/no-input ready state; require deterministic deadlock or explicit host-block handling, never an infinite loop.
+Execute every ChildResult/V10 case in the normative mapping and assert exact route or terminal result. Completed or failed summaries without workflow cannot become pass. V10 rejection routes diagnosis or blocks. Acknowledged child cancellation and confirmed timeout route `diagnose` when declared, otherwise fail with `child_cancelled` or `child_timed_out`. Unknown effect always becomes uncertain.
 
-## Trace, Privacy, And Handoff Matrix
+- Reject every reachable cycle lacking its own Circuit maxTraversals; Policy/RunAuthority may narrow but never supply or widen a missing bound.
+- Snapshot and decrement each route budget exactly.
+- Test diagnosis/fix success, repeated failure, last legal traversal, and exhausted traversal.
+- Define `failed` only after executed unrecoverable work or exhausted recovery; define `blocked` for unambiguous no-progress/pre-effect closure.
+- Reserve one event/revision for resource_limit_imminent terminal closure and test exact pre-limit behavior.
+- Prove terminal states reject every operation without event or mutation.
 
-- Reconstruct one complete, one blocked, one input-required, one cancelled, and one uncertain parent run from OrchestrationEvents and referenced roots.
-- Prove parent sequence and causation are monotonic and child RunEvents are referenced by qualified identity and digest, never copied or renumbered.
-- Prove producer roles distinguish planner, worker, integration, verifier, reviewer, owner, and host.
-- Bind OutputReferences to ports, producer, digest, size, kind/version, and source reference.
-- Insert prompt, chat, hidden-reasoning, credential, environment, command-output, provider-payload, and evidence-body canaries and require exclusion or preflight rejection.
-- Permit planner source references by default; accept inline excerpts only when host-selected and within per-item and aggregate bounds.
-- Prove MemoryCandidates contain source references and evidence digests and cannot mutate memory.
+## Join And Completion Matrix
 
-## Exact Limit Tests
+- Derived join source count: zero invalid, one valid, two and many valid; preserve the existing Circuit fan-out rule independently.
+- `all`: one, two and many branches, failure, block, input, requeue, recovery, uncertainty, active claimed branch.
+- `any`: earlier success, later success, multiple successes, earlier not-started, earlier diagnosis/fix, earlier terminal failure, claimed lower-priority losers, unclaimed losers, all fail, uncertainty.
+- Compare concurrency 1, 2, and 32 for identical winner, transferred ports, evidence, routes, and final state.
+- Assert only a terminal non-success lets a later success win; requeued/routed work stays active.
+- Assert claimed losers settle and preserve evidence while only winner outputs transfer.
+- Remove each completion predicate in turn: active invocation settlement, join, transfer, criterion coverage, per-join/primary integration evidence, verifier, reviewer, owner approval, memory proposal/candidate, VCS head when required, no claim/input/wait/uncertainty/deadlock. Completion must fail with one stable reason.
+- Prove only the memory invocation can emit MemoryProposals; expose exact eligible prior output/evidence/event source digests in its ticket, reject empty or out-of-ticket proposal provenance, derive one candidate per proposal in order, and return post-terminal MergeReadyEvidence without a state/event digest cycle.
 
-Test each ADR 0003 ceiling at minus one, exact, and plus one: direct bytes, strings, identifiers, depth, graph nodes, source references, excerpts, aggregate excerpts, profiles, capabilities, Circuit/Module references, invocations, prerequisites, bindings, scope entries, planning rounds, pending requests, concurrency, wave size, retries, revisions, events, outputs, and evidence references.
+## Event, Privacy, And Trace Matrix
 
-Every over-limit test records planner-call and worker-call counters. Rejection must occur before the relevant effect.
+- Validate every OrchestrationEvent 1.0.0 type and reject cross-variant fields.
+- Require global sequence from 1, one earlier same-orchestration cause after the first, and parent event IDs separate from child RunEvent IDs.
+- Reconstruct complete, failed, blocked, input-required, cancelled, and uncertain runs from roots/events and referenced child digests.
+- Prove child events are referenced, never copied, renumbered, or re-owned.
+- Verify actor/evidence roles derive from policy, assignment, responder, and host observation.
+- Insert goal/prompt/question/answer/review/block/memory/excerpt/raw exception/command/log/output/evidence/environment/credential/reasoning/provider canaries; canonical roots/events retain only allowed IDs/codes/refs/digests.
+- Ensure diagnostics never echo hostile rejected values.
+- Prove MemoryProposal/MemoryCandidate cannot mutate memory, preserve prior source provenance, and contain only allowed source/evidence/body references and digests.
+- Recompute the complete event-cause/root-projection/journal chain and reject tail substitution, truncation, reordering, or detached-source digest drift.
 
-## Portability And Dogfood
+## Resource Matrix
 
-Host A uses the advanced reducer operations directly. Host B uses `runGoal`. Given identical logical identities and fixtures, they must produce byte-identical plans, states, and events. A second case uses different executor identities and requires the documented semantic projection to match while provenance correctly differs.
+Test minus one, exact, and plus one for every normative boundary: direct input bytes, root bytes, state bytes, result-batch bytes, event bytes, aggregate journal bytes, string bytes, ID length, depth, nodes, invocations, lanes, profiles, capabilities, matching edges, concurrency, wave size, source refs, excerpts, aggregate excerpts, prerequisites, bindings, scope entries, outputs, evidence, observations, planner calls, pending requests, revisions, events, and zero retries.
 
-The dogfood target uses four specialist roles over disjoint scopes plus one integration owner. It must include:
+Use incremental allocation, claim-reserve, and callback counters. Over-limit pre-dispatch input must fail before the forbidden successor/effect; an over-limit post-dispatch report must become uncertain with no output/route/integration advance. Verify the reserved worst-case accepted reduction always fits.
 
-- one user clarification before compilation;
-- at least two work packets in one safe parallel wave;
-- one worker failure routed to a diagnosis module and then a causal fix;
-- an `all` fan-in with port-bound outputs;
-- integrated acceptance verification and independent review;
-- owner approval recorded before merge-ready;
-- one source-linked MemoryCandidate;
-- serial and parallel controls with equivalent final evidence;
-- measured elapsed time and coordination overhead reported without a universal speed claim.
+## Portability And Package Matrix
+
+- Host A uses advanced operations; Host B uses `runGoal`; identical host IDs and inputs produce byte-identical Plans, states, and events.
+- Host C uses different executor/reservation/attestor provenance; apply the exact semantic projection and require equality while raw provenance remains different.
+- Verify different planner proposals are not claimed equivalent; the same proposal compiles identically.
+- Snapshot every actual current `src/index.ts` export and compile an unchanged V9/V10 exhaustive consumer against type-identical declarations; do not assume internal ArtifactKind/ArtifactEnvelope are public.
+- Import every exact newly listed orchestration root/nested/callback/result name, operation, and explicit JSON schema subpath from the packed artifact; reject unlisted/wildcard paths.
+- Install, compile, and run the packed consumer offline.
+
+## Dogfood
+
+Use revision 3 itself to plan at least frontend, backend, test, docs, and security-capable variants plus one integration owner. Exercise one clarification, explicit concurrency above one, one policy-bounded replicated region, one failure routed through diagnosis/fix, one fan-in/integration witness, host-owned criterion coverage, independent verification/review, owner approval, MemoryProposal-to-MemoryCandidate learning, and MergeReadyEvidence.
+
+Run the same deterministic work at concurrency one and safe bounded parallelism. Final criteria, outputs, evidence, routes, trace semantic projection, and terminal state must match. Record elapsed time and coordination overhead as environment-qualified observations; do not claim a universal speedup.
 
 ## Canonical Gates
 
-- `npm.cmd run format:check`
-- `npm.cmd run lint`
-- `npm.cmd run typecheck`
-- `npm.cmd run build`
-- `npm.cmd test`
-- `npm.cmd run verify`
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1`
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-check-template.ps1` after checker changes
-- offline packed-consumer install, compile, and execution
-- Windows and Linux hosted CI
-- independent product, public API, lifecycle, and security review against one exact commit
+- Placeholder, BOM-free LF, source-reference, and `git diff --check` audits.
+- `scripts/check-template.ps1` and checker matrix after checker changes.
+- `npm.cmd run verify`.
+- Offline packed consumer.
+- Hosted Windows and Linux CI.
+- Independent product, API, lifecycle, and security review against one exact commit.
 
-## Intentionally Deferred Tests
+## Deferred Tests
 
-Live provider calls, distributed coordinators, remote queues, crash recovery, worktree enforcement, overlapping writes, automatic merge, automatic memory mutation, and recursive agent spawning are outside V11. Documentation and source guards must prevent claims that these features exist.
+Live providers, distributed coordinators, durable queues, crash recovery, overlapping writes, worktree enforcement, recursive spawning, automatic retry, merge, memory mutation, and credential/sandbox enforcement are outside V11 and must remain explicit non-capabilities.

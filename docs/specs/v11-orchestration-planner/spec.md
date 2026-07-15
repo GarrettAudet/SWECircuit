@@ -2,110 +2,112 @@
 
 ## Status
 
-Revision 2 design candidate. Round 1 returned `REVISE`; implementation is blocked until the revised architecture passes four independent reviews. This branch remains stacked on owner-gated V10 commit `8ac3372` and cannot be accepted or merged until V10 is approved or V11 is rebased to an approved replacement.
+Revision 3 locally validated design candidate. Round 1 and Round 2 both returned four `REVISE` verdicts; no V11 runtime implementation is authorized until four fresh reviewers pass one exact revision-3 commit. This branch remains stacked on owner-gated V10 closeout `8ac3372` and cannot be accepted or merged until V10 is approved or V11 is rebased and fully reverified.
 
 ## Problem
 
-SWECircuit can describe modules and circuits and V10 can execute one host-selected WorkPacket, but a user still has to manually turn a software goal into bounded work, decide which specialist should own each part, determine what can run together, integrate the outputs, and preserve one end-to-end trace. The product promise requires that coordination layer without coupling the workflow to a particular IDE, model, provider, or API.
+SWECircuit has portable project workflow contracts and one bounded WorkPacket execution primitive, but a user still has to manually convert a software goal into concrete work, assign specialists, choose safe parallel work, integrate outputs, route failures, verify acceptance, and preserve one trace. That prevents the repository from delivering its core goal: high-quality software work completed quickly by one or many agents under visible, methodical control.
 
 ## Product Outcome
 
-A user supplies a goal and selects or defines the workflow modules. SWECircuit then:
+A user supplies a goal, acceptance criteria, workflow policy, and at least one agent profile. SWECircuit:
 
-1. clarifies material ambiguity;
-2. validates a proposed decomposition against the selected Circuit;
-3. creates traceable WorkPackets;
-4. matches packets to allowlisted specialized agents by capability and least authority;
-5. runs dependency-safe, conflict-safe waves through host callbacks;
-6. routes failures through explicit diagnosis or fix modules;
-7. fans results into integration, verification, and review gates;
-8. records owner approval and emits merge-ready evidence;
-9. produces source-linked memory candidates.
+1. asks for material clarification;
+2. validates bounded concrete decomposition against host-authored workflow policy;
+3. creates narrowed traceable WorkPackets and compiler-derived acceptance/integration bindings;
+4. assigns allowlisted specialists by exact capability, capacity, and least authority;
+5. reserves and claims conflict-safe work before bounded parallel callbacks;
+6. routes results, diagnosis, fixes, and joins deterministically;
+7. integrates, verifies, reviews, and obtains required owner approval;
+8. turns source-linked memory proposals into reviewable candidates and emits merge-ready evidence plus a content-digested, source-preserving execution trace.
 
-The identical surface works with one IDE agent at concurrency one or many specialized agents at bounded concurrency.
+The same `runGoal` contract defaults requested concurrency to one. More profiles add eligible capacity but do not silently parallelize; an explicit bounded value above one scales the same workflow without creating another product mode.
 
-## Users Or Actors
+## Product Boundary
 
-- Human owner: supplies intent, answers clarification, controls authority, approves merge.
-- SWECircuit core: validates policy, compiles plans, matches capabilities, reduces state, and emits trace.
-- Planner implementation: proposes bounded concrete work; may be the current IDE agent, a rule engine, or another host component.
-- Agent profile: allowlisted capability contract for one kind of specialist.
-- Worker executor: host-selected implementation that receives one bound ExecutionTicket and invokes V10.
-- Integration, verification, and review agents: ordinary specialized workers selected by the Circuit.
-- Host: authenticates identities and enforces persistence, credentials, workspaces, processes, and side effects.
+SWECircuit coordinates software work. It does not select or switch IDEs, APIs, models, providers, prompts, prices, or reasoning modes. It does not authenticate hosts, enforce sandboxes, create worktrees, merge changes, or mutate durable memory.
+
+## Actors
+
+- Human owner: supplies intent, host-authored policy, authority, clarification, and merge approval.
+- Core: validates contracts, compiles policy-bounded work, matches capabilities, reduces state, and emits trace.
+- Planner: proposes lane counts and WorkPacket content within policy; never grants authority or changes workflow.
+- AgentProfile: allowlisted provider-neutral capability and ceiling declaration.
+- Host coordinator: authenticates actors and enforces persistence, reservations, paths, processes, credentials, and effects.
+- Worker: receives one exact ExecutionTicket and invokes V10.
+- Integration/verifier/reviewer agents: ordinary workers whose ownership and independence come from policy.
 
 ## Goals
 
-- Make the one-agent path obvious and reliable before adding scale.
-- Preserve user-defined Circuit and Module policy as the workflow authority.
-- Decompose a bounded goal into portable, inspectable work instances.
-- Assign work by exact capabilities, compatibility, capacity, and least authority.
-- Execute disjoint work concurrently under one deterministic coordinator.
-- Make every clarification, assignment, result, route, gate, and decision reconstructable.
-- Improve useful elapsed time without weakening integrated acceptance or owner control.
+- Make one-agent IDE use complete, resumable, and understandable.
+- Let users define bounded replication and specialist roles without planner-owned policy.
+- Let the host author every acceptance criterion's coverage policy and mechanically derive producer, verifier, reviewer, integration, and evidence bindings.
+- Assign and schedule safe work deterministically and explainably.
+- Preserve every authority, identity, result, route, gate, and observation through content digests.
+- Prove useful parallel elapsed-time improvement with equivalent integrated evidence.
 
 ## Non-Goals
 
-- Selecting or switching IDEs, APIs, models, providers, prompts, prices, or reasoning modes.
-- Installing or depending on an external orchestration framework.
-- Distributed coordinators, remote queues, durable crash recovery, or cross-process claiming.
-- Recursive agent spawning or runtime mutation of Circuit policy.
-- Automatic retries, branch merge, memory mutation, worktree creation, credentials, or sandbox enforcement.
-- Parallel execution of overlapping writes.
-- Claiming that profile metadata proves competence, identity, or enforcement.
+- Distributed coordinators, remote queues, durable crash recovery, or cross-process claim guarantees.
+- Recursive agent spawning or runtime policy mutation.
+- Overlapping writes or host-declared isolation exceptions.
+- Automatic retries, merge, memory mutation, worktree creation, sandboxing, or credentials.
+- Live provider integration or an external orchestration framework dependency.
+
+## Normative Contract
+
+`docs/specs/v11-orchestration-planner/orchestration-contract.md` is the property-level V11 contract. ADR 0003 owns the architectural decision. The contract owns exact roots, fields, identities, digest projections, commands/results, transitions, matching, waves, child variants, requests, joins, events, payload classes, limits, portability, and exports.
 
 ## Requirements
 
-- R1: Expose one `runGoal` facade that defaults to one allowlisted AgentProfile, one slot, serialized in-memory coordination, zero retries, and owner-controlled merge.
-- R2: Accept a bounded goal, selected Circuit and Module snapshots, acceptance criteria, source baseline, immutable RunAuthority, allowlisted AgentProfiles, a host-injected planner, and host callbacks.
-- R3: Keep the Circuit authoritative for modules, routes, gates, fan-out, joins, port transfers, integration ownership, and completion. Compile proposal data only into permitted concrete invocations, WorkPackets, prerequisites, scopes, and bindings.
-- R4: Represent planning before a plan exists with a closed PlanningSession lifecycle of `ready`, `input_required`, `compiled`, or `blocked`; bind every response to the exact request and revision; allow no worker effect before `compiled`.
-- R5: Use dedicated closed planning, transition, and `runGoal` result unions. A rejection or temporary no-capacity deferral must preserve the exact state and may not carry successor data or events.
-- R6: Use the separate closed `swecircuit/orchestration/v1alpha1` contract family and RFC 8785 plus SHA-256 digests without changing existing project artifacts or V10 RunEvent.
-- R7: Root all execution in host-supplied RunAuthority. Every plan, packet, profile, availability binding, assignment, ticket, and V10 grant must narrow that authority.
-- R8: Match ready invocations to live profiles through deterministic capacity-constrained capability matching. Core must not inspect provider, model, API, IDE, price, or hidden quality metadata.
-- R9: Use one serialized coordinator. `prepareWave` must commit claims in a new state before effects; workers may execute the complete bounded wave concurrently; `applyWaveResults` must accept one complete, bound, canonically ordered batch.
-- R10: Allow read/read overlap only. Serialize write/write, write/read, shared writer conflict zones, and unknown writer scopes. Reject non-canonical or out-of-packet paths.
-- R11: Bind each child result to the exact run, plan, state, wave, assignment, claim, invocation, WorkPacket, profile, executor, manifest, V10 attempt, output ports, journal, commits, changed paths, and evidence digests.
-- R12: Map every V10 disposition to a closed parent transition. Any unknown effect state must make the parent terminal `uncertain` and prohibit retry, transfer, join, verify, review, or merge.
-- R13: Preserve existing `all` and `any` joins, deterministic winner semantics, integration-owner evidence, integrated verification, independent review, and owner approval before merge-ready completion.
-- R14: Emit bounded OrchestrationEvents that reference immutable child evidence without copying or relabeling it, plus reviewable MemoryCandidates rather than automatic memory writes.
-- R15: Enforce the exact privacy and resource ceilings in ADR 0003 before planner or worker effects.
-- R16: Preserve V9 and V10 behavior and prove the same contract in two independent host implementations without a live provider.
+- R1: Expose one `runGoal` command union for start, planning continuation, and run continuation; require at least one allowlisted profile, default `requestedConcurrency` to one, bind it into session/Plan, and require an explicit bounded value above one.
+- R2: Use a closed host-authored PolicyBundle of OrchestrationPolicy, exact Circuit, exact Module closure, and exact WorkPacket-template closure. Missing, extra, duplicate, or drifted members reject; planner proposals may choose only permitted replication lane counts and narrowed packet content.
+- R3: Validate replication regions mechanically. Nodes outside regions instantiate once; concrete lanes inherit Circuit routes/transfers and derive join sources without changing Circuit gates or integration owner.
+- R4: Put stable criterion IDs and coverage policy in GoalContract; compiler, not planner, derives one complete Plan row per criterion across selected producer groups, verifier/reviewer invocations, and qualified evidence requirements.
+- R5: Treat WorkPacket `role.owner` as a Policy logical role and Assignment as the sole runtime assignee.
+- R6: Use the separate closed `swecircuit/orchestration/v1alpha1` family, RFC 8785 plus SHA-256 identity, and the exact per-value digest and ID table without widening V9/V10 artifacts.
+- R7: Make RunAuthority an independent root and bind its digest plus every immutable predecessor through planning, state, assignment, ticket, result, request, and event.
+- R8: Define property-level closed sessions, states, callbacks, operations, `runGoal`, requests, events, child results, exact comparators, and content-bound transition/journal cursors; invalid operations preserve exact prior state.
+- R9: Match exact capabilities through the normative maximum-cardinality lexicographic assignment objective and select waves through the normative earliest-feasible conflict algorithm.
+- R10: Reserve worst-case legal result reduction, consume child grant-attempt keys, and commit a complete WaveClaim before execution callbacks; allow only read/read or disjoint scoped work in parallel and reduce one complete batch through deterministic two-pass winner/routing semantics.
+- R11: Represent child outcomes as `executed`, `v10_rejected`, `not_started`, or `effect_unknown`; use a one-shot dispatch capability and bound observations to distinguish no call, settled call, ambiguous effect, and post-dispatch overflow.
+- R12: Bind pre-execution risk approval, outcome clarification, owner approval, cancellation, and result settlement to immutable identities with canonical pending requests, decision actions, exact-repeat deferral, conflicting-cancel rejection, and one-use responses.
+- R13: Make `all` and `any` joins width-independent, preserve active routed branches and settled loser evidence, and transfer only accepted port-bound outputs.
+- R14: Preserve every finite V9 Circuit cycle bound, allow only Policy/authority narrowing, reserve terminal resource closure, and distinguish executed unrecoverable `failed` from unambiguous no-progress `blocked`.
+- R15: Emit closed OrchestrationEvent 1.0.0 references and content-bound journal-tail integrity without copying child events; require integration witnesses, convert memory-node proposals to candidates, and create MergeReadyEvidence only after completed state/event closure.
+- R16: Enforce exact per-call, root, state, event, batch, and aggregate limits before effects when possible; after dispatch, an over-limit execution report becomes `effect_unknown` rather than a false pre-effect rejection.
+- R17: Preserve the exact current `src/index.ts` public surface type-identically and add only separately named orchestration schemas, types, validators, operations, and explicit packed-consumer paths.
 
 ## Acceptance Criteria
 
-- [ ] AC1: Given one valid goal and one agent profile, `runGoal` can clarify, plan, execute, verify, review, and return a traceable result with concurrency one and no provider-specific configuration.
-- [ ] AC2: Given a Circuit with a permitted fan-out slot, a valid proposal compiles into canonical concrete WorkPackets and bindings; any proposal that changes policy, lacks acceptance coverage, or exceeds authority fails before worker execution.
-- [ ] AC3: Given planning ambiguity, the session becomes `input_required`; a correctly bound authorized response resumes the same session, while stale, replayed, wrong-request, wrong-role, or ninth-round responses leave state unchanged.
-- [ ] AC4: Given shuffled profiles and ready invocations, matching maximizes assignments and then applies least-authority, capability-surplus, explicit-priority, and lexical rules identically without using IDE, model, provider, API, price, or hidden quality fields.
-- [ ] AC5: Given disjoint ready work, `prepareWave` returns a claimed state and bound tickets before callbacks; given overlapping or unknown writer scopes, it emits a deterministic serialized wave or stable block reason.
-- [ ] AC6: Given a complete result batch, reduction is invariant to result arrival order, advances one revision, accepts each claim once, rejects substitutions and duplicates without mutation, and never opens input while a wave is active.
-- [ ] AC7: Given each V10 terminal disposition, the exact mapping in ADR 0003 is applied; `abort_unconfirmed` or unknown effects produce terminal `uncertain` and no dependent execution.
-- [ ] AC8: Given `all` and `any` fan-in scenarios under concurrency one and many, the same branch result and transferred outputs are selected; claimed losers settle, evidence is preserved, and no uncertain branch closes a join.
-- [ ] AC9: Given an activated Circuit, completion is impossible until exits, bindings, joins, integration evidence, acceptance verification, review, required owner approval, and liveness checks all pass.
-- [ ] AC10: Given a complete or interrupted run, its parent journal reconstructs goal, policy digests, plan, assignments, child summaries, routes, inputs, gates, owner decision, final state, and memory candidates while excluding sensitive payload classes.
-- [ ] AC11: Given two independent host implementations with the same logical inputs and child results, canonical plans, states, and events are identical; host-specific provenance differences remain explicit and do not change the semantic projection.
-- [ ] AC12: Given the V11 dogfood goal, at least four specialist roles execute a real clarify, fan-out, child failure, diagnosis, fan-in, integration, verification, review, owner-gate, and memory-candidate path; parallel and serial runs produce equivalent evidence and measured parallel elapsed time is lower.
-- [ ] AC13: Given all inherited and V11 fixtures, local canonical gates, packed-consumer checks, hosted CI, and independent product/API/lifecycle/security reviews pass on one immutable candidate before implementation acceptance.
-
-## Architecture Impact
-
-V11 is an additive cross-kernel control-plane feature. It adds separate orchestration schemas and types, canonical digest support, plan compilation, capability matching, immutable state reduction, parent events, a simple facade, fixtures, examples, and package documentation. It composes V10 for every child effect and does not alter V10 authority or evidence semantics.
+- [ ] AC1: With `requestedConcurrency` omitted, one supplied AgentProfile and `runGoal(start)` can reach input-required, resume through `continue_planning` or `continue_run`, execute at concurrency one, and complete without advanced operations or provider-specific fields; parallelism occurs only when explicitly requested.
+- [ ] AC2: A host-authored replication region can produce zero through its bounded maximum lanes with canonical IDs, cloned routes/transfers, derived join sources, and exactly one instance for every non-region node.
+- [ ] AC3: Missing/extra/drifted PolicyBundle templates or a proposal that adds or changes a region, node, route, gate, join, transfer, logical role, owner, authority, acceptance, or completion rule rejects before any worker callback.
+- [ ] AC4: Every GoalContract criterion owns one valid coverage policy that compiles exactly once to eligible producer/verifier/reviewer invocations and evidence requirements; unknown, duplicate, missing, planner-authored, or worker-only coverage rejects before effects.
+- [ ] AC5: WorkPacket logical ownership remains stable while shuffled live profiles and slots produce the exact normative maximum-cardinality lexicographic assignments without IDE/API/model/provider influence.
+- [ ] AC6: Wave selection is deterministic across shuffled inputs, reserves worst-case reduction, consumes each grant-attempt once, installs claimed state before execution, excludes conflicts/unknown path aliases, and returns waiting once when only capacity is unavailable.
+- [ ] AC7: `executed`, `v10_rejected`, `not_started`, and `effect_unknown` accept only their required dispatch, result, and effect-observation fields; cross-run/plan/state/claim/packet/profile/host/grant/attempt/result substitutions leave state unchanged.
+- [ ] AC8: Every complete result-batch permutation produces the same next state; uncertainty, exact/different cancellation replay, two-pass routing, live not-started waits, loser suppression, and terminal immutability follow the normative precedence.
+- [ ] AC9: `all` and `any` choose identical results at concurrency one and many, including requeued higher-priority branches, diagnosis/fix successors, claimed losers, failures, and uncertainty.
+- [ ] AC10: Pre-execution approval, concurrent clarification requests, and final owner approval are exact, canonical, one-use, replay-safe, host-attested, and action-bound; each accepted response applies before the next seed is promoted, while stale, out-of-order, or wrong-role input never advances.
+- [ ] AC11: Repeated failures consume finite route budgets and close as failed or blocked before revision/event exhaustion; no run loops indefinitely or retries automatically.
+- [ ] AC12: Parent trace content-binds and reconstructs planning, Plan, assignments, claims, child summaries, routes, joins, criteria, observations, approval, memory proposal/candidate provenance, and terminal state using references/digests while sensitive payload canaries stay external; host authenticity remains outside core.
+- [ ] AC13: Exact resource ceilings pass at minus one and exact and fail closed at plus one; pre-dispatch overflow causes zero forbidden effects, post-dispatch overflow becomes uncertain, and retained bytes stay bounded.
+- [ ] AC14: Two independent hosts with identical logical inputs produce byte-identical outputs; hosts with different provenance produce the exact same normative semantic projection.
+- [ ] AC15: The V11 dogfood uses one clarification, at least four specialist roles, explicit safe parallelism, one failure-to-diagnosis path, fan-in/integration, independent verification/review, owner approval, MemoryProposal-to-MemoryCandidate learning, and MergeReadyEvidence; serial and parallel semantics are equivalent, with environment-qualified elapsed time and coordination overhead recorded without a universal speedup claim.
+- [ ] AC16: V9/V10 tests, schemas, exports, packed consumer, local canonical gates, hosted Windows/Linux CI, and four commit-bound independent reviews pass before implementation acceptance.
 
 ## Risks
 
-- The planner could silently become workflow authority unless Circuit derivation is mechanically validated.
-- Capability declarations can be spoofed unless profiles and executor bindings are host-allowlisted and digest-bound.
-- Parallel work can corrupt shared state unless scopes are canonical and conservative.
-- A child summary can be substituted unless every identity and digest is bound end to end.
-- Complete waves improve determinism but can wait for a slow child.
-- Too many public primitives can obscure the simple one-agent path.
+- The detailed internal contract could obscure the human surface unless examples lead with one-agent `runGoal`.
+- Host-authored replication regions add a second policy artifact; references and validation must make the combined PolicyBundle singular and inspectable.
+- Host observations remain attestations; core cannot prove external identity, bytes, paths, or enforcement.
+- Deterministic complete waves and conservative conflicts can wait or serialize more work than a distributed scheduler.
+- V11 remains stacked on an unmerged V10 baseline.
 
 ## Assumptions
 
-- The host can serialize one coordinator and install a claimed state before invoking callbacks.
-- The host authenticates human and executor identity and enforces all external effects.
-- The selected Circuit explicitly permits decomposition fan-out and names integration and acceptance gates.
-- V10 is approved before V11 acceptance, or V11 is rebased and fully reverified.
-- Deterministic planner and worker fixtures are sufficient for conformance; live providers remain optional adapters.
+- The host serializes one coordinator and installs claimed state before callback dispatch.
+- The host authenticates people, profiles, attestors, and executors and verifies output/VCS/path observations.
+- Goal and response bodies can be stored externally with stable source references and content digests.
+- Deterministic fixtures can prove conformance without a live model or provider.

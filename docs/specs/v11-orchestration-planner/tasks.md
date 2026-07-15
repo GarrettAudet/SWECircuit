@@ -2,71 +2,69 @@
 
 ## Status
 
-T001-T003 complete. T002 outcome was `redesign`: all four independent reviewers returned `REVISE` against exact bootstrap commit `f559b4aec54f0e12e947bd9feb00e7ba67e4bf32`. Revision 2 is synchronized and locally verified; T004 commit-bound review is next. Runtime implementation remains blocked.
+T001-T005 complete. Round 2 returned four `REVISE` verdicts against exact commit `5d82394`; revision 3 is locally validated and awaiting an immutable commit plus Round 3. Runtime implementation remains blocked.
 
 ## Task List
 
 - [x] T001: Bootstrap the V11 source and decision chain.
-  Scope: Create the feature package, dated research snapshot, proposed ADR, decomposition record, orchestration record, draft milestone, and memory pointers on the stacked V11 branch.
-  Verification: Placeholder, byte-shape, source-reference, whitespace, template, and canonical package gates passed with 275 inherited tests.
+  Scope: Create the feature package, research snapshot, ADR, decomposition/run records, draft milestone, and memory pointers.
+  Verification: Source and canonical gates passed with 275 inherited tests.
 
-- [x] T002: Run independent architecture review Round 1.
-  Scope: Four fresh read-only reviewers inspected product/architecture, public API/compatibility, lifecycle/concurrency, and security/trace against one exact commit.
-  Verification: Four commit-bound `REVISE` verdicts and all material findings are preserved in `architecture-review-round-1.md`; implementation did not begin.
+- [x] T002: Run architecture review Round 1.
+  Scope: Four independent product/API/lifecycle/security reviews against `f559b4a`.
+  Verification: Four `REVISE` verdicts preserved in `architecture-review-round-1.md`; implementation stopped.
 
-- [x] T003: Freeze architecture revision 2.
-  Scope: Resolve policy-versus-plan authority, child handoff identity, planning state, RunAuthority, assignment timing, claim-before-effect, conflict safety, total lifecycle, join closure, trace ownership, privacy bounds, portability, and the one-agent facade.
-  Verification: Spec, ADR, plan, test plan, review packet, decomposition/run records, milestone, research, and memory agree; checker, byte audit, source audit, diff check, and canonical package gate pass.
+- [x] T003: Integrate architecture revision 2.
+  Scope: Resolve Round 1 graph, handoff, authority, lifecycle, conflict, join, simple-path, privacy, and bounds findings.
+  Verification: Exact revision-2 tree passed byte/source/diff/template/canonical gates and was committed as `5d82394`.
 
-- [ ] T004: Run independent architecture review Round 2.
-  Scope: The same four reviewer roles inspect one clean immutable revision-2 commit with no edits or shared context.
-  Verification: Four `PASS` verdicts against the same commit. Any material finding routes back to T003 with outcome `redesign`.
+- [x] T004: Run architecture review Round 2.
+  Scope: Four fresh independent reviews of revision 2.
+  Verification: Four `REVISE` verdicts, 17 high and 8 medium raw findings, preserved in `architecture-review-round-2.md`; worktree unchanged.
 
-- [ ] T005: Add orchestration contracts and canonical identity.
-  Scope: Implement the separate `swecircuit/orchestration/v1alpha1` roots, nested contracts, RFC 8785 plus SHA-256 digests, validators, schemas, limits, diagnostics, and exports.
-  Verification: Schema/runtime parity, known digest vectors, hostile snapshots, closed-union negatives, V9/V10 compatibility, and packed consumer pass.
+- [x] T005: Integrate architecture revision 3.
+  Scope: Add the normative property-level orchestration contract and align exact bundle/template closure, host-owned coverage, integration/memory witnesses, logical ownership, identities/tails, operations/comparators, explicit concurrency, matching/reserves/replay, dispatch/results, requests/cancellation, two-pass joins, paths/limits, portability, and package compatibility.
+  Verification: ADR/spec/plan/tests/review/decomposition/run/milestone/memory agree; placeholder, BOM-free LF, source-reference, diff, template, readonly declaration, and exact export-inventory checks pass; `npm.cmd run verify` passes in 22.1 seconds with 275 inherited tests plus V10 dogfood, package inspection, and offline consumer.
 
-- [ ] T006: Implement PlanningSession and Circuit compilation.
-  Scope: Add bounded proposal/clarification/block handling and compile only Circuit-authorized concrete invocations, packets, prerequisites, scopes, and port bindings.
-  Verification: Graph authority, round/replay, acceptance coverage, permutation, bounds, and zero-effect rejection fixtures pass.
+- [ ] T006: Run architecture review Round 3.
+  Scope: Four fresh product/API/lifecycle/security reviewers inspect one immutable revision-3 commit.
+  Verification: Four `PASS` verdicts on the same commit. Any material finding returns to T005 as `redesign`.
 
-- [ ] T007: Implement capability matching and wave preparation.
-  Scope: Validate allowlisted profiles and availability, compute deterministic maximum-cardinality least-authority assignments, analyze scopes, and commit complete waves before callbacks.
-  Verification: Shuffle, capacity, constrained-profile, metadata-neutrality, conflict, stale-state, and claim-before-effect tests pass.
+- [ ] T007: Implement contract family and canonical identity.
+  Scope: Seven roots, nested unions, schemas/types, JCS/SHA-256, SnapshotDigest, content-bound tails, IDs/revisions/comparators, diagnostics, explicit package paths.
+  Verification: Schema/runtime parity, digest vectors, hostile values, exact bounds, old export identity, packed consumer.
 
-- [ ] T008: Implement child reduction and workflow closure.
-  Scope: Validate complete ChildResultEnvelope batches, map every V10 disposition, route Circuit outcomes, close joins, transfer outputs, detect deadlock, cancel safely, and enforce completion.
-  Verification: Total state matrix, result-binding negatives, arrival permutations, `all`/`any`, uncertainty quarantine, diagnosis, and completion-predicate tests pass.
+- [ ] T008: Implement PolicyBundle planning and compilation.
+  Scope: PolicyBundle/template closure, replication regions, GoalContract coverage, PlanningSession, WorkPacket narrowing, roles, acceptance/integration bindings, scopes, route budgets.
+  Verification: Graph derivation, planner escalation, criterion coverage, round lifecycle, permutation, zero-effect rejection.
 
-- [ ] T009: Implement parent trace, privacy, memory candidates, and `runGoal`.
-  Scope: Add OrchestrationEvents, child digest references, bounded journals, source-reference privacy, one-agent defaults, callbacks, and inspection.
-  Verification: Complete/interrupted reconstruction, canary exclusion, two-host equivalence, one-agent E2E, and package API tests pass.
+- [ ] T009: Implement matching, paths, and claimed waves.
+  Scope: Profiles, availability/offers, exact matching, path observations, conflicts, wave selection, attempt replay, claim reserve/result limits, Assignment/WaveClaim/tickets.
+  Verification: Exhaustive matching truth, shuffle, aliases, conflicts, waiting, claim-before-effect.
 
-- [ ] T010: Dogfood four specialist roles.
-  Scope: Use V11 to coordinate a clarification, disjoint parallel work, one failure-to-diagnosis route, fan-in, integrated verification/review, owner approval, and a memory candidate.
-  Verification: Parallel and serial controls produce equivalent final evidence; elapsed time and coordination overhead are recorded; no repeated patch loop occurs.
+- [ ] T010: Implement result reduction and workflow closure.
+  Scope: Dispatch boundary, four child variants, observations, mixed batches, V10 mapping, cancellation, queued run input, routes, joins, memory candidates, terminals.
+  Verification: Substitution, permutations, precedence, replay, width equivalence, cycle/resource closure.
 
-- [ ] T011: Harden, document, and independently review the implementation.
-  Scope: Resolve dogfood friction, run security and compatibility matrices, update truthful public docs, freeze the exact implementation candidate, and obtain independent reviews.
-  Verification: Local canonical gate, template matrix, packed consumer, cross-platform hosted CI, commit-bound product/API/lifecycle/security `PASS`, and clean source chain pass.
+- [ ] T011: Implement events, privacy, facade, and portability.
+  Scope: OrchestrationEvent, content-bound journal, byte accounting, payload classes, MemoryProposal/Candidate, MergeReadyEvidence, runGoal, semantic projection.
+  Verification: One-agent E2E, trace reconstruction, canaries, aggregate bounds, two-host equivalence.
 
-- [ ] T012: Close V11 acceptance.
-  Scope: Complete review evidence, milestone, memory, and baseline check; request owner approval without merging automatically.
-  Verification: One immutable candidate owns the implementation and evidence; V10 is approved or V11 has been rebased and fully reverified; owner merge decision remains explicit.
+- [ ] T012: Dogfood and harden four specialist roles.
+  Scope: Policy-bounded explicit fan-out, clarification, failure/diagnosis/fix, fan-in, host-owned acceptance, integration, verification, review, approval, memory proposal/candidate, merge-ready evidence.
+  Verification: Serial/parallel evidence equivalence, measured timing, no repeated patch loop, complete trace.
+
+- [ ] T013: Close V11 acceptance.
+  Scope: Canonical and template gates, packed consumer, hosted CI, independent final reviews, milestone, memory, baseline, owner decision.
+  Verification: One immutable implementation candidate owns all evidence; merge remains explicitly owner-gated.
 
 ## Dependencies
 
-- T001 -> T002 -> T003 -> T004.
-- T004 must pass before T005-T009.
-- T005 precedes T006-T009.
-- T006 and T007 precede T008.
-- T008 precedes T009 and T010.
-- T010 precedes T011; T011 precedes T012.
+- T001 -> T002 -> T003 -> T004 -> T005 -> T006.
+- T006 must pass before T007-T011.
+- T007 precedes T008-T011; T008 precedes T009; T009 precedes T010; T010 precedes T011-T012.
+- T012 precedes T013.
 
 ## Out Of Scope
 
-- Provider, model, API, IDE, prompt, price, or reasoning selection.
-- Distributed coordination, remote queues, cross-process claims, and crash recovery.
-- Recursive spawning, overlapping writes, automatic retry, merge, memory mutation, worktree creation, credentials, or sandbox enforcement.
-- External orchestration framework installation.
-- V11 acceptance or merge from an owner-gated baseline.
+IDE/API/model/provider selection, distributed coordination, remote queues, crash recovery, overlapping writes, recursive spawning, automatic retry, worktree/sandbox/credential enforcement, merge, durable memory mutation, and external orchestration dependencies.

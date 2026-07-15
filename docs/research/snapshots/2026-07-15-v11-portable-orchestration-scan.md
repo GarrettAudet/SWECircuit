@@ -27,7 +27,7 @@ An IDE, CLI, CI runner, local agent runtime, or remote protocol may host this lo
 | --- | --- | --- |
 | OpenAI Codex subagents | Delegate bounded independent work with explicit context; keep the main thread responsible for synthesis and decisions; start with read-heavy work and avoid overlapping write scopes | Fresh context bundles, bounded specialist roles, one integration owner, conflict-aware fan-out |
 | Anthropic Claude Code subagents and agent teams | Define role-specific agents, shared dependency tasks, claim coordination, plan approval, hooks, and focused team sizes; use worktrees for isolated parallel edits | Structured capability profiles, dependency-aware readiness, lifecycle gates, bounded concurrency, host-enforced workspace isolation |
-| Anthropic Claude Code workflows | Keep dynamic orchestration in inspectable, repeatable workflow logic with concurrency bounds, approvals, and independent checking | Deterministic compiler and reducer own policy; AI output is proposal data |
+| Anthropic Claude Code workflows | Keep dynamic orchestration in inspectable, repeatable workflow logic with concurrency bounds, approvals, and independent checking | Host-authored policy bounds replication; deterministic compiler and reducer enforce it; AI output is proposal data |
 | GitHub Copilot custom agents and hooks | Describe specialized agents with scoped instructions and tools; use lifecycle hooks for policy checks | Portable role/capability declarations and gate hooks, without coupling to Copilot |
 | Agent2Agent Protocol 1.0 | Advertise machine-readable agent capabilities and skills; represent stateful tasks and input-required interaction | Agent-profile inspiration and explicit clarification lifecycle; protocol remains an optional adapter |
 | LangGraph interrupts | Persist an interrupt, return an input-required state, and resume against stable state identity | Exact-revision clarification and approval pause/resume |
@@ -59,6 +59,14 @@ The orchestration plan and transition rules must exist as bounded structured dat
 ### Planner As Proposal Producer
 
 A human, rule engine, IDE agent, or model may propose decomposition. SWECircuit validates references, graph structure, acceptance coverage, permissions, limits, and conflict metadata before any worker call. Planner output never self-authorizes execution.
+
+### Host-Authored Bounded Replication
+
+The workflow author may declare finite replication regions over existing Circuit branch subgraphs. A planner may choose lane counts and packet content only inside those bounds; it cannot invent nodes, routes, gates, joins, roles, or authority. Diagnosis and fix successors remain lane-local until the named join.
+
+### Criterion-To-Evidence Coverage
+
+Every goal criterion must map to named producer, verifier, reviewer, and evidence requirements in the compiled Plan. Worker completion is never accepted as implicit goal completion, and merge-ready status requires integrated coverage for every criterion.
 
 ### Provider-Neutral Capability Profiles
 
@@ -108,17 +116,17 @@ Parent events link goals, plan revisions, modules, work packets, assignments, cl
 
 ## Architecture Implications
 
-1. Keep Circuit and Module contracts authoritative for workflow policy.
-2. Treat planner output as bounded concrete-work proposals, never authority.
-3. Use one simple facade for one agent and many agents.
-4. Keep plans immutable and live assignment in orchestration state.
+1. Keep the immutable PolicyBundle authoritative: exact Circuit, Module, and WorkPacket-template closure plus host-authored bounded replication, logical roles, node functions, and authority ceilings.
+2. Put acceptance policy in GoalContract and treat planner output as bounded lane-count and narrowed concrete-work proposals, never authority or acceptance.
+3. Use one simple facade for one agent and many agents; default concurrency to one and require explicit bounded parallelism.
+4. Keep plans immutable, compiler-derived coverage/integration visible, and live assignment in orchestration state.
 5. Root permissions in host-supplied RunAuthority and narrow them at every layer.
-6. Commit one complete conflict-safe wave before host effects.
-7. Reduce one complete child-result batch through a serialized deterministic boundary.
-8. Reuse V10 for each bounded child invocation and bind every handoff identity and digest.
-9. Preserve parent-child links and evidence references rather than payload copies.
-10. Make clarification, uncertainty, failure, diagnosis, fan-in, verification, review, owner approval, and memory candidates explicit.
-11. Use RFC 8785 plus SHA-256 for portable content identity and enforce exact privacy/resource ceilings.
+6. Reserve worst-case result reduction, consume attempt identities, and commit one complete conflict-safe wave before execution effects.
+7. Reduce one complete child-result batch through a serialized two-pass boundary so join losers cannot route or transfer.
+8. Reuse V10 through a one-shot dispatch capability and bind every handoff identity, effect observation, and digest.
+9. Preserve parent-child links, content-bound journal tails, and evidence references rather than payload copies.
+10. Make clarification, uncertainty, failure, lane-local diagnosis, fan-in/integration, verification, review, owner approval, memory proposals/candidates, and merge-ready evidence explicit.
+11. Use RFC 8785 plus SHA-256 for portable content identity and enforce exact privacy/resource ceilings, including truthful post-dispatch overflow.
 12. Prove one-agent usability and two-host semantics before claiming portable multi-agent orchestration.
 
 ## Adoption Gate

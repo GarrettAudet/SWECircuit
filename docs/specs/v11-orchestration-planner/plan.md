@@ -2,115 +2,98 @@
 
 ## Status
 
-Architecture redesign in progress. T001 bootstrap and T002 Round 1 review are complete; all four reviewers returned `REVISE`. T003 freezes revision 2. No schema or runtime implementation begins until T004 Round 2 returns four `PASS` verdicts on one immutable commit.
+Architecture revision 3 is locally validated and ready to freeze for independent review. Round 2 returned four `REVISE` verdicts against immutable commit `5d82394`. No schema or runtime implementation begins until the normative orchestration contract and aligned source chain receive four independent `PASS` verdicts on one exact revision-3 commit.
 
 ## Summary
 
-Add a small provider-neutral orchestration layer above V10. A host or IDE supplies a goal, selected Circuit and Modules, authority, profiles, planner, and execution callbacks. SWECircuit validates decomposition against Circuit policy, assigns ready work by capability, commits a safe wave, accepts one complete result batch, advances integration gates, and emits an end-to-end trace. The same facade uses one agent by default and scales by adding profiles and capacity.
+Build one provider-neutral software-work coordinator above V10. A user supplies a GoalContract with coverage policy, host-authored PolicyBundle, RunAuthority, at least one AgentProfile, optional explicit concurrency, planner, and callbacks. Core validates policy-bounded decomposition, acceptance coverage, capability assignment, conflict-safe waves, complete child batches, Circuit routes/joins, integrated gates, owner decisions, and parent trace. The same `runGoal` command works at concurrency one and many.
 
-## Design Baseline
+## Normative Sources
 
-- Policy lives in Circuit and Module contracts.
-- A planner proposes concrete work but cannot change workflow policy or grant authority.
-- A plan is immutable; assignment and capacity live in orchestration state.
-- One serialized coordinator owns state; workers in one complete wave may run concurrently.
-- V10 remains the only child-effect boundary.
-- Disjoint scopes can run together; overlapping or unknown writes serialize.
-- Integration, verification, review, approval, and memory candidates remain visible modules and gates.
-- Core never selects a model/provider/IDE/API, merges branches, or mutates durable memory.
+- ADR 0003: architecture and ownership.
+- `orchestration-contract.md`: exact data, identity, transition, and package contract.
+- `spec.md`: product requirements and acceptance.
+- `test-plan.md`: executable proof obligations.
+- `architecture-review-round-1.md` and `architecture-review-round-2.md`: preserved failure evidence.
 
 ## Delivery Slices
 
-### Slice 1: Contracts And Canonical Identity
+### Slice 1: Contract Family And Canonical Identity
 
-Add the separate `swecircuit/orchestration/v1alpha1` schema family and TypeScript closed unions for PlanningSession, OrchestrationPlan, AgentProfile, OrchestrationState, OrchestrationEvent, RunAuthority, proposals, input, availability, assignments, tickets, results, outputs, and memory candidates.
+Add orchestration schemas/types for the seven roots and closed nested values, RFC 8785 plus SHA-256 helpers, content-bound transition/journal cursors, SnapshotDigest support for V9/V10 values, exact IDs/revisions/comparators, additionalProperties closure, diagnostics, and explicit package schema subpaths.
 
-Implement RFC 8785 plus SHA-256 digest helpers, safe-integer restrictions, exact limits, detached snapshots, stable diagnostics, positive fixtures, and one negative fixture per closed field or invalid state.
+Gate: schema/runtime parity, digest vectors, nested projection, unbound/bound rejection, hostile values, exact bounds, old export type identity, and offline packed consumer.
 
-Gate: schemas, runtime validators, canonical fixtures, generated types where used, public exports, packed consumer, and inherited V9/V10 behavior pass.
+### Slice 2: Policy, Planning, And Compilation
 
-### Slice 2: Planning And Circuit Compilation
+Implement exact PolicyBundle closure, OrchestrationPolicy validation, replication-region graph expansion, GoalContract-owned coverage, PlanningSession with authority-bounded planner limit and requested concurrency, proposal/input rounds, WorkPacket template narrowing, logical roles, Plan identity, compiler-derived acceptance/integration bindings, scopes, and narrowed finite route budgets.
 
-Implement `startPlanning`, `applyPlannerResult`, and `resumePlanning`. Validate the host-supplied RunAuthority before planner invocation. Treat planner values as untrusted detached data. Compile only Circuit-authorized concrete invocations, WorkPackets, prerequisites, scopes, and port bindings.
+Gate: missing/extra/drifted templates, zero/min/max lanes, graph derivation, planner escalation rejection, coverage and integration witnesses, planner limits 1-8, proposal permutations, and zero worker calls.
 
-Gate: proposal permutations compile identically; graph-policy escalation, missing acceptance coverage, invalid bindings, stale input, replay, round exhaustion, and oversized input all fail with zero worker calls.
+### Slice 3: Profiles, Matching, Paths, And Wave Claims
 
-### Slice 3: Capability Matching And Wave Preparation
+Implement AgentProfile/Availability/GrantOffer validation, authority narrowing, exact candidate graph and assignment objective, host path observations, conflict detection, earliest-feasible wave selection, child-attempt replay prevention, deterministic claim reserve/result budgets, Assignment/WaveClaim, claimed state, and serializable tickets plus transient dispatch capability.
 
-Implement profile validation, availability binding, deterministic capacity-constrained matching, readiness, canonical scope overlap, and `prepareWave`. Return the claimed state and ExecutionTickets together; the high-level facade installs state before callbacks.
+Gate: exhaustive small matching truth, shuffle invariance, constrained profiles, provider-metadata neutrality, path aliases, conflict matrices, waiting, and claim-before-effect.
 
-Gate: shuffled candidates and capacities yield identical assignments; maximum cardinality and tie-break rules hold; out-of-authority profiles and provider metadata cannot influence matching; conflicts serialize; unknown writes never parallelize.
+### Slice 4: Child Results And Reducer
 
-### Slice 4: Child Reduction And Workflow Closure
+Implement the four ChildResultEnvelope variants, dispatch/HostObservation/OutputReference validation, complete-batch two-pass reduction, exact V10 cancel/timeout mapping, immutable cancellation binding, queued one-use run input/decision actions, Circuit routes/budgets, loser-safe width-independent joins, and terminal closure.
 
-Implement ChildResultEnvelope validation, complete-batch reduction, the total V10 mapping, Circuit outcome routing, port transfer, `all` and `any` joins, loser settlement, diagnosis/fix routes, cancellation, deadlock, uncertainty, and completion predicates.
+Gate: identity substitution, result permutations, cancellation precedence, stale input, approval direct completion, `all`/`any` across widths, repeated diagnosis/fix, uncertainty, failed/blocked, and terminal reserve.
 
-Gate: every state/disposition pair is accepted or rejected explicitly; arrival order does not change results; duplicate or substituted results do not mutate state; serial and parallel join semantics agree.
+### Slice 5: Parent Trace, Privacy, And Facade
 
-### Slice 5: Trace, Privacy, And Simple Facade
+Implement OrchestrationEvent 1.0.0 with tail/journal consistency and full-chain inspection, incremental byte accounting, bounded journal inspection, payload classification, MemoryProposal-to-MemoryCandidate production, post-terminal MergeReadyEvidence, `runGoal` start/continuation loop, and graph-wide semantic projection.
 
-Implement OrchestrationEvent emission, parent-to-child digest references, bounded journals, MemoryCandidates, privacy exclusions, source-reference defaults, and `runGoal`. Add a one-agent example first, then a multi-agent example using the identical facade.
+Gate: one-agent E2E, complete/interrupted reconstruction, privacy canaries, aggregate bytes, two identical hosts, different-provenance projection, and no busy loop.
 
-Gate: a new user can explain and run the one-agent path; trace reconstruction needs no chat history; privacy canaries stay outside artifacts; two host wrappers produce equivalent canonical outputs.
+### Slice 6: Dogfood, Hardening, And Acceptance
 
-### Slice 6: Dogfood And Acceptance
+Use V11 to coordinate at least four specialized roles inside a bounded replicated region, including clarification, failure-to-diagnosis/fix, fan-in, host-owned acceptance coverage, integration, verification, review, owner approval, MemoryProposal-to-MemoryCandidate learning, and MergeReadyEvidence.
 
-Use V11 itself to coordinate four bounded roles over one repository goal: implementation A, implementation B, test/diagnosis, and integration/review. Include one clarification, one child failure routed to diagnosis, an `all` join, integrated verification, owner approval, and a MemoryCandidate.
-
-Run the same logical work with concurrency one and bounded parallelism. Compare outputs and evidence for equivalence and record elapsed time without turning the observation into a universal performance claim.
-
-Gate: canonical local verification, template matrix, package inspection, packed consumer, cross-platform hosted CI, commit-bound independent reviews, milestone, and durable memory are complete.
+Gate: serial and parallel evidence equivalence, measured elapsed time, canonical local gate, hosted Windows/Linux CI, independent final reviews, milestone, memory, approved baseline, and owner merge decision.
 
 ## Public Surface
 
-Simple facade:
+Simple:
 
 ```txt
-runGoal(input) -> asynchronous GoalRunResult
+runGoal(start | continue_planning | continue_run)
 ```
 
-Advanced deterministic operations:
+Advanced:
 
 ```txt
-startPlanning
-applyPlannerResult
-resumePlanning
-startRun
-prepareWave
-applyWaveResults
-resumeRun
-cancelRun
-inspectOrchestrationTrace
+startPlanning | applyPlannerResult | resumePlanning
+compilePlan | startRun | prepareWave | applyWaveResults
+resumeRun | cancelRun | inspectOrchestrationTrace
 ```
 
-`GoalRunInput` contains goal, Circuit, Modules, RunAuthority, planner, AgentProfiles, availability provider, execution callback, input callback, approval callback, and optional policy bounds. It contains no provider-routing fields.
+The package root entry and exact names currently exported from `src/index.ts` remain type-identical. New orchestration exports and JSON schema subpaths are separately and explicitly named; internal ArtifactKind/ArtifactEnvelope are not mislabeled as current public exports.
 
-## Impacted Areas
+## Security And Host Boundary
 
-- `schemas/orchestration/v1alpha1/` and schema documentation.
-- `src/` orchestration contracts, canonicalization, planning, compilation, matching, reducer, trace, facade, diagnostics, and exports.
-- `tests/` contract, property, lifecycle, security, compatibility, host-equivalence, dogfood, and package-consumer fixtures.
-- `docs/` architecture, package/API guide, examples, module registry, feature evidence, milestone, research governance, and memory.
-- `package.json` exports only when backed by packed-consumer evidence.
+- Planner, profile, availability, child, and input values are untrusted bounded data.
+- RunAuthority is host-authored and every later contract narrows it.
+- Core supplies a one-shot dispatch boundary, reserves result capacity, observes dispatch state, and validates host-attestation binding; host authenticates attestors and verifies external bytes, paths, VCS facts, identities, and effects.
+- Unknown effect, abort uncertainty, and post-dispatch result overflow are terminal uncertain; automatic retry is zero.
+- Sensitive/free-form bodies stay external; roots/events carry fixed codes, source refs, and digests.
+- Core stays offline, process-free, provider-free, and merge-free.
 
 ## Verification Strategy
 
-- Every slice lands with rejection-first tests and preserves the canonical gate.
-- Each review finding maps to at least one negative fixture.
-- Every effect-capable test counts planner and worker calls and proves zero calls on preflight rejection.
-- One independent host wrapper uses direct low-level operations; another uses `runGoal`.
-- One-agent usability is manually reviewed before multi-agent performance evidence is accepted.
-- The complete candidate is immutable during final independent review.
+- Add rejection-first tests before each positive path.
+- Map every Round 1/2 finding to a negative or equivalence fixture.
+- Count planner and worker calls in every preflight/limit failure.
+- Keep the canonical gate green at every slice.
+- Prove one-agent usability before accepting multi-agent timing.
+- Freeze one immutable candidate for each independent gate.
 
 ## Rollback Or Recovery
 
-Each slice is additive and separately committed. If a slice fails its gate, retain the last accepted state and record diagnosis before another patch. If V10 is not approved, rebase V11 onto the approved replacement and rerun every baseline-bound check. No V11 merge occurs from an unapproved stacked baseline.
+Each slice is additive and separately reviewable. A failed gate retains the last accepted commit, records stable evidence, enters diagnosis/redesign, and forbids speculative patch loops. If V10 is not approved, rebase onto the approved replacement and rerun all baseline-bound evidence.
 
-## Deferred Follow-Ups
+## Deferred
 
-- Durable coordinator adapter and cross-process compare-and-swap.
-- Worktree or sandbox isolation adapter.
-- Optional A2A, IDE, LangGraph, AutoGen, or other host adapters.
-- Overlapping-write scheduling with enforceable leases.
-- Automatic retry policy only after explicit diagnosis semantics are proven.
-- Reviewed memory promotion and merge adapters.
+Distributed coordination, remote queues, crash recovery, overlapping writes, runtime policy mutation, recursive spawning, automatic retries, worktrees, sandboxing, credentials, merge, durable memory mutation, and live provider adapters.

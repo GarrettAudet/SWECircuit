@@ -2,96 +2,94 @@
 
 ## Status
 
-Round 2 candidate packet. Round 1 returned `REVISE` from all four reviewers and is preserved in `architecture-review-round-1.md`. Reviewers must inspect the same exact committed revision-2 tree and record its commit hash in their handoff. Implementation remains blocked until every required verdict is `PASS`.
+Locally validated revision-3 candidate packet. Round 1 and Round 2 each returned four `REVISE` verdicts. Reviewers must inspect the same exact committed tree, including `orchestration-contract.md`, and record its commit hash. Implementation remains blocked until every required verdict is `PASS`.
 
 ## Product Question
 
-Does this design provide an IDE-, model-, provider-, and API-agnostic software-work coordinator that is excellent with one agent and can safely scale the same workflow to specialized parallel agents?
-
-The intended journey is:
+Does revision 3 define one understandable, IDE/API/model/provider-neutral software-work system that begins with one agent, scales through host-authored bounded replication and capability assignment, and preserves integrated quality, owner control, and complete traceability?
 
 ```txt
-user goal -> selected modules and Circuit -> bounded concrete work
-          -> capability assignments -> safe parallel waves
-          -> integration -> verification -> review -> owner gate
-          -> source-preserving trace and memory candidates
+GoalContract | PolicyBundle | Plan | safe specialist waves
+             | integration | verification | review | owner
+             | trace | memory proposals -> candidates
+             | completed state/event -> merge-ready evidence
 ```
 
-## Review Sources
+## Required Sources
 
+- `docs/specs/v11-orchestration-planner/orchestration-contract.md`
 - `docs/specs/v11-orchestration-planner/spec.md`
 - `docs/specs/v11-orchestration-planner/plan.md`
 - `docs/specs/v11-orchestration-planner/test-plan.md`
 - `docs/specs/v11-orchestration-planner/architecture-review-round-1.md`
+- `docs/specs/v11-orchestration-planner/architecture-review-round-2.md`
 - `docs/architecture/decisions/0003-portable-orchestration-control-plane.md`
-- `docs/research/snapshots/2026-07-15-v11-portable-orchestration-scan.md`
-- V9 and V10 schemas, public types, lifecycle tests, and ADRs 0001-0002
+- V9/V10 schemas, public types, execution lifecycle, and ADRs 0001-0002
 
-## Closed Design Decisions
+## Closed Decisions To Verify
 
-1. One `runGoal` facade serves one profile at concurrency one and many profiles at bounded concurrency.
-2. Circuit owns workflow policy; Plan owns validated concrete instances only.
-3. PlanningSession exists before a plan and has a closed clarification lifecycle.
-4. The separate orchestration contract family leaves current project artifacts and RunEvent unchanged.
-5. Dedicated closed result unions forbid contradictory success/rejection payloads and preserve unchanged state on rejection or temporary capacity deferral.
-6. RunAuthority is host-supplied and independent of planner/profile data.
-7. Plan is immutable; assignment binds live allowlisted profiles and availability in state.
-8. One serialized coordinator commits a whole wave before effects and reduces one complete batch.
-9. V11 parallelizes only disjoint writes and compatible reads; isolation exceptions are deferred.
-10. ExecutionTicket and ChildResultEnvelope bind the complete parent/child identity and evidence chain.
-11. Every V10 disposition has a total parent mapping; unknown effects are terminal uncertain.
-12. Existing `all` and `any` joins have closed deterministic semantics; no threshold join is added.
-13. Integration, diagnosis, verification, review, approval, and memory candidates are ordinary Circuit stages.
-14. A separate OrchestrationEvent union references immutable child journals rather than copying them.
-15. RFC 8785 plus SHA-256 identity, privacy exclusions, and exact resource bounds are normative.
-16. Distributed coordination, retries, merge, memory mutation, overlapping writes, and provider routing are deferred.
+1. One `runGoal` command union covers start and both continuation phases.
+2. One supplied allowlisted profile is required; `requestedConcurrency` defaults to one and must be explicit above one.
+3. PolicyBundle is OrchestrationPolicy plus the exact Circuit, Module closure, and WorkPacket-template closure; planner output is never policy.
+4. Replication regions have exact graph/cardinality/route/join derivation and non-region nodes instantiate once.
+5. GoalContract owns criterion coverage policy; the compiler derives exact producer/verifier/reviewer/evidence rows after lane selection.
+6. WorkPacket owner is a logical role; Assignment is the only runtime assignee.
+7. Seven separate orchestration roots leave V9/V10 artifact kinds and RunEvent unchanged.
+8. RunAuthority is an independent root bound through every downstream digest.
+9. Every value has exact ID, revision, digest projection, and uniqueness ownership.
+10. Planning/session/state/result/command/request/event/child variants define required and forbidden fields.
+11. Matching and wave subset selection have total deterministic algorithms.
+12. Paths and host observations conservatively prevent alias/conflict overclaims.
+13. Claims reserve worst-case reduction, consume grant-attempt keys, install before effects, and tickets bind every predecessor plus result limits.
+14. Child variants and dispatch observations distinguish execution, V10 rejection, zero-call, unknown effect, and post-dispatch overflow.
+15. Cancellation, queued input, decision actions, route budgets, terminal states, memory production, and resource closure are total.
+16. Two-pass `all`/`any` reduction is independent of concurrency width and suppresses loser routing/output.
+17. Parent event/journal content integrity, payload classification, canonical comparators, and byte limits are closed without claiming host authenticity.
+18. The exact current root exports remain type-identical; separately named orchestration exports and explicit schema paths are additive.
 
 ## Required Invariants
 
-- No planner, profile, availability declaration, manifest, or result grants authority.
-- No proposal can modify Circuit policy or bypass required gates.
-- No worker callback occurs before a compiled plan, committed claim, valid ticket, and V10 preflight.
-- No conflicting or unknown writer scopes share a wave.
-- No incomplete, stale, duplicate, substituted, or uncertain child result advances state.
-- No worker-local success implies integrated acceptance or merge readiness.
-- No canonical artifact stores full chats, prompts, hidden reasoning, credentials, raw output, or provider payloads.
-- No host-specific field influences capability matching or workflow routing.
-- No one-agent user must understand the advanced reducer to use the system.
+- No planner/profile/manifest/result/input declaration grants authority or changes policy.
+- No callback occurs before compiled Plan, accepted matching, installed claim, and bound ticket.
+- No conflicting or unresolved writer scope shares a wave.
+- No incomplete/substituted/unknown child result advances integration.
+- No local worker success satisfies verifier/reviewer/owner gates.
+- No sensitive/free-form body enters canonical roots/events.
+- No provider-specific field affects matching or routing.
+- No one-agent user needs to call advanced operations to resume.
 
 ## Reviewer A: Product And Architecture
 
-Return `PASS` only if graph ownership is singular, the simple path is credible, the multi-agent path is the same system with more capacity, and the design directly serves high-quality software delivery rather than generic agent routing.
+Stress omitted versus explicit concurrency, one agent, ten disjoint lanes, no replication region, min-zero/max lanes, planner-added security gate, planner-authored acceptance, missing integration/memory witnesses, logical versus runtime owner, local success/integrated failure, and whether the PolicyBundle remains simple and singular.
 
-Stress scenarios: an underspecified goal, a Circuit that permits no fan-out, one agent only, ten disjoint agents, a planner that adds a security gate, and a worker-local success that fails integrated acceptance.
+PASS only if dynamic decomposition is genuinely user/host-authored, mechanically bounded, and the simple path is credible.
 
 ## Reviewer B: Public API And Compatibility
 
-Return `PASS` only if contract families, digests, discriminated unions, identity ownership, operation results, compatibility, package surface, and invalid states are closed enough to implement without inventing policy.
+Stress every root/nested discriminator, operation/callback signature, required/forbidden field, start without prior identity, RFC 8785 projection, transition/journal circularity, ID scope, every comparator, event payload, actual current export inventory, explicit schema subpaths, and graph-wide semantic projection.
 
-Stress scenarios: wrong validator family, shuffled JSON keys, duplicate identities, stale revisions, a result from another plan/profile, and an old V9/V10 consumer.
+PASS only if schema/TypeScript/package implementers need not invent a field or ordering rule and V9/V10 consumers remain unchanged.
 
 ## Reviewer C: Lifecycle And Concurrency
 
-Return `PASS` only if planning, claiming, result batches, input, cancellation, joins, failure routes, deadlock, uncertainty, and completion form one total reconstructable state machine.
+Stress planner limits 1-8, no capacity, capacity loss, pre-execution requests, claim reserve and grant replay, V10 rejection/cancel/timeout, zero-call versus unknown effect, post-dispatch overflow, partial/duplicate/reordered and mixed batches, exact/different cancellation replay, queued input, final approval, `any` loser suppression, route exhaustion, deadlock, memory/merge evidence, and terminal immutability.
 
-Stress scenarios: capacity disappears before call, result arrival permutation, partial batch, cancellation during a wave, `any` under concurrency one and many, active loser, unknown scope, repeated failure, and no-progress state.
+PASS only if every scenario has one reconstructable next state independent of concurrency width and no hidden distributed guarantee.
 
 ## Reviewer D: Security, Privacy, And Trace
 
-Return `PASS` only if RunAuthority is an independent root, profile and executor provenance is bound, core claims match host enforcement, result substitution is rejected, sensitive payload classes stay out, and evidence ownership remains source-preserving.
+Stress hostile planner/profile/manifest, PolicyBundle closure drift, executor/grant/attempt/availability substitution, stale/forged input and cancellation, malicious path aliases, false zero-call/dispatch status, forged output/VCS/journal observations, root-tail/event substitution, payload canaries, claim-reserve and post-dispatch exhaustion, semantic-projection laundering, and host/core guarantee wording.
 
-Stress scenarios: hostile planner, spoofed profile, manifest self-authorization, stale owner approval, malicious paths, secret excerpt, abort uncertainty, forged output port, and child journal replacement.
+PASS only if authority and handoffs fail closed, external attestations are honestly labeled, and canonical data excludes sensitive payload classes.
 
 ## Handoff Format
 
-Each reviewer returns:
-
 ```txt
-commit: exact reviewed commit hash
-verdict: PASS | REVISE
-findings: severity, source location, violated invariant, smallest required correction
-residual risks: bounded risks that do not block implementation
-verification: confirmation of read-only scope and unchanged worktree
+reviewed commit hash
+verdict: PASS or REVISE
+findings: severity, exact source, violated invariant, impact, smallest correction
+residual risks
+unchanged-worktree confirmation
 ```
 
-A `REVISE` from any reviewer routes the candidate to redesign. Four `PASS` verdicts authorize implementation planning only; they do not approve merge.
+Any material `REVISE` returns to redesign. Four `PASS` verdicts authorize implementation planning only and never approve merge.

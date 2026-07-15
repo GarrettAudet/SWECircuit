@@ -2,46 +2,54 @@
 
 ## Status
 
-Design only. No V11 schema, source, package, or runtime behavior has been implemented. Round 1 review stopped implementation and revision 2 is being prepared for a second independent gate.
+Design only. Revision 3 is locally validated and ready to freeze for a fresh architecture gate. No V11 schema, source, package, scheduler, executor, merge, or memory behavior is implemented.
 
 ## Summary Of Changes
 
-- Created the V11 source chain on `codex/v11-orchestration-planner`, stacked from V10 closeout `8ac3372`.
-- Bound the bootstrap design to commit `f559b4aec54f0e12e947bd9feb00e7ba67e4bf32`.
-- Ran four independent read-only specialist reviews; all returned `REVISE`.
-- Preserved their findings in `architecture-review-round-1.md`.
-- Redesigned V11 around one `runGoal` facade, Circuit-owned policy, a separate orchestration contract family, host-rooted authority, dynamic assignment, one serialized coordinator, complete safe waves, conservative conflict rules, total child-result mapping, deterministic joins, source-preserving parent events, and exact bounds.
+- Preserved Round 1 and Round 2 commit-bound review evidence.
+- Added a normative property-level `orchestration-contract.md`.
+- Replaced implicit fan-out slots with host-authored OrchestrationPolicy replication regions over exact Circuit subgraphs.
+- Put acceptance coverage policy in GoalContract, made Plan coverage compiler-derived, added integration bindings, and separated WorkPacket logical ownership from runtime Assignment.
+- Closed root/nested identities, content-bound transition/journal integrity, own-field/SnapshotDigests, readonly operation signatures, comparators, requested concurrency, planner limits, matching, reserves/attempt replay, paths, dispatch truth, mixed-batch reduction, queued input/cancellation, joins, memory/merge evidence, payload classes, byte limits, graph-wide semantic projection, and the actual package export inventory.
+- Kept requested concurrency one as the simple default, required explicit parallelism, and excluded IDE/API/model/provider selection.
 
 ## Deviations From Plan
 
-The bootstrap expected architecture review to pass before implementation. It did not. The system correctly emitted `redesign` instead of beginning code work. V11 also started while V10 remains owner-gated; this permits planning continuity but prohibits V11 acceptance or merge until the baseline is approved or replaced and fully reverified.
+Revision 2 was expected to pass architecture review. It did not. The workflow correctly emitted `redesign` before implementation. Revision 3 adds a deeper internal contract while preserving the simple human surface.
 
-`apply_patch` continues to fail in this Windows workspace with `helper_unknown_error`. The already-documented bounded direct-write fallback was used only for exact text files, followed by byte, placeholder, diff, checker, and canonical validation.
+V11 remains stacked on owner-gated V10 for planning continuity. It cannot be accepted or merged until V10 is approved or V11 is rebased and fully reverified.
+
+`apply_patch` remains unavailable in this Windows sandbox with `helper_unknown_error`; exact bounded direct writes are followed by byte, placeholder, diff, checker, and canonical verification.
 
 ## Assumptions Used
 
-- One serialized coordinator is sufficient to prove the portable product model.
-- One-agent IDE use is the default case; multiple agents add capacity, not another workflow.
-- The host can install claimed state before callbacks and can authenticate people and executors.
-- Parallel V11 work has disjoint write scopes; overlapping-write isolation is deferred.
-- V10 remains the only child-effect primitive.
+- One serialized coordinator is sufficient for the first portable implementation.
+- The host can author and digest-bind replication policy, authenticate actors, and verify external observations.
+- Goal/input bodies can remain external behind source references and digests.
+- Conformance requires no live model/provider.
 
 ## Follow-Up Work
 
-- Validate and commit revision 2.
-- Run four fresh Round 2 reviews against the same exact commit.
+- Freeze and commit the locally validated revision-3 source package.
+- Push the immutable candidate and bind every reviewer to its exact hash.
+- Run four fresh Round 3 reviewers.
 - Begin contracts only after four `PASS` verdicts.
-- Resolve the separate V10 owner gate before V11 acceptance.
 
 ## Verification Performed
 
-Bootstrap commit `f559b4a` passed placeholder scan, BOM/LF audit, source-reference audit, `git diff --check`, the template checker, and `npm.cmd run verify` with 275 inherited tests. The four reviewers independently confirmed a clean exact tree before and after review.
+Revision 2 commit `5d82394` passed placeholder, BOM-free LF, 138-reference source, diff, template, and canonical package gates with 275 inherited tests before review. Four Round 2 reviewers independently confirmed the exact clean commit and returned source-only findings.
 
-Revision 2 passed the placeholder scan, BOM-free LF byte audit across 15 changed files, `git diff --check`, template checker, and a concrete source-reference audit covering 138 existing paths while explicitly excluding future schema paths and illustrative scope examples. `npm.cmd run verify` passed in 19.7 seconds with all 275 inherited tests, deterministic V10 dogfood, package inspection, and the offline installed consumer. No V11 runtime evidence exists because implementation remains blocked.
+The revision-3 working tree passes placeholder, BOM-free LF, source-reference, `git diff --check`, template-checker, readonly declaration, and exact export-inventory checks. The declaration probe compiled the complete normative API surface; all 56 existing public exports match `src/index.ts`, and 92 proposed names have no duplicate or existing-name collision. `npm.cmd run verify` passed in 22.1 seconds with all 275 inherited tests, deterministic V10 dogfood, dry-run package inspection, and the offline packed consumer. Product, API, and lifecycle read-only preflights informed corrections; the security preflight returned no handoff and is not review evidence. These are source-coherence and inherited-runtime gates only. No V11 runtime evidence exists.
 
 ## Durable Learnings
 
-- Commit-bound multi-role review found structural flaws that green baseline tests could not find.
-- Parallel review is useful before parallel implementation: four specialists exposed independent graph, API, lifecycle, and security failures without shared-file conflicts.
-- A portable orchestrator needs a clear authority root, exact handoff identities, and a closed reducer before scheduling code.
-- Simplicity improves when multi-agent behavior is expressed as the one-agent contract plus profiles and bounded capacity.
+- Named states are not closed contracts until required/forbidden properties and start/rejection cases are explicit.
+- Dynamic decomposition needs host-authored machine policy; planner prose cannot create replication safely.
+- Acceptance speed without criterion-to-verifier evidence mapping is not traceable quality.
+- Cross-agent handoffs need an uninterrupted authority and content-digest chain.
+- One-agent simplicity can coexist with deep internal contracts when the facade owns continuation.
+- Parallel execution must be explicit; supplying extra profiles is capacity, not permission to fan out.
+- Post-dispatch overflow and callback failure require uncertainty semantics, not pre-effect rejection.
+- A queued request seed must defer only the next prompt, never the current response action.
+- Evidence origin must match what core can actually observe; external output bytes remain host-attested.
+- Normative public declarations must preserve the package's readonly type convention, not merely describe immutability in prose.
