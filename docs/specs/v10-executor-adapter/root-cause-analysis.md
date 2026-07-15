@@ -235,4 +235,14 @@ The parser carried container identity and relative indentation width but not the
 
 The correction carries a starting column through indentation removal and continuation state, rematerializes only surplus columns at the post-requirement coordinate, and passes the resulting column into nested explicit-container parsing. One literal tab after the quote prefix now rejects with the retired-URL diagnostic; two tabs still provide sufficient continuation and remain fenced.
 
-Two paired fixtures expand the harness to 105 scenarios. The complete run passed in 483.7 seconds with 92 expected rejections, 13 expected acceptances, and 30 unchanged executor parity cases. The 493.8- and 487.6-second 103-case runs remain historical evidence for the rejected `0f952d9` candidate; 483.7 seconds is the current 105-case implementation run. The executable runtime remains unchanged from `9d8907a`.
+Two paired fixtures expanded the harness to 105 scenarios. The complete run passed in 483.7 seconds with 92 expected rejections, 13 expected acceptances, and 30 unchanged executor parity cases. The 493.8- and 487.6-second 103-case runs and the 483.7-second 105-case run remain historical evidence for the rejected `0f952d9` to `f779cab` sequence. The executable runtime remained unchanged from `9d8907a`.
+
+## Quote Marker Partial-Tab Addendum
+
+Candidate `f779cab` passed all seven hosted jobs in run `29388623286` in 9m20s. API/documentation returned `PASS`; correctness and security each returned `REVISE` because a tab used as optional padding immediately after `>` lost the expanded columns not consumed by the block-quote marker.
+
+The absolute-column correction preserved where the tab started but still treated the optional quote whitespace as a whole source character. CommonMark defines the marker as `>` plus one following space of indentation. When that indentation is supplied by a tab, one expanded column belongs to the marker and the remaining columns stay in the content.
+
+The correction centralizes quote-padding removal. A literal space is consumed normally; a tab consumes exactly one delimiter column and rematerializes the remaining tab-expanded columns before the untouched content. Both explicit-container discovery and continuation matching use the same helper and returned column.
+
+Four paired fixtures cover insufficient and sufficient list indentation when the quote-padding tab appears in an opener or a continuation. Direct probes and the positive checker pass. The complete 109-scenario matrix passed in 527.5 seconds with 94 expected rejections, 15 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.

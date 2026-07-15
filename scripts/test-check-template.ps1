@@ -667,6 +667,42 @@ try {
     Write-Utf8 $fullTabPath $fullTabText
     Assert-CheckerResult "full quote-relative tab continuation remains fenced" $fullTabFixture $true
 
+    $quotePaddingOpeningRejectFixture = New-Fixture "quote-padding-tab-opening-insufficient-continuation"
+    $quotePaddingOpeningRejectPath = Join-Path $quotePaddingOpeningRejectFixture "README.md"
+    $quotePaddingOpeningRejectText = (Get-Content -LiteralPath $quotePaddingOpeningRejectPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '>' + [char]9 + '- ~~~text' + [Environment]::NewLine +
+        '>   https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine
+    Write-Utf8 $quotePaddingOpeningRejectPath $quotePaddingOpeningRejectText
+    Assert-CheckerResult "quote-padding tab opener requires full list continuation" $quotePaddingOpeningRejectFixture $false "README contains the retired GarrettAudet/TraceRail repository URL"
+
+    $quotePaddingOpeningAcceptFixture = New-Fixture "quote-padding-tab-opening-sufficient-continuation"
+    $quotePaddingOpeningAcceptPath = Join-Path $quotePaddingOpeningAcceptFixture "README.md"
+    $quotePaddingOpeningAcceptText = (Get-Content -LiteralPath $quotePaddingOpeningAcceptPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '>' + [char]9 + '- ~~~text' + [Environment]::NewLine +
+        '>     https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine
+    Write-Utf8 $quotePaddingOpeningAcceptPath $quotePaddingOpeningAcceptText
+    Assert-CheckerResult "quote-padding tab opener with full list continuation remains fenced" $quotePaddingOpeningAcceptFixture $true
+
+    $quotePaddingContinuationRejectFixture = New-Fixture "quote-padding-tab-continuation-insufficient"
+    $quotePaddingContinuationRejectPath = Join-Path $quotePaddingContinuationRejectFixture "README.md"
+    $quotePaddingContinuationRejectText = (Get-Content -LiteralPath $quotePaddingContinuationRejectPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '> 10. ~~~text' + [Environment]::NewLine +
+        '>' + [char]9 + ' https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine
+    Write-Utf8 $quotePaddingContinuationRejectPath $quotePaddingContinuationRejectText
+    Assert-CheckerResult "quote-padding tab continuation rejects below the list threshold" $quotePaddingContinuationRejectFixture $false "README contains the retired GarrettAudet/TraceRail repository URL"
+
+    $quotePaddingContinuationAcceptFixture = New-Fixture "quote-padding-tab-continuation-sufficient"
+    $quotePaddingContinuationAcceptPath = Join-Path $quotePaddingContinuationAcceptFixture "README.md"
+    $quotePaddingContinuationAcceptText = (Get-Content -LiteralPath $quotePaddingContinuationAcceptPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '> 10. ~~~text' + [Environment]::NewLine +
+        '>' + [char]9 + '  https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine
+    Write-Utf8 $quotePaddingContinuationAcceptPath $quotePaddingContinuationAcceptText
+    Assert-CheckerResult "quote-padding tab continuation preserves the full list threshold" $quotePaddingContinuationAcceptFixture $true
+
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
     $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(

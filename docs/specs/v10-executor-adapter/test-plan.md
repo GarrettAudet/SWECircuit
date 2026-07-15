@@ -66,6 +66,8 @@ Acceptance-candidate verification active.
 - U+00A0 with valid list continuation indentation must remain ordinary fenced content.
 - A partial tab after a quote prefix must not satisfy more ordered-list continuation columns than it physically spans.
 - Sufficient tab-expanded indentation after a quote prefix must remain valid fenced content.
+- A tab used as optional padding immediately after `>` must consume one virtual delimiter column and preserve its surplus while parsing a nested opener.
+- The same partial-tab rule must preserve rejection and acceptance thresholds while parsing quote-contained continuation lines.
 
 ## Skipped Checks
 
@@ -74,7 +76,7 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 ## Verification Evidence
 
 - Baseline `2b7bef37fb2477e3fc8779171c5971a3db42f20b`: `npm.cmd run verify` passed with 209 tests; both workflow checkers passed with 42 negative scenarios.
-- Corrected V10 implementation: `npm.cmd run verify` passed with 275 tests, deterministic V10 dogfood, dry-run package inspection, and the clean offline installed consumer.
+- Current quote-padding correction: `npm.cmd run verify` passed in 19.2 seconds with 275 tests, deterministic V10 dogfood, dry-run package inspection, and the clean offline installed consumer.
 - Pre-parity working-tree evidence passed the positive checker and its 43-scenario harness: 40 expected rejections and three expected acceptances. Later parity fixtures supersede that count.
 - Independent postimplementation review first returned three `REVISE` verdicts. Candidate `e3453e0` then returned `REVISE / PASS / REVISE` despite green CI. Candidate `9d8907a` returned three `PASS` verdicts and passed all seven jobs in run `29357443883`.
 - The first pre-closeout phrase search found one stale no-call requirement in the feature spec. `2c6dff4` then returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS` for one ADR race rule and stale ephemeral terminology.
@@ -90,4 +92,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `ae5195c` passed all seven jobs in run `29383056180`; exact review returned correctness `REVISE`, API/documentation `PASS`, and no security verdict within the bounded handoff window.
 - Candidate `f990abc` passed all seven jobs in run `29384351025` in 6m25s; exact review returned `REVISE / REVISE / REVISE` for container-relative blank state, Unicode whitespace, and evidence attribution.
 - Candidate `0f952d9` passed all seven jobs in run `29386833535` in 9m19s; exact review returned `PASS / REVISE / REVISE` for correctness, absolute-column security, and timing provenance.
-- The historical 103-scenario runs completed in 493.8 and 487.6 seconds. The current 105-scenario matrix passed in 483.7 seconds: 92 expected rejections and 13 expected acceptances. Thirty executor parity cases remain unchanged. Exact-commit review and all seven hosted jobs remain.
+- Candidate `f779cab` passed all seven jobs in run `29388623286` in 9m20s; exact review returned `REVISE / REVISE / PASS` for correctness, security, and API/documentation because quote-padding tabs lost unconsumed virtual columns.
+- The historical 103-scenario runs completed in 493.8 and 487.6 seconds, and the rejected `f779cab` 105-scenario run completed in 483.7 seconds. The current 109-scenario matrix passed in 527.5 seconds: 94 expected rejections and 15 expected acceptances. Thirty executor parity cases remain unchanged. Exact-commit review and all seven hosted jobs remain.

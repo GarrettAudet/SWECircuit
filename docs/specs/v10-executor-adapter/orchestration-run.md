@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `0f952d9` passed all seven hosted jobs; correctness returned `PASS`, while security and API/documentation returned `REVISE`. The current absolute-column correction passes direct probes, the positive checker, and all 105 scenarios in 483.7 seconds. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `f779cab` passed all seven hosted jobs and API/documentation review, but correctness and security returned `REVISE`. The current quote-padding correction passes four direct probes, the positive checker, and all 109 scenarios in 527.5 seconds. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `f990abc` remained review-blocked. Candidate `0f952d9` passed all seven hosted jobs and correctness review, but security and API/documentation returned `REVISE`. The current correction preserves absolute Markdown columns and unambiguous timing provenance. AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `0f952d9` remained review-blocked. Candidate `f779cab` passed all seven hosted jobs and API/documentation review, but correctness and security returned `REVISE`. The current correction preserves partially consumed tab columns after block-quote markers. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -233,4 +233,16 @@ The correction that became candidate `0f952d9` implemented exact CommonMark blan
 
 GitHub Actions run `29386833535` passed Template Check plus all six Node 22/24 operating-system jobs in 9m19s for exact commit `0f952d9bfb26a8ff702a57ec8c40ba5a92d8a986`; Template Check took 9m16s. Both `REVISE` findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction preserves absolute columns through quote and list prefix stripping, rematerializes tab surplus at the post-requirement column, and passes that column into nested explicit-container parsing. One partial-tab fixture rejects with the causal retired-URL diagnostic, while the sufficient-tab fixture preserves valid fenced content. All 105 scenarios pass in 483.7 seconds: 92 expected rejections, 13 expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also pass; the gate remains open.
+The correction that became candidate `f779cab` preserved absolute columns through quote and list prefix stripping, rematerialized list-continuation tab surplus at the post-requirement column, and passed that column into nested explicit-container parsing. One partial-tab fixture rejected with the causal retired-URL diagnostic, while the sufficient-tab fixture preserved valid fenced content. All 105 scenarios passed in 483.7 seconds: 92 expected rejections, 13 expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also passed; the gate remained open.
+
+## Exact Candidate f779cab Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | A tab immediately after `>` lost its unconsumed virtual columns, so valid four-column continuation could be exposed and falsely rejected. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | The same whole-tab deletion shortened an opener list marker and could hide an active retired URL behind a fence that should have ended. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | PASS | Confirmed current and historical timing provenance, 105-case arithmetic, rejected-candidate status, links, bounded claims, and unchanged runtime scope. |
+
+GitHub Actions run `29388623286` passed Template Check plus all six Node 22/24 operating-system jobs in 9m20s for exact commit `f779cabc47a52ad086da9a695610198ebd4771ce`; Template Check took 9m16s. Both `REVISE` findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction consumes exactly one virtual quote-padding column, rematerializes any remaining tab-expanded columns, and shares that transformation between explicit-container and continuation parsing. Four direct probes pass. All 109 scenarios pass in 527.5 seconds: 94 expected rejections, 15 expected acceptances, and 30 unchanged executor parity cases. The positive checker also passes; the gate remains open.

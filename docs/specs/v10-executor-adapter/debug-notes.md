@@ -2,7 +2,7 @@
 
 ## Status
 
-Exact candidate `0f952d9` passed all seven hosted jobs and correctness review, but security returned `REVISE` for lost absolute tab columns and API/documentation returned `REVISE` for inconsistent timing provenance. The causal correction passes direct probes, the positive checker, and all 105 scenarios in 483.7 seconds. V10 is not merged.
+Exact candidate `f779cab` passed all seven hosted jobs and API/documentation review, but correctness and security returned `REVISE` for unconsumed tab columns after a block-quote marker. The causal correction passes four direct probes, the positive checker, and all 109 scenarios in 527.5 seconds. V10 is not merged.
 
 ## Failure Summary
 
@@ -778,11 +778,80 @@ The first positive checker after evidence capture rejected the angle-bracket SPA
 
 ### Causal Fix
 
-`Remove-MarkdownIndentationColumns` now accepts a starting column and returns both content and column. `Get-MarkdownContinuationContent` carries absolute column state through quote markers, optional whitespace, lists, and tab surplus. Blank-state walking and nested explicit-container parsing consume the propagated column. Timing records distinguish the historical 103-case runs from the current 105-case run.
+`Remove-MarkdownIndentationColumns` accepts a starting column and returns both content and column. The correction carried absolute column state through stripped prefixes, list continuations, and indentation surplus, but candidate `f779cab` still treated a tab used as optional quote padding as a whole character. Blank-state walking and nested explicit-container parsing consumed the propagated column. Timing records distinguish the historical 103-case runs from the 105-case run used to freeze `f779cab`.
 
 ### Regression
 
-Two fixtures cover partial quote-relative tab rejection and sufficient quote-relative tab preservation. The complete 105-scenario matrix passes in 483.7 seconds with 92 rejections and 13 acceptances; the 30 executor contract-parity cases remain unchanged. The executable runtime remains unchanged from `9d8907a`.
+Two fixtures covered partial quote-relative tab rejection and sufficient quote-relative tab preservation. The complete 105-scenario matrix passed in 483.7 seconds with 92 rejections and 13 acceptances; the 30 executor contract-parity cases remained unchanged. The executable runtime remained unchanged from `9d8907a`.
+
+### Next Action
+
+AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs; merge remains owner-gated.
+
+## Exact Candidate Quote-Padding Tab Review
+
+### Trigger
+
+Exact review of `f779cabc47a52ad086da9a695610198ebd4771ce` returned API/documentation `PASS` and correctness plus security `REVISE`. GitHub Actions run `29388623286` passed Template Check plus all six Node 22/24 operating-system jobs in 9m20s; Template Check took 9m16s.
+
+### Reproduction
+
+Both reviewers found that a tab immediately after `>` lost the virtual columns not consumed by the block-quote delimiter. `[TAB]` below denotes one literal U+0009 and `[SPACE]` denotes one literal U+0020.
+
+Security showed a false negative while parsing an opener:
+
+~~~text
+>[TAB]- ~~~text
+>[SPACE][SPACE][SPACE]https://github.com/GarrettAudet/TraceRail
+~~~
+
+The opening tab spans three columns after `>`. Only one belongs to the quote marker, leaving two columns before `-`; the second line then lacks the four list-continuation columns and the URL is active. Candidate `f779cab` discarded the two surplus columns, recorded a shorter list continuation, and hid the URL.
+
+Correctness showed the inverse false positive while parsing a continuation:
+
+~~~text
+> 10. ~~~text
+>[TAB][SPACE][SPACE]https://github.com/GarrettAudet/TraceRail
+~~~
+
+After the quote marker consumes one of the tab-expanded columns, two virtual columns plus the two literal spaces satisfy the four-column `10. ` continuation. Candidate `f779cab` discarded the tab surplus, ended the fence early, and exposed a URL that should remain fenced.
+
+### Stable Evidence
+
+- The exact security reproduction passed the rejected checker incorrectly before the correction.
+- Correctness and security independently found the same delimiter-consumption defect from opposite acceptance directions.
+- CommonMark 0.31.2 Example 6 states that one tab-expanded column after `>` belongs to the delimiter and the remaining columns stay as content indentation.
+- All four corrected direct probes pass: opener rejection, opener preservation, continuation rejection, and continuation preservation.
+- Candidate `f779cab` still passed all seven hosted jobs, so the two independent `REVISE` verdicts remained acceptance-blocking.
+
+### Failure Classification
+
+Partial tab consumption was modeled as whole-character deletion at the block-quote boundary.
+
+### Hypotheses
+
+1. A space after `>` contributes one delimiter column and no surplus.
+2. A tab after `>` contributes exactly one delimiter column and leaves its remaining tab-expanded columns as content indentation.
+3. Explicit-container and continuation parsing need the same quote-padding transformation.
+4. Paired threshold fixtures must constrain both hidden-active-content and false-rejection behavior.
+
+### Experiments
+
+A shared quote-padding helper made the two opener probes and two continuation probes produce their intended causal outcomes. Both PowerShell scripts parse, the positive repository checker passes, and `npm.cmd run verify` passes in 19.2 seconds with format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the offline installed consumer.
+
+The complete 109-scenario harness passed in 527.5 seconds: 94 expected rejections, 15 expected acceptances, and 30 unchanged executor parity cases. Every prior ownership, blank, Unicode, tab, structural, and public-contract fixture remained correct.
+
+### Confirmed Cause
+
+Both quote parsers advanced a tab to its next stop and then removed the entire source character as optional quote padding. CommonMark treats only one expanded column as part of the block-quote marker; the remaining columns must survive as content indentation.
+
+### Causal Fix
+
+`Remove-MarkdownQuoteMarkerPadding` consumes exactly one optional delimiter column, rematerializes any tab surplus as spaces, and returns the remaining content with its post-delimiter column. `Get-MarkdownExplicitContainer` and `Get-MarkdownContinuationContent` both use that result.
+
+### Regression
+
+Four fixtures cover insufficient and sufficient indentation through both quote-tab opener and continuation paths. The complete 109-scenario matrix passes in 527.5 seconds with 94 rejections and 15 acceptances; the 30 executor contract-parity cases remain unchanged. The executable runtime remains unchanged from `9d8907a`.
 
 ### Next Action
 

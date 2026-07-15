@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `0f952d9` passed all seven hosted jobs in run `29386833535` in 9m19s; correctness returned `PASS`, security returned `REVISE` for lost absolute tab columns, and API/documentation returned `REVISE` for inconsistent timing provenance. The current correction addresses both findings; direct probes, the positive checker, and all 105 scenarios pass in 483.7 seconds. V10 is not merged.
+Candidate `f779cab` passed all seven hosted jobs in run `29388623286` in 9m20s; API/documentation returned `PASS`, while correctness and security returned `REVISE` for unconsumed virtual columns in a tab immediately after `>`. The current correction passes four direct probes, the positive checker, and all 109 scenarios in 527.5 seconds. V10 is not merged.
 
 ## Review Outcome
 
@@ -26,7 +26,9 @@ Candidate `ae5195c` corrected those findings and passed all seven hosted jobs. A
 
 Candidate `f990abc` corrected those findings and passed all seven hosted jobs. Correctness found that a quote-only blank could end an inner quote while discarding a surviving outer quote and list; security found that U+00A0 was treated as a CommonMark blank; API/documentation found one sentence that attributed current evidence to `ae5195c`. The correction that became `0f952d9` used exact grammar-specific blank syntax, container-relative prefix state, and unambiguous evidence attribution.
 
-Candidate `0f952d9` corrected those findings and passed all seven hosted jobs plus correctness review. Security found that quote stripping reset the physical column before tab expansion, and API/documentation found that a prior timing remained labeled authoritative after a later exact-tree run. The current correction preserves absolute columns and makes the 105-case timing the sole current local result.
+Candidate `0f952d9` corrected those findings and passed all seven hosted jobs plus correctness review. Security found that quote stripping reset the physical column before tab expansion, and API/documentation found that a prior timing remained labeled authoritative after a later exact-tree run. The correction that became `f779cab` preserved absolute columns and made the 105-case timing unambiguous.
+
+Candidate `f779cab` passed all seven hosted jobs and API/documentation review. Correctness and security independently found that optional quote padding still deleted a whole tab instead of consuming one expanded column and preserving the remainder. The current correction shares exact partial-tab consumption between opener and continuation parsing.
 
 ## Spec Alignment
 
@@ -45,7 +47,7 @@ The implementation follows ADR 0002:
 
 ## Verification Evidence
 
-- `npm.cmd run verify`: corrected candidate passed with 275 tests, format, lint, typecheck, build, V10 dogfood, package dry run, and clean offline consumer.
+- `npm.cmd run verify`: the current quote-padding correction passed in 19.2 seconds with 275 tests, format, lint, typecheck, build, V10 dogfood, package dry run, and the clean offline consumer.
 - V10 dogfood: under-authorized grant returned `SC4206` with zero calls; corrected grant invoked once and produced seven inspectable events.
 - Installed consumer: shipped guide present; public declarations compile under independent settings; a class executor runs; the real result is narrowed and inspected.
 - Prior candidate `e3453e0` passed all seven jobs in GitHub Actions run `29355583567`, but exact review returned correctness `REVISE`, security `PASS`, and API/documentation `REVISE`; green CI did not override review.
@@ -64,7 +66,8 @@ The implementation follows ADR 0002:
 - Candidate `ae5195c` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29383056180`; correctness returned `REVISE`, API/documentation returned `PASS`, and security produced no verdict within the bounded handoff window.
 - Candidate `f990abc` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29384351025` in 6m25s; correctness, security, and API/documentation each returned `REVISE`.
 - Candidate `0f952d9` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29386833535` in 9m19s; correctness returned `PASS`, security returned `REVISE`, and API/documentation returned `REVISE`.
-- Local gate: the positive checker, direct causal/preserving probes, and all 105 scenarios pass. The matrix completed in 483.7 seconds with 92 expected rejections and 13 expected acceptances; the 30 executor contract-parity cases are unchanged. The executable runtime remains unchanged from `9d8907a`.
+- Candidate `f779cab` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29388623286` in 9m20s; API/documentation returned `PASS`, while correctness and security returned `REVISE`.
+- Local gate: the positive checker, four direct causal/preserving probes, and all 109 scenarios pass. The matrix completed in 527.5 seconds with 94 expected rejections and 15 expected acceptances; the 30 executor contract-parity cases are unchanged. The executable runtime remains unchanged from `9d8907a`.
 
 ## Findings
 
@@ -116,7 +119,8 @@ The implementation follows ADR 0002:
 | High | `IsNullOrWhiteSpace` accepted U+00A0 as blank although CommonMark allows only spaces and tabs. | Use a grammar-specific blank predicate in fence, active-list, and paragraph transitions; cover raw and continued U+00A0. |
 | Medium | One status sentence attributed current correction evidence to rejected candidate `ae5195c`. | Replace the ambiguous pronoun with an explicit current-state subject and retain independent evidence review. |
 | High | Quote stripping reset the physical column, so a partial tab could falsely continue a multi-digit list-owned fence and hide active content. | Carry absolute columns through quote/list transitions and cover partial-tab rejection plus sufficient-tab preservation. |
-| Medium | The 493.8-second run remained labeled authoritative after a later exact-tree run. | Mark both 103-case timings historical and use the 483.7-second 105-case run as the single current local result. |
+| High | Optional quote padding consumed a whole tab, losing expanded columns that remained part of the content and causing both hidden active prose and false rejection. | Consume exactly one virtual delimiter column, rematerialize tab surplus, share the helper across opener and continuation parsing, and cover both thresholds with four fixtures. |
+| Medium | The 493.8-second run remained labeled authoritative after a later exact-tree run. | Keep one current complete-tree timing per candidate: the 103-case timings are historical, 483.7 seconds belongs to rejected `f779cab`, and 527.5 seconds belongs to the current 109-case correction. |
 
 ## Residual Risks
 

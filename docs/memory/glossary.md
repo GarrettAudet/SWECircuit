@@ -59,3 +59,4 @@
 | CommonMark blank line | A Markdown line containing no characters or only U+0020 spaces or U+0009 tabs; broader Unicode whitespace is not blank for block-state transitions. |
 | Container-relative blank | A line whose content becomes blank after matching surviving outer containers, allowing an inner quote to end while an outer quote or list remains active. |
 | Absolute Markdown column | The physical zero-based display column carried through stripped quote and list prefixes so tab stops and nested indentation retain their original meaning. |
+| Partial tab consumption | A grammar transition that consumes fewer columns than a tab spans; the remaining tab-expanded columns must stay in the content rather than disappear with the source character. |

@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `0f952d9` passed all seven hosted jobs in run `29386833535` in 9m19s; correctness returned `PASS`, security returned `REVISE` for lost absolute tab columns after quote stripping, and API/documentation returned `REVISE` for inconsistent timing provenance. The current correction carries physical columns through quote and list transitions. Direct probes, the positive checker, and all 105 scenarios pass; the matrix completed in 483.7 seconds. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `f779cab` passed all seven hosted jobs in run `29388623286` in 9m20s; API/documentation returned `PASS`, while correctness and security returned `REVISE` for whole-tab deletion after a block-quote marker. The current correction preserves the unconsumed tab columns. Four direct probes, the positive checker, and all 109 scenarios pass; the matrix completed in 527.5 seconds. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -42,7 +42,9 @@ Candidate `ae5195c` exposed the next container boundary: a whitespace-only line 
 
 Candidate `f990abc` exposed two remaining blank-state assumptions. A line containing only a surviving outer quote marker can be blank relative to that quote while preserving its list, and U+00A0 is Unicode whitespace but not a CommonMark blank. The correction uses an exact space-or-tab predicate and walks the container stack to retain the prefix before the first unmarked quote. A separate wording correction keeps rejected-candidate evidence distinct from current working-tree evidence.
 
-Candidate `0f952d9` exposed a coordinate-state boundary: quote removal preserved content but reset the physical column, so a partial tab could falsely satisfy a multi-digit ordered-list continuation. The correction carries column state through quote and list prefixes, rematerializes only surplus indentation, and passes the resulting column into nested-container parsing. Timing records now label the 103-case runs as historical and the 105-case run as current.
+Candidate `0f952d9` exposed a coordinate-state boundary: quote removal preserved content but reset the physical column, so a partial tab could falsely satisfy a multi-digit ordered-list continuation. The correction that became `f779cab` carried column state through quote and list prefixes, rematerialized list-continuation surplus indentation, and passed the resulting column into nested-container parsing. Timing records label the 103-case runs as historical.
+
+Candidate `f779cab` exposed the remaining delimiter-consumption boundary: a tab immediately after `>` spans several virtual columns, but only one belongs to optional quote padding. The correction centralizes that transformation, consumes one delimiter column, rematerializes the tab surplus, and returns the post-delimiter coordinate to both opener and continuation parsing.
 
 ## Assumptions Used
 
@@ -82,7 +84,8 @@ Candidate `0f952d9` exposed a coordinate-state boundary: quote removal preserved
 - Candidate `ae5195c` passed all seven jobs in GitHub Actions run `29383056180`; exact review returned correctness `REVISE`, API/documentation `PASS`, and no security verdict within the bounded handoff window.
 - Candidate `f990abc` passed all seven jobs in GitHub Actions run `29384351025` in 6m25s; correctness, security, and API/documentation each returned `REVISE`.
 - Candidate `0f952d9` passed all seven jobs in GitHub Actions run `29386833535` in 9m19s; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
-- The current checker correction passes the positive checker, direct causal/preserving probes, and all 105 isolated scenarios in 483.7 seconds: 92 expected rejections, 13 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
+- Candidate `f779cab` passed all seven jobs in GitHub Actions run `29388623286` in 9m20s; exact review returned API/documentation `PASS` and correctness plus security `REVISE`.
+- The current checker correction passes the positive checker, four direct causal/preserving probes, and all 109 isolated scenarios in 527.5 seconds: 94 expected rejections, 15 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -106,4 +109,5 @@ Candidate `0f952d9` exposed a coordinate-state boundary: quote removal preserved
 - CommonMark blank syntax is exact: empty, spaces, or tabs. Broad Unicode whitespace predicates are not interchangeable with grammar-specific blank rules.
 - Container-relative blanks require prefix state, not just raw-line classification; preserve the matched quote/list prefix and end ownership at the first unmarked quote.
 - Coordinate-sensitive grammars need both remaining text and its physical column; stripping a prefix must not reset tab stops.
+- A multi-column source character can be consumed partially by a delimiter; preserve and rematerialize its unconsumed virtual columns rather than deleting the whole character.
 - Keep the checker bounded and dependency-free for V10; full parser conformance or replacement is a separate architecture decision.

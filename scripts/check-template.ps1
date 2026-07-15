@@ -114,6 +114,35 @@ function Read-MarkdownIndentation {
     }
 }
 
+function Remove-MarkdownQuoteMarkerPadding {
+    param(
+        [string]$Content,
+        [int]$Index,
+        [int]$Column
+    )
+
+    if ($Index -ge $Content.Length -or $Content[$Index] -notin @([char]32, [char]9)) {
+        return [pscustomobject]@{
+            Content = $Content.Substring($Index)
+            Column = $Column
+        }
+    }
+
+    if ($Content[$Index] -eq [char]32) {
+        return [pscustomobject]@{
+            Content = $Content.Substring($Index + 1)
+            Column = $Column + 1
+        }
+    }
+
+    $nextColumn = $Column + (4 - ($Column % 4))
+    $surplusColumns = $nextColumn - $Column - 1
+    return [pscustomobject]@{
+        Content = (" " * $surplusColumns) + $Content.Substring($Index + 1)
+        Column = $Column + 1
+    }
+}
+
 function Remove-MarkdownIndentationColumns {
     param(
         [string]$Content,
@@ -148,16 +177,10 @@ function Get-MarkdownExplicitContainer {
 
         if ($cursorIndex -lt $Line.Length -and $Line[$cursorIndex] -eq [char]62) {
             $stack.Add([pscustomobject]@{ Type = "quote" }) | Out-Null
-            $index = $cursorIndex + 1
-            $column = $cursorColumn + 1
-            if ($index -lt $Line.Length -and $Line[$index] -in @([char]32, [char]9)) {
-                if ($Line[$index] -eq [char]9) {
-                    $column += 4 - ($column % 4)
-                } else {
-                    $column++
-                }
-                $index++
-            }
+            $remainder = Remove-MarkdownQuoteMarkerPadding $Line ($cursorIndex + 1) ($cursorColumn + 1)
+            $Line = $remainder.Content
+            $index = 0
+            $column = $remainder.Column
             continue
         }
 
@@ -204,17 +227,9 @@ function Get-MarkdownContinuationContent {
                 return $null
             }
 
-            $index = $leading.Index + 1
-            $column = $leading.Column + 1
-            if ($index -lt $content.Length -and $content[$index] -in @([char]32, [char]9)) {
-                if ($content[$index] -eq [char]9) {
-                    $column += 4 - ($column % 4)
-                } else {
-                    $column++
-                }
-                $index++
-            }
-            $content = $content.Substring($index)
+            $remainder = Remove-MarkdownQuoteMarkerPadding $content ($leading.Index + 1) ($leading.Column + 1)
+            $content = $remainder.Content
+            $column = $remainder.Column
             continue
         }
 
