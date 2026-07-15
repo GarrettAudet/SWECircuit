@@ -703,6 +703,41 @@ try {
     Write-Utf8 $quotePaddingContinuationAcceptPath $quotePaddingContinuationAcceptText
     Assert-CheckerResult "quote-padding tab continuation preserves the full list threshold" $quotePaddingContinuationAcceptFixture $true
 
+    $mixedFenceUrlFixture = New-Fixture "mixed-quote-fence-preserves-retired-url"
+    $mixedFenceUrlPath = Join-Path $mixedFenceUrlFixture "README.md"
+    $mixedFenceUrlText = (Get-Content -LiteralPath $mixedFenceUrlPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '> ' + [char]9 + '~~~text' + [Environment]::NewLine +
+        '> ' + [char]9 + 'https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine +
+        '> ' + [char]9 + '~~~' + [Environment]::NewLine
+    Write-Utf8 $mixedFenceUrlPath $mixedFenceUrlText
+    Assert-CheckerResult "mixed quote fence keeps retired URL inactive" $mixedFenceUrlFixture $true
+
+    $mixedFenceCapabilityFixture = New-Fixture "mixed-quote-fence-hides-required-capability"
+    $mixedFenceCapabilityPath = Join-Path $mixedFenceCapabilityFixture "README.md"
+    $mixedFenceCapabilityText = Get-Content -LiteralPath $mixedFenceCapabilityPath -Raw
+    $mixedFenceCapabilityLine = @($mixedFenceCapabilityText -split "\r?\n" | Where-Object { $_.Contains($capabilityPhrase) })[0]
+    if ([string]::IsNullOrWhiteSpace($mixedFenceCapabilityLine)) {
+        throw "Mixed quote-fence fixture could not find the current capability line."
+    }
+    $mixedFenceCapabilityBlock = '> ' + [char]9 + '~~~text' + [Environment]::NewLine +
+        '> ' + [char]9 + $mixedFenceCapabilityLine + [Environment]::NewLine +
+        '> ' + [char]9 + '~~~'
+    $mixedFenceCapabilityText = $mixedFenceCapabilityText.Replace($mixedFenceCapabilityLine, $mixedFenceCapabilityBlock)
+    Write-Utf8 $mixedFenceCapabilityPath $mixedFenceCapabilityText
+    Assert-CheckerResult "mixed quote fence cannot own required capability" $mixedFenceCapabilityFixture $false "README missing required active public-surface text"
+
+    $mixedFenceCloserFixture = New-Fixture "mixed-quote-fence-closer-exposes-retired-url"
+    $mixedFenceCloserPath = Join-Path $mixedFenceCloserFixture "README.md"
+    $mixedFenceCloserText = (Get-Content -LiteralPath $mixedFenceCloserPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '> ~~~text' + [Environment]::NewLine +
+        '> inactive example' + [Environment]::NewLine +
+        '> ' + [char]9 + '~~~' + [Environment]::NewLine +
+        '> https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine
+    Write-Utf8 $mixedFenceCloserPath $mixedFenceCloserText
+    Assert-CheckerResult "mixed quote-fence closer exposes later retired URL" $mixedFenceCloserFixture $false "README contains the retired GarrettAudet/TraceRail repository URL"
+
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
     $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(

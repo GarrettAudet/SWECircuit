@@ -246,3 +246,13 @@ The absolute-column correction preserved where the tab started but still treated
 The correction centralizes quote-padding removal. A literal space is consumed normally; a tab consumes exactly one delimiter column and rematerializes the remaining tab-expanded columns before the untouched content. Both explicit-container discovery and continuation matching use the same helper and returned column.
 
 Four paired fixtures cover insufficient and sufficient list indentation when the quote-padding tab appears in an opener or a continuation. Direct probes and the positive checker pass. The complete 109-scenario matrix passed in 527.5 seconds with 94 expected rejections, 15 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.
+
+## Container-Relative Fence-Indentation Addendum
+
+Candidate `82c3bb1` passed all seven hosted jobs in run `29390051639` in 10m21s, with correctness and API/documentation `PASS`. Security returned `REVISE` because a space followed by a tab after `>` was measured as two permitted fence-indentation columns but returned as a raw tab to a literal-space-only fence matcher.
+
+The root cause was a split representation at the final grammar boundary: container parsing preserved the correct absolute column, while delimiter recognition still matched source characters rather than the zero-through-three indentation columns allowed from that position. This could expose fenced URLs or required prose, or keep a closer open and hide later active content.
+
+The causal fix gives fence matching the carried absolute start column and normalizes only the measured zero-through-three leading columns. A tab that crosses the allowance remains unconsumed, preserving four-column indented code semantics. Explicit-container parsing now returns its content column, and opener plus closer paths share the same matcher.
+
+Three fixtures cover fenced retired-URL preservation, fenced-only required-capability rejection, and post-closer active-URL rejection. Three direct probes, the positive checker, and `npm.cmd run verify` pass. The complete 112-scenario matrix passed in 554.2 seconds with 96 expected rejections, 16 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.

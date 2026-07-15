@@ -2,7 +2,7 @@
 
 ## Status
 
-Exact candidate `f779cab` passed all seven hosted jobs and API/documentation review, but correctness and security returned `REVISE` for unconsumed tab columns after a block-quote marker. The causal correction passes four direct probes, the positive checker, and all 109 scenarios in 527.5 seconds. V10 is not merged.
+Candidate `82c3bb1` passed all seven hosted jobs in run `29390051639` in 10m21s; correctness and API/documentation returned `PASS`, while security returned `REVISE` for mixed space-plus-tab fence indentation after a block-quote marker. The causal correction passes three direct probes, the positive checker, `npm.cmd run verify`, and all 112 scenarios in 554.2 seconds. V10 is not merged.
 
 ## Failure Summary
 
@@ -852,6 +852,66 @@ Both quote parsers advanced a tab to its next stop and then removed the entire s
 ### Regression
 
 Four fixtures cover insufficient and sufficient indentation through both quote-tab opener and continuation paths. The complete 109-scenario matrix passes in 527.5 seconds with 94 rejections and 15 acceptances; the 30 executor contract-parity cases remain unchanged. The executable runtime remains unchanged from `9d8907a`.
+
+### Next Action
+
+AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs; merge remains owner-gated.
+
+## Exact Candidate Mixed Fence Indentation Review
+
+### Trigger
+
+Exact review of `82c3bb1f681fdf0d7edbbc533376c60510d8c55d` returned correctness and API/documentation `PASS` plus security `REVISE`. GitHub Actions run `29390051639` passed Template Check and all six Node 22/24 operating-system jobs in 10m21s; Template Check took 10m18s.
+
+### Reproduction
+
+Security showed that one U+0020 space followed by one U+0009 tab after `>` can supply two valid fence-indentation columns from absolute column two to column four. `[SPACE]` and `[TAB]` below denote those literal characters.
+
+~~~text
+>[SPACE][TAB]~~~text
+>[SPACE][TAB]https://github.com/GarrettAudet/TraceRail
+>[SPACE][TAB]~~~
+~~~
+
+Candidate `82c3bb1` measured the indentation in columns but returned the raw tab to a fence matcher that accepted only literal spaces. The opener was missed, so fenced URLs remained active and fenced-only required contract text could satisfy active-prose checks. The same mismatch on a closer could keep the fence open and hide later active content.
+
+### Stable Evidence
+
+- Three direct pre-fix probes reproduced visible fenced URL text, visible fenced required text, and a hidden post-closer URL.
+- Correctness and API/documentation returned `PASS`; the one security `REVISE` remained acceptance-blocking.
+- All seven hosted jobs stayed green, confirming that deterministic CI did not contain this unmodeled boundary.
+- The corrected direct probes hide both fenced inputs and expose the post-closer URL.
+
+### Failure Classification
+
+Container-relative indentation was measured in physical columns but matched in raw source characters.
+
+### Hypotheses
+
+1. Fence indentation must be interpreted as zero through three columns from the content start after its active containers.
+2. A tab can contribute valid fence indentation when its absolute tab stop stays inside that three-column allowance.
+3. Openers and closers need the same coordinate-aware normalization.
+4. A four-column top-level code indent must remain non-fence content.
+
+### Experiments
+
+`Get-MarkdownFenceMarker` now receives the absolute content column, normalizes only the measured zero-through-three leading columns to spaces, and leaves an over-limit tab unconsumed. Explicit-container parsing returns its content column, and every opener and closer call supplies that coordinate.
+
+The three direct probes pass. Both PowerShell scripts parse, the positive repository checker passes, and `npm.cmd run verify` passes in 25.3 seconds with format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the offline installed consumer.
+
+The complete 112-scenario harness passed in 554.2 seconds: 96 expected rejections, 16 expected acceptances, and 30 unchanged executor parity cases. Every prior ownership, blank, Unicode, tab, structural, and public-contract fixture remained correct.
+
+### Confirmed Cause
+
+The parser carried the correct absolute column but handed the remaining raw indentation to a literal-space-only fence regex. This split representation lost the fact that the tab from column two to column four represented two permitted fence-indentation columns.
+
+### Causal Fix
+
+Normalize only the final zero-through-three fence-indentation columns at the fence-matching boundary, using the carried absolute start column. Preserve raw content when indentation crosses the allowance so four-column indented code cannot become a fence.
+
+### Regression
+
+Three fixtures cover a retired URL inside the mixed-indentation fence, required capability text owned only by that fence, and a mixed-indentation closer followed by an active retired URL. The complete 112-scenario matrix passes in 554.2 seconds with 96 rejections and 16 acceptances; the 30 executor contract-parity cases remain unchanged. The executable runtime remains unchanged from `9d8907a`.
 
 ### Next Action
 

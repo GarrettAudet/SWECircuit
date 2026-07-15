@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `f779cab` passed all seven hosted jobs in run `29388623286` in 9m20s; API/documentation returned `PASS`, while correctness and security returned `REVISE` for whole-tab deletion after a block-quote marker. The current correction preserves the unconsumed tab columns. Four direct probes, the positive checker, and all 109 scenarios pass; the matrix completed in 527.5 seconds. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `82c3bb1` passed all seven hosted jobs in run `29390051639` in 10m21s; correctness and API/documentation returned `PASS`, while security returned `REVISE` for mixed space-plus-tab fence indentation after a block-quote marker. The current correction normalizes permitted fence indentation at the carried absolute column. Three direct probes, the positive checker, `npm.cmd run verify`, and all 112 scenarios pass; the matrix completed in 554.2 seconds. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -46,6 +46,8 @@ Candidate `0f952d9` exposed a coordinate-state boundary: quote removal preserved
 
 Candidate `f779cab` exposed the remaining delimiter-consumption boundary: a tab immediately after `>` spans several virtual columns, but only one belongs to optional quote padding. The correction centralizes that transformation, consumes one delimiter column, rematerializes the tab surplus, and returns the post-delimiter coordinate to both opener and continuation parsing.
 
+Candidate `82c3bb1` exposed a final matching-boundary split: parser state measured a space-plus-tab prefix as valid zero-through-three fence indentation from its absolute column, but the fence regex still accepted literal spaces only. The current correction passes that column into opener and closer matching, normalizes only permitted indentation columns, and leaves any over-limit tab untouched.
+
 ## Assumptions Used
 
 - Provider-neutral execution and explicit host authority are the smallest useful V10 increment.
@@ -85,7 +87,8 @@ Candidate `f779cab` exposed the remaining delimiter-consumption boundary: a tab 
 - Candidate `f990abc` passed all seven jobs in GitHub Actions run `29384351025` in 6m25s; correctness, security, and API/documentation each returned `REVISE`.
 - Candidate `0f952d9` passed all seven jobs in GitHub Actions run `29386833535` in 9m19s; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `f779cab` passed all seven jobs in GitHub Actions run `29388623286` in 9m20s; exact review returned API/documentation `PASS` and correctness plus security `REVISE`.
-- The current checker correction passes the positive checker, four direct causal/preserving probes, and all 109 isolated scenarios in 527.5 seconds: 94 expected rejections, 15 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
+- Candidate `82c3bb1` passed all seven jobs in GitHub Actions run `29390051639` in 10m21s; exact review returned correctness and API/documentation `PASS` plus security `REVISE`.
+- The current checker correction passes the positive checker, three direct causal probes, `npm.cmd run verify` in 25.3 seconds, and all 112 isolated scenarios in 554.2 seconds: 96 expected rejections, 16 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -110,4 +113,5 @@ Candidate `f779cab` exposed the remaining delimiter-consumption boundary: a tab 
 - Container-relative blanks require prefix state, not just raw-line classification; preserve the matched quote/list prefix and end ownership at the first unmarked quote.
 - Coordinate-sensitive grammars need both remaining text and its physical column; stripping a prefix must not reset tab stops.
 - A multi-column source character can be consumed partially by a delimiter; preserve and rematerialize its unconsumed virtual columns rather than deleting the whole character.
+- Normalize permitted fence indentation at the final matcher using the carried absolute column; raw-character regexes cannot recover tab-expanded grammar state.
 - Keep the checker bounded and dependency-free for V10; full parser conformance or replacement is a separate architecture decision.

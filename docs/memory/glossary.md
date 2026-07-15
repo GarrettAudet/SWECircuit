@@ -60,3 +60,4 @@
 | Container-relative blank | A line whose content becomes blank after matching surviving outer containers, allowing an inner quote to end while an outer quote or list remains active. |
 | Absolute Markdown column | The physical zero-based display column carried through stripped quote and list prefixes so tab stops and nested indentation retain their original meaning. |
 | Partial tab consumption | A grammar transition that consumes fewer columns than a tab spans; the remaining tab-expanded columns must stay in the content rather than disappear with the source character. |
+| Container-relative fence indentation | The zero through three indentation columns allowed before a fence marker after active quote or list containers; tabs must be expanded from the carried absolute column before matching. |

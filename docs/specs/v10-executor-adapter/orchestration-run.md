@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `f779cab` passed all seven hosted jobs and API/documentation review, but correctness and security returned `REVISE`. The current quote-padding correction passes four direct probes, the positive checker, and all 109 scenarios in 527.5 seconds. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `82c3bb1` passed all seven hosted jobs plus correctness and API/documentation review, but security returned `REVISE`. The current fence-indentation correction passes three direct probes, the positive checker, `npm.cmd run verify`, and all 112 scenarios in 554.2 seconds. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `0f952d9` remained review-blocked. Candidate `f779cab` passed all seven hosted jobs and API/documentation review, but correctness and security returned `REVISE`. The current correction preserves partially consumed tab columns after block-quote markers. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `f779cab` remained review-blocked. Candidate `82c3bb1` passed all seven hosted jobs plus correctness and API/documentation review, but security returned `REVISE` for mixed space-plus-tab fence indentation. The current correction normalizes the final zero-through-three fence-indentation columns at the carried absolute coordinate. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -245,4 +245,16 @@ The correction that became candidate `f779cab` preserved absolute columns throug
 
 GitHub Actions run `29388623286` passed Template Check plus all six Node 22/24 operating-system jobs in 9m20s for exact commit `f779cabc47a52ad086da9a695610198ebd4771ce`; Template Check took 9m16s. Both `REVISE` findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction consumes exactly one virtual quote-padding column, rematerializes any remaining tab-expanded columns, and shares that transformation between explicit-container and continuation parsing. Four direct probes pass. All 109 scenarios pass in 527.5 seconds: 94 expected rejections, 15 expected acceptances, and 30 unchanged executor parity cases. The positive checker also passes; the gate remains open.
+The correction that became candidate `82c3bb1` consumed exactly one virtual quote-padding column, rematerialized the remaining tab-expanded columns, and shared that transformation between explicit-container and continuation parsing. Four direct probes and all 109 scenarios passed in 527.5 seconds: 94 expected rejections, 15 expected acceptances, and 30 unchanged executor parity cases.
+
+## Exact Candidate 82c3bb1 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | PASS | Confirmed shared partial-tab handling, opener and continuation parity, four fixtures, 109-case arithmetic, and unchanged runtime payload. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | A space plus tab after `>` supplied valid fence-indentation columns but remained a raw tab for a literal-space matcher, enabling exposed fenced content or hidden post-closer content. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | PASS | Confirmed rejected-candidate provenance, current-versus-historical timing, links, bounded claims, and unchanged runtime scope. |
+
+GitHub Actions run `29390051639` passed Template Check plus all six Node 22/24 operating-system jobs in 10m21s for exact commit `82c3bb1f681fdf0d7edbbc533376c60510d8c55d`; Template Check took 10m18s. The security `REVISE` remains acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction gives fence matching the carried absolute content column and normalizes only its final zero-through-three indentation columns. Three direct probes, the positive checker, and `npm.cmd run verify` pass. All 112 scenarios pass in 554.2 seconds: 96 expected rejections, 16 expected acceptances, and 30 unchanged executor parity cases. The gate remains open.

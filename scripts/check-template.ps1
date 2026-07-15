@@ -208,6 +208,7 @@ function Get-MarkdownExplicitContainer {
     return [pscustomobject]@{
         Stack = @($stack.ToArray())
         Content = $Line.Substring($index)
+        Column = $column
     }
 }
 
@@ -330,15 +331,18 @@ function Get-MarkdownBestContinuation {
 function Get-MarkdownFenceMarker {
     param(
         [string]$Content,
+        [int]$StartColumn = 0,
         [switch]$Closing
     )
 
+    $leading = Read-MarkdownIndentation $Content 0 $StartColumn 3
+    $normalizedContent = (" " * $leading.Columns) + $Content.Substring($leading.Index)
     $pattern = if ($Closing) {
         '^[ ]{0,3}(?<marker>`{3,}|~{3,})[ \t]*$'
     } else {
         '^[ ]{0,3}(?<marker>`{3,}|~{3,})(?<info>.*)$'
     }
-    $match = [regex]::Match($Content, $pattern)
+    $match = [regex]::Match($normalizedContent, $pattern)
     if (-not $match.Success) {
         return $null
     }
@@ -447,13 +451,13 @@ function Remove-MarkdownFencedContent {
         while (-not $handled) {
             if ($inFence) {
                 $context = if ($fenceStack.Count -eq 0) {
-                    [pscustomobject]@{ Content = $line }
+                    [pscustomobject]@{ Content = $line; Column = 0 }
                 } else {
                     Get-MarkdownContinuationContent $line $fenceStack
                 }
 
                 if ($null -ne $context) {
-                    $closing = Get-MarkdownFenceMarker $context.Content -Closing
+                    $closing = Get-MarkdownFenceMarker $context.Content -StartColumn $context.Column -Closing
                     if ($null -ne $closing) {
                         $marker = $closing.Marker
                         if ($marker[0] -eq $fenceCharacter -and $marker.Length -ge $fenceLength) {
@@ -518,7 +522,7 @@ function Remove-MarkdownFencedContent {
                 if ($null -ne $continuation) {
                     $nested = Get-MarkdownExplicitContainer -Line $continuation.Content -StartColumn $continuation.Column
                     $candidateStack = @($continuation.Stack) + @($nested.Stack)
-                    $candidateMarker = Get-MarkdownFenceMarker $nested.Content
+                    $candidateMarker = Get-MarkdownFenceMarker $nested.Content -StartColumn $nested.Column
                     if ($null -ne $candidateMarker) {
                         $opening = [pscustomobject]@{
                             Marker = $candidateMarker.Marker
@@ -530,7 +534,7 @@ function Remove-MarkdownFencedContent {
 
             if ($null -eq $opening) {
                 $explicit = Get-MarkdownExplicitContainer $line
-                $candidateMarker = Get-MarkdownFenceMarker $explicit.Content
+                $candidateMarker = Get-MarkdownFenceMarker $explicit.Content -StartColumn $explicit.Column
                 if ($null -ne $candidateMarker) {
                     $opening = [pscustomobject]@{
                         Marker = $candidateMarker.Marker
