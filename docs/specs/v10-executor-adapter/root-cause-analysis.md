@@ -216,3 +216,13 @@ Candidate `ae5195c` passed all seven hosted jobs in run `29383056180`, and API/d
 The root cause was branch ordering: whitespace-only lines were accepted as fence content before container termination was evaluated. The correction distinguishes quote ownership from top-level or list ownership, preserves only list containers that enclose the first quote, resets the quote-owned fence, and reprocesses the blank through normal list state. A quote-marked blank continues to match the opener and remains fenced.
 
 Three fixtures cover top-level consecutive quotes, consecutive quotes inside an outer list, and marked-blank preservation. Direct probes and the positive checker pass. The expanded 99-scenario matrix also passes in 440.7 seconds: 89 expected rejections, ten expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.
+
+## Container-Relative Blank And Unicode Addendum
+
+Candidate `f990abc` passed all seven hosted jobs in run `29384351025`, but correctness, security, and API/documentation each returned `REVISE`. Correctness showed that a quote-only blank inside a quote, list, quote stack discarded the still-live outer quote and list. Security showed that U+00A0 was incorrectly accepted as a CommonMark blank. API/documentation found one sentence that grammatically attributed current correction evidence to rejected candidate `ae5195c`.
+
+The root cause was a three-way conflation of raw blank text, blank text relative to surviving containers, and .NET Unicode whitespace. The prior helper also preserved only list containers before the first quote, which could not represent a surviving quote and list prefix.
+
+The correction defines Markdown blank as empty, spaces, or tabs; walks opener containers one at a time; allows list indentation to be omitted only after the remaining content is blank; and terminates ownership at the first unmarked quote while preserving the exact matched prefix. It also corrects the current-versus-historical attribution. The bounded checker remains defense in depth and does not claim full CommonMark conformance.
+
+Four fixtures cover two causal rejections and two preservation cases. Direct probes and the positive checker pass. The first 103-case run proved all semantic outcomes but exposed an incorrect expected diagnostic; after correction, the complete matrix passed in 493.8 seconds with 91 expected rejections, 12 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.

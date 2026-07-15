@@ -2,7 +2,7 @@
 
 ## Status
 
-Exact candidate `ae5195c` passed all seven hosted jobs and API/documentation review, but correctness returned `REVISE` for a blank-separated blockquote fence bypass; security produced no verdict within the bounded handoff window. The causal correction passes direct probes, the positive checker, and all 99 scenarios in 440.7 seconds. V10 is not merged.
+Exact candidate `f990abc` passed all seven hosted jobs, but correctness, security, and API/documentation each returned `REVISE` for container-relative blank state, CommonMark-incompatible Unicode whitespace, and one evidence-attribution ambiguity. The causal correction passes direct probes, the positive checker, and all 103 scenarios in 493.8 seconds. V10 is not merged.
 
 ## Failure Summary
 
@@ -638,6 +638,87 @@ On an unmarked blank, the parser now detects quote ownership, retains only list 
 ### Regression
 
 Three focused fixtures cover a blank-separated top-level quote, the same transition inside an outer list, and a marked-blank preservation case. The complete 99-scenario harness passes in 440.7 seconds: 89 expected rejections, ten expected acceptances, and 30 unchanged executor parity cases. Direct causal and preserving probes plus the positive checker also pass.
+
+### Next Action
+
+AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs; merge remains owner-gated.
+
+## Exact Candidate Container-Relative Blank And Unicode Review
+
+### Trigger
+
+Exact review of `f990abc59ce5e5f4767893fecf03d1791fe1c8da` returned `REVISE` from correctness, security, and API/documentation. GitHub Actions run `29384351025` passed Template Check plus all six Node 22/24 operating-system jobs in 6m25s.
+
+### Reproduction
+
+Correctness showed that a line blank relative to an outer quote could end an inner quote while the checker discarded the still-live outer quote and list:
+
+```markdown
+> 1. > ~~~text
+>    > inactive
+>
+>    ~~~text
+>    inactive
+> SWECircuit launches agents.
+```
+
+Before correction, the final overclaim was hidden. Security showed that a raw U+00A0 line also remained hidden because .NET classified it as whitespace:
+
+```markdown
+- ~~~text
+  inactive
+U+00A0
+  https://github.com/GarrettAudet/TraceRail
+```
+
+The second sample represents one literal U+00A0 code point on its own line.
+
+### Stable Evidence
+
+- CommonMark 0.31.2 defines a blank line as empty or containing only U+0020 spaces or U+0009 tabs.
+- Its container rules allow a blank line to preserve list membership without normal continuation indentation.
+- A line containing only a surviving outer quote marker can be blank relative to that quote while terminating an unmarked inner quote.
+- API/documentation identified one sentence whose pronoun attributed the 99-case correction to rejected candidate `ae5195c` instead of the current working tree.
+- Hosted CI stayed green, so all three semantic findings remained acceptance-blocking.
+
+Primary-source details and the bounded adoption decision are preserved in `docs/research/snapshots/2026-07-14-v10-commonmark-ownership-scan.md`.
+
+### Failure Classification
+
+Container-relative blank-state loss, standards-incompatible whitespace classification, and evidence-attribution ambiguity.
+
+### Hypotheses
+
+1. Markdown blank syntax must use exactly spaces and tabs, not .NET Unicode whitespace.
+2. Blank-state evaluation must walk the opener stack one container at a time.
+3. A list may survive a container-relative blank without its normal continuation indentation.
+4. The first missing quote ends that quote and every inner container while preserving the matched prefix.
+5. A fully marked blank must keep the complete fence ownership intact.
+6. Current correction evidence must never be grammatically attributed to a rejected candidate.
+
+### Experiments
+
+Direct pre-fix probes reported both active values as hidden. After the correction, the nested overclaim and retired URL are visible, while fully marked nested blanks and indented U+00A0 content remain fenced. The prior raw-blank and marked-blank quote probes remain unchanged.
+
+The first 103-scenario run reached every expected semantic outcome in 501.6 seconds but failed because the Unicode fixture expected a paraphrased diagnostic. After binding it to the actual retired-URL diagnostic, the complete harness passed in 493.8 seconds.
+
+The first positive checker run after evidence consolidation rejected a shortened practice-register row because it omitted the guarded phrases `intended paragraph or table row` and `contradictory positive claims`. Restoring both explicit invariants made the rerun pass. The final exact-tree 103-scenario matrix then passed in 487.6 seconds.
+
+### Confirmed Cause
+
+The parser conflated three concepts: raw empty text, blank text relative to surviving containers, and .NET Unicode whitespace. The one-step prefix helper also retained lists only before the first quote, so it could not preserve a stack shaped as quote, list, quote when only the inner quote ended.
+
+### Causal Fix
+
+`Test-MarkdownBlankLine` now implements the CommonMark space-or-tab definition. `Get-MarkdownBlankContainerState` walks the stack, permits omitted list indentation only after the remaining content is blank, and returns the exact prefix before the first unmarked quote. Fence and active-list transitions consume that state without claiming full CommonMark conformance. The orchestration sentence now names candidate `f990abc` explicitly instead of relying on an ambiguous pronoun.
+
+### Regression
+
+Four fixtures cover the nested causal rejection, fully marked nested preservation, raw U+00A0 rejection, and indented U+00A0 preservation. The complete 103-scenario harness passes in 493.8 seconds: 91 expected rejections, 12 expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also pass.
+
+### Scope Boundary
+
+V10 keeps a bounded, dependency-free active-Markdown checker. It does not implement or claim a complete CommonMark renderer. A proven parser adapter or narrower semantic contract requires a separate architecture decision if this surface expands.
 
 ### Next Action
 

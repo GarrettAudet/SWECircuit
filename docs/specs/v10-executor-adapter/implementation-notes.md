@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `ae5195c` passed all seven hosted jobs in run `29383056180`; API/documentation returned `PASS`, correctness returned `REVISE` for a blank-separated blockquote fence bypass, and security produced no verdict within the bounded handoff window. The current correction ends quote-owned fences on unmarked blanks, preserves only enclosing list state, and reprocesses the blank. Direct probes, the positive checker, and all 99 scenarios pass; the matrix completed in 440.7 seconds. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `f990abc` passed all seven hosted jobs in run `29384351025`, but correctness, security, and API/documentation each returned `REVISE` for container-relative blank state, CommonMark-incompatible Unicode whitespace, and one current-versus-historical attribution ambiguity. The current correction uses exact space-or-tab blank semantics and preserves the container prefix before the first unmarked quote. Direct probes, the positive checker, and all 103 scenarios pass; the matrix completed in 493.8 seconds. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -40,6 +40,8 @@ Candidate `c4bfa01` exposed a second container-state boundary: a failed full-sta
 
 Candidate `ae5195c` exposed the next container boundary: a whitespace-only line was accepted as fence content before the parser asked whether an owning quote marker remained. CommonMark consecutiveness makes an unmarked blank terminate that quote, while a marked blank remains inside it. The correction preserves only list containers enclosing the first quote and reprocesses the blank through ordinary list logic.
 
+Candidate `f990abc` exposed two remaining blank-state assumptions. A line containing only a surviving outer quote marker can be blank relative to that quote while preserving its list, and U+00A0 is Unicode whitespace but not a CommonMark blank. The correction uses an exact space-or-tab predicate and walks the container stack to retain the prefix before the first unmarked quote. A separate wording correction keeps rejected-candidate evidence distinct from current working-tree evidence.
+
 ## Assumptions Used
 
 - Provider-neutral execution and explicit host authority are the smallest useful V10 increment.
@@ -54,6 +56,7 @@ Candidate `ae5195c` exposed the next container boundary: a whitespace-only line 
 - Design native, container, or hosted isolation before adding a command executor.
 - Add scheduling, retries, durable event sinks, resumed input, merge, and memory automation only as separate reviewed versions.
 - Decide whether the unstable 0.x library surface is ready for a public package in a later milestone.
+- Evaluate a proven Markdown parser or a narrower semantic-check contract in a separate version only if active-Markdown ownership keeps expanding.
 
 ## Verification Performed
 
@@ -75,7 +78,8 @@ Candidate `ae5195c` exposed the next container boundary: a whitespace-only line 
 - Candidate `7f02b87` passed all seven jobs in GitHub Actions run `29377581706`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE` for ordered-list continuation and mismatched-container fence ownership.
 - Candidate `c4bfa01` passed all seven jobs in GitHub Actions run `29380939276`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `ae5195c` passed all seven jobs in GitHub Actions run `29383056180`; exact review returned correctness `REVISE`, API/documentation `PASS`, and no security verdict within the bounded handoff window.
-- The current checker correction passes the positive checker, direct causal/preserving probes, and all 99 isolated scenarios in 440.7 seconds: 89 expected rejections, ten expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
+- Candidate `f990abc` passed all seven jobs in GitHub Actions run `29384351025` in 6m25s; correctness, security, and API/documentation each returned `REVISE`.
+- The current checker correction passes the positive checker, direct causal/preserving probes, and all 103 isolated scenarios in 493.8 seconds: 91 expected rejections, 12 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -96,3 +100,6 @@ Candidate `ae5195c` exposed the next container boundary: a whitespace-only line 
 - Normalize indentation into columns and rematerialize tab surplus so one tab can supply continuation plus permitted relative fence indentation.
 - PowerShell array expressions can unroll one-element state; assign branch arrays directly and verify `.Count`-sensitive state with causal probes.
 - Blank lines are container transitions, not universally literal fence content: an unmarked blank ends quote ownership, while a quote-marked blank preserves it.
+- CommonMark blank syntax is exact: empty, spaces, or tabs. Broad Unicode whitespace predicates are not interchangeable with grammar-specific blank rules.
+- Container-relative blanks require prefix state, not just raw-line classification; preserve the matched quote/list prefix and end ownership at the first unmarked quote.
+- Keep the checker bounded and dependency-free for V10; full parser conformance or replacement is a separate architecture decision.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `ae5195c` passed all seven hosted jobs; API/documentation returned `PASS`, correctness returned `REVISE`, and security produced no verdict within the bounded handoff window. Its blank-separated blockquote correction passes direct probes, the positive checker, and all 99 scenarios in 440.7 seconds. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `f990abc` passed all seven hosted jobs, but correctness, security, and API/documentation each returned `REVISE`. The current container-relative and exact-blank correction passes direct probes, the positive checker, and all 103 scenarios in 493.8 seconds. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `c4bfa01` remained review-blocked. Candidate `ae5195c` passed all seven hosted jobs and API/documentation, but correctness found a blank-separated blockquote bypass and security produced no bounded verdict. The current correction ends quote-owned fences on unmarked blanks while preserving marked blanks and enclosing list state. AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `ae5195c` remained review-blocked. Candidate `f990abc` passed all seven hosted jobs but correctness, security, and API/documentation each returned `REVISE`. The current correction implements exact CommonMark blank syntax, container-relative prefix state, and unambiguous evidence attribution. AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -209,4 +209,16 @@ The correction that became candidate `ae5195c` preserved the longest surviving l
 
 GitHub Actions run `29383056180` passed Template Check plus all six Node 22/24 operating-system jobs in 7m05s for exact commit `ae5195c3c3d1fb611e0b7e3c1d94f6e53791b1af`. Correctness remains acceptance-blocking, and no security verdict is not a pass. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction ends a quote-owned fence when a whitespace-only line lacks the quote marker, preserves only any list prefix enclosing that quote, and reprocesses the blank through ordinary list state. All 99 scenarios pass in 440.7 seconds: 89 expected rejections, ten expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also pass; the gate remains open.
+The correction that became candidate `f990abc` ended a quote-owned fence when a whitespace-only line lacked the quote marker, preserved only any list prefix enclosing that quote, and reprocessed the blank through ordinary list state. Its 99-scenario matrix passed in 440.7 seconds: 89 expected rejections, ten expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also passed; the gate remained open.
+
+## Exact Candidate f990abc Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | A quote-only blank in a quote, list, quote stack ended the inner quote but discarded the surviving outer quote and list, hiding a later active overclaim. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | .NET `IsNullOrWhiteSpace` treated U+00A0 as blank even though CommonMark permits only spaces and tabs, extending list-owned fence visibility. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | The pronoun `Its` attributed current 99-case correction evidence to rejected candidate `ae5195c`. |
+
+GitHub Actions run `29384351025` passed Template Check plus all six Node 22/24 operating-system jobs in 6m25s for exact commit `f990abc59ce5e5f4767893fecf03d1791fe1c8da`. All three findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction implements exact CommonMark blank syntax, walks container-relative blank state, preserves the exact prefix before the first unmarked quote, and uses unambiguous current-state wording. Four paired fixtures expand the harness to 103 scenarios. The first run reached every intended semantic outcome in 501.6 seconds but exposed an incorrect expected diagnostic; the corrected complete run passed in 493.8 seconds with 91 expected rejections, 12 expected acceptances, and 30 unchanged executor parity cases. A final exact-tree rerun after evidence consolidation also passed in 487.6 seconds. Direct probes and the positive checker also pass; the gate remains open.

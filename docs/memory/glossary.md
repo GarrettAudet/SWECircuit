@@ -56,3 +56,5 @@
 | Abort unconfirmed | A non-terminal execution disposition meaning abort was requested but no contract-compliant executor promise settlement was observed before the absolute acknowledgment bound after all invocation-affecting activity stopped, so work may still be live. |
 | Executor boundary | The V10 provider-neutral operation that preflights and invokes exactly one host-selected work packet and returns a frozen summary plus V9-compatible journal. |
 | Absolute deadline timer | A timer wrapper that treats wake-ups as hints, rechecks monotonic time, and re-arms until the actual deadline is observed. |
+| CommonMark blank line | A Markdown line containing no characters or only U+0020 spaces or U+0009 tabs; broader Unicode whitespace is not blank for block-state transitions. |
+| Container-relative blank | A line whose content becomes blank after matching surviving outer containers, allowing an inner quote to end while an outer quote or list remains active. |

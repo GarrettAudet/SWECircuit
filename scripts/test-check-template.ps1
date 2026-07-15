@@ -600,6 +600,55 @@ try {
     Write-Utf8 $markedBlankQuotePath $markedBlankQuoteText
     Assert-CheckerResult "marked blockquote blank preserves fenced prose" $markedBlankQuoteFixture $true
 
+    $relativeBlankFixture = New-Fixture "container-relative-blank-quote-fence"
+    $relativeBlankPath = Join-Path $relativeBlankFixture "README.md"
+    $relativeBlankText = (Get-Content -LiteralPath $relativeBlankPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '> 1. > ~~~text' + [Environment]::NewLine +
+        '>    > inactive inner fence' + [Environment]::NewLine +
+        '>' + [Environment]::NewLine +
+        '>    ~~~text' + [Environment]::NewLine +
+        '>    inactive outer fence' + [Environment]::NewLine +
+        '> SWECircuit launches agents.' + [Environment]::NewLine
+    Write-Utf8 $relativeBlankPath $relativeBlankText
+    Assert-CheckerResult "container-relative blank preserves outer list and exposes overclaim" $relativeBlankFixture $false "README positively claims a capability owned by an external runtime"
+
+    $fullyMarkedBlankFixture = New-Fixture "fully-marked-nested-blank-fence"
+    $fullyMarkedBlankPath = Join-Path $fullyMarkedBlankFixture "README.md"
+    $fullyMarkedBlankText = (Get-Content -LiteralPath $fullyMarkedBlankPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '> 1. > ~~~text' + [Environment]::NewLine +
+        '>    > inactive first line' + [Environment]::NewLine +
+        '>    >' + [Environment]::NewLine +
+        '>    > SWECircuit launches agents.' + [Environment]::NewLine +
+        '>    > ~~~' + [Environment]::NewLine
+    Write-Utf8 $fullyMarkedBlankPath $fullyMarkedBlankText
+    Assert-CheckerResult "fully marked nested blank preserves fenced prose" $fullyMarkedBlankFixture $true
+
+    $noBreakSpace = [string][char]0x00A0
+    $unicodeWhitespaceFixture = New-Fixture "unicode-whitespace-ends-list-fence"
+    $unicodeWhitespacePath = Join-Path $unicodeWhitespaceFixture "README.md"
+    $unicodeWhitespaceText = (Get-Content -LiteralPath $unicodeWhitespacePath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '- ~~~text' + [Environment]::NewLine +
+        '  inactive first line' + [Environment]::NewLine +
+        $noBreakSpace + [Environment]::NewLine +
+        '  https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine
+    Write-Utf8 $unicodeWhitespacePath $unicodeWhitespaceText
+    Assert-CheckerResult "Unicode whitespace ends list-owned fence" $unicodeWhitespaceFixture $false "README contains the retired GarrettAudet/TraceRail repository URL"
+
+    $continuedUnicodeFixture = New-Fixture "continued-unicode-content-stays-fenced"
+    $continuedUnicodePath = Join-Path $continuedUnicodeFixture "README.md"
+    $continuedUnicodeText = (Get-Content -LiteralPath $continuedUnicodePath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '- ~~~text' + [Environment]::NewLine +
+        '  inactive first line' + [Environment]::NewLine +
+        '  ' + $noBreakSpace + [Environment]::NewLine +
+        '  SWECircuit launches agents.' + [Environment]::NewLine +
+        '  ~~~' + [Environment]::NewLine
+    Write-Utf8 $continuedUnicodePath $continuedUnicodeText
+    Assert-CheckerResult "continued Unicode content remains fenced" $continuedUnicodeFixture $true
+
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
     $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(

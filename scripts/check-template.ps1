@@ -224,30 +224,49 @@ function Test-MarkdownStackContainsList {
     return $false
 }
 
-function Test-MarkdownStackContainsQuote {
-    param([object[]]$Stack)
+function Test-MarkdownBlankLine {
+    param([AllowEmptyString()][string]$Line)
 
-    foreach ($container in $Stack) {
-        if ($container.Type -eq "quote") {
-            return $true
-        }
-    }
-    return $false
+    return $Line -match '^[ \t]*$'
 }
 
-function Get-MarkdownEnclosingListPrefix {
-    param([object[]]$Stack)
+function Get-MarkdownBlankContainerState {
+    param(
+        [string]$Line,
+        [object[]]$Stack
+    )
 
+    $content = $Line
     $prefix = New-Object System.Collections.Generic.List[object]
     foreach ($container in $Stack) {
-        if ($container.Type -eq "quote") {
-            break
+        $continuation = Get-MarkdownContinuationContent $content @($container)
+        if ($null -ne $continuation) {
+            $content = $continuation.Content
+            $prefix.Add($container) | Out-Null
+            continue
+        }
+
+        if (-not (Test-MarkdownBlankLine $content)) {
+            return $null
         }
         if ($container.Type -eq "list") {
             $prefix.Add($container) | Out-Null
+            continue
+        }
+
+        return [pscustomobject]@{
+            Stack = @($prefix.ToArray())
+            QuoteTerminated = $true
         }
     }
-    return $prefix.ToArray()
+
+    if (-not (Test-MarkdownBlankLine $content)) {
+        return $null
+    }
+    return [pscustomobject]@{
+        Stack = @($prefix.ToArray())
+        QuoteTerminated = $false
+    }
 }
 
 function Get-MarkdownBestContinuation {
@@ -299,7 +318,7 @@ function Test-MarkdownParagraphContinuation {
     param([string]$Content)
 
     $trimmed = $Content.TrimStart([char]32, [char]9)
-    if ([string]::IsNullOrWhiteSpace($trimmed)) {
+    if (Test-MarkdownBlankLine $trimmed) {
         return $false
     }
     return $trimmed -notmatch '^(?:#{1,6}(?:[ \t]+|$)|>|[-+*][ \t]+|\d{1,9}[.)][ \t]+|`{3,}|~{3,})'
@@ -421,16 +440,21 @@ function Remove-MarkdownFencedContent {
                     continue
                 }
 
-                if ([string]::IsNullOrWhiteSpace($line)) {
-                    if (Test-MarkdownStackContainsQuote $fenceStack) {
-                        # An unmarked blank ends a quote-owned fence but not an enclosing list.
-                        $activeListStack = @(Get-MarkdownEnclosingListPrefix $fenceStack)
+                $blankState = Get-MarkdownBlankContainerState $line $fenceStack
+                if ($null -ne $blankState) {
+                    if ($blankState.QuoteTerminated) {
+                        # A container-relative blank ends only the first unmarked quote.
+                        if (Test-MarkdownStackContainsList $blankState.Stack) {
+                            $activeListStack = @($blankState.Stack)
+                        } else {
+                            $activeListStack = @()
+                        }
                         $activeListCanBeLazy = $false
                         $inFence = $false
                         $fenceCharacter = [char]0
                         $fenceLength = 0
                         $fenceStack = @()
-                        continue
+                        $previousLineBlank = $true
                     }
                     $visibleLines.Add("") | Out-Null
                     $handled = $true
@@ -498,15 +522,27 @@ function Remove-MarkdownFencedContent {
             }
 
             $visibleLines.Add($line) | Out-Null
-            $isBlank = [string]::IsNullOrWhiteSpace($line)
+            $isBlank = Test-MarkdownBlankLine $line
             $activeContinuation = if ($activeListStack.Count -gt 0) {
                 Get-MarkdownBestContinuation $line $activeListStack
             } else {
                 $null
             }
+            $activeBlankState = if ($activeListStack.Count -gt 0) {
+                Get-MarkdownBlankContainerState $line $activeListStack
+            } else {
+                $null
+            }
             $explicitLine = Get-MarkdownExplicitContainer $line
 
-            if ($isBlank) {
+            if ($null -ne $activeBlankState) {
+                if (Test-MarkdownStackContainsList $activeBlankState.Stack) {
+                    $activeListStack = @($activeBlankState.Stack)
+                } else {
+                    $activeListStack = @()
+                }
+                $activeListCanBeLazy = $false
+            } elseif ($isBlank) {
                 # Blank lines do not end a list item.
             } elseif ($null -ne $activeContinuation) {
                 $nested = Get-MarkdownExplicitContainer $activeContinuation.Content
@@ -530,7 +566,7 @@ function Remove-MarkdownFencedContent {
                 $activeListCanBeLazy = $false
             }
 
-            $previousLineBlank = $isBlank
+            $previousLineBlank = $isBlank -or $null -ne $activeBlankState
             $handled = $true
         }
     }
