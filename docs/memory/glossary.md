@@ -63,3 +63,4 @@
 | Container-relative fence indentation | The zero through three indentation columns allowed before a fence marker after active quote or list containers; tabs must be expanded from the carried absolute column before matching. |
 | Conservative parser dispatch | An ambiguity gate that recognizes every plausible syntax class owned by a richer parser and delegates exact acceptance to that parser instead of maintaining a second partial grammar. |
 | Mixed-indentation list continuation | A list continuation whose leading spaces and tabs jointly satisfy the list's required columns and may leave zero through three container-relative columns before a fence marker. |
+| Event-date provenance | The rule that a chronological record derives its date from the event-owning Git, hosted-run, or other primary timestamp rather than session-start metadata. |

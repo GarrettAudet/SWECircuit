@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `49b22ba` passed all seven hosted jobs, but correctness, security, and API/documentation returned `REVISE`. The current continuation-dispatch correction passes three direct probes, the positive checker, `npm.cmd run verify`, and all 119 scenarios in 576.2 seconds. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `7f30107` passed all seven hosted jobs plus correctness and security review, but API/documentation returned `REVISE` for two stale event dates. The current correction is documentation-only and retains the green 119-scenario execution evidence. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidate `49b22ba` passed all seven hosted jobs but all three exact reviewers returned `REVISE` for continuation-only mixed-indentation dispatch and self-staling next-action prose. The current correction conservatively routes horizontally indented potential fences to the rich parser when a list marker exists while retaining exact parser acceptance. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidate `7f30107` passed all seven hosted jobs plus correctness and security review, but API/documentation returned `REVISE` because two newly added review-event rows used stale July 14 dates. The current correction derives those dates from authoritative July 15 Git and hosted timestamps and changes no executable surface. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -281,4 +281,16 @@ The current correction recognizes spaces or tabs after every repeated container 
 
 GitHub Actions run `29393468684` passed Template Check plus all six Node 22/24 operating-system jobs in 11m56s for exact commit `49b22bab45165b7d7395f7898f9e005000abd2d7`; Template Check took 11m52s. All three findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction broadens only ambiguity dispatch: with an active list marker, any horizontal whitespace before a potential fence selects the coordinate-aware rich parser. Exact list continuation and zero-through-three-column fence indentation remain parser-owned. Four new fixtures prove one-space-tab preservation, two-space-tab fenced-only rejection, mixed closer exposure, and over-limit literal preservation. Three direct probes, the positive checker, and `npm.cmd run verify` pass. All 119 scenarios pass in 576.2 seconds: 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. The gate remains open.
+The current correction broadens only ambiguity dispatch: with an active list marker, any horizontal whitespace before a potential fence selects the coordinate-aware rich parser. Exact list continuation and zero-through-three-column fence indentation remain parser-owned. Four new fixtures prove one-space-tab preservation, two-space-tab fenced-only rejection, mixed closer exposure, and over-limit literal preservation. Three direct probes, the positive checker, and `npm.cmd run verify` pass. All 119 scenarios pass in 576.2 seconds: 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. That state became rejected candidate `7f30107`.
+
+## Exact Candidate 7f30107 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | PASS | Confirmed mixed-continuation dispatch, exact rich-parser acceptance, all four fixtures, 119-case arithmetic, 30 unchanged parity cases, and unchanged runtime. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | PASS | Confirmed mixed tab, list, quote, opener, closer, over-limit, and fast-path attack classes remain fail-closed. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | The failed-attempt and history-ledger rows for `49b22ba` used `2026-07-14`, but Git and hosted evidence place the review on `2026-07-15`. |
+
+GitHub Actions run `29395470172` passed Template Check plus all six Node 22/24 operating-system jobs in 11m39s for exact commit `7f3010784f05fa2940513e02bf9cacd6265ae4cd`; Template Check took 11m34s. The API/documentation `REVISE` remains acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction changes the two event rows to the authoritative July 15 date, records `7f30107` with the same source-derived date, and promotes event-date provenance into durable guidance. Runtime, schemas, package metadata, checker logic, and the 119-scenario matrix are unchanged. The gate remains open.

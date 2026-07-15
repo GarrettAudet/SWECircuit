@@ -276,3 +276,11 @@ The parser defect was dispatch-shape asymmetry. `$hasIndentedFence` recognized t
 The causal code fix recognizes any non-empty horizontal-whitespace prefix as an indented-fence candidate when list syntax exists. Exact continuation, tab expansion, and fence acceptance remain in the rich parser. An over-limit fixture proves that broad dispatch does not broaden grammar acceptance. The documentation fix replaces candidate-creation prose with the invariant exact-commit review, hosted-CI, evidence-closeout, owner-approval, and merge gates.
 
 Four fixtures cover one-space-tab fenced retired-URL preservation, two-space-tab fenced-only required-capability rejection, mixed closer exposure, and over-limit literal preservation. Three direct probes, the positive checker, and `npm.cmd run verify` pass. The complete 119-scenario matrix passed in 576.2 seconds with 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.
+
+## Event-Date Provenance Addendum
+
+Candidate `7f30107` passed all seven hosted jobs in run `29395470172` in 11m39s and received correctness plus security `PASS`, but API/documentation returned `REVISE`. Two rows created for the `49b22ba` review used `2026-07-14`, while Git records that commit at `2026-07-15T00:10:47-06:00` and its hosted run began later on July 15.
+
+The root cause was stale temporal context: the integration record reused the thread's initial calendar date after local midnight instead of querying the event-owning Git and hosted sources. The causal fix changes only those two event dates, records `7f30107` on July 15, and promotes source-derived event-date provenance. Valid July 14 decision, issue-discovery, and snapshot dates remain unchanged.
+
+The correction is documentation-only. Exact semantic re-review must confirm chronology, provenance, links, current status, and bounded runtime claims; hosted CI must verify the complete immutable successor before AC8 can close.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `49b22ba` passed all seven hosted jobs in run `29393468684` in 11m56s; correctness, security, and API/documentation returned `REVISE` for a continuation-only mixed-indentation dispatch gap and self-staling next-action prose. The causal correction passes three direct probes, the positive checker, `npm.cmd run verify`, and all 119 scenarios in 576.2 seconds. V10 is not merged.
+Candidate `7f30107` passed all seven hosted jobs in run `29395470172` in 11m39s; correctness and security returned `PASS`, while API/documentation returned `REVISE` because two review-event rows used the stale July 14 session date instead of authoritative July 15 source timestamps. The correction is documentation-only and retains the green 119-scenario execution evidence. V10 is not merged.
 
 ## Failure Summary
 
@@ -1045,6 +1045,55 @@ Conservatively route every horizontal-whitespace-prefixed fence to the rich pars
 ### Regression
 
 Four fixtures cover mixed continuation opener, fenced-only required prose, closer exposure, and over-limit preservation. The complete 119-scenario matrix passes in 576.2 seconds with 100 rejections and 19 acceptances; the 30 executor contract-parity cases remain unchanged. The executable runtime remains unchanged from `9d8907a`.
+
+### Next Action
+
+AC8 remains open until the exact complete commit under review records three independent `PASS` verdicts, all seven hosted jobs, the bounded evidence-only closeout, and owner approval; merge remains prohibited until then.
+
+## Exact Candidate Event-Date Provenance Review
+
+### Trigger
+
+Exact review of `7f3010784f05fa2940513e02bf9cacd6265ae4cd` returned correctness and security `PASS` plus API/documentation `REVISE`. GitHub Actions run `29395470172` passed Template Check and all six Node 22/24 operating-system jobs in 11m39s; Template Check took 11m34s.
+
+### Reproduction
+
+The newly added failed-attempt and history-ledger rows labeled the `49b22ba` review as `2026-07-14`. Authoritative Git metadata records `49b22ba` at `2026-07-15T00:10:47-06:00`; hosted run `29393468684` began later at `2026-07-15T06:11:06Z`. Candidate `7f30107` was itself authored at `2026-07-15T00:51:33-06:00`.
+
+### Stable Evidence
+
+- `git show -s --format=%aI 49b22ba` returns `2026-07-15T00:10:47-06:00`.
+- GitHub run `29393468684` started on July 15 in UTC as well as the repository working timezone.
+- The machine working timezone is `America/Edmonton`; the review occurred after local midnight.
+- API/documentation isolated exactly two incorrect event rows; correctness and security found no blocking behavioral issue.
+- All seven hosted jobs passed for exact candidate `7f30107`, so the provenance finding alone remained acceptance-blocking.
+
+### Failure Classification
+
+This was source-provenance drift in chronological memory. A session-start date was reused after the clock crossed midnight instead of deriving each event date from its authoritative source timestamp.
+
+### Hypotheses
+
+1. Event rows must derive their date from Git, hosted-run, or other primary evidence rather than conversation metadata.
+2. When an event spans sources, preserve exact timestamps in the source record and use the repository working timezone for the compact ledger date.
+3. Historical artifact dates remain unchanged when the artifact was genuinely created earlier.
+4. A documentation-only correction still requires exact semantic re-review and hosted verification before AC8 closes.
+
+### Experiments
+
+Direct Git inspection established the July 15 local author dates for `49b22ba` and `7f30107`. The GitHub API established July 15 hosted-run timestamps. A repository search then separated the two newly incorrect event rows from older July 14 decisions, issue-discovery dates, and research snapshot dates whose provenance remains valid.
+
+### Confirmed Cause
+
+The integration record inherited the thread's initial calendar date instead of querying the event-owning source when the rows were written after midnight. The data was internally consistent but chronologically false.
+
+### Causal Fix
+
+Change the two `49b22ba` event rows to `2026-07-15`, record the `7f30107` rejection on the same source-derived date, and promote an event-date provenance rule into decisions, patterns, glossary, and the practice register. Do not rewrite valid historical artifact dates merely because the current correction occurred later.
+
+### Regression
+
+The two corrected rows now agree with Git and hosted timestamps. The review record preserves `PASS / PASS / REVISE`, run `29395470172`, 11m39s total duration, and 11m34s Template Check duration. The corrected working tree passed `npm.cmd run verify` in 17.6 seconds with 275 tests, dogfood, package inspection, and the offline consumer. Runtime, schemas, package metadata, checker logic, and the 119-scenario matrix remain unchanged from `7f30107`; exact API/documentation re-review is the causal semantic regression gate.
 
 ### Next Action
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `49b22ba` passed all seven hosted jobs in run `29393468684` in 11m56s, but correctness, security, and API/documentation all returned `REVISE`. Continuation-only mixed space-tab fences bypassed rich-parser dispatch, and a next-action record self-staled after candidate creation. The current correction routes that syntax to the coordinate-aware rich parser without broadening its acceptance rules. Three direct probes, the positive checker, `npm.cmd run verify`, and all 119 scenarios pass; the matrix completed in 576.2 seconds. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `7f30107` passed all seven hosted jobs in run `29395470172` in 11m39s and received correctness plus security `PASS`, but API/documentation returned `REVISE` because two review-event rows used stale July 14 dates. The current correction derives those dates from authoritative July 15 Git and hosted timestamps and changes no executable surface. The 119-scenario runtime and checker evidence remains green. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -48,7 +48,7 @@ Candidate `f779cab` exposed the remaining delimiter-consumption boundary: a tab 
 
 Candidate `82c3bb1` exposed a final matching-boundary split: parser state measured a space-plus-tab prefix as valid zero-through-three fence indentation from its absolute column, but the fence regex still accepted literal spaces only. Candidate `dd575d5` corrected opener and closer matching at that coordinate.
 
-Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser understood the mixed tab indentation, but the fast-path ambiguity signatures missed it after nested list and quote prefixes. Candidate `49b22ba` corrected that explicit-container path and passed hosted CI, but continuation-only mixed space-tab prefixes still bypassed the indented-fence signature. The current correction conservatively dispatches any horizontally indented potential fence when a list marker exists, leaves exact zero-through-three-column acceptance in the rich parser, and replaces temporal candidate-creation prose with the invariant AC8 gate.
+Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser understood the mixed tab indentation, but the fast-path ambiguity signatures missed it after nested list and quote prefixes. Candidate `49b22ba` corrected that explicit-container path and passed hosted CI, but continuation-only mixed space-tab prefixes still bypassed the indented-fence signature. Candidate `7f30107` corrected the dispatch and invariant-gate prose, passed hosted CI plus correctness and security review, then exposed stale event-date provenance in two memory rows. The current correction derives each review-event date from Git and hosted timestamps without changing parser behavior.
 
 ## Assumptions Used
 
@@ -92,7 +92,8 @@ Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser unde
 - Candidate `82c3bb1` passed all seven jobs in GitHub Actions run `29390051639` in 10m21s; exact review returned correctness and API/documentation `PASS` plus security `REVISE`.
 - Candidate `dd575d5` passed all seven jobs in GitHub Actions run `29391822367` in 9m39s; exact review returned correctness and API/documentation `PASS` plus security `REVISE`.
 - Candidate `49b22ba` passed all seven jobs in GitHub Actions run `29393468684` in 11m56s; exact review returned correctness, security, and API/documentation `REVISE`.
-- The current checker correction passes three direct probes, the positive checker, `npm.cmd run verify` in 16.8 seconds, and all 119 isolated scenarios in 576.2 seconds: 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
+- Candidate `7f30107` passed all seven jobs in GitHub Actions run `29395470172` in 11m39s; exact review returned correctness and security `PASS` plus API/documentation `REVISE`. Template Check took 11m34s.
+- The current documentation-only correction retains three direct probes, the positive checker, `npm.cmd run verify` in 17.6 seconds, and all 119 isolated scenarios in 576.2 seconds: 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -121,4 +122,5 @@ Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser unde
 - An ambiguity gate must conservatively route every syntax class the rich parser owns; it should detect possibility while the parser retains exact acceptance rules.
 - Dispatch probes must include continuation-only mixed horizontal whitespace, not only explicit nested-container prefixes.
 - Acceptance-state records should name invariant gates rather than candidate-creation actions that become false when committed.
+- Review-event dates must come from the event-owning Git or hosted timestamp, not a session-start date that may survive a midnight boundary.
 - Keep the checker bounded and dependency-free for V10; full parser conformance or replacement is a separate architecture decision.
