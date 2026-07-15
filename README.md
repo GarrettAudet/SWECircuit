@@ -8,6 +8,8 @@ SWECircuit gives AI software teams a standard way to compose development workflo
 
 The diagram shows the target operating model. The V10 kernel can now validate and execute one host-selected work packet through a caller-injected executor and return a caller-owned event journal. External hosts still select and schedule work, enforce permissions, isolate runtimes, persist traces, and merge changes.
 
+That host-owned selection is a V10 limitation, not the final orchestration model. The planned provider-independent layer will decompose goals through user-defined modules, match bounded packets to specialized agent capabilities, schedule safe fan-out and fan-in, apply verification and integration gates, and preserve the trace. IDE, model, and provider adapters will expose capabilities and execute assigned packets without owning workflow policy.
+
 ![Target model executed by an external IDE or agent runtime: a task moves through Spec, Plan, and Route; bounded work packets fan out to specialized agents, converge at Verify, then continue through Integrate, Review, Memory, and a verified change.](docs/assets/swecircuit-overview.png)
 
 ## How It Works
@@ -23,6 +25,8 @@ module -> circuit -> work packet -> host-injected executor -> evidence gate -> v
 5. **Verify and learn.** Gates control integration; the trace records what happened, and durable lessons enter project memory.
 
 SWECircuit defines and checks the workflow contract and bounds one injected execution. It is not an agent scheduler, model runtime, permission sandbox, or merge engine.
+
+The next orchestration layer will add portable planning and assignment above that bounded executor while keeping provider calls, workspace isolation, credentials, and other side effects behind adapters.
 
 ## Core Contracts
 
@@ -94,5 +98,7 @@ For the full operating protocol, start with [AGENTS.md](AGENTS.md) and the [hand
 **Defined as workflow contracts:** specification, decomposition, bounded parallel work, gates, integration review, durable memory, modules, circuits, packs, and adapters.
 
 **Left to external hosts:** provider calls, packet selection and scheduling, permission enforcement, workspace isolation, durable trace writing, evidence retrieval, retries, branch integration, and memory mutation. The V10 kernel does not dynamically load adapters, execute circuits, terminate process trees, merge branches, or update memory automatically.
+
+**Target orchestration layer:** SWECircuit owns provider-independent decomposition, capability matching, dependency-aware parallel scheduling, fan-in, verification, integration policy, and trace semantics. Hosts remain replaceable execution adapters for IDE- and provider-specific side effects.
 
 See [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Support](SUPPORT.md), and the [Changelog](CHANGELOG.md).

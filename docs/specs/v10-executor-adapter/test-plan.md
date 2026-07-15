@@ -34,6 +34,7 @@ Acceptance-candidate verification active.
 - Confirm the six canonical artifact kinds and V9 CLI remain unchanged.
 - Confirm package documentation links resolve from the installed artifact.
 - Confirm review-event dates derive from authoritative Git or hosted timestamps rather than session-start metadata.
+- Confirm every verification result names the exact candidate it exercised and inherited evidence is not presented as current.
 
 ## Regression Coverage
 
@@ -87,7 +88,7 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 ## Verification Evidence
 
 - Baseline `2b7bef37fb2477e3fc8779171c5971a3db42f20b`: `npm.cmd run verify` passed with 209 tests; both workflow checkers passed with 42 negative scenarios.
-- Current documentation-only correction: `npm.cmd run verify` passed in 17.6 seconds with 275 tests, deterministic V10 dogfood, dry-run package inspection, and the clean offline installed consumer.
+- Candidate `57bab44`: `npm.cmd run verify` passed in 17.6 seconds with 275 tests, deterministic V10 dogfood, dry-run package inspection, and the clean offline installed consumer.
 - Pre-parity working-tree evidence passed the positive checker and its 43-scenario harness: 40 expected rejections and three expected acceptances. Later parity fixtures supersede that count.
 - Independent postimplementation review first returned three `REVISE` verdicts. Candidate `e3453e0` then returned `REVISE / PASS / REVISE` despite green CI. Candidate `9d8907a` returned three `PASS` verdicts and passed all seven jobs in run `29357443883`.
 - The first pre-closeout phrase search found one stale no-call requirement in the feature spec. `2c6dff4` then returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS` for one ADR race rule and stale ephemeral terminology.
@@ -108,4 +109,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `dd575d5` passed all seven jobs in run `29391822367` in 9m39s; exact review returned `PASS / REVISE / PASS` because the fast-path ambiguity gate missed the same syntax inside nested list and quote containers.
 - Candidate `49b22ba` passed all seven jobs in run `29393468684` in 11m56s; exact review returned `REVISE / REVISE / REVISE` for continuation-only mixed-indentation dispatch and self-staling next-action prose.
 - Candidate `7f30107` passed all seven jobs in run `29395470172` in 11m39s; exact review returned `PASS / PASS / REVISE` for correctness, security, and API/documentation because two review-event rows used stale July 14 dates. Template Check took 11m34s.
-- Rejected `82c3bb1` used 109 scenarios in 527.5 seconds, rejected `dd575d5` used 112 scenarios in 554.2 seconds, and rejected `49b22ba` used 115 scenarios in 705.2 seconds. The current 119-scenario matrix passed in 576.2 seconds: 100 expected rejections and 19 expected acceptances. Thirty executor parity cases remain unchanged. Exact-commit review and all seven hosted jobs remain.
+- Candidate `57bab44` passed all seven jobs in run `29396782369` in 11m35s; exact review returned `REVISE / PASS / REVISE` for correctness, security, and API/documentation because inherited `7f30107` matrix evidence was described as current. Template Check took 11m30s.
+- Rejected `82c3bb1` used 109 scenarios in 527.5 seconds, rejected `dd575d5` used 112 scenarios in 554.2 seconds, and rejected `49b22ba` used 115 scenarios in 705.2 seconds. Rejected `7f30107` owns the latest complete 119-scenario matrix: 100 expected rejections and 19 expected acceptances in 576.2 seconds, plus 30 executor parity cases. Candidate `57bab44` did not rerun that copied-input matrix. Exact-commit review and all seven hosted jobs remain for a successor.

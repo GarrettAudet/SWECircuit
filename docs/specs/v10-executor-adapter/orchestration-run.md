@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `7f30107` passed all seven hosted jobs plus correctness and security review, but API/documentation returned `REVISE` for two stale event dates. The current correction is documentation-only and retains the green 119-scenario execution evidence. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `57bab44` passed all seven hosted jobs plus security review, but correctness and API/documentation returned `REVISE` because inherited `7f30107` matrix evidence was described as current. The correction binds each result to its exact candidate. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidate `7f30107` passed all seven hosted jobs plus correctness and security review, but API/documentation returned `REVISE` because two newly added review-event rows used stale July 14 dates. The current correction derives those dates from authoritative July 15 Git and hosted timestamps and changes no executable surface. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidate `57bab44` passed all seven hosted jobs plus security review, but correctness and API/documentation returned `REVISE` because summaries blended `7f30107`'s complete matrix with exact-tree checks for the documentation-only successor. The current correction makes evidence ownership explicit and changes no executable surface. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -293,4 +293,16 @@ The current correction broadens only ambiguity dispatch: with an active list mar
 
 GitHub Actions run `29395470172` passed Template Check plus all six Node 22/24 operating-system jobs in 11m39s for exact commit `7f3010784f05fa2940513e02bf9cacd6265ae4cd`; Template Check took 11m34s. The API/documentation `REVISE` remains acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction changes the two event rows to the authoritative July 15 date, records `7f30107` with the same source-derived date, and promotes event-date provenance into durable guidance. Runtime, schemas, package metadata, checker logic, and the 119-scenario matrix are unchanged. The gate remains open.
+The correction changed the two event rows to the authoritative July 15 date, recorded `7f30107` with the same source-derived date, and promoted event-date provenance into durable guidance. That state became rejected candidate `57bab44`.
+
+## Exact Candidate 57bab44 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | Several milestone, review, and test-plan summaries described the 119-case `7f30107` matrix as current or local evidence for the 15-file documentation successor. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | PASS | Confirmed the documentation-only boundary and all authority, cancellation, sandbox, trace, and host-responsibility limits remained unchanged. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | Independently confirmed the same inherited-evidence attribution drift while finding dates, chronology, links, and open gates otherwise correct. |
+
+GitHub Actions run `29396782369` passed Template Check plus all six Node 22/24 operating-system jobs in 11m35s for exact commit `57bab448c125995e6f486125852924beeaab7556`; Template Check took 11m30s. The two evidence-attribution findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction names `7f30107` as the owner of the latest complete 119-scenario matrix and keeps `57bab44`'s positive checker, 17.6-second `npm.cmd run verify`, hosted CI, and exact reviews separate. Runtime, schemas, package metadata, and checker logic are unchanged. The gate remains open.

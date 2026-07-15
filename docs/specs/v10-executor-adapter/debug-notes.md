@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `7f30107` passed all seven hosted jobs in run `29395470172` in 11m39s; correctness and security returned `PASS`, while API/documentation returned `REVISE` because two review-event rows used the stale July 14 session date instead of authoritative July 15 source timestamps. The correction is documentation-only and retains the green 119-scenario execution evidence. V10 is not merged.
+Candidate `57bab44` passed all seven hosted jobs in run `29396782369` in 11m35s; security returned `PASS`, while correctness and API/documentation returned `REVISE` because inherited `7f30107` matrix evidence was described as current for the documentation-only successor. The correction binds each result to its exact candidate. V10 is not merged.
 
 ## Failure Summary
 
@@ -1094,6 +1094,54 @@ Change the two `49b22ba` event rows to `2026-07-15`, record the `7f30107` reject
 ### Regression
 
 The two corrected rows now agree with Git and hosted timestamps. The review record preserves `PASS / PASS / REVISE`, run `29395470172`, 11m39s total duration, and 11m34s Template Check duration. The corrected working tree passed `npm.cmd run verify` in 17.6 seconds with 275 tests, dogfood, package inspection, and the offline consumer. Runtime, schemas, package metadata, checker logic, and the 119-scenario matrix remain unchanged from `7f30107`; exact API/documentation re-review is the causal semantic regression gate.
+
+### Next Action
+
+AC8 remains open until the exact complete commit under review records three independent `PASS` verdicts, all seven hosted jobs, the bounded evidence-only closeout, and owner approval; merge remains prohibited until then.
+
+## Exact Candidate Evidence Attribution Review
+
+### Trigger
+
+Exact review of `57bab448c125995e6f486125852924beeaab7556` returned correctness and API/documentation `REVISE` plus security `PASS`. GitHub Actions run `29396782369` passed Template Check and all six Node 22/24 operating-system jobs in 11m35s; Template Check took 11m30s.
+
+### Reproduction
+
+The source record correctly said the documentation-only successor had not rerun the copied-input matrix and that the 119-case result remained unchanged from `7f30107`. Several milestone, review, and test-plan summaries instead called the same matrix current or local and combined it with the 17.6-second `npm.cmd run verify` run for `57bab44`.
+
+### Stable Evidence
+
+- The exact `57bab44` diff contains 15 Markdown files and no runtime, schema, package, checker, or CI change.
+- Candidate `7f30107` ran the complete 119-scenario matrix in 576.2 seconds with 100 expected rejections, 19 expected acceptances, and 30 executor parity cases.
+- Candidate `57bab44` ran the positive checker, `npm.cmd run verify` in 17.6 seconds, and all seven hosted jobs, but did not rerun the copied-input matrix.
+- Correctness and API/documentation independently identified the same attribution error; security found no safety or contract drift.
+
+### Failure Classification
+
+This was candidate-provenance conflation. Evidence for an unchanged executable surface remained useful, but summary wording implied that a later documentation tree had itself been exercised by the copied-input harness.
+
+### Hypotheses
+
+1. Every result must name the exact immutable tree it exercised.
+2. Inherited evidence may support an unchanged surface only when its owner is explicit and it is separated from current-tree checks.
+3. A documentation-only change to files copied by the harness means the predecessor matrix cannot be called current for the successor.
+4. Rerunning a self-referential documentation harness is optional when the successor makes no matrix claim and exact positive, review, and hosted gates remain.
+
+### Experiments
+
+A repository-wide phrase search located every current, local, retains, and timing statement that mentioned the 119-case matrix. Comparing those statements with the exact run records separated `7f30107`'s full matrix from `57bab44`'s positive checker, kernel verification, hosted CI, and review verdicts.
+
+### Confirmed Cause
+
+The closeout summaries grouped evidence by unchanged behavior rather than by the immutable tree that produced it. That collapsed inherited matrix evidence and exact-candidate evidence into one apparent current gate.
+
+### Causal Fix
+
+Name `7f30107` as the owner of the latest complete matrix, state that `57bab44` did not rerun it, keep `57bab44`'s exact checks separate, and promote candidate-bound evidence attribution into decisions, patterns, glossary, the practice register, memory, milestone, and feature records.
+
+### Regression
+
+The causal regression gate searches all current-state surfaces for ambiguous 119-case ownership, checks links and arithmetic, confirms no executable drift, runs the positive checker and canonical kernel verification, and requires three exact `PASS` verdicts plus all seven hosted jobs on the successor. No full-matrix rerun is claimed.
 
 ### Next Action
 

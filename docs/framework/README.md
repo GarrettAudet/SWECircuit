@@ -47,6 +47,9 @@ Use this layer when work needs one of these:
 The [bounded executor boundary](executor-boundary.md) is the current bridge from declarative framework contracts to trusted host execution. It accepts one already-selected work packet, one compatible manifest, one invocation grant, and one caller-injected executor. It returns a frozen execution summary and V9-compatible event journal.
 
 This boundary standardizes handoff and evidence without making core a scheduler or sandbox. A host still owns agent selection, provider calls, workspaces, permission enforcement, persistence, retry, integration, and memory mutation.
+
+That statement describes the V10 execution boundary. The target orchestration layer moves provider-independent decomposition, capability matching, scheduling policy, fan-out and fan-in, and integration gates into SWECircuit while keeping provider calls and side effects in host adapters.
+
 ## Circuit Definition
 
 A circuit is an ordered or branched composition of modules, typed artifacts, and gates.

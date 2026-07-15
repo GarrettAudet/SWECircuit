@@ -284,3 +284,11 @@ Candidate `7f30107` passed all seven hosted jobs in run `29395470172` in 11m39s 
 The root cause was stale temporal context: the integration record reused the thread's initial calendar date after local midnight instead of querying the event-owning Git and hosted sources. The causal fix changes only those two event dates, records `7f30107` on July 15, and promotes source-derived event-date provenance. Valid July 14 decision, issue-discovery, and snapshot dates remain unchanged.
 
 The correction is documentation-only. Exact semantic re-review must confirm chronology, provenance, links, current status, and bounded runtime claims; hosted CI must verify the complete immutable successor before AC8 can close.
+
+## Candidate-Bound Evidence Attribution Addendum
+
+Candidate `57bab44` passed all seven hosted jobs in run `29396782369` in 11m35s and received security `PASS`, but correctness and API/documentation returned `REVISE`. Several summaries described the 119-scenario, 576.2-second matrix from `7f30107` as current or local evidence for the 15-file documentation successor.
+
+The root cause was candidate-provenance conflation: unchanged executable behavior was treated as permission to transfer ownership of a copied-input verification result. The causal fix keeps `7f30107` as the matrix owner, labels the evidence inherited, and separates it from `57bab44`'s positive checker, 17.6-second kernel verification, hosted CI, and review verdicts.
+
+The correction changes documentation and memory only. It does not claim a full-matrix rerun. Exact semantic review must confirm evidence ownership, chronology, links, current status, portable orchestration positioning, and bounded runtime claims; hosted CI must verify the complete immutable successor before AC8 can close.
