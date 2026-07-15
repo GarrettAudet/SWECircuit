@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. The current acceptance state awaits exact-commit review and hosted CI; V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `7f02b87` passed hosted CI but returned three `REVISE` verdicts; its container-context correction passes all 89 local scenarios and awaits exact-commit review plus hosted CI. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; `ac70efc` returned `PASS / REVISE / REVISE`; `9209ff1` returned `PASS / REVISE / PASS`; `b3ff0d3` returned `REVISE / REVISE / PASS`; `394612d` returned `REVISE / REVISE / REVISE`; and `0c42c64` returned `REVISE / REVISE / REVISE` despite all seven hosted jobs passing. The current correction scopes README prose, links, and semantic guards to active Markdown, limits fence indentation, makes exact line owners newline-safe, and uses invariant acceptance-state wording. AC8 remains open until the exact commit containing the complete state records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; `2c6dff4` returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS`; `4c6818d` returned `REVISE / PASS / REVISE`; `b2d73e7` returned `REVISE / REVISE / REVISE`; `ac70efc` returned `PASS / REVISE / REVISE`; `9209ff1` returned `PASS / REVISE / PASS`; `b3ff0d3` returned `REVISE / REVISE / PASS`; `394612d`, `0c42c64`, and `7f02b87` each returned `REVISE / REVISE / REVISE` despite the latter two passing all seven hosted jobs. The current correction binds fence ownership to normalized block-container state, marker-derived continuation widths, matching closers, and container termination while preserving a fast path for ordinary top-level fences. AC8 remains open until the exact commit containing the complete state records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -173,4 +173,16 @@ The correction that became candidate `0c42c64` recognized container-contained fe
 
 GitHub Actions run `29375642610` passed Template Check plus all six Node 22/24 operating-system jobs in 4m16s for exact commit `0c42c64e9cef810efc284812e8024bf25419d87b`. Correctness and security each exceeded two bounded waits and returned their verdicts after one explicit immediate-conclusion request. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction moves README identity, prose, navigation, and semantic guards to active Markdown while preserving raw command examples; limits fence indentation to three spaces around explicit containers; makes exact line owners LF/CRLF-safe without newline-crossing whitespace; and describes only the invariant acceptance gate. The positive checker and all 84 isolated scenarios pass: 78 expected rejections, six expected acceptances, and 30 unchanged executor contract-parity cases. The gate remains open until the exact commit containing the complete state records three `PASS` verdicts and all seven hosted jobs.
+The correction that became candidate `7f02b87` moved README identity, prose, navigation, and semantic guards to active Markdown while preserving raw command examples; limited fence indentation to three spaces around explicit containers; made exact line owners LF/CRLF-safe without newline-crossing whitespace; and described only the invariant acceptance gate. Its positive checker and all 84 isolated scenarios passed before exact review.
+
+## Exact Candidate 7f02b87 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | Line-local fence recognition missed valid continuation fences inside multi-digit ordered-list items. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | A valid list closer remained unrecognized and could hide active contradictory content after the fenced block. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | An unrelated container-prefixed closer could close a top-level fence and expose inactive prose as active. |
+
+GitHub Actions run `29377581706` passed Template Check plus all six Node 22/24 operating-system jobs in 5m35s for exact commit `7f02b87f61a767cd88ef6892cb78a7a37288fb4a`. All three findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction tracks a normalized quote/list stack, derives continuation width from the complete list marker, requires a closer to match its opener container, ends nested fences when that container ends, and reprocesses the outer line. An ambiguity-gated fast path retains the simple parser for ordinary top-level fences. All 89 local scenarios pass: 82 expected rejections, seven expected acceptances, and 30 unchanged executor contract-parity cases. The authoritative final-tree run completed in 318.9 seconds after the first correct rich-parser run took 626.5 seconds. The gate remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs.

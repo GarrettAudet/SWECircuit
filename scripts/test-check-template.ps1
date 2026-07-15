@@ -299,6 +299,7 @@ try {
     $truthfulNegationText = (Get-Content -LiteralPath $truthfulNegationPath -Raw) + [Environment]::NewLine + "SWECircuit writes no traces; callers own trace production." + [Environment]::NewLine
     Write-Utf8 $truthfulNegationPath $truthfulNegationText
     Assert-CheckerResult "truthful capability negation" $truthfulNegationFixture $true
+
     $fencedOverclaimFixture = New-Fixture "fenced-capability-overclaim-example"
     $fencedOverclaimPath = Join-Path $fencedOverclaimFixture "README.md"
     $fencedOverclaimText = (Get-Content -LiteralPath $fencedOverclaimPath -Raw).TrimEnd([char]13, [char]10) +
@@ -308,6 +309,27 @@ try {
         '```' + [Environment]::NewLine
     Write-Utf8 $fencedOverclaimPath $fencedOverclaimText
     Assert-CheckerResult "fenced capability overclaim example" $fencedOverclaimFixture $true
+
+    $listClosingFixture = New-Fixture "ordered-list-closing-fence-before-overclaim"
+    $listClosingPath = Join-Path $listClosingFixture "README.md"
+    $listClosingText = (Get-Content -LiteralPath $listClosingPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '10. ```text' + [Environment]::NewLine +
+        '    inactive example' + [Environment]::NewLine +
+        '    ```' + [Environment]::NewLine +
+        'SWECircuit launches agents.' + [Environment]::NewLine
+    Write-Utf8 $listClosingPath $listClosingText
+    Assert-CheckerResult "ordered-list closing fence before active overclaim" $listClosingFixture $false "README positively claims a capability owned by an external runtime"
+
+    $listEndFixture = New-Fixture "ordered-list-container-end-before-overclaim"
+    $listEndPath = Join-Path $listEndFixture "README.md"
+    $listEndText = (Get-Content -LiteralPath $listEndPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '10. ```text' + [Environment]::NewLine +
+        '    inactive example' + [Environment]::NewLine +
+        'SWECircuit launches agents.' + [Environment]::NewLine
+    Write-Utf8 $listEndPath $listEndText
+    Assert-CheckerResult "ordered-list container end exposes active overclaim" $listEndFixture $false "README positively claims a capability owned by an external runtime"
 
     $publicCommandClaims = @(
         @{ Name = "npx"; Text = "npx swecircuit" },
@@ -349,6 +371,7 @@ try {
     )
     Write-Utf8 $navigationPath $navigationText
     Assert-CheckerResult "README missing required navigation" $navigationFixture $false
+
     $fencedNavigationFixture = New-Fixture "fenced-readme-navigation"
     $fencedNavigationPath = Join-Path $fencedNavigationFixture "README.md"
     $fencedNavigationText = Get-Content -LiteralPath $fencedNavigationPath -Raw
@@ -385,6 +408,7 @@ try {
     )
     Write-Utf8 $missingCapabilityPath $missingCapabilityText
     Assert-CheckerResult "README missing current kernel capability" $missingCapabilityFixture $false
+
     $fencedCapabilityFixture = New-Fixture "fenced-readme-current-capability"
     $fencedCapabilityPath = Join-Path $fencedCapabilityFixture "README.md"
     $fencedCapabilityText = Get-Content -LiteralPath $fencedCapabilityPath -Raw
@@ -399,6 +423,51 @@ try {
     $fencedCapabilityText = $fencedCapabilityText.Replace($capabilityLine, $fencedCapabilityBlock)
     Write-Utf8 $fencedCapabilityPath $fencedCapabilityText
     Assert-CheckerResult "README current capability hidden in fence" $fencedCapabilityFixture $false "README missing required active public-surface text"
+
+    $mismatchedCloserFixture = New-Fixture "mismatched-container-closer"
+    $mismatchedCloserPath = Join-Path $mismatchedCloserFixture "README.md"
+    $mismatchedCloserText = (Get-Content -LiteralPath $mismatchedCloserPath -Raw).Replace(
+        $capabilityPhrase,
+        "current capability removed"
+    ).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '```text' + [Environment]::NewLine +
+        '- ```' + [Environment]::NewLine +
+        $capabilityPhrase + [Environment]::NewLine +
+        '- ```' + [Environment]::NewLine +
+        '```' + [Environment]::NewLine
+    Write-Utf8 $mismatchedCloserPath $mismatchedCloserText
+    Assert-CheckerResult "mismatched list closer inside top-level fence" $mismatchedCloserFixture $false "README missing required active public-surface text"
+
+    $matchedCloserFixture = New-Fixture "matched-container-closer-preserves-active-prose"
+    $matchedCloserPath = Join-Path $matchedCloserFixture "README.md"
+    $matchedCloserText = (Get-Content -LiteralPath $matchedCloserPath -Raw).Replace(
+        $capabilityPhrase,
+        "current capability removed"
+    ).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '```text' + [Environment]::NewLine +
+        '- ```' + [Environment]::NewLine +
+        'inactive example' + [Environment]::NewLine +
+        '- ```' + [Environment]::NewLine +
+        '```' + [Environment]::NewLine +
+        $capabilityPhrase + [Environment]::NewLine
+    Write-Utf8 $matchedCloserPath $matchedCloserText
+    Assert-CheckerResult "matched top-level closer preserves later active prose" $matchedCloserFixture $true
+
+    $continuationFenceFixture = New-Fixture "ordered-list-continuation-fence"
+    $continuationFencePath = Join-Path $continuationFenceFixture "README.md"
+    $continuationFenceText = (Get-Content -LiteralPath $continuationFencePath -Raw).Replace(
+        $capabilityPhrase,
+        "current capability removed"
+    ).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '10. example' + [Environment]::NewLine +
+        '    ```text' + [Environment]::NewLine +
+        '    ' + $capabilityPhrase + [Environment]::NewLine +
+        '    ```' + [Environment]::NewLine
+    Write-Utf8 $continuationFencePath $continuationFenceText
+    Assert-CheckerResult "ordered-list continuation fence hides contract prose" $continuationFenceFixture $false "README missing required active public-surface text"
 
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"

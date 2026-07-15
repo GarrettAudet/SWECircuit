@@ -48,6 +48,10 @@ Acceptance-candidate verification active.
 - The practice-table fixture must locate the same contiguous table in LF and CRLF source.
 - README capability and boundary prose, repository identity, navigation, and semantic guards must be active, while literal command examples remain valid inside fences.
 - Split-line README/debug/RCA headings must fail, an unmatched four-space fence literal must not hide later active content, and inactive fenced semantic examples must not trigger overclaim rejection.
+- A multi-digit ordered-list continuation opener and closer must keep fenced contract prose inactive and later active prose visible.
+- A closer in an unrelated list or quote container must not terminate a top-level fence, while a matching top-level closer must preserve later active prose.
+- Ending a list container while its nested fence remains open must end that nested ownership and reprocess the outer line.
+- Equivalent rejection and preservation fixtures must exercise the ambiguity-gated simple and rich parser paths.
 
 ## Skipped Checks
 
@@ -67,4 +71,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `b3ff0d3` passed all seven jobs in run `29370427573`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS` for fenced-content and duplicate-owner gaps.
 - Candidate `394612d` returned `REVISE / REVISE / REVISE` for list-contained fences, legacy raw structural checks, presence-only required headings, and overstated docs. Run `29372879405` passed all six kernel-toolchain jobs but failed Template Check because its fixture assumed host-native newlines.
 - Candidate `0c42c64` passed all seven jobs in run `29375642610` but returned `REVISE / REVISE / REVISE` for raw README semantics, permissive indentation, newline-crossing heading patterns, and self-staling status prose.
-- The current correction passes the positive checker and all 84 isolated scenarios: 78 expected rejections and six expected acceptances. Thirty executor parity cases continue to cover the lifecycle and grant surface; seven additional cases cover active README semantics, split headings, bounded indentation, and fenced-example acceptance. Two complete runs finished in 279.3 and 303.8 seconds, with the latter as the final pre-candidate run; the direct LF/CRLF table probe passes. Exact-commit review and all seven hosted jobs remain.
+- Candidate `7f02b87` passed all seven jobs in run `29377581706` but returned `REVISE / REVISE / REVISE` for container-insensitive fence closure and multi-digit ordered-list continuation.
+- The current correction passes the positive checker and all 89 isolated scenarios: 82 expected rejections and seven expected acceptances. Thirty executor parity cases are unchanged; five additional cases prove matching container identity, marker-derived continuation, implicit container termination, and preserved later active prose. The first correct rich-parser run took 626.5 seconds; the authoritative final-tree ambiguity-gated run took 318.9 seconds and the positive checker 2.76 seconds. Exact-commit review and all seven hosted jobs remain.

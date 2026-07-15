@@ -477,3 +477,54 @@ PowerShell syntax and the positive checker pass. The expanded harness passes all
 ### Durable Learning
 
 Active Markdown ownership includes prose, links, headings, and semantic guards, but not literal command examples. Line-oriented grammar must use horizontal whitespace and explicit CRLF handling; status records must encode the gate rather than the act of freezing a commit.
+
+## Exact Candidate Container Context Review
+
+### Trigger
+
+Exact review of `7f02b87f61a767cd88ef6892cb78a7a37288fb4a` returned `REVISE` from correctness, security, and API/documentation even though GitHub Actions run `29377581706` passed Template Check plus all six Node 22/24 operating-system jobs.
+
+### Reproduction
+
+Three isolated fixtures passed the checker before the fix when each should have failed: a mismatched list closer exposed fenced required-capability prose, a valid multi-digit ordered-list continuation closer hid a later active overclaim, and a list-continuation opener exposed fenced required-capability prose.
+
+### Stable Evidence
+
+- Correctness found that line-local fence recognition missed valid four-space continuation fences inside multi-digit ordered-list items.
+- Security found that the checker accepted a `10. ```text` opener but not its valid four-space-indented closer, hiding the remainder of the document.
+- API/documentation found that storing only marker character and length allowed a top-level fence to be closed by a different container such as `- ````, exposing inactive prose.
+- CommonMark 0.31.2 defines fences relative to block-container context and derives list continuation indentation from the marker width plus following indentation.
+
+### Failure Classification
+
+Parser state and public-contract ownership defect, with an initial performance regression in the causal correction.
+
+### Hypotheses
+
+1. Fence ownership must include a normalized block-container stack, not only marker character and length.
+2. Ordered-list continuation width must be derived from the complete marker rather than a fixed indentation allowance.
+3. A rich container parser can remain bounded to ambiguous documents while ordinary top-level fences use the existing fast path.
+
+### Experiments
+
+The first container-state parser corrected all three reproductions but increased the 88-scenario harness to 626.5 seconds and the positive checker to about 7.2 seconds. Profiling identified repeated rich parsing of ordinary top-level fences. An ambiguity gate restored those documents to the simple parser while retaining the rich path for explicit containers and list-continuation-sensitive input.
+
+### Confirmed Cause
+
+The fence parser tracked delimiters but not the container that owned them. It therefore could not distinguish a valid continuation closer from an unrelated list marker, and it treated container termination as unrelated prose instead of a fence boundary.
+
+### Causal Fix
+
+The checker now tracks a normalized quote/list stack, computes list continuation width from marker syntax, requires closing fences to match the opener container, ends nested fences when their container ends, and reprocesses the terminating line in the outer context. An ambiguity-gated fast path preserves performance for ordinary top-level fences.
+
+### Regression
+
+All 89 scenarios pass: 82 expected rejections, seven expected acceptances, and 30 unchanged executor contract-parity cases. The authoritative final-tree run completed in 318.9 seconds and the positive checker in 2.76 seconds. Direct probes report mismatched-container prose hidden, post-list active overclaim visible, list-continuation fenced prose hidden, implicit list-end prose visible, and later active prose visible.
+
+### Next Action
+
+Freeze the complete corrected commit, obtain three exact-commit `PASS` verdicts and all seven hosted jobs, then complete evidence-only closeout for owner approval.
+
+## Container State Performance Observation
+
+The semantically correct rich parser was retained only where container syntax can change ownership. Equivalent reject and preserve fixtures cover both parser paths so the optimization cannot silently weaken public-contract enforcement.

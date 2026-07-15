@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `0c42c64` passed all seven hosted jobs in run `29375642610` but returned three `REVISE` verdicts for raw README semantics, permissive indentation, newline-crossing headings, and candidate-dependent status. The current correction uses active README semantics, bounded fence indentation, line-safe LF/CRLF ownership, and invariant gate wording. All 84 local scenarios pass; exact-commit review and all seven hosted jobs remain. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `7f02b87` passed all seven hosted jobs in run `29377581706` but returned three `REVISE` verdicts for container-insensitive fence ownership and ordered-list continuation handling. The current correction tracks normalized block-container state, marker-derived continuation widths, matched closing context, and container termination while retaining an ambiguity-gated fast path. All 89 local scenarios pass; exact-commit review and all seven hosted jobs remain. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -33,6 +33,8 @@ Subsequent exact candidates exposed progressively wider documentation drift: lif
 Candidate `394612d` exposed a fixture-portability deviation: `.gitattributes` supplied LF Markdown while the Windows workflow searched with `[Environment]::NewLine`. Candidate `0c42c64` then exposed the inverse line-boundary error: exact heading patterns rejected CRLF unless they used an explicit optional carriage return, while broad `\s+` crossed logical lines. Both paths now use line-safe LF/CRLF grammar.
 
 The first fence-aware parser rescanned Markdown for every section lookup and caused a 69-scenario run to exceed 360 seconds. A process-local cache and no-fence fast path restored the positive checker to 2.27 seconds while preserving isolated fixtures; two complete 71-case runs finished in 211.2 and 208.2 seconds, four complete 77-case runs finished in 259.2, 258.2, 259.1, and 256.7 seconds, and two complete 84-case runs finished in 279.3 and 303.8 seconds.
+
+Candidate `7f02b87` proved that delimiter-only fence state was still insufficient: valid continuation indentation depends on list-marker width, and a closer must belong to the opener's block-container context. The first causal state parser passed all 88 scenarios but took 626.5 seconds and about 7.2 seconds for the positive checker. An ambiguity gate now routes ordinary top-level fences through the simple path and container-sensitive Markdown through the rich parser; the same 88 scenarios complete in 305.4 seconds and the positive checker in 2.76 seconds.
 
 ## Assumptions Used
 
@@ -66,7 +68,8 @@ The first fence-aware parser rescanned Markdown for every section lookup and cau
 - Candidate `b3ff0d3` passed all seven jobs in GitHub Actions run `29370427573`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `PASS`.
 - Candidate `394612d` returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`. GitHub Actions run `29372879405` passed all six kernel-toolchain jobs but failed Template Check on the host-newline-dependent practice-table fixture.
 - Candidate `0c42c64` passed all seven jobs in GitHub Actions run `29375642610`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`.
-- The current documentation-and-checker correction passes the positive checker and all 84 scenarios, comprising 78 expected rejections and six expected acceptances. Thirty executor parity cases still cover missing terms, relocation, contradictions, logical statements, exact first-table ownership, truthful negatives, causal diagnostics, top-level and container-contained fences, and unique owners. Seven additional cases cover active README semantics, split-line headings, bounded indentation, and positive fenced examples. Two complete runs finished in 279.3 and 303.8 seconds, with the latter as the final pre-candidate run; the LF/CRLF probe passes. Exact-commit review and all seven hosted jobs remain.
+- Candidate `7f02b87` passed all seven jobs in GitHub Actions run `29377581706`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE` for ordered-list continuation and mismatched-container fence ownership.
+- The current documentation-and-checker correction passes the positive checker and all 89 scenarios, comprising 82 expected rejections and seven expected acceptances. Thirty executor parity cases remain unchanged. Five additional cases prove multi-digit list continuation, matching container identity, implicit container termination, and preserving top-level closure behavior. The first correct state parser completed in 626.5 seconds; the authoritative final-tree ambiguity-gated run completed in 318.9 seconds and the positive checker in 2.76 seconds. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -81,3 +84,5 @@ The first fence-aware parser rescanned Markdown for every section lookup and cau
 - Regression fixtures must model tracked source newlines rather than the host newline convention and should prove both LF and CRLF when portability is part of the contract.
 - Active Markdown owns public prose, navigation, headings, and semantic guards; raw source is reserved for intentional literal command examples and command-claim checks.
 - Line-oriented Markdown grammar must use horizontal whitespace, explicit carriage-return handling, and bounded indentation rather than broad whitespace classes.
+- Fence ownership must preserve normalized block-container state; ordered-list continuation indentation derives from the complete marker, and only a matching container may close the fence.
+- Performance fast paths need equivalent rejection and preservation fixtures so optimization cannot weaken the richer parser's ownership guarantees.

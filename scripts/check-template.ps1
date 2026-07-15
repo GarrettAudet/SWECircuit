@@ -79,6 +79,245 @@ $script:markdownFenceCache = [System.Collections.Generic.Dictionary[string, stri
     [System.StringComparer]::Ordinal
 )
 
+# Track only block-container state that can change fenced-content ownership.
+function Read-MarkdownIndentation {
+    param(
+        [string]$Line,
+        [int]$StartIndex,
+        [int]$StartColumn,
+        [int]$MaximumColumns = [int]::MaxValue
+    )
+
+    $index = $StartIndex
+    $column = $StartColumn
+    while ($index -lt $Line.Length) {
+        $character = $Line[$index]
+        if ($character -eq [char]32) {
+            $nextColumn = $column + 1
+        } elseif ($character -eq [char]9) {
+            $nextColumn = $column + (4 - ($column % 4))
+        } else {
+            break
+        }
+
+        if (($nextColumn - $StartColumn) -gt $MaximumColumns) {
+            break
+        }
+        $column = $nextColumn
+        $index++
+    }
+
+    return [pscustomobject]@{
+        Index = $index
+        Column = $column
+        Columns = $column - $StartColumn
+    }
+}
+
+function Get-MarkdownExplicitContainer {
+    param([string]$Line)
+
+    $index = 0
+    $column = 0
+    $stack = New-Object System.Collections.Generic.List[object]
+    while ($index -lt $Line.Length) {
+        $leading = Read-MarkdownIndentation $Line $index $column 3
+        $cursorIndex = $leading.Index
+        $cursorColumn = $leading.Column
+
+        if ($cursorIndex -lt $Line.Length -and $Line[$cursorIndex] -eq [char]62) {
+            $stack.Add([pscustomobject]@{ Type = "quote" }) | Out-Null
+            $index = $cursorIndex + 1
+            $column = $cursorColumn + 1
+            if ($index -lt $Line.Length -and $Line[$index] -in @([char]32, [char]9)) {
+                if ($Line[$index] -eq [char]9) {
+                    $column += 4 - ($column % 4)
+                } else {
+                    $column++
+                }
+                $index++
+            }
+            continue
+        }
+
+        $remainder = $Line.Substring($cursorIndex)
+        $listMarker = [regex]::Match($remainder, '^(?<marker>[-+*]|\d{1,9}[.)])(?<indent>[ \t]+)')
+        if (-not $listMarker.Success) {
+            break
+        }
+
+        $marker = $listMarker.Groups['marker'].Value
+        $indentStart = $cursorIndex + $marker.Length
+        $following = Read-MarkdownIndentation $Line $indentStart ($cursorColumn + $marker.Length)
+        if ($following.Columns -lt 1 -or $following.Columns -gt 4) {
+            break
+        }
+
+        $stack.Add([pscustomobject]@{
+            Type = "list"
+            ContinuationColumns = $leading.Columns + $marker.Length + $following.Columns
+        }) | Out-Null
+        $index = $following.Index
+        $column = $following.Column
+    }
+
+    return [pscustomobject]@{
+        Stack = @($stack.ToArray())
+        Content = $Line.Substring($index)
+    }
+}
+
+function Get-MarkdownContinuationContent {
+    param(
+        [string]$Line,
+        [object[]]$Stack
+    )
+
+    $index = 0
+    $column = 0
+    foreach ($container in $Stack) {
+        if ($container.Type -eq "quote") {
+            $leading = Read-MarkdownIndentation $Line $index $column 3
+            if ($leading.Index -ge $Line.Length -or $Line[$leading.Index] -ne [char]62) {
+                return $null
+            }
+            $index = $leading.Index + 1
+            $column = $leading.Column + 1
+            if ($index -lt $Line.Length -and $Line[$index] -in @([char]32, [char]9)) {
+                if ($Line[$index] -eq [char]9) {
+                    $column += 4 - ($column % 4)
+                } else {
+                    $column++
+                }
+                $index++
+            }
+            continue
+        }
+
+        $requiredColumns = [int]$container.ContinuationColumns
+        $indentation = Read-MarkdownIndentation $Line $index $column $requiredColumns
+        if ($indentation.Columns -ne $requiredColumns) {
+            return $null
+        }
+        $index = $indentation.Index
+        $column = $indentation.Column
+    }
+
+    return [pscustomobject]@{
+        Content = $Line.Substring($index)
+    }
+}
+
+function Test-MarkdownStackContainsList {
+    param([object[]]$Stack)
+
+    foreach ($container in $Stack) {
+        if ($container.Type -eq "list") {
+            return $true
+        }
+    }
+    return $false
+}
+
+function Get-MarkdownBestContinuation {
+    param(
+        [string]$Line,
+        [object[]]$Stack
+    )
+
+    for ($count = $Stack.Count; $count -gt 0; $count--) {
+        $prefix = if ($count -eq 1) { @($Stack[0]) } else { @($Stack[0..($count - 1)]) }
+        if (-not (Test-MarkdownStackContainsList $prefix)) {
+            continue
+        }
+        $continuation = Get-MarkdownContinuationContent $Line $prefix
+        if ($null -ne $continuation) {
+            return [pscustomobject]@{
+                Stack = $prefix
+                Content = $continuation.Content
+            }
+        }
+    }
+    return $null
+}
+
+function Get-MarkdownFenceMarker {
+    param(
+        [string]$Content,
+        [switch]$Closing
+    )
+
+    $pattern = if ($Closing) {
+        '^[ ]{0,3}(?<marker>`{3,}|~{3,})[ \t]*$'
+    } else {
+        '^[ ]{0,3}(?<marker>`{3,}|~{3,})(?<info>.*)$'
+    }
+    $match = [regex]::Match($Content, $pattern)
+    if (-not $match.Success) {
+        return $null
+    }
+
+    $marker = $match.Groups['marker'].Value
+    if (-not $Closing -and $marker[0] -eq [char]96 -and $match.Groups['info'].Value.Contains('`')) {
+        return $null
+    }
+    return [pscustomobject]@{ Marker = $marker }
+}
+
+function Test-MarkdownParagraphContinuation {
+    param([string]$Content)
+
+    $trimmed = $Content.TrimStart([char]32, [char]9)
+    if ([string]::IsNullOrWhiteSpace($trimmed)) {
+        return $false
+    }
+    return $trimmed -notmatch '^(?:#{1,6}(?:[ \t]+|$)|>|[-+*][ \t]+|\d{1,9}[.)][ \t]+|`{3,}|~{3,})'
+}
+
+function Remove-TopLevelMarkdownFencedContent {
+    param([string]$Text)
+
+    $visibleLines = New-Object System.Collections.Generic.List[string]
+    $inFence = $false
+    $fenceCharacter = [char]0
+    $fenceLength = 0
+
+    foreach ($line in @($Text -split "\r?\n")) {
+        if (-not $inFence) {
+            $opening = [regex]::Match($line, '^[ ]{0,3}(?<marker>`{3,}|~{3,})(?<info>.*)$')
+            if (-not $opening.Success) {
+                $visibleLines.Add($line) | Out-Null
+                continue
+            }
+
+            $marker = $opening.Groups['marker'].Value
+            if ($marker[0] -eq [char]96 -and $opening.Groups['info'].Value.Contains('`')) {
+                $visibleLines.Add($line) | Out-Null
+                continue
+            }
+
+            $inFence = $true
+            $fenceCharacter = $marker[0]
+            $fenceLength = $marker.Length
+            $visibleLines.Add("") | Out-Null
+            continue
+        }
+
+        $closing = [regex]::Match($line, '^[ ]{0,3}(?<marker>`{3,}|~{3,})[ \t]*$')
+        if ($closing.Success) {
+            $marker = $closing.Groups['marker'].Value
+            if ($marker[0] -eq $fenceCharacter -and $marker.Length -ge $fenceLength) {
+                $inFence = $false
+                $fenceCharacter = [char]0
+                $fenceLength = 0
+            }
+        }
+        $visibleLines.Add("") | Out-Null
+    }
+
+    return $visibleLines -join "`n"
+}
+
 function Remove-MarkdownFencedContent {
     param([string]$Text)
 
@@ -92,43 +331,156 @@ function Remove-MarkdownFencedContent {
         return $Text
     }
 
+    # Keep ordinary top-level fences on the simple path; ambiguous container syntax uses full state.
+    $hasExplicitContainerFence = $Text -match '(?m)^[ ]{0,3}(?:(?:>[ \t]?|(?:[-+*]|\d{1,9}[.)])[ \t]+)[ ]{0,3})+(?:`{3,}|~{3,})'
+    $hasQuotedFence = $Text -match '(?m)^[ ]{0,3}>[^\r\n]*(?:`{3,}|~{3,})'
+    $hasListMarker = $Text -match '(?m)^[ ]{0,3}(?:>[ \t]?[ ]{0,3})*(?:[-+*]|\d{1,9}[.)])[ \t]+'
+    $hasIndentedFence = $Text -match '(?m)^(?: {2,}|\t)(?:`{3,}|~{3,})'
+    if (-not $hasExplicitContainerFence -and -not $hasQuotedFence -and -not ($hasListMarker -and $hasIndentedFence)) {
+        $visibleText = Remove-TopLevelMarkdownFencedContent $Text
+        $script:markdownFenceCache[$Text] = $visibleText
+        return $visibleText
+    }
+
     $visibleLines = New-Object System.Collections.Generic.List[string]
     $inFence = $false
     $fenceCharacter = [char]0
     $fenceLength = 0
+    $fenceStack = @()
+    $activeListStack = @()
+    $activeListCanBeLazy = $false
+    $previousLineBlank = $true
 
     foreach ($line in @($Text -split "\r?\n")) {
-        if (-not $inFence) {
-            $opening = [regex]::Match($line, '^[ ]{0,3}(?:(?:>[ \t]?|(?:[-+*]|\d+[.)])[ \t]+)[ ]{0,3})*(?<marker>`{3,}|~{3,})(?<info>.*)$')
-            if (-not $opening.Success) {
-                $visibleLines.Add($line) | Out-Null
-                continue
-            }
+        $handled = $false
+        while (-not $handled) {
+            if ($inFence) {
+                $context = if ($fenceStack.Count -eq 0) {
+                    [pscustomobject]@{ Content = $line }
+                } else {
+                    Get-MarkdownContinuationContent $line $fenceStack
+                }
 
-            $marker = $opening.Groups['marker'].Value
-            $info = $opening.Groups['info'].Value
-            if ($marker[0] -eq [char]96 -and $info.Contains('`')) {
-                $visibleLines.Add($line) | Out-Null
-                continue
-            }
+                if ($null -ne $context) {
+                    $closing = Get-MarkdownFenceMarker $context.Content -Closing
+                    if ($null -ne $closing) {
+                        $marker = $closing.Marker
+                        if ($marker[0] -eq $fenceCharacter -and $marker.Length -ge $fenceLength) {
+                            if (Test-MarkdownStackContainsList $fenceStack) {
+                                $activeListStack = @($fenceStack)
+                            } else {
+                                $activeListStack = @()
+                            }
+                            $activeListCanBeLazy = $false
+                            $inFence = $false
+                            $fenceCharacter = [char]0
+                            $fenceLength = 0
+                            $fenceStack = @()
+                        }
+                    }
 
-            $inFence = $true
-            $fenceCharacter = $marker[0]
-            $fenceLength = $marker.Length
-            $visibleLines.Add("") | Out-Null
-            continue
-        }
+                    $visibleLines.Add("") | Out-Null
+                    $previousLineBlank = $false
+                    $handled = $true
+                    continue
+                }
 
-        $closing = [regex]::Match($line, '^[ ]{0,3}(?:(?:>[ \t]?|(?:[-+*]|\d+[.)])[ \t]+)[ ]{0,3})*(?<marker>`{3,}|~{3,})[ \t]*$')
-        if ($closing.Success) {
-            $marker = $closing.Groups['marker'].Value
-            if ($marker[0] -eq $fenceCharacter -and $marker.Length -ge $fenceLength) {
+                if ([string]::IsNullOrWhiteSpace($line)) {
+                    $visibleLines.Add("") | Out-Null
+                    $handled = $true
+                    continue
+                }
+
                 $inFence = $false
                 $fenceCharacter = [char]0
                 $fenceLength = 0
+                $fenceStack = @()
+                $activeListStack = @()
+                $activeListCanBeLazy = $false
+                continue
             }
+
+            $opening = $null
+            if ($activeListStack.Count -gt 0) {
+                $continuation = Get-MarkdownBestContinuation $line $activeListStack
+                if ($null -ne $continuation) {
+                    $nested = Get-MarkdownExplicitContainer $continuation.Content
+                    $candidateStack = @($continuation.Stack) + @($nested.Stack)
+                    $candidateMarker = Get-MarkdownFenceMarker $nested.Content
+                    if ($null -ne $candidateMarker) {
+                        $opening = [pscustomobject]@{
+                            Marker = $candidateMarker.Marker
+                            Stack = $candidateStack
+                        }
+                    }
+                }
+            }
+
+            if ($null -eq $opening) {
+                $explicit = Get-MarkdownExplicitContainer $line
+                $candidateMarker = Get-MarkdownFenceMarker $explicit.Content
+                if ($null -ne $candidateMarker) {
+                    $opening = [pscustomobject]@{
+                        Marker = $candidateMarker.Marker
+                        Stack = @($explicit.Stack)
+                    }
+                }
+            }
+
+            if ($null -ne $opening) {
+                $marker = $opening.Marker
+                $inFence = $true
+                $fenceCharacter = $marker[0]
+                $fenceLength = $marker.Length
+                $fenceStack = @($opening.Stack)
+                if (Test-MarkdownStackContainsList $fenceStack) {
+                    $activeListStack = @($fenceStack)
+                } else {
+                    $activeListStack = @()
+                }
+                $activeListCanBeLazy = $false
+                $visibleLines.Add("") | Out-Null
+                $previousLineBlank = $false
+                $handled = $true
+                continue
+            }
+
+            $visibleLines.Add($line) | Out-Null
+            $isBlank = [string]::IsNullOrWhiteSpace($line)
+            $activeContinuation = if ($activeListStack.Count -gt 0) {
+                Get-MarkdownBestContinuation $line $activeListStack
+            } else {
+                $null
+            }
+            $explicitLine = Get-MarkdownExplicitContainer $line
+
+            if ($isBlank) {
+                # Blank lines do not end a list item.
+            } elseif ($null -ne $activeContinuation) {
+                $nested = Get-MarkdownExplicitContainer $activeContinuation.Content
+                $combinedStack = @($activeContinuation.Stack) + @($nested.Stack)
+                if (Test-MarkdownStackContainsList $combinedStack) {
+                    $activeListStack = $combinedStack
+                    $activeListCanBeLazy = Test-MarkdownParagraphContinuation $nested.Content
+                }
+            } elseif (Test-MarkdownStackContainsList $explicitLine.Stack) {
+                $activeListStack = @($explicitLine.Stack)
+                $activeListCanBeLazy = Test-MarkdownParagraphContinuation $explicitLine.Content
+            } elseif (
+                $activeListStack.Count -gt 0 -and
+                $activeListCanBeLazy -and
+                -not $previousLineBlank -and
+                (Test-MarkdownParagraphContinuation $line)
+            ) {
+                $activeListCanBeLazy = $true
+            } else {
+                $activeListStack = @()
+                $activeListCanBeLazy = $false
+            }
+
+            $previousLineBlank = $isBlank
+            $handled = $true
         }
-        $visibleLines.Add("") | Out-Null
     }
 
     $visibleText = $visibleLines -join "`n"
