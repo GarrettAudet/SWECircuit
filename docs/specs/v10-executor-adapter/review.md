@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `c4bfa01` passed all seven hosted jobs in run `29380939276` but returned `REVISE` from correctness, security, and API/documentation for surviving outer-container loss, indented nested-container ambiguity, tab continuation, one raw README guard, and self-staling next-action prose. The current correction addresses all five classes. Direct probes, the positive checker, and the complete 96-scenario matrix pass; the matrix completed in 345.8 seconds. V10 is not merged.
+Candidate `ae5195c` passed all seven hosted jobs in run `29383056180`. API/documentation returned `PASS`, correctness returned `REVISE` for a blank-separated blockquote fence bypass, and security produced no verdict within the bounded handoff window. The current correction addresses the finding; direct probes, the positive checker, and all 99 scenarios pass in 440.7 seconds. V10 is not merged.
 
 ## Review Outcome
 
@@ -21,6 +21,8 @@ Candidate `394612d` corrected top-level fenced ownership and duplicate contract 
 Candidate `0c42c64` corrected those gaps and passed all seven hosted jobs. All three reviewers still returned `REVISE`: README prose, navigation, and semantic guards remained raw; fence indentation and heading whitespace were too broad; and candidate-creation status prose became false as soon as the commit existed. Candidate `7f02b87` corrected those findings and also passed all seven hosted jobs, but all three reviewers demonstrated that delimiter-only state still lost block-container identity: multi-digit list continuation was misread, unrelated container closers could terminate top-level fences, and valid container termination could hide later active content. The current correction implements container-state ownership and proves both causal rejection and preserving behavior.
 
 Candidate `c4bfa01` corrected the delimiter/container findings and passed all seven hosted jobs. All three reviewers still returned `REVISE`: partial container termination discarded an outer list, the fast-path signature missed nested containers after continuation indentation, tab overshoot was rejected, one retired-URL guard remained raw, and the debug next action self-staled. The current correction treats continuation and termination as column-normalized partial-state transitions and adds seven focused fixtures.
+
+Candidate `ae5195c` corrected those findings and passed all seven hosted jobs. API/documentation returned `PASS`; correctness returned `REVISE` because an unmarked blank failed to end a quote-owned fence and hid a second active quote. Security produced no verdict within two bounded waits plus an immediate-conclusion window. The current correction makes blank-line behavior container-sensitive and adds two causal rejections plus one preservation case.
 
 ## Spec Alignment
 
@@ -55,7 +57,8 @@ The implementation follows ADR 0002:
 - Candidate `0c42c64` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29375642610`; correctness, security, and API/documentation all returned `REVISE` for active README scope, line-boundary, indentation, and acceptance-state defects.
 - Candidate `7f02b87` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29377581706`; correctness, security, and API/documentation all returned `REVISE` for valid list continuation, mismatched-container closure, and hidden active prose.
 - Candidate `c4bfa01` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29380939276`; correctness, security, and API/documentation all returned `REVISE` for nested-container, tab, active/raw, and acceptance-state defects.
-- Local gate: the positive checker, direct causal/preserving probes, and all 96 scenarios pass. The matrix completed in 345.8 seconds with 87 expected rejections and nine expected acceptances; the 30 executor contract-parity cases are unchanged. The executable runtime remains unchanged from `9d8907a`.
+- Candidate `ae5195c` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29383056180`; correctness returned `REVISE`, API/documentation returned `PASS`, and security produced no verdict within the bounded handoff window.
+- Local gate: the positive checker, direct causal/preserving probes, and all 99 scenarios pass. The matrix completed in 440.7 seconds with 89 expected rejections and ten expected acceptances; the 30 executor contract-parity cases are unchanged. The executable runtime remains unchanged from `9d8907a`.
 
 ## Findings
 
@@ -102,6 +105,7 @@ The implementation follows ADR 0002:
 | High | Exact-width continuation rejected a tab that supplied required columns plus permitted fence indentation. | Normalize leading columns, rematerialize surplus indentation, and cover hidden plus preserving tabbed cases. |
 | Medium | A retired repository URL guard still inspected raw README source. | Inspect active Markdown and preserve a fenced historical-URL example. |
 | Medium | Candidate-specific next-action prose self-staled after `c4bfa01` was created. | State only the invariant exact-commit review, hosted-CI, closeout, and owner gate. |
+| High | An unmarked blank line retained a quote-owned fence and hid a later active quote. | End quote-owned fences on unmarked blanks, preserve only enclosing list prefixes, reprocess the blank, and cover top-level, list-nested, and marked-blank behavior. |
 
 ## Residual Risks
 

@@ -224,6 +224,32 @@ function Test-MarkdownStackContainsList {
     return $false
 }
 
+function Test-MarkdownStackContainsQuote {
+    param([object[]]$Stack)
+
+    foreach ($container in $Stack) {
+        if ($container.Type -eq "quote") {
+            return $true
+        }
+    }
+    return $false
+}
+
+function Get-MarkdownEnclosingListPrefix {
+    param([object[]]$Stack)
+
+    $prefix = New-Object System.Collections.Generic.List[object]
+    foreach ($container in $Stack) {
+        if ($container.Type -eq "quote") {
+            break
+        }
+        if ($container.Type -eq "list") {
+            $prefix.Add($container) | Out-Null
+        }
+    }
+    return $prefix.ToArray()
+}
+
 function Get-MarkdownBestContinuation {
     param(
         [string]$Line,
@@ -396,6 +422,16 @@ function Remove-MarkdownFencedContent {
                 }
 
                 if ([string]::IsNullOrWhiteSpace($line)) {
+                    if (Test-MarkdownStackContainsQuote $fenceStack) {
+                        # An unmarked blank ends a quote-owned fence but not an enclosing list.
+                        $activeListStack = @(Get-MarkdownEnclosingListPrefix $fenceStack)
+                        $activeListCanBeLazy = $false
+                        $inFence = $false
+                        $fenceCharacter = [char]0
+                        $fenceLength = 0
+                        $fenceStack = @()
+                        continue
+                    }
                     $visibleLines.Add("") | Out-Null
                     $handled = $true
                     continue

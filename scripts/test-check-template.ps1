@@ -565,6 +565,41 @@ try {
     Write-Utf8 $tabbedCloserPath $tabbedCloserText
     Assert-CheckerResult "tabbed list closer preserves later active prose" $tabbedCloserFixture $true
 
+    $blankSeparatedQuoteFixture = New-Fixture "blank-separated-blockquote-fence"
+    $blankSeparatedQuotePath = Join-Path $blankSeparatedQuoteFixture "README.md"
+    $blankSeparatedQuoteText = (Get-Content -LiteralPath $blankSeparatedQuotePath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '> ```text' + [Environment]::NewLine +
+        '> inactive first quote' + [Environment]::NewLine +
+        [Environment]::NewLine +
+        '> SWECircuit launches agents.' + [Environment]::NewLine
+    Write-Utf8 $blankSeparatedQuotePath $blankSeparatedQuoteText
+    Assert-CheckerResult "blank-separated blockquote exposes active overclaim" $blankSeparatedQuoteFixture $false "README positively claims a capability owned by an external runtime"
+
+    $blankSeparatedListQuoteFixture = New-Fixture "blank-separated-list-blockquote-fence"
+    $blankSeparatedListQuotePath = Join-Path $blankSeparatedListQuoteFixture "README.md"
+    $blankSeparatedListQuoteText = (Get-Content -LiteralPath $blankSeparatedListQuotePath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '1. outer item' + [Environment]::NewLine +
+        '   > ```text' + [Environment]::NewLine +
+        '   > inactive first quote' + [Environment]::NewLine +
+        [Environment]::NewLine +
+        '   > SWECircuit launches agents.' + [Environment]::NewLine
+    Write-Utf8 $blankSeparatedListQuotePath $blankSeparatedListQuoteText
+    Assert-CheckerResult "blank-separated nested blockquote exposes active overclaim" $blankSeparatedListQuoteFixture $false "README positively claims a capability owned by an external runtime"
+
+    $markedBlankQuoteFixture = New-Fixture "marked-blank-blockquote-fence"
+    $markedBlankQuotePath = Join-Path $markedBlankQuoteFixture "README.md"
+    $markedBlankQuoteText = (Get-Content -LiteralPath $markedBlankQuotePath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '> ```text' + [Environment]::NewLine +
+        '> inactive first line' + [Environment]::NewLine +
+        '>' + [Environment]::NewLine +
+        '> SWECircuit launches agents.' + [Environment]::NewLine +
+        '> ```' + [Environment]::NewLine
+    Write-Utf8 $markedBlankQuotePath $markedBlankQuoteText
+    Assert-CheckerResult "marked blockquote blank preserves fenced prose" $markedBlankQuoteFixture $true
+
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
     $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(

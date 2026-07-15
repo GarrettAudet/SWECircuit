@@ -208,3 +208,11 @@ Candidate `c4bfa01` passed all seven hosted jobs in run `29380939276`, but corre
 The root cause was state reduction at three boundaries: full-stack failure was treated as total-stack failure, physical indentation characters were treated as indivisible exact-width tokens, and the fast-path signature modeled only direct indented fences. The correction retains the longest matched list prefix, normalizes leading whitespace into columns and rematerializes surplus indentation, recognizes indented nested-container fence signatures, moves the URL guard to active Markdown, and states only the invariant acceptance gate.
 
 Seven fixtures cover the two nested-container ambiguity forms, quote/list surviving prefixes, tabbed rejection and preservation, and fenced legacy-URL preservation. Direct probes and the positive checker pass. The complete 96-scenario matrix also passes in 345.8 seconds: 87 expected rejections, nine expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.
+
+## Blank-Separated Blockquote Addendum
+
+Candidate `ae5195c` passed all seven hosted jobs in run `29383056180`, and API/documentation returned `PASS`. Correctness returned `REVISE` because an unmarked blank line ended a block quote under CommonMark while the parser retained its quote-owned fence and hid a later active overclaim. Security produced no verdict within the bounded handoff window.
+
+The root cause was branch ordering: whitespace-only lines were accepted as fence content before container termination was evaluated. The correction distinguishes quote ownership from top-level or list ownership, preserves only list containers that enclose the first quote, resets the quote-owned fence, and reprocesses the blank through normal list state. A quote-marked blank continues to match the opener and remains fenced.
+
+Three fixtures cover top-level consecutive quotes, consecutive quotes inside an outer list, and marked-blank preservation. Direct probes and the positive checker pass. The expanded 99-scenario matrix also passes in 440.7 seconds: 89 expected rejections, ten expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.

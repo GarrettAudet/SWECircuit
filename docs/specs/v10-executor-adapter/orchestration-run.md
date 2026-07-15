@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `c4bfa01` passed all seven hosted jobs but returned three `REVISE` verdicts. Its nested-container and tab correction passes direct probes, the positive checker, and all 96 scenarios in 345.8 seconds. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `ae5195c` passed all seven hosted jobs; API/documentation returned `PASS`, correctness returned `REVISE`, and security produced no verdict within the bounded handoff window. Its blank-separated blockquote correction passes direct probes, the positive checker, and all 99 scenarios in 440.7 seconds. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates `394612d`, `0c42c64`, `7f02b87`, and `c4bfa01` each returned `REVISE / REVISE / REVISE`; the last three passed all seven hosted jobs. The current correction retains surviving outer-list state, normalizes tab-expanded continuation, routes indented nested containers to the rich parser, and completes active README identity ownership. AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `c4bfa01` remained review-blocked. Candidate `ae5195c` passed all seven hosted jobs and API/documentation, but correctness found a blank-separated blockquote bypass and security produced no bounded verdict. The current correction ends quote-owned fences on unmarked blanks while preserving marked blanks and enclosing list state. AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -197,4 +197,16 @@ The current correction tracks a normalized quote/list stack, derives continuatio
 
 GitHub Actions run `29380939276` passed Template Check plus all six Node 22/24 operating-system jobs in 6m19s for exact commit `c4bfa016c82c0838b6198f936f5cbb6bbb20f09a`. All findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction preserves the longest surviving list prefix, normalizes indentation columns and rematerializes tab surplus, recognizes indented nested-container fence signatures, moves the retired URL guard to active Markdown, and uses invariant next-action wording. All 96 scenarios pass in 345.8 seconds: 87 expected rejections, nine expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also pass; the gate remains open.
+The correction that became candidate `ae5195c` preserved the longest surviving list prefix, normalized indentation columns and tab surplus, recognized indented nested-container fence signatures, moved the retired URL guard to active Markdown, and used invariant next-action wording. Its 96-scenario matrix passed in 345.8 seconds: 87 expected rejections, nine expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also passed; the gate remained open.
+
+## Exact Candidate ae5195c Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | REVISE | An unmarked blank retained a quote-owned fence and hid a later active overclaim; requested container-sensitive blank termination plus a causal fixture. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | no verdict | Remained running through two bounded waits and an immediate-conclusion request, then was closed without a handoff. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | PASS | Confirmed parser/document contract alignment, evidence arithmetic, links, headings, invariant status, and unchanged runtime scope. |
+
+GitHub Actions run `29383056180` passed Template Check plus all six Node 22/24 operating-system jobs in 7m05s for exact commit `ae5195c3c3d1fb611e0b7e3c1d94f6e53791b1af`. Correctness remains acceptance-blocking, and no security verdict is not a pass. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction ends a quote-owned fence when a whitespace-only line lacks the quote marker, preserves only any list prefix enclosing that quote, and reprocesses the blank through ordinary list state. All 99 scenarios pass in 440.7 seconds: 89 expected rejections, ten expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also pass; the gate remains open.

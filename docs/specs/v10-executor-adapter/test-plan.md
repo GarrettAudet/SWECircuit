@@ -56,6 +56,9 @@ Acceptance-candidate verification active.
 - Indented quote/list container prefixes before a fence must route the document to rich parsing.
 - A tab may satisfy continuation columns plus up to three relative fence-indent columns; opener, content, closer, and later active prose must remain correctly owned.
 - Retired repository URLs inside fenced historical examples must remain inactive while active retired URLs fail.
+- An unmarked blank must end a quote-owned fence and expose a subsequent active quote.
+- The same transition inside an outer list must retain only that enclosing list state.
+- A quote-marked blank must remain inside the original quote-owned fence.
 
 ## Skipped Checks
 
@@ -77,4 +80,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `0c42c64` passed all seven jobs in run `29375642610` but returned `REVISE / REVISE / REVISE` for raw README semantics, permissive indentation, newline-crossing heading patterns, and self-staling status prose.
 - Candidate `7f02b87` passed all seven jobs in run `29377581706` but returned `REVISE / REVISE / REVISE` for container-insensitive fence closure and multi-digit ordered-list continuation.
 - Candidate `c4bfa01` passed all seven jobs in run `29380939276` but returned `REVISE / REVISE / REVISE` for surviving outer-container loss, indented nested-container ambiguity, tab continuation, one raw README guard, and self-staling next-action prose.
-- The current correction passes the positive checker, direct causal/preserving probes, and the complete 96-scenario matrix in 345.8 seconds: 87 expected rejections and nine expected acceptances. Thirty executor parity cases remain unchanged. Exact-commit review and all seven hosted jobs remain.
+- Candidate `ae5195c` passed all seven jobs in run `29383056180`; exact review returned correctness `REVISE`, API/documentation `PASS`, and no security verdict within the bounded handoff window.
+- The current correction passes the positive checker, direct causal/preserving probes, and all 99 scenarios in 440.7 seconds: 89 expected rejections and ten expected acceptances. Thirty executor parity cases remain unchanged. Exact-commit review and all seven hosted jobs remain.

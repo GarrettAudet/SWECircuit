@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `c4bfa01` passed all seven hosted jobs in run `29380939276` but correctness, security, and API/documentation all returned `REVISE` for surviving outer-container loss, indented nested-container ambiguity, tab continuation, one raw README guard, and self-staling next-action prose. The current correction normalizes tab-expanded indentation, preserves the longest surviving list prefix, broadens the bounded ambiguity gate, and moves the remaining identity guard to active Markdown. Direct probes, the positive checker, and the complete 96-scenario matrix pass; the matrix completed in 345.8 seconds. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `ae5195c` passed all seven hosted jobs in run `29383056180`; API/documentation returned `PASS`, correctness returned `REVISE` for a blank-separated blockquote fence bypass, and security produced no verdict within the bounded handoff window. The current correction ends quote-owned fences on unmarked blanks, preserves only enclosing list state, and reprocesses the blank. Direct probes, the positive checker, and all 99 scenarios pass; the matrix completed in 440.7 seconds. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -38,6 +38,8 @@ Candidate `7f02b87` proved that delimiter-only fence state was still insufficien
 
 Candidate `c4bfa01` exposed a second container-state boundary: a failed full-stack continuation can leave an outer list alive, tab expansion can satisfy continuation and relative fence indentation in one character, and a continuation line can place a nested quote or list before the fence. The correction uses normalized indentation columns, surplus rematerialization, longest-prefix preservation, and an expanded ambiguity signature. Direct verification also caught PowerShell array unrolling and a lost regex escape in the first working-tree correction before they reached a candidate.
 
+Candidate `ae5195c` exposed the next container boundary: a whitespace-only line was accepted as fence content before the parser asked whether an owning quote marker remained. CommonMark consecutiveness makes an unmarked blank terminate that quote, while a marked blank remains inside it. The correction preserves only list containers enclosing the first quote and reprocesses the blank through ordinary list logic.
+
 ## Assumptions Used
 
 - Provider-neutral execution and explicit host authority are the smallest useful V10 increment.
@@ -72,7 +74,8 @@ Candidate `c4bfa01` exposed a second container-state boundary: a failed full-sta
 - Candidate `0c42c64` passed all seven jobs in GitHub Actions run `29375642610`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `7f02b87` passed all seven jobs in GitHub Actions run `29377581706`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE` for ordered-list continuation and mismatched-container fence ownership.
 - Candidate `c4bfa01` passed all seven jobs in GitHub Actions run `29380939276`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`.
-- The current checker correction passes the positive checker, direct causal/preserving probes, and all 96 isolated scenarios in 345.8 seconds: 87 expected rejections, nine expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
+- Candidate `ae5195c` passed all seven jobs in GitHub Actions run `29383056180`; exact review returned correctness `REVISE`, API/documentation `PASS`, and no security verdict within the bounded handoff window.
+- The current checker correction passes the positive checker, direct causal/preserving probes, and all 99 isolated scenarios in 440.7 seconds: 89 expected rejections, ten expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -92,3 +95,4 @@ Candidate `c4bfa01` exposed a second container-state boundary: a failed full-sta
 - Container termination is partial state loss: preserve the longest matching outer list prefix before reprocessing the line.
 - Normalize indentation into columns and rematerialize tab surplus so one tab can supply continuation plus permitted relative fence indentation.
 - PowerShell array expressions can unroll one-element state; assign branch arrays directly and verify `.Count`-sensitive state with causal probes.
+- Blank lines are container transitions, not universally literal fence content: an unmarked blank ends quote ownership, while a quote-marked blank preserves it.

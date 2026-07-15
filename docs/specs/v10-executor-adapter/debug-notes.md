@@ -2,7 +2,7 @@
 
 ## Status
 
-All findings from exact candidate `c4bfa01` have causal corrections and focused fixtures. Direct probes, the positive checker, and the complete 96-scenario matrix pass; the matrix completed in 345.8 seconds. V10 is not merged.
+Exact candidate `ae5195c` passed all seven hosted jobs and API/documentation review, but correctness returned `REVISE` for a blank-separated blockquote fence bypass; security produced no verdict within the bounded handoff window. The causal correction passes direct probes, the positive checker, and all 99 scenarios in 440.7 seconds. V10 is not merged.
 
 ## Failure Summary
 
@@ -567,7 +567,7 @@ Parser state, ambiguity routing, tab-column normalization, active/raw ownership,
 
 ### Experiments
 
-The nested-stack correction initially assigned an array through an `if` expression; PowerShell unrolled its one-element result to a scalar, so `.Count` no longer preserved the list state. The Windows fallback edit also dropped the regex `d` escape. Separate branch assignment and exact readback corrected both mechanics. A normalized indentation helper then proved the three tabbed lines as fenced while retaining later active prose.
+The nested-stack correction initially assigned an array through an `if` expression; PowerShell unrolled its one-element result to a scalar, so `.Count` no longer preserved the list state. The Windows fallback edit also dropped the backslash in the regex `\d` escape. Separate branch assignment and exact readback corrected both mechanics. A normalized indentation helper then proved the three tabbed lines as fenced while retaining later active prose.
 
 ### Confirmed Cause
 
@@ -580,6 +580,64 @@ The parser now normalizes all leading indentation, removes required continuation
 ### Regression
 
 Seven focused fixtures cover nested quote and list ambiguity, surviving outer-list prefixes after quote and list fences, hidden tabbed contract prose, tabbed closer preservation, and a fenced retired URL. Direct causal and preserving probes pass; the positive checker passes. The complete 96-scenario matrix passes in 345.8 seconds: 87 expected rejections, nine expected acceptances, and 30 unchanged executor parity cases.
+
+### Next Action
+
+AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs; merge remains owner-gated.
+
+## Exact Candidate Blank-Separated Blockquote Review
+
+### Trigger
+
+Exact review of `ae5195c3c3d1fb611e0b7e3c1d94f6e53791b1af` returned correctness `REVISE` and API/documentation `PASS`. Security remained running through two bounded waits and an immediate-conclusion request, then was closed without a verdict. GitHub Actions run `29383056180` passed Template Check plus all six Node 22/24 operating-system jobs in 7m05s.
+
+### Reproduction
+
+Before correction, this active overclaim remained hidden:
+
+```markdown
+> ```text
+> inactive
+
+> SWECircuit launches agents.
+```
+
+The direct probe reported `post-blank-overclaim-visible=false`. The same defect reproduced when both quotes were nested inside an outer list.
+
+### Stable Evidence
+
+- CommonMark 0.31.2 states that an unclosed fence ends at its containing block and that a blank line separates consecutive block quotes.
+- Correctness identified the exact blank-line branch that retained the old quote stack.
+- API/documentation confirmed the 96-case evidence, links, headings, timing, status wording, and unchanged runtime payload before returning `PASS`.
+- Security produced no handoff within the bounded liveness protocol; absence of a verdict is not a pass.
+- Hosted CI stayed green, demonstrating why independent semantic review remains acceptance-critical.
+
+### Failure Classification
+
+Container termination and blank-line state-transition defect.
+
+### Hypotheses
+
+1. An unmarked blank must end a quote-owned fence because blank lines are not lazy blockquote continuations.
+2. A quote-marked blank must remain inside the quote and fence.
+3. When a quote nested inside a list ends on an unmarked blank, only list containers preceding the first quote survive.
+4. The blank must then be reprocessed through normal list logic so it does not incorrectly terminate that list item.
+
+### Experiments
+
+A direct pre-fix probe reproduced the false hidden result. After adding quote detection and enclosing-list-prefix extraction, top-level and list-nested blank-separated quotes expose the overclaim, while a quote-marked blank keeps the same prose fenced. All prior container, tab, URL, and later-active-prose probes remain unchanged.
+
+### Confirmed Cause
+
+The in-fence blank branch treated every whitespace-only line as literal fence content before considering whether the opener's quote container still existed. That is valid for top-level and list-owned fences, but not for a quote-owned fence whose marker is absent.
+
+### Causal Fix
+
+On an unmarked blank, the parser now detects quote ownership, retains only list containers enclosing the first quote, resets the fence, and reprocesses the blank through the ordinary active-list path. Marked blank quote lines still match the opener context and remain fenced.
+
+### Regression
+
+Three focused fixtures cover a blank-separated top-level quote, the same transition inside an outer list, and a marked-blank preservation case. The complete 99-scenario harness passes in 440.7 seconds: 89 expected rejections, ten expected acceptances, and 30 unchanged executor parity cases. Direct causal and preserving probes plus the positive checker also pass.
 
 ### Next Action
 
