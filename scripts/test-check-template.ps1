@@ -649,6 +649,24 @@ try {
     Write-Utf8 $continuedUnicodePath $continuedUnicodeText
     Assert-CheckerResult "continued Unicode content remains fenced" $continuedUnicodeFixture $true
 
+    $partialTabFixture = New-Fixture "quote-list-partial-tab-ends-fence"
+    $partialTabPath = Join-Path $partialTabFixture "README.md"
+    $partialTabText = (Get-Content -LiteralPath $partialTabPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '> 10. ~~~text' + [Environment]::NewLine +
+        '> ' + [char]9 + 'https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine
+    Write-Utf8 $partialTabPath $partialTabText
+    Assert-CheckerResult "partial quote-relative tab ends list-owned fence" $partialTabFixture $false "README contains the retired GarrettAudet/TraceRail repository URL"
+
+    $fullTabFixture = New-Fixture "quote-list-full-tab-keeps-fence"
+    $fullTabPath = Join-Path $fullTabFixture "README.md"
+    $fullTabText = (Get-Content -LiteralPath $fullTabPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '> 10. ~~~text' + [Environment]::NewLine +
+        '> ' + [char]9 + [char]9 + 'https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine
+    Write-Utf8 $fullTabPath $fullTabText
+    Assert-CheckerResult "full quote-relative tab continuation remains fenced" $fullTabFixture $true
+
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
     $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(

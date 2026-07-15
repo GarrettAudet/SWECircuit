@@ -2,7 +2,7 @@
 
 ## Status
 
-Exact candidate `f990abc` passed all seven hosted jobs, but correctness, security, and API/documentation each returned `REVISE` for container-relative blank state, CommonMark-incompatible Unicode whitespace, and one evidence-attribution ambiguity. The causal correction passes direct probes, the positive checker, and all 103 scenarios in 493.8 seconds. V10 is not merged.
+Exact candidate `0f952d9` passed all seven hosted jobs and correctness review, but security returned `REVISE` for lost absolute tab columns and API/documentation returned `REVISE` for inconsistent timing provenance. The causal correction passes direct probes, the positive checker, and all 105 scenarios in 483.7 seconds. V10 is not merged.
 
 ## Failure Summary
 
@@ -714,7 +714,7 @@ The parser conflated three concepts: raw empty text, blank text relative to surv
 
 ### Regression
 
-Four fixtures cover the nested causal rejection, fully marked nested preservation, raw U+00A0 rejection, and indented U+00A0 preservation. The complete 103-scenario harness passes in 493.8 seconds: 91 expected rejections, 12 expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also pass.
+Four fixtures covered the nested causal rejection, fully marked nested preservation, raw U+00A0 rejection, and indented U+00A0 preservation. The correction that became `0f952d9` passed all 103 scenarios in 493.8 seconds: 91 expected rejections, 12 expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also passed.
 
 ### Scope Boundary
 
@@ -723,3 +723,67 @@ V10 keeps a bounded, dependency-free active-Markdown checker. It does not implem
 ### Next Action
 
 AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs; merge remains owner-gated.
+
+## Exact Candidate Absolute Column And Timing Review
+
+### Trigger
+
+Exact review of `0f952d9bfb26a8ff702a57ec8c40ba5a92d8a986` returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`. GitHub Actions run `29386833535` passed Template Check plus all six Node 22/24 operating-system jobs in 9m19s; Template Check took 9m16s.
+
+### Reproduction
+
+Security showed that quote stripping reset the physical column before list continuation expanded a tab:
+
+~~~text
+> 10. ~~~text
+> [SPACE][TAB]https://github.com/GarrettAudet/TraceRail
+~~~
+
+The second line uses one literal U+0020 and U+0009 after the quote marker. Candidate `0f952d9` treated the tab as four continuation columns and hid the retired URL. In the physical line, the tab starts at column two and reaches column four, contributing only two of the four columns required by `10. `.
+
+API/documentation also found that the 493.8-second run was still called authoritative after the later 487.6-second exact-tree run.
+
+### Stable Evidence
+
+- The direct pre-fix system-temp fixture passed incorrectly.
+- The first attempted fixture under `C:\tmp` was blocked before setup by the local sandbox and produced no semantic evidence.
+- The corrected one-tab fixture fails with the exact retired-URL diagnostic.
+- The paired two-tab fixture remains fenced and passes.
+- Hosted CI stayed green, so both independent review findings remained acceptance-blocking.
+
+### Failure Classification
+
+Coordinate-state loss across Markdown container stripping plus current-versus-historical timing provenance drift.
+
+### Hypotheses
+
+1. Tab expansion must retain the physical column after every stripped quote or list prefix.
+2. List indentation removal must return both remaining content and the column where that content begins.
+3. Rematerialized surplus indentation must begin at the post-requirement column rather than column zero.
+4. Nested explicit-container parsing must receive the continuation column.
+5. One partial tab must reject while enough tab-expanded indentation must preserve the fence.
+6. Only the latest complete current-tree run should be labeled current; older timings remain historical evidence.
+
+### Experiments
+
+After carrying the column through quote and list transitions, the one-tab probe exposed the retired URL and the two-tab probe remained fenced. Both PowerShell scripts parsed, and the positive repository checker passed.
+
+The complete 105-scenario harness passed in 483.7 seconds: 92 expected rejections, 13 expected acceptances, and 30 unchanged executor parity cases. Every earlier quote, list, blank, Unicode, and tab fixture remained correct.
+
+The first positive checker after evidence capture rejected the angle-bracket SPACE/TAB legend as an unresolved placeholder. Replacing it with square-bracket notation preserved the reproduction and satisfied the completed-record rule.
+
+### Confirmed Cause
+
+`Get-MarkdownContinuationContent` converted the remainder after each quote to a new string and then called indentation removal at column zero. That rebasing changed tab width. The same missing coordinate propagated into nested explicit-container parsing. Separately, evidence updates did not consistently supersede the prior 493.8-second timing with the later 487.6-second exact-tree timing.
+
+### Causal Fix
+
+`Remove-MarkdownIndentationColumns` now accepts a starting column and returns both content and column. `Get-MarkdownContinuationContent` carries absolute column state through quote markers, optional whitespace, lists, and tab surplus. Blank-state walking and nested explicit-container parsing consume the propagated column. Timing records distinguish the historical 103-case runs from the current 105-case run.
+
+### Regression
+
+Two fixtures cover partial quote-relative tab rejection and sufficient quote-relative tab preservation. The complete 105-scenario matrix passes in 483.7 seconds with 92 rejections and 13 acceptances; the 30 executor contract-parity cases remain unchanged. The executable runtime remains unchanged from `9d8907a`.
+
+### Next Action
+
+AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs; merge remains owner-gated.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `f990abc` passed all seven hosted jobs in run `29384351025`, but correctness, security, and API/documentation each returned `REVISE` for container-relative blank state, CommonMark-incompatible Unicode whitespace, and one current-versus-historical attribution ambiguity. The current correction uses exact space-or-tab blank semantics and preserves the container prefix before the first unmarked quote. Direct probes, the positive checker, and all 103 scenarios pass; the matrix completed in 493.8 seconds. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `0f952d9` passed all seven hosted jobs in run `29386833535` in 9m19s; correctness returned `PASS`, security returned `REVISE` for lost absolute tab columns after quote stripping, and API/documentation returned `REVISE` for inconsistent timing provenance. The current correction carries physical columns through quote and list transitions. Direct probes, the positive checker, and all 105 scenarios pass; the matrix completed in 483.7 seconds. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -28,7 +28,7 @@ The first postimplementation review returned three `REVISE` verdicts despite a g
 
 Exact review of `e3453e0` then found a remaining settlement-ownership interval and imprecise no-call documentation. The observer now detaches and normalizes fulfillment before timestamping it, a resolve-then-mutate regression protects that boundary, and active guidance distinguishes no-call terminal certainty from post-invocation, contract-compliant promise settlement acknowledgment.
 
-Subsequent exact candidates exposed progressively wider documentation drift: lifecycle synonyms, an unqualified ADR rule, security-significant grant adjectives, secondary public summaries, and finally missing promise-liveness and grant prerequisites across several surfaces in `b2d73e7`. Later parity candidates exposed contradiction, logical-line, first-table, fenced-content, duplicate-owner, list-container, legacy-heading, raw README, indentation, and line-boundary bypasses. The current correction promotes an ADR-to-surface matrix, public contract parity practice, and checker fixtures so the same defect cannot pass as prose-only consistency.
+Subsequent exact candidates exposed progressively wider documentation drift: lifecycle synonyms, an unqualified ADR rule, security-significant grant adjectives, secondary public summaries, and finally missing promise-liveness and grant prerequisites across several surfaces in `b2d73e7`. Later parity candidates exposed contradiction, logical-line, first-table, fenced-content, duplicate-owner, list-container, legacy-heading, raw README, indentation, and line-boundary bypasses. Candidate `ac70efc` promoted an ADR-to-surface matrix, public contract parity practice, and checker fixtures so the same defect could not pass as prose-only consistency.
 
 Candidate `394612d` exposed a fixture-portability deviation: `.gitattributes` supplied LF Markdown while the Windows workflow searched with `[Environment]::NewLine`. Candidate `0c42c64` then exposed the inverse line-boundary error: exact heading patterns rejected CRLF unless they used an explicit optional carriage return, while broad `\s+` crossed logical lines. Both paths now use line-safe LF/CRLF grammar.
 
@@ -41,6 +41,8 @@ Candidate `c4bfa01` exposed a second container-state boundary: a failed full-sta
 Candidate `ae5195c` exposed the next container boundary: a whitespace-only line was accepted as fence content before the parser asked whether an owning quote marker remained. CommonMark consecutiveness makes an unmarked blank terminate that quote, while a marked blank remains inside it. The correction preserves only list containers enclosing the first quote and reprocesses the blank through ordinary list logic.
 
 Candidate `f990abc` exposed two remaining blank-state assumptions. A line containing only a surviving outer quote marker can be blank relative to that quote while preserving its list, and U+00A0 is Unicode whitespace but not a CommonMark blank. The correction uses an exact space-or-tab predicate and walks the container stack to retain the prefix before the first unmarked quote. A separate wording correction keeps rejected-candidate evidence distinct from current working-tree evidence.
+
+Candidate `0f952d9` exposed a coordinate-state boundary: quote removal preserved content but reset the physical column, so a partial tab could falsely satisfy a multi-digit ordered-list continuation. The correction carries column state through quote and list prefixes, rematerializes only surplus indentation, and passes the resulting column into nested-container parsing. Timing records now label the 103-case runs as historical and the 105-case run as current.
 
 ## Assumptions Used
 
@@ -79,7 +81,8 @@ Candidate `f990abc` exposed two remaining blank-state assumptions. A line contai
 - Candidate `c4bfa01` passed all seven jobs in GitHub Actions run `29380939276`; exact review returned correctness `REVISE`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `ae5195c` passed all seven jobs in GitHub Actions run `29383056180`; exact review returned correctness `REVISE`, API/documentation `PASS`, and no security verdict within the bounded handoff window.
 - Candidate `f990abc` passed all seven jobs in GitHub Actions run `29384351025` in 6m25s; correctness, security, and API/documentation each returned `REVISE`.
-- The current checker correction passes the positive checker, direct causal/preserving probes, and all 103 isolated scenarios in 493.8 seconds: 91 expected rejections, 12 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
+- Candidate `0f952d9` passed all seven jobs in GitHub Actions run `29386833535` in 9m19s; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
+- The current checker correction passes the positive checker, direct causal/preserving probes, and all 105 isolated scenarios in 483.7 seconds: 92 expected rejections, 13 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -102,4 +105,5 @@ Candidate `f990abc` exposed two remaining blank-state assumptions. A line contai
 - Blank lines are container transitions, not universally literal fence content: an unmarked blank ends quote ownership, while a quote-marked blank preserves it.
 - CommonMark blank syntax is exact: empty, spaces, or tabs. Broad Unicode whitespace predicates are not interchangeable with grammar-specific blank rules.
 - Container-relative blanks require prefix state, not just raw-line classification; preserve the matched quote/list prefix and end ownership at the first unmarked quote.
+- Coordinate-sensitive grammars need both remaining text and its physical column; stripping a prefix must not reset tab stops.
 - Keep the checker bounded and dependency-free for V10; full parser conformance or replacement is a separate architecture decision.

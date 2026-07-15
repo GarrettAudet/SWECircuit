@@ -117,22 +117,29 @@ function Read-MarkdownIndentation {
 function Remove-MarkdownIndentationColumns {
     param(
         [string]$Content,
-        [int]$RequiredColumns
+        [int]$RequiredColumns,
+        [int]$StartColumn = 0
     )
 
-    $indentation = Read-MarkdownIndentation $Content 0 0
+    $indentation = Read-MarkdownIndentation $Content 0 $StartColumn
     if ($indentation.Columns -lt $RequiredColumns) {
         return $null
     }
 
     $surplusColumns = $indentation.Columns - $RequiredColumns
-    return (" " * $surplusColumns) + $Content.Substring($indentation.Index)
+    return [pscustomobject]@{
+        Content = (" " * $surplusColumns) + $Content.Substring($indentation.Index)
+        Column = $StartColumn + $RequiredColumns
+    }
 }
 function Get-MarkdownExplicitContainer {
-    param([string]$Line)
+    param(
+        [string]$Line,
+        [int]$StartColumn = 0
+    )
 
     $index = 0
-    $column = 0
+    $column = $StartColumn
     $stack = New-Object System.Collections.Generic.List[object]
     while ($index -lt $Line.Length) {
         $leading = Read-MarkdownIndentation $Line $index $column 3
@@ -184,33 +191,44 @@ function Get-MarkdownExplicitContainer {
 function Get-MarkdownContinuationContent {
     param(
         [string]$Line,
-        [object[]]$Stack
+        [object[]]$Stack,
+        [int]$StartColumn = 0
     )
 
     $content = $Line
+    $column = $StartColumn
     foreach ($container in $Stack) {
         if ($container.Type -eq "quote") {
-            $leading = Read-MarkdownIndentation $content 0 0 3
+            $leading = Read-MarkdownIndentation $content 0 $column 3
             if ($leading.Index -ge $content.Length -or $content[$leading.Index] -ne [char]62) {
                 return $null
             }
 
             $index = $leading.Index + 1
+            $column = $leading.Column + 1
             if ($index -lt $content.Length -and $content[$index] -in @([char]32, [char]9)) {
+                if ($content[$index] -eq [char]9) {
+                    $column += 4 - ($column % 4)
+                } else {
+                    $column++
+                }
                 $index++
             }
             $content = $content.Substring($index)
             continue
         }
 
-        $content = Remove-MarkdownIndentationColumns $content ([int]$container.ContinuationColumns)
-        if ($null -eq $content) {
+        $continuation = Remove-MarkdownIndentationColumns $content ([int]$container.ContinuationColumns) $column
+        if ($null -eq $continuation) {
             return $null
         }
+        $content = $continuation.Content
+        $column = $continuation.Column
     }
 
     return [pscustomobject]@{
         Content = $content
+        Column = $column
     }
 }
 function Test-MarkdownStackContainsList {
@@ -237,11 +255,13 @@ function Get-MarkdownBlankContainerState {
     )
 
     $content = $Line
+    $column = 0
     $prefix = New-Object System.Collections.Generic.List[object]
     foreach ($container in $Stack) {
-        $continuation = Get-MarkdownContinuationContent $content @($container)
+        $continuation = Get-MarkdownContinuationContent $content @($container) $column
         if ($null -ne $continuation) {
             $content = $continuation.Content
+            $column = $continuation.Column
             $prefix.Add($container) | Out-Null
             continue
         }
@@ -285,6 +305,7 @@ function Get-MarkdownBestContinuation {
             return [pscustomobject]@{
                 Stack = $prefix
                 Content = $continuation.Content
+                Column = $continuation.Column
             }
         }
     }
@@ -480,7 +501,7 @@ function Remove-MarkdownFencedContent {
             if ($activeListStack.Count -gt 0) {
                 $continuation = Get-MarkdownBestContinuation $line $activeListStack
                 if ($null -ne $continuation) {
-                    $nested = Get-MarkdownExplicitContainer $continuation.Content
+                    $nested = Get-MarkdownExplicitContainer -Line $continuation.Content -StartColumn $continuation.Column
                     $candidateStack = @($continuation.Stack) + @($nested.Stack)
                     $candidateMarker = Get-MarkdownFenceMarker $nested.Content
                     if ($null -ne $candidateMarker) {
@@ -545,7 +566,7 @@ function Remove-MarkdownFencedContent {
             } elseif ($isBlank) {
                 # Blank lines do not end a list item.
             } elseif ($null -ne $activeContinuation) {
-                $nested = Get-MarkdownExplicitContainer $activeContinuation.Content
+                $nested = Get-MarkdownExplicitContainer -Line $activeContinuation.Content -StartColumn $activeContinuation.Column
                 $combinedStack = @($activeContinuation.Stack) + @($nested.Stack)
                 if (Test-MarkdownStackContainsList $combinedStack) {
                     $activeListStack = $combinedStack

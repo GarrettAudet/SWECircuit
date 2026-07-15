@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `f990abc` passed all seven hosted jobs in run `29384351025`, but correctness, security, and API/documentation each returned `REVISE` for container-relative blank state, CommonMark-incompatible Unicode whitespace, and one evidence-attribution ambiguity. The current correction addresses all three findings; direct probes, the positive checker, and all 103 scenarios pass in 493.8 seconds. V10 is not merged.
+Candidate `0f952d9` passed all seven hosted jobs in run `29386833535` in 9m19s; correctness returned `PASS`, security returned `REVISE` for lost absolute tab columns, and API/documentation returned `REVISE` for inconsistent timing provenance. The current correction addresses both findings; direct probes, the positive checker, and all 105 scenarios pass in 483.7 seconds. V10 is not merged.
 
 ## Review Outcome
 
@@ -18,13 +18,15 @@ Candidate `b2d73e7` corrected those findings and passed hosted CI, but all three
 
 Candidate `394612d` corrected top-level fenced ownership and duplicate contract owners, but all three reviewers found the model was still incomplete: list-contained fences remained visible, older heading checks still inspected raw Markdown, required headings were not unique, and the docs overstated full migration. Its hosted run passed the six kernel jobs but exposed a separate Windows newline assumption in the Template Check fixture.
 
-Candidate `0c42c64` corrected those gaps and passed all seven hosted jobs. All three reviewers still returned `REVISE`: README prose, navigation, and semantic guards remained raw; fence indentation and heading whitespace were too broad; and candidate-creation status prose became false as soon as the commit existed. Candidate `7f02b87` corrected those findings and also passed all seven hosted jobs, but all three reviewers demonstrated that delimiter-only state still lost block-container identity: multi-digit list continuation was misread, unrelated container closers could terminate top-level fences, and valid container termination could hide later active content. The current correction implements container-state ownership and proves both causal rejection and preserving behavior.
+Candidate `0c42c64` corrected those gaps and passed all seven hosted jobs. All three reviewers still returned `REVISE`: README prose, navigation, and semantic guards remained raw; fence indentation and heading whitespace were too broad; and candidate-creation status prose became false as soon as the commit existed. Candidate `7f02b87` corrected those findings and also passed all seven hosted jobs, but all three reviewers demonstrated that delimiter-only state still lost block-container identity: multi-digit list continuation was misread, unrelated container closers could terminate top-level fences, and valid container termination could hide later active content. The correction that became `c4bfa01` implemented container-state ownership and proved both causal rejection and preserving behavior.
 
-Candidate `c4bfa01` corrected the delimiter/container findings and passed all seven hosted jobs. All three reviewers still returned `REVISE`: partial container termination discarded an outer list, the fast-path signature missed nested containers after continuation indentation, tab overshoot was rejected, one retired-URL guard remained raw, and the debug next action self-staled. The current correction treats continuation and termination as column-normalized partial-state transitions and adds seven focused fixtures.
+Candidate `c4bfa01` corrected the delimiter/container findings and passed all seven hosted jobs. All three reviewers still returned `REVISE`: partial container termination discarded an outer list, the fast-path signature missed nested containers after continuation indentation, tab overshoot was rejected, one retired-URL guard remained raw, and the debug next action self-staled. The correction that became `ae5195c` treated continuation and termination as column-normalized partial-state transitions and added seven focused fixtures.
 
-Candidate `ae5195c` corrected those findings and passed all seven hosted jobs. API/documentation returned `PASS`; correctness returned `REVISE` because an unmarked blank failed to end a quote-owned fence and hid a second active quote. Security produced no verdict within two bounded waits plus an immediate-conclusion window. The current correction makes blank-line behavior container-sensitive and adds two causal rejections plus one preservation case.
+Candidate `ae5195c` corrected those findings and passed all seven hosted jobs. API/documentation returned `PASS`; correctness returned `REVISE` because an unmarked blank failed to end a quote-owned fence and hid a second active quote. Security produced no verdict within two bounded waits plus an immediate-conclusion window. The correction that became `f990abc` made blank-line behavior container-sensitive and added two causal rejections plus one preservation case.
 
-Candidate `f990abc` corrected those findings and passed all seven hosted jobs. Correctness found that a quote-only blank could end an inner quote while discarding a surviving outer quote and list; security found that U+00A0 was treated as a CommonMark blank; API/documentation found one sentence that attributed current evidence to `ae5195c`. The current correction uses exact grammar-specific blank syntax, container-relative prefix state, and unambiguous evidence attribution.
+Candidate `f990abc` corrected those findings and passed all seven hosted jobs. Correctness found that a quote-only blank could end an inner quote while discarding a surviving outer quote and list; security found that U+00A0 was treated as a CommonMark blank; API/documentation found one sentence that attributed current evidence to `ae5195c`. The correction that became `0f952d9` used exact grammar-specific blank syntax, container-relative prefix state, and unambiguous evidence attribution.
+
+Candidate `0f952d9` corrected those findings and passed all seven hosted jobs plus correctness review. Security found that quote stripping reset the physical column before tab expansion, and API/documentation found that a prior timing remained labeled authoritative after a later exact-tree run. The current correction preserves absolute columns and makes the 105-case timing the sole current local result.
 
 ## Spec Alignment
 
@@ -61,7 +63,8 @@ The implementation follows ADR 0002:
 - Candidate `c4bfa01` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29380939276`; correctness, security, and API/documentation all returned `REVISE` for nested-container, tab, active/raw, and acceptance-state defects.
 - Candidate `ae5195c` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29383056180`; correctness returned `REVISE`, API/documentation returned `PASS`, and security produced no verdict within the bounded handoff window.
 - Candidate `f990abc` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29384351025` in 6m25s; correctness, security, and API/documentation each returned `REVISE`.
-- Local gate: the positive checker, direct causal/preserving probes, and all 103 scenarios pass. The matrix completed in 493.8 seconds with 91 expected rejections and 12 expected acceptances; the 30 executor contract-parity cases are unchanged. The executable runtime remains unchanged from `9d8907a`.
+- Candidate `0f952d9` passed Template Check and all six kernel-toolchain jobs in GitHub Actions run `29386833535` in 9m19s; correctness returned `PASS`, security returned `REVISE`, and API/documentation returned `REVISE`.
+- Local gate: the positive checker, direct causal/preserving probes, and all 105 scenarios pass. The matrix completed in 483.7 seconds with 92 expected rejections and 13 expected acceptances; the 30 executor contract-parity cases are unchanged. The executable runtime remains unchanged from `9d8907a`.
 
 ## Findings
 
@@ -112,6 +115,8 @@ The implementation follows ADR 0002:
 | High | A quote-only blank in a quote, list, quote stack discarded the surviving outer quote and list. | Walk container-relative blank state, preserve the exact prefix before the first unmarked quote, and cover causal plus fully marked behavior. |
 | High | `IsNullOrWhiteSpace` accepted U+00A0 as blank although CommonMark allows only spaces and tabs. | Use a grammar-specific blank predicate in fence, active-list, and paragraph transitions; cover raw and continued U+00A0. |
 | Medium | One status sentence attributed current correction evidence to rejected candidate `ae5195c`. | Replace the ambiguous pronoun with an explicit current-state subject and retain independent evidence review. |
+| High | Quote stripping reset the physical column, so a partial tab could falsely continue a multi-digit list-owned fence and hide active content. | Carry absolute columns through quote/list transitions and cover partial-tab rejection plus sufficient-tab preservation. |
+| Medium | The 493.8-second run remained labeled authoritative after a later exact-tree run. | Mark both 103-case timings historical and use the 483.7-second 105-case run as the single current local result. |
 
 ## Residual Risks
 

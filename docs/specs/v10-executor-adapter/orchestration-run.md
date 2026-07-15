@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `f990abc` passed all seven hosted jobs, but correctness, security, and API/documentation each returned `REVISE`. The current container-relative and exact-blank correction passes direct probes, the positive checker, and all 103 scenarios in 493.8 seconds. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `0f952d9` passed all seven hosted jobs; correctness returned `PASS`, while security and API/documentation returned `REVISE`. The current absolute-column correction passes direct probes, the positive checker, and all 105 scenarios in 483.7 seconds. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `ae5195c` remained review-blocked. Candidate `f990abc` passed all seven hosted jobs but correctness, security, and API/documentation each returned `REVISE`. The current correction implements exact CommonMark blank syntax, container-relative prefix state, and unambiguous evidence attribution. AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `f990abc` remained review-blocked. Candidate `0f952d9` passed all seven hosted jobs and correctness review, but security and API/documentation returned `REVISE`. The current correction preserves absolute Markdown columns and unambiguous timing provenance. AC8 remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -185,7 +185,7 @@ The correction that became candidate `7f02b87` moved README identity, prose, nav
 
 GitHub Actions run `29377581706` passed Template Check plus all six Node 22/24 operating-system jobs in 5m35s for exact commit `7f02b87f61a767cd88ef6892cb78a7a37288fb4a`. All three findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction tracks a normalized quote/list stack, derives continuation width from the complete list marker, requires a closer to match its opener container, ends nested fences when that container ends, and reprocesses the outer line. An ambiguity-gated fast path retains the simple parser for ordinary top-level fences. All 89 local scenarios pass: 82 expected rejections, seven expected acceptances, and 30 unchanged executor contract-parity cases. The authoritative final-tree run completed in 318.9 seconds after the first correct rich-parser run took 626.5 seconds. The gate remains open until the exact complete commit records three `PASS` verdicts and all seven hosted jobs.
+The correction that became candidate `c4bfa01` tracked a normalized quote/list stack, derived continuation width from the complete list marker, required a closer to match its opener container, ended nested fences when that container ended, and reprocessed the outer line. An ambiguity-gated fast path retained the simple parser for ordinary top-level fences. All 89 local scenarios passed: 82 expected rejections, seven expected acceptances, and 30 unchanged executor contract-parity cases. The authoritative final-tree run completed in 318.9 seconds after the first correct rich-parser run took 626.5 seconds. The gate remained open until exact-candidate review and all seven hosted jobs completed.
 
 ## Exact Candidate c4bfa01 Verdicts
 
@@ -221,4 +221,16 @@ The correction that became candidate `f990abc` ended a quote-owned fence when a 
 
 GitHub Actions run `29384351025` passed Template Check plus all six Node 22/24 operating-system jobs in 6m25s for exact commit `f990abc59ce5e5f4767893fecf03d1791fe1c8da`. All three findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction implements exact CommonMark blank syntax, walks container-relative blank state, preserves the exact prefix before the first unmarked quote, and uses unambiguous current-state wording. Four paired fixtures expand the harness to 103 scenarios. The first run reached every intended semantic outcome in 501.6 seconds but exposed an incorrect expected diagnostic; the corrected complete run passed in 493.8 seconds with 91 expected rejections, 12 expected acceptances, and 30 unchanged executor parity cases. A final exact-tree rerun after evidence consolidation also passed in 487.6 seconds. Direct probes and the positive checker also pass; the gate remains open.
+The correction that became candidate `0f952d9` implemented exact CommonMark blank syntax, walked container-relative blank state, preserved the exact prefix before the first unmarked quote, and used unambiguous current-state wording. Four paired fixtures expanded the harness to 103 scenarios. The first run reached every intended semantic outcome in 501.6 seconds but exposed an incorrect expected diagnostic; the corrected run passed in 493.8 seconds, and the final exact-tree rerun passed in 487.6 seconds, with 91 expected rejections, 12 expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also passed; the gate remained open.
+
+## Exact Candidate 0f952d9 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | PASS | Confirmed container-relative blank behavior, exact blank syntax, paired fixtures, evidence arithmetic, and unchanged runtime payload. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | Quote stripping rebased a partial tab to column zero, falsely continued a `10. ` list-owned fence, and hid an active retired URL. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | Current records inconsistently called the 493.8-second run authoritative after the later 487.6-second exact-tree run. |
+
+GitHub Actions run `29386833535` passed Template Check plus all six Node 22/24 operating-system jobs in 9m19s for exact commit `0f952d9bfb26a8ff702a57ec8c40ba5a92d8a986`; Template Check took 9m16s. Both `REVISE` findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction preserves absolute columns through quote and list prefix stripping, rematerializes tab surplus at the post-requirement column, and passes that column into nested explicit-container parsing. One partial-tab fixture rejects with the causal retired-URL diagnostic, while the sufficient-tab fixture preserves valid fenced content. All 105 scenarios pass in 483.7 seconds: 92 expected rejections, 13 expected acceptances, and 30 unchanged executor parity cases. Direct probes and the positive checker also pass; the gate remains open.

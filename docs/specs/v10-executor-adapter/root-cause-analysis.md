@@ -226,3 +226,13 @@ The root cause was a three-way conflation of raw blank text, blank text relative
 The correction defines Markdown blank as empty, spaces, or tabs; walks opener containers one at a time; allows list indentation to be omitted only after the remaining content is blank; and terminates ownership at the first unmarked quote while preserving the exact matched prefix. It also corrects the current-versus-historical attribution. The bounded checker remains defense in depth and does not claim full CommonMark conformance.
 
 Four fixtures cover two causal rejections and two preservation cases. Direct probes and the positive checker pass. The first 103-case run proved all semantic outcomes but exposed an incorrect expected diagnostic; after correction, the complete matrix passed in 493.8 seconds with 91 expected rejections, 12 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.
+
+## Absolute Column And Timing Provenance Addendum
+
+Candidate `0f952d9` passed all seven hosted jobs in run `29386833535` in 9m19s. Correctness returned `PASS`; security returned `REVISE` because quote stripping rebased a following tab to column zero and could falsely continue an ordered-list-owned fence; API/documentation returned `REVISE` because the historical 493.8-second run was still labeled authoritative after a later exact-tree run.
+
+The parser carried container identity and relative indentation width but not the physical column coordinate. A tab after `> ` therefore expanded as if it started at column zero. In the reproduced `> 10.` case, one tab contributed two physical columns but the checker counted four, hiding an active retired URL.
+
+The correction carries a starting column through indentation removal and continuation state, rematerializes only surplus columns at the post-requirement coordinate, and passes the resulting column into nested explicit-container parsing. One literal tab after the quote prefix now rejects with the retired-URL diagnostic; two tabs still provide sufficient continuation and remain fenced.
+
+Two paired fixtures expand the harness to 105 scenarios. The complete run passed in 483.7 seconds with 92 expected rejections, 13 expected acceptances, and 30 unchanged executor parity cases. The 493.8- and 487.6-second 103-case runs remain historical evidence for the rejected `0f952d9` candidate; 483.7 seconds is the current 105-case implementation run. The executable runtime remains unchanged from `9d8907a`.

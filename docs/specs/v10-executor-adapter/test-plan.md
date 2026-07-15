@@ -64,6 +64,8 @@ Acceptance-candidate verification active.
 - A fully marked nested blank must preserve the complete fence ownership.
 - U+00A0 on its own line must not count as a CommonMark blank and must end list-owned fence continuation.
 - U+00A0 with valid list continuation indentation must remain ordinary fenced content.
+- A partial tab after a quote prefix must not satisfy more ordered-list continuation columns than it physically spans.
+- Sufficient tab-expanded indentation after a quote prefix must remain valid fenced content.
 
 ## Skipped Checks
 
@@ -87,4 +89,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `c4bfa01` passed all seven jobs in run `29380939276` but returned `REVISE / REVISE / REVISE` for surviving outer-container loss, indented nested-container ambiguity, tab continuation, one raw README guard, and self-staling next-action prose.
 - Candidate `ae5195c` passed all seven jobs in run `29383056180`; exact review returned correctness `REVISE`, API/documentation `PASS`, and no security verdict within the bounded handoff window.
 - Candidate `f990abc` passed all seven jobs in run `29384351025` in 6m25s; exact review returned `REVISE / REVISE / REVISE` for container-relative blank state, Unicode whitespace, and evidence attribution.
-- The first 103-scenario run reached all intended semantic outcomes in 501.6 seconds but exposed an incorrect expected diagnostic. After correction, the complete matrix passed in 493.8 seconds: 91 expected rejections and 12 expected acceptances. Thirty executor parity cases remain unchanged. Exact-commit review and all seven hosted jobs remain.
+- Candidate `0f952d9` passed all seven jobs in run `29386833535` in 9m19s; exact review returned `PASS / REVISE / REVISE` for correctness, absolute-column security, and timing provenance.
+- The historical 103-scenario runs completed in 493.8 and 487.6 seconds. The current 105-scenario matrix passed in 483.7 seconds: 92 expected rejections and 13 expected acceptances. Thirty executor parity cases remain unchanged. Exact-commit review and all seven hosted jobs remain.
