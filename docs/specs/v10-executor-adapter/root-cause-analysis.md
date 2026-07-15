@@ -256,3 +256,13 @@ The root cause was a split representation at the final grammar boundary: contain
 The causal fix gives fence matching the carried absolute start column and normalizes only the measured zero-through-three leading columns. A tab that crosses the allowance remains unconsumed, preserving four-column indented code semantics. Explicit-container parsing now returns its content column, and opener plus closer paths share the same matcher.
 
 Three fixtures cover fenced retired-URL preservation, fenced-only required-capability rejection, and post-closer active-URL rejection. Three direct probes, the positive checker, and `npm.cmd run verify` pass. The complete 112-scenario matrix passed in 554.2 seconds with 96 expected rejections, 16 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.
+
+## Nested Container Ambiguity-Gate Addendum
+
+Candidate `dd575d5` passed all seven hosted jobs in run `29391822367` in 9m39s, with correctness and API/documentation `PASS`. Security returned `REVISE` because mixed space-plus-tab fence indentation inside an ordered-list continuation and block quote bypassed both container-fence ambiguity signatures.
+
+The root cause was parser-dispatch asymmetry. The rich parser already interpreted the nested syntax using carried absolute columns, but the ambiguity gate accepted only literal spaces after each repeated container prefix. A valid tab-expanded fence therefore took the simple top-level path, which could expose fenced content, let fenced-only prose satisfy a contract, or hide active content after a missed closer.
+
+The causal fix broadens only the two ambiguity signatures to accept horizontal whitespace after every container prefix. This is intentionally conservative routing: exact zero-through-three-column acceptance remains owned by the coordinate-aware rich parser, so the fast path does not acquire a second partial Markdown grammar.
+
+Three nested ordered-list fixtures cover fenced retired-URL preservation, fenced-only required-capability rejection, and post-closer active-URL rejection across tilde and backtick fences. The positive checker and `npm.cmd run verify` pass. The complete 115-scenario matrix passed in 705.2 seconds with 98 expected rejections, 17 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.

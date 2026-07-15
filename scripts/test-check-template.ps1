@@ -738,6 +738,41 @@ try {
     Write-Utf8 $mixedFenceCloserPath $mixedFenceCloserText
     Assert-CheckerResult "mixed quote-fence closer exposes later retired URL" $mixedFenceCloserFixture $false "README contains the retired GarrettAudet/TraceRail repository URL"
 
+    $nestedMixedFenceUrlFixture = New-Fixture "nested-mixed-quote-fence-preserves-retired-url"
+    $nestedMixedFenceUrlPath = Join-Path $nestedMixedFenceUrlFixture "README.md"
+    $nestedMixedFenceUrlText = (Get-Content -LiteralPath $nestedMixedFenceUrlPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '10. > ' + [char]9 + '~~~text' + [Environment]::NewLine +
+        '    > ' + [char]9 + 'https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine +
+        '    > ' + [char]9 + '~~~' + [Environment]::NewLine
+    Write-Utf8 $nestedMixedFenceUrlPath $nestedMixedFenceUrlText
+    Assert-CheckerResult "nested mixed quote fence keeps retired URL inactive" $nestedMixedFenceUrlFixture $true
+
+    $nestedMixedFenceCapabilityFixture = New-Fixture "nested-mixed-quote-fence-hides-required-capability"
+    $nestedMixedFenceCapabilityPath = Join-Path $nestedMixedFenceCapabilityFixture "README.md"
+    $nestedMixedFenceCapabilityText = Get-Content -LiteralPath $nestedMixedFenceCapabilityPath -Raw
+    $nestedMixedFenceCapabilityLine = @($nestedMixedFenceCapabilityText -split "\r?\n" | Where-Object { $_.Contains($capabilityPhrase) })[0]
+    if ([string]::IsNullOrWhiteSpace($nestedMixedFenceCapabilityLine)) {
+        throw "Nested mixed quote-fence fixture could not find the current capability line."
+    }
+    $nestedMixedFenceCapabilityBlock = '10. > ' + [char]9 + '```text' + [Environment]::NewLine +
+        '    > ' + [char]9 + $nestedMixedFenceCapabilityLine + [Environment]::NewLine +
+        '    > ' + [char]9 + '```'
+    $nestedMixedFenceCapabilityText = $nestedMixedFenceCapabilityText.Replace($nestedMixedFenceCapabilityLine, $nestedMixedFenceCapabilityBlock)
+    Write-Utf8 $nestedMixedFenceCapabilityPath $nestedMixedFenceCapabilityText
+    Assert-CheckerResult "nested mixed quote fence cannot own required capability" $nestedMixedFenceCapabilityFixture $false "README missing required active public-surface text"
+
+    $nestedMixedFenceCloserFixture = New-Fixture "nested-mixed-quote-fence-closer-exposes-retired-url"
+    $nestedMixedFenceCloserPath = Join-Path $nestedMixedFenceCloserFixture "README.md"
+    $nestedMixedFenceCloserText = (Get-Content -LiteralPath $nestedMixedFenceCloserPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        '10. > ' + [char]9 + '```text' + [Environment]::NewLine +
+        '    > ' + [char]9 + 'inactive example' + [Environment]::NewLine +
+        '    > ' + [char]9 + '```' + [Environment]::NewLine +
+        '    > https://github.com/GarrettAudet/TraceRail' + [Environment]::NewLine
+    Write-Utf8 $nestedMixedFenceCloserPath $nestedMixedFenceCloserText
+    Assert-CheckerResult "nested mixed quote-fence closer exposes later retired URL" $nestedMixedFenceCloserFixture $false "README contains the retired GarrettAudet/TraceRail repository URL"
+
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
     $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(

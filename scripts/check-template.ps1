@@ -422,11 +422,11 @@ function Remove-MarkdownFencedContent {
     }
 
     # Keep ordinary top-level fences on the simple path; ambiguous container syntax uses full state.
-    $hasExplicitContainerFence = $Text -match '(?m)^[ ]{0,3}(?:(?:>[ \t]?|(?:[-+*]|\d{1,9}[.)])[ \t]+)[ ]{0,3})+(?:`{3,}|~{3,})'
+    $hasExplicitContainerFence = $Text -match '(?m)^[ ]{0,3}(?:(?:>[ \t]?|(?:[-+*]|\d{1,9}[.)])[ \t]+)[ \t]{0,3})+(?:`{3,}|~{3,})'
     $hasQuotedFence = $Text -match '(?m)^[ ]{0,3}>[^\r\n]*(?:`{3,}|~{3,})'
     $hasListMarker = $Text -match '(?m)^[ ]{0,3}(?:>[ \t]?[ ]{0,3})*(?:[-+*]|\d{1,9}[.)])[ \t]+'
     $hasIndentedFence = $Text -match '(?m)^(?: {2,}|\t)(?:`{3,}|~{3,})'
-    $hasIndentedContainerFence = $Text -match '(?m)^[ 	]+(?:(?:>[ 	]?|(?:[-+*]|\d{1,9}[.)])[ 	]+)[ ]{0,3})+(?:`{3,}|~{3,})'
+    $hasIndentedContainerFence = $Text -match '(?m)^[ 	]+(?:(?:>[ 	]?|(?:[-+*]|\d{1,9}[.)])[ 	]+)[ \t]{0,3})+(?:`{3,}|~{3,})'
     if (
         -not $hasExplicitContainerFence -and
         -not $hasQuotedFence -and

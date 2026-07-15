@@ -71,6 +71,9 @@ Acceptance-candidate verification active.
 - A space-plus-tab prefix after `>` that expands to at most three fence-indentation columns must preserve a fenced retired URL.
 - Required capability prose owned only by that mixed-indentation fence must remain inactive.
 - A mixed-indentation closer must end its fence and expose a later active retired URL.
+- Mixed tab indentation after nested ordered-list and block-quote prefixes must route to rich parsing.
+- A nested tilde fence must keep its retired URL inactive.
+- A nested backtick fence must keep fenced-only required prose inactive, and its closer must expose later active prose.
 
 ## Skipped Checks
 
@@ -79,7 +82,7 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 ## Verification Evidence
 
 - Baseline `2b7bef37fb2477e3fc8779171c5971a3db42f20b`: `npm.cmd run verify` passed with 209 tests; both workflow checkers passed with 42 negative scenarios.
-- Current fence-indentation correction: `npm.cmd run verify` passed in 25.3 seconds with 275 tests, deterministic V10 dogfood, dry-run package inspection, and the clean offline installed consumer.
+- Current ambiguity-gate correction: `npm.cmd run verify` passed in 19.7 seconds with 275 tests, deterministic V10 dogfood, dry-run package inspection, and the clean offline installed consumer.
 - Pre-parity working-tree evidence passed the positive checker and its 43-scenario harness: 40 expected rejections and three expected acceptances. Later parity fixtures supersede that count.
 - Independent postimplementation review first returned three `REVISE` verdicts. Candidate `e3453e0` then returned `REVISE / PASS / REVISE` despite green CI. Candidate `9d8907a` returned three `PASS` verdicts and passed all seven jobs in run `29357443883`.
 - The first pre-closeout phrase search found one stale no-call requirement in the feature spec. `2c6dff4` then returned `PASS / REVISE / REVISE`; `dbbeeb1` returned `REVISE / REVISE / PASS` for one ADR race rule and stale ephemeral terminology.
@@ -97,4 +100,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `0f952d9` passed all seven jobs in run `29386833535` in 9m19s; exact review returned `PASS / REVISE / REVISE` for correctness, absolute-column security, and timing provenance.
 - Candidate `f779cab` passed all seven jobs in run `29388623286` in 9m20s; exact review returned `REVISE / REVISE / PASS` for correctness, security, and API/documentation because quote-padding tabs lost unconsumed virtual columns.
 - Candidate `82c3bb1` passed all seven jobs in run `29390051639` in 10m21s; exact review returned `PASS / REVISE / PASS` for correctness, security, and API/documentation because mixed space-plus-tab fence indentation remained raw at the matcher.
-- The historical 103-scenario runs completed in 493.8 and 487.6 seconds; rejected `f779cab` used 105 scenarios in 483.7 seconds; rejected `82c3bb1` used 109 scenarios in 527.5 seconds. The current 112-scenario matrix passed in 554.2 seconds: 96 expected rejections and 16 expected acceptances. Thirty executor parity cases remain unchanged. Exact-commit review and all seven hosted jobs remain.
+- Candidate `dd575d5` passed all seven jobs in run `29391822367` in 9m39s; exact review returned `PASS / REVISE / PASS` because the fast-path ambiguity gate missed the same syntax inside nested list and quote containers.
+- Rejected `82c3bb1` used 109 scenarios in 527.5 seconds and rejected `dd575d5` used 112 scenarios in 554.2 seconds. The current 115-scenario matrix passed in 705.2 seconds: 98 expected rejections and 17 expected acceptances. Thirty executor parity cases remain unchanged. Exact-commit review and all seven hosted jobs remain.

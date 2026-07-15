@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `82c3bb1` passed all seven hosted jobs in run `29390051639` in 10m21s; correctness and API/documentation returned `PASS`, while security returned `REVISE` for mixed space-plus-tab fence indentation after a block-quote marker. The causal correction passes three direct probes, the positive checker, `npm.cmd run verify`, and all 112 scenarios in 554.2 seconds. V10 is not merged.
+Candidate `dd575d5` passed all seven hosted jobs in run `29391822367` in 9m39s; correctness and API/documentation returned `PASS`, while security returned `REVISE` because a nested ordered-list and block-quote fence with mixed tab indentation bypassed the ambiguity gate. The causal correction passes the positive checker, `npm.cmd run verify`, and all 115 scenarios in 705.2 seconds. V10 is not merged.
 
 ## Failure Summary
 
@@ -916,3 +916,63 @@ Three fixtures cover a retired URL inside the mixed-indentation fence, required 
 ### Next Action
 
 AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs; merge remains owner-gated.
+
+## Exact Candidate Nested Ambiguity-Gate Review
+
+### Trigger
+
+Exact review of `dd575d590be412c3f2e5d20ee6e2161c76142ea3` returned correctness and API/documentation `PASS` plus security `REVISE`. GitHub Actions run `29391822367` passed Template Check and all six Node 22/24 operating-system jobs in 9m39s; Template Check took 9m36s.
+
+### Reproduction
+
+Security nested the previously corrected mixed indentation inside an ordered-list continuation and block quote. `[SPACE]` and `[TAB]` below denote those literal characters.
+
+~~~text
+10. >[SPACE][TAB]~~~text
+    >[SPACE][TAB]https://github.com/GarrettAudet/TraceRail
+    >[SPACE][TAB]~~~
+~~~
+
+At absolute column six, the tab advances to column eight and contributes two valid fence-indentation columns. The rich parser handles that coordinate correctly, but the fast-path ambiguity signatures allowed only literal spaces after each container prefix. They therefore missed the fence and sent the document through the simple top-level parser, which exposed fenced content. The same route could let fenced-only contract prose satisfy active-prose checks or keep a closer open and hide later active content.
+
+### Stable Evidence
+
+- A direct pre-fix route probe returned `explicit=False` and `indentedContainer=False`, and the stripped output retained all three nested fenced lines.
+- Correctness and API/documentation returned `PASS`; the security `REVISE` remained acceptance-blocking.
+- All seven hosted jobs passed, again showing that deterministic CI did not contain the unmodeled dispatch boundary.
+- After the correction, the same probe returns `explicit=True` and `indentedContainer=True`, and the nested fenced block is inactive.
+
+### Failure Classification
+
+The ambiguity gate recognized only literal-space fence indentation after a container prefix, while the rich parser correctly accepted tab-expanded indentation.
+
+### Hypotheses
+
+1. Any syntactically plausible horizontal whitespace after a quote or list prefix must route to the rich parser.
+2. The ambiguity gate should detect possibility, not duplicate exact column validation.
+3. The rich parser must remain the sole owner of the zero-through-three-column fence decision.
+4. Tilde and backtick fences need equivalent nested routing coverage.
+
+### Experiments
+
+The two container-fence ambiguity signatures now accept spaces or tabs after every repeated container prefix. No rich-parser acceptance rule changed; `Get-MarkdownFenceMarker` still enforces exact indentation from the carried absolute column.
+
+Both PowerShell scripts parse, the positive repository checker passes, and `npm.cmd run verify` passes in 19.7 seconds with format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the offline installed consumer.
+
+The complete 115-scenario harness passed in 705.2 seconds: 98 expected rejections, 17 expected acceptances, and 30 unchanged executor parity cases. Every prior ownership, blank, Unicode, tab, structural, and public-contract fixture remained correct.
+
+### Confirmed Cause
+
+The dispatch layer used a narrower whitespace model than the parser it guarded. Valid tab-expanded nested fence syntax never reached the parser capable of interpreting it.
+
+### Causal Fix
+
+Conservatively route container-prefixed fence candidates containing horizontal whitespace to the rich parser, while leaving exact grammar acceptance and rejection in the coordinate-aware parser.
+
+### Regression
+
+Three nested ordered-list fixtures cover a retired URL inside a tilde fence, required capability text owned only by a backtick fence, and a backtick closer followed by an active retired URL. The complete 115-scenario matrix passes in 705.2 seconds with 98 rejections and 17 acceptances; the 30 executor contract-parity cases remain unchanged. The executable runtime remains unchanged from `9d8907a`.
+
+### Next Action
+
+Freeze the corrected tree as one exact candidate, obtain three independent `PASS` verdicts and all seven hosted jobs, then perform the bounded evidence-only closeout. Merge remains owner-gated.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Runtime revision remains verified on `9d8907a`. Candidate `82c3bb1` passed all seven hosted jobs in run `29390051639` in 10m21s; correctness and API/documentation returned `PASS`, while security returned `REVISE` for mixed space-plus-tab fence indentation after a block-quote marker. The current correction normalizes permitted fence indentation at the carried absolute column. Three direct probes, the positive checker, `npm.cmd run verify`, and all 112 scenarios pass; the matrix completed in 554.2 seconds. V10 is not merged.
+Runtime revision remains verified on `9d8907a`. Candidate `dd575d5` passed all seven hosted jobs in run `29391822367` in 9m39s; correctness and API/documentation returned `PASS`, while security returned `REVISE` because a nested ordered-list and block-quote fence with mixed tab indentation bypassed the ambiguity gate. The current correction routes that syntax to the coordinate-aware rich parser. The positive checker, `npm.cmd run verify`, and all 115 scenarios pass; the matrix completed in 705.2 seconds. V10 is not merged.
 
 ## Summary Of Changes
 
@@ -46,7 +46,9 @@ Candidate `0f952d9` exposed a coordinate-state boundary: quote removal preserved
 
 Candidate `f779cab` exposed the remaining delimiter-consumption boundary: a tab immediately after `>` spans several virtual columns, but only one belongs to optional quote padding. The correction centralizes that transformation, consumes one delimiter column, rematerializes the tab surplus, and returns the post-delimiter coordinate to both opener and continuation parsing.
 
-Candidate `82c3bb1` exposed a final matching-boundary split: parser state measured a space-plus-tab prefix as valid zero-through-three fence indentation from its absolute column, but the fence regex still accepted literal spaces only. The current correction passes that column into opener and closer matching, normalizes only permitted indentation columns, and leaves any over-limit tab untouched.
+Candidate `82c3bb1` exposed a final matching-boundary split: parser state measured a space-plus-tab prefix as valid zero-through-three fence indentation from its absolute column, but the fence regex still accepted literal spaces only. Candidate `dd575d5` corrected opener and closer matching at that coordinate.
+
+Candidate `dd575d5` then exposed parser-dispatch asymmetry: the rich parser understood the mixed tab indentation, but the fast-path ambiguity signatures missed it after nested list and quote prefixes. The current correction accepts horizontal whitespace at the dispatch boundary and leaves exact zero-through-three-column validation in the rich parser.
 
 ## Assumptions Used
 
@@ -88,7 +90,8 @@ Candidate `82c3bb1` exposed a final matching-boundary split: parser state measur
 - Candidate `0f952d9` passed all seven jobs in GitHub Actions run `29386833535` in 9m19s; exact review returned correctness `PASS`, security `REVISE`, and API/documentation `REVISE`.
 - Candidate `f779cab` passed all seven jobs in GitHub Actions run `29388623286` in 9m20s; exact review returned API/documentation `PASS` and correctness plus security `REVISE`.
 - Candidate `82c3bb1` passed all seven jobs in GitHub Actions run `29390051639` in 10m21s; exact review returned correctness and API/documentation `PASS` plus security `REVISE`.
-- The current checker correction passes the positive checker, three direct causal probes, `npm.cmd run verify` in 25.3 seconds, and all 112 isolated scenarios in 554.2 seconds: 96 expected rejections, 16 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
+- Candidate `dd575d5` passed all seven jobs in GitHub Actions run `29391822367` in 9m39s; exact review returned correctness and API/documentation `PASS` plus security `REVISE`.
+- The current checker correction passes the positive checker, `npm.cmd run verify` in 19.7 seconds, and all 115 isolated scenarios in 705.2 seconds: 98 expected rejections, 17 expected acceptances, and 30 unchanged executor parity cases. Exact-commit review and all seven hosted jobs remain.
 
 ## Durable Learnings
 
@@ -114,4 +117,5 @@ Candidate `82c3bb1` exposed a final matching-boundary split: parser state measur
 - Coordinate-sensitive grammars need both remaining text and its physical column; stripping a prefix must not reset tab stops.
 - A multi-column source character can be consumed partially by a delimiter; preserve and rematerialize its unconsumed virtual columns rather than deleting the whole character.
 - Normalize permitted fence indentation at the final matcher using the carried absolute column; raw-character regexes cannot recover tab-expanded grammar state.
+- An ambiguity gate must conservatively route every syntax class the rich parser owns; it should detect possibility while the parser retains exact acceptance rules.
 - Keep the checker bounded and dependency-free for V10; full parser conformance or replacement is a separate architecture decision.

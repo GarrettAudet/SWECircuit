@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `82c3bb1` passed all seven hosted jobs plus correctness and API/documentation review, but security returned `REVISE`. The current fence-indentation correction passes three direct probes, the positive checker, `npm.cmd run verify`, and all 112 scenarios in 554.2 seconds. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `dd575d5` passed all seven hosted jobs plus correctness and API/documentation review, but security returned `REVISE`. The current ambiguity-gate correction passes the positive checker, `npm.cmd run verify`, and all 115 scenarios in 705.2 seconds. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `f779cab` remained review-blocked. Candidate `82c3bb1` passed all seven hosted jobs plus correctness and API/documentation review, but security returned `REVISE` for mixed space-plus-tab fence indentation. The current correction normalizes the final zero-through-three fence-indentation columns at the carried absolute coordinate. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidates through `82c3bb1` remained review-blocked. Candidate `dd575d5` passed all seven hosted jobs plus correctness and API/documentation review, but security returned `REVISE` because the fast-path ambiguity gate missed a nested list-and-quote fence. The current correction conservatively routes horizontal-whitespace container fences to the rich parser. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -257,4 +257,16 @@ The correction that became candidate `82c3bb1` consumed exactly one virtual quot
 
 GitHub Actions run `29390051639` passed Template Check plus all six Node 22/24 operating-system jobs in 10m21s for exact commit `82c3bb1f681fdf0d7edbbc533376c60510d8c55d`; Template Check took 10m18s. The security `REVISE` remains acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction gives fence matching the carried absolute content column and normalizes only its final zero-through-three indentation columns. Three direct probes, the positive checker, and `npm.cmd run verify` pass. All 112 scenarios pass in 554.2 seconds: 96 expected rejections, 16 expected acceptances, and 30 unchanged executor parity cases. The gate remains open.
+The correction that became candidate `dd575d5` gave fence matching the carried absolute content column and normalized only its final zero-through-three indentation columns. Three direct probes, the positive checker, and all 112 scenarios passed in 554.2 seconds: 96 expected rejections, 16 expected acceptances, and 30 unchanged executor parity cases.
+
+## Exact Candidate dd575d5 Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | PASS | Confirmed coordinate-aware fence matching, opener and closer parity, three fixtures, 112-case arithmetic, and unchanged runtime payload. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | A mixed-tab fence inside an ordered-list continuation and block quote bypassed both ambiguity signatures and took the simple parser path. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | PASS | Confirmed exact `82c3bb1` provenance, current evidence, links, bounded claims, open gates, and unchanged runtime scope. |
+
+GitHub Actions run `29391822367` passed Template Check plus all six Node 22/24 operating-system jobs in 9m39s for exact commit `dd575d590be412c3f2e5d20ee6e2161c76142ea3`; Template Check took 9m36s. The security `REVISE` remains acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction recognizes spaces or tabs after every repeated container prefix in the two ambiguity signatures while retaining exact column validation in the rich parser. The positive checker and `npm.cmd run verify` pass. All 115 scenarios pass in 705.2 seconds: 98 expected rejections, 17 expected acceptances, and 30 unchanged executor parity cases. The gate remains open.
