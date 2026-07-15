@@ -2,15 +2,23 @@
 
 ## Current Focus
 
-Present the technically accepted V10 bounded-executor version for owner approval. Keep `codex/v10-executor-adapter` unmerged and owner-approved V9 on `main` as the stable baseline.
+Dogfood the technically accepted V10 contracts to design V11 as an IDE-, model-, and provider-agnostic orchestration control plane. Keep `codex/v10-executor-adapter` immutable and unmerged behind its owner gate, and keep the stacked `codex/v11-orchestration-planner` branch planning-only until architecture review passes.
 
 ## Current Stage
 
-V10 technical acceptance is complete. The executable payload remains rooted at `9d8907a`; immutable complete-state candidate `fa4371e` passed `npm.cmd run verify` with 275 tests, the exact local 119-scenario matrix in 673.0 seconds, correctness, security, and API/documentation review, and all seven hosted jobs in run `29401791077` in 11m39s. Hosted Template Check took 11m34s. This evidence-only attestation records those exact results without implying that the attestation changed or re-proved executable behavior. AC1 through AC8 and T001 through T006 are complete. V10 is not merged, owner approval remains required, and `main` remains the V9 baseline.
+V10 technical acceptance is complete at immutable candidate `fa4371e` with evidence closeout `8ac3372`. The exact candidate passed the canonical local gate with 275 tests, the 119-scenario checker matrix, independent correctness, security, and API/documentation review, and all seven GitHub Actions jobs. V10 remains unmerged; `main` remains the owner-approved V9 baseline at `2b7bef3`.
 
-The reviewed V9 kernel payload at `3c7a876` is merged to `main` after owner approval; all seven jobs passed for that exact payload in GitHub Actions run `29316575767`. The V9 dogfood baseline additionally includes its merge-provenance record. V8.2 was the prior baseline at `5caaa29`. V9 adopted it at 35f96d2, recorded the architecture gate at 349fc04, accepted the private toolchain at 5e44035, and froze v1alpha1 at 9932371. T006 validation is complete at a364bf6 with GitHub Actions run 29277160551 green. T007 initialization is complete at 095a391 with run 29281182002 green. T008 trace inspection is complete at 36efbf1 after preimplementation `REVISE -> REVISE -> REVISE -> REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 202 local tests, and GitHub Actions run 29288359476 passing all seven jobs. T009 public surface is complete at c9d7e4f after contract `REVISE -> PASS`, implementation `REVISE -> REVISE -> PASS`, 205 local tests, 42 checker scenarios, and GitHub Actions run 29292597506 passing all seven jobs. T010 dogfooding is complete at `6d4e60a` after 209 local tests, 42 checker regressions, measured failure/retry evidence, independent `REVISE -> PASS`, and GitHub Actions run `29310133523` passing all seven jobs. T011 is complete. Package-gate commit `0341345` passes 209 local tests, the private packed-consumer gate, all 42 checker scenarios, package-review `PASS`, and GitHub Actions run `29312736158`. Final closeout review returned `REVISE`, then immutable candidate `0717c91` passed all seven jobs in run `29314459583` and independent re-review returned `PASS` with no findings. AC1-AC8 and T001-T011 are complete; milestone V9 is merged to `main` and is now the dogfood baseline. The repository remains unlicensed.
+V11 T001 architecture bootstrap is complete and validated on `codex/v11-orchestration-planner`, stacked from `8ac3372` so V10 remains immutable. The feature package, decomposition record, orchestration record, dated primary-source scan, proposed ADR 0003, draft milestone, and review packet define the intended boundary. The template checker and canonical package gate pass with 275 inherited V9/V10 tests. No V11 kernel, schema, package, executor, scheduler, merge, or memory-write behavior has changed. T002 starts only from an immutable design candidate and completes only after independent review. V11 cannot be accepted or merged until V10 is owner-approved or the branch is rebased to an approved replacement, and the exact V11 architecture candidate passes independent review.
 
 ## Important Current Constraints
+
+- SWECircuit is an IDE-, model-, and provider-agnostic software-engineering control plane, not an API gateway or model router.
+- The human supplies the goal and material decisions; selected circuits and module contracts shape decomposition, capability requirements, gates, and completion evidence.
+- A host-injected planner may propose work, but deterministic SWECircuit validation, compilation, matching, readiness, fan-in, and trace rules remain authoritative.
+- Specialized-agent matching uses declared capabilities, contract support, authority ceilings, capacity, and isolation facts; it ignores provider, model, API, and IDE identity.
+- V11 state transitions are planned as pure immutable reductions. Cross-process claim exclusivity requires host serialization or atomic compare-and-swap persistence and is not a stateless-core guarantee.
+- Parallel writes serialize by default when scopes overlap. Any exception requires explicit runtime isolation assertions plus actual host enforcement.
+- V11 is stacked on owner-gated V10 for planning continuity only. Neither version may be merged without satisfying its own owner and technical gates.
 
 - SWECircuit is the repository and project name, not a reserved package, domain, CLI, or hosted-service namespace.
 - V9 on `main` is bounded to initialize, validate, and read-only trace inspection.
@@ -106,10 +114,13 @@ The reviewed V9 kernel payload at `3c7a876` is merged to `main` after owner appr
 - Historical correction narratives must name the later frozen candidate that actually ran their resulting matrix; row context alone is not evidence ownership.
 - SWECircuit's target orchestration layer owns portable goal decomposition, capability matching, dependency-aware fan-out and fan-in, gates, and trace semantics. Optional policy compilers emit those standard contracts; IDE, model, and provider execution adapters perform assigned work and side effects without owning workflow policy.
 
+- Current orchestration ecosystems converge on inspectable graphs, bounded specialized contexts, explicit input-required pauses, dependency-aware claims, host-enforced isolation, independent fan-in, and one integration owner; SWECircuit can standardize those semantics without adopting a provider runtime.
+
 ## Next Likely Work
 
-- Present the V10 milestone overview, exact branch, accepted candidate `fa4371e`, run `29401791077`, residual risks, and merge decision to the owner.
-- If approved, merge `codex/v10-executor-adapter` to `main`, verify main-branch CI, record merge provenance, and make V10 the dogfood baseline.
-- After V10 adoption, implement the smallest provider-independent orchestration planner for decomposition, capability matching, dependency-aware fan-out and fan-in, and integration gates; keep IDE and provider calls behind execution adapters.
-- Evaluate a real IDE or provider adapter only after the portable orchestration policy is explicit and through a new adapter evaluation and ADR.
+- Validate the complete V11 bootstrap with the template checker, byte-shape checks, and diff review.
+- Run bounded read-only product, API, lifecycle, and security reviews against the exact immutable V11 design candidate.
+- Resolve every material finding and accept ADR 0003 only when the reviewed contract remains simple, portable, and truthful about host enforcement.
+- Keep the separate V10 owner merge gate open; do not merge V10 or V11 as part of V11 planning.
+- After architecture acceptance and an approved baseline, implement the smallest control-plane vertical slice and dogfood it with four specialized work units, safe parallelism, clarification, diagnosis, fan-in, integrated verification, and parent trace reconstruction.
 - Resolve licensing before broad external reuse or package distribution.
