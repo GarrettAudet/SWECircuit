@@ -2,7 +2,7 @@
 
 ## Status
 
-Preimplementation review is complete and the postimplementation gate remains open. Candidate `57bab44` passed all seven hosted jobs plus security review, but correctness and API/documentation returned `REVISE` because inherited `7f30107` matrix evidence was described as current. The correction binds each result to its exact candidate. V10 is not merged.
+Preimplementation review is complete and the postimplementation gate remains open. Candidate `e5f870e` passed all seven hosted jobs plus correctness review, but security and API/documentation returned `REVISE` for historical `7f30107` matrix-attribution gaps and ambiguous policy-compiler versus execution-adapter ownership. The correction makes both boundaries explicit. V10 is not merged.
 
 ## Goal
 
@@ -51,7 +51,7 @@ The first re-review requests exceeded two bounded waits, so the integration owne
 
 ## Postimplementation Gate
 
-The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidate `57bab44` passed all seven hosted jobs plus security review, but correctness and API/documentation returned `REVISE` because summaries blended `7f30107`'s complete matrix with exact-tree checks for the documentation-only successor. The current correction makes evidence ownership explicit and changes no executable surface. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
+The gate remains open. `e3453e0` failed review; `9d8907a` passed but a closeout audit reopened the gate; later exact candidates repeatedly exposed broader public-contract ownership gaps. Candidate `e5f870e` passed all seven hosted jobs plus correctness review, but security and API/documentation returned `REVISE` because three historical records still blurred the later frozen `7f30107` matrix owner and generic adapter wording conflicted with the orchestration-compiler capability. The current correction fixes both without changing executable behavior. AC8 remains open until one exact complete commit records three `PASS` verdicts and all seven hosted jobs. Merge to `main` remains owner-gated.
 
 ## Exact Candidate e3453e0 Verdicts
 
@@ -305,4 +305,16 @@ The correction changed the two event rows to the authoritative July 15 date, rec
 
 GitHub Actions run `29396782369` passed Template Check plus all six Node 22/24 operating-system jobs in 11m35s for exact commit `57bab448c125995e6f486125852924beeaab7556`; Template Check took 11m30s. The two evidence-attribution findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
 
-The current correction names `7f30107` as the owner of the latest complete 119-scenario matrix and keeps `57bab44`'s positive checker, 17.6-second `npm.cmd run verify`, hosted CI, and exact reviews separate. Runtime, schemas, package metadata, and checker logic are unchanged. The gate remains open.
+The correction named `7f30107` as the owner of its complete local matrix and kept `57bab44`'s exact evidence separate. That state became rejected candidate `e5f870e`.
+
+## Exact Candidate e5f870e Verdicts
+
+| Focus | Reviewer | Verdict | Evidence |
+| --- | --- | --- | --- |
+| Correctness | `019f618c-b855-7433-9980-8645a82aec9b` | PASS | Confirmed the 18-file documentation-only boundary, current-state evidence ownership, public target positioning, and open acceptance gates. |
+| Security | `019f618c-cd0c-72c0-adcb-650d3e031af8` | REVISE | Three historical `49b22ba` correction records described the resulting 119-case matrix without naming the later frozen `7f30107` owner. |
+| API and docs | `019f618c-e412-7183-9ce8-629ae2c192a5` | REVISE | Generic adapter wording conflicted with the existing orchestration-compiler adapter that synthesizes roles and routing. |
+
+GitHub Actions run `29398170073` passed Template Check plus all six Node 22/24 operating-system jobs in 12m29s for exact commit `e5f870e26628734699a3847b74b14fe98dc3f37b`; Template Check took 12m25s. The two semantic findings remain acceptance-blocking. No reviewer edited files, ran tests, installed dependencies, or used network.
+
+The current correction names `7f30107` in every historical matrix source and defines capability adapter as an umbrella over policy-compiler adapters and execution adapters. Policy compilers emit SWECircuit-owned portable contracts; IDE, model, and provider execution adapters perform assigned side effects. Runtime, schemas, package metadata, and checker logic are unchanged. The gate remains open.

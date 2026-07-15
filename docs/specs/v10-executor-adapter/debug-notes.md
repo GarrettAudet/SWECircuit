@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate `57bab44` passed all seven hosted jobs in run `29396782369` in 11m35s; security returned `PASS`, while correctness and API/documentation returned `REVISE` because inherited `7f30107` matrix evidence was described as current for the documentation-only successor. The correction binds each result to its exact candidate. V10 is not merged.
+Candidate `e5f870e` passed all seven hosted jobs in run `29398170073` in 12m29s; correctness returned `PASS`, while security and API/documentation returned `REVISE` for historical `7f30107` matrix-attribution gaps and ambiguous policy-compiler versus execution-adapter ownership. The correction makes both boundaries explicit. V10 is not merged.
 
 ## Failure Summary
 
@@ -1032,7 +1032,7 @@ Four fixtures cover a one-space-tab fenced retired URL, two-space-tab fenced-onl
 
 Both PowerShell scripts parse, the positive repository checker passes, and `npm.cmd run verify` passes in 16.8 seconds with format, lint, typecheck, build, 275 tests, deterministic V10 dogfood, package inspection, and the offline installed consumer.
 
-The complete 119-scenario harness passed in 576.2 seconds: 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. Every prior ownership, blank, Unicode, tab, structural, and public-contract fixture remained correct.
+The correction later frozen as `7f30107` passed the complete 119-scenario harness in 576.2 seconds: 100 expected rejections, 19 expected acceptances, and 30 executor parity cases. Every prior ownership, blank, Unicode, tab, structural, and public-contract fixture remained correct.
 
 ### Confirmed Cause
 
@@ -1044,7 +1044,7 @@ Conservatively route every horizontal-whitespace-prefixed fence to the rich pars
 
 ### Regression
 
-Four fixtures cover mixed continuation opener, fenced-only required prose, closer exposure, and over-limit preservation. The complete 119-scenario matrix passes in 576.2 seconds with 100 rejections and 19 acceptances; the 30 executor contract-parity cases remain unchanged. The executable runtime remains unchanged from `9d8907a`.
+Four fixtures cover mixed continuation opener, fenced-only required prose, closer exposure, and over-limit preservation. The correction later frozen as `7f30107` passed the complete 119-scenario matrix in 576.2 seconds with 100 rejections, 19 acceptances, and 30 executor contract-parity cases. The executable runtime remains unchanged from `9d8907a`.
 
 ### Next Action
 
@@ -1137,11 +1137,61 @@ The closeout summaries grouped evidence by unchanged behavior rather than by the
 
 ### Causal Fix
 
-Name `7f30107` as the owner of the latest complete matrix, state that `57bab44` did not rerun it, keep `57bab44`'s exact checks separate, and promote candidate-bound evidence attribution into decisions, patterns, glossary, the practice register, memory, milestone, and feature records.
+Name `7f30107` as the owner of its complete 119-scenario matrix, state that `57bab44` did not rerun it, keep `57bab44`'s exact checks separate, and promote candidate-bound evidence attribution into decisions, patterns, glossary, the practice register, memory, milestone, and feature records.
 
 ### Regression
 
 The causal regression gate searches all current-state surfaces for ambiguous 119-case ownership, checks links and arithmetic, confirms no executable drift, runs the positive checker and canonical kernel verification, and requires three exact `PASS` verdicts plus all seven hosted jobs on the successor. No full-matrix rerun is claimed.
+
+### Next Action
+
+AC8 remains open until the exact complete commit under review records three independent `PASS` verdicts, all seven hosted jobs, the bounded evidence-only closeout, and owner approval; merge remains prohibited until then.
+
+## Exact Candidate Adapter Taxonomy And Historical Evidence Review
+
+### Trigger
+
+Exact review of `e5f870e26628734699a3847b74b14fe98dc3f37b` returned correctness `PASS` plus security and API/documentation `REVISE`. GitHub Actions run `29398170073` passed Template Check and all six Node 22/24 operating-system jobs in 12m29s; Template Check took 12m25s.
+
+### Reproduction
+
+Security found that the `49b22ba` history-ledger row and two mixed-continuation source paragraphs described the correction's 119-case result without naming the later frozen `7f30107` owner. API/documentation found that the new rule said adapters do not decide workflow while the existing Astraeus orchestration-compiler adapter explicitly synthesizes roles, routing, critic paths, and integration order.
+
+### Stable Evidence
+
+- Candidate `7f30107` owns the local Windows 119-scenario run in 576.2 seconds and its three direct probes.
+- Candidate `e5f870e` owns an exact hosted 119-scenario Template Check in 12m25s, but semantic review rejected the candidate.
+- Capability adapter was already an umbrella for extracted external capability classes, including orchestration compiler and provider executor bridge.
+- The current product requirement keeps orchestration policy provider independent while allowing optional implementations and replaceable execution hosts.
+- Correctness found no blocking issue; security and API/documentation identified independent ownership ambiguities.
+
+### Failure Classification
+
+This combined historical candidate-provenance drift with an adapter-taxonomy collision. One term, adapter, was used for both a compiler of portable workflow policy and a provider bridge that performs execution effects.
+
+### Hypotheses
+
+1. Historical correction records must name the later candidate that actually ran the resulting matrix.
+2. Capability adapter should remain the umbrella category.
+3. A policy-compiler adapter may implement SWECircuit-owned policy only by emitting standard portable contracts.
+4. An execution adapter may expose capabilities and perform assigned IDE, model, provider, worker, or process side effects but may not own workflow policy.
+5. V10 remains a one-packet execution primitive; the taxonomy describes the target layer without claiming current scheduling.
+
+### Experiments
+
+A repository-wide search traced orchestration compiler, Astraeus adapter, provider executor bridge, scheduler, module-or-adapter, and workflow-policy language across framework, module, registry, practice, memory, README, milestone, and feature surfaces. A separate history search mapped every 119-case statement to `49b22ba`, `7f30107`, `57bab44`, or `e5f870e`.
+
+### Confirmed Cause
+
+The first product-boundary wording classified all adapters by the behavior of execution adapters, even though the repository had long used capability adapter for contract-level policy implementations. The first evidence correction fixed current summaries but not historical source paragraphs whose surrounding trigger candidate obscured the later matrix owner.
+
+### Causal Fix
+
+Define capability adapter as the umbrella, policy-compiler adapter as an optional implementation of SWECircuit-owned portable contracts, and execution adapter as the IDE/model/provider bridge for assigned side effects. Replace the unspecified scheduler module-or-adapter route with versioned SWECircuit policy modules plus execution adapters. Name `7f30107` explicitly in the history ledger, debug record, and RCA paragraph that own its local matrix.
+
+### Regression
+
+The causal regression gate searches all adapter and scheduler surfaces for taxonomy contradictions, all 119-case sources for explicit ownership, checks links and arithmetic, confirms no executable drift, runs the positive checker and canonical kernel verification, and requires three exact `PASS` verdicts plus all seven hosted jobs on the successor.
 
 ### Next Action
 

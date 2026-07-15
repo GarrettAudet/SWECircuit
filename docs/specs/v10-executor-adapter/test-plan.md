@@ -35,6 +35,8 @@ Acceptance-candidate verification active.
 - Confirm package documentation links resolve from the installed artifact.
 - Confirm review-event dates derive from authoritative Git or hosted timestamps rather than session-start metadata.
 - Confirm every verification result names the exact candidate it exercised and inherited evidence is not presented as current.
+- Confirm historical correction narratives name the later frozen candidate that ran their resulting matrix.
+- Confirm policy-compiler adapters emit SWECircuit-owned contracts while IDE/model/provider execution adapters own only assigned side effects.
 
 ## Regression Coverage
 
@@ -110,4 +112,5 @@ No live provider, network, shell, process tree, container, remote protocol, dest
 - Candidate `49b22ba` passed all seven jobs in run `29393468684` in 11m56s; exact review returned `REVISE / REVISE / REVISE` for continuation-only mixed-indentation dispatch and self-staling next-action prose.
 - Candidate `7f30107` passed all seven jobs in run `29395470172` in 11m39s; exact review returned `PASS / PASS / REVISE` for correctness, security, and API/documentation because two review-event rows used stale July 14 dates. Template Check took 11m34s.
 - Candidate `57bab44` passed all seven jobs in run `29396782369` in 11m35s; exact review returned `REVISE / PASS / REVISE` for correctness, security, and API/documentation because inherited `7f30107` matrix evidence was described as current. Template Check took 11m30s.
-- Rejected `82c3bb1` used 109 scenarios in 527.5 seconds, rejected `dd575d5` used 112 scenarios in 554.2 seconds, and rejected `49b22ba` used 115 scenarios in 705.2 seconds. Rejected `7f30107` owns the latest complete 119-scenario matrix: 100 expected rejections and 19 expected acceptances in 576.2 seconds, plus 30 executor parity cases. Candidate `57bab44` did not rerun that copied-input matrix. Exact-commit review and all seven hosted jobs remain for a successor.
+- Candidate `e5f870e` passed all seven jobs in run `29398170073` in 12m29s; exact review returned `PASS / REVISE / REVISE` for correctness, security, and API/documentation because three historical matrix sources lacked the `7f30107` owner and adapter taxonomy remained ambiguous. Template Check took 12m25s.
+- Rejected `82c3bb1` used 109 scenarios in 527.5 seconds, rejected `dd575d5` used 112 scenarios in 554.2 seconds, and rejected `49b22ba` used 115 scenarios in 705.2 seconds. Rejected `7f30107` owns its complete local Windows 119-scenario matrix: 100 expected rejections and 19 expected acceptances in 576.2 seconds, plus 30 executor parity cases. Candidate `57bab44` did not rerun that copied-input matrix. Candidate `e5f870e` owns its exact hosted 119-scenario Template Check in 12m25s, but semantic review rejected it. Exact-commit review and all seven hosted jobs remain for a successor.

@@ -40,7 +40,7 @@ Status values:
 | Skills-driven development transition | accepted | Superpowers | Add capability-adapter contract | Strengthens the handoff from idea to spec to approved implementation plan while keeping the simple path visible. |
 | Orchestration compiler capability | accepted | Astraeus | Add capability-adapter contract | Provides a contract for repository-aware agent synthesis, critic/synthesizer fan-in, scoped permissions, and continuity. |
 | Superpowers adapter | optional | Superpowers | Keep as optional skills/plugin adapter | Strong methodology and plugin candidate, but install only after adapter evaluation and user approval. |
-| Astraeus adapter | optional | Astraeus | Keep as optional orchestration compiler adapter | Strong orchestration prompt candidate, but install only after adapter evaluation and user approval. |
+| Astraeus adapter | optional | Astraeus | Keep as an optional policy-compiler implementation of SWECircuit-owned orchestration contracts, distinct from execution adapters. | Strong orchestration prompt candidate, but install only after adapter evaluation and user approval. |
 | Semantic code retrieval | optional | Serena | Document as future integration | Valuable for larger repos, unnecessary in the V5 baseline. |
 | Repo packing | optional | Repomix | Document as future integration | Useful for external review, not required in core workflow. |
 | Live dependency docs | optional | Context7 and official docs MCPs | Document as future integration | Useful for unstable libraries; V5 records the retrieval policy and adapter path only. |
@@ -79,6 +79,7 @@ Status values:
 | Invariant acceptance-state records | accepted | V10 exact-candidate API/documentation reviews | Describe the stable conditions that close a gate rather than instructing creation of a candidate that may already exist when reviewed. | Candidate-dependent next actions repeatedly self-staled after immutable commit creation. |
 | Source-derived event dates | accepted | V10 exact-candidate event-date provenance review | Derive chronological memory dates from the event-owning Git, hosted-run, or other primary timestamp; preserve exact timestamps in the source record when a date boundary matters. | Session-start metadata can cross midnight and silently misdate later review or CI events. |
 | Candidate-bound verification evidence | accepted | V10 exact-candidate evidence-attribution review | Attribute every result to the immutable tree it exercised; label reused evidence as inherited and keep it separate from exact-tree checks. | Documentation-only successors can otherwise imply that copied-input matrices exercised files they never read. |
+| Policy-compiler versus execution-adapter taxonomy | accepted | V10 exact-candidate API/documentation review | Keep orchestration policy in SWECircuit contracts; allow optional policy compilers to emit those contracts; reserve IDE, model, provider, worker, and process execution adapters for assigned side effects. | A generic adapter label otherwise makes portable routing policy and provider execution ownership contradictory. |
 | Agent2Agent protocol mapping | optional | A2A 1.0 specification | Keep as a future remote executor adapter | Useful for cross-host task and artifact exchange, but unnecessary for the local core boundary. |
 
 ## Promotion Criteria

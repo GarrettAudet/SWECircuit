@@ -6,6 +6,8 @@ Capability adapters let SWECircuit factor in useful external project patterns wi
 
 Use this file when a tool is more than a generic dependency but less than a required runtime. The capability becomes part of SWECircuit as a contract first; the tool remains optional until adapter evaluation and user approval.
 
+Capability adapter is the umbrella term. A policy-compiler adapter may implement SWECircuit-owned planning by emitting portable contracts; an execution adapter connects assigned packets to an IDE, model, provider, worker, or process and owns only those provider-specific side effects.
+
 ## Capability Classes
 
 | Capability Class | Purpose | Inspired By | SWECircuit Home |
@@ -47,7 +49,9 @@ Failure routes:
 
 ## Orchestration Compiler
 
-This capability reads repository context and compiles an agent plan: roles, scopes, handoffs, critic path, synthesis path, permissions, and integration order.
+This capability implements SWECircuit-owned portable orchestration policy. It reads repository context and compiles an agent plan into standard module, decomposition, orchestration-run, gate, and trace contracts: roles, scopes, handoffs, critic path, synthesis path, permissions, and integration order.
+
+An orchestration compiler is a policy-compiler adapter, not an IDE, model, or provider execution adapter. It may propose or materialize a plan under SWECircuit's contracts, but it does not redefine workflow semantics. Execution adapters receive the resulting assigned packets and perform provider-specific side effects.
 
 Use it when:
 
@@ -122,7 +126,7 @@ See the [bounded executor boundary](executor-boundary.md) for the executable con
 | External Project | Capability To Extract | Optional Runtime Role | Default SWECircuit Decision |
 | --- | --- | --- | --- |
 | Superpowers | Triggered skills for brainstorming, spec, planning, TDD, implementation, review, and branch completion. | Optional skills/plugin adapter. | Extract methodology now; install only after adapter evaluation. |
-| Astraeus | Repository-aware agent synthesis, branching and parallel execution, critic and synthesizer chain, continuity, least-privilege permissions. | Optional orchestration compiler adapter. | Extract orchestration contract now; install only after adapter evaluation. |
+| Astraeus | Repository-aware agent synthesis, branching and parallel execution, critic and synthesizer chain, continuity, least-privilege permissions. | Optional policy-compiler implementation of SWECircuit's portable orchestration contracts. | Extract orchestration contract now; install only after adapter evaluation. |
 
 ## Promotion Path
 

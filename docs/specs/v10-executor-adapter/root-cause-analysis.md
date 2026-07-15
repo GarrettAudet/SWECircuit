@@ -275,7 +275,7 @@ The parser defect was dispatch-shape asymmetry. `$hasIndentedFence` recognized t
 
 The causal code fix recognizes any non-empty horizontal-whitespace prefix as an indented-fence candidate when list syntax exists. Exact continuation, tab expansion, and fence acceptance remain in the rich parser. An over-limit fixture proves that broad dispatch does not broaden grammar acceptance. The documentation fix replaces candidate-creation prose with the invariant exact-commit review, hosted-CI, evidence-closeout, owner-approval, and merge gates.
 
-Four fixtures cover one-space-tab fenced retired-URL preservation, two-space-tab fenced-only required-capability rejection, mixed closer exposure, and over-limit literal preservation. Three direct probes, the positive checker, and `npm.cmd run verify` pass. The complete 119-scenario matrix passed in 576.2 seconds with 100 expected rejections, 19 expected acceptances, and 30 unchanged executor parity cases. The executable runtime remains unchanged from `9d8907a`.
+Four fixtures cover one-space-tab fenced retired-URL preservation, two-space-tab fenced-only required-capability rejection, mixed closer exposure, and over-limit literal preservation. The correction later frozen as `7f30107` passed three direct probes, the positive checker, `npm.cmd run verify`, and the complete 119-scenario matrix in 576.2 seconds with 100 expected rejections, 19 expected acceptances, and 30 executor parity cases. The executable runtime remains unchanged from `9d8907a`.
 
 ## Event-Date Provenance Addendum
 
@@ -292,3 +292,13 @@ Candidate `57bab44` passed all seven hosted jobs in run `29396782369` in 11m35s 
 The root cause was candidate-provenance conflation: unchanged executable behavior was treated as permission to transfer ownership of a copied-input verification result. The causal fix keeps `7f30107` as the matrix owner, labels the evidence inherited, and separates it from `57bab44`'s positive checker, 17.6-second kernel verification, hosted CI, and review verdicts.
 
 The correction changes documentation and memory only. It does not claim a full-matrix rerun. Exact semantic review must confirm evidence ownership, chronology, links, current status, portable orchestration positioning, and bounded runtime claims; hosted CI must verify the complete immutable successor before AC8 can close.
+
+## Adapter Taxonomy And Historical Evidence Addendum
+
+Candidate `e5f870e` passed all seven hosted jobs in run `29398170073` in 12m29s and received correctness `PASS`, but security and API/documentation returned `REVISE`. Three historical correction records omitted the later frozen `7f30107` matrix owner, while generic adapter wording conflicted with the existing orchestration-compiler capability.
+
+The evidence cause was incomplete provenance migration: current summaries were fixed, but historical source paragraphs still relied on surrounding `49b22ba` context. The taxonomy cause was category collapse: capability adapter, policy compiler, and provider execution bridge were treated as one ownership class.
+
+The causal fix names `7f30107` in every historical source for its local 119-case matrix. It keeps capability adapter as the umbrella, defines optional policy compilers as implementations that emit SWECircuit-owned portable contracts, and reserves execution adapter for IDE, model, provider, worker, or process bridges that perform assigned side effects. V10 still executes only one host-selected packet and does not claim orchestration.
+
+The correction changes documentation and memory only. Exact semantic review must confirm historical evidence ownership, adapter taxonomy, current-versus-target positioning, links, chronology, bounded security claims, and open gates; hosted CI must verify the complete immutable successor before AC8 can close.

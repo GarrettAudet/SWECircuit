@@ -48,7 +48,7 @@ The [bounded executor boundary](executor-boundary.md) is the current bridge from
 
 This boundary standardizes handoff and evidence without making core a scheduler or sandbox. A host still owns agent selection, provider calls, workspaces, permission enforcement, persistence, retry, integration, and memory mutation.
 
-That statement describes the V10 execution boundary. The target orchestration layer moves provider-independent decomposition, capability matching, scheduling policy, fan-out and fan-in, and integration gates into SWECircuit while keeping provider calls and side effects in host adapters.
+That statement describes the V10 execution boundary. The target orchestration layer moves provider-independent decomposition, capability matching, scheduling policy, fan-out and fan-in, and integration gates into SWECircuit while keeping provider calls and side effects in host execution adapters. Optional orchestration compilers implement that SWECircuit-owned policy by emitting portable framework contracts; they are not provider execution adapters.
 
 ## Circuit Definition
 

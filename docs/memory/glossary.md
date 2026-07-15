@@ -32,7 +32,7 @@
 | Orchestration run record | A source artifact that preserves agent roster, handoffs, integration, verification, review, and memory updates for fan-out work. |
 | Orchestration-readiness pack | The first official SWECircuit pack, used to prepare safe agent fan-out with decomposition, contracts, permissions, verification, integration ownership, and memory updates. |
 | Capability adapter | A SWECircuit contract that extracts a useful external-project capability without making the external project a required dependency. |
-| Orchestration compiler | A capability that reads repository context and synthesizes project-specific agent roles, work units, handoffs, critic path, synthesis path, permissions, and integration order. |
+| Orchestration compiler | A policy-compiler implementation that reads repository context and emits project-specific roles, work units, handoffs, critic path, synthesis path, permissions, and integration order under SWECircuit's portable contracts; it is not a provider execution adapter. |
 | Skills-driven development transition | A capability that moves from idea to spec to implementation through triggered skills, readable checkpoints, approval gates, and verification mapping. |
 | Artifact | A typed work object that moves through a circuit, such as goal, context, spec, task plan, diff, evidence, review, milestone, or memory entry. |
 | Gate | A decision point between modules that checks evidence and routes with a typed outcome. |
@@ -66,3 +66,5 @@
 | Event-date provenance | The rule that a chronological record derives its date from the event-owning Git, hosted-run, or other primary timestamp rather than session-start metadata. |
 | Candidate-bound evidence | Verification or review evidence attributed to the exact immutable tree it exercised; later trees may cite it only as inherited evidence with the owner named. |
 | Portable orchestration policy | Provider-independent rules for decomposing goals, matching work to capabilities, scheduling dependency-safe parallel work, joining results, applying gates, and preserving traces. |
+| Policy-compiler adapter | An optional implementation that materializes SWECircuit-owned orchestration policy as standard module, decomposition, run, gate, and trace contracts without redefining their semantics. |
+| Execution adapter | A replaceable IDE, model, provider, worker, or process bridge that exposes capabilities and performs assigned packet execution or other provider-specific side effects without owning workflow policy. |

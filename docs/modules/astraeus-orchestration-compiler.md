@@ -40,4 +40,4 @@ Work units are scoped, safe, and integratable, or work routes to `redesign`, `cl
 
 ## Adapter
 
-Astraeus is an optional orchestration compiler adapter. SWECircuit extracts the contract by default and installs nothing.
+Astraeus is an optional policy-compiler implementation of SWECircuit's portable orchestration contracts. It may synthesize a plan but does not own workflow semantics and is not an IDE, model, or provider execution adapter. SWECircuit extracts the contract by default and installs nothing.
