@@ -2,7 +2,7 @@
 
 ## Status
 
-Locally validated revision-3 candidate packet. Round 1 and Round 2 each returned four `REVISE` verdicts. Reviewers must inspect the same exact committed tree, including `orchestration-contract.md`, and record its commit hash. Implementation remains blocked until every required verdict is `PASS`.
+Revision-4 review packet under redesign. Round 3 returned four `REVISE` verdicts against exact commit `79f2b4e`, after Round 1 and Round 2 also failed. The next reviewers must inspect the same later exact committed tree, including `orchestration-contract.md`, and record its commit hash. Implementation remains blocked until every required verdict is `PASS`.
 
 ## Product Question
 
@@ -23,6 +23,7 @@ GoalContract | PolicyBundle | Plan | safe specialist waves
 - `docs/specs/v11-orchestration-planner/test-plan.md`
 - `docs/specs/v11-orchestration-planner/architecture-review-round-1.md`
 - `docs/specs/v11-orchestration-planner/architecture-review-round-2.md`
+- `docs/specs/v11-orchestration-planner/architecture-review-round-3.md`
 - `docs/architecture/decisions/0003-portable-orchestration-control-plane.md`
 - V9/V10 schemas, public types, execution lifecycle, and ADRs 0001-0002
 

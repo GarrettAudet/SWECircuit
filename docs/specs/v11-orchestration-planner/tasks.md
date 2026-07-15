@@ -2,7 +2,7 @@
 
 ## Status
 
-T001-T005 complete. Round 2 returned four `REVISE` verdicts against exact commit `5d82394`; revision 3 is locally validated and awaiting an immutable commit plus Round 3. Runtime implementation remains blocked.
+T001-T006 complete. Round 3 returned four `REVISE` verdicts against exact commit `79f2b4e`; T006A revision-4 integration is active. Runtime implementation remains blocked.
 
 ## Task List
 
@@ -26,9 +26,17 @@ T001-T005 complete. Round 2 returned four `REVISE` verdicts against exact commit
   Scope: Add the normative property-level orchestration contract and align exact bundle/template closure, host-owned coverage, integration/memory witnesses, logical ownership, identities/tails, operations/comparators, explicit concurrency, matching/reserves/replay, dispatch/results, requests/cancellation, two-pass joins, paths/limits, portability, and package compatibility.
   Verification: ADR/spec/plan/tests/review/decomposition/run/milestone/memory agree; placeholder, BOM-free LF, source-reference, diff, template, readonly declaration, and exact export-inventory checks pass; `npm.cmd run verify` passes in 22.1 seconds with 275 inherited tests plus V10 dogfood, package inspection, and offline consumer.
 
-- [ ] T006: Run architecture review Round 3.
+- [x] T006: Run architecture review Round 3.
   Scope: Four fresh product/API/lifecycle/security reviewers inspect one immutable revision-3 commit.
-  Verification: Four `PASS` verdicts on the same commit. Any material finding returns to T005 as `redesign`.
+  Verification: Four `REVISE` verdicts against exact commit `79f2b4e`, with 15 high and 10 medium raw findings preserved in `architecture-review-round-3.md`; implementation stopped.
+
+- [ ] T006A: Integrate architecture revision 4.
+  Scope: Close the 14 converged Round-3 obligations across continuation, clarification, evidence, lifecycle, dispatch authority, repository state, references, portability, resources, comparators, ADR, tests, milestone, and memory.
+  Verification: Every raw finding maps to one explicit contract rule and negative test; synchronized source and canonical gates pass.
+
+- [ ] T006B: Run architecture review Round 4.
+  Scope: Four fresh product/API/lifecycle/security reviewers inspect one immutable revision-4 commit.
+  Verification: Four `PASS` verdicts on the same commit. Any material finding returns to T006A as `redesign`.
 
 - [ ] T007: Implement contract family and canonical identity.
   Scope: Seven roots, nested unions, schemas/types, JCS/SHA-256, SnapshotDigest, content-bound tails, IDs/revisions/comparators, diagnostics, explicit package paths.
@@ -60,8 +68,8 @@ T001-T005 complete. Round 2 returned four `REVISE` verdicts against exact commit
 
 ## Dependencies
 
-- T001 -> T002 -> T003 -> T004 -> T005 -> T006.
-- T006 must pass before T007-T011.
+- T001 -> T002 -> T003 -> T004 -> T005 -> T006 -> T006A -> T006B.
+- T006B must pass before T007-T011.
 - T007 precedes T008-T011; T008 precedes T009; T009 precedes T010; T010 precedes T011-T012.
 - T012 precedes T013.
 

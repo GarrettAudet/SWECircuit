@@ -2,7 +2,7 @@
 
 ## Status
 
-Round 2 fan-out completed with outcome `redesign`. Revision-3 integration emitted `pass` to the independent-review gate after local validation. Implementation fan-out remains blocked until four fresh reviewers return `PASS` against one exact commit.
+Round 3 fan-out completed with four `REVISE` verdicts and outcome `redesign` against exact commit `79f2b4e`. Revision-4 integration is active. Implementation fan-out remains blocked until four fresh reviewers return `PASS` against one later exact commit.
 
 ## Goal
 
@@ -13,7 +13,7 @@ Define one simple but rigorous software-work coordinator that takes a human goal
 - Feature package: `docs/specs/v11-orchestration-planner/`
 - Normative contract: `docs/specs/v11-orchestration-planner/orchestration-contract.md`
 - Architecture: `docs/architecture/decisions/0003-portable-orchestration-control-plane.md`
-- Review evidence: `architecture-review-round-1.md` and `architecture-review-round-2.md`
+- Review evidence: `architecture-review-round-1.md`, `architecture-review-round-2.md`, and `architecture-review-round-3.md`
 - Research: `docs/research/snapshots/2026-07-15-v11-portable-orchestration-scan.md`
 - Memory: `docs/memory/active-context.md` and `docs/memory/retrieval-index.md`
 
@@ -23,6 +23,7 @@ Define one simple but rigorous software-work coordinator that takes a human goal
 - Stacked baseline: V10 closeout `8ac3372`, technically accepted and owner-gated
 - Round 1 candidate/result: `f559b4a`, four REVISE
 - Round 2 candidate/result: `5d82394`, four REVISE
+- Round 3 candidate/result: `79f2b4e`, four REVISE
 - Current edit boundary: architecture, feature, research, milestone, and memory documents only
 - Merge gate: approved baseline, V11 implementation acceptance, explicit owner approval
 

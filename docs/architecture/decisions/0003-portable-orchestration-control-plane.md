@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed revision 3 on 2026-07-15. Round 1 returned `REVISE` against `f559b4a`; Round 2 returned four `REVISE` verdicts against `5d82394`. No V11 schema or runtime implementation is authorized until revision 3 passes independent product, API, lifecycle, and security review on one exact commit.
+Revision 4 redesign active on 2026-07-15. Round 1 returned `REVISE` against `f559b4a`, Round 2 returned four `REVISE` verdicts against `5d82394`, and Round 3 returned four `REVISE` verdicts against `79f2b4e`. No V11 schema or runtime implementation is authorized until a later exact candidate passes independent product, API, lifecycle, and security review.
 
 ## Context
 

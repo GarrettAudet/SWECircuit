@@ -2,11 +2,11 @@
 
 ## Status
 
-Revision-3 integration is locally complete and awaiting independent Round 3. Round 1 and Round 2 outcomes remain `REVISE`; revision 3 has not received an independent verdict. This is not an implementation or merge review.
+Round 3 is complete with four `REVISE` verdicts against exact commit `79f2b4e`; revision-4 redesign is active. This is not an implementation or merge review.
 
 ## Review Outcome
 
-Round 2 inspected exact commit `5d82394268a5e4af7769a3090c1a8e97213df2bf` through four fresh read-only roles and found 17 high and 8 medium raw issues. The gate correctly stopped implementation. Revision-3 integration now emits `pass` to exact-commit review, not architecture acceptance.
+Round 3 inspected exact commit `79f2b4e069d13910b561ffe4f6ca04a1b13acb61` through four fresh read-only roles and found 15 high and 10 medium raw issues. The gate correctly stopped implementation and emitted `redesign`; complete evidence is preserved in `architecture-review-round-3.md`.
 
 ## Spec Alignment
 
@@ -18,7 +18,7 @@ ADR 0003 revision 3 and `orchestration-contract.md` resolve Round 2 plus revisio
 
 ## Verification Evidence
 
-Revision 2 passed local source/template/canonical gates with 275 inherited tests before four `REVISE` verdicts. The revision-3 working tree passes placeholder, BOM-free LF, source-reference, diff, template, readonly declaration, export-inventory, and canonical package gates; `npm.cmd run verify` completed in 22.1 seconds with 275 inherited tests, deterministic V10 dogfood, package inspection, and the offline packed consumer. An immutable commit, push, and independent reviews remain pending. No V11 runtime evidence exists.
+Revision 3 exact commit `79f2b4e` passed placeholder, BOM-free LF, source-reference, diff, template, readonly declaration, export-inventory, and canonical package gates; `npm.cmd run verify` completed in 22.1 seconds with 275 inherited tests, deterministic V10 dogfood, package inspection, and the offline packed consumer. Local and remote hashes matched and every reviewer confirmed a clean unchanged worktree. Four independent `REVISE` verdicts prove those gates were source-coherence and inherited-runtime evidence, not V11 acceptance. No V11 runtime evidence exists.
 
 ## Findings
 

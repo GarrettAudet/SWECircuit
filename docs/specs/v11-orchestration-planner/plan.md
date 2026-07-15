@@ -2,7 +2,7 @@
 
 ## Status
 
-Architecture revision 3 is locally validated and ready to freeze for independent review. Round 2 returned four `REVISE` verdicts against immutable commit `5d82394`. No schema or runtime implementation begins until the normative orchestration contract and aligned source chain receive four independent `PASS` verdicts on one exact revision-3 commit.
+Architecture revision 4 redesign is active. Round 3 returned four `REVISE` verdicts against immutable commit `79f2b4e`, with 15 high and 10 medium raw findings preserved in `architecture-review-round-3.md`. No schema or runtime implementation begins until the normative orchestration contract and aligned source chain receive four independent `PASS` verdicts on one later exact commit.
 
 ## Summary
 
@@ -14,7 +14,7 @@ Build one provider-neutral software-work coordinator above V10. A user supplies 
 - `orchestration-contract.md`: exact data, identity, transition, and package contract.
 - `spec.md`: product requirements and acceptance.
 - `test-plan.md`: executable proof obligations.
-- `architecture-review-round-1.md` and `architecture-review-round-2.md`: preserved failure evidence.
+- `architecture-review-round-1.md`, `architecture-review-round-2.md`, and `architecture-review-round-3.md`: preserved failure evidence.
 
 ## Delivery Slices
 

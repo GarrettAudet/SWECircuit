@@ -2,7 +2,7 @@
 
 ## Status
 
-Round 2 completed with outcome `redesign`. Revision-3 integration and local validation now emit `pass` to the immutable Round-3 review gate. No implementation worker has been dispatched.
+Round 3 completed with four `REVISE` verdicts and outcome `redesign` against exact commit `79f2b4e`. Revision-4 integration is active. No implementation worker has been dispatched.
 
 ## Goal
 
@@ -19,7 +19,9 @@ Four fresh bounded read-only specialist reviews followed by one serialized integ
 - Round 1 commit: `f559b4a`
 - Round 2 commit: `5d82394268a5e4af7769a3090c1a8e97213df2bf`
 - Round 2 local gate: passed with 275 inherited tests
-- Current stage: locally validated revision-3 candidate; immutable commit pending
+- Round 3 commit: `79f2b4e069d13910b561ffe4f6ca04a1b13acb61`
+- Round 3 local gate: passed with 275 inherited tests
+- Current stage: revision-4 architecture redesign
 - Merge authority: repository owner only after separate baseline and V11 acceptance
 
 ## Round-2 Roster
@@ -33,7 +35,18 @@ Four fresh bounded read-only specialist reviews followed by one serialized integ
 
 Every reviewer verified exact clean HEAD before and after, made no edits, ran no tests, installed nothing, used no network, and made no Git mutation.
 
-## Fan-Out Log
+## Round-3 Roster
+
+| Role | Reviewer | Verdict | High | Medium |
+| --- | --- | --- | ---: | ---: |
+| Product/architecture | `019f6762-aeb7-7750-ab8e-76bbaf1adcf5` | REVISE | 3 | 0 |
+| API/compatibility | `019f6762-c34a-7760-acdd-500b9643cc14` | REVISE | 5 | 5 |
+| Lifecycle/concurrency | `019f6762-d817-7dd0-a1ea-511592c6bb26` | REVISE | 4 | 3 |
+| Security/trace | `019f6762-ec4e-7a81-98e7-1514b13fc284` | REVISE | 3 | 2 |
+
+Every reviewer confirmed exact clean `79f2b4e` before and after, remained read-only, and was closed only after a complete source-grounded handoff.
+
+## Round-2 Fan-Out Log
 
 | Step | Action | Outcome |
 | --- | --- | --- |
@@ -63,6 +76,19 @@ Every reviewer verified exact clean HEAD before and after, made no edits, ran no
 
 Complete source evidence is in `architecture-review-round-2.md`.
 
+## Round-3 Fan-Out Log
+
+| Step | Action | Outcome |
+| --- | --- | --- |
+| 1 | Revision 3 synchronized and locally validated | pass |
+| 2 | `79f2b4e` committed and pushed; local/remote hashes matched | pass |
+| 3 | Four fresh reviewers spawned with bounded read-only contracts | pass |
+| 4 | Product/API/lifecycle/security independent review | four REVISE |
+| 5 | Reviewers closed only after complete handoffs | pass |
+| 6 | 15 high and 10 medium findings preserved and converged into 14 revision-4 obligations | redesign active |
+
+Complete source evidence is in `architecture-review-round-3.md`.
+
 ## Verification
 
 ### Revision 2
@@ -76,26 +102,26 @@ Complete source evidence is in `architecture-review-round-2.md`.
 
 Three bounded read-only preflights (product `019f670f-7dd6-7fc2-a147-19b9a96a07bb`, API `019f670f-9261-70f0-98bb-4cce94a21c4a`, lifecycle `019f670f-959d-7692-bc9f-de3e7a6b7ef6`) returned actionable findings before commit; they are design feedback, not official verdicts. A security preflight (`019f670f-a846-7111-a28b-a4da1c559695`) was stopped without a handoff and counts as no evidence. Integrated corrections include host-owned coverage, exact template closure, explicit concurrency, content-bound tails, dispatch/resource truth, two-pass mixed batches, response-before-seed request handling, cancellation/attempt replay, integration/memory production, honest host-attested output evidence, readonly signatures, comparators, and accurate exports.
 
-The working tree passes placeholder, BOM-free LF, source-reference, diff, template, readonly declaration, and exact export-inventory checks. `npm.cmd run verify` passed in 22.1 seconds with all 275 inherited tests, deterministic V10 dogfood, dry-run package inspection, and the offline packed consumer. The immutable commit/push and four fresh exact-commit reviews remain pending. No V11 runtime proof is claimed.
+The working tree passed placeholder, BOM-free LF, source-reference, diff, template, readonly declaration, and exact export-inventory checks. `npm.cmd run verify` passed in 22.1 seconds with all 275 inherited tests, deterministic V10 dogfood, dry-run package inspection, and the offline packed consumer. The exact tree was committed and pushed as `79f2b4e`; local and remote hashes matched. Four fresh independent reviewers then returned `REVISE` with 15 high and 10 medium raw findings. No V11 runtime proof is claimed.
 
 ## Performance And Friction
 
 - Parallel read-only reviews again produced independent findings without edit conflicts.
-- The system prevented implementation twice, trading short-term velocity for much lower rework risk.
+- The system prevented implementation three times, trading short-term velocity for much lower rework risk.
 - Revision 2 remained too prose-level for schema/runtime work; revision 3 moves details into one normative contract while keeping the facade simple.
 - Preflight review before the immutable gate caught contradictions cheaply and exercised the same fan-out/fan-in discipline V11 is intended to automate.
 - The longest review was lifecycle, matching the complexity of total wave and join semantics.
 
 ## Review
 
-Revision-3 integration outcome is `pass` to independent review. The serialized coordinator remains viable; prior missing machine-level policy and contract closure, not the product direction, caused the earlier gate failures.
+Round-3 outcome is `redesign`. The product direction remains viable, but continuation, evidence, lifecycle, dispatch authority, repository-state, portability, and resource contracts still require revision-4 closure.
 
 ## Memory Updates
 
-- Active context: Round 2 four REVISE, revision-3 contract active.
-- Retrieval index: both review rounds and normative contract.
+- Active context: Round 3 four REVISE, revision-4 redesign active.
+- Retrieval index: all three review rounds and normative contract.
 - Decisions/history/practice register: deferred until accepted architecture.
 
 ## Completion Handoff
 
-Not complete. Freeze, commit, and push the locally validated revision-3 tree, then run four fresh reviewers against that exact hash. Four PASS verdicts authorize the first schema slice; any material finding returns to redesign. No merge is requested.
+Not complete. Integrate all Round-3 obligations, validate and freeze revision 4, then run four fresh reviewers against that exact hash. Four PASS verdicts authorize the first schema slice; any material finding returns to redesign. No merge is requested.

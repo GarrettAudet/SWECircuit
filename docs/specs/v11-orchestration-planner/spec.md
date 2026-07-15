@@ -2,7 +2,7 @@
 
 ## Status
 
-Revision 3 locally validated design candidate. Round 1 and Round 2 both returned four `REVISE` verdicts; no V11 runtime implementation is authorized until four fresh reviewers pass one exact revision-3 commit. This branch remains stacked on owner-gated V10 closeout `8ac3372` and cannot be accepted or merged until V10 is approved or V11 is rebased and fully reverified.
+Revision 4 redesign active. Round 3 returned four `REVISE` verdicts against exact commit `79f2b4e`, after Round 1 and Round 2 also failed their architecture gates. No V11 runtime implementation is authorized until four fresh reviewers pass one later exact candidate. This branch remains stacked on owner-gated V10 closeout `8ac3372` and cannot be accepted or merged until V10 is approved or V11 is rebased and fully reverified.
 
 ## Problem
 

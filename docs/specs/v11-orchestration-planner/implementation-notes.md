@@ -2,11 +2,11 @@
 
 ## Status
 
-Design only. Revision 3 is locally validated and ready to freeze for a fresh architecture gate. No V11 schema, source, package, scheduler, executor, merge, or memory behavior is implemented.
+Design only. Round 3 returned four `REVISE` verdicts against exact commit `79f2b4e`; revision-4 integration is active. No V11 schema, source, package, scheduler, executor, merge, or memory behavior is implemented.
 
 ## Summary Of Changes
 
-- Preserved Round 1 and Round 2 commit-bound review evidence.
+- Preserved Round 1, Round 2, and Round 3 commit-bound review evidence.
 - Added a normative property-level `orchestration-contract.md`.
 - Replaced implicit fan-out slots with host-authored OrchestrationPolicy replication regions over exact Circuit subgraphs.
 - Put acceptance coverage policy in GoalContract, made Plan coverage compiler-derived, added integration bindings, and separated WorkPacket logical ownership from runtime Assignment.
@@ -15,7 +15,7 @@ Design only. Revision 3 is locally validated and ready to freeze for a fresh arc
 
 ## Deviations From Plan
 
-Revision 2 was expected to pass architecture review. It did not. The workflow correctly emitted `redesign` before implementation. Revision 3 adds a deeper internal contract while preserving the simple human surface.
+Revision 2 and revision 3 were each expected to pass architecture review. Neither did. The workflow correctly emitted `redesign` before implementation both times. Revision 4 must close the full Round-3 lifecycle, continuation, evidence, authority, repository-state, portability, and resource findings while preserving the simple human surface.
 
 V11 remains stacked on owner-gated V10 for planning continuity. It cannot be accepted or merged until V10 is approved or V11 is rebased and fully reverified.
 
@@ -30,9 +30,9 @@ V11 remains stacked on owner-gated V10 for planning continuity. It cannot be acc
 
 ## Follow-Up Work
 
-- Freeze and commit the locally validated revision-3 source package.
-- Push the immutable candidate and bind every reviewer to its exact hash.
-- Run four fresh Round 3 reviewers.
+- Integrate every Round-3 finding into one revision-4 source chain.
+- Validate, freeze, commit, and push one immutable revision-4 candidate.
+- Run four fresh Round-4 reviewers against its exact hash.
 - Begin contracts only after four `PASS` verdicts.
 
 ## Verification Performed
@@ -40,6 +40,8 @@ V11 remains stacked on owner-gated V10 for planning continuity. It cannot be acc
 Revision 2 commit `5d82394` passed placeholder, BOM-free LF, 138-reference source, diff, template, and canonical package gates with 275 inherited tests before review. Four Round 2 reviewers independently confirmed the exact clean commit and returned source-only findings.
 
 The revision-3 working tree passes placeholder, BOM-free LF, source-reference, `git diff --check`, template-checker, readonly declaration, and exact export-inventory checks. The declaration probe compiled the complete normative API surface; all 56 existing public exports match `src/index.ts`, and 92 proposed names have no duplicate or existing-name collision. `npm.cmd run verify` passed in 22.1 seconds with all 275 inherited tests, deterministic V10 dogfood, dry-run package inspection, and the offline packed consumer. Product, API, and lifecycle read-only preflights informed corrections; the security preflight returned no handoff and is not review evidence. These are source-coherence and inherited-runtime gates only. No V11 runtime evidence exists.
+
+Revision 3 was frozen and pushed as `79f2b4e069d13910b561ffe4f6ca04a1b13acb61`. Four fresh reviewers independently confirmed the exact clean hash and returned four `REVISE` verdicts with 15 high and 10 medium raw findings. The full source record and 14 converged revision-4 obligations are in `architecture-review-round-3.md`.
 
 ## Durable Learnings
 
