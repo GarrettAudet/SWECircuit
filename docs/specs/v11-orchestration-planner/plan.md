@@ -2,89 +2,115 @@
 
 ## Status
 
-Draft. T001 architecture bootstrap is complete and validated. T002 independent review requires an immutable candidate; no kernel implementation begins before ADR 0003 passes.
+Architecture redesign in progress. T001 bootstrap and T002 Round 1 review are complete; all four reviewers returned `REVISE`. T003 freezes revision 2. No schema or runtime implementation begins until T004 Round 2 returns four `PASS` verdicts on one immutable commit.
 
 ## Summary
 
-Build the first provider-neutral orchestration control plane above V10. A host-injected planner proposes bounded work; SWECircuit validates and compiles the proposal, matches structured agent capabilities, computes deterministic ready waves, accepts V10 execution results through a pure state transition, enforces joins and integration gates, and emits a parent trace. The host remains responsible for every external effect.
+Add a small provider-neutral orchestration layer above V10. A host or IDE supplies a goal, selected Circuit and Modules, authority, profiles, planner, and execution callbacks. SWECircuit validates decomposition against Circuit policy, assigns ready work by capability, commits a safe wave, accepts one complete result batch, advances integration gates, and emits an end-to-end trace. The same facade uses one agent by default and scales by adding profiles and capacity.
+
+## Design Baseline
+
+- Policy lives in Circuit and Module contracts.
+- A planner proposes concrete work but cannot change workflow policy or grant authority.
+- A plan is immutable; assignment and capacity live in orchestration state.
+- One serialized coordinator owns state; workers in one complete wave may run concurrently.
+- V10 remains the only child-effect boundary.
+- Disjoint scopes can run together; overlapping or unknown writes serialize.
+- Integration, verification, review, approval, and memory candidates remain visible modules and gates.
+- Core never selects a model/provider/IDE/API, merges branches, or mutates durable memory.
+
+## Delivery Slices
+
+### Slice 1: Contracts And Canonical Identity
+
+Add the separate `swecircuit/orchestration/v1alpha1` schema family and TypeScript closed unions for PlanningSession, OrchestrationPlan, AgentProfile, OrchestrationState, OrchestrationEvent, RunAuthority, proposals, input, availability, assignments, tickets, results, outputs, and memory candidates.
+
+Implement RFC 8785 plus SHA-256 digest helpers, safe-integer restrictions, exact limits, detached snapshots, stable diagnostics, positive fixtures, and one negative fixture per closed field or invalid state.
+
+Gate: schemas, runtime validators, canonical fixtures, generated types where used, public exports, packed consumer, and inherited V9/V10 behavior pass.
+
+### Slice 2: Planning And Circuit Compilation
+
+Implement `startPlanning`, `applyPlannerResult`, and `resumePlanning`. Validate the host-supplied RunAuthority before planner invocation. Treat planner values as untrusted detached data. Compile only Circuit-authorized concrete invocations, WorkPackets, prerequisites, scopes, and port bindings.
+
+Gate: proposal permutations compile identically; graph-policy escalation, missing acceptance coverage, invalid bindings, stale input, replay, round exhaustion, and oversized input all fail with zero worker calls.
+
+### Slice 3: Capability Matching And Wave Preparation
+
+Implement profile validation, availability binding, deterministic capacity-constrained matching, readiness, canonical scope overlap, and `prepareWave`. Return the claimed state and ExecutionTickets together; the high-level facade installs state before callbacks.
+
+Gate: shuffled candidates and capacities yield identical assignments; maximum cardinality and tie-break rules hold; out-of-authority profiles and provider metadata cannot influence matching; conflicts serialize; unknown writes never parallelize.
+
+### Slice 4: Child Reduction And Workflow Closure
+
+Implement ChildResultEnvelope validation, complete-batch reduction, the total V10 mapping, Circuit outcome routing, port transfer, `all` and `any` joins, loser settlement, diagnosis/fix routes, cancellation, deadlock, uncertainty, and completion predicates.
+
+Gate: every state/disposition pair is accepted or rejected explicitly; arrival order does not change results; duplicate or substituted results do not mutate state; serial and parallel join semantics agree.
+
+### Slice 5: Trace, Privacy, And Simple Facade
+
+Implement OrchestrationEvent emission, parent-to-child digest references, bounded journals, MemoryCandidates, privacy exclusions, source-reference defaults, and `runGoal`. Add a one-agent example first, then a multi-agent example using the identical facade.
+
+Gate: a new user can explain and run the one-agent path; trace reconstruction needs no chat history; privacy canaries stay outside artifacts; two host wrappers produce equivalent canonical outputs.
+
+### Slice 6: Dogfood And Acceptance
+
+Use V11 itself to coordinate four bounded roles over one repository goal: implementation A, implementation B, test/diagnosis, and integration/review. Include one clarification, one child failure routed to diagnosis, an `all` join, integrated verification, owner approval, and a MemoryCandidate.
+
+Run the same logical work with concurrency one and bounded parallelism. Compare outputs and evidence for equivalence and record elapsed time without turning the observation into a universal performance claim.
+
+Gate: canonical local verification, template matrix, package inspection, packed consumer, cross-platform hosted CI, commit-bound independent reviews, milestone, and durable memory are complete.
+
+## Public Surface
+
+Simple facade:
+
+```txt
+runGoal(input) -> asynchronous GoalRunResult
+```
+
+Advanced deterministic operations:
+
+```txt
+startPlanning
+applyPlannerResult
+resumePlanning
+startRun
+prepareWave
+applyWaveResults
+resumeRun
+cancelRun
+inspectOrchestrationTrace
+```
+
+`GoalRunInput` contains goal, Circuit, Modules, RunAuthority, planner, AgentProfiles, availability provider, execution callback, input callback, approval callback, and optional policy bounds. It contains no provider-routing fields.
 
 ## Impacted Areas
 
-- `docs/research/`, ADRs, feature records, memory, and public architecture documentation.
-- Canonical schemas or closed runtime contracts for agent profiles, planning proposals, and orchestration state.
-- `src/model.ts`, new planning/scheduling modules, diagnostics, public exports, and trace semantics.
-- Schema, semantic, lifecycle, privacy, package-consumer, and dogfood fixtures.
-- V11 host-loop example and measured dogfood evidence.
-- README status and module registry only after implementation truth exists.
+- `schemas/orchestration/v1alpha1/` and schema documentation.
+- `src/` orchestration contracts, canonicalization, planning, compilation, matching, reducer, trace, facade, diagnostics, and exports.
+- `tests/` contract, property, lifecycle, security, compatibility, host-equivalence, dogfood, and package-consumer fixtures.
+- `docs/` architecture, package/API guide, examples, module registry, feature evidence, milestone, research governance, and memory.
+- `package.json` exports only when backed by packed-consumer evidence.
 
-## Approach
+## Verification Strategy
 
-1. Freeze the product boundary through the dated research snapshot, ADR 0003, and independent architecture/security review.
-2. Define one bounded planner port. Treat its output as untrusted proposal data and snapshot it before validation.
-3. Define machine-readable agent capabilities separately from executor identity, provider metadata, and runtime authority.
-4. Compile proposals into existing Module, Circuit, and WorkPacket concepts where possible. Add a new artifact kind only if identity, portability, or traceability cannot be expressed truthfully with the existing contract.
-5. Implement deterministic capability matching and explanation codes using exact required capability sets, capacity, authority compatibility, and a stable tie-breaker.
-6. Implement orchestration as a pure reducer: start, clarify/resume, claim, apply child result, route outcome, join, quarantine, and complete.
-7. Keep side effects in a host loop. The host asks for ready assignments, executes each through V10, and returns the frozen summary; the orchestration reducer never loads a provider or launches a process.
-8. Add a parent journal that preserves plan and assignment provenance while referencing, not rewriting, immutable child execution evidence.
-9. Dogfood with one four-specialist circuit, an equivalent serial control, a clarification path, a failed worker, diagnosis routing, and integrated verification/review.
-10. Freeze a complete candidate, run canonical and cross-platform gates, obtain independent correctness/security/API reviews, publish the milestone, and wait for owner merge approval.
-
-## Interfaces And Data
-
-The architecture review will refine names, but the intended surface is:
-
-```txt
-planGoal(goal, circuit, modules, profiles, planner, policy) -> async OperationResult[PlanningSummary]
-startOrchestration(plan, expectedPlanRevision) -> OperationResult[OrchestrationState]
-getReadyAssignments(state, profiles, availability, policy) -> OperationResult[ReadyWave]
-claimAssignment(state, assignment, expectedRevision) -> OperationResult[ClaimTransition]
-applyExecutionResults(state, results, expectedRevision) -> OperationResult[OrchestrationTransition]
-resumeOrchestration(state, response, expectedRevision) -> OperationResult[OrchestrationTransition]
-```
-
-The planner receives goal, selected circuit/modules, source context, available capabilities, and policy. It returns only a proposal, clarification request, or block result. The compiler owns normalized packets, assignments, schedule state, explanation codes, and parent trace records.
-
-The architecture gate must decide:
-
-- Canonical artifact versus closed runtime status for agent profiles and orchestration plans.
-- Parent/child run identity and event-version strategy.
-- Plan revision and resume-token semantics.
-- Isolation assertion and evidence model.
-- Stable matching tie-breaker and capacity model.
-- Compatibility path for existing v1alpha1 projects.
-
-## Architecture And ADR Impact
-
-ADR 0003 is required because V11 changes system ownership, trust boundaries, runtime state, public APIs, trace composition, and possibly canonical artifact kinds. ADR 0002 remains authoritative for one-packet execution; V11 must compose it rather than bypass or duplicate its preflight.
-
-## Security And Privacy
-
-- Planner and host values are untrusted, bounded, detached, accessor-free inputs.
-- Agent capability and isolation declarations are metadata, not authority or enforcement proof.
-- Runtime grants remain invocation-scoped V10 inputs.
-- No prompt, transcript, chain of thought, environment dump, raw exception, command output, credential, or secret value enters canonical planning or trace artifacts.
-- Clarification and approval responses bind to one exact plan revision and actor.
-- `abort_unconfirmed` work blocks dependent integration until the host resolves or quarantines it.
-- No network, process, provider, or workspace operation exists in the core planner or reducer.
+- Every slice lands with rejection-first tests and preserves the canonical gate.
+- Each review finding maps to at least one negative fixture.
+- Every effect-capable test counts planner and worker calls and proves zero calls on preflight rejection.
+- One independent host wrapper uses direct low-level operations; another uses `runGoal`.
+- One-agent usability is manually reviewed before multi-agent performance evidence is accepted.
+- The complete candidate is immutable during final independent review.
 
 ## Rollback Or Recovery
 
-The V11 branch is stacked on V10 and is not merge-authorized. If architecture review rejects the design, keep the research snapshot and findings, archive the proposal, and reset the V11 implementation scope through a new commit without changing V10. If V10 is not adopted, rebase V11 onto the approved replacement and rerun every baseline-bound check. Runtime state must be immutable so a caller can retain the last accepted transition after a rejected input.
+Each slice is additive and separately committed. If a slice fails its gate, retain the last accepted state and record diagnosis before another patch. If V10 is not approved, rebase V11 onto the approved replacement and rerun every baseline-bound check. No V11 merge occurs from an unapproved stacked baseline.
 
-## Risks And Mitigations
+## Deferred Follow-Ups
 
-- Risk: V11 becomes an untyped prompt router.
-- Mitigation: Planner output is a closed proposal; deterministic compiler and reducer own authoritative policy.
-
-- Risk: Provider-neutrality becomes a slogan while core ranks model names.
-- Mitigation: Core matching sees only structured capabilities, capacity, isolation class, and authority compatibility.
-
-- Risk: Parallel execution corrupts shared work.
-- Mitigation: Conflict analysis, isolation preconditions, deterministic serialization, and integrated verification are acceptance requirements.
-
-- Risk: Parent trace rewrites child evidence.
-- Mitigation: Preserve child identity and digest; reference rather than relabel source evidence.
-
-- Risk: Scope expands into a distributed workflow platform.
-- Mitigation: Keep persistence, remote transport, worktree creation, provider calls, merge, and memory mutation outside V11 core.
+- Durable coordinator adapter and cross-process compare-and-swap.
+- Worktree or sandbox isolation adapter.
+- Optional A2A, IDE, LangGraph, AutoGen, or other host adapters.
+- Overlapping-write scheduling with enforceable leases.
+- Automatic retry policy only after explicit diagnosis semantics are proven.
+- Reviewed memory promotion and merge adapters.

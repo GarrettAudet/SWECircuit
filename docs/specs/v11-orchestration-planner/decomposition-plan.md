@@ -2,224 +2,168 @@
 
 ## Status
 
-Architecture bootstrap complete. Read-only design review is next; implementation fan-out remains blocked until the gate passes.
+Round 1 decomposition completed with outcome `redesign`. Revision-2 integration is active. Implementation fan-out remains blocked until four fresh reviewers return `PASS` against one exact revision-2 commit.
 
 ## Goal
 
-Define the smallest IDE-, model-, and provider-agnostic control plane that turns a human goal and selected circuit into bounded work packets, matches specialized agents by declared capability, exposes dependency-safe parallel waves, reduces child results through fan-in and integration gates, and preserves one reconstructable execution trace.
+Define the smallest portable system that takes a human software goal through user-selected modules, bounded concrete work, capability-based specialist assignment, safe parallel execution, integrated quality gates, owner approval, source-preserving trace, and memory candidates. Make one-agent IDE use the default form of the same system.
 
 ## Source Artifacts
 
 - Feature package: `docs/specs/v11-orchestration-planner/`
-- Architecture or ADR: `docs/architecture/decisions/0003-portable-orchestration-control-plane.md`
-- Research snapshot: `docs/research/snapshots/2026-07-15-v11-portable-orchestration-scan.md`
-- Relevant memory: `docs/memory/active-context.md` and `docs/memory/retrieval-index.md`
+- Proposed decision: `docs/architecture/decisions/0003-portable-orchestration-control-plane.md`
+- Round 1 evidence: `docs/specs/v11-orchestration-planner/architecture-review-round-1.md`
+- Research: `docs/research/snapshots/2026-07-15-v11-portable-orchestration-scan.md`
+- Baseline decisions: ADR 0001 and ADR 0002
+- Memory: `docs/memory/active-context.md` and `docs/memory/retrieval-index.md`
 
 ## Branch And State
 
-- Source branch: `codex/v10-executor-adapter` at closeout commit `8ac3372`
-- Target branch: `codex/v11-orchestration-planner`
-- Baseline commit or state: technically accepted V10, stacked while owner merge approval remains open
-- Dirty state: clean at branch creation; V11 bootstrap documents are the only planned changes
-- Approval gate: ADR 0003 must pass independent review; V10 must be approved or V11 rebased before V11 acceptance
-- Merge target: `main`, never directly from an unapproved stacked baseline
+- Branch: `codex/v11-orchestration-planner`
+- Stacked baseline: V10 closeout `8ac3372`, technically accepted but owner-gated
+- Round 1 candidate: `f559b4aec54f0e12e947bd9feb00e7ba67e4bf32`
+- Round 1 result: four `REVISE` verdicts; no implementation
+- Current edit boundary: planning, research, ADR, milestone, and memory documents only
+- Merge gate: V10 approval or rebase, V11 implementation acceptance, and explicit owner approval
 
 ## Module Selection
 
-| Needed Capability | Module | Reason |
+| Workflow need | Module role | Contract output |
 | --- | --- | --- |
-| Goal clarification | Clarify | Prevent a planner from inventing product intent or unsafe authority |
-| Specification | Spec | Bind decomposition to explicit acceptance criteria |
-| Architecture | Architecture review | Freeze policy, trust, lifecycle, and compatibility boundaries |
-| Decomposition | Task planning | Produce bounded, linked work packets and dependency edges |
-| Assignment | Capability matching | Match requirements to declared agent skills without provider logic |
-| Parallel progress | Readiness and claim | Expose deterministic safe waves and prevent duplicate ownership |
-| Execution | V10 executor boundary | Invoke exactly one host-selected packet with bounded evidence |
-| Integration | Fan-in and merge gate | Combine child results without equating worker completion with product completion |
-| Verification | Verify and review | Prove local and integrated acceptance criteria |
-| Learning | Memory update | Promote evidence-backed learning after final review |
-
-## Decomposition Summary
-
-Architecture work should fan out only as independent read-only reviews of one immutable design candidate. Write-enabled implementation is deferred. After the contract is accepted, implementation can split by schema and public types, compiler and matching, reducer and lifecycle, parent trace and security, then converge under one integration owner.
+| Product ambiguity | Clarify | Bound input request or recorded assumption |
+| Product contract | Spec | Goal, scope, acceptance criteria, non-goals |
+| System policy | Architecture review | Accepted Circuit/Module/trust/lifecycle decision |
+| Work decomposition | Plan | Concrete WorkPackets derived from Circuit-authorized slots |
+| Specialist choice | Capability match | Explainable profile assignment bound to availability |
+| Parallel progress | Prepare wave | Claimed conflict-safe tickets |
+| Bounded effect | V10 execute | Bound child summary, journal, outputs, commits, and evidence |
+| Failure handling | Diagnose/fix | Confirmed causal route and regression evidence |
+| Convergence | Fan-in/integrate | Port-bound integrated candidate |
+| Quality | Verify/review | Acceptance evidence and independent findings |
+| Authority | Owner gate | Recorded merge-ready approval or block |
+| Learning | Memory candidate | Source-linked proposed durable learning |
 
 ## Dependency Graph
 
 ```txt
-goal and current contracts
-  -> product and ecosystem review
-  -> proposed ADR and contract packet
-     -> correctness review
-     -> security and privacy review
-     -> host and public API review
-  -> integrate findings and freeze ADR
-  -> implementation work units
-  -> integrated verification and dogfood
-  -> final review, memory, milestone, owner gate
+research + baseline contracts
+  -> bootstrap candidate f559b4a
+     -> product review A ----\
+     -> API review B ---------+-> Round 1 synthesis -> redesign
+     -> lifecycle review C ---+
+     -> security review D ----/
+  -> revision-2 candidate
+     -> fresh A/B/C/D reviews
+  -> four PASS verdicts
+  -> contracts -> planner/compiler -> matcher/waves -> reducer/trace
+  -> one-agent E2E -> four-role dogfood -> final review -> owner gate
 ```
 
-## Work Units
+## Round 1 Work Units
 
-### Work Unit A: Contract And Ecosystem Review
+| Unit | Reviewer | Scope | Verdict | Key result |
+| --- | --- | --- | --- | --- |
+| A | `019f6538-cf2a-7101-a2be-1fd4441ab674` | Product and architecture | REVISE | Circuit/Plan authority conflict and missing portable handoff were high blockers |
+| B | `019f6538-e38e-7aa3-9711-4ebdc10a53ee` | Public API and compatibility | REVISE | Contract family, identity, result unions, matching, events, and bounds were open |
+| C | `019f6538-f7b1-74b0-a7ee-06c07c7f6ef9` | Lifecycle and concurrency | REVISE | Child mapping, claims, waves, cancellation, joins, and completion were not total |
+| D | `019f6539-0d40-7230-b2b9-f5926abc92ee` | Security and trace | REVISE | Independent authority, profile provenance, result binding, privacy, and parent evidence were incomplete |
 
-Objective: Check that V11 addresses the real orchestration gap while staying portable and simple.
+Every reviewer used a fresh read-only context, verified exact commit `f559b4a`, made no edits, and returned findings to the main integration owner.
 
-Scope boundary: Read-only review of the feature package, V9/V10 contracts, current handbook, and primary-source snapshot.
+## Revision-2 Work Units
 
-Likely files or docs: V11 spec, research snapshot, ADR 0003, Module, Circuit, WorkPacket, RunEvent, and executor contracts.
+### A: Product And Architecture Review
 
-Dependencies: T001 bootstrap candidate.
+Objective: prove the same understandable system serves one agent and many while Circuit remains the only workflow-policy authority.
 
-Conflict zones: None; findings only.
+Context: revised spec, ADR, plan, test plan, Round 1 record, current Module/Circuit/WorkPacket contracts.
 
-Context bundle: Goal, positioning statement, acceptance criteria, V10 non-goals, research decisions, and active constraints.
+Evidence: exact-commit `PASS` or cited smallest correction. Stop on ambiguous ownership, generic API routing, or an unusable simple path.
 
-Agent role or capability: Product and distributed-workflow architecture reviewer.
+### B: Public API And Compatibility Review
 
-Allowed actions: Read and return cited findings; no file edits, tests, network calls, or Git mutations.
+Objective: prove contract families, identities, digests, unions, operations, bounds, compatibility, and invalid states are implementable without invention.
 
-Verification evidence: A commit-bound verdict with severity, exact source locations, assumptions, and required changes.
+Context: revised source chain plus V9/V10 schemas, public exports, OperationResult, packed consumer, and lifecycle contracts.
 
-Handoff format: `PASS` or `REVISE`, followed by findings and residual risks.
+Evidence: exact-commit `PASS` or cited contract gap. Stop on contradictory result shapes, identity gaps, or silent breaking change.
 
-Stop conditions: Ambiguous product intent, policy delegated to a provider, or scope exceeding one vertical slice.
+### C: Lifecycle And Concurrency Review
 
-### Work Unit B: Data And Public API Design
+Objective: prove planning, claim-before-effect, complete waves, result batches, input, cancellation, joins, deadlock, uncertainty, and completion form a total deterministic state machine.
 
-Objective: Review the proposed plan, agent profile, assignment, claim, resume, and transition contracts for determinism and compatibility.
+Context: revised source chain, V10 lifecycle matrix, existing Circuit joins and outcomes.
 
-Scope boundary: Read-only type and state-machine review.
+Evidence: adversarial scenario matrix and verdict. Stop at the first state that cannot be reconstructed or reduced uniquely.
 
-Likely files or docs: ADR 0003, schema README, `src/types.ts`, `src/index.ts`, existing schemas, V11 test plan.
+### D: Security, Privacy, And Trace Review
 
-Dependencies: Same immutable design candidate as Work Unit A.
+Objective: prove declarations never self-authorize, end-to-end handoffs reject substitution, host/core guarantees are honest, and sensitive payload classes remain outside canonical trace.
 
-Conflict zones: Proposed naming and ownership of public types.
+Context: revised source chain, ADR 0002, snapshot and grant rules, V10 evidence semantics.
 
-Context bundle: Canonical v1alpha1 rules, OperationResult semantics, bounded snapshot rules, and compatibility promises.
+Evidence: threat matrix and verdict. Stop on authority escalation, ambiguous effect, forged provenance, or sensitive canonical payload.
 
-Agent role or capability: TypeScript library and protocol API reviewer.
+### E: Integration Owner
 
-Allowed actions: Read and return a contract proposal or finding; no edits.
+Objective: preserve all handoffs, resolve findings in the source chain, validate the exact tree, and decide `pass` or `redesign`.
 
-Verification evidence: Determinism, closed-union, invalid-state, and compatibility analysis.
+Authority: may edit planning artifacts, validate, commit, and push; may not begin implementation before four PASS verdicts and may not merge.
 
-Handoff format: Commit-bound verdict and minimal public-surface recommendation.
+## Fan-Out Rules
 
-Stop conditions: Required breaking change to an accepted artifact kind or unresolved ownership ambiguity.
+- A-D start from the same clean immutable commit.
+- Each receives only its bounded source bundle and the common product goal.
+- Reviewers do not edit, install, use network, run mutating commands, commit, or push.
+- Findings include severity, exact source, violated invariant, and smallest correction.
+- The integration owner is not an independent reviewer.
 
-### Work Unit C: Scheduler And Lifecycle Review
+## Fan-In Rules
 
-Objective: Test the readiness, claim, dependency, conflict, clarification, failure, fan-in, and resume model against concurrency races.
+- Integrate high-severity ownership and safety findings first.
+- Preserve stricter authority, evidence, and uncertainty behavior when findings conflict.
+- Do not average incompatible reviewer opinions; route unresolved product intent to the owner.
+- Any material `REVISE` blocks implementation and creates another committed candidate.
+- Four `PASS` verdicts authorize implementation only, not acceptance or merge.
 
-Scope boundary: Read-only state-machine and adversarial scenario analysis.
+## Implementation Decomposition After Acceptance
 
-Likely files or docs: V11 spec, ADR 0003, decomposition plan, V10 lifecycle matrix, orchestration patterns.
+1. Contracts and canonical identity.
+2. PlanningSession and Circuit-derived compilation.
+3. Capability matching and safe wave preparation.
+4. Child-result reduction, routes, joins, and completion.
+5. Parent trace, privacy, memory candidates, and `runGoal`.
+6. One-agent E2E before multi-agent dogfood.
+7. Four-role dogfood, hardening, final review, milestone, memory, and owner gate.
 
-Dependencies: Same immutable design candidate.
-
-Conflict zones: None; findings only.
-
-Context bundle: AC3 through AC9, bounded concurrency constraints, V10 dispositions, and join semantics.
-
-Agent role or capability: Concurrency and workflow-systems reviewer.
-
-Allowed actions: Read and reason through schedules; no mutation.
-
-Verification evidence: Counterexamples or a PASS verdict across shuffle, duplicate claim, stale resume, overlapping scopes, failure, and fan-in cases.
-
-Handoff format: Scenario matrix with the first invalid transition identified.
-
-Stop conditions: A state cannot be reconstructed from source artifacts and events.
-
-### Work Unit D: Security, Privacy, And Trace Review
-
-Objective: Verify that untrusted planner and worker data cannot grant authority, leak sensitive content, overclaim isolation, or corrupt parent trace state.
-
-Scope boundary: Read-only threat review.
-
-Likely files or docs: ADRs 0002 and 0003, snapshot/privacy contracts, V11 spec and test plan.
-
-Dependencies: Same immutable design candidate.
-
-Conflict zones: Host-versus-core enforcement language.
-
-Context bundle: Trust boundaries, limits, privacy exclusions, grant semantics, input-required resume, and parent-child trace proposal.
-
-Agent role or capability: Application security and auditability reviewer.
-
-Allowed actions: Read and return findings; no secrets, network, edits, or live execution.
-
-Verification evidence: Threat cases for hostile proposals, oversized graphs, capability spoofing, stale or replayed inputs, child-result substitution, trace leakage, and isolation overclaim.
-
-Handoff format: Commit-bound security verdict with required negative tests.
-
-Stop conditions: Any declaration self-authorizes work or any sensitive raw payload enters canonical trace.
-
-### Work Unit E: Integration Owner
-
-Objective: Reconcile independent findings, revise the design, run bootstrap validation, and freeze the smallest accepted contract.
-
-Scope boundary: V11 planning artifacts only until all required design reviews pass.
-
-Likely files or docs: Every V11 planning artifact, ADR 0003, active context, retrieval index, and practice register after acceptance.
-
-Dependencies: Work Units A through D.
-
-Conflict zones: All proposed contract decisions; the integration owner resolves them visibly.
-
-Context bundle: Complete source chain plus all reviewer handoffs.
-
-Agent role or capability: Main IDE agent acting as integration owner.
-
-Allowed actions: Edit planning artifacts, validate them, create immutable candidates, and request owner decisions. No merge.
-
-Verification evidence: Checker output, clean diff, exact candidate commit, and all required independent verdicts.
-
-Handoff format: Updated review record with decision trace and next implementation slice.
-
-Stop conditions: Conflicting high-severity findings, V10 baseline rejection, or product intent requiring owner clarification.
-
-## Fan-Out Plan
-
-- Work Units A through D start only after one immutable bootstrap commit exists.
-- Every specialist uses a fresh, bounded, read-only context bundle.
-- The main IDE agent remains integration owner and is not counted as an independent reviewer.
-- No reviewer may edit the shared branch.
-- Implementation fan-out begins only after the architecture outcome is `pass`.
-
-## Fan-In Plan
-
-- Integration owner: main IDE agent
-- Merge order: contract corrections, security corrections, lifecycle corrections, public-surface simplification
-- Conflict-resolution approach: preserve the strictest accepted invariant and record unresolved tradeoffs in ADR 0003
-- Integrated verification: template checker before review; canonical kernel gate after code or schemas exist
-- Review owner: repository owner for merge; independent agents for technical design and implementation evidence
+Write units may run in parallel only when tasks name disjoint likely files, dependencies, context, verification, handoff, and stop conditions. The main agent remains integration owner.
 
 ## Verification Matrix
 
-| Work Unit | Local Evidence | Integrated Evidence |
+| Stage | Local proof | Integrated proof |
 | --- | --- | --- |
-| A | Product and ecosystem verdict | Acceptance criteria still express the owner goal |
-| B | Type and compatibility verdict | One coherent bounded public contract |
-| C | Adversarial transition matrix | Deterministic ready waves and fan-in state |
-| D | Threat and privacy verdict | Negative fixtures and truthful enforcement claims |
-| E | Checker, diff, and source-chain audit | Immutable reviewed architecture candidate |
+| Revision 2 | Placeholder, bytes, references, diff, checker, canonical gate | Four exact-commit independent verdicts |
+| Contracts | Schema/runtime parity, digest vectors, negatives | Packed consumer and inherited compatibility |
+| Compiler | Proposal and graph fixtures | One-agent plan reconstruction |
+| Matcher/waves | Property and conflict matrices | Claim-before-effect host loop |
+| Reducer/trace | Total lifecycle and privacy matrices | Complete/interrupted E2E |
+| Dogfood | Worker-local evidence | Integrated acceptance, timing, review, owner gate, memory candidate |
 
 ## Stop Or Redesign Triggers
 
-- Product intent or completion evidence becomes ambiguous.
-- Core routing depends on a named IDE, provider, model, or API.
-- Planner output can bypass deterministic validation or authority ceilings.
-- Conflict zones cannot be isolated or serialized.
-- A worker result can advance integration without valid child evidence.
-- Parent state cannot be reconstructed without ephemeral chat context.
-- Complexity exceeds one understandable vertical slice.
+- Core depends on IDE, API, model, provider, prompt, price, or hidden quality metadata.
+- Planner or profile data can grant authority or alter Circuit policy.
+- A claim is not installed before effect or a child result is not fully bound.
+- Conflicting or unknown writes can share a wave.
+- An unknown effect can retry or reach integration.
+- A join, input, cancel, deadlock, or completion case has more than one legal next state.
+- Trace reconstruction requires ephemeral chat.
+- The one-agent path requires understanding the advanced reducer.
 
 ## Memory Updates
 
-- History ledger: update only after a completed architecture gate or version event
-- Retrieval index: add the V11 planning source chain during bootstrap
-- Decisions: update after ADR 0003 is accepted
-- Known issues: record any durable blocker or waste found while dogfooding
-- Patterns: promote only repeated, evidenced orchestration practices
+- Active context: record current candidate, gate, and next action.
+- Retrieval index: link Round 1 evidence and revision-2 source chain.
+- Decisions and practice register: update after ADR acceptance.
+- History ledger and milestone: update after a completed architecture or version event.
+- Known issues and failed attempts: record durable dogfood friction, not every transient draft correction.

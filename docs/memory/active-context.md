@@ -2,22 +2,22 @@
 
 ## Current Focus
 
-Dogfood the technically accepted V10 contracts to design V11 as an IDE-, model-, and provider-agnostic orchestration control plane. Keep `codex/v10-executor-adapter` immutable and unmerged behind its owner gate, and keep the stacked `codex/v11-orchestration-planner` branch planning-only until architecture review passes.
+Dogfood the technically accepted V10 contracts to design V11 as an IDE-, API-, model-, and provider-agnostic software-work coordinator. The target is one simple goal-to-evidence workflow that defaults to one IDE agent and scales by adding allowlisted specialist profiles and bounded capacity. Keep V10 immutable behind its owner gate and V11 planning-only until architecture revision 2 passes independent review.
 
 ## Current Stage
 
 V10 technical acceptance is complete at immutable candidate `fa4371e` with evidence closeout `8ac3372`. The exact candidate passed the canonical local gate with 275 tests, the 119-scenario checker matrix, independent correctness, security, and API/documentation review, and all seven GitHub Actions jobs. V10 remains unmerged; `main` remains the owner-approved V9 baseline at `2b7bef3`.
 
-V11 T001 architecture bootstrap is complete and validated on `codex/v11-orchestration-planner`, stacked from `8ac3372` so V10 remains immutable. The feature package, decomposition record, orchestration record, dated primary-source scan, proposed ADR 0003, draft milestone, and review packet define the intended boundary. The template checker and canonical package gate pass with 275 inherited V9/V10 tests. No V11 kernel, schema, package, executor, scheduler, merge, or memory-write behavior has changed. T002 starts only from an immutable design candidate and completes only after independent review. V11 cannot be accepted or merged until V10 is owner-approved or the branch is rebased to an approved replacement, and the exact V11 architecture candidate passes independent review.
+V11 bootstrap commit `f559b4a` passed local source-chain and canonical package gates with 275 inherited V9/V10 tests, then four independent read-only reviewers all returned `REVISE`: two high graph/handoff blockers and nineteen additional API, lifecycle, security, trace, and bounds findings. Implementation correctly stopped. Revision 2 now specifies one `runGoal` facade, Circuit-owned policy, a separate orchestration contract family, host-rooted RunAuthority, dynamic capability assignment, one serialized coordinator, claimed complete waves, conservative conflict rules, total V10/result/join lifecycle, source-preserving parent events, exact bounds, and explicit deferred scope. No V11 kernel, schema, package, executor, scheduler, merge, or memory-write behavior exists. Revision 2 passes placeholder, BOM-free LF byte, 138-reference source, whitespace, template, and canonical package checks with 275 inherited tests. The next gate is an immutable redesign commit and four fresh `PASS` reviews. V11 cannot be accepted or merged until V10 is owner-approved or V11 is rebased to an approved replacement.
 
 ## Important Current Constraints
 
 - SWECircuit is an IDE-, model-, and provider-agnostic software-engineering control plane, not an API gateway or model router.
 - The human supplies the goal and material decisions; selected circuits and module contracts shape decomposition, capability requirements, gates, and completion evidence.
-- A host-injected planner may propose work, but deterministic SWECircuit validation, compilation, matching, readiness, fan-in, and trace rules remain authoritative.
-- Specialized-agent matching uses declared capabilities, contract support, authority ceilings, capacity, and isolation facts; it ignores provider, model, API, and IDE identity.
-- V11 state transitions are planned as pure immutable reductions. Cross-process claim exclusivity requires host serialization or atomic compare-and-swap persistence and is not a stateless-core guarantee.
-- Parallel writes serialize by default when scopes overlap. Any exception requires explicit runtime isolation assertions plus actual host enforcement.
+- A host-injected planner may propose concrete work, but the selected Circuit and Modules own workflow policy; deterministic compilation, matching, readiness, routing, fan-in, and trace rules remain authoritative.
+- Specialized-agent matching uses exact capabilities, contract support, allowlisted profile digests, authority ceilings, live capacity, and stable tie-breakers; it ignores provider, model, API, IDE, price, prompt, and hidden quality identity.
+- V11 uses one serialized coordinator that commits a complete claimed wave before host callbacks and reduces one complete result batch. Distributed coordinators and cross-process claim guarantees are deferred.
+- Read/read overlap may parallelize. Write/write, write/read, shared writer conflict zones, and unknown writer scopes serialize with no V11 isolation exception.
 - V11 is stacked on owner-gated V10 for planning continuity only. Neither version may be merged without satisfying its own owner and technical gates.
 
 - SWECircuit is the repository and project name, not a reserved package, domain, CLI, or hosted-service namespace.
@@ -115,12 +115,16 @@ V11 T001 architecture bootstrap is complete and validated on `codex/v11-orchestr
 - SWECircuit's target orchestration layer owns portable goal decomposition, capability matching, dependency-aware fan-out and fan-in, gates, and trace semantics. Optional policy compilers emit those standard contracts; IDE, model, and provider execution adapters perform assigned work and side effects without owning workflow policy.
 
 - Current orchestration ecosystems converge on inspectable graphs, bounded specialized contexts, explicit input-required pauses, dependency-aware claims, host-enforced isolation, independent fan-in, and one integration owner; SWECircuit can standardize those semantics without adopting a provider runtime.
+- Four independent V11 architecture reviews found material graph, handoff, API, lifecycle, and security gaps before code existed; pre-implementation fan-out is now evidenced as a quality gate, not just a proposed pattern.
+- Multi-agent simplicity comes from one contract: one agent is an allowlisted profile with one slot, and scale adds profiles and capacity without changing policy, trace, or completion semantics.
+- Plans should own immutable work instances while assignments own live profile, availability, executor, and claim identity; compiling assignments too early makes portability and resume semantics dishonest.
+- Deterministic complete-wave reduction trades some tail latency for a much smaller race surface and a reconstructable one-coordinator baseline.
 
 ## Next Likely Work
 
-- Validate the complete V11 bootstrap with the template checker, byte-shape checks, and diff review.
-- Run bounded read-only product, API, lifecycle, and security reviews against the exact immutable V11 design candidate.
-- Resolve every material finding and accept ADR 0003 only when the reviewed contract remains simple, portable, and truthful about host enforcement.
-- Keep the separate V10 owner merge gate open; do not merge V10 or V11 as part of V11 planning.
-- After architecture acceptance and an approved baseline, implement the smallest control-plane vertical slice and dogfood it with four specialized work units, safe parallelism, clarification, diagnosis, fan-in, integrated verification, and parent trace reconstruction.
+- Freeze and push the locally verified revision-2 source chain as one clean immutable redesign commit.
+- Run fresh bounded read-only product, API, lifecycle, and security reviews against that exact commit.
+- Route any material finding back to redesign; authorize the first contract slice only after four `PASS` verdicts.
+- Keep the separate V10 owner merge gate open; do not merge V10 or V11 during architecture review.
+- After architecture acceptance and an approved baseline, implement contracts, compilation, matching/waves, reduction/trace, then prove the one-agent E2E before the four-role parallel dogfood.
 - Resolve licensing before broad external reuse or package distribution.

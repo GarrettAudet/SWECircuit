@@ -32,6 +32,7 @@ An IDE, CLI, CI runner, local agent runtime, or remote protocol may host this lo
 | Agent2Agent Protocol 1.0 | Advertise machine-readable agent capabilities and skills; represent stateful tasks and input-required interaction | Agent-profile inspiration and explicit clarification lifecycle; protocol remains an optional adapter |
 | LangGraph interrupts | Persist an interrupt, return an input-required state, and resume against stable state identity | Exact-revision clarification and approval pause/resume |
 | Microsoft AutoGen GraphFlow | Represent sequential, parallel, conditional, and loop behavior as an explicit graph | Deterministic dependency graph and bounded ready-wave semantics |
+| RFC 8785 JSON Canonicalization Scheme | Canonicalize I-JSON deterministically through ECMAScript primitive serialization and property sorting | Portable orchestration content digests before SHA-256 |
 
 ## Source Links
 
@@ -46,6 +47,7 @@ An IDE, CLI, CI runner, local agent runtime, or remote protocol may host this lo
 - Agent2Agent specification: https://a2a-protocol.org/latest/specification
 - LangGraph interrupts: https://docs.langchain.com/oss/python/langgraph/interrupts
 - AutoGen GraphFlow: https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/graph-flow.html
+- RFC 8785 JSON Canonicalization Scheme: https://www.rfc-editor.org/rfc/rfc8785
 - AGENTS.md convention: https://agents.md/
 
 ## Practices Accepted For V11 Design
@@ -66,6 +68,10 @@ Profiles describe stable work capabilities, accepted module contracts, input/out
 
 A packet becomes ready only when prerequisites and relevant gates pass. Bounded fan-out, explicit joins, stable ordering, one integration owner, and a safe conflict policy replace unconstrained agent spawning.
 
+### One Coordinator, Same Surface
+
+The one-agent and multi-agent paths should be one contract. One agent is an allowlisted profile with one slot; scale adds profiles and capacity. One serialized coordinator commits complete waves before effects and reduces complete result batches, keeping the first implementation deterministic and inspectable.
+
 ### Fresh Bounded Context
 
 Each worker receives the smallest source-preserving context bundle needed for its packet. Full repository dumps and full chat transcripts are neither required nor default.
@@ -74,9 +80,9 @@ Each worker receives the smallest source-preserving context bundle needed for it
 
 Ambiguity produces `input_required` rather than silent invention. Resume data binds to the exact request and state revision. Host persistence and atomicity are named separately from core validation.
 
-### Host-Enforced Isolation
+### Conservative Conflict Safety
 
-Core can reason about declared scopes and isolation evidence but cannot create or police worktrees, sandboxes, credentials, or processes. Overlapping writes serialize unless the host supplies an accepted isolation assertion and actually enforces it.
+Core can reason about canonical read, write, and conflict scopes but cannot create or police worktrees, sandboxes, credentials, or processes. V11 serializes every overlapping or unknown writer scope and accepts no isolation exception. Enforceable workspace leases and overlapping-write adapters remain future work.
 
 ### Independent Fan-In And Integrated Gates
 
@@ -102,16 +108,18 @@ Parent events link goals, plan revisions, modules, work packets, assignments, cl
 
 ## Architecture Implications
 
-1. Separate the control plane from the execution plane.
-2. Keep planner, worker, persistence, isolation, and UI implementations host-injected.
-3. Validate and freeze proposals before matching or execution.
-4. Keep matching deterministic and capability-based.
-5. Advance orchestration through a pure, bounded reducer.
-6. Require expected state revisions and name the host atomicity requirement.
-7. Reuse V10 for each bounded child invocation.
-8. Preserve parent-child links and evidence references rather than payload copies.
-9. Make clarification, uncertainty, failure, diagnosis, fan-in, verification, review, and merge gates explicit.
-10. Prove the same semantics through at least two different host fixtures before claiming portability.
+1. Keep Circuit and Module contracts authoritative for workflow policy.
+2. Treat planner output as bounded concrete-work proposals, never authority.
+3. Use one simple facade for one agent and many agents.
+4. Keep plans immutable and live assignment in orchestration state.
+5. Root permissions in host-supplied RunAuthority and narrow them at every layer.
+6. Commit one complete conflict-safe wave before host effects.
+7. Reduce one complete child-result batch through a serialized deterministic boundary.
+8. Reuse V10 for each bounded child invocation and bind every handoff identity and digest.
+9. Preserve parent-child links and evidence references rather than payload copies.
+10. Make clarification, uncertainty, failure, diagnosis, fan-in, verification, review, owner approval, and memory candidates explicit.
+11. Use RFC 8785 plus SHA-256 for portable content identity and enforce exact privacy/resource ceilings.
+12. Prove one-agent usability and two-host semantics before claiming portable multi-agent orchestration.
 
 ## Adoption Gate
 
