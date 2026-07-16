@@ -32,6 +32,7 @@ Workflow outcomes are limited to `pass`, `fix`, `diagnose`, `clarify`, `redesign
 | Verify | Core | Producing deterministic evidence. |
 | Review | Core | Comparing implementation to intent and risk. |
 | Memory | Core | Preserving durable lessons and retrieval pointers. |
+| Specialist agent compiler | Core | Comparing legal specialist teams, compiling exact supply-free AgentBlueprint demand through an independent pure operation, and binding runtime materialization evidence. |
 | Superpowers transition | Capability adapter | Moving from idea to design to approved implementation plan. |
 | Astraeus orchestration compiler | Capability adapter | Synthesizing project-specific agent roles and fan-in path. |
 | Spec Kit adapter | Optional adapter | Automating spec-driven phases. |

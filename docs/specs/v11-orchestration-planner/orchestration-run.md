@@ -2,7 +2,7 @@
 
 ## Status
 
-Round 3 completed with four `REVISE` verdicts and outcome `redesign` against exact commit `79f2b4e`. Revision-4 integration is active. No implementation worker has been dispatched.
+Round 3 completed with four `REVISE` verdicts and outcome `redesign` against exact commit `79f2b4e`. Revision-4 corrections are integrated and locally verified; final source audit and candidate freeze are active. No implementation worker has been dispatched.
 
 ## Goal
 
@@ -21,7 +21,7 @@ Four fresh bounded read-only specialist reviews followed by one serialized integ
 - Round 2 local gate: passed with 275 inherited tests
 - Round 3 commit: `79f2b4e069d13910b561ffe4f6ca04a1b13acb61`
 - Round 3 local gate: passed with 275 inherited tests
-- Current stage: revision-4 architecture redesign
+- Current stage: revision-4 source audit before immutable candidate
 - Merge authority: repository owner only after separate baseline and V11 acceptance
 
 ## Round-2 Roster
@@ -104,6 +104,10 @@ Three bounded read-only preflights (product `019f670f-7dd6-7fc2-a147-19b9a96a07b
 
 The working tree passed placeholder, BOM-free LF, source-reference, diff, template, readonly declaration, and exact export-inventory checks. `npm.cmd run verify` passed in 22.1 seconds with all 275 inherited tests, deterministic V10 dogfood, dry-run package inspection, and the offline packed consumer. The exact tree was committed and pushed as `79f2b4e`; local and remote hashes matched. Four fresh independent reviewers then returned `REVISE` with 15 high and 10 medium raw findings. No V11 runtime proof is claimed.
 
+### Revision 4
+
+The corrected uncommitted tree passes `git diff --check`, BOM-free LF and placeholder checks across all 28 changed or added files, the strict TypeScript 7.0.2 declaration probe, all 56 preserved exports plus 130 unique proposed names with no collision, all 153 local Markdown links, and the template checker. The 119-scenario checker matrix passed in 653.9 seconds. The latest `npm.cmd run verify` passed in 20.8 seconds with formatting, lint, typecheck, build, all 275 inherited tests, V10 dogfood, dry-run package inspection, and the offline packed consumer. These gates prove current source coherence and inherited behavior only; immutable review and V11 runtime evidence remain absent.
+
 ## Performance And Friction
 
 - Parallel read-only reviews again produced independent findings without edit conflicts.
@@ -114,14 +118,14 @@ The working tree passed placeholder, BOM-free LF, source-reference, diff, templa
 
 ## Review
 
-Round-3 outcome is `redesign`. The product direction remains viable, but continuation, evidence, lifecycle, dispatch authority, repository-state, portability, and resource contracts still require revision-4 closure.
+Round-3 outcome is `redesign`. Revision 4 now encodes its required continuation, evidence, lifecycle, dispatch-authority, repository-state, portability, resource, and task-specific Specialist Compiler corrections. The next independent gate must judge one frozen commit.
 
 ## Memory Updates
 
-- Active context: Round 3 four REVISE, revision-4 redesign active.
-- Retrieval index: all three review rounds and normative contract.
+- Active context: Round 3 four REVISE; revision-4 source locally verified and awaiting immutable review.
+- Retrieval index: all three review rounds, both revision-4 preflights, the Specialist Compiler, and normative contract.
 - Decisions/history/practice register: deferred until accepted architecture.
 
 ## Completion Handoff
 
-Not complete. Integrate all Round-3 obligations, validate and freeze revision 4, then run four fresh reviewers against that exact hash. Four PASS verdicts authorize the first schema slice; any material finding returns to redesign. No merge is requested.
+Not complete. Finish the source audit, validate and freeze revision 4, then run four fresh reviewers against that exact hash. Four PASS verdicts authorize the first schema slice; any material finding returns to redesign. No merge is requested.

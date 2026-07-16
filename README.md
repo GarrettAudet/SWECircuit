@@ -8,7 +8,11 @@ SWECircuit gives AI software teams a standard way to compose development workflo
 
 The diagram shows the target operating model. The V10 kernel can now validate and execute one host-selected work packet through a caller-injected executor and return a caller-owned event journal. External hosts still select and schedule work, enforce permissions, isolate runtimes, persist traces, and merge changes.
 
-That host-owned selection is a V10 limitation, not the final orchestration model. The planned provider-independent layer will decompose goals through user-defined modules, match bounded packets to specialized agent capabilities, schedule safe fan-out and fan-in, apply verification and integration gates, and preserve the trace. IDE, model, and provider adapters will expose capabilities and execute assigned packets without owning workflow policy.
+That host-owned selection is a V10 limitation, not the final orchestration model. V11 is designing a built-in, provider-independent **Specialist Compiler**: it compares a serial baseline with legal decomposition candidates, rejects vague role-only agents, and compiles every bounded packet into exact supply-free task demand. Each AgentBlueprint fixes the deliverable, artifact ports, justified context, least authority, evidence, handoff, and stop conditions. Assignment later binds compatible runtime capacity, while a prompt-free receipt records what the host materialized. IDE, model, and provider adapters cannot redefine the workflow contract.
+
+```txt
+user goal -> approved modules -> candidate teams -> Specialist Compiler -> task-shaped AgentBlueprints -> runtime assignments -> verified change
+```
 
 ![Target model executed by an external IDE or agent runtime: a task moves through Spec, Plan, and Route; bounded work packets fan out to specialized agents, converge at Verify, then continue through Integrate, Review, Memory, and a verified change.](docs/assets/swecircuit-overview.png)
 
@@ -35,6 +39,7 @@ The next orchestration layer will add portable planning and assignment above tha
 | Module | Reusable work stage with a standard input, action, output, gate, and outcome. |
 | Circuit | Ordered or branched composition of modules. |
 | Work packet | Bounded unit of work with ownership, context, dependencies, evidence, and stop conditions. |
+| Specialist Compiler | Built-in semantic design plus pure `compileAgentBlueprints` validation for exact task-shaped agent demand. |
 | Gate | Decision point that passes, fixes, diagnoses, clarifies, redesigns, splits, blocks, or learns. |
 | Execution trace | Caller-owned event record connecting work, attempts, outcomes, and evidence. |
 | Memory | Durable project knowledge promoted from completed work. |

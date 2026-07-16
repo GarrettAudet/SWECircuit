@@ -13,7 +13,7 @@ Capability adapter is the umbrella term. A policy-compiler adapter may implement
 | Capability Class | Purpose | Inspired By | SWECircuit Home |
 | --- | --- | --- | --- |
 | Skills-driven development transition | Move from idea to design to implementation through triggered skills and readable checkpoints. | Superpowers | Handbook stages, feature package, IDE interaction, standalone agent module |
-| Orchestration compiler | Synthesize a project-specific agent team, handoffs, critic path, and integration plan from repository context. | Astraeus | Decomposition plan, orchestration run record, module registry |
+| Specialist/orchestration compiler | Compare bounded decomposition candidates and synthesize task-specific AgentBlueprints, handoffs, critical path, and integration plan from repository context. | SWECircuit contract; Astraeus implementation option | `docs/modules/specialist-agent-compiler.md`, V11 Plan, decomposition and run records |
 | Provider executor bridge | Map one frozen packet, invocation grant, and abort signal to a trusted host runtime. | Codex subagents, MCP Tasks, A2A, agent SDK hooks | Bounded executor boundary, AdapterManifest, ADR 0002 |
 
 ## Skills-Driven Development Transition
@@ -49,14 +49,14 @@ Failure routes:
 
 ## Orchestration Compiler
 
-This capability implements SWECircuit-owned portable orchestration policy. It reads repository context and compiles an agent plan into standard module, decomposition, orchestration-run, gate, and trace contracts: roles, scopes, handoffs, critic path, synthesis path, permissions, and integration order.
+This capability implements SWECircuit-owned portable specialist compilation. The semantic layer compares a serial baseline with legal candidate decompositions; the core `compileAgentBlueprints` operation then validates standard AgentBlueprintIntent and emits exact supply-free AgentBlueprint, evidence-binding, structural-measurement, decomposition, handoff, gate, and integration contracts. A role label alone is never a specialist contract.
 
 An orchestration compiler is a policy-compiler adapter, not an IDE, model, or provider execution adapter. It may propose or materialize a plan under SWECircuit's contracts, but it does not redefine workflow semantics. Execution adapters receive the resulting assigned packets and perform provider-specific side effects.
 
 Use it when:
 
 - The goal is too broad for one agent but can be decomposed.
-- Several specialist roles are useful.
+- Several independently verifiable task-shaped specialists may be useful.
 - Alternatives should be explored in parallel.
 - A critic and synthesizer path would improve quality.
 - Existing generic agents or skill packs need project-specific roles.

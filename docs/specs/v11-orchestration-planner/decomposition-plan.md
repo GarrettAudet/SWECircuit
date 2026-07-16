@@ -2,7 +2,7 @@
 
 ## Status
 
-Round 3 fan-out completed with four `REVISE` verdicts and outcome `redesign` against exact commit `79f2b4e`. Revision-4 integration is active. Implementation fan-out remains blocked until four fresh reviewers return `PASS` against one later exact commit.
+Round 3 fan-out completed with four `REVISE` verdicts and outcome `redesign` against exact commit `79f2b4e`. Revision-4 corrections are integrated and locally verified; final source audit and immutable-candidate freeze are active. Implementation fan-out remains blocked until four fresh reviewers return `PASS` against that exact commit.
 
 ## Goal
 
@@ -131,7 +131,7 @@ Objective: preserve handoffs, resolve findings, validate exact tree, and route p
 
 | Stage | Local evidence | Integrated evidence |
 | --- | --- | --- |
-| Revision 3 | Placeholder, bytes, refs, diff, checker, canonical gate | Four exact-commit PASS verdicts |
+| Revision 4 | Source chain, strict declarations, exports, links, checker, canonical gate | Four exact-commit PASS verdicts |
 | Contracts | Schema/runtime/digest/negative corpus | Old/new packed consumer |
 | Compiler | Replication/coverage/planning matrices | Explainable one-agent Plan |
 | Scheduler | Matching/path/wave truth | Claim-before-effect host loop |

@@ -2,7 +2,7 @@
 
 ## Status
 
-Revision 3 architecture-gate plan. No V11 runtime test is claimed. Every Round 1 and Round 2 material finding maps to a required negative or equivalence fixture before implementation acceptance.
+Revision 4 architecture-gate plan. No V11 runtime test is claimed. Every material finding from Rounds 1-3 plus the task-specific agent-compiler requirement maps to a required negative, closure, or equivalence fixture before implementation acceptance.
 
 ## Acceptance Mapping
 
@@ -12,18 +12,29 @@ Revision 3 architecture-gate plan. No V11 runtime test is claimed. Every Round 1
 | AC2 | Replication-region zero/min/max lane fixtures and canonical graph derivation |
 | AC3 | PolicyBundle closure and planner escalation matrix with zero worker calls |
 | AC4 | Host-owned GoalContract coverage, compiler derivation, and logical evidence-owner matrix |
-| AC5 | WorkPacket narrowing/logical-role and exact matching property tests |
+| AC5 | WorkPacket narrowing, AgentBlueprint completeness/context-use closure, logical-role stability, and exact matching property tests |
 | AC6 | Deterministic wave, claim reserve, attempt replay, conflicts, paths, and waiting tests |
 | AC7 | Four child variants, dispatch truth, result limits, and identity substitution |
 | AC8 | Mixed-batch permutations, two-pass winner routing, cancellation, and terminal matrix |
 | AC9 | Width-independent `all`/`any` branch, loser, and recovery matrices |
 | AC10 | Pre-execution/outcome/owner requests, queue order, role, replay, and direct completion |
 | AC11 | Existing/narrowed cycle budgets, diagnosis/fix, terminal reserve, failed/blocked tests |
-| AC12 | Content-bound parent journal and full-chain, reconstruction, memory/merge ownership, and privacy canaries |
+| AC12 | Content-bound journal, AcceptedWorkAccumulator restart, acyclic pre-merge projection/merge construction, memory ownership, and privacy canaries |
 | AC13 | Every byte/count ceiling at minus one/exact/plus one with pre/post-dispatch effect counters |
 | AC14 | Two byte-identical hosts and one different-provenance graph-wide semantic projection |
-| AC15 | Four-role dogfood with memory/merge evidence and equivalent serial/parallel semantics/timing |
+| AC15 | Four-blueprint dogfood with optimization metrics, memory/merge evidence, and equivalent serial/parallel accepted-work semantics/timing |
 | AC16 | Inherited suite, packed consumer, local/hosted gates, four independent PASS reviews |
+| AC17 | One-message IDE kickoff, approved-catalog module composition, visible assumptions, and novel/high-risk owner gate |
+
+## IDE Kickoff Matrix
+
+- Start from one user message plus the repository's approved module catalog and require visible GoalContract, PolicyBundle, Circuit/module selection, assumptions, and proposed AgentBlueprint roster without manual artifact assembly.
+- Execute the repository-shipped `docs/ide/specialist-agent-kickoff.md` contract, create a complete feature-package `goal-synthesis.md`, and distinguish the human `synthesizeGoal` entrypoint from structured kernel `runGoal(start)`.
+- Auto-select only existing allowlisted modules inside repository policy.
+- For each novel module, gate, route, authority grant, public-behavior choice, destructive action, and security-sensitive capability, require exactly one recorded owner decision before effects plus a map to the exact GoalContract, PolicyBundle, or RunAuthority field that reflects it; reject a note whose launched value disagrees.
+- Reject hidden module/catalog lookup, silent authority expansion, and a planner that mutates the assembled PolicyBundle after `runGoal(start)`.
+- Require a serial baseline and, for a decomposable goal, at least one legal parallel candidate; reject a candidate roster made only of generic role labels or one that adds agents without safe concurrency or independent quality evidence.
+- Dogfood the same kickoff through at least two IDE-host adapters or equivalent deterministic fixtures and require the same portable workflow semantics.
 
 ## Policy And Replication Matrix
 
@@ -53,19 +64,33 @@ Revision 3 architecture-gate plan. No V11 runtime test is claimed. Every Round 1
 - Prove profile, executor, and planner IDs cannot appear as logical WorkPacket owners.
 - Derive OutputReference and evidence ownership from logical role, node function, and Assignment, ignoring hostile worker owner fields.
 
+## Specialist Agent Compiler Matrix
+
+- Call the built-in pure `compileAgentBlueprints` operation directly with no profiles or optional adapter, then require `compilePlan` to produce byte-identical projection, EvidenceBindings, AgentBlueprints, and AgentOptimizationRecord through the shared implementation before supply checks.
+- Require one address-bound AgentBlueprintIntent and compile exactly one AgentBlueprint for every concrete invocation; create neither value for an absent lane.
+- Require intent and blueprint ordinals plus exact invocation, Goal, Policy, supply-free TaskAuthorityProjection, Circuit, Module, template, concrete WorkPacket, criterion, evidence, dependency, handoff, and independence bindings; forbid proposal, session, profile, executor, and full RunAuthority demand bindings.
+- Recompute every WorkPacket field-projection and ContextUseBinding-row digest through the exact derived-digest registry; reject domain-tag, framing, null-placeholder, order, and one-field substitutions independently.
+- Require exactly one intent-supplied context-use row per concrete WorkPacket context reference; reject missing, duplicate, unowned, empty-use, empty-target, wrong-source, and unresolved rows, and prove core never invents a use or specialization reason.
+- Prove a generic role label alone cannot make a blueprint valid when objective, ports, context, scope, authority, evidence, verification, handoff, or stop conditions are missing.
+- Recompute every exact AgentOptimizationRecord formula: blueprint, dependency-edge, conflict-pair, handoff, context-reference, context-target, permission-scope, dependency-critical-path-component, declared-fan-out, and serial-blueprint counts; test SCCs, self-loops, no-fan-out, overflow, and shuffled inputs.
+- Test specialization reasons, including exclusive `serial_required`, and reject an unsupported reason or a claimed parallel blueprint with unresolved conflict scope.
+- Require at least one allowlisted compatible AgentProfile for every blueprint; compile byte-identical blueprints from the same Goal/Policy/TaskAuthority/WorkPacket/Intent values under shuffled or changed profile supply, while allowing Plan feasibility and Assignment to change.
+- Pass the exact blueprint to the execution adapter; validate one prompt-free AgentMaterializationReceipt at dispatch; and reject ticket, Assignment, blueprint, context/capability/port/constraint, adapter, attestor, grant, result, receipt, or capture substitution.
+- Keep provider-specific rendered instructions, model configuration, prompts, and hidden reasoning transient and absent from roots/events.
+
 ## Closed Contract And Digest Matrix
 
-- Accept exactly seven orchestration root kinds and every documented nested discriminator, including MemoryProposal, MemoryCandidate, and MergeReadyEvidence.
+- Accept exactly seven orchestration root kinds and every documented nested discriminator, including TaskAuthorityProjection, AgentBlueprintIntent, AgentMaterializationReceipt, AcceptedWorkAccumulator, MemoryProposal, MemoryCandidate, and MergeReadyEvidence.
 - Reject orchestration values in `validateArtifactValue` and project artifacts in `validateOrchestrationValue`.
 - Reject every unknown field and every required/forbidden variant-field violation.
 - Test RFC 8785 vectors, property order, escaping, safe integers, no Unicode normalization, nested digest retention, and own-field-only omission.
 - Test SnapshotDigest over complete detached Circuit, Module, WorkPacket, AdapterManifest, ExecutionGrant, V10 OperationResult, ExecutionSummary, and RunEvent values; reject arbitrary unchecked JSON and unknown/malformed digest kinds.
 - Reject malformed or substituted contentDigest, snapshot digest, identifier, ordinal, revision, or uniqueness scope.
-- Prove OrchestrationState has no ticket and ExecutionTicket is derived after claimed-state digest, avoiding a digest cycle.
+- Prove OrchestrationState has no ticket and ExecutionTicket is derived after claimed-state digest; derive RepositoryStateRequest from the pre-request state; derive EvidenceBinding before AgentBlueprint; and derive AcceptedWorkProjection before MergeReadyEvidence, with no cycle in any predecessor graph.
 - Tamper each event tail/cause/prior-root/successor-projection/journal digest or byte count and require continuation rejection before callbacks.
 - Assert every documented sorted array uses its exact total comparator across shuffled inputs and equal-prefix edge cases.
-- Compile the normative public operation/callback signatures as closed exhaustive readonly TypeScript unions.
-- Test unbound rejection on malformed start input and bound rejection with exact unchanged session/state digest.
+- Compile the normative public operation/callback signatures as closed exhaustive readonly TypeScript unions; reject half-present ref/digest pairs, broad continuation states, illegal continuation interactions, and conditional availability/response fields.
+- Test identified and unidentified facade start rejection separately, unbound rejection only for an unparseable continuation, and bound rejection with exact unchanged session/state digest.
 - Reject generic success-plus-error, deferred-plus-successor, and terminal-plus-active fields.
 
 ## Planning And Facade Matrix
@@ -74,7 +99,7 @@ Revision 3 architecture-gate plan. No V11 runtime test is claimed. Every Round 1
 | --- | --- | ---: | ---: |
 | valid start, concurrency omitted | ready with requested concurrency 1 | bounded by L | 0 before compiled |
 | valid start, explicit bounded concurrency | ready with exact requested value | bounded by L | 0 before compiled |
-| no supplied profile | unbound rejection | 0 | 0 |
+| no supplied profile with one trustworthy start identity | identified start_rejected | 0 | 0 |
 | planner result before round L | proposal/question/block semantics | one each | 0 |
 | valid response | ready, same round | 0 until resumed facade calls planner | 0 |
 | proposal or block on call L | compiled or blocked at round L | one | 0 |
@@ -82,25 +107,26 @@ Revision 3 architecture-gate plan. No V11 runtime test is claimed. Every Round 1
 | result at round L | bound rejection unchanged | 0 | 0 |
 | result while input pending | bound rejection unchanged | 0 | 0 |
 | stale/wrong/replayed/role-mismatched response | rejection unchanged | 0 | 0 |
-| planning continuation | uses exact session | bounded | 0 until compiled |
+| planning continuation | input-required continuation plus explicit callback/input interaction; exposes an accepted answer once without embedding it in the returned continuation | bounded | 0 until compiled |
 | run continuation after waiting | uses exact state and changed availability | 0 | bounded |
 
-Run the table for RunAuthority planner-call limits 1 through 8. Assert facade returns only input_required, waiting, completed, failed, blocked, cancelled, uncertain, or the two rejection variants with case-specific fields. Assert unchanged availability returns waiting once and never busy-loops. Prove extra profiles/slots cannot exceed omitted concurrency one.
+Run the table for RunAuthority planner-call limits 1 through 8. Assert facade returns only input_required, waiting, completed, failed, blocked, cancelled, uncertain, start_rejected, rejected_unbound, or rejected_bound with case-specific fields. Assert unchanged availability returns waiting once and never busy-loops. Prove extra profiles/slots cannot exceed omitted concurrency one.
 
 ## Authority, Profile, And Matching Matrix
 
 - Reject any RunAuthority not independently host-supplied and digest-bound to GoalContract and PolicyBundle.
-- Reject any Plan, WorkPacket, profile, availability, assignment, manifest request, or V10 grant that expands an earlier ceiling.
+- Require AvailabilitySnapshot to retain only sorted GrantOffer ID/digest references; reject missing, extra, duplicate, drifted, or over-2,048 detached offers and exercise both the 1 MiB root and 8 MiB callback-result byte ceilings.
+- Reject any Plan, WorkPacket, AgentBlueprint, profile, availability, assignment, manifest request, or V10 grant that expands an earlier ceiling.
 - Accept a WorkPacket with no filesystem permission when its non-empty include names metadata-only context; prove includes never grant authority and every filesystem permission is covered by an include.
 - Require every independence target to dominate the constrained activation from a strictly earlier SCC; reject same-SCC/cyclic or nondominating targets.
 - Reject profiles absent from the RunAuthority digest allowlist.
-- Build candidate edges only for exact Module, I/O, capability, authority, reservation, and grant compatibility.
+- Build candidate edges only for exact AgentBlueprint, Module, I/O, capability, authority, reservation, and grant compatibility.
 - Normalize permissions and capabilities as sorted sets; test every surplus tuple dimension.
 - Priority is required, range is 0-65535, lower wins, and callers use explicit neutral 32768; no schema default fills an omission.
 - Compare profile IDs, versions, reservation IDs, and slot ordinals by the documented ASCII/ordinal rule.
 - Enumerate small candidate graphs and compare implementation output to exhaustive maximum-cardinality plus lexicographically smallest assignment-vector truth.
 - Include the constrained-profile case where a flexible profile must remain available to maximize cardinality.
-- Shuffle profiles, slots, invocations, object keys, and capabilities and require identical assignments.
+- Shuffle blueprints, profiles, slots, invocations, object keys, and capabilities and require identical assignments.
 - Reject or ignore IDE, API, model, provider, prompt, price, and hidden-score fields before candidate construction.
 
 ## Path, Conflict, And Wave Matrix
@@ -120,14 +146,14 @@ Run the table for RunAuthority planner-call limits 1 through 8. Assert facade re
 | any writer | unknown scope | No |
 
 - Run the normative earliest-feasible wave algorithm against shuffled inputs and an independent reference implementation.
-- Test conflicting earlier versus nonconflicting later work, capacity-constrained candidates, matching-feasibility rejection, concurrency 1 and 32, and empty selection.
-- Assert requested concurrency caps selection, claim reserve fits before dispatch, claimed state is installed before the first execution callback, and tickets bind claimed-state digest plus exact result limits.
+- Test conflicting earlier versus nonconflicting later work, including the canonical `A` versus disjoint `B+C` counterexample; capacity-constrained candidates; matching-feasibility rejection; concurrency 1 and 32; and empty selection. Assert exact maximum cardinality only for assignment of the selected wave and never claim globally maximum conflict packing.
+- Assert requested concurrency caps selection, claim reserve fits before dispatch, claimed state is installed before the first execution callback, and tickets bind claimed-state digest plus exact result limits including maxMaterializationReceiptJcsBytes.
 - Reoffer a consumed grant-digest/run/attempt tuple after executed, rejected, not-started, cancellation, and cycle reactivation; every replay is ineligible.
 - Distinguish completed, blocked/deadlock, and capacity-deferred empty waves.
 
 ## Ticket, Observation, And Result Matrix
 
-- Substitute each ticket/result binding independently: authority, policy, plan, claimed state, wave, claim, Assignment, invocation, packet, logical role, profile, availability, reservation, executor, manifest, grant, V10 run/attempt/correlation, criterion, port, and evidence digest.
+- Substitute each ticket/result binding independently: authority, policy, plan, claimed state, wave, claim, Assignment, invocation, AgentBlueprint, packet, logical role, profile, availability, reservation, executor, manifest, grant, V10 run/attempt/correlation, criterion, port, and evidence digest.
 - Require the complete batch to reject unchanged on the first mismatch.
 
 | Variant | Positive case | Required negatives |
@@ -138,8 +164,8 @@ Run the table for RunAuthority planner-call limits 1 through 8. Assert facade re
 | effect_unknown | fixed code plus unknown dispatch observation | workflow success, output/memory transfer, retry |
 
 - Core-observed not-started requires a dispatch counter of zero; counter one plus exception or oversized report is effect_unknown.
-- Test second dispatch-capability use, exception before dispatch, exception after dispatch, V10 return, host-attested boundary ambiguity, and every resultLimits field at minus one/exact/plus one.
-- Host-attested not-started is labeled as host evidence and binds allowlisted attestor identity/digest.
+- Test second dispatch-capability use, exception before dispatch, exception after dispatch, V10 return/digest mismatch, forged or foreign opaque capture, registered context-use digest mismatch, and every resultLimits field at minus one/exact/plus one.
+- Reject every host-attested substitute for core-observed not-started; only counter-zero pre-dispatch return or exception may produce that variant.
 - Verify journal/output/VCS/path facts only through matching HostObservation kinds and digests.
 - Require core-counted `journal_bytes` for every executed result and one matching host-attested `output_bytes` observation for every OutputDraft; core validates the declared size/digest without claiming to observe external bytes.
 - For every filesystem-write ticket, require exactly one result-time `vcs_baseline` matching RunAuthority, one `vcs_head`, and one `changed_paths` observation binding both; missing or inconsistent post-dispatch evidence is `effect_unknown`, while a proven outside-scope change is `out_of_scope_effect`.
@@ -177,10 +203,10 @@ Execute every ChildResult/V10 case in the normative mapping and assert exact rou
 - Derived join source count: zero invalid, one valid, two and many valid; preserve the existing Circuit fan-out rule independently.
 - `all`: one, two and many branches, failure, block, input, requeue, recovery, uncertainty, active claimed branch.
 - `any`: earlier success, later success, multiple successes, earlier not-started, earlier diagnosis/fix, earlier terminal failure, claimed lower-priority losers, unclaimed losers, all fail, uncertainty.
-- Compare concurrency 1, 2, and 32 for identical winner, transferred ports, evidence, routes, and final state.
+- Compare concurrency 1, 2, and 32 for identical accepted winner, transferred outputs, EvidenceSatisfactions, routes, terminal code, repositoryTreeDigest, and accepted-work projection; require raw claims, revisions, states, and events to remain truthful rather than identical.
 - Assert only a terminal non-success lets a later success win; requeued/routed work stays active.
 - Assert claimed losers settle and preserve evidence while only winner outputs transfer.
-- Remove each completion predicate in turn: active invocation settlement, join, transfer, criterion coverage, per-join/primary integration evidence, verifier, reviewer, owner approval, memory proposal/candidate, VCS head when required, no claim/input/wait/uncertainty/deadlock. Completion must fail with one stable reason.
+- Remove each completion predicate in turn: successful-or-skipped invocation closure, declared exit, join, transfer, criterion EvidenceSatisfaction coverage, per-join/primary integration evidence, verifier, reviewer, final RepositoryStateWitness/tree/change/write-set closure, owner approval against that witness, memory proposal/candidate, and no claim/input/wait/uncertainty/deadlock. Completion must fail with one stable reason.
 - Prove only the memory invocation can emit MemoryProposals; expose exact eligible prior output/evidence/event source digests in its ticket, reject empty or out-of-ticket proposal provenance, derive one candidate per proposal in order, and return post-terminal MergeReadyEvidence without a state/event digest cycle.
 
 ## Event, Privacy, And Trace Matrix
@@ -197,24 +223,24 @@ Execute every ChildResult/V10 case in the normative mapping and assert exact rou
 
 ## Resource Matrix
 
-Test minus one, exact, and plus one for every normative boundary: direct input bytes, root bytes, state bytes, result-batch bytes, event bytes, aggregate journal bytes, string bytes, ID length, depth, nodes, invocations, lanes, profiles, capabilities, matching edges, concurrency, wave size, source refs, excerpts, aggregate excerpts, prerequisites, bindings, scope entries, outputs, evidence, observations, planner calls, pending requests, revisions, events, and zero retries.
+Test minus one, exact, and plus one for every normative boundary: direct input bytes, root bytes, state bytes, result-batch bytes, event bytes, aggregate journal bytes, string bytes, ID length, depth, nodes, invocations, lanes, profiles, blueprints, context-use rows, capabilities, matching edges, concurrency, wave size, source refs, excerpts, aggregate excerpts, prerequisites, bindings, scope entries, outputs, evidence, observations, planner calls, pending requests, revisions, events, and zero retries.
 
 Use incremental allocation, claim-reserve, and callback counters. Over-limit pre-dispatch input must fail before the forbidden successor/effect; an over-limit post-dispatch report must become uncertain with no output/route/integration advance. Verify the reserved worst-case accepted reduction always fits.
 
 ## Portability And Package Matrix
 
-- Host A uses advanced operations; Host B uses `runGoal`; identical host IDs and inputs produce byte-identical Plans, states, and events.
+- Host A uses advanced operations; Host B uses `runGoal`; identical host IDs and inputs produce byte-identical Plans, states, and events. Resume both after process replacement using only a returned continuation and require the AcceptedWorkAccumulator to preserve terminal accepted-work and merge semantics.
 - Host C uses different executor/reservation/attestor provenance; apply the exact semantic projection and require equality while raw provenance remains different.
-- Verify different planner proposals are not claimed equivalent; the same proposal compiles identically.
+- Verify different planner proposals are not claimed equivalent; the same proposal compiles byte-identical AgentBlueprints, optimization metrics, and Plan.
 - Snapshot every actual current `src/index.ts` export and compile an unchanged V9/V10 exhaustive consumer against type-identical declarations; do not assume internal ArtifactKind/ArtifactEnvelope are public.
 - Import every exact newly listed orchestration root/nested/callback/result name, operation, and explicit JSON schema subpath from the packed artifact; reject unlisted/wildcard paths.
 - Install, compile, and run the packed consumer offline.
 
 ## Dogfood
 
-Use revision 3 itself to plan at least frontend, backend, test, docs, and security-capable variants plus one integration owner. Exercise one clarification, explicit concurrency above one, one policy-bounded replicated region, one failure routed through diagnosis/fix, one fan-in/integration witness, host-owned criterion coverage, independent verification/review, owner approval, MemoryProposal-to-MemoryCandidate learning, and MergeReadyEvidence.
+Use revision 4 itself to compile AgentBlueprintIntents and task-specific AgentBlueprints for concrete source-chain integration, declaration verification, checker verification, product review, API review, lifecycle review, and security review work packets rather than generic role labels. Exercise one clarification, explicit concurrency above one, one policy-bounded replicated region, one failure routed through diagnosis/fix, one fan-in/integration witness, host-owned criterion coverage, independent verification/review, owner approval, MemoryProposal-to-MemoryCandidate learning, and MergeReadyEvidence.
 
-Run the same deterministic work at concurrency one and safe bounded parallelism. Final criteria, outputs, evidence, routes, trace semantic projection, and terminal state must match. Record elapsed time and coordination overhead as environment-qualified observations; do not claim a universal speedup.
+Compile two Plans from identical semantic inputs except requested concurrency and run the deterministic work at concurrency one and safe bounded parallelism. Final criteria, outputs, evidence, routes, accepted-work projection, repositoryTreeDigest, and terminal status must match; Plan/state digests plus raw wave and trace topology may differ. Separately evaluate one-agent-optimal, under-split, over-split, conflict-heavy, genuinely parallel, and generic-role golden tasks with an independent semantic reviewer, a named baseline, exact structural deltas, elapsed time, accepted quality evidence, and coordination overhead. Do not claim a universal speedup or global optimum.
 
 ## Canonical Gates
 
