@@ -6,6 +6,9 @@ export {
   ARTIFACT_KINDS,
   EVENT_TYPE_VERSION,
   LIMITS,
+  SPECIALIST_API_VERSION,
+  SPECIALIST_KINDS,
+  SPECIALIST_LIMITS,
 } from "./constants.js";
 export {
   createDiagnostic,
@@ -31,6 +34,52 @@ export type {
   WorkPacketExecutorRequest,
   WorkPacketExecutorSettlement,
 } from "./execution.js";
+export {
+  compileAgentBlueprints,
+  deriveTaskAuthorityProjection,
+} from "./specialist-compiler.js";
+export { renderSpecialistPackage } from "./specialist-render.js";
+export type {
+  AgentBlueprint,
+  AgentBlueprintAuthority,
+  AgentBlueprintCompilation,
+  AgentBlueprintContextUse,
+  AgentBlueprintEvidenceDuty,
+  AgentBlueprintHandoff,
+  AgentBlueprintObjective,
+  CompileAgentBlueprintsInput,
+  RenderedSpecialistFile,
+  RenderedSpecialistPackage,
+  SpecialistAcceptanceCriterion,
+  SpecialistAgentSchedule,
+  SpecialistApiVersion,
+  SpecialistAuthority,
+  SpecialistCandidateEvaluation,
+  SpecialistCandidateMetrics,
+  SpecialistCandidateOrigin,
+  SpecialistCandidateProposal,
+  SpecialistCandidateRejectionCode,
+  SpecialistContextKind,
+  SpecialistContextSource,
+  SpecialistContextUse,
+  SpecialistEvidenceDuty,
+  SpecialistEvidenceRequirement,
+  SpecialistExternalContextSource,
+  SpecialistGoalContract,
+  SpecialistLaunchWave,
+  SpecialistModuleBinding,
+  SpecialistOptimizationPolicy,
+  SpecialistPackageAgent,
+  SpecialistPackageManifest,
+  SpecialistPermission,
+  SpecialistPort,
+  SpecialistRepositoryContextSource,
+  SpecialistScope,
+  SpecialistSearchMode,
+  SpecialistSearchSummary,
+  SpecialistWorkUnit,
+  TaskAuthorityProjection,
+} from "./specialist-types.js";
 export { initializeProject } from "./initialize.js";
 export { parseJsonBuffer } from "./json.js";
 export { inspectTrace } from "./trace.js";

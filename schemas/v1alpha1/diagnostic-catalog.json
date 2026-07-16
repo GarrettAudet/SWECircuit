@@ -455,6 +455,60 @@
       "exitClass": 2
     },
     {
+      "code": "SC4301",
+      "rule": "specialist.input.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4302",
+      "rule": "specialist.goal.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4303",
+      "rule": "specialist.authority.exceeded",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4304",
+      "rule": "specialist.evidence.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4305",
+      "rule": "specialist.candidate.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4306",
+      "rule": "specialist.candidate.none-eligible",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4307",
+      "rule": "specialist.digest.mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4308",
+      "rule": "specialist.limit.exceeded",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4309",
+      "rule": "specialist.secret-pattern",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
       "code": "SC5001",
       "rule": "limit.artifact-bytes",
       "severity": "error",

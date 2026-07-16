@@ -1,0 +1,584 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-compiler.schema.json",
+  "title": "SWECircuit Specialist Compiler v1alpha1 Inputs",
+  "description": "Closed provider-neutral GoalContract and SpecialistCompilationRequest inputs.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/goalContract"
+    },
+    {
+      "$ref": "#/$defs/compilationRequest"
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/common.schema.json#/$defs/identifier"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384
+    },
+    "shortText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "scopeKey": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "identifierSet": {
+      "type": "array",
+      "maxItems": 256,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      }
+    },
+    "scopeSet": {
+      "type": "array",
+      "maxItems": 256,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/scopeKey"
+      }
+    },
+    "permission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "scopes"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "filesystem.read",
+            "filesystem.write",
+            "network.connect",
+            "process.spawn",
+            "secrets.read"
+          ]
+        },
+        "scopes": {
+          "$ref": "#/$defs/scopeSet"
+        }
+      }
+    },
+    "port": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "artifactType"],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/identifier"
+        },
+        "artifactType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "moduleBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "action", "inputPorts", "outputPorts"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "action": {
+          "$ref": "#/$defs/shortText"
+        },
+        "inputPorts": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "$ref": "#/$defs/port"
+          }
+        },
+        "outputPorts": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "$ref": "#/$defs/port"
+          }
+        }
+      }
+    },
+    "evidenceKind": {
+      "enum": [
+        "artifact",
+        "command",
+        "test",
+        "review",
+        "decision",
+        "commit",
+        "digest",
+        "handoff",
+        "memory"
+      ]
+    },
+    "evidenceRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "duty", "description", "independentFromProducer"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "kind": {
+          "$ref": "#/$defs/evidenceKind"
+        },
+        "duty": {
+          "enum": ["produce", "verify", "review"]
+        },
+        "description": {
+          "$ref": "#/$defs/shortText"
+        },
+        "independentFromProducer": {
+          "type": "boolean"
+        }
+      }
+    },
+    "acceptanceCriterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "evidenceRequirements"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "description": {
+          "$ref": "#/$defs/text"
+        },
+        "evidenceRequirements": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "items": {
+            "$ref": "#/$defs/evidenceRequirement"
+          }
+        }
+      }
+    },
+    "contextSourceBase": {
+      "type": "object",
+      "required": ["id", "kind", "locator", "digest", "bytes", "description", "allowedWorkUnits"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "kind": {
+          "enum": ["repository", "documentation", "conversation", "memory", "evidence"]
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1286
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 67108864
+        },
+        "description": {
+          "$ref": "#/$defs/shortText"
+        },
+        "allowedWorkUnits": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "readScope": {
+          "$ref": "#/$defs/scopeKey"
+        }
+      }
+    },
+    "contextSource": {
+      "oneOf": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/contextSourceBase"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "kind",
+                "locator",
+                "digest",
+                "bytes",
+                "description",
+                "allowedWorkUnits",
+                "readScope"
+              ],
+              "properties": {
+                "id": true,
+                "kind": {
+                  "const": "repository"
+                },
+                "locator": true,
+                "digest": true,
+                "bytes": true,
+                "description": true,
+                "allowedWorkUnits": true,
+                "readScope": true
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/contextSourceBase"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "kind",
+                "locator",
+                "digest",
+                "bytes",
+                "description",
+                "allowedWorkUnits"
+              ],
+              "properties": {
+                "id": true,
+                "kind": {
+                  "enum": ["documentation", "conversation", "memory", "evidence"]
+                },
+                "locator": true,
+                "digest": true,
+                "bytes": true,
+                "description": true,
+                "allowedWorkUnits": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "contextUse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceId", "purpose"],
+      "properties": {
+        "sourceId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "purpose": {
+          "$ref": "#/$defs/shortText"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["read", "write", "conflictZones"],
+      "properties": {
+        "read": {
+          "$ref": "#/$defs/scopeSet"
+        },
+        "write": {
+          "$ref": "#/$defs/scopeSet"
+        },
+        "conflictZones": {
+          "$ref": "#/$defs/scopeSet"
+        }
+      }
+    },
+    "workUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "objective",
+        "weight",
+        "module",
+        "dependencies",
+        "requiredCapabilities",
+        "contextUses",
+        "scope",
+        "permissions",
+        "evidenceRequirementIds",
+        "handoffArtifacts",
+        "stopConditions"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "objective": {
+          "$ref": "#/$defs/text"
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "module": {
+          "$ref": "#/$defs/moduleBinding"
+        },
+        "dependencies": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "requiredCapabilities": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "contextUses": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "items": {
+            "$ref": "#/$defs/contextUse"
+          }
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "permissions": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/permission"
+          }
+        },
+        "evidenceRequirementIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "handoffArtifacts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "stopConditions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/shortText"
+          }
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowedModules",
+        "allowedCapabilities",
+        "permissionCeiling",
+        "forbiddenEffects",
+        "maxAgents",
+        "maxConcurrency"
+      ],
+      "properties": {
+        "allowedModules": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "allowedCapabilities": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "permissionCeiling": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/permission"
+          }
+        },
+        "forbiddenEffects": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/shortText"
+          }
+        },
+        "maxAgents": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "maxConcurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        }
+      }
+    },
+    "optimization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agentStartupCost", "handoffCost"],
+      "properties": {
+        "agentStartupCost": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "handoffCost": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      }
+    },
+    "goalContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiVersion",
+        "kind",
+        "id",
+        "revision",
+        "objective",
+        "integrationOwner",
+        "acceptanceCriteria",
+        "contextSources",
+        "authority",
+        "optimization",
+        "workUnits"
+      ],
+      "properties": {
+        "apiVersion": {
+          "const": "swecircuit/specialist/v1alpha1"
+        },
+        "kind": {
+          "const": "GoalContract"
+        },
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "objective": {
+          "$ref": "#/$defs/text"
+        },
+        "integrationOwner": {
+          "$ref": "#/$defs/identifier"
+        },
+        "acceptanceCriteria": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "items": {
+            "$ref": "#/$defs/acceptanceCriterion"
+          }
+        },
+        "contextSources": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "items": {
+            "$ref": "#/$defs/contextSource"
+          }
+        },
+        "authority": {
+          "$ref": "#/$defs/authority"
+        },
+        "optimization": {
+          "$ref": "#/$defs/optimization"
+        },
+        "workUnits": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/workUnit"
+          }
+        }
+      }
+    },
+    "candidateProposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "groups"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "groups": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/$defs/identifier"
+            }
+          }
+        }
+      }
+    },
+    "compilationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["apiVersion", "kind", "goal"],
+      "properties": {
+        "apiVersion": {
+          "const": "swecircuit/specialist/v1alpha1"
+        },
+        "kind": {
+          "const": "SpecialistCompilationRequest"
+        },
+        "goal": {
+          "$ref": "#/$defs/goalContract"
+        },
+        "proposedCandidates": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/candidateProposal"
+          }
+        }
+      }
+    }
+  }
+}

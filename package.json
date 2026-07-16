@@ -11,7 +11,8 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./schemas/specialist-compiler.schema.json": "./schemas/v1alpha1/specialist-compiler.schema.json"
   },
   "files": [
     "dist",

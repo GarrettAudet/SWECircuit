@@ -1,5 +1,40 @@
 export const API_VERSION = "swecircuit/v1alpha1" as const;
 export const EVENT_TYPE_VERSION = "1.0.0" as const;
+export const SPECIALIST_API_VERSION = "swecircuit/specialist/v1alpha1" as const;
+
+export const SPECIALIST_KINDS = [
+  "GoalContract",
+  "SpecialistCompilationRequest",
+  "TaskAuthorityProjection",
+  "AgentBlueprint",
+  "AgentBlueprintCompilation",
+  "SpecialistPackageManifest",
+] as const;
+
+export const SPECIALIST_LIMITS = Object.freeze({
+  inputBytes: 1_048_576,
+  outputBytes: 4_194_304,
+  textBytes: 16_384,
+  identifierBytes: 128,
+  workUnits: 64,
+  exactSearchWorkUnits: 8,
+  agents: 16,
+  concurrency: 16,
+  proposedCandidates: 32,
+  candidateGroups: 16,
+  acceptanceCriteria: 128,
+  evidenceRequirements: 512,
+  contextSources: 256,
+  contextSourceBytes: 67_108_864,
+  contextTotalBytes: 268_435_456,
+  permissions: 64,
+  scopes: 256,
+  capabilities: 128,
+  dependencies: 256,
+  ports: 128,
+  retainedAlternatives: 8,
+  planningWeight: 1_000_000,
+});
 
 export const ARTIFACT_KINDS = [
   "Project",
