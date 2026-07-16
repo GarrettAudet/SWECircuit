@@ -2,8 +2,7 @@
 
 ## Status
 
-Revision 4 redesign active on 2026-07-15. Round 1 returned `REVISE` against `f559b4a`, Round 2 returned four `REVISE` verdicts against `5d82394`, and Round 3 returned four `REVISE` verdicts against `79f2b4e`. Revision-4 specialist and architecture-coherence preflights subsequently returned four high/four medium and six high/six medium findings; both emitted `redesign`. No V11 schema or runtime implementation is authorized until a later exact candidate passes independent product, API, lifecycle, and security review.
-
+Deferred on 2026-07-15 after Round 4 returned four REVISE verdicts with 10 high and 9 medium findings. The source is preserved as runtime-control-plane design evidence, but ADR 0004 replaces it as the V11 implementation target. No scheduler, restart protocol, parent trace, repository attestation, merge-evidence, or automatic-memory behavior in this ADR is implemented or authorized by the V11 Specialist Compiler.
 ## Context
 
 V9 supplies strict file-based Module, Circuit, WorkPacket, RunEvent, and related project contracts. V10 supplies one bounded host-selected WorkPacket invocation. The missing product layer takes a human software goal through user-defined workflow modules, decomposes it into bounded concrete work, assigns compatible specialists, runs safe work in parallel, integrates and verifies outputs, preserves owner control, and records the full execution trace and learning candidates.

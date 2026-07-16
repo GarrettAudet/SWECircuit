@@ -1,3 +1,4 @@
+import { containsHighConfidenceSecret } from "./privacy.js";
 import { containsControlCharacters } from "./text.js";
 import type { Diagnostic, DiagnosticSeverity, ExitCode, OperationResult } from "./types.js";
 
@@ -689,7 +690,8 @@ function safePointer(pointer: string): string {
       decoded.includes("/") ||
       decoded.includes(String.fromCharCode(92)) ||
       decoded.includes(":") ||
-      containsControlCharacters(decoded)
+      containsControlCharacters(decoded) ||
+      containsHighConfidenceSecret(decoded)
     ) {
       break;
     }

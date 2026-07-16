@@ -8,6 +8,7 @@ Long-lived public or cross-module decisions belong here. Each ADR records contex
 | --- | --- | --- |
 | [0001](0001-executable-kernel-foundation.md) | Accepted | V9 deterministic offline kernel, canonical artifacts, validation, trace inspection, packaging, and security foundation. |
 | [0002](0002-bounded-executor-boundary.md) | Accepted | V10 one-packet host-injected execution boundary, invocation grants, cancellation truthfulness, and child evidence. |
-| [0003](0003-portable-orchestration-control-plane.md) | Proposed | V11 IDE-agnostic, policy-bounded goal decomposition, specialist assignment, deterministic parallel waves, integrated gates, and parent trace. |
+| [0003](0003-portable-orchestration-control-plane.md) | Deferred | Preserved universal runtime-control-plane design and four failed review rounds; no longer the V11 implementation target. |
+| [0004](0004-specialist-compiler-first.md) | Proposed | V11 ships the pure Specialist Compiler first: exact task-shaped team construction, deterministic optimization, and digest-bound IDE packages.
 
 Feature plans preserve implementation detail. The decision log in `docs/memory/decisions.md` provides the fast retrieval path back to accepted ADRs.

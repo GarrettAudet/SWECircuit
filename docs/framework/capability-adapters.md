@@ -49,7 +49,7 @@ Failure routes:
 
 ## Orchestration Compiler
 
-This capability implements SWECircuit-owned portable specialist compilation. The semantic layer compares a serial baseline with legal candidate decompositions; the core `compileAgentBlueprints` operation then validates standard AgentBlueprintIntent and emits exact supply-free AgentBlueprint, evidence-binding, structural-measurement, decomposition, handoff, gate, and integration contracts. A role label alone is never a specialist contract.
+This capability implements SWECircuit-owned portable specialist compilation. The IDE or human supplies a closed GoalContract with atomic work units and may propose candidate partitions; the core `compileAgentBlueprints` operation validates that demand, compares it with the serial baseline and built-in legal candidates, and emits exact supply-free AgentBlueprint, evidence, structural-measurement, handoff, gate, and integration contracts. A role label alone is never a specialist contract.
 
 An orchestration compiler is a policy-compiler adapter, not an IDE, model, or provider execution adapter. It may propose or materialize a plan under SWECircuit's contracts, but it does not redefine workflow semantics. Execution adapters receive the resulting assigned packets and perform provider-specific side effects.
 

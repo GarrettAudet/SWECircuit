@@ -1,0 +1,270 @@
+{
+  "case": "over-split",
+  "request": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "SpecialistCompilationRequest",
+    "goal": {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "GoalContract",
+      "id": "golden.over-split",
+      "revision": 1,
+      "objective": "Keep a dependent implementation and its test cohesive while parallelizing docs.",
+      "integrationOwner": "integration.owner",
+      "assumptions": [],
+      "unresolvedDecisions": [],
+      "acceptanceCriteria": [
+        {
+          "id": "criterion.core",
+          "description": "The core implementation is complete.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.core",
+              "kind": "artifact",
+              "duty": "produce",
+              "description": "Preserve the core change artifact.",
+              "independentFromProducer": false
+            }
+          ]
+        },
+        {
+          "id": "criterion.docs",
+          "description": "The documentation update is complete.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.docs",
+              "kind": "artifact",
+              "duty": "produce",
+              "description": "Preserve the documentation artifact.",
+              "independentFromProducer": false
+            }
+          ]
+        },
+        {
+          "id": "criterion.test",
+          "description": "The focused test is complete.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.test",
+              "kind": "test",
+              "duty": "produce",
+              "description": "Preserve the focused test result.",
+              "independentFromProducer": false
+            }
+          ]
+        }
+      ],
+      "contextSources": [
+        {
+          "id": "context.repository",
+          "kind": "repository",
+          "locator": "path:src/context.md",
+          "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "bytes": 100,
+          "description": "Shared repository context for implementation, docs, and tests.",
+          "allowedWorkUnits": ["unit.core", "unit.docs", "unit.test"],
+          "readScope": "src/context.md"
+        }
+      ],
+      "authority": {
+        "allowedModules": ["implement"],
+        "allowedCapabilities": ["edit.files"],
+        "permissionCeiling": [
+          {
+            "kind": "filesystem.read",
+            "scopes": ["src/**"]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": ["src/**"]
+          }
+        ],
+        "forbiddenEffects": ["Do not access the network."],
+        "maxAgents": 3,
+        "maxConcurrency": 3
+      },
+      "optimization": {
+        "agentStartupCost": 2,
+        "handoffCost": 4
+      },
+      "workUnits": [
+        {
+          "id": "unit.core",
+          "objective": "Implement the core behavior.",
+          "weight": 8,
+          "module": {
+            "id": "implement",
+            "action": "Implement the owned work unit.",
+            "inputPorts": [
+              {
+                "name": "context",
+                "artifactType": "ContextBundle"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "change",
+                "artifactType": "ChangeSet"
+              }
+            ]
+          },
+          "dependencies": [],
+          "requiredCapabilities": ["edit.files"],
+          "contextUses": [
+            {
+              "sourceId": "context.repository",
+              "purpose": "Read the core implementation contract."
+            }
+          ],
+          "scope": {
+            "read": ["src/context.md"],
+            "write": ["src/core.ts"],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": ["src/context.md"]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": ["src/core.ts"]
+            }
+          ],
+          "evidenceRequirementIds": ["evidence.core"],
+          "handoffArtifacts": ["artifact.core"],
+          "stopConditions": ["Stop if the core behavior is ambiguous."]
+        },
+        {
+          "id": "unit.docs",
+          "objective": "Document the user-visible behavior.",
+          "weight": 8,
+          "module": {
+            "id": "implement",
+            "action": "Implement the owned work unit.",
+            "inputPorts": [
+              {
+                "name": "context",
+                "artifactType": "ContextBundle"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "change",
+                "artifactType": "ChangeSet"
+              }
+            ]
+          },
+          "dependencies": [],
+          "requiredCapabilities": ["edit.files"],
+          "contextUses": [
+            {
+              "sourceId": "context.repository",
+              "purpose": "Read the documentation contract."
+            }
+          ],
+          "scope": {
+            "read": ["src/context.md"],
+            "write": ["src/docs.md"],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": ["src/context.md"]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": ["src/docs.md"]
+            }
+          ],
+          "evidenceRequirementIds": ["evidence.docs"],
+          "handoffArtifacts": ["artifact.docs"],
+          "stopConditions": ["Stop if public behavior is unresolved."]
+        },
+        {
+          "id": "unit.test",
+          "objective": "Add the focused regression test for the core behavior.",
+          "weight": 1,
+          "module": {
+            "id": "implement",
+            "action": "Implement the owned work unit.",
+            "inputPorts": [
+              {
+                "name": "context",
+                "artifactType": "ContextBundle"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "change",
+                "artifactType": "ChangeSet"
+              }
+            ]
+          },
+          "dependencies": ["unit.core"],
+          "requiredCapabilities": ["edit.files"],
+          "contextUses": [
+            {
+              "sourceId": "context.repository",
+              "purpose": "Read the focused test contract."
+            }
+          ],
+          "scope": {
+            "read": ["src/context.md"],
+            "write": ["src/core.test.ts"],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": ["src/context.md"]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": ["src/core.test.ts"]
+            }
+          ],
+          "evidenceRequirementIds": ["evidence.test"],
+          "handoffArtifacts": ["artifact.test"],
+          "stopConditions": ["Stop if the core implementation is unavailable."]
+        }
+      ]
+    }
+  },
+  "expected": {
+    "search": {
+      "mode": "exact",
+      "evaluatedCandidates": 5,
+      "eligibleCandidates": 5
+    },
+    "selectedPartition": [["unit.core", "unit.test"], ["unit.docs"]],
+    "selectedMetrics": {
+      "agentCount": 2,
+      "projectedMakespan": 11,
+      "peakConcurrency": 2,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 100,
+      "duplicatedPermissionScopes": 1,
+      "totalWorkWeight": 17,
+      "totalStartupCost": 4,
+      "totalHandoffCost": 0
+    },
+    "comparisonPartition": [["unit.core"], ["unit.docs"], ["unit.test"]],
+    "comparisonEligible": true,
+    "comparisonRejectionCodes": [],
+    "comparisonMetrics": {
+      "agentCount": 3,
+      "projectedMakespan": 17,
+      "peakConcurrency": 2,
+      "conflictPairs": 0,
+      "handoffCount": 1,
+      "duplicatedContextBytes": 200,
+      "duplicatedPermissionScopes": 2,
+      "totalWorkWeight": 17,
+      "totalStartupCost": 6,
+      "totalHandoffCost": 4
+    },
+    "decisiveProperty": "projectedMakespan"
+  }
+}

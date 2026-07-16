@@ -77,7 +77,7 @@ Correctness, authority, evidence coverage, and requested independence are hard g
 
 The selected partition compiles into one immutable `AgentBlueprint` per specialist. Each blueprint contains exact work-unit ownership, objective, Module actions and ports, dependencies, context uses, scopes, capabilities, permissions, evidence duties, handoff, and stop conditions. Generic role labels are not an input or output contract.
 
-`AgentBlueprintCompilation` binds the GoalContract, derived `TaskAuthorityProjection`, search evidence, selected candidate, retained alternatives, exact blueprints, launch waves, and compilation digest. `renderSpecialistPackage` emits deterministic files whose manifest binds that digest. A host must launch that reviewed compilation or compile again and obtain a new review.
+`AgentBlueprintCompilation` binds the GoalContract, derived `TaskAuthorityProjection`, search evidence, selected candidate, every supplied proposal evaluation, retained alternatives, exact blueprints, launch waves, and compilation digest. `renderSpecialistPackage` emits deterministic files whose manifest binds that digest. A host must launch that reviewed compilation or compile again and obtain a new review.
 
 ### Host Boundary
 

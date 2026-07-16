@@ -1,0 +1,153 @@
+{
+  "case": "generic-role",
+  "request": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "SpecialistCompilationRequest",
+    "goal": {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "GoalContract",
+      "id": "golden.generic-role",
+      "revision": 1,
+      "objective": "Compile one exact task-shaped specialist without a generic role contract.",
+      "integrationOwner": "integration.owner",
+      "assumptions": [],
+      "unresolvedDecisions": [],
+      "acceptanceCriteria": [
+        {
+          "id": "criterion.compiler",
+          "description": "The compiler change is complete.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.compiler",
+              "kind": "test",
+              "duty": "produce",
+              "description": "Preserve the compiler test result.",
+              "independentFromProducer": false
+            }
+          ]
+        }
+      ],
+      "contextSources": [
+        {
+          "id": "context.repository",
+          "kind": "repository",
+          "locator": "path:src/context.md",
+          "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "bytes": 100,
+          "description": "Exact repository context for the compiler task.",
+          "allowedWorkUnits": ["unit.compile"],
+          "readScope": "src/context.md"
+        }
+      ],
+      "authority": {
+        "allowedModules": ["implement"],
+        "allowedCapabilities": ["edit.files"],
+        "permissionCeiling": [
+          {
+            "kind": "filesystem.read",
+            "scopes": ["src/**"]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": ["src/**"]
+          }
+        ],
+        "forbiddenEffects": ["Do not access the network."],
+        "maxAgents": 1,
+        "maxConcurrency": 1
+      },
+      "optimization": {
+        "agentStartupCost": 1,
+        "handoffCost": 1
+      },
+      "workUnits": [
+        {
+          "id": "unit.compile",
+          "objective": "Implement the exact compiler change and its focused test.",
+          "weight": 5,
+          "module": {
+            "id": "implement",
+            "action": "Implement the owned work unit.",
+            "inputPorts": [
+              {
+                "name": "context",
+                "artifactType": "ContextBundle"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "change",
+                "artifactType": "ChangeSet"
+              }
+            ]
+          },
+          "dependencies": [],
+          "requiredCapabilities": ["edit.files"],
+          "contextUses": [
+            {
+              "sourceId": "context.repository",
+              "purpose": "Read the exact compiler contract."
+            }
+          ],
+          "scope": {
+            "read": ["src/context.md"],
+            "write": ["src/compiler.ts"],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": ["src/context.md"]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": ["src/compiler.ts"]
+            }
+          ],
+          "evidenceRequirementIds": ["evidence.compiler"],
+          "handoffArtifacts": ["artifact.compiler"],
+          "stopConditions": ["Stop if the exact compiler contract is ambiguous."]
+        }
+      ]
+    },
+    "proposedCandidates": [
+      {
+        "id": "candidate.exact-owner",
+        "groups": [["unit.compile"]]
+      }
+    ]
+  },
+  "expected": {
+    "search": {
+      "mode": "exact",
+      "evaluatedCandidates": 1,
+      "eligibleCandidates": 1
+    },
+    "selectedPartition": [["unit.compile"]],
+    "selectedMetrics": {
+      "agentCount": 1,
+      "projectedMakespan": 6,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 5,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "requiredOrigins": ["serial_baseline", "exact_search", "proposed"],
+    "proposalIds": ["candidate.exact-owner"],
+    "rejectedExtensionFields": [
+      "role",
+      "provider",
+      "model",
+      "prompt",
+      "executor",
+      "runtime",
+      "runtimeProfile",
+      "credential"
+    ],
+    "decisiveProperty": "exactWorkOwnership"
+  }
+}

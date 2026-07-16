@@ -2,8 +2,7 @@
 
 ## Status
 
-T001-T006A complete. Round 3 returned four `REVISE` verdicts against exact commit `79f2b4e`; subsequent specialist and coherence preflights returned four high/four medium and six high/six medium findings. Revision 4 is locally verified and awaiting immutable-candidate freeze plus T006B review. Runtime implementation remains blocked.
-
+T001-T006B complete as architecture evidence. Round 4 returned four REVISE verdicts, so the workflow emitted split. No runtime implementation was authorized. T007-T013 are preserved deferred backlog; active V11 implementation moved to docs/specs/v11-specialist-compiler/tasks.md under ADR 0004.
 ## Task List
 
 - [x] T001: Bootstrap the V11 source and decision chain.
@@ -34,10 +33,9 @@ T001-T006A complete. Round 3 returned four `REVISE` verdicts against exact commi
   Scope: Close the 14 converged Round-3 obligations plus `specialist-compiler-preflight.md` and `architecture-coherence-preflight.md` across candidate comparison, independent `compileAgentBlueprints`, AgentBlueprintIntent, TaskAuthorityProjection, predecessor-safe EvidenceBinding/AgentBlueprint order, exact digests/metrics, AgentMaterializationReceipt, AcceptedWorkAccumulator, status-specific continuations, acyclic repository/projection/merge construction, detached offers, resources, ADR, tests, milestone, and memory.
   Verification: Every raw finding maps to one explicit contract rule and negative test; strict declarations, 56 preserved plus 130 collision-free proposed exports, 153 local links, the template checker, all 119 checker scenarios, and the canonical 275-test package gate pass.
 
-- [ ] T006B: Run architecture review Round 4.
-  Scope: Four fresh product/API/lifecycle/security reviewers inspect one immutable revision-4 commit.
-  Verification: Four `PASS` verdicts on the same commit. Any material finding returns to T006A as `redesign`.
-
+- [x] T006B: Run architecture review Round 4.
+  Scope: Four fresh product/API/lifecycle/security reviewers inspected immutable revision-4 commit d486b7f.
+  Verification: Four REVISE verdicts, with 10 high and 9 medium findings preserved in architecture-review-round-4.md; implementation stopped and emitted split.
 - [ ] T007: Implement contract family and canonical identity.
   Scope: Seven roots, closed nested/status/presence unions, schemas/types, JCS/SHA-256 and derived-digest registry, SnapshotDigest, content-bound tails, identified/unidentified start rejection, IDs/revisions/comparators, diagnostics, explicit package paths.
   Verification: Schema/runtime parity, digest vectors, hostile values, exact bounds, old export identity, packed consumer.

@@ -684,6 +684,20 @@ Avoid parallel agents when:
 - The blast radius is high and the integration plan is weak.
 - The cost of coordination is greater than the expected speedup.
 
+### Specialist Compilation
+
+For a goal that may benefit from multiple agents, first produce stable atomic work units. Each unit owns an objective, Module binding and ports, dependencies, context uses, read/write/conflict scopes, capabilities, least permissions, evidence duties, handoff artifacts, and stop conditions. Put low-risk assumptions and all unresolved decisions in the closed `GoalContract`; a decision marked `blocking: true` fails clarification, while a non-blocking decision needs an owner and explicit proceed rationale. These records are normalized into `goalDigest`.
+
+Repository context uses normalized relative `path:` locators. Parse the path portion into segments before accepting it and reject any segment exactly equal to `.` or `..`; do not rely on substring matching. The exported `SpecialistPermissionKind` union accepts only `filesystem.read`, `filesystem.write`, `network.connect`, `process.spawn`, and `secrets.read`. The compiler checks demand against owner ceilings, while the external host remains responsible for enforcement.
+
+The Specialist Compiler constructs legal groupings of the fixed work units. It always evaluates the serial grouping. Through eight units, `search.claim` is `exhaustive_partition_search_fixed_scheduler`; above eight, it is `bounded_evaluated_set_no_global_optimum`. The result also exposes a machine-readable `selectionReason` containing the outcome kind, decisive field, selected and serial values, and serial rejection codes. Planning values are not elapsed-time promises.
+
+Every generated `AgentBlueprint` is an exact task contract. A generic role label can never replace work ownership, context, authority, evidence, handoff, or stop conditions. `renderSpecialistPackage` returns `compilation.json`, `manifest.json`, `integration.md`, and one agent contract per blueprint, plus a root `packageDigest`.
+
+Launch only after `verifySpecialistPackage` reproduces the package and matches trusted expected `compilationDigest` and `packageDigest` values. The launch approval record must bind both digests outside the package; values copied only from the untrusted package are not a trust decision. The external IDE then chooses runtime supply, verifies delivered context, enforces permissions and isolation, executes agents, preserves evidence, and integrates the result.
+
+Review inputs must remain immutable across integration. If an integration unit may update a spec, milestone, memory file, or other candidate source, snapshot that source before compilation and bind preparation/reviewer context to the snapshot, never the live output path. After integration, rerun package reconstruction against the approved digest pair. Any mismatch retires the candidate, preserves the failed run, and requires a new revision and affected reviews.
+
 ### Parallelization Readiness
 
 Before fan-out, answer:
@@ -708,7 +722,7 @@ Likely files/docs:
 Dependencies:
 Conflict zones:
 Context bundle:
-Agent role/capability:
+Required capabilities (a generic role label is insufficient):
 Allowed actions:
 Verification evidence:
 Handoff format:

@@ -1,0 +1,210 @@
+{
+  "case": "one-agent-optimal",
+  "request": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "SpecialistCompilationRequest",
+    "goal": {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "GoalContract",
+      "id": "golden.one-agent-optimal",
+      "revision": 1,
+      "objective": "Complete a dependency chain without paying unnecessary coordination cost.",
+      "integrationOwner": "integration.owner",
+      "assumptions": [],
+      "unresolvedDecisions": [],
+      "acceptanceCriteria": [
+        {
+          "id": "criterion.alpha",
+          "description": "The first change is complete.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.alpha",
+              "kind": "artifact",
+              "duty": "produce",
+              "description": "Preserve the first change artifact.",
+              "independentFromProducer": false
+            }
+          ]
+        },
+        {
+          "id": "criterion.beta",
+          "description": "The dependent change is complete.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.beta",
+              "kind": "test",
+              "duty": "produce",
+              "description": "Preserve the dependent test result.",
+              "independentFromProducer": false
+            }
+          ]
+        }
+      ],
+      "contextSources": [
+        {
+          "id": "context.repository",
+          "kind": "repository",
+          "locator": "path:src/context.md",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 100,
+          "description": "Shared repository context for both work units.",
+          "allowedWorkUnits": ["unit.alpha", "unit.beta"],
+          "readScope": "src/context.md"
+        }
+      ],
+      "authority": {
+        "allowedModules": ["implement"],
+        "allowedCapabilities": ["edit.files"],
+        "permissionCeiling": [
+          {
+            "kind": "filesystem.read",
+            "scopes": ["src/**"]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": ["src/**"]
+          }
+        ],
+        "forbiddenEffects": ["Do not access the network."],
+        "maxAgents": 2,
+        "maxConcurrency": 2
+      },
+      "optimization": {
+        "agentStartupCost": 3,
+        "handoffCost": 5
+      },
+      "workUnits": [
+        {
+          "id": "unit.alpha",
+          "objective": "Implement the first change in the dependency chain.",
+          "weight": 4,
+          "module": {
+            "id": "implement",
+            "action": "Implement the owned work unit.",
+            "inputPorts": [
+              {
+                "name": "context",
+                "artifactType": "ContextBundle"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "change",
+                "artifactType": "ChangeSet"
+              }
+            ]
+          },
+          "dependencies": [],
+          "requiredCapabilities": ["edit.files"],
+          "contextUses": [
+            {
+              "sourceId": "context.repository",
+              "purpose": "Read the shared implementation contract."
+            }
+          ],
+          "scope": {
+            "read": ["src/context.md"],
+            "write": ["src/alpha.ts"],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": ["src/context.md"]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": ["src/alpha.ts"]
+            }
+          ],
+          "evidenceRequirementIds": ["evidence.alpha"],
+          "handoffArtifacts": ["artifact.alpha"],
+          "stopConditions": ["Stop if the implementation contract is ambiguous."]
+        },
+        {
+          "id": "unit.beta",
+          "objective": "Implement and verify the dependent change.",
+          "weight": 4,
+          "module": {
+            "id": "implement",
+            "action": "Implement the owned work unit.",
+            "inputPorts": [
+              {
+                "name": "context",
+                "artifactType": "ContextBundle"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "change",
+                "artifactType": "ChangeSet"
+              }
+            ]
+          },
+          "dependencies": ["unit.alpha"],
+          "requiredCapabilities": ["edit.files"],
+          "contextUses": [
+            {
+              "sourceId": "context.repository",
+              "purpose": "Read the shared implementation contract."
+            }
+          ],
+          "scope": {
+            "read": ["src/context.md"],
+            "write": ["src/beta.ts"],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": ["src/context.md"]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": ["src/beta.ts"]
+            }
+          ],
+          "evidenceRequirementIds": ["evidence.beta"],
+          "handoffArtifacts": ["artifact.beta"],
+          "stopConditions": ["Stop if the prerequisite change is unavailable."]
+        }
+      ]
+    }
+  },
+  "expected": {
+    "search": {
+      "mode": "exact",
+      "evaluatedCandidates": 2,
+      "eligibleCandidates": 2
+    },
+    "selectedPartition": [["unit.alpha", "unit.beta"]],
+    "selectedMetrics": {
+      "agentCount": 1,
+      "projectedMakespan": 11,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 8,
+      "totalStartupCost": 3,
+      "totalHandoffCost": 0
+    },
+    "comparisonPartition": [["unit.alpha"], ["unit.beta"]],
+    "comparisonEligible": true,
+    "comparisonRejectionCodes": [],
+    "comparisonMetrics": {
+      "agentCount": 2,
+      "projectedMakespan": 19,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 1,
+      "duplicatedContextBytes": 100,
+      "duplicatedPermissionScopes": 1,
+      "totalWorkWeight": 8,
+      "totalStartupCost": 6,
+      "totalHandoffCost": 5
+    },
+    "decisiveProperty": "projectedMakespan"
+  }
+}

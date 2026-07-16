@@ -1,0 +1,204 @@
+{
+  "case": "under-split",
+  "request": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "SpecialistCompilationRequest",
+    "goal": {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "GoalContract",
+      "id": "golden.under-split",
+      "revision": 1,
+      "objective": "Produce a change and verify it through an independent specialist.",
+      "integrationOwner": "integration.owner",
+      "assumptions": [],
+      "unresolvedDecisions": [],
+      "acceptanceCriteria": [
+        {
+          "id": "criterion.delivery",
+          "description": "The change is produced and independently verified.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.output",
+              "kind": "artifact",
+              "duty": "produce",
+              "description": "Preserve the produced change artifact.",
+              "independentFromProducer": false
+            },
+            {
+              "id": "evidence.verification",
+              "kind": "test",
+              "duty": "verify",
+              "description": "Preserve an independent verification result.",
+              "independentFromProducer": true
+            }
+          ]
+        }
+      ],
+      "contextSources": [
+        {
+          "id": "context.repository",
+          "kind": "repository",
+          "locator": "path:src/context.md",
+          "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "bytes": 100,
+          "description": "Shared repository context for production and verification.",
+          "allowedWorkUnits": ["unit.produce", "unit.verify"],
+          "readScope": "src/context.md"
+        }
+      ],
+      "authority": {
+        "allowedModules": ["implement"],
+        "allowedCapabilities": ["edit.files"],
+        "permissionCeiling": [
+          {
+            "kind": "filesystem.read",
+            "scopes": ["src/**"]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": ["src/**"]
+          }
+        ],
+        "forbiddenEffects": ["Do not access the network."],
+        "maxAgents": 2,
+        "maxConcurrency": 2
+      },
+      "optimization": {
+        "agentStartupCost": 1,
+        "handoffCost": 1
+      },
+      "workUnits": [
+        {
+          "id": "unit.produce",
+          "objective": "Produce the implementation change.",
+          "weight": 3,
+          "module": {
+            "id": "implement",
+            "action": "Implement the owned work unit.",
+            "inputPorts": [
+              {
+                "name": "context",
+                "artifactType": "ContextBundle"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "change",
+                "artifactType": "ChangeSet"
+              }
+            ]
+          },
+          "dependencies": [],
+          "requiredCapabilities": ["edit.files"],
+          "contextUses": [
+            {
+              "sourceId": "context.repository",
+              "purpose": "Read the implementation contract."
+            }
+          ],
+          "scope": {
+            "read": ["src/context.md"],
+            "write": ["src/feature.ts"],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": ["src/context.md"]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": ["src/feature.ts"]
+            }
+          ],
+          "evidenceRequirementIds": ["evidence.output"],
+          "handoffArtifacts": ["artifact.change"],
+          "stopConditions": ["Stop if implementation intent is unresolved."]
+        },
+        {
+          "id": "unit.verify",
+          "objective": "Independently verify the produced change.",
+          "weight": 2,
+          "module": {
+            "id": "implement",
+            "action": "Implement the owned work unit.",
+            "inputPorts": [
+              {
+                "name": "context",
+                "artifactType": "ContextBundle"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "change",
+                "artifactType": "ChangeSet"
+              }
+            ]
+          },
+          "dependencies": ["unit.produce"],
+          "requiredCapabilities": ["edit.files"],
+          "contextUses": [
+            {
+              "sourceId": "context.repository",
+              "purpose": "Read the verification contract."
+            }
+          ],
+          "scope": {
+            "read": ["src/context.md"],
+            "write": ["src/feature.test.ts"],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": ["src/context.md"]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": ["src/feature.test.ts"]
+            }
+          ],
+          "evidenceRequirementIds": ["evidence.verification"],
+          "handoffArtifacts": ["artifact.verification"],
+          "stopConditions": ["Stop if the produced change is unavailable."]
+        }
+      ]
+    }
+  },
+  "expected": {
+    "search": {
+      "mode": "exact",
+      "evaluatedCandidates": 2,
+      "eligibleCandidates": 1
+    },
+    "selectedPartition": [["unit.produce"], ["unit.verify"]],
+    "selectedMetrics": {
+      "agentCount": 2,
+      "projectedMakespan": 8,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 1,
+      "duplicatedContextBytes": 100,
+      "duplicatedPermissionScopes": 1,
+      "totalWorkWeight": 5,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 1
+    },
+    "comparisonPartition": [["unit.produce", "unit.verify"]],
+    "comparisonEligible": false,
+    "comparisonRejectionCodes": ["evidence_independence"],
+    "comparisonMetrics": {
+      "agentCount": 1,
+      "projectedMakespan": 6,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 5,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "decisiveProperty": "evidence_independence"
+  }
+}

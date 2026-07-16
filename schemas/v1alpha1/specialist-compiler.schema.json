@@ -464,6 +464,44 @@
         }
       }
     },
+    "assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "statement", "rationale"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "statement": {
+          "$ref": "#/$defs/shortText"
+        },
+        "rationale": {
+          "$ref": "#/$defs/shortText"
+        }
+      }
+    },
+    "unresolvedDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "question", "owner", "blocking", "proceedRationale"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "question": {
+          "$ref": "#/$defs/shortText"
+        },
+        "owner": {
+          "$ref": "#/$defs/identifier"
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "proceedRationale": {
+          "$ref": "#/$defs/shortText"
+        }
+      }
+    },
     "goalContract": {
       "type": "object",
       "additionalProperties": false,
@@ -474,6 +512,8 @@
         "revision",
         "objective",
         "integrationOwner",
+        "assumptions",
+        "unresolvedDecisions",
         "acceptanceCriteria",
         "contextSources",
         "authority",
@@ -500,6 +540,20 @@
         },
         "integrationOwner": {
           "$ref": "#/$defs/identifier"
+        },
+        "assumptions": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "$ref": "#/$defs/assumption"
+          }
+        },
+        "unresolvedDecisions": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "$ref": "#/$defs/unresolvedDecision"
+          }
         },
         "acceptanceCriteria": {
           "type": "array",

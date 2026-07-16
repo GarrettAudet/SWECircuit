@@ -2,8 +2,7 @@
 
 ## Status
 
-Revision 4 redesign active. Round 3 returned four `REVISE` verdicts against exact commit `79f2b4e`, after Round 1 and Round 2 also failed their architecture gates. The specialist preflight then returned four high/four medium findings, and the architecture-coherence preflight returned six high/six medium findings; both correctly routed to `redesign`. No V11 runtime implementation is authorized until four fresh reviewers pass one later exact candidate. This branch remains stacked on owner-gated V10 closeout `8ac3372` and cannot be accepted or merged until V10 is approved or V11 is rebased and fully reverified.
-
+Historical design package; split on 2026-07-15. Round 4 returned four REVISE verdicts against d486b7f with 10 high and 9 medium findings. ADR 0004 and docs/specs/v11-specialist-compiler/ now own the active V11 product slice. The scheduler, restart, parent-trace, repository-proof, merge-evidence, and memory behavior below is deferred and must not be read as implemented or authorized.
 ## Problem
 
 SWECircuit has portable project workflow contracts and one bounded WorkPacket execution primitive, but a user still has to manually convert a software goal into concrete work, assign specialists, choose safe parallel work, integrate outputs, route failures, verify acceptance, and preserve one trace. That prevents the repository from delivering its core goal: high-quality software work completed quickly by one or many agents under visible, methodical control.

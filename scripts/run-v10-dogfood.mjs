@@ -11,11 +11,7 @@ import {
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  createDeterministicTestExecutor,
-  executeWorkPacket,
-  inspectTrace,
-} from "../dist/index.js";
+import { createDeterministicTestExecutor, executeWorkPacket, inspectTrace } from "../dist/index.js";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const WORKSPACE_PREFIX = "swecircuit-v10-dogfood-";
@@ -49,9 +45,7 @@ function digest(value) {
 }
 
 function fixture(name) {
-  return JSON.parse(
-    readFileSync(join(ROOT, "test", "fixtures", "valid", `${name}.json`), "utf8"),
-  );
+  return JSON.parse(readFileSync(join(ROOT, "test", "fixtures", "valid", `${name}.json`), "utf8"));
 }
 
 function workPacket() {
@@ -260,10 +254,7 @@ function assertCommittedEvidence(reportBody, traceBody) {
   );
 }
 
-export async function runV10Dogfood({
-  checkEvidence = false,
-  onWorkspaceCreated = () => {},
-} = {}) {
+export async function runV10Dogfood({ checkEvidence = false, onWorkspaceCreated = () => {} } = {}) {
   let executorCalls = 0;
   const deterministic = createDeterministicTestExecutor({
     id: "dogfood.review-executor",
@@ -289,9 +280,7 @@ export async function runV10Dogfood({
     },
   });
 
-  const rejected = await executeWorkPacket(
-    executionOptions(executionGrant(["src/**"]), executor),
-  );
+  const rejected = await executeWorkPacket(executionOptions(executionGrant(["src/**"]), executor));
   requireCondition(!rejected.ok, "DOGFOOD_PREFLIGHT", "Under-authorized work was accepted.");
   requireCondition(rejected.value === null, "DOGFOOD_PREFLIGHT", "Rejected work returned a value.");
   requireCondition(
@@ -303,10 +292,7 @@ export async function runV10Dogfood({
   requireCondition(executorCalls === 0, "DOGFOOD_PREFLIGHT", "Rejected work invoked the executor.");
 
   const accepted = await executeWorkPacket(
-    executionOptions(
-      executionGrant(["docs/specs/v10-executor-adapter/**", "src/**"]),
-      executor,
-    ),
+    executionOptions(executionGrant(["docs/specs/v10-executor-adapter/**", "src/**"]), executor),
   );
   requireCondition(accepted.ok, "DOGFOOD_EXECUTION", "Corrected work did not execute.");
   requireCondition(
@@ -408,7 +394,9 @@ export async function runV10Dogfood({
 
 const entry = process.argv[1];
 if (entry !== undefined && samePath(entry, fileURLToPath(import.meta.url))) {
-  const unknownArguments = process.argv.slice(2).filter((argument) => argument !== "--check-evidence");
+  const unknownArguments = process.argv
+    .slice(2)
+    .filter((argument) => argument !== "--check-evidence");
   if (unknownArguments.length > 0) {
     process.stderr.write("V10 dogfood run failed (DOGFOOD_USAGE).\n");
     process.exitCode = 1;

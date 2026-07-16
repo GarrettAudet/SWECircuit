@@ -2,52 +2,38 @@
 
 ## Current Focus
 
-Dogfood the technically accepted V10 contracts to design V11 as an IDE-, API-, model-, and provider-agnostic software-work coordinator. The target is one visible path from a user message to approved module composition, explicit AgentBlueprintIntents, supply-free task-specific AgentBlueprints, attested materialization, high-value bounded conflict-safe parallel work, deterministic integration, qualified evidence, independent verification/review, final repository proof, owner approval, trace, and learning. Keep V10 immutable behind its owner gate and V11 planning-only until one later architecture candidate passes independent review.
+Present the standalone V11 Specialist Compiler revision-6 candidate for owner approval without widening its pure-core boundary. Technical acceptance is bound to compilation `sha256:ac1707213d9c22314d4c5a3d0bc6a838ef31863b63a9e2dac5993541d919c161` and package `sha256:838019281b732ec238e4460c03167087b7a63c409348ee66322cc5535469774d`. The larger scheduler/restart/parent-trace/merge control plane remains deferred with its failed-review evidence preserved.
 
 ## Current Stage
 
-V10 technical acceptance is complete at immutable candidate `fa4371e` with evidence closeout `8ac3372`. The exact candidate passed the canonical local gate with 275 tests, the 119-scenario checker matrix, independent correctness, security, and API/documentation review, and all seven GitHub Actions jobs. V10 remains unmerged; `main` remains the owner-approved V9 baseline at `2b7bef3`.
+V10 technical acceptance remains preserved at candidate `fa4371e` with evidence closeout `8ac3372` and is still owner-gated. Main remains the V9 baseline.
 
-V11 architecture review has completed three immutable dogfood rounds. Round 1 against `f559b4a` returned four `REVISE` verdicts. Revision 2 commit `5d82394` passed placeholder, BOM-free LF, 138-reference source, diff, template, and canonical package gates with 275 inherited tests, then four fresh reviewers returned `REVISE` with 17 high and 8 medium raw findings. Implementation correctly stopped both times. Revision 3 now defines an exact PolicyBundle/template closure, host-owned criterion coverage, compiler-derived integration, explicit requested concurrency, logical-role/runtime-assignment separation, root RunAuthority, content-bound transition/journal cursors, total comparators/signatures, formal matching and reserved waves, attempt replay prevention, one-shot dispatch truth, four child variants, two-pass mixed batches, queued input/cancellation, MemoryProposal-to-Candidate production, post-terminal MergeReadyEvidence, graph-wide portability, and the actual additive export inventory. Product/API/lifecycle preflights informed these corrections; the interrupted security preflight returned no evidence. No V11 kernel, schema, package, scheduler, merge, or memory-write behavior exists. Revision 3 exact commit `79f2b4e` passed source/template/declaration/export and canonical package gates with 275 inherited tests, then four fresh reviewers returned `REVISE` with 15 high and 10 medium raw findings. Revision-4 redesign is active against the 14 converged obligations in `architecture-review-round-3.md` plus the owner-required specialist-agent compiler and one-message approved-catalog kickoff. The initial revision-4 candidate added self-contained continuations, causal clarification, qualified evidence, declared exits, exhaustive closure, opaque dispatch capture, final repository witness, closed references, accepted-work projection, exact resources, and one complete AgentBlueprint per invocation. A read-only specialist-construction preflight then found four high and four medium gaps: missing semantic intent input, no repository-shipped synthesis surface, overclaimed optimization, supply-bound demand, no materialization receipt, weak baselines, and incomplete metric formulas. It correctly emitted `redesign`. The subsequent architecture-coherence preflight found six high and six medium defects: repository/projection/merge and evidence/blueprint construction cycles, incomplete fresh-process evidence, missing facade start rejection, impossible GrantOffer bounds, broad public unions, nonexistent context-use digests, width-equivalence drift, underspecified derived digests, terminal prose drift, and an unbound kickoff decision. It also emitted `redesign`. The current working tree is integrating a two-layer Specialist Compiler with pure profile-free `compileAgentBlueprints`, serial/candidate comparison, task-shaped intents, predecessor-safe EvidenceBindings, a derived-digest registry, AcceptedWorkAccumulator, status-specific continuations, detached offers, acyclic repository/projection/merge construction, and six golden baselines. These edits are unreviewed and no V11 runtime exists. V11 cannot be accepted or merged until V10 is owner-approved or V11 is rebased to an approved replacement.
+V11 universal-runtime Round 4 failed against `d486b7f` with four REVISE verdicts, 10 high findings, and 9 medium findings. Raw evidence and correction design were committed at `6da0376`; the workflow emitted `split` rather than another broad patch cycle.
+
+The standalone V11 Specialist Compiler revision-6 candidate has now passed technical acceptance in the shared `codex/v11-orchestration-planner` worktree. Preparation matched 34/34 source bindings, with `context.spec` bound only to the immutable pre-integration snapshot. Product/API passed 12/12 context items, algorithm/lifecycle 14/14, and security/trace 32/32, each with no findings against the same digest pair.
+
+Canonical release verification matched 19/19 assigned contexts and 9/9 package files; focused schema 7/7, compiler/golden 35/35, host containment 6/6, and `npm.cmd run verify` 323/323 tests passed. Both dogfoods, the offline installed consumer, package verification, template checker, 105-file package inspection, and the complete 744.9-second negative matrix passed. Attempt 5 remains `FIX` after post-integration replay found a mutable live-spec binding. Release-host attempts 6A and 6B remain `FIX` for a 265-character Windows root and reviewer removal of the offline cache; neither changed source or the revision-6 pair. No hosted CI result is claimed for this candidate.
+
+Dogfood exact search evaluated 203 candidates, found 52 eligible, and selected six task-shaped specialists at projected makespan 23. The serial baseline projected 40 and was ineligible for requested evidence independence. These are deterministic planning units, not elapsed-time or provider-runtime measurements.
+
+AC1-AC13 and T009-T010 are closed. The integration owner reconstructed both trusted digests after the authorized output updates, and post-integration replay passed. T011 remains open for a clean pushed branch and the explicit stacked V10+V11 merge decision. No commit, push, hosted CI, merge, provider execution, or V11 runtime enforcement is claimed yet for this shared-worktree candidate.
 
 ## Important Current Constraints
 
-- SWECircuit is an IDE-, model-, and provider-agnostic software-engineering control plane, not an API gateway or model router.
-- The repository-shipped `synthesizeGoal` IDE kickoff creates `goal-synthesis.md`, compares a serial baseline with legal task-shaped candidates, may select existing owner-approved catalog modules, and must ask before novel modules, gates, authority, public behavior, or destructive/security-sensitive capability. Every required decision maps to the launched structured field that reflects it. The resulting host-approved PolicyBundle binds one exact Circuit plus exact Module/WorkPacket-template closures; execution-planner data only chooses permitted lane counts and narrowed packet content.
-- Goal criteria map mechanically to compiler-derived producer, verifier, reviewer, integration, EvidenceBinding, and EvidenceSatisfaction records. The independent `compileAgentBlueprints` operation accepts only Goal/Policy/TaskAuthority and proposal semantics, derives EvidenceBindings before task-shaped AgentBlueprints, and accepts no runtime supply. AgentProfile is supply; Assignment is their sole binding; AgentMaterializationReceipt is a host attestation of pre-dispatch configuration.
-- V11 selects a deterministic bounded earliest-feasible conflict-safe wave, then applies the normative maximum-cardinality lexicographic objective to assign that selected wave. It does not claim globally maximum conflict packing or semantic decomposition; exact measurements and independently reviewed baselines make optimization claims auditable.
-- V11 uses one serialized coordinator that reserves worst-case reduction, consumes grant-attempt keys, installs a complete claimed wave before execution callbacks, and reduces one complete result batch in two passes. Distributed coordinators and cross-process claim guarantees are deferred.
-- Read/read overlap may parallelize. Write/write, write/read, shared writer conflict zones, and unresolved path/alias scopes serialize with no V11 isolation exception.
-- Child results are exactly executed, v10_rejected, not_started, or effect_unknown. Core alone observes zero dispatch, validates a prompt-free AgentMaterializationReceipt before entry, and holds the actual V10 return in an opaque process-local capture; host materialization remains an attestation, and post-entry mismatch, ambiguity, or overflow is uncertain.
-- AcceptedWorkAccumulator preserves finalized host-neutral work semantics through every state/continuation. Completion derives RepositoryStateRequest from the pre-request state, closes the completed state/event and witness, then derives AcceptedWorkProjection before MergeReadyEvidence; no successor or evidence graph contains a digest cycle.
-- `docs/specs/v11-orchestration-planner/orchestration-contract.md` is the property-level source; `docs/modules/specialist-agent-compiler.md` is the provider-neutral task-specific agent-construction contract; `docs/ide/specialist-agent-kickoff.md`, `goal-synthesis.md`, `specialist-compiler-preflight.md`, and `architecture-coherence-preflight.md` own the human entrypoint and dogfood evidence.
-- V11 is stacked on owner-gated V10 for planning continuity only. Neither version may be merged without satisfying its own owner and technical gates.
-
-- SWECircuit is the repository and project name, not a reserved package, domain, CLI, or hosted-service namespace.
-- V9 on `main` is bounded to initialize, validate, and read-only trace inspection.
-- V10 on its feature branch adds exactly one host-selected packet invocation through trusted injected code; it does not schedule, discover, retry, persist, merge, or update memory automatically.
 - An `ExecutionGrant` carries invocation-scoped identity and permission assertions bounded by manifest requests and packet ceilings. The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay.
 - Cancellation uses absolute monotonic observations. A no-call abort or deadline can terminate because work never started. After invocation, in-window executor promise settlement counts only when all activity capable of advancing the invocation or producing invocation effects has stopped; transfer of live work is not acknowledgment. `abort_unconfirmed` is deliberately non-terminal and means work may still be live.
-- In-process executor code can block the event loop or retain ambient authority; hosts needing preemption must isolate it outside the kernel process.
-- V9 does not launch agents, schedule work, write traces, execute adapters, fetch evidence, or merge code.
-- swecircuit.json is the sole project discovery authority; no ancestor search or recursive artifact scan is allowed.
-- Canonical machine input is strict UTF-8 JSON under swecircuit/v1alpha1.
-- Supported kinds are Project, Module, Circuit, WorkPacket, RunEvent, and AdapterManifest.
-- Historical Markdown and rail-named files remain checker-supported provenance and are not kernel inputs.
-- Module permissions are requirements, WorkPacket permissions are ceilings, and Adapter permissions are declaration-only requests. None grants runtime authority.
-- Circuit routes own exact port transfers; cyclic routes are bounded; parallel fan-out and fan-in are explicit.
-- Sequence and causation are authoritative; timestamps are optional evidence only.
-- Trace inspection takes one explicit repository-relative caller-owned JSONL file, does not scan the manifest, and never writes, executes, fetches, or dereferences content.
-- Trace bytes, lines, events, retained framing, evidence summaries, and read allocation are independently bounded; the byte limit is a ceiling rather than a fixed allocation.
-- Full chats, prompts, environment dumps, command output, credentials, and evidence content are excluded from traces by default.
-- T010's harness is caller-side repository support: it measures and orchestrates the three kernel operations, authors no kernel trace, and removes only an identity-rechecked run-owned temporary root.
-- T010's 2,457.835 ms result is one Node v24.14.1/Windows x64 observation, not a benchmark, threshold, or production-readiness claim.
-- Diagnostic codes, rules, severity, pointer conventions, sort order, and exit classes are frozen in schemas/v1alpha1/diagnostic-catalog.json.
-- The primary README visual is the reviewed SWECircuit target model; it explicitly attributes execution to an external IDE or agent runtime and preserves the TraceRail image only as historical provenance.
-- Pure Node cannot inspect every opaque same-path Windows reparse attribute; links, junctions, canonical divergence, regular-file state, containment, and descriptor identity remain enforced, while that native metadata boundary is explicitly deferred.
-- Pure Node initialization cannot atomically bind directory creation to first identity capture or final identity checks to pathname removal. X07 names both malicious replacement windows; pending creations force `SC1022`, and detected mismatches are preserved.
-- Public reuse remains legally unclear until the owner selects a license.
-- `main` contains the owner-approved V9 kernel at `3c7a876`; completed V10 remains isolated on `codex/v10-executor-adapter` behind the explicit owner merge gate.
+- V11 constructs task demand and a reviewed launch package; it does not execute agents, select models/providers, enforce permissions, create worktrees, schedule host capacity, merge, or mutate memory.
+- Any release document integration may mutate is a live output and must be reviewed through an immutable pre-integration snapshot. The integration owner must reconstruct the exact approved compilation/package pair after output mutation and before branch freeze.
+- Product clarification and atomic semantic work decomposition remain visible IDE/human responsibilities. Core optimizes grouping of those fixed work units and rejects structurally or authoritatively invalid input.
+- A role label is never a specialist contract. Every selected blueprint binds exact work units, objectives, Module actions and ports, dependencies, context uses with expected digest/bytes, least filesystem scope and permissions, capabilities, evidence duties, handoff, and stop conditions.
+- Correctness, owner authority, evidence ownership, requested producer/checker independence, and acyclic dependencies are hard gates. They cannot be traded for speed.
+- Selection order is projected makespan, conflict pairs, cross-agent handoffs, duplicated context bytes, duplicated permission scopes, agent count, then canonical partition identity.
+- Search is exact only through eight work units. Larger goals use a named bounded structural search plus validated supplied candidates and must not be described as globally optimal.
+- Planning weights, startup cost, and handoff cost are relative deterministic estimates, not elapsed-time promises or benchmark results.
+- Logical arrays and candidate partitions are normalized; labels, proposal order, and input insertion order must not influence selected semantics.
+- Every rendered file and launch entry binds the exact compilation digest. Any changed goal, work unit, candidate, or blueprint requires recompilation and a new review.
+- The Round-4 runtime corrections in docs/specs/v11-orchestration-planner/revision-5-correction-design.md remain mandatory input for a later runtime layer.
+- V11 remains stacked on owner-gated V10 for continuity. Its technical acceptance gate passed; branch preparation may proceed, but merge still requires an explicit baseline decision and owner approval.
 
 ## Recently Learned
 
@@ -136,12 +122,21 @@ V11 architecture review has completed three immutable dogfood rounds. Round 1 ag
 - Preflight fan-out before an immutable review candidate is useful, but an interrupted agent without a handoff is no evidence and cannot satisfy a gate.
 - Memory and merge-readiness claims need explicit production paths and acyclic binding, not completion prose alone.
 
+- Four failed reviews of a coupled compiler/runtime design are evidence to split ownership boundaries, not an invitation to keep enlarging one contract.
+- Hyper-specialization is an optimization over exact task demand: stable work units, hard quality/authority gates, a serial baseline, legal team partitions, and a total comparator.
+- Exhaustive partition search is honest only under a fixed small limit; larger search must name its bounded candidate strategy and preserve alternatives plus evaluation evidence.
+- A reviewed roster needs one content digest carried into every agent and integration handoff so the host cannot silently substitute a different team.
+
+- Exact source tuples plus externally retained compilation/package digests can bind an immutable review candidate in a shared dirty worktree, but they do not substitute for a clean commit, push, hosted verification, or owner approval.
+- V11 dogfood justified six specialists because the serial candidate failed requested evidence independence; projected makespan improved from 40 to 23 planning units, while duplicated context and permission demand remained visible costs.
+- Host containment must cover fixed goal, approval, package, and evidence control paths as well as declared context reads; installed examples must exercise the same trust rule they document.
+- A pre-integration PASS does not survive automatically when integration mutates a bound live input; preserve the failed replay, revise the contract to a snapshot, and repeat every affected lane.
+- Release cleanup owns only attempt-created outputs. Preserve host-owned offline caches, retain Windows path headroom, and rerun the complete immutable contract after host-only `FIX` outcomes.
+
 ## Next Likely Work
 
-- Integrate every Round-3 finding into one revision-4 source chain while preserving all three historical review records.
-- Validate, commit, and push one clean immutable revision-4 candidate.
-- Run fresh bounded read-only product, API, lifecycle, and security reviews against that exact commit.
-- Route any material finding back to redesign; authorize the first schema slice only after four `PASS` verdicts.
-- Keep the separate V10 owner merge gate open; do not merge V10 or V11 during architecture review.
-- After architecture acceptance and an approved baseline, implement contracts first and prove one-agent continuation before multi-agent dogfood.
-- Resolve licensing before broad external reuse or package distribution.
+- Integration owner reconstructs compilation `sha256:ac1707213d9c22314d4c5a3d0bc6a838ef31863b63a9e2dac5993541d919c161` and package `sha256:838019281b732ec238e4460c03167087b7a63c409348ee66322cc5535469774d` after the integration outputs settle.
+- Owner reviews `docs/milestones/v11.md`, `docs/specs/v11-specialist-compiler/review.md`, and the exact digest pair.
+- Reconcile the shared tree, create and push the reviewed candidate, and update the V11 milestone with the immutable commit.
+- Request the explicit owner decision on merging the stacked V10+V11 line; after approval, merge to `main`, verify the resulting tree, and record provenance.
+- Use V11 as the next dogfood baseline only after adoption; retrieve the deferred runtime correction package when a later runtime version is deliberately opened.

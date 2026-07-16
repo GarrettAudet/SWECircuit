@@ -1,5 +1,9 @@
-import { TextEncoder } from "node:util";
-import { canonicalJson, digestCanonicalJson } from "./canonical-json.js";
+import {
+  boundedJsonUtf8ByteLength,
+  boundedUtf8ByteLength,
+  canonicalJson,
+  digestCanonicalJson,
+} from "./canonical-json.js";
 import { SPECIALIST_API_VERSION, SPECIALIST_LIMITS } from "./constants.js";
 import { appendJsonPointer, createDiagnostic, operationResult } from "./diagnostics.js";
 import type { JsonObject, JsonValue, PermissionRequest } from "./model.js";
@@ -23,6 +27,7 @@ import type {
   SpecialistCandidateOrigin,
   SpecialistCandidateProposal,
   SpecialistCandidateRejectionCode,
+  SpecialistComparatorField,
   SpecialistContextSource,
   SpecialistGoalContract,
   SpecialistLaunchWave,
@@ -30,6 +35,7 @@ import type {
   SpecialistPermission,
   SpecialistPort,
   SpecialistSearchMode,
+  SpecialistSelectionReason,
   SpecialistWorkUnit,
   TaskAuthorityProjection,
 } from "./specialist-types.js";
@@ -38,9 +44,9 @@ import type { Diagnostic, OperationResult } from "./types.js";
 
 const GOAL_ARTIFACT = "specialist-goal.json";
 const REQUEST_ARTIFACT = "specialist-request.json";
-const encoder = new TextEncoder();
+const CONTENT_DIGEST_PLACEHOLDER = `sha256:${"0".repeat(64)}`;
 const REPOSITORY_LOCATOR =
-  /^path:(?!\/)(?!.*(?:^|\/)\.\.(?:\/|#|$))[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*(?:#[A-Za-z0-9][A-Za-z0-9._~/-]{0,255})?$/;
+  /^path:(?!\/)[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*(?:#[A-Za-z0-9][A-Za-z0-9._~/-]{0,255})?$/;
 
 const ORIGIN_RANK: Readonly<Record<SpecialistCandidateOrigin, number>> = Object.freeze({
   serial_baseline: 0,
@@ -123,6 +129,14 @@ function asJson(value: unknown): JsonValue {
   return value as JsonValue;
 }
 
+function validRepositoryLocator(value: string): boolean {
+  if (!REPOSITORY_LOCATOR.test(value)) {
+    return false;
+  }
+  const path = value.slice("path:".length).split("#", 1)[0];
+  return path?.split("/").every((segment) => segment !== "." && segment !== "..") ?? false;
+}
+
 function freezeJson<T>(value: T): T {
   const snapshot = snapshotJsonValue(value);
   if (snapshot.failure !== null || snapshot.value === null) {
@@ -167,6 +181,28 @@ function hasLoneSurrogate(value: string): boolean {
   return false;
 }
 
+function scanText(
+  value: string,
+  artifact: string,
+  pointer: string,
+  diagnostics: Diagnostic[],
+): boolean {
+  let rejected = false;
+  if (containsHighConfidenceSecret(value)) {
+    diagnostics.push(createDiagnostic("SC4309", artifact, pointer));
+    rejected = true;
+  }
+  if (
+    containsControlCharacters(value) ||
+    hasLoneSurrogate(value) ||
+    boundedUtf8ByteLength(value, SPECIALIST_LIMITS.textBytes) === null
+  ) {
+    diagnostics.push(createDiagnostic("SC4301", artifact, pointer));
+    rejected = true;
+  }
+  return rejected;
+}
+
 function scanStrings(
   value: JsonValue,
   artifact: string,
@@ -174,16 +210,7 @@ function scanStrings(
   diagnostics: Diagnostic[],
 ): void {
   if (typeof value === "string") {
-    if (containsHighConfidenceSecret(value)) {
-      diagnostics.push(createDiagnostic("SC4309", artifact, pointer));
-    }
-    if (
-      containsControlCharacters(value) ||
-      hasLoneSurrogate(value) ||
-      encoder.encode(value).byteLength > SPECIALIST_LIMITS.textBytes
-    ) {
-      diagnostics.push(createDiagnostic("SC4301", artifact, pointer));
-    }
+    scanText(value, artifact, pointer, diagnostics);
     return;
   }
   if (value === null || typeof value !== "object") {
@@ -195,8 +222,15 @@ function scanStrings(
     }
     return;
   }
-  for (const [key, entry] of Object.entries(value)) {
-    scanStrings(entry, artifact, appendJsonPointer(pointer, key), diagnostics);
+  const object = value as JsonObject;
+  for (const key of Object.keys(object)) {
+    const keyRejected = scanText(key, artifact, pointer, diagnostics);
+    scanStrings(
+      object[key] as JsonValue,
+      artifact,
+      keyRejected ? pointer : appendJsonPointer(pointer, key),
+      diagnostics,
+    );
   }
 }
 
@@ -216,19 +250,24 @@ function snapshotInput(
       ]),
     });
   }
-  const diagnostics: Diagnostic[] = [];
-  let bytes: number;
+
+  let bytes: number | null;
   try {
-    bytes = encoder.encode(JSON.stringify(snapshot.value)).byteLength;
+    bytes = boundedJsonUtf8ByteLength(snapshot.value, SPECIALIST_LIMITS.inputBytes);
   } catch {
     return Object.freeze({
       value: null,
       diagnostics: Object.freeze([createDiagnostic("SC4301", artifact)]),
     });
   }
-  if (bytes > SPECIALIST_LIMITS.inputBytes) {
-    diagnostics.push(createDiagnostic("SC4308", artifact));
+  if (bytes === null) {
+    return Object.freeze({
+      value: snapshot.value,
+      diagnostics: Object.freeze([createDiagnostic("SC4308", artifact)]),
+    });
   }
+
+  const diagnostics: Diagnostic[] = [];
   scanStrings(snapshot.value, artifact, "", diagnostics);
   return Object.freeze({ value: snapshot.value, diagnostics: Object.freeze(diagnostics) });
 }
@@ -362,6 +401,12 @@ function normalizeGoal(goal: SpecialistGoalContract): SpecialistGoalContract {
     revision: goal.revision,
     objective: goal.objective,
     integrationOwner: goal.integrationOwner,
+    assumptions: goal.assumptions
+      .map((assumption) => ({ ...assumption }))
+      .sort((left, right) => compareText(left.id, right.id)),
+    unresolvedDecisions: goal.unresolvedDecisions
+      .map((decision) => ({ ...decision }))
+      .sort((left, right) => compareText(left.id, right.id)),
     acceptanceCriteria: goal.acceptanceCriteria
       .map(normalizeCriterion)
       .sort((left, right) => compareText(left.id, right.id)),
@@ -429,6 +474,27 @@ function validateGoalSemantics(
   const unitIds = goal.workUnits.map((unit) => unit.id);
   const unitSet = new Set(unitIds);
   duplicateValues(unitIds, artifact, "/workUnits", "SC4302", diagnostics);
+  duplicateValues(
+    goal.assumptions.map((assumption) => assumption.id),
+    artifact,
+    "/assumptions",
+    "SC4302",
+    diagnostics,
+  );
+  duplicateValues(
+    goal.unresolvedDecisions.map((decision) => decision.id),
+    artifact,
+    "/unresolvedDecisions",
+    "SC4302",
+    diagnostics,
+  );
+  for (const [decisionIndex, decision] of goal.unresolvedDecisions.entries()) {
+    if (decision.blocking) {
+      diagnostics.push(
+        createDiagnostic("SC4302", artifact, `/unresolvedDecisions/${decisionIndex}/blocking`),
+      );
+    }
+  }
   duplicateValues(
     goal.acceptanceCriteria.map((criterion) => criterion.id),
     artifact,
@@ -541,7 +607,7 @@ function validateGoalSemantics(
         );
       }
     }
-    if (source.kind === "repository" && !REPOSITORY_LOCATOR.test(source.locator)) {
+    if (source.kind === "repository" && !validRepositoryLocator(source.locator)) {
       diagnostics.push(
         createDiagnostic("SC4301", artifact, `/contextSources/${sourceIndex}/locator`),
       );
@@ -620,6 +686,26 @@ function validateGoalSemantics(
       "SC4302",
       diagnostics,
     );
+    const declaredReadScopes = unit.permissions
+      .filter((permission) => permission.kind === "filesystem.read")
+      .flatMap((permission) => [...permission.scopes])
+      .sort(compareText);
+    const declaredWriteScopes = unit.permissions
+      .filter((permission) => permission.kind === "filesystem.write")
+      .flatMap((permission) => [...permission.scopes])
+      .sort(compareText);
+    if (
+      canonicalJson(asJson(declaredReadScopes)) !==
+      canonicalJson(asJson([...unit.scope.read].sort(compareText)))
+    ) {
+      diagnostics.push(createDiagnostic("SC4303", artifact, `${unitPointer}/scope/read`));
+    }
+    if (
+      canonicalJson(asJson(declaredWriteScopes)) !==
+      canonicalJson(asJson([...unit.scope.write].sort(compareText)))
+    ) {
+      diagnostics.push(createDiagnostic("SC4303", artifact, `${unitPointer}/scope/write`));
+    }
     for (const [permissionIndex, permission] of unit.permissions.entries()) {
       if (
         !permissionRequirementCovered(
@@ -740,7 +826,7 @@ function validateGoalSemantics(
 function parseGoal(value: unknown, artifact = GOAL_ARTIFACT): ParsedGoal {
   const input = snapshotInput(value, artifact);
   const diagnostics = [...input.diagnostics];
-  if (input.value === null) {
+  if (input.value === null || hasErrors(diagnostics)) {
     return Object.freeze({ goal: null, diagnostics: Object.freeze(diagnostics) });
   }
   diagnostics.push(...validateSpecialistGoalSchema(input.value, artifact));
@@ -774,7 +860,7 @@ function normalizeProposals(
 function parseRequest(value: unknown): ParsedRequest {
   const input = snapshotInput(value, REQUEST_ARTIFACT);
   const diagnostics = [...input.diagnostics];
-  if (input.value === null) {
+  if (input.value === null || hasErrors(diagnostics)) {
     return Object.freeze({ request: null, diagnostics: Object.freeze(diagnostics) });
   }
   diagnostics.push(...validateSpecialistRequestSchema(input.value, REQUEST_ARTIFACT));
@@ -845,11 +931,11 @@ function partitionSignature(partition: readonly (readonly string[])[]): string {
 }
 
 function partitionId(partition: readonly (readonly string[])[]): string {
-  return `team.${digestCanonicalJson("swecircuit.specialist.partition.v1", asJson(partition)).slice(7, 23)}`;
+  return `team.${digestCanonicalJson("swecircuit.specialist.partition.v1", asJson(partition)).slice(7)}`;
 }
 
 function agentId(group: readonly string[]): string {
-  return `agent.${digestCanonicalJson("swecircuit.specialist.agent-group.v1", asJson(group)).slice(7, 23)}`;
+  return `agent.${digestCanonicalJson("swecircuit.specialist.agent-group.v1", asJson(group)).slice(7)}`;
 }
 
 function addCandidate(
@@ -1095,7 +1181,7 @@ function agentTopologicalOrder(agents: readonly InternalAgent[]): readonly strin
 }
 
 function mergedPermissions(units: readonly SpecialistWorkUnit[]): readonly SpecialistPermission[] {
-  const scopesByKind = new Map<string, Set<string>>();
+  const scopesByKind = new Map<SpecialistPermission["kind"], Set<string>>();
   for (const unit of units) {
     for (const permission of unit.permissions) {
       const scopes = scopesByKind.get(permission.kind) ?? new Set<string>();
@@ -1519,6 +1605,64 @@ function compareAllCandidates(
   );
 }
 
+const METRIC_COMPARATOR_FIELDS = Object.freeze([
+  "projectedMakespan",
+  "conflictPairs",
+  "handoffCount",
+  "duplicatedContextBytes",
+  "duplicatedPermissionScopes",
+  "agentCount",
+] as const satisfies readonly SpecialistComparatorField[]);
+
+function selectionReason(
+  selected: SpecialistCandidateEvaluation,
+  serialBaseline: SpecialistCandidateEvaluation,
+): SpecialistSelectionReason {
+  if (selected.id === serialBaseline.id) {
+    return freezeJson({
+      kind: "serial_selected",
+      decisiveField: "serial_baseline",
+      selectedValue: selected.id,
+      serialValue: serialBaseline.id,
+      serialRejectionCodes: serialBaseline.rejectionCodes,
+    });
+  }
+  if (!serialBaseline.eligible) {
+    return freezeJson({
+      kind: "serial_ineligible",
+      decisiveField: serialBaseline.rejectionCodes[0] ?? "serial_baseline",
+      selectedValue: "eligible",
+      serialValue: "ineligible",
+      serialRejectionCodes: serialBaseline.rejectionCodes,
+    });
+  }
+  if (selected.metrics === null || serialBaseline.metrics === null) {
+    throw new TypeError("Eligible candidate selection is missing metrics.");
+  }
+  for (const field of METRIC_COMPARATOR_FIELDS) {
+    const selectedValue = selected.metrics[field];
+    const serialValue = serialBaseline.metrics[field];
+    if (selectedValue !== serialValue) {
+      if (selectedValue > serialValue) {
+        throw new TypeError("Selected candidate does not outrank the serial baseline.");
+      }
+      return freezeJson({
+        kind: "lower_metric",
+        decisiveField: field,
+        selectedValue,
+        serialValue,
+        serialRejectionCodes: serialBaseline.rejectionCodes,
+      });
+    }
+  }
+  return freezeJson({
+    kind: "canonical_tiebreak",
+    decisiveField: "canonicalPartitionIdentity",
+    selectedValue: partitionSignature(selected.partition),
+    serialValue: partitionSignature(serialBaseline.partition),
+    serialRejectionCodes: serialBaseline.rejectionCodes,
+  });
+}
 function requirementIndex(goal: SpecialistGoalContract): ReadonlyMap<
   string,
   Readonly<{
@@ -1737,6 +1881,9 @@ function compileRequest(
       null,
     );
   }
+  const proposalEvaluations = evaluations
+    .filter((evaluation) => evaluation.proposalIds.length > 0)
+    .sort((left, right) => compareText(left.id, right.id));
   const alternatives = ranked
     .filter((evaluation) => evaluation.id !== selected.id)
     .slice(0, SPECIALIST_LIMITS.retainedAlternatives);
@@ -1750,15 +1897,21 @@ function compileRequest(
   );
   const blueprints = compileBlueprints(goal, goalDigest, selected);
   const waves = launchWaves(selected.schedule);
+  const reason = selectionReason(selected, serialBaseline);
   const base = {
     apiVersion: SPECIALIST_API_VERSION,
     kind: "AgentBlueprintCompilation",
     goal,
     goalDigest,
     proposedCandidates: proposals,
+    proposalEvaluations,
     authority,
     search: {
       mode: candidates.mode,
+      claim:
+        candidates.mode === "exact"
+          ? "exhaustive_partition_search_fixed_scheduler"
+          : "bounded_evaluated_set_no_global_optimum",
       workUnitCount: goal.workUnits.length,
       evaluatedCandidates: evaluations.length,
       eligibleCandidates: evaluations.filter((evaluation) => evaluation.eligible).length,
@@ -1767,22 +1920,28 @@ function compileRequest(
     },
     serialBaseline,
     selected,
+    selectionReason: reason,
     alternatives,
     blueprints,
     launchWaves: waves,
   } as const;
+  if (
+    boundedJsonUtf8ByteLength(
+      asJson({ ...base, contentDigest: CONTENT_DIGEST_PLACEHOLDER }),
+      SPECIALIST_LIMITS.outputBytes,
+    ) === null
+  ) {
+    return operationResult<AgentBlueprintCompilation>(
+      [createDiagnostic("SC4308", REQUEST_ARTIFACT, "/goal/workUnits")],
+      null,
+    );
+  }
   const compilation = freezeJson(
     withDigest(
       "swecircuit.specialist.compilation.v1",
       base as unknown as JsonObject,
     ) as unknown as AgentBlueprintCompilation,
   );
-  if (encoder.encode(JSON.stringify(compilation)).byteLength > SPECIALIST_LIMITS.outputBytes) {
-    return operationResult<AgentBlueprintCompilation>(
-      [createDiagnostic("SC4308", REQUEST_ARTIFACT, "/goal/workUnits")],
-      null,
-    );
-  }
   return operationResult([], compilation);
 }
 
@@ -1803,6 +1962,9 @@ export function compileAgentBlueprints(input: unknown): OperationResult<AgentBlu
 
 export function verifyCompilationDigest(compilation: AgentBlueprintCompilation): boolean {
   try {
+    if (boundedJsonUtf8ByteLength(asJson(compilation), SPECIALIST_LIMITS.outputBytes) === null) {
+      return false;
+    }
     return (
       compilation.contentDigest ===
       digestCanonicalJson(

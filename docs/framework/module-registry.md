@@ -28,7 +28,7 @@ Executable kernel capabilities use **implemented-0.x** until a public compatibil
 | IDE interaction module | accepted-file-contract | V4 dogfooding | `docs/ide/` | Makes workflow state visible in chat. |
 | Standalone agent module | accepted-file-contract | V4 dogfooding | `docs/agents/` | Makes one agent capable before scaling out. |
 | Parallel work module | accepted-file-contract | Codex subagents, agent-team practices | Handbook parallel section, work-unit contract | Enables safe fan-out through contracts and integration ownership. |
-| Specialist agent compiler module | accepted-file-contract | Astraeus, Codex/Claude/Copilot custom-agent practices, V11 owner direction | `docs/modules/specialist-agent-compiler.md`, `docs/ide/specialist-agent-kickoff.md`, V11 orchestration contract | Compares serial and legal candidate teams, then uses pure `compileAgentBlueprints` to turn explicit AgentBlueprintIntent into supply-free task demand before runtime Assignment and trace-bound materialization evidence. |
+| Specialist agent compiler module | implemented-0.x | Astraeus, Codex/Claude/Copilot custom-agent practices, V11 owner direction | `docs/modules/specialist-agent-compiler.md`, `docs/ide/specialist-agent-kickoff.md`, `docs/specs/v11-specialist-compiler/specialist-compiler-contract.md` | Constructs and compares legal team partitions from a reviewed GoalContract, compiles exact supply-free AgentBlueprints, and renders a digest-bound launch package while execution remains external. |
 | Modular orchestration module | accepted-file-contract | LangChain patterns, AutoGen teams, CrewAI crews, BMAD lifecycle | `docs/framework/` | Lets the system choose patterns and adapters without installing a runtime by default. |
 | Tool adapter module | accepted-file-contract | Spec Kit extensions and presets, framework plugin patterns | `_adapter-evaluation-template.md` | Evaluates external tools before adoption. |
 | Pack system module | accepted-file-contract | Package/plugin ecosystem practice | `docs/packs/` | Keeps optional downloads, recommended packs, community packs, and local overrides separate from core. |
@@ -39,6 +39,8 @@ Executable kernel capabilities use **implemented-0.x** until a public compatibil
 | Capability | Status | Source | Contract | Boundary |
 | --- | --- | --- | --- | --- |
 | Bounded executor boundary | implemented-0.x | Codex subagents, MCP Tasks, A2A, Node cancellation, agent SDK guardrails | [Executor boundary](executor-boundary.md), ADR 0002, public library types | Executes one host-selected packet through trusted injected code; the host retains scheduling, isolation, permission enforcement, persistence, retry, merge, and memory. |
+| Specialist Compiler | implemented-0.x | V11 owner direction, agent-team and policy-compiler practices | [Specialist Compiler contract](../specs/v11-specialist-compiler/specialist-compiler-contract.md), ADR 0004, public library types | Constructs optimized task-shaped demand from reviewed atomic work; the host retains semantic decomposition, runtime supply, execution, isolation, persistence, integration, and memory. |
+
 ## Optional Adapter Candidates
 
 | Adapter | Status | Best Use | Adoption Trigger | Current Decision |

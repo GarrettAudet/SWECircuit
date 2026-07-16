@@ -11,8 +11,10 @@ if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
 
 $powerShellExe = (Get-Process -Id $PID).Path
 $tempParent = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
-$testRoot = Join-Path $tempParent "swecircuit-checker-tests-$PID"
+$testRoot = Join-Path $tempParent "sc-ct-$PID"
+$fixtureSourceRoot = Join-Path $testRoot "base"
 $failures = New-Object System.Collections.Generic.List[string]
+$fixtureOrdinal = 0
 
 function Write-Utf8 {
     param(
@@ -26,13 +28,11 @@ function Write-Utf8 {
 function New-Fixture {
     param([string]$Name)
 
-    $fixture = Join-Path $testRoot $Name
+    $script:fixtureOrdinal += 1
+    $fixture = Join-Path $testRoot ("f{0:D3}" -f $script:fixtureOrdinal)
     New-Item -ItemType Directory -Path $fixture -Force | Out-Null
 
-    foreach ($item in Get-ChildItem -LiteralPath $RepoRoot -Force) {
-        if ($item.Name -in @(".git", ".local", ".out", "coverage", "dist", "node_modules")) {
-            continue
-        }
+    foreach ($item in Get-ChildItem -LiteralPath $fixtureSourceRoot -Force) {
         Copy-Item -LiteralPath $item.FullName -Destination $fixture -Recurse -Force
     }
 
@@ -167,6 +167,13 @@ try {
         throw "Refusing to create checker fixtures outside the system temp directory: $resolvedTestRoot"
     }
     New-Item -ItemType Directory -Path $resolvedTestRoot -Force | Out-Null
+    New-Item -ItemType Directory -Path $fixtureSourceRoot -Force | Out-Null
+    foreach ($item in Get-ChildItem -LiteralPath $RepoRoot -Force) {
+        if ($item.Name -in @(".git", ".local", ".out", "coverage", "dist", "node_modules")) {
+            continue
+        }
+        Copy-Item -LiteralPath $item.FullName -Destination $fixtureSourceRoot -Recurse -Force
+    }
 
     $baseline = New-Fixture "baseline"
     Assert-CheckerResult "valid repository" $baseline $true

@@ -1,0 +1,2961 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v11.specialist-compiler.release",
+    "revision": 1,
+    "objective": "Independently review, verify, and integrate the V11 Specialist Compiler candidate for owner approval.",
+    "integrationOwner": "v11.integration-owner",
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.algorithm",
+        "description": "Candidate construction, scheduling, selection, and digest semantics are deterministic and accurately claimed.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.algorithm-candidate",
+            "kind": "digest",
+            "duty": "produce",
+            "description": "Content-addressed algorithm and test candidate sources.",
+            "independentFromProducer": false
+          },
+          {
+            "id": "evidence.algorithm-review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independent algorithm and lifecycle acceptance review.",
+            "independentFromProducer": true
+          }
+        ]
+      },
+      {
+        "id": "criterion.product-api",
+        "description": "The V11 product and public API match the owner goal and remain IDE, model, and provider neutral.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.product-candidate",
+            "kind": "digest",
+            "duty": "produce",
+            "description": "Content-addressed product and API candidate sources.",
+            "independentFromProducer": false
+          },
+          {
+            "id": "evidence.product-review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independent product and API acceptance review.",
+            "independentFromProducer": true
+          }
+        ]
+      },
+      {
+        "id": "criterion.release",
+        "description": "Canonical verification and source-linked release evidence are complete before owner approval.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.release-gates",
+            "kind": "test",
+            "duty": "verify",
+            "description": "Independent canonical verification evidence.",
+            "independentFromProducer": true
+          },
+          {
+            "id": "evidence.release-record",
+            "kind": "artifact",
+            "duty": "produce",
+            "description": "Integrated V11 review, memory, and milestone artifacts.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.security-trace",
+        "description": "Authority, context, privacy, rendering, and trace bindings fail closed.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.security-candidate",
+            "kind": "digest",
+            "duty": "produce",
+            "description": "Content-addressed security and trace candidate sources.",
+            "independentFromProducer": false
+          },
+          {
+            "id": "evidence.security-review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independent security and trace acceptance review.",
+            "independentFromProducer": true
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.active-memory",
+        "kind": "repository",
+        "locator": "path:docs/memory/active-context.md",
+        "digest": "sha256:295eda8f03f074083f3aada5ef75cf88f6a90be2e69b62cf55b383884bccc9f3",
+        "bytes": 19388,
+        "description": "The current version, constraints, and release memory.",
+        "allowedWorkUnits": [
+          "integrate.release"
+        ],
+        "readScope": "docs/memory/active-context.md"
+      },
+      {
+        "id": "context.compiler",
+        "kind": "repository",
+        "locator": "path:src/specialist-compiler.ts",
+        "digest": "sha256:2a44dda724b76f60a4853f9992d118831c75b20951dfd115728e8faf07506f80",
+        "bytes": 61724,
+        "description": "The candidate construction and blueprint compiler implementation.",
+        "allowedWorkUnits": [
+          "review.algorithm-lifecycle",
+          "review.security-trace"
+        ],
+        "readScope": "src/specialist-compiler.ts"
+      },
+      {
+        "id": "context.compiler-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "digest": "sha256:7bd0d06125648e32e26f7671b23e6cfffff640fdbcc903ce26e94298f76d1721",
+        "bytes": 23352,
+        "description": "The normative V11 Specialist Compiler contract.",
+        "allowedWorkUnits": [
+          "integrate.release",
+          "prepare.candidate",
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+      },
+      {
+        "id": "context.compiler-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-compiler.test.mjs",
+        "digest": "sha256:75820747921e8e8765482f4f5f910e151483e11966511b54b52cb5104b0ff755",
+        "bytes": 34973,
+        "description": "The golden and adversarial specialist compiler tests.",
+        "allowedWorkUnits": [
+          "review.algorithm-lifecycle",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "readScope": "test/specialist-compiler.test.mjs"
+      },
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:d1187705b49bcf3ba879ccb507c847e38927fd9794dd4e5670854083fea72b38",
+        "bytes": 8137,
+        "description": "The public V11 positioning and boundary.",
+        "allowedWorkUnits": [
+          "integrate.release",
+          "review.product-api"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.renderer",
+        "kind": "repository",
+        "locator": "path:src/specialist-render.ts",
+        "digest": "sha256:b950f457c675b5b8c908ec972dc0111adef0bbea4ceeda1931b1a47da1f5ecb2",
+        "bytes": 9270,
+        "description": "The deterministic provider-neutral package renderer.",
+        "allowedWorkUnits": [
+          "review.product-api",
+          "review.security-trace"
+        ],
+        "readScope": "src/specialist-render.ts"
+      },
+      {
+        "id": "context.schema",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/specialist-compiler.schema.json",
+        "digest": "sha256:43a52df03c9942915cebdd217a67a5baa686e233a917c37b2c306817db319279",
+        "bytes": 14065,
+        "description": "The closed provider-neutral specialist input schema.",
+        "allowedWorkUnits": [
+          "review.product-api",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "readScope": "schemas/v1alpha1/specialist-compiler.schema.json"
+      },
+      {
+        "id": "context.schema-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-schema.test.mjs",
+        "digest": "sha256:310b39e4f49a46ceea078269f0fa9fc0e1003428b8f6504ea2e83130b2b38e84",
+        "bytes": 8982,
+        "description": "The strict schema and provider-neutral boundary tests.",
+        "allowedWorkUnits": [
+          "review.product-api",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "readScope": "test/specialist-schema.test.mjs"
+      },
+      {
+        "id": "context.spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/spec.md",
+        "digest": "sha256:2730c21ed7681b7d6d766cae72ff4159b2bf308d860a0dc45ea100044f02ecb0",
+        "bytes": 8132,
+        "description": "The active V11 product and acceptance contract.",
+        "allowedWorkUnits": [
+          "integrate.release",
+          "prepare.candidate",
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/spec.md"
+      },
+      {
+        "id": "context.types",
+        "kind": "repository",
+        "locator": "path:src/specialist-types.ts",
+        "digest": "sha256:a88200856211a4df7e6cbdbfa5d61a5e01f4ab461283465ec5ff597b04bdc4ff",
+        "bytes": 10330,
+        "description": "The public specialist contract types.",
+        "allowedWorkUnits": [
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace"
+        ],
+        "readScope": "src/specialist-types.ts"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "integrate.release",
+        "review.algorithm-lifecycle",
+        "review.prepare",
+        "review.product-api",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "allowedCapabilities": [
+        "candidate.bind",
+        "integrate.release",
+        "review.algorithm-lifecycle",
+        "review.product-api",
+        "review.security-trace",
+        "verify.release"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "README.md",
+            "docs/memory/active-context.md",
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "src/specialist-compiler.ts",
+            "src/specialist-render.ts",
+            "src/specialist-types.ts",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-schema.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "docs/memory/**",
+            "docs/milestones/v11.md",
+            "docs/specs/v11-specialist-compiler/**"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not access a network or provider.",
+        "Do not execute or dispatch runtime agents from core.",
+        "Do not merge or update durable memory before integration review.",
+        "Do not widen reviewed filesystem authority."
+      ],
+      "maxAgents": 6,
+      "maxConcurrency": 4
+    },
+    "optimization": {
+      "agentStartupCost": 2,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "integrate.release",
+        "objective": "Integrate independent handoffs, update traceable V11 artifacts and memory, and prepare the milestone without merging.",
+        "weight": 4,
+        "module": {
+          "id": "integrate.release",
+          "action": "Resolve review findings and assemble source-linked owner approval evidence.",
+          "inputPorts": [
+            {
+              "name": "reviews",
+              "artifactType": "IndependentReviews"
+            },
+            {
+              "name": "verification",
+              "artifactType": "ReleaseGateEvidence"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "milestone",
+              "artifactType": "VersionMilestone"
+            }
+          ]
+        },
+        "dependencies": [
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "requiredCapabilities": [
+          "integrate.release"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.active-memory",
+            "purpose": "Promote source-linked durable learning."
+          },
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Preserve the final compiler boundary."
+          },
+          {
+            "sourceId": "context.readme",
+            "purpose": "Keep public status accurate."
+          },
+          {
+            "sourceId": "context.spec",
+            "purpose": "Close acceptance criteria."
+          }
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/memory/active-context.md",
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+          ],
+          "write": [
+            "docs/memory/**",
+            "docs/milestones/v11.md",
+            "docs/specs/v11-specialist-compiler/**"
+          ],
+          "conflictZones": [
+            "v11.release-artifacts"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/memory/active-context.md",
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/memory/**",
+              "docs/milestones/v11.md",
+              "docs/specs/v11-specialist-compiler/**"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.release-record"
+        ],
+        "handoffArtifacts": [
+          "history-ledger-entry",
+          "review.md",
+          "v11-milestone.md"
+        ],
+        "stopConditions": [
+          "Stop before merge; owner approval remains mandatory.",
+          "Stop if any independent review returns REVISE."
+        ]
+      },
+      {
+        "id": "prepare.candidate",
+        "objective": "Confirm the reviewed product, algorithm, and security sources match their declared content digests before independent review.",
+        "weight": 1,
+        "module": {
+          "id": "review.prepare",
+          "action": "Bind one immutable review candidate to exact source evidence.",
+          "inputPorts": [
+            {
+              "name": "sources",
+              "artifactType": "CandidateSources"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ReviewCandidate"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "candidate.bind"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Bind the normative compiler contract."
+          },
+          {
+            "sourceId": "context.spec",
+            "purpose": "Bind the product acceptance contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.algorithm-candidate",
+          "evidence.product-candidate",
+          "evidence.security-candidate"
+        ],
+        "handoffArtifacts": [
+          "review-candidate-digests.json"
+        ],
+        "stopConditions": [
+          "Stop if any declared source digest or byte count does not match."
+        ]
+      },
+      {
+        "id": "review.algorithm-lifecycle",
+        "objective": "Independently determine whether construction, scheduling, selection, and digest semantics are deterministic, bounded, and honestly described.",
+        "weight": 10,
+        "module": {
+          "id": "review.algorithm-lifecycle",
+          "action": "Review candidate generation, hard gates, metrics, comparator, scheduling, and reproducibility.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ReviewCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "AlgorithmReview"
+            }
+          ]
+        },
+        "dependencies": [
+          "prepare.candidate"
+        ],
+        "requiredCapabilities": [
+          "review.algorithm-lifecycle"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.compiler",
+            "purpose": "Audit candidate analysis and selection."
+          },
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Review the normative search and objective contract."
+          },
+          {
+            "sourceId": "context.compiler-tests",
+            "purpose": "Audit golden, exact-count, bounded, and permutation evidence."
+          },
+          {
+            "sourceId": "context.spec",
+            "purpose": "Review algorithm acceptance claims."
+          },
+          {
+            "sourceId": "context.types",
+            "purpose": "Review metric and evaluation output types."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "src/specialist-compiler.ts",
+            "src/specialist-types.ts",
+            "test/specialist-compiler.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "src/specialist-compiler.ts",
+              "src/specialist-types.ts",
+              "test/specialist-compiler.test.mjs"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.algorithm-review"
+        ],
+        "handoffArtifacts": [
+          "algorithm-lifecycle-review.md"
+        ],
+        "stopConditions": [
+          "Stop with REVISE if bounded search is represented as a global optimum.",
+          "Stop with REVISE if selection can change under logical input permutation."
+        ]
+      },
+      {
+        "id": "review.product-api",
+        "objective": "Independently determine whether V11 solves the owner goal with a clear, minimal, IDE-agnostic public contract.",
+        "weight": 8,
+        "module": {
+          "id": "review.product-api",
+          "action": "Review product fit, public API closure, usability, and claimed boundaries.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ReviewCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "ProductApiReview"
+            }
+          ]
+        },
+        "dependencies": [
+          "prepare.candidate"
+        ],
+        "requiredCapabilities": [
+          "review.product-api"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Review the human/core/host responsibility boundary."
+          },
+          {
+            "sourceId": "context.readme",
+            "purpose": "Review public positioning and clarity."
+          },
+          {
+            "sourceId": "context.renderer",
+            "purpose": "Review the portable launch package."
+          },
+          {
+            "sourceId": "context.schema",
+            "purpose": "Review the closed provider-neutral input."
+          },
+          {
+            "sourceId": "context.schema-tests",
+            "purpose": "Review installed and provider-neutral schema evidence."
+          },
+          {
+            "sourceId": "context.spec",
+            "purpose": "Review acceptance and owner fit."
+          },
+          {
+            "sourceId": "context.types",
+            "purpose": "Review the additive public type surface."
+          }
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "src/specialist-render.ts",
+            "src/specialist-types.ts",
+            "test/specialist-schema.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "schemas/v1alpha1/specialist-compiler.schema.json",
+              "src/specialist-render.ts",
+              "src/specialist-types.ts",
+              "test/specialist-schema.test.mjs"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.product-review"
+        ],
+        "handoffArtifacts": [
+          "product-api-review.md"
+        ],
+        "stopConditions": [
+          "Stop with REVISE if a generic role can substitute for exact task demand.",
+          "Stop with REVISE if the public contract requires a provider or runtime."
+        ]
+      },
+      {
+        "id": "review.security-trace",
+        "objective": "Independently determine whether authority, context, privacy, rendering, and trace bindings fail closed without claiming host enforcement.",
+        "weight": 10,
+        "module": {
+          "id": "review.security-trace",
+          "action": "Review schema closure, semantic authority, privacy, canonical digests, rendering containment, and host boundaries.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ReviewCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "SecurityTraceReview"
+            }
+          ]
+        },
+        "dependencies": [
+          "prepare.candidate"
+        ],
+        "requiredCapabilities": [
+          "review.security-trace"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.compiler",
+            "purpose": "Audit fail-closed validation and digests."
+          },
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Review trust and external-host boundaries."
+          },
+          {
+            "sourceId": "context.compiler-tests",
+            "purpose": "Audit adversarial authority, privacy, and tamper coverage."
+          },
+          {
+            "sourceId": "context.renderer",
+            "purpose": "Audit tamper checks and payload bindings."
+          },
+          {
+            "sourceId": "context.schema",
+            "purpose": "Audit closed input boundaries."
+          },
+          {
+            "sourceId": "context.schema-tests",
+            "purpose": "Audit provider/runtime exclusion coverage."
+          },
+          {
+            "sourceId": "context.spec",
+            "purpose": "Review security acceptance and risks."
+          },
+          {
+            "sourceId": "context.types",
+            "purpose": "Review authority and trace-bearing types."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "src/specialist-compiler.ts",
+            "src/specialist-render.ts",
+            "src/specialist-types.ts",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-schema.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "schemas/v1alpha1/specialist-compiler.schema.json",
+              "src/specialist-compiler.ts",
+              "src/specialist-render.ts",
+              "src/specialist-types.ts",
+              "test/specialist-compiler.test.mjs",
+              "test/specialist-schema.test.mjs"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.security-review"
+        ],
+        "handoffArtifacts": [
+          "security-trace-review.md"
+        ],
+        "stopConditions": [
+          "Stop with REVISE if a blueprint can widen owner authority.",
+          "Stop with REVISE if package tampering can retain the reviewed digest."
+        ]
+      },
+      {
+        "id": "verify.release-gates",
+        "objective": "Independently verify the strict schema, specialist golden suite, full kernel gate, package dry run, installed consumer, and template checker evidence.",
+        "weight": 5,
+        "module": {
+          "id": "verify.release-gates",
+          "action": "Re-run and inspect every canonical V11 release gate.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ReviewCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "evidence",
+              "artifactType": "ReleaseGateEvidence"
+            }
+          ]
+        },
+        "dependencies": [
+          "prepare.candidate"
+        ],
+        "requiredCapabilities": [
+          "verify.release"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.compiler-tests",
+            "purpose": "Verify the golden suite."
+          },
+          {
+            "sourceId": "context.schema",
+            "purpose": "Verify the packaged closed schema."
+          },
+          {
+            "sourceId": "context.schema-tests",
+            "purpose": "Verify strict schema coverage."
+          },
+          {
+            "sourceId": "context.spec",
+            "purpose": "Map gates to acceptance criteria."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-schema.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "schemas/v1alpha1/specialist-compiler.schema.json",
+              "test/specialist-compiler.test.mjs",
+              "test/specialist-schema.test.mjs"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.release-gates"
+        ],
+        "handoffArtifacts": [
+          "release-gate-evidence.md"
+        ],
+        "stopConditions": [
+          "Stop with FIX if any canonical gate fails or cannot be reproduced."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:325b614ef60ec1260576c8ac42a5d780a9d132cdac3f1a730f89c39619db76c5",
+  "proposedCandidates": [
+    {
+      "id": "candidate.consolidated-reviews",
+      "groups": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace"
+        ],
+        [
+          "verify.release-gates"
+        ]
+      ]
+    },
+    {
+      "id": "candidate.specialized",
+      "groups": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle"
+        ],
+        [
+          "review.product-api"
+        ],
+        [
+          "review.security-trace"
+        ],
+        [
+          "verify.release-gates"
+        ]
+      ]
+    }
+  ],
+  "proposalEvaluations": [
+    {
+      "id": "team.4702fb2667e4e241923c2a25d04cf4f64246e1fa3c71058aeef5866f0c3afb2b",
+      "partition": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace"
+        ],
+        [
+          "verify.release-gates"
+        ]
+      ],
+      "origins": [
+        "exact_search",
+        "proposed"
+      ],
+      "proposalIds": [
+        "candidate.consolidated-reviews"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 4,
+        "projectedMakespan": 41,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 4,
+        "duplicatedContextBytes": 137257,
+        "duplicatedPermissionScopes": 9,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 8,
+        "totalHandoffCost": 4
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+          "start": 0,
+          "finish": 3
+        },
+        {
+          "agentId": "agent.2565830629e155a55f915a7720f6ab1f5956b044bd3863d41d7b953050f2b8af",
+          "start": 4,
+          "finish": 34
+        },
+        {
+          "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+          "start": 4,
+          "finish": 11
+        },
+        {
+          "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+          "start": 35,
+          "finish": 41
+        }
+      ],
+      "contentDigest": "sha256:edc021eb207af7595934aaa4d5c72035e543872bf1b04ec4c1136230b37f9b3f"
+    },
+    {
+      "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+      "partition": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle"
+        ],
+        [
+          "review.product-api"
+        ],
+        [
+          "review.security-trace"
+        ],
+        [
+          "verify.release-gates"
+        ]
+      ],
+      "origins": [
+        "exact_search",
+        "proposed"
+      ],
+      "proposalIds": [
+        "candidate.specialized"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 6,
+        "projectedMakespan": 23,
+        "peakConcurrency": 4,
+        "conflictPairs": 0,
+        "handoffCount": 8,
+        "duplicatedContextBytes": 349899,
+        "duplicatedPermissionScopes": 20,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 12,
+        "totalHandoffCost": 8
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+          "start": 0,
+          "finish": 3
+        },
+        {
+          "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+          "start": 4,
+          "finish": 16
+        },
+        {
+          "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+          "start": 4,
+          "finish": 14
+        },
+        {
+          "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+          "start": 4,
+          "finish": 11
+        },
+        {
+          "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+          "start": 4,
+          "finish": 16
+        },
+        {
+          "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+          "start": 17,
+          "finish": 23
+        }
+      ],
+      "contentDigest": "sha256:8a0157173d19ad6a00db82b24735ba280c2daf1c935a5ecff926b249814ba9f4"
+    }
+  ],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v11.specialist-compiler.release",
+    "goalRevision": 1,
+    "allowedModules": [
+      "integrate.release",
+      "review.algorithm-lifecycle",
+      "review.prepare",
+      "review.product-api",
+      "review.security-trace",
+      "verify.release-gates"
+    ],
+    "allowedCapabilities": [
+      "candidate.bind",
+      "integrate.release",
+      "review.algorithm-lifecycle",
+      "review.product-api",
+      "review.security-trace",
+      "verify.release"
+    ],
+    "contextSources": [
+      {
+        "id": "context.active-memory",
+        "kind": "repository",
+        "locator": "path:docs/memory/active-context.md",
+        "digest": "sha256:295eda8f03f074083f3aada5ef75cf88f6a90be2e69b62cf55b383884bccc9f3",
+        "bytes": 19388,
+        "description": "The current version, constraints, and release memory.",
+        "allowedWorkUnits": [
+          "integrate.release"
+        ],
+        "readScope": "docs/memory/active-context.md"
+      },
+      {
+        "id": "context.compiler",
+        "kind": "repository",
+        "locator": "path:src/specialist-compiler.ts",
+        "digest": "sha256:2a44dda724b76f60a4853f9992d118831c75b20951dfd115728e8faf07506f80",
+        "bytes": 61724,
+        "description": "The candidate construction and blueprint compiler implementation.",
+        "allowedWorkUnits": [
+          "review.algorithm-lifecycle",
+          "review.security-trace"
+        ],
+        "readScope": "src/specialist-compiler.ts"
+      },
+      {
+        "id": "context.compiler-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "digest": "sha256:7bd0d06125648e32e26f7671b23e6cfffff640fdbcc903ce26e94298f76d1721",
+        "bytes": 23352,
+        "description": "The normative V11 Specialist Compiler contract.",
+        "allowedWorkUnits": [
+          "integrate.release",
+          "prepare.candidate",
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+      },
+      {
+        "id": "context.compiler-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-compiler.test.mjs",
+        "digest": "sha256:75820747921e8e8765482f4f5f910e151483e11966511b54b52cb5104b0ff755",
+        "bytes": 34973,
+        "description": "The golden and adversarial specialist compiler tests.",
+        "allowedWorkUnits": [
+          "review.algorithm-lifecycle",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "readScope": "test/specialist-compiler.test.mjs"
+      },
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:d1187705b49bcf3ba879ccb507c847e38927fd9794dd4e5670854083fea72b38",
+        "bytes": 8137,
+        "description": "The public V11 positioning and boundary.",
+        "allowedWorkUnits": [
+          "integrate.release",
+          "review.product-api"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.renderer",
+        "kind": "repository",
+        "locator": "path:src/specialist-render.ts",
+        "digest": "sha256:b950f457c675b5b8c908ec972dc0111adef0bbea4ceeda1931b1a47da1f5ecb2",
+        "bytes": 9270,
+        "description": "The deterministic provider-neutral package renderer.",
+        "allowedWorkUnits": [
+          "review.product-api",
+          "review.security-trace"
+        ],
+        "readScope": "src/specialist-render.ts"
+      },
+      {
+        "id": "context.schema",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/specialist-compiler.schema.json",
+        "digest": "sha256:43a52df03c9942915cebdd217a67a5baa686e233a917c37b2c306817db319279",
+        "bytes": 14065,
+        "description": "The closed provider-neutral specialist input schema.",
+        "allowedWorkUnits": [
+          "review.product-api",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "readScope": "schemas/v1alpha1/specialist-compiler.schema.json"
+      },
+      {
+        "id": "context.schema-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-schema.test.mjs",
+        "digest": "sha256:310b39e4f49a46ceea078269f0fa9fc0e1003428b8f6504ea2e83130b2b38e84",
+        "bytes": 8982,
+        "description": "The strict schema and provider-neutral boundary tests.",
+        "allowedWorkUnits": [
+          "review.product-api",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "readScope": "test/specialist-schema.test.mjs"
+      },
+      {
+        "id": "context.spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/spec.md",
+        "digest": "sha256:2730c21ed7681b7d6d766cae72ff4159b2bf308d860a0dc45ea100044f02ecb0",
+        "bytes": 8132,
+        "description": "The active V11 product and acceptance contract.",
+        "allowedWorkUnits": [
+          "integrate.release",
+          "prepare.candidate",
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/spec.md"
+      },
+      {
+        "id": "context.types",
+        "kind": "repository",
+        "locator": "path:src/specialist-types.ts",
+        "digest": "sha256:a88200856211a4df7e6cbdbfa5d61a5e01f4ab461283465ec5ff597b04bdc4ff",
+        "bytes": 10330,
+        "description": "The public specialist contract types.",
+        "allowedWorkUnits": [
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace"
+        ],
+        "readScope": "src/specialist-types.ts"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "README.md",
+          "docs/memory/active-context.md",
+          "docs/specs/v11-specialist-compiler/spec.md",
+          "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "schemas/v1alpha1/specialist-compiler.schema.json",
+          "src/specialist-compiler.ts",
+          "src/specialist-render.ts",
+          "src/specialist-types.ts",
+          "test/specialist-compiler.test.mjs",
+          "test/specialist-schema.test.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "docs/memory/**",
+          "docs/milestones/v11.md",
+          "docs/specs/v11-specialist-compiler/**"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not access a network or provider.",
+      "Do not execute or dispatch runtime agents from core.",
+      "Do not merge or update durable memory before integration review.",
+      "Do not widen reviewed filesystem authority."
+    ],
+    "maxAgents": 6,
+    "maxConcurrency": 4,
+    "contentDigest": "sha256:a0f1158eb0c99eeab1e4b20943950010c6ce165bfbfcae716cc311ad1f826249"
+  },
+  "search": {
+    "mode": "exact",
+    "workUnitCount": 6,
+    "evaluatedCandidates": 203,
+    "eligibleCandidates": 52,
+    "retainedAlternatives": 8,
+    "evaluationSetDigest": "sha256:73bee1d4156c6d7599f1342358ea2200f000f7bef7ae8c4148156735903df20f"
+  },
+  "serialBaseline": {
+    "id": "team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696",
+    "partition": [
+      [
+        "integrate.release",
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.product-api",
+        "review.security-trace",
+        "verify.release-gates"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": false,
+    "rejectionCodes": [
+      "evidence_independence"
+    ],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 40,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 38,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.756f52e15cdff0ecc8500f40dd61ebc64565cd23ea7963c5d5bc33fb55aa3e1b",
+        "start": 0,
+        "finish": 40
+      }
+    ],
+    "contentDigest": "sha256:101c8f3861279cd4acfd5ab75012677e41ed73fa6fb104511fbc83452c331a38"
+  },
+  "selected": {
+    "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+    "partition": [
+      [
+        "integrate.release"
+      ],
+      [
+        "prepare.candidate"
+      ],
+      [
+        "review.algorithm-lifecycle"
+      ],
+      [
+        "review.product-api"
+      ],
+      [
+        "review.security-trace"
+      ],
+      [
+        "verify.release-gates"
+      ]
+    ],
+    "origins": [
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.specialized"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 6,
+      "projectedMakespan": 23,
+      "peakConcurrency": 4,
+      "conflictPairs": 0,
+      "handoffCount": 8,
+      "duplicatedContextBytes": 349899,
+      "duplicatedPermissionScopes": 20,
+      "totalWorkWeight": 38,
+      "totalStartupCost": 12,
+      "totalHandoffCost": 8
+    },
+    "schedule": [
+      {
+        "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+        "start": 0,
+        "finish": 3
+      },
+      {
+        "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+        "start": 4,
+        "finish": 16
+      },
+      {
+        "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+        "start": 4,
+        "finish": 14
+      },
+      {
+        "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+        "start": 4,
+        "finish": 11
+      },
+      {
+        "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+        "start": 4,
+        "finish": 16
+      },
+      {
+        "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+        "start": 17,
+        "finish": 23
+      }
+    ],
+    "contentDigest": "sha256:8a0157173d19ad6a00db82b24735ba280c2daf1c935a5ecff926b249814ba9f4"
+  },
+  "alternatives": [
+    {
+      "id": "team.b3680dcc101524901afbef2fa0c386323852124c4d6371cc3cd7517245d6dcf5",
+      "partition": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle"
+        ],
+        [
+          "review.product-api",
+          "verify.release-gates"
+        ],
+        [
+          "review.security-trace"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 5,
+        "projectedMakespan": 26,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 6,
+        "duplicatedContextBytes": 318720,
+        "duplicatedPermissionScopes": 17,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 10,
+        "totalHandoffCost": 6
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+          "start": 0,
+          "finish": 3
+        },
+        {
+          "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+          "start": 4,
+          "finish": 16
+        },
+        {
+          "agentId": "agent.460c48f260d7a2a24ce61cf3f74cf826ebd92647730ac11f66ad6b1567afd086",
+          "start": 4,
+          "finish": 19
+        },
+        {
+          "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+          "start": 4,
+          "finish": 16
+        },
+        {
+          "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+          "start": 20,
+          "finish": 26
+        }
+      ],
+      "contentDigest": "sha256:75df1e01a615b2e296eeb06f3ff48bf2e02e7421e2dc5c2d9ac6a8f614dcc71e"
+    },
+    {
+      "id": "team.45f4d849dd94a8f90a9eeb07668333991f925ccebceeda6b7370ed2d3fb7ed5e",
+      "partition": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle"
+        ],
+        [
+          "review.product-api"
+        ],
+        [
+          "review.security-trace",
+          "verify.release-gates"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 5,
+        "projectedMakespan": 28,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 6,
+        "duplicatedContextBytes": 283747,
+        "duplicatedPermissionScopes": 16,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 10,
+        "totalHandoffCost": 6
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+          "start": 0,
+          "finish": 3
+        },
+        {
+          "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+          "start": 4,
+          "finish": 16
+        },
+        {
+          "agentId": "agent.21fac9111e270740eb7c1d87f73f4f9d1030880a8deee4d431947b2c0bda212e",
+          "start": 4,
+          "finish": 21
+        },
+        {
+          "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+          "start": 4,
+          "finish": 14
+        },
+        {
+          "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+          "start": 22,
+          "finish": 28
+        }
+      ],
+      "contentDigest": "sha256:463640389b2cbbbbf463c68d67d3866cd988adc803b84888d332a4854ce13deb"
+    },
+    {
+      "id": "team.6d035e2f118ca820b9aa81136a9e5ed99af0c39c555d464f9225fcf3123b3810",
+      "partition": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle",
+          "verify.release-gates"
+        ],
+        [
+          "review.product-api"
+        ],
+        [
+          "review.security-trace"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 5,
+        "projectedMakespan": 28,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 6,
+        "duplicatedContextBytes": 306794,
+        "duplicatedPermissionScopes": 18,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 10,
+        "totalHandoffCost": 6
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+          "start": 0,
+          "finish": 3
+        },
+        {
+          "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+          "start": 4,
+          "finish": 14
+        },
+        {
+          "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+          "start": 4,
+          "finish": 16
+        },
+        {
+          "agentId": "agent.c9ac44c0b016de038d7b601ba933b2505fa3ef012e9472dd24045afbdba1abf4",
+          "start": 4,
+          "finish": 21
+        },
+        {
+          "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+          "start": 22,
+          "finish": 28
+        }
+      ],
+      "contentDigest": "sha256:b79e816a500f8ce26f817c3ded487476a8b149f7bc24435c82d28381acccc923"
+    },
+    {
+      "id": "team.97fb6fe39c2c8525d320a80d60732e6fa44acd1e7a7d4d91d5a651b378afd026",
+      "partition": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate",
+          "verify.release-gates"
+        ],
+        [
+          "review.algorithm-lifecycle"
+        ],
+        [
+          "review.product-api"
+        ],
+        [
+          "review.security-trace"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 5,
+        "projectedMakespan": 28,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 7,
+        "duplicatedContextBytes": 341767,
+        "duplicatedPermissionScopes": 19,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 10,
+        "totalHandoffCost": 7
+      },
+      "schedule": [
+        {
+          "agentId": "agent.fe2cdc5d0fedc2a30971dd237cfb051eafbf86c3c7db15b2daff083c388f7189",
+          "start": 0,
+          "finish": 8
+        },
+        {
+          "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+          "start": 9,
+          "finish": 21
+        },
+        {
+          "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+          "start": 9,
+          "finish": 19
+        },
+        {
+          "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+          "start": 9,
+          "finish": 21
+        },
+        {
+          "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+          "start": 22,
+          "finish": 28
+        }
+      ],
+      "contentDigest": "sha256:3d0f8f3b9f311d762bae2e6bc5ff3fe7f8eedb8b738f01c7161ebef5e3231e63"
+    },
+    {
+      "id": "team.4040deb17ee5a9c829c00f5d44257775fd0839cbde171b6dbf78082123dda4a2",
+      "partition": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle",
+          "verify.release-gates"
+        ],
+        [
+          "review.product-api",
+          "review.security-trace"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 4,
+        "projectedMakespan": 31,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 4,
+        "duplicatedContextBytes": 232663,
+        "duplicatedPermissionScopes": 12,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 8,
+        "totalHandoffCost": 4
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+          "start": 0,
+          "finish": 3
+        },
+        {
+          "agentId": "agent.8e8262eaa89b36f27386a816dba2de45e5b20d0e08113c14e54a263f42996f2e",
+          "start": 4,
+          "finish": 24
+        },
+        {
+          "agentId": "agent.c9ac44c0b016de038d7b601ba933b2505fa3ef012e9472dd24045afbdba1abf4",
+          "start": 4,
+          "finish": 21
+        },
+        {
+          "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+          "start": 25,
+          "finish": 31
+        }
+      ],
+      "contentDigest": "sha256:f200e86dce9d39ae9941f196b004c38547dfb38bbab40558f991840cc47cdcba"
+    },
+    {
+      "id": "team.6386f37c4fbd36cfc6e9d38ddb22d90af99c42025bb13037d4bd39512d37115b",
+      "partition": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle",
+          "review.product-api"
+        ],
+        [
+          "review.security-trace",
+          "verify.release-gates"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 4,
+        "projectedMakespan": 31,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 4,
+        "duplicatedContextBytes": 241933,
+        "duplicatedPermissionScopes": 13,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 8,
+        "totalHandoffCost": 4
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+          "start": 0,
+          "finish": 3
+        },
+        {
+          "agentId": "agent.21fac9111e270740eb7c1d87f73f4f9d1030880a8deee4d431947b2c0bda212e",
+          "start": 4,
+          "finish": 21
+        },
+        {
+          "agentId": "agent.8970a49f630c2501080e7a6cd6029a2d9876bd0a2c899ad68287d3c134e0736d",
+          "start": 4,
+          "finish": 24
+        },
+        {
+          "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+          "start": 25,
+          "finish": 31
+        }
+      ],
+      "contentDigest": "sha256:aa58d21b90f3b2d9604221bcef98ac70013c8f722f15f163dd3dd4b2be759b5c"
+    },
+    {
+      "id": "team.5c6e8bb4e8613ad3fa21f6e8d57ee6dc80636c372445c6656ce2ae8fac7d5b64",
+      "partition": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle"
+        ],
+        [
+          "review.product-api",
+          "review.security-trace"
+        ],
+        [
+          "verify.release-gates"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 5,
+        "projectedMakespan": 31,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 6,
+        "duplicatedContextBytes": 275768,
+        "duplicatedPermissionScopes": 14,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 10,
+        "totalHandoffCost": 6
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+          "start": 0,
+          "finish": 3
+        },
+        {
+          "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+          "start": 4,
+          "finish": 16
+        },
+        {
+          "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+          "start": 4,
+          "finish": 11
+        },
+        {
+          "agentId": "agent.8e8262eaa89b36f27386a816dba2de45e5b20d0e08113c14e54a263f42996f2e",
+          "start": 4,
+          "finish": 24
+        },
+        {
+          "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+          "start": 25,
+          "finish": 31
+        }
+      ],
+      "contentDigest": "sha256:2fd82354ba25f18ae4e9c09da39cc4a89f3804893cc065f99ee52e6328c133eb"
+    },
+    {
+      "id": "team.22cfc8a181aaa7d8f16949ba7125acebce7ceab8dc45dcd1fa93e2fe9def8827",
+      "partition": [
+        [
+          "integrate.release"
+        ],
+        [
+          "prepare.candidate"
+        ],
+        [
+          "review.algorithm-lifecycle",
+          "review.product-api"
+        ],
+        [
+          "review.security-trace"
+        ],
+        [
+          "verify.release-gates"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 5,
+        "projectedMakespan": 31,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 6,
+        "duplicatedContextBytes": 308085,
+        "duplicatedPermissionScopes": 17,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 10,
+        "totalHandoffCost": 6
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+          "start": 0,
+          "finish": 3
+        },
+        {
+          "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+          "start": 4,
+          "finish": 11
+        },
+        {
+          "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+          "start": 4,
+          "finish": 16
+        },
+        {
+          "agentId": "agent.8970a49f630c2501080e7a6cd6029a2d9876bd0a2c899ad68287d3c134e0736d",
+          "start": 4,
+          "finish": 24
+        },
+        {
+          "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+          "start": 25,
+          "finish": 31
+        }
+      ],
+      "contentDigest": "sha256:51145afff40446bb73e41cc5863488814c322b4286ec80fd0228bdc0cd1dcca0"
+    }
+  ],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+      "goalId": "v11.specialist-compiler.release",
+      "goalRevision": 1,
+      "goalDigest": "sha256:325b614ef60ec1260576c8ac42a5d780a9d132cdac3f1a730f89c39619db76c5",
+      "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+      "workUnitIds": [
+        "review.algorithm-lifecycle"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.algorithm-lifecycle",
+          "objective": "Independently determine whether construction, scheduling, selection, and digest semantics are deterministic, bounded, and honestly described."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.algorithm-lifecycle",
+          "action": "Review candidate generation, hard gates, metrics, comparator, scheduling, and reproducibility.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ReviewCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "AlgorithmReview"
+            }
+          ]
+        }
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.compiler",
+          "kind": "repository",
+          "locator": "path:src/specialist-compiler.ts",
+          "digest": "sha256:2a44dda724b76f60a4853f9992d118831c75b20951dfd115728e8faf07506f80",
+          "bytes": 61724,
+          "purposes": [
+            "Audit candidate analysis and selection."
+          ],
+          "workUnitIds": [
+            "review.algorithm-lifecycle"
+          ],
+          "readScope": "src/specialist-compiler.ts"
+        },
+        {
+          "sourceId": "context.compiler-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "digest": "sha256:7bd0d06125648e32e26f7671b23e6cfffff640fdbcc903ce26e94298f76d1721",
+          "bytes": 23352,
+          "purposes": [
+            "Review the normative search and objective contract."
+          ],
+          "workUnitIds": [
+            "review.algorithm-lifecycle"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+        },
+        {
+          "sourceId": "context.compiler-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-compiler.test.mjs",
+          "digest": "sha256:75820747921e8e8765482f4f5f910e151483e11966511b54b52cb5104b0ff755",
+          "bytes": 34973,
+          "purposes": [
+            "Audit golden, exact-count, bounded, and permutation evidence."
+          ],
+          "workUnitIds": [
+            "review.algorithm-lifecycle"
+          ],
+          "readScope": "test/specialist-compiler.test.mjs"
+        },
+        {
+          "sourceId": "context.spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/spec.md",
+          "digest": "sha256:2730c21ed7681b7d6d766cae72ff4159b2bf308d860a0dc45ea100044f02ecb0",
+          "bytes": 8132,
+          "purposes": [
+            "Review algorithm acceptance claims."
+          ],
+          "workUnitIds": [
+            "review.algorithm-lifecycle"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/spec.md"
+        },
+        {
+          "sourceId": "context.types",
+          "kind": "repository",
+          "locator": "path:src/specialist-types.ts",
+          "digest": "sha256:a88200856211a4df7e6cbdbfa5d61a5e01f4ab461283465ec5ff597b04bdc4ff",
+          "bytes": 10330,
+          "purposes": [
+            "Review metric and evaluation output types."
+          ],
+          "workUnitIds": [
+            "review.algorithm-lifecycle"
+          ],
+          "readScope": "src/specialist-types.ts"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "review.algorithm-lifecycle"
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "src/specialist-compiler.ts",
+            "src/specialist-types.ts",
+            "test/specialist-compiler.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "src/specialist-compiler.ts",
+              "src/specialist-types.ts",
+              "test/specialist-compiler.test.mjs"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access a network or provider.",
+          "Do not execute or dispatch runtime agents from core.",
+          "Do not merge or update durable memory before integration review.",
+          "Do not widen reviewed filesystem authority."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.algorithm",
+          "criterion": "Candidate construction, scheduling, selection, and digest semantics are deterministic and accurately claimed.",
+          "requirementId": "evidence.algorithm-review",
+          "kind": "review",
+          "duty": "review",
+          "description": "Independent algorithm and lifecycle acceptance review.",
+          "independentFromProducer": true
+        }
+      ],
+      "handoff": {
+        "destination": "v11.integration-owner",
+        "artifacts": [
+          "algorithm-lifecycle-review.md"
+        ],
+        "requiredFields": [
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Stop with REVISE if bounded search is represented as a global optimum.",
+        "Stop with REVISE if selection can change under logical input permutation."
+      ],
+      "contentDigest": "sha256:c7b358f1cf5f7a6e69fcc76760c8d923d3d116ba071dbac37d0a4584a864576b"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+      "goalId": "v11.specialist-compiler.release",
+      "goalRevision": 1,
+      "goalDigest": "sha256:325b614ef60ec1260576c8ac42a5d780a9d132cdac3f1a730f89c39619db76c5",
+      "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+      "workUnitIds": [
+        "integrate.release"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "integrate.release",
+          "objective": "Integrate independent handoffs, update traceable V11 artifacts and memory, and prepare the milestone without merging."
+        }
+      ],
+      "modules": [
+        {
+          "id": "integrate.release",
+          "action": "Resolve review findings and assemble source-linked owner approval evidence.",
+          "inputPorts": [
+            {
+              "name": "reviews",
+              "artifactType": "IndependentReviews"
+            },
+            {
+              "name": "verification",
+              "artifactType": "ReleaseGateEvidence"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "milestone",
+              "artifactType": "VersionMilestone"
+            }
+          ]
+        }
+      ],
+      "dependencies": [
+        "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+        "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+        "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+        "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.active-memory",
+          "kind": "repository",
+          "locator": "path:docs/memory/active-context.md",
+          "digest": "sha256:295eda8f03f074083f3aada5ef75cf88f6a90be2e69b62cf55b383884bccc9f3",
+          "bytes": 19388,
+          "purposes": [
+            "Promote source-linked durable learning."
+          ],
+          "workUnitIds": [
+            "integrate.release"
+          ],
+          "readScope": "docs/memory/active-context.md"
+        },
+        {
+          "sourceId": "context.compiler-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "digest": "sha256:7bd0d06125648e32e26f7671b23e6cfffff640fdbcc903ce26e94298f76d1721",
+          "bytes": 23352,
+          "purposes": [
+            "Preserve the final compiler boundary."
+          ],
+          "workUnitIds": [
+            "integrate.release"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+        },
+        {
+          "sourceId": "context.readme",
+          "kind": "repository",
+          "locator": "path:README.md",
+          "digest": "sha256:d1187705b49bcf3ba879ccb507c847e38927fd9794dd4e5670854083fea72b38",
+          "bytes": 8137,
+          "purposes": [
+            "Keep public status accurate."
+          ],
+          "workUnitIds": [
+            "integrate.release"
+          ],
+          "readScope": "README.md"
+        },
+        {
+          "sourceId": "context.spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/spec.md",
+          "digest": "sha256:2730c21ed7681b7d6d766cae72ff4159b2bf308d860a0dc45ea100044f02ecb0",
+          "bytes": 8132,
+          "purposes": [
+            "Close acceptance criteria."
+          ],
+          "workUnitIds": [
+            "integrate.release"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "integrate.release"
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/memory/active-context.md",
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+          ],
+          "write": [
+            "docs/memory/**",
+            "docs/milestones/v11.md",
+            "docs/specs/v11-specialist-compiler/**"
+          ],
+          "conflictZones": [
+            "v11.release-artifacts"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/memory/active-context.md",
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/memory/**",
+              "docs/milestones/v11.md",
+              "docs/specs/v11-specialist-compiler/**"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access a network or provider.",
+          "Do not execute or dispatch runtime agents from core.",
+          "Do not merge or update durable memory before integration review.",
+          "Do not widen reviewed filesystem authority."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.release",
+          "criterion": "Canonical verification and source-linked release evidence are complete before owner approval.",
+          "requirementId": "evidence.release-record",
+          "kind": "artifact",
+          "duty": "produce",
+          "description": "Integrated V11 review, memory, and milestone artifacts.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "v11.integration-owner",
+        "artifacts": [
+          "history-ledger-entry",
+          "review.md",
+          "v11-milestone.md"
+        ],
+        "requiredFields": [
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Stop before merge; owner approval remains mandatory.",
+        "Stop if any independent review returns REVISE."
+      ],
+      "contentDigest": "sha256:84b4fc3e7e200896aa423243acbf8bf096b9bdfd65b7712f5c33089dbb18f22a"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+      "goalId": "v11.specialist-compiler.release",
+      "goalRevision": 1,
+      "goalDigest": "sha256:325b614ef60ec1260576c8ac42a5d780a9d132cdac3f1a730f89c39619db76c5",
+      "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+      "workUnitIds": [
+        "review.product-api"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.product-api",
+          "objective": "Independently determine whether V11 solves the owner goal with a clear, minimal, IDE-agnostic public contract."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.product-api",
+          "action": "Review product fit, public API closure, usability, and claimed boundaries.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ReviewCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "ProductApiReview"
+            }
+          ]
+        }
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.compiler-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "digest": "sha256:7bd0d06125648e32e26f7671b23e6cfffff640fdbcc903ce26e94298f76d1721",
+          "bytes": 23352,
+          "purposes": [
+            "Review the human/core/host responsibility boundary."
+          ],
+          "workUnitIds": [
+            "review.product-api"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+        },
+        {
+          "sourceId": "context.readme",
+          "kind": "repository",
+          "locator": "path:README.md",
+          "digest": "sha256:d1187705b49bcf3ba879ccb507c847e38927fd9794dd4e5670854083fea72b38",
+          "bytes": 8137,
+          "purposes": [
+            "Review public positioning and clarity."
+          ],
+          "workUnitIds": [
+            "review.product-api"
+          ],
+          "readScope": "README.md"
+        },
+        {
+          "sourceId": "context.renderer",
+          "kind": "repository",
+          "locator": "path:src/specialist-render.ts",
+          "digest": "sha256:b950f457c675b5b8c908ec972dc0111adef0bbea4ceeda1931b1a47da1f5ecb2",
+          "bytes": 9270,
+          "purposes": [
+            "Review the portable launch package."
+          ],
+          "workUnitIds": [
+            "review.product-api"
+          ],
+          "readScope": "src/specialist-render.ts"
+        },
+        {
+          "sourceId": "context.schema",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/specialist-compiler.schema.json",
+          "digest": "sha256:43a52df03c9942915cebdd217a67a5baa686e233a917c37b2c306817db319279",
+          "bytes": 14065,
+          "purposes": [
+            "Review the closed provider-neutral input."
+          ],
+          "workUnitIds": [
+            "review.product-api"
+          ],
+          "readScope": "schemas/v1alpha1/specialist-compiler.schema.json"
+        },
+        {
+          "sourceId": "context.schema-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-schema.test.mjs",
+          "digest": "sha256:310b39e4f49a46ceea078269f0fa9fc0e1003428b8f6504ea2e83130b2b38e84",
+          "bytes": 8982,
+          "purposes": [
+            "Review installed and provider-neutral schema evidence."
+          ],
+          "workUnitIds": [
+            "review.product-api"
+          ],
+          "readScope": "test/specialist-schema.test.mjs"
+        },
+        {
+          "sourceId": "context.spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/spec.md",
+          "digest": "sha256:2730c21ed7681b7d6d766cae72ff4159b2bf308d860a0dc45ea100044f02ecb0",
+          "bytes": 8132,
+          "purposes": [
+            "Review acceptance and owner fit."
+          ],
+          "workUnitIds": [
+            "review.product-api"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/spec.md"
+        },
+        {
+          "sourceId": "context.types",
+          "kind": "repository",
+          "locator": "path:src/specialist-types.ts",
+          "digest": "sha256:a88200856211a4df7e6cbdbfa5d61a5e01f4ab461283465ec5ff597b04bdc4ff",
+          "bytes": 10330,
+          "purposes": [
+            "Review the additive public type surface."
+          ],
+          "workUnitIds": [
+            "review.product-api"
+          ],
+          "readScope": "src/specialist-types.ts"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "review.product-api"
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "src/specialist-render.ts",
+            "src/specialist-types.ts",
+            "test/specialist-schema.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "schemas/v1alpha1/specialist-compiler.schema.json",
+              "src/specialist-render.ts",
+              "src/specialist-types.ts",
+              "test/specialist-schema.test.mjs"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access a network or provider.",
+          "Do not execute or dispatch runtime agents from core.",
+          "Do not merge or update durable memory before integration review.",
+          "Do not widen reviewed filesystem authority."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.product-api",
+          "criterion": "The V11 product and public API match the owner goal and remain IDE, model, and provider neutral.",
+          "requirementId": "evidence.product-review",
+          "kind": "review",
+          "duty": "review",
+          "description": "Independent product and API acceptance review.",
+          "independentFromProducer": true
+        }
+      ],
+      "handoff": {
+        "destination": "v11.integration-owner",
+        "artifacts": [
+          "product-api-review.md"
+        ],
+        "requiredFields": [
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Stop with REVISE if a generic role can substitute for exact task demand.",
+        "Stop with REVISE if the public contract requires a provider or runtime."
+      ],
+      "contentDigest": "sha256:522782f4d3ba626c9385413600e31f9de29fd40114b74b5fbf62cb67d3092a04"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+      "goalId": "v11.specialist-compiler.release",
+      "goalRevision": 1,
+      "goalDigest": "sha256:325b614ef60ec1260576c8ac42a5d780a9d132cdac3f1a730f89c39619db76c5",
+      "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+      "workUnitIds": [
+        "verify.release-gates"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "verify.release-gates",
+          "objective": "Independently verify the strict schema, specialist golden suite, full kernel gate, package dry run, installed consumer, and template checker evidence."
+        }
+      ],
+      "modules": [
+        {
+          "id": "verify.release-gates",
+          "action": "Re-run and inspect every canonical V11 release gate.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ReviewCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "evidence",
+              "artifactType": "ReleaseGateEvidence"
+            }
+          ]
+        }
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.compiler-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-compiler.test.mjs",
+          "digest": "sha256:75820747921e8e8765482f4f5f910e151483e11966511b54b52cb5104b0ff755",
+          "bytes": 34973,
+          "purposes": [
+            "Verify the golden suite."
+          ],
+          "workUnitIds": [
+            "verify.release-gates"
+          ],
+          "readScope": "test/specialist-compiler.test.mjs"
+        },
+        {
+          "sourceId": "context.schema",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/specialist-compiler.schema.json",
+          "digest": "sha256:43a52df03c9942915cebdd217a67a5baa686e233a917c37b2c306817db319279",
+          "bytes": 14065,
+          "purposes": [
+            "Verify the packaged closed schema."
+          ],
+          "workUnitIds": [
+            "verify.release-gates"
+          ],
+          "readScope": "schemas/v1alpha1/specialist-compiler.schema.json"
+        },
+        {
+          "sourceId": "context.schema-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-schema.test.mjs",
+          "digest": "sha256:310b39e4f49a46ceea078269f0fa9fc0e1003428b8f6504ea2e83130b2b38e84",
+          "bytes": 8982,
+          "purposes": [
+            "Verify strict schema coverage."
+          ],
+          "workUnitIds": [
+            "verify.release-gates"
+          ],
+          "readScope": "test/specialist-schema.test.mjs"
+        },
+        {
+          "sourceId": "context.spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/spec.md",
+          "digest": "sha256:2730c21ed7681b7d6d766cae72ff4159b2bf308d860a0dc45ea100044f02ecb0",
+          "bytes": 8132,
+          "purposes": [
+            "Map gates to acceptance criteria."
+          ],
+          "workUnitIds": [
+            "verify.release-gates"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "verify.release"
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-schema.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "schemas/v1alpha1/specialist-compiler.schema.json",
+              "test/specialist-compiler.test.mjs",
+              "test/specialist-schema.test.mjs"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access a network or provider.",
+          "Do not execute or dispatch runtime agents from core.",
+          "Do not merge or update durable memory before integration review.",
+          "Do not widen reviewed filesystem authority."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.release",
+          "criterion": "Canonical verification and source-linked release evidence are complete before owner approval.",
+          "requirementId": "evidence.release-gates",
+          "kind": "test",
+          "duty": "verify",
+          "description": "Independent canonical verification evidence.",
+          "independentFromProducer": true
+        }
+      ],
+      "handoff": {
+        "destination": "v11.integration-owner",
+        "artifacts": [
+          "release-gate-evidence.md"
+        ],
+        "requiredFields": [
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Stop with FIX if any canonical gate fails or cannot be reproduced."
+      ],
+      "contentDigest": "sha256:4a0136cbeedb1a7d459a3b0e01e673408407ef79be35e9fa0bbac5c5c7bb8685"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+      "goalId": "v11.specialist-compiler.release",
+      "goalRevision": 1,
+      "goalDigest": "sha256:325b614ef60ec1260576c8ac42a5d780a9d132cdac3f1a730f89c39619db76c5",
+      "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+      "workUnitIds": [
+        "review.security-trace"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.security-trace",
+          "objective": "Independently determine whether authority, context, privacy, rendering, and trace bindings fail closed without claiming host enforcement."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.security-trace",
+          "action": "Review schema closure, semantic authority, privacy, canonical digests, rendering containment, and host boundaries.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ReviewCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "SecurityTraceReview"
+            }
+          ]
+        }
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.compiler",
+          "kind": "repository",
+          "locator": "path:src/specialist-compiler.ts",
+          "digest": "sha256:2a44dda724b76f60a4853f9992d118831c75b20951dfd115728e8faf07506f80",
+          "bytes": 61724,
+          "purposes": [
+            "Audit fail-closed validation and digests."
+          ],
+          "workUnitIds": [
+            "review.security-trace"
+          ],
+          "readScope": "src/specialist-compiler.ts"
+        },
+        {
+          "sourceId": "context.compiler-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "digest": "sha256:7bd0d06125648e32e26f7671b23e6cfffff640fdbcc903ce26e94298f76d1721",
+          "bytes": 23352,
+          "purposes": [
+            "Review trust and external-host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+        },
+        {
+          "sourceId": "context.compiler-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-compiler.test.mjs",
+          "digest": "sha256:75820747921e8e8765482f4f5f910e151483e11966511b54b52cb5104b0ff755",
+          "bytes": 34973,
+          "purposes": [
+            "Audit adversarial authority, privacy, and tamper coverage."
+          ],
+          "workUnitIds": [
+            "review.security-trace"
+          ],
+          "readScope": "test/specialist-compiler.test.mjs"
+        },
+        {
+          "sourceId": "context.renderer",
+          "kind": "repository",
+          "locator": "path:src/specialist-render.ts",
+          "digest": "sha256:b950f457c675b5b8c908ec972dc0111adef0bbea4ceeda1931b1a47da1f5ecb2",
+          "bytes": 9270,
+          "purposes": [
+            "Audit tamper checks and payload bindings."
+          ],
+          "workUnitIds": [
+            "review.security-trace"
+          ],
+          "readScope": "src/specialist-render.ts"
+        },
+        {
+          "sourceId": "context.schema",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/specialist-compiler.schema.json",
+          "digest": "sha256:43a52df03c9942915cebdd217a67a5baa686e233a917c37b2c306817db319279",
+          "bytes": 14065,
+          "purposes": [
+            "Audit closed input boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace"
+          ],
+          "readScope": "schemas/v1alpha1/specialist-compiler.schema.json"
+        },
+        {
+          "sourceId": "context.schema-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-schema.test.mjs",
+          "digest": "sha256:310b39e4f49a46ceea078269f0fa9fc0e1003428b8f6504ea2e83130b2b38e84",
+          "bytes": 8982,
+          "purposes": [
+            "Audit provider/runtime exclusion coverage."
+          ],
+          "workUnitIds": [
+            "review.security-trace"
+          ],
+          "readScope": "test/specialist-schema.test.mjs"
+        },
+        {
+          "sourceId": "context.spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/spec.md",
+          "digest": "sha256:2730c21ed7681b7d6d766cae72ff4159b2bf308d860a0dc45ea100044f02ecb0",
+          "bytes": 8132,
+          "purposes": [
+            "Review security acceptance and risks."
+          ],
+          "workUnitIds": [
+            "review.security-trace"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/spec.md"
+        },
+        {
+          "sourceId": "context.types",
+          "kind": "repository",
+          "locator": "path:src/specialist-types.ts",
+          "digest": "sha256:a88200856211a4df7e6cbdbfa5d61a5e01f4ab461283465ec5ff597b04bdc4ff",
+          "bytes": 10330,
+          "purposes": [
+            "Review authority and trace-bearing types."
+          ],
+          "workUnitIds": [
+            "review.security-trace"
+          ],
+          "readScope": "src/specialist-types.ts"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "review.security-trace"
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "src/specialist-compiler.ts",
+            "src/specialist-render.ts",
+            "src/specialist-types.ts",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-schema.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "schemas/v1alpha1/specialist-compiler.schema.json",
+              "src/specialist-compiler.ts",
+              "src/specialist-render.ts",
+              "src/specialist-types.ts",
+              "test/specialist-compiler.test.mjs",
+              "test/specialist-schema.test.mjs"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access a network or provider.",
+          "Do not execute or dispatch runtime agents from core.",
+          "Do not merge or update durable memory before integration review.",
+          "Do not widen reviewed filesystem authority."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.security-trace",
+          "criterion": "Authority, context, privacy, rendering, and trace bindings fail closed.",
+          "requirementId": "evidence.security-review",
+          "kind": "review",
+          "duty": "review",
+          "description": "Independent security and trace acceptance review.",
+          "independentFromProducer": true
+        }
+      ],
+      "handoff": {
+        "destination": "v11.integration-owner",
+        "artifacts": [
+          "security-trace-review.md"
+        ],
+        "requiredFields": [
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Stop with REVISE if a blueprint can widen owner authority.",
+        "Stop with REVISE if package tampering can retain the reviewed digest."
+      ],
+      "contentDigest": "sha256:f628ab7888ebae74a9211e8c9ba0dcfd496d73d6e0e0a4decebc44084684ea9c"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+      "goalId": "v11.specialist-compiler.release",
+      "goalRevision": 1,
+      "goalDigest": "sha256:325b614ef60ec1260576c8ac42a5d780a9d132cdac3f1a730f89c39619db76c5",
+      "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+      "workUnitIds": [
+        "prepare.candidate"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "prepare.candidate",
+          "objective": "Confirm the reviewed product, algorithm, and security sources match their declared content digests before independent review."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.prepare",
+          "action": "Bind one immutable review candidate to exact source evidence.",
+          "inputPorts": [
+            {
+              "name": "sources",
+              "artifactType": "CandidateSources"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ReviewCandidate"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.compiler-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "digest": "sha256:7bd0d06125648e32e26f7671b23e6cfffff640fdbcc903ce26e94298f76d1721",
+          "bytes": 23352,
+          "purposes": [
+            "Bind the normative compiler contract."
+          ],
+          "workUnitIds": [
+            "prepare.candidate"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+        },
+        {
+          "sourceId": "context.spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/spec.md",
+          "digest": "sha256:2730c21ed7681b7d6d766cae72ff4159b2bf308d860a0dc45ea100044f02ecb0",
+          "bytes": 8132,
+          "purposes": [
+            "Bind the product acceptance contract."
+          ],
+          "workUnitIds": [
+            "prepare.candidate"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "candidate.bind"
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v11-specialist-compiler/spec.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v11-specialist-compiler/spec.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access a network or provider.",
+          "Do not execute or dispatch runtime agents from core.",
+          "Do not merge or update durable memory before integration review.",
+          "Do not widen reviewed filesystem authority."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.algorithm",
+          "criterion": "Candidate construction, scheduling, selection, and digest semantics are deterministic and accurately claimed.",
+          "requirementId": "evidence.algorithm-candidate",
+          "kind": "digest",
+          "duty": "produce",
+          "description": "Content-addressed algorithm and test candidate sources.",
+          "independentFromProducer": false
+        },
+        {
+          "criterionId": "criterion.product-api",
+          "criterion": "The V11 product and public API match the owner goal and remain IDE, model, and provider neutral.",
+          "requirementId": "evidence.product-candidate",
+          "kind": "digest",
+          "duty": "produce",
+          "description": "Content-addressed product and API candidate sources.",
+          "independentFromProducer": false
+        },
+        {
+          "criterionId": "criterion.security-trace",
+          "criterion": "Authority, context, privacy, rendering, and trace bindings fail closed.",
+          "requirementId": "evidence.security-candidate",
+          "kind": "digest",
+          "duty": "produce",
+          "description": "Content-addressed security and trace candidate sources.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "v11.integration-owner",
+        "artifacts": [
+          "review-candidate-digests.json"
+        ],
+        "requiredFields": [
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Stop if any declared source digest or byte count does not match."
+      ],
+      "contentDigest": "sha256:3958352c0ea7a83d5a15790ab854e1e89592a94f5bcc8e0979b4520389a5a933"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ]
+    },
+    {
+      "start": 4,
+      "agentIds": [
+        "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+        "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+        "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+        "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc"
+      ]
+    },
+    {
+      "start": 17,
+      "agentIds": [
+        "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:32f615017d7f5b0f7648a6818420857c0ffb258aa6a721d94c685da08b8c6254"
+}

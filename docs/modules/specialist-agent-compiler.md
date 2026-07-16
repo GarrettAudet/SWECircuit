@@ -2,127 +2,226 @@
 
 ## Status
 
-V11 candidate. This is a built-in, provider-neutral SWECircuit capability rather than an optional download. The file contract exists now; deterministic kernel compilation and runtime evidence remain pending.
+Core module contract and V11 implementation candidate. The provider-neutral compiler, renderer, and package verifier exist; feature acceptance, dogfood, repeat independent review, milestone closeout, and owner approval remain open.
+
+The property-level normative contract is `docs/specs/v11-specialist-compiler/specialist-compiler-contract.md`. The human entrypoint is `docs/ide/specialist-agent-kickoff.md`.
 
 ## Purpose
 
-Turn each bounded software-work packet into one task-specific agent blueprint. A blueprint defines the exact specialist needed for that invocation; it is not a generic role label, model preset, or provider configuration.
+Turn one reviewed software `GoalContract` with atomic semantic work units into the best eligible partition in the evaluated candidate set under a fixed deterministic objective, then compile one exact `AgentBlueprint` per selected group.
 
 ```txt
-goal + module + work packet + context + policy
+reviewed GoalContract + optional proposed groupings
   | specialist_agent_compiler
-  -> AgentBlueprint
+  -> authority projection
+  -> serial baseline + internally constructed candidate teams
+  -> deterministic selection
+  -> exact AgentBlueprintCompilation
+  -> compilation.json + provider-neutral package values
+  -> two-digest package verification
 ```
 
-## Distinction
+A blueprint is task demand. It is not a role label, persona, model preset, provider configuration, executable grant, or runtime assignment.
 
-- `AgentProfile` states what an available host worker can execute.
-- `AgentBlueprintIntent` records the semantic context uses and specialization claims proposed for one concrete task.
-- `AgentBlueprint` states exactly what this invocation requires.
-- `Assignment` binds one blueprint to one compatible profile, slot, executor, and grant.
-- `AgentMaterializationReceipt` attests what the host configured before dispatch.
+## When To Use
 
-The host may materialize the same blueprint through Codex, Claude Code, Cursor, Copilot, a local process, or another adapter without changing its software-work semantics.
+- A reviewed goal has two or more possible ownership groupings.
+- Independent verification or review may require separate specialists.
+- Parallel work must be compared with a strong serial baseline.
+- An IDE or host needs exact portable agent contracts before choosing a runtime.
+- Context, authority, evidence, handoff, and stop boundaries must be inspectable before launch.
 
-## Built-In Boundary
+## When Not To Use
 
-The repository supplies this portable synthesis contract plus the reference `docs/ide/specialist-agent-kickoff.md` entrypoint, and V11 exposes an independently callable pure `compileAgentBlueprints` compiler and validator. `compilePlan` reuses that exact implementation before adding runtime-supply compatibility. The active IDE or an optional policy-compiler adapter supplies semantic proposal judgment inside the approved PolicyBundle. An execution adapter only materializes an accepted blueprint. No external framework is required, and neither adapter can redefine authority, gates, acceptance, evidence, or completion.
+- Product intent, acceptance criteria, or authority still needs a user decision.
+- Atomic semantic work units have not been defined and reviewed.
+- The caller wants core to choose a provider/model or run agents.
+- A tiny task is already safely handled through the normal single-agent path and no compiled launch package is needed.
 
-## IDE Kickoff
+## Semantic Boundary
 
-When a user says "use SWECircuit for this task," the IDE agent first selects applicable modules and a Circuit shape from the repository's owner-approved catalog, records low-risk assumptions, and materializes the candidate PolicyBundle before `runGoal(start)`. Existing allowlisted modules may be composed automatically within repository policy. A new module, gate, route, authority grant, public-behavior decision, or destructive/security-sensitive capability requires explicit owner approval. The IDE records the decision and maps it to the exact GoalContract, PolicyBundle, or RunAuthority field that reflects it; the structured launch input, not the noncanonical note, is the binding contract.
+The IDE or human owns clarification and atomic semantic decomposition. Each work unit must already state its objective, Module action and ports, dependencies, context uses, scopes, capabilities, permissions, evidence duties, handoff artifacts, and stop conditions.
 
-The immutable execution planner never silently invents those contracts after start. This keeps the visible experience one message while preserving a reviewable authority boundary.
+Core optimizes grouping only. It may combine fixed work units into a specialist; it never splits a work unit, invents a hidden requirement, changes acceptance policy, expands authority, or supplies runtime identity.
 
 ## Input
 
-- Goal and acceptance criteria.
-- Selected Circuit node and Module.
-- Concrete WorkPacket and artifact-port bindings.
-- Repository baseline and exact context references.
-- Policy, authority, permissions, scopes, independence constraints, and supply-free TaskAuthorityProjection.
-- Required evidence, verification, review, handoff, and stop conditions.
+One closed `SpecialistCompilationRequest` containing:
+
+- `apiVersion: swecircuit/specialist/v1alpha1`;
+- `kind: SpecialistCompilationRequest`;
+- one reviewed `GoalContract`; and
+- optional proposed candidate partitions.
+
+The goal supplies:
+
+- stable objective, revision, integration owner, and acceptance criteria;
+- digest-bound `assumptions` and `unresolvedDecisions`; any decision marked blocking fails clarification before candidate construction;
+- globally unique evidence requirements with exact work-unit ownership;
+- declared context source locators, expected SHA-256 digests, byte counts, allowed work units, and repository read scopes where applicable;
+- owner-approved Modules and capabilities;
+- permission, agent, and concurrency ceilings plus forbidden effects;
+- relative work, agent-start, and handoff planning costs; and
+- one to 64 atomic work units.
+
+Repository locators are parsed after `path:` and before any fragment; leading, empty, `.`, and `..` path segments are rejected. `SpecialistPermissionKind` is the exact union `filesystem.read | filesystem.write | network.connect | process.spawn | secrets.read`. Filesystem permission scopes for each work unit must exactly equal its declared read/write scope sets, and all demand must remain under the owner ceiling. Permission data is declarative demand, not a grant or enforcement mechanism.
+
+No input record accepts `role`, runtime profile, provider, model, prompt, executor, credential, grant, or host-capacity data.
 
 ## Action
 
-The semantic compiler first creates a serial baseline and, when independent deliverables exist, one or more legal parallel candidates. It compares them after hard constraints using exact structural measurements, expected critical-path benefit, context and permission surplus, conflict exposure, handoffs, coordination cost, and independent review. It then proposes the selected narrowed WorkPackets and one address-bound `AgentBlueprintIntent` per prospective invocation within the host-approved PolicyBundle. Each intent supplies explicit context uses and specialization reasons. Core validates those semantic inputs, derives every remaining field, and compiles exactly one `AgentBlueprint` per concrete Plan invocation. Core never invents semantic intent; the planner cannot invent authority, acceptance policy, gates, routes, or runtime identity.
+1. Detach and bound the JSON input; reject malformed text, excess limits, control characters, lone surrogates, and high-confidence secrets.
+2. Validate closed shapes, unique identities, references, assumptions, unresolved decisions, parsed repository locators, the work-unit DAG, Module consistency, context bindings, exact permission demand, authority ceilings, and complete evidence ownership. A blocking decision returns no candidate set.
+3. Normalize semantically unordered arrays and proposed partitions.
+4. Derive the supply-free `TaskAuthorityProjection` from the goal. The caller does not supply this projection to compilation.
+5. Always construct and evaluate the one-agent serial baseline.
+6. For eight or fewer work units, enumerate every canonical partition allowed by `maxAgents` and emit `search.claim: exhaustive_partition_search_fixed_scheduler`.
+7. For nine or more work units, construct the deterministic bounded set and emit `search.claim: bounded_evaluated_set_no_global_optimum`; include weight-balanced counts, Module groups, dependency levels, evidence-duty classes, primary scope groups, and supplied proposals.
+8. Reject candidate partitions with excess agents, missing/duplicate/unknown work units, a group-induced agent dependency cycle, or violated producer/checker independence.
+9. Compute a deterministic conflict-aware projected schedule under `maxConcurrency`, exact scope intersections, startup cost, and cross-agent handoff cost.
+10. Rank eligible candidates by the fixed comparator and select the first.
+11. Compile exact immutable blueprints, projected launch waves, search evidence, a machine-readable `selectionReason`, alternatives, and content digests.
+12. Render `compilation.json` and deterministic package files; verify a received package only against trusted expected compilation and package digests.
 
-Every blueprint binds:
+Exact search applies only through eight work units. Larger search is bounded and must never be described as globally optimal. Exact mode proves exhaustive grouping only for the reviewed fixed work units under `maxAgents`; it does not prove that the human decomposition is semantically optimal.
 
-- One exact objective, source WorkPacket, AgentBlueprintIntent, and supply-free TaskAuthorityProjection.
-- One Module action and concrete input/output ports.
-- Required capabilities and node function.
-- Included, excluded, read, write, and conflict scopes.
-- The smallest source-preserving context set claimed sufficient for the task.
-- Exact permissions and prohibited effects.
-- Dependencies, activation conditions, and independence requirements.
-- Acceptance criteria and qualified evidence bindings it owns.
-- Required verification and review evidence.
-- Handoff destination and required handoff fields.
-- Stop, clarify, diagnose, split, and block conditions.
+## Hard Gates
 
-An agent name such as `frontend`, `backend`, `tester`, or `reviewer` does not satisfy the contract by itself.
+Before selection, the module requires:
+
+- closed valid input with no launch-sensitive unknown fields;
+- one acyclic, semantically reviewed work-unit graph;
+- complete criterion producer coverage and exactly one owner for every evidence requirement;
+- all Modules, capabilities, context uses, scopes, and permissions within owner declarations;
+- exact context-use authorization and repository read-scope coverage;
+- every work unit owned exactly once in an eligible candidate;
+- an acyclic derived agent graph; and
+- every requested independent verifier or reviewer outside the corresponding producer agent.
+
+Correctness, authority, evidence coverage, and independence are eligibility gates, not optimization scores.
+
+## Deterministic Objective
+
+Eligible candidates are compared lexicographically by:
+
+1. lower projected makespan;
+2. fewer conflict pairs;
+3. fewer cross-agent dependency handoffs;
+4. fewer duplicated context bytes;
+5. fewer duplicated permission scopes;
+6. fewer agents; and
+7. canonical partition identity.
+
+The projected schedule uses relative planning units. Exact write/write, write/read, read/write, and shared conflict-zone intersections prevent overlap; read/read overlap is allowed. Scope keys are owner-reviewed exact keys, not inferred path or glob semantics.
+
+More agents win only through an earlier comparator or required evidence independence. The serial baseline remains visible even when ineligible. At most eight ranked alternatives are retained.
 
 ## Output
 
-- A serial baseline, reviewed candidate comparison, and selected specialist roster.
-- One validated `AgentBlueprintIntent` and one immutable `AgentBlueprint` per concrete Plan invocation.
-- One core-derived `AgentOptimizationRecord` for the complete decomposition.
-- Exact blueprint-to-invocation, evidence, handoff, context-use, and matching inputs.
-- A visible roster that an IDE can present before execution without exposing provider prompts or hidden reasoning.
+A successful `AgentBlueprintCompilation` contains:
 
-## Optimization Objective
+- the normalized GoalContract, including assumptions and unresolved decisions, and its goal digest;
+- normalized supplied proposals;
+- every proposal-associated evaluation, including rejected supplied groupings;
+- derived `TaskAuthorityProjection`;
+- exact or bounded search mode, exact `search.claim`, counts, retained count, and evaluation-set digest;
+- serial baseline, selected candidate, machine-readable `selectionReason`, and retained alternatives;
+- selected candidate metrics and projected schedule;
+- one exact `AgentBlueprint` per selected group;
+- projected launch waves; and
+- one compilation content digest.
 
-Optimization occurs at four distinct layers: decompose the goal into independently verifiable work; specialize each blueprint to the smallest sufficient context, authority, and tool capability; place blueprints onto compatible runtime capacity; then compare accepted outcomes and coordination cost so reviewed learning improves later proposals. Hard correctness, authority, acceptance, and integration constraints are satisfied first. The semantic synthesizer uses this ordered, host-reviewed objective:
+Each blueprint binds:
 
-1. Seek high-value dependency-ready, conflict-safe work and record the expected benefit against a named baseline.
-2. Keep independently verifiable deliverables in separate packets when that shortens the critical path.
-3. Minimize overlapping write scopes and shared conflict zones.
-4. Minimize context and permission surplus for each blueprint.
-5. Minimize cross-agent dependencies, handoffs, and duplicated evidence.
-6. Prefer fewer agents when another agent adds no safe parallelism or independent quality evidence.
+- goal and selected-candidate identity;
+- exact work-unit ownership and objectives;
+- exact Module actions and ports;
+- cross-agent dependencies;
+- purpose-bound context locators, expected digests, bytes, and work-unit uses;
+- the union of only its work units' capabilities, scopes, permissions, and all goal forbidden effects;
+- exact evidence duties and requested independence;
+- handoff destination, artifacts, and required fields; and
+- stop conditions plus blueprint digest.
 
-The feature package names a baseline, alternatives considered, expected benefit, and unavoidable constraints. These are host-reviewed semantic objectives, not a core proof of global optimality. Core recomputes exact structural measurements and performs exact maximum-cardinality profile assignment only after a deterministic bounded conflict-safe wave has been selected. Provider, model, price, prompt style, and hidden quality scores never enter core selection.
+`renderSpecialistPackage` returns `compilation.json`, `manifest.json`, `integration.md`, one Markdown contract per blueprint, exact file metadata, and a root `packageDigest`. The manifest binds the compilation, agent, and integration files by path, digest, and byte count. `verifySpecialistPackage` reconstructs and rerenders the package, requires canonical equality, and checks trusted expected `compilationDigest` and `packageDigest` values. Those expectations must be preserved outside the package.
 
 ## Gate
 
-`compileAgentBlueprints` passes only when every reachable invocation has one complete task-shaped blueprint, no blueprint relies on a role label as its contract, every context item has a declared use and target, parallel packets are conflict-safe, acceptance and integration coverage are total, and the resulting handoffs can be reduced deterministically. This pure gate is supply-free and never inspects runtime profiles. `compilePlan` may proceed to execution planning only when every fixed blueprint is compatible with at least one allowed AgentProfile; missing permanent supply routes to `block` without mutating blueprint demand.
+Emit `pass` only when:
 
-Route to:
-
-- `clarify` when product intent or required context is insufficient.
-- `split` when a goal has independently verifiable deliverables but the current policy lacks a legal decomposition.
-- `redesign` when modules, graph structure, authority, or integration cannot support a sound plan.
-- `block` when no allowed profile can execute a required blueprint.
+- GoalContract semantic review is recorded;
+- compilation returns `ok: true` with a non-null value;
+- search mode and optimization limitations are presented honestly;
+- the serial baseline and selected roster are reviewable;
+- every selected blueprint is complete and task-shaped;
+- rendering includes `compilation.json` and returns a root package digest;
+- approval outside the package binds the exact compilation and package digests;
+- `verifySpecialistPackage` passes against both trusted expectations; and
+- any external launcher accepts the host responsibilities below.
 
 ## Outcome
 
-`pass`, `clarify`, `split`, `redesign`, or `block`.
+| Outcome | Condition |
+| --- | --- |
+| `pass` | A reviewed compilation or rendered package is ready for an external host. |
+| `fix` | Closed input, reference, evidence ownership, or candidate proposal has a known correction. |
+| `clarify` | Product intent, acceptance, context, authority, or verification remains unresolved. |
+| `redesign` | Work units, Modules, dependencies, independence, or integration cannot form an eligible sound team. |
+| `split` | The goal or declared context exceeds a coherent or resource-bounded contract. |
+| `block` | A secret, unsafe authority request, digest mismatch, or required approval prevents launch. |
+| `diagnose` | An internal or recurring deterministic failure lacks a confirmed cause. |
 
-## Runtime Materialization
+## External Host Boundary
 
-An execution adapter receives the immutable blueprint, WorkPacket, ticket, and grant. It may render provider-specific instructions or tool configuration transiently, but it cannot widen the blueprint, omit required evidence, or persist prompts and hidden reasoning in the canonical trace. Before dispatch it supplies a bounded host-attested `AgentMaterializationReceipt` binding the blueprint, delivered context/capabilities/ports/constraints, adapter version, grant, and attestor without retaining provider text.
+The V11 module constructs demand and package values. An external IDE or agent host chooses provider, model, prompts, credentials, actual scheduling, process control, workspace isolation, and persistence. It must verify delivered context, enforce actual permissions and dependency readiness, preserve raw handoffs, and run integrated verification and review.
 
-## Evidence
+The host may translate a blueprint into transient runtime instructions. It must verify the package against both approved digests before launch. It must not widen authority, add work, omit evidence, weaken stop conditions, or change handoffs while claiming either digest. Any semantic or package change requires recompilation, rerendering, reverification, and new approval.
 
-- Blueprint digest linked from Plan, Assignment, ticket, result, and parent trace.
-- Intent, TaskAuthorityProjection, and AgentMaterializationReceipt bindings.
-- Context, scope, permission, capability, criterion, evidence, and handoff closure checks.
-- Assignment and wave-selection proof.
-- Integrated verification showing the specialist output satisfies its owned contract.
-- Serial-versus-parallel accepted-work comparison plus one-agent-optimal, under-split, over-split, conflict-heavy, genuinely parallel, and generic-role golden baselines.
+Projected `launchWaves` are deterministic planning output, not dispatch, reservation, isolation, or completion evidence.
+
+## V11 Non-Capabilities
+
+V11 does not execute agents, enforce a sandbox, merge changes, or update memory. It also does not select providers/models, manage credentials, reserve capacity, dispatch work, retry or recover processes, persist a trace, or decide merge readiness.
+
+The deferred universal runtime artifacts under `docs/specs/v11-orchestration-planner/` are historical and future design evidence. They are not active inputs, outputs, or guarantees of this module.
 
 ## Artifacts
 
-- Preserved GoalContract, PolicyBundle, WorkPacket, and context source references.
-- AgentBlueprints and AgentOptimizationRecord inside the immutable Plan.
-- Assignment, ticket, result, verification, handoff, and trace bindings to each blueprint digest.
-- Dogfood measurements and review findings used to improve later compiler versions.
-
-## Learning Loop
-
-After a completed run, compare the optimization record with accepted outputs, failures, diagnosis paths, elapsed time, and coordination overhead. Emit source-linked MemoryProposals for useful patterns and failed approaches. Only reviewed MemoryCandidates may become retrieval input for a later compilation; the compiler never mutates its own policy, prompts, or authority.
+- Reviewed GoalContract and assumption record.
+- Optional proposed candidate partitions.
+- TaskAuthorityProjection.
+- AgentBlueprintCompilation with serial, selected, alternatives, search evidence, and digests.
+- RenderedSpecialistPackage file values.
+- External approval record containing trusted expected compilation and package digests, plus successful package-verification evidence.
+- External handoff, integration, verification, review, merge, and memory evidence when later stages run.
 
 ## Adapter
 
-Astraeus or another policy compiler may implement semantic role and packet synthesis. IDE and agent runtimes may implement blueprint materialization. Neither adapter owns SWECircuit policy, authority, gates, evidence semantics, or completion.
+This module is built into SWECircuit and requires no external orchestration framework. IDE and runtime adapters may implement the human synthesis and external launch sides. Adapters cannot redefine the compiler schema, comparator, authority, evidence, handoff, digest, or host boundary.
+
+## Stage Hooks
+
+| Workflow Stage | Module Behavior |
+| --- | --- |
+| Clarify | Resolve decisions that would change the GoalContract. |
+| Spec | Define acceptance criteria and evidence requirements. |
+| Architecture check | Confirm Module, authority, provider-neutral, and external-host boundaries. |
+| Task plan | Create and review atomic work units; then compile candidate groupings. |
+| Implement | External hosts materialize only the reviewed blueprints. |
+| Verify | Check compiler determinism, package bindings, specialist evidence, and integrated behavior. |
+| Review | Compare serial and selected candidates, blueprint closure, bounded-search honesty, and exact digest bindings. |
+| Memory update | External workflow records durable learning after review; the compiler does not mutate memory. |
+
+## Verification
+
+- Small-goal canonical partition counts and logical permutation invariance.
+- Above-eight bounded candidate-source and no-global-optimum checks.
+- One-agent-optimal, genuinely parallel, under-split, over-split, conflict-heavy, and generic-role golden cases.
+- Closed-shape, authority, context, permission, evidence, cycle, limit, privacy, and digest-substitution failures.
+- Blueprint completeness and absence of runtime/provider fields.
+- Renderer reconstruction, `compilation.json`, stable bytes, dynamic-fence containment, package-root binding, coordinated-tamper rejection, and two-digest verification.
+- Template checker, canonical kernel verification, packed-consumer validation, dogfood, and independent review before V11 acceptance.
+
+## Rollback
+
+The compiler family is additive. If V11 fails its acceptance gate, remove the specialist-specific exports and implementation while preserving ADR 0004, the feature package, failed runtime-review evidence, and this contract as source history. No runtime state, merge, or memory data requires migration because V11 creates none.

@@ -2,33 +2,34 @@
 
 ## Status
 
-In progress. Expected evidence is defined; implementation results remain pending.
+Passed for the revision-6 digest-bound candidate. The exact evidence pair is compilation `sha256:ac1707213d9c22314d4c5a3d0bc6a838ef31863b63a9e2dac5993541d919c161` and package `sha256:838019281b732ec238e4460c03167087b7a63c409348ee66322cc5535469774d`.
 
 ## Acceptance Criteria Mapping
 
-| Acceptance Criterion | Verification |
-| --- | --- |
-| AC1 | Public-API unit test compiles a valid goal and checks every selected blueprint field. |
-| AC2 | Exact partition-count tests plus logical-order permutation and repeat-byte tests. |
-| AC3 | Above-limit bounded-search fixture checks mode, sources, counts, and honest metadata. |
-| AC4 | Six golden optimization fixtures assert selected canonical partitions and decisive metrics. |
-| AC5 | Table-driven malformed/reference/authority/context/privacy/cycle/evidence/role-shape rejection tests. |
-| AC6 | Blueprint closure, union, dependency, evidence, handoff, stop, and forbidden-field assertions. |
-| AC7 | Serial visibility plus high-overhead, no-benefit, and required-independence selection tests. |
-| AC8 | Renderer byte determinism, digest verification, hostile-text containment, and no-I/O tests. |
-| AC9 | Dogfood run and manual IDE kickoff walkthrough. |
-| AC10 | `npm.cmd run verify`, template checker, checker matrix, export probe, and hosted matrix. |
-| AC11 | Source-linked dogfood package with compiler output and observed comparison. |
-| AC12 | Three independent exact-commit PASS verdicts and completed review/milestone. |
+| Acceptance Criterion | Verification | Outcome |
+| --- | --- | --- |
+| AC1 | Public compiler tests construct candidates, select deterministically, and assert complete selected blueprints. | PASS |
+| AC2 | Assumption/decision normalization, digest mutation, blocking-decision rejection, and visible non-blocking rationale tests. | PASS |
+| AC3 | Leading/nested traversal rejection plus TypeScript/schema five-kind permission closure and installed-consumer probes. | PASS |
+| AC4 | Exact canonical partition counts through eight units, reordering permutations, and byte-identical repeat output. | PASS |
+| AC5 | Above-limit bounded structural search, supplied candidates, named claim, and no-global-optimum assertions. | PASS |
+| AC6 | Six reviewed goldens plus serial/non-serial machine-readable selection reasons. | PASS |
+| AC7 | Table-driven malformed, duplicate, cycle, evidence, authority, context, secret, traversal, decision, and role-shaped negatives with stable diagnostics. | PASS |
+| AC8 | Blueprint ownership, Module ports, context, authority, evidence, dependencies, handoff, stops, and forbidden runtime/provider fields. | PASS |
+| AC9 | Deterministic rendering, exact compilation/manifest/contract closure, expected-digest verification, and coordinated tamper negatives. | PASS |
+| AC10 | IDE kickoff contract, packed consumer, generated dogfood package, exact specialist handoffs, and integration flow. | PASS |
+| AC11 | Format, lint, typecheck, build, 323 tests, focused schema/compiler/containment, package consumer, template checker, and negative matrix. | PASS |
+| AC12 | Source-linked revision-6 dogfood report, serial comparison, selected metrics, attempts 1-6 including 6A/6B, friction, and outcomes. | PASS |
+| AC13 | Independent product/API, algorithm/lifecycle, and security/trace PASS handoffs against the same prepared digest pair. | PASS |
 
 ## Automated Checks
 
-- Unit: goal validation, authority projection, candidate generation, scheduling, metrics, selection, blueprint compilation, digesting, and rendering.
-- Integration: public root exports, packed consumer, and generated specialist package consumed by a minimal IDE-host fixture.
-- E2E: one goal contract through compile, render, simulated handoff verification, and package inspection without network access.
-- Typecheck: strict TypeScript 7 project and clean installed consumer.
-- Lint: Biome on source, tests, fixtures, and scripts.
-- Build: declaration/source-map ESM build and package dry run.
+- Focused schema: 7/7 passed.
+- Focused compiler/golden: 35/35 passed.
+- Host containment: 6/6 passed.
+- Canonical `npm.cmd run verify`: format checked 72 files, lint checked 60 files, typecheck/build passed, and 323/323 tests passed.
+- Both dogfoods, offline installed-consumer compilation and package verification, package inspection, and template checker passed.
+- Complete negative checker matrix passed in 744.9 seconds.
 
 ## Golden Optimization Cases
 
@@ -39,26 +40,29 @@ In progress. Expected evidence is defined; implementation results remain pending
 5. `conflict-heavy`: equal write/conflict keys serialize apparent parallel work and prevent a false speed win.
 6. `generic-role`: an extra `role` or provider-shaped field fails the closed candidate contract; the valid replacement compiles from exact work ownership.
 
+All six passed focused tests and algorithm/lifecycle review.
+
+## Dogfood Evidence
+
+- [Report](evidence/dogfood/report.json): exact search evaluated 203 candidates, found 52 eligible, and selected six agents at projected makespan 23.
+- [Serial baseline](evidence/dogfood/report.json): projected makespan 40 and ineligible for `evidence_independence`.
+- [Candidate ledger](evidence/dogfood/handoffs/review-candidate-digests-attempt-6.json): 34/34 source bindings passed, and `context.spec` targeted only the immutable pre-integration snapshot.
+- [Release verification](evidence/dogfood/handoffs/verify-release-pass-attempt-6.md): 19/19 assigned contexts and 9/9 package files remained stable across execution, and both trusted digests reconstructed.
+- [Independent handoffs](evidence/dogfood/handoffs/): product/API 12/12, algorithm/lifecycle 14/14, and security/trace 32/32 passed with no findings.
+
 ## Manual Checks
 
-- Read the generated package as a first-time IDE user and identify goal, selected roster, each specialist's exact boundary, launch digest, integration order, and required evidence without consulting implementation code.
-- Compare serial and selected candidates and confirm the explanation follows the documented comparator.
-- Confirm no README or guide claims that SWECircuit executes, schedules runtime capacity, sandboxes, merges, or updates memory in V11.
+- Product/API review confirmed a first-time host can identify the goal, roster, boundaries, digest pair, integration order, and evidence without provider/runtime fields.
+- Algorithm/lifecycle review confirmed the selection explanation follows the documented comparator and the exact/bounded claims remain honest.
+- Security/trace review confirmed README and contract claims keep execution, enforcement, isolation, persistence, merge, and memory effects external.
 
-## Regression Coverage
+## Skipped Or External Checks
 
-- Reordered arrays or supplied candidate labels cannot change logical selection.
-- Post-call mutation cannot change compiled values.
-- Duplicate work ownership, group-induced cycles, unresolved context, authority surplus, missing evidence, and same-agent forbidden checks never produce a launchable compilation.
-- Bounded output does not retain every exact-search candidate while its ordered evaluation digest remains stable.
-- Generated Markdown cannot escape its dynamic fence.
-- Existing V9/V10 exports and behavior remain unchanged.
+- No real provider execution, model comparison, worktree isolation, runtime cancellation, merge, or automatic memory mutation was attempted; these are outside V11.
+- No hosted CI run is claimed for this digest-bound shared-worktree candidate.
+- Post-integration reconstruction passed after the authorized documentation outputs changed, as recorded in [the attempt-6 replay handoff](evidence/dogfood/handoffs/post-integration-replay-pass-attempt-6.md).
+- Planning weights and projected makespan are deterministic comparison units, not elapsed-time or performance evidence.
 
-## Skipped Checks
+## Evidence Ownership
 
-- Real provider execution, model comparison, worktree isolation, runtime cancellation, merge, and memory mutation are outside V11.
-- No wall-clock speed claim is accepted from planning weights; observed dogfood timings are descriptive only.
-
-## Verification Evidence
-
-Pending T003-T010. Record exact commands, candidate commit, counts, durations, fixture hashes, dogfood artifacts, and reviewer verdicts here as they complete.
+The candidate, package, raw handoffs, failed/fix attempts, and final PASS records are preserved under `evidence/dogfood/`. Attempt 5 remains `FIX` after mutable-live-spec replay; attempts 6A and 6B remain host-side `FIX` retries. The integrated interpretation is in `review.md`; post-integration reconstruction passed, while owner approval and a clean pushed branch remain open in T011.

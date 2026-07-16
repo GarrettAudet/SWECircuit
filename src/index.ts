@@ -16,10 +16,6 @@ export {
   exitCodeForDiagnostics,
   sortAndDeduplicateDiagnostics,
 } from "./diagnostics.js";
-export {
-  createDeterministicTestExecutor,
-  executeWorkPacket,
-} from "./execution.js";
 export type {
   ExecuteWorkPacketOptions,
   ExecutionDisposition,
@@ -35,10 +31,23 @@ export type {
   WorkPacketExecutorSettlement,
 } from "./execution.js";
 export {
+  createDeterministicTestExecutor,
+  executeWorkPacket,
+} from "./execution.js";
+export { initializeProject } from "./initialize.js";
+export { parseJsonBuffer } from "./json.js";
+export type {
+  AdapterManifestArtifact,
+  PermissionRequest,
+  RunEventArtifact,
+  RunEventEvidenceReference,
+  WorkPacketArtifact,
+} from "./model.js";
+export {
   compileAgentBlueprints,
   deriveTaskAuthorityProjection,
 } from "./specialist-compiler.js";
-export { renderSpecialistPackage } from "./specialist-render.js";
+export { renderSpecialistPackage, verifySpecialistPackage } from "./specialist-render.js";
 export type {
   AgentBlueprint,
   AgentBlueprintAuthority,
@@ -53,12 +62,14 @@ export type {
   SpecialistAcceptanceCriterion,
   SpecialistAgentSchedule,
   SpecialistApiVersion,
+  SpecialistAssumption,
   SpecialistAuthority,
   SpecialistCandidateEvaluation,
   SpecialistCandidateMetrics,
   SpecialistCandidateOrigin,
   SpecialistCandidateProposal,
   SpecialistCandidateRejectionCode,
+  SpecialistComparatorField,
   SpecialistContextKind,
   SpecialistContextSource,
   SpecialistContextUse,
@@ -70,27 +81,21 @@ export type {
   SpecialistModuleBinding,
   SpecialistOptimizationPolicy,
   SpecialistPackageAgent,
+  SpecialistPackageExpectation,
   SpecialistPackageManifest,
   SpecialistPermission,
+  SpecialistPermissionKind,
   SpecialistPort,
   SpecialistRepositoryContextSource,
   SpecialistScope,
   SpecialistSearchMode,
   SpecialistSearchSummary,
+  SpecialistSelectionReason,
+  SpecialistUnresolvedDecision,
   SpecialistWorkUnit,
   TaskAuthorityProjection,
 } from "./specialist-types.js";
-export { initializeProject } from "./initialize.js";
-export { parseJsonBuffer } from "./json.js";
 export { inspectTrace } from "./trace.js";
-export { validateArtifactValue, validateProject } from "./validate.js";
-export type {
-  AdapterManifestArtifact,
-  PermissionRequest,
-  RunEventArtifact,
-  RunEventEvidenceReference,
-  WorkPacketArtifact,
-} from "./model.js";
 export type {
   CancellationReasonCode,
   Diagnostic,
@@ -110,11 +115,12 @@ export type {
   TraceInspectionSummary,
   TraceRunSummary,
   TraceWorkflowOutcomeSummary,
-  ValidateProjectOptions,
   ValidatedArtifactSummary,
+  ValidateProjectOptions,
   WorkflowOutcome,
   WorkflowStage,
 } from "./types.js";
+export { validateArtifactValue, validateProject } from "./validate.js";
 
 export const TOOLCHAIN = Object.freeze({
   apiVersion: "swecircuit/v1alpha1",

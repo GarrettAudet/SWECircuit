@@ -133,6 +133,27 @@ Parallelize only after the task plan defines work-unit contracts. Each parallel 
 
 Use subagents first for read-heavy exploration, review, testing, diagnosis, and independent implementation slices. Keep the main agent as the integration owner unless another owner is explicitly assigned. Do not parallelize ambiguous requirements, shared-state edits, broad refactors, or security-sensitive changes until the contract is clear.
 
+## Specialist Compiler Rule
+
+When the user asks to use SWECircuit for a meaningful goal, make specialist construction visible before launching parallel work:
+
+1. Clarify product intent and acceptance criteria. Put every assumption and unresolved decision in the closed `GoalContract`; a blocking decision emits `clarify` and prevents compilation.
+2. Select owner-approved Modules and define stable atomic work units with exact context, authority, evidence duties, dependencies, handoff, and stop conditions. Repository locators must be relative `path:` values whose parsed path segments contain neither `.` nor `..`.
+3. Run `compileAgentBlueprints`. Core constructs candidate team partitions; do not preselect generic frontend, backend, tester, or reviewer roles as the contract.
+4. Show the serial baseline, selected partition, `search.mode`, exact `search.claim`, machine-readable `selectionReason`, rejected hard gates when relevant, and compilation `contentDigest`.
+5. Run `renderSpecialistPackage`, preserve `compilation.json`, and record the returned `packageDigest`. Before launch, call `verifySpecialistPackage` with the trusted expected compilation and package digests.
+6. Bind approval to both `compilationDigest` and `packageDigest`, then launch only the exact verified agent contracts.
+7. Preserve raw handoffs, integrate through one owner, verify feature acceptance, review independently where required, then update traceable memory.
+8. Bind any document or artifact that integration may mutate through an immutable pre-integration snapshot. After integration, reconstruct and verify the approved compilation/package pair again; a mismatch retires the candidate and requires a new revision.
+
+Correctness, authority, evidence coverage, requested producer/checker independence, and clarification closure are hard gates. Extra agents are justified only by the fixed optimization objective. `search.claim` is `exhaustive_partition_search_fixed_scheduler` only through eight work units; larger searches use `bounded_evaluated_set_no_global_optimum`.
+
+The only permission demand kinds are `filesystem.read`, `filesystem.write`, `network.connect`, `process.spawn`, and `secrets.read`. They remain declarative demand until an external host enforces them.
+
+The compiler is IDE-, API-, model-, and provider-neutral. External hosts still choose runtime supply, deliver and verify context, isolate workspaces, enforce permissions, execute tools, persist evidence, merge, and update durable memory. Never claim that V11 performs those effects.
+
+Use `docs/specs/v11-specialist-compiler/specialist-compiler-contract.md` and `docs/ide/specialist-agent-kickoff.md` as the active contract. Retrieve `docs/specs/v11-orchestration-planner/` only when working on the deferred runtime layer or auditing why it was split.
+
 ## Circuit Composition Rule
 
 Use Circuit Composition as the default mental model for meaningful work:

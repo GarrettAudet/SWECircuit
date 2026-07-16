@@ -2,8 +2,7 @@
 
 ## Status
 
-Revision-4 candidate preparation. The corrected launch contract is locally verified and ready to freeze for Round-4 architecture review. It is not ready for `runGoal(start)` because the V11 runtime does not exist; four exact-commit `PASS` verdicts must precede implementation.
-
+Historical launch record; outcome split. The revision-4 roster failed Round-4 architecture review and was never executable. Active synthesis and compiler dogfood now live in docs/specs/v11-specialist-compiler/ under ADR 0004.
 ## Goal And Criteria
 
 Build an IDE-, API-, model-, and provider-neutral coordinator that turns one user goal into approved workflow modules, exact task-specific agent blueprints, high-value bounded safe parallel work, deterministic integration, independent verification/review, repository proof, owner control, trace, and reviewed learning.
@@ -88,4 +87,4 @@ Exact AgentOptimizationRecord values remain pending because the V11 compiler is 
 
 ## Handoff
 
-`ready`: freeze this exact source chain, commit and push it, then run fresh product, API, lifecycle, and security reviews against the same hash. Any material finding routes back to `redesign`; four `PASS` verdicts unlock the first runtime contract slice.
+split: preserve this runtime design as source evidence and continue with the standalone Specialist Compiler package. Do not launch or implement runGoal from this record.

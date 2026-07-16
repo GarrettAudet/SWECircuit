@@ -32,8 +32,15 @@ export type SpecialistCandidateRejectionCode =
   | "duplicate_work_unit"
   | "unknown_work_unit";
 
+export type SpecialistPermissionKind =
+  | "filesystem.read"
+  | "filesystem.write"
+  | "network.connect"
+  | "process.spawn"
+  | "secrets.read";
+
 export interface SpecialistPermission {
-  readonly kind: string;
+  readonly kind: SpecialistPermissionKind;
   readonly scopes: readonly string[];
 }
 
@@ -125,6 +132,20 @@ export interface SpecialistOptimizationPolicy {
   readonly handoffCost: number;
 }
 
+export interface SpecialistAssumption {
+  readonly id: string;
+  readonly statement: string;
+  readonly rationale: string;
+}
+
+export interface SpecialistUnresolvedDecision {
+  readonly id: string;
+  readonly question: string;
+  readonly owner: string;
+  readonly blocking: boolean;
+  readonly proceedRationale: string;
+}
+
 export interface SpecialistGoalContract {
   readonly apiVersion: SpecialistApiVersion;
   readonly kind: "GoalContract";
@@ -132,6 +153,8 @@ export interface SpecialistGoalContract {
   readonly revision: number;
   readonly objective: string;
   readonly integrationOwner: string;
+  readonly assumptions: readonly SpecialistAssumption[];
+  readonly unresolvedDecisions: readonly SpecialistUnresolvedDecision[];
   readonly acceptanceCriteria: readonly SpecialistAcceptanceCriterion[];
   readonly contextSources: readonly SpecialistContextSource[];
   readonly authority: SpecialistAuthority;
@@ -204,11 +227,34 @@ export interface SpecialistCandidateEvaluation {
 
 export interface SpecialistSearchSummary {
   readonly mode: SpecialistSearchMode;
+  readonly claim:
+    | "exhaustive_partition_search_fixed_scheduler"
+    | "bounded_evaluated_set_no_global_optimum";
   readonly workUnitCount: number;
   readonly evaluatedCandidates: number;
   readonly eligibleCandidates: number;
   readonly retainedAlternatives: number;
   readonly evaluationSetDigest: string;
+}
+
+export type SpecialistComparatorField =
+  | "projectedMakespan"
+  | "conflictPairs"
+  | "handoffCount"
+  | "duplicatedContextBytes"
+  | "duplicatedPermissionScopes"
+  | "agentCount"
+  | "canonicalPartitionIdentity";
+
+export interface SpecialistSelectionReason {
+  readonly kind: "serial_selected" | "serial_ineligible" | "lower_metric" | "canonical_tiebreak";
+  readonly decisiveField:
+    | "serial_baseline"
+    | SpecialistCandidateRejectionCode
+    | SpecialistComparatorField;
+  readonly selectedValue: number | string | null;
+  readonly serialValue: number | string | null;
+  readonly serialRejectionCodes: readonly SpecialistCandidateRejectionCode[];
 }
 
 export interface AgentBlueprintObjective {
@@ -284,10 +330,12 @@ export interface AgentBlueprintCompilation {
   readonly goal: SpecialistGoalContract;
   readonly goalDigest: string;
   readonly proposedCandidates: readonly SpecialistCandidateProposal[];
+  readonly proposalEvaluations: readonly SpecialistCandidateEvaluation[];
   readonly authority: TaskAuthorityProjection;
   readonly search: SpecialistSearchSummary;
   readonly serialBaseline: SpecialistCandidateEvaluation;
   readonly selected: SpecialistCandidateEvaluation;
+  readonly selectionReason: SpecialistSelectionReason;
   readonly alternatives: readonly SpecialistCandidateEvaluation[];
   readonly blueprints: readonly AgentBlueprint[];
   readonly launchWaves: readonly SpecialistLaunchWave[];
@@ -298,6 +346,8 @@ export interface SpecialistPackageAgent {
   readonly agentId: string;
   readonly blueprintDigest: string;
   readonly contractFile: string;
+  readonly contractDigest: string;
+  readonly contractBytes: number;
 }
 
 export interface SpecialistPackageManifest {
@@ -308,8 +358,13 @@ export interface SpecialistPackageManifest {
   readonly compilationDigest: string;
   readonly selectedCandidateId: string;
   readonly launchWaves: readonly SpecialistLaunchWave[];
+  readonly compilationFile: "compilation.json";
+  readonly compilationFileDigest: string;
+  readonly compilationFileBytes: number;
   readonly agents: readonly SpecialistPackageAgent[];
   readonly integrationFile: "integration.md";
+  readonly integrationDigest: string;
+  readonly integrationBytes: number;
   readonly contentDigest: string;
 }
 
@@ -323,6 +378,12 @@ export interface RenderedSpecialistFile {
 
 export interface RenderedSpecialistPackage {
   readonly compilationDigest: string;
+  readonly packageDigest: string;
   readonly manifest: SpecialistPackageManifest;
   readonly files: readonly RenderedSpecialistFile[];
+}
+
+export interface SpecialistPackageExpectation {
+  readonly compilationDigest: string;
+  readonly packageDigest: string;
 }

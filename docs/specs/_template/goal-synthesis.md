@@ -20,9 +20,9 @@ Draft.
 
 - Record requested authority ceilings and required host capability supply.
 
-## Work And Agent Intents
+## Work Units And Agent Demand
 
-- List bounded WorkPackets, dependencies, conflicts, handoffs, and one task-shaped AgentBlueprintIntent per prospective invocation: exact deliverable, ports, justified context uses, capability demand, least authority, evidence, handoff, and stop conditions.
+- List atomic work units, dependencies, conflicts, and handoffs in a closed GoalContract. Each work unit must define exact objective, module ports, justified context uses, capability demand, least authority, evidence, handoff artifacts, and stop conditions; `compileAgentBlueprints` derives the task-shaped AgentBlueprints.
 
 ## Optimization Assessment
 

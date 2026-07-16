@@ -6,16 +6,16 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
-  realpathSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { tmpdir } from "node:os";
 import { isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
+const LOCAL_STATE_ROOT = join(ROOT, ".local");
 const NPM_CACHE = join(ROOT, ".local", "npm-cache");
+const CONSUMER_WORKSPACE_PREFIX = join(NPM_CACHE, "swecircuit-packed-consumer-");
 const NPM_EXEC_PATH = process.env.npm_execpath;
 assert.equal(typeof NPM_EXEC_PATH, "string", "Run the packed-consumer check through npm.");
 assert.notEqual(NPM_EXEC_PATH.length, 0, "npm_execpath must identify npm's JavaScript entrypoint.");
@@ -23,14 +23,22 @@ const REQUIRED_PACKED_FILES = Object.freeze([
   "dist/execution.d.ts",
   "dist/index.d.ts",
   "dist/index.js",
+  "dist/specialist-compiler.d.ts",
+  "dist/specialist-render.d.ts",
+  "dist/specialist-types.d.ts",
   "docs/framework/executor-boundary.md",
   "package.json",
   "schemas/v1alpha1/common.schema.json",
   "schemas/v1alpha1/project.schema.json",
   "schemas/v1alpha1/run-event.schema.json",
+  "schemas/v1alpha1/specialist-compiler.schema.json",
 ]);
 const FORBIDDEN_PACKED_FILES = new Set([".npmrc"]);
 const FORBIDDEN_PACKED_PREFIXES = Object.freeze(["scripts/", "src/", "test/"]);
+const RETAINED_SPECIALIST_EXPECTATION = Object.freeze({
+  compilationDigest: "sha256:d560d06b54a0229583fa6ac054af8facf669ceda5b8ff7c5c6a8a4080bd4416f",
+  packageDigest: "sha256:ba727d6b8fb59ce779f5a128f3e6fe61be3322fb5ab63cc7f5163087435c5c94",
+});
 
 const CONSUMER_PROGRAM = String.raw`
 import assert from "node:assert/strict";
@@ -38,18 +46,32 @@ import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from
 import { isAbsolute, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  SPECIALIST_API_VERSION,
+  SPECIALIST_KINDS,
+  SPECIALIST_LIMITS,
+  compileAgentBlueprints,
   createDeterministicTestExecutor,
   createToolchainProbe,
+  deriveTaskAuthorityProjection,
   executeWorkPacket,
   initializeProject,
   inspectTrace,
+  renderSpecialistPackage,
   TOOLCHAIN,
+  verifySpecialistPackage,
   validateProject,
 } from "swecircuit";
 
 const consumerRoot = process.cwd();
 const projectRoot = process.argv[2];
 assert.equal(typeof projectRoot, "string");
+const retainedSpecialistExpectationText = process.argv[3];
+assert.equal(typeof retainedSpecialistExpectationText, "string");
+const retainedSpecialistExpectation = Object.freeze(JSON.parse(retainedSpecialistExpectationText));
+assert.deepEqual(Object.keys(retainedSpecialistExpectation).sort(), [
+  "compilationDigest",
+  "packageDigest",
+]);
 
 const installedEntry = realpathSync(fileURLToPath(import.meta.resolve("swecircuit")));
 const installedPackage = realpathSync(join(consumerRoot, "node_modules", "swecircuit"));
@@ -61,7 +83,24 @@ assert.equal(entryRelativeToPackage.startsWith("..\\"), false);
 assert.equal(existsSync(join(installedPackage, "dist", "index.js")), true);
 assert.equal(existsSync(join(installedPackage, "docs", "framework", "executor-boundary.md")), true);
 assert.equal(existsSync(join(installedPackage, "schemas", "v1alpha1", "project.schema.json")), true);
+assert.equal(
+  existsSync(join(installedPackage, "schemas", "v1alpha1", "specialist-compiler.schema.json")),
+  true,
+);
 assert.equal(existsSync(join(installedPackage, "src")), false);
+
+const specialistSchemaPath = realpathSync(
+  fileURLToPath(import.meta.resolve("swecircuit/schemas/specialist-compiler.schema.json")),
+);
+assert.equal(
+  relative(installedPackage, specialistSchemaPath).replaceAll("\\", "/"),
+  "schemas/v1alpha1/specialist-compiler.schema.json",
+);
+const specialistSchema = JSON.parse(readFileSync(specialistSchemaPath, "utf8"));
+assert.equal(
+  specialistSchema.$id,
+  "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-compiler.schema.json",
+);
 
 mkdirSync(projectRoot);
 const initialized = initializeProject({ project: projectRoot, projectId: "clean-consumer" });
@@ -278,16 +317,292 @@ assert.deepEqual(createToolchainProbe(), {
 });
 assert.equal(TOOLCHAIN.apiVersion, "swecircuit/v1alpha1");
 
+assert.equal(SPECIALIST_API_VERSION, "swecircuit/specialist/v1alpha1");
+assert.deepEqual(SPECIALIST_KINDS, [
+  "GoalContract",
+  "SpecialistCompilationRequest",
+  "TaskAuthorityProjection",
+  "AgentBlueprint",
+  "AgentBlueprintCompilation",
+  "SpecialistPackageManifest",
+]);
+assert.equal(SPECIALIST_LIMITS.exactSearchWorkUnits, 8);
+assert.equal(SPECIALIST_LIMITS.agents, 16);
+assert.equal(Object.isFrozen(SPECIALIST_LIMITS), true);
+
+const specialistGoal = {
+  apiVersion: SPECIALIST_API_VERSION,
+  kind: "GoalContract",
+  id: "consumer.goal",
+  revision: 1,
+  objective: "Compile one provider-neutral specialist contract.",
+  integrationOwner: "integration.owner",
+  assumptions: [
+    {
+      id: "assumption.reviewed-context",
+      statement: "The declared package context is current.",
+      rationale: "The installed consumer binds the exact source declarations.",
+    },
+  ],
+  unresolvedDecisions: [
+    {
+      id: "decision.future-adapter",
+      question: "Should a later release add another host adapter?",
+      owner: "integration.owner",
+      blocking: false,
+      proceedRationale: "No adapter is required to verify this package.",
+    },
+  ],
+  acceptanceCriteria: [
+    {
+      id: "criterion.package",
+      description: "The specialist package is compiled and rendered.",
+      evidenceRequirements: [
+        {
+          id: "evidence.package",
+          kind: "artifact",
+          duty: "produce",
+          description: "A digest-bound specialist package.",
+          independentFromProducer: false,
+        },
+      ],
+    },
+  ],
+  contextSources: [
+    {
+      id: "context.source",
+      kind: "repository",
+      locator: "path:src/specialist-compiler.ts",
+      digest: "sha256:" + "0".repeat(64),
+      bytes: 1024,
+      description: "The repository compiler source.",
+      allowedWorkUnits: ["compile.package"],
+      readScope: "src/**",
+    },
+    {
+      id: "context.contract",
+      kind: "documentation",
+      locator: "path:docs/specs/v11-specialist-compiler/spec.md",
+      digest: "sha256:" + "1".repeat(64),
+      bytes: 512,
+      description: "The reviewed specialist contract.",
+      allowedWorkUnits: ["compile.package"],
+    },
+  ],
+  authority: {
+    allowedModules: ["module.compile"],
+    allowedCapabilities: ["specialist.compile"],
+    permissionCeiling: [{ kind: "filesystem.read", scopes: ["src/**"] }],
+    forbiddenEffects: ["Do not invoke providers or runtime executors."],
+    maxAgents: 1,
+    maxConcurrency: 1,
+  },
+  optimization: {
+    agentStartupCost: 1,
+    handoffCost: 1,
+  },
+  workUnits: [
+    {
+      id: "compile.package",
+      objective: "Compile and render the specialist package.",
+      weight: 3,
+      module: {
+        id: "module.compile",
+        action: "Compile exact task demand into one specialist contract.",
+        inputPorts: [{ name: "goal", artifactType: "GoalContract" }],
+        outputPorts: [{ name: "package", artifactType: "SpecialistPackage" }],
+      },
+      dependencies: [],
+      requiredCapabilities: ["specialist.compile"],
+      contextUses: [
+        { sourceId: "context.source", purpose: "Inspect the compiler boundary." },
+        { sourceId: "context.contract", purpose: "Follow the reviewed contract." },
+      ],
+      scope: {
+        read: ["src/**"],
+        write: [],
+        conflictZones: [],
+      },
+      permissions: [{ kind: "filesystem.read", scopes: ["src/**"] }],
+      evidenceRequirementIds: ["evidence.package"],
+      handoffArtifacts: ["specialist.package"],
+      stopConditions: ["Stop if the declared authority is insufficient."],
+    },
+  ],
+};
+const specialistRequest = {
+  apiVersion: SPECIALIST_API_VERSION,
+  kind: "SpecialistCompilationRequest",
+  goal: specialistGoal,
+  proposedCandidates: [
+    {
+      id: "candidate.serial",
+      groups: [["compile.package"]],
+    },
+  ],
+};
+const forbiddenSpecialistKeys = new Set([
+  "role",
+  "provider",
+  "model",
+  "prompt",
+  "executor",
+  "credential",
+  "grant",
+  "runtime",
+  "runtimeProfile",
+  "agentProfile",
+  "assignment",
+]);
+function assertProviderNeutralKeys(value, pointer = "$") {
+  if (Array.isArray(value)) {
+    value.forEach((entry, index) => assertProviderNeutralKeys(entry, pointer + "/" + index));
+    return;
+  }
+  if (value === null || typeof value !== "object") {
+    return;
+  }
+  for (const [key, entry] of Object.entries(value)) {
+    assert.equal(
+      forbiddenSpecialistKeys.has(key),
+      false,
+      "forbidden specialist key at " + pointer + "/" + key,
+    );
+    assertProviderNeutralKeys(entry, pointer + "/" + key);
+  }
+}
+
+const authorityProjection = deriveTaskAuthorityProjection(specialistGoal);
+assert.equal(authorityProjection.ok, true, JSON.stringify(authorityProjection.diagnostics));
+assert.notEqual(authorityProjection.value, null);
+assert.equal(authorityProjection.value.kind, "TaskAuthorityProjection");
+assert.equal(authorityProjection.value.goalId, "consumer.goal");
+assert.deepEqual(authorityProjection.value.allowedCapabilities, ["specialist.compile"]);
+assert.match(authorityProjection.value.contentDigest, /^sha256:[0-9a-f]{64}$/);
+assertProviderNeutralKeys(authorityProjection.value);
+
+const specialistCompilationResult = compileAgentBlueprints(specialistRequest);
+assert.equal(
+  specialistCompilationResult.ok,
+  true,
+  JSON.stringify(specialistCompilationResult.diagnostics),
+);
+assert.notEqual(specialistCompilationResult.value, null);
+const specialistCompilation = specialistCompilationResult.value;
+assert.equal(specialistCompilation.kind, "AgentBlueprintCompilation");
+assert.equal(specialistCompilation.search.mode, "exact");
+assert.equal(
+  specialistCompilation.search.claim,
+  "exhaustive_partition_search_fixed_scheduler",
+);
+assert.equal(specialistCompilation.search.workUnitCount, 1);
+assert.equal(specialistCompilation.search.evaluatedCandidates, 1);
+assert.equal(specialistCompilation.selected.id, specialistCompilation.serialBaseline.id);
+assert.deepEqual(specialistCompilation.selectionReason, {
+  kind: "serial_selected",
+  decisiveField: "serial_baseline",
+  selectedValue: specialistCompilation.selected.id,
+  serialValue: specialistCompilation.serialBaseline.id,
+  serialRejectionCodes: [],
+});
+assert.equal(specialistCompilation.selected.metrics.agentCount, 1);
+assert.equal(specialistCompilation.blueprints.length, 1);
+assert.deepEqual(specialistCompilation.blueprints[0].workUnitIds, ["compile.package"]);
+assert.deepEqual(specialistCompilation.blueprints[0].authority.requiredCapabilities, [
+  "specialist.compile",
+]);
+assert.equal(specialistCompilation.launchWaves.length, 1);
+assert.deepEqual(specialistCompilation.launchWaves[0].agentIds, [
+  specialistCompilation.blueprints[0].id,
+]);
+assert.match(specialistCompilation.contentDigest, /^sha256:[0-9a-f]{64}$/);
+assertProviderNeutralKeys(specialistCompilation);
+
+const specialistPackageResult = renderSpecialistPackage(specialistCompilation);
+assert.equal(specialistPackageResult.ok, true, JSON.stringify(specialistPackageResult.diagnostics));
+assert.notEqual(specialistPackageResult.value, null);
+const specialistPackage = specialistPackageResult.value;
+assert.equal(specialistPackage.compilationDigest, specialistCompilation.contentDigest);
+assert.equal(specialistPackage.manifest.compilationDigest, specialistCompilation.contentDigest);
+assert.equal(specialistPackage.manifest.agents.length, specialistCompilation.blueprints.length);
+assert.equal(specialistPackage.files.length, specialistCompilation.blueprints.length + 3);
+assert.equal(
+  specialistPackage.files.some((file) => file.path === "manifest.json"),
+  true,
+);
+assert.equal(
+  specialistPackage.files.some((file) => file.path === "integration.md"),
+  true,
+);
+assert.equal(
+  specialistPackage.files.some((file) => file.path === "compilation.json"),
+  true,
+);
+assert.match(specialistPackage.packageDigest, /^sha256:[0-9a-f]{64}$/);
+assert.equal(specialistPackage.manifest.compilationFile, "compilation.json");
+for (const file of specialistPackage.files) {
+  assert.equal(file.bytes, Buffer.byteLength(file.content, "utf8"));
+  assert.match(file.digest, /^sha256:[0-9a-f]{64}$/);
+}
+const renderedManifest = specialistPackage.files.find((file) => file.path === "manifest.json");
+assert.notEqual(renderedManifest, undefined);
+assert.deepEqual(JSON.parse(renderedManifest.content), specialistPackage.manifest);
+const renderedCompilation = specialistPackage.files.find(
+  (file) => file.path === "compilation.json",
+);
+assert.notEqual(renderedCompilation, undefined);
+assert.deepEqual(JSON.parse(renderedCompilation.content), specialistCompilation);
+const renderedIntegration = specialistPackage.files.find((file) => file.path === "integration.md");
+assert.notEqual(renderedIntegration, undefined);
+assert.equal(renderedIntegration.content.includes("assumption.reviewed-context"), true);
+assert.equal(renderedIntegration.content.includes("decision.future-adapter"), true);
+const renderedPackageIdentity = {
+  compilationDigest: specialistPackage.compilationDigest,
+  packageDigest: specialistPackage.packageDigest,
+};
+assert.deepEqual(
+  renderedPackageIdentity,
+  retainedSpecialistExpectation,
+  "The retained approval must be updated independently. Rendered identity: " +
+    JSON.stringify(renderedPackageIdentity),
+);
+const specialistVerification = verifySpecialistPackage(
+  specialistPackage,
+  retainedSpecialistExpectation,
+);
+assert.equal(specialistVerification.ok, true, JSON.stringify(specialistVerification.diagnostics));
+assert.deepEqual(specialistVerification.value, specialistPackage);
+const mismatchedSpecialistExpectation = Object.freeze({
+  ...retainedSpecialistExpectation,
+  packageDigest: "sha256:" + "f".repeat(64),
+});
+const mismatchedSpecialistVerification = verifySpecialistPackage(
+  specialistPackage,
+  mismatchedSpecialistExpectation,
+);
+assert.equal(mismatchedSpecialistVerification.ok, false);
+assert.equal(mismatchedSpecialistVerification.value, null);
+assert.deepEqual(
+  mismatchedSpecialistVerification.diagnostics.map((diagnostic) => diagnostic.code),
+  ["SC4307"],
+);
+assertProviderNeutralKeys(specialistPackage);
+
 process.stdout.write(
   JSON.stringify({
+    approvalBoundVerification: true,
     artifactSource: "installed-package",
     executedEvents: executed.value.events.length,
     executionDisposition: executed.value.disposition,
     initialized: true,
     inspectedEvents: inspected.value.eventCount,
+    mismatchedApprovalRejected: true,
     inspectedExecutionEvents: executionInspection.value.eventCount,
     privateInterface: true,
     projectId: validated.value.projectId,
+    specialistAgents: specialistCompilation.blueprints.length,
+    specialistFiles: specialistPackage.files.length,
+    specialistSchemaSubpath: true,
     validated: true,
   }) + "\n",
 );
@@ -341,19 +656,74 @@ function productionPackageRecords(rootLock, rootDependencies) {
 
 function directoryIdentity(path) {
   const stats = lstatSync(path, { bigint: true });
-  assert.equal(stats.isDirectory(), true, `Expected an owned directory: ${path}`);
   assert.equal(stats.isSymbolicLink(), false, `Refusing a symbolic-link workspace: ${path}`);
+  assert.equal(stats.isDirectory(), true, `Expected an owned directory: ${path}`);
   return Object.freeze({ device: stats.dev, inode: stats.ino });
 }
 
-function assertOwnedTemporaryRoot(path) {
-  const temporaryRoot = realpathSync(tmpdir());
-  const ownedRoot = realpathSync(path);
-  const fromTemporaryRoot = relative(temporaryRoot, ownedRoot);
-  assert.notEqual(fromTemporaryRoot, "");
-  assert.equal(isAbsolute(fromTemporaryRoot), false);
-  assert.notEqual(fromTemporaryRoot, "..");
-  assert.equal(fromTemporaryRoot.startsWith(`..${sep}`), false);
+function lstatIfPresent(path) {
+  try {
+    return lstatSync(path, { bigint: true });
+  } catch (error) {
+    if (typeof error === "object" && error !== null && "code" in error && error.code === "ENOENT") {
+      return null;
+    }
+    throw error;
+  }
+}
+
+function ensurePlainDirectory(path) {
+  if (lstatIfPresent(path) === null) {
+    mkdirSync(path);
+  }
+  return directoryIdentity(path);
+}
+
+function ensureCacheTree(repositoryRoot) {
+  const resolvedRoot = resolve(repositoryRoot);
+  const localStateRoot = resolve(resolvedRoot, ".local");
+  const cacheRoot = resolve(localStateRoot, "npm-cache");
+  assert.equal(relative(resolvedRoot, localStateRoot), ".local");
+  assert.equal(relative(localStateRoot, cacheRoot), "npm-cache");
+
+  const localStateIdentity = ensurePlainDirectory(localStateRoot);
+  const cacheIdentity = ensurePlainDirectory(cacheRoot);
+  assert.deepEqual(
+    directoryIdentity(localStateRoot),
+    localStateIdentity,
+    "Local state root identity changed during cache creation.",
+  );
+  return Object.freeze({ cacheIdentity, cacheRoot, localStateIdentity, localStateRoot });
+}
+
+function runMissingCacheRootCheck() {
+  const checkRoot = mkdtempSync(join(NPM_CACHE, "swecircuit-missing-cache-check-"));
+  const checkIdentity = directoryIdentity(checkRoot);
+  try {
+    assert.equal(lstatIfPresent(join(checkRoot, ".local")), null);
+    const checkTree = ensureCacheTree(checkRoot);
+    assert.deepEqual(directoryIdentity(checkTree.localStateRoot), checkTree.localStateIdentity);
+    assert.deepEqual(directoryIdentity(checkTree.cacheRoot), checkTree.cacheIdentity);
+  } finally {
+    assert.deepEqual(
+      directoryIdentity(checkRoot),
+      checkIdentity,
+      "Missing-cache check root identity changed.",
+    );
+    rmSync(checkRoot, { force: true, recursive: true });
+  }
+}
+
+function assertOwnedCacheRoot(path) {
+  const cacheRoot = resolve(NPM_CACHE);
+  const ownedRoot = resolve(path);
+  const fromCacheRoot = relative(cacheRoot, ownedRoot);
+  assert.notEqual(fromCacheRoot, "");
+  assert.equal(isAbsolute(fromCacheRoot), false);
+  assert.notEqual(fromCacheRoot, "..");
+  assert.equal(fromCacheRoot.startsWith(`..${sep}`), false);
+  assert.equal(fromCacheRoot.includes(sep), false);
+  assert.equal(fromCacheRoot.startsWith("swecircuit-packed-consumer-"), true);
   return directoryIdentity(ownedRoot);
 }
 
@@ -364,8 +734,12 @@ assert.equal(rootManifest.bin, undefined);
 assert.equal(typeof rootManifest.dependencies, "object");
 assert.equal(rootManifest.dependencies.swecircuit, undefined);
 
-const ownedRoot = mkdtempSync(join(tmpdir(), "swecircuit-packed-consumer-"));
-const ownedIdentity = assertOwnedTemporaryRoot(ownedRoot);
+const cacheTree = ensureCacheTree(ROOT);
+assert.equal(cacheTree.localStateRoot, resolve(LOCAL_STATE_ROOT));
+assert.equal(cacheTree.cacheRoot, resolve(NPM_CACHE));
+runMissingCacheRootCheck();
+const ownedRoot = mkdtempSync(CONSUMER_WORKSPACE_PREFIX);
+const ownedIdentity = assertOwnedCacheRoot(ownedRoot);
 
 try {
   const artifactDirectory = join(ownedRoot, "artifacts");
@@ -479,11 +853,16 @@ try {
   assert.equal(installedManifest.bin, undefined);
   assert.equal(installedManifest.exports?.["."]?.import, "./dist/index.js");
   assert.equal(installedManifest.exports?.["."]?.types, "./dist/index.d.ts");
+  assert.equal(
+    installedManifest.exports?.["./schemas/specialist-compiler.schema.json"],
+    "./schemas/v1alpha1/specialist-compiler.schema.json",
+  );
 
   run(
     process.execPath,
     [
       join(ROOT, "node_modules", "typescript", "bin", "tsc"),
+      "--ignoreConfig",
       "--noEmit",
       "--strict",
       "--module",
@@ -502,32 +881,49 @@ try {
 
   const consumerOutput = run(
     process.execPath,
-    [join(consumerDirectory, "verify.mjs"), projectDirectory],
+    [
+      join(consumerDirectory, "verify.mjs"),
+      projectDirectory,
+      JSON.stringify(RETAINED_SPECIALIST_EXPECTATION),
+    ],
     consumerDirectory,
     "packed consumer verification",
   );
   assert.deepEqual(JSON.parse(consumerOutput), {
+    approvalBoundVerification: true,
     artifactSource: "installed-package",
     executedEvents: 6,
     executionDisposition: "completed",
     initialized: true,
     inspectedEvents: 2,
     inspectedExecutionEvents: 6,
+    mismatchedApprovalRejected: true,
     privateInterface: true,
     projectId: "clean-consumer",
+    specialistAgents: 1,
+    specialistFiles: 4,
+    specialistSchemaSubpath: true,
     validated: true,
   });
 
   process.stdout.write(
-    "Packed consumer check passed (private artifact, offline install, public types, init, validate, execute, inspect).\n",
+    "Packed consumer check passed (private artifact, offline install, public types, init, validate, execute, inspect, compile, render, approval-bound verify).\n",
   );
 } finally {
-  if (existsSync(ownedRoot)) {
-    assert.deepEqual(
-      directoryIdentity(ownedRoot),
-      ownedIdentity,
-      "Owned workspace identity changed.",
-    );
-    rmSync(ownedRoot, { force: true, recursive: true });
-  }
+  assert.deepEqual(
+    directoryIdentity(LOCAL_STATE_ROOT),
+    cacheTree.localStateIdentity,
+    "Local state root identity changed.",
+  );
+  assert.deepEqual(
+    directoryIdentity(NPM_CACHE),
+    cacheTree.cacheIdentity,
+    "Npm cache identity changed.",
+  );
+  assert.deepEqual(
+    directoryIdentity(ownedRoot),
+    ownedIdentity,
+    "Owned workspace identity changed.",
+  );
+  rmSync(ownedRoot, { force: true, recursive: true });
 }
