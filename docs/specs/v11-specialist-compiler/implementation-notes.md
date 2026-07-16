@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation, technical acceptance, and post-integration reconstruction are complete for the revision-6 digest-bound candidate. Clean branch preparation, the explicit owner merge decision, and merge remain open.
+Implementation, technical acceptance, post-integration reconstruction, and branch publication are complete for the revision-6 digest-bound candidate. The explicit owner merge decision and merge remain open.
 
 ## Summary Of Changes
 
@@ -29,7 +29,7 @@ The original V11 plan attempted to design compiler, scheduler, restart protocol,
 
 ## Follow-Up Work
 
-- Freeze and push the complete reviewed candidate, then update the milestone with the immutable commit.
+- Candidate `191d9339da383a2133377dcca564d7202b7ad66d` is frozen and pushed; preserve it unchanged through the owner gate.
 - Request the owner decision for merging the stacked V10+V11 line; after approval, merge it, verify the resulting `main`, and refresh pre-approval public status text.
 - Implement the deferred runtime obligations in a later version only after V11 is adopted.
 - Evaluate learned candidate-generation heuristics from real runs before widening bounded search.
@@ -44,7 +44,7 @@ The original V11 plan attempted to design compiler, scheduler, restart protocol,
 - Product/API (12/12 context), algorithm/lifecycle (14/14), and security/trace (32/32) each returned PASS with no findings against the same digest pair.
 - Post-integration evidence reconstruction returned `PASS` for both owner-retained revision-6 digests after the authorized output updates.
 - The exact accepted evidence is preserved in `evidence/dogfood/report.json` and the revision-6 PASS handoffs. Attempts 1-4, the attempt-5 post-integration replay `FIX`, and release-host attempts 6A/6B remain failure and correction provenance.
-- No hosted CI, immutable commit, clean branch, push, merge, provider execution, or runtime enforcement is claimed by this integration record.
+- Candidate `191d9339da383a2133377dcca564d7202b7ad66d` is committed and pushed. No hosted CI, merge, provider execution, or runtime enforcement is claimed by this integration record.
 
 ## Release Integration Friction
 

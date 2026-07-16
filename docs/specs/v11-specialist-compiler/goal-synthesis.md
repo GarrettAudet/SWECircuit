@@ -2,7 +2,7 @@
 
 ## Status
 
-Compiled and dogfed. Revision-6 technical acceptance and post-integration reconstruction passed; clean branch preparation and the owner merge decision remain open.
+Compiled, dogfed, replayed, and pushed as candidate `191d9339da383a2133377dcca564d7202b7ad66d`. The owner merge decision remains open.
 
 ## Goal And Criteria
 
@@ -66,4 +66,4 @@ Runnable through `compileAgentBlueprints({ apiVersion: SPECIALIST_API_VERSION, k
 
 ## Handoff
 
-`pass` to branch freeze and the owner gate. Review compilation `sha256:ac1707213d9c22314d4c5a3d0bc6a838ef31863b63a9e2dac5993541d919c161`, package `sha256:838019281b732ec238e4460c03167087b7a63c409348ee66322cc5535469774d`, `review.md`, and `docs/milestones/v11.md`. [Post-integration replay](evidence/dogfood/handoffs/post-integration-replay-pass-attempt-6.md) reconstructed the approved pair after these output changes. Create and push the reviewed candidate, then request the explicit stacked V10+V11 merge decision. Stop before merge until approval.
+`pass` to the owner gate. Review compilation `sha256:ac1707213d9c22314d4c5a3d0bc6a838ef31863b63a9e2dac5993541d919c161`, package `sha256:838019281b732ec238e4460c03167087b7a63c409348ee66322cc5535469774d`, candidate `191d9339da383a2133377dcca564d7202b7ad66d`, `review.md`, and `docs/milestones/v11.md`. [Post-integration replay](evidence/dogfood/handoffs/post-integration-replay-pass-attempt-6.md) reconstructed the approved pair after the output changes, and the reviewed candidate is pushed. Request the explicit stacked V10+V11 merge decision and stop before merge until approval.

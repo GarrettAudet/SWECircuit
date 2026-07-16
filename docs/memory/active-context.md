@@ -16,7 +16,7 @@ Canonical release verification matched 19/19 assigned contexts and 9/9 package f
 
 Dogfood exact search evaluated 203 candidates, found 52 eligible, and selected six task-shaped specialists at projected makespan 23. The serial baseline projected 40 and was ineligible for requested evidence independence. These are deterministic planning units, not elapsed-time or provider-runtime measurements.
 
-AC1-AC13 and T009-T010 are closed. The integration owner reconstructed both trusted digests after the authorized output updates, and post-integration replay passed. T011 remains open for a clean pushed branch and the explicit stacked V10+V11 merge decision. No commit, push, hosted CI, merge, provider execution, or V11 runtime enforcement is claimed yet for this shared-worktree candidate.
+AC1-AC13 and T009-T011 are closed. The integration owner reconstructed both trusted digests after the authorized output updates, post-integration replay passed, and candidate `191d9339da383a2133377dcca564d7202b7ad66d` is pushed on `codex/v11-orchestration-planner`. The explicit stacked V10+V11 merge decision remains open. No hosted CI, merge, provider execution, or V11 runtime enforcement is claimed for this candidate.
 
 ## Important Current Constraints
 
@@ -33,7 +33,7 @@ AC1-AC13 and T009-T010 are closed. The integration owner reconstructed both trus
 - Logical arrays and candidate partitions are normalized; labels, proposal order, and input insertion order must not influence selected semantics.
 - Every rendered file and launch entry binds the exact compilation digest. Any changed goal, work unit, candidate, or blueprint requires recompilation and a new review.
 - The Round-4 runtime corrections in docs/specs/v11-orchestration-planner/revision-5-correction-design.md remain mandatory input for a later runtime layer.
-- V11 remains stacked on owner-gated V10 for continuity. Its technical acceptance gate passed; branch preparation may proceed, but merge still requires an explicit baseline decision and owner approval.
+- V11 remains stacked on owner-gated V10 for continuity. Its technical acceptance, replay, and branch-publication gates passed, but merge still requires an explicit baseline decision and owner approval.
 
 ## Recently Learned
 
@@ -135,8 +135,8 @@ AC1-AC13 and T009-T010 are closed. The integration owner reconstructed both trus
 
 ## Next Likely Work
 
-- Integration owner reconstructs compilation `sha256:ac1707213d9c22314d4c5a3d0bc6a838ef31863b63a9e2dac5993541d919c161` and package `sha256:838019281b732ec238e4460c03167087b7a63c409348ee66322cc5535469774d` after the integration outputs settle.
+- Preserve the reconstructed compilation `sha256:ac1707213d9c22314d4c5a3d0bc6a838ef31863b63a9e2dac5993541d919c161`, package `sha256:838019281b732ec238e4460c03167087b7a63c409348ee66322cc5535469774d`, and candidate `191d9339da383a2133377dcca564d7202b7ad66d` unchanged through the owner gate.
 - Owner reviews `docs/milestones/v11.md`, `docs/specs/v11-specialist-compiler/review.md`, and the exact digest pair.
-- Reconcile the shared tree, create and push the reviewed candidate, and update the V11 milestone with the immutable commit.
+- Candidate branch publication is complete; await the explicit owner decision without changing the reviewed source.
 - Request the explicit owner decision on merging the stacked V10+V11 line; after approval, merge to `main`, verify the resulting tree, and record provenance.
 - Use V11 as the next dogfood baseline only after adoption; retrieve the deferred runtime correction package when a later runtime version is deliberately opened.

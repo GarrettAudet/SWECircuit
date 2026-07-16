@@ -2,7 +2,7 @@
 
 ## Status
 
-`PASS` for the revision-6 digest-bound technical candidate. AC1-AC13, T009-T010, and post-integration reconstruction are closed; clean branch preparation, the explicit owner merge decision, and merge remain open under T011.
+`PASS` for the revision-6 digest-bound technical candidate. AC1-AC13, T009-T011, post-integration reconstruction, and branch publication are closed; the explicit owner merge decision and merge remain open.
 
 ## Review Outcome
 
@@ -15,7 +15,7 @@ No findings remain against the exact candidate below. Post-integration reconstru
 - Preparation: [34/34 repository source bindings passed](evidence/dogfood/handoffs/prepare-candidate-pass-attempt-6.md); the [complete source ledger](evidence/dogfood/handoffs/review-candidate-digests-attempt-6.json) preserves exact locators, scopes, bytes, SHA-256 values, and the single `context.spec` binding to the immutable pre-integration snapshot.
 - Approval root: [the two expected digests](evidence/dogfood/approval.json) are retained outside the rendered package.
 
-This is a byte- and digest-bound review identity in a shared dirty worktree. The live feature spec and memory records are integration outputs, not review inputs. The integration owner [reconstructed both trusted digests after integration](evidence/dogfood/handoffs/post-integration-replay-pass-attempt-6.md), and the exact revision-6 pair passed. No immutable Git commit, clean branch, push, hosted run, or merge is claimed here.
+This byte- and digest-bound review identity is frozen in candidate commit `191d9339da383a2133377dcca564d7202b7ad66d`, which is pushed on `codex/v11-orchestration-planner`. The live feature spec and memory records are integration outputs, not review inputs. The integration owner [reconstructed both trusted digests after integration](evidence/dogfood/handoffs/post-integration-replay-pass-attempt-6.md), and the exact revision-6 pair passed. No hosted run or merge is claimed here.
 
 ## Spec Alignment
 
@@ -29,7 +29,7 @@ This is a byte- and digest-bound review identity in a shared dirty worktree. The
 | AC12 | PASS | The [dogfood report](evidence/dogfood/report.json) preserves the serial comparison, selected roster, package, launch waves, and source verification. |
 | AC13 | PASS | Product/API, algorithm/lifecycle, and security/trace returned independent PASS verdicts against the same digest pair. |
 
-AC1-AC13 are closed in [spec.md](spec.md). T009-T010 and post-integration replay are closed; T011 remains owner- and branch-gated in [tasks.md](tasks.md).
+AC1-AC13 and T009-T011 are closed in [spec.md](spec.md) and [tasks.md](tasks.md). Post-integration replay and branch publication passed; merge remains owner-gated.
 
 ## Architecture Alignment
 
@@ -72,9 +72,9 @@ Attempts 1-4 and every intermediate `REVISE` or `FIX` handoff remain preserved. 
 - Source branch: `codex/v11-orchestration-planner`.
 - Target branch: `main`.
 - Post-integration replay: `PASS`; the exact revision-6 compilation/package pair reconstructed from immutable inputs after the authorized output updates.
-- Technical recommendation: freeze and push this exact tree, then request approval to merge the stacked V10+V11 line.
+- Candidate commit: `191d9339da383a2133377dcca564d7202b7ad66d` is frozen and pushed on `codex/v11-orchestration-planner`.
 - Change gate: any subsequent semantic or bound-source change retires this candidate and requires a revised contract, package, and affected verification/review.
-- Required owner action after the clean branch is presented: approve the stacked merge, or request a specific change. Any semantic or source change requires a new candidate binding and affected verification/review.
+- Required owner action now: approve the stacked merge, or request a specific change. Any semantic or source change requires a new candidate binding and affected verification/review.
 - Stop condition: no merge before that decision.
 
 ## Memory And Docs

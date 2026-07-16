@@ -2,7 +2,7 @@
 
 ## Status
 
-Revision-6 technical acceptance and post-integration reconstruction passed. T009 and T010 are complete; T011 remains open for clean commit/push and the owner merge gate.
+Revision-6 technical acceptance, post-integration reconstruction, and branch publication passed. T009-T011 are complete; the explicit owner merge decision remains open.
 
 ## Task List
 
@@ -50,10 +50,10 @@ Each task has one integration owner. Read-only exploration, test design, and ind
   Scope: Format, lint, typecheck, build, unit, package, template, checker matrix, hosted CI if available, and exact digest-bound product/API, algorithm/lifecycle, and security/trace reviews.
   Verification: One revision-6 digest pair owns preparation, all PASS evidence, and the immutable pre-integration spec binding; attempt 5 and release-host attempts 6A/6B remain `FIX` evidence.
 
-- [ ] T011: Publish V11 milestone and request owner approval.
+- [x] T011: Publish V11 milestone and request owner approval.
   Scope: Review, implementation notes, memory, retrieval, known limits, milestone, post-integration reconstruction, branch/target gate, and concise overview.
-  Verification: The integration owner reconstructed both approved revision-6 digests after documentation integration; a clean pushed branch, complete acceptance criteria, source chain, and explicit merge decision request are still required.
-  Integration status: Review, milestone, acceptance, and memory records are source-linked, and [post-integration replay passed](evidence/dogfood/handoffs/post-integration-replay-pass-attempt-6.md). This shared branch is not yet frozen or pushed as the candidate, and owner approval has not been given.
+  Verification: The integration owner reconstructed both approved revision-6 digests after documentation integration; candidate commit `191d9339da383a2133377dcca564d7202b7ad66d` is pushed with complete acceptance criteria and source chain, and the approval handoff explicitly requests the merge decision.
+  Integration status: Review, milestone, acceptance, and memory records are source-linked, [post-integration replay passed](evidence/dogfood/handoffs/post-integration-replay-pass-attempt-6.md), and the candidate is frozen and pushed. Owner approval has not been given, so merge remains blocked.
 
 ## Dependencies
 

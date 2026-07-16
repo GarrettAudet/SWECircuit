@@ -2,7 +2,7 @@
 
 ## Status
 
-Technical acceptance and post-integration reconstruction passed for the revision-6 digest-bound candidate. AC1-AC13 are closed by the source-linked dogfood, canonical verification, and independent-review evidence below. V11 remains uncommitted and unmerged; T011 requires a clean pushed branch and the explicit owner merge decision.
+Technical acceptance and post-integration reconstruction passed for the revision-6 digest-bound candidate. AC1-AC13 and T009-T011 are closed by the source-linked dogfood, canonical verification, independent review, and pushed candidate `191d9339da383a2133377dcca564d7202b7ad66d`. V11 remains unmerged pending the explicit owner decision.
 
 ## Problem
 
