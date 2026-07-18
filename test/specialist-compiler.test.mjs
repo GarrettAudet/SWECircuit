@@ -5,10 +5,12 @@ import { test } from "node:test";
 import { TextEncoder } from "node:util";
 
 import {
+  analyzeSpecialistCandidates,
   compileAgentBlueprints,
   deriveTaskAuthorityProjection,
   renderSpecialistPackage,
   SPECIALIST_LIMITS,
+  verifySpecialistHandoff,
   verifySpecialistPackage,
 } from "../dist/index.js";
 import {
@@ -435,6 +437,13 @@ function assertBlueprintClosure(compilation) {
       destination: compilation.goal.integrationOwner,
       artifacts: sortedUnique(units.flatMap((unit) => unit.handoffArtifacts)),
       requiredFields: [
+        "apiVersion",
+        "kind",
+        "outcome",
+        "destination",
+        "goal",
+        "agent",
+        "compilationDigest",
         "summary",
         "workUnitsCompleted",
         "artifacts",
@@ -524,6 +533,57 @@ for (const name of GOLDEN_CASES) {
     }
   });
 }
+
+test("candidate analysis exposes deterministic rejection evidence when no team is eligible", () => {
+  const request = clone(fixture("under-split").request);
+  request.goal.authority.maxAgents = 1;
+  request.goal.authority.maxConcurrency = 1;
+  request.proposedCandidates = [
+    {
+      id: "candidate.independent-pair",
+      groups: [["unit.produce"], ["unit.verify"]],
+    },
+  ];
+
+  const first = analyzeSpecialistCandidates(request);
+  const second = analyzeSpecialistCandidates(clone(request));
+
+  assert.equal(first.ok, true);
+  assert.notEqual(first.value, null);
+  assert.deepEqual(second, first);
+  assert.equal(first.value.kind, "SpecialistCandidateAnalysis");
+  assert.equal(first.value.selectionStatus, "no_eligible_candidate");
+  assert.equal(first.value.selected, null);
+  assert.equal(first.value.selectionReason, null);
+  assert.equal(first.value.search.eligibleCandidates, 0);
+  assert.deepEqual(first.value.serialBaseline.rejectionCodes, ["evidence_independence"]);
+  assert.equal(first.value.proposalEvaluations.length, 1);
+  assert.deepEqual(first.value.proposalEvaluations[0].rejectionCodes, ["agent_limit"]);
+  assertDeepFrozen(first.value);
+
+  const compiled = compileAgentBlueprints(request);
+  assertRejected(compiled, "SC4306", "compilation must remain fail-closed");
+  assert.match(
+    compiled.diagnostics.find((diagnostic) => diagnostic.code === "SC4306").hint,
+    /analyzeSpecialistCandidates/,
+  );
+});
+
+test("candidate analysis and compilation select the same exact team", () => {
+  const request = fixture("genuinely-parallel").request;
+  const analysis = analyzeSpecialistCandidates(request);
+  const compilation = compileAgentBlueprints(request);
+
+  assert.equal(analysis.ok, true);
+  assert.equal(compilation.ok, true);
+  assert.notEqual(analysis.value, null);
+  assert.notEqual(compilation.value, null);
+  assert.equal(analysis.value.selectionStatus, "selected");
+  assert.equal(analysis.value.selected.id, compilation.value.selected.id);
+  assert.deepEqual(analysis.value.search, compilation.value.search);
+  assert.deepEqual(analysis.value.serialBaseline, compilation.value.serialBaseline);
+  assert.deepEqual(analysis.value.selectionReason, compilation.value.selectionReason);
+});
 
 test("generated team and agent identifiers retain the full SHA-256 suffix", () => {
   const compilation = assertCompiles(fixture("over-split").request);
@@ -1493,6 +1553,35 @@ test("renderer output is deterministic and binds paths, blueprints, bytes, and c
     assert.equal(contract.content.includes(compilation.contentDigest), true);
     assert.equal(contract.content.includes(blueprint.contentDigest), true);
     assert.equal(contract.content.includes(JSON.stringify(blueprint, null, 2)), true);
+    assert.equal(contract.content.includes("## Required Handoff Envelope"), true);
+    const jsonBlocks = [...contract.content.matchAll(/(`{3,})json\r?\n([\s\S]*?)\r?\n\1/g)];
+    assert.equal(jsonBlocks.length, 2);
+    const handoff = JSON.parse(jsonBlocks[1][2]);
+    assert.equal(handoff.kind, "SpecialistAgentHandoff");
+    for (const artifact of handoff.artifacts) {
+      assert.deepEqual(Object.keys(artifact).sort(), ["content", "mediaType", "name"]);
+      assert.equal(typeof artifact.content, "string");
+    }
+    for (const evidence of handoff.evidence) {
+      assert.deepEqual(Object.keys(evidence).sort(), [
+        "artifact",
+        "criterionId",
+        "duty",
+        "kind",
+        "requirementId",
+        "status",
+      ]);
+      assert.equal(evidence.status, "pass");
+    }
+    const verifiedHandoff = verifySpecialistHandoff(
+      rendered,
+      {
+        compilationDigest: compilation.contentDigest,
+        packageDigest: rendered.packageDigest,
+      },
+      encoder.encode(JSON.stringify(handoff)),
+    );
+    assert.equal(verifiedHandoff.ok, true, JSON.stringify(verifiedHandoff.diagnostics));
   }
   assertNoRuntimeFields(rendered.manifest, "manifest");
 });

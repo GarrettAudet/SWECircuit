@@ -1,5 +1,5 @@
 import type { SPECIALIST_API_VERSION } from "./constants.js";
-import type { EvidenceKind } from "./types.js";
+import type { EvidenceKind, WorkflowOutcome } from "./types.js";
 
 export type SpecialistApiVersion = typeof SPECIALIST_API_VERSION;
 
@@ -257,6 +257,34 @@ export interface SpecialistSelectionReason {
   readonly serialRejectionCodes: readonly SpecialistCandidateRejectionCode[];
 }
 
+interface SpecialistCandidateAnalysisBase {
+  readonly apiVersion: SpecialistApiVersion;
+  readonly kind: "SpecialistCandidateAnalysis";
+  readonly goalId: string;
+  readonly goalRevision: number;
+  readonly goalDigest: string;
+  readonly proposalEvaluations: readonly SpecialistCandidateEvaluation[];
+  readonly search: SpecialistSearchSummary;
+  readonly serialBaseline: SpecialistCandidateEvaluation;
+  readonly alternatives: readonly SpecialistCandidateEvaluation[];
+  readonly contentDigest: string;
+}
+
+export interface SelectedSpecialistCandidateAnalysis extends SpecialistCandidateAnalysisBase {
+  readonly selectionStatus: "selected";
+  readonly selected: SpecialistCandidateEvaluation;
+  readonly selectionReason: SpecialistSelectionReason;
+}
+
+export interface NoEligibleSpecialistCandidateAnalysis extends SpecialistCandidateAnalysisBase {
+  readonly selectionStatus: "no_eligible_candidate";
+  readonly selected: null;
+  readonly selectionReason: null;
+}
+
+export type SpecialistCandidateAnalysis =
+  | SelectedSpecialistCandidateAnalysis
+  | NoEligibleSpecialistCandidateAnalysis;
 export interface AgentBlueprintObjective {
   readonly workUnitId: string;
   readonly objective: string;
@@ -294,6 +322,13 @@ export interface AgentBlueprintHandoff {
   readonly destination: string;
   readonly artifacts: readonly string[];
   readonly requiredFields: readonly [
+    "apiVersion",
+    "kind",
+    "outcome",
+    "destination",
+    "goal",
+    "agent",
+    "compilationDigest",
     "summary",
     "workUnitsCompleted",
     "artifacts",
@@ -388,4 +423,90 @@ export interface RenderedSpecialistPackage {
 export interface SpecialistPackageExpectation {
   readonly compilationDigest: string;
   readonly packageDigest: string;
+}
+
+export interface SpecialistHandoffGoalBinding {
+  readonly id: string;
+  readonly revision: number;
+  readonly digest: string;
+}
+
+export interface SpecialistHandoffAgentBinding {
+  readonly id: string;
+  readonly blueprintDigest: string;
+}
+
+export interface SpecialistHandoffArtifact {
+  readonly name: string;
+  readonly mediaType: string;
+  readonly content: string;
+}
+
+export interface SpecialistHandoffEvidence {
+  readonly criterionId: string;
+  readonly requirementId: string;
+  readonly kind: EvidenceKind;
+  readonly duty: SpecialistEvidenceDuty;
+  readonly status: WorkflowOutcome;
+  readonly artifact: string;
+}
+
+export interface SpecialistAgentHandoff {
+  readonly apiVersion: SpecialistApiVersion;
+  readonly kind: "SpecialistAgentHandoff";
+  readonly outcome: WorkflowOutcome;
+  readonly destination: string;
+  readonly goal: SpecialistHandoffGoalBinding;
+  readonly agent: SpecialistHandoffAgentBinding;
+  readonly compilationDigest: string;
+  readonly summary: string;
+  readonly workUnitsCompleted: readonly string[];
+  readonly artifacts: readonly SpecialistHandoffArtifact[];
+  readonly evidence: readonly SpecialistHandoffEvidence[];
+  readonly assumptions: readonly string[];
+  readonly risks: readonly string[];
+  readonly followUps: readonly string[];
+}
+
+export interface SpecialistHandoffArtifactBinding {
+  readonly name: string;
+  readonly mediaType: string;
+  readonly bytes: number;
+  readonly digest: string;
+}
+
+export interface VerifiedSpecialistHandoff {
+  readonly apiVersion: SpecialistApiVersion;
+  readonly kind: "VerifiedSpecialistHandoff";
+  readonly handoff: SpecialistAgentHandoff;
+  readonly rawBytes: number;
+  readonly rawDigest: string;
+  readonly semanticDigest: string;
+  readonly artifactBindings: readonly SpecialistHandoffArtifactBinding[];
+  readonly contentDigest: string;
+}
+
+export interface SpecialistHandoffAssessmentEntry {
+  readonly agentId: string;
+  readonly outcome: WorkflowOutcome;
+  readonly rawBytes: number;
+  readonly rawDigest: string;
+  readonly semanticDigest: string;
+}
+
+export interface SpecialistHandoffSetAssessment {
+  readonly apiVersion: SpecialistApiVersion;
+  readonly kind: "SpecialistHandoffSetAssessment";
+  readonly goalId: string;
+  readonly goalRevision: number;
+  readonly goalDigest: string;
+  readonly compilationDigest: string;
+  readonly packageDigest: string;
+  readonly targetAgentId: string;
+  readonly requiredAgentIds: readonly string[];
+  readonly receivedAgentIds: readonly string[];
+  readonly missingAgentIds: readonly string[];
+  readonly handoffs: readonly SpecialistHandoffAssessmentEntry[];
+  readonly integrationReady: boolean;
+  readonly contentDigest: string;
 }

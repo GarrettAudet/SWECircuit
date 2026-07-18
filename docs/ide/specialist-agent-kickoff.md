@@ -2,7 +2,7 @@
 
 ## Status
 
-V11 reference IDE capability for `swecircuit/specialist/v1alpha1`. The pure compiler, renderer, and package verifier exist; V11 acceptance, dogfood, repeat independent review, and owner approval remain open.
+Reference IDE flow for `swecircuit/specialist/v1alpha1`. Exact technical acceptance, branch, and merge status is maintained in `docs/milestones/v11.md`.
 
 The normative machine and responsibility contract is `docs/specs/v11-specialist-compiler/specialist-compiler-contract.md`.
 
@@ -14,16 +14,19 @@ Make one user message visibly become a reviewed `GoalContract`, an internally co
 user message + repository context
   | IDE/human clarify and decompose
   -> reviewed GoalContract with atomic work units
-  | compileAgentBlueprints
-  -> serial baseline + constructed candidates + deterministic selection
-  -> exact AgentBlueprintCompilation
+  | analyzeSpecialistCandidates + compileAgentBlueprints
+  -> serial baseline + candidate evidence + deterministic selection
+  -> exact AgentBlueprintCompilation or explicit no-eligible analysis
   | visible roster review
   | renderSpecialistPackage
   -> compilation.json + contracts + packageDigest
   | verifySpecialistPackage(expected digests)
   -> two-digest launch approval
   | external IDE or agent host
-  -> actual agent execution and later workflow stages
+  -> actual agent execution + exact raw handoffs
+  | verifySpecialistHandoff + assessSpecialistHandoffs
+  -> evidence-bound results + dependency-complete fan-in
+  -> external integration and later workflow stages
 ```
 
 The free-form message is semantic input, not canonical compiler input. The IDE constructs the closed JSON contract and keeps product judgment visible. Core optimizes only how reviewed atomic work units are grouped.
@@ -113,6 +116,8 @@ const result = compileAgentBlueprints({
 
 When `result.ok` is false or `result.value` is null, show the stable diagnostics and route to `fix`, `clarify`, `redesign`, `split`, `block`, or `diagnose`. Do not launch from a partial or failed result.
 
+For `SC4306`, call `analyzeSpecialistCandidates` with the same reviewed request. Present its serial baseline, proposal evaluations, search claim, rejection codes, and bounded alternatives. A result with `selectionStatus: no_eligible_candidate` is diagnostic evidence only. Revise the GoalContract and compile a new revision; never render or launch from candidate-analysis output.
+
 ### 5. Present The Deterministic Roster
 
 Show:
@@ -176,6 +181,8 @@ Continue only when the result succeeds with a non-null value. The package contai
 - `integration.md`; and
 - one agent contract referenced by each `manifest.agents[].contractFile` binding.
 
+Each generated agent contract contains one concrete closed `SpecialistAgentHandoff` JSON example. Treat it as executable output guidance: preserve its exact nested keys and bound identities, replace only the summary and string artifact content, and use any stricter host-provided envelope only when it retains every standard binding.
+
 Present the returned `compilationDigest`, root `packageDigest`, and file metadata. The manifest binds `compilation.json`, every agent contract, and the integration contract by path, digest, and byte count.
 
 Record launch approval outside the package with both exact digests. Then verify the package against those trusted expectations:
@@ -218,10 +225,15 @@ The external host and integration owner MUST:
 
 1. verify delivered context bytes against each declared digest and byte count;
 2. enforce actual dependency readiness, permissions, and workspace isolation;
-3. preserve each raw handoff and all required fields;
-4. ensure independent evidence is not approved by its producer agent;
-5. run integrated feature verification and review; and
-6. perform merge and durable memory updates only through their separately governed stages.
+3. preserve every agent result as exact raw UTF-8 bytes;
+4. preserve the generated artifact media type, allow normalized LF only, then call `verifySpecialistHandoff(package, approvedExpectation, rawBytes)` and require a successful non-null result before trusting any handoff;
+5. call `assessSpecialistHandoffs(package, approvedExpectation, targetAgentId, rawDependencyHandoffs)` before starting a dependent integration blueprint;
+6. continue only when the assessment succeeds, is non-null, and has `integrationReady: true`;
+7. ensure independent evidence is not approved by its producer agent;
+8. run integrated feature verification and review; and
+9. perform merge and durable memory updates only through their separately governed stages.
+
+A verified handoff may still carry `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, or `learn`; verification proves identity and contract closure, not a successful work outcome. Preserve the returned raw and semantic digests with the integration evidence.
 
 These are host/workflow duties. A successful V11 compilation or render does not prove that any agent ran, any sandbox held, any change merged, or any memory was updated.
 
@@ -236,7 +248,7 @@ The kickoff emits `pass` only when:
 - the rendered package includes `compilation.json`;
 - launch approval outside the package binds both `compilationDigest` and `packageDigest`;
 - `verifySpecialistPackage` passes against those trusted expectations; and
-- the external host accepts responsibility for all runtime effects.
+- the external host accepts responsibility for all runtime effects and for approval-bound raw-handoff verification and fan-in gating.
 
 Route to:
 
@@ -257,11 +269,11 @@ Route to:
 - `compilation.json`, manifest, integration contract, and agent contracts.
 - Approval record outside the package containing trusted expected `compilationDigest` and `packageDigest`.
 - Successful `verifySpecialistPackage` result against both expectations.
-- Later launch, handoff, integration, verification, review, merge, and memory evidence owned by the external workflow.
+- Later launch evidence, exact raw handoff bytes, `VerifiedSpecialistHandoff` values, `SpecialistHandoffSetAssessment` values, integration verification, review, merge, and memory evidence owned by the external workflow.
 
 ## V11 Boundary
 
-V11 constructs and renders exact task demand. It does not execute agents, enforce a sandbox, merge changes, or update memory. It also does not select providers/models, manage credentials, reserve runtime capacity, dispatch projected waves, retry work, persist traces, or recover processes. Do not describe the V11 kickoff as a universal runtime.
+V11 constructs and renders exact task demand, verifies closed raw handoffs, and assesses dependency fan-in. It does not execute agents, enforce a sandbox, merge changes, or update memory. It also does not select providers/models, manage credentials, reserve runtime capacity, dispatch projected waves, retry work, persist traces, or recover processes. Do not describe the V11 kickoff as a universal runtime.
 
 ## Adapter Boundary
 

@@ -1,0 +1,64 @@
+{
+  "apiVersion": "swecircuit/prelaunch-audit-handoff/v1alpha1",
+  "kind": "PrelaunchAuditHandoff",
+  "outcome": "fix",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 27,
+    "digest": "sha256:0bfc6061a3c657606bf784d842c8c169669c873c7a640084aa15b6843228cb0f"
+  },
+  "agent": {
+    "id": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:83991f278c3eed2869d93244cf3745a9a4c0aabee66d1f1bba1e01f9b23639aa"
+  },
+  "compilationDigest": "sha256:183c968974eab7b6d7bd4451ceec2d35d16784265deb6b333836a7726b216d6c",
+  "reviewer": {
+    "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:83991f278c3eed2869d93244cf3745a9a4c0aabee66d1f1bba1e01f9b23639aa"
+  },
+  "candidate": {
+    "compilationDigest": "sha256:db47c3393dca0ede877bf07eecc89cd89cb7241f8380fb65f1ed8513221b2dd7",
+    "packageDigest": "sha256:fde922b7e3c2f4747e04c92dacea8af3c7083fa87cd104b749bcf952f18841"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:183c968974eab7b6d7bd4451ceec2d35d16784265deb6b333836a7726b216d6c",
+    "packageDigest": "sha256:c163c1c5eefc6900234fd781877677c0a41cbd6ffc7cd104b749bcf952f18841"
+  },
+  "summary": "FIX: Candidate A's search and selection review passed, but the required candidate packageDigest binding differs from the authenticated receipt and independent reconstruction, so the authority and package duty fails closed.",
+  "workUnitsCompleted": [
+    "audit.review-candidate-compilation"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-compilation-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Compilation Review\n\nOutcome: `FIX`\n\n## Authentication\n\nThe Audit B reviewer contract matched the receipt binding at 46,178 raw bytes with SHA-256 `02e20797b48489550bb67e06de806afd4248e73a3434d34b2aa309f812651925`. All 59 declared context items matched their raw byte counts and SHA-256 digests. The dependency handoff matched 10,633 bytes and SHA-256 `737678d45a1c08b80637ce3b46766947d70d2e1e70aca69a615b409e479a2360`. The host receipt matched 2,255 bytes and SHA-256 `c910c975fa9eed38b6cec527a3c9e6c9ae99444133b447c708d8c0d7815f001e`.\n\n## Independent Reconstruction\n\nCandidate A recompiled exactly from its authenticated GoalContract and proposal bytes. The reconstructed compilation was canonically identical to the frozen compilation and had content digest `sha256:db47c3393dca0ede877bf07eecc89cd89cb7241f8380fb65f1ed8513221b2dd7`.\n\nThe exact search enumerated all 203 set partitions for six work units, found 52 eligible candidates, retained eight alternatives, and reproduced evaluation-set digest `sha256:5ee515628f7a0c2bab6e210bd16dbb9d450cad3752191d51aeaa40078130d9c1`. The serial baseline was correctly ineligible for `evidence_independence`. The selected candidate was `team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d`, with six single-work-unit blueprints, projected makespan 23, peak concurrency 4, zero conflict pairs, and eight handoffs.\n\nAuthority, dependency, context, permission, evidence, handoff, and schedule projections were semantically checked. All six work units had exactly one owner, all eight evidence requirements appeared exactly once, and all four independent evidence duties were separated from their producers. The three launch waves matched the selected schedule and respected dependencies, handoff delay, conflict zones, and the concurrency ceiling.\n\nAll nine rendered package files matched independent rendering byte-for-byte, including the manifest, compilation, integration contract, and six agent contracts. `verifySpecialistPackage` passed for the authenticated pair. The independently reconstructed and receipt-bound package digest is `sha256:fde922b7e3c2f4747e04c92dacea8af3c7083fa87cd3bcf029f92b2b1ce632b3`.\n\n## Blocking Finding\n\nThe required handoff binding supplies `sha256:fde922b7e3c2f4747e04c92dacea8af3c7083fa87cd104b749bcf952f18841`. It contains only 62 hexadecimal digits and differs from the authenticated 64-digit package digest. The two-phase protocol requires `candidate` to match the externally retained digest pair exactly, so the package-binding duty cannot pass and Candidate A must remain unapproved.\n\n## Duty Outcomes\n\n- `evidence.candidate-authority-review`: `FIX`, because the closed candidate package binding differs from authenticated bytes.\n- `evidence.candidate-selection-review`: `PASS`, because search, selection, metrics, schedule, and selection reason reproduced exactly.\n\nNo files were modified, Candidate A was neither approved nor launched, Audit B was not recursively reviewed, and no runtime effects are claimed.\n"
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "fix",
+      "artifact": "candidate-compilation-review.md"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The supplied 62-digit candidate package digest cannot satisfy trusted-pair validation or authorize Candidate A."
+  ],
+  "followUps": [
+    "Correct the candidate packageDigest binding to sha256:fde922b7e3c2f4747e04c92dacea8af3c7083fa87cd3bcf029f92b2b1ce632b3 and rerun the closed Audit B handoff."
+  ]
+}

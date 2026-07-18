@@ -1,0 +1,50 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.release",
+    "revision": 29,
+    "digest": "sha256:286beb788fb2b99cd823858b6104792f5e7c00850e57e5488f80b05c5f2ee72b"
+  },
+  "agent": {
+    "id": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+    "blueprintDigest": "sha256:3af5e988ab8917ffdb8138704b1eafb03e3715683dcbe8babe39474471032f97"
+  },
+  "compilationDigest": "sha256:10cc520eb9c4f277876e76cd82908baa3cfcc01e1b84d5ae7c16d910b88075da",
+  "summary": "FIX: core compiler, package, handoff, and fan-in controls fail closed under static review, but the first-run approval host uses a lexical-only source-path check and non-duplicate-aware JSON parsing, allowing link-based context escape, pre-I/O Unicode and privacy violations, and approval ambiguity.",
+  "workUnitsCompleted": [
+    "review.security-trace"
+  ],
+  "artifacts": [
+    {
+      "name": "security-trace-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Security and Trace Review\n\nOutcome: FIX\n\n## Bound Review Inputs\n\n- All 49 declared context files matched their required raw SHA-256 digest and byte count before review.\n- The host-supplied Candidate A compilation and package verification, preparation handoff binding, and machine fan-in readiness were treated as trusted runtime attestations. No undeclared package or handoff path was opened.\n- Review effects were read-only. No repository file was modified and no network access occurred.\n\n## Controls That Held\n\n- Compiler input is detached through the bounded plain-JSON snapshot before schema or semantic use. Proxies, accessors, custom prototypes, cycles, unsafe numbers, excess depth, and excess node counts fail closed in src/snapshot.ts and src/specialist-compiler.ts.\n- Goal and request schemas are closed, use only package-owned transitive schema references, reject runtime or provider fields, and constrain permission demand to the five declared kinds.\n- Semantic authority checks bind repository locator paths to read scopes, scopes to work-unit permission demand, work-unit demand to the owner ceiling, evidence to one owner, and independent review to a different selected agent.\n- Canonical identities use scalar-safe canonical JSON and domain-separated framed SHA-256. Renderer reconstruction recompiles from compilation.json, rerenders every file, compares the complete canonical package, and requires both externally retained expected digests.\n- Dynamic Markdown fences contain compiler-controlled JSON payloads, and every rendered file is bound by raw bytes, byte count, media type, path, and digest.\n- Raw handoff parsing is fatal on invalid UTF-8 and duplicate keys, rejects escaped lone surrogates, unsafe controls, bidirectional formatting controls, and high-confidence secret patterns, and binds the exact package, goal, blueprint, destination, completed work, deterministic artifact media, evidence duties, raw bytes, semantic identity, and artifact bytes.\n- Fan-in derives the exact transitive dependency closure, rejects duplicate or outside-closure handoffs, and reports readiness only when every required canonical outcome is pass.\n- Documentation consistently leaves context delivery, filesystem containment, permissions, scheduling, persistence, launch, integration, and memory effects with the external host.\n\n## Finding\n\n### F1 High: the first-run approval host can authenticate context outside the repository boundary\n\nEvidence:\n\n1. examples/specialist-compiler/run.mjs:47-69 parses the owner approval with JSON.parse and does not require exact keys at the top level, source records, or expectation record. Project-level duplicate-key rejection is therefore bypassed and unknown fields are accepted.\n2. examples/specialist-compiler/run.mjs:72-92 performs only lexical path checks. It does not reject empty segments, colons or alternate streams, C0/C1 or bidirectional controls, lone surrogates, high-confidence secret-bearing text, symbolic links, junctions, reparse points, or a canonical target outside ROOT.\n3. examples/specialist-compiler/run.mjs:113 calls readFileSync on that path before the compiler can apply its closed text and locator checks. A lexically valid in-repository link can therefore resolve to external bytes, yet the resulting context declaration and blueprint retain only the in-repository lexical read scope.\n4. examples/specialist-compiler/run.mjs:126 and 381-382 can echo the caller-controlled source path or a raw filesystem error. A secret-bearing or control-bearing path can reach I/O and diagnostics before privacy sanitization.\n5. test/specialist-first-run.test.mjs:50 and :78 cover deterministic success and stale byte counts only. The stronger duplicate-key and junction regressions already present for the dogfood host at test/v11-dogfood-runner.test.mjs:292, :318, and :336 do not cover this public example path.\n\nImpact:\n\n- A custom approval can bind bytes reached through an in-root link as repository context, derive a matching package expectation, and later report approval-bound verification while the effective read crossed the declared authority boundary.\n- Duplicate known keys can make the consumed last value differ from the value a reviewer believes the raw approval authorizes.\n- Non-scalar, control-bearing, alternate-stream, or secret-bearing path text reaches filesystem access before rejection and may leak through stderr.\n\nRequired correction:\n\n- Read a bounded raw approval buffer with parseJsonBuffer or an equivalent fatal UTF-8, duplicate-aware parser, then enforce exact keys recursively for the approval, each source, and the expectation.\n- Validate source paths with the repository-relative path grammar before I/O and read them through the existing contained-file boundary rooted at ROOT, including parent-link rejection, regular-file checks, canonical containment, descriptor identity checks, and byte limits.\n- Sanitize all path-bearing failures and reject high-confidence secret patterns, controls, bidirectional formatting controls, and lone surrogates before filesystem access.\n- Add first-run regressions for duplicate and unknown fields, unsafe path forms, controls, lone surrogates, secret-bearing paths, in-root links or junctions to external targets, non-files, and bounded approval size.\n\n## Stop Conditions\n\n- Authority and context fail-closed review: failed because the first-run host can give a repository-scoped blueprint provenance from out-of-root bytes. Candidate revision is required.\n- Escaped or raw malformed Unicode in launchable SpecialistAgentHandoff: no defect found in the reviewed parser, scanner, schema, and verifier path.\n- Package tampering retaining the reviewed digest pair: no defect found in reconstruction, rerendering, package-root binding, or two-digest comparison.\n\n## Review Boundary\n\nThis lane performed source and test inspection only. It did not execute product tests because the generated read scope excludes dist and this contract grants no write effects; dynamic canonical-gate evidence remains owned by the release-verification specialist. One fixture-summary command used an unsupported PowerShell ConvertFrom-Json option, produced no usable semantic result, and was rerun read-only without that option."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.security-trace",
+      "requirementId": "evidence.security-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "fix",
+      "artifact": "security-trace-review.md"
+    }
+  ],
+  "assumptions": [
+    "The kickoff message's package-verification, preparation-handoff, and fan-in statements are trusted host attestations; undeclared package and handoff paths were not independently opened."
+  ],
+  "risks": [
+    "The first-run host can follow an in-repository link outside the declared root and approval-bind those bytes as repository context.",
+    "Its approval parser can consume the last duplicate value instead of preserving an unambiguous raw owner decision.",
+    "This lane is static and read-only; dynamic gate execution remains evidence owned by the release-verification specialist."
+  ],
+  "followUps": [
+    "Harden the first-run approval parser, contained context reader, path privacy checks, and failure sanitization before Candidate A is accepted.",
+    "Add adversarial first-run tests for duplicate and unknown fields, unsafe Unicode and path forms, secret-bearing paths, external links or junctions, non-files, and byte limits.",
+    "Recompile, rerender, reapprove, and repeat independent revision review after the correction because bound source bytes and both candidate digests will change."
+  ]
+}

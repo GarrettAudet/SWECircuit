@@ -691,7 +691,7 @@ try {
         '```'
     $fencedNavigationText = $fencedNavigationText.Replace($navigationLine, $fencedNavigationBlock)
     Write-Utf8 $fencedNavigationPath $fencedNavigationText
-    Assert-CheckerResult "README navigation hidden in fence" $fencedNavigationFixture $false "README missing required active local link: AGENTS.md"
+    Assert-CheckerResult "README navigation hidden in fence" $fencedNavigationFixture $false "README missing required active local link: docs/ai/handbook.md"
     $executionLinkFixture = New-Fixture "missing-executor-boundary-link"
     $executionLinkPath = Join-Path $executionLinkFixture "README.md"
     $executionLinkText = (Get-Content -LiteralPath $executionLinkPath -Raw).Replace(

@@ -1,5 +1,5 @@
 {
-  "version": "1.3.0",
+  "version": "1.4.0",
   "diagnosticShape": {
     "required": ["code", "severity", "artifact", "pointer", "rule", "message"],
     "optional": ["hint"],
@@ -505,6 +505,30 @@
     {
       "code": "SC4309",
       "rule": "specialist.secret-pattern",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4310",
+      "rule": "specialist.handoff.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4311",
+      "rule": "specialist.handoff.binding-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4312",
+      "rule": "specialist.handoff.evidence-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4313",
+      "rule": "specialist.handoff-set.invalid",
       "severity": "error",
       "exitClass": 2
     },

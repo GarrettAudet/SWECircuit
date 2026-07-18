@@ -2,7 +2,7 @@
 
 ## Status
 
-Normative documentation for the V11 implementation candidate. The Specialist Compiler is implemented, but V11 acceptance, dogfood, independent review, milestone closeout, and owner approval remain open.
+Normative documentation for `swecircuit/specialist/v1alpha1`. Exact technical acceptance, branch, and merge status is maintained in `docs/milestones/v11.md`.
 
 This contract describes `swecircuit/specialist/v1alpha1`. The JSON Schema and exported TypeScript types define closed data shapes; this file defines the human, compiler, and external-host obligations around those shapes. `MUST`, `MUST NOT`, `SHOULD`, and `MAY` are normative.
 
@@ -14,9 +14,9 @@ Turn one clarified software goal into a deterministic, reviewable team of exact 
 one user message
   | IDE/human clarification, acceptance design, and atomic decomposition
   -> reviewed GoalContract
-  | compileAgentBlueprints
-  -> internally constructed candidate teams
-  -> deterministic candidate selection
+  | analyzeSpecialistCandidates + compileAgentBlueprints
+  -> serial baseline + internally constructed candidate teams
+  -> deterministic selection or explicit no-eligible analysis
   -> exact AgentBlueprintCompilation
   | human/IDE roster review
   | renderSpecialistPackage
@@ -24,7 +24,10 @@ one user message
   | verifySpecialistPackage(expected compilationDigest + packageDigest)
   -> approval-bound provider-neutral launch package
   | external IDE or agent host
-  -> execution, evidence, handoffs, integration, and later workflow stages
+  -> execution + raw SpecialistAgentHandoffs
+  | verifySpecialistHandoff + assessSpecialistHandoffs
+  -> identity-bound evidence + dependency-complete fan-in
+  | external integration, review, merge, and memory stages
 ```
 
 ## Responsibility Boundary
@@ -32,21 +35,24 @@ one user message
 | Actor | Owns | Does Not Delegate To V11 Core |
 | --- | --- | --- |
 | IDE or human | Clarification, product intent, acceptance criteria, atomic semantic work decomposition, context declarations, owner ceilings, planning weights, digest-bound assumptions and decisions, and review | Inventing unresolved requirements or asking core to discover hidden work units |
-| Specialist Compiler core | Closed-input validation, normalization, authority projection, legal grouping, candidate analysis, deterministic selection, exact blueprint compilation, digesting, and returned file values | Provider choice, model choice, prompt authoring, credentials, execution, runtime capacity, workspace isolation, permission enforcement, persistence, retry, merge, or memory mutation |
-| External host and integration owner | Trusted approval of both package digests, package verification, runtime translation, context delivery, actual scheduling, isolation, evidence, integration, merge, and memory updates | Trusting digests only from a received package or changing reviewed demand while claiming the approved digests |
+| Specialist Compiler core | Closed-input validation, normalization, authority projection, legal grouping, candidate analysis, deterministic selection, exact blueprint compilation, package reconstruction, raw-handoff verification, dependency fan-in assessment, digesting, and returned values | Provider choice, model choice, prompt authoring, credentials, execution, runtime capacity, workspace isolation, permission enforcement, persistence, retry, merge, or memory mutation |
+| External host and integration owner | Trusted approval of both package digests, package verification, runtime translation, context delivery, scheduling, isolation, preservation of exact raw handoff bytes, handoff verification, fan-in gating, integration, merge, and memory updates | Trusting digests only from a received package, accepting prose as evidence, or changing reviewed demand while claiming the approved digests |
 
 Atomic semantic work decomposition is IDE/human work. A work unit is atomic when its objective, acceptance duties, authority, context, dependencies, handoff, and stop boundary are stable enough to review as one semantic responsibility. Core MAY group atomic work units into one specialist; core MUST NOT split a work unit or invent another one.
 
 ## Public Operations
 
-All four operations detach and bound their `unknown` inputs, return `OperationResult<T>`, and report stable diagnostics. A caller MUST continue only when `ok` is true and `value` is non-null.
+All seven operations bound and detach untrusted data at their public boundaries, return `OperationResult<T>`, and report stable diagnostics. A caller MUST continue only when `ok` is true and `value` is non-null.
 
 | Operation | Input | Successful Value | Effect Boundary |
 | --- | --- | --- | --- |
 | `deriveTaskAuthorityProjection` | One `GoalContract` | A normalized, supply-free `TaskAuthorityProjection` | Validates and computes only |
+| `analyzeSpecialistCandidates` | One `SpecialistCompilationRequest` | One immutable `SpecialistCandidateAnalysis` | Evaluates the same candidate set and returns selected or no-eligible analysis without a launchable roster |
 | `compileAgentBlueprints` | One `SpecialistCompilationRequest` | One immutable `AgentBlueprintCompilation` | Validates, constructs, evaluates, selects, and compiles only |
 | `renderSpecialistPackage` | One complete `AgentBlueprintCompilation` | One `RenderedSpecialistPackage` containing file values and a root `packageDigest` | Recompiles for conformance and returns values only |
 | `verifySpecialistPackage` | One rendered package plus one `SpecialistPackageExpectation` | The reconstructed immutable `RenderedSpecialistPackage` | Rerenders and compares exact package semantics and trusted expected digests only |
+| `verifySpecialistHandoff` | One rendered package, trusted package expectation, and raw UTF-8 handoff bytes | One immutable `VerifiedSpecialistHandoff` | Verifies package approval, closed handoff semantics, identity, evidence, artifact names, deterministic media types, normalized controls, and raw bytes only |
+| `assessSpecialistHandoffs` | One rendered package, trusted package expectation, target blueprint ID, and raw dependency handoff byte arrays | One immutable `SpecialistHandoffSetAssessment` | Computes exact transitive dependency completeness and `pass` readiness only |
 
 The public compilation request is exactly:
 
@@ -263,9 +269,18 @@ Correctness, authority, evidence coverage, and requested independence are hard g
 6. fewer agents; and
 7. canonical partition identity.
 
-The first eligible candidate wins. More agents win only when an earlier comparator field or an independence gate justifies them. If no candidate is eligible, compilation fails with `SC4306` and returns no roster.
+The first eligible candidate wins. More agents win only when an earlier comparator field or an independence gate justifies them. If no candidate is eligible, compilation fails with `SC4306` and returns no roster. The same reviewed request MAY be passed to `analyzeSpecialistCandidates` to obtain bounded rejected-candidate evidence without weakening that fail-closed compilation behavior.
 
 The compilation retains at most eight ranked alternatives after the selected candidate. The `evaluationSetDigest` binds the ordered unique evaluation set by candidate ID and candidate content digest.
+
+### Candidate Analysis Without A Launchable Roster
+
+`analyzeSpecialistCandidates` evaluates the same normalized goal, proposals, scheduler, hard gates, comparator, and bounded alternative policy as compilation. A successful result has `kind: SpecialistCandidateAnalysis` and one closed discriminant:
+
+- `selectionStatus: selected` with the exact selected evaluation and `selectionReason`; or
+- `selectionStatus: no_eligible_candidate` with `selected: null` and `selectionReason: null`.
+
+Both forms preserve the serial baseline, proposal evaluations, search summary, bounded alternatives, evaluation-set digest, goal identity, and a domain-separated analysis digest. A no-eligible analysis is diagnostic evidence, never a roster, package, or launch authorization. Correct the GoalContract and compile a new revision rather than launching from analysis output.
 
 ### Machine-Readable Selection Reason
 
@@ -311,7 +326,7 @@ An `AgentBlueprint` is exact task demand, not a persona or runtime configuration
 - exact criterion and evidence duties;
 - handoff destination equal to `goal.integrationOwner`;
 - the union of declared handoff artifacts;
-- required handoff fields exactly `summary`, `workUnitsCompleted`, `artifacts`, `evidence`, `assumptions`, `risks`, and `followUps`; and
+- required handoff fields exactly `apiVersion`, `kind`, `outcome`, `destination`, `goal`, `agent`, `compilationDigest`, `summary`, `workUnitsCompleted`, `artifacts`, `evidence`, `assumptions`, `risks`, and `followUps`; and
 - the union of work-unit stop conditions.
 
 Closed shapes prevent a blueprint from carrying provider, model, profile, prompt, executor, credential, runtime grant, or generic `role` data.
@@ -327,9 +342,11 @@ On success the returned `RenderedSpecialistPackage` contains these file values:
 | `compilation.json` | The complete normalized `AgentBlueprintCompilation`, including assumptions, unresolved decisions, search claim, selection reason, blueprints, and compilation digest. |
 | `manifest.json` | Goal/revision, compilation binding, selected candidate, waves, compilation-file metadata, agent/blueprint contract metadata, integration metadata, and manifest content digest. |
 | `integration.md` | Integration gates plus assumptions, decisions, search summary, selection reason, serial baseline, selected metrics, waves, and blueprint digest summary. |
-| `agents/<agent-id>.md` | Operating rules and the complete JSON `AgentBlueprint`, bound to the compilation and blueprint digests. |
+| `agents/<agent-id>.md` | Operating rules, the complete JSON `AgentBlueprint`, and a concrete closed `SpecialistAgentHandoff` example bound to the compilation and blueprint digests. |
 
 Every `RenderedSpecialistFile` carries `path`, `mediaType`, UTF-8 byte count, standard SHA-256 over the exact file bytes, and exact `content`. The manifest declares `fileDigestAlgorithm: sha256` and `fileDigestScope: raw-file-bytes`, binds `compilation.json` through `compilationFile`, `compilationFileDigest`, and `compilationFileBytes`, and binds agent and integration payloads the same way. Canonical compilation, blueprint, manifest, and package identities remain domain-separated; the package envelope returns `compilationDigest` and a domain-separated root `packageDigest` over the compilation digest, manifest digest, and complete ordered file metadata.
+
+The generated handoff example is executable contract guidance, not illustrative pseudocode. Artifact `content` is always a string, including for `application/json`; each evidence entry contains exactly `criterionId`, `requirementId`, `kind`, `duty`, `status`, and `artifact`; and the example carries the exact goal, agent, compilation, work-unit, artifact, and evidence bindings for that blueprint. A host that requires a stricter custom envelope MUST provide its closed schema separately and retain these standard bindings.
 
 The package cannot make its own root digest trustworthy. The integration owner MUST preserve the expected `compilationDigest` and `packageDigest` in an approval record or trusted channel outside the package.
 
@@ -346,7 +363,36 @@ const verified = verifySpecialistPackage(receivedPackage, {
 
 Verification extracts and parses the single `compilation.json`, reconstructs the compilation, rerenders the complete package, requires canonical equality with the received package, and compares both expected digests. Any payload, manifest, envelope, compilation, or coordinated rewrite that does not reproduce the approved package returns `SC4307` with no value.
 
-Compilation, rendering, and verification return values and perform no caller-directed I/O. They do not follow context locators, create directories, read materialized packages, write files, start agents, contact a provider, or enforce runtime authority. Schema validation may lazily read only the immutable schemas shipped inside the SWECircuit package. A materializing adapter MUST preserve file bytes and SHOULD verify them again at its own storage or transport boundary.
+### Raw Handoff Verification And Fan-In
+
+An external host MUST preserve each agent result as exact raw UTF-8 bytes and verify it against the already approved package:
+
+```ts
+const verifiedHandoff = verifySpecialistHandoff(
+  receivedPackage,
+  approvedExpectation,
+  rawHandoffBytes,
+);
+
+const fanIn = assessSpecialistHandoffs(
+  receivedPackage,
+  approvedExpectation,
+  targetAgentId,
+  rawDependencyHandoffBytes,
+);
+```
+
+`SpecialistAgentHandoff` is a closed envelope. It binds API version, canonical workflow outcome, destination, goal ID/revision/digest, agent ID/blueprint digest, compilation digest, summary, completed work units, the exact declared artifact set with inline content, every exact evidence duty, assumptions, risks, and follow-ups. Unknown fields, duplicate JSON keys, invalid UTF-8, controls outside artifact formatting whitespace, lone surrogates, high-confidence secrets, stale identity, substituted artifacts, and incomplete evidence fail closed.
+
+Every generated agent contract contains one concrete schema-valid envelope that can be parsed and passed directly to `verifySpecialistHandoff` after replacing its summary and artifact contents. Agents and hosts MUST use that envelope rather than copying the different nested shape of blueprint evidence duties. Artifact media is deterministic: `.json` uses `application/json`, `.md` uses `text/markdown`, and every other name uses `text/plain`. Hosts MUST preserve that value. Artifact content may contain normalized LF; TAB, CR, CRLF, other controls, malformed Unicode, and high-confidence secrets fail verification.
+
+A `pass` handoff MUST complete every blueprint work unit, provide every declared artifact exactly once, provide every exact evidence duty exactly once, and mark every duty `pass`. Verification returns raw byte count and SHA-256, a domain-separated semantic digest, per-artifact raw bindings, and a content digest.
+
+`assessSpecialistHandoffs` derives the target blueprint's complete transitive dependency closure. Missing or valid non-`pass` handoffs return `integrationReady: false`; duplicate, unknown, substituted, malformed, or outside-closure handoffs fail. Only one verified `pass` handoff from every exact dependency returns `integrationReady: true`. The target's own result is not part of its prerequisite fan-in.
+
+Both operations verify the approval-bound package first, reject proxy/accessor byte containers without invoking caller code, return immutable values, and perform no I/O, execution, persistence, or merge.
+
+Compilation, candidate analysis, rendering, package verification, handoff verification, and fan-in assessment return values and perform no caller-directed I/O. They do not follow context locators, create directories, read materialized packages, write files, start agents, contact a provider, or enforce runtime authority. Schema validation may lazily read only the immutable schemas shipped inside the SWECircuit package. A materializing adapter MUST preserve file bytes and SHOULD verify them again at its own storage or transport boundary.
 
 ### Agent-Based Review Of An Exact Compilation
 
@@ -358,7 +404,7 @@ A blueprint inside compilation A cannot independently review the complete semant
 4. run B's binder and independent compilation reviewer; and
 5. only after B returns `PASS`, separately approve and verify A for launch.
 
-B is the explicit human-approved trust root and does not recursively review itself. It cannot approve, launch, integrate, or mutate A. Any change to A changes B's authenticated context and requires a new B compilation, package, approval, and audit. Before launching A, the host MUST preserve a cross-package authorization that binds both digest pairs and B's exact `PASS` handoff. This conditional protocol is defined in [`two-phase-prelaunch-review.md`](two-phase-prelaunch-review.md). Human roster review does not require a second compilation unless repository policy requires agent-based independent evidence.
+B is the explicit human-approved trust root and does not recursively review itself. It cannot approve, launch, integrate, or mutate A. Any change to A changes B's authenticated context and requires a new B compilation, package, approval, and audit. After reconstructing A and verifying B against B's owner-approved digest pair, the external host MUST create and preserve a closed `PrelaunchPackageVerificationReceipt` outside both packages before B launches. The receipt binds both digest pairs and verification outcomes and MUST retain `candidateLaunchApproved: false`. Before launching A, the host MUST preserve a cross-package authorization that binds both digest pairs, the receipt's exact path, raw digest, byte count, and outcome, and B's exact semantic `PASS` handoff path, raw digest, byte count, and outcome. This conditional protocol is defined in [`two-phase-prelaunch-review.md`](two-phase-prelaunch-review.md). Human roster review does not require a second compilation unless repository policy requires agent-based independent evidence.
 
 ## Review And External Launch Gate
 
@@ -378,6 +424,8 @@ Any changed assumption, decision, goal field, work unit, proposal, selected team
 
 Actual dependency readiness, context delivery and byte verification, permission enforcement, isolation, process scheduling, retries, persistence, and integration remain host responsibilities. A host that cannot satisfy a blueprint MUST stop or narrow and recompile; it must not silently alter the contract.
 
+After execution, the host MUST preserve the exact raw handoff bytes, call `verifySpecialistHandoff` for each received result, and call `assessSpecialistHandoffs` before starting any dependent integration blueprint. Verification success is not equivalent to `pass`; the canonical outcome remains explicit. Integration MUST stop unless the target assessment is successful, non-null, and `integrationReady: true`.
+
 ## Diagnostics And Routing
 
 | Code | Meaning | Workflow Route |
@@ -391,6 +439,10 @@ Actual dependency readiness, context delivery and byte verification, permission 
 | `SC4307` | Compilation/package digest mismatch | `block` and recompile from reviewed input |
 | `SC4308` | Resource limit exceeded | `split` or narrow context |
 | `SC4309` | High-confidence secret pattern | `block` and remove the secret |
+| `SC4310` | Malformed or unsafe closed handoff | `fix` or `block` |
+| `SC4311` | Handoff goal, compilation, blueprint, or destination mismatch | `block` and recover the exact approved result |
+| `SC4312` | Handoff work, artifact, or evidence mismatch | `fix` or rerun the exact specialist |
+| `SC4313` | Invalid, duplicate, unknown, outside-closure, or malformed fan-in set | `fix` or `block` |
 | `SC9001` | Internal failure | `diagnose` |
 
 Input is limited to 1,048,576 JSON bytes. Compilations and the aggregate rendered file contents are independently limited to 4,194,304 bytes. Text is bounded; malformed Unicode, C0/C1 controls, DEL, and Unicode bidirectional formatting controls are rejected; and high-confidence secret patterns fail before a launchable value is returned.
@@ -414,9 +466,11 @@ Those effects belong to an external IDE/agent host and later reviewed workflow s
 
 - Architecture boundary: `docs/architecture/decisions/0004-specialist-compiler-first.md`
 - Feature requirements: `docs/specs/v11-specialist-compiler/spec.md`
-- Input schema: `schemas/v1alpha1/specialist-compiler.schema.json`
+- Input schemas: `schemas/v1alpha1/specialist-compiler.schema.json` and `schemas/v1alpha1/specialist-handoff.schema.json`
 - Public types: `src/specialist-types.ts`
 - Validation, construction, analysis, and selection: `src/specialist-compiler.ts`
 - Package reconstruction, rendering, root digesting, and verification: `src/specialist-render.ts`
+- Closed handoff validation, raw binding, and fan-in assessment: `src/specialist-handoff.ts`
+- Truthful read-only first run: `examples/specialist-compiler/`
 - IDE flow: `docs/ide/specialist-agent-kickoff.md`
 - Reusable module guidance: `docs/modules/specialist-agent-compiler.md`

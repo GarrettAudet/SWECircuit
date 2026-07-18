@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.release",
+    "revision": 27,
+    "digest": "sha256:a31aae035f02012b567cd6bfa502063884bf10d6a5f43c1073da190cd60887d4"
+  },
+  "agent": {
+    "id": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+    "blueprintDigest": "sha256:f96657c67267312938619581860f7136447d6c7f23b51d6f16752f648b7b2169"
+  },
+  "compilationDigest": "sha256:db47c3393dca0ede877bf07eecc89cd89cb7241f8380fb65f1ed8513221b2dd7",
+  "summary": "FIX. The exact candidate, authorization, and dependency bindings authenticate successfully, but verified Markdown handoffs accept rendering-unsafe control content and mutable media types.",
+  "workUnitsCompleted": [
+    "review.security-trace"
+  ],
+  "artifacts": [
+    {
+      "name": "security-trace-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Security And Trace Review\n\nOutcome: `FIX`\n\n## Authentication\n\n- Verified all 49 declared context sources against their exact raw SHA-256 digests and byte counts.\n- Reconstructed Candidate A with `verifySpecialistPackage`; compilation `sha256:db47c3393dca0ede877bf07eecc89cd89cb7241f8380fb65f1ed8513221b2dd7` and package `sha256:fde922b7e3c2f4747e04c92dacea8af3c7083fa87cd3bcf029f92b2b1ce632b3` passed with nine exact files.\n- Validated the closed prelaunch authorization, receipt, semantic audit handoff, both package pairs, and their raw bindings.\n- Verified dependency handoff `sha256:fdc12e61dc982d81cb1f219ff2f22e97bb7500693209e863e100d5a81c6542c1`; package-bound fan-in reported the exact dependency complete and integration-ready.\n- Ran the read-only compiler, handoff, JSON-kernel, and schema suites: 59 tests passed.\n\n## Finding\n\n### High: Verified handoffs admit rendering-unsafe artifact semantics\n\n`src/specialist-handoff.ts:140` removes tab, LF, and CR before checking artifact-content controls. Consequently, Markdown evidence containing U+000D carriage returns passes `verifySpecialistHandoff`, despite revision-27 requirement R21 permitting only normalized LF line endings in Markdown evidence. A focused package-bound probe returned success with no diagnostics for `security-trace-review.md` containing a carriage return.\n\nThe same verifier binds only artifact names at `src/specialist-handoff.ts:284`; it does not enforce the generated artifact media type. The accepted media type is then copied into the verified artifact binding at `src/specialist-handoff.ts:325`. This permits substitution of the generated `text/markdown` type even though `src/specialist-render.ts:194` directs agents to replace only summary and artifact content.\n\nRaw and semantic digests faithfully record the accepted bytes, but they do not make those bytes rendering-safe. A host treating verified media types or Markdown as trusted can therefore receive display-confusing control content or reinterpret an artifact under an undeclared media type. The rendering and trace boundary does not fail closed.\n\n## Required Correction\n\n- Reject every C0 artifact-content control except normalized LF where the declared format permits line breaks; reject CR and CRLF Markdown evidence.\n- Bind each artifact's expected media type in the blueprint or deterministically derive it from the declared artifact name, then require an exact match during handoff verification.\n- Add regressions proving CR, CRLF, and media-type substitution fail while normalized LF content passes.\n\n## Other Boundaries\n\nNo authority widening, source-provenance mismatch, package-root reuse after tampering, malformed-Unicode launch path, secret disclosure, proxy/accessor invocation, dependency-closure bypass, or false host-enforcement claim was found."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.security-trace",
+      "requirementId": "evidence.security-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "fix",
+      "artifact": "security-trace-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Downstream hosts may render a successfully verified artifact using attacker-selected media semantics or carriage-return content."
+  ],
+  "followUps": [
+    "Normalize and validate artifact content and enforce exact media-type bindings before requesting another immutable review candidate."
+  ]
+}

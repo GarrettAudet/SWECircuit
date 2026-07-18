@@ -558,7 +558,7 @@ export const DIAGNOSTIC_DEFINITIONS = Object.freeze({
     "error",
     2,
     "No candidate specialist team satisfies every hard gate.",
-    "Inspect the serial baseline and candidate rejection codes, then revise the work units or ceilings.",
+    "Call analyzeSpecialistCandidates to inspect the serial baseline and rejection codes, then revise the work units or ceilings.",
   ),
   SC4307: definition(
     "specialist.digest.mismatch",
@@ -580,6 +580,34 @@ export const DIAGNOSTIC_DEFINITIONS = Object.freeze({
     2,
     "A specialist compiler input matched a high-confidence secret pattern.",
     "Replace secret-bearing content with a bounded external reference before compilation.",
+  ),
+  SC4310: definition(
+    "specialist.handoff.invalid",
+    "error",
+    2,
+    "A specialist handoff does not match the closed v1alpha1 envelope.",
+    "Emit strict UTF-8 JSON with only the documented handoff fields.",
+  ),
+  SC4311: definition(
+    "specialist.handoff.binding-mismatch",
+    "error",
+    2,
+    "A specialist handoff does not match its approved goal, package, or blueprint.",
+    "Reconstruct the approved package and emit the exact declared identity and destination bindings.",
+  ),
+  SC4312: definition(
+    "specialist.handoff.evidence-invalid",
+    "error",
+    2,
+    "A specialist handoff omits or contradicts required work, artifacts, or evidence duties.",
+    "Bind every declared artifact and evidence duty; a PASS requires complete PASS evidence.",
+  ),
+  SC4313: definition(
+    "specialist.handoff-set.invalid",
+    "error",
+    2,
+    "A specialist handoff set cannot satisfy the target agent dependency closure.",
+    "Provide one verified handoff from every exact transitive dependency and no undeclared agent.",
   ),
   SC5001: definition(
     "limit.artifact-bytes",

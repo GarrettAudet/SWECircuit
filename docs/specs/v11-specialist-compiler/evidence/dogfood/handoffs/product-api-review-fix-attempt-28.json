@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.release",
+    "revision": 28,
+    "digest": "sha256:4f3992c10ba085705bb6e68dbee411ea982fddf360276bdb64682526acaa0c52"
+  },
+  "agent": {
+    "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+    "blueprintDigest": "sha256:b8ac51fa53bcc19e3d7e6ad9219181dd2b81fddfb9dfdf7690f18ef555431bf1"
+  },
+  "compilationDigest": "sha256:18e40b2586375f0b7004fe088b7b2ebc2f0bd607dec27963c1b68c7ee719df7c",
+  "summary": "FIX: the checked-in approval for the advertised first-run example is stale against the exact revision-28 compiler contract, so the quick start and canonical verification gate fail before compilation.",
+  "workUnitsCompleted": [
+    "review.product-api"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Product/API Review\n\nOutcome: `FIX`\n\n## Blocking Finding\n\nThe advertised first-run approval is stale against the exact reviewed contract. `examples/specialist-compiler/approval.json` binds `docs/specs/v11-specialist-compiler/specialist-compiler-contract.md` as 36,089 bytes with `sha256:c6462aae192a4df6d4de44e086c5e465b93c2354df3e153dfa8e9771e530a71b`. The revision-28 context declaration and independent raw verification bind that same file as 36,449 bytes with `sha256:813d53058e1c3bde7b1c434d1868375560f4802a3bb484b1a460685954759ef9`.\n\nIn normal mode, `examples/specialist-compiler/run.mjs` calls `bindSources(approval, true)` and throws `Context source mismatch` when either byte count or digest differs. Therefore the README command `npm run example:specialist` fails before candidate compilation or package verification. `package.json` also includes this command in `npm run verify`, so the canonical gate cannot pass on this frozen candidate. This directly fails the required deterministic first-run path and blocks AC11 and AC16 acceptance.\n\n## Reviewed Surface\n\nAll 32 declared repository context items matched their exact byte counts and raw SHA-256 digests before inspection. The root export inventory exposes the seven documented compiler, package, handoff, and fan-in operations with their public types. The package export map exposes `common.schema.json`, `specialist-compiler.schema.json`, and `specialist-handoff.schema.json` through supported subpaths, and the specialist schemas use the exported common schema dependency. The normative contract, IDE kickoff, generated handoff envelope, and implementation preserve the external-host boundary without requiring a provider, model, runtime, private package path, or network access. No additional product/API blocker was identified in those reviewed surfaces.\n\n## Required Correction\n\nRegenerate the complete first-run approval from the current sources, including both source bindings and the resulting compilation/package expectation pair. Then rerun the first-run test and canonical verification gate against the immutable revision-28 candidate before repeating product/API review.\n\nNo files were modified, no network was accessed, and no unauthorized runtime command was executed."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.product-api",
+      "requirementId": "evidence.product-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "fix",
+      "artifact": "product-api-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Any revision-28 release evidence that reports the documented first-run or canonical gate as passing is unreliable until the stale approval is replaced and the gates are repeated."
+  ],
+  "followUps": [
+    "Regenerate examples/specialist-compiler/approval.json from the exact revision-28 sources, preserving the newly derived source and two-digest package bindings.",
+    "Repeat the deterministic first-run test, npm run verify, and independent product/API review against the corrected immutable candidate."
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "apiVersion": "swecircuit/v11-dogfood-acceptance/v1",
+  "kind": "V11DogfoodAcceptance",
+  "attempt": 30,
+  "date": "2026-07-18",
+  "outcome": "pass",
+  "acceptedFor": "branch_publication_and_owner_merge_gate",
+  "candidate": {
+    "compilationDigest": "sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36",
+    "packageDigest": "sha256:ddb642a474815b4ded464b40f5bd8225a404f610d3bd4a91d0ab2d43dc695f43"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:79c5a7103225b12398e27c0e959b993597f38dcc5ddca6d9750a4d2b62f2d065",
+    "packageDigest": "sha256:367d9b3d57b918aabc6543dae16b9b3cf5fee81338fd241226ef9bef2209510f",
+    "receipt": {
+      "bytes": 2255,
+      "digest": "sha256:7d859cd7ef8c069b08ff3ce569e29715322dcb7ae176b1e5f0607eb4f1c0664f",
+      "outcome": "pass",
+      "candidateLaunchApproved": false
+    },
+    "semanticHandoff": {
+      "bytes": 9251,
+      "digest": "sha256:16b8c2ad5e5a9c2864ce55b24deaf1dd5d7ddc157066bef2acf889a7d59b1400",
+      "outcome": "pass"
+    },
+    "launchAuthorization": "pass"
+  },
+  "candidateFanIn": {
+    "bytes": 3464,
+    "digest": "sha256:eaaef20dcae183a7c97cc2396f55e32c7cb434d73ce2e708fc0c1d792d330823",
+    "contentDigest": "sha256:4c89b0c7bd64735c371726155bd74d424d18af1248499cb77f05e93154c40a8a",
+    "integrationReady": true
+  },
+  "integrationHandoff": {
+    "bytes": 13720,
+    "digest": "sha256:a5fd2bcf1b9bf76137aeca02f74f2b7365a5737f0372ede9e0ca0456d5d30413",
+    "semanticDigest": "sha256:40a5bcd5b52ddfbe82962a799cdf08cd5bb7519d767c5dcb5ff88415cd5935f3",
+    "outcome": "pass"
+  },
+  "verification": {
+    "postIntegrationReplay": "pass",
+    "templateChecker": "pass",
+    "templateRegressionCases": {
+      "passed": 119,
+      "total": 119
+    },
+    "focusedReleaseTests": {
+      "passed": 133,
+      "total": 133
+    },
+    "canonicalTests": {
+      "passed": 370,
+      "total": 370
+    },
+    "packageFiles": 114,
+    "packedConsumer": "pass"
+  },
+  "supersededEvidence": [
+    {
+      "path": "handoffs/verify-release-fix-attempt-30a.json",
+      "outcome": "fix",
+      "reason": "Host preflight used undeclared executables and stopped before canonical gates; no candidate source changed."
+    }
+  ],
+  "boundaries": {
+    "hostedCiRun": false,
+    "commitOrPushClaimed": false,
+    "mergeApproved": false,
+    "coreRuntimeEffectsClaimed": false
+  }
+}

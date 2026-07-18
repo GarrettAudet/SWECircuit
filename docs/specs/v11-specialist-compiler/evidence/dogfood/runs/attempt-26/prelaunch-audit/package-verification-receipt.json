@@ -1,0 +1,54 @@
+{
+  "apiVersion": "swecircuit/prelaunch-package-verification-receipt/v1alpha1",
+  "kind": "PrelaunchPackageVerificationReceipt",
+  "outcome": "pass",
+  "verifier": {
+    "operation": "verifySpecialistPackage",
+    "specialistApiVersion": "swecircuit/specialist/v1alpha1"
+  },
+  "candidate": {
+    "compilationDigest": "sha256:f3658ec182621f9a3485915cd260046d70e7fb1dcd84770f5b03ed3c9d05bb8e",
+    "packageDigest": "sha256:f888a1a784d203d51bcb5d780b71167e0012662d30cec3dbab0d6e34afcab13a",
+    "verificationOutcome": "pass"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:9823e1919504fd757584f8eb24f2720c8ff34df4834e52a3d3a096a34304115f",
+    "packageDigest": "sha256:3661bf2fcdfeaa88f43bf5fdf22b9f6c54f7ac908d70e96540b03f56714be1d1",
+    "verificationOutcome": "pass",
+    "approvalOutcome": "pass"
+  },
+  "auditApproval": {
+    "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
+    "digest": "sha256:c8d859acdfdaf67495ca7c470e43406592ff5c3bc4e34218f7936d75f014e568",
+    "bytes": 194
+  },
+  "candidateLaunchApproved": false,
+  "binder": {
+    "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+    "blueprintDigest": "sha256:1ae2536e33769be2af9d41ddf68eb7aee35baa6dc72c9866081a49d5b161af9d",
+    "contractFile": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+    "contractDigest": "sha256:2fae6acffb18da20ec2ab23b9e129e544dff760bd91e538f9cf4fa2f18d124a6",
+    "contractBytes": 13923
+  },
+  "reviewer": {
+    "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:9985846e28ab56b6e6652f7c8dc4b32391f0ae23c9a89ac3adc311fc3f900bb7",
+    "contractFile": "agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
+    "contractDigest": "sha256:ae03105a03e39938ae475ef5e9cab3efce16aaef3504a573303110a6f30fb6f9",
+    "contractBytes": 43861
+  },
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6"
+      ]
+    },
+    {
+      "start": 4,
+      "agentIds": [
+        "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64"
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 ## Status
 
-Core module contract and V11 implementation candidate. The provider-neutral compiler, renderer, and package verifier exist; feature acceptance, dogfood, repeat independent review, milestone closeout, and owner approval remain open.
+Core module contract for `swecircuit/specialist/v1alpha1`. Exact technical acceptance, branch, and merge status is maintained in `docs/milestones/v11.md`.
 
 The property-level normative contract is `docs/specs/v11-specialist-compiler/specialist-compiler-contract.md`. The human entrypoint is `docs/ide/specialist-agent-kickoff.md`.
 
@@ -15,10 +15,12 @@ reviewed GoalContract + optional proposed groupings
   | specialist_agent_compiler
   -> authority projection
   -> serial baseline + internally constructed candidate teams
-  -> deterministic selection
+  -> deterministic selection or no-eligible candidate analysis
   -> exact AgentBlueprintCompilation
   -> compilation.json + provider-neutral package values
   -> two-digest package verification
+  -> closed raw handoff verification
+  -> dependency-complete fan-in assessment
 ```
 
 A blueprint is task demand. It is not a role label, persona, model preset, provider configuration, executable grant, or runtime assignment.
@@ -79,9 +81,10 @@ No input record accepts `role`, runtime profile, provider, model, prompt, execut
 7. For nine or more work units, construct the deterministic bounded set and emit `search.claim: bounded_evaluated_set_no_global_optimum`; include weight-balanced counts, Module groups, dependency levels, evidence-duty classes, primary scope groups, and supplied proposals.
 8. Reject candidate partitions with excess agents, missing/duplicate/unknown work units, a group-induced agent dependency cycle, or violated producer/checker independence.
 9. Compute a deterministic conflict-aware projected schedule under `maxConcurrency`, exact scope intersections, startup cost, and cross-agent handoff cost.
-10. Rank eligible candidates by the fixed comparator and select the first.
+10. Rank eligible candidates by the fixed comparator and select the first. If no candidate is eligible, compilation returns `SC4306`; `analyzeSpecialistCandidates` returns the bounded serial, proposal, rejection, search, and alternative evidence without creating a launchable roster.
 11. Compile exact immutable blueprints, projected launch waves, search evidence, a machine-readable `selectionReason`, alternatives, and content digests.
 12. Render `compilation.json` and deterministic package files; verify a received package only against trusted expected compilation and package digests.
+13. Verify exact raw `SpecialistAgentHandoff` bytes against the approved package and blueprint, then assess the complete transitive dependency handoff set before integration.
 
 Exact search applies only through eight work units. Larger search is bounded and must never be described as globally optimal. Exact mode proves exhaustive grouping only for the reviewed fixed work units under `maxAgents`; it does not prove that the human decomposition is semantically optimal.
 
@@ -143,7 +146,11 @@ Each blueprint binds:
 - handoff destination, artifacts, and required fields; and
 - stop conditions plus blueprint digest.
 
-`renderSpecialistPackage` returns `compilation.json`, `manifest.json`, `integration.md`, one Markdown contract per blueprint, exact file metadata, and a root `packageDigest`. The manifest binds the compilation, agent, and integration files by path, digest, and byte count. `verifySpecialistPackage` reconstructs and rerenders the package, requires canonical equality, and checks trusted expected `compilationDigest` and `packageDigest` values. Those expectations must be preserved outside the package.
+`analyzeSpecialistCandidates` returns either a selected candidate analysis or `selectionStatus: no_eligible_candidate` with null selection fields. Analysis output is evidence for correction and cannot be rendered or launched.
+
+`renderSpecialistPackage` returns `compilation.json`, `manifest.json`, `integration.md`, one Markdown contract per blueprint, exact file metadata, and a root `packageDigest`. Each agent contract includes the complete blueprint plus a concrete closed `SpecialistAgentHandoff` example with exact bindings and verifier-valid nested shapes. Artifact content remains a string even for JSON, and evidence entries include the required `status` and artifact name. The manifest binds the compilation, agent, and integration files by path, digest, and byte count. `verifySpecialistPackage` reconstructs and rerenders the package, requires canonical equality, and checks trusted expected `compilationDigest` and `packageDigest` values. Those expectations must be preserved outside the package.
+
+`verifySpecialistHandoff` binds exact raw bytes to the approved package, goal, blueprint, work, artifact set, deterministic artifact media, normalized-LF control policy, and evidence duties. It rejects media substitution plus TAB, CR, CRLF, and other unsafe controls before returning verified evidence. `assessSpecialistHandoffs` derives a target blueprint's transitive dependency closure and returns `integrationReady: true` only for one valid `pass` handoff from every exact dependency. Neither operation performs I/O, launches work, persists evidence, or merges changes.
 
 ## Gate
 
@@ -157,7 +164,7 @@ Emit `pass` only when:
 - rendering includes `compilation.json` and returns a root package digest;
 - approval outside the package binds the exact compilation and package digests;
 - `verifySpecialistPackage` passes against both trusted expectations; and
-- any external launcher accepts the host responsibilities below.
+- any external launcher accepts the host responsibilities below, including exact raw-handoff preservation, approval-bound verification, and dependency fan-in gating.
 
 ## Outcome
 
@@ -173,7 +180,9 @@ Emit `pass` only when:
 
 ## External Host Boundary
 
-The V11 module constructs demand and package values. An external IDE or agent host chooses provider, model, prompts, credentials, actual scheduling, process control, workspace isolation, and persistence. It must verify delivered context, enforce actual permissions and dependency readiness, preserve raw handoffs, and run integrated verification and review.
+The V11 module constructs demand and package values, verifies closed raw handoffs, and assesses dependency fan-in. An external IDE or agent host chooses provider, model, prompts, credentials, actual scheduling, process control, workspace isolation, and persistence. It must verify delivered context, enforce actual permissions and dependency readiness, preserve exact raw handoff bytes, run `verifySpecialistHandoff` and `assessSpecialistHandoffs`, and own integrated verification and review.
+
+Handoff verification proves identity and closure, not success. A valid handoff may route `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, or `learn`; only a complete dependency set whose canonical outcomes are all `pass` is integration-ready.
 
 The host may translate a blueprint into transient runtime instructions. It must verify the package against both approved digests before launch. It must not widen authority, add work, omit evidence, weaken stop conditions, or change handoffs while claiming either digest. Any semantic or package change requires recompilation, rerendering, reverification, and new approval.
 
@@ -193,7 +202,8 @@ The deferred universal runtime artifacts under `docs/specs/v11-orchestration-pla
 - AgentBlueprintCompilation with serial, selected, alternatives, search evidence, and digests.
 - RenderedSpecialistPackage file values.
 - External approval record containing trusted expected compilation and package digests, plus successful package-verification evidence.
-- External handoff, integration, verification, review, merge, and memory evidence when later stages run.
+- Exact raw `SpecialistAgentHandoff` bytes plus `VerifiedSpecialistHandoff` and `SpecialistHandoffSetAssessment` values when external execution runs.
+- External integration, verification, review, merge, and memory evidence when later stages run.
 
 ## Adapter
 
@@ -218,6 +228,7 @@ This module is built into SWECircuit and requires no external orchestration fram
 - Above-eight bounded candidate-source and no-global-optimum checks.
 - One-agent-optimal, genuinely parallel, under-split, over-split, conflict-heavy, and generic-role golden cases.
 - Closed-shape, authority, context, permission, evidence, cycle, limit, privacy, and digest-substitution failures.
+- Candidate-analysis selected/no-eligible equivalence, strict handoff schema, stale identity, incomplete evidence, raw-byte binding, proxy/accessor rejection, and transitive fan-in failures.
 - Blueprint completeness and absence of runtime/provider fields.
 - Renderer reconstruction, `compilation.json`, stable bytes, dynamic-fence containment, package-root binding, coordinated-tamper rejection, and two-digest verification.
 - Template checker, canonical kernel verification, packed-consumer validation, dogfood, and independent review before V11 acceptance.

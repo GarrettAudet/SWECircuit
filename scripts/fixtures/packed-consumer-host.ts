@@ -1,4 +1,6 @@
 import {
+  analyzeSpecialistCandidates,
+  assessSpecialistHandoffs,
   type AgentBlueprint,
   type AgentBlueprintAuthority,
   type AgentBlueprintCompilation,
@@ -19,8 +21,21 @@ import {
   renderSpecialistPackage,
   SPECIALIST_API_VERSION,
   verifySpecialistPackage,
+  verifySpecialistHandoff,
   type SPECIALIST_KINDS,
   SPECIALIST_LIMITS,
+  type NoEligibleSpecialistCandidateAnalysis,
+  type SelectedSpecialistCandidateAnalysis,
+  type SpecialistAgentHandoff,
+  type SpecialistCandidateAnalysis,
+  type SpecialistHandoffAgentBinding,
+  type SpecialistHandoffArtifact,
+  type SpecialistHandoffArtifactBinding,
+  type SpecialistHandoffAssessmentEntry,
+  type SpecialistHandoffEvidence,
+  type SpecialistHandoffGoalBinding,
+  type SpecialistHandoffSetAssessment,
+  type VerifiedSpecialistHandoff,
   type SpecialistAcceptanceCriterion,
   type SpecialistAgentSchedule,
   type SpecialistAssumption,
@@ -182,6 +197,18 @@ type SpecialistDeclarationSurface = readonly [
   SpecialistUnresolvedDecision,
   SpecialistWorkUnit,
   TaskAuthorityProjection,
+  NoEligibleSpecialistCandidateAnalysis,
+  SelectedSpecialistCandidateAnalysis,
+  SpecialistAgentHandoff,
+  SpecialistCandidateAnalysis,
+  SpecialistHandoffAgentBinding,
+  SpecialistHandoffArtifact,
+  SpecialistHandoffArtifactBinding,
+  SpecialistHandoffAssessmentEntry,
+  SpecialistHandoffEvidence,
+  SpecialistHandoffGoalBinding,
+  SpecialistHandoffSetAssessment,
+  VerifiedSpecialistHandoff,
 ];
 
 type DeepKeys<T> = T extends readonly (infer Entry)[]
@@ -212,9 +239,13 @@ const specialistApiVersion: SpecialistApiVersion = SPECIALIST_API_VERSION;
 const specialistKinds: typeof SPECIALIST_KINDS = [
   "GoalContract",
   "SpecialistCompilationRequest",
+  "SpecialistCandidateAnalysis",
   "TaskAuthorityProjection",
   "AgentBlueprint",
   "AgentBlueprintCompilation",
+  "SpecialistAgentHandoff",
+  "VerifiedSpecialistHandoff",
+  "SpecialistHandoffSetAssessment",
   "SpecialistPackageManifest",
 ];
 const specialistLimits: typeof SPECIALIST_LIMITS = SPECIALIST_LIMITS;
@@ -380,16 +411,24 @@ const specialistRequest = {
 } satisfies CompileAgentBlueprintsInput;
 
 const authorityProjectionResult = deriveTaskAuthorityProjection(specialistGoal);
+const specialistAnalysisResult = analyzeSpecialistCandidates(specialistRequest);
 const specialistCompilationResult = compileAgentBlueprints(specialistRequest);
 if (
   !authorityProjectionResult.ok ||
   authorityProjectionResult.value === null ||
+  !specialistAnalysisResult.ok ||
+  specialistAnalysisResult.value === null ||
+  specialistAnalysisResult.value.selectionStatus !== "selected" ||
   !specialistCompilationResult.ok ||
   specialistCompilationResult.value === null
 ) {
   throw new Error("The installed specialist declarations rejected their typed input.");
 }
 const authorityProjection: TaskAuthorityProjection = authorityProjectionResult.value;
+const specialistAnalysis: SelectedSpecialistCandidateAnalysis = specialistAnalysisResult.value;
+if (specialistAnalysis.selected.id !== specialistCompilationResult.value.selected.id) {
+  throw new Error("Candidate analysis and compilation selected different teams.");
+}
 const specialistCompilation: AgentBlueprintCompilation = specialistCompilationResult.value;
 const specialistPackageResult = renderSpecialistPackage(specialistCompilation);
 if (!specialistPackageResult.ok || specialistPackageResult.value === null) {
@@ -398,22 +437,100 @@ if (!specialistPackageResult.ok || specialistPackageResult.value === null) {
 const specialistPackage: RenderedSpecialistPackage = specialistPackageResult.value;
 // Models approval retained by the host independently of the rendered package.
 const retainedSpecialistExpectation = {
-  compilationDigest: "sha256:d560d06b54a0229583fa6ac054af8facf669ceda5b8ff7c5c6a8a4080bd4416f",
-  packageDigest: "sha256:9239996c3b88e3a1eb3432103a96eeca8789968b50c65f42a91f496a43ff8334",
+  compilationDigest: "sha256:92881440b8d0b58de756bd706631ed4481565b20fd3cadad669637006b157659",
+  packageDigest: "sha256:913c04c71beaef362e81a1859f740587e2cf0017a83585d5c6468cbda2e84a43",
 } satisfies SpecialistPackageExpectation;
 const specialistVerificationResult = verifySpecialistPackage(
   specialistPackage,
   retainedSpecialistExpectation,
 );
 if (!specialistVerificationResult.ok || specialistVerificationResult.value === null) {
-  throw new Error("The installed specialist verifier rejected its rendered package.");
+  throw new Error(
+    `The retained installed-package approval is stale: ${JSON.stringify({
+      compilationDigest: specialistPackage.compilationDigest,
+      packageDigest: specialistPackage.packageDigest,
+    })}`,
+  );
 }
 const verifiedSpecialistPackage: RenderedSpecialistPackage = specialistVerificationResult.value;
+const specialistBlueprint = specialistCompilation.blueprints[0];
+const primaryHandoffArtifact = specialistBlueprint?.handoff.artifacts[0];
+if (specialistBlueprint === undefined || primaryHandoffArtifact === undefined) {
+  throw new Error("The installed specialist package did not declare a handoff artifact.");
+}
+function expectedHandoffMediaType(name: string): string {
+  if (name.endsWith(".json")) return "application/json";
+  if (name.endsWith(".md")) return "text/markdown";
+  return "text/plain";
+}
+const specialistHandoff: SpecialistAgentHandoff = {
+  apiVersion: SPECIALIST_API_VERSION,
+  kind: "SpecialistAgentHandoff",
+  outcome: "pass",
+  destination: specialistBlueprint.handoff.destination,
+  goal: {
+    id: specialistCompilation.goal.id,
+    revision: specialistCompilation.goal.revision,
+    digest: specialistCompilation.goalDigest,
+  },
+  agent: {
+    id: specialistBlueprint.id,
+    blueprintDigest: specialistBlueprint.contentDigest,
+  },
+  compilationDigest: specialistCompilation.contentDigest,
+  summary: "The installed-package specialist contract completed.",
+  workUnitsCompleted: [...specialistBlueprint.workUnitIds],
+  artifacts: specialistBlueprint.handoff.artifacts.map((name) => ({
+    name,
+    mediaType: expectedHandoffMediaType(name),
+    content: "{}",
+  })),
+  evidence: specialistBlueprint.evidenceDuties.map((duty) => ({
+    criterionId: duty.criterionId,
+    requirementId: duty.requirementId,
+    kind: duty.kind,
+    duty: duty.duty,
+    status: "pass",
+    artifact: primaryHandoffArtifact,
+  })),
+  assumptions: [],
+  risks: [],
+  followUps: [],
+};
+const rawSpecialistHandoff = new TextEncoder().encode(JSON.stringify(specialistHandoff));
+const specialistHandoffVerificationResult = verifySpecialistHandoff(
+  specialistPackage,
+  retainedSpecialistExpectation,
+  rawSpecialistHandoff,
+);
+if (!specialistHandoffVerificationResult.ok || specialistHandoffVerificationResult.value === null) {
+  throw new Error("The installed specialist handoff verifier rejected its typed handoff.");
+}
+const verifiedSpecialistHandoff: VerifiedSpecialistHandoff =
+  specialistHandoffVerificationResult.value;
+const specialistHandoffAssessmentResult = assessSpecialistHandoffs(
+  specialistPackage,
+  retainedSpecialistExpectation,
+  specialistBlueprint.id,
+  [],
+);
+if (
+  !specialistHandoffAssessmentResult.ok ||
+  specialistHandoffAssessmentResult.value === null ||
+  !specialistHandoffAssessmentResult.value.integrationReady
+) {
+  throw new Error("The installed specialist fan-in assessor did not approve integration.");
+}
+const specialistHandoffAssessment: SpecialistHandoffSetAssessment =
+  specialistHandoffAssessmentResult.value;
 
 console.log(
   JSON.stringify({
     approvalBoundVerification: true,
     artifactSource: "installed-package-typescript",
+    candidateAnalysis: specialistAnalysis.selectionStatus === "selected",
+    fanInReady: specialistHandoffAssessment.integrationReady,
+    handoffVerified: verifiedSpecialistHandoff.kind === "VerifiedSpecialistHandoff",
     specialistAgents: specialistCompilation.blueprints.length,
     specialistFiles: specialistPackage.files.length,
   }),
@@ -437,4 +554,8 @@ void [
   specialistPackage,
   retainedSpecialistExpectation,
   verifiedSpecialistPackage,
+  specialistAnalysis,
+  specialistHandoff,
+  specialistHandoffAssessment,
+  verifiedSpecialistHandoff,
 ];

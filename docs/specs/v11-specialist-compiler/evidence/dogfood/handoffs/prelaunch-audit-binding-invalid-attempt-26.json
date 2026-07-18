@@ -1,0 +1,235 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 26,
+    "digest": "sha256:cfd74bc63dea46139d4d9703a4e3e3a0f52e8524ed2c365973785fc9cb16d94a"
+  },
+  "agent": {
+    "id": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+    "blueprintDigest": "sha256:1ae2536e33769be2af9d41ddf68eb7aee35baa6dc72c9866081a49d5b161af9d"
+  },
+  "compilationDigest": "sha256:9823e1919504fd757584f8eb24f2720c8ff34df4834e52a3d3a096a34304115f",
+  "summary": "Authenticated the exact revision-26 binder contract, host-delivered PASS receipt, and all ten declared Candidate A artifacts using raw byte counts and standard SHA-256. Candidate A remains unapproved for launch, and no semantic review was performed.",
+  "workUnitsCompleted": [
+    "audit.bind-candidate"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-audit-binding.json",
+      "content": {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "CandidateAuditBinding",
+        "outcome": "pass",
+        "fileAuthentication": {
+          "byteScope": "exact-raw-file-bytes",
+          "digestAlgorithm": "sha256"
+        },
+        "contractBinding": {
+          "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package/agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+          "declared": {
+            "bytes": 13923,
+            "standardSha256": "sha256:2fae6acffb18da20ec2ab23b9e129e544dff760bd91e538f9cf4fa2f18d124a6"
+          },
+          "observed": {
+            "bytes": 13923,
+            "standardSha256": "sha256:2fae6acffb18da20ec2ab23b9e129e544dff760bd91e538f9cf4fa2f18d124a6"
+          },
+          "blueprintId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+          "blueprintDigest": "sha256:1ae2536e33769be2af9d41ddf68eb7aee35baa6dc72c9866081a49d5b161af9d",
+          "compilationDigest": "sha256:9823e1919504fd757584f8eb24f2720c8ff34df4834e52a3d3a096a34304115f",
+          "outcome": "pass"
+        },
+        "candidate": {
+          "goalId": "v11.specialist-compiler.release",
+          "goalRevision": 26,
+          "goalDigest": "sha256:927ecd8724e33c6257faac80c1f6c7b1723d9967ca57296197dc1ad69555fda9",
+          "selectedCandidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+          "compilationDigest": "sha256:f3658ec182621f9a3485915cd260046d70e7fb1dcd84770f5b03ed3c9d05bb8e",
+          "packageDigest": "sha256:f888a1a784d203d51bcb5d780b71167e0012662d30cec3dbab0d6e34afcab13a",
+          "manifestContentDigest": "sha256:6bd8dde38200a29c486a5383252207fe4fb0daa0be7400a47ca3236560859912",
+          "packageVerificationOutcome": "pass",
+          "candidateLaunchApproved": false
+        },
+        "authenticatedCandidateArtifacts": [
+          {
+            "sourceId": "context.candidate-artifact.01",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+            "declared": {"bytes": 312211, "standardSha256": "sha256:d9985eeef4014dd79ae25b0f950aa9cf639bbdb7acd91a1ab31e2789a48c0f40"},
+            "observed": {"bytes": 312211, "standardSha256": "sha256:d9985eeef4014dd79ae25b0f950aa9cf639bbdb7acd91a1ab31e2789a48c0f40"},
+            "outcome": "pass"
+          },
+          {
+            "sourceId": "context.candidate-artifact.02",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+            "declared": {"bytes": 16921, "standardSha256": "sha256:ddca9d715958b3703b7337e3d53c4a8822953dc32b72f77ce731bc2d6bacc254"},
+            "observed": {"bytes": 16921, "standardSha256": "sha256:ddca9d715958b3703b7337e3d53c4a8822953dc32b72f77ce731bc2d6bacc254"},
+            "outcome": "pass"
+          },
+          {
+            "sourceId": "context.candidate-artifact.03",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+            "declared": {"bytes": 8774, "standardSha256": "sha256:82097d3a543f5f24761d5b02a5889cf11daf2887541c79c92086d28e52be5993"},
+            "observed": {"bytes": 8774, "standardSha256": "sha256:82097d3a543f5f24761d5b02a5889cf11daf2887541c79c92086d28e52be5993"},
+            "outcome": "pass"
+          },
+          {
+            "sourceId": "context.candidate-artifact.04",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+            "declared": {"bytes": 21728, "standardSha256": "sha256:356ceb24ddd8571570d00245749ccee8dd1bace02cfeec4c851ee4ea6ab7d257"},
+            "observed": {"bytes": 21728, "standardSha256": "sha256:356ceb24ddd8571570d00245749ccee8dd1bace02cfeec4c851ee4ea6ab7d257"},
+            "outcome": "pass"
+          },
+          {
+            "sourceId": "context.candidate-artifact.05",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+            "declared": {"bytes": 25154, "standardSha256": "sha256:d310166f85512cb1ca68d0d4c370de2c4ca95da0cd7a4e8b7dd41b745cdf11c6"},
+            "observed": {"bytes": 25154, "standardSha256": "sha256:d310166f85512cb1ca68d0d4c370de2c4ca95da0cd7a4e8b7dd41b745cdf11c6"},
+            "outcome": "pass"
+          },
+          {
+            "sourceId": "context.candidate-artifact.06",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+            "declared": {"bytes": 31680, "standardSha256": "sha256:37c3332a59e1fc3a87da87f146d99f8fc336ea6698565f59f60d1721d2726c81"},
+            "observed": {"bytes": 31680, "standardSha256": "sha256:37c3332a59e1fc3a87da87f146d99f8fc336ea6698565f59f60d1721d2726c81"},
+            "outcome": "pass"
+          },
+          {
+            "sourceId": "context.candidate-artifact.07",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+            "declared": {"bytes": 34360, "standardSha256": "sha256:69e12bd560a6bf4f1f558917b1773d1f961795109eef02451eb5d059bbb86d15"},
+            "observed": {"bytes": 34360, "standardSha256": "sha256:69e12bd560a6bf4f1f558917b1773d1f961795109eef02451eb5d059bbb86d15"},
+            "outcome": "pass"
+          },
+          {
+            "sourceId": "context.candidate-artifact.08",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
+            "declared": {"bytes": 312211, "standardSha256": "sha256:d9985eeef4014dd79ae25b0f950aa9cf639bbdb7acd91a1ab31e2789a48c0f40"},
+            "observed": {"bytes": 312211, "standardSha256": "sha256:d9985eeef4014dd79ae25b0f950aa9cf639bbdb7acd91a1ab31e2789a48c0f40"},
+            "outcome": "pass"
+          },
+          {
+            "sourceId": "context.candidate-artifact.09",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
+            "declared": {"bytes": 8142, "standardSha256": "sha256:ad84144354738d9401ffecbc11373e8f9cc1993195de61b012bbebc6180cb305"},
+            "observed": {"bytes": 8142, "standardSha256": "sha256:ad84144354738d9401ffecbc11373e8f9cc1993195de61b012bbebc6180cb305"},
+            "outcome": "pass"
+          },
+          {
+            "sourceId": "context.candidate-artifact.10",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
+            "declared": {"bytes": 4202, "standardSha256": "sha256:9796862db45a1d2e9d1dc069904941fac73b8ce98ee856b290d880adc9effe0c"},
+            "observed": {"bytes": 4202, "standardSha256": "sha256:9796862db45a1d2e9d1dc069904941fac73b8ce98ee856b290d880adc9effe0c"},
+            "outcome": "pass"
+          }
+        ],
+        "receiptBinding": {
+          "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+          "declared": {
+            "bytes": 2255,
+            "standardSha256": "sha256:61884e10b8bf190b102ead9d6fab0c5e9ea24326155142fbaa2f6975d2db6716"
+          },
+          "observed": {
+            "bytes": 2255,
+            "standardSha256": "sha256:61884e10b8bf190b102ead9d6fab0c5e9ea24326155142fbaa2f6975d2db6716"
+          },
+          "content": {
+            "apiVersion": "swecircuit/prelaunch-package-verification-receipt/v1alpha1",
+            "kind": "PrelaunchPackageVerificationReceipt",
+            "outcome": "pass",
+            "verifier": {
+              "operation": "verifySpecialistPackage",
+              "specialistApiVersion": "swecircuit/specialist/v1alpha1"
+            },
+            "candidate": {
+              "compilationDigest": "sha256:f3658ec182621f9a3485915cd260046d70e7fb1dcd84770f5b03ed3c9d05bb8e",
+              "packageDigest": "sha256:f888a1a784d203d51bcb5d780b71167e0012662d30cec3dbab0d6e34afcab13a",
+              "verificationOutcome": "pass"
+            },
+            "prelaunchAudit": {
+              "compilationDigest": "sha256:9823e1919504fd757584f8eb24f2720c8ff34df4834e52a3d3a096a34304115f",
+              "packageDigest": "sha256:3661bf2fcdfeaa88f43bf5fdf22b9f6c54f7ac908d70e96540b03f56714be1d1",
+              "verificationOutcome": "pass",
+              "approvalOutcome": "pass"
+            },
+            "auditApproval": {
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
+              "digest": "sha256:c8d859acdfdaf67495ca7c470e43406592ff5c3bc4e34218f7936d75f014e568",
+              "bytes": 194
+            },
+            "candidateLaunchApproved": false,
+            "binder": {
+              "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+              "blueprintDigest": "sha256:1ae2536e33769be2af9d41ddf68eb7aee35baa6dc72c9866081a49d5b161af9d",
+              "contractFile": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+              "contractDigest": "sha256:2fae6acffb18da20ec2ab23b9e129e544dff760bd91e538f9cf4fa2f18d124a6",
+              "contractBytes": 13923
+            },
+            "reviewer": {
+              "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+              "blueprintDigest": "sha256:9985846e28ab56b6e6652f7c8dc4b32391f0ae23c9a89ac3adc311fc3f900bb7",
+              "contractFile": "agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
+              "contractDigest": "sha256:ae03105a03e39938ae475ef5e9cab3efce16aaef3504a573303110a6f30fb6f9",
+              "contractBytes": 43861
+            },
+            "launchWaves": [
+              {
+                "start": 0,
+                "agentIds": [
+                  "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6"
+                ]
+              },
+              {
+                "start": 4,
+                "agentIds": [
+                  "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64"
+                ]
+              }
+            ]
+          },
+          "outcome": "pass"
+        },
+        "bindingChecks": [
+          {"id": "contract.raw-binding", "outcome": "pass"},
+          {"id": "candidate.all-declared-artifacts", "authenticatedCount": 10, "outcome": "pass"},
+          {"id": "candidate.compilation-identity", "outcome": "pass"},
+          {"id": "candidate.package-receipt", "outcome": "pass"},
+          {"id": "prelaunch-audit.compilation-identity", "outcome": "pass"},
+          {"id": "prelaunch-audit.binder-identity", "outcome": "pass"},
+          {"id": "receipt.raw-binding", "outcome": "pass"},
+          {"id": "receipt.candidate-launch-approved-false", "outcome": "pass"}
+        ]
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "criterion": "The exact blueprints, authority, evidence coverage, handoffs, and rendered package preserve the reviewed goal.",
+      "requirementId": "evidence.candidate-authority-binding",
+      "kind": "digest",
+      "duty": "produce",
+      "description": "Exact candidate authority, rendered contracts, and host package-verification receipt bound for review.",
+      "independentFromProducer": false
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "criterion": "The exact candidate search, selection, schedule, metrics, and digest claims are reproducible and accurate.",
+      "requirementId": "evidence.candidate-selection-binding",
+      "kind": "digest",
+      "duty": "produce",
+      "description": "Exact candidate compilation and package bytes plus the host package-verification receipt bound for review.",
+      "independentFromProducer": false
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Byte authentication does not establish semantic correctness; semantic review is deliberately outside this work unit."
+  ],
+  "followUps": [
+    "Preserve this raw handoff for the separately authorized semantic audit; Candidate A remains unapproved for launch."
+  ]
+}

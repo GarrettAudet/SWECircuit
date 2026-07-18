@@ -2,9 +2,9 @@
 
 ## Scope
 
-This directory defines the first package-owned machine contract for the private V10 kernel. The kernel initializes a project, validates explicit artifacts, inspects caller-owned traces, and can execute one host-selected WorkPacket through a caller-injected executor. It does not schedule work, dynamically load adapters, enforce granted permissions, write traces, fetch evidence, retry work, merge code, or update memory.
+This directory defines the package-owned machine contracts for the SWECircuit kernel. The `swecircuit/v1alpha1` family initializes a project, validates explicit artifacts, inspects caller-owned traces, and can execute one host-selected WorkPacket through a caller-injected executor. The additive `swecircuit/specialist/v1alpha1` family validates reviewed goals, analyzes and compiles specialist teams, renders and verifies packages, verifies raw handoffs, and assesses dependency fan-in.
 
-Canonical input is strict UTF-8 JSON. Every artifact is closed to unknown fields and carries apiVersion and kind. Only swecircuit/v1alpha1 and the six documented kinds are supported.
+Canonical input is strict UTF-8 JSON. Every artifact is closed to unknown fields and carries `apiVersion` and `kind`. The six project artifact kinds remain under `swecircuit/v1alpha1`; specialist goals, requests, and handoffs use the separate `swecircuit/specialist/v1alpha1` API and are not project-discovery artifacts.
 
 ## Identity
 
@@ -127,6 +127,18 @@ Attempt transitions are:
 
 Evidence fields contain bounded, kind-specific references only; command and test identifiers are capped at 128 characters. The inspector never opens or fetches them. Summaries return at most 10,000 evidence references in logical order and report exact omissions. Every rendered string is checked against the normative high-confidence detector; a match suppresses the whole value and all matches aggregate to one root `SC4101` warning.
 
+## Specialist Compiler And Handoff
+
+`specialist-compiler.schema.json` closes `GoalContract` and `SpecialistCompilationRequest`. It permits only the five provider-neutral permission-demand kinds, binds assumptions and decisions into goal identity, requires stable atomic work with exact context and evidence ownership, and rejects blocking unresolved decisions. Core evaluates a serial baseline, performs exact partition search through eight work units, uses a declared bounded evaluated set above that limit, and never treats candidate analysis as a launchable roster.
+
+`specialist-handoff.schema.json` closes one `SpecialistAgentHandoff`. The envelope binds canonical workflow outcome, destination, goal identity, blueprint identity, compilation digest, completed work, exact inline artifacts, evidence duties, assumptions, risks, and follow-ups. Package-bound verification additionally enforces the selected blueprint's exact work, artifact, deterministic media type, normalized-LF control policy, and evidence requirements. A `pass` result requires every work unit and duty to pass. Each rendered agent contract includes one concrete schema-valid example with exact nested keys; artifact content is string-valued and every evidence entry carries `status` plus its declared artifact.
+
+Installed consumers resolve the complete specialist registry through `swecircuit/schemas/common.schema.json`, `swecircuit/schemas/specialist-compiler.schema.json`, and `swecircuit/schemas/specialist-handoff.schema.json`. Register common before compiling either advertised leaf schema. No private package path or network retrieval is required.
+
+`assessSpecialistHandoffs` computes the target blueprint's transitive dependency closure. Missing or valid non-`pass` handoffs keep `integrationReady` false; duplicate, unknown, substituted, malformed, or outside-closure handoffs fail. Only one verified `pass` handoff from every exact dependency is integration-ready.
+
+Specialist compilation, analysis, rendering, package verification, raw-handoff verification, and fan-in assessment return immutable values. They do not read caller locators, write files, launch agents, enforce permissions, persist evidence, merge code, or update memory.
+
 ## Compatibility
 
 v1alpha1 compatibility is exact: compatibility.apiVersions contains swecircuit/v1alpha1. Package-version range grammar is deferred until public package compatibility exists.
@@ -138,6 +150,8 @@ Unreleased T007 adds exit-class-4 `SC1021 init.path-exists` for owned-path colli
 Unreleased T008 closes the RunEvent union, changes event metadata to ID-only, replaces free-form terminal/cancellation reasons with closed codes, and gives evidence references kind-specific grammars. It adds `SC1223` for non-string event versions and `SC3026` through `SC3029` for attempt identity, retry lineage, missing attempt references, and non-retry start state. It also publishes the 10,000-reference summary cap and exact secret detector. The diagnostic catalog advances to 1.2.0; event type version remains `1.0.0`, and the machine API remains `swecircuit/v1alpha1`.
 
 Unreleased V10 adds the provider-neutral executeWorkPacket library boundary without adding an artifact kind or changing an artifact schema. It adds SC4201 through SC4210 for execution input, compatibility, identity, grant, permission, policy, privacy-canary, and snapshot-limit failures. The diagnostic catalog advances to 1.3.0; event type version remains 1.0.0, and the machine API remains swecircuit/v1alpha1.
+
+Unreleased V11 adds `swecircuit/specialist/v1alpha1`, candidate analysis, deterministic AgentBlueprint compilation, reproducible package rendering and two-digest verification, strict raw handoff verification, and dependency-complete fan-in assessment. It adds `SC4301` through `SC4313`; the diagnostic catalog advances to 1.4.0. The six project artifact kinds and `swecircuit/v1alpha1` event vocabulary do not change.
 ## Diagnostics
 
 diagnostic-catalog.json is normative. Codes, rules, severities, and exit classes are stable for v1alpha1.

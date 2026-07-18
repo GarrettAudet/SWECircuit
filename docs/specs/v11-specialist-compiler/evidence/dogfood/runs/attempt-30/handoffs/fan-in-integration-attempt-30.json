@@ -1,0 +1,69 @@
+{
+  "ok": true,
+  "exitCode": 0,
+  "diagnostics": [],
+  "value": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "SpecialistHandoffSetAssessment",
+    "goalId": "v11.specialist-compiler.release",
+    "goalRevision": 30,
+    "goalDigest": "sha256:9743420992fef85e1ca82c26a259dde8f1524d7aed6506dbba43e702bb4479c1",
+    "compilationDigest": "sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36",
+    "packageDigest": "sha256:ddb642a474815b4ded464b40f5bd8225a404f610d3bd4a91d0ab2d43dc695f43",
+    "targetAgentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+    "requiredAgentIds": [
+      "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+      "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+      "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+      "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+      "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+    ],
+    "receivedAgentIds": [
+      "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+      "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+      "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+      "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+      "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+    ],
+    "missingAgentIds": [],
+    "handoffs": [
+      {
+        "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+        "outcome": "pass",
+        "rawBytes": 7499,
+        "rawDigest": "sha256:a7b5fe2b454817b1bb4975c6ea3c62abdeaf9a274d0e2ab34c3d2b7c526dea53",
+        "semanticDigest": "sha256:003f8ba482c6239d60f0624af5f1e3a7683ca4f1a5e3fa5db99b259c2e8602c7"
+      },
+      {
+        "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+        "outcome": "pass",
+        "rawBytes": 5400,
+        "rawDigest": "sha256:ffcbdf1b60a0997e559f72b43fa7865d981457e9313a5c32d12a9b7c4b1b5486",
+        "semanticDigest": "sha256:68e0635307ca44508c8b7779b1b0effa59619c7a2ee49759f3fb1c78b88b0f8f"
+      },
+      {
+        "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+        "outcome": "pass",
+        "rawBytes": 9948,
+        "rawDigest": "sha256:2d5c1e2dc5e5685933fc6c2b228b3bbb60d77a030f655db93cb0d4f862c3bbd2",
+        "semanticDigest": "sha256:4f236c10a528b1fc3f6e5e2f5488a03d38429a75e81934d05458cdd2212baaeb"
+      },
+      {
+        "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+        "outcome": "pass",
+        "rawBytes": 8625,
+        "rawDigest": "sha256:b1491f22becc119580a892f426d358772bd2be80f99133deb0a25f64f6dc57c9",
+        "semanticDigest": "sha256:458a0a0c67f86559781b99c3185e8b02bfee8d8a27033a963d5eb83999704f87"
+      },
+      {
+        "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+        "outcome": "pass",
+        "rawBytes": 14494,
+        "rawDigest": "sha256:3d855d14bffe913bb9c6bc93c97a202d0ea236af17826ebdcef0013cd4d04435",
+        "semanticDigest": "sha256:535bdb094d1b10a43e2a59de2e3c0180be92a6e808f4de8ed17f574487bab3b1"
+      }
+    ],
+    "integrationReady": true,
+    "contentDigest": "sha256:4c89b0c7bd64735c371726155bd74d424d18af1248499cb77f05e93154c40a8a"
+  }
+}

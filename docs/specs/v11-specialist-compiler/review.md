@@ -2,81 +2,63 @@
 
 ## Status
 
-`PASS` for the revision-6 digest-bound technical candidate. AC1-AC13, T009-T011, post-integration reconstruction, and branch publication are closed; the explicit owner merge decision and merge remain open.
-
-## Review Outcome
-
-No findings remain against the exact candidate below. Post-integration reconstruction also returned `pass`; the candidate may proceed to branch freeze and the owner gate, not merge without approval.
+`PASS` for Revision 30 technical acceptance. AC1-AC24 and T020 are closed against the exact immutable Candidate A source chain. Post-integration reconstruction, final local gates, and the 44-file attempt-30 archive passed. T021 remains open for branch commit and push, hosted CI observation, and the owner's explicit merge decision. No commit, push, merge, hosted CI, provider execution, or V11 runtime enforcement is claimed.
 
 ## Candidate Binding
 
-- Compilation: `sha256:ac1707213d9c22314d4c5a3d0bc6a838ef31863b63a9e2dac5993541d919c161`.
-- Package: `sha256:838019281b732ec238e4460c03167087b7a63c409348ee66322cc5535469774d`.
-- Preparation: [34/34 repository source bindings passed](evidence/dogfood/handoffs/prepare-candidate-pass-attempt-6.md); the [complete source ledger](evidence/dogfood/handoffs/review-candidate-digests-attempt-6.json) preserves exact locators, scopes, bytes, SHA-256 values, and the single `context.spec` binding to the immutable pre-integration snapshot.
-- Approval root: [the two expected digests](evidence/dogfood/approval.json) are retained outside the rendered package.
+- Candidate A compilation: `sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36`.
+- Candidate A package: `sha256:ddb642a474815b4ded464b40f5bd8225a404f610d3bd4a91d0ab2d43dc695f43`.
+- Audit B compilation: `sha256:79c5a7103225b12398e27c0e959b993597f38dcc5ddca6d9750a4d2b62f2d065`.
+- Audit B package: `sha256:367d9b3d57b918aabc6543dae16b9b3cf5fee81338fd241226ef9bef2209510f`.
+- Integration specialist: `agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9`, blueprint `sha256:9e0647bcffd338ab145e2093485845254fadb2d3d0965c888f48adc2c23239b6`.
 
-This byte- and digest-bound review identity is frozen in candidate commit `191d9339da383a2133377dcca564d7202b7ad66d`, which is pushed on `codex/v11-orchestration-planner`. The live feature spec and memory records are integration outputs, not review inputs. The integration owner [reconstructed both trusted digests after integration](evidence/dogfood/handoffs/post-integration-replay-pass-attempt-6.md), and the exact revision-6 pair passed. No hosted run or merge is claimed here.
+Both package reports record `pass`, both approval files bind their exact digest pairs, and every package file still matches its manifest byte count and raw SHA-256 binding.
 
-## Spec Alignment
+## Two-Phase Trust Root
 
-| Criteria | Outcome | Primary Evidence |
+- The separately approved Audit B package binds its exact compilation/package pair.
+- The external receipt is 2,255 bytes at `sha256:7d859cd7ef8c069b08ff3ce569e29715322dcb7ae176b1e5f0607eb4f1c0664f`, is closed `pass`, verifies both pairs, and retains `candidateLaunchApproved: false`.
+- The independent semantic Audit B handoff is 9,251 bytes at `sha256:16b8c2ad5e5a9c2864ce55b24deaf1dd5d7ddc157066bef2acf889a7d59b1400`; its closed outcome and both evidence duties are `pass`.
+- `launch-authorization.json` binds both digest pairs plus the receipt and semantic handoff exact paths, raw digests, byte counts, and `pass` outcomes.
+- Candidate A approval separately binds the exact Candidate A compilation/package pair after the Audit B trust root passed.
+
+## Candidate A Handoffs
+
+| Lane | Raw bytes | Raw SHA-256 | Outcome |
+| --- | ---: | --- | --- |
+| Preparation | 14,494 | `sha256:3d855d14bffe913bb9c6bc93c97a202d0ea236af17826ebdcef0013cd4d04435` | `pass` |
+| Algorithm/lifecycle | 7,499 | `sha256:a7b5fe2b454817b1bb4975c6ea3c62abdeaf9a274d0e2ab34c3d2b7c526dea53` | `pass` |
+| Product/API | 5,400 | `sha256:ffcbdf1b60a0997e559f72b43fa7865d981457e9313a5c32d12a9b7c4b1b5486` | `pass` |
+| Release attempt 30b | 9,948 | `sha256:2d5c1e2dc5e5685933fc6c2b228b3bbb60d77a030f655db93cb0d4f862c3bbd2` | `pass` |
+| Security/trace | 8,625 | `sha256:b1491f22becc119580a892f426d358772bd2be80f99133deb0a25f64f6dc57c9` | `pass` |
+
+The machine fan-in is 3,464 bytes at `sha256:eaaef20dcae183a7c97cc2396f55e32c7cb434d73ce2e708fc0c1d792d330823`, has content digest `sha256:4c89b0c7bd64735c371726155bd74d424d18af1248499cb77f05e93154c40a8a`, contains every required dependency with no missing agent, and reports `integrationReady: true`.
+
+## Acceptance And Verification
+
+| Scope | Revision 30 evidence | Outcome |
 | --- | --- | --- |
-| AC1-AC3 | PASS | Product/API and security/trace reviewed public operations, canonical decisions, closed permission kinds, path validation, and exact task demand. |
-| AC4-AC6 | PASS | Algorithm/lifecycle reviewed exact and bounded search, the fixed scheduler, deterministic comparator, permutation invariance, selection reason, and all six goldens. |
-| AC7-AC9 | PASS | Security/trace reviewed fail-closed validation, blueprint authority closure, canonical rendering, two-digest verification, and adversarial tamper coverage. |
-| AC10 | PASS | Product/API reviewed the IDE contract; the dogfood package exercised clarification artifacts through verified handoffs and integration. |
-| AC11 | PASS | Release verification passed focused, canonical, consumer, package, template, and negative-matrix gates. |
-| AC12 | PASS | The [dogfood report](evidence/dogfood/report.json) preserves the serial comparison, selected roster, package, launch waves, and source verification. |
-| AC13 | PASS | Product/API, algorithm/lifecycle, and security/trace returned independent PASS verdicts against the same digest pair. |
+| AC11 | Template checker; 119/119 checker cases; build; 133/133 focused regressions; 370/370 canonical tests | `PASS` |
+| AC12-AC13 | Exact dogfood report, serial comparison, six-specialist selection, raw handoffs, and three independent review approvals | `PASS` |
+| AC14-AC19 | Candidate analysis, fail-closed compilation, package verification, exact handoff/fan-in, first-run, Audit B, README, and generated handoff contracts | `PASS` |
+| AC20-AC24 | Public schema registry, both clean packed-consumer hosts, LF/media binding, synchronized approvals, and strict contained first-run host | `PASS` |
 
-AC1-AC13 and T009-T011 are closed in [spec.md](spec.md) and [tasks.md](tasks.md). Post-integration replay and branch publication passed; merge remains owner-gated.
+Attempt 30b also passed the package dry run (`114` files, `134.9 kB` packed), the offline installed-consumer compatibility gate, and committed V11 evidence replay. The first-run evidence reports exact context/package verification and zero runtime agents executed.
 
-## Architecture Alignment
+Attempt 30a remains preserved as a bounded host-authority `FIX`: preflight used undeclared executables and stopped before canonical gates. It produced no candidate defect or accepted release evidence. Exact retry 30b stayed within its compiled process boundary and supersedes 30a for release acceptance.
 
-The candidate follows ADR 0004 and the frozen [Specialist Compiler contract](specialist-compiler-contract.md). Core validates and compiles supply-free demand, compares candidate partitions, renders file values, and verifies canonical package semantics. Provider/model selection, context delivery, permission enforcement, workspace isolation, process execution, persistence, retry, integration, merge, and memory mutation remain external host or workflow-stage effects. The PASS evidence does not claim V11 core performed them.
+## Architecture Boundary
 
-## Verification Evidence
-
-The [revision-6 release handoff](evidence/dogfood/handoffs/verify-release-pass-attempt-6.md) records:
-
-- 19/19 assigned release contexts and 9/9 package files matched before and after execution.
-- Focused schema 7/7, compiler/golden 35/35, and host-containment 6/6 passed.
-- `npm.cmd run verify` checked format across 72 files, lint across 60 files, passed typecheck/build, and passed 323/323 tests.
-- V10 and V11 dogfood, the offline installed consumer, package verification, and the template checker passed.
-- The package dry run contained 105 files, measured 122.9 kB, and reported SHA-1 `a5b920c84803fdcff88093aabef4c4fe74bf6249`.
-- The complete negative checker matrix passed in 744.9 seconds.
-
-The dogfood exact search evaluated 203 canonical candidates, selected six specialists at projected makespan 23, and retained the serial baseline at projected 40. The serial candidate was ineligible because requested evidence independence could not be satisfied by one agent. These values are deterministic planning units, not runtime speed measurements.
-
-## Independent Reviews
-
-| Review | Context Binding | Outcome | Findings |
-| --- | --- | --- | --- |
-| [Product/API](evidence/dogfood/handoffs/product-api-review-pass-attempt-6.md) | 12/12 | PASS | None |
-| [Algorithm/lifecycle](evidence/dogfood/handoffs/algorithm-lifecycle-review-pass-attempt-6.md) | 14/14 | PASS | None |
-| [Security/trace](evidence/dogfood/handoffs/security-trace-review-pass-attempt-6.md) | 32/32 | PASS | None |
-
-Attempts 1-4 and every intermediate `REVISE` or `FIX` handoff remain preserved. Attempt 5 ended in [post-integration replay `FIX`](evidence/dogfood/handoffs/post-integration-replay-fix-attempt-5.md) because `context.spec` still targeted the mutable live spec. Revision-6 release attempts [6A](evidence/dogfood/handoffs/verify-release-fix-attempt-6a.md) and [6B](evidence/dogfood/handoffs/verify-release-fix-attempt-6b.md) remain `FIX` host retries for the 265-character Windows root and reviewer removal of the offline cache; neither changed source or the approved pair. Their causes and corrections are summarized in [debug-notes.md](debug-notes.md) and [root-cause-analysis.md](root-cause-analysis.md).
+V11 compiles, renders, verifies, and returns detached contract values. It does not deliver context, select a provider or model, enforce permissions, isolate workspaces, execute agents, persist evidence, schedule processes, merge, or mutate memory. Those effects remain external-host responsibilities. The integrated documentation records host-supplied evidence without claiming those effects as compiler behavior.
 
 ## Residual Risks
 
-- Semantic work-unit quality, weights, context declarations, and conflict keys remain owner/IDE judgments.
-- Bounded search above eight units can miss a better unconstructed partition and makes no global-optimum claim.
-- An external host can ignore requested authority or alter work unless it verifies and honors both approved digests.
-- V11 does not supply runtime execution, isolation, persistence, retry, merge, or automatic memory mutation.
-- The branch is stacked on owner-gated V10; the baseline relationship requires an explicit owner decision before merge.
-- README remains at its pre-approval candidate wording because this integration contract forbids public-file edits; an authorized release change must refresh it after the owner decision.
+- Planning weights and exact scope/conflict keys remain owner-reviewed estimates; deterministic selection cannot prove semantic decomposition quality.
+- Search above eight work units remains a bounded evaluated set and may miss an unconstructed partition.
+- Runtime authority enforcement, context delivery, exact-byte persistence, and merge control remain external-host duties.
+- Pure Node cannot classify every opaque same-path Windows reparse attribute; the documented regular-file, canonical-path, and descriptor-identity checks remain the current boundary.
+- The accepted release evidence is local until the exact branch commit is pushed and hosted CI is observed.
 
-## Approval Gate
+## Remaining Owner Gate
 
-- Source branch: `codex/v11-orchestration-planner`.
-- Target branch: `main`.
-- Post-integration replay: `PASS`; the exact revision-6 compilation/package pair reconstructed from immutable inputs after the authorized output updates.
-- Candidate commit: `191d9339da383a2133377dcca564d7202b7ad66d` is frozen and pushed on `codex/v11-orchestration-planner`.
-- Change gate: any subsequent semantic or bound-source change retires this candidate and requires a revised contract, package, and affected verification/review.
-- Required owner action now: approve the stacked merge, or request a specific change. Any semantic or source change requires a new candidate binding and affected verification/review.
-- Stop condition: no merge before that decision.
-
-## Memory And Docs
-
-Release state and durable limits are source-linked from [implementation-notes.md](implementation-notes.md), [the V11 milestone](../../milestones/v11.md), [active context](../../memory/active-context.md), [history](../../memory/history-ledger.md), [known issues](../../memory/known-issues.md), and [the retrieval index](../../memory/retrieval-index.md).
+The host must commit and push the release-ready branch, observe hosted CI against the published commit, and then request explicit owner merge approval. Until those steps pass, V11 is locally accepted and archived but not release-published or merged.

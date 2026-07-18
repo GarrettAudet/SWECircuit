@@ -135,9 +135,14 @@ The identities below are illustrative; a live handoff uses the exact reconstruct
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.prelaunch-audit",
-    "revision": 18,
+    "revision": 25,
     "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   },
+  "agent": {
+    "id": "agent.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "blueprintDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "compilationDigest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
   "reviewer": {
     "agentId": "agent.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
     "blueprintDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
@@ -184,12 +189,12 @@ The identities below are illustrative; a live handoff uses the exact reconstruct
   "followUps": []
 }
 ```
-
 The host validates all of these conditions against its trusted reconstructions:
 
 - The object and every nested record contain exactly the documented keys; malformed JSON, duplicate keys, unknown fields, unsafe controls, and bidirectional formatting controls fail closed.
 - `goal` names Audit B's exact goal revision and digest.
-- `reviewer` names the sole selected blueprint that owns `audit.review-candidate-compilation` and its exact blueprint digest.
+- `agent` and `reviewer` both name the sole selected blueprint that owns `audit.review-candidate-compilation`, while `compilationDigest` and `prelaunchAudit.compilationDigest` both name Audit B's exact compilation.
+- Any disagreement between those duplicate standard and audit-specific bindings fails closed.
 - `candidate` and `prelaunchAudit` match the two externally retained digest pairs.
 - `destination`, `workUnitsCompleted`, and the artifact list match the selected reviewer blueprint.
 - Both independent review duties appear exactly once with `status: "pass"` and reference the bound review artifact.

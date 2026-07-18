@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+- Added the V11 provider-neutral Specialist Compiler with deterministic team analysis and selection, exact AgentBlueprint packages, two-digest package verification, closed raw handoff verification, dependency-complete fan-in assessment, and a truthful read-only first-run example.
+
 
 - Added the V10 bounded executor boundary for one host-selected WorkPacket, with invocation-scoped grants, fail-closed permission checks, honest cancellation states, frozen V9-compatible journals, independent packed-type verification, and deterministic dogfood evidence.
 

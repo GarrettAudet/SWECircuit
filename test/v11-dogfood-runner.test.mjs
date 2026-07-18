@@ -555,6 +555,11 @@ function validPrelaunchAuditHandoff(candidate, auditCandidate) {
       revision: auditCandidate.compilation.goal.revision,
       digest: auditCandidate.compilation.goalDigest,
     },
+    agent: {
+      id: reviewer.id,
+      blueprintDigest: reviewer.contentDigest,
+    },
+    compilationDigest: auditCandidate.compilation.contentDigest,
     reviewer: {
       agentId: reviewer.id,
       blueprintDigest: reviewer.contentDigest,
@@ -836,71 +841,6 @@ test("launch authorization binds both packages, the verification receipt, and th
 });
 
 test("launch authorization rejects malformed, non-PASS, stale, and incomplete audit handoffs", () => {
-  const loneSurrogateCases = [
-    {
-      name: "destination",
-      mutate(handoff, value) {
-        handoff.destination = value;
-      },
-    },
-    {
-      name: "goal id",
-      mutate(handoff, value) {
-        handoff.goal.id = value;
-      },
-    },
-    {
-      name: "reviewer agent id",
-      mutate(handoff, value) {
-        handoff.reviewer.agentId = value;
-      },
-    },
-    {
-      name: "summary",
-      mutate(handoff, value) {
-        handoff.summary = value;
-      },
-    },
-    {
-      name: "assumption",
-      mutate(handoff, value) {
-        handoff.assumptions = [value];
-      },
-    },
-    {
-      name: "risk",
-      mutate(handoff, value) {
-        handoff.risks = [value];
-      },
-    },
-    {
-      name: "follow-up",
-      mutate(handoff, value) {
-        handoff.followUps = [value];
-      },
-    },
-    {
-      name: "artifact content",
-      mutate(handoff, value) {
-        handoff.artifacts[0].content = value;
-      },
-    },
-  ].flatMap(({ name, mutate }) => [
-    {
-      name: `lone high surrogate in ${name}`,
-      mutate(handoff) {
-        mutate(handoff, "\ud800");
-      },
-      expected: /launch authorization handoff malformed/,
-    },
-    {
-      name: `lone low surrogate in ${name}`,
-      mutate(handoff) {
-        mutate(handoff, "\udc00");
-      },
-      expected: /launch authorization handoff malformed/,
-    },
-  ]);
   const metadataFields = [
     {
       name: "destination",
@@ -912,6 +852,12 @@ test("launch authorization rejects malformed, non-PASS, stale, and incomplete au
       name: "goal id",
       mutate(handoff, value) {
         handoff.goal.id = value;
+      },
+    },
+    {
+      name: "agent id",
+      mutate(handoff, value) {
+        handoff.agent.id = value;
       },
     },
     {
@@ -945,6 +891,31 @@ test("launch authorization rejects malformed, non-PASS, stale, and incomplete au
       },
     },
   ];
+  const loneSurrogateFields = [
+    ...metadataFields,
+    {
+      name: "artifact content",
+      mutate(handoff, value) {
+        handoff.artifacts[0].content = value;
+      },
+    },
+  ];
+  const loneSurrogateCases = loneSurrogateFields.flatMap(({ name, mutate }) => [
+    {
+      name: `lone high surrogate in ${name}`,
+      mutate(handoff) {
+        mutate(handoff, "\ud800");
+      },
+      expected: /launch authorization handoff malformed/,
+    },
+    {
+      name: `lone low surrogate in ${name}`,
+      mutate(handoff) {
+        mutate(handoff, "\udc00");
+      },
+      expected: /launch authorization handoff malformed/,
+    },
+  ]);
   const unsafeMetadataCases = metadataFields.flatMap(({ name, mutate }) =>
     [
       ["TAB", "safe\tvalue"],
@@ -999,6 +970,27 @@ test("launch authorization rejects malformed, non-PASS, stale, and incomplete au
       name: "unrelated reviewer",
       mutate(handoff) {
         handoff.reviewer.agentId = `agent.${"9".repeat(64)}`;
+      },
+      expected: /launch authorization handoff stale/,
+    },
+    {
+      name: "mismatched standard agent identity",
+      mutate(handoff) {
+        handoff.agent.id = `agent.${"8".repeat(64)}`;
+      },
+      expected: /launch authorization handoff stale/,
+    },
+    {
+      name: "mismatched standard blueprint identity",
+      mutate(handoff) {
+        handoff.agent.blueprintDigest = `sha256:${"8".repeat(64)}`;
+      },
+      expected: /launch authorization handoff stale/,
+    },
+    {
+      name: "stale standard compilation identity",
+      mutate(handoff) {
+        handoff.compilationDigest = `sha256:${"8".repeat(64)}`;
       },
       expected: /launch authorization handoff stale/,
     },

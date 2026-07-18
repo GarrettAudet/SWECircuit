@@ -2,7 +2,7 @@
 
 ## Current Focus
 
-Complete V11 Specialist Compiler revision 24 without widening its pure-core boundary. Revision 23 is retired after independent security review exposed delimiter-spanning secret leakage in public diagnostic pointers. The cumulative-prefix fix is source-level green; current work must bind it into fresh Candidate A and Audit B packages, approvals, reviews, release evidence, integration replay, and milestone acceptance.
+Complete the Revision 30 publication gate without widening V11's pure-core boundary. Technical acceptance is `PASS` for Candidate A `sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36` / `sha256:ddb642a474815b4ded464b40f5bd8225a404f610d3bd4a91d0ab2d43dc695f43`. The Audit B trust root, all five Candidate A handoffs, integration-ready fan-in, post-integration reconstruction, final 119-case and 370-test gates, and 44-file accepted archive passed. Current work is branch commit/push, hosted CI observation, and the owner's merge decision.
 
 ## Current Stage
 
@@ -24,14 +24,31 @@ Revision 22 compiled Candidate A `sha256:642ad0726e8019231d6e357a8602c387a47a637
 
 Revision 23 compiled Candidate A `sha256:36ebb90c8420a368e4246ce22e7804a0952396c526c36b3b498436d2919f20b6` / `sha256:232d928ae4e0e92f9cc2e25a611df8c6922eefe343a6ba7dee0f7aabccae99bc` and Audit B `sha256:ced8b145b120e77e349a02c3ebbe55c94d960854ad9fd71988126444b9a0517e` / `sha256:08fc0af95b9613308d25bbb5e2c40bb369c7753cc7b75e809b716d08b8645343`. Audit B independently reproduced all 203 partitions and both package identities; preparation authenticated 37 sources; product/API, algorithm/lifecycle, and release verification passed. Release completed 354/354 tests and all 119 checker cases. Security/trace returned `REVISE` because token-local secret detection allowed a credential assignment or Bearer value split across pointer delimiters to survive in the cumulative public pointer. Integration did not launch; the complete retired run is preserved under `evidence/dogfood/runs/attempt-23/`.
 
-`safePointer` now validates each candidate emitted pointer prefix and its decoded semantic prefix before appending a token, preserving only the longest prefix that does not match the shared high-confidence secret detector. Credential-assignment and Bearer-style delimiter-spanning regressions pass, as do focused diagnostic/project suites 43/43, format, lint, typecheck, build, and the complete kernel 354/354. Revision 24 must bind these exact bytes and repeat the complete two-package audit and Candidate A cycle. No hosted CI, merge, provider execution, or V11 runtime enforcement is claimed.
+`safePointer` validates each candidate emitted pointer prefix and its decoded semantic prefix before appending a token, preserving only the longest prefix that does not match the shared high-confidence secret detector. Revisions 24-29 then added candidate analysis, strict raw handoffs, transitive fan-in, a truthful first run, packed-consumer parity, the corrected prelaunch superset, restored public compatibility, self-sufficient generated handoff contracts, complete fan-out rejection evidence, approval-freshness enforcement, and a hardened first-run host boundary. Revision 30 bound the corrected bytes, repeated the complete two-package audit and Candidate A cycle, and passed technical integration. No hosted CI, merge, provider execution, or V11 runtime enforcement is claimed.
 
+Revision 24 added a non-launchable candidate-analysis result, strict raw-handoff verification, transitive dependency fan-in, a truthful first run, and packed-consumer coverage. Candidate A and Audit B compiled and approval-verified, but prelaunch inspection found the custom `PrelaunchAuditHandoff` omitted the blueprint-required `agent` and `compilationDigest` fields while its closed validator rejected those fields. No Audit B agent launched; both revision-24 approvals are retired.
+
+Revision 25 compiled Candidate A `sha256:6fd3f23139663de4dbb1950043dc02e2dc90e6da284f8ade1e99cfcc5b2f6404` / `sha256:1c7e875c0aad3c1b4a0987b14ec9be57b73c533c03779236889ce547db3e5af8` and Audit B `sha256:3cdf00aaa53b2d4b0a3a72789a6d654b49e4cbfbbd58e9b6a45c085ee05483a6` / `sha256:bc806f5007a87f2c5363c3cd0f3c35371e0c8ed6dda7ad46003ac88dd4fc7dac`. Both packages and the external receipt verified, and 364/364 kernel tests passed. Before accepting any Audit B result, the workflow checker rejected the concise README because it had removed stable workflow headings, the existing-kernel init path, active minimal/executor links, and explicit host boundaries. The binder was interrupted before handoff; no semantic result or launch authorization exists. Revision 25 is archived under `evidence/dogfood/runs/attempt-25/`.
+
+Revision 26 restored those public anchors and compiled Candidate A `sha256:f3658ec182621f9a3485915cd260046d70e7fb1dcd84770f5b03ed3c9d05bb8e` / `sha256:f888a1a784d203d51bcb5d780b71167e0012662d30cec3dbab0d6e34afcab13a` and Audit B `sha256:9823e1919504fd757584f8eb24f2720c8ff34df4834e52a3d3a096a34304115f` / `sha256:3661bf2fcdfeaa88f43bf5fdf22b9f6c54f7ac908d70e96540b03f56714be1d1`. Both packages and the external receipt `sha256:61884e10b8bf190b102ead9d6fab0c5e9ea24326155142fbaa2f6975d2db6716` verified. The binder's exact raw result `sha256:72e5af3d45abe6b4de0b48bde25fc63bc91307a1320df5f742b64f379b261ae4` failed `SC4310`: artifact content was an object, `mediaType` was missing, and evidence omitted `status` and artifact references. The 119-case checker matrix also found one fixture expected the AGENTS diagnostic while hiding the handbook link. Revision 26 is archived under `evidence/dogfood/runs/attempt-26/`; zero results were accepted and its identities are retired.
+
+Revision 27 compiled Candidate A `sha256:db47c3393dca0ede877bf07eecc89cd89cb7241f8380fb65f1ed8513221b2dd7` / `sha256:fde922b7e3c2f4747e04c92dacea8af3c7083fa87cd3bcf029f92b2b1ce632b3` and Audit B `sha256:183c968974eab7b6d7bd4451ceec2d35d16784265deb6b333836a7726b216d6c` / `sha256:c163c1c5eefc6900234fd781877677c0a41cbd6ffc7cd104b749bcf952f18841`. Audit B, launch authorization, preparation, and algorithm/lifecycle passed. Product/API, security/trace, and release returned `FIX`; complete fan-in remained non-ready and no integration occurred. Revision 27 is archived and retired.
+
+Revision 28 compiled Candidate A `sha256:18e40b2586375f0b7004fe088b7b2ebc2f0bd607dec27963c1b68c7ee719df7c` / `sha256:7dd562d20096778abcd15601edc4226064865cf418c33f07f8e8ad25878faba0` and Audit B `sha256:044b44b21d22e5692a5edfb51de76813c689e8b244c58464d8ab55613a30dc3d` / `sha256:86d47a8b1ead37e6a920472fe153bc0d97b9c0340c59246ab5768c762a8f9c42`. Receipt, Audit B, launch authorization, preparation, algorithm/lifecycle, and security/trace passed. Product/API and release returned `FIX` for the same stale first-run approval; complete fan-in was non-ready and no integration occurred. Revision 28 is archived and retired. Its approval was corrected before the later revision-29 freeze.
+
+Revision 29 compiled Candidate A `sha256:10cc520eb9c4f277876e76cd82908baa3cfcc01e1b84d5ae7c16d910b88075da` / `sha256:1e3afc96dc43950e21b3db94752a6f6fe9c33931ab36b0ce4a2adc2229a59994` and Audit B `sha256:17d7985ed3c4d0f817550b29d9b95308d11a5acaf13dabdee288e3b1d692742d` / `sha256:807d04eb877751acbe4802ccf147bf0853ac4df3390a953ed4669fc572bbbfb7`. Receipt, Audit B, launch authorization, preparation, algorithm/lifecycle, and release passed. Product/API and security/trace returned `FIX` for incomplete final-authorization summaries and unsafe first-run approval/source boundaries; complete fan-in was non-ready and no integration occurred. Revision 29 is archived and retired. At that stage, the summaries, host, tests, and retained approval were corrected for a fresh revision.
+
+Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36` / `sha256:ddb642a474815b4ded464b40f5bd8225a404f610d3bd4a91d0ab2d43dc695f43` and Audit B `sha256:79c5a7103225b12398e27c0e959b993597f38dcc5ddca6d9750a4d2b62f2d065` / `sha256:367d9b3d57b918aabc6543dae16b9b3cf5fee81338fd241226ef9bef2209510f`. The external receipt, semantic Audit B, launch authorization, preparation, product/API, algorithm/lifecycle, security/trace, and release retry 30b all passed. Final machine fan-in has no missing dependency and `integrationReady: true`. Technical integration is complete; post-integration replay and publication remain T021.
 
 ## Important Current Constraints
 
 - An `ExecutionGrant` carries invocation-scoped identity and permission assertions bounded by manifest requests and packet ceilings. The stateless kernel does not authenticate the issuer, establish freshness or single use, enforce or revoke the grant, consume it, or prevent reuse or replay.
 - Cancellation uses absolute monotonic observations. A no-call abort or deadline can terminate because work never started. After invocation, in-window executor promise settlement counts only when all activity capable of advancing the invocation or producing invocation effects has stopped; transfer of live work is not acknowledgment. `abort_unconfirmed` is deliberately non-terminal and means work may still be live.
 - V11 constructs task demand and a reviewed launch package; it does not execute agents, select models/providers, enforce permissions, create worktrees, schedule host capacity, merge, or mutate memory.
+- Candidate analysis explains the compiler's exact normalized evaluation but never authorizes launch; `compileAgentBlueprints` remains fail-closed when no candidate is eligible.
+- The first-run reference host treats retained approval and source paths as untrusted: bounded duplicate-aware closed parsing and canonical contained-file reads must complete before launchable output.
+- Runtime handoffs must be preserved as exact raw UTF-8 bytes, verified against trusted package expectations, and assessed as a complete transitive dependency closure before dependent integration. Advertised specialist schemas are usable only with the publicly exported common schema registered in the same strict schema registry.
+- Generated agent contracts must include a concrete closed handoff example with exact nested shapes; top-level required-field lists alone are insufficient runtime instructions. Hosts must preserve the example's deterministic media type, and verified artifact content permits normalized LF but rejects TAB, CR, CRLF, and all other unsafe controls.
 - A repository context locator must be syntax-safe and its fragment-free path must be covered by the source `readScope`; work-unit permissions and the owner ceiling must cover that same scope.
 - Audit B semantic acceptance requires the exact closed `PrelaunchAuditHandoff`; a filename, Markdown claim, bound bytes, or launch-authorization outcome cannot establish `PASS` alone.
 - Contract, handoff, and public diagnostic text reject secrets, C0/C1 controls, DEL, malformed Unicode, and Unicode bidirectional formatting controls before becoming evidence; metadata rejects every C0 control, Markdown evidence permits normalized LF only, paths reject non-scalar text before filesystem access, and diagnostic pointers preserve only the longest safe prefix.
@@ -46,7 +63,7 @@ Revision 23 compiled Candidate A `sha256:36ebb90c8420a368e4246ce22e7804a0952396c
 - Logical arrays and candidate partitions are normalized; labels, proposal order, and input insertion order must not influence selected semantics.
 - Every rendered file and launch entry binds the exact compilation digest. Any changed goal, work unit, candidate, or blueprint requires recompilation and a new review.
 - The Round-4 runtime corrections in docs/specs/v11-orchestration-planner/revision-5-correction-design.md remain mandatory input for a later runtime layer.
-- V11 remains stacked on owner-gated V10 for continuity. Revision-23 technical acceptance, replay, branch publication, baseline selection, and owner merge approval are all still open.
+- V11 remains stacked on owner-gated V10 for continuity. Revision 30 technical integration is complete; post-integration replay, final host verification/archive, branch publication, baseline selection, and owner merge approval remain open.
 
 ## Recently Learned
 
@@ -80,6 +97,7 @@ Revision 23 compiled Candidate A `sha256:36ebb90c8420a368e4246ce22e7804a0952396c
 - A single reviewer loop caught six T008 defects despite a green suite, reinforcing review as an evidence-producing gate rather than ceremony.
 - A public workflow visual must encode the executor, verification order, terminology, and scaled legibility; correct adjacent prose is not enough.
 - A documented quick start should execute literal relative arguments and compare the complete example tree before and after read-only operations.
+- Public documentation can be concise without silently breaking prior contracts; stable headings, runnable source-checkout paths, active links, and host-boundary statements belong in automated parity checks.
 - Negative overclaim checks need passing provenance and truthful-negation cases so they enforce honesty without erasing history.
 - Measured dogfood tests should compare stable semantics while treating elapsed time as environment-qualified observation data.
 - Every action after workspace identity capture belongs inside cleanup protection; a setup callback is still a failure boundary.
@@ -159,11 +177,15 @@ Revision 23 compiled Candidate A `sha256:36ebb90c8420a368e4246ce22e7804a0952396c
 - Downstream handoff validation cannot compensate for an unsafe exported diagnostic constructor. Apply the same scalar and privacy policy at every public evidence boundary and test direct, parser-mediated, and I/O-mediated paths.
 - Token-local privacy checks are insufficient for delimited evidence. Validate both the exact cumulative string that can be returned and its decoded semantic form before extending a safe prefix.
 
+- Planning recovery must preserve fail-closed launch semantics: a no-eligible analysis result is useful evidence, not a roster.
+- Raw handoff verification must reject proxies and accessors before caller code can run, then bind semantic acceptance to the exact preserved bytes.
+- Dependency fan-in must compute complete transitive closure and require explicit verified `PASS`; missing, duplicate, malformed, stale, or non-pass evidence cannot be inferred away.
+- A custom semantic handoff may add stricter bindings, but it must still contain every required field advertised by its compiled blueprint; duplicate standard and custom identities must be equality-checked.
+
 ## Next Likely Work
 
-- Freeze the current feature spec and active context as immutable revision-24 integration inputs and refresh every repository source tuple.
-- Generate deterministically reproducible Candidate A and Audit B packages from the corrected source tree.
-- Request separate owner approval for the exact Audit B pair, create and bind the exact `PrelaunchPackageVerificationReceipt`, run the binder and semantic reviewer, then preserve the strict `PrelaunchAuditHandoff` and cross-package authorization.
-- Request separate owner approval for Candidate A only after Audit B `PASS`, then launch only its exact verified contracts.
-- Require preparation, product/API, algorithm/lifecycle, security/trace, authority-contained release verification, integration-owner review, and post-integration package replay to pass against the exact revision-24 pair before branch freeze.
-- Update review, memory, and milestone evidence, then request owner merge approval without claiming runtime effects or hosted CI that did not occur.
+- Preserve the exact Revision 30 integration handoff before any archive step.
+- Reconstruct and verify both approved package pairs after the live integration-output edits.
+- Run the final host repository gates and preserve their exact evidence.
+- Archive attempt 30 only after post-integration replay succeeds.
+- Commit and push the release-ready branch, then request the owner's explicit merge decision without claiming hosted CI or runtime effects that did not occur.

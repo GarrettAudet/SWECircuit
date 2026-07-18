@@ -865,6 +865,8 @@ function validatePrelaunchAuditHandoff(handoff, candidate, auditCandidate, autho
     "outcome",
     "destination",
     "goal",
+    "agent",
+    "compilationDigest",
     "reviewer",
     "candidate",
     "prelaunchAudit",
@@ -879,6 +881,7 @@ function validatePrelaunchAuditHandoff(handoff, candidate, auditCandidate, autho
   if (
     !hasExactKeys(handoff, topLevelKeys) ||
     !hasExactKeys(handoff.goal, ["id", "revision", "digest"]) ||
+    !hasExactKeys(handoff.agent, ["id", "blueprintDigest"]) ||
     !hasExactKeys(handoff.reviewer, ["agentId", "blueprintDigest"]) ||
     !hasExactKeys(handoff.candidate, ["compilationDigest", "packageDigest"]) ||
     !hasExactKeys(handoff.prelaunchAudit, ["compilationDigest", "packageDigest"]) ||
@@ -890,6 +893,9 @@ function validatePrelaunchAuditHandoff(handoff, candidate, auditCandidate, autho
     !Number.isSafeInteger(handoff.goal.revision) ||
     handoff.goal.revision < 1 ||
     !digestPattern.test(handoff.goal.digest) ||
+    !safeHandoffMetadataText(handoff.agent.id) ||
+    !digestPattern.test(handoff.agent.blueprintDigest) ||
+    !digestPattern.test(handoff.compilationDigest) ||
     !safeHandoffMetadataText(handoff.reviewer.agentId) ||
     !digestPattern.test(handoff.reviewer.blueprintDigest) ||
     !digestPattern.test(handoff.candidate.compilationDigest) ||
@@ -915,6 +921,9 @@ function validatePrelaunchAuditHandoff(handoff, candidate, auditCandidate, autho
     handoff.goal.id !== auditCandidate.compilation.goal.id ||
     handoff.goal.revision !== auditCandidate.compilation.goal.revision ||
     handoff.goal.digest !== auditCandidate.compilation.goalDigest ||
+    handoff.agent.id !== reviewer.id ||
+    handoff.agent.blueprintDigest !== reviewer.contentDigest ||
+    handoff.compilationDigest !== auditCandidate.compilation.contentDigest ||
     handoff.reviewer.agentId !== reviewer.id ||
     handoff.reviewer.blueprintDigest !== reviewer.contentDigest ||
     handoff.destination !== reviewer.handoff.destination ||
@@ -1422,7 +1431,7 @@ export function buildPrelaunchAuditGoal(candidate, candidateFiles) {
           "Stop with FIX if the host-delivered PrelaunchPackageVerificationReceipt is absent, non-PASS, malformed, or binds different Candidate A or Audit B identities.",
           "Stop with FIX if the exact candidate cannot be reconstructed from authenticated bytes.",
           "Stop with FIX if selection, authority, evidence, schedule, digest, or package claims differ.",
-          `Stop with FIX unless the raw result is a closed ${prelaunchAuditHandoffVersion} PrelaunchAuditHandoff JSON object that binds this goal, reviewer blueprint, Candidate A and Audit B digest pairs, both review duties, and a pass outcome.`,
+          `Stop with FIX unless the raw result is a closed ${prelaunchAuditHandoffVersion} PrelaunchAuditHandoff JSON object that satisfies the standard agent and compilation handoff fields, binds this goal, reviewer blueprint, Candidate A and Audit B digest pairs, both review duties, and a pass outcome.`,
         ],
       },
     ],

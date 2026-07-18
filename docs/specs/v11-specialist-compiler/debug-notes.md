@@ -2,11 +2,11 @@
 
 ## Status
 
-Revision 20 is retired after security/trace returned `REVISE` for semantic-handoff privacy, metadata-control, and path-scalar gaps. Release verification independently detected the resulting source drift and returned `FIX`; Wave 3 did not launch. The causal correction passes focused 65/65 and full 353/353 kernel tests plus format, lint, and typecheck. Revision 21 requires fresh source bindings, packages, approvals, independent dogfood, full release verification, integration, and post-integration replay.
+Revision 30 technical integration is `PASS`. The exact two-phase trust root, five Candidate A dependency handoffs, attempt-30b release evidence, and integration-ready fan-in are authenticated. No candidate defect remains open. Post-integration replay, final host verification/archive, commit/push, and owner merge approval remain.
 
 ## Current Failure
 
-Attempt 20 authenticated and approval-bound both packages, then correctly stopped before integration. The security reviewer found three launch-boundary gaps, and the release reviewer later proved the approved candidate could not survive source mutation. The current task is to bind the tested correction into revision 21 rather than reusing any revision-20 approval or PASS.
+No Revision 30 candidate failure is open. Attempt 30a is a bounded host-authority `FIX`: undeclared preflight executables caused an immediate stop before canonical gates. Exact retry 30b stayed within the compiled process boundary and passed every release gate. The remaining work is the T021 post-integration host replay and publication gate.
 
 ## Reproduction
 
@@ -267,3 +267,90 @@ Enter diagnosis if the same golden case fails twice, exact search violates its d
 - Verification after correction: focused diagnostic/project suites 43/43; format, lint, typecheck, build, and the complete kernel 354/354 pass.
 - Evidence: `evidence/dogfood/runs/attempt-23/` preserves both packages, approvals, receipt, authorization, immutable inputs, and all raw PASS/REVISE handoffs.
 - Outcome: revision 23 is retired. Revision 24 must bind the corrected source and documentation bytes and repeat every approval, audit, review, release, integration, and replay gate.
+
+## Dogfood Prelaunch Attempt 24
+
+- Candidate A compiled as `sha256:05fd18cc50e06f872cb9f1a4229970206c2a27383ad8d7f64024f7f7f9d5c9c8` / `sha256:6748f967eb5f091fbc2f25b00ab9dc8a5fe255dd49d26492fcbea00fe9981573`.
+- Audit B compiled as `sha256:fe6e200e0d5d5af4f3f077353320b240569699ef83a882204c077ed3dbb5350e` / `sha256:268cbeab032a8b78e56fcb29f8526ad6ff75d4745524617ba04cca75dd83ccd1`.
+- Both packages approval-verified and the external package-verification receipt returned `pass`; no Audit B agent launched.
+- Prelaunch inspection found a contract contradiction: the selected reviewer blueprint required standard `agent` and `compilationDigest` fields, while the closed `PrelaunchAuditHandoff` validator rejected those fields and instead required `reviewer` plus `prelaunchAudit`.
+- Either output omitted compiled required fields or failed closed-shape validation, so no valid semantic handoff could satisfy both contracts.
+- Causal correction: require the custom envelope to contain both standard and audit-specific bindings, then equality-check duplicate reviewer and Audit B compilation identities.
+- Focused prelaunch coverage now rejects absent, unknown, malformed, unsafe, stale, and disagreeing bindings and passes 29/29.
+- Outcome: `fix`. Revision 24 is retired before launch; revision 25 must regenerate every source binding, package, approval, receipt, handoff, authorization, review, and replay artifact.
+## Dogfood Prelaunch Attempt 25
+
+- Candidate A compiled as `sha256:6fd3f23139663de4dbb1950043dc02e2dc90e6da284f8ade1e99cfcc5b2f6404` / `sha256:1c7e875c0aad3c1b4a0987b14ec9be57b73c533c03779236889ce547db3e5af8`.
+- Audit B compiled as `sha256:3cdf00aaa53b2d4b0a3a72789a6d654b49e4cbfbbd58e9b6a45c085ee05483a6` / `sha256:bc806f5007a87f2c5363c3cd0f3c35371e0c8ed6dda7ad46003ac88dd4fc7dac`.
+- Both packages approval-verified, the external package-verification receipt returned `pass`, the corrected prelaunch envelope tests passed 29/29, and the complete kernel passed 364/364.
+- One Audit B binder started. Before any binder handoff was accepted, `scripts/check-template.ps1` rejected the shortened README for removing stable `How It Works`/`Start Here` anchors, the existing-kernel init command, active minimal-project/executor-boundary links, and explicit external-host/non-effect language.
+- The binder was interrupted before handoff. No semantic result was accepted, no launch authorization was created, Candidate A did not launch, and no integration occurred.
+- Classification: public-interface compatibility regression caught by the repository workflow checker before release admission.
+- Causal correction: restore the stable headings, runnable source-checkout path, active links, and exact host-boundary statements; add R29/AC18 so the surface is explicit release acceptance rather than an implicit checker-only requirement.
+- Verification: the immediate template-checker rerun passes.
+- Outcome: `fix`. Revision 25 is archived under `evidence/dogfood/runs/attempt-25/`; revision 26 must regenerate every source binding, package, approval, receipt, handoff, authorization, review, and replay artifact.
+## Dogfood Precompile Attempt 26
+
+- First fail-closed result: the mechanical source-refresh script added `expectedBytes` and `expectedDigest` instead of updating the closed `bytes` and `digest` fields. Schema validation emitted `SC4301` for every context source and returned no candidate.
+- Confirmed host cause: the temporary refresh script used verifier terminology rather than the GoalContract field names. It now updates `bytes`/`digest` and deletes the accidental unknown fields.
+- Second fail-closed result: checkout-canonical verification rejected the newly copied active-context snapshot because PowerShell preserved CRLF while Git declares LF. No candidate was emitted.
+- Causal correction: normalize only that immutable Markdown snapshot to LF, verify that the remaining CR-bearing context files are the two CRLF-governed PowerShell scripts, then rehash all 57 sources.
+- Evidence rotation then hit sandbox `EPERM` while removing the retired package from the temporary recovery worktree. The exact deterministic writer was rerun with the already authorized workspace write capability; no source or contract changed.
+- Candidate A compiled as `sha256:f3658ec182621f9a3485915cd260046d70e7fb1dcd84770f5b03ed3c9d05bb8e` / `sha256:f888a1a784d203d51bcb5d780b71167e0012662d30cec3dbab0d6e34afcab13a`; Audit B compiled as `sha256:9823e1919504fd757584f8eb24f2720c8ff34df4834e52a3d3a096a34304115f` / `sha256:3661bf2fcdfeaa88f43bf5fdf22b9f6c54f7ac908d70e96540b03f56714be1d1`.
+- Both digest pairs and the external receipt `sha256:61884e10b8bf190b102ead9d6fab0c5e9ea24326155142fbaa2f6975d2db6716` verified.
+- One authenticated binder returned raw bytes `sha256:72e5af3d45abe6b4de0b48bde25fc63bc91307a1320df5f742b64f379b261ae4`. Artifact `content` was an object, artifact `mediaType` was absent, and evidence copied blueprint-duty fields without required `status` or artifact references. Public verification emitted `SC4310`; no result was accepted.
+- The complete checker matrix matched 118/119 cases. The remaining fixture hid the handbook link but expected the AGENTS-link diagnostic; the checker correctly named the handbook link.
+- Confirmed causes: generated contracts listed top-level required fields but did not show the closed nested handoff envelope, and the fixture expectation did not match its mutation.
+- Causal corrections: render a concrete verifier-valid handoff block in every agent contract and test it through the public API; align the checker fixture with the link it hides.
+- Outcome: `fix`. Revision 26 is archived under `evidence/dogfood/runs/attempt-26/`; zero results were accepted, Candidate A never launched, and revision 27 must regenerate the complete trust chain.
+
+## Attempt 27 Complete Fan-In Rejection
+
+- Candidate A: `sha256:db47c3393dca0ede877bf07eecc89cd89cb7241f8380fb65f1ed8513221b2dd7` / `sha256:fde922b7e3c2f4747e04c92dacea8af3c7083fa87cd3bcf029f92b2b1ce632b3`.
+- Audit B: `sha256:183c968974eab7b6d7bd4451ceec2d35d16784265deb6b333836a7726b216d6c` / `sha256:c163c1c5eefc6900234fd781877677c0a41cbd6ffc7cd104b749bcf952f18841`.
+- Separate receipt, binder, semantic audit, launch authorization, preparation, and algorithm/lifecycle review passed.
+- Product/API `FIX`: advertised specialist schemas referenced `common.schema.json` without a supported package export or strict clean-consumer registry test.
+- Security/trace `FIX`: artifact scanning stripped CR before control detection and verification bound artifact names but not the generated media types.
+- Release `FIX`: 364/364 tests, both dogfoods, template checks, 119/119 checker cases, and package inspection passed before the typed packed host rejected its stale retained package digest.
+- Public verification accepted all five Candidate A raw envelopes. Machine fan-in received all five but recorded three `fix` outcomes and `integrationReady: false`; integration did not launch.
+- The exact archive and retirement record are under `evidence/dogfood/runs/attempt-27/`.
+- Correction evidence: deterministic common-schema export and strict registry, exact artifact-media derivation, LF-only artifact controls, synchronized installed-host approvals, 54/54 focused tests, and a passing clean offline installed consumer.
+
+## Attempt 28 Stale First-Run Approval
+
+- Candidate A: `sha256:18e40b2586375f0b7004fe088b7b2ebc2f0bd607dec27963c1b68c7ee719df7c` / `sha256:7dd562d20096778abcd15601edc4226064865cf418c33f07f8e8ad25878faba0`.
+- Audit B: `sha256:044b44b21d22e5692a5edfb51de76813c689e8b244c58464d8ab55613a30dc3d` / `sha256:86d47a8b1ead37e6a920472fe153bc0d97b9c0340c59246ab5768c762a8f9c42`.
+- Receipt, Audit B, launch authorization, preparation, algorithm/lifecycle, and security/trace passed.
+- Product/API and release independently found that the first-run approval expected a 36,089-byte contract at `sha256:c6462aae192a4df6d4de44e086c5e465b93c2354df3e153dfa8e9771e530a71b`, while the authenticated candidate contained 36,449 bytes at `sha256:813d53058e1c3bde7b1c434d1868375560f4802a3bb484b1a460685954759ef9`.
+- Release passed the template checker, 119/119 checker cases, and 48/48 strict specialist tests; canonical verification stopped at 364/365 on the stale approval before package and installed-consumer stages.
+- All five raw Candidate A handoffs publicly verified. Complete fan-in recorded three `pass`, two `fix`, and `integrationReady: false`; integration did not launch.
+- The approval was regenerated from current source bytes and the derived pair. The normal example and 2/2 focused first-run tests now pass.
+
+## Attempt 29 Authorization Summary And First-Run Host Boundary
+
+- Candidate A: `sha256:10cc520eb9c4f277876e76cd82908baa3cfcc01e1b84d5ae7c16d910b88075da` / `sha256:1e3afc96dc43950e21b3db94752a6f6fe9c33931ab36b0ce4a2adc2229a59994`.
+- Audit B: `sha256:17d7985ed3c4d0f817550b29d9b95308d11a5acaf13dabdee288e3b1d692742d` / `sha256:807d04eb877751acbe4802ccf147bf0853ac4df3390a953ed4669fc572bbbfb7`.
+- The external receipt, authenticated binder, independent semantic Audit B, launch authorization, preparation, and all five Candidate A raw handoffs passed structural verification. Audit B independently reproduced 203 partitions, 52 eligible candidates, the six-specialist roster, schedule, authority, evidence, and both Candidate A identities.
+- Algorithm/lifecycle and release returned `PASS`. Release passed the template checker, 119/119 checker cases, 48/48 focused specialist tests, 365/365 kernel tests, package inspection, and the clean installed consumer.
+- Product/API returned `FIX` because `specialist-compiler-contract.md` and `docs/ai/handbook.md` summarized final cross-package authorization without explicitly binding the mandatory external verification receipt's exact path, raw digest, byte count, and outcome.
+- Security/trace returned `FIX` because `examples/specialist-compiler/run.mjs` used plain `JSON.parse` and lexical path checks before filesystem access. Duplicate approval keys could be interpreted ambiguously, unsafe path text could reach I/O and diagnostics, and a repository link or junction could escape the intended root.
+- Complete machine fan-in preserved three `pass` and two `fix` outcomes and returned `integrationReady: false` at `sha256:95168d0fd74ac4e6a21526ddf81d60a5e09a53dd3d4138f4a32678b8b416431f`. Integration did not launch.
+- The exact retired run is preserved under `evidence/dogfood/runs/attempt-29/`.
+- Revision 30 makes the receipt binding explicit in both summaries and moves the example host onto bounded duplicate-aware approval parsing plus canonical contained source reads. Focused first-run coverage now passes 7/7, including malformed, duplicate, unknown, oversized, unsafe-path, directory, junction-escape, privacy, stale-binding, and normal read-only cases.
+
+## Attempt 30 Technical Acceptance And Host Retry
+
+- Candidate A: `sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36` / `sha256:ddb642a474815b4ded464b40f5bd8225a404f610d3bd4a91d0ab2d43dc695f43`.
+- Audit B: `sha256:79c5a7103225b12398e27c0e959b993597f38dcc5ddca6d9750a4d2b62f2d065` / `sha256:367d9b3d57b918aabc6543dae16b9b3cf5fee81338fd241226ef9bef2209510f`.
+- The 2,255-byte external receipt and 9,251-byte semantic Audit B handoff are exact `PASS` artifacts. Launch authorization binds both pairs and both raw artifacts; Candidate A approval binds its exact pair.
+- Preparation, algorithm/lifecycle, product/API, security/trace, and release retry 30b are exact public-verified `PASS` handoffs. The 3,464-byte final fan-in has content digest `sha256:4c89b0c7bd64735c371726155bd74d424d18af1248499cb77f05e93154c40a8a` and reports `integrationReady: true`.
+- Release attempt 30a returned `FIX` before canonical execution because preflight spawned `rg.exe` and `whoami.exe` outside that specialist's declared process authority. It changed no source or evidence and supplied no accepted release result.
+- Exact retry 30b passed 119/119 checker cases, 133/133 focused regressions, 370/370 canonical tests, package dry run, installed consumer, and committed V11 evidence replay. The host-authority failure is superseded for acceptance, not erased.
+- Technical integration completed, the exact integration handoff was preserved, post-integration reconstruction passed, and the accepted run is archived under `evidence/dogfood/runs/attempt-30/`.
+
+## Attempt 30 Post-Integration Milestone Check
+
+- The first post-integration template check rejected `docs/milestones/v11.md` because the concise rewrite omitted required `Why It Matters` and `Next Recommended Work` headings.
+- The failure was confined to a mutable integration output; no Candidate A or Audit B source binding changed.
+- The host restored both required sections, reran the template checker, then passed the full 119-case matrix and canonical 370-test verification.
+- Post-integration package reconstruction remained exact, and the 44-file archive manifest verified every copied byte.

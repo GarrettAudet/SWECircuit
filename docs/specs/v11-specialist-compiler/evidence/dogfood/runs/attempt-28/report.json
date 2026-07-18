@@ -1,0 +1,683 @@
+{
+  "reportVersion": "1.0.0",
+  "result": "pass",
+  "goalId": "v11.specialist-compiler.release",
+  "goalRevision": 28,
+  "assumptions": [
+    {
+      "id": "assumption.atomic-work-reviewed",
+      "statement": "The six work units are stable atomic responsibilities for this release review.",
+      "rationale": "They were derived from the accepted V11 spec and have disjoint review or integration ownership."
+    },
+    {
+      "id": "assumption.checkout-canonical-context",
+      "statement": "Every repository context source is byte-identical under the declared Git checkout rules, with no custom filter or working-tree encoding.",
+      "rationale": "A reviewed launch package must reconstruct from a clean checkout, not only the integration owner working tree."
+    },
+    {
+      "id": "assumption.external-approval-root",
+      "statement": "The integration owner retains separate approved compilation and package digests for the prelaunch audit and, only after its PASS, for the candidate package.",
+      "rationale": "Each package verification is trustworthy only when its expected digest pair comes from an independent approval record, and candidate launch approval follows the audit gate."
+    },
+    {
+      "id": "assumption.external-host-enforcement",
+      "statement": "The external IDE host enforces actual context, permission, workspace, and process boundaries.",
+      "rationale": "The V11 compiler emits provider-neutral task demand and performs no runtime effects."
+    },
+    {
+      "id": "assumption.immutable-review-inputs",
+      "statement": "Any release document that integration may update is reviewed through an immutable pre-integration snapshot rather than its live output path.",
+      "rationale": "Authorized integration must not invalidate the exact candidate it consumes."
+    },
+    {
+      "id": "assumption.raw-handoff-preservation",
+      "statement": "The external host preserves each specialist result as exact raw UTF-8 bytes before parsing and supplies the complete dependency set for fan-in.",
+      "rationale": "V11 can verify supplied bytes and package identity but does not execute agents or persist runtime evidence."
+    },
+    {
+      "id": "assumption.relative-planning-weights",
+      "statement": "Work, startup, and handoff values are relative planning units rather than elapsed-time forecasts.",
+      "rationale": "V11 compares deterministic candidate structure and does not claim runtime benchmarking."
+    },
+    {
+      "id": "assumption.release-host-contained-temp",
+      "statement": "Canonical release processes use only temporary workspaces that resolve inside declared .local/npm-cache/** write authority.",
+      "rationale": "Functional success is not authority-compliant evidence when tests inherit system TEMP/TMP; a verified Windows short-path spelling may reduce path length only when it resolves to the same authorized target."
+    },
+    {
+      "id": "assumption.two-phase-prelaunch-audit",
+      "statement": "An agent-based semantic review of the exact candidate compilation uses a separate read-only audit package rather than a work unit inside that candidate.",
+      "rationale": "A compilation cannot include its own complete bytes as authenticated context without changing itself."
+    }
+  ],
+  "unresolvedDecisions": [
+    {
+      "id": "decision.runtime-supply",
+      "question": "Which IDE, models, and workspace isolation strategy should execute a future production roster?",
+      "owner": "v11.integration-owner",
+      "blocking": false,
+      "proceedRationale": "Runtime supply is explicitly outside the V11 compiler acceptance boundary and requires a later adapter decision."
+    }
+  ],
+  "contextVerification": {
+    "result": "pass",
+    "verifiedSources": [
+      {
+        "sourceId": "context.active-memory",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/active-context-before-integration.md",
+        "bytes": 34295,
+        "digest": "sha256:26d115ae275e91ff2cd75b21198b06fed0ad11b8abf3696ed2f9934c85b9b517"
+      },
+      {
+        "sourceId": "context.agents",
+        "path": "AGENTS.md",
+        "bytes": 16695,
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9"
+      },
+      {
+        "sourceId": "context.biome",
+        "path": "biome.json",
+        "bytes": 735,
+        "digest": "sha256:ea4eb70aadd5e9fb08ff3fdbbcc654cf676fdc2ba791163ac856faa1791279bd"
+      },
+      {
+        "sourceId": "context.canonical-json",
+        "path": "src/canonical-json.ts",
+        "bytes": 7405,
+        "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac"
+      },
+      {
+        "sourceId": "context.changelog",
+        "path": "CHANGELOG.md",
+        "bytes": 3512,
+        "digest": "sha256:ff6307186388d4435050863dd56b3ca5ffd4fab1ee8616f1666d1e2223b3b6f8"
+      },
+      {
+        "sourceId": "context.common-schema",
+        "path": "schemas/v1alpha1/common.schema.json",
+        "bytes": 10709,
+        "digest": "sha256:d3cdcd5d8723477db18a77a2396c6ea475bbc0e1cca44f952a594cc55832e636"
+      },
+      {
+        "sourceId": "context.compiler",
+        "path": "src/specialist-compiler.ts",
+        "bytes": 69522,
+        "digest": "sha256:2a39a85745de2124464744c9635144e4e878cbea2f2b584ded25adb946798da7"
+      },
+      {
+        "sourceId": "context.compiler-contract",
+        "path": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "bytes": 36449,
+        "digest": "sha256:813d53058e1c3bde7b1c434d1868375560f4802a3bb484b1a460685954759ef9"
+      },
+      {
+        "sourceId": "context.compiler-tests",
+        "path": "test/specialist-compiler.test.mjs",
+        "bytes": 62973,
+        "digest": "sha256:2847895078aa56d9e051f0b399b2e923cce3edc647c2d471c76034fd12159200"
+      },
+      {
+        "sourceId": "context.constants",
+        "path": "src/constants.ts",
+        "bytes": 2088,
+        "digest": "sha256:f00156e582cafaea19f6db6f55e042422c488b660483f5fccee1d6b1988cee6f"
+      },
+      {
+        "sourceId": "context.consumer-check",
+        "path": "scripts/check-packed-consumer.mjs",
+        "bytes": 37768,
+        "digest": "sha256:dccdb91dbd30beb5961595c301545a3979e274e54ec73c751d16431cdf5cd8eb"
+      },
+      {
+        "sourceId": "context.contributing",
+        "path": "CONTRIBUTING.md",
+        "bytes": 2258,
+        "digest": "sha256:1e5703e5a85e5ac005b418b1a6499afc06e5f44f9fe0fde3ff64a9b52f2f0a6c"
+      },
+      {
+        "sourceId": "context.diagnostic-catalog",
+        "path": "schemas/v1alpha1/diagnostic-catalog.json",
+        "bytes": 12641,
+        "digest": "sha256:816bc731f6f4fab8132430aded14d28a100fef3ab6e0d6f04f25bace2653ad3a"
+      },
+      {
+        "sourceId": "context.diagnostics",
+        "path": "src/diagnostics.ts",
+        "bytes": 23891,
+        "digest": "sha256:570e2d2349f6e466999f7a8d9c15b0f82342afa4ccd1042729c282e66c4a7f14"
+      },
+      {
+        "sourceId": "context.dogfood-runner",
+        "path": "scripts/run-v11-dogfood.mjs",
+        "bytes": 58524,
+        "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda"
+      },
+      {
+        "sourceId": "context.dogfood-runner-tests",
+        "path": "test/v11-dogfood-runner.test.mjs",
+        "bytes": 41879,
+        "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d"
+      },
+      {
+        "sourceId": "context.first-run",
+        "path": "examples/specialist-compiler/run.mjs",
+        "bytes": 11706,
+        "digest": "sha256:03b92fd422336af5aa7b1e94ce667768189afa1e2528818bc6b603133461f047"
+      },
+      {
+        "sourceId": "context.first-run-approval",
+        "path": "examples/specialist-compiler/approval.json",
+        "bytes": 972,
+        "digest": "sha256:c23dd3304615b0e825cb0036bd3743474d3a6b813ddcd30cfaa5d3d92ae96987"
+      },
+      {
+        "sourceId": "context.first-run-readme",
+        "path": "examples/specialist-compiler/README.md",
+        "bytes": 833,
+        "digest": "sha256:a8a78bfaa9ddcf6a03febcb425079854205ec8251cef91073e5ca68539d38d7b"
+      },
+      {
+        "sourceId": "context.first-run-tests",
+        "path": "test/specialist-first-run.test.mjs",
+        "bytes": 3104,
+        "digest": "sha256:921d8c414d0f01bda1f71e6448bf5c3b9e2ccbcc537d274e313c7ed156db4284"
+      },
+      {
+        "sourceId": "context.fixture.conflict-heavy",
+        "path": "test/fixtures/specialist-compiler/conflict-heavy.json",
+        "bytes": 6260,
+        "digest": "sha256:27fe1679095f6d86017a388e6b83ee6922ec30ba0bd598a1d5c7c2aeaed94dee"
+      },
+      {
+        "sourceId": "context.fixture.generic-role",
+        "path": "test/fixtures/specialist-compiler/generic-role.json",
+        "bytes": 4420,
+        "digest": "sha256:6801c238c2500f8fa8c4414de1cc3b88921d9c08e667692f49321187a9bef955"
+      },
+      {
+        "sourceId": "context.fixture.genuinely-parallel",
+        "path": "test/fixtures/specialist-compiler/genuinely-parallel.json",
+        "bytes": 6260,
+        "digest": "sha256:8119915f5b41d4eff112e52008f0d7a9a9e5c9f522c41d28419637ef0d290019"
+      },
+      {
+        "sourceId": "context.fixture.one-agent-optimal",
+        "path": "test/fixtures/specialist-compiler/one-agent-optimal.json",
+        "bytes": 6314,
+        "digest": "sha256:bebb10dc99b89660d672d0ce25de1ef09f951a0a76716b282a0c2945b2e36f67"
+      },
+      {
+        "sourceId": "context.fixture.over-split",
+        "path": "test/fixtures/specialist-compiler/over-split.json",
+        "bytes": 8159,
+        "digest": "sha256:a22160147debf2bf7361975a3b4900199d38059d6de3f596bec3e7fd1b9e3f1b"
+      },
+      {
+        "sourceId": "context.fixture.under-split",
+        "path": "test/fixtures/specialist-compiler/under-split.json",
+        "bytes": 6224,
+        "digest": "sha256:3ef5d99ff5fd47f6ddf0b46d30effa513488d6806bb275ba598871e93a9c537c"
+      },
+      {
+        "sourceId": "context.handbook",
+        "path": "docs/ai/handbook.md",
+        "bytes": 39301,
+        "digest": "sha256:003a81b5afe94865c96a45b5b0a67427b3eeb8b9cfdfef3e35f65be54da40874"
+      },
+      {
+        "sourceId": "context.handoff",
+        "path": "src/specialist-handoff.ts",
+        "bytes": 17810,
+        "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a"
+      },
+      {
+        "sourceId": "context.handoff-schema",
+        "path": "schemas/v1alpha1/specialist-handoff.schema.json",
+        "bytes": 4287,
+        "digest": "sha256:afade2b11be6db71a17aa35841d292b99e05c6a4c157505c3b649a3f145aa4e9"
+      },
+      {
+        "sourceId": "context.handoff-schema-loader",
+        "path": "src/specialist-handoff-schema.ts",
+        "bytes": 2421,
+        "digest": "sha256:b48779dc0b5e29124e9b689e11613bd850e4a33cf9f65eca8d3a051865ce5911"
+      },
+      {
+        "sourceId": "context.handoff-tests",
+        "path": "test/specialist-handoff.test.mjs",
+        "bytes": 10709,
+        "digest": "sha256:41d25b24adb4062992012983b4eb99175f371929fb83e522f1723799b3e196af"
+      },
+      {
+        "sourceId": "context.ide-kickoff",
+        "path": "docs/ide/specialist-agent-kickoff.md",
+        "bytes": 17565,
+        "digest": "sha256:8ceec4c3478b9f2adc7000893705f41b09b153d9747637884ac07e46b416eaf3"
+      },
+      {
+        "sourceId": "context.index",
+        "path": "src/index.ts",
+        "bytes": 4688,
+        "digest": "sha256:dfa16eda45276f9caf5f59e12b2a20c5c0650a153b84d04510e0feac754b672b"
+      },
+      {
+        "sourceId": "context.json",
+        "path": "src/json.ts",
+        "bytes": 4808,
+        "digest": "sha256:a1f119ecb906ccf5d8397d2ce84e7b357ef5276df2ac448c99cc498d963c8a8a"
+      },
+      {
+        "sourceId": "context.json-kernel-tests",
+        "path": "test/json-kernel.test.mjs",
+        "bytes": 8321,
+        "digest": "sha256:8dd95ceeb4c5d64f7623b434f067667e4e552537e45705749eba6950c43b6b36"
+      },
+      {
+        "sourceId": "context.model",
+        "path": "src/model.ts",
+        "bytes": 5961,
+        "digest": "sha256:c67bf6036ec16d40516bcf01a49e8714f82588e29a9c596b117dc73c36cf4b83"
+      },
+      {
+        "sourceId": "context.module-guide",
+        "path": "docs/modules/specialist-agent-compiler.md",
+        "bytes": 17016,
+        "digest": "sha256:741bed2ad50483a935a2009719fe14e13ce794d5e7dc15575da947260c0ea5da"
+      },
+      {
+        "sourceId": "context.package",
+        "path": "package.json",
+        "bytes": 2549,
+        "digest": "sha256:52acc84e561245f27afe26af16c000ce5d1e121b5649c4e70c2d03ec140c7be7"
+      },
+      {
+        "sourceId": "context.packed-consumer-host",
+        "path": "scripts/fixtures/packed-consumer-host.ts",
+        "bytes": 18435,
+        "digest": "sha256:9911410ebb6c7d1ee9904dbfa9c70adbac5213c7b3fbc3ee4d782f8bd57e89e7"
+      },
+      {
+        "sourceId": "context.path",
+        "path": "src/path.ts",
+        "bytes": 12803,
+        "digest": "sha256:7b2bc97a119e56e2c33d47bae11c48215be75365dc0d7c0c26d804b520580792"
+      },
+      {
+        "sourceId": "context.permissions",
+        "path": "src/permissions.ts",
+        "bytes": 3484,
+        "digest": "sha256:d6e39db2221715490b58ace95e87514f0a5c0a76a38225f02ccec15a37d74523"
+      },
+      {
+        "sourceId": "context.privacy",
+        "path": "src/privacy.ts",
+        "bytes": 1047,
+        "digest": "sha256:e6ffecf6135e7369913e51df78a522dcb3de3907d698f7f7cd2c1e7117ac972c"
+      },
+      {
+        "sourceId": "context.project-validation-tests",
+        "path": "test/project-validation.test.mjs",
+        "bytes": 18040,
+        "digest": "sha256:54cf6bddd932fec496f4d3291f06cdf0873f4b1c2f06d223bb3f1a41eaf3d711"
+      },
+      {
+        "sourceId": "context.readme",
+        "path": "README.md",
+        "bytes": 7487,
+        "digest": "sha256:bc164b251bfd2c79be1c6bd6a1906e8172d49135b43f3cc48bdb60295abeccb4"
+      },
+      {
+        "sourceId": "context.renderer",
+        "path": "src/specialist-render.ts",
+        "bytes": 19184,
+        "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7"
+      },
+      {
+        "sourceId": "context.schema",
+        "path": "schemas/v1alpha1/specialist-compiler.schema.json",
+        "bytes": 15392,
+        "digest": "sha256:860cbe31f1b86676ea35df361e0d1b215aa92e8253bd5de266fded42fe6039cd"
+      },
+      {
+        "sourceId": "context.schema-readme",
+        "path": "schemas/v1alpha1/README.md",
+        "bytes": 18724,
+        "digest": "sha256:02a965b0c98dfeb522086339866d1b62340802b1cbccafdbf97b261120a96b41"
+      },
+      {
+        "sourceId": "context.schema-tests",
+        "path": "test/specialist-schema.test.mjs",
+        "bytes": 12729,
+        "digest": "sha256:a3e7cae50268ffa4b396d7053a3d4acc87ff901a6efb1e77f32671a3811caa15"
+      },
+      {
+        "sourceId": "context.shared-types",
+        "path": "src/types.ts",
+        "bytes": 4140,
+        "digest": "sha256:61877d77f8a1d5ab496491f1a462e74142572d4acac953958add18d9a62bee37"
+      },
+      {
+        "sourceId": "context.snapshot",
+        "path": "src/snapshot.ts",
+        "bytes": 5045,
+        "digest": "sha256:4def623274433afd49467c46aceae479115a881a13af3c6359f908772a19ca1e"
+      },
+      {
+        "sourceId": "context.spec",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+        "bytes": 20613,
+        "digest": "sha256:0da700163db0f683c0f686e48788cdeb4648870091f8d7e1b460125b3afc2b32"
+      },
+      {
+        "sourceId": "context.specialist-schema",
+        "path": "src/specialist-schema.ts",
+        "bytes": 2968,
+        "digest": "sha256:e59a903d0fab9ba58de19032969107fe6d517526a153ce8e6bc081360b1a4799"
+      },
+      {
+        "sourceId": "context.template-checker",
+        "path": "scripts/check-template.ps1",
+        "bytes": 77532,
+        "digest": "sha256:b1409d0b5110d7226de69f42b6ae37c5bae24c8347f43e8a9e190179213b398a"
+      },
+      {
+        "sourceId": "context.template-checker-tests",
+        "path": "scripts/test-check-template.ps1",
+        "bytes": 89500,
+        "digest": "sha256:374701fbf2181e787cf0a8346c475cf6e803cc61eecdc5f288d0c07a534adc51"
+      },
+      {
+        "sourceId": "context.text",
+        "path": "src/text.ts",
+        "bytes": 985,
+        "digest": "sha256:7aaf03f50e16bc4917112e560dfd65f3e00a818df07cdca5310128a24e9d8644"
+      },
+      {
+        "sourceId": "context.two-phase-prelaunch-review",
+        "path": "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md",
+        "bytes": 12409,
+        "digest": "sha256:2b7443465ac1988f83d955c37e4b89c0dfdc15ba7ef57eec7bd7684970038233"
+      },
+      {
+        "sourceId": "context.types",
+        "path": "src/specialist-types.ts",
+        "bytes": 16047,
+        "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934"
+      }
+    ]
+  },
+  "compilationDigest": "sha256:18e40b2586375f0b7004fe088b7b2ebc2f0bd607dec27963c1b68c7ee719df7c",
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 6,
+    "evaluatedCandidates": 203,
+    "eligibleCandidates": 52,
+    "retainedAlternatives": 8,
+    "evaluationSetDigest": "sha256:28bbc18049d6a533d4fff16a2bad5036a80598b22852394b6eaef4c469e94114"
+  },
+  "serialBaseline": {
+    "id": "team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696",
+    "eligible": false,
+    "rejectionCodes": [
+      "evidence_independence"
+    ],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 40,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 38,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 0
+    }
+  },
+  "selectionReason": {
+    "kind": "serial_ineligible",
+    "decisiveField": "evidence_independence",
+    "selectedValue": "eligible",
+    "serialValue": "ineligible",
+    "serialRejectionCodes": [
+      "evidence_independence"
+    ]
+  },
+  "selected": {
+    "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+    "partition": [
+      [
+        "integrate.release"
+      ],
+      [
+        "prepare.candidate"
+      ],
+      [
+        "review.algorithm-lifecycle"
+      ],
+      [
+        "review.product-api"
+      ],
+      [
+        "review.security-trace"
+      ],
+      [
+        "verify.release-gates"
+      ]
+    ],
+    "metrics": {
+      "agentCount": 6,
+      "projectedMakespan": 23,
+      "peakConcurrency": 4,
+      "conflictPairs": 0,
+      "handoffCount": 8,
+      "duplicatedContextBytes": 2116874,
+      "duplicatedPermissionScopes": 149,
+      "totalWorkWeight": 38,
+      "totalStartupCost": 12,
+      "totalHandoffCost": 8
+    }
+  },
+  "proposalEvaluations": [
+    {
+      "id": "team.4702fb2667e4e241923c2a25d04cf4f64246e1fa3c71058aeef5866f0c3afb2b",
+      "proposalIds": [
+        "candidate.consolidated-reviews"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 4,
+        "projectedMakespan": 41,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 4,
+        "duplicatedContextBytes": 1310917,
+        "duplicatedPermissionScopes": 96,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 8,
+        "totalHandoffCost": 4
+      }
+    },
+    {
+      "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+      "proposalIds": [
+        "candidate.specialized"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 6,
+        "projectedMakespan": 23,
+        "peakConcurrency": 4,
+        "conflictPairs": 0,
+        "handoffCount": 8,
+        "duplicatedContextBytes": 2116874,
+        "duplicatedPermissionScopes": 149,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 12,
+        "totalHandoffCost": 8
+      }
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ]
+    },
+    {
+      "start": 4,
+      "agentIds": [
+        "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+        "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+        "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+        "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc"
+      ]
+    },
+    {
+      "start": 17,
+      "agentIds": [
+        "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9"
+      ]
+    }
+  ],
+  "blueprintAssignments": [
+    {
+      "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+      "blueprintDigest": "sha256:317d6d891ac14e8c269b11652e1b096ce61304505f45c0899da12c4364a30bdc",
+      "workUnitIds": [
+        "review.algorithm-lifecycle"
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "requiredCapabilities": [
+        "review.algorithm-lifecycle"
+      ]
+    },
+    {
+      "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+      "blueprintDigest": "sha256:e100363b53d416bcf628f932f7791c81785160a3c3d46b8a8dfede51d8583c6a",
+      "workUnitIds": [
+        "integrate.release"
+      ],
+      "dependencies": [
+        "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+        "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+        "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+        "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc"
+      ],
+      "requiredCapabilities": [
+        "integrate.release"
+      ]
+    },
+    {
+      "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+      "blueprintDigest": "sha256:b8ac51fa53bcc19e3d7e6ad9219181dd2b81fddfb9dfdf7690f18ef555431bf1",
+      "workUnitIds": [
+        "review.product-api"
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "requiredCapabilities": [
+        "review.product-api"
+      ]
+    },
+    {
+      "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+      "blueprintDigest": "sha256:26071c601970fd907afae9d0dd52c0700914015400a8cf2b201073361a0b17e3",
+      "workUnitIds": [
+        "verify.release-gates"
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "requiredCapabilities": [
+        "verify.release"
+      ]
+    },
+    {
+      "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+      "blueprintDigest": "sha256:c6ec74a394982b8c9919c8a6261b3440bf996a3d63e363f6e54f93c998bcf30d",
+      "workUnitIds": [
+        "review.security-trace"
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "requiredCapabilities": [
+        "review.security-trace"
+      ]
+    },
+    {
+      "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+      "blueprintDigest": "sha256:b8e0bb07063f2b4b45d1291035071f161e5b4e8e357488bab4e70ed9aebf1eea",
+      "workUnitIds": [
+        "prepare.candidate"
+      ],
+      "dependencies": [],
+      "requiredCapabilities": [
+        "candidate.bind"
+      ]
+    }
+  ],
+  "package": {
+    "verification": {
+      "result": "pass",
+      "expectationFile": "approval.json"
+    },
+    "packageDigest": "sha256:7dd562d20096778abcd15601edc4226064865cf418c33f07f8e8ad25878faba0",
+    "manifestDigest": "sha256:ef205b0b03fe5fd14076aec6c76b6855a5937fa0a2aa0d6d8f9aba10e4fb150b",
+    "files": [
+      {
+        "path": "agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+        "bytes": 18937,
+        "digest": "sha256:74f63c2c3e87b193d4031738d1d2221579313f03c1444038da60adeb0d03b667"
+      },
+      {
+        "path": "agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+        "bytes": 11085,
+        "digest": "sha256:eec440ed1227358335d38a17623acbdfebd520aeb9003f88d2f8dba5619cddf8"
+      },
+      {
+        "path": "agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+        "bytes": 23760,
+        "digest": "sha256:5be43049ed82bed31c0f2b7aa81b8d39aafa2d25f0ba73f74116f2e0b4486bcb"
+      },
+      {
+        "path": "agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+        "bytes": 27189,
+        "digest": "sha256:a5a8ea3414558f557c5e05a3d1f05895ae267c37d86f99d4ec13236d619ff9f3"
+      },
+      {
+        "path": "agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+        "bytes": 33736,
+        "digest": "sha256:e73e19addce9a32556258ae104102b43f7309262890eaa5b3bc308210e0e2882"
+      },
+      {
+        "path": "agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+        "bytes": 36939,
+        "digest": "sha256:0bce13f94b8d6eaa6e3c3bc01299070f556b2cabd048f7fa73fc4d4dcb07278c"
+      },
+      {
+        "path": "compilation.json",
+        "bytes": 312684,
+        "digest": "sha256:c51565059ca7729ab7bee463fded0f40b98c95271e3206a7888bb29e99f321c1"
+      },
+      {
+        "path": "integration.md",
+        "bytes": 8142,
+        "digest": "sha256:4c5ff797649c326bf224adc40cd5975658e71aec00a07e198c37a12a389dfe43"
+      },
+      {
+        "path": "manifest.json",
+        "bytes": 4203,
+        "digest": "sha256:b0635e92d9bdae0fc6ccc714f56c3694c340868ded9cb69a2d1a6cfba650e1be"
+      }
+    ]
+  }
+}

@@ -23,6 +23,7 @@ import type {
   SpecialistAcceptanceCriterion,
   SpecialistAgentSchedule,
   SpecialistCandidateEvaluation,
+  SpecialistCandidateAnalysis,
   SpecialistCandidateMetrics,
   SpecialistCandidateOrigin,
   SpecialistCandidateProposal,
@@ -35,6 +36,7 @@ import type {
   SpecialistPermission,
   SpecialistPort,
   SpecialistSearchMode,
+  SpecialistSearchSummary,
   SpecialistSelectionReason,
   SpecialistWorkUnit,
   TaskAuthorityProjection,
@@ -69,6 +71,13 @@ const REJECTION_RANK: Readonly<Record<SpecialistCandidateRejectionCode, number>>
 });
 
 const HANDOFF_FIELDS = Object.freeze([
+  "apiVersion",
+  "kind",
+  "outcome",
+  "destination",
+  "goal",
+  "agent",
+  "compilationDigest",
   "summary",
   "workUnitsCompleted",
   "artifacts",
@@ -113,6 +122,15 @@ interface CandidateAnalysis {
   readonly schedule: readonly SpecialistAgentSchedule[];
 }
 
+interface CandidatePlan {
+  readonly goalDigest: string;
+  readonly serialBaseline: SpecialistCandidateEvaluation;
+  readonly proposalEvaluations: readonly SpecialistCandidateEvaluation[];
+  readonly selected: SpecialistCandidateEvaluation | null;
+  readonly selectionReason: SpecialistSelectionReason | null;
+  readonly alternatives: readonly SpecialistCandidateEvaluation[];
+  readonly search: SpecialistSearchSummary;
+}
 function compareText(left: string, right: string): number {
   return left < right ? -1 : left > right ? 1 : 0;
 }
@@ -1871,38 +1889,27 @@ function launchWaves(
   );
 }
 
-function compileRequest(
-  request: CompileAgentBlueprintsInput,
-): OperationResult<AgentBlueprintCompilation> {
-  const goal = request.goal;
-  const proposals = request.proposedCandidates ?? [];
-  const authority = buildAuthorityProjection(goal);
+function buildCandidatePlan(
+  goal: SpecialistGoalContract,
+  proposals: readonly SpecialistCandidateProposal[],
+): CandidatePlan {
   const goalDigest = digestCanonicalJson("swecircuit.specialist.goal.v1", asJson(goal));
   const candidates = buildCandidates(goal, proposals);
   const evaluations = candidates.records.map((record) => evaluateCandidate(goal, record));
   const ranked = [...evaluations].sort(compareAllCandidates);
-  const selected = ranked.find((evaluation) => evaluation.eligible);
-  if (selected === undefined) {
-    return operationResult<AgentBlueprintCompilation>(
-      [createDiagnostic("SC4306", REQUEST_ARTIFACT, "/goal/workUnits")],
-      null,
-    );
-  }
+  const selected = ranked.find((evaluation) => evaluation.eligible) ?? null;
   const serialSignature = partitionSignature([goal.workUnits.map((unit) => unit.id)]);
   const serialBaseline = evaluations.find(
     (evaluation) => partitionSignature(evaluation.partition) === serialSignature,
   );
   if (serialBaseline === undefined) {
-    return operationResult<AgentBlueprintCompilation>(
-      [createDiagnostic("SC9001", REQUEST_ARTIFACT)],
-      null,
-    );
+    throw new TypeError("Candidate search omitted the serial baseline.");
   }
   const proposalEvaluations = evaluations
     .filter((evaluation) => evaluation.proposalIds.length > 0)
     .sort((left, right) => compareText(left.id, right.id));
   const alternatives = ranked
-    .filter((evaluation) => evaluation.id !== selected.id)
+    .filter((evaluation) => selected === null || evaluation.id !== selected.id)
     .slice(0, SPECIALIST_LIMITS.retainedAlternatives);
   const evaluationSetDigest = digestCanonicalJson(
     "swecircuit.specialist.evaluation-set.v1",
@@ -1912,33 +1919,100 @@ function compileRequest(
         .map((evaluation) => ({ id: evaluation.id, contentDigest: evaluation.contentDigest })),
     ),
   );
+  const search: SpecialistSearchSummary = freezeJson({
+    mode: candidates.mode,
+    claim:
+      candidates.mode === "exact"
+        ? "exhaustive_partition_search_fixed_scheduler"
+        : "bounded_evaluated_set_no_global_optimum",
+    workUnitCount: goal.workUnits.length,
+    evaluatedCandidates: evaluations.length,
+    eligibleCandidates: evaluations.filter((evaluation) => evaluation.eligible).length,
+    retainedAlternatives: alternatives.length,
+    evaluationSetDigest,
+  });
+  return Object.freeze({
+    goalDigest,
+    serialBaseline,
+    proposalEvaluations: Object.freeze(proposalEvaluations),
+    selected,
+    selectionReason: selected === null ? null : selectionReason(selected, serialBaseline),
+    alternatives: Object.freeze(alternatives),
+    search,
+  });
+}
+
+function analyzeRequest(
+  request: CompileAgentBlueprintsInput,
+): OperationResult<SpecialistCandidateAnalysis> {
+  const goal = request.goal;
+  const plan = buildCandidatePlan(goal, request.proposedCandidates ?? []);
+  const base = {
+    apiVersion: SPECIALIST_API_VERSION,
+    kind: "SpecialistCandidateAnalysis",
+    goalId: goal.id,
+    goalRevision: goal.revision,
+    goalDigest: plan.goalDigest,
+    selectionStatus: plan.selected === null ? "no_eligible_candidate" : "selected",
+    proposalEvaluations: plan.proposalEvaluations,
+    search: plan.search,
+    serialBaseline: plan.serialBaseline,
+    selected: plan.selected,
+    selectionReason: plan.selectionReason,
+    alternatives: plan.alternatives,
+  } as const;
+  if (
+    boundedJsonUtf8ByteLength(
+      asJson({ ...base, contentDigest: CONTENT_DIGEST_PLACEHOLDER }),
+      SPECIALIST_LIMITS.outputBytes,
+    ) === null
+  ) {
+    return operationResult<SpecialistCandidateAnalysis>(
+      [createDiagnostic("SC4308", REQUEST_ARTIFACT, "/goal/workUnits")],
+      null,
+    );
+  }
+  return operationResult(
+    [],
+    freezeJson(
+      withDigest(
+        "swecircuit.specialist.candidate-analysis.v1",
+        base as unknown as JsonObject,
+      ) as unknown as SpecialistCandidateAnalysis,
+    ),
+  );
+}
+function compileRequest(
+  request: CompileAgentBlueprintsInput,
+): OperationResult<AgentBlueprintCompilation> {
+  const goal = request.goal;
+  const proposals = request.proposedCandidates ?? [];
+  const authority = buildAuthorityProjection(goal);
+  const plan = buildCandidatePlan(goal, proposals);
+  if (plan.selected === null || plan.selectionReason === null) {
+    return operationResult<AgentBlueprintCompilation>(
+      [createDiagnostic("SC4306", REQUEST_ARTIFACT, "/goal/workUnits")],
+      null,
+    );
+  }
+  const selected = plan.selected;
+  const goalDigest = plan.goalDigest;
   const blueprints = compileBlueprints(goal, goalDigest, selected);
   const waves = launchWaves(selected.schedule);
-  const reason = selectionReason(selected, serialBaseline);
+  const reason = plan.selectionReason;
   const base = {
     apiVersion: SPECIALIST_API_VERSION,
     kind: "AgentBlueprintCompilation",
     goal,
     goalDigest,
     proposedCandidates: proposals,
-    proposalEvaluations,
+    proposalEvaluations: plan.proposalEvaluations,
     authority,
-    search: {
-      mode: candidates.mode,
-      claim:
-        candidates.mode === "exact"
-          ? "exhaustive_partition_search_fixed_scheduler"
-          : "bounded_evaluated_set_no_global_optimum",
-      workUnitCount: goal.workUnits.length,
-      evaluatedCandidates: evaluations.length,
-      eligibleCandidates: evaluations.filter((evaluation) => evaluation.eligible).length,
-      retainedAlternatives: alternatives.length,
-      evaluationSetDigest,
-    },
-    serialBaseline,
+    search: plan.search,
+    serialBaseline: plan.serialBaseline,
     selected,
     selectionReason: reason,
-    alternatives,
+    alternatives: plan.alternatives,
     blueprints,
     launchWaves: waves,
   } as const;
@@ -1960,6 +2034,23 @@ function compileRequest(
     ) as unknown as AgentBlueprintCompilation,
   );
   return operationResult([], compilation);
+}
+
+export function analyzeSpecialistCandidates(
+  input: unknown,
+): OperationResult<SpecialistCandidateAnalysis> {
+  try {
+    const parsed = parseRequest(input);
+    if (parsed.request === null) {
+      return operationResult<SpecialistCandidateAnalysis>(parsed.diagnostics, null);
+    }
+    return analyzeRequest(parsed.request);
+  } catch {
+    return operationResult<SpecialistCandidateAnalysis>(
+      [createDiagnostic("SC9001", REQUEST_ARTIFACT)],
+      null,
+    );
+  }
 }
 
 export function compileAgentBlueprints(input: unknown): OperationResult<AgentBlueprintCompilation> {

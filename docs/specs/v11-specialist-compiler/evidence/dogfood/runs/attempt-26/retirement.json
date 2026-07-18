@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/dogfood-retirement/v1alpha1",
+  "kind": "DogfoodCandidateRetirement",
+  "attempt": 26,
+  "outcome": "fix",
+  "candidate": {
+    "compilationDigest": "sha256:f3658ec182621f9a3485915cd260046d70e7fb1dcd84770f5b03ed3c9d05bb8e",
+    "packageDigest": "sha256:f888a1a784d203d51bcb5d780b71167e0012662d30cec3dbab0d6e34afcab13a"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:9823e1919504fd757584f8eb24f2720c8ff34df4834e52a3d3a096a34304115f",
+    "packageDigest": "sha256:3661bf2fcdfeaa88f43bf5fdf22b9f6c54f7ac908d70e96540b03f56714be1d1"
+  },
+  "verificationReceipt": {
+    "digest": "sha256:61884e10b8bf190b102ead9d6fab0c5e9ea24326155142fbaa2f6975d2db6716",
+    "bytes": 2255,
+    "outcome": "pass"
+  },
+  "reasons": [
+    "The binder returned an envelope that failed the strict public SpecialistAgentHandoff schema: artifact content was an object, mediaType was absent, and evidence entries used the blueprint-duty shape instead of status and artifact bindings.",
+    "The complete checker matrix found a brittle expected diagnostic in the README navigation-hidden fixture: the fixture hid the handbook link but still expected the missing AGENTS.md diagnostic."
+  ],
+  "agentsLaunched": 1,
+  "agentResultsAccepted": 0,
+  "binderStatus": "completed-invalid-handoff",
+  "binderRawEvidence": {
+    "path": "handoffs/prelaunch-audit-binding-invalid-attempt-26.json",
+    "digest": "sha256:72e5af3d45abe6b4de0b48bde25fc63bc91307a1320df5f742b64f379b261ae4",
+    "bytes": 13423,
+    "publicVerificationOutcome": "rejected",
+    "diagnosticCode": "SC4310"
+  },
+  "checkerMatrix": {
+    "totalCases": 119,
+    "matchedCases": 118,
+    "failedCase": "README navigation hidden in fence",
+    "failureKind": "expected-diagnostic-mismatch"
+  },
+  "semanticReviewerLaunched": false,
+  "launchAuthorizationCreated": false,
+  "candidateLaunched": false,
+  "candidateIntegrated": false,
+  "nextRevision": 27
+}

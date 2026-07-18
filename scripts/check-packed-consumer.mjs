@@ -24,6 +24,7 @@ const REQUIRED_PACKED_FILES = Object.freeze([
   "dist/index.d.ts",
   "dist/index.js",
   "dist/specialist-compiler.d.ts",
+  "dist/specialist-handoff.d.ts",
   "dist/specialist-render.d.ts",
   "dist/specialist-types.d.ts",
   "docs/framework/executor-boundary.md",
@@ -32,12 +33,13 @@ const REQUIRED_PACKED_FILES = Object.freeze([
   "schemas/v1alpha1/project.schema.json",
   "schemas/v1alpha1/run-event.schema.json",
   "schemas/v1alpha1/specialist-compiler.schema.json",
+  "schemas/v1alpha1/specialist-handoff.schema.json",
 ]);
 const FORBIDDEN_PACKED_FILES = new Set([".npmrc"]);
 const FORBIDDEN_PACKED_PREFIXES = Object.freeze(["scripts/", "src/", "test/"]);
 const RETAINED_SPECIALIST_EXPECTATION = Object.freeze({
-  compilationDigest: "sha256:d560d06b54a0229583fa6ac054af8facf669ceda5b8ff7c5c6a8a4080bd4416f",
-  packageDigest: "sha256:9239996c3b88e3a1eb3432103a96eeca8789968b50c65f42a91f496a43ff8334",
+  compilationDigest: "sha256:92881440b8d0b58de756bd706631ed4481565b20fd3cadad669637006b157659",
+  packageDigest: "sha256:913c04c71beaef362e81a1859f740587e2cf0017a83585d5c6468cbda2e84a43",
 });
 
 const CONSUMER_PROGRAM = String.raw`
@@ -45,7 +47,10 @@ import assert from "node:assert/strict";
 import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { isAbsolute, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { Ajv2020 } from "ajv/dist/2020.js";
 import {
+  analyzeSpecialistCandidates,
+  assessSpecialistHandoffs,
   SPECIALIST_API_VERSION,
   SPECIALIST_KINDS,
   SPECIALIST_LIMITS,
@@ -59,6 +64,7 @@ import {
   renderSpecialistPackage,
   TOOLCHAIN,
   verifySpecialistPackage,
+  verifySpecialistHandoff,
   validateProject,
 } from "swecircuit";
 
@@ -87,8 +93,24 @@ assert.equal(
   existsSync(join(installedPackage, "schemas", "v1alpha1", "specialist-compiler.schema.json")),
   true,
 );
+assert.equal(
+  existsSync(join(installedPackage, "schemas", "v1alpha1", "specialist-handoff.schema.json")),
+  true,
+);
 assert.equal(existsSync(join(installedPackage, "src")), false);
 
+const commonSchemaPath = realpathSync(
+  fileURLToPath(import.meta.resolve("swecircuit/schemas/common.schema.json")),
+);
+assert.equal(
+  relative(installedPackage, commonSchemaPath).replaceAll("\\", "/"),
+  "schemas/v1alpha1/common.schema.json",
+);
+const commonSchema = JSON.parse(readFileSync(commonSchemaPath, "utf8"));
+assert.equal(
+  commonSchema.$id,
+  "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/common.schema.json",
+);
 const specialistSchemaPath = realpathSync(
   fileURLToPath(import.meta.resolve("swecircuit/schemas/specialist-compiler.schema.json")),
 );
@@ -101,6 +123,34 @@ assert.equal(
   specialistSchema.$id,
   "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-compiler.schema.json",
 );
+const handoffSchemaPath = realpathSync(
+  fileURLToPath(import.meta.resolve("swecircuit/schemas/specialist-handoff.schema.json")),
+);
+assert.equal(
+  relative(installedPackage, handoffSchemaPath).replaceAll("\\", "/"),
+  "schemas/v1alpha1/specialist-handoff.schema.json",
+);
+const handoffSchema = JSON.parse(readFileSync(handoffSchemaPath, "utf8"));
+assert.equal(
+  handoffSchema.$id,
+  "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-handoff.schema.json",
+);
+const specialistSchemaRegistry = new Ajv2020({
+  allErrors: true,
+  strict: true,
+  validateFormats: false,
+});
+specialistSchemaRegistry.addSchema(commonSchema);
+specialistSchemaRegistry.addSchema(specialistSchema);
+specialistSchemaRegistry.addSchema(handoffSchema);
+for (const schema of [specialistSchema, handoffSchema]) {
+  assert.equal(typeof specialistSchemaRegistry.getSchema(schema.$id), "function");
+  for (const definition of Object.keys(schema.$defs)) {
+    assert.doesNotThrow(() =>
+      specialistSchemaRegistry.compile({ $ref: schema.$id + "#/$defs/" + definition }),
+    );
+  }
+}
 
 mkdirSync(projectRoot);
 const initialized = initializeProject({ project: projectRoot, projectId: "clean-consumer" });
@@ -321,9 +371,13 @@ assert.equal(SPECIALIST_API_VERSION, "swecircuit/specialist/v1alpha1");
 assert.deepEqual(SPECIALIST_KINDS, [
   "GoalContract",
   "SpecialistCompilationRequest",
+  "SpecialistCandidateAnalysis",
   "TaskAuthorityProjection",
   "AgentBlueprint",
   "AgentBlueprintCompilation",
+  "SpecialistAgentHandoff",
+  "VerifiedSpecialistHandoff",
+  "SpecialistHandoffSetAssessment",
   "SpecialistPackageManifest",
 ]);
 assert.equal(SPECIALIST_LIMITS.exactSearchWorkUnits, 8);
@@ -481,6 +535,15 @@ assert.deepEqual(authorityProjection.value.allowedCapabilities, ["specialist.com
 assert.match(authorityProjection.value.contentDigest, /^sha256:[0-9a-f]{64}$/);
 assertProviderNeutralKeys(authorityProjection.value);
 
+const specialistAnalysisResult = analyzeSpecialistCandidates(specialistRequest);
+assert.equal(
+  specialistAnalysisResult.ok,
+  true,
+  JSON.stringify(specialistAnalysisResult.diagnostics),
+);
+assert.notEqual(specialistAnalysisResult.value, null);
+assert.equal(specialistAnalysisResult.value.selectionStatus, "selected");
+
 const specialistCompilationResult = compileAgentBlueprints(specialistRequest);
 assert.equal(
   specialistCompilationResult.ok,
@@ -498,6 +561,10 @@ assert.equal(
 assert.equal(specialistCompilation.search.workUnitCount, 1);
 assert.equal(specialistCompilation.search.evaluatedCandidates, 1);
 assert.equal(specialistCompilation.selected.id, specialistCompilation.serialBaseline.id);
+assert.equal(
+  specialistAnalysisResult.value.selected.id,
+  specialistCompilation.selected.id,
+);
 assert.deepEqual(specialistCompilation.selectionReason, {
   kind: "serial_selected",
   decisiveField: "serial_baseline",
@@ -572,6 +639,63 @@ const specialistVerification = verifySpecialistPackage(
 );
 assert.equal(specialistVerification.ok, true, JSON.stringify(specialistVerification.diagnostics));
 assert.deepEqual(specialistVerification.value, specialistPackage);
+const specialistBlueprint = specialistCompilation.blueprints[0];
+assert.notEqual(specialistBlueprint, undefined);
+assert.ok(specialistBlueprint.handoff.artifacts.length > 0);
+function expectedHandoffMediaType(name) {
+  if (name.endsWith(".json")) return "application/json";
+  if (name.endsWith(".md")) return "text/markdown";
+  return "text/plain";
+}
+const specialistHandoff = {
+  apiVersion: SPECIALIST_API_VERSION,
+  kind: "SpecialistAgentHandoff",
+  outcome: "pass",
+  destination: specialistBlueprint.handoff.destination,
+  goal: {
+    id: specialistCompilation.goal.id,
+    revision: specialistCompilation.goal.revision,
+    digest: specialistCompilation.goalDigest,
+  },
+  agent: {
+    id: specialistBlueprint.id,
+    blueprintDigest: specialistBlueprint.contentDigest,
+  },
+  compilationDigest: specialistCompilation.contentDigest,
+  summary: "The installed-package specialist contract completed.",
+  workUnitsCompleted: [...specialistBlueprint.workUnitIds],
+  artifacts: specialistBlueprint.handoff.artifacts.map((name) => ({
+    name,
+    mediaType: expectedHandoffMediaType(name),
+    content: "{}",
+  })),
+  evidence: specialistBlueprint.evidenceDuties.map((duty, index) => ({
+    criterionId: duty.criterionId,
+    requirementId: duty.requirementId,
+    kind: duty.kind,
+    duty: duty.duty,
+    status: "pass",
+    artifact:
+      specialistBlueprint.handoff.artifacts[
+        index % specialistBlueprint.handoff.artifacts.length
+      ],
+  })),
+  assumptions: [],
+  risks: [],
+  followUps: [],
+};
+const rawSpecialistHandoff = new TextEncoder().encode(JSON.stringify(specialistHandoff));
+const specialistHandoffVerification = verifySpecialistHandoff(
+  specialistPackage,
+  retainedSpecialistExpectation,
+  rawSpecialistHandoff,
+);
+assert.equal(
+  specialistHandoffVerification.ok,
+  true,
+  JSON.stringify(specialistHandoffVerification.diagnostics),
+);
+assert.notEqual(specialistHandoffVerification.value, null);
 const mismatchedSpecialistExpectation = Object.freeze({
   ...retainedSpecialistExpectation,
   packageDigest: "sha256:" + "f".repeat(64),
@@ -587,13 +711,28 @@ assert.deepEqual(
   ["SC4307"],
 );
 assertProviderNeutralKeys(specialistPackage);
+const specialistFanIn = assessSpecialistHandoffs(
+  specialistPackage,
+  retainedSpecialistExpectation,
+  specialistBlueprint.id,
+  [],
+);
+assert.equal(specialistFanIn.ok, true, JSON.stringify(specialistFanIn.diagnostics));
+assert.notEqual(specialistFanIn.value, null);
+assert.equal(specialistFanIn.value.integrationReady, true);
+assert.deepEqual(specialistFanIn.value.requiredAgentIds, []);
 
 process.stdout.write(
   JSON.stringify({
     approvalBoundVerification: true,
     artifactSource: "installed-package",
+    candidateAnalysis: true,
+    commonSchemaSubpath: true,
     executedEvents: executed.value.events.length,
     executionDisposition: executed.value.disposition,
+    fanInReady: specialistFanIn.value.integrationReady,
+    handoffSchemaSubpath: true,
+    handoffVerified: specialistHandoffVerification.value.kind === "VerifiedSpecialistHandoff",
     initialized: true,
     inspectedEvents: inspected.value.eventCount,
     mismatchedApprovalRejected: true,
@@ -603,6 +742,7 @@ process.stdout.write(
     specialistAgents: specialistCompilation.blueprints.length,
     specialistFiles: specialistPackage.files.length,
     specialistSchemaSubpath: true,
+    strictSpecialistSchemaRegistry: true,
     validated: true,
   }) + "\n",
 );
@@ -854,10 +994,18 @@ try {
   assert.equal(installedManifest.exports?.["."]?.import, "./dist/index.js");
   assert.equal(installedManifest.exports?.["."]?.types, "./dist/index.d.ts");
   assert.equal(
+    installedManifest.exports?.["./schemas/common.schema.json"],
+    "./schemas/v1alpha1/common.schema.json",
+  );
+  assert.equal(
     installedManifest.exports?.["./schemas/specialist-compiler.schema.json"],
     "./schemas/v1alpha1/specialist-compiler.schema.json",
   );
 
+  assert.equal(
+    installedManifest.exports?.["./schemas/specialist-handoff.schema.json"],
+    "./schemas/v1alpha1/specialist-handoff.schema.json",
+  );
   run(
     process.execPath,
     [
@@ -888,6 +1036,9 @@ try {
   assert.deepEqual(JSON.parse(typedHostOutput), {
     approvalBoundVerification: true,
     artifactSource: "installed-package-typescript",
+    candidateAnalysis: true,
+    fanInReady: true,
+    handoffVerified: true,
     specialistAgents: 1,
     specialistFiles: 4,
   });
@@ -905,8 +1056,13 @@ try {
   assert.deepEqual(JSON.parse(consumerOutput), {
     approvalBoundVerification: true,
     artifactSource: "installed-package",
+    candidateAnalysis: true,
+    commonSchemaSubpath: true,
     executedEvents: 6,
     executionDisposition: "completed",
+    fanInReady: true,
+    handoffSchemaSubpath: true,
+    handoffVerified: true,
     initialized: true,
     inspectedEvents: 2,
     inspectedExecutionEvents: 6,
@@ -916,11 +1072,12 @@ try {
     specialistAgents: 1,
     specialistFiles: 4,
     specialistSchemaSubpath: true,
+    strictSpecialistSchemaRegistry: true,
     validated: true,
   });
 
   process.stdout.write(
-    "Packed consumer check passed (private artifact, offline install, executed public TypeScript host, init, validate, execute, inspect, compile, render, approval-bound verify).\n",
+    "Maintainer installed-package compatibility gate passed (private artifact, offline install, public TypeScript host, compile, render, handoff, fan-in, approval-bound verify).\n",
   );
 } finally {
   assert.deepEqual(

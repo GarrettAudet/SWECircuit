@@ -35,6 +35,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-template.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\test-check-template.ps1
 ```
 
+Kernel, schema, public-export, package, or CI changes must also pass:
+
+```powershell
+npm run verify
+```
+
+This canonical gate includes the read-only Specialist Compiler example and the maintainer-only clean installed-package compatibility check.
+
 For documentation-heavy changes, also scan for unresolved placeholders and non-ASCII text unless the file intentionally needs them.
 
 ## Pull Request Standard

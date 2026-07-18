@@ -109,9 +109,63 @@ function dynamicFence(text: string): string {
   return "`".repeat(Math.max(3, longest + 1));
 }
 
+export function expectedSpecialistHandoffMediaType(name: string): string {
+  if (name.endsWith(".json")) {
+    return "application/json";
+  }
+  if (name.endsWith(".md")) {
+    return "text/markdown";
+  }
+  return "text/plain";
+}
+
+function renderHandoffEnvelope(blueprint: AgentBlueprint, compilationDigest: string): JsonObject {
+  const artifacts = blueprint.handoff.artifacts;
+  const firstArtifact = artifacts[0];
+  if (firstArtifact === undefined) {
+    throw new TypeError("Specialist handoff has no declared artifact.");
+  }
+  return {
+    apiVersion: SPECIALIST_API_VERSION,
+    kind: "SpecialistAgentHandoff",
+    outcome: "pass",
+    destination: blueprint.handoff.destination,
+    goal: {
+      id: blueprint.goalId,
+      revision: blueprint.goalRevision,
+      digest: blueprint.goalDigest,
+    },
+    agent: {
+      id: blueprint.id,
+      blueprintDigest: blueprint.contentDigest,
+    },
+    compilationDigest,
+    summary: "Replace with a concise result summary.",
+    workUnitsCompleted: [...blueprint.workUnitIds],
+    artifacts: artifacts.map((name) => ({
+      name,
+      mediaType: expectedSpecialistHandoffMediaType(name),
+      content: "Replace with the complete artifact content.",
+    })),
+    evidence: blueprint.evidenceDuties.map((duty, index) => ({
+      criterionId: duty.criterionId,
+      requirementId: duty.requirementId,
+      kind: duty.kind,
+      duty: duty.duty,
+      status: "pass",
+      artifact: artifacts[index % artifacts.length] ?? firstArtifact,
+    })),
+    assumptions: [],
+    risks: [],
+    followUps: [],
+  };
+}
+
 function renderAgentContract(blueprint: AgentBlueprint, compilationDigest: string): string {
   const json = stringifyBounded(asJson(blueprint));
   const fence = dynamicFence(json);
+  const handoffJson = stringifyBounded(asJson(renderHandoffEnvelope(blueprint, compilationDigest)));
+  const handoffFence = dynamicFence(handoffJson);
   return `# Specialist Contract: ${blueprint.id}
 
 Compilation: \`${compilationDigest}\`
@@ -134,6 +188,19 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
 ${fence}json
 ${json}
 ${fence}
+
+## Required Handoff Envelope
+
+Return one strict UTF-8 JSON object with exactly the shape below. Replace the summary and artifact content, but do not add keys or substitute the blueprint evidence-duty shape.
+
+- Artifact content is always a string, including for application/json.
+- Evidence entries contain exactly criterionId, requirementId, kind, duty, status, and artifact.
+- A pass must list every owned work unit, exact artifact name, and exact evidence duty. A non-pass outcome lists only work actually completed and preserves bounded failure evidence.
+- If a stop condition explicitly requires a stricter custom envelope, the host must provide that closed schema; it must retain the standard goal, agent, compilation, artifact, evidence, and outcome bindings shown here.
+
+${handoffFence}json
+${handoffJson}
+${handoffFence}
 `;
 }
 

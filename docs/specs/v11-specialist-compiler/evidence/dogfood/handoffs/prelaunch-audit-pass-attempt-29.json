@@ -1,0 +1,62 @@
+{
+  "apiVersion": "swecircuit/prelaunch-audit-handoff/v1alpha1",
+  "kind": "PrelaunchAuditHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 29,
+    "digest": "sha256:431c42c69a9d8dfa266a6d1bbd67d70037054443c78c97f376a6c3eb2325a6e4"
+  },
+  "agent": {
+    "id": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:9ff88200e0974b01de49e9c2a956b69b43357bd833d11f0bd15a4b134d0e310f"
+  },
+  "compilationDigest": "sha256:17d7985ed3c4d0f817550b29d9b95308d11a5acaf13dabdee288e3b1d692742d",
+  "reviewer": {
+    "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:9ff88200e0974b01de49e9c2a956b69b43357bd833d11f0bd15a4b134d0e310f"
+  },
+  "candidate": {
+    "compilationDigest": "sha256:10cc520eb9c4f277876e76cd82908baa3cfcc01e1b84d5ae7c16d910b88075da",
+    "packageDigest": "sha256:1e3afc96dc43950e21b3db94752a6f6fe9c33931ab36b0ce4a2adc2229a59994"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:17d7985ed3c4d0f817550b29d9b95308d11a5acaf13dabdee288e3b1d692742d",
+    "packageDigest": "sha256:807d04eb877751acbe4802ccf147bf0853ac4df3390a953ed4669fc572bbbfb7"
+  },
+  "summary": "PASS: Candidate A selection, schedule, authority, evidence coverage, digests, rendered contracts, and the revision-29 first-run approval correction independently match the reviewed goal and authenticated package.",
+  "workUnitsCompleted": [
+    "audit.review-candidate-compilation"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-compilation-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Compilation Review\n\nOutcome: `PASS`\n\n## Input Authentication\n\nAll 59 declared reviewer context items matched their exact raw SHA-256 digests and byte counts. Candidate A's 10 frozen compilation/package artifacts matched their bindings, including the 312822-byte compilation file at `sha256:08e4ffcd8b56aa6bc0f325ca6dc8934e078a90244101dd0f9ff2c50cfc63fa0e`.\n\nThe external verification receipt matched 2255 bytes and `sha256:dbce7be0a2b37a7ecfc658050ed49a037d5f87a7df7abf625dd69942e7eadaad`. It is closed and `pass`, binds the required Candidate A and Audit B pairs, binds this reviewer blueprint, records Audit B approval as `pass`, and keeps `candidateLaunchApproved` false. The binder handoff matched 8153 bytes and `sha256:e86d696b83db77d63a79d5b111e33f0bd5d70e211865fd8f4ba49bd449ec384f` with outcome `pass`. Neither input was treated as semantic proof of Candidate A correctness.\n\n## Selection And Schedule\n\nAn independent enumeration reproduced all 203 canonical partitions for the six work units and exactly 52 eligible candidates. The four required producer/checker separations and collapsed dependency-cycle gate were applied independently. The ordered evaluation-set digest reproduced exactly as `sha256:351fd292460c33443e9b335c0649eff2deed02cc4bfab9b2731b47de5be05e59`.\n\nThe selected candidate is `team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d`, with one specialist per atomic work unit. Its metrics independently reproduce: 6 agents, makespan 23, peak concurrency 4, 0 conflict pairs, 8 handoffs, 2119994 duplicated context bytes, 149 duplicated permission scopes, work weight 38, startup cost 12, and handoff cost 8. The schedule reproduces Wave 0 preparation through time 3, four independent lanes from time 4 through times 11, 14, and 16, and integration from time 17 through 23. The retained alternative ordering also matches.\n\nThe serial baseline `team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696` has makespan 40 but is correctly ineligible for `evidence_independence`. The machine-readable `serial_ineligible` selection reason and exact-search claim are therefore accurate.\n\n## Authority And Evidence\n\nThe six blueprints cover every work unit exactly once. Their objectives, Modules, dependencies, authenticated context uses, capabilities, read/write/conflict scopes, permissions, forbidden effects, stop conditions, handoff destinations, and artifacts equal the corresponding GoalContract unions without widening. Only the release verifier receives bounded `dist/**` and `.local/npm-cache/**` write demand; only integration receives the reviewed documentation and memory write demand.\n\nAll eight Candidate A evidence requirements are owned exactly once. Preparation is separated from the algorithm, product/API, and security/trace reviewers; integration is separated from release verification. Dependencies preserve those independence gates and the required fan-in. All six rendered contracts embed the exact compiled blueprint and a closed handoff envelope with the required string-valued artifacts, deterministic media types, evidence status, and identity bindings.\n\nIndependent domain-separated reconstruction matched Candidate A's goal, authority, candidate evaluations, agent and team identities, six blueprint digests, compilation digest `sha256:10cc520eb9c4f277876e76cd82908baa3cfcc01e1b84d5ae7c16d910b88075da`, manifest digest `sha256:f54782960868e70d7a8d666f00a7cf92b81ee09abe596251548fafe82b433175`, all raw file bindings, and package digest `sha256:1e3afc96dc43950e21b3db94752a6f6fe9c33931ab36b0ce4a2adc2229a59994`.\n\n## Revision 29 First Run\n\nThe retained approval binds current `src/index.ts` bytes (4688 bytes, `sha256:dfa16eda45276f9caf5f59e12b2a20c5c0650a153b84d04510e0feac754b672b`) and the workflow contract (36449 bytes, `sha256:813d53058e1c3bde7b1c434d1868375560f4802a3bb484b1a460685954759ef9`). Independent approval derivation reproduced compilation `sha256:910a128cdad0d54510b12becfefdd516b110158e52d44aa71445b7d078b2d3c2` and package `sha256:5acaeee4fbfd736d40f3137086bfd67040eb036722bd1cb6b01478b54ff00605`, exactly matching `approval.json`.\n\nThe normal first-run path verified 2/2 contexts, evaluated two teams, reproduced serial makespan 9 and selected makespan 6, passed approval-bound package verification, and reported that no runtime was invoked and zero agents executed. Its focused regression rejects a stale source binding before compilation.\n\n## Boundary\n\nThis semantic PASS does not approve or launch Candidate A. No Candidate A specialist, release gate, integration action, merge, network operation, or repository mutation was performed."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": [
+    "Preserve these exact handoff bytes, bind them with the verified receipt in the cross-package launch authorization, and separately approve and verify Candidate A before launch."
+  ]
+}

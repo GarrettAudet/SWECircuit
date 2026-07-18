@@ -2,68 +2,82 @@
 
 ## Status
 
-Compiled, dogfed, replayed, and pushed as candidate `191d9339da383a2133377dcca564d7202b7ad66d`. The owner merge decision remains open.
+Revision 30 is preparing exact-candidate freeze. Revision 29 completed the two-package audit and Candidate A fan-out, then machine fan-in correctly blocked integration on product/API and security/trace `FIX` results for incomplete authorization summaries and an unsafe first-run host boundary. The exact run is archived and retired. Both summaries now bind the external receipt, the example host uses strict bounded and canonical contained reads, the retained approval is current, and 7/7 focused first-run tests pass; no revision-30 compilation or package digest is approved yet.
 
 ## Goal And Criteria
 
-Goal: ship an IDE-agnostic repository capability that converts stable atomic software work into the fastest safe, least-coordinated, evidence-complete specialist team under owner ceilings.
+Goal: ship an IDE-agnostic repository capability that converts stable atomic software work into the fastest eligible, least-coordinated, evidence-complete specialist team under owner ceilings, then verifies the exact evidence returned by externally executed specialists before integration.
 
-Stable criteria: AC1-AC13 in `spec.md`; all passed against the revision-6 digest pair.
+Stable criteria: AC1-AC24 in `spec.md`. AC1-AC10 have prior and current focused evidence; AC11-AC24 require the revision-30 source chain and final independent acceptance.
 
 ## Modules And Circuit
 
 ```txt
 clarify | spec | architecture_review | plan | specialist_agent_compiler
-        | implement | verify | review | memory
+        | external_execute | verify_handoff | dependency_fan_in
+        | integrate | verify | review | memory
 ```
 
-V11 implements `specialist_agent_compiler` and its provider-neutral handoff. Existing workflow modules remain the semantic source of atomic work units.
+V11 owns deterministic specialist planning, package rendering, package verification, raw-handoff verification, and dependency fan-in. Existing workflow modules remain the semantic source of atomic work units. An external host owns runtime supply, context delivery, isolation, permission enforcement, execution, persistence, and merge.
 
 ## Assumptions And Decisions
 
-- Owner decision: specialize from exact task demand, never generic roles.
-- Owner decision: optimize useful parallelism while preserving a strong serial baseline.
-- Owner decision: remain IDE/API/model/provider agnostic.
-- Architecture decision: defer runtime scheduling and ship the pure compiler first.
-- Low-risk assumption: integer effort/start/handoff weights are sufficient for deterministic V11 planning comparisons.
-- Release decision: any document integration may mutate is bound through an immutable pre-integration snapshot, and both trusted digests must reconstruct after integration before branch freeze.
+- Specialize from exact task demand, never generic role labels.
+- Optimize useful parallelism while preserving and explaining a strong serial baseline.
+- Remain IDE, API, model, provider, and runtime agnostic.
+- Treat correctness, authority, evidence coverage, clarification closure, and requested producer/checker independence as hard gates.
+- Keep `compileAgentBlueprints` fail-closed; use `analyzeSpecialistCandidates` only to explain the same candidate evaluation when no launchable team exists.
+- Preserve exact raw UTF-8 handoffs before parsing and bind every accepted handoff to its trusted package, goal, blueprint, owned work, artifacts, and evidence duties.
+- Make every generated agent contract self-sufficient at the output boundary with one concrete closed handoff example that the public verifier accepts.
+- Require complete transitive dependency `PASS` evidence before dependent integration.
+- Bind any mutable release document through an immutable pre-integration snapshot and reconstruct both trusted digests after integration.
 
-These decisions map to GoalContract work units and authority, compiler hard gates and comparator, AgentBlueprint forbidden fields, and the digest-bound rendered manifest.
+Integer effort, startup, and handoff weights are deterministic planning units, not elapsed-time promises.
 
 ## Authority And Capabilities
 
-- Current branch: `codex/v11-orchestration-planner`.
-- Core authority: pure input validation, deterministic computation, and returned file values only.
-- No filesystem, network, provider, credential, process, merge, or durable-memory authority enters compilation.
+- Release branch: `codex/v11-orchestration-planner`; recovery work is isolated on `codex/v11-r24-recovery` until committed and transferred.
+- Core authority: validate supplied values, compute deterministic plans, render returned files, and verify supplied bytes.
+- Core performs no caller filesystem reads or writes, network calls, process launches, provider selection, credential handling, permission enforcement, merge, or memory mutation.
+- The first-run example is read-only and explicitly reports that it executed zero agents.
+- The packed-consumer check is a maintainer release gate, not an end-user quick start.
 
 ## Work And Agent Intents
 
-Revision-6 dogfood decomposed release acceptance into six stable units: candidate preparation, product/API review, algorithm/lifecycle review, security/trace review, release verification, and release integration. The compiler selected one exact task-shaped blueprint for each unit and preserved their dependencies, context, authority, evidence, handoff, and stops.
+Revision 30 will freeze six task-shaped work units: candidate preparation, product/API review, algorithm/lifecycle review, security/trace review, release verification, and release integration. The compiler, not the integration owner, will construct and select the roster. Each blueprint will carry exact context, authority, dependencies, evidence duties, handoff, and stop conditions.
 
-The external host executed those contracts and preserved attempts 1-6, including the final attempt-5 replay `FIX` and release-host `FIX` retries 6A/6B. Core constructed and verified the package; it did not select providers, enforce permissions, execute work, persist handoffs, integrate changes, or merge.
+A separate read-only Audit B package will semantically assess the complete frozen Candidate A compilation and package. Candidate A can receive launch approval only after the host preserves a package-verification receipt, Audit B returns a closed `PASS` handoff, and cross-package authorization binds both digest pairs and exact evidence bytes.
 
 ## Optimization Assessment
 
-Serial baseline: one agent owned all six work units, projected 40 planning units, and was ineligible because requested producer/reviewer independence could not be satisfied.
+Revision 30 must recompute the serial baseline, every eligible candidate, the selected partition, `search.mode`, exact `search.claim`, `selectionReason`, alternatives, and evaluation digest from current source-bound inputs. Historical revision-6 through revision-29 metrics are not current performance evidence.
 
-Selected candidate: six exact specialists, projected 23 planning units with peak concurrency 4, zero declared conflict pairs, eight handoffs, and visible duplicated context/permission costs. Exact search evaluated all 203 allowed canonical partitions and found 52 eligible.
+The final report will explain why the selected roster beat the serial baseline under the fixed comparator. It will not present projected makespan as wall-clock speed or claim a global optimum when bounded search is used.
 
-Supplied consolidated-review alternative: four agents, projected 41 planning units. It remained eligible but lost under the fixed comparator.
+## Public Operations
 
-The source-linked run is in `evidence/dogfood/report.json`. Planning values compare declared structure; they are not wall-clock predictions or runtime measurements.
+- `deriveTaskAuthorityProjection`
+- `analyzeSpecialistCandidates`
+- `compileAgentBlueprints`
+- `renderSpecialistPackage`
+- `verifySpecialistPackage`
+- `verifySpecialistHandoff`
+- `assessSpecialistHandoffs`
 
-## Compiler Preview
-
-Runnable through `compileAgentBlueprints({ apiVersion: SPECIALIST_API_VERSION, kind: "SpecialistCompilationRequest", goal, proposedCandidates })`. It constructs candidates internally and returns one digest-bound `AgentBlueprintCompilation` without runtime supply; `renderSpecialistPackage(compilation)` returns the provider-neutral launch files.
+Compilation and analysis share normalized candidate evaluation. Analysis is non-launchable. Rendering returns package values. Package, handoff, and fan-in verification require trusted expectations supplied by the host.
 
 ## Verification And Integration
 
-- Exact and bounded search, six golden selection cases, and fixed-scheduler rules passed.
-- Strict source, declaration, package, consumer, template, canonical, and negative-matrix gates passed.
-- Real V11 dogfood preserved the compilation, package, serial comparison, selected metrics, attempts, and handoffs.
-- Three independent digest-bound acceptance reviews passed with no findings.
-- Preparation and every reviewer bound `context.spec` only to the immutable pre-integration snapshot; the integration owner then reconstructed both trusted digests after the authorized output updates.
+Focused candidate-analysis, schema, handoff, renderer-envelope, proxy/accessor, and first-run checks pass on the corrected tree; the first-run boundary suite is 7/7. Revision-30 acceptance still requires:
+
+1. Exact source bindings and immutable pre-integration snapshots.
+2. Verified Candidate A and Audit B packages plus approval records.
+3. Independent Audit B `PASS`.
+4. Exact Candidate A specialist execution with preserved raw handoffs.
+5. Verified handoffs and ready transitive fan-in.
+6. Canonical repository and checker gates.
+7. Approved release-record integration and post-integration digest reconstruction.
 
 ## Handoff
 
-`pass` to the owner gate. Review compilation `sha256:ac1707213d9c22314d4c5a3d0bc6a838ef31863b63a9e2dac5993541d919c161`, package `sha256:838019281b732ec238e4460c03167087b7a63c409348ee66322cc5535469774d`, candidate `191d9339da383a2133377dcca564d7202b7ad66d`, `review.md`, and `docs/milestones/v11.md`. [Post-integration replay](evidence/dogfood/handoffs/post-integration-replay-pass-attempt-6.md) reconstructed the approved pair after the output changes, and the reviewed candidate is pushed. Request the explicit stacked V10+V11 merge decision and stop before merge until approval.
+Current stage outcome: `pass` from correction to T020 candidate freeze after focused first-run verification. Release outcome has not been emitted. Any binding, audit, handoff, fan-in, or replay mismatch emits `fix` or `diagnose`, retires the candidate when identity changed, and prevents merge approval.

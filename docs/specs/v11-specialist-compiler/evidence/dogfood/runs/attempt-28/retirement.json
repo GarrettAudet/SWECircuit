@@ -1,0 +1,68 @@
+{
+  "apiVersion": "swecircuit/dogfood-retirement/v1alpha1",
+  "kind": "DogfoodCandidateRetirement",
+  "attempt": 28,
+  "outcome": "fix",
+  "candidate": {
+    "compilationDigest": "sha256:18e40b2586375f0b7004fe088b7b2ebc2f0bd607dec27963c1b68c7ee719df7c",
+    "packageDigest": "sha256:7dd562d20096778abcd15601edc4226064865cf418c33f07f8e8ad25878faba0"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:044b44b21d22e5692a5edfb51de76813c689e8b244c58464d8ab55613a30dc3d",
+    "packageDigest": "sha256:86d47a8b1ead37e6a920472fe153bc0d97b9c0340c59246ab5768c762a8f9c42",
+    "outcome": "pass"
+  },
+  "verificationReceipt": {
+    "digest": "sha256:278f1faf438c5854445082737ae23ab33efc1caddd8cba5959b897df8e88bc49",
+    "bytes": 2255,
+    "outcome": "pass"
+  },
+  "reasons": [
+    "The product/API reviewer found that examples/specialist-compiler/approval.json retained an older specialist-compiler-contract.md byte count and digest, so the advertised first-run path fails before compilation.",
+    "The release specialist independently reproduced the stale approval: template, negative-matrix, strict-schema, and specialist golden gates passed, but canonical verification stopped at 364 of 365 tests before package and installed-consumer stages."
+  ],
+  "candidateAgentsLaunched": 5,
+  "candidateResultsPubliclyVerified": 5,
+  "candidatePassResults": 3,
+  "candidateFixResults": 2,
+  "handoffs": {
+    "preparation": {
+      "path": "handoffs/prepare-candidate-pass-attempt-28.json",
+      "digest": "sha256:af187af6a16ac6d7166d1e690b125bb005131e6f57423a7e36e0320373b28b1d",
+      "bytes": 12808,
+      "outcome": "pass"
+    },
+    "algorithmLifecycle": {
+      "path": "handoffs/algorithm-lifecycle-review-pass-attempt-28.json",
+      "digest": "sha256:5ccbd0eb6f34b40aa545e3842a6c0121bb3c749cfa147fe3781c19cbf82158b5",
+      "bytes": 6412,
+      "outcome": "pass"
+    },
+    "productApi": {
+      "path": "handoffs/product-api-review-fix-attempt-28.json",
+      "digest": "sha256:e0330955fc96b354ab9146d5e9909f858d7975924763c5ad830e5fd353ac7527",
+      "bytes": 4080,
+      "outcome": "fix"
+    },
+    "securityTrace": {
+      "path": "handoffs/security-trace-review-pass-attempt-28.json",
+      "digest": "sha256:1aedfdb52a48246b7af460135cfdb7d48895dd3c8f6d0606865eb46178f8a5a8",
+      "bytes": 7028,
+      "outcome": "pass"
+    },
+    "releaseGates": {
+      "path": "handoffs/verify-release-fix-attempt-28.json",
+      "digest": "sha256:3444d6506cb7e4842bb2bb53347580876af9cfd249622bb5cad9011c94f4a1fb",
+      "bytes": 4858,
+      "outcome": "fix"
+    }
+  },
+  "fanIn": {
+    "path": "handoffs/fan-in-fix-attempt-28.json",
+    "digest": "sha256:a7368d998a0b5ca2ac6f8e500cda1ac36ec1eae93cb0928de5524122e3cdeb94",
+    "bytes": 3463,
+    "integrationReady": false
+  },
+  "candidateIntegrated": false,
+  "nextRevision": 29
+}

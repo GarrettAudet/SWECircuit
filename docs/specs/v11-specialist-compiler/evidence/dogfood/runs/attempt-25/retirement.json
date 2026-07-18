@@ -1,0 +1,21 @@
+{
+  "apiVersion": "swecircuit/dogfood-retirement/v1alpha1",
+  "kind": "DogfoodCandidateRetirement",
+  "attempt": 25,
+  "outcome": "fix",
+  "candidate": {
+    "compilationDigest": "sha256:6fd3f23139663de4dbb1950043dc02e2dc90e6da284f8ade1e99cfcc5b2f6404",
+    "packageDigest": "sha256:1c7e875c0aad3c1b4a0987b14ec9be57b73c533c03779236889ce547db3e5af8"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:3cdf00aaa53b2d4b0a3a72789a6d654b49e4cbfbbd58e9b6a45c085ee05483a6",
+    "packageDigest": "sha256:bc806f5007a87f2c5363c3cd0f3c35371e0c8ed6dda7ad46003ac88dd4fc7dac"
+  },
+  "reason": "The concise README removed required V9/V10 source-checkout and external-host boundary statements enforced by the workflow checker.",
+  "agentsLaunched": 1,
+  "agentResultsAccepted": 0,
+  "binderStatus": "interrupted-before-handoff",
+  "launchAuthorizationCreated": false,
+  "candidateIntegrated": false,
+  "nextRevision": 26
+}

@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "exitCode": 0,
+  "diagnostics": [],
+  "value": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "SpecialistHandoffSetAssessment",
+    "goalId": "v11.specialist-compiler.release",
+    "goalRevision": 29,
+    "goalDigest": "sha256:286beb788fb2b99cd823858b6104792f5e7c00850e57e5488f80b05c5f2ee72b",
+    "compilationDigest": "sha256:10cc520eb9c4f277876e76cd82908baa3cfcc01e1b84d5ae7c16d910b88075da",
+    "packageDigest": "sha256:1e3afc96dc43950e21b3db94752a6f6fe9c33931ab36b0ce4a2adc2229a59994",
+    "targetAgentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+    "requiredAgentIds": [
+      "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+    ],
+    "receivedAgentIds": [
+      "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+    ],
+    "missingAgentIds": [],
+    "handoffs": [
+      {
+        "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+        "outcome": "pass",
+        "rawBytes": 13495,
+        "rawDigest": "sha256:28dee78765dec277174e8f6aa508648c9db255a9706e68663cced03c9bdf8043",
+        "semanticDigest": "sha256:7de8b1ceef477b191585ce1a205b01e1700e64f95799958b6ed0cf81756f478e"
+      }
+    ],
+    "integrationReady": true,
+    "contentDigest": "sha256:57ca6844055c5740864e4063754f274cd8035098567d6f0301ded85580c265f7"
+  }
+}

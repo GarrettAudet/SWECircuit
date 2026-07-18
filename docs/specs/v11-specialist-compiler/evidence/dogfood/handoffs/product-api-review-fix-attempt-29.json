@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.release",
+    "revision": 29,
+    "digest": "sha256:286beb788fb2b99cd823858b6104792f5e7c00850e57e5488f80b05c5f2ee72b"
+  },
+  "agent": {
+    "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+    "blueprintDigest": "sha256:640581d3c11081f5dfadbe508f737139b3314d90c0567f327059ce8b69a00bfc"
+  },
+  "compilationDigest": "sha256:10cc520eb9c4f277876e76cd82908baa3cfcc01e1b84d5ae7c16d910b88075da",
+  "summary": "FIX: The public implementation, first-run path, exports, schemas, installed-consumer contract, and runtime neutrality are coherent, but two controlling user documents omit the mandatory prelaunch package-verification receipt binding.",
+  "workUnitsCompleted": [
+    "review.product-api"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Product And Public API Review\n\nOutcome: `FIX`\n\n## Blocking Finding\n\n### Prelaunch receipt is omitted from controlling workflow summaries\n\n`docs/specs/v11-specialist-compiler/specialist-compiler-contract.md:407` states that the final cross-package authorization binds both digest pairs and Audit B's `PASS` handoff, but omits the mandatory `PrelaunchPackageVerificationReceipt`. `docs/ai/handbook.md:701` repeats the same incomplete authorization path.\n\nThe accepted protocol at `docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md:36` and `:40`, the IDE kickoff at `docs/ide/specialist-agent-kickoff.md:163` and `:165`, and `AGENTS.md:146` require the host to create, preserve, and deliver the external receipt before Audit B launches. The final authorization must bind the receipt's exact path, raw digest, byte count, and outcome in addition to the semantic handoff's corresponding bindings.\n\nThis is release-blocking documentation drift. A host following either incomplete summary can authorize Candidate A without preserving the evidence that Candidate A was reconstructed and Audit B was approval-verified before Audit B launch.\n\n## Surface Review\n\n- Context integrity: all 32 declared context files matched their required raw SHA-256 digests and byte counts before review.\n- Owner fit: the seven public operations cover authority derivation, non-launchable candidate analysis, fail-closed compilation, deterministic rendering, two-digest package verification, raw handoff verification, and dependency fan-in.\n- First run: the checked-in source bindings match current `src/index.ts` and the compiler contract; the example verifies sources before compilation, checks the retained package expectation, writes no files itself, and explicitly reports zero executed agents.\n- Exports and types: `src/index.ts` exposes the complete additive V11 operation and type inventory while retaining the existing root surface.\n- Schemas: the compiler and handoff schemas are closed, use the five exact permission kinds, and depend only on package-owned common definitions.\n- Installed consumers: `package.json` exports all three required schema subpaths. The JavaScript and TypeScript consumer hosts use the same independently retained expectation, exercise every V11 operation, derive artifact media types consistently, and fail closed on stale package identity.\n- Neutrality: no public shape contains role, provider, model, prompt, executor, credential, grant, or runtime-supply fields. Core operations return values and perform no caller-directed writes, network access, launch, merge, or memory mutation; lazy reads are limited to shipped schema resources.\n- Specialist fit: the exact product/API work, context, authority, and evidence demand cannot be substituted by a generic role. The public contract does not require a provider or runtime, so neither explicit stop condition was triggered.\n\n## Verification Boundary\n\nThis lane remained read-only and used only the declared PowerShell and `rg` process authority. It inspected the focused tests and installed-consumer gates but did not execute the separate release-verification suite."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.product-api",
+      "requirementId": "evidence.product-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "fix",
+      "artifact": "product-api-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The incomplete normative summaries can produce a cross-package authorization that lacks externally preserved package-verification evidence."
+  ],
+  "followUps": [
+    "Update the compiler contract and handbook to require receipt creation, preservation, prelaunch delivery, candidateLaunchApproved false, and exact receipt plus semantic-handoff bindings in final authorization.",
+    "Because both corrected documents are digest-bound Candidate A context, retire revision 29, compile and approve a new revision, and repeat the affected prelaunch and Candidate A reviews."
+  ]
+}

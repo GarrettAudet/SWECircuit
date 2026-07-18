@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.release",
+    "revision": 27,
+    "digest": "sha256:a31aae035f02012b567cd6bfa502063884bf10d6a5f43c1073da190cd60887d4"
+  },
+  "agent": {
+    "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+    "blueprintDigest": "sha256:962c436b6c22bcc6628152013f7b3d11cb277f01f8a7bd234443a3605fd54b58"
+  },
+  "compilationDigest": "sha256:db47c3393dca0ede877bf07eecc89cd89cb7241f8380fb65f1ed8513221b2dd7",
+  "summary": "FIX: The provider-neutral operations and first-run path are coherent, but the exported specialist JSON schemas depend on common.schema.json without exposing that dependency through a supported package subpath.",
+  "workUnitsCompleted": [
+    "review.product-api"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Product and API Review\n\nOutcome: `FIX`\n\n## Authentication\n\nAll 32 context items declared by this reviewer contract matched their exact raw SHA-256 digests and byte counts. The required preparation handoff matched raw SHA-256 `fdc12e61dc982d81cb1f219ff2f22e97bb7500693209e863e100d5a81c6542c1`, identified the required dependency agent, returned `pass`, and bound compilation `sha256:db47c3393dca0ede877bf07eecc89cd89cb7241f8380fb65f1ed8513221b2dd7`.\n\nThe launch authorization bound that compilation to package `sha256:fde922b7e3c2f4747e04c92dacea8af3c7083fa87cd3bcf029f92b2b1ce632b3`. Its receipt and semantic audit handoff matched their declared raw digests and byte counts, parsed as closed `pass` records, agreed on both Candidate A and Audit B digest pairs, and retained `candidateLaunchApproved: false`. The generated reviewer contract matched its package binding at 23,719 bytes and raw SHA-256 `70d03f3efe19aaea59dd69843f981e093503ef8d4538373e4c560425f73f2132`.\n\n## Required Fix\n\n### Exported schemas have an inaccessible public dependency\n\nBoth exported specialist schemas contain `$ref` values into package-owned `common.schema.json`. The package exposes supported subpaths for `specialist-compiler.schema.json` and `specialist-handoff.schema.json`, but exposes no subpath for `common.schema.json`.\n\nA clean consumer therefore cannot strictly compile either advertised schema using only supported package specifiers. It must derive and traverse a private installed-package path or independently map the HTTPS schema identifier, potentially through network access. That weakens the claimed offline, package-owned, minimal schema API.\n\nThe current evidence does not catch this boundary defect: source-tree schema tests load `common.schema.json` directly, while the packed-consumer check confirms that the common file is physically packed and resolves only the two leaf exports. It does not compile the exported schemas from supported installed-package specifiers.\n\nRequired correction: either export `common.schema.json` through a documented package subpath or make each exported specialist schema self-contained. Add an installed-consumer regression that resolves every required schema through supported package exports and compiles both specialist schemas in strict Ajv 2020 mode without private-path traversal or network access.\n\n## Passing Review Areas\n\nThe seven public operations form a coherent progression from authority projection and candidate analysis through compilation, rendering, two-digest verification, raw-handoff verification, and dependency-complete fan-in. Their declarations remain closed, immutable, additive, and free of provider, model, prompt, credential, grant, or runtime-supply fields.\n\nThe responsibility boundary is consistently stated: core returns and verifies values, while an external host owns context delivery, enforcement, execution, persistence, integration, merge, and memory effects. No provider or runtime is required by the public core contract.\n\nThe generated agent contract supplies a concrete closed handoff envelope with exact nested bindings. The handoff and fan-in APIs preserve the distinction between structural verification and a successful workflow outcome.\n\nThe first-run path is concise and truthful for a source checkout: `npm ci`, build, and `example:specialist` lead to verified context, serial-versus-selected evidence, approval-bound package verification, and an explicit zero-agent runtime statement. Its source and focused test encode deterministic output, stale-source rejection, and read-only behavior. This review did not rerun Node or npm commands because its approved process authority was limited to PowerShell and `rg`; execution evidence remains owned by the release-verification lane.\n\n## Stop Conditions\n\nA generic role cannot substitute for this exact product/API review contract, and the public core contract does not require a provider or runtime. Neither explicit stop condition triggered; the `fix` outcome is caused by the public schema-export closure defect above.\n"
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.product-api",
+      "requirementId": "evidence.product-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "fix",
+      "artifact": "product-api-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Without a supported common-schema export, downstream schema consumers may rely on undocumented package layout or external schema retrieval."
+  ],
+  "followUps": [
+    "Export common.schema.json through a supported package subpath or make both specialist schemas self-contained.",
+    "Extend the clean installed-consumer gate to resolve and strictly compile all required schemas without private-path traversal or network access."
+  ]
+}

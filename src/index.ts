@@ -44,10 +44,12 @@ export type {
   WorkPacketArtifact,
 } from "./model.js";
 export {
+  analyzeSpecialistCandidates,
   compileAgentBlueprints,
   deriveTaskAuthorityProjection,
 } from "./specialist-compiler.js";
 export { renderSpecialistPackage, verifySpecialistPackage } from "./specialist-render.js";
+export { assessSpecialistHandoffs, verifySpecialistHandoff } from "./specialist-handoff.js";
 export type {
   AgentBlueprint,
   AgentBlueprintAuthority,
@@ -93,6 +95,18 @@ export type {
   SpecialistSelectionReason,
   SpecialistUnresolvedDecision,
   SpecialistWorkUnit,
+  NoEligibleSpecialistCandidateAnalysis,
+  SelectedSpecialistCandidateAnalysis,
+  SpecialistAgentHandoff,
+  SpecialistCandidateAnalysis,
+  SpecialistHandoffAgentBinding,
+  SpecialistHandoffArtifact,
+  SpecialistHandoffArtifactBinding,
+  SpecialistHandoffAssessmentEntry,
+  SpecialistHandoffEvidence,
+  SpecialistHandoffGoalBinding,
+  SpecialistHandoffSetAssessment,
+  VerifiedSpecialistHandoff,
   TaskAuthorityProjection,
 } from "./specialist-types.js";
 export { inspectTrace } from "./trace.js";

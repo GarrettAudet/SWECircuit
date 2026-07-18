@@ -1,0 +1,69 @@
+{
+  "apiVersion": "swecircuit/dogfood-retirement/v1alpha1",
+  "kind": "DogfoodCandidateRetirement",
+  "attempt": 27,
+  "outcome": "fix",
+  "candidate": {
+    "compilationDigest": "sha256:db47c3393dca0ede877bf07eecc89cd89cb7241f8380fb65f1ed8513221b2dd7",
+    "packageDigest": "sha256:fde922b7e3c2f4747e04c92dacea8af3c7083fa87cd3bcf029f92b2b1ce632b3"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:183c968974eab7b6d7bd4451ceec2d35d16784265deb6b333836a7726b216d6c",
+    "packageDigest": "sha256:c163c1c5eefc6900234fd781877677c0a41cbd6ffc7cd104b749bcf952f18841",
+    "outcome": "pass"
+  },
+  "verificationReceipt": {
+    "digest": "sha256:c910c975fa9eed38b6cec527a3c9e6c9ae99444133b447c708d8c0d7815f001e",
+    "bytes": 2255,
+    "outcome": "pass"
+  },
+  "reasons": [
+    "The product/API reviewer found that both advertised specialist schemas reference common.schema.json without exposing that dependency through a supported package subpath or testing strict installed-consumer compilation.",
+    "The security/trace reviewer proved that handoff verification accepts carriage-return artifact content and media-type substitution instead of binding normalized content and the generated artifact media type.",
+    "The release specialist found that the packed-consumer retained package approval digest was stale, so the canonical npm verify gate stopped at installed-consumer verification."
+  ],
+  "candidateAgentsLaunched": 5,
+  "candidateResultsPubliclyVerified": 5,
+  "candidatePassResults": 2,
+  "candidateFixResults": 3,
+  "handoffs": {
+    "preparation": {
+      "path": "handoffs/prepare-candidate-pass-attempt-27.json",
+      "digest": "sha256:fdc12e61dc982d81cb1f219ff2f22e97bb7500693209e863e100d5a81c6542c1",
+      "bytes": 18810,
+      "outcome": "pass"
+    },
+    "algorithmLifecycle": {
+      "path": "handoffs/algorithm-lifecycle-review-pass-attempt-27.json",
+      "digest": "sha256:5fe15014e29a1501c037ff96e56e8222354f5a900659e0e3a71cbab78779440a",
+      "bytes": 9370,
+      "outcome": "pass"
+    },
+    "productApi": {
+      "path": "handoffs/product-api-review-fix-attempt-27.json",
+      "digest": "sha256:fce2331f0cad46e3238ccadfcd534d6ff37ade6196068bee3f361154e1f22c7e",
+      "bytes": 5831,
+      "outcome": "fix"
+    },
+    "securityTrace": {
+      "path": "handoffs/security-trace-review-fix-attempt-27.json",
+      "digest": "sha256:634b778e1a46f1bd14ea349267d09d77d761042ea4f717e0496e1cc7ea7b4932",
+      "bytes": 4437,
+      "outcome": "fix"
+    },
+    "releaseGates": {
+      "path": "handoffs/verify-release-fix-attempt-27.json",
+      "digest": "sha256:455d6d6a1a9746ba2c64f0cb5f28365db34b09d7daefa611419c91b937323ebf",
+      "bytes": 5684,
+      "outcome": "fix"
+    }
+  },
+  "fanIn": {
+    "path": "handoffs/fan-in-fix-attempt-27.json",
+    "digest": "sha256:2d86c9285fd402d248ea4651fc32a55c75cd00c7fa95c8cb855e07524e1e3ab2",
+    "bytes": 3462,
+    "integrationReady": false
+  },
+  "candidateIntegrated": false,
+  "nextRevision": 28
+}

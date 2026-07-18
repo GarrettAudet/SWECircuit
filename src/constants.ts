@@ -5,9 +5,13 @@ export const SPECIALIST_API_VERSION = "swecircuit/specialist/v1alpha1" as const;
 export const SPECIALIST_KINDS = [
   "GoalContract",
   "SpecialistCompilationRequest",
+  "SpecialistCandidateAnalysis",
   "TaskAuthorityProjection",
   "AgentBlueprint",
   "AgentBlueprintCompilation",
+  "SpecialistAgentHandoff",
+  "VerifiedSpecialistHandoff",
+  "SpecialistHandoffSetAssessment",
   "SpecialistPackageManifest",
 ] as const;
 
@@ -34,6 +38,9 @@ export const SPECIALIST_LIMITS = Object.freeze({
   ports: 128,
   retainedAlternatives: 8,
   planningWeight: 1_000_000,
+  handoffBytes: 1_048_576,
+  handoffArtifacts: 128,
+  handoffTextItems: 256,
 });
 
 export const ARTIFACT_KINDS = [

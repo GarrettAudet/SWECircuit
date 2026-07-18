@@ -2,7 +2,7 @@
 
 ## Status
 
-Reopened through revision-23 independent review. Delimiter-spanning diagnostic secret leakage is confirmed and corrected; focused suites pass 43/43 and the complete kernel passes 354/354 with format, lint, typecheck, and build. Revision 24 must bind the corrected bytes before fresh packages, approvals, independent acceptance, full release verification, integration, or post-integration replay.
+Reopened through revision-28 Candidate A fan-in. Product/API and release independently confirmed one stale first-run approval; the current source binding and derived compilation/package expectation are corrected, and the normal example plus 2/2 focused tests pass. Revision 29 must bind the corrected bytes before fresh packages, approvals, independent acceptance, full release verification, integration, or post-integration replay.
 
 ## Incident Summary
 
@@ -303,3 +303,191 @@ The pre-fix public reproduction returned both complete canaries unchanged. After
 ### Residual Gate
 
 The source correction retires revision 23. Revision 24 must refresh immutable snapshots and source tuples, rebuild and separately approve Candidate A and Audit B, repeat both audit waves and every Candidate A lane, then complete integration and post-integration reconstruction.
+
+## Attempt 24 Prelaunch Handoff Contract Contradiction
+
+### Incident
+
+Revision 24 compiled and approval-verified Candidate A and Audit B and preserved a `pass` package-verification receipt. Before launching Audit B, host inspection found that no closed semantic handoff could satisfy both the selected reviewer blueprint and launch-authorization validator.
+
+### Stable Evidence
+
+- Candidate A pair: `sha256:05fd18cc50e06f872cb9f1a4229970206c2a27383ad8d7f64024f7f7f9d5c9c8` / `sha256:6748f967eb5f091fbc2f25b00ab9dc8a5fe255dd49d26492fcbea00fe9981573`.
+- Audit B pair: `sha256:fe6e200e0d5d5af4f3f077353320b240569699ef83a882204c077ed3dbb5350e` / `sha256:268cbeab032a8b78e56fcb29f8526ad6ff75d4745524617ba04cca75dd83ccd1`.
+- Receipt digest: `sha256:d2ccec5d441d57a1d3544a7a665773ec97b8db6082c87653ed4e8db636312473`.
+- No external audit or Candidate A agent was launched and no specialist result was integrated.
+
+### Confirmed Cause
+
+`compileAgentBlueprints` correctly advertised the standard specialist handoff fields, including `agent` and `compilationDigest`. The older custom `PrelaunchAuditHandoff` validator used a closed top-level key set with `reviewer`, `candidate`, and `prelaunchAudit`, but omitted and rejected the two standard fields. The package contract and host admission contract had evolved independently.
+
+### Causal Fix And Regression
+
+Make the custom envelope a closed superset. Require `agent` and `compilationDigest` alongside the audit-specific bindings. Validate standard field shape and safety, require `agent` to equal the selected Audit B reviewer, require `compilationDigest` to equal Audit B's approved compilation, and independently require the audit-specific duplicates to equal the same values. Update the two-phase example and stop condition.
+
+Focused prelaunch coverage passes 29/29 and includes malformed, non-PASS, unsafe metadata, unknown field, unrelated reviewer, stale candidate, mismatched standard agent, mismatched blueprint, stale standard compilation, and duplicate-evidence cases.
+
+### Residual Gate
+Revision 24 cannot be revived because the correction changes the launch contract and bound source bytes. Revision 25 must regenerate and independently approve both packages, recreate the external receipt, execute a fresh Audit B, and authorize Candidate A only from the exact closed superset handoff.
+
+## Attempt 25 README Public-Contract Regression
+
+### Incident
+
+Revision 25 corrected the prelaunch envelope, compiled and approval-verified Candidate A and Audit B, produced a `pass` external package-verification receipt, and passed the complete 364-test kernel. Before any Audit B result was accepted, the repository workflow checker rejected the shortened README. One binder was interrupted before handoff; Candidate A was never authorized or launched and no integration occurred.
+
+### Stable Evidence
+
+- Candidate A pair: `sha256:6fd3f23139663de4dbb1950043dc02e2dc90e6da284f8ade1e99cfcc5b2f6404` / `sha256:1c7e875c0aad3c1b4a0987b14ec9be57b73c533c03779236889ce547db3e5af8`.
+- Audit B pair: `sha256:3cdf00aaa53b2d4b0a3a72789a6d654b49e4cbfbbd58e9b6a45c085ee05483a6` / `sha256:bc806f5007a87f2c5363c3cd0f3c35371e0c8ed6dda7ad46003ac88dd4fc7dac`.
+- Receipt digest: `sha256:50ffa198a0cf1f7cb44211318a3f476bcb2da1773d26654a8b7dfd9eadb69267`.
+- Retirement record: `evidence/dogfood/runs/attempt-25/retirement.json`.
+- Accepted specialist results: zero.
+
+### Confirmed Cause
+
+The concise README rewrite optimized the visible V11 story but treated older public documentation as disposable prose. It removed stable headings, the source-checkout `init` path, active links to the minimal project and bounded executor contract, and exact statements separating V10 capability from external-host effects. Those anchors were already enforced by `scripts/check-template.ps1`, so the source candidate and repository contract disagreed.
+
+### Causal Fix And Regression
+
+Restore the stable workflow headings while keeping the six-step explanation and first-run flow concise. Restore the existing-kernel init, validate, and inspect commands, active minimal-project and executor-boundary links, and exact external-host/non-effect statements. Add R29 and AC18 to make the compatibility obligation visible in the feature package. The immediate template-checker rerun passes.
+
+### Residual Gate
+
+Revision 25 remains retired because README, spec, test plan, task package, active memory, and source digests changed. Revision 26 must freeze those exact bytes, rebuild and separately approve Candidate A and Audit B, repeat the independent semantic audit and all Candidate A lanes, verify transitive fan-in, integrate only exact `PASS` handoffs, reconstruct both identities, and run the full release matrix before publication.
+
+## Attempt 26 Generated Handoff Contract Gap
+
+### Incident
+
+Revision 26 compiled and approval-verified Candidate A and Audit B and preserved a passing external package-verification receipt. One authenticated Audit B binder then returned JSON that matched the advertised top-level fields but copied the different nested shapes from the blueprint. The strict public handoff verifier rejected the exact raw result with `SC4310`. The checker matrix separately matched 118/119 cases and identified one stale expected diagnostic. No semantic reviewer or Candidate A specialist launched, zero results were accepted, and no integration occurred.
+
+### Stable Evidence
+
+- Candidate A pair: `sha256:f3658ec182621f9a3485915cd260046d70e7fb1dcd84770f5b03ed3c9d05bb8e` / `sha256:f888a1a784d203d51bcb5d780b71167e0012662d30cec3dbab0d6e34afcab13a`.
+- Audit B pair: `sha256:9823e1919504fd757584f8eb24f2720c8ff34df4834e52a3d3a096a34304115f` / `sha256:3661bf2fcdfeaa88f43bf5fdf22b9f6c54f7ac908d70e96540b03f56714be1d1`.
+- Receipt digest: `sha256:61884e10b8bf190b102ead9d6fab0c5e9ea24326155142fbaa2f6975d2db6716`.
+- Invalid raw binder digest: `sha256:72e5af3d45abe6b4de0b48bde25fc63bc91307a1320df5f742b64f379b261ae4`.
+- Retirement record: `evidence/dogfood/runs/attempt-26/retirement.json`.
+
+### Confirmed Cause
+
+The generated agent contract embedded the full blueprint and listed the handoff's required top-level field names, but it did not define the closed nested artifact and evidence records. The binder reasonably reused nearby blueprint structures: JSON artifact content became an object, `mediaType` was absent, and evidence omitted `status` and artifact references. A schema that exists only elsewhere in the repository is not a self-sufficient execution contract. Separately, the checker fixture replaced the line containing both required links but hard-coded only the AGENTS diagnostic even though link order made the missing handbook link the deterministic result.
+
+### Causal Fix And Regression
+
+Render one concrete closed `SpecialistAgentHandoff` JSON block in every agent contract. Bind exact goal, compilation, agent, destination, work units, artifact names, and evidence duties; keep artifact content string-valued; and include every required nested field. Extract every rendered example in the compiler suite, assert exact nested keys, and pass it through `verifySpecialistHandoff` against the rendered package. Update the checker fixture to expect the handbook-link diagnostic that its mutation actually produces.
+
+### Residual Gate
+
+Revision 26 remains retired because the rendered contract, tests, feature package, and source bindings changed. Revision 27 must rebuild and separately approve Candidate A and Audit B, repeat the binder and independent semantic audit, launch Candidate A only after exact cross-package authorization, verify every raw specialist handoff and fan-in, integrate accepted outputs, reconstruct both package identities, and pass the canonical release matrix.
+
+## Attempt 27 Public Package And Handoff Boundary Failures
+
+### Incident
+
+Revision 27 passed the separate two-package prelaunch audit and launched the exact Candidate A fan-out. Preparation and algorithm/lifecycle passed. Product/API, security/trace, and release verification independently returned `FIX`, so complete machine fan-in remained non-integration-ready and the integration agent did not launch.
+
+### Confirmed Causes
+
+1. `package.json` advertised both specialist leaf schemas but omitted the package-owned `common.schema.json` each leaf references. Source tests registered common directly, while the packed consumer checked only leaf resolution and therefore did not exercise the supported public dependency closure.
+2. Artifact scanning removed TAB, LF, and CR before calling the control predicate. This made CR and CRLF acceptable in evidence even though the contract permits normalized LF only. Package-bound verification compared artifact names but did not compare each supplied media type with the deterministic type rendered for that name.
+3. The JavaScript packed-host approval was refreshed after the rendered contract changed, but the separate TypeScript fixture retained the previous package digest. Canonical verification reached the installed host and correctly rejected the stale approval.
+
+### Causal Fix And Regression
+
+Expose `swecircuit/schemas/common.schema.json`; resolve all three schema resources from a clean installed package; and compile both advertised schemas and every definition in one strict Ajv 2020 registry. Share deterministic artifact-media derivation between renderer and verifier, reject every artifact-content control except LF, and add exact CR, CRLF, TAB, media-substitution, and LF-positive regressions. Keep both packed hosts on one externally retained digest pair and make each host derive the artifact media from its declared name.
+
+Focused compiler, schema, and handoff coverage passes 54/54. Lint, typecheck, build, and the clean offline packed-consumer gate pass. The fixes cannot revive revision 27 because they change package exports, verifier semantics, tests, host fixtures, and bound source bytes.
+
+### Residual Gate
+
+Revision 28 must refresh immutable snapshots and every source tuple, rebuild and separately approve Candidate A and Audit B, repeat both audit waves and every Candidate A lane, require machine fan-in `integrationReady: true`, integrate only exact `PASS` results, reconstruct both package identities, and pass the canonical release matrix before publication.
+
+## Attempt 28 Stale First-Run Approval
+
+### Incident
+
+Revision 28 passed the complete two-package prelaunch audit and launched Candidate A. Preparation, algorithm/lifecycle, and security/trace passed. Product/API and release verification independently returned `FIX`, so complete machine fan-in remained non-ready and integration did not launch.
+
+### Stable Evidence
+
+- Candidate A pair: `sha256:18e40b2586375f0b7004fe088b7b2ebc2f0bd607dec27963c1b68c7ee719df7c` / `sha256:7dd562d20096778abcd15601edc4226064865cf418c33f07f8e8ad25878faba0`.
+- Audit B pair: `sha256:044b44b21d22e5692a5edfb51de76813c689e8b244c58464d8ab55613a30dc3d` / `sha256:86d47a8b1ead37e6a920472fe153bc0d97b9c0340c59246ab5768c762a8f9c42`.
+- Product/API raw handoff: `sha256:e0330955fc96b354ab9146d5e9909f858d7975924763c5ad830e5fd353ac7527`.
+- Release raw handoff: `sha256:3444d6506cb7e4842bb2bb53347580876af9cfd249622bb5cad9011c94f4a1fb`.
+- Retirement record: `evidence/dogfood/runs/attempt-28/retirement.json`.
+
+### Confirmed Cause
+
+The example approval is an independently retained decision that binds both source identity and the derived package identity. Revision-28 documentation changed `specialist-compiler-contract.md`, but its checked-in approval still named the prior 36,089-byte source and prior digest. The example correctly failed before compilation, and the canonical test correctly stopped release. The freeze process refreshed broad dogfood source tuples but did not regenerate this separate retained approval.
+
+### Causal Fix And Regression
+
+Regenerate the complete approval through the read-only `--derive-approval` path, updating the current 36,449-byte source binding and the resulting compilation/package expectation pair together. Add R34 and AC23 so candidate freeze explicitly treats checked-in approvals as retained owner decisions. The normal example now approval-verifies and both focused first-run tests pass, including stale-source rejection.
+
+### Residual Gate
+
+Revision 28 remains retired because the approval, feature package, active memory, and source bindings changed. Revision 29 must rebuild and separately approve Candidate A and Audit B, repeat Audit B and every Candidate A lane, require machine fan-in `integrationReady: true`, integrate only exact `PASS` results, reconstruct both package identities, and pass the complete canonical release matrix before publication.
+
+## Attempt 29 Authorization Summary And Reference-Host Boundary Failures
+
+### Incident
+
+Revision 29 passed the complete two-package prelaunch audit, candidate preparation, algorithm/lifecycle review, and canonical release verification. Product/API and security/trace returned independent `FIX` outcomes. Complete fan-in was non-ready, so integration did not launch.
+
+### Stable Evidence
+
+- Candidate A pair: `sha256:10cc520eb9c4f277876e76cd82908baa3cfcc01e1b84d5ae7c16d910b88075da` / `sha256:1e3afc96dc43950e21b3db94752a6f6fe9c33931ab36b0ce4a2adc2229a59994`.
+- Audit B pair: `sha256:17d7985ed3c4d0f817550b29d9b95308d11a5acaf13dabdee288e3b1d692742d` / `sha256:807d04eb877751acbe4802ccf147bf0853ac4df3390a953ed4669fc572bbbfb7`.
+- Product/API raw handoff: `sha256:04b3471e18061a942b67ee375938c4f8df6cbbae2835f839cf09913f532de1dc`.
+- Security/trace raw handoff: `sha256:800805171e23a8eef38d13861f345dc630ab4cd76a7856aa1d72b1c310b2dd5d`.
+- Final fan-in: `sha256:95168d0fd74ac4e6a21526ddf81d60a5e09a53dd3d4138f4a32678b8b416431f`, `integrationReady: false`.
+- Retirement record: `evidence/dogfood/runs/attempt-29/retirement.json`.
+
+### Confirmed Causes
+
+1. The normative two-phase protocol had evolved to require a host-created `PrelaunchPackageVerificationReceipt`, but two shorter authorization summaries retained the older two-artifact description. The detailed protocol and implementation agreed; duplicated summary prose drifted and could guide an external host to create an incomplete final authorization record.
+2. The read-only example treated approval and source paths as trusted setup. It used plain `JSON.parse`, checked paths lexically, and then used ordinary filesystem reads. Existing kernel helpers already enforced strict duplicate-aware JSON and canonical contained-file identity, but the reference host had not adopted them. Its tests covered only normal and stale approval paths, leaving parser ambiguity, privacy, non-file input, and link or junction escape unexercised.
+
+### Causal Fix And Regression
+
+Make both summaries state the same closed receipt and semantic-handoff bindings as the normative protocol. In the example host, read retained approval bytes through a bounded regular-file boundary; parse strict UTF-8 with duplicate detection; enforce exact keys recursively; reject unsafe, non-scalar, secret-bearing, absolute, wildcard, stream, dot-segment, or separator-confused source paths before I/O; and read repository sources through the existing canonical contained-file helper. Sanitize failure text so untrusted path content is not echoed.
+
+The first-run suite now has seven cases covering deterministic success, stale approval, malformed/duplicate/oversized JSON, unknown nested fields, unsafe and privacy-sensitive path forms, directory and external-junction targets, and secret-bearing approval paths. All 7/7 focused tests pass on the corrected tree.
+
+### Residual Gate
+
+Revision 29 remains retired because the protocol summaries, example host, tests, feature package, active memory, and retained approval bytes changed. Revision 30 must rebuild and separately approve Candidate A and Audit B, repeat Audit B and every Candidate A lane, require machine fan-in `integrationReady: true`, integrate only exact `PASS` results, reconstruct both package identities, and pass the complete canonical release matrix before publication.
+
+## Attempt 30 Release-Host Authority Fix
+
+### Incident
+
+Revision 30 release attempt 30a returned `FIX` before canonical gates because preflight spawned `rg.exe` and `whoami.exe` outside that specialist's declared process authority. The exact Candidate A and Audit B trust chain remained valid, no candidate source or evidence bytes changed, and no release result was accepted from 30a.
+
+### Confirmed Cause
+
+The failure was host-invocation scope drift, not a compiler or candidate defect. The preflight selected convenient inspection executables that were absent from the release blueprint's closed `process.spawn` demand.
+
+### Bounded Correction And Verification
+
+Restart the exact release work unit without changing candidate inputs, use only its declared executables, retain temporary and cache writes inside its authorized roots, and rerun every release gate. Exact retry 30b authenticated all declared sources before and after execution and passed 119/119 checker cases, 133/133 focused regressions, 370/370 canonical tests, package dry run, installed-consumer compatibility, and committed V11 evidence replay. Its 9,948-byte `PASS` handoff is `sha256:2d5c1e2dc5e5685933fc6c2b228b3bbb60d77a030f655db93cb0d4f862c3bbd2`.
+
+### Residual Gate
+
+Attempt 30a remains preserved as bounded `FIX` evidence and is superseded only for release acceptance by exact retry 30b. The host preserved the integration handoff, reconstructed both package identities after output edits, passed the final local gates, and archived attempt 30. Commit, push, hosted CI observation, and owner merge review remain.
+
+## Attempt 30 Integration-Output Heading Regression
+
+### Confirmed Cause
+
+The integration specialist shortened the milestone while preserving substantive evidence but omitted two headings required by the repository's milestone contract. Package verification cannot detect that repository-local document rule; the template checker correctly rejected the mutable output.
+
+### Causal Fix And Regression
+
+Restore `Why It Matters` and `Next Recommended Work` without changing any immutable Candidate A or Audit B input. The template checker then passed, the complete checker matrix passed 119/119, canonical verification passed 370/370, and post-integration reconstruction retained both approved package pairs.
+
+### Durable Rule
+
+Integration handoff verification proves the compiled envelope, not every repository-local document convention. Final host validation remains mandatory after integration and before archival or publication.

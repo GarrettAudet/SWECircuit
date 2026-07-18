@@ -8,6 +8,8 @@ const COMMON_SCHEMA_ID =
   "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/common.schema.json";
 const SPECIALIST_SCHEMA_ID =
   "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-compiler.schema.json";
+const HANDOFF_SCHEMA_ID =
+  "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-handoff.schema.json";
 const DIGEST = `sha256:${"0".repeat(64)}`;
 
 async function readJson(url) {
@@ -18,6 +20,7 @@ async function createRegistry() {
   const root = new URL("../schemas/v1alpha1/", import.meta.url);
   const common = await readJson(new URL("common.schema.json", root));
   const specialist = await readJson(new URL("specialist-compiler.schema.json", root));
+  const handoff = await readJson(new URL("specialist-handoff.schema.json", root));
   const ajv = new Ajv2020({
     allErrors: true,
     strict: true,
@@ -25,7 +28,8 @@ async function createRegistry() {
   });
   ajv.addSchema(common);
   ajv.addSchema(specialist);
-  return { ajv, common, specialist };
+  ajv.addSchema(handoff);
+  return { ajv, common, handoff, specialist };
 }
 
 function createGoalContract() {
@@ -144,6 +148,46 @@ function createCompilationRequest() {
     ],
   };
 }
+function createSpecialistHandoff(outcome = "pass") {
+  return {
+    apiVersion: "swecircuit/specialist/v1alpha1",
+    kind: "SpecialistAgentHandoff",
+    outcome,
+    destination: "integration.owner",
+    goal: {
+      id: "consumer.goal",
+      revision: 1,
+      digest: DIGEST,
+    },
+    agent: {
+      id: "agent.consumer",
+      blueprintDigest: DIGEST,
+    },
+    compilationDigest: DIGEST,
+    summary: "The exact specialist contract completed.",
+    workUnitsCompleted: ["compile.package"],
+    artifacts: [
+      {
+        name: "specialist.package",
+        mediaType: "application/json",
+        content: "{}",
+      },
+    ],
+    evidence: [
+      {
+        criterionId: "criterion.package",
+        requirementId: "evidence.package",
+        kind: "artifact",
+        duty: "produce",
+        status: outcome,
+        artifact: "specialist.package",
+      },
+    ],
+    assumptions: [],
+    risks: [],
+    followUps: [],
+  };
+}
 
 function collectObjectPaths(value, path = [], result = []) {
   if (Array.isArray(value)) {
@@ -184,17 +228,23 @@ function collectRefs(value, result = []) {
   return result;
 }
 
-test("the specialist schema and every definition compile in strict Ajv 2020 mode", async () => {
-  const { ajv, common, specialist } = await createRegistry();
+test("the specialist schemas and every definition compile in strict Ajv 2020 mode", async () => {
+  const { ajv, common, handoff, specialist } = await createRegistry();
 
   assert.equal(common.$id, COMMON_SCHEMA_ID);
   assert.equal(specialist.$id, SPECIALIST_SCHEMA_ID);
-  assert.equal(typeof ajv.getSchema(SPECIALIST_SCHEMA_ID), "function");
-  for (const definition of Object.keys(specialist.$defs)) {
-    assert.doesNotThrow(
-      () => ajv.compile({ $ref: `${SPECIALIST_SCHEMA_ID}#/$defs/${definition}` }),
-      definition,
-    );
+  assert.equal(handoff.$id, HANDOFF_SCHEMA_ID);
+  for (const [schemaId, schema] of [
+    [SPECIALIST_SCHEMA_ID, specialist],
+    [HANDOFF_SCHEMA_ID, handoff],
+  ]) {
+    assert.equal(typeof ajv.getSchema(schemaId), "function");
+    for (const definition of Object.keys(schema.$defs)) {
+      assert.doesNotThrow(
+        () => ajv.compile({ $ref: `${schemaId}#/$defs/${definition}` }),
+        `${schemaId}#/$defs/${definition}`,
+      );
+    }
   }
 });
 
@@ -212,6 +262,28 @@ test("the specialist schema accepts its two canonical closed input kinds", async
   assert.equal(validateRoot(request), true, JSON.stringify(validateRoot.errors, null, 2));
   assert.equal(validateGoal(goal), true, JSON.stringify(validateGoal.errors, null, 2));
   assert.equal(validateRequest(request), true, JSON.stringify(validateRequest.errors, null, 2));
+});
+test("the handoff schema accepts every canonical outcome and remains closed", async () => {
+  const { ajv } = await createRegistry();
+  const validate = ajv.getSchema(HANDOFF_SCHEMA_ID);
+  const outcomes = ["pass", "fix", "diagnose", "clarify", "redesign", "split", "block", "learn"];
+
+  for (const outcome of outcomes) {
+    const handoff = createSpecialistHandoff(outcome);
+    assert.equal(validate(handoff), true, JSON.stringify(validate.errors, null, 2));
+  }
+
+  const canonical = createSpecialistHandoff();
+  for (const path of collectObjectPaths(canonical)) {
+    const candidate = structuredClone(canonical);
+    valueAtPath(candidate, path).provider = "not.allowed";
+    assert.equal(validate(candidate), false, `provider was allowed at /${path.join("/")}`);
+    assert.equal(
+      validate.errors.some((error) => error.keyword === "additionalProperties"),
+      true,
+      `no closed-property diagnostic was reported at /${path.join("/")}`,
+    );
+  }
 });
 
 test("every concrete specialist input object boundary rejects provider-shaped fields", async () => {
@@ -293,15 +365,20 @@ test("permission kinds are the exact provider-neutral schema set", async () => {
   );
 });
 test("specialist references stay inside package-owned v1alpha1 schemas", async () => {
-  const { specialist } = await createRegistry();
-  const references = collectRefs(specialist);
+  const { handoff, specialist } = await createRegistry();
 
-  assert.equal(references.length > 0, true);
-  for (const reference of references) {
-    assert.equal(
-      reference.startsWith("#/") || reference.startsWith(`${COMMON_SCHEMA_ID}#/$defs/`),
-      true,
-      `non-package schema reference: ${reference}`,
-    );
+  for (const [schemaName, schema] of [
+    ["specialist compiler", specialist],
+    ["specialist handoff", handoff],
+  ]) {
+    const references = collectRefs(schema);
+    assert.equal(references.length > 0, true);
+    for (const reference of references) {
+      assert.equal(
+        reference.startsWith("#/") || reference.startsWith(`${COMMON_SCHEMA_ID}#/$defs/`),
+        true,
+        `${schemaName} has a non-package schema reference: ${reference}`,
+      );
+    }
   }
 });

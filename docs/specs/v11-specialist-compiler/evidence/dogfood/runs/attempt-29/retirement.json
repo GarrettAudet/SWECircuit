@@ -1,0 +1,68 @@
+{
+  "apiVersion": "swecircuit/dogfood-retirement/v1alpha1",
+  "kind": "DogfoodCandidateRetirement",
+  "attempt": 29,
+  "outcome": "fix",
+  "candidate": {
+    "compilationDigest": "sha256:10cc520eb9c4f277876e76cd82908baa3cfcc01e1b84d5ae7c16d910b88075da",
+    "packageDigest": "sha256:1e3afc96dc43950e21b3db94752a6f6fe9c33931ab36b0ce4a2adc2229a59994"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:17d7985ed3c4d0f817550b29d9b95308d11a5acaf13dabdee288e3b1d692742d",
+    "packageDigest": "sha256:807d04eb877751acbe4802ccf147bf0853ac4df3390a953ed4669fc572bbbfb7",
+    "outcome": "pass"
+  },
+  "verificationReceipt": {
+    "digest": "sha256:dbce7be0a2b37a7ecfc658050ed49a037d5f87a7df7abf625dd69942e7eadaad",
+    "bytes": 2255,
+    "outcome": "pass"
+  },
+  "reasons": [
+    "The product/API reviewer found that the compiler contract and handbook omitted the mandatory external verification receipt from their final cross-package authorization summaries.",
+    "The security/trace reviewer found that the public first-run host used plain JSON.parse and lexical-only source-path checks before I/O, leaving duplicate-key ambiguity, unsafe pre-I/O path text, and link-based repository escape insufficiently constrained."
+  ],
+  "candidateAgentsLaunched": 5,
+  "candidateResultsPubliclyVerified": 5,
+  "candidatePassResults": 3,
+  "candidateFixResults": 2,
+  "handoffs": {
+    "preparation": {
+      "path": "handoffs/prepare-candidate-pass-attempt-29.json",
+      "digest": "sha256:28dee78765dec277174e8f6aa508648c9db255a9706e68663cced03c9bdf8043",
+      "bytes": 13495,
+      "outcome": "pass"
+    },
+    "algorithmLifecycle": {
+      "path": "handoffs/algorithm-lifecycle-review-pass-attempt-29.json",
+      "digest": "sha256:cff5331ac72f8f4991ca3bbf99f89c64cb859561f26e57db03bdd82b6d9fc8a3",
+      "bytes": 11790,
+      "outcome": "pass"
+    },
+    "productApi": {
+      "path": "handoffs/product-api-review-fix-attempt-29.json",
+      "digest": "sha256:04b3471e18061a942b67ee375938c4f8df6cbbae2835f839cf09913f532de1dc",
+      "bytes": 5080,
+      "outcome": "fix"
+    },
+    "securityTrace": {
+      "path": "handoffs/security-trace-review-fix-attempt-29.json",
+      "digest": "sha256:800805171e23a8eef38d13861f345dc630ab4cd76a7856aa1d72b1c310b2dd5d",
+      "bytes": 8812,
+      "outcome": "fix"
+    },
+    "releaseGates": {
+      "path": "handoffs/verify-release-pass-attempt-29.json",
+      "digest": "sha256:350dca0902bd9a817a3bde7311a36bdb0fb95cac30551a946b7ba99179981870",
+      "bytes": 7745,
+      "outcome": "pass"
+    }
+  },
+  "fanIn": {
+    "path": "handoffs/fan-in-fix-attempt-29.json",
+    "digest": "sha256:95168d0fd74ac4e6a21526ddf81d60a5e09a53dd3d4138f4a32678b8b416431f",
+    "bytes": 3464,
+    "integrationReady": false
+  },
+  "candidateIntegrated": false,
+  "nextRevision": 30
+}
