@@ -151,6 +151,16 @@ Before rendering, review:
 
 This is roster review, not yet launch approval. Any changed goal, proposal, candidate, or blueprint requires recompilation and a new review.
 
+If an agent must independently audit the exact compilation that defines its own blueprint, stop before launch approval and use this external-host sequence:
+
+1. Freeze candidate A, then compile and render a separate read-only audit B over A's complete compilation and rendered files.
+2. Obtain B's external two-digest approval. The host reconstructs A against the frozen A pair and verifies B against the approval-bound B pair with `verifySpecialistPackage`.
+3. Outside both packages, the host creates and preserves the closed `PrelaunchPackageVerificationReceipt`, then delivers those exact bytes to B through the binder and reviewer `PrelaunchPackageVerificationReceipt` input ports before Wave 1. The receipt is runtime input, never a `contextSource`, does not change B's compilation or package identity, and must state `candidateLaunchApproved: false`.
+4. Run B's binder and semantic reviewer in manifest order. The binder authenticates A's exact artifacts; neither B agent is required to reconstruct B's own root package digest. Missing, malformed, non-`PASS`, or stale receipt data fails closed.
+5. Only B's closed `PrelaunchAuditHandoff` with semantic `PASS` permits the host to create the final cross-package launch authorization. That authorization binds both digest pairs, the receipt's exact path, raw digest, byte count, and outcome, and the handoff's exact path, raw digest, byte count, and outcome. Candidate A still requires separate approval and verification afterward.
+
+Never infer `PASS` from prose, a filename, or an authorization outcome field. B is the small owner-reviewed trust root; it never reviews itself or gains authority to approve, launch, integrate, or mutate A. Follow [`two-phase-prelaunch-review.md`](../specs/v11-specialist-compiler/two-phase-prelaunch-review.md).
+
 ### 7. Render, Verify, Approve, And Hand Off
 
 Render the reviewed compilation:

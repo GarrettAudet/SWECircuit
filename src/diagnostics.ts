@@ -1,5 +1,5 @@
 import { containsHighConfidenceSecret } from "./privacy.js";
-import { containsControlCharacters } from "./text.js";
+import { containsControlCharacters, containsLoneSurrogate } from "./text.js";
 import type { Diagnostic, DiagnosticSeverity, ExitCode, OperationResult } from "./types.js";
 
 type DiagnosticDefinition = Readonly<{
@@ -644,7 +644,9 @@ function safeArtifact(artifact: string): string {
       !normalized.includes(":") &&
       !segments.includes(".") &&
       !segments.includes("..") &&
-      !containsControlCharacters(normalized))
+      !containsControlCharacters(normalized) &&
+      !containsLoneSurrogate(normalized) &&
+      !containsHighConfidenceSecret(normalized))
   ) {
     return normalized;
   }
@@ -681,6 +683,7 @@ function safePointer(pointer: string): string {
   }
 
   const safeTokens: string[] = [];
+  const safeDecodedTokens: string[] = [];
   for (const token of pointer.slice(1).split("/")) {
     const decoded = decodePointerToken(token);
     if (
@@ -691,11 +694,21 @@ function safePointer(pointer: string): string {
       decoded.includes(String.fromCharCode(92)) ||
       decoded.includes(":") ||
       containsControlCharacters(decoded) ||
+      containsLoneSurrogate(decoded) ||
       containsHighConfidenceSecret(decoded)
     ) {
       break;
     }
+    const emittedCandidate = `/${[...safeTokens, token].join("/")}`;
+    const decodedCandidate = `/${[...safeDecodedTokens, decoded].join("/")}`;
+    if (
+      containsHighConfidenceSecret(emittedCandidate) ||
+      containsHighConfidenceSecret(decodedCandidate)
+    ) {
+      break;
+    }
     safeTokens.push(token);
+    safeDecodedTokens.push(decoded);
   }
   return safeTokens.length === 0 ? "" : `/${safeTokens.join("/")}`;
 }

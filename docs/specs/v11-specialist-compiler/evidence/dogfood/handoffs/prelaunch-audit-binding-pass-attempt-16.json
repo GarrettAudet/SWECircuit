@@ -1,0 +1,146 @@
+{
+  "summary": {
+    "outcome": "PASS",
+    "statement": "The exact Audit B contract identity and all 10 declared Candidate A artifacts matched their expected raw SHA-256 digests and byte counts."
+  },
+  "workUnitsCompleted": [
+    {
+      "workUnitId": "audit.bind-candidate",
+      "outcome": "PASS"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-audit-binding.json",
+      "delivery": "inline-only",
+      "binding": {
+        "outcome": "PASS",
+        "auditBIdentity": {
+          "compilationDigest": "sha256:f9a0de491c7b015257a34752d72b41a16bae964f5b5268fb973289be0beb3f7b",
+          "packageDigest": "sha256:fb3ae5e99c1eb959b23ecbe856e244e0db46ec529a490759225b35f1e1d20926",
+          "source": "trusted-owner-approved-input"
+        },
+        "contractIdentity": {
+          "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+          "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package/agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+          "expectedDigest": "sha256:09a837867a663cc23b2f5103555688803de0ae6ce27b16c12ef21a4eef69fedc",
+          "expectedBytes": 13433,
+          "observedDigest": "sha256:09a837867a663cc23b2f5103555688803de0ae6ce27b16c12ef21a4eef69fedc",
+          "observedBytes": 13433,
+          "matchStatus": "MATCH"
+        },
+        "candidateAArtifacts": [
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+            "expectedDigest": "sha256:6f00e9b85a569147e8b20bff3d66be49ae7120e47e3d25fd06fd51eccceef8cd",
+            "expectedBytes": 226627,
+            "observedDigest": "sha256:6f00e9b85a569147e8b20bff3d66be49ae7120e47e3d25fd06fd51eccceef8cd",
+            "observedBytes": 226627,
+            "matchStatus": "MATCH"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+            "expectedDigest": "sha256:7bf26855fe514dc4c9ca39be6e5aee9e514241bd3167fda76ee570f9b88213f7",
+            "expectedBytes": 13788,
+            "observedDigest": "sha256:7bf26855fe514dc4c9ca39be6e5aee9e514241bd3167fda76ee570f9b88213f7",
+            "observedBytes": 13788,
+            "matchStatus": "MATCH"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+            "expectedDigest": "sha256:f6c84458a9a1b185cb96e8c47a06f2f486c39db9351c62d09ef1e83479177f08",
+            "expectedBytes": 8556,
+            "observedDigest": "sha256:f6c84458a9a1b185cb96e8c47a06f2f486c39db9351c62d09ef1e83479177f08",
+            "observedBytes": 8556,
+            "matchStatus": "MATCH"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+            "expectedDigest": "sha256:ac307f814e47ed62f0b8454bdb04a51245edbd3eb6172e38af00b86b8f6c293c",
+            "expectedBytes": 11594,
+            "observedDigest": "sha256:ac307f814e47ed62f0b8454bdb04a51245edbd3eb6172e38af00b86b8f6c293c",
+            "observedBytes": 11594,
+            "matchStatus": "MATCH"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+            "expectedDigest": "sha256:49ff98a856b3589f50309f2711661b7fbb0c9575d9ce6f90538579d5ccddcbbb",
+            "expectedBytes": 16842,
+            "observedDigest": "sha256:49ff98a856b3589f50309f2711661b7fbb0c9575d9ce6f90538579d5ccddcbbb",
+            "observedBytes": 16842,
+            "matchStatus": "MATCH"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+            "expectedDigest": "sha256:9a622ba4dddd89d018802ee38549e78a0c6b7af868fb0a5ef16523ebe14515ea",
+            "expectedBytes": 23011,
+            "observedDigest": "sha256:9a622ba4dddd89d018802ee38549e78a0c6b7af868fb0a5ef16523ebe14515ea",
+            "observedBytes": 23011,
+            "matchStatus": "MATCH"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+            "expectedDigest": "sha256:38c710b8beacee30f2fc98422cdc8ab25b6a389697ad333a1936a48cc7373420",
+            "expectedBytes": 24211,
+            "observedDigest": "sha256:38c710b8beacee30f2fc98422cdc8ab25b6a389697ad333a1936a48cc7373420",
+            "observedBytes": 24211,
+            "matchStatus": "MATCH"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
+            "expectedDigest": "sha256:6f00e9b85a569147e8b20bff3d66be49ae7120e47e3d25fd06fd51eccceef8cd",
+            "expectedBytes": 226627,
+            "observedDigest": "sha256:6f00e9b85a569147e8b20bff3d66be49ae7120e47e3d25fd06fd51eccceef8cd",
+            "observedBytes": 226627,
+            "matchStatus": "MATCH"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
+            "expectedDigest": "sha256:1ac8638faeb8ebfbcbeded004d18eff29f91707beed062fa03ad336673d11892",
+            "expectedBytes": 7342,
+            "observedDigest": "sha256:1ac8638faeb8ebfbcbeded004d18eff29f91707beed062fa03ad336673d11892",
+            "observedBytes": 7342,
+            "matchStatus": "MATCH"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
+            "expectedDigest": "sha256:6a07320f170329007b90d0693df7b92d0e5420678c559b35fe7181d96269c741",
+            "expectedBytes": 4202,
+            "observedDigest": "sha256:6a07320f170329007b90d0693df7b92d0e5420678c559b35fe7181d96269c741",
+            "observedBytes": 4202,
+            "matchStatus": "MATCH"
+          }
+        ]
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "requirementId": "evidence.candidate-authority-binding",
+      "kind": "digest",
+      "result": "PASS",
+      "basis": "All declared compilation, rendered-contract, integration, and manifest files matched exactly."
+    },
+    {
+      "requirementId": "evidence.candidate-selection-binding",
+      "kind": "digest",
+      "result": "PASS",
+      "basis": "Ten of ten declared Candidate A artifacts matched their expected raw bytes and SHA-256 digests."
+    },
+    {
+      "requirementId": "execution-boundary",
+      "result": "PASS",
+      "repositoryWrites": 0,
+      "networkAccess": false,
+      "semanticReviewPerformed": false,
+      "candidateApprovedOrLaunched": false
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This PASS authenticates only the declared Candidate A bytes; semantic correctness and launch authorization remain intentionally unassessed."
+  ],
+  "followUps": [
+    "Preserve this exact inline handoff as the Candidate A prelaunch binding evidence for the separately authorized integration and audit stages."
+  ]
+}

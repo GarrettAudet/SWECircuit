@@ -14,7 +14,102 @@ $tempParent = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
 $testRoot = Join-Path $tempParent "sc-ct-$PID"
 $fixtureSourceRoot = Join-Path $testRoot "base"
 $failures = New-Object System.Collections.Generic.List[string]
+$checkerCases = New-Object System.Collections.Generic.List[object]
+$fixtureChanges = @{}
 $fixtureOrdinal = 0
+$checkerConcurrency = [Math]::Max(1, [Math]::Min(4, [Environment]::ProcessorCount))
+
+function Get-FixtureBinding {
+    param([string]$Path)
+
+    $rootPrefix = [System.IO.Path]::GetFullPath($testRoot).TrimEnd([char[]]@('\', '/')) +
+        [System.IO.Path]::DirectorySeparatorChar
+    $fullPath = [System.IO.Path]::GetFullPath($Path)
+    if (-not $fullPath.StartsWith($rootPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+        return $null
+    }
+
+    $relativeToRoot = $fullPath.Substring($rootPrefix.Length)
+    $separatorIndex = $relativeToRoot.IndexOf([System.IO.Path]::DirectorySeparatorChar)
+    if ($separatorIndex -lt 1) {
+        return $null
+    }
+
+    $fixtureName = $relativeToRoot.Substring(0, $separatorIndex)
+    if ($fixtureName -notmatch '^f[0-9]{3}$') {
+        return $null
+    }
+
+    return [pscustomobject]@{
+        Root = Join-Path $testRoot $fixtureName
+        Relative = $relativeToRoot.Substring($separatorIndex + 1)
+    }
+}
+
+function Register-FixtureChange {
+    param([string]$Path)
+
+    $binding = Get-FixtureBinding $Path
+    if ($null -eq $binding) {
+        return
+    }
+
+    if (-not $script:fixtureChanges.ContainsKey($binding.Root)) {
+        $script:fixtureChanges[$binding.Root] = New-Object System.Collections.Generic.List[string]
+    }
+    $changes = $script:fixtureChanges[$binding.Root]
+    if (-not $changes.Contains($binding.Relative)) {
+        $changes.Add($binding.Relative) | Out-Null
+    }
+}
+
+function Reset-Fixture {
+    param([string]$Fixture)
+
+    $fixtureRoot = [System.IO.Path]::GetFullPath($Fixture)
+    if (-not $script:fixtureChanges.ContainsKey($fixtureRoot)) {
+        return
+    }
+
+    $parents = New-Object System.Collections.Generic.List[string]
+    foreach ($relative in @($script:fixtureChanges[$fixtureRoot])) {
+        $target = Join-Path $fixtureRoot $relative
+        $source = Join-Path $fixtureSourceRoot $relative
+
+        if (Test-Path -LiteralPath $target -PathType Leaf) {
+            Remove-Item -LiteralPath $target -Force
+        }
+        if (Test-Path -LiteralPath $source -PathType Leaf) {
+            $targetParent = Split-Path -Parent $target
+            New-Item -ItemType Directory -Path $targetParent -Force | Out-Null
+            New-Item -ItemType HardLink -Path $target -Target $source -Force | Out-Null
+        }
+
+        $parent = Split-Path -Parent $relative
+        while (-not [string]::IsNullOrWhiteSpace($parent)) {
+            if (-not $parents.Contains($parent)) {
+                $parents.Add($parent) | Out-Null
+            }
+            $nextParent = Split-Path -Parent $parent
+            if ($nextParent -eq $parent) {
+                break
+            }
+            $parent = $nextParent
+        }
+    }
+
+    foreach ($relativeParent in @($parents | Sort-Object Length -Descending)) {
+        $sourceParent = Join-Path $fixtureSourceRoot $relativeParent
+        $targetParent = Join-Path $fixtureRoot $relativeParent
+        if (-not (Test-Path -LiteralPath $sourceParent) -and
+            (Test-Path -LiteralPath $targetParent -PathType Container) -and
+            @(Get-ChildItem -LiteralPath $targetParent -Force).Count -eq 0) {
+            Remove-Item -LiteralPath $targetParent -Force
+        }
+    }
+
+    $script:fixtureChanges.Remove($fixtureRoot)
+}
 
 function Write-Utf8 {
     param(
@@ -22,20 +117,136 @@ function Write-Utf8 {
         [string]$Text
     )
 
-    [System.IO.File]::WriteAllText($Path, $Text, [System.Text.UTF8Encoding]::new($false))
+    Register-FixtureChange $Path
+    $directory = Split-Path -Parent $Path
+    if (-not (Test-Path -LiteralPath $directory -PathType Container)) {
+        New-Item -ItemType Directory -Path $directory -Force | Out-Null
+    }
+
+    $temporaryPath = Join-Path $directory (".sc-write-{0}-{1}.tmp" -f $PID, [Guid]::NewGuid().ToString("N"))
+    try {
+        [System.IO.File]::WriteAllText(
+            $temporaryPath,
+            $Text,
+            [System.Text.UTF8Encoding]::new($false)
+        )
+        if (Test-Path -LiteralPath $Path) {
+            Remove-Item -LiteralPath $Path -Force
+        }
+        Move-Item -LiteralPath $temporaryPath -Destination $Path -Force
+    } finally {
+        if (Test-Path -LiteralPath $temporaryPath) {
+            Remove-Item -LiteralPath $temporaryPath -Force
+        }
+    }
+}
+
+function Remove-FixtureItem {
+    param([string]$Path)
+
+    Register-FixtureChange $Path
+    Remove-Item -LiteralPath $Path -Force
+}
+
+function Test-FixtureSourceExclusion {
+    param([string]$RelativePath)
+
+    $normalized = $RelativePath.Replace('\', '/')
+    $segments = @($normalized -split '/')
+    if ($segments.Count -eq 0) {
+        return $false
+    }
+    if ($segments[0] -in @(".git", ".local", ".out", "coverage", "dist", "node_modules")) {
+        return $true
+    }
+    return $segments.Count -ge 4 -and
+        $segments[0] -eq "docs" -and
+        $segments[1] -eq "specs" -and
+        $segments[3] -eq "evidence"
+}
+
+function Copy-FixtureSourceTree {
+    param(
+        [string]$Source,
+        [string]$Destination
+    )
+
+    $pending = New-Object System.Collections.Generic.Stack[object]
+    $pending.Push([pscustomobject]@{
+        Source = [System.IO.Path]::GetFullPath($Source)
+        Destination = [System.IO.Path]::GetFullPath($Destination)
+        Relative = ""
+    })
+
+    while ($pending.Count -gt 0) {
+        $current = $pending.Pop()
+        New-Item -ItemType Directory -Path $current.Destination -Force | Out-Null
+
+        foreach ($item in Get-ChildItem -LiteralPath $current.Source -Force) {
+            $relative = if ([string]::IsNullOrEmpty($current.Relative)) {
+                $item.Name
+            } else {
+                Join-Path $current.Relative $item.Name
+            }
+            if (Test-FixtureSourceExclusion $relative) {
+                continue
+            }
+
+            $target = Join-Path $current.Destination $item.Name
+            if ($item.PSIsContainer) {
+                $pending.Push([pscustomobject]@{
+                    Source = $item.FullName
+                    Destination = $target
+                    Relative = $relative
+                })
+            } else {
+                Copy-Item -LiteralPath $item.FullName -Destination $target -Force
+            }
+        }
+    }
+}
+
+function New-HardLinkedFixtureTree {
+    param(
+        [string]$Source,
+        [string]$Destination
+    )
+
+    $pending = New-Object System.Collections.Generic.Stack[object]
+    $pending.Push([pscustomobject]@{
+        Source = [System.IO.Path]::GetFullPath($Source)
+        Destination = [System.IO.Path]::GetFullPath($Destination)
+    })
+
+    while ($pending.Count -gt 0) {
+        $current = $pending.Pop()
+        New-Item -ItemType Directory -Path $current.Destination -Force | Out-Null
+
+        foreach ($item in Get-ChildItem -LiteralPath $current.Source -Force) {
+            $target = Join-Path $current.Destination $item.Name
+            if ($item.PSIsContainer) {
+                $pending.Push([pscustomobject]@{
+                    Source = $item.FullName
+                    Destination = $target
+                })
+            } else {
+                New-Item -ItemType HardLink -Path $target -Target $item.FullName -Force | Out-Null
+            }
+        }
+    }
 }
 
 function New-Fixture {
     param([string]$Name)
 
     $script:fixtureOrdinal += 1
-    $fixture = Join-Path $testRoot ("f{0:D3}" -f $script:fixtureOrdinal)
-    New-Item -ItemType Directory -Path $fixture -Force | Out-Null
-
-    foreach ($item in Get-ChildItem -LiteralPath $fixtureSourceRoot -Force) {
-        Copy-Item -LiteralPath $item.FullName -Destination $fixture -Recurse -Force
+    $slot = (($script:fixtureOrdinal - 1) % $checkerConcurrency) + 1
+    $fixture = Join-Path $testRoot ("f{0:D3}" -f $slot)
+    if (Test-Path -LiteralPath $fixture -PathType Container) {
+        Reset-Fixture $fixture
+    } else {
+        New-HardLinkedFixtureTree $fixtureSourceRoot $fixture
     }
-
     return $fixture
 }
 
@@ -77,10 +288,10 @@ function ConvertTo-ProcessArgument {
     return $builder.ToString()
 }
 
-function Invoke-CheckerProcess {
-    param([string]$Fixture)
+function Start-CheckerProcess {
+    param([object]$Case)
 
-    $checker = Join-Path $Fixture "scripts\check-template.ps1"
+    $checker = Join-Path $Case.Fixture "scripts\check-template.ps1"
     $arguments = @(
         "-NoProfile",
         "-ExecutionPolicy",
@@ -88,7 +299,7 @@ function Invoke-CheckerProcess {
         "-File",
         $checker,
         "-Root",
-        $Fixture
+        $Case.Fixture
     )
     $quotedArguments = @($arguments | ForEach-Object { ConvertTo-ProcessArgument $_ })
 
@@ -108,21 +319,110 @@ function Invoke-CheckerProcess {
             throw "Child checker process did not start."
         }
 
-        $standardOutput = $process.StandardOutput.ReadToEnd()
-        $standardError = $process.StandardError.ReadToEnd()
-        $process.WaitForExit()
-
-        $combinedOutput = @($standardOutput, $standardError) |
-            Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
-
         return [pscustomobject]@{
-            ExitCode = $process.ExitCode
-            Output = ($combinedOutput -join [Environment]::NewLine).Trim()
+            Case = $Case
+            Process = $process
+            StandardOutput = $process.StandardOutput.ReadToEndAsync()
+            StandardError = $process.StandardError.ReadToEndAsync()
         }
-    } finally {
+    } catch {
         $process.Dispose()
+        throw
     }
 }
+
+function Complete-CheckerProcess {
+    param([object]$Running)
+
+    $Running.Process.WaitForExit()
+    $combinedOutput = @(
+        $Running.StandardOutput.Result,
+        $Running.StandardError.Result
+    ) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+
+    $result = [pscustomobject]@{
+        Case = $Running.Case
+        ExitCode = $Running.Process.ExitCode
+        Output = ($combinedOutput -join [Environment]::NewLine).Trim()
+    }
+    $Running.Process.Dispose()
+    return $result
+}
+
+function Invoke-QueuedCheckerProcesses {
+    if ($script:checkerCases.Count -eq 0) {
+        return
+    }
+
+    $pending = New-Object System.Collections.Generic.Queue[object]
+    foreach ($case in $script:checkerCases) {
+        $pending.Enqueue($case)
+    }
+
+    $running = New-Object System.Collections.Generic.List[object]
+    $results = New-Object System.Collections.Generic.List[object]
+    Write-Host "Running $($pending.Count) checker cases with concurrency $checkerConcurrency."
+
+    try {
+        while ($pending.Count -gt 0 -or $running.Count -gt 0) {
+            while ($pending.Count -gt 0 -and $running.Count -lt $checkerConcurrency) {
+                $running.Add((Start-CheckerProcess $pending.Dequeue())) | Out-Null
+            }
+
+            $completed = $false
+            for ($index = $running.Count - 1; $index -ge 0; $index--) {
+                if ($running[$index].Process.HasExited) {
+                    $results.Add((Complete-CheckerProcess $running[$index])) | Out-Null
+                    $running.RemoveAt($index)
+                    $completed = $true
+                }
+            }
+
+            if (-not $completed -and $running.Count -gt 0) {
+                Start-Sleep -Milliseconds 25
+            }
+        }
+    } finally {
+        foreach ($entry in $running) {
+            try {
+                if (-not $entry.Process.HasExited) {
+                    $entry.Process.Kill()
+                    $entry.Process.WaitForExit()
+                }
+            } finally {
+                $entry.Process.Dispose()
+            }
+        }
+    }
+
+    foreach ($result in @($results | Sort-Object { $_.Case.Ordinal })) {
+        $passed = $result.ExitCode -eq 0
+        if ($passed -ne $result.Case.ShouldPass) {
+            $expectation = if ($result.Case.ShouldPass) { "pass" } else { "fail" }
+            $failures.Add(
+                "$($result.Case.Name) expected checker to $expectation but exit code was $($result.ExitCode). Output: $($result.Output)"
+            ) | Out-Null
+            continue
+        }
+
+        if (-not [string]::IsNullOrWhiteSpace($result.Case.ExpectedOutputTerm) -and
+            $result.Output.IndexOf(
+                $result.Case.ExpectedOutputTerm,
+                [System.StringComparison]::OrdinalIgnoreCase
+            ) -lt 0) {
+            $failures.Add(
+                "$($result.Case.Name) expected checker output to include '$($result.Case.ExpectedOutputTerm)'. Output: $($result.Output)"
+            ) | Out-Null
+            continue
+        }
+
+        $state = if ($result.Case.ShouldPass) { "accepted" } else { "rejected" }
+        Write-Host "PASS: $($result.Case.Name) ($state as expected)"
+    }
+
+    $script:checkerCases.Clear()
+}
+
 function Write-RegressionFailure {
     param([string]$Message)
 
@@ -143,22 +443,17 @@ function Assert-CheckerResult {
         [string]$ExpectedOutputTerm = ""
     )
 
-    $result = Invoke-CheckerProcess $Fixture
-    $passed = $result.ExitCode -eq 0
-    if ($passed -ne $ShouldPass) {
-        $expectation = if ($ShouldPass) { "pass" } else { "fail" }
-        $failures.Add("$Name expected checker to $expectation but exit code was $($result.ExitCode). Output: $($result.Output)") | Out-Null
-        return
-    }
+    $script:checkerCases.Add([pscustomobject]@{
+        Ordinal = $script:checkerCases.Count
+        Name = $Name
+        Fixture = $Fixture
+        ShouldPass = $ShouldPass
+        ExpectedOutputTerm = $ExpectedOutputTerm
+    }) | Out-Null
 
-    if (-not [string]::IsNullOrWhiteSpace($ExpectedOutputTerm) -and
-        $result.Output.IndexOf($ExpectedOutputTerm, [System.StringComparison]::OrdinalIgnoreCase) -lt 0) {
-        $failures.Add("$Name expected checker output to include '$ExpectedOutputTerm'. Output: $($result.Output)") | Out-Null
-        return
+    if ($script:checkerCases.Count -ge $checkerConcurrency) {
+        Invoke-QueuedCheckerProcesses
     }
-
-    $state = if ($ShouldPass) { "accepted" } else { "rejected" }
-    Write-Host "PASS: $Name ($state as expected)"
 }
 
 try {
@@ -168,12 +463,7 @@ try {
     }
     New-Item -ItemType Directory -Path $resolvedTestRoot -Force | Out-Null
     New-Item -ItemType Directory -Path $fixtureSourceRoot -Force | Out-Null
-    foreach ($item in Get-ChildItem -LiteralPath $RepoRoot -Force) {
-        if ($item.Name -in @(".git", ".local", ".out", "coverage", "dist", "node_modules")) {
-            continue
-        }
-        Copy-Item -LiteralPath $item.FullName -Destination $fixtureSourceRoot -Recurse -Force
-    }
+    Copy-FixtureSourceTree $RepoRoot $fixtureSourceRoot
 
     $baseline = New-Fixture "baseline"
     Assert-CheckerResult "valid repository" $baseline $true
@@ -278,7 +568,7 @@ try {
     Assert-CheckerResult "historical overview provenance link" $historicalLinkFixture $true
 
     $missingOverviewFixture = New-Fixture "missing-current-overview"
-    Remove-Item -LiteralPath (Join-Path $missingOverviewFixture "docs\assets\swecircuit-overview.png") -Force
+    Remove-FixtureItem (Join-Path $missingOverviewFixture "docs\assets\swecircuit-overview.png")
     Assert-CheckerResult "missing current overview asset" $missingOverviewFixture $false
 
     $operationCommands = @(
@@ -1210,7 +1500,7 @@ try {
     Assert-CheckerResult "dynamically discovered invalid official pack" $packFixture $false
 
     $milestoneFixture = New-Fixture "missing-decimal-milestone"
-    Remove-Item -LiteralPath (Join-Path $milestoneFixture "docs\milestones\v8.1.md") -Force
+    Remove-FixtureItem (Join-Path $milestoneFixture "docs\milestones\v8.1.md")
     Assert-CheckerResult "decimal feature version missing milestone" $milestoneFixture $false
 
     $moduleFixture = New-Fixture "invalid-module-contract"
@@ -1281,6 +1571,8 @@ try {
     $patternText = (Get-Content -LiteralPath $patternPath -Raw).Replace("## Source Map", "## Source Map Removed")
     Write-Utf8 $patternPath $patternText
     Assert-CheckerResult "patterns missing source map" $patternFixture $false
+
+    Invoke-QueuedCheckerProcesses
 
     if ($failures.Count -gt 0) {
         foreach ($failure in $failures) {

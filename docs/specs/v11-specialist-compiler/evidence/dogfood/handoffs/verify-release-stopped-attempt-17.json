@@ -1,0 +1,180 @@
+{
+  "apiVersion": "swecircuit/specialist-handoff/v1alpha1",
+  "kind": "SpecialistHandoff",
+  "status": "STOPPED",
+  "outcome": "revise",
+  "releaseDecision": "REVISE",
+  "destination": "v11.integration-owner",
+  "summary": "Candidate A revision 17 release verification was stopped. Six of seven standalone executable gates completed with PASS results. The template-checker regression harness timed out after reporting 65 passing cases, so its final result is unknown. The upstream security/trace specialist subsequently returned REVISE with three candidate defects, retiring revision 17 and prohibiting integration or merge.",
+  "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+  "goalId": "v11.specialist-compiler.release",
+  "goalRevision": 17,
+  "goalDigest": "sha256:b6aa97a3d0a8a7b2fc7359ab89df095a173186db1e580793c2e246c5124ad4b2",
+  "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+  "identityBindings": {
+    "candidateCompilationDigest": "sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984",
+    "candidatePackageDigest": "sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0",
+    "blueprintDigest": "sha256:bb0f90c4d68d79c1cc9236803108625c1959b4a4da8d278ddbb7c6b71609334e",
+    "contract": {"path":"docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md","bytes":16842,"rawDigest":"sha256:3d52cbd2a62be8a53bb6eb2c6c4e70bc6c59cdbc69dc2822448332ff67f3e6ea","verification":"PASS"},
+    "manifest": {"path":"docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json","bytes":4202,"rawDigest":"sha256:e1f1b2676fe08c1f8cd52c40ab948a8c05045316b7bd1e161d279d6624e355ab","contentDigest":"sha256:1ba1201b6c370e51b80420ad2495c64bfcfc4ed2c80dec49cb0100d3515bd08c","verification":"PASS"},
+    "preparationHandoff": {"path":"docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prepare-candidate-pass-attempt-17.json","bytes":16940,"rawDigest":"sha256:a734459e9a443ca7c6765e5bdaeac51fc7f92be2e234c6cc0e3d0a29406c2a3c","verification":"PASS","sourcesDeclared":35,"sourcesVerified":35,"sourcesFailed":0}
+  },
+  "upstreamStop": {
+    "source": "security/trace specialist notification delivered by user/host",
+    "result": "REVISE",
+    "defectCount": 3,
+    "defectDetails": "unknown",
+    "candidateDisposition": "revision 17 retired",
+    "integrationAllowed": false,
+    "mergeAllowed": false,
+    "stopApplied": "immediately; no command restarted after notification"
+  },
+  "executionState": {
+    "runningProcessesAtHandoff": 0,
+    "stoppedGate": "template-checker-regression",
+    "stoppedProcessExitCode": 124,
+    "stoppedProcessResult": "unknown",
+    "reason": "600721 ms execution timeout before a completion summary",
+    "retries": 0
+  },
+  "workUnitsCompleted": [
+    {
+      "workUnitId": "verify.release-gates",
+      "moduleId": "verify.release-gates",
+      "capability": "verify.release",
+      "status": "STOPPED",
+      "outcome": "revise",
+      "plannedStandaloneGates": 7,
+      "completedPassingGates": 6,
+      "unknownOrIncompleteGates": 1
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "release-gate-evidence.md",
+      "delivery": "inline-raw-handoff",
+      "repositoryFileWritten": false,
+      "status": "STOPPED",
+      "outcome": "revise"
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.release",
+      "requirementId": "evidence.release-gates",
+      "kind": "test",
+      "duty": "verify",
+      "independentFromProducer": true,
+      "status": "STOPPED",
+      "outcome": "revise",
+      "criterionSatisfied": false,
+      "reason": "Candidate revision retired by upstream security REVISE; template-checker regression final result is unknown."
+    }
+  ],
+  "executionEnvironment": {
+    "TEMP": "C:\\Users\\garre\\OneDrive\\DOCUME~1\\PORTAB~1\\LOCAL~1\\NPM-CA~1",
+    "TMP": "C:\\Users\\garre\\OneDrive\\DOCUME~1\\PORTAB~1\\LOCAL~1\\NPM-CA~1",
+    "NPM_CONFIG_CACHE": "C:\\Users\\garre\\OneDrive\\DOCUME~1\\PORTAB~1\\LOCAL~1\\NPM-CA~1",
+    "NPM_CONFIG_OFFLINE": "true",
+    "appliedBeforeEveryNpmAndCheckerCommand": true
+  },
+  "commandsAndChecks": [
+    {"id":"launch-envelope-raw-authentication","process":"powershell -> node -e","operation":"Node readFileSync over the exact contract, manifest, and preparation-handoff paths; compare raw bytes and SHA-256","result":{"checked":3,"passed":3,"failed":0,"status":"PASS"}},
+    {"id":"declared-context-authentication","process":"powershell -> node -e","operation":"Node readFileSync over all 20 contract-declared context paths; compare raw bytes and SHA-256","result":{"checked":20,"passed":20,"failed":0,"status":"PASS"}},
+    {"id":"manifest-and-dependency-semantic-binding","process":"powershell -> node -e","operation":"Validate goal, candidate, compilation, agent/wave binding, preparation dependency, 35-source ledger, and forbidden-effect assertions","result":{"manifest":"PASS","preparationHandoff":"PASS","ledgerInitialPassed":35,"ledgerFreshnessPassed":35,"ledgerFailed":0,"status":"PASS"}},
+    {"id":"strict-schema-suite","process":"node","command":"node --test test/specialist-schema.test.mjs","result":{"exitCode":0,"tests":7,"suites":0,"passed":7,"failed":0,"cancelled":0,"skipped":0,"todo":0,"testDurationMs":713.6919,"status":"PASS"}},
+    {"id":"specialist-golden-suite","process":"node","command":"node --test test/specialist-compiler.test.mjs","result":{"exitCode":0,"tests":36,"suites":0,"passed":36,"failed":0,"cancelled":0,"skipped":0,"todo":0,"testDurationMs":2072.4277,"status":"PASS"}},
+    {"id":"canonical-kernel-gate","process":"powershell -> npm.cmd","command":"npm.cmd run verify","environment":"executionEnvironment","result":{"exitCode":0,"wallTimeSeconds":56.7,"format":{"filesChecked":72,"fixesApplied":0,"status":"PASS"},"lint":{"filesChecked":60,"fixesApplied":0,"status":"PASS"},"typecheck":{"diagnosticCount":0,"status":"PASS"},"tests":{"tests":340,"suites":0,"passed":340,"failed":0,"cancelled":0,"skipped":0,"todo":0,"durationMs":13081.6865,"status":"PASS"},"v10Dogfood":{"result":"pass","eventCount":7,"providerCalls":0},"v11Dogfood":{"result":"pass","candidate":{"compilationDigest":"sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984","packageDigest":"sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0","selectedAgents":6,"projectedMakespan":23,"serialEligible":false,"serialProjectedMakespan":40,"searchMode":"exact","evaluatedCandidates":203},"prelaunchAudit":{"compilationDigest":"sha256:a832ba62027737d4ea804d64e47fbd3cd53b78c4756524586d147dca0a0722ff","packageDigest":"sha256:b5aa9a0db063fd06d1302842e7994d0ed6695182815520d7adbb3d0d612331eb","selectedAgents":2,"projectedMakespan":16,"serialEligible":false,"serialProjectedMakespan":13,"searchMode":"exact","evaluatedCandidates":2},"launchAuthorization":"pass"},"packDryRun":{"filename":"swecircuit-0.0.0.tgz","files":105,"packageSize":"123.3 kB","unpackedSize":"686.8 kB","shasum":"3aa1e707170f1c978c611818b798a85a5b064aae","status":"PASS"},"consumerCheck":{"result":"Packed consumer check passed","assertionCount":"unknown","status":"PASS"},"status":"PASS"}},
+    {"id":"independent-package-dry-run","process":"powershell -> npm.cmd","command":"npm.cmd run pack:check","environment":"executionEnvironment","result":{"exitCode":0,"wallTimeSeconds":3.2,"filename":"swecircuit-0.0.0.tgz","files":105,"packageSize":"123.3 kB","unpackedSize":"686.8 kB","shasum":"3aa1e707170f1c978c611818b798a85a5b064aae","status":"PASS"}},
+    {"id":"independent-installed-consumer","process":"powershell -> npm.cmd","command":"npm.cmd run consumer:check","environment":"executionEnvironment","result":{"exitCode":0,"wallTimeSeconds":7.8,"privateArtifact":"PASS","offlineInstall":"PASS","publicTypeScriptHost":"PASS","init":"PASS","validate":"PASS","execute":"PASS","inspect":"PASS","compile":"PASS","render":"PASS","approvalBoundVerify":"PASS","assertionCount":"unknown","status":"PASS"}},
+    {"id":"template-checker","process":"powershell","command":"powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\check-template.ps1","environment":"executionEnvironment","result":{"exitCode":0,"wallTimeSeconds":9.9,"output":"Template check passed.","checkCount":"unknown","status":"PASS"}},
+    {"id":"template-checker-regression","process":"powershell","command":"powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\test-check-template.ps1","environment":"executionEnvironment","result":{"exitCode":124,"timeoutMs":600721,"wallTimeSeconds":600.7,"reportedPassingCasesBeforeTermination":65,"reportedFailingCasesBeforeTermination":0,"completionSummaryEmitted":false,"totalCaseCount":"unknown","finalGateResult":"unknown","status":"STOPPED"}},
+    {"id":"final-closed-set-freshness","process":"powershell -> node -e","operation":"Repeat byte-count and raw SHA-256 verification over contract, manifest, preparation handoff, and all 20 declared context files","result":{"checked":23,"passed":23,"failed":0,"failures":[],"status":"PASS"}}
+  ],
+  "sourceFreshness": {
+    "checked": 23,
+    "passed": 23,
+    "failed": 0,
+    "status": "PASS",
+    "timing": "completed after the regression timeout and before the upstream stop notification; no later command was run",
+    "ledger": [
+      {"id":"contract","path":"docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md","bytes":16842,"digest":"sha256:3d52cbd2a62be8a53bb6eb2c6c4e70bc6c59cdbc69dc2822448332ff67f3e6ea","status":"PASS"},
+      {"id":"manifest","path":"docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json","bytes":4202,"digest":"sha256:e1f1b2676fe08c1f8cd52c40ab948a8c05045316b7bd1e161d279d6624e355ab","status":"PASS"},
+      {"id":"preparation","path":"docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prepare-candidate-pass-attempt-17.json","bytes":16940,"digest":"sha256:a734459e9a443ca7c6765e5bdaeac51fc7f92be2e234c6cc0e3d0a29406c2a3c","status":"PASS"},
+      {"id":"context.biome","path":"biome.json","bytes":735,"digest":"sha256:ea4eb70aadd5e9fb08ff3fdbbcc654cf676fdc2ba791163ac856faa1791279bd","status":"PASS"},
+      {"id":"context.common-schema","path":"schemas/v1alpha1/common.schema.json","bytes":10709,"digest":"sha256:d3cdcd5d8723477db18a77a2396c6ea475bbc0e1cca44f952a594cc55832e636","status":"PASS"},
+      {"id":"context.compiler-tests","path":"test/specialist-compiler.test.mjs","bytes":55640,"digest":"sha256:a32d6d6327b5650885322392da65ab7f109d6dc124172332c0b0b7ee0bdbb7c5","status":"PASS"},
+      {"id":"context.consumer-check","path":"scripts/check-packed-consumer.mjs","bytes":32206,"digest":"sha256:2ce5aaf1cbfa6dbf848b73967eb8ce2a98c9e6c34d20eedb96c56f0dd1fde6d3","status":"PASS"},
+      {"id":"context.dogfood-runner","path":"scripts/run-v11-dogfood.mjs","bytes":39636,"digest":"sha256:827dfd4ef5c58216a260881b7ec371f1890327b18b922df16a264cc7cc56b3cc","status":"PASS"},
+      {"id":"context.dogfood-runner-tests","path":"test/v11-dogfood-runner.test.mjs","bytes":21993,"digest":"sha256:e1b90e4260996a6fb3da7663d93fa413214f153f036f0d8ef5a7fa4013ca475c","status":"PASS"},
+      {"id":"context.fixture.conflict-heavy","path":"test/fixtures/specialist-compiler/conflict-heavy.json","bytes":6260,"digest":"sha256:27fe1679095f6d86017a388e6b83ee6922ec30ba0bd598a1d5c7c2aeaed94dee","status":"PASS"},
+      {"id":"context.fixture.generic-role","path":"test/fixtures/specialist-compiler/generic-role.json","bytes":4420,"digest":"sha256:6801c238c2500f8fa8c4414de1cc3b88921d9c08e667692f49321187a9bef955","status":"PASS"},
+      {"id":"context.fixture.genuinely-parallel","path":"test/fixtures/specialist-compiler/genuinely-parallel.json","bytes":6260,"digest":"sha256:8119915f5b41d4eff112e52008f0d7a9a9e5c9f522c41d28419637ef0d290019","status":"PASS"},
+      {"id":"context.fixture.one-agent-optimal","path":"test/fixtures/specialist-compiler/one-agent-optimal.json","bytes":6314,"digest":"sha256:bebb10dc99b89660d672d0ce25de1ef09f951a0a76716b282a0c2945b2e36f67","status":"PASS"},
+      {"id":"context.fixture.over-split","path":"test/fixtures/specialist-compiler/over-split.json","bytes":8159,"digest":"sha256:a22160147debf2bf7361975a3b4900199d38059d6de3f596bec3e7fd1b9e3f1b","status":"PASS"},
+      {"id":"context.fixture.under-split","path":"test/fixtures/specialist-compiler/under-split.json","bytes":6224,"digest":"sha256:3ef5d99ff5fd47f6ddf0b46d30effa513488d6806bb275ba598871e93a9c537c","status":"PASS"},
+      {"id":"context.package","path":"package.json","bytes":2183,"digest":"sha256:3010600631a5b98f1e1cb77c3989d59c3c1b3ccc1ef995faeb1151aee838e54f","status":"PASS"},
+      {"id":"context.packed-consumer-host","path":"scripts/fixtures/packed-consumer-host.ts","bytes":13753,"digest":"sha256:b758ee12c42b95e001451d109bf124c8d9e928d51187a8a7219f982a1acdf5ab","status":"PASS"},
+      {"id":"context.schema","path":"schemas/v1alpha1/specialist-compiler.schema.json","bytes":15392,"digest":"sha256:860cbe31f1b86676ea35df361e0d1b215aa92e8253bd5de266fded42fe6039cd","status":"PASS"},
+      {"id":"context.schema-tests","path":"test/specialist-schema.test.mjs","bytes":10218,"digest":"sha256:c1ea13907cd2efd3619d565bd71474ef808c53fc4c3b6213999dc48efbfd4f50","status":"PASS"},
+      {"id":"context.spec","path":"docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md","bytes":10082,"digest":"sha256:ff85f0f2b87c8e7f0d3ced2feb06f366d7e5c60d8ae3b580d09c9aa724a9f2e5","status":"PASS"},
+      {"id":"context.template-checker","path":"scripts/check-template.ps1","bytes":77532,"digest":"sha256:b1409d0b5110d7226de69f42b6ae37c5bae24c8347f43e8a9e190179213b398a","status":"PASS"},
+      {"id":"context.template-checker-tests","path":"scripts/test-check-template.ps1","bytes":79833,"digest":"sha256:20bf8df6a84620dcc99faaffcfbb876b0d16b61f31074932342c2f353ed9747f","status":"PASS"},
+      {"id":"context.two-phase-prelaunch-review","path":"docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md","bytes":3620,"digest":"sha256:27b601c2d2d0496fad7c130a684f0068e68609940952f8564c0f9dacb05d7994","status":"PASS"}
+    ]
+  },
+  "writeContainment": {
+    "authorizedScopes": [".local/npm-cache/**","dist/**"],
+    "manualSourceOrDocumentEdits": 0,
+    "boundFilesUnchanged": 23,
+    "boundFileMismatches": 0,
+    "temporaryAndNpmCacheMappedToAuthorizedShortAlias": true,
+    "exactWrittenPathInventory": "unknown; directory enumeration was prohibited and not performed",
+    "independentOutOfScopeWriteAudit": "unknown",
+    "cleanupPerformed": false,
+    "cleanupReason": "Candidate stop prohibited further commands; no destructive cleanup was attempted."
+  },
+  "assumptions": [
+    "The upstream security/trace REVISE notification is authoritative even though the three defect details and specialist identity were not delivered in this context.",
+    "Completed PASS results are retained only as historical execution evidence and do not authorize release of retired revision 17.",
+    "The regression harness's 65 emitted PASS lines do not establish its final result because no completion summary was emitted."
+  ],
+  "risks": [
+    "Candidate A revision 17 has three unresolved security/trace defects whose details are unknown in this handoff.",
+    "The template-checker regression gate is incomplete; its final result and total case count are unknown.",
+    "Generated dist/cache artifacts may remain inside authorized scopes; exact written paths are unknown because enumeration and cleanup were not performed."
+  ],
+  "failedAttempts": [
+    {
+      "gate": "template-checker-regression",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\test-check-template.ps1",
+      "environment": "executionEnvironment",
+      "attempts": 1,
+      "exitCode": 124,
+      "timeoutMs": 600721,
+      "reportedPassingCases": 65,
+      "reportedFailingCases": 0,
+      "completionSummaryEmitted": false,
+      "finalResult": "unknown",
+      "retryPerformed": false
+    }
+  ],
+  "followUps": [
+    "Do not integrate, merge, approve, or release Candidate A revision 17.",
+    "Preserve this STOPPED handoff only as retired-candidate evidence.",
+    "Address the three upstream security/trace defects in a new revision, then regenerate and reauthenticate the complete compilation/package pair.",
+    "Run the complete release matrix on the new immutable candidate, including the template-checker regression harness through an explicit completion summary."
+  ],
+  "effects": {
+    "repositorySourceWrites": 0,
+    "authorizedBuildOrCacheWrites": "occurred; exact paths unknown",
+    "networkAccessRequested": false,
+    "npmOfflineConfigured": true,
+    "agentsSpawned": 0,
+    "approvalsIssued": 0,
+    "integrationPerformed": false,
+    "mergePerformed": false,
+    "durableMemoryMutated": false,
+    "commandsRunAfterUpstreamStop": 0
+  }
+}

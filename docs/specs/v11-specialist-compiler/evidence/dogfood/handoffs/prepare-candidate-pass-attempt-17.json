@@ -1,0 +1,97 @@
+{
+  "apiVersion": "swecircuit/specialist-handoff/v1alpha1",
+  "kind": "SpecialistHandoff",
+  "status": "PASS",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "summary": "Revision-17 Candidate A Wave 0 preparation passed. All 35 contract-declared candidate sources matched their exact raw-byte SHA-256 digests and byte counts on initial authentication and final freshness verification. This establishes immutable candidate identity only; semantic review remains assigned to later waves.",
+  "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+  "goalId": "v11.specialist-compiler.release",
+  "goalRevision": 17,
+  "goalDigest": "sha256:b6aa97a3d0a8a7b2fc7359ab89df095a173186db1e580793c2e246c5124ad4b2",
+  "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+  "identityBindings": {
+    "candidateCompilationDigest": "sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984",
+    "candidatePackageDigest": "sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0",
+    "blueprintDigest": "sha256:b54c55a94ce337546c299145c465c17ec22806b3ef583769f1dc1e9b33f8c1d2",
+    "contract": {"path":"docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md","bytes":24211,"rawDigest":"sha256:d427a4acafa250a9a2275d8cb5c14795239b545ce250f50b1dbd67635784f24e","verification":"PASS"},
+    "manifest": {"path":"docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json","bytes":4202,"rawDigest":"sha256:e1f1b2676fe08c1f8cd52c40ab948a8c05045316b7bd1e161d279d6624e355ab","contentDigest":"sha256:1ba1201b6c370e51b80420ad2495c64bfcfc4ed2c80dec49cb0100d3515bd08c","verification":"PASS"},
+    "ownerApproval": {"path":"docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json","bytes":195,"rawDigest":"sha256:44b6e7c0e89d0ecd43293585832be34882a955a80a66f046729311f6c82df830","pairMatch":"PASS"},
+    "crossPackageAuthorization": {"rawDigest":"sha256:f49a0e6eee5f2d70f78620f7fac3067f05a8298001cd026675b6467caf7c67c0","verification":"external-host-check-evidence-PASS"},
+    "auditB": {"compilationDigest":"sha256:a832ba62027737d4ea804d64e47fbd3cd53b78c4756524586d147dca0a0722ff","packageDigest":"sha256:b5aa9a0db063fd06d1302842e7994d0ed6695182815520d7adbb3d0d612331eb","verification":"external-host-check-evidence-PASS"},
+    "authorizedAuditHandoff": {"path":"docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-17b.json","bytes":11116,"rawDigest":"sha256:21df12f1253399a9e98dbcf0c5e98dc3b005bcb058ab2d6078947a9f227a1b73","semanticResult":"PASS","verification":"external-host-check-evidence-PASS"}
+  },
+  "workUnitsCompleted": [{"workUnitId":"prepare.candidate","moduleId":"review.prepare","capability":"candidate.bind","outcome":"pass","sourcesDeclared":35,"sourcesVerified":35,"sourcesFailed":0}],
+  "artifacts": [{
+    "name": "review-candidate-digests.json",
+    "delivery": "inline-raw-handoff",
+    "repositoryFileWritten": false,
+    "digestAlgorithm": "sha256",
+    "digestScope": "raw-file-bytes",
+    "candidateDigestLedger": [
+      {"sourceId":"context.canonical-json","path":"src/canonical-json.ts","bytes":7405,"digest":"sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.common-schema","path":"schemas/v1alpha1/common.schema.json","bytes":10709,"digest":"sha256:d3cdcd5d8723477db18a77a2396c6ea475bbc0e1cca44f952a594cc55832e636","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.compiler","path":"src/specialist-compiler.ts","bytes":65907,"digest":"sha256:fb1b901a2bd8e398ab57f08b4f353b9d18c22075965f41b50a88ef169268f98c","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.compiler-contract","path":"docs/specs/v11-specialist-compiler/specialist-compiler-contract.md","bytes":29822,"digest":"sha256:14474c461b8132d8fe388c30e9276e8ff88d0ae1875afdda3d1facc31eb2a84a","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.compiler-tests","path":"test/specialist-compiler.test.mjs","bytes":55640,"digest":"sha256:a32d6d6327b5650885322392da65ab7f109d6dc124172332c0b0b7ee0bdbb7c5","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.constants","path":"src/constants.ts","bytes":1883,"digest":"sha256:c3526b49f3f1f54ce8db3dfb7af7dabe6944a02543b5702d08567c2a17cc466b","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.consumer-check","path":"scripts/check-packed-consumer.mjs","bytes":32206,"digest":"sha256:2ce5aaf1cbfa6dbf848b73967eb8ce2a98c9e6c34d20eedb96c56f0dd1fde6d3","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.diagnostics","path":"src/diagnostics.ts","bytes":22284,"digest":"sha256:3e9e250dbade0f9ba3275b50d21fe977df729eb9fbf203e8419ac3d9a2b5b25d","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.dogfood-runner","path":"scripts/run-v11-dogfood.mjs","bytes":39636,"digest":"sha256:827dfd4ef5c58216a260881b7ec371f1890327b18b922df16a264cc7cc56b3cc","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.dogfood-runner-tests","path":"test/v11-dogfood-runner.test.mjs","bytes":21993,"digest":"sha256:e1b90e4260996a6fb3da7663d93fa413214f153f036f0d8ef5a7fa4013ca475c","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.fixture.conflict-heavy","path":"test/fixtures/specialist-compiler/conflict-heavy.json","bytes":6260,"digest":"sha256:27fe1679095f6d86017a388e6b83ee6922ec30ba0bd598a1d5c7c2aeaed94dee","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.fixture.generic-role","path":"test/fixtures/specialist-compiler/generic-role.json","bytes":4420,"digest":"sha256:6801c238c2500f8fa8c4414de1cc3b88921d9c08e667692f49321187a9bef955","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.fixture.genuinely-parallel","path":"test/fixtures/specialist-compiler/genuinely-parallel.json","bytes":6260,"digest":"sha256:8119915f5b41d4eff112e52008f0d7a9a9e5c9f522c41d28419637ef0d290019","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.fixture.one-agent-optimal","path":"test/fixtures/specialist-compiler/one-agent-optimal.json","bytes":6314,"digest":"sha256:bebb10dc99b89660d672d0ce25de1ef09f951a0a76716b282a0c2945b2e36f67","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.fixture.over-split","path":"test/fixtures/specialist-compiler/over-split.json","bytes":8159,"digest":"sha256:a22160147debf2bf7361975a3b4900199d38059d6de3f596bec3e7fd1b9e3f1b","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.fixture.under-split","path":"test/fixtures/specialist-compiler/under-split.json","bytes":6224,"digest":"sha256:3ef5d99ff5fd47f6ddf0b46d30effa513488d6806bb275ba598871e93a9c537c","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.ide-kickoff","path":"docs/ide/specialist-agent-kickoff.md","bytes":14605,"digest":"sha256:67edd4b5ffa3cbf35d2ece6a7066274107346dc45caa849747dfe1161d28d4e0","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.index","path":"src/index.ts","bytes":4169,"digest":"sha256:b146d7759988bff0a205228f46e39fe53cfe0f42fbe89dbad3a6f8ffdfcf716d","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.json","path":"src/json.ts","bytes":4808,"digest":"sha256:a1f119ecb906ccf5d8397d2ce84e7b357ef5276df2ac448c99cc498d963c8a8a","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.model","path":"src/model.ts","bytes":5961,"digest":"sha256:c67bf6036ec16d40516bcf01a49e8714f82588e29a9c596b117dc73c36cf4b83","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.packed-consumer-host","path":"scripts/fixtures/packed-consumer-host.ts","bytes":13753,"digest":"sha256:b758ee12c42b95e001451d109bf124c8d9e928d51187a8a7219f982a1acdf5ab","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.path","path":"src/path.ts","bytes":12676,"digest":"sha256:fd7c8dbbb09f09f5f033cac64a3afaeb86fcc4c50bf38a7afc510f4f9606daa9","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.permissions","path":"src/permissions.ts","bytes":3484,"digest":"sha256:d6e39db2221715490b58ace95e87514f0a5c0a76a38225f02ccec15a37d74523","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.privacy","path":"src/privacy.ts","bytes":1047,"digest":"sha256:e6ffecf6135e7369913e51df78a522dcb3de3907d698f7f7cd2c1e7117ac972c","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.readme","path":"README.md","bytes":8525,"digest":"sha256:c53ca438b43b9b03a2ca8c55712fc26c586ab2fdf2a4ba78fdd6e3ead622ebd8","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.renderer","path":"src/specialist-render.ts","bytes":16637,"digest":"sha256:1f9976bfe6770f45ed4c6b14d195a2c10d15a353d32d24719f9ef327770aa2c8","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.schema","path":"schemas/v1alpha1/specialist-compiler.schema.json","bytes":15392,"digest":"sha256:860cbe31f1b86676ea35df361e0d1b215aa92e8253bd5de266fded42fe6039cd","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.schema-tests","path":"test/specialist-schema.test.mjs","bytes":10218,"digest":"sha256:c1ea13907cd2efd3619d565bd71474ef808c53fc4c3b6213999dc48efbfd4f50","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.shared-types","path":"src/types.ts","bytes":4140,"digest":"sha256:61877d77f8a1d5ab496491f1a462e74142572d4acac953958add18d9a62bee37","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.snapshot","path":"src/snapshot.ts","bytes":5045,"digest":"sha256:4def623274433afd49467c46aceae479115a881a13af3c6359f908772a19ca1e","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.spec","path":"docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md","bytes":10082,"digest":"sha256:ff85f0f2b87c8e7f0d3ced2feb06f366d7e5c60d8ae3b580d09c9aa724a9f2e5","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.specialist-schema","path":"src/specialist-schema.ts","bytes":2968,"digest":"sha256:e59a903d0fab9ba58de19032969107fe6d517526a153ce8e6bc081360b1a4799","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.text","path":"src/text.ts","bytes":318,"digest":"sha256:bb8cf644eea0c4768facdab69287574b3ad8e7f001d41d695b19c16f76e022d6","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.two-phase-prelaunch-review","path":"docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md","bytes":3620,"digest":"sha256:27b601c2d2d0496fad7c130a684f0068e68609940952f8564c0f9dacb05d7994","initial":"PASS","freshness":"PASS"},
+      {"sourceId":"context.types","path":"src/specialist-types.ts","bytes":12158,"digest":"sha256:24d255360063fa157335d189fc4e0031795ba646dc44c316f93a0f3a7006fc52","initial":"PASS","freshness":"PASS"}
+    ]
+  }],
+  "evidence": [
+    {"criterionId":"criterion.algorithm","criterion":"Candidate construction, scheduling, selection, and digest semantics are deterministic and accurately claimed.","requirementId":"evidence.algorithm-candidate","kind":"digest","duty":"produce","independentFromProducer":false,"description":"Content-addressed algorithm and test candidate sources.","status":"PASS","scope":"candidate binding only; semantic criterion not adjudicated","artifact":"review-candidate-digests.json","candidateSourceIds":["context.canonical-json","context.compiler","context.compiler-tests","context.constants","context.diagnostics","context.dogfood-runner","context.dogfood-runner-tests","context.fixture.conflict-heavy","context.fixture.generic-role","context.fixture.genuinely-parallel","context.fixture.one-agent-optimal","context.fixture.over-split","context.fixture.under-split","context.json","context.model","context.path","context.schema-tests","context.shared-types","context.specialist-schema","context.text","context.types"]},
+    {"criterionId":"criterion.product-api","criterion":"The V11 product and public API match the owner goal and remain IDE, model, and provider neutral.","requirementId":"evidence.product-candidate","kind":"digest","duty":"produce","independentFromProducer":false,"description":"Content-addressed product and API candidate sources.","status":"PASS","scope":"candidate binding only; semantic criterion not adjudicated","artifact":"review-candidate-digests.json","candidateSourceIds":["context.common-schema","context.compiler","context.compiler-contract","context.compiler-tests","context.consumer-check","context.ide-kickoff","context.index","context.json","context.model","context.packed-consumer-host","context.readme","context.renderer","context.schema","context.schema-tests","context.shared-types","context.spec","context.specialist-schema","context.two-phase-prelaunch-review","context.types"]},
+    {"criterionId":"criterion.security-trace","criterion":"Authority, context, privacy, rendering, and trace bindings fail closed.","requirementId":"evidence.security-candidate","kind":"digest","duty":"produce","independentFromProducer":false,"description":"Content-addressed security and trace candidate sources.","status":"PASS","scope":"candidate binding only; semantic criterion not adjudicated","artifact":"review-candidate-digests.json","candidateSourceIds":["context.canonical-json","context.common-schema","context.compiler","context.compiler-contract","context.compiler-tests","context.consumer-check","context.diagnostics","context.dogfood-runner","context.dogfood-runner-tests","context.ide-kickoff","context.json","context.packed-consumer-host","context.path","context.permissions","context.privacy","context.renderer","context.schema","context.schema-tests","context.snapshot","context.spec","context.specialist-schema","context.two-phase-prelaunch-review","context.types"]}
+  ],
+  "commandsAndChecks": [
+    {"id":"launch-envelope-raw-authentication","executedBy":"agent","process":"powershell -> node -e","operation":"Node readFileSync over the three explicit contract, manifest, and approval paths; compare raw bytes and SHA-256","result":{"checked":3,"passed":3,"failed":0,"status":"PASS"}},
+    {"id":"contract-read","executedBy":"agent","process":"powershell","command":"Get-Content -Raw -LiteralPath 'docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md'","status":"PASS"},
+    {"id":"manifest-and-approval-read","executedBy":"agent","process":"powershell","commands":["Get-Content -Raw -LiteralPath 'docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json'","Get-Content -Raw -LiteralPath 'docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json'"],"status":"PASS"},
+    {"id":"candidate-source-byte-digest-gate","executedBy":"agent","process":"powershell -> node -e","operation":"Node readFileSync over the 35 explicit ledger paths; compare each raw byte count and SHA-256 to the rendered contract","result":{"checked":35,"passed":35,"failed":0,"status":"PASS"}},
+    {"id":"final-closed-set-freshness","executedBy":"agent","process":"powershell -> node -e","operation":"Repeat raw byte-count and SHA-256 verification over the same 35 candidate sources plus contract, manifest, and approval","result":{"checked":38,"passed":38,"failed":0,"status":"PASS"}},
+    {"id":"host-launch-verifier","executedBy":"external-host","command":"node scripts/run-v11-dogfood.mjs --check-evidence","result":{"candidateA":"PASS","auditB":"PASS","launchAuthorization":"PASS"},"status":"PASS"}
+  ],
+  "assumptions": [
+    "The supplied external-host check-evidence PASS is the trust boundary for domain-separated compilation/package verification, Audit B, cross-package authorization, and the authorized semantic handoff; this specialist did not rerun that broader host process.",
+    "Evidence-duty source groupings are non-exclusive routing metadata. Every authoritative binding is the per-file ledger entry, and no semantic correctness conclusion is implied."
+  ],
+  "risks": [
+    "A repository mutation after the final freshness check would invalidate this preparation handoff. Any later wave must reauthenticate its declared context against this exact ledger before use.",
+    "PASS confirms candidate identity and freshness only; it does not replace the independent algorithm, product/API, security, or integration reviews."
+  ],
+  "failedAttempts": [],
+  "followUps": [
+    "Preserve this raw handoff unchanged as review-candidate-digests.json evidence.",
+    "Launch later waves only against Candidate A compilation sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984 and package sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0.",
+    "Require each later specialist to authenticate every delivered context item before semantic use and stop on any mismatch."
+  ],
+  "effects": {"repositoryWrites":0,"networkAccess":false,"agentsSpawned":0,"approvalsIssued":0,"integrationPerformed":false,"mergePerformed":false}
+}

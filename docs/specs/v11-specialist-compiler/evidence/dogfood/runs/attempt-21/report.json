@@ -1,0 +1,582 @@
+{
+  "reportVersion": "1.0.0",
+  "result": "pass",
+  "goalId": "v11.specialist-compiler.release",
+  "goalRevision": 21,
+  "assumptions": [
+    {
+      "id": "assumption.atomic-work-reviewed",
+      "statement": "The six work units are stable atomic responsibilities for this release review.",
+      "rationale": "They were derived from the accepted V11 spec and have disjoint review or integration ownership."
+    },
+    {
+      "id": "assumption.checkout-canonical-context",
+      "statement": "Every repository context source is byte-identical under the declared Git checkout rules, with no custom filter or working-tree encoding.",
+      "rationale": "A reviewed launch package must reconstruct from a clean checkout, not only the integration owner working tree."
+    },
+    {
+      "id": "assumption.external-approval-root",
+      "statement": "The integration owner retains separate approved compilation and package digests for the prelaunch audit and, only after its PASS, for the candidate package.",
+      "rationale": "Each package verification is trustworthy only when its expected digest pair comes from an independent approval record, and candidate launch approval follows the audit gate."
+    },
+    {
+      "id": "assumption.external-host-enforcement",
+      "statement": "The external IDE host enforces actual context, permission, workspace, and process boundaries.",
+      "rationale": "The V11 compiler emits provider-neutral task demand and performs no runtime effects."
+    },
+    {
+      "id": "assumption.immutable-review-inputs",
+      "statement": "Any release document that integration may update is reviewed through an immutable pre-integration snapshot rather than its live output path.",
+      "rationale": "Authorized integration must not invalidate the exact candidate it consumes."
+    },
+    {
+      "id": "assumption.relative-planning-weights",
+      "statement": "Work, startup, and handoff values are relative planning units rather than elapsed-time forecasts.",
+      "rationale": "V11 compares deterministic candidate structure and does not claim runtime benchmarking."
+    },
+    {
+      "id": "assumption.release-host-contained-temp",
+      "statement": "Canonical release processes use only temporary workspaces that resolve inside declared .local/npm-cache/** write authority.",
+      "rationale": "Functional success is not authority-compliant evidence when tests inherit system TEMP/TMP; a verified Windows short-path spelling may reduce path length only when it resolves to the same authorized target."
+    },
+    {
+      "id": "assumption.two-phase-prelaunch-audit",
+      "statement": "An agent-based semantic review of the exact candidate compilation uses a separate read-only audit package rather than a work unit inside that candidate.",
+      "rationale": "A compilation cannot include its own complete bytes as authenticated context without changing itself."
+    }
+  ],
+  "unresolvedDecisions": [
+    {
+      "id": "decision.runtime-supply",
+      "question": "Which IDE, models, and workspace isolation strategy should execute a future production roster?",
+      "owner": "v11.integration-owner",
+      "blocking": false,
+      "proceedRationale": "Runtime supply is explicitly outside the V11 compiler acceptance boundary and requires a later adapter decision."
+    }
+  ],
+  "contextVerification": {
+    "result": "pass",
+    "verifiedSources": [
+      {
+        "sourceId": "context.active-memory",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/active-context-before-integration.md",
+        "bytes": 25415,
+        "digest": "sha256:b564e0a9d80ed631be5d78625c66c3a4e883a1624195cdd4163c6ed78ce12ea2"
+      },
+      {
+        "sourceId": "context.biome",
+        "path": "biome.json",
+        "bytes": 735,
+        "digest": "sha256:ea4eb70aadd5e9fb08ff3fdbbcc654cf676fdc2ba791163ac856faa1791279bd"
+      },
+      {
+        "sourceId": "context.canonical-json",
+        "path": "src/canonical-json.ts",
+        "bytes": 7405,
+        "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac"
+      },
+      {
+        "sourceId": "context.common-schema",
+        "path": "schemas/v1alpha1/common.schema.json",
+        "bytes": 10709,
+        "digest": "sha256:d3cdcd5d8723477db18a77a2396c6ea475bbc0e1cca44f952a594cc55832e636"
+      },
+      {
+        "sourceId": "context.compiler",
+        "path": "src/specialist-compiler.ts",
+        "bytes": 65900,
+        "digest": "sha256:835fde0cca15c7bb8d081d2556a4cbe1ff011ea7b4f5649f8b065391092973d6"
+      },
+      {
+        "sourceId": "context.compiler-contract",
+        "path": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "bytes": 29978,
+        "digest": "sha256:721e85301737c8db3f13bae28ec19c807678ba77c77892cf119d754400c54d19"
+      },
+      {
+        "sourceId": "context.compiler-tests",
+        "path": "test/specialist-compiler.test.mjs",
+        "bytes": 58929,
+        "digest": "sha256:aaaf4fad943c6bf00ebd71019a8f68183008fc8332030619bc03eb90b9e93abc"
+      },
+      {
+        "sourceId": "context.constants",
+        "path": "src/constants.ts",
+        "bytes": 1883,
+        "digest": "sha256:c3526b49f3f1f54ce8db3dfb7af7dabe6944a02543b5702d08567c2a17cc466b"
+      },
+      {
+        "sourceId": "context.consumer-check",
+        "path": "scripts/check-packed-consumer.mjs",
+        "bytes": 32206,
+        "digest": "sha256:2ce5aaf1cbfa6dbf848b73967eb8ce2a98c9e6c34d20eedb96c56f0dd1fde6d3"
+      },
+      {
+        "sourceId": "context.diagnostics",
+        "path": "src/diagnostics.ts",
+        "bytes": 22284,
+        "digest": "sha256:3e9e250dbade0f9ba3275b50d21fe977df729eb9fbf203e8419ac3d9a2b5b25d"
+      },
+      {
+        "sourceId": "context.dogfood-runner",
+        "path": "scripts/run-v11-dogfood.mjs",
+        "bytes": 58018,
+        "digest": "sha256:4e2fda1e112234838057a7bb473687e3125bc369ab210aab99bc449340dd6d51"
+      },
+      {
+        "sourceId": "context.dogfood-runner-tests",
+        "path": "test/v11-dogfood-runner.test.mjs",
+        "bytes": 41700,
+        "digest": "sha256:ed77ade3f6a6295ce86a880237b76e541d5cd44085d1e7a9a6aa1acf30346d65"
+      },
+      {
+        "sourceId": "context.fixture.conflict-heavy",
+        "path": "test/fixtures/specialist-compiler/conflict-heavy.json",
+        "bytes": 6260,
+        "digest": "sha256:27fe1679095f6d86017a388e6b83ee6922ec30ba0bd598a1d5c7c2aeaed94dee"
+      },
+      {
+        "sourceId": "context.fixture.generic-role",
+        "path": "test/fixtures/specialist-compiler/generic-role.json",
+        "bytes": 4420,
+        "digest": "sha256:6801c238c2500f8fa8c4414de1cc3b88921d9c08e667692f49321187a9bef955"
+      },
+      {
+        "sourceId": "context.fixture.genuinely-parallel",
+        "path": "test/fixtures/specialist-compiler/genuinely-parallel.json",
+        "bytes": 6260,
+        "digest": "sha256:8119915f5b41d4eff112e52008f0d7a9a9e5c9f522c41d28419637ef0d290019"
+      },
+      {
+        "sourceId": "context.fixture.one-agent-optimal",
+        "path": "test/fixtures/specialist-compiler/one-agent-optimal.json",
+        "bytes": 6314,
+        "digest": "sha256:bebb10dc99b89660d672d0ce25de1ef09f951a0a76716b282a0c2945b2e36f67"
+      },
+      {
+        "sourceId": "context.fixture.over-split",
+        "path": "test/fixtures/specialist-compiler/over-split.json",
+        "bytes": 8159,
+        "digest": "sha256:a22160147debf2bf7361975a3b4900199d38059d6de3f596bec3e7fd1b9e3f1b"
+      },
+      {
+        "sourceId": "context.fixture.under-split",
+        "path": "test/fixtures/specialist-compiler/under-split.json",
+        "bytes": 6224,
+        "digest": "sha256:3ef5d99ff5fd47f6ddf0b46d30effa513488d6806bb275ba598871e93a9c537c"
+      },
+      {
+        "sourceId": "context.ide-kickoff",
+        "path": "docs/ide/specialist-agent-kickoff.md",
+        "bytes": 15719,
+        "digest": "sha256:1dc3d05161d91cbe71c2f52deaf5a24732c477b77f8ec5349ba8d5cf829ce914"
+      },
+      {
+        "sourceId": "context.index",
+        "path": "src/index.ts",
+        "bytes": 4169,
+        "digest": "sha256:b146d7759988bff0a205228f46e39fe53cfe0f42fbe89dbad3a6f8ffdfcf716d"
+      },
+      {
+        "sourceId": "context.json",
+        "path": "src/json.ts",
+        "bytes": 4808,
+        "digest": "sha256:a1f119ecb906ccf5d8397d2ce84e7b357ef5276df2ac448c99cc498d963c8a8a"
+      },
+      {
+        "sourceId": "context.model",
+        "path": "src/model.ts",
+        "bytes": 5961,
+        "digest": "sha256:c67bf6036ec16d40516bcf01a49e8714f82588e29a9c596b117dc73c36cf4b83"
+      },
+      {
+        "sourceId": "context.package",
+        "path": "package.json",
+        "bytes": 2183,
+        "digest": "sha256:3010600631a5b98f1e1cb77c3989d59c3c1b3ccc1ef995faeb1151aee838e54f"
+      },
+      {
+        "sourceId": "context.packed-consumer-host",
+        "path": "scripts/fixtures/packed-consumer-host.ts",
+        "bytes": 13753,
+        "digest": "sha256:b758ee12c42b95e001451d109bf124c8d9e928d51187a8a7219f982a1acdf5ab"
+      },
+      {
+        "sourceId": "context.path",
+        "path": "src/path.ts",
+        "bytes": 12803,
+        "digest": "sha256:7b2bc97a119e56e2c33d47bae11c48215be75365dc0d7c0c26d804b520580792"
+      },
+      {
+        "sourceId": "context.permissions",
+        "path": "src/permissions.ts",
+        "bytes": 3484,
+        "digest": "sha256:d6e39db2221715490b58ace95e87514f0a5c0a76a38225f02ccec15a37d74523"
+      },
+      {
+        "sourceId": "context.privacy",
+        "path": "src/privacy.ts",
+        "bytes": 1047,
+        "digest": "sha256:e6ffecf6135e7369913e51df78a522dcb3de3907d698f7f7cd2c1e7117ac972c"
+      },
+      {
+        "sourceId": "context.project-validation-tests",
+        "path": "test/project-validation.test.mjs",
+        "bytes": 17482,
+        "digest": "sha256:fed599967fc34e1f4c4d5a786259ba4876755f6d4e6a889dbac8a607b07f382a"
+      },
+      {
+        "sourceId": "context.readme",
+        "path": "README.md",
+        "bytes": 8525,
+        "digest": "sha256:c53ca438b43b9b03a2ca8c55712fc26c586ab2fdf2a4ba78fdd6e3ead622ebd8"
+      },
+      {
+        "sourceId": "context.renderer",
+        "path": "src/specialist-render.ts",
+        "bytes": 16637,
+        "digest": "sha256:1f9976bfe6770f45ed4c6b14d195a2c10d15a353d32d24719f9ef327770aa2c8"
+      },
+      {
+        "sourceId": "context.schema",
+        "path": "schemas/v1alpha1/specialist-compiler.schema.json",
+        "bytes": 15392,
+        "digest": "sha256:860cbe31f1b86676ea35df361e0d1b215aa92e8253bd5de266fded42fe6039cd"
+      },
+      {
+        "sourceId": "context.schema-tests",
+        "path": "test/specialist-schema.test.mjs",
+        "bytes": 10218,
+        "digest": "sha256:c1ea13907cd2efd3619d565bd71474ef808c53fc4c3b6213999dc48efbfd4f50"
+      },
+      {
+        "sourceId": "context.shared-types",
+        "path": "src/types.ts",
+        "bytes": 4140,
+        "digest": "sha256:61877d77f8a1d5ab496491f1a462e74142572d4acac953958add18d9a62bee37"
+      },
+      {
+        "sourceId": "context.snapshot",
+        "path": "src/snapshot.ts",
+        "bytes": 5045,
+        "digest": "sha256:4def623274433afd49467c46aceae479115a881a13af3c6359f908772a19ca1e"
+      },
+      {
+        "sourceId": "context.spec",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+        "bytes": 12953,
+        "digest": "sha256:6f1f2eeeb40d708c1a41ae0e064b0d89cd179272b60ee91ee5b5e8ee8874a6ae"
+      },
+      {
+        "sourceId": "context.specialist-schema",
+        "path": "src/specialist-schema.ts",
+        "bytes": 2968,
+        "digest": "sha256:e59a903d0fab9ba58de19032969107fe6d517526a153ce8e6bc081360b1a4799"
+      },
+      {
+        "sourceId": "context.template-checker",
+        "path": "scripts/check-template.ps1",
+        "bytes": 77532,
+        "digest": "sha256:b1409d0b5110d7226de69f42b6ae37c5bae24c8347f43e8a9e190179213b398a"
+      },
+      {
+        "sourceId": "context.template-checker-tests",
+        "path": "scripts/test-check-template.ps1",
+        "bytes": 79833,
+        "digest": "sha256:20bf8df6a84620dcc99faaffcfbb876b0d16b61f31074932342c2f353ed9747f"
+      },
+      {
+        "sourceId": "context.text",
+        "path": "src/text.ts",
+        "bytes": 985,
+        "digest": "sha256:7aaf03f50e16bc4917112e560dfd65f3e00a818df07cdca5310128a24e9d8644"
+      },
+      {
+        "sourceId": "context.two-phase-prelaunch-review",
+        "path": "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md",
+        "bytes": 11930,
+        "digest": "sha256:58a4b035497f2ffdf20fe4d516c46e86bae3f878554321ae9443fb0bb6ef406e"
+      },
+      {
+        "sourceId": "context.types",
+        "path": "src/specialist-types.ts",
+        "bytes": 12158,
+        "digest": "sha256:24d255360063fa157335d189fc4e0031795ba646dc44c316f93a0f3a7006fc52"
+      }
+    ]
+  },
+  "compilationDigest": "sha256:d8ebaaa5e5fd1fe5b6c575c5b53d64b4d495ce5007c987e9189c53614a401266",
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 6,
+    "evaluatedCandidates": 203,
+    "eligibleCandidates": 52,
+    "retainedAlternatives": 8,
+    "evaluationSetDigest": "sha256:4c9a796f0603523f60064f499ffa47f81085f5de0214823b5867932072870819"
+  },
+  "serialBaseline": {
+    "id": "team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696",
+    "eligible": false,
+    "rejectionCodes": [
+      "evidence_independence"
+    ],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 40,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 38,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 0
+    }
+  },
+  "selectionReason": {
+    "kind": "serial_ineligible",
+    "decisiveField": "evidence_independence",
+    "selectedValue": "eligible",
+    "serialValue": "ineligible",
+    "serialRejectionCodes": [
+      "evidence_independence"
+    ]
+  },
+  "selected": {
+    "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+    "partition": [
+      [
+        "integrate.release"
+      ],
+      [
+        "prepare.candidate"
+      ],
+      [
+        "review.algorithm-lifecycle"
+      ],
+      [
+        "review.product-api"
+      ],
+      [
+        "review.security-trace"
+      ],
+      [
+        "verify.release-gates"
+      ]
+    ],
+    "metrics": {
+      "agentCount": 6,
+      "projectedMakespan": 23,
+      "peakConcurrency": 4,
+      "conflictPairs": 0,
+      "handoffCount": 8,
+      "duplicatedContextBytes": 1360779,
+      "duplicatedPermissionScopes": 96,
+      "totalWorkWeight": 38,
+      "totalStartupCost": 12,
+      "totalHandoffCost": 8
+    }
+  },
+  "proposalEvaluations": [
+    {
+      "id": "team.4702fb2667e4e241923c2a25d04cf4f64246e1fa3c71058aeef5866f0c3afb2b",
+      "proposalIds": [
+        "candidate.consolidated-reviews"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 4,
+        "projectedMakespan": 41,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 4,
+        "duplicatedContextBytes": 931139,
+        "duplicatedPermissionScopes": 64,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 8,
+        "totalHandoffCost": 4
+      }
+    },
+    {
+      "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+      "proposalIds": [
+        "candidate.specialized"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 6,
+        "projectedMakespan": 23,
+        "peakConcurrency": 4,
+        "conflictPairs": 0,
+        "handoffCount": 8,
+        "duplicatedContextBytes": 1360779,
+        "duplicatedPermissionScopes": 96,
+        "totalWorkWeight": 38,
+        "totalStartupCost": 12,
+        "totalHandoffCost": 8
+      }
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ]
+    },
+    {
+      "start": 4,
+      "agentIds": [
+        "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+        "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+        "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+        "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc"
+      ]
+    },
+    {
+      "start": 17,
+      "agentIds": [
+        "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9"
+      ]
+    }
+  ],
+  "blueprintAssignments": [
+    {
+      "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+      "blueprintDigest": "sha256:e29a63bf697e232c12b86ba82f519c625866c2b87180e97a8771b084088814ff",
+      "workUnitIds": [
+        "review.algorithm-lifecycle"
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "requiredCapabilities": [
+        "review.algorithm-lifecycle"
+      ]
+    },
+    {
+      "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+      "blueprintDigest": "sha256:729b1a0c2fccf0fe7a6f21e11d975deed0c8460b06c9abe2044561c5386f25d2",
+      "workUnitIds": [
+        "integrate.release"
+      ],
+      "dependencies": [
+        "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+        "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+        "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+        "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc"
+      ],
+      "requiredCapabilities": [
+        "integrate.release"
+      ]
+    },
+    {
+      "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+      "blueprintDigest": "sha256:c3c4844bebd61c01ffc65e16bcaef936b5495da3cfb085bd421ce7d4fccc8ea4",
+      "workUnitIds": [
+        "review.product-api"
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "requiredCapabilities": [
+        "review.product-api"
+      ]
+    },
+    {
+      "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+      "blueprintDigest": "sha256:0a6d06841ce39cc83a3d892bee8cc7415cc6f4dc7f000699514823f07572d0ac",
+      "workUnitIds": [
+        "verify.release-gates"
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "requiredCapabilities": [
+        "verify.release"
+      ]
+    },
+    {
+      "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+      "blueprintDigest": "sha256:a4e42021942c08ad0ca06b7409faf8dcfa72457c4689aa438164d8a4fe239213",
+      "workUnitIds": [
+        "review.security-trace"
+      ],
+      "dependencies": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ],
+      "requiredCapabilities": [
+        "review.security-trace"
+      ]
+    },
+    {
+      "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+      "blueprintDigest": "sha256:2ceaf101a6e3db70de0b3bf6cf13eb280d11a5afab6e811ed6b142095863e10f",
+      "workUnitIds": [
+        "prepare.candidate"
+      ],
+      "dependencies": [],
+      "requiredCapabilities": [
+        "candidate.bind"
+      ]
+    }
+  ],
+  "package": {
+    "verification": {
+      "result": "pass",
+      "expectationFile": "approval.json"
+    },
+    "packageDigest": "sha256:651bdc5ab823d8fb490b5c48f7212d07f042fc1cafbd07efc3460b9954001f7e",
+    "manifestDigest": "sha256:293721674a9325db625b34cc1c64731d36cff2dbc23d24b70c5b9e7a7f92c97d",
+    "files": [
+      {
+        "path": "agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+        "bytes": 13789,
+        "digest": "sha256:2a8981a081752919bdc8e56bba16680844f517c0c0a4545c2ef34f0f5d5d4db7"
+      },
+      {
+        "path": "agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+        "bytes": 8557,
+        "digest": "sha256:b4a3596000d0e5e0929b75dd242270cfc381244c55f413984c9c052f5818f712"
+      },
+      {
+        "path": "agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+        "bytes": 11595,
+        "digest": "sha256:05b96f6e02e560aa5c3e5d291794602d87e40174c47e70dc0a531f192386b425"
+      },
+      {
+        "path": "agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+        "bytes": 17857,
+        "digest": "sha256:0f487cf0881b64098a2a2d3d8268b3880754bab696d9aacce81ce17c12c52bf8"
+      },
+      {
+        "path": "agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+        "bytes": 23675,
+        "digest": "sha256:8b94ec31d3eb4c8056d79e122a0c197a04f1e9ee410a0843402106bdfd51ba08"
+      },
+      {
+        "path": "agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+        "bytes": 24780,
+        "digest": "sha256:764cde62cda0045dc9cb79c3ba5aecded61802e941d5bc763ef4944cf43008d4"
+      },
+      {
+        "path": "compilation.json",
+        "bytes": 232074,
+        "digest": "sha256:3e6487abf7914e80b78be50d29a7f4e310b7710149500f7bb4d12af15f744f22"
+      },
+      {
+        "path": "integration.md",
+        "bytes": 7782,
+        "digest": "sha256:b7fc3618d1ab6dd9dbdd22768f1bfd37544664b9cde1acea2ce01d70eb4f0b35"
+      },
+      {
+        "path": "manifest.json",
+        "bytes": 4202,
+        "digest": "sha256:79862f3f53adf2c63bfcb046b234ac39c2076e03cc99c50bd21e1f8176333dbb"
+      }
+    ]
+  }
+}

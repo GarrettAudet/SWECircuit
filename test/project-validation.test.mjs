@@ -71,6 +71,8 @@ test("project loading rejects lexical escapes and every portable forbidden path 
     ["alternate stream", "swecircuit/modules/a.json:stream", "SC1012"],
     ["URI", "file://module.json", "SC1012"],
     ["backslash", "swecircuit\\modules\\a.json", "SC1012"],
+    ["lone high surrogate", `swecircuit/modules/${String.fromCharCode(0xd800)}.json`, "SC1012"],
+    ["lone low surrogate", `swecircuit/modules/${String.fromCharCode(0xdc00)}.json`, "SC1012"],
   ];
 
   for (const [name, candidate, expectedCode] of cases) {
@@ -109,6 +111,19 @@ test("project loading distinguishes missing references, non-files, and safe I/O 
   });
 });
 
+test("contained missing-file diagnostics suppress secret-bearing artifact names", () => {
+  withTempDirectory((root) => {
+    const secret = `sk-proj-${"A".repeat(24)}`;
+    const candidate = `swecircuit/modules/${secret}.json`;
+    writeJson(root, "swecircuit.json", projectArtifact([candidate]));
+
+    const result = validateProject({ project: root });
+    assert.deepEqual(diagnosticCodes(result), ["SC2001"]);
+    assert.equal(result.diagnostics[0].artifact, ".");
+    assert.equal(JSON.stringify(result.diagnostics).includes(secret), false);
+  });
+});
+
 test("explicit project roots reject remote, device, stream, and control forms before I/O", async (t) => {
   const cases = [
     ["file URI", "file:///definitely-not-read"],
@@ -118,6 +133,8 @@ test("explicit project roots reject remote, device, stream, and control forms be
     ["device path", "\\\\?\\C:\\project"],
     ["alternate stream", "C:\\project:stream"],
     ["control character", `bad${String.fromCharCode(1)}root`],
+    ["lone high surrogate", `bad${String.fromCharCode(0xd800)}root`],
+    ["lone low surrogate", `bad${String.fromCharCode(0xdc00)}root`],
   ];
 
   for (const [name, project] of cases) {

@@ -78,7 +78,7 @@ Exercise the installed-package compiler path end to end:
 npm run consumer:check
 ```
 
-This builds and installs the package offline, compiles a reviewed goal, renders exact agent contracts, verifies them against approval retained outside the package, and checks the installed public API. The typed input is in [`scripts/fixtures/packed-consumer-host.ts`](scripts/fixtures/packed-consumer-host.ts).
+This builds and installs the package offline, compiles a reviewed goal, renders exact agent contracts, verifies them against approval retained outside the package, and checks the installed public API. When an agent must audit the exact compilation that defines it, SWECircuit uses a separate read-only prelaunch audit instead of circular self-review. The typed input is in [`scripts/fixtures/packed-consumer-host.ts`](scripts/fixtures/packed-consumer-host.ts).
 
 These are repository-local development commands for the private workspace; SWECircuit does not publish a package binary or public CLI.
 

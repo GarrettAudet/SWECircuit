@@ -13,7 +13,7 @@ import { isAbsolute, join, relative, resolve, sep } from "node:path";
 import { LIMITS } from "./constants.js";
 import { createDiagnostic, type DiagnosticCode } from "./diagnostics.js";
 import { parseJsonBuffer, type ParsedJson } from "./json.js";
-import { containsControlCharacters } from "./text.js";
+import { containsControlCharacters, containsLoneSurrogate } from "./text.js";
 import type { Diagnostic } from "./types.js";
 
 export interface ProjectRootResult {
@@ -99,7 +99,11 @@ function sameSnapshot(left: BigIntStats, right: BigIntStats): boolean {
 }
 
 function inspectExplicitProjectPath(candidate: string): DiagnosticCode | null {
-  if (candidate.length === 0 || containsControlCharacters(candidate)) {
+  if (
+    candidate.length === 0 ||
+    containsControlCharacters(candidate) ||
+    containsLoneSurrogate(candidate)
+  ) {
     return "SC1012";
   }
   if (candidate.startsWith("//") || candidate.startsWith("\\\\")) {
@@ -202,7 +206,11 @@ function readBoundedRegularFile(
 }
 
 export function inspectRelativeArtifactPath(candidate: string): DiagnosticCode | null {
-  if (candidate.length === 0 || containsControlCharacters(candidate)) {
+  if (
+    candidate.length === 0 ||
+    containsControlCharacters(candidate) ||
+    containsLoneSurrogate(candidate)
+  ) {
     return "SC1012";
   }
   if (

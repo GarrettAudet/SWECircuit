@@ -1,9 +1,9 @@
+import { createHash } from "node:crypto";
 import { TextEncoder } from "node:util";
 import {
   boundedJsonUtf8ByteLength,
   boundedUtf8ByteLength,
   canonicalJson,
-  digestBytes,
   digestCanonicalJson,
 } from "./canonical-json.js";
 import { SPECIALIST_API_VERSION, SPECIALIST_LIMITS } from "./constants.js";
@@ -91,6 +91,10 @@ function property(object: JsonObject, key: string): JsonValue | undefined {
   return Object.getOwnPropertyDescriptor(object, key)?.value as JsonValue | undefined;
 }
 
+function rawSha256Digest(bytes: Uint8Array): string {
+  return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
+}
+
 function dynamicFence(text: string): string {
   let longest = 0;
   let current = 0;
@@ -117,11 +121,13 @@ This is the exact provider-neutral task contract approved for this specialist. A
 
 ## Operating Rules
 
-1. Verify every delivered context item against its declared digest and byte count before using it.
+1. Verify every delivered context item against its declared raw SHA-256 digest and byte count before using it.
 2. Work only on the listed work units, Modules, scopes, capabilities, and permissions.
 3. Respect agent dependencies and stop when a stop condition or undeclared decision is reached.
 4. Produce every assigned evidence duty and every required handoff field.
 5. Report assumptions, risks, failed attempts, and follow-up work; do not silently expand scope.
+
+Manifest file digests use standard SHA-256 over the exact file bytes. Compilation, blueprint, manifest, and package identities are SWECircuit domain-separated digests and must be verified through the package verifier or another implementation of the published contract.
 
 ## Blueprint
 
@@ -165,7 +171,7 @@ The integration owner launches only the contracts bound to this compilation, pre
 
 ## Integration Gates
 
-1. Confirm every agent contract carries this compilation digest and its manifest-listed blueprint digest.
+1. Confirm every emitted file matches its manifest-listed raw SHA-256 digest and byte count, and every agent contract carries this compilation digest and its manifest-listed blueprint digest.
 2. Launch agents only when their dependency wave is ready and external workspace isolation is adequate.
 3. Reject undeclared files, authority, context, decisions, or evidence substitutions.
 4. Fan in handoffs through the declared integration owner; do not let one specialist silently approve its own independent duty.
@@ -198,7 +204,7 @@ function renderedFile(
     path,
     mediaType,
     bytes: byteLength,
-    digest: digestBytes("swecircuit.specialist.rendered-file.v1", bytes),
+    digest: rawSha256Digest(bytes),
     content,
   });
 }
@@ -326,6 +332,8 @@ export function renderSpecialistPackage(
       kind: "SpecialistPackageManifest",
       goalId: compilation.goal.id,
       goalRevision: compilation.goal.revision,
+      fileDigestAlgorithm: "sha256",
+      fileDigestScope: "raw-file-bytes",
       compilationDigest: compilation.contentDigest,
       selectedCandidateId: compilation.selected.id,
       launchWaves: compilation.launchWaves,

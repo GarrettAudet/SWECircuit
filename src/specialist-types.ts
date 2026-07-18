@@ -355,6 +355,8 @@ export interface SpecialistPackageManifest {
   readonly kind: "SpecialistPackageManifest";
   readonly goalId: string;
   readonly goalRevision: number;
+  readonly fileDigestAlgorithm: "sha256";
+  readonly fileDigestScope: "raw-file-bytes";
   readonly compilationDigest: string;
   readonly selectedCandidateId: string;
   readonly launchWaves: readonly SpecialistLaunchWave[];

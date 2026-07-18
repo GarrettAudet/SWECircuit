@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v11.specialist-compiler.prelaunch-audit",
+  "goalRevision": 15,
+  "compilationDigest": "sha256:c76e04419bc29e95a2816be6dab40ff9941e32be17f91ee41a6b8d6b47d65121",
+  "selectedCandidateId": "team.357beba7ab91a91ad49896b7d31e2fb6c61d9277c3d50582a02bad331a809b12",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6"
+      ]
+    },
+    {
+      "start": 4,
+      "agentIds": [
+        "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:1677d6c162396209bdcd882e31d450803af40d90cf8f4ee10e9f753cb86e5e07",
+  "compilationFileBytes": 135748,
+  "agents": [
+    {
+      "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+      "blueprintDigest": "sha256:8c9a3f2b19f9d1c1bf5ba63808574d332cff0a9d519aaf7011dd4fd48c4bca73",
+      "contractFile": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+      "contractDigest": "sha256:5ca2ee516c615ea6062903a5171238661848e35d1ef0150629a419121c03d4dc",
+      "contractBytes": 13150
+    },
+    {
+      "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+      "blueprintDigest": "sha256:17f163d238af9595dbe4b72057a72444431535e18a748e0d8772153a7370d51b",
+      "contractFile": "agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
+      "contractDigest": "sha256:b2e047ed5f14e6e3103e039032d50e2bbc320944c70de53f5a3a3012860a42fb",
+      "contractBytes": 34031
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:d08222e9116578567c57d7ae4c9d7ed3aa1bc7c9d3562a3b3fbe929131218f2f",
+  "integrationBytes": 4230,
+  "contentDigest": "sha256:8c6a889ba1fa6b33e3ffc911f98eb6425f62fb27ed03a4d82db8889ed3959567"
+}

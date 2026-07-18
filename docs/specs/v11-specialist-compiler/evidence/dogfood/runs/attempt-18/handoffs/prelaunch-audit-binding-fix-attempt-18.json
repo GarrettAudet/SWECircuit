@@ -1,0 +1,324 @@
+{
+  "summary": "fix: All 10 authorized context files passed raw byte and SHA-256 checks, and 93 Candidate A structural binding checks passed. Fail closed because the authorized material does not contain the Audit B package files or verifier receipt, nor the published domain-separated digest construction needed to independently reconstruct either packageDigest.",
+  "workUnitsCompleted": [
+    "audit.bind-candidate"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-audit-binding.json",
+      "mediaType": "application/json",
+      "content": {
+        "kind": "CandidateAuditBinding",
+        "goalRevision": 18,
+        "workUnitId": "audit.bind-candidate",
+        "outcome": "fix",
+        "auditB": {
+          "compilationDigest": "sha256:6b2ff4940cd116618572d80fda9df8c3de455e0ec4c31c35009d28e6004e7048",
+          "packageDigest": "sha256:c7ad2f3b97801d426dfa51c4f630e40dfc817be627c6dc26b3282807fd234b28",
+          "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+          "blueprintDigest": "sha256:c7159f9cf2a2f3eb917ab396d7519a19e92f75897b722927705b3cb2a6a6017a",
+          "contract": {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package/agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+            "bytes": 13433,
+            "rawSha256": "sha256:ee61c3115e510c8ea17a403d3423ea000ad07bb84488bda49aa821d3d7abf66d",
+            "rawVerification": "pass"
+          },
+          "authoritySurface": {
+            "requiredCapabilities": [
+              "candidate.bind"
+            ],
+            "readScopeCount": 10,
+            "writeScopes": [],
+            "conflictZones": [],
+            "permissionKinds": [
+              "filesystem.read"
+            ]
+          },
+          "packagePairVerification": {
+            "status": "fix",
+            "blocker": "The exact Audit B compilation, manifest, complete rendered package, or immutable verifier receipt is not contract-authorized. Its packageDigest cannot be reconstructed from the authenticated agent contract alone."
+          }
+        },
+        "candidateA": {
+          "compilationDigest": "sha256:cac4d6f9c7702a5b3018f1a66df63a96f55805e0ddfde174a0f7db0048f12df3",
+          "packageDigest": "sha256:5a1d43a399cabb60af82913eb5006afc312c3f2e816aac025fee1bd601736851",
+          "approved": false,
+          "launchAuthorized": false,
+          "packageArtifacts": [
+            {
+              "sourceId": "context.candidate-artifact.01",
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+              "bytes": 226627,
+              "rawSha256": "sha256:8c70ca3380e27c2379b3cecb5edc3a9983ac4c41a9ddd7f5c3155fd6fbc84f66",
+              "status": "pass"
+            },
+            {
+              "sourceId": "context.candidate-artifact.02",
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+              "bytes": 13788,
+              "rawSha256": "sha256:00cefc8de2b28c3978f5b9a6fa4b03f9995758250b155513b77ecf33a0ffeab5",
+              "status": "pass"
+            },
+            {
+              "sourceId": "context.candidate-artifact.03",
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+              "bytes": 8556,
+              "rawSha256": "sha256:dd4944e0fc852e0db89f7fc1302efb1bd3438a2e715d87bb2e9e3cf4d4ad4585",
+              "status": "pass"
+            },
+            {
+              "sourceId": "context.candidate-artifact.04",
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+              "bytes": 11594,
+              "rawSha256": "sha256:3d75414eb78508e6ab28af311bf030b3bd52a40e70dba41016811bb511404c2e",
+              "status": "pass"
+            },
+            {
+              "sourceId": "context.candidate-artifact.05",
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+              "bytes": 16842,
+              "rawSha256": "sha256:0accc61b71f4b2b3eaa4366ab8e5806a63bda8e9d71b8208da3e3df474f2c568",
+              "status": "pass"
+            },
+            {
+              "sourceId": "context.candidate-artifact.06",
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+              "bytes": 23011,
+              "rawSha256": "sha256:f260a60261923597ea9ed6669669049ac03fbbe47cdb78cc09bed9a2a1171bec",
+              "status": "pass"
+            },
+            {
+              "sourceId": "context.candidate-artifact.07",
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+              "bytes": 24211,
+              "rawSha256": "sha256:6d7131acdaeaa8f6e7709a806dda94dfc629892cdb84d9ecad920ba3e90f0f60",
+              "status": "pass"
+            },
+            {
+              "sourceId": "context.candidate-artifact.08",
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
+              "bytes": 226627,
+              "rawSha256": "sha256:8c70ca3380e27c2379b3cecb5edc3a9983ac4c41a9ddd7f5c3155fd6fbc84f66",
+              "status": "pass"
+            },
+            {
+              "sourceId": "context.candidate-artifact.09",
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
+              "bytes": 7342,
+              "rawSha256": "sha256:058fb49bcc26d6fe07ea76e252a3795788c08e7ba300fb53f0ef334acf9d5ccb",
+              "status": "pass"
+            },
+            {
+              "sourceId": "context.candidate-artifact.10",
+              "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
+              "bytes": 4202,
+              "rawSha256": "sha256:523e8a5d4b2a35943773d2c4525ac41442b10b5386656af5e94ae029e4ce6e83",
+              "manifestContentDigest": "sha256:ac37c73645bee6f9bd69b188bf181930c307a9508616404a7a1ad1c2b2af734e",
+              "status": "pass"
+            }
+          ],
+          "authorityBinding": {
+            "projectionDigest": "sha256:8e7de475e1da866ff021ffdf95d366b7314f883d1fe5755b3e75501e951283fc",
+            "contextSourceCount": 40,
+            "allowedCapabilities": [
+              "candidate.bind",
+              "integrate.release",
+              "review.algorithm-lifecycle",
+              "review.product-api",
+              "review.security-trace",
+              "verify.release"
+            ],
+            "permissionKinds": [
+              "filesystem.read",
+              "filesystem.write",
+              "process.spawn"
+            ],
+            "maxAgents": 6,
+            "maxConcurrency": 4,
+            "allCompiledAuthorityObjectsMatchAuthenticatedRenderedContracts": true,
+            "agentBlueprintDigests": [
+              {
+                "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+                "digest": "sha256:66d47294ce285f96cf4183d1cef33c05832b9d0c89fa6d5a268d6ee61507fa68"
+              },
+              {
+                "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+                "digest": "sha256:383ab060f0bf365b89557d1d45abb5180af1f5c57989386fe6dddfc6456c9b63"
+              },
+              {
+                "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+                "digest": "sha256:123b98ea4dfabb6ca088d2ea90bbfbb019ba5cb1f096f859221a6efffe1ec2aa"
+              },
+              {
+                "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+                "digest": "sha256:bd9c1bd92984099b36c41ac5924478084a997a605633687ae01c66421b6d3c38"
+              },
+              {
+                "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+                "digest": "sha256:6e0eaee37de846fdb75c8be08aba703dc3104c5908ba8e223c55a63d41893b0c"
+              },
+              {
+                "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+                "digest": "sha256:c47ab8c9b11707acaba0cea759e764fa106434e616f99bf939fd60f8d67e93f2"
+              }
+            ]
+          },
+          "selectionBinding": {
+            "selectedCandidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+            "selectedContentDigest": "sha256:4d3427be6add84b5567c4b87e985614e4699669040a92182638aa02a2b798623",
+            "partition": [
+              [
+                "integrate.release"
+              ],
+              [
+                "prepare.candidate"
+              ],
+              [
+                "review.algorithm-lifecycle"
+              ],
+              [
+                "review.product-api"
+              ],
+              [
+                "review.security-trace"
+              ],
+              [
+                "verify.release-gates"
+              ]
+            ],
+            "eligible": true,
+            "rejectionCodes": [],
+            "search": {
+              "mode": "exact",
+              "claim": "exhaustive_partition_search_fixed_scheduler",
+              "workUnitCount": 6,
+              "evaluatedCandidates": 203,
+              "eligibleCandidates": 52,
+              "retainedAlternatives": 8,
+              "evaluationSetDigest": "sha256:eca8a9396c3512cfd3feba889eca2bdc2613f8f23364c5c1f67c20b303675980"
+            },
+            "scheduler": {
+              "projectedMakespan": 23,
+              "peakConcurrency": 4,
+              "launchWaves": [
+                {
+                  "start": 0,
+                  "agentIds": [
+                    "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+                  ]
+                },
+                {
+                  "start": 4,
+                  "agentIds": [
+                    "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+                    "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+                    "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+                    "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc"
+                  ]
+                },
+                {
+                  "start": 17,
+                  "agentIds": [
+                    "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9"
+                  ]
+                }
+              ]
+            },
+            "selectionReason": {
+              "kind": "serial_ineligible",
+              "decisiveField": "evidence_independence",
+              "selectedValue": "eligible",
+              "serialValue": "ineligible",
+              "serialRejectionCodes": [
+                "evidence_independence"
+              ]
+            }
+          },
+          "hardGates": {
+            "clarificationClosure": {
+              "blockingDecisionCount": 0,
+              "status": "pass"
+            },
+            "authorityBinding": {
+              "status": "pass"
+            },
+            "evidenceCoverage": {
+              "requiredCount": 8,
+              "assignedCount": 8,
+              "exactMatch": true,
+              "status": "pass"
+            },
+            "producerCheckerIndependence": {
+              "serialBaselineRejectedForEvidenceIndependence": true,
+              "status": "pass"
+            },
+            "packagePairDomainVerification": {
+              "status": "fix",
+              "blocker": "The Candidate A packageDigest is absent from the authorized package artifacts, and neither the published domain-separated digest construction nor a trusted verifier receipt is authorized."
+            }
+          },
+          "materialVerification": {
+            "rawContextChecks": {
+              "total": 10,
+              "passed": 10,
+              "failed": 0
+            },
+            "structuralChecks": {
+              "total": 93,
+              "passed": 93,
+              "failed": 0
+            },
+            "rootAndPackagedCompilationBytesIdentical": true,
+            "manifestBindingsMatch": true,
+            "integrationPlanMatchesCompilation": true,
+            "renderedContractsMatchCompiledBlueprints": true,
+            "selectedPartitionMatchesBlueprintAssignments": true,
+            "packageDigestRecomputed": false
+          }
+        },
+        "scopeEffects": {
+          "networkAccessed": false,
+          "repositoryWritten": false,
+          "gitMutated": false,
+          "memoryMutated": false,
+          "semanticCandidateAVerdictIssued": false,
+          "candidateAApproved": false,
+          "launchAuthorized": false,
+          "integrationPerformed": false
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-binding",
+      "status": "fix",
+      "kind": "digest",
+      "duty": "produce",
+      "artifact": "candidate-audit-binding.json",
+      "blocker": "Exact authority and rendered-contract bindings passed, but complete package-pair domain verification is unavailable within declared authority."
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-binding",
+      "status": "fix",
+      "kind": "digest",
+      "duty": "produce",
+      "artifact": "candidate-audit-binding.json",
+      "blocker": "Selection and raw package material were bound, but the claimed Candidate A packageDigest could not be independently reconstructed."
+    }
+  ],
+  "assumptions": [
+    "The supplied packageDigest values are expected identities, not verifier results observable in the authorized files.",
+    "Guessed digest constructions are not valid verification evidence."
+  ],
+  "risks": [
+    "Marking either evidence duty PASS would assert an unproven packageDigest-to-bytes binding.",
+    "Reading additional package or verifier files would widen the exact contract authority."
+  ],
+  "followUps": [
+    "Provide a contract-authorized immutable verifier receipt for both package pairs, or compile and approve a revised Audit B contract containing the exact package material and published digest contract required for reconstruction.",
+    "Rerun audit.bind-candidate after the blocker is resolved. Candidate A remains unapproved and must not launch."
+  ]
+}

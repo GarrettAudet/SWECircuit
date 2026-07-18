@@ -1,0 +1,35 @@
+{
+  "summary": "PASS. Revision-23 release verification authenticated the Wave 1 dependency and all 22 declared sources, proved temporary and npm-cache containment, and passed the complete canonical release gate plus all 119 checker regression cases. No source or documentation was edited.",
+  "workUnitsCompleted": [
+    "verify.release-gates"
+  ],
+  "artifacts": [
+    {
+      "name": "release-gate-evidence.md",
+      "mediaType": "text/markdown",
+      "content": "# Revision 23 Release Gate Evidence\n\nOutcome: PASS\n\n## Identity and authentication\n\nCandidate A compilation `sha256:36ebb90c8420a368e4246ce22e7804a0952396c526c36b3b498436d2919f20b6` and package `sha256:232d928ae4e0e92f9cc2e25a611df8c6922eefe343a6ba7dee0f7aabccae99bc` were the admitted pair. The Wave 1 dependency at `docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prepare-candidate-pass-attempt-23.json` matched exactly 22197 bytes and `sha256:18686c30246d8d21ad0999da6661a3759e28fb87ca08b60dc8e7381b97ef627e`. All 22 blueprint-declared sources matched their declared raw byte counts and SHA-256 digests before verification, around each accepted gate, and at final handoff; mismatch count was zero.\n\n## Authority containment\n\n`TEMP` and `TMP` were both `C:\\Users\\garre\\OneDrive\\DOCUME~1\\PORTAB~1\\LOCAL~1\\NPM-CA~1\\VERIFY~2\\temp`. Open-handle final-path resolution proved this short spelling and the long spelling resolve to the same target beneath `.local/npm-cache/verify-release-r23-c4813496a978/temp`. The npm cache resolved beneath `.local/npm-cache/verify-release-r23-c4813496a978/npm`. Node and PowerShell child probes inherited those exact roots, `npm config get cache` resolved to the authorized cache, and `npm_config_offline=true` was set. The authenticated checker harness obtains its root from `GetTempPath()` and does not replace the inherited environment for checker children.\n\n## Canonical npm gate\n\n`npm.cmd run verify` exited 0 in 37931 ms. Format checked 72 files with no fixes; lint checked 60 files with no fixes; typecheck passed; build passed; all kernel tests passed 354/354 with zero failures, cancellations, skips, or todos. The strict schema and specialist golden suites ran through `test/*.test.mjs`. V10 dogfood returned `result: pass`, zero provider calls, and trace `sha256:396d48e69e3b78c5ab3f4725ff7ba7cbcfbbff337095a36643130f972d2ec896`. V11 dogfood returned `result: pass` for the exact Candidate A digest pair, with prelaunch audit, package-verification receipt, and launch authorization all passing. Package dry run passed with 105 files and package size 123.9 kB. The offline installed-consumer validation passed after executing the public TypeScript host and approval-bound package verification.\n\n## Template gates\n\n`powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\check-template.ps1` exited 0 in 5275 ms with `Template check passed.`\n\n`powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\test-check-template.ps1` exited 0 in 217028 ms. It executed 119 cases in 30 batches; all 119 emitted PASS and the harness ended with `SWECircuit checker regression tests passed.` Matrix-owned fixtures were removed, with the temp-root entry count unchanged before and after.\n\n## Logs\n\n- Canonical npm gate: `.local/npm-cache/verify-release-r23-c4813496a978/npm-verify.log`, 33362 bytes, `sha256:2653464fef0e4feee76f9a848c29e64c1f9d61f12cb4f9bc4c331b34cebf19b8`.\n- Template checker: `.local/npm-cache/verify-release-r23-c4813496a978/template-check.log`, 24 bytes, `sha256:9c4cca0be1bf8a9d96c4c9177292a1235ab8082cc93e5e32d1cfe1dbcc905f85`.\n- Negative matrix: `.local/npm-cache/verify-release-r23-c4813496a978/template-negative-matrix.log`, 10232 bytes, `sha256:3708b99554a02782911af1f5f8dbd276781ecb6cc686985e5d51d5f4f262d11f`.\n\n## Failed attempts\n\nAn initial short-path expansion probe using `GetLongPathNameW` returned Win32 error 5 before any canonical command; it was discarded and replaced by open-handle final-path equality verification. An initial npm output-capture wrapper treated normal `npm notice` stderr as a terminating `NativeCommandError`; no gate result from that partial run was accepted. The complete canonical command was rerun from the beginning against reauthenticated inputs and exited 0.\n\n## Mutation check\n\nWrites remained within declared `dist/**` and `.local/npm-cache/**` scopes. Generated `dist/**` remained git-clean, and final authentication found no dependency or declared-source mutation."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.release",
+      "requirementId": "evidence.release-gates",
+      "kind": "test",
+      "duty": "verify",
+      "status": "pass",
+      "artifact": "release-gate-evidence.md"
+    }
+  ],
+  "assumptions": [
+    "The externally supplied Candidate A compilation and package pair remains the trusted prior exact-admission result; this release lane verified gates against that pair without repeating admission or another review lane.",
+    "The preparation handoff's embedded 37-source binding was accepted only after authenticating the dependency's exact raw bytes; this lane also directly authenticated every source declared by its own blueprint."
+  ],
+  "risks": [
+    "Any mutation to Candidate A, the authenticated dependency, or a declared source after this handoff invalidates the evidence and requires a new release-verification attempt.",
+    "The detailed command logs are cache-scoped rather than durable documentation; this inline artifact and raw handoff must be preserved as the durable release evidence."
+  ],
+  "followUps": [
+    "Preserve this closed object verbatim as `docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/verify-release-pass-attempt-23.json`.",
+    "The integration owner should consume this PASS only with the other independent revision-23 handoffs and perform the required post-integration reconstruction against the exact admitted digest pair."
+  ]
+}

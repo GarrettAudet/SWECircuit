@@ -1,0 +1,83 @@
+{
+  "outcome": "FIX",
+  "classification": "release-evidence portability",
+  "candidate": {
+    "goalRevision": 6,
+    "compilationDigest": "sha256:ac1707213d9c22314d4c5a3d0bc6a838ef31863b63a9e2dac5993541d919c161",
+    "packageDigest": "sha256:838019281b732ec238e4460c03167087b7a63c409348ee66322cc5535469774d",
+    "technicalCommit": "191d9339da383a2133377dcca564d7202b7ad66d",
+    "handoffCommit": "d46e82b70251047fb8cf244dd74c04e0e2d47ae0"
+  },
+  "hostedRun": {
+    "id": 29491421454,
+    "conclusion": "failure",
+    "jobs": {
+      "templateCheck": "success",
+      "kernelNode22": {
+        "windows": "failure",
+        "macos": "failure",
+        "ubuntu": "failure"
+      },
+      "kernelNode24": {
+        "windows": "failure",
+        "macos": "failure",
+        "ubuntu": "failure"
+      }
+    }
+  },
+  "mismatches": [
+    {
+      "sourceId": "context.compiler-contract",
+      "path": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+      "reviewed": {
+        "bytes": 28115,
+        "digest": "sha256:271ff17024526abfc8c245eaccfe9c0de13580871d707585b64eec545dad29ef"
+      },
+      "committed": {
+        "bytes": 28113,
+        "digest": "sha256:928d1a3b2fb29b84e43007c5f34aef6cf55a78db48ede4bc9e019439083b4944"
+      },
+      "filteredBytes": 2
+    },
+    {
+      "sourceId": "context.ide-kickoff",
+      "path": "docs/ide/specialist-agent-kickoff.md",
+      "reviewed": {
+        "bytes": 13920,
+        "digest": "sha256:0bd2354c54cd1d50e40b34395d8c4c2ba43a769bea40fa2e321d02259512d685"
+      },
+      "committed": {
+        "bytes": 13919,
+        "digest": "sha256:5c6ef48f2e673f9277de6d60342ce4485a347fe543bd1afc7adc214cc5cf2943"
+      },
+      "filteredBytes": 1
+    },
+    {
+      "sourceId": "context.readme",
+      "path": "README.md",
+      "reviewed": {
+        "bytes": 8376,
+        "digest": "sha256:6f1efb201296e2efc4a840e6f89cb140ba6479b992cc3e6e825d81095dc4e194"
+      },
+      "committed": {
+        "bytes": 8375,
+        "digest": "sha256:ab830bad7136b1da7adf69ab688243c8e3d0945efef43c343bb3459a5694fe71"
+      },
+      "filteredBytes": 1
+    },
+    {
+      "sourceId": "context.spec",
+      "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+      "reviewed": {
+        "bytes": 10083,
+        "digest": "sha256:97d0d32e878a6ff2147a211177f56ad0efae2a3b55caf385dfc9dcbad231e44c"
+      },
+      "committed": {
+        "bytes": 10082,
+        "digest": "sha256:ff85f0f2b87c8e7f0d3ced2feb06f366d7e5c60d8ae3b580d09c9aa724a9f2e5"
+      },
+      "filteredBytes": 1
+    }
+  ],
+  "confirmedCause": "The reviewed working-tree bytes contained isolated carriage returns removed by the repository Git clean rule before commit."
+}

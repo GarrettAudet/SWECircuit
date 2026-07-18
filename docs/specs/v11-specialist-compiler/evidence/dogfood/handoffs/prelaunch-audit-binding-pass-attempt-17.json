@@ -1,0 +1,324 @@
+{
+  "summary": "Completed audit.bind-candidate under the exact owner-approved Audit B revision-17 contract. Audit B prelaunch identity and package verification succeeded. All 10 declared Candidate A artifacts matched their byte counts and raw SHA-256 digests, and the trusted verifier reconstructed the approved Candidate A compilation and package identities. This handoff contains identity-binding evidence only; no Wave 2 semantic candidate verdict was issued.",
+  "workUnitsCompleted": [
+    "audit.bind-candidate"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-audit-binding.json",
+      "mediaType": "application/json",
+      "content": {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "CandidateAuditBinding",
+        "goalId": "v11.specialist-compiler.prelaunch-audit",
+        "goalRevision": 17,
+        "auditIdentity": {
+          "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+          "compilationDigest": "sha256:a832ba62027737d4ea804d64e47fbd3cd53b78c4756524586d147dca0a0722ff",
+          "packageDigest": "sha256:b5aa9a0db063fd06d1302842e7994d0ed6695182815520d7adbb3d0d612331eb",
+          "contractPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package/agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+          "expectedContractBytes": 13433,
+          "actualContractBytes": 13433,
+          "expectedContractDigest": "sha256:3330fd208de7e331f9c190712a8b663c2aaf2ced860ac1fb6a0aac5797b3ae83",
+          "actualContractDigest": "sha256:3330fd208de7e331f9c190712a8b663c2aaf2ced860ac1fb6a0aac5797b3ae83",
+          "contractBindingStatus": "match"
+        },
+        "auditManifestBinding": {
+          "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package/manifest.json",
+          "rawBytes": 2072,
+          "rawDigest": "sha256:4c6f1c20ef06723273175b6c7fd2b78735347dbcb16769cb298494d8780b31cf",
+          "contentDigest": "sha256:1278e60a79d864d285f99ca649687baed5a209d38e2695b868bc8c5d38877c6e",
+          "compilationDigest": "sha256:a832ba62027737d4ea804d64e47fbd3cd53b78c4756524586d147dca0a0722ff",
+          "selectedCandidateId": "team.357beba7ab91a91ad49896b7d31e2fb6c61d9277c3d50582a02bad331a809b12",
+          "launchWaves": [
+            {
+              "start": 0,
+              "agentIds": [
+                "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6"
+              ]
+            },
+            {
+              "start": 4,
+              "agentIds": [
+                "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64"
+              ]
+            }
+          ],
+          "agentBinding": {
+            "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+            "blueprintDigest": "sha256:c3695a34a27da4fcd8632b734e1007d4b911625db2566950d4b27b85cf498b9c",
+            "contractFile": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+            "contractBytes": 13433,
+            "contractDigest": "sha256:3330fd208de7e331f9c190712a8b663c2aaf2ced860ac1fb6a0aac5797b3ae83"
+          },
+          "status": "match"
+        },
+        "auditPackageVerification": {
+          "trustedInterface": "dist/index.js::verifySpecialistPackage",
+          "expectedCompilationDigest": "sha256:a832ba62027737d4ea804d64e47fbd3cd53b78c4756524586d147dca0a0722ff",
+          "actualCompilationDigest": "sha256:a832ba62027737d4ea804d64e47fbd3cd53b78c4756524586d147dca0a0722ff",
+          "expectedPackageDigest": "sha256:b5aa9a0db063fd06d1302842e7994d0ed6695182815520d7adbb3d0d612331eb",
+          "actualPackageDigest": "sha256:b5aa9a0db063fd06d1302842e7994d0ed6695182815520d7adbb3d0d612331eb",
+          "ok": true,
+          "diagnostics": [],
+          "fileBindings": [
+            {
+              "path": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+              "bytes": 13433,
+              "digest": "sha256:3330fd208de7e331f9c190712a8b663c2aaf2ced860ac1fb6a0aac5797b3ae83"
+            },
+            {
+              "path": "agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
+              "bytes": 34314,
+              "digest": "sha256:cad3477ec0f92d9b14cfd999f323d6a80e9ad27543b72ab5638253055d9c04ed"
+            },
+            {
+              "path": "compilation.json",
+              "bytes": 135748,
+              "digest": "sha256:f560500b1459f9ccb89b43874cdbb53cd30115a0c7accd62c972873382588afa"
+            },
+            {
+              "path": "integration.md",
+              "bytes": 4316,
+              "digest": "sha256:10c1075ea7eac7eb36599e2b5d3a29a898b0275f603e6ef370efd1bf7cbbb149"
+            },
+            {
+              "path": "manifest.json",
+              "bytes": 2072,
+              "digest": "sha256:4c6f1c20ef06723273175b6c7fd2b78735347dbcb16769cb298494d8780b31cf"
+            }
+          ],
+          "status": "pass"
+        },
+        "candidateIdentity": {
+          "compilationDigest": "sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984",
+          "packageDigest": "sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0"
+        },
+        "candidateArtifactBindings": [
+          {
+            "sourceId": "context.candidate-artifact.01",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+            "expectedBytes": 226627,
+            "actualBytes": 226627,
+            "expectedDigest": "sha256:e2e0056aed5dc7723b2ffa885830b44d3de8ead9716e9504edb2b6cb5ef2b7f0",
+            "actualDigest": "sha256:e2e0056aed5dc7723b2ffa885830b44d3de8ead9716e9504edb2b6cb5ef2b7f0",
+            "status": "match"
+          },
+          {
+            "sourceId": "context.candidate-artifact.02",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+            "expectedBytes": 13788,
+            "actualBytes": 13788,
+            "expectedDigest": "sha256:c3567fc6e972a2ab2c9fb78315a377b72aadee8a2a659f3bc1d5f3e87069a389",
+            "actualDigest": "sha256:c3567fc6e972a2ab2c9fb78315a377b72aadee8a2a659f3bc1d5f3e87069a389",
+            "status": "match"
+          },
+          {
+            "sourceId": "context.candidate-artifact.03",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+            "expectedBytes": 8556,
+            "actualBytes": 8556,
+            "expectedDigest": "sha256:7b73d70bf9a604e3b90ecca0281ed989b26ab87d9da242b0f081e41600de597f",
+            "actualDigest": "sha256:7b73d70bf9a604e3b90ecca0281ed989b26ab87d9da242b0f081e41600de597f",
+            "status": "match"
+          },
+          {
+            "sourceId": "context.candidate-artifact.04",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+            "expectedBytes": 11594,
+            "actualBytes": 11594,
+            "expectedDigest": "sha256:a230e1ea33b5645bccde5431e0fb7fb0ac07eb6b0e6eea03867e75ffd93d7789",
+            "actualDigest": "sha256:a230e1ea33b5645bccde5431e0fb7fb0ac07eb6b0e6eea03867e75ffd93d7789",
+            "status": "match"
+          },
+          {
+            "sourceId": "context.candidate-artifact.05",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+            "expectedBytes": 16842,
+            "actualBytes": 16842,
+            "expectedDigest": "sha256:3d52cbd2a62be8a53bb6eb2c6c4e70bc6c59cdbc69dc2822448332ff67f3e6ea",
+            "actualDigest": "sha256:3d52cbd2a62be8a53bb6eb2c6c4e70bc6c59cdbc69dc2822448332ff67f3e6ea",
+            "status": "match"
+          },
+          {
+            "sourceId": "context.candidate-artifact.06",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+            "expectedBytes": 23011,
+            "actualBytes": 23011,
+            "expectedDigest": "sha256:e6f5b3b34503068cb6f94d879f54fb6ce172b849437e7bc540b33511eae7fc4e",
+            "actualDigest": "sha256:e6f5b3b34503068cb6f94d879f54fb6ce172b849437e7bc540b33511eae7fc4e",
+            "status": "match"
+          },
+          {
+            "sourceId": "context.candidate-artifact.07",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+            "expectedBytes": 24211,
+            "actualBytes": 24211,
+            "expectedDigest": "sha256:d427a4acafa250a9a2275d8cb5c14795239b545ce250f50b1dbd67635784f24e",
+            "actualDigest": "sha256:d427a4acafa250a9a2275d8cb5c14795239b545ce250f50b1dbd67635784f24e",
+            "status": "match"
+          },
+          {
+            "sourceId": "context.candidate-artifact.08",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
+            "expectedBytes": 226627,
+            "actualBytes": 226627,
+            "expectedDigest": "sha256:e2e0056aed5dc7723b2ffa885830b44d3de8ead9716e9504edb2b6cb5ef2b7f0",
+            "actualDigest": "sha256:e2e0056aed5dc7723b2ffa885830b44d3de8ead9716e9504edb2b6cb5ef2b7f0",
+            "status": "match"
+          },
+          {
+            "sourceId": "context.candidate-artifact.09",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
+            "expectedBytes": 7342,
+            "actualBytes": 7342,
+            "expectedDigest": "sha256:ce23d8fcf1bddbe3c48b24dbd6c9f3282f56a7a6b2ff469b42c55ff56516fb4c",
+            "actualDigest": "sha256:ce23d8fcf1bddbe3c48b24dbd6c9f3282f56a7a6b2ff469b42c55ff56516fb4c",
+            "status": "match"
+          },
+          {
+            "sourceId": "context.candidate-artifact.10",
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
+            "expectedBytes": 4202,
+            "actualBytes": 4202,
+            "expectedDigest": "sha256:e1f1b2676fe08c1f8cd52c40ab948a8c05045316b7bd1e161d279d6624e355ab",
+            "actualDigest": "sha256:e1f1b2676fe08c1f8cd52c40ab948a8c05045316b7bd1e161d279d6624e355ab",
+            "status": "match"
+          }
+        ],
+        "duplicateCompilationByteIdentity": {
+          "left": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+          "right": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
+          "byteIdentical": true
+        },
+        "candidatePackageVerification": {
+          "trustedInterface": "dist/index.js::verifySpecialistPackage",
+          "expectedCompilationDigest": "sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984",
+          "actualCompilationDigest": "sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984",
+          "expectedPackageDigest": "sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0",
+          "actualPackageDigest": "sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0",
+          "ok": true,
+          "diagnostics": [],
+          "fileBindings": [
+            {
+              "path": "agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+              "bytes": 13788,
+              "digest": "sha256:c3567fc6e972a2ab2c9fb78315a377b72aadee8a2a659f3bc1d5f3e87069a389"
+            },
+            {
+              "path": "agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+              "bytes": 8556,
+              "digest": "sha256:7b73d70bf9a604e3b90ecca0281ed989b26ab87d9da242b0f081e41600de597f"
+            },
+            {
+              "path": "agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+              "bytes": 11594,
+              "digest": "sha256:a230e1ea33b5645bccde5431e0fb7fb0ac07eb6b0e6eea03867e75ffd93d7789"
+            },
+            {
+              "path": "agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+              "bytes": 16842,
+              "digest": "sha256:3d52cbd2a62be8a53bb6eb2c6c4e70bc6c59cdbc69dc2822448332ff67f3e6ea"
+            },
+            {
+              "path": "agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+              "bytes": 23011,
+              "digest": "sha256:e6f5b3b34503068cb6f94d879f54fb6ce172b849437e7bc540b33511eae7fc4e"
+            },
+            {
+              "path": "agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+              "bytes": 24211,
+              "digest": "sha256:d427a4acafa250a9a2275d8cb5c14795239b545ce250f50b1dbd67635784f24e"
+            },
+            {
+              "path": "compilation.json",
+              "bytes": 226627,
+              "digest": "sha256:e2e0056aed5dc7723b2ffa885830b44d3de8ead9716e9504edb2b6cb5ef2b7f0"
+            },
+            {
+              "path": "integration.md",
+              "bytes": 7342,
+              "digest": "sha256:ce23d8fcf1bddbe3c48b24dbd6c9f3282f56a7a6b2ff469b42c55ff56516fb4c"
+            },
+            {
+              "path": "manifest.json",
+              "bytes": 4202,
+              "digest": "sha256:e1f1b2676fe08c1f8cd52c40ab948a8c05045316b7bd1e161d279d6624e355ab"
+            }
+          ],
+          "status": "pass"
+        },
+        "evidenceDuties": [
+          {
+            "criterionId": "criterion.candidate-authority-package",
+            "requirementId": "evidence.candidate-authority-binding",
+            "kind": "digest",
+            "duty": "produce",
+            "status": "produced",
+            "description": "Exact Candidate A authority and rendered contracts are bound by the per-artifact raw-byte bindings and trusted package verification above."
+          },
+          {
+            "criterionId": "criterion.candidate-selection",
+            "requirementId": "evidence.candidate-selection-binding",
+            "kind": "digest",
+            "duty": "produce",
+            "status": "produced",
+            "description": "Exact Candidate A compilation and package bytes are bound by the per-artifact raw-byte bindings and trusted package verification above."
+          }
+        ],
+        "scope": {
+          "workUnitId": "audit.bind-candidate",
+          "bindingOnly": true,
+          "semanticReviewPerformed": false,
+          "semanticCandidateVerdict": "not-issued",
+          "semanticCandidateVerdictReservedFor": "Wave 2"
+        },
+        "effects": {
+          "repositoryWrites": 0,
+          "networkAccess": false,
+          "providersAccessed": false,
+          "runtimeAgentsDispatched": 0,
+          "candidateApprovedOrLaunched": false,
+          "durableMemoryUpdated": false
+        },
+        "failedAttempts": [
+          {
+            "stage": "audit-b-package-preflight",
+            "result": "failed",
+            "reason": "The first local verifier invocation used an incompatible PowerShell/native-argument quoting form. Node returned a SyntaxError before module evaluation or artifact access.",
+            "scopeImpact": "none",
+            "remediation": "Retried with PowerShell-compatible quoting; the trusted verifier then reconstructed and accepted the exact owner-approved Audit B package."
+          }
+        ],
+        "bindingOutcome": "pass"
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-binding",
+      "kind": "digest",
+      "duty": "produce",
+      "status": "produced",
+      "artifact": "candidate-audit-binding.json"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-binding",
+      "kind": "digest",
+      "duty": "produce",
+      "status": "produced",
+      "artifact": "candidate-audit-binding.json"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This handoff authenticates immutable Candidate A identity and package reconstruction only; it does not establish semantic correctness, release acceptance, or suitability for launch.",
+    "Any later change to a bound artifact, compilation digest, package digest, or this exact handoff retires the binding and requires a fresh owner-approved revision."
+  ],
+  "followUps": [
+    "Wave 2 must independently perform the reserved semantic audit against exactly Candidate A compilation sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984 and package sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0.",
+    "The integration owner must preserve this raw handoff and require fresh trusted package verification before any later approval or launch authorization."
+  ]
+}

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { TextEncoder } from "node:util";
@@ -14,7 +15,6 @@ import {
   boundedJsonUtf8ByteLength,
   boundedUtf8ByteLength,
   canonicalJson,
-  digestBytes,
   digestCanonicalJson,
 } from "../dist/canonical-json.js";
 import { createDiagnostic } from "../dist/diagnostics.js";
@@ -137,7 +137,7 @@ function expectedPackageDigest(rendered) {
 function refreshRenderedFile(file) {
   const bytes = encoder.encode(file.content);
   file.bytes = bytes.byteLength;
-  file.digest = digestBytes("swecircuit.specialist.rendered-file.v1", bytes);
+  file.digest = `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
 }
 
 function assertDeepFrozen(value, path = "value", seen = new Set()) {
@@ -848,9 +848,17 @@ test("logical array and object-key permutations produce byte-identical compiled 
   const first = assertCompiles(request);
   const second = assertCompiles(permuted);
   assert.deepEqual(second, first);
+  assert.equal(JSON.stringify(second), JSON.stringify(first));
   assert.equal(canonicalJson(second), canonicalJson(first));
   assert.equal(second.search.evaluationSetDigest, first.search.evaluationSetDigest);
   assert.equal(second.contentDigest, first.contentDigest);
+
+  const firstPackage = renderSpecialistPackage(first);
+  const secondPackage = renderSpecialistPackage(second);
+  assert.equal(firstPackage.ok, true, JSON.stringify(firstPackage.diagnostics));
+  assert.equal(secondPackage.ok, true, JSON.stringify(secondPackage.diagnostics));
+  assert.deepEqual(secondPackage.value, firstPackage.value);
+  assert.equal(secondPackage.value.packageDigest, firstPackage.value.packageDigest);
 });
 
 test("compiled values are deeply frozen and detached from mutable caller input", () => {
@@ -989,6 +997,31 @@ test("repository locators reject leading and nested dot or parent segments", () 
     );
   }
 });
+
+test("repository locator paths cannot exceed their declared read scope", () => {
+  const escaped = clone(fixture("one-agent-optimal").request);
+  escaped.goal.contextSources[0].locator = "path:private/secret.md";
+  const escapedResult = compileAgentBlueprints(escaped);
+  assertRejected(escapedResult, "SC4303", "locator path must stay inside readScope");
+  assert.deepEqual(
+    escapedResult.diagnostics.map((diagnostic) => diagnostic.pointer),
+    ["/contextSources/0/locator"],
+  );
+
+  const covered = clone(fixture("one-agent-optimal").request);
+  covered.goal.contextSources[0].readScope = "src/**";
+  for (const unit of covered.goal.workUnits) {
+    unit.scope.read = ["src/**"];
+    unit.permissions.find((permission) => permission.kind === "filesystem.read").scopes = [
+      "src/**",
+    ];
+  }
+  covered.goal.authority.permissionCeiling.find(
+    (permission) => permission.kind === "filesystem.read",
+  ).scopes = ["src/**"];
+  assertCompiles(covered, "a repository locator inside a recursive read scope should compile");
+});
+
 test("authority, context, and evidence violations reject before a launchable roster exists", () => {
   const cases = [
     {
@@ -1148,6 +1181,123 @@ test("generic role and provider/runtime extensions fail closed while exact owner
   }
 });
 
+test("C1 controls fail closed before diagnostics or rendering", () => {
+  const controls = ["\u0085", "\u009b"];
+
+  for (const control of controls) {
+    const valueRequest = clone(fixture("one-agent-optimal").request);
+    valueRequest.goal.objective = `before${control}after`;
+    const valueResult = compileAgentBlueprints(valueRequest);
+    assertRejected(valueResult, "SC4301", "C1 text values must be rejected");
+    assert.deepEqual(
+      valueResult.diagnostics.map((diagnostic) => diagnostic.pointer),
+      ["/goal/objective"],
+    );
+    assert.equal(JSON.stringify(valueResult).includes(control), false);
+
+    const keyRequest = clone(fixture("one-agent-optimal").request);
+    keyRequest.goal[`unknown${control}key`] = "extension";
+    const keyResult = compileAgentBlueprints(keyRequest);
+    assertRejected(keyResult, "SC4301", "C1 property keys must be rejected");
+    assert.deepEqual(
+      keyResult.diagnostics.map((diagnostic) => diagnostic.pointer),
+      ["/goal"],
+    );
+    assert.equal(JSON.stringify(keyResult).includes(control), false);
+
+    const defensive = createDiagnostic(
+      "SC4301",
+      "specialist-request.json",
+      `/goal/before${control}after/nested`,
+    );
+    assert.equal(defensive.pointer, "/goal");
+    assert.equal(JSON.stringify(defensive).includes(control), false);
+  }
+
+  const compilation = assertCompiles(fixture("one-agent-optimal").request);
+  const tampered = clone(compilation);
+  tampered.goal.objective = `before${controls[0]}after`;
+  const rendered = renderSpecialistPackage(tampered);
+  assert.equal(rendered.ok, false);
+  assert.equal(rendered.value, null);
+  assert.deepEqual(diagnosticCodes(rendered), ["SC4307"]);
+  assert.equal(JSON.stringify(rendered).includes(controls[0]), false);
+
+  const acceptedPackage = renderSpecialistPackage(compilation);
+  assert.equal(acceptedPackage.ok, true);
+  assert.notEqual(acceptedPackage.value, null);
+  assert.equal(
+    acceptedPackage.value.files.some((file) => /[\u0080-\u009f]/u.test(file.content)),
+    false,
+  );
+});
+
+test("Unicode bidi controls fail closed before diagnostics or rendering", () => {
+  const controls = [
+    "\u061c",
+    "\u200e",
+    "\u200f",
+    "\u202a",
+    "\u202b",
+    "\u202c",
+    "\u202d",
+    "\u202e",
+    "\u2066",
+    "\u2067",
+    "\u2068",
+    "\u2069",
+  ];
+
+  for (const control of controls) {
+    const valueRequest = clone(fixture("one-agent-optimal").request);
+    valueRequest.goal.objective = `before${control}after`;
+    const valueResult = compileAgentBlueprints(valueRequest);
+    assertRejected(valueResult, "SC4301", "bidi text values must be rejected");
+    assert.deepEqual(
+      valueResult.diagnostics.map((diagnostic) => diagnostic.pointer),
+      ["/goal/objective"],
+    );
+    assert.equal(JSON.stringify(valueResult).includes(control), false);
+
+    const keyRequest = clone(fixture("one-agent-optimal").request);
+    keyRequest.goal[`unknown${control}key`] = "extension";
+    const keyResult = compileAgentBlueprints(keyRequest);
+    assertRejected(keyResult, "SC4301", "bidi property keys must be rejected");
+    assert.deepEqual(
+      keyResult.diagnostics.map((diagnostic) => diagnostic.pointer),
+      ["/goal"],
+    );
+    assert.equal(JSON.stringify(keyResult).includes(control), false);
+
+    const defensive = createDiagnostic(
+      "SC4301",
+      "specialist-request.json",
+      `/goal/before${control}after/nested`,
+    );
+    assert.equal(defensive.pointer, "/goal");
+    assert.equal(JSON.stringify(defensive).includes(control), false);
+  }
+
+  const compilation = assertCompiles(fixture("one-agent-optimal").request);
+  const tampered = clone(compilation);
+  tampered.goal.objective = `before${controls[0]}after`;
+  const rendered = renderSpecialistPackage(tampered);
+  assert.equal(rendered.ok, false);
+  assert.equal(rendered.value, null);
+  assert.deepEqual(diagnosticCodes(rendered), ["SC4307"]);
+  assert.equal(JSON.stringify(rendered).includes(controls[0]), false);
+
+  const acceptedPackage = renderSpecialistPackage(compilation);
+  assert.equal(acceptedPackage.ok, true);
+  assert.notEqual(acceptedPackage.value, null);
+  assert.equal(
+    acceptedPackage.value.files.some((file) =>
+      /[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/u.test(file.content),
+    ),
+    false,
+  );
+});
+
 test("bounded UTF-8 measurement matches raw and JSON encoding boundaries", () => {
   const raw = 'ASCII " \\ \u0000 \ud800 \ud83d\ude80';
   const rawBytes = encoder.encode(raw).byteLength;
@@ -1278,6 +1428,8 @@ test("renderer output is deterministic and binds paths, blueprints, bytes, and c
   assert.equal(rendered.compilationDigest, compilation.contentDigest);
   assert.equal(rendered.manifest.compilationDigest, compilation.contentDigest);
   assert.equal(rendered.manifest.selectedCandidateId, compilation.selected.id);
+  assert.equal(rendered.manifest.fileDigestAlgorithm, "sha256");
+  assert.equal(rendered.manifest.fileDigestScope, "raw-file-bytes");
   assert.deepEqual(rendered.manifest.launchWaves, compilation.launchWaves);
   assert.match(rendered.packageDigest, /^sha256:[0-9a-f]{64}$/);
   assert.equal(rendered.packageDigest, expectedPackageDigest(rendered));
@@ -1306,7 +1458,7 @@ test("renderer output is deterministic and binds paths, blueprints, bytes, and c
     assert.equal(file.bytes, bytes.byteLength, `${file.path} byte count`);
     assert.equal(
       file.digest,
-      digestBytes("swecircuit.specialist.rendered-file.v1", bytes),
+      `sha256:${createHash("sha256").update(bytes).digest("hex")}`,
       `${file.path} digest`,
     );
   }

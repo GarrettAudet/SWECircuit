@@ -1,0 +1,430 @@
+{
+  "reportVersion": "1.0.0",
+  "result": "pass",
+  "goalId": "v11.specialist-compiler.prelaunch-audit",
+  "goalRevision": 18,
+  "assumptions": [
+    {
+      "id": "assumption.audit-is-trust-root",
+      "statement": "The owner reviews and separately approves this small read-only audit package; it does not recursively review itself.",
+      "rationale": "A finite assurance protocol requires an explicit human-approved trust root."
+    },
+    {
+      "id": "assumption.candidate-is-immutable",
+      "statement": "Every candidate compilation and package file is authenticated by exact bytes and digest before audit.",
+      "rationale": "Any candidate change must invalidate this audit compilation and package."
+    },
+    {
+      "id": "assumption.host-enforces-audit-boundary",
+      "statement": "The external host enforces the audit package's read-only authority and launch ordering.",
+      "rationale": "V11 compiles and verifies contracts but performs no runtime enforcement."
+    }
+  ],
+  "unresolvedDecisions": [],
+  "contextVerification": {
+    "result": "pass",
+    "verifiedSources": [
+      {
+        "sourceId": "context.candidate-artifact.01",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+        "bytes": 226627,
+        "digest": "sha256:8c70ca3380e27c2379b3cecb5edc3a9983ac4c41a9ddd7f5c3155fd6fbc84f66"
+      },
+      {
+        "sourceId": "context.candidate-artifact.02",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+        "bytes": 13788,
+        "digest": "sha256:00cefc8de2b28c3978f5b9a6fa4b03f9995758250b155513b77ecf33a0ffeab5"
+      },
+      {
+        "sourceId": "context.candidate-artifact.03",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+        "bytes": 8556,
+        "digest": "sha256:dd4944e0fc852e0db89f7fc1302efb1bd3438a2e715d87bb2e9e3cf4d4ad4585"
+      },
+      {
+        "sourceId": "context.candidate-artifact.04",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+        "bytes": 11594,
+        "digest": "sha256:3d75414eb78508e6ab28af311bf030b3bd52a40e70dba41016811bb511404c2e"
+      },
+      {
+        "sourceId": "context.candidate-artifact.05",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+        "bytes": 16842,
+        "digest": "sha256:0accc61b71f4b2b3eaa4366ab8e5806a63bda8e9d71b8208da3e3df474f2c568"
+      },
+      {
+        "sourceId": "context.candidate-artifact.06",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+        "bytes": 23011,
+        "digest": "sha256:f260a60261923597ea9ed6669669049ac03fbbe47cdb78cc09bed9a2a1171bec"
+      },
+      {
+        "sourceId": "context.candidate-artifact.07",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+        "bytes": 24211,
+        "digest": "sha256:6d7131acdaeaa8f6e7709a806dda94dfc629892cdb84d9ecad920ba3e90f0f60"
+      },
+      {
+        "sourceId": "context.candidate-artifact.08",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
+        "bytes": 226627,
+        "digest": "sha256:8c70ca3380e27c2379b3cecb5edc3a9983ac4c41a9ddd7f5c3155fd6fbc84f66"
+      },
+      {
+        "sourceId": "context.candidate-artifact.09",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
+        "bytes": 7342,
+        "digest": "sha256:058fb49bcc26d6fe07ea76e252a3795788c08e7ba300fb53f0ef334acf9d5ccb"
+      },
+      {
+        "sourceId": "context.candidate-artifact.10",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
+        "bytes": 4202,
+        "digest": "sha256:523e8a5d4b2a35943773d2c4525ac41442b10b5386656af5e94ae029e4ce6e83"
+      },
+      {
+        "sourceId": "context.canonical-json",
+        "path": "src/canonical-json.ts",
+        "bytes": 7405,
+        "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac"
+      },
+      {
+        "sourceId": "context.common-schema",
+        "path": "schemas/v1alpha1/common.schema.json",
+        "bytes": 10709,
+        "digest": "sha256:d3cdcd5d8723477db18a77a2396c6ea475bbc0e1cca44f952a594cc55832e636"
+      },
+      {
+        "sourceId": "context.compiler",
+        "path": "src/specialist-compiler.ts",
+        "bytes": 66311,
+        "digest": "sha256:ec8863f1f0784d547b0df867dd3971a3d9201673aca2eef63bc8962fa3d2c4ab"
+      },
+      {
+        "sourceId": "context.compiler-contract",
+        "path": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "bytes": 29978,
+        "digest": "sha256:721e85301737c8db3f13bae28ec19c807678ba77c77892cf119d754400c54d19"
+      },
+      {
+        "sourceId": "context.compiler-tests",
+        "path": "test/specialist-compiler.test.mjs",
+        "bytes": 58929,
+        "digest": "sha256:aaaf4fad943c6bf00ebd71019a8f68183008fc8332030619bc03eb90b9e93abc"
+      },
+      {
+        "sourceId": "context.constants",
+        "path": "src/constants.ts",
+        "bytes": 1883,
+        "digest": "sha256:c3526b49f3f1f54ce8db3dfb7af7dabe6944a02543b5702d08567c2a17cc466b"
+      },
+      {
+        "sourceId": "context.consumer-check",
+        "path": "scripts/check-packed-consumer.mjs",
+        "bytes": 32206,
+        "digest": "sha256:2ce5aaf1cbfa6dbf848b73967eb8ce2a98c9e6c34d20eedb96c56f0dd1fde6d3"
+      },
+      {
+        "sourceId": "context.diagnostics",
+        "path": "src/diagnostics.ts",
+        "bytes": 22284,
+        "digest": "sha256:3e9e250dbade0f9ba3275b50d21fe977df729eb9fbf203e8419ac3d9a2b5b25d"
+      },
+      {
+        "sourceId": "context.dogfood-runner",
+        "path": "scripts/run-v11-dogfood.mjs",
+        "bytes": 47091,
+        "digest": "sha256:f35c2e11d9c06a1ac253b63ccc294864d4d7b303ab88772ef4e65202c3ae69b9"
+      },
+      {
+        "sourceId": "context.dogfood-runner-tests",
+        "path": "test/v11-dogfood-runner.test.mjs",
+        "bytes": 26703,
+        "digest": "sha256:a54754bc4853fc29e0e29df823a929c5ae9141da31b9ca6121ab22b74d75804e"
+      },
+      {
+        "sourceId": "context.fixture.conflict-heavy",
+        "path": "test/fixtures/specialist-compiler/conflict-heavy.json",
+        "bytes": 6260,
+        "digest": "sha256:27fe1679095f6d86017a388e6b83ee6922ec30ba0bd598a1d5c7c2aeaed94dee"
+      },
+      {
+        "sourceId": "context.fixture.generic-role",
+        "path": "test/fixtures/specialist-compiler/generic-role.json",
+        "bytes": 4420,
+        "digest": "sha256:6801c238c2500f8fa8c4414de1cc3b88921d9c08e667692f49321187a9bef955"
+      },
+      {
+        "sourceId": "context.fixture.genuinely-parallel",
+        "path": "test/fixtures/specialist-compiler/genuinely-parallel.json",
+        "bytes": 6260,
+        "digest": "sha256:8119915f5b41d4eff112e52008f0d7a9a9e5c9f522c41d28419637ef0d290019"
+      },
+      {
+        "sourceId": "context.fixture.one-agent-optimal",
+        "path": "test/fixtures/specialist-compiler/one-agent-optimal.json",
+        "bytes": 6314,
+        "digest": "sha256:bebb10dc99b89660d672d0ce25de1ef09f951a0a76716b282a0c2945b2e36f67"
+      },
+      {
+        "sourceId": "context.fixture.over-split",
+        "path": "test/fixtures/specialist-compiler/over-split.json",
+        "bytes": 8159,
+        "digest": "sha256:a22160147debf2bf7361975a3b4900199d38059d6de3f596bec3e7fd1b9e3f1b"
+      },
+      {
+        "sourceId": "context.fixture.under-split",
+        "path": "test/fixtures/specialist-compiler/under-split.json",
+        "bytes": 6224,
+        "digest": "sha256:3ef5d99ff5fd47f6ddf0b46d30effa513488d6806bb275ba598871e93a9c537c"
+      },
+      {
+        "sourceId": "context.ide-kickoff",
+        "path": "docs/ide/specialist-agent-kickoff.md",
+        "bytes": 14768,
+        "digest": "sha256:deea0372fbda7a58368b77f76573408e3a4bbbf078b00fb32c53d955cfc55c98"
+      },
+      {
+        "sourceId": "context.index",
+        "path": "src/index.ts",
+        "bytes": 4169,
+        "digest": "sha256:b146d7759988bff0a205228f46e39fe53cfe0f42fbe89dbad3a6f8ffdfcf716d"
+      },
+      {
+        "sourceId": "context.json",
+        "path": "src/json.ts",
+        "bytes": 4808,
+        "digest": "sha256:a1f119ecb906ccf5d8397d2ce84e7b357ef5276df2ac448c99cc498d963c8a8a"
+      },
+      {
+        "sourceId": "context.model",
+        "path": "src/model.ts",
+        "bytes": 5961,
+        "digest": "sha256:c67bf6036ec16d40516bcf01a49e8714f82588e29a9c596b117dc73c36cf4b83"
+      },
+      {
+        "sourceId": "context.packed-consumer-host",
+        "path": "scripts/fixtures/packed-consumer-host.ts",
+        "bytes": 13753,
+        "digest": "sha256:b758ee12c42b95e001451d109bf124c8d9e928d51187a8a7219f982a1acdf5ab"
+      },
+      {
+        "sourceId": "context.path",
+        "path": "src/path.ts",
+        "bytes": 12676,
+        "digest": "sha256:fd7c8dbbb09f09f5f033cac64a3afaeb86fcc4c50bf38a7afc510f4f9606daa9"
+      },
+      {
+        "sourceId": "context.permissions",
+        "path": "src/permissions.ts",
+        "bytes": 3484,
+        "digest": "sha256:d6e39db2221715490b58ace95e87514f0a5c0a76a38225f02ccec15a37d74523"
+      },
+      {
+        "sourceId": "context.privacy",
+        "path": "src/privacy.ts",
+        "bytes": 1047,
+        "digest": "sha256:e6ffecf6135e7369913e51df78a522dcb3de3907d698f7f7cd2c1e7117ac972c"
+      },
+      {
+        "sourceId": "context.renderer",
+        "path": "src/specialist-render.ts",
+        "bytes": 16637,
+        "digest": "sha256:1f9976bfe6770f45ed4c6b14d195a2c10d15a353d32d24719f9ef327770aa2c8"
+      },
+      {
+        "sourceId": "context.schema",
+        "path": "schemas/v1alpha1/specialist-compiler.schema.json",
+        "bytes": 15392,
+        "digest": "sha256:860cbe31f1b86676ea35df361e0d1b215aa92e8253bd5de266fded42fe6039cd"
+      },
+      {
+        "sourceId": "context.schema-tests",
+        "path": "test/specialist-schema.test.mjs",
+        "bytes": 10218,
+        "digest": "sha256:c1ea13907cd2efd3619d565bd71474ef808c53fc4c3b6213999dc48efbfd4f50"
+      },
+      {
+        "sourceId": "context.shared-types",
+        "path": "src/types.ts",
+        "bytes": 4140,
+        "digest": "sha256:61877d77f8a1d5ab496491f1a462e74142572d4acac953958add18d9a62bee37"
+      },
+      {
+        "sourceId": "context.snapshot",
+        "path": "src/snapshot.ts",
+        "bytes": 5045,
+        "digest": "sha256:4def623274433afd49467c46aceae479115a881a13af3c6359f908772a19ca1e"
+      },
+      {
+        "sourceId": "context.spec",
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+        "bytes": 12138,
+        "digest": "sha256:e1a959109fbabd72fac87c6349d46e4d0d69122d9f52cd4ded25009e25f966e2"
+      },
+      {
+        "sourceId": "context.specialist-schema",
+        "path": "src/specialist-schema.ts",
+        "bytes": 2968,
+        "digest": "sha256:e59a903d0fab9ba58de19032969107fe6d517526a153ce8e6bc081360b1a4799"
+      },
+      {
+        "sourceId": "context.text",
+        "path": "src/text.ts",
+        "bytes": 534,
+        "digest": "sha256:e1416709bc62ae2dc684f6ec5ff37d8ec0c78c14eff5cfcc7ae554eb2652472c"
+      },
+      {
+        "sourceId": "context.two-phase-prelaunch-review",
+        "path": "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md",
+        "bytes": 6907,
+        "digest": "sha256:54bf4610f9229765f89f437000de67dd8785989d305c70ddcb0160a65dc89839"
+      },
+      {
+        "sourceId": "context.types",
+        "path": "src/specialist-types.ts",
+        "bytes": 12158,
+        "digest": "sha256:24d255360063fa157335d189fc4e0031795ba646dc44c316f93a0f3a7006fc52"
+      }
+    ]
+  },
+  "compilationDigest": "sha256:6b2ff4940cd116618572d80fda9df8c3de455e0ec4c31c35009d28e6004e7048",
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 2,
+    "evaluatedCandidates": 2,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 1,
+    "evaluationSetDigest": "sha256:a423c171bd943acc419119046b2c5941ca0a21dfb738a5c4a1dbb9b0a3731776"
+  },
+  "serialBaseline": {
+    "id": "team.c47c69651ba006e72c72b8ff6513f486c385e52d612a70cb95fb296d49b5ae93",
+    "eligible": false,
+    "rejectionCodes": [
+      "evidence_independence"
+    ],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 13,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 11,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 0
+    }
+  },
+  "selectionReason": {
+    "kind": "serial_ineligible",
+    "decisiveField": "evidence_independence",
+    "selectedValue": "eligible",
+    "serialValue": "ineligible",
+    "serialRejectionCodes": [
+      "evidence_independence"
+    ]
+  },
+  "selected": {
+    "id": "team.357beba7ab91a91ad49896b7d31e2fb6c61d9277c3d50582a02bad331a809b12",
+    "partition": [
+      [
+        "audit.bind-candidate"
+      ],
+      [
+        "audit.review-candidate-compilation"
+      ]
+    ],
+    "metrics": {
+      "agentCount": 2,
+      "projectedMakespan": 16,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 1,
+      "duplicatedContextBytes": 562800,
+      "duplicatedPermissionScopes": 10,
+      "totalWorkWeight": 11,
+      "totalStartupCost": 4,
+      "totalHandoffCost": 1
+    }
+  },
+  "proposalEvaluations": [],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6"
+      ]
+    },
+    {
+      "start": 4,
+      "agentIds": [
+        "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64"
+      ]
+    }
+  ],
+  "blueprintAssignments": [
+    {
+      "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+      "blueprintDigest": "sha256:c7159f9cf2a2f3eb917ab396d7519a19e92f75897b722927705b3cb2a6a6017a",
+      "workUnitIds": [
+        "audit.bind-candidate"
+      ],
+      "dependencies": [],
+      "requiredCapabilities": [
+        "candidate.bind"
+      ]
+    },
+    {
+      "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+      "blueprintDigest": "sha256:a6e344e9470d3113c35a1694b9c40ba8e3126748749fd3e7fb05c0d0feb168ce",
+      "workUnitIds": [
+        "audit.review-candidate-compilation"
+      ],
+      "dependencies": [
+        "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6"
+      ],
+      "requiredCapabilities": [
+        "review.candidate-compilation"
+      ]
+    }
+  ],
+  "package": {
+    "verification": {
+      "result": "pass",
+      "expectationFile": "approval.json"
+    },
+    "packageDigest": "sha256:c7ad2f3b97801d426dfa51c4f630e40dfc817be627c6dc26b3282807fd234b28",
+    "manifestDigest": "sha256:b576ccabb2b73a5c2089cb6320c40ca7b2b0ab8c9e95e5b2237a683ef2571ada",
+    "files": [
+      {
+        "path": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+        "bytes": 13433,
+        "digest": "sha256:ee61c3115e510c8ea17a403d3423ea000ad07bb84488bda49aa821d3d7abf66d"
+      },
+      {
+        "path": "agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
+        "bytes": 34567,
+        "digest": "sha256:dd6b8170326707f65c36986cd92e97f1b8f9cbc2d1698f3391360eaf71425d74"
+      },
+      {
+        "path": "compilation.json",
+        "bytes": 136264,
+        "digest": "sha256:2e7a96d3e0df8bbf5af713ac9dae517729d88f96b0ddcdfa759e10b8ae49f265"
+      },
+      {
+        "path": "integration.md",
+        "bytes": 4316,
+        "digest": "sha256:a807c136baf8b0c1d0f41cc437a71faf50e94790439cf89ff927032d2c32efc9"
+      },
+      {
+        "path": "manifest.json",
+        "bytes": 2072,
+        "digest": "sha256:32aa9b7f6a1fee35229893f02527829ba28f8afe678e34192ff4c926ef9f5b03"
+      }
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "kind": "CandidateAHostPreflight",
+  "attempt": 20,
+  "outcome": "pass",
+  "candidate": {
+    "compilationDigest": "sha256:ec43b1976764681faca6e43dcdf34c85f9efced49afb97d4569be1cac75d9406",
+    "packageDigest": "sha256:bea5349d71c6da3c86178815d0f03dcb2fe64616ea23d32b4cab2109ac634025"
+  },
+  "launchAuthorization": {
+    "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+    "rawBytes": 984,
+    "rawSha256": "sha256:24d72c11fe3a4b675266d216f03d56762712ee31001954e31fa1689a004b2ff3"
+  },
+  "approvalRequest": {
+    "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/candidate-a-approval-request-attempt-20.md",
+    "rawBytes": 5118,
+    "rawSha256": "sha256:f3b9850e4a52338512b77fd41c3f09e4fecd5e67f0a2dfd3712b21d79b683990"
+  },
+  "contracts": {
+    "count": 6,
+    "manifestBindings": "pass",
+    "rawByteBindings": "6/6 pass",
+    "rawDigestBindings": "6/6 pass",
+    "approvalRequestBindings": "complete"
+  },
+  "launchWaves": [
+    {
+      "start": 0,
+      "agents": 1
+    },
+    {
+      "start": 4,
+      "agents": 4
+    },
+    {
+      "start": 17,
+      "agents": 1
+    }
+  ],
+  "releaseContainment": {
+    "authorizedLongPath": "C:\\Users\\garre\\OneDrive\\Documents\\Portable Best Practices\\.local\\npm-cache",
+    "authorizedLongPathLength": 74,
+    "authorizedShortAlias": "C:\\Users\\garre\\OneDrive\\DOCUME~1\\PORTAB~1\\LOCAL~1\\NPM-CA~1",
+    "authorizedShortAliasLength": 58,
+    "longPathFileId": "0x0000000000000000008c000000042aa3",
+    "shortAliasFileId": "0x0000000000000000008c000000042aa3",
+    "sameDirectoryIdentity": true,
+    "pathHeadroomRecovered": 16,
+    "offlineCache": {
+      "cacacheExists": true,
+      "contentStoreExists": true,
+      "indexExists": true,
+      "mustBePreserved": true
+    },
+    "requiredEnvironment": {
+      "TEMP": "authorizedShortAlias",
+      "TMP": "authorizedShortAlias",
+      "npm_config_cache": "authorizedShortAlias",
+      "npm_config_offline": "true",
+      "npm_config_audit": "false",
+      "npm_config_fund": "false"
+    }
+  },
+  "candidateApprovalCurrent": false,
+  "launchAllowed": false,
+  "nextAction": "Await exact Candidate A two-digest approval, record only that pair, run the complete approval-bound verifier, then launch manifest-resolved contracts in dependency order."
+}

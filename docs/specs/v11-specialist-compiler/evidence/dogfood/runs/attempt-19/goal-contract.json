@@ -1,0 +1,1981 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "GoalContract",
+  "id": "v11.specialist-compiler.release",
+  "revision": 19,
+  "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit, canonical verification, traceable integration, and owner merge gate without claiming runtime orchestration.",
+  "integrationOwner": "v11.integration-owner",
+  "assumptions": [
+    {
+      "id": "assumption.atomic-work-reviewed",
+      "statement": "The six work units are stable atomic responsibilities for this release review.",
+      "rationale": "They were derived from the accepted V11 spec and have disjoint review or integration ownership."
+    },
+    {
+      "id": "assumption.external-approval-root",
+      "statement": "The integration owner retains separate approved compilation and package digests for the prelaunch audit and, only after its PASS, for the candidate package.",
+      "rationale": "Each package verification is trustworthy only when its expected digest pair comes from an independent approval record, and candidate launch approval follows the audit gate."
+    },
+    {
+      "id": "assumption.external-host-enforcement",
+      "statement": "The external IDE host enforces actual context, permission, workspace, and process boundaries.",
+      "rationale": "The V11 compiler emits provider-neutral task demand and performs no runtime effects."
+    },
+    {
+      "id": "assumption.relative-planning-weights",
+      "statement": "Work, startup, and handoff values are relative planning units rather than elapsed-time forecasts.",
+      "rationale": "V11 compares deterministic candidate structure and does not claim runtime benchmarking."
+    },
+    {
+      "id": "assumption.immutable-review-inputs",
+      "statement": "Any release document that integration may update is reviewed through an immutable pre-integration snapshot rather than its live output path.",
+      "rationale": "Authorized integration must not invalidate the exact candidate it consumes."
+    },
+    {
+      "id": "assumption.checkout-canonical-context",
+      "statement": "Every repository context source is byte-identical under the declared Git checkout rules, with no custom filter or working-tree encoding.",
+      "rationale": "A reviewed launch package must reconstruct from a clean checkout, not only the integration owner working tree."
+    },
+    {
+      "id": "assumption.two-phase-prelaunch-audit",
+      "statement": "An agent-based semantic review of the exact candidate compilation uses a separate read-only audit package rather than a work unit inside that candidate.",
+      "rationale": "A compilation cannot include its own complete bytes as authenticated context without changing itself."
+    }
+  ],
+  "unresolvedDecisions": [
+    {
+      "id": "decision.runtime-supply",
+      "question": "Which IDE, models, and workspace isolation strategy should execute a future production roster?",
+      "owner": "v11.integration-owner",
+      "blocking": false,
+      "proceedRationale": "Runtime supply is explicitly outside the V11 compiler acceptance boundary and requires a later adapter decision."
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "criterion.product-api",
+      "description": "The V11 product and public API match the owner goal and remain IDE, model, and provider neutral.",
+      "evidenceRequirements": [
+        {
+          "id": "evidence.product-candidate",
+          "kind": "digest",
+          "duty": "produce",
+          "description": "Content-addressed product and API candidate sources.",
+          "independentFromProducer": false
+        },
+        {
+          "id": "evidence.product-review",
+          "kind": "review",
+          "duty": "review",
+          "description": "Independent product and API acceptance review.",
+          "independentFromProducer": true
+        }
+      ]
+    },
+    {
+      "id": "criterion.algorithm",
+      "description": "Candidate construction, scheduling, selection, and digest semantics are deterministic and accurately claimed.",
+      "evidenceRequirements": [
+        {
+          "id": "evidence.algorithm-candidate",
+          "kind": "digest",
+          "duty": "produce",
+          "description": "Content-addressed algorithm and test candidate sources.",
+          "independentFromProducer": false
+        },
+        {
+          "id": "evidence.algorithm-review",
+          "kind": "review",
+          "duty": "review",
+          "description": "Independent algorithm and lifecycle acceptance review.",
+          "independentFromProducer": true
+        }
+      ]
+    },
+    {
+      "id": "criterion.security-trace",
+      "description": "Authority, context, privacy, rendering, and trace bindings fail closed.",
+      "evidenceRequirements": [
+        {
+          "id": "evidence.security-candidate",
+          "kind": "digest",
+          "duty": "produce",
+          "description": "Content-addressed security and trace candidate sources.",
+          "independentFromProducer": false
+        },
+        {
+          "id": "evidence.security-review",
+          "kind": "review",
+          "duty": "review",
+          "description": "Independent security and trace acceptance review.",
+          "independentFromProducer": true
+        }
+      ]
+    },
+    {
+      "id": "criterion.release",
+      "description": "Canonical verification and source-linked release evidence are complete before owner approval.",
+      "evidenceRequirements": [
+        {
+          "id": "evidence.release-record",
+          "kind": "artifact",
+          "duty": "produce",
+          "description": "Integrated V11 review, memory, and milestone artifacts.",
+          "independentFromProducer": false
+        },
+        {
+          "id": "evidence.release-gates",
+          "kind": "test",
+          "duty": "verify",
+          "description": "Independent canonical verification evidence.",
+          "independentFromProducer": true
+        }
+      ]
+    }
+  ],
+  "contextSources": [
+    {
+      "id": "context.active-memory",
+      "kind": "repository",
+      "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/active-context-before-integration.md",
+      "digest": "sha256:d4f4000dc84b59db5ad1b1940767e277f211d33f96b11bd5c984b17da70aa533",
+      "bytes": 23217,
+      "description": "The immutable pre-integration active-memory snapshot.",
+      "allowedWorkUnits": [
+        "integrate.release"
+      ],
+      "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/active-context-before-integration.md"
+    },
+    {
+      "id": "context.biome",
+      "kind": "repository",
+      "locator": "path:biome.json",
+      "digest": "sha256:ea4eb70aadd5e9fb08ff3fdbbcc654cf676fdc2ba791163ac856faa1791279bd",
+      "bytes": 735,
+      "description": "Canonical formatting and lint coverage.",
+      "allowedWorkUnits": [
+        "verify.release-gates"
+      ],
+      "readScope": "biome.json"
+    },
+    {
+      "id": "context.canonical-json",
+      "kind": "repository",
+      "locator": "path:src/canonical-json.ts",
+      "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+      "bytes": 7405,
+      "description": "Canonical JSON and digest construction.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace"
+      ],
+      "readScope": "src/canonical-json.ts"
+    },
+    {
+      "id": "context.common-schema",
+      "kind": "repository",
+      "locator": "path:schemas/v1alpha1/common.schema.json",
+      "digest": "sha256:d3cdcd5d8723477db18a77a2396c6ea475bbc0e1cca44f952a594cc55832e636",
+      "bytes": 10709,
+      "description": "The package-owned shared schema transitively required by specialist validation.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.product-api",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "schemas/v1alpha1/common.schema.json"
+    },
+    {
+      "id": "context.compiler",
+      "kind": "repository",
+      "locator": "path:src/specialist-compiler.ts",
+      "digest": "sha256:ec8863f1f0784d547b0df867dd3971a3d9201673aca2eef63bc8962fa3d2c4ab",
+      "bytes": 66311,
+      "description": "The candidate construction and blueprint compiler implementation.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace"
+      ],
+      "readScope": "src/specialist-compiler.ts"
+    },
+    {
+      "id": "context.compiler-contract",
+      "kind": "repository",
+      "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+      "digest": "sha256:721e85301737c8db3f13bae28ec19c807678ba77c77892cf119d754400c54d19",
+      "bytes": 29978,
+      "description": "The normative V11 Specialist Compiler contract.",
+      "allowedWorkUnits": [
+        "integrate.release",
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.product-api",
+        "review.security-trace"
+      ],
+      "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+    },
+    {
+      "id": "context.compiler-tests",
+      "kind": "repository",
+      "locator": "path:test/specialist-compiler.test.mjs",
+      "digest": "sha256:aaaf4fad943c6bf00ebd71019a8f68183008fc8332030619bc03eb90b9e93abc",
+      "bytes": 58929,
+      "description": "The golden and adversarial specialist compiler tests.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "test/specialist-compiler.test.mjs"
+    },
+    {
+      "id": "context.constants",
+      "kind": "repository",
+      "locator": "path:src/constants.ts",
+      "digest": "sha256:c3526b49f3f1f54ce8db3dfb7af7dabe6944a02543b5702d08567c2a17cc466b",
+      "bytes": 1883,
+      "description": "Specialist and shared resource limits.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace"
+      ],
+      "readScope": "src/constants.ts"
+    },
+    {
+      "id": "context.consumer-check",
+      "kind": "repository",
+      "locator": "path:scripts/check-packed-consumer.mjs",
+      "digest": "sha256:2ce5aaf1cbfa6dbf848b73967eb8ce2a98c9e6c34d20eedb96c56f0dd1fde6d3",
+      "bytes": 32206,
+      "description": "Offline installed-package verification that compiles and executes the public TypeScript host, asserts its structured receipt, and verifies retained approval.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.product-api",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "scripts/check-packed-consumer.mjs"
+    },
+    {
+      "id": "context.diagnostics",
+      "kind": "repository",
+      "locator": "path:src/diagnostics.ts",
+      "digest": "sha256:3e9e250dbade0f9ba3275b50d21fe977df729eb9fbf203e8419ac3d9a2b5b25d",
+      "bytes": 22284,
+      "description": "Stable diagnostic construction and sanitization.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace"
+      ],
+      "readScope": "src/diagnostics.ts"
+    },
+    {
+      "id": "context.dogfood-runner",
+      "kind": "repository",
+      "locator": "path:scripts/run-v11-dogfood.mjs",
+      "digest": "sha256:c2c0a1ebac06d8362e678253c0ee59d51225fba0af579b89ced4fcf823adeb41",
+      "bytes": 57436,
+      "description": "V11 context binding, fail-closed checkout-canonical validation, external approval, package verification, and evidence harness.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "scripts/run-v11-dogfood.mjs"
+    },
+    {
+      "id": "context.dogfood-runner-tests",
+      "kind": "repository",
+      "locator": "path:test/v11-dogfood-runner.test.mjs",
+      "digest": "sha256:b4dc68f78a2cfc2e548aae46a353574f0855ebe238e0d292e714ca2bd4dfc090",
+      "bytes": 36015,
+      "description": "Direct checkout-canonical, transform-sentinel, containment, strict-control, and evidence-write regressions for the V11 dogfood host.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "test/v11-dogfood-runner.test.mjs"
+    },
+    {
+      "id": "context.fixture.conflict-heavy",
+      "kind": "repository",
+      "locator": "path:test/fixtures/specialist-compiler/conflict-heavy.json",
+      "digest": "sha256:27fe1679095f6d86017a388e6b83ee6922ec30ba0bd598a1d5c7c2aeaed94dee",
+      "bytes": 6260,
+      "description": "Golden specialist-selection fixture: conflict-heavy.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "test/fixtures/specialist-compiler/conflict-heavy.json"
+    },
+    {
+      "id": "context.fixture.generic-role",
+      "kind": "repository",
+      "locator": "path:test/fixtures/specialist-compiler/generic-role.json",
+      "digest": "sha256:6801c238c2500f8fa8c4414de1cc3b88921d9c08e667692f49321187a9bef955",
+      "bytes": 4420,
+      "description": "Golden specialist-selection fixture: generic-role.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "test/fixtures/specialist-compiler/generic-role.json"
+    },
+    {
+      "id": "context.fixture.genuinely-parallel",
+      "kind": "repository",
+      "locator": "path:test/fixtures/specialist-compiler/genuinely-parallel.json",
+      "digest": "sha256:8119915f5b41d4eff112e52008f0d7a9a9e5c9f522c41d28419637ef0d290019",
+      "bytes": 6260,
+      "description": "Golden specialist-selection fixture: genuinely-parallel.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "test/fixtures/specialist-compiler/genuinely-parallel.json"
+    },
+    {
+      "id": "context.fixture.one-agent-optimal",
+      "kind": "repository",
+      "locator": "path:test/fixtures/specialist-compiler/one-agent-optimal.json",
+      "digest": "sha256:bebb10dc99b89660d672d0ce25de1ef09f951a0a76716b282a0c2945b2e36f67",
+      "bytes": 6314,
+      "description": "Golden specialist-selection fixture: one-agent-optimal.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "test/fixtures/specialist-compiler/one-agent-optimal.json"
+    },
+    {
+      "id": "context.fixture.over-split",
+      "kind": "repository",
+      "locator": "path:test/fixtures/specialist-compiler/over-split.json",
+      "digest": "sha256:a22160147debf2bf7361975a3b4900199d38059d6de3f596bec3e7fd1b9e3f1b",
+      "bytes": 8159,
+      "description": "Golden specialist-selection fixture: over-split.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "test/fixtures/specialist-compiler/over-split.json"
+    },
+    {
+      "id": "context.fixture.under-split",
+      "kind": "repository",
+      "locator": "path:test/fixtures/specialist-compiler/under-split.json",
+      "digest": "sha256:3ef5d99ff5fd47f6ddf0b46d30effa513488d6806bb275ba598871e93a9c537c",
+      "bytes": 6224,
+      "description": "Golden specialist-selection fixture: under-split.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "test/fixtures/specialist-compiler/under-split.json"
+    },
+    {
+      "id": "context.ide-kickoff",
+      "kind": "repository",
+      "locator": "path:docs/ide/specialist-agent-kickoff.md",
+      "digest": "sha256:1dc3d05161d91cbe71c2f52deaf5a24732c477b77f8ec5349ba8d5cf829ce914",
+      "bytes": 15719,
+      "description": "The user-visible IDE kickoff and manifest-driven external handoff protocol.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.product-api",
+        "review.security-trace"
+      ],
+      "readScope": "docs/ide/specialist-agent-kickoff.md"
+    },
+    {
+      "id": "context.index",
+      "kind": "repository",
+      "locator": "path:src/index.ts",
+      "digest": "sha256:b146d7759988bff0a205228f46e39fe53cfe0f42fbe89dbad3a6f8ffdfcf716d",
+      "bytes": 4169,
+      "description": "The public root export inventory.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.product-api",
+        "review.security-trace"
+      ],
+      "readScope": "src/index.ts"
+    },
+    {
+      "id": "context.json",
+      "kind": "repository",
+      "locator": "path:src/json.ts",
+      "digest": "sha256:a1f119ecb906ccf5d8397d2ce84e7b357ef5276df2ac448c99cc498d963c8a8a",
+      "bytes": 4808,
+      "description": "Strict bounded JSON parsing used by package verification.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace"
+      ],
+      "readScope": "src/json.ts"
+    },
+    {
+      "id": "context.model",
+      "kind": "repository",
+      "locator": "path:src/model.ts",
+      "digest": "sha256:c67bf6036ec16d40516bcf01a49e8714f82588e29a9c596b117dc73c36cf4b83",
+      "bytes": 5961,
+      "description": "Shared JSON and permission request shapes.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace"
+      ],
+      "readScope": "src/model.ts"
+    },
+    {
+      "id": "context.package",
+      "kind": "repository",
+      "locator": "path:package.json",
+      "digest": "sha256:3010600631a5b98f1e1cb77c3989d59c3c1b3ccc1ef995faeb1151aee838e54f",
+      "bytes": 2183,
+      "description": "Canonical build, test, dogfood, package, and consumer gates.",
+      "allowedWorkUnits": [
+        "verify.release-gates"
+      ],
+      "readScope": "package.json"
+    },
+    {
+      "id": "context.packed-consumer-host",
+      "kind": "repository",
+      "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+      "digest": "sha256:b758ee12c42b95e001451d109bf124c8d9e928d51187a8a7219f982a1acdf5ab",
+      "bytes": 13753,
+      "description": "Public typed installed-consumer host that emits a structured receipt after approval-bound package verification.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.product-api",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "scripts/fixtures/packed-consumer-host.ts"
+    },
+    {
+      "id": "context.path",
+      "kind": "repository",
+      "locator": "path:src/path.ts",
+      "digest": "sha256:fd7c8dbbb09f09f5f033cac64a3afaeb86fcc4c50bf38a7afc510f4f9606daa9",
+      "bytes": 12676,
+      "description": "Portable relative-path inspection used by permission validation.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace"
+      ],
+      "readScope": "src/path.ts"
+    },
+    {
+      "id": "context.permissions",
+      "kind": "repository",
+      "locator": "path:src/permissions.ts",
+      "digest": "sha256:d6e39db2221715490b58ace95e87514f0a5c0a76a38225f02ccec15a37d74523",
+      "bytes": 3484,
+      "description": "Permission grammar, narrowing, and coverage checks.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace"
+      ],
+      "readScope": "src/permissions.ts"
+    },
+    {
+      "id": "context.privacy",
+      "kind": "repository",
+      "locator": "path:src/privacy.ts",
+      "digest": "sha256:e6ffecf6135e7369913e51df78a522dcb3de3907d698f7f7cd2c1e7117ac972c",
+      "bytes": 1047,
+      "description": "High-confidence secret detection.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace"
+      ],
+      "readScope": "src/privacy.ts"
+    },
+    {
+      "id": "context.readme",
+      "kind": "repository",
+      "locator": "path:README.md",
+      "digest": "sha256:c53ca438b43b9b03a2ca8c55712fc26c586ab2fdf2a4ba78fdd6e3ead622ebd8",
+      "bytes": 8525,
+      "description": "The public V11 positioning and boundary.",
+      "allowedWorkUnits": [
+        "integrate.release",
+        "prepare.candidate",
+        "review.product-api"
+      ],
+      "readScope": "README.md"
+    },
+    {
+      "id": "context.renderer",
+      "kind": "repository",
+      "locator": "path:src/specialist-render.ts",
+      "digest": "sha256:1f9976bfe6770f45ed4c6b14d195a2c10d15a353d32d24719f9ef327770aa2c8",
+      "bytes": 16637,
+      "description": "The deterministic provider-neutral package renderer.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.product-api",
+        "review.security-trace"
+      ],
+      "readScope": "src/specialist-render.ts"
+    },
+    {
+      "id": "context.schema",
+      "kind": "repository",
+      "locator": "path:schemas/v1alpha1/specialist-compiler.schema.json",
+      "digest": "sha256:860cbe31f1b86676ea35df361e0d1b215aa92e8253bd5de266fded42fe6039cd",
+      "bytes": 15392,
+      "description": "The closed provider-neutral specialist input schema.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.product-api",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "schemas/v1alpha1/specialist-compiler.schema.json"
+    },
+    {
+      "id": "context.schema-tests",
+      "kind": "repository",
+      "locator": "path:test/specialist-schema.test.mjs",
+      "digest": "sha256:c1ea13907cd2efd3619d565bd71474ef808c53fc4c3b6213999dc48efbfd4f50",
+      "bytes": 10218,
+      "description": "The strict schema and provider-neutral boundary tests.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.product-api",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "test/specialist-schema.test.mjs"
+    },
+    {
+      "id": "context.shared-types",
+      "kind": "repository",
+      "locator": "path:src/types.ts",
+      "digest": "sha256:61877d77f8a1d5ab496491f1a462e74142572d4acac953958add18d9a62bee37",
+      "bytes": 4140,
+      "description": "Shared diagnostics, evidence, and operation-result types.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace"
+      ],
+      "readScope": "src/types.ts"
+    },
+    {
+      "id": "context.snapshot",
+      "kind": "repository",
+      "locator": "path:src/snapshot.ts",
+      "digest": "sha256:4def623274433afd49467c46aceae479115a881a13af3c6359f908772a19ca1e",
+      "bytes": 5045,
+      "description": "Bounded accessor-free JSON snapshotting.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.security-trace"
+      ],
+      "readScope": "src/snapshot.ts"
+    },
+    {
+      "id": "context.spec",
+      "kind": "repository",
+      "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+      "digest": "sha256:113cd3f8797ff55615ec1c050ff1e55eca2beebf0f568e7ca008c8108ce16167",
+      "bytes": 12493,
+      "description": "The immutable pre-integration V11 product and acceptance contract.",
+      "allowedWorkUnits": [
+        "integrate.release",
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.product-api",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md"
+    },
+    {
+      "id": "context.specialist-schema",
+      "kind": "repository",
+      "locator": "path:src/specialist-schema.ts",
+      "digest": "sha256:e59a903d0fab9ba58de19032969107fe6d517526a153ce8e6bc081360b1a4799",
+      "bytes": 2968,
+      "description": "Strict Specialist Compiler schema dispatch.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace"
+      ],
+      "readScope": "src/specialist-schema.ts"
+    },
+    {
+      "id": "context.template-checker",
+      "kind": "repository",
+      "locator": "path:scripts/check-template.ps1",
+      "digest": "sha256:b1409d0b5110d7226de69f42b6ae37c5bae24c8347f43e8a9e190179213b398a",
+      "bytes": 77532,
+      "description": "Workflow artifact validation gate.",
+      "allowedWorkUnits": [
+        "verify.release-gates"
+      ],
+      "readScope": "scripts/check-template.ps1"
+    },
+    {
+      "id": "context.template-checker-tests",
+      "kind": "repository",
+      "locator": "path:scripts/test-check-template.ps1",
+      "digest": "sha256:20bf8df6a84620dcc99faaffcfbb876b0d16b61f31074932342c2f353ed9747f",
+      "bytes": 79833,
+      "description": "Template-checker regression matrix.",
+      "allowedWorkUnits": [
+        "verify.release-gates"
+      ],
+      "readScope": "scripts/test-check-template.ps1"
+    },
+    {
+      "id": "context.text",
+      "kind": "repository",
+      "locator": "path:src/text.ts",
+      "digest": "sha256:e1416709bc62ae2dc684f6ec5ff37d8ec0c78c14eff5cfcc7ae554eb2652472c",
+      "bytes": 534,
+      "description": "Control-character validation helpers.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.security-trace"
+      ],
+      "readScope": "src/text.ts"
+    },
+    {
+      "id": "context.types",
+      "kind": "repository",
+      "locator": "path:src/specialist-types.ts",
+      "digest": "sha256:24d255360063fa157335d189fc4e0031795ba646dc44c316f93a0f3a7006fc52",
+      "bytes": 12158,
+      "description": "The public specialist contract types.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.product-api",
+        "review.security-trace"
+      ],
+      "readScope": "src/specialist-types.ts"
+    },
+    {
+      "id": "context.two-phase-prelaunch-review",
+      "kind": "repository",
+      "locator": "path:docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md",
+      "digest": "sha256:58a4b035497f2ffdf20fe4d516c46e86bae3f878554321ae9443fb0bb6ef406e",
+      "bytes": 11930,
+      "description": "The finite two-phase protocol for independent semantic review of an exact candidate compilation.",
+      "allowedWorkUnits": [
+        "prepare.candidate",
+        "review.product-api",
+        "review.algorithm-lifecycle",
+        "review.security-trace",
+        "verify.release-gates",
+        "integrate.release"
+      ],
+      "readScope": "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+    }
+  ],
+  "authority": {
+    "allowedModules": [
+      "review.prepare",
+      "review.product-api",
+      "review.algorithm-lifecycle",
+      "review.security-trace",
+      "verify.release-gates",
+      "integrate.release"
+    ],
+    "allowedCapabilities": [
+      "candidate.bind",
+      "review.product-api",
+      "review.algorithm-lifecycle",
+      "review.security-trace",
+      "verify.release",
+      "integrate.release"
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          ".git/**",
+          ".github/**",
+          "AGENTS.md",
+          "CHANGELOG.md",
+          "CONTRIBUTING.md",
+          "LICENSE",
+          "README.md",
+          "SECURITY.md",
+          "SUPPORT.md",
+          "biome.json",
+          "dist/**",
+          "docs/**",
+          "docs/ide/specialist-agent-kickoff.md",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/active-context-before-integration.md",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+          "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "node_modules/**",
+          "package-lock.json",
+          "package.json",
+          "schemas/**",
+          "schemas/v1alpha1/common.schema.json",
+          "schemas/v1alpha1/specialist-compiler.schema.json",
+          "scripts/**",
+          "scripts/check-packed-consumer.mjs",
+          "scripts/check-template.ps1",
+          "scripts/fixtures/packed-consumer-host.ts",
+          "scripts/run-v11-dogfood.mjs",
+          "scripts/test-check-template.ps1",
+          "src/**",
+          "src/canonical-json.ts",
+          "src/constants.ts",
+          "src/diagnostics.ts",
+          "src/index.ts",
+          "src/json.ts",
+          "src/model.ts",
+          "src/path.ts",
+          "src/permissions.ts",
+          "src/privacy.ts",
+          "src/snapshot.ts",
+          "src/specialist-compiler.ts",
+          "src/specialist-render.ts",
+          "src/specialist-schema.ts",
+          "src/specialist-types.ts",
+          "src/text.ts",
+          "src/types.ts",
+          "test/**",
+          "test/fixtures/specialist-compiler/conflict-heavy.json",
+          "test/fixtures/specialist-compiler/generic-role.json",
+          "test/fixtures/specialist-compiler/genuinely-parallel.json",
+          "test/fixtures/specialist-compiler/one-agent-optimal.json",
+          "test/fixtures/specialist-compiler/over-split.json",
+          "test/fixtures/specialist-compiler/under-split.json",
+          "test/specialist-compiler.test.mjs",
+          "test/specialist-schema.test.mjs",
+          "test/v11-dogfood-runner.test.mjs",
+          "tsconfig.json",
+          "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          ".local/npm-cache/**",
+          "dist/**",
+          "docs/memory/**",
+          "docs/milestones/v11.md",
+          "docs/specs/v11-specialist-compiler/**"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "git",
+          "node",
+          "npm.cmd",
+          "powershell",
+          "rg"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not access a network or provider.",
+      "Do not execute or dispatch runtime agents from core.",
+      "Do not widen reviewed filesystem authority.",
+      "Do not merge or update durable memory before integration review."
+    ],
+    "maxAgents": 6,
+    "maxConcurrency": 4
+  },
+  "optimization": {
+    "agentStartupCost": 2,
+    "handoffCost": 1
+  },
+  "workUnits": [
+    {
+      "id": "prepare.candidate",
+      "objective": "Confirm the reviewed product, algorithm, and security sources match their declared content digests before independent review.",
+      "weight": 1,
+      "module": {
+        "id": "review.prepare",
+        "action": "Bind one immutable review candidate to exact source evidence.",
+        "inputPorts": [
+          {
+            "name": "sources",
+            "artifactType": "CandidateSources"
+          }
+        ],
+        "outputPorts": [
+          {
+            "name": "candidate",
+            "artifactType": "ReviewCandidate"
+          }
+        ]
+      },
+      "dependencies": [],
+      "requiredCapabilities": [
+        "candidate.bind"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.canonical-json",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.common-schema",
+          "purpose": "Bind the transitive shared schema before independent review."
+        },
+        {
+          "sourceId": "context.compiler",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.compiler-contract",
+          "purpose": "Bind the normative compiler contract."
+        },
+        {
+          "sourceId": "context.compiler-tests",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.constants",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.consumer-check",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.dogfood-runner",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.dogfood-runner-tests",
+          "purpose": "Bind the host containment regression before independent review."
+        },
+        {
+          "sourceId": "context.fixture.conflict-heavy",
+          "purpose": "Bind this exact golden fixture before independent review."
+        },
+        {
+          "sourceId": "context.fixture.generic-role",
+          "purpose": "Bind this exact golden fixture before independent review."
+        },
+        {
+          "sourceId": "context.fixture.genuinely-parallel",
+          "purpose": "Bind this exact golden fixture before independent review."
+        },
+        {
+          "sourceId": "context.fixture.one-agent-optimal",
+          "purpose": "Bind this exact golden fixture before independent review."
+        },
+        {
+          "sourceId": "context.fixture.over-split",
+          "purpose": "Bind this exact golden fixture before independent review."
+        },
+        {
+          "sourceId": "context.fixture.under-split",
+          "purpose": "Bind this exact golden fixture before independent review."
+        },
+        {
+          "sourceId": "context.ide-kickoff",
+          "purpose": "Bind the corrected IDE handoff protocol before independent review."
+        },
+        {
+          "sourceId": "context.index",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.json",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.model",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.packed-consumer-host",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.path",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.permissions",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.privacy",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.readme",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.renderer",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.schema",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.schema-tests",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.shared-types",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.snapshot",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.spec",
+          "purpose": "Bind the product acceptance contract."
+        },
+        {
+          "sourceId": "context.specialist-schema",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.text",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.types",
+          "purpose": "Bind this exact candidate source before independent review."
+        },
+        {
+          "sourceId": "context.two-phase-prelaunch-review",
+          "purpose": "Bind the two-phase prelaunch protocol with the release candidate."
+        }
+      ],
+      "scope": {
+        "read": [
+          "README.md",
+          "docs/ide/specialist-agent-kickoff.md",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+          "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "schemas/v1alpha1/common.schema.json",
+          "schemas/v1alpha1/specialist-compiler.schema.json",
+          "scripts/check-packed-consumer.mjs",
+          "scripts/fixtures/packed-consumer-host.ts",
+          "scripts/run-v11-dogfood.mjs",
+          "src/canonical-json.ts",
+          "src/constants.ts",
+          "src/diagnostics.ts",
+          "src/index.ts",
+          "src/json.ts",
+          "src/model.ts",
+          "src/path.ts",
+          "src/permissions.ts",
+          "src/privacy.ts",
+          "src/snapshot.ts",
+          "src/specialist-compiler.ts",
+          "src/specialist-render.ts",
+          "src/specialist-schema.ts",
+          "src/specialist-types.ts",
+          "src/text.ts",
+          "src/types.ts",
+          "test/fixtures/specialist-compiler/conflict-heavy.json",
+          "test/fixtures/specialist-compiler/generic-role.json",
+          "test/fixtures/specialist-compiler/genuinely-parallel.json",
+          "test/fixtures/specialist-compiler/one-agent-optimal.json",
+          "test/fixtures/specialist-compiler/over-split.json",
+          "test/fixtures/specialist-compiler/under-split.json",
+          "test/specialist-compiler.test.mjs",
+          "test/specialist-schema.test.mjs",
+          "test/v11-dogfood-runner.test.mjs",
+          "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+        ],
+        "write": [],
+        "conflictZones": []
+      },
+      "permissions": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "README.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "schemas/v1alpha1/common.schema.json",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "scripts/run-v11-dogfood.mjs",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/json.ts",
+            "src/model.ts",
+            "src/path.ts",
+            "src/permissions.ts",
+            "src/privacy.ts",
+            "src/snapshot.ts",
+            "src/specialist-compiler.ts",
+            "src/specialist-render.ts",
+            "src/specialist-schema.ts",
+            "src/specialist-types.ts",
+            "src/text.ts",
+            "src/types.ts",
+            "test/fixtures/specialist-compiler/conflict-heavy.json",
+            "test/fixtures/specialist-compiler/generic-role.json",
+            "test/fixtures/specialist-compiler/genuinely-parallel.json",
+            "test/fixtures/specialist-compiler/one-agent-optimal.json",
+            "test/fixtures/specialist-compiler/over-split.json",
+            "test/fixtures/specialist-compiler/under-split.json",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-schema.test.mjs",
+            "test/v11-dogfood-runner.test.mjs",
+            "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "powershell"
+          ]
+        }
+      ],
+      "evidenceRequirementIds": [
+        "evidence.product-candidate",
+        "evidence.algorithm-candidate",
+        "evidence.security-candidate"
+      ],
+      "handoffArtifacts": [
+        "review-candidate-digests.json"
+      ],
+      "stopConditions": [
+        "Stop if any declared source digest or byte count does not match."
+      ]
+    },
+    {
+      "id": "review.product-api",
+      "objective": "Independently determine whether V11 solves the owner goal with a clear, minimal, IDE-agnostic public contract.",
+      "weight": 8,
+      "module": {
+        "id": "review.product-api",
+        "action": "Review product fit, public API closure, usability, and claimed boundaries.",
+        "inputPorts": [
+          {
+            "name": "candidate",
+            "artifactType": "ReviewCandidate"
+          }
+        ],
+        "outputPorts": [
+          {
+            "name": "review",
+            "artifactType": "ProductApiReview"
+          }
+        ]
+      },
+      "dependencies": [
+        "prepare.candidate"
+      ],
+      "requiredCapabilities": [
+        "review.product-api"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.common-schema",
+          "purpose": "Review the complete package-owned schema surface."
+        },
+        {
+          "sourceId": "context.compiler-contract",
+          "purpose": "Review the human/core/host responsibility boundary."
+        },
+        {
+          "sourceId": "context.consumer-check",
+          "purpose": "Review the executable installed-consumer trust boundary."
+        },
+        {
+          "sourceId": "context.ide-kickoff",
+          "purpose": "Review the shortest user-visible compile-and-hand-off path."
+        },
+        {
+          "sourceId": "context.index",
+          "purpose": "Review the exact public export inventory."
+        },
+        {
+          "sourceId": "context.packed-consumer-host",
+          "purpose": "Review installed TypeScript API use and permission-kind parity."
+        },
+        {
+          "sourceId": "context.readme",
+          "purpose": "Review public positioning and clarity."
+        },
+        {
+          "sourceId": "context.renderer",
+          "purpose": "Review the portable launch package."
+        },
+        {
+          "sourceId": "context.schema",
+          "purpose": "Review the closed provider-neutral input."
+        },
+        {
+          "sourceId": "context.schema-tests",
+          "purpose": "Review installed and provider-neutral schema evidence."
+        },
+        {
+          "sourceId": "context.spec",
+          "purpose": "Review acceptance and owner fit."
+        },
+        {
+          "sourceId": "context.types",
+          "purpose": "Review the additive public type surface."
+        },
+        {
+          "sourceId": "context.two-phase-prelaunch-review",
+          "purpose": "Review whether the conditional audit flow remains understandable and usable."
+        }
+      ],
+      "scope": {
+        "read": [
+          "README.md",
+          "docs/ide/specialist-agent-kickoff.md",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+          "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "schemas/v1alpha1/common.schema.json",
+          "schemas/v1alpha1/specialist-compiler.schema.json",
+          "scripts/check-packed-consumer.mjs",
+          "scripts/fixtures/packed-consumer-host.ts",
+          "src/index.ts",
+          "src/specialist-render.ts",
+          "src/specialist-types.ts",
+          "test/specialist-schema.test.mjs",
+          "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+        ],
+        "write": [],
+        "conflictZones": []
+      },
+      "permissions": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "README.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "schemas/v1alpha1/common.schema.json",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/index.ts",
+            "src/specialist-render.ts",
+            "src/specialist-types.ts",
+            "test/specialist-schema.test.mjs",
+            "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "powershell",
+            "rg"
+          ]
+        }
+      ],
+      "evidenceRequirementIds": [
+        "evidence.product-review"
+      ],
+      "handoffArtifacts": [
+        "product-api-review.md"
+      ],
+      "stopConditions": [
+        "Stop with REVISE if the public contract requires a provider or runtime.",
+        "Stop with REVISE if a generic role can substitute for exact task demand."
+      ]
+    },
+    {
+      "id": "review.algorithm-lifecycle",
+      "objective": "Independently determine whether the generic compiler implementation and evidence make construction, scheduling, selection, and digest semantics deterministic, bounded, and honestly described. The separate prelaunch audit reviews this package's exact compilation.",
+      "weight": 10,
+      "module": {
+        "id": "review.algorithm-lifecycle",
+        "action": "Review generic candidate generation, hard gates, metrics, comparator, scheduling, reproducibility, and lifecycle boundaries without claiming self-review of this exact compilation.",
+        "inputPorts": [
+          {
+            "name": "candidate",
+            "artifactType": "ReviewCandidate"
+          }
+        ],
+        "outputPorts": [
+          {
+            "name": "review",
+            "artifactType": "AlgorithmReview"
+          }
+        ]
+      },
+      "dependencies": [
+        "prepare.candidate"
+      ],
+      "requiredCapabilities": [
+        "review.algorithm-lifecycle"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.canonical-json",
+          "purpose": "Audit canonical identity and digest construction."
+        },
+        {
+          "sourceId": "context.compiler",
+          "purpose": "Audit candidate analysis and selection."
+        },
+        {
+          "sourceId": "context.compiler-contract",
+          "purpose": "Review the normative search and objective contract."
+        },
+        {
+          "sourceId": "context.compiler-tests",
+          "purpose": "Audit golden, exact-count, bounded, and permutation evidence."
+        },
+        {
+          "sourceId": "context.constants",
+          "purpose": "Audit exact and bounded search limits."
+        },
+        {
+          "sourceId": "context.fixture.conflict-heavy",
+          "purpose": "Audit the expected optimization outcome for this golden fixture."
+        },
+        {
+          "sourceId": "context.fixture.generic-role",
+          "purpose": "Audit the expected optimization outcome for this golden fixture."
+        },
+        {
+          "sourceId": "context.fixture.genuinely-parallel",
+          "purpose": "Audit the expected optimization outcome for this golden fixture."
+        },
+        {
+          "sourceId": "context.fixture.one-agent-optimal",
+          "purpose": "Audit the expected optimization outcome for this golden fixture."
+        },
+        {
+          "sourceId": "context.fixture.over-split",
+          "purpose": "Audit the expected optimization outcome for this golden fixture."
+        },
+        {
+          "sourceId": "context.fixture.under-split",
+          "purpose": "Audit the expected optimization outcome for this golden fixture."
+        },
+        {
+          "sourceId": "context.snapshot",
+          "purpose": "Audit immutable normalized input semantics."
+        },
+        {
+          "sourceId": "context.spec",
+          "purpose": "Review algorithm acceptance claims."
+        },
+        {
+          "sourceId": "context.types",
+          "purpose": "Review metric and evaluation output types."
+        },
+        {
+          "sourceId": "context.two-phase-prelaunch-review",
+          "purpose": "Separate generic compiler review from the exact candidate compilation audit."
+        }
+      ],
+      "scope": {
+        "read": [
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+          "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "src/canonical-json.ts",
+          "src/constants.ts",
+          "src/snapshot.ts",
+          "src/specialist-compiler.ts",
+          "src/specialist-types.ts",
+          "test/fixtures/specialist-compiler/conflict-heavy.json",
+          "test/fixtures/specialist-compiler/generic-role.json",
+          "test/fixtures/specialist-compiler/genuinely-parallel.json",
+          "test/fixtures/specialist-compiler/one-agent-optimal.json",
+          "test/fixtures/specialist-compiler/over-split.json",
+          "test/fixtures/specialist-compiler/under-split.json",
+          "test/specialist-compiler.test.mjs",
+          "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+        ],
+        "write": [],
+        "conflictZones": []
+      },
+      "permissions": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/snapshot.ts",
+            "src/specialist-compiler.ts",
+            "src/specialist-types.ts",
+            "test/fixtures/specialist-compiler/conflict-heavy.json",
+            "test/fixtures/specialist-compiler/generic-role.json",
+            "test/fixtures/specialist-compiler/genuinely-parallel.json",
+            "test/fixtures/specialist-compiler/one-agent-optimal.json",
+            "test/fixtures/specialist-compiler/over-split.json",
+            "test/fixtures/specialist-compiler/under-split.json",
+            "test/specialist-compiler.test.mjs",
+            "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "powershell",
+            "rg"
+          ]
+        }
+      ],
+      "evidenceRequirementIds": [
+        "evidence.algorithm-review"
+      ],
+      "handoffArtifacts": [
+        "algorithm-lifecycle-review.md"
+      ],
+      "stopConditions": [
+        "Stop with REVISE if selection can change under logical input permutation.",
+        "Stop with REVISE if bounded search is represented as a global optimum.",
+        "Do not claim to audit this package's own complete compilation; that duty belongs to the separate prelaunch audit."
+      ]
+    },
+    {
+      "id": "review.security-trace",
+      "objective": "Independently determine whether authority, context, privacy, rendering, and trace bindings fail closed without claiming host enforcement.",
+      "weight": 10,
+      "module": {
+        "id": "review.security-trace",
+        "action": "Review schema closure, semantic authority, privacy, canonical digests, rendering containment, and host boundaries.",
+        "inputPorts": [
+          {
+            "name": "candidate",
+            "artifactType": "ReviewCandidate"
+          }
+        ],
+        "outputPorts": [
+          {
+            "name": "review",
+            "artifactType": "SecurityTraceReview"
+          }
+        ]
+      },
+      "dependencies": [
+        "prepare.candidate"
+      ],
+      "requiredCapabilities": [
+        "review.security-trace"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.canonical-json",
+          "purpose": "Audit domain-separated canonical digest construction."
+        },
+        {
+          "sourceId": "context.common-schema",
+          "purpose": "Audit the transitive package-owned schema boundary."
+        },
+        {
+          "sourceId": "context.compiler",
+          "purpose": "Audit fail-closed validation and digests."
+        },
+        {
+          "sourceId": "context.compiler-contract",
+          "purpose": "Review trust and external-host boundaries."
+        },
+        {
+          "sourceId": "context.compiler-tests",
+          "purpose": "Audit adversarial authority, privacy, and tamper coverage."
+        },
+        {
+          "sourceId": "context.constants",
+          "purpose": "Audit byte, count, and search ceilings."
+        },
+        {
+          "sourceId": "context.consumer-check",
+          "purpose": "Audit installed-package verification behavior."
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "purpose": "Audit stable non-leaking failure construction."
+        },
+        {
+          "sourceId": "context.dogfood-runner",
+          "purpose": "Audit external approval separation and evidence verification."
+        },
+        {
+          "sourceId": "context.dogfood-runner-tests",
+          "purpose": "Audit the direct external-link containment regression."
+        },
+        {
+          "sourceId": "context.fixture.conflict-heavy",
+          "purpose": "Audit fixture-driven authority and boundary coverage."
+        },
+        {
+          "sourceId": "context.fixture.generic-role",
+          "purpose": "Audit fixture-driven authority and boundary coverage."
+        },
+        {
+          "sourceId": "context.fixture.genuinely-parallel",
+          "purpose": "Audit fixture-driven authority and boundary coverage."
+        },
+        {
+          "sourceId": "context.fixture.one-agent-optimal",
+          "purpose": "Audit fixture-driven authority and boundary coverage."
+        },
+        {
+          "sourceId": "context.fixture.over-split",
+          "purpose": "Audit fixture-driven authority and boundary coverage."
+        },
+        {
+          "sourceId": "context.fixture.under-split",
+          "purpose": "Audit fixture-driven authority and boundary coverage."
+        },
+        {
+          "sourceId": "context.ide-kickoff",
+          "purpose": "Audit manifest-driven contract resolution and host trust boundaries."
+        },
+        {
+          "sourceId": "context.index",
+          "purpose": "Audit the public verification and compiler exports."
+        },
+        {
+          "sourceId": "context.json",
+          "purpose": "Audit strict package compilation parsing."
+        },
+        {
+          "sourceId": "context.model",
+          "purpose": "Audit shared authority and JSON shapes."
+        },
+        {
+          "sourceId": "context.packed-consumer-host",
+          "purpose": "Authenticate the exact executed TypeScript host and its structured approval receipt."
+        },
+        {
+          "sourceId": "context.path",
+          "purpose": "Audit portable path-segment containment helpers."
+        },
+        {
+          "sourceId": "context.permissions",
+          "purpose": "Audit permission grammar and ceiling narrowing."
+        },
+        {
+          "sourceId": "context.privacy",
+          "purpose": "Audit secret rejection behavior."
+        },
+        {
+          "sourceId": "context.renderer",
+          "purpose": "Audit tamper checks and payload bindings."
+        },
+        {
+          "sourceId": "context.schema",
+          "purpose": "Audit closed input boundaries."
+        },
+        {
+          "sourceId": "context.schema-tests",
+          "purpose": "Audit provider/runtime exclusion coverage."
+        },
+        {
+          "sourceId": "context.shared-types",
+          "purpose": "Audit shared diagnostic and evidence contracts."
+        },
+        {
+          "sourceId": "context.snapshot",
+          "purpose": "Audit hostile-input detachment and bounds."
+        },
+        {
+          "sourceId": "context.spec",
+          "purpose": "Review security acceptance and risks."
+        },
+        {
+          "sourceId": "context.specialist-schema",
+          "purpose": "Audit closed schema dispatch."
+        },
+        {
+          "sourceId": "context.text",
+          "purpose": "Audit control-character rejection."
+        },
+        {
+          "sourceId": "context.types",
+          "purpose": "Review authority and trace-bearing types."
+        },
+        {
+          "sourceId": "context.two-phase-prelaunch-review",
+          "purpose": "Audit the explicit trust root, read-only authority, and launch-order boundary."
+        }
+      ],
+      "scope": {
+        "read": [
+          "docs/ide/specialist-agent-kickoff.md",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+          "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "schemas/v1alpha1/common.schema.json",
+          "schemas/v1alpha1/specialist-compiler.schema.json",
+          "scripts/check-packed-consumer.mjs",
+          "scripts/fixtures/packed-consumer-host.ts",
+          "scripts/run-v11-dogfood.mjs",
+          "src/canonical-json.ts",
+          "src/constants.ts",
+          "src/diagnostics.ts",
+          "src/index.ts",
+          "src/json.ts",
+          "src/model.ts",
+          "src/path.ts",
+          "src/permissions.ts",
+          "src/privacy.ts",
+          "src/snapshot.ts",
+          "src/specialist-compiler.ts",
+          "src/specialist-render.ts",
+          "src/specialist-schema.ts",
+          "src/specialist-types.ts",
+          "src/text.ts",
+          "src/types.ts",
+          "test/fixtures/specialist-compiler/conflict-heavy.json",
+          "test/fixtures/specialist-compiler/generic-role.json",
+          "test/fixtures/specialist-compiler/genuinely-parallel.json",
+          "test/fixtures/specialist-compiler/one-agent-optimal.json",
+          "test/fixtures/specialist-compiler/over-split.json",
+          "test/fixtures/specialist-compiler/under-split.json",
+          "test/specialist-compiler.test.mjs",
+          "test/specialist-schema.test.mjs",
+          "test/v11-dogfood-runner.test.mjs",
+          "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+        ],
+        "write": [],
+        "conflictZones": []
+      },
+      "permissions": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "schemas/v1alpha1/common.schema.json",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "scripts/run-v11-dogfood.mjs",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/json.ts",
+            "src/model.ts",
+            "src/path.ts",
+            "src/permissions.ts",
+            "src/privacy.ts",
+            "src/snapshot.ts",
+            "src/specialist-compiler.ts",
+            "src/specialist-render.ts",
+            "src/specialist-schema.ts",
+            "src/specialist-types.ts",
+            "src/text.ts",
+            "src/types.ts",
+            "test/fixtures/specialist-compiler/conflict-heavy.json",
+            "test/fixtures/specialist-compiler/generic-role.json",
+            "test/fixtures/specialist-compiler/genuinely-parallel.json",
+            "test/fixtures/specialist-compiler/one-agent-optimal.json",
+            "test/fixtures/specialist-compiler/over-split.json",
+            "test/fixtures/specialist-compiler/under-split.json",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-schema.test.mjs",
+            "test/v11-dogfood-runner.test.mjs",
+            "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "powershell",
+            "rg"
+          ]
+        }
+      ],
+      "evidenceRequirementIds": [
+        "evidence.security-review"
+      ],
+      "handoffArtifacts": [
+        "security-trace-review.md"
+      ],
+      "stopConditions": [
+        "Stop with REVISE if a blueprint can widen owner authority.",
+        "Stop with REVISE if package tampering can retain the reviewed digest."
+      ]
+    },
+    {
+      "id": "verify.release-gates",
+      "objective": "Independently verify the strict schema, specialist golden suite, full kernel gate, package dry run, installed consumer, and template checker evidence.",
+      "weight": 5,
+      "module": {
+        "id": "verify.release-gates",
+        "action": "Re-run and inspect every canonical V11 release gate.",
+        "inputPorts": [
+          {
+            "name": "candidate",
+            "artifactType": "ReviewCandidate"
+          }
+        ],
+        "outputPorts": [
+          {
+            "name": "evidence",
+            "artifactType": "ReleaseGateEvidence"
+          }
+        ]
+      },
+      "dependencies": [
+        "prepare.candidate"
+      ],
+      "requiredCapabilities": [
+        "verify.release"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.biome",
+          "purpose": "Verify formatting and lint coverage."
+        },
+        {
+          "sourceId": "context.common-schema",
+          "purpose": "Verify the complete packaged schema closure."
+        },
+        {
+          "sourceId": "context.compiler-tests",
+          "purpose": "Verify the golden suite."
+        },
+        {
+          "sourceId": "context.consumer-check",
+          "purpose": "Verify the offline packed-consumer gate."
+        },
+        {
+          "sourceId": "context.dogfood-runner",
+          "purpose": "Verify committed V11 dogfood evidence."
+        },
+        {
+          "sourceId": "context.dogfood-runner-tests",
+          "purpose": "Execute the host containment regression through the release gates."
+        },
+        {
+          "sourceId": "context.fixture.conflict-heavy",
+          "purpose": "Execute the bound golden fixture through the release gates."
+        },
+        {
+          "sourceId": "context.fixture.generic-role",
+          "purpose": "Execute the bound golden fixture through the release gates."
+        },
+        {
+          "sourceId": "context.fixture.genuinely-parallel",
+          "purpose": "Execute the bound golden fixture through the release gates."
+        },
+        {
+          "sourceId": "context.fixture.one-agent-optimal",
+          "purpose": "Execute the bound golden fixture through the release gates."
+        },
+        {
+          "sourceId": "context.fixture.over-split",
+          "purpose": "Execute the bound golden fixture through the release gates."
+        },
+        {
+          "sourceId": "context.fixture.under-split",
+          "purpose": "Execute the bound golden fixture through the release gates."
+        },
+        {
+          "sourceId": "context.package",
+          "purpose": "Resolve the canonical release commands."
+        },
+        {
+          "sourceId": "context.packed-consumer-host",
+          "purpose": "Verify installed TypeScript API use."
+        },
+        {
+          "sourceId": "context.schema",
+          "purpose": "Verify the packaged closed schema."
+        },
+        {
+          "sourceId": "context.schema-tests",
+          "purpose": "Verify strict schema coverage."
+        },
+        {
+          "sourceId": "context.spec",
+          "purpose": "Map gates to acceptance criteria."
+        },
+        {
+          "sourceId": "context.template-checker",
+          "purpose": "Verify workflow artifact checks."
+        },
+        {
+          "sourceId": "context.template-checker-tests",
+          "purpose": "Verify checker regression coverage."
+        },
+        {
+          "sourceId": "context.two-phase-prelaunch-review",
+          "purpose": "Verify the two-phase dogfood host and committed evidence."
+        }
+      ],
+      "scope": {
+        "read": [
+          ".git/**",
+          ".github/**",
+          "AGENTS.md",
+          "CHANGELOG.md",
+          "CONTRIBUTING.md",
+          "LICENSE",
+          "README.md",
+          "SECURITY.md",
+          "SUPPORT.md",
+          "biome.json",
+          "dist/**",
+          "docs/**",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+          "node_modules/**",
+          "package-lock.json",
+          "package.json",
+          "schemas/**",
+          "schemas/v1alpha1/common.schema.json",
+          "schemas/v1alpha1/specialist-compiler.schema.json",
+          "scripts/**",
+          "scripts/check-packed-consumer.mjs",
+          "scripts/check-template.ps1",
+          "scripts/fixtures/packed-consumer-host.ts",
+          "scripts/run-v11-dogfood.mjs",
+          "scripts/test-check-template.ps1",
+          "src/**",
+          "test/**",
+          "test/fixtures/specialist-compiler/conflict-heavy.json",
+          "test/fixtures/specialist-compiler/generic-role.json",
+          "test/fixtures/specialist-compiler/genuinely-parallel.json",
+          "test/fixtures/specialist-compiler/one-agent-optimal.json",
+          "test/fixtures/specialist-compiler/over-split.json",
+          "test/fixtures/specialist-compiler/under-split.json",
+          "test/specialist-compiler.test.mjs",
+          "test/specialist-schema.test.mjs",
+          "test/v11-dogfood-runner.test.mjs",
+          "tsconfig.json",
+          "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+        ],
+        "write": [
+          ".local/npm-cache/**",
+          "dist/**"
+        ],
+        "conflictZones": []
+      },
+      "permissions": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            ".git/**",
+            ".github/**",
+            "AGENTS.md",
+            "CHANGELOG.md",
+            "CONTRIBUTING.md",
+            "LICENSE",
+            "README.md",
+            "SECURITY.md",
+            "SUPPORT.md",
+            "biome.json",
+            "dist/**",
+            "docs/**",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+            "node_modules/**",
+            "package-lock.json",
+            "package.json",
+            "schemas/**",
+            "schemas/v1alpha1/common.schema.json",
+            "schemas/v1alpha1/specialist-compiler.schema.json",
+            "scripts/**",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/check-template.ps1",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "scripts/run-v11-dogfood.mjs",
+            "scripts/test-check-template.ps1",
+            "src/**",
+            "test/**",
+            "test/fixtures/specialist-compiler/conflict-heavy.json",
+            "test/fixtures/specialist-compiler/generic-role.json",
+            "test/fixtures/specialist-compiler/genuinely-parallel.json",
+            "test/fixtures/specialist-compiler/one-agent-optimal.json",
+            "test/fixtures/specialist-compiler/over-split.json",
+            "test/fixtures/specialist-compiler/under-split.json",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-schema.test.mjs",
+            "test/v11-dogfood-runner.test.mjs",
+            "tsconfig.json",
+            "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            ".local/npm-cache/**",
+            "dist/**"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "npm.cmd",
+            "powershell"
+          ]
+        }
+      ],
+      "evidenceRequirementIds": [
+        "evidence.release-gates"
+      ],
+      "handoffArtifacts": [
+        "release-gate-evidence.md"
+      ],
+      "stopConditions": [
+        "Stop with FIX if any canonical gate fails or cannot be reproduced."
+      ]
+    },
+    {
+      "id": "integrate.release",
+      "objective": "Integrate independent handoffs, update traceable V11 artifacts and memory, and prepare the milestone without merging.",
+      "weight": 4,
+      "module": {
+        "id": "integrate.release",
+        "action": "Resolve review findings and assemble source-linked owner approval evidence.",
+        "inputPorts": [
+          {
+            "name": "reviews",
+            "artifactType": "IndependentReviews"
+          },
+          {
+            "name": "verification",
+            "artifactType": "ReleaseGateEvidence"
+          }
+        ],
+        "outputPorts": [
+          {
+            "name": "milestone",
+            "artifactType": "VersionMilestone"
+          }
+        ]
+      },
+      "dependencies": [
+        "review.product-api",
+        "review.algorithm-lifecycle",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "requiredCapabilities": [
+        "integrate.release"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.active-memory",
+          "purpose": "Promote source-linked durable learning."
+        },
+        {
+          "sourceId": "context.compiler-contract",
+          "purpose": "Preserve the final compiler boundary."
+        },
+        {
+          "sourceId": "context.spec",
+          "purpose": "Close acceptance criteria against immutable pre-integration input."
+        },
+        {
+          "sourceId": "context.readme",
+          "purpose": "Keep public status accurate."
+        },
+        {
+          "sourceId": "context.two-phase-prelaunch-review",
+          "purpose": "Require independent prelaunch audit PASS before candidate integration."
+        }
+      ],
+      "scope": {
+        "read": [
+          "README.md",
+          "docs/memory/**",
+          "docs/milestones/v11.md",
+          "docs/specs/v11-specialist-compiler/**",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/active-context-before-integration.md",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+          "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+        ],
+        "write": [
+          "docs/memory/**",
+          "docs/milestones/v11.md",
+          "docs/specs/v11-specialist-compiler/**"
+        ],
+        "conflictZones": [
+          "v11.release-artifacts"
+        ]
+      },
+      "permissions": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "README.md",
+            "docs/memory/**",
+            "docs/milestones/v11.md",
+            "docs/specs/v11-specialist-compiler/**",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/active-context-before-integration.md",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "docs/memory/**",
+            "docs/milestones/v11.md",
+            "docs/specs/v11-specialist-compiler/**"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "powershell",
+            "rg"
+          ]
+        }
+      ],
+      "evidenceRequirementIds": [
+        "evidence.release-record"
+      ],
+      "handoffArtifacts": [
+        "review.md",
+        "history-ledger-entry",
+        "v11-milestone.md"
+      ],
+      "stopConditions": [
+        "Stop if any independent review returns REVISE.",
+        "Stop before merge; owner approval remains mandatory.",
+        "Stop unless the separate prelaunch audit is approval-bound, verified, and PASS before candidate launch approval."
+      ]
+    }
+  ]
+}

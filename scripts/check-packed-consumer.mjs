@@ -37,7 +37,7 @@ const FORBIDDEN_PACKED_FILES = new Set([".npmrc"]);
 const FORBIDDEN_PACKED_PREFIXES = Object.freeze(["scripts/", "src/", "test/"]);
 const RETAINED_SPECIALIST_EXPECTATION = Object.freeze({
   compilationDigest: "sha256:d560d06b54a0229583fa6ac054af8facf669ceda5b8ff7c5c6a8a4080bd4416f",
-  packageDigest: "sha256:ba727d6b8fb59ce779f5a128f3e6fe61be3322fb5ab63cc7f5163087435c5c94",
+  packageDigest: "sha256:9239996c3b88e3a1eb3432103a96eeca8789968b50c65f42a91f496a43ff8334",
 });
 
 const CONSUMER_PROGRAM = String.raw`
@@ -863,7 +863,6 @@ try {
     [
       join(ROOT, "node_modules", "typescript", "bin", "tsc"),
       "--ignoreConfig",
-      "--noEmit",
       "--strict",
       "--module",
       "NodeNext",
@@ -873,11 +872,25 @@ try {
       "ES2022",
       "--lib",
       "ES2022,DOM",
+      "--outDir",
+      "typed-host",
       "host.ts",
     ],
     consumerDirectory,
-    "packed consumer TypeScript host",
+    "packed consumer TypeScript host compilation",
   );
+  const typedHostOutput = run(
+    process.execPath,
+    [join(consumerDirectory, "typed-host", "host.js")],
+    consumerDirectory,
+    "packed consumer TypeScript host execution",
+  );
+  assert.deepEqual(JSON.parse(typedHostOutput), {
+    approvalBoundVerification: true,
+    artifactSource: "installed-package-typescript",
+    specialistAgents: 1,
+    specialistFiles: 4,
+  });
 
   const consumerOutput = run(
     process.execPath,
@@ -907,7 +920,7 @@ try {
   });
 
   process.stdout.write(
-    "Packed consumer check passed (private artifact, offline install, public types, init, validate, execute, inspect, compile, render, approval-bound verify).\n",
+    "Packed consumer check passed (private artifact, offline install, executed public TypeScript host, init, validate, execute, inspect, compile, render, approval-bound verify).\n",
   );
 } finally {
   assert.deepEqual(

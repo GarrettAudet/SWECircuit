@@ -1,0 +1,37 @@
+{
+  "summary": "REVISE. Public diagnostic pointer sanitization can return a pointer that still matches the high-confidence secret detector when secret-shaped text spans JSON Pointer tokens. This violates the revision-23 privacy requirement and blocks security/trace acceptance.",
+  "workUnitsCompleted": [
+    "review.security-trace"
+  ],
+  "artifacts": [
+    {
+      "name": "security-trace-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Security And Trace Review\n\nOutcome: REVISE\n\nCandidate A compilation: sha256:36ebb90c8420a368e4246ce22e7804a0952396c526c36b3b498436d2919f20b6\nCandidate A package: sha256:232d928ae4e0e92f9cc2e25a611df8c6922eefe343a6ba7dee0f7aabccae99bc\n\n## Authentication\n\n- The Wave 1 dependency matched exactly 22197 raw bytes and sha256:18686c30246d8d21ad0999da6661a3759e28fb87ca08b60dc8e7381b97ef627e.\n- All 36 context sources declared by this blueprint matched their exact byte counts and raw SHA-256 digests before review and again before handoff.\n- The blueprint domain-separated digest independently reproduced sha256:3c2b88e5db2c80077397d7c1b28999f49968c49b5414fe68e5ad4a20beb91406.\n- The dependency's additional README source was not accessed because it is outside this lane's declared authority.\n\n## Release-Blocking Finding\n\nST-23-01, high: src/diagnostics.ts:677 checks high-confidence secrets independently in each decoded JSON Pointer token at line 697, then appends the original token at line 701. It never checks the cumulative emitted pointer prefix. A generic credential-assignment canary split at a slash therefore evades both per-token checks while the returned pointer as a whole still matches the high-confidence secret detector.\n\nA read-only reproduction of the exact bound regex and token policy produced wholePointerMatches=true, perTokenMatches=[false,false], returnedUnchanged=true, and returnedStillMatches=true. Thus public createDiagnostic output can retain secret-shaped pointer text despite the sanitizer.\n\nThis violates R24, AC7, and criterion.security-trace. The existing regressions at test/specialist-compiler.test.mjs:1321 and test/json-kernel.test.mjs:133 cover single-token pointer and artifact cases but not delimiter-spanning pointer secrets.\n\n## Other Domains\n\n- No owner-authority expansion was found in schema closure, semantic validation, context allowlists, repository locator containment, scope-permission equivalence, blueprint aggregation, or provider/runtime exclusion.\n- Malformed raw or escaped Unicode fails closed in specialist inputs and semantic handoffs; paired supplementary Unicode remains accepted. No launchable malformed-Unicode handoff path was found.\n- Package verification recompiles and rerenders the package, requires canonical equality, and compares both externally retained digests. No reviewed-digest-preserving tamper path was found.\n- Receipt and handoff validation bind both package pairs, exact raw receipt and handoff bytes, Audit B approval, reviewer identity, duties, artifacts, waves, and candidateLaunchApproved=false.\n- The two-phase protocol keeps runtime enforcement external and preserves the required trace boundaries without claiming core enforcement.\n\n## Review Boundary\n\nNo files were edited, no network was accessed, and no release-lane tests were executed."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.security-trace",
+      "requirementId": "evidence.security-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "revise",
+      "artifact": "security-trace-review.md"
+    }
+  ],
+  "assumptions": [
+    "The host-supplied exact-admission result for Candidate A's domain-separated compilation and package pair is trusted; this lane independently authenticated its dependency, declared sources, and blueprint digest without accessing undeclared package artifacts."
+  ],
+  "risks": [
+    "Until corrected, a public createDiagnostic caller can cause a returned pointer to retain high-confidence secret-shaped text split across pointer tokens.",
+    "The authenticated regression sources were reviewed but not executed; release verification remains independently assigned and must be repeated after correction.",
+    "Runtime isolation, permission enforcement, launch ordering, and evidence persistence remain external-host responsibilities as documented."
+  ],
+  "followUps": [
+    "Change safePointer to check each cumulative emitted and decoded prefix with containsHighConfidenceSecret before appending a token, preserving only the longest safe prefix.",
+    "Add regressions for generic credential-assignment and Bearer-style canaries split across multiple pointer tokens, including preservation of an earlier safe prefix.",
+    "Retire revision 23, bind the corrected source set in a new revision, and repeat exact admission, Audit B, Candidate A reviews, release verification, and integration replay.",
+    "Preserve this raw REVISE handoff verbatim for the integration owner."
+  ]
+}

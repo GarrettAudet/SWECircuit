@@ -1,0 +1,83 @@
+{
+  "apiVersion": "swecircuit/specialist-handoff/v1alpha1",
+  "kind": "SpecialistHandoff",
+  "status": "REVISE",
+  "outcome": "fix",
+  "destination": "v11.integration-owner",
+  "summary": "Independent Candidate A security/trace review found three fail-closed defects. F1 allows a repository context locator outside its declared readScope and owner permission ceiling, directly triggering the contract's authority-widening REVISE stop condition. F2 lets launch authorization attest outcome=pass without parsing or validating the bound Audit B handoff. F3 permits bidirectional Unicode format controls that can visually spoof rendered contracts. Traversal containment, privacy scanning, canonical digest framing, package reconstruction, and two-digest verification otherwise passed source review.",
+  "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+  "goalId": "v11.specialist-compiler.release",
+  "goalRevision": 17,
+  "goalDigest": "sha256:b6aa97a3d0a8a7b2fc7359ab89df095a173186db1e580793c2e246c5124ad4b2",
+  "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+  "identityBindings": {
+    "candidateCompilationDigest": "sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984",
+    "candidatePackageDigest": "sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0",
+    "blueprintDigest": "sha256:66fc0698d59c1f89fa08b957badf548db7e7ad912e9e745ece3e867d3521b208",
+    "contract": {"path":"docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md","bytes":23011,"rawDigest":"sha256:e6f5b3b34503068cb6f94d879f54fb6ce172b849437e7bc540b33511eae7fc4e","verification":"PASS"},
+    "manifest": {"path":"docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json","bytes":4202,"rawDigest":"sha256:e1f1b2676fe08c1f8cd52c40ab948a8c05045316b7bd1e161d279d6624e355ab","contentDigest":"sha256:1ba1201b6c370e51b80420ad2495c64bfcfc4ed2c80dec49cb0100d3515bd08c","verification":"PASS"},
+    "preparationDependency": {"path":"docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prepare-candidate-pass-attempt-17.json","bytes":16940,"rawDigest":"sha256:a734459e9a443ca7c6765e5bdaeac51fc7f92be2e234c6cc0e3d0a29406c2a3c","identity":"PASS","ledgerEntries":35,"ledgerVerification":"PASS"},
+    "hostCheckEvidence": {"candidateA":"PASS","auditB":"PASS","launchAuthorization":"PASS","source":"host-supplied"}
+  },
+  "workUnitsCompleted": [
+    {"workUnitId":"review.security-trace","moduleId":"review.security-trace","capability":"review.security-trace","outcome":"fix","sourcesDeclared":34,"sourcesAuthenticated":34,"sourcesReviewed":34,"findings":3}
+  ],
+  "artifacts": [
+    {
+      "name": "security-trace-review.md",
+      "delivery": "inline-raw-handoff",
+      "repositoryFileWritten": false,
+      "result": "REVISE",
+      "content": "# Security And Trace Review\n\n## Result\n\nREVISE. F1 triggers the explicit authority-widening stop condition.\n\n## Findings\n\n1. [P1] Repository locator authority is not covered by readScope. `src/specialist-compiler.ts:590` validates locator syntax, while `src/specialist-compiler.ts:775` checks only readScope membership and permission coverage. A locator such as `path:private/secret.md` can therefore compile with `readScope: docs/public.md` under a `docs/**` ceiling, and the resulting blueprint asks the host to deliver repository data outside declared read authority. Require the fragment-free locator path to be covered by readScope and the owner ceiling, then add adversarial regression coverage.\n\n2. [P1] Launch authorization does not authenticate a semantic Audit B PASS. `scripts/run-v11-dogfood.mjs:630` validates the authorization's own outcome, and lines 657-665 bind arbitrary handoff bytes, but those bytes are never parsed or checked for Audit B identity, Candidate A/B digest bindings, status, outcome, or required evidence. The test at `test/v11-dogfood-runner.test.mjs:546` uses arbitrary Markdown and tests only byte mutation. Strictly parse the handoff and fail on malformed, unrelated, FAIL, or mismatched records.\n\n3. [P2] Bidirectional Unicode controls survive validation and rendering. `src/text.ts:1` rejects only C0/C1 controls, `src/specialist-compiler.ts:184` relies on that predicate, and `src/specialist-render.ts:112` emits accepted JSON into Markdown. Dynamic backtick fences prevent structural breakout but not visual reordering. Reject or safely escape bidi controls in values and property keys, and add diagnostic and rendering regressions.\n\n## Passing Areas\n\nStrict JSON/UTF-8 parsing, duplicate-key rejection, lone-surrogate rejection, secret scanning, lexical traversal checks, contained regular-file reads, link/reparse rejection, TOCTOU checks, permission narrowing apart from F1, canonical domain separation, deterministic rerendering, raw file bindings, and trusted two-digest package verification are sound in the reviewed candidate."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.security-trace",
+      "criterion": "Authority, context, privacy, rendering, and trace bindings fail closed.",
+      "requirementId": "evidence.security-review",
+      "kind": "review",
+      "duty": "review",
+      "independentFromProducer": true,
+      "status": "REVISE",
+      "artifact": "security-trace-review.md",
+      "findings": ["F1.repository-locator-authority-gap","F2.audit-handoff-semantic-gap","F3.bidi-rendering-gap"],
+      "checks": {"authority":"REVISE","contextClosure":"REVISE","privacy":"PASS","unicodeControl":"REVISE","traversalSafety":"PASS","rendering":"REVISE","digestPackageTrust":"PASS","lifecycleTraceability":"REVISE","assignedEvidence":"COMPLETE"}
+    }
+  ],
+  "commandsAndChecks": [
+    {"id":"launch-envelope-raw-authentication","operation":"Node readFileSync over exact contract, manifest, and preparation paths; raw byte-count and SHA-256 comparison","result":{"checked":3,"passed":3,"failed":0,"status":"PASS"}},
+    {"id":"contract-manifest-preparation-read","operation":"Get-Content -Raw -LiteralPath on each authenticated path","status":"PASS"},
+    {"id":"preparation-inline-binding","operation":"Validate dependency identity and all 35 supplied ledger records without reading undeclared README.md","result":{"identity":"PASS","ledger":"PASS","status":"PASS"}},
+    {"id":"complete-contract-context-authentication","operation":"Node readFileSync over the 34 exact contract-declared paths","result":{"checked":34,"passed":34,"failed":0,"status":"PASS"}},
+    {"id":"semantic-source-review","operation":"Independent review of all 34 authenticated sources across authority, context, privacy, Unicode, traversal, rendering, package trust, lifecycle, and tests/fixtures","result":{"status":"REVISE","findings":3}},
+    {"id":"external-host-check-evidence","executedBy":"external-host","command":"node scripts/run-v11-dogfood.mjs --check-evidence","result":{"candidateA":"PASS","auditB":"PASS","launchAuthorization":"PASS"},"status":"PASS","semanticVerdictSubstituted":false},
+    {"id":"test-execution","status":"NOT_RUN","reason":"The exact contract grants no filesystem.write authority; authenticated test sources and the supplied external-host gate were reviewed without launching write-capable tests."},
+    {"id":"handoff-time-freshness","operation":"Repeat byte-count and raw SHA-256 verification over 34 declared sources plus contract, manifest, and preparation dependency","result":{"checked":37,"passed":37,"failed":0,"status":"PASS"}}
+  ],
+  "assumptions": [
+    "The supplied external-host check-evidence PASS is the trust boundary for domain-separated Candidate A and Audit B package verification; it was not used as a substitute for this semantic review.",
+    "The preparation handoff was used for candidate identity and source-ledger binding only. Audit B's semantic verdict was not adopted as this review's conclusion.",
+    "Repository context delivery is an authority-bearing host action, so a locator outside its declared readScope constitutes effective authority widening even though core performs no I/O."
+  ],
+  "risks": [
+    "The authenticated Candidate A reviewer contract uses path-aligned repository entries, but the public compiler can still emit a blueprint containing the F1 mismatch for another valid input.",
+    "Current two-digest approval files establish state, not historical order; the external host must separately preserve evidence that Audit B PASS preceded Candidate A launch approval.",
+    "High-confidence secret detection is intentionally non-exhaustive and remains defense-in-depth rather than general data-loss prevention."
+  ],
+  "failedAttempts": [
+    {"id":"combined-read-output-truncated","result":"Tool output combined contract, manifest, and preparation text beyond its output budget.","effect":"No truncated content was used; each authenticated file was reread separately."},
+    {"id":"context-gate-node-quoting-1","result":"PowerShell mangled generated node -e quoting; JavaScript failed to parse before readFileSync executed.","effect":"No repository operand was read by that command."},
+    {"id":"context-gate-node-quoting-2","result":"A second quoting form stripped JavaScript string delimiters and failed before readFileSync executed.","effect":"No repository operand was read by that command."},
+    {"id":"context-ledger-cardinality-check","result":"The 34 contract sources all authenticated, but the command incorrectly compared them directly with the preparation agent's broader 35-entry ledger.","effect":"No identity mismatch existed; corrected check explicitly separated the 35-entry preparation ledger from the 34-source contract set."},
+    {"id":"line-number-extraction-regex","result":"An over-escaped newline expression produced unsplit output for several exact files.","effect":"No conclusion used that output; corrected literal-path line extraction was rerun successfully."}
+  ],
+  "followUps": [
+    "Fix F1 by requiring the fragment-free repository locator path to be covered by readScope and owner-bounded filesystem.read authority; add mismatched-locator/readScope tests.",
+    "Fix F2 by strictly parsing and identity-binding the authorized Audit B handoff; add malformed, FAIL, unrelated-agent, stale-digest, and missing-evidence tests.",
+    "Fix F3 by defining the forbidden Unicode formatting set and adding value, key, diagnostic, and rendered-contract regressions.",
+    "After fixes, rerun the canonical verification and dogfood evidence gates, then recompile and rerender Candidate A and Audit B with new approvals and cross-package authorization.",
+    "Repeat the independent security/trace review against the new immutable digest pair."
+  ],
+  "effects": {"repositoryWrites":0,"networkAccess":false,"agentsSpawned":0,"approvalsIssued":0,"integrationPerformed":false,"mergePerformed":false,"durableMemoryMutated":false}
+}

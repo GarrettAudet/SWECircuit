@@ -161,4 +161,42 @@ test("diagnostics are sanitized, deduplicated, and sorted deterministically", ()
   );
   assert.equal(createDiagnostic("SC1012", "safe.json", "/spec/~2invalid/tail").pointer, "/spec");
   assert.equal(createDiagnostic("SC1012", "safe.json", "/safe/~0token").pointer, "/safe/~0token");
+
+  const splitCredential = createDiagnostic(
+    "SC1012",
+    "safe.json",
+    "/safe/password=/supersecretvalue",
+  );
+  assert.equal(splitCredential.pointer, "/safe/password=");
+  assert.equal(splitCredential.pointer.includes("supersecretvalue"), false);
+
+  const splitBearer = createDiagnostic("SC1012", "safe.json", `/safe/Bearer /${"A".repeat(24)}`);
+  assert.equal(splitBearer.pointer, "/safe/Bearer ");
+  assert.equal(splitBearer.pointer.includes("A".repeat(24)), false);
+
+  const secret = `sk-proj-${"A".repeat(24)}`;
+  for (const unsafe of [String.fromCharCode(0xd800), String.fromCharCode(0xdc00)]) {
+    const diagnostic = createDiagnostic("SC1012", `bad${unsafe}.json`, `/bad${unsafe}`);
+    assert.equal(diagnostic.artifact, ".");
+    assert.equal(diagnostic.pointer, "");
+
+    const parsed = parseJsonBuffer(Buffer.from("{", "utf8"), `bad${unsafe}.json`);
+    assert.equal(parsed.diagnostics[0].artifact, ".");
+    assert.equal(JSON.stringify(parsed.diagnostics).includes(unsafe), false);
+  }
+  const secretDiagnostic = createDiagnostic("SC1012", `${secret}.json`, "/safe");
+  assert.equal(secretDiagnostic.artifact, ".");
+  assert.equal(JSON.stringify(secretDiagnostic).includes(secret), false);
+  const secretParsed = parseJsonBuffer(Buffer.from("{", "utf8"), `${secret}.json`);
+  assert.equal(secretParsed.diagnostics[0].artifact, ".");
+  assert.equal(JSON.stringify(secretParsed.diagnostics).includes(secret), false);
+
+  const supplementary = String.fromCodePoint(0x1f680);
+  const supplementaryDiagnostic = createDiagnostic(
+    "SC1012",
+    `safe-${supplementary}.json`,
+    `/safe-${supplementary}`,
+  );
+  assert.equal(supplementaryDiagnostic.artifact, `safe-${supplementary}.json`);
+  assert.equal(supplementaryDiagnostic.pointer, `/safe-${supplementary}`);
 });

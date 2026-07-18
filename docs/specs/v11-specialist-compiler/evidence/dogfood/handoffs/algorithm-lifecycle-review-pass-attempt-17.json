@@ -1,0 +1,212 @@
+{
+  "apiVersion": "swecircuit/specialist-handoff/v1alpha1",
+  "kind": "SpecialistHandoff",
+  "status": "PASS",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "summary": "Candidate A Wave 4 algorithm and lifecycle review passed independently. Deterministic normalization and candidate construction, exhaustive search through eight work units, bounded-search honesty, fixed scheduling, hard-gate eligibility, lexicographic selection, lifecycle boundaries, and domain-separated digest claims match the normative contract and assigned evidence. No findings or stop conditions were triggered.",
+  "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+  "goalId": "v11.specialist-compiler.release",
+  "goalRevision": 17,
+  "goalDigest": "sha256:b6aa97a3d0a8a7b2fc7359ab89df095a173186db1e580793c2e246c5124ad4b2",
+  "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+  "identityBindings": {
+    "candidateCompilationDigest": "sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984",
+    "candidatePackageDigest": "sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0",
+    "blueprintDigest": {
+      "declared": "sha256:b70b7078ff7368d9b49e718cb202daf4bc7f969a721b3a78acb4fb0421bcfc29",
+      "recomputed": "sha256:b70b7078ff7368d9b49e718cb202daf4bc7f969a721b3a78acb4fb0421bcfc29",
+      "verification": "PASS"
+    },
+    "contract": {
+      "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+      "bytes": 13788,
+      "rawDigest": "sha256:c3567fc6e972a2ab2c9fb78315a377b72aadee8a2a659f3bc1d5f3e87069a389",
+      "verification": "PASS"
+    },
+    "manifest": {
+      "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
+      "bytes": 4202,
+      "rawDigest": "sha256:e1f1b2676fe08c1f8cd52c40ab948a8c05045316b7bd1e161d279d6624e355ab",
+      "contentDigest": "sha256:1ba1201b6c370e51b80420ad2495c64bfcfc4ed2c80dec49cb0100d3515bd08c",
+      "recomputedContentDigest": "sha256:1ba1201b6c370e51b80420ad2495c64bfcfc4ed2c80dec49cb0100d3515bd08c",
+      "agentBinding": "PASS",
+      "waveBinding": "PASS",
+      "verification": "PASS"
+    },
+    "preparationHandoff": {
+      "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prepare-candidate-pass-attempt-17.json",
+      "bytes": 16940,
+      "rawDigest": "sha256:a734459e9a443ca7c6765e5bdaeac51fc7f92be2e234c6cc0e3d0a29406c2a3c",
+      "status": "PASS",
+      "outcome": "pass",
+      "candidatePairMatch": "PASS",
+      "verification": "PASS"
+    }
+  },
+  "workUnitsCompleted": [
+    {
+      "workUnitId": "review.algorithm-lifecycle",
+      "moduleId": "review.algorithm-lifecycle",
+      "capability": "review.algorithm-lifecycle",
+      "outcome": "pass",
+      "sourcesDeclared": 15,
+      "sourcesVerifiedInitially": 15,
+      "sourcesReviewed": 15,
+      "sourcesFreshAtHandoff": 15,
+      "findings": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "algorithm-lifecycle-review.md",
+      "delivery": "inline-raw-handoff",
+      "repositoryFileWritten": false,
+      "verdict": "PASS",
+      "findings": [],
+      "criterionChecks": [
+        {
+          "area": "deterministic-construction",
+          "status": "PASS",
+          "basis": "Goal, proposal, partition, permission, port, context, scope, evidence, handoff, and stop-condition arrays are normalized before identity or selection. Canonical partitions are deduplicated independently of proposal labels and ordering."
+        },
+        {
+          "area": "exact-search",
+          "status": "PASS",
+          "basis": "The fixed limit is eight work units. Restricted-growth enumeration covers every canonical partition up to the owner agent ceiling. Declared tests cover Bell counts 1, 2, 5, 15, 52, 203, 877, and 4140 plus a five-unit two-agent cap of 16."
+        },
+        {
+          "area": "bounded-search",
+          "status": "PASS",
+          "basis": "Above eight units the implementation constructs the serial baseline, every balanced group count, Module, dependency-level, evidence-duty, scope grouping, and supplied proposals. It emits bounded_evaluated_set_no_global_optimum and makes no global-optimum claim."
+        },
+        {
+          "area": "eligibility",
+          "status": "PASS",
+          "basis": "Agent ceiling, partition completeness, unknown or duplicate ownership, partition-induced dependency cycles, and requested producer/checker independence are hard gates before selection."
+        },
+        {
+          "area": "fixed-scheduling",
+          "status": "PASS",
+          "basis": "Scheduling deterministically respects agent dependencies, handoff release cost, maximum concurrency, exact scope and conflict-zone exclusions, and ready-order priority by remaining critical path, duration, then full agent ID."
+        },
+        {
+          "area": "metrics-and-selection",
+          "status": "PASS",
+          "basis": "Metrics match their documented meanings. Eligible candidates are ordered by projected makespan, conflicts, handoffs, duplicated context bytes, duplicated permission scopes, agent count, then canonical partition identity."
+        },
+        {
+          "area": "logical-permutation",
+          "status": "PASS",
+          "basis": "Normalization removes logical array and object-key ordering from construction and selection. The declared permutation test covers proposals, groups, work units, criteria, evidence, context, authority, Modules, scopes, permissions, handoffs, and object-key order."
+        },
+        {
+          "area": "digest-semantics",
+          "status": "PASS",
+          "basis": "Canonical JSON rejects malformed scalar strings, sorts object keys, and uses length-framed domain separation. Full 64-hex team and agent IDs are retained. Blueprint and manifest content digests independently recomputed exactly."
+        },
+        {
+          "area": "golden-evidence",
+          "status": "PASS",
+          "basis": "An independent no-import oracle re-enumerated and evaluated all six exact fixtures. Candidate counts, eligible counts, selected partitions, and every selected metric matched the reviewed expectations: 6 checked, 6 passed, 0 failed."
+        },
+        {
+          "area": "lifecycle-boundary",
+          "status": "PASS",
+          "basis": "Core compilation remains value-returning and provider-neutral. Launch, scheduling effects, context delivery, permission enforcement, approval, integration, merge, and memory remain external-host duties."
+        },
+        {
+          "area": "two-phase-review-boundary",
+          "status": "PASS",
+          "basis": "This review independently assesses the generic compiler and evidence and does not claim to audit Candidate A's own complete compilation. The separate frozen Audit B protocol remains the exact-compilation trust root."
+        }
+      ],
+      "stopConditionChecks": [
+        {
+          "condition": "Bounded search is represented as a global optimum.",
+          "status": "NOT_TRIGGERED"
+        },
+        {
+          "condition": "Selection can change under logical input permutation.",
+          "status": "NOT_TRIGGERED"
+        },
+        {
+          "condition": "This specialist claims to audit Candidate A's complete compilation.",
+          "status": "NOT_TRIGGERED"
+        }
+      ]
+    }
+  ],
+  "contextAuthentication": [
+    {"sourceId":"context.canonical-json","path":"src/canonical-json.ts","bytes":7405,"digest":"sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.compiler","path":"src/specialist-compiler.ts","bytes":65907,"digest":"sha256:fb1b901a2bd8e398ab57f08b4f353b9d18c22075965f41b50a88ef169268f98c","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.compiler-contract","path":"docs/specs/v11-specialist-compiler/specialist-compiler-contract.md","bytes":29822,"digest":"sha256:14474c461b8132d8fe388c30e9276e8ff88d0ae1875afdda3d1facc31eb2a84a","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.compiler-tests","path":"test/specialist-compiler.test.mjs","bytes":55640,"digest":"sha256:a32d6d6327b5650885322392da65ab7f109d6dc124172332c0b0b7ee0bdbb7c5","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.constants","path":"src/constants.ts","bytes":1883,"digest":"sha256:c3526b49f3f1f54ce8db3dfb7af7dabe6944a02543b5702d08567c2a17cc466b","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.fixture.conflict-heavy","path":"test/fixtures/specialist-compiler/conflict-heavy.json","bytes":6260,"digest":"sha256:27fe1679095f6d86017a388e6b83ee6922ec30ba0bd598a1d5c7c2aeaed94dee","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.fixture.generic-role","path":"test/fixtures/specialist-compiler/generic-role.json","bytes":4420,"digest":"sha256:6801c238c2500f8fa8c4414de1cc3b88921d9c08e667692f49321187a9bef955","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.fixture.genuinely-parallel","path":"test/fixtures/specialist-compiler/genuinely-parallel.json","bytes":6260,"digest":"sha256:8119915f5b41d4eff112e52008f0d7a9a9e5c9f522c41d28419637ef0d290019","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.fixture.one-agent-optimal","path":"test/fixtures/specialist-compiler/one-agent-optimal.json","bytes":6314,"digest":"sha256:bebb10dc99b89660d672d0ce25de1ef09f951a0a76716b282a0c2945b2e36f67","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.fixture.over-split","path":"test/fixtures/specialist-compiler/over-split.json","bytes":8159,"digest":"sha256:a22160147debf2bf7361975a3b4900199d38059d6de3f596bec3e7fd1b9e3f1b","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.fixture.under-split","path":"test/fixtures/specialist-compiler/under-split.json","bytes":6224,"digest":"sha256:3ef5d99ff5fd47f6ddf0b46d30effa513488d6806bb275ba598871e93a9c537c","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.snapshot","path":"src/snapshot.ts","bytes":5045,"digest":"sha256:4def623274433afd49467c46aceae479115a881a13af3c6359f908772a19ca1e","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.spec","path":"docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md","bytes":10082,"digest":"sha256:ff85f0f2b87c8e7f0d3ced2feb06f366d7e5c60d8ae3b580d09c9aa724a9f2e5","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.two-phase-prelaunch-review","path":"docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md","bytes":3620,"digest":"sha256:27b601c2d2d0496fad7c130a684f0068e68609940952f8564c0f9dacb05d7994","initial":"PASS","freshness":"PASS"},
+    {"sourceId":"context.types","path":"src/specialist-types.ts","bytes":12158,"digest":"sha256:24d255360063fa157335d189fc4e0031795ba646dc44c316f93a0f3a7006fc52","initial":"PASS","freshness":"PASS"}
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.algorithm",
+      "criterion": "Candidate construction, scheduling, selection, and digest semantics are deterministic and accurately claimed.",
+      "requirementId": "evidence.algorithm-review",
+      "kind": "review",
+      "duty": "review",
+      "independentFromProducer": true,
+      "status": "PASS",
+      "artifact": "algorithm-lifecycle-review.md",
+      "findings": 0,
+      "semanticVerdictDerivedIndependently": true,
+      "auditBSemanticVerdictUsedAsSubstitute": false
+    }
+  ],
+  "commandsAndChecks": [
+    {"id":"launch-envelope-raw-authentication","executedBy":"agent","operation":"Raw byte-count and SHA-256 verification for contract, manifest, and preparation handoff","result":{"checked":3,"passed":3,"failed":0,"status":"PASS"}},
+    {"id":"launch-envelope-semantic-bindings","executedBy":"agent","operation":"Recompute blueprint and manifest domain-separated digests; verify goal, candidate, compilation, agent, contract, and Wave 4 bindings","status":"PASS"},
+    {"id":"candidate-source-byte-digest-gate","executedBy":"agent","operation":"Raw byte-count and SHA-256 verification over exactly 15 contract-declared context paths","result":{"checked":15,"passed":15,"failed":0,"status":"PASS"}},
+    {"id":"complete-declared-context-review","executedBy":"agent","operation":"Literal-path semantic review of all 15 authenticated sources","result":{"checked":15,"reviewed":15,"failed":0,"status":"PASS"}},
+    {"id":"independent-golden-oracle","executedBy":"agent","process":"powershell -> node","operation":"No-import independent partition, eligibility, scheduling, metric, and selection evaluation over the six exact fixture paths","result":{"checked":6,"passed":6,"failed":0,"status":"PASS"}},
+    {"id":"host-launch-verifier","executedBy":"external-host","command":"node scripts/run-v11-dogfood.mjs --check-evidence","result":{"candidateA":"PASS","auditB":"PASS","launchAuthorization":"PASS"},"semanticReliance":"Identity and launch prerequisite only; not used as this review's semantic verdict","status":"PASS"},
+    {"id":"final-closed-set-freshness","executedBy":"agent","operation":"Repeat raw byte-count and SHA-256 verification over contract, manifest, preparation handoff, and all 15 declared sources","result":{"checked":18,"passed":18,"failed":0,"status":"PASS"}}
+  ],
+  "notRunChecks": [
+    {
+      "id": "repository-test-suite",
+      "status": "NOT_RUN",
+      "reason": "The declared test file imports dist artifacts outside this specialist's exact filesystem.read scope. Running it would widen authority. The test source and all six declared fixtures were reviewed, and the independent no-import oracle was run instead."
+    }
+  ],
+  "assumptions": [
+    "The supplied external-host check-evidence PASS is the trust boundary for complete Candidate A and Audit B package verification, cross-package authorization, and the compilation/package digest pairs. It is not the basis of this semantic PASS.",
+    "The algorithm review applies to the reviewed closed input model. Work-unit weights, scopes, dependencies, and context declarations remain owner-reviewed planning assertions rather than measured runtime facts."
+  ],
+  "risks": [
+    "A mutation after the final 18-item freshness check invalidates this handoff and requires reauthentication.",
+    "Deterministic scheduling cannot correct inaccurate owner-supplied weights, conflict keys, dependencies, or atomic decomposition.",
+    "This PASS does not audit Candidate A's own complete compilation or replace Audit B, package verification, integration review, or the external launch gate."
+  ],
+  "failedAttempts": [],
+  "followUps": [
+    "Preserve this raw handoff unchanged as algorithm-lifecycle-review.md evidence.",
+    "Integrate it only with Candidate A compilation sha256:3677db46ecd2a387239887ecff6d131f1d0616a2dba972ffbe63bdc0ee6b9984 and package sha256:1cc61cead6a953633c8369e29270c92318e9c58381e2389a971bad5e1ecc72b0.",
+    "Require integration to reauthenticate this handoff and the immutable Candidate A source set before semantic use."
+  ],
+  "effects": {
+    "repositoryWrites": 0,
+    "networkAccess": false,
+    "agentsSpawned": 0,
+    "approvalsIssued": 0,
+    "integrationPerformed": false,
+    "mergePerformed": false,
+    "durableMemoryMutations": 0
+  }
+}

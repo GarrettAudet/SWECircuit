@@ -1,0 +1,59 @@
+{
+  "apiVersion": "swecircuit/prelaunch-audit-handoff/v1alpha1",
+  "kind": "PrelaunchAuditHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 21,
+    "digest": "sha256:ac274cd96351bbd23a2aacc94cc73ac534258d3c4f208fed30bce2f06199031c"
+  },
+  "reviewer": {
+    "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:7de4560154b1bdcb91fd23bcf79cb433932f977f5536c0c1a04d9b7543c36ae2"
+  },
+  "candidate": {
+    "compilationDigest": "sha256:d8ebaaa5e5fd1fe5b6c575c5b53d64b4d495ce5007c987e9189c53614a401266",
+    "packageDigest": "sha256:651bdc5ab823d8fb490b5c48f7212d07f042fc1cafbd07efc3460b9954001f7e"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:56436e40b2aa999dce21672ec59056cde96f2e5bf08bea9c16fb9302f213694c",
+    "packageDigest": "sha256:2c8708ec0e11ec0e5c7e29e182170030129e2a7ffeb2ac40575e1fd396136d90"
+  },
+  "summary": "PASS: all launch-bound inputs were authenticated, and independent authority, package, exhaustive-search, selection, metric, digest, and fixed-schedule reproductions matched Candidate A exactly. Candidate A remains unapproved.",
+  "workUnitsCompleted": [
+    "audit.review-candidate-compilation"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-compilation-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Compilation Review\n\nOutcome: `PASS`\n\n## Authentication\n\n- Authenticated the 35,466-byte reviewer contract at raw digest `sha256:23fb0ec14cd8f01a45b033d04fd5e54bd2a6e0cbff4e2535cd2dd65e7b577a7f`; its embedded reviewer blueprint domain digest recomputed to `sha256:7de4560154b1bdcb91fd23bcf79cb433932f977f5536c0c1a04d9b7543c36ae2`.\n- Authenticated the 2,255-byte verification receipt at raw digest `sha256:eb17673205ad50f5d544f7f9b2a74c8773bd939b7fd346bb34f895a45491277f`. Its closed shape, pass outcomes, Candidate A pair, Audit B pair, reviewer binding, and `candidateLaunchApproved: false` matched exactly.\n- Authenticated the 9,980-byte binder handoff at raw digest `sha256:24f8a520eb10d067a472ff4e852733cbeefe9272d2136e2a491b78c821adf08b`. It was used only as an identity and dependency binding, never as semantic approval.\n- Authenticated all 45 contract-declared contexts by exact raw SHA-256 and byte count before semantic use; all 45 passed.\n\n## Authority And Package\n\n- Candidate A's source and packaged `compilation.json` files were byte-identical at 232,074 bytes with raw digest `sha256:3e6487abf7914e80b78be50d29a7f4e310b7710149500f7bb4d12af15f744f22`.\n- Independent canonical calculations matched goal digest `sha256:05c3174711638ecf7f6015aac8dd333f5813afed11fd24a8c72875d3c1776ef6`, authority digest `sha256:25d5fbb171487a872eced8f824cae806742716631cbe464764c50ebfc194de1d`, and compilation digest `sha256:d8ebaaa5e5fd1fe5b6c575c5b53d64b4d495ce5007c987e9189c53614a401266`.\n- An independent GoalContract projection matched all six selected blueprints field-for-field, including work ownership, objectives, Module actions and ports, dependencies, context bindings, scopes, permissions, capabilities, forbidden effects, evidence duties, handoffs, and stop conditions. Every blueprint domain digest also recomputed exactly.\n- All four Candidate A producer/checker independence duties were assigned to distinct producer and reviewer agents.\n- Canonical compilation replay was exact. `verifySpecialistPackage` reconstructed all nine package files and passed against Candidate A compilation `sha256:d8ebaaa5e5fd1fe5b6c575c5b53d64b4d495ce5007c987e9189c53614a401266` and package `sha256:651bdc5ab823d8fb490b5c48f7212d07f042fc1cafbd07efc3460b9954001f7e`. Manifest content digest `sha256:293721674a9325db625b34cc1c64731d36cff2dbc23d24b70c5b9e7a7f92c97d`, all raw file bindings, all embedded blueprints, and the integration report matched exactly.\n\n## Search, Selection, And Schedule\n\n- A separate oracle enumerated all 203 canonical partitions for six work units under `maxAgents: 6`, equal to Bell(6). Both supplied proposals deduplicated into that exhaustive set, confirming `exact` and `exhaustive_partition_search_fixed_scheduler`.\n- The oracle reproduced 52 eligible candidates and evaluation-set digest `sha256:4c9a796f0603523f60064f499ffa47f81085f5de0214823b5867932072870819`. Proposal evaluations and all eight retained alternatives matched exactly.\n- The serial baseline `team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696` reproduced as ineligible for `evidence_independence`, with projected makespan 40.\n- The selected six-specialist candidate `team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d` and candidate digest `sha256:48d931a76225ed234dcfb993bc0e7f03d4db0d1c4ec22949298992ff420ff111` reproduced exactly. Metrics were makespan 23, peak concurrency 4, zero conflict pairs, eight handoffs, 1,360,779 duplicated context bytes, 96 duplicated permission scopes, work weight 38, startup cost 12, and handoff cost 8. The next eligible candidate had makespan 26, so the selected candidate wins on the first comparator field.\n- The fixed schedule reproduced `prepare.candidate` at 0-3; the four review and verification specialists at 4-16, 4-14, 4-11, and 4-16; and `integrate.release` at 17-23. Launch waves at 0, 4, and 17 matched exactly.\n- Machine-readable selection reason reproduced exactly as `serial_ineligible` with decisive field `evidence_independence`.\n\n## Verdict\n\nNo authority, evidence, schedule, selection, digest, rendering, or package claim differed. Both independent review duties pass. This review does not approve or launch Candidate A."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This semantic PASS is not Candidate A approval or launch authorization; Candidate A remains unapproved."
+  ],
+  "followUps": [
+    "The integration owner must preserve this raw handoff and bind its exact path, SHA-256, byte count, and pass outcome before any separate Candidate A approval."
+  ]
+}

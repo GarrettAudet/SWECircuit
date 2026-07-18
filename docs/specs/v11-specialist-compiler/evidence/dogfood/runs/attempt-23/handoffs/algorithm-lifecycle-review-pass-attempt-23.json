@@ -1,0 +1,34 @@
+{
+  "summary": "PASS. The 22,197-byte Wave 1 dependency and all 15 declared review sources matched their exact raw byte counts and SHA-256 digests. The audit found deterministic and complete exact partition search, fixed scheduling, stable total candidate ordering, logical-input permutation invariance, adequate rendered-package permutation evidence, accurate bounded-search claims, coherent lifecycle boundaries, and internally consistent golden fixtures. No stop condition fired.",
+  "workUnitsCompleted": [
+    "review.algorithm-lifecycle"
+  ],
+  "artifacts": [
+    {
+      "name": "algorithm-lifecycle-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Algorithm and Lifecycle Review\n\nOutcome: `PASS`\n\n## Authentication\n\nThe Wave 1 dependency matched 22,197 raw bytes and `sha256:18686c30246d8d21ad0999da6661a3759e28fb87ca08b60dc8e7381b97ef627e`. All 15 context sources declared by this blueprint matched their exact byte counts and SHA-256 digests before review. The review remained read-only and offline.\n\n## Findings\n\n- Exact search uses a restricted-growth partition enumeration over normalized work-unit IDs. It emits every set partition exactly once up to `min(maxAgents, workUnitCount)`. The declared Bell counts through eight units and the five-unit/two-agent count of 16 are consistent with the algorithm.\n- Bounded search constructs only the documented serial, balanced, module, dependency-level, evidence-class, scope, and supplied partitions. Its claim is exactly `bounded_evaluated_set_no_global_optimum`; neither implementation nor contract represents this set as globally optimal.\n- Scheduling is fixed and deterministic. Normalized agent graphs are ordered topologically; ready agents are ordered by descending remaining critical path, descending duration, then binary agent ID. Dependency release costs, concurrency limits, and exact scope conflicts are applied deterministically.\n- Eligible candidates have a total stable order: projected makespan, conflict pairs, handoffs, duplicated context bytes, duplicated permission scopes, agent count, then canonical partition serialization. Proposal labels, proposal ordering, group ordering, and work-unit insertion ordering do not enter the comparator.\n- Goal, work-unit, permission, Module-port, context, evidence, proposal, group, and partition arrays are normalized before identity construction. Canonical JSON sorts object keys and domain-separates framed digests. Candidate records, evaluations, alternatives, blueprints, schedules, and waves also receive deterministic ordering.\n- The declared permutation regression reverses logical arrays and recursively reverses object insertion order, then requires deep equality, ordinary `JSON.stringify` equality, canonical equality, equal evaluation-set and compilation digests, and equality of the complete rendered package and package digest.\n- Lifecycle claims are accurate. Core compilation and scheduling are planning-only operations. This reviewer audits the generic compiler and evidence, not Candidate A's own complete compilation. Exact Candidate A semantic review remains assigned to the separate prelaunch audit and external two-digest approval flow.\n- Golden fixtures are internally consistent: one-agent-optimal selects makespan 11 over 19; genuinely-parallel selects 12 over 20; under-split rejects the serial candidate for evidence independence and selects makespan 8; over-split selects the cohesive core/test group at 11 over the atomic split at 17; conflict-heavy ties at makespan 20 and selects zero conflict pairs over one; generic-role produces one exact owner with makespan 6 and tests rejection of runtime-role extensions.\n\nNo algorithm or lifecycle defect requiring revision was found."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.algorithm",
+      "requirementId": "evidence.algorithm-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "algorithm-lifecycle-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This source-review lane did not execute the test suite because its declared read authority excludes imported build output and the renderer implementation; executable confirmation remains assigned to release verification.",
+    "The broad permutation regression does not exercise multiple reordered assumptions or unresolved decisions, although the implementation explicitly normalizes both arrays by ID. This is a residual coverage gap, not an observed selection or digest defect.",
+    "Deterministic scheduling cannot validate the accuracy of owner-supplied weights, dependencies, or exact conflict keys."
+  ],
+  "followUps": [
+    "Run the canonical revision-23 release verification against the same authenticated source set before integration.",
+    "Consider extending permutation coverage with multiple assumptions and nonblocking unresolved decisions in a later scoped test change.",
+    "Preserve this handoff verbatim and bind it to Candidate A compilation `sha256:36ebb90c8420a368e4246ce22e7804a0952396c526c36b3b498436d2919f20b6`, package `sha256:232d928ae4e0e92f9cc2e25a611df8c6922eefe343a6ba7dee0f7aabccae99bc`, and the authenticated Wave 1 dependency."
+  ]
+}

@@ -39,7 +39,7 @@ import type {
   SpecialistWorkUnit,
   TaskAuthorityProjection,
 } from "./specialist-types.js";
-import { containsControlCharacters } from "./text.js";
+import { containsControlCharacters, containsLoneSurrogate } from "./text.js";
 import type { Diagnostic, OperationResult } from "./types.js";
 
 const GOAL_ARTIFACT = "specialist-goal.json";
@@ -129,12 +129,12 @@ function asJson(value: unknown): JsonValue {
   return value as JsonValue;
 }
 
-function validRepositoryLocator(value: string): boolean {
+function repositoryLocatorPath(value: string): string | null {
   if (!REPOSITORY_LOCATOR.test(value)) {
-    return false;
+    return null;
   }
   const path = value.slice("path:".length).split("#", 1)[0];
-  return path?.split("/").every((segment) => segment !== "." && segment !== "..") ?? false;
+  return path?.split("/").every((segment) => segment !== "." && segment !== "..") ? path : null;
 }
 
 function freezeJson<T>(value: T): T {
@@ -165,22 +165,6 @@ function withDigest<T extends JsonObject>(
   };
 }
 
-function hasLoneSurrogate(value: string): boolean {
-  for (let index = 0; index < value.length; index += 1) {
-    const code = value.charCodeAt(index);
-    if (code >= 0xd800 && code <= 0xdbff) {
-      const next = value.charCodeAt(index + 1);
-      if (!(next >= 0xdc00 && next <= 0xdfff)) {
-        return true;
-      }
-      index += 1;
-    } else if (code >= 0xdc00 && code <= 0xdfff) {
-      return true;
-    }
-  }
-  return false;
-}
-
 function scanText(
   value: string,
   artifact: string,
@@ -194,7 +178,7 @@ function scanText(
   }
   if (
     containsControlCharacters(value) ||
-    hasLoneSurrogate(value) ||
+    containsLoneSurrogate(value) ||
     boundedUtf8ByteLength(value, SPECIALIST_LIMITS.textBytes) === null
   ) {
     diagnostics.push(createDiagnostic("SC4301", artifact, pointer));
@@ -362,7 +346,13 @@ function normalizeCriterion(
     id: criterion.id,
     description: criterion.description,
     evidenceRequirements: criterion.evidenceRequirements
-      .map((requirement) => ({ ...requirement }))
+      .map((requirement) => ({
+        id: requirement.id,
+        kind: requirement.kind,
+        duty: requirement.duty,
+        description: requirement.description,
+        independentFromProducer: requirement.independentFromProducer,
+      }))
       .sort((left, right) => compareText(left.id, right.id)),
   };
 }
@@ -376,7 +366,10 @@ function normalizeWorkUnit(unit: SpecialistWorkUnit): SpecialistWorkUnit {
     dependencies: [...unit.dependencies].sort(compareText),
     requiredCapabilities: [...unit.requiredCapabilities].sort(compareText),
     contextUses: unit.contextUses
-      .map((contextUse) => ({ ...contextUse }))
+      .map((contextUse) => ({
+        sourceId: contextUse.sourceId,
+        purpose: contextUse.purpose,
+      }))
       .sort(
         (left, right) =>
           compareText(left.sourceId, right.sourceId) || compareText(left.purpose, right.purpose),
@@ -402,10 +395,20 @@ function normalizeGoal(goal: SpecialistGoalContract): SpecialistGoalContract {
     objective: goal.objective,
     integrationOwner: goal.integrationOwner,
     assumptions: goal.assumptions
-      .map((assumption) => ({ ...assumption }))
+      .map((assumption) => ({
+        id: assumption.id,
+        statement: assumption.statement,
+        rationale: assumption.rationale,
+      }))
       .sort((left, right) => compareText(left.id, right.id)),
     unresolvedDecisions: goal.unresolvedDecisions
-      .map((decision) => ({ ...decision }))
+      .map((decision) => ({
+        id: decision.id,
+        question: decision.question,
+        owner: decision.owner,
+        blocking: decision.blocking,
+        proceedRationale: decision.proceedRationale,
+      }))
       .sort((left, right) => compareText(left.id, right.id)),
     acceptanceCriteria: goal.acceptanceCriteria
       .map(normalizeCriterion)
@@ -421,7 +424,10 @@ function normalizeGoal(goal: SpecialistGoalContract): SpecialistGoalContract {
       maxAgents: goal.authority.maxAgents,
       maxConcurrency: goal.authority.maxConcurrency,
     },
-    optimization: { ...goal.optimization },
+    optimization: {
+      agentStartupCost: goal.optimization.agentStartupCost,
+      handoffCost: goal.optimization.handoffCost,
+    },
     workUnits: goal.workUnits
       .map(normalizeWorkUnit)
       .sort((left, right) => compareText(left.id, right.id)),
@@ -607,10 +613,21 @@ function validateGoalSemantics(
         );
       }
     }
-    if (source.kind === "repository" && !validRepositoryLocator(source.locator)) {
-      diagnostics.push(
-        createDiagnostic("SC4301", artifact, `/contextSources/${sourceIndex}/locator`),
-      );
+    if (source.kind === "repository") {
+      const locatorPath = repositoryLocatorPath(source.locator);
+      if (locatorPath === null) {
+        diagnostics.push(
+          createDiagnostic("SC4301", artifact, `/contextSources/${sourceIndex}/locator`),
+        );
+      } else if (
+        !permissionRequirementCovered({ kind: "filesystem.read", scopes: [locatorPath] }, [
+          { kind: "filesystem.read", scopes: [source.readScope] },
+        ])
+      ) {
+        diagnostics.push(
+          createDiagnostic("SC4303", artifact, `/contextSources/${sourceIndex}/locator`),
+        );
+      }
     }
   }
   if (totalContextBytes > SPECIALIST_LIMITS.contextTotalBytes) {

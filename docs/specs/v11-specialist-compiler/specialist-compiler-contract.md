@@ -120,7 +120,7 @@ Evidence completeness and requested independence are hard gates. They are never 
 
 Each context source declares `id`, `kind`, `locator`, expected `sha256:` digest, byte count, description, and `allowedWorkUnits`.
 
-- `repository` sources additionally MUST declare `readScope`. Parse the locator after `path:` and before any `#` fragment into slash-delimited segments. Reject a leading slash, empty segment, backslash, or any segment exactly equal to `.` or `..`; an optional fragment MAY identify a bounded region.
+- `repository` sources additionally MUST declare `readScope`. Parse the locator after `path:` and before any `#` fragment into slash-delimited segments. Reject a leading slash, empty segment, backslash, or any segment exactly equal to `.` or `..`; an optional fragment MAY identify a bounded region. The fragment-free locator path MUST be covered by `readScope` through an exact path or containing `/**` scope.
 - `documentation`, `conversation`, `memory`, and `evidence` sources MUST NOT contain `readScope`.
 - Every declared source MUST be used by at least one work unit.
 - A work unit may use a source only when its ID appears in `allowedWorkUnits`.
@@ -329,7 +329,7 @@ On success the returned `RenderedSpecialistPackage` contains these file values:
 | `integration.md` | Integration gates plus assumptions, decisions, search summary, selection reason, serial baseline, selected metrics, waves, and blueprint digest summary. |
 | `agents/<agent-id>.md` | Operating rules and the complete JSON `AgentBlueprint`, bound to the compilation and blueprint digests. |
 
-Every `RenderedSpecialistFile` carries `path`, `mediaType`, UTF-8 byte count, domain-separated SHA-256 digest, and exact `content`. The manifest binds `compilation.json` through `compilationFile`, `compilationFileDigest`, and `compilationFileBytes`; it binds agent and integration payloads the same way. The package envelope returns `compilationDigest` and a domain-separated root `packageDigest` over the compilation digest, manifest digest, and complete ordered file metadata.
+Every `RenderedSpecialistFile` carries `path`, `mediaType`, UTF-8 byte count, standard SHA-256 over the exact file bytes, and exact `content`. The manifest declares `fileDigestAlgorithm: sha256` and `fileDigestScope: raw-file-bytes`, binds `compilation.json` through `compilationFile`, `compilationFileDigest`, and `compilationFileBytes`, and binds agent and integration payloads the same way. Canonical compilation, blueprint, manifest, and package identities remain domain-separated; the package envelope returns `compilationDigest` and a domain-separated root `packageDigest` over the compilation digest, manifest digest, and complete ordered file metadata.
 
 The package cannot make its own root digest trustworthy. The integration owner MUST preserve the expected `compilationDigest` and `packageDigest` in an approval record or trusted channel outside the package.
 
@@ -348,6 +348,18 @@ Verification extracts and parses the single `compilation.json`, reconstructs the
 
 Compilation, rendering, and verification return values and perform no caller-directed I/O. They do not follow context locators, create directories, read materialized packages, write files, start agents, contact a provider, or enforce runtime authority. Schema validation may lazily read only the immutable schemas shipped inside the SWECircuit package. A materializing adapter MUST preserve file bytes and SHOULD verify them again at its own storage or transport boundary.
 
+### Agent-Based Review Of An Exact Compilation
+
+A blueprint inside compilation A cannot independently review the complete semantics of compilation A: adding A's bytes to that blueprint changes A and its digest. When acceptance requires an agent to audit the exact selected partition, schedule, authority projection, evidence coverage, or rendered contracts, the host MUST use two phases:
+
+1. compile, render, and freeze candidate A without launch approval;
+2. compile a separate read-only audit B whose authenticated context contains A's complete compilation and every rendered package file;
+3. have the owner review, separately approve, and verify B;
+4. run B's binder and independent compilation reviewer; and
+5. only after B returns `PASS`, separately approve and verify A for launch.
+
+B is the explicit human-approved trust root and does not recursively review itself. It cannot approve, launch, integrate, or mutate A. Any change to A changes B's authenticated context and requires a new B compilation, package, approval, and audit. Before launching A, the host MUST preserve a cross-package authorization that binds both digest pairs and B's exact `PASS` handoff. This conditional protocol is defined in [`two-phase-prelaunch-review.md`](two-phase-prelaunch-review.md). Human roster review does not require a second compilation unless repository policy requires agent-based independent evidence.
+
 ## Review And External Launch Gate
 
 Compilation success is not launch approval. The IDE and integration owner MUST complete this sequence:
@@ -357,9 +369,10 @@ Compilation success is not launch approval. The IDE and integration owner MUST c
 3. present `search.mode`, exact `search.claim`, the serial baseline, selected roster, and machine-readable `selectionReason`;
 4. expose each blueprint's work, dependencies, context, authority, evidence, handoff, and stop boundary;
 5. render that exact compilation, producing `compilation.json` and `packageDigest`;
-6. preserve trusted expected `compilationDigest` and `packageDigest` outside the package;
-7. run `verifySpecialistPackage` against both expected digests; and
-8. bind launch approval to both digests before an external host receives or materializes only the listed contracts.
+6. when agent-based acceptance must semantically audit this exact compilation, complete the separate prelaunch audit above;
+7. preserve trusted expected `compilationDigest` and `packageDigest` outside the package;
+8. run `verifySpecialistPackage` against both expected digests; and
+9. bind launch approval to both digests before an external host receives or materializes only the listed contracts.
 
 Any changed assumption, decision, goal field, work unit, proposal, selected team, blueprint, manifest, or package file requires recompilation, rerendering, reverification, and new approval. A host MAY translate a blueprint into transient provider-specific instructions, but it MUST NOT widen authority, add work, omit evidence, weaken stop conditions, or substitute handoff requirements while retaining either approved digest.
 
@@ -380,7 +393,7 @@ Actual dependency readiness, context delivery and byte verification, permission 
 | `SC4309` | High-confidence secret pattern | `block` and remove the secret |
 | `SC9001` | Internal failure | `diagnose` |
 
-Input is limited to 1,048,576 JSON bytes. Compilations and the aggregate rendered file contents are independently limited to 4,194,304 bytes. Text is bounded, malformed Unicode and control characters are rejected, and high-confidence secret patterns fail before a launchable value is returned.
+Input is limited to 1,048,576 JSON bytes. Compilations and the aggregate rendered file contents are independently limited to 4,194,304 bytes. Text is bounded; malformed Unicode, C0/C1 controls, DEL, and Unicode bidirectional formatting controls are rejected; and high-confidence secret patterns fail before a launchable value is returned.
 
 ## Explicit V11 Exclusions
 

@@ -64,3 +64,37 @@ The original V11 plan attempted to design compiler, scheduler, restart protocol,
 - Review-agent construction must close over security-sensitive helper context, not only top-level feature files.
 - Any artifact integration may mutate must be reviewed through an immutable pre-integration snapshot, with the live path reserved as an output.
 - Post-integration reconstruction against both owner-retained digests is mandatory before branch freeze; a mismatch retires the candidate instead of being explained away.
+
+## Revision 20 Hardening
+
+- Revision 20 proved the two-package approval and fan-out path, then stopped correctly when security review found three semantic-handoff and path-validation gaps.
+- The correction reuses the core secret detector, splits metadata from LF-only Markdown policy, and centralizes lone-surrogate path rejection.
+- Focused verification passes 65/65 and the full kernel passes 353/353 with format, lint, and typecheck.
+- Release freshness rejected the mutated approved candidate, demonstrating that successful earlier gates cannot authorize later source bytes.
+- The complete retired candidate, approvals, packages, immutable inputs, and raw handoffs are archived under `evidence/dogfood/runs/attempt-20/`.
+- Revision 21 must repeat every approval and review gate; no revision-20 approval or PASS is reusable.
+
+## Revision 21 Hardening
+
+- Revision 21 proved the complete prelaunch trust chain and passed preparation, product/API, and security/trace review before two independent gates stopped integration.
+- The compiler now reconstructs nested closed records in schema order, closing the gap between canonical semantic digesting and byte-stable rendered package identity.
+- The logical-permutation regression now compares ordinary compilation JSON, the full rendered package, and the root package digest rather than relying on deep equality and sorted digest projection alone.
+- The 119-case checker harness now uses a thin baseline and four reusable copy-on-write fixture slots. It preserves exact case semantics while completing in 213.3 seconds instead of remaining nonterminal at 900.5 seconds.
+- Focused compiler coverage, 353/353 kernel tests, format, lint, typecheck, build, PowerShell parsing, and all 119 checker cases pass on the corrected live tree.
+- The complete revision-21 run is archived under `evidence/dogfood/runs/attempt-21/`; its approvals and PASS results cannot authorize revision 22.
+
+## Revision 22 Hardening
+
+- Revision 22 passed the complete two-package trust chain, preparation, product/API, algorithm/lifecycle, and release verification before security review stopped integration.
+- Public diagnostics now apply the shared malformed-Unicode and secret policy at construction time rather than relying on downstream handoff validation.
+- Direct `createDiagnostic`, `parseJsonBuffer`, contained-read, and supplementary-Unicode regressions bind the correction to every exposed path identified by review.
+- Focused suites pass 43/43 and the complete kernel passes 354/354 with format, lint, typecheck, and build.
+- The complete revision-22 run is archived under `evidence/dogfood/runs/attempt-22/`; its approvals and PASS results cannot authorize revision 23.
+
+## Revision 23 Hardening
+
+- Revision 23 passed the complete two-package trust chain, preparation, product/API, algorithm/lifecycle, and release verification before security review stopped integration.
+- Public pointer sanitization now evaluates the cumulative emitted and decoded forms before extending the safe prefix, closing delimiter-spanning credential and Bearer leaks.
+- Exact regressions preserve the longest safe prefix and prove the secret-bearing suffix is absent from public diagnostics.
+- Focused suites pass 43/43 and the complete kernel passes 354/354 with format, lint, typecheck, and build.
+- The complete revision-23 run is archived under `evidence/dogfood/runs/attempt-23/`; its approvals and PASS results cannot authorize revision 24.

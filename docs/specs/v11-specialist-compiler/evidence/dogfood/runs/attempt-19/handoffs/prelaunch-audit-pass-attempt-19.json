@@ -1,0 +1,66 @@
+{
+  "apiVersion": "swecircuit/prelaunch-audit-handoff/v1alpha1",
+  "kind": "PrelaunchAuditHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 19,
+    "digest": "sha256:4124d75d50e0ff048b193347b240d00631490a39ede5f62ecb6c8d58fcb380b8"
+  },
+  "reviewer": {
+    "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:690e564b287b121191af5e1acf6c801cdd0e4a9dbc4030b44373a8875dc0e1f4"
+  },
+  "candidate": {
+    "compilationDigest": "sha256:a2c43d26932e169707129065da52bdbef0b6e525a95cd0adf30d7a22c71ae807",
+    "packageDigest": "sha256:d273142d00b9b960c99afb61d0e4236dec94b48d074a579dbef1ce8d486a94ed"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:d13e9dc388779d797cf5c412458a8a9ccc695001dbc1bee94de99df516bd9acb",
+    "packageDigest": "sha256:6e2de8a87e484ea7261ecbea0c972c558e907bc06e8af8b8efc2d20d3a21ded4"
+  },
+  "summary": "PASS: Candidate A's exact compilation, exhaustive selection, authority, evidence ownership, fixed schedule, digest bindings, and rendered package independently reconstruct without mismatch.",
+  "workUnitsCompleted": [
+    "audit.review-candidate-compilation"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-compilation-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Compilation Review\n\nOutcome: `PASS`\n\n## Authentication\n\nThe reviewer contract matched 34,860 bytes and raw SHA-256 `205379a9e4b788842dcce1151cc31f672c1eb5b63af7bca28f38308ea912640a`; its agent ID and blueprint digest independently recomputed to the approved identities. The CandidateAuditBinding matched 14,912 bytes and raw SHA-256 `fffa466ecc7d238629b82211f2dc334c54c7ff4754ebbe9f447a6f61ccf4f4b3`. The receipt matched 2,255 bytes and raw SHA-256 `181a8f18a71d6147573f34c1974c4f606bc98d32f37a9f3193fa314343b84228`. Both runtime inputs were strict duplicate-free JSON with safe text. The receipt has the closed documented shape, binds the exact Candidate A and Audit B pairs and reviewer contract, remains `pass`, and keeps `candidateLaunchApproved: false`.\n\nAll 44 declared context items matched their expected byte counts and raw SHA-256 digests. The binding's ten Candidate A artifacts also matched independently authenticated bytes; the binding correctly states that Wave 1 performed identity binding only, not semantic review.\n\n## Selection Reconstruction\n\nUsing the authenticated compiler and canonical-digest contract, I independently reimplemented canonical framing, partition enumeration, candidate analysis, the fixed scheduler, ranking, blueprint aggregation, and compilation construction. The resulting compilation was canonically identical to Candidate A. It reproduced compilation digest `a2c43d26932e169707129065da52bdbef0b6e525a95cd0adf30d7a22c71ae807`, goal digest `e8d54c0ecc805f4e1aad83e26d59dcdfb39636a67b78663f884c25796f391f8f`, authority digest `273b4141aafb6a51a71bf2cadaa53852b8454412850fac463f98e24f674c9ae6`, and evaluation-set digest `6fc4b71914e7d8c9770d0050928a6d2b42cc2181072fe9070a44e2fc14639551`.\n\nSix work units with a six-agent ceiling yield all 203 canonical set partitions. All 203 were independently evaluated; 52 were eligible. The serial partition reconstructed exactly and is ineligible for `evidence_independence`. The selected roster is the six singleton specialists, with no rejection codes. The fixed schedule is prepare at 0-3, four review/verification lanes starting at 4 and finishing at 11, 14, 16, and 16, then integration at 17-23. The reproduced metrics include makespan 23, peak concurrency 4, zero exact-key conflict pairs, and eight cross-agent handoffs. The next retained eligible alternative has makespan 26. Therefore `mode: exact`, `claim: exhaustive_partition_search_fixed_scheduler`, and the machine-readable serial rejection reason are accurate within the frozen work decomposition and fixed scheduler.\n\n## Authority And Evidence\n\nGoal revision 19 has no blocking unresolved decision. Structural review found no authority or context-closure error across six work units, 40 context sources, 122 context uses, and eight evidence requirements. Repository locators are relative and traversal-free; locator paths are covered by declared read scopes; context allowlists, filesystem scopes, permissions, modules, and capabilities remain inside owner ceilings. Blueprint reconstruction exactly matched all six stored blueprints, their digests, dependencies, context aggregation, handoffs, stop conditions, and forbidden effects. No provider, model, prompt, executor, credential, grant, role, or runtime-supply key appears.\n\nAlgorithm, product, and security candidate evidence is owned by `prepare.candidate`; each independent review is owned by a different specialist. Release verification is owned by `verify.release-gates`, separately from the release record owned by `integrate.release`. Preparation and review specialists are read-only. Write demand is confined to `.local/npm-cache/**` and `dist/**` for verification, and the declared V11 documentation, milestone, and memory scopes for integration.\n\n## Package Reconstruction\n\nI independently rerendered `compilation.json`, `integration.md`, all six agent contracts, and `manifest.json` byte-for-byte. Every embedded contract contains the exact stored blueprint and valid blueprint digest. The manifest reconstructed exactly with content digest `84ddbe894dae990041d5bcfce55391fabc34579f3efd93062860948e104743c4`; every raw file digest and byte count matched. The domain-separated package root recomputed to `d273142d00b9b960c99afb61d0e4236dec94b48d074a579dbef1ce8d486a94ed`.\n\n## Implementation Evidence\n\nThe authenticated canonical JSON, compiler, renderer, permission/path, schema/type, dogfood-host, and test sources were reviewed. Their assertions cover exact Bell-number search through eight units, scheduler priorities and limits, permutation determinism, authority and context failures, evidence independence, partition-induced cycles, digest tampering, exact rendering, approval-bound package verification, receipt validation, and closed PASS handoffs. Candidate-specific search and package claims were reproduced directly rather than inferred from those tests, the binding, receipt, filenames, or prior prose.\n\nRead-only harness retries were required after an initial independent evaluator omitted partition-induced cycle handling and two inline receipt checks encountered shell/parser quoting issues. Corrected reruns produced the results above; no repository or candidate byte was modified.\n\n## Conclusion\n\nNo selection, schedule, authority, evidence, context, digest, manifest, contract, or package mismatch was found. Both assigned independent review duties pass. This handoff is semantic Audit B evidence only; it does not approve or launch Candidate A."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    }
+  ],
+  "assumptions": [
+    "The authenticated external receipt is the protocol-defined trust root for Audit B's own package verification and approval; Audit B self-verification was intentionally not performed.",
+    "Owner-reviewed work weights, context declarations, and exact conflict keys are treated as frozen GoalContract inputs."
+  ],
+  "risks": [
+    "Candidate A remains unapproved and unlaunched; this PASS satisfies only the semantic prelaunch-audit gate.",
+    "Repository-writing release gates were not executed by this read-only reviewer and remain owned by Candidate A's verify.release-gates specialist.",
+    "The exact-search result is optimal only for the frozen work units, owner ceilings, comparator, and fixed scheduler, not for alternative human decompositions or runtime schedules."
+  ],
+  "followUps": [
+    "The integration owner must validate and preserve this exact raw PASS handoff, then bind it with the authenticated receipt in the cross-package launch authorization.",
+    "Candidate A must be separately approved and verified against its exact digest pair before any exact contract is launched.",
+    "After integration, reconstruct and verify the approved Candidate A pair again; retire the candidate and require a new revision if it differs."
+  ]
+}

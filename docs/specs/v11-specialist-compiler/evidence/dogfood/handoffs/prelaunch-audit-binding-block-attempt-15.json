@@ -1,0 +1,140 @@
+{
+  "summary": {
+    "outcome": "BLOCK",
+    "statement": "The exact Audit B specialist contract failed identity verification. Candidate A artifact authentication did not begin.",
+    "stopCondition": "The observed contract digest differs from the owner-approved digest."
+  },
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "candidate-audit-binding.json",
+      "delivery": "inline-only",
+      "writtenToDisk": false,
+      "binding": {
+        "outcome": "BLOCK",
+        "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+        "workUnitId": "audit.bind-candidate",
+        "trustedAuditBIdentity": {
+          "compilationDigest": "sha256:c76e04419bc29e95a2816be6dab40ff9941e32be17f91ee41a6b8d6b47d65121",
+          "packageDigest": "sha256:da9b6a43130994fd504a9cc0140af5dfe812fa4ea50f4148fb8620b70a808b5c"
+        },
+        "contractIdentity": {
+          "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package/agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+          "expectedDigest": "sha256:5ca2ee516c615ea6062903a5171238661848e35d1ef0150629a419121c03d4dc",
+          "expectedBytes": 13150,
+          "observedDigest": "sha256:4e03ec52a391b5093cbb7c3e795e51195ec5899940d5c4aa8269602ec050dbfc",
+          "observedBytes": 13150,
+          "digestMatch": false,
+          "bytesMatch": true,
+          "matchStatus": "MISMATCH"
+        },
+        "candidateArtifacts": [
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+            "expectedDigest": "sha256:7f8be03c99ac36aab3a39d89394a2de18e3cef065ee650dd8d81b468d86b24c2",
+            "expectedBytes": 226626,
+            "observedDigest": null,
+            "observedBytes": null,
+            "matchStatus": "NOT_OBSERVED_CONTRACT_IDENTITY_BLOCK"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+            "expectedDigest": "sha256:97d821b8f135b523d9c4d4ea8376467a5bcf2dbcf0c0934a8c559c5fdf6f4e5a",
+            "expectedBytes": 13505,
+            "observedDigest": null,
+            "observedBytes": null,
+            "matchStatus": "NOT_OBSERVED_CONTRACT_IDENTITY_BLOCK"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+            "expectedDigest": "sha256:e717224ec01fa64f5f55e23e823b0b93db7bcca1e5cf6fbf419fb8114d7373d6",
+            "expectedBytes": 8273,
+            "observedDigest": null,
+            "observedBytes": null,
+            "matchStatus": "NOT_OBSERVED_CONTRACT_IDENTITY_BLOCK"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+            "expectedDigest": "sha256:941028ef410fb7890aacaa1dbcbcc7d8518d9a0fccdcdc831aaad58d9bbd92d9",
+            "expectedBytes": 11311,
+            "observedDigest": null,
+            "observedBytes": null,
+            "matchStatus": "NOT_OBSERVED_CONTRACT_IDENTITY_BLOCK"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+            "expectedDigest": "sha256:54188329fc874bd6d4322fd01fbf9b57b9bf218d2f90efbdd1118b6be4574cf7",
+            "expectedBytes": 16559,
+            "observedDigest": null,
+            "observedBytes": null,
+            "matchStatus": "NOT_OBSERVED_CONTRACT_IDENTITY_BLOCK"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+            "expectedDigest": "sha256:b164d7aaf7ccb29ac6eda748b3d9f48c3f44bf9b97dd5d5d561bac342da9d96a",
+            "expectedBytes": 22728,
+            "observedDigest": null,
+            "observedBytes": null,
+            "matchStatus": "NOT_OBSERVED_CONTRACT_IDENTITY_BLOCK"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+            "expectedDigest": "sha256:2fdda659af3a47eaaba5a89536f8f6acd1d2b9cf5b60bcad9a180cea14a0037c",
+            "expectedBytes": 23928,
+            "observedDigest": null,
+            "observedBytes": null,
+            "matchStatus": "NOT_OBSERVED_CONTRACT_IDENTITY_BLOCK"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
+            "expectedDigest": "sha256:7f8be03c99ac36aab3a39d89394a2de18e3cef065ee650dd8d81b468d86b24c2",
+            "expectedBytes": 226626,
+            "observedDigest": null,
+            "observedBytes": null,
+            "matchStatus": "NOT_OBSERVED_CONTRACT_IDENTITY_BLOCK"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
+            "expectedDigest": "sha256:7fa8ab7580a7fa4d329833fef34ef1fc9d5113ff247c943cc77306c15a5b9f44",
+            "expectedBytes": 7256,
+            "observedDigest": null,
+            "observedBytes": null,
+            "matchStatus": "NOT_OBSERVED_CONTRACT_IDENTITY_BLOCK"
+          },
+          {
+            "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
+            "expectedDigest": "sha256:89020aecad4a24a99635e680402181c1e6363ccbe630219b37ebcdee206231e8",
+            "expectedBytes": 4128,
+            "observedDigest": null,
+            "observedBytes": null,
+            "matchStatus": "NOT_OBSERVED_CONTRACT_IDENTITY_BLOCK"
+          }
+        ]
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "id": "contract.identity",
+      "method": "SHA-256 over current file bytes and filesystem byte length",
+      "result": "BLOCK",
+      "detail": "Byte count matched, but SHA-256 did not match the trusted contract identity."
+    },
+    {
+      "id": "candidate.authentication",
+      "result": "NOT_PERFORMED",
+      "detail": "The contract identity failure triggered the required stop before Candidate A artifacts were read."
+    }
+  ],
+  "assumptions": [
+    "The owner-supplied expected contract digest is authoritative."
+  ],
+  "risks": [
+    "The present contract bytes are not proven to be the exact owner-approved Audit B contract.",
+    "Authenticating or reviewing Candidate A under this contract could bind evidence to an unapproved contract revision."
+  ],
+  "followUps": [
+    "Restore or owner-approve the exact contract identity, then rerun Audit B binding from the beginning.",
+    "Do not approve or launch Candidate A from this blocked handoff."
+  ]
+}

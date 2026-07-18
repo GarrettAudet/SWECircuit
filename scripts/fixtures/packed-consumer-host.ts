@@ -281,8 +281,8 @@ const specialistGoal = {
   assumptions: [
     {
       id: "assumption.reviewed-context",
-      statement: "The installed consumer context is current.",
-      rationale: "The exact context declaration is bound into the goal digest.",
+      statement: "The declared package context is current.",
+      rationale: "The installed consumer binds the exact source declarations.",
     },
   ],
   unresolvedDecisions: [
@@ -291,7 +291,7 @@ const specialistGoal = {
       question: "Should a later release add another host adapter?",
       owner: "integration.owner",
       blocking: false,
-      proceedRationale: "The current provider-neutral package is sufficient.",
+      proceedRationale: "No adapter is required to verify this package.",
     },
   ],
   acceptanceCriteria: [
@@ -320,6 +320,15 @@ const specialistGoal = {
       allowedWorkUnits: ["compile.package"],
       readScope: "src/**",
     },
+    {
+      id: "context.contract",
+      kind: "documentation",
+      locator: "path:docs/specs/v11-specialist-compiler/spec.md",
+      digest: `sha256:${"1".repeat(64)}`,
+      bytes: 512,
+      description: "The reviewed specialist contract.",
+      allowedWorkUnits: ["compile.package"],
+    },
   ],
   authority: {
     allowedModules: ["module.compile"],
@@ -346,7 +355,10 @@ const specialistGoal = {
       },
       dependencies: [],
       requiredCapabilities: ["specialist.compile"],
-      contextUses: [{ sourceId: "context.source", purpose: "Inspect the compiler boundary." }],
+      contextUses: [
+        { sourceId: "context.source", purpose: "Inspect the compiler boundary." },
+        { sourceId: "context.contract", purpose: "Follow the reviewed contract." },
+      ],
       scope: {
         read: ["src/**"],
         write: [],
@@ -387,7 +399,7 @@ const specialistPackage: RenderedSpecialistPackage = specialistPackageResult.val
 // Models approval retained by the host independently of the rendered package.
 const retainedSpecialistExpectation = {
   compilationDigest: "sha256:d560d06b54a0229583fa6ac054af8facf669ceda5b8ff7c5c6a8a4080bd4416f",
-  packageDigest: "sha256:ba727d6b8fb59ce779f5a128f3e6fe61be3322fb5ab63cc7f5163087435c5c94",
+  packageDigest: "sha256:9239996c3b88e3a1eb3432103a96eeca8789968b50c65f42a91f496a43ff8334",
 } satisfies SpecialistPackageExpectation;
 const specialistVerificationResult = verifySpecialistPackage(
   specialistPackage,
@@ -397,6 +409,15 @@ if (!specialistVerificationResult.ok || specialistVerificationResult.value === n
   throw new Error("The installed specialist verifier rejected its rendered package.");
 }
 const verifiedSpecialistPackage: RenderedSpecialistPackage = specialistVerificationResult.value;
+
+console.log(
+  JSON.stringify({
+    approvalBoundVerification: true,
+    artifactSource: "installed-package-typescript",
+    specialistAgents: specialistCompilation.blueprints.length,
+    specialistFiles: specialistPackage.files.length,
+  }),
+);
 
 void [
   providerNeutralDeclarations,

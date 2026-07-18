@@ -1,0 +1,402 @@
+{
+  "apiVersion": "swecircuit/specialist-handoff/v1alpha1",
+  "kind": "SpecialistHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.release",
+    "revision": 19,
+    "digest": "sha256:e8d54c0ecc805f4e1aad83e26d59dcdfb39636a67b78663f884c25796f391f8f"
+  },
+  "agent": {
+    "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e"
+  },
+  "blueprint": {
+    "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+    "digest": "sha256:191692186617a92aa7e745b52a4c9d2c8260e7ce4e8d601235518464a6182694"
+  },
+  "candidate": {
+    "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+    "compilationDigest": "sha256:a2c43d26932e169707129065da52bdbef0b6e525a95cd0adf30d7a22c71ae807",
+    "packageDigest": "sha256:d273142d00b9b960c99afb61d0e4236dec94b48d074a579dbef1ce8d486a94ed"
+  },
+  "contract": {
+    "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+    "declaredBytes": 11595,
+    "observedBytes": 11595,
+    "declaredDigest": "sha256:cafdfe64a397af7bf380ebbf9878e6d162b5db4a30da2dffd1ff987c17df370e",
+    "observedDigest": "sha256:cafdfe64a397af7bf380ebbf9878e6d162b5db4a30da2dffd1ff987c17df370e",
+    "status": "pass"
+  },
+  "dependencies": [
+    {
+      "agent": {
+        "id": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      },
+      "blueprint": {
+        "id": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+        "digest": "sha256:2c0466b45b0b29ea6ff456bbdcc5e6db3c6809b60d9efa7728ead95b2482eaf2"
+      },
+      "workUnitsCompleted": [
+        "prepare.candidate"
+      ],
+      "outcome": "pass",
+      "handoff": {
+        "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prepare-candidate-pass-attempt-19.json",
+        "declaredBytes": 32202,
+        "observedBytes": 32202,
+        "declaredDigest": "sha256:f12b044d9398bc270d7e8d79e52d077296df3aecd7dd251d532a77aadd10b045",
+        "observedDigest": "sha256:f12b044d9398bc270d7e8d79e52d077296df3aecd7dd251d532a77aadd10b045",
+        "status": "pass"
+      },
+      "candidate": {
+        "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+        "compilationDigest": "sha256:a2c43d26932e169707129065da52bdbef0b6e525a95cd0adf30d7a22c71ae807",
+        "packageDigest": "sha256:d273142d00b9b960c99afb61d0e4236dec94b48d074a579dbef1ce8d486a94ed"
+      },
+      "nestedLedger": {
+        "name": "review-candidate-digests.json",
+        "bytes": 24357,
+        "digest": "sha256:47920dc4ea5002a7c82e21d04fcab94e64a1501f25ca25d9d02af17c5ed024f2",
+        "sourceCount": 35,
+        "allSourcesVerified": true,
+        "semanticReview": {
+          "performed": false,
+          "status": "not-performed"
+        },
+        "bindingStatus": "host-verified-before-launch"
+      }
+    }
+  ],
+  "summary": "PASS. This fresh, read-only review independently authenticated the exact contract, dependency handoff, and all 13 declared product/API sources before use. The V11 candidate presents a closed and task-shaped input contract, an additive installed TypeScript API, an approval-bound portable package interface, and explicit IDE/model/provider/runtime boundaries. No product/API finding or stop condition was reached.",
+  "workUnitsCompleted": [
+    "review.product-api"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Product/API Review\n\nOutcome: `PASS`\n\n## Scope And Identity\n\nThis was a fresh static review of the exact revision-19 Candidate A bindings. The specialist contract, dependency handoff, and all 13 blueprint-declared repository sources matched their declared raw byte counts and SHA-256 digests before their contents were used. The dependency ledger was treated only as identity-and-content evidence; it supplied no semantic product verdict.\n\n## Product Fit\n\nThe public capability matches the owner goal: a reviewed `GoalContract` is transformed into deterministic, task-shaped `AgentBlueprints` while preserving a visible serial baseline, exact or bounded search claim, machine-readable selection reason, evidence ownership, authority, dependencies, handoffs, and stop conditions. Core groups owner-reviewed atomic work units but does not invent product intent or silently split semantic responsibilities.\n\nThe surface remains appropriately narrow. The primary compile request contains only the goal and optional proposed partitions. Runtime capacity, providers, models, prompts, credentials, executors, grants, and workspace mechanisms remain external. The documented two-phase prelaunch audit is conditional on agent-based semantic review of the exact compilation and avoids recursive self-review without widening the compiler API.\n\n## Public API Closure\n\n`src/index.ts` exports the four specialist operations and the complete additive specialist declaration inventory. `src/specialist-types.ts` defines immutable goal, authority, candidate, blueprint, manifest, rendered-package, and trusted-expectation shapes. The installed TypeScript host imports the full specialist inventory and exercises authority derivation, compilation, rendering, and approval-bound verification.\n\nThe package-owned input schema is closed at every concrete input boundary and accepts only `GoalContract` and `SpecialistCompilationRequest`. It makes assumptions, unresolved decisions, context declarations, evidence duties, authority ceilings, planning costs, and atomic work units explicit. The schema, TypeScript declarations, and consumer fixture agree on the exact five `SpecialistPermissionKind` values.\n\n## Neutrality And Responsibility Boundary\n\nNo provider-, model-, prompt-, credential-, grant-, executor-, generic-role-, or runtime-profile field is part of the specialist declaration surface. README, normative contract, kickoff, types, schema, and renderer consistently assign compilation and package reconstruction to pure core operations while leaving context delivery, approval, isolation, permission enforcement, execution, persistence, integration, merge, and memory mutation to an external host.\n\n## Portable Package And Usability\n\nThe renderer reconstructs the compilation, emits `compilation.json`, `manifest.json`, `integration.md`, and exact agent contracts, and binds raw file bytes and domain-separated identities. The verifier reconstructs and rerenders the package and requires both externally retained expected digests. The kickoff gives an IDE a direct compile-render-verify path, requires manifest-based contract resolution, distinguishes roster review from launch approval, and clearly labels bounded search as having no global-optimum claim.\n\nThe README supplies a concise product position and installed-consumer route, while the kickoff carries the deeper protocol. This keeps the initial user surface understandable without hiding the authority and trust gates needed for higher-risk execution.\n\n## Findings\n\nNone. The work unit is exact task demand rather than a substitutable generic role, and the public compiler contract requires no provider or agent runtime.\n\n## Residual Risk\n\nThis verdict is a bounded static product/API review. Tests were not executed under this read-only contract, algorithm and security semantics belong to separate independent review lanes, semantic decomposition quality remains human-owned, bounded search may omit a better unconstructed partition, and runtime conformance still depends on the external host honoring the verified blueprint."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.product-api",
+      "requirementId": "evidence.product-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "scope": "fresh-authenticated-static-product-api-review",
+      "artifact": "product-api-review.md",
+      "statement": "The exact authenticated V11 candidate matches the owner goal with a closed, additive, task-shaped, IDE/model/provider-neutral public contract and explicit external-host boundaries; no product/API finding was identified."
+    }
+  ],
+  "assumptions": [
+    "The owner-approved launch gate is trusted for the domain-separated compilation and package identities; this specialist independently authenticated the raw contract, dependency handoff, and its 13 declared repository inputs.",
+    "The dependency ledger establishes identity and integrity only. Its semantic review was explicitly not performed and was not used as a product/API verdict.",
+    "Algorithm correctness, security properties, release verification, and integration acceptance remain owned by their separately compiled work units."
+  ],
+  "risks": [
+    "This review was static and read-only; no test or package command was executed.",
+    "The compiler cannot prove the semantic quality of human-authored work units, planning weights, scopes, or conflict declarations.",
+    "Bounded search above eight work units can miss a better unconstructed partition, as the public claim explicitly states.",
+    "Actual isolation, permission enforcement, scheduling, persistence, integration, merge, and memory mutation remain external-host responsibilities."
+  ],
+  "failedAttempts": [],
+  "followUps": [
+    "The integration owner should combine this PASS only with the exact matching algorithm/lifecycle, security/trace, and release-verification handoffs.",
+    "Any mutation of the contract, dependency handoff, one of the 13 reviewed sources, or either candidate digest retires this verdict and requires fresh authentication and review.",
+    "Preserve this raw handoff and its inline review artifact as the independent evidence for `evidence.product-review`."
+  ],
+  "commands": [
+    {
+      "id": "command.contract-metadata",
+      "tool": "Get-Item",
+      "literalTargets": [
+        "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md"
+      ],
+      "invocations": 1,
+      "status": "pass"
+    },
+    {
+      "id": "command.contract-digest",
+      "tool": "Get-FileHash",
+      "algorithm": "SHA256",
+      "literalTargets": [
+        "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md"
+      ],
+      "invocations": 1,
+      "status": "pass"
+    },
+    {
+      "id": "command.contract-content",
+      "tool": "Get-Content",
+      "raw": true,
+      "literalTargets": [
+        "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md"
+      ],
+      "invocations": 1,
+      "status": "pass"
+    },
+    {
+      "id": "command.dependency-metadata",
+      "tool": "Get-Item",
+      "literalTargets": [
+        "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prepare-candidate-pass-attempt-19.json"
+      ],
+      "invocations": 1,
+      "status": "pass"
+    },
+    {
+      "id": "command.dependency-digest",
+      "tool": "Get-FileHash",
+      "algorithm": "SHA256",
+      "literalTargets": [
+        "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prepare-candidate-pass-attempt-19.json"
+      ],
+      "invocations": 1,
+      "status": "pass"
+    },
+    {
+      "id": "command.dependency-content",
+      "tool": "Get-Content",
+      "raw": true,
+      "literalTargets": [
+        "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prepare-candidate-pass-attempt-19.json"
+      ],
+      "invocations": 1,
+      "status": "pass"
+    },
+    {
+      "id": "command.context-metadata",
+      "tool": "Get-Item",
+      "literalTargets": [
+        "README.md",
+        "docs/ide/specialist-agent-kickoff.md",
+        "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+        "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md",
+        "schemas/v1alpha1/common.schema.json",
+        "schemas/v1alpha1/specialist-compiler.schema.json",
+        "scripts/check-packed-consumer.mjs",
+        "scripts/fixtures/packed-consumer-host.ts",
+        "src/index.ts",
+        "src/specialist-render.ts",
+        "src/specialist-types.ts",
+        "test/specialist-schema.test.mjs"
+      ],
+      "invocations": 1,
+      "status": "pass"
+    },
+    {
+      "id": "command.context-digests",
+      "tool": "Get-FileHash",
+      "algorithm": "SHA256",
+      "literalTargets": [
+        "README.md",
+        "docs/ide/specialist-agent-kickoff.md",
+        "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+        "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md",
+        "schemas/v1alpha1/common.schema.json",
+        "schemas/v1alpha1/specialist-compiler.schema.json",
+        "scripts/check-packed-consumer.mjs",
+        "scripts/fixtures/packed-consumer-host.ts",
+        "src/index.ts",
+        "src/specialist-render.ts",
+        "src/specialist-types.ts",
+        "test/specialist-schema.test.mjs"
+      ],
+      "invocations": 1,
+      "status": "pass"
+    },
+    {
+      "id": "command.context-content",
+      "tool": "Get-Content",
+      "raw": true,
+      "literalTargets": [
+        "README.md",
+        "docs/ide/specialist-agent-kickoff.md",
+        "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+        "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md",
+        "schemas/v1alpha1/common.schema.json",
+        "schemas/v1alpha1/specialist-compiler.schema.json",
+        "scripts/check-packed-consumer.mjs",
+        "scripts/fixtures/packed-consumer-host.ts",
+        "src/index.ts",
+        "src/specialist-render.ts",
+        "src/specialist-types.ts",
+        "test/specialist-schema.test.mjs"
+      ],
+      "invocations": 13,
+      "status": "pass"
+    }
+  ],
+  "checks": [
+    {
+      "id": "check.contract-raw-binding",
+      "status": "pass",
+      "method": "Exact raw byte count and standard SHA-256.",
+      "expectedBytes": 11595,
+      "observedBytes": 11595,
+      "expectedDigest": "sha256:cafdfe64a397af7bf380ebbf9878e6d162b5db4a30da2dffd1ff987c17df370e",
+      "observedDigest": "sha256:cafdfe64a397af7bf380ebbf9878e6d162b5db4a30da2dffd1ff987c17df370e"
+    },
+    {
+      "id": "check.dependency-handoff-raw-binding",
+      "status": "pass",
+      "method": "Exact raw byte count and standard SHA-256.",
+      "expectedBytes": 32202,
+      "observedBytes": 32202,
+      "expectedDigest": "sha256:f12b044d9398bc270d7e8d79e52d077296df3aecd7dd251d532a77aadd10b045",
+      "observedDigest": "sha256:f12b044d9398bc270d7e8d79e52d077296df3aecd7dd251d532a77aadd10b045"
+    },
+    {
+      "id": "check.dependency-identity-binding",
+      "status": "pass",
+      "requiredAgentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+      "observedAgentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+      "compilationDigest": "sha256:a2c43d26932e169707129065da52bdbef0b6e525a95cd0adf30d7a22c71ae807",
+      "packageDigest": "sha256:d273142d00b9b960c99afb61d0e4236dec94b48d074a579dbef1ce8d486a94ed",
+      "dependencyOutcome": "pass",
+      "semanticReviewPerformed": false
+    },
+    {
+      "id": "check.declared-context-bindings",
+      "status": "pass",
+      "method": "Exact raw byte count and standard SHA-256 for every blueprint-declared source before content use.",
+      "declaredSourceCount": 13,
+      "verifiedSourceCount": 13,
+      "mismatches": 0,
+      "sources": [
+        {
+          "path": "schemas/v1alpha1/common.schema.json",
+          "bytes": 10709,
+          "digest": "sha256:d3cdcd5d8723477db18a77a2396c6ea475bbc0e1cca44f952a594cc55832e636",
+          "status": "pass"
+        },
+        {
+          "path": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "bytes": 29978,
+          "digest": "sha256:721e85301737c8db3f13bae28ec19c807678ba77c77892cf119d754400c54d19",
+          "status": "pass"
+        },
+        {
+          "path": "scripts/check-packed-consumer.mjs",
+          "bytes": 32206,
+          "digest": "sha256:2ce5aaf1cbfa6dbf848b73967eb8ce2a98c9e6c34d20eedb96c56f0dd1fde6d3",
+          "status": "pass"
+        },
+        {
+          "path": "docs/ide/specialist-agent-kickoff.md",
+          "bytes": 15719,
+          "digest": "sha256:1dc3d05161d91cbe71c2f52deaf5a24732c477b77f8ec5349ba8d5cf829ce914",
+          "status": "pass"
+        },
+        {
+          "path": "src/index.ts",
+          "bytes": 4169,
+          "digest": "sha256:b146d7759988bff0a205228f46e39fe53cfe0f42fbe89dbad3a6f8ffdfcf716d",
+          "status": "pass"
+        },
+        {
+          "path": "scripts/fixtures/packed-consumer-host.ts",
+          "bytes": 13753,
+          "digest": "sha256:b758ee12c42b95e001451d109bf124c8d9e928d51187a8a7219f982a1acdf5ab",
+          "status": "pass"
+        },
+        {
+          "path": "README.md",
+          "bytes": 8525,
+          "digest": "sha256:c53ca438b43b9b03a2ca8c55712fc26c586ab2fdf2a4ba78fdd6e3ead622ebd8",
+          "status": "pass"
+        },
+        {
+          "path": "src/specialist-render.ts",
+          "bytes": 16637,
+          "digest": "sha256:1f9976bfe6770f45ed4c6b14d195a2c10d15a353d32d24719f9ef327770aa2c8",
+          "status": "pass"
+        },
+        {
+          "path": "schemas/v1alpha1/specialist-compiler.schema.json",
+          "bytes": 15392,
+          "digest": "sha256:860cbe31f1b86676ea35df361e0d1b215aa92e8253bd5de266fded42fe6039cd",
+          "status": "pass"
+        },
+        {
+          "path": "test/specialist-schema.test.mjs",
+          "bytes": 10218,
+          "digest": "sha256:c1ea13907cd2efd3619d565bd71474ef808c53fc4c3b6213999dc48efbfd4f50",
+          "status": "pass"
+        },
+        {
+          "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
+          "bytes": 12493,
+          "digest": "sha256:113cd3f8797ff55615ec1c050ff1e55eca2beebf0f568e7ca008c8108ce16167",
+          "status": "pass"
+        },
+        {
+          "path": "docs/specs/v11-specialist-compiler/two-phase-prelaunch-review.md",
+          "bytes": 11930,
+          "digest": "sha256:58a4b035497f2ffdf20fe4d516c46e86bae3f878554321ae9443fb0bb6ef406e",
+          "status": "pass"
+        },
+        {
+          "path": "src/specialist-types.ts",
+          "bytes": 12158,
+          "digest": "sha256:24d255360063fa157335d189fc4e0031795ba646dc44c316f93a0f3a7006fc52",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "check.fresh-read-guard",
+      "status": "pass",
+      "allowedRepositorySourcesRead": 13,
+      "undeclaredRepositorySourcesRead": 0,
+      "directoryEnumerationPerformed": false,
+      "recursiveReadPerformed": false,
+      "wildcardReadPerformed": false,
+      "repositorySearchPerformed": false,
+      "priorBlockedHandoffAccessed": false,
+      "priorSemanticObservationsInherited": false
+    },
+    {
+      "id": "check.product-api-review",
+      "status": "pass",
+      "criterionId": "criterion.product-api",
+      "requirementId": "evidence.product-review",
+      "findingCount": 0,
+      "artifact": "product-api-review.md"
+    },
+    {
+      "id": "check.stop-conditions",
+      "status": "pass",
+      "genericRoleCanSubstituteForExactTaskDemand": false,
+      "publicContractRequiresProviderOrAgentRuntime": false
+    },
+    {
+      "id": "check.host-launch-facts",
+      "status": "host-verified-before-launch",
+      "compilationDigest": "sha256:a2c43d26932e169707129065da52bdbef0b6e525a95cd0adf30d7a22c71ae807",
+      "packageDigest": "sha256:d273142d00b9b960c99afb61d0e4236dec94b48d074a579dbef1ce8d486a94ed",
+      "statement": "The domain-separated candidate identities and complete launch gate were supplied as owner-approved host facts; this specialist did not rerun package verification."
+    }
+  ],
+  "effects": {
+    "repositoryFilesModified": 0,
+    "networkAccessPerformed": false,
+    "testsExecuted": 0,
+    "agentsSpawned": 0,
+    "approvalsIssued": 0,
+    "integrationPerformed": false,
+    "mergePerformed": false,
+    "durableMemoryUpdated": false,
+    "semanticReviewPerformed": true,
+    "readOnlyAuthenticationPerformed": true,
+    "shellCommandsExecuted": 21,
+    "priorBlockedHandoffAccessed": false,
+    "priorSemanticObservationsInherited": false
+  }
+}

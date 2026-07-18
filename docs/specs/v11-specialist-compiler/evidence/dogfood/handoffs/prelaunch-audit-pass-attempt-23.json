@@ -1,0 +1,58 @@
+{
+  "apiVersion": "swecircuit/prelaunch-audit-handoff/v1alpha1",
+  "kind": "PrelaunchAuditHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 23,
+    "digest": "sha256:24cee24463b06e0dfed2b62c4e27417c0af1efbf13396c049e02cdbc760a2686"
+  },
+  "reviewer": {
+    "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:f268578bac9a66353796d4256d646318f86bc19cbc60ad20a657f9fa8f822205"
+  },
+  "candidate": {
+    "compilationDigest": "sha256:36ebb90c8420a368e4246ce22e7804a0952396c526c36b3b498436d2919f20b6",
+    "packageDigest": "sha256:232d928ae4e0e92f9cc2e25a611df8c6922eefe343a6ba7dee0f7aabccae99bc"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:ced8b145b120e77e349a02c3ebbe55c94d960854ad9fd71988126444b9a0517e",
+    "packageDigest": "sha256:08fc0af95b9613308d25bbb5e2c40bb369c7753cc7b75e809b716d08b8645343"
+  },
+  "summary": "PASS: exact Candidate A reconstruction matched all selection, authority, evidence, schedule, digest, and rendered-package claims; both independent review duties passed while Candidate A remains unapproved and unlaunched.",
+  "workUnitsCompleted": [
+    "audit.review-candidate-compilation"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-compilation-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Compilation Review\n\nOutcome: `PASS`\n\n## Identity and Admission\n\n- Authenticated the CandidateAuditBinding at `docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-binding-pass-attempt-23.json`: 12671 raw bytes, SHA-256 `sha256:aa9bd4e6fa5ede79f449ffb5bc642762e745baeefe11e464e080552e88d67cb2`, and parsed inline outcome `pass`.\n- Authenticated the external PrelaunchPackageVerificationReceipt at `docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json`: 2255 raw bytes, SHA-256 `sha256:6a0e6c51d3646432f20109f0daa3c39d2b543a3c550cc4041cf31bccdd1aafe1`, and parsed outcome `pass`.\n- The receipt binds Candidate A `sha256:36ebb90c8420a368e4246ce22e7804a0952396c526c36b3b498436d2919f20b6` / `sha256:232d928ae4e0e92f9cc2e25a611df8c6922eefe343a6ba7dee0f7aabccae99bc` and Audit B `sha256:ced8b145b120e77e349a02c3ebbe55c94d960854ad9fd71988126444b9a0517e` / `sha256:08fc0af95b9613308d25bbb5e2c40bb369c7753cc7b75e809b716d08b8645343`, the exact reviewer contract, and the two-wave binder-before-reviewer order. `candidateLaunchApproved` remains `false`.\n- PASS was taken only from parsed closed fields. No PASS was inferred from prose, paths, or filenames. This reviewer did not approve or reconstruct Audit B's own root package identity.\n\n## Exact Reconstruction\n\n- All 46 declared Audit B context uses matched their raw byte counts and SHA-256 declarations. The 10 Candidate A artifact bindings also matched the parsed binder one-for-one.\n- Reconstruction from the normalized revision-23 GoalContract and proposal set reproduced the complete canonical Candidate A compilation with no diagnostics and the exact compilation digest.\n- An independent evaluator enumerated all 203 canonical six-work-unit partitions, found 52 eligible candidates, reproduced evaluation-set digest `sha256:117aefa0edad9ce7c77852c9fd9236b8a8a3a762f205a82a837b073abded2c64`, and reproduced the selected, serial, proposal, alternative, and launch-wave records exactly.\n- The selected six-agent partition is the unique comparator winner: projected makespan 23, peak concurrency 4, 0 exact-key conflict pairs, and 8 handoffs. The serial baseline projects makespan 40 and is ineligible for `evidence_independence`. The declared `exact` mode, `exhaustive_partition_search_fixed_scheduler` claim, and machine-readable `serial_ineligible` reason are accurate.\n\n## Authority and Evidence\n\n- Reconstructed the TaskAuthorityProjection and all six AgentBlueprints from the reviewed goal. Every reconstructed record, dependency, context use, capability, scope, permission, evidence duty, handoff, stop condition, and blueprint digest matches the compilation.\n- All eight evidence requirements are globally unique and owned exactly once. Every criterion has a producer, and each requested independent review or verification owner is separate from its criterion's producer owner.\n- Repository locators, fragment-free paths, read scopes, allowed work-unit uses, filesystem permission scope equality, permission-ceiling coverage, the five-kind permission vocabulary, agent and concurrency ceilings, and forbidden-effect preservation all pass.\n- The three review blueprints are read-only. No `role`, provider, model, prompt, profile, executor, credential, grant, or runtime field appears. The integration owner depends on all four independent lanes, uses immutable pre-integration inputs, stops before merge, and requires the separate prelaunch audit PASS.\n- The six work units remain task-shaped and preserve the reviewed release objective without adding runtime orchestration or widening authority.\n\n## Rendered Package\n\n- Recomputed the goal, authority, candidate-evaluation, blueprint, compilation, manifest, and package-root domain-separated digests. The manifest content digest is `sha256:d983d08bb98f57e12c124247926a698426edd854631f834b1fae77d0ee55a45d`; the package root is the required Candidate A package digest.\n- The two Candidate A compilation files are raw-byte identical. All nine rendered package files match manifest byte counts and raw SHA-256 values, and the manifest file set is complete.\n- Every rendered agent contract contains the exact bound blueprint JSON and both required digests. The integration contract contains the exact assumptions, decisions, search, selected metrics, selection reason, serial baseline, launch waves, and blueprint digest summary.\n\n## Scope and Execution Notes\n\n- Reviewed the authenticated compiler, renderer, contract, schema, host, and adversarial test evidence relevant to selection, authority, package tampering, receipt closure, and handoff closure. Candidate A release gates were not executed by Audit B because they belong to `verify.release-gates` and are outside this read-only semantic review duty.\n- No repository file was modified, no network was accessed, authority was not widened, and Candidate A was neither approved nor launched.\n- Three read-only command attempts failed before validation: one aggregate read timed out, one Windows PowerShell JSON command used an unsupported parameter, and one inline loader command had shell escaping rejected. They produced no repository or network effects; corrected read-only runs completed and all reported checks passed.\n\n## Conclusion\n\nBoth independent duties pass: the exact blueprints, authority, evidence coverage, handoffs, and rendered package preserve the reviewed goal, and the exact search, selection, schedule, metrics, and digest claims are reproducible and accurate."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": [
+    "Preserve this exact raw handoff and bind its path, raw SHA-256, byte count, and parsed pass outcome with the authenticated receipt in the cross-package launch authorization.",
+    "Only afterward separately approve and verify Candidate A; this handoff does not approve or launch it."
+  ]
+}
