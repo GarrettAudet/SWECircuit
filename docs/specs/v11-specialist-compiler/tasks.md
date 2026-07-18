@@ -2,7 +2,7 @@
 
 ## Status
 
-Revision 30 technical integration is complete against the exact approved Candidate A and Audit B pairs. Historical tasks T001-T019 and exact-candidate freeze/audit task T020 are complete. T021 remains open for post-integration package replay, final host verification, attempt-30 archival, branch commit and push, and the owner merge decision.
+Revision 30 technical integration and publication are complete against the exact approved Candidate A and Audit B pairs. T001-T021 are complete. Published commit `461354c6f5e7c07fb78160d46d8c236c55fb91cf` passed all seven jobs in hosted run `29659867978`; the owner's explicit merge decision is the only remaining release gate.
 
 ## Task List
 
@@ -91,10 +91,10 @@ Each task has one integration owner. Read-only exploration, test design, and ind
   Scope: Bind every corrected source, refresh immutable pre-integration snapshots, compile and verify Candidate A plus Audit B, recreate the external receipt and cross-package authorization, then run the exact Audit B and Candidate A contracts.
   Verification: Both trusted digest pairs reconstruct; every raw handoff verifies; product/API, algorithm/lifecycle, security/trace, and release gates all return `PASS`; transitive fan-in is integration-ready.
 
-- [ ] T021: Replay, publish, and request owner merge approval for revision 30.
-  Scope: Technical integration, post-integration reconstruction, final local gates, and the accepted attempt-30 archive are complete. The host must commit and push the release-ready branch, observe hosted CI, and request the owner's merge decision.
-  Verification: AC11-AC24 remain closed against the exact Revision 30 source chain; the archive preserves this handoff and replay evidence; the published commit passes hosted CI; and the only remaining gate is the owner's explicit merge decision.
-  Integration status: `PASS` through immutable archival. No commit, push, hosted CI, or merge is claimed yet.
+- [x] T021: Replay, publish, and request owner merge approval for revision 30.
+  Scope: Complete technical integration, post-integration reconstruction, final local gates, accepted attempt-30 archival, branch publication, hosted CI observation, and the owner merge request.
+  Verification: AC11-AC24 remain closed against the exact Revision 30 source chain; the archive preserves the handoff and replay evidence; commit `461354c6f5e7c07fb78160d46d8c236c55fb91cf` is published on `codex/v11-orchestration-planner`; and hosted run `29659867978` passed all seven jobs.
+  Integration status: `PASS` through branch publication and hosted CI. The owner's explicit merge decision remains external to this completed task; no merge is claimed.
 
 ## Dependencies
 

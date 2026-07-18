@@ -2,7 +2,7 @@
 
 ## Status
 
-`PASS` for Revision 30 technical acceptance. AC1-AC24 and T020 are closed against the exact immutable Candidate A source chain. Post-integration reconstruction, final local gates, and the 44-file attempt-30 archive passed. T021 remains open for branch commit and push, hosted CI observation, and the owner's explicit merge decision. No commit, push, merge, hosted CI, provider execution, or V11 runtime enforcement is claimed.
+`PASS` for the Revision 30 release candidate. AC1-AC24 and T020-T021 are closed against the exact immutable Candidate A source chain. Post-integration reconstruction, final local gates, the 44-file attempt-30 archive, branch publication, and hosted CI passed. Commit `461354c6f5e7c07fb78160d46d8c236c55fb91cf` is published on `codex/v11-orchestration-planner`; [run 29659867978](https://github.com/GarrettAudet/SWECircuit/actions/runs/29659867978) passed all seven jobs. Only explicit owner merge approval remains. No merge, provider execution, or V11 runtime enforcement is claimed.
 
 ## Candidate Binding
 
@@ -45,6 +45,8 @@ The machine fan-in is 3,464 bytes at `sha256:eaaef20dcae183a7c97cc2396f55e32c7cb
 
 Attempt 30b also passed the package dry run (`114` files, `134.9 kB` packed), the offline installed-consumer compatibility gate, and committed V11 evidence replay. The first-run evidence reports exact context/package verification and zero runtime agents executed.
 
+The exact published candidate then passed all seven hosted jobs in [SWECircuit Checks run 29659867978](https://github.com/GarrettAudet/SWECircuit/actions/runs/29659867978): the full template-check matrix plus Node 22 and Node 24 kernel verification on Windows, Linux, and macOS.
+
 Attempt 30a remains preserved as a bounded host-authority `FIX`: preflight used undeclared executables and stopped before canonical gates. It produced no candidate defect or accepted release evidence. Exact retry 30b stayed within its compiled process boundary and supersedes 30a for release acceptance.
 
 ## Architecture Boundary
@@ -57,8 +59,8 @@ V11 compiles, renders, verifies, and returns detached contract values. It does n
 - Search above eight work units remains a bounded evaluated set and may miss an unconstructed partition.
 - Runtime authority enforcement, context delivery, exact-byte persistence, and merge control remain external-host duties.
 - Pure Node cannot classify every opaque same-path Windows reparse attribute; the documented regular-file, canonical-path, and descriptor-identity checks remain the current boundary.
-- The accepted release evidence is local until the exact branch commit is pushed and hosted CI is observed.
+- The accepted candidate remains unmerged until the owner approves the exact published branch state.
 
 ## Remaining Owner Gate
 
-The host must commit and push the release-ready branch, observe hosted CI against the published commit, and then request explicit owner merge approval. Until those steps pass, V11 is locally accepted and archived but not release-published or merged.
+The owner must explicitly approve or reject merging the `codex/v11-orchestration-planner` branch tip containing accepted candidate commit `461354c6f5e7c07fb78160d46d8c236c55fb91cf` and its publication closeout into `main`. Publication and hosted verification are complete; merge has not occurred.
