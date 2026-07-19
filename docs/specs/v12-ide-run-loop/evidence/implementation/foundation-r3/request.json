@@ -1,0 +1,564 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.foundation",
+    "revision": 3,
+    "objective": "Correct the Foundation Revision-2 decoded raw-handoff boundary classification and add durable focused regression coverage without changing the frozen public or wire contract.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.architecture-frozen",
+        "statement": "ADR 0005 and the Specialist Run contract are the complete implementation authority.",
+        "rationale": "Architecture fan-in passed and no blocking decision remains."
+      },
+      {
+        "id": "assumption.host-effects-external",
+        "statement": "All runtime, persistence, Git, merge, and memory effects remain external to core.",
+        "rationale": "V12 is a pure evidence session, not the deferred universal scheduler."
+      },
+      {
+        "id": "assumption.host-edit-fallback",
+        "statement": "After native apply_patch fails before mutation, the host may perform an exact precondition-hash-guarded PowerShell write inside the approved scope.",
+        "rationale": "Foundation Revision 1 proved the temporary worktree patch helper is unavailable while bounded escalated PowerShell writes remain auditable and fail closed."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.fix.foundation-resource-classification",
+        "description": "Return SC4402 when canonical base64 at the character ceiling decodes beyond rawHandoffBytes, retain SC4401 for malformed base64, and lock both cases with a focused persistent test.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.foundation-boundary-correction",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Provide focused regression, typecheck, and compatibility evidence for the exact decoded-byte boundary defect.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/spec.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/specialist-run-contract.md",
+        "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+        "bytes": 16223,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/test-plan.md",
+        "digest": "sha256:acbb09315f1e22a61a08b549ff7ba4142d61e9c04c859cf2e991690492caf3f3",
+        "bytes": 1867,
+        "description": "Frozen V12 verification obligations.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/test-plan.md"
+      },
+      {
+        "id": "context.specialist-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-types.ts",
+        "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+        "bytes": 16047,
+        "description": "Existing V11 compiler, package, and handoff types.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/specialist-types.ts"
+      },
+      {
+        "id": "context.specialist-handoff",
+        "kind": "repository",
+        "locator": "path:src/specialist-handoff.ts",
+        "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+        "bytes": 17810,
+        "description": "Existing package-bound raw handoff and fan-in implementation.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/specialist-handoff.ts"
+      },
+      {
+        "id": "context.specialist-render",
+        "kind": "repository",
+        "locator": "path:src/specialist-render.ts",
+        "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7",
+        "bytes": 19184,
+        "description": "Existing rendered package verification and manifest resolution.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/specialist-render.ts"
+      },
+      {
+        "id": "context.canonical-json",
+        "kind": "repository",
+        "locator": "path:src/canonical-json.ts",
+        "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+        "bytes": 7405,
+        "description": "Existing bounded canonical JSON and framed digest primitives.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/canonical-json.ts"
+      },
+      {
+        "id": "context.json-parser",
+        "kind": "repository",
+        "locator": "path:src/json.ts",
+        "digest": "sha256:a1f119ecb906ccf5d8397d2ce84e7b357ef5276df2ac448c99cc498d963c8a8a",
+        "bytes": 4808,
+        "description": "Existing duplicate-aware bounded raw JSON parser.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/json.ts"
+      },
+      {
+        "id": "context.snapshot",
+        "kind": "repository",
+        "locator": "path:src/snapshot.ts",
+        "digest": "sha256:4def623274433afd49467c46aceae479115a881a13af3c6359f908772a19ca1e",
+        "bytes": 5045,
+        "description": "Existing defensive JSON snapshot and deep-freeze boundary.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/snapshot.ts"
+      },
+      {
+        "id": "context.privacy",
+        "kind": "repository",
+        "locator": "path:src/privacy.ts",
+        "digest": "sha256:e6ffecf6135e7369913e51df78a522dcb3de3907d698f7f7cd2c1e7117ac972c",
+        "bytes": 1047,
+        "description": "Existing high-confidence secret detection.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/privacy.ts"
+      },
+      {
+        "id": "context.text",
+        "kind": "repository",
+        "locator": "path:src/text.ts",
+        "digest": "sha256:7aaf03f50e16bc4917112e560dfd65f3e00a818df07cdca5310128a24e9d8644",
+        "bytes": 985,
+        "description": "Existing control-character and Unicode checks.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/text.ts"
+      },
+      {
+        "id": "context.model",
+        "kind": "repository",
+        "locator": "path:src/model.ts",
+        "digest": "sha256:c67bf6036ec16d40516bcf01a49e8714f82588e29a9c596b117dc73c36cf4b83",
+        "bytes": 5961,
+        "description": "Existing closed JSON model types.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/model.ts"
+      },
+      {
+        "id": "context.constants",
+        "kind": "repository",
+        "locator": "path:src/constants.ts",
+        "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
+        "bytes": 2571,
+        "description": "Existing public kernel constants and limits.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/constants.ts"
+      },
+      {
+        "id": "context.diagnostics",
+        "kind": "repository",
+        "locator": "path:src/diagnostics.ts",
+        "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+        "bytes": 25190,
+        "description": "Existing diagnostic registry and stable operation result helpers.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/diagnostics.ts"
+      },
+      {
+        "id": "context.run-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Frozen V12 run-session wire and public types.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.run-schema-code",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+        "bytes": 3371,
+        "description": "Frozen V12 run-session schema validator.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.run-schema-json",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+        "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+        "bytes": 17405,
+        "description": "Frozen V12 run-session JSON Schema.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+      },
+      {
+        "id": "context.run-session",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-session.ts",
+        "digest": "sha256:e84765ebafafcbb89cdf5cb3645444be7a3f16d5857f4a531779e240deb43bcc",
+        "bytes": 18144,
+        "description": "Frozen V12 session creation, restoration, and validation foundation.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "src/specialist-run-session.ts"
+      },
+      {
+        "id": "context.handoff-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-handoff.test.mjs",
+        "digest": "sha256:41d25b24adb4062992012983b4eb99175f371929fb83e522f1723799b3e196af",
+        "bytes": 10709,
+        "description": "Existing adversarial package and handoff tests.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "test/specialist-handoff.test.mjs"
+      },
+      {
+        "id": "context.compiler-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-compiler.test.mjs",
+        "digest": "sha256:2847895078aa56d9e051f0b399b2e923cce3edc647c2d471c76034fd12159200",
+        "bytes": 62973,
+        "description": "Existing package construction and verification fixtures.",
+        "allowedWorkUnits": [
+          "fix.foundation-resource-classification"
+        ],
+        "readScope": "test/specialist-compiler.test.mjs"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "diagnosis.run-session-foundation"
+      ],
+      "allowedCapabilities": [
+        "diagnose.resource-boundary-classification"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/test-plan.md",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/json.ts",
+            "src/model.ts",
+            "src/privacy.ts",
+            "src/snapshot.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-types.ts",
+            "src/specialist-types.ts",
+            "src/text.ts",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-handoff.test.mjs",
+            "test/specialist-run-foundation.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "src/specialist-run-session.ts",
+            "test/specialist-run-foundation.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.foundation-resource-classification",
+        "objective": "Return SC4402 when canonical base64 at the character ceiling decodes beyond rawHandoffBytes, retain SC4401 for malformed base64, and lock both cases with a focused persistent test.",
+        "weight": 3,
+        "module": {
+          "id": "diagnosis.run-session-foundation",
+          "action": "Apply the smallest causal correction to decoded-base64 classification and add a real-package regression test; preserve every other create and restore semantic and do not add transition, inspection, or public exports.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "VerifiedFoundationBoundaryFailure"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "CorrectedRunSessionFoundation"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "diagnose.resource-boundary-classification"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.specialist-types",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.specialist-handoff",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.specialist-render",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.canonical-json",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.json-parser",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.snapshot",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.privacy",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.text",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.model",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.constants",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.diagnostics",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.run-types",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.run-schema-code",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.run-schema-json",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.run-session",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.handoff-tests",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          },
+          {
+            "sourceId": "context.compiler-tests",
+            "purpose": "Implement or verify the exact frozen V12 foundation-r3 contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/test-plan.md",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/json.ts",
+            "src/model.ts",
+            "src/privacy.ts",
+            "src/snapshot.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-types.ts",
+            "src/specialist-types.ts",
+            "src/text.ts",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-handoff.test.mjs",
+            "test/specialist-run-foundation.test.mjs"
+          ],
+          "write": [
+            "src/specialist-run-session.ts",
+            "test/specialist-run-foundation.test.mjs"
+          ],
+          "conflictZones": [
+            "src/specialist-run-session.ts",
+            "test/specialist-run-foundation.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/foundation-r3/inputs/test-plan.md",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "src/canonical-json.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/json.ts",
+              "src/model.ts",
+              "src/privacy.ts",
+              "src/snapshot.ts",
+              "src/specialist-handoff.ts",
+              "src/specialist-render.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-types.ts",
+              "src/specialist-types.ts",
+              "src/text.ts",
+              "test/specialist-compiler.test.mjs",
+              "test/specialist-handoff.test.mjs",
+              "test/specialist-run-foundation.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "src/specialist-run-session.ts",
+              "test/specialist-run-foundation.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.foundation-boundary-correction"
+        ],
+        "handoffArtifacts": [
+          "foundation-boundary-correction.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract.",
+          "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+          "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "phase": "foundation-r3",
+  "goalId": "v12.ide-run-loop.implementation.foundation",
+  "goalRevision": 3,
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:5b336646798ec06071e983360e6366cf708c89b4771b4289992feceb4253fabe"
+  },
+  "serialBaseline": {
+    "id": "team.22379a95adb0c540f7262468d9bc9bb2b3ab50736eed5699923e390e6cdc2c19",
+    "partition": [
+      [
+        "fix.foundation-resource-classification"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 4,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 3,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.9fd755787fd56ff15ec922d15077146bfb9dad79040dcd47538bc71cfe35bb3f",
+        "start": 0,
+        "finish": 4
+      }
+    ],
+    "contentDigest": "sha256:b41af0016126c48244bd974410578dacfc576b8c417a15b4fd2abe415e548d90"
+  },
+  "selected": {
+    "id": "team.22379a95adb0c540f7262468d9bc9bb2b3ab50736eed5699923e390e6cdc2c19",
+    "partition": [
+      [
+        "fix.foundation-resource-classification"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 4,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 3,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.9fd755787fd56ff15ec922d15077146bfb9dad79040dcd47538bc71cfe35bb3f",
+        "start": 0,
+        "finish": 4
+      }
+    ],
+    "contentDigest": "sha256:b41af0016126c48244bd974410578dacfc576b8c417a15b4fd2abe415e548d90"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.22379a95adb0c540f7262468d9bc9bb2b3ab50736eed5699923e390e6cdc2c19",
+    "serialValue": "team.22379a95adb0c540f7262468d9bc9bb2b3ab50736eed5699923e390e6cdc2c19",
+    "serialRejectionCodes": []
+  },
+  "retainedAlternatives": [],
+  "compilationDigest": "sha256:2a7a3f2e6a2c591b89eb5304be6662488e15561df4add9750a189ce426f43707",
+  "packageDigest": "sha256:7d9c77ab05c9ae8318d567df980285ab2c68adc1cf5e19afb71e5286a0193168",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.9fd755787fd56ff15ec922d15077146bfb9dad79040dcd47538bc71cfe35bb3f"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.9fd755787fd56ff15ec922d15077146bfb9dad79040dcd47538bc71cfe35bb3f",
+      "digest": "sha256:7b6a342e48785d39857ba5f5ee8115119290cdef74226c25566163947f0d7f9c",
+      "workUnitIds": [
+        "fix.foundation-resource-classification"
+      ],
+      "dependencyAgentIds": [],
+      "contractFile": "agents/agent.9fd755787fd56ff15ec922d15077146bfb9dad79040dcd47538bc71cfe35bb3f.md"
+    }
+  ],
+  "packageVerified": true,
+  "runtimeInvoked": false
+}
