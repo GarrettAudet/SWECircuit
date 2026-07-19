@@ -1,0 +1,79 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ArchitectureWaveVerification",
+  "compilationDigest": "sha256:662a7ca9303d3d347dbbe32835b3f2635b37f22ef8b051214a9e5924cb3f6415",
+  "packageDigest": "sha256:a119a349e0705f73c15ac3f2c8757e4964ecf16e4dc445bc2e62f8ba51691c87",
+  "targetAgentId": "agent.84c3e9a0333410efd25ecb0960a09d92e2d1010784fb24f0ffeecd81c8fc9145",
+  "verifiedHandoffs": [
+    {
+      "name": "product-run-loop-review",
+      "agentId": "agent.0b7518fefd7ec593e05d49ac346b223ea3c0ffbefbfdef745125a6a85a02b3a5",
+      "outcome": "pass",
+      "rawBytes": 13011,
+      "rawDigest": "sha256:b5309278efef19b58e7811b71959843ef97068d46f12077df0a9d0812ae698e2",
+      "semanticDigest": "sha256:e42c068ff906f9f476820bd53efb17380b949fe16858eac9d25b5ebcaf98335c"
+    },
+    {
+      "name": "authority-portability-review",
+      "agentId": "agent.7873619e962938bde0ffb1ee68100343c480344ee324413e6b6194035253fe2f",
+      "outcome": "pass",
+      "rawBytes": 18124,
+      "rawDigest": "sha256:100b692443ceb24cefbb6c6af500c2d1ff78f65bfdb2d932d81d366fa4b94aca",
+      "semanticDigest": "sha256:819f6f82e3bfaa69cc4f79e93963545a1fee9a76d6429300dce1b4377b985987"
+    },
+    {
+      "name": "lifecycle-recovery-review",
+      "agentId": "agent.855d25082db5af8f0d0049f54e53a11038d1ec56264f34e10e2097425f895486",
+      "outcome": "pass",
+      "rawBytes": 21026,
+      "rawDigest": "sha256:daf55d6d3c1283ff0508ba4d8776c30f171fb7856d669a0ddbe4da44d3e69f28",
+      "semanticDigest": "sha256:c107e9d2276459c1f888a59d4e74e5cda9cde4d67810a47758f31a47965d1ecd"
+    }
+  ],
+  "fanIn": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "SpecialistHandoffSetAssessment",
+    "goalId": "v12.ide-run-loop.architecture",
+    "goalRevision": 1,
+    "goalDigest": "sha256:2fad6a458f7b7e8060a5967c8edc60ae7c05ffd4b5cb97512e998ea227215d2f",
+    "compilationDigest": "sha256:662a7ca9303d3d347dbbe32835b3f2635b37f22ef8b051214a9e5924cb3f6415",
+    "packageDigest": "sha256:a119a349e0705f73c15ac3f2c8757e4964ecf16e4dc445bc2e62f8ba51691c87",
+    "targetAgentId": "agent.84c3e9a0333410efd25ecb0960a09d92e2d1010784fb24f0ffeecd81c8fc9145",
+    "requiredAgentIds": [
+      "agent.0b7518fefd7ec593e05d49ac346b223ea3c0ffbefbfdef745125a6a85a02b3a5",
+      "agent.7873619e962938bde0ffb1ee68100343c480344ee324413e6b6194035253fe2f",
+      "agent.855d25082db5af8f0d0049f54e53a11038d1ec56264f34e10e2097425f895486"
+    ],
+    "receivedAgentIds": [
+      "agent.0b7518fefd7ec593e05d49ac346b223ea3c0ffbefbfdef745125a6a85a02b3a5",
+      "agent.7873619e962938bde0ffb1ee68100343c480344ee324413e6b6194035253fe2f",
+      "agent.855d25082db5af8f0d0049f54e53a11038d1ec56264f34e10e2097425f895486"
+    ],
+    "missingAgentIds": [],
+    "handoffs": [
+      {
+        "agentId": "agent.0b7518fefd7ec593e05d49ac346b223ea3c0ffbefbfdef745125a6a85a02b3a5",
+        "outcome": "pass",
+        "rawBytes": 13011,
+        "rawDigest": "sha256:b5309278efef19b58e7811b71959843ef97068d46f12077df0a9d0812ae698e2",
+        "semanticDigest": "sha256:e42c068ff906f9f476820bd53efb17380b949fe16858eac9d25b5ebcaf98335c"
+      },
+      {
+        "agentId": "agent.7873619e962938bde0ffb1ee68100343c480344ee324413e6b6194035253fe2f",
+        "outcome": "pass",
+        "rawBytes": 18124,
+        "rawDigest": "sha256:100b692443ceb24cefbb6c6af500c2d1ff78f65bfdb2d932d81d366fa4b94aca",
+        "semanticDigest": "sha256:819f6f82e3bfaa69cc4f79e93963545a1fee9a76d6429300dce1b4377b985987"
+      },
+      {
+        "agentId": "agent.855d25082db5af8f0d0049f54e53a11038d1ec56264f34e10e2097425f895486",
+        "outcome": "pass",
+        "rawBytes": 21026,
+        "rawDigest": "sha256:daf55d6d3c1283ff0508ba4d8776c30f171fb7856d669a0ddbe4da44d3e69f28",
+        "semanticDigest": "sha256:c107e9d2276459c1f888a59d4e74e5cda9cde4d67810a47758f31a47965d1ecd"
+      }
+    ],
+    "integrationReady": true,
+    "contentDigest": "sha256:8fef3bf188095b65105c93ff5d05dcf293815d7c833b40ed2490096db178ac25"
+  }
+}
