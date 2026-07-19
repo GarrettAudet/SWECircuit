@@ -2,7 +2,7 @@
 
 ## Status
 
-Architecture dogfood in progress.
+Architecture accepted; implementation compilation is next.
 
 ## Steps
 
@@ -14,13 +14,13 @@ Architecture dogfood in progress.
 
 ## Architecture Approach
 
-Prefer a small immutable `RunSession` layer that reuses V11 package and handoff verification. It may derive launchable work and routing evidence but must not perform scheduling or runtime effects. The architecture pass may revise this approach before implementation.
+Implement the accepted four-operation `SpecialistRunSession` contract in `specialist-run-contract.md`. The session embeds the verified package and exact accepted handoffs, derives dependency eligibility and routing, and performs no scheduling or runtime effect.
 
 ## Dependencies
 
 - V11.1 is the exact baseline and compiler used for dogfooding.
 - The Round-4 correction design is mandatory input for any runtime-adjacent behavior.
-- Implementation starts only after the architecture fan-in passes.
+- Architecture fan-in passed and is bound by `integration-verification.json`.
 
 ## Rollback
 

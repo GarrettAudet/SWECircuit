@@ -2,15 +2,15 @@
 
 ## Status
 
-Draft pending architecture fan-in.
+Accepted architecture; implementation compilation pending.
 
 ## Contract Tests
 
-- Exact package expectation is required at session creation.
-- Session normalization and serialization are deterministic.
+- Exact package expectation is required for create, restore, inspect, and record.
+- Session normalization, source retention, serialization, and independent handoff arrival order are deterministic.
 - Unknown, stale, duplicate, malformed, or substituted handoffs fail closed.
 - Verified non-`pass` outcomes remain explicit and block dependency readiness.
-- Launchable work is complete, dependency-safe, and deterministic.
+- Dependency-eligible work is complete, manifest-resolved, dependency-safe, and deterministic.
 - Prior immutable session values never change after an operation.
 
 ## Lifecycle Tests
@@ -21,7 +21,7 @@ Draft pending architecture fan-in.
 - Missing dependency.
 - Valid `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, and `learn` routing.
 - Reinspection after JSON round trip.
-- Integration readiness with exact transitive closure.
+- Complete-roster integration readiness through the virtual all-sinks closure.
 
 ## Boundary Tests
 
@@ -31,11 +31,11 @@ Draft pending architecture fan-in.
 
 ## Integration Tests
 
-- A real V11 package is opened as a session, inspected, advanced with exact raw handoffs, and reaches the correct integration gate.
+- A real V11 package is created as a session, serialized, restored, inspected, advanced with exact raw handoffs, and reaches complete-roster integration readiness.
 - The installed package exposes the V12 types and operations to a clean TypeScript consumer.
 - The IDE kickoff can be followed from one natural-language goal without hidden state.
 
-## Repository Gates
+## Adversarial And Limit Tests
 
 - `npm.cmd run verify`
 - Template checker and checker regression matrix.

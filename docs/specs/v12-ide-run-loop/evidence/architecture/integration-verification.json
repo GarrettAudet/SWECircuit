@@ -1,0 +1,14 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ArchitectureIntegrationVerification",
+  "compilationDigest": "sha256:662a7ca9303d3d347dbbe32835b3f2635b37f22ef8b051214a9e5924cb3f6415",
+  "packageDigest": "sha256:a119a349e0705f73c15ac3f2c8757e4964ecf16e4dc445bc2e62f8ba51691c87",
+  "verifiedHandoff": {
+    "name": "v12-run-loop-architecture",
+    "agentId": "agent.84c3e9a0333410efd25ecb0960a09d92e2d1010784fb24f0ffeecd81c8fc9145",
+    "outcome": "pass",
+    "rawBytes": 29000,
+    "rawDigest": "sha256:fa6b73e2d16723ec7ca167afa287dd0365540ebc52f5461d3ba8e6899b442214",
+    "semanticDigest": "sha256:1000913502b4a56518ea41bd01f6024125a307ebdc8aa03e1d890634693e9f54"
+  }
+}

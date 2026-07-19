@@ -2,7 +2,7 @@
 
 ## Status
 
-Reviewed for the architecture compilation.
+Architecture compilation and verified synthesis complete.
 
 ## Goal And Criteria
 
@@ -28,8 +28,8 @@ Required source records include ADR 0004, the deferred Revision-5 correction des
 - `assumption.host-assisted`: V12 coordinates host actions but performs no host effect. This is the smallest path to real IDE use.
 - `assumption.single-package`: one run binds one approved specialist package. Multi-package runtime graphs remain deferred.
 - `assumption.caller-persistence`: core returns immutable serializable values; the external host persists them.
-- `decision.operation-shape`: non-blocking; architecture specialists recommend exact public operations before implementation.
-- `decision.closeout-envelope`: non-blocking; architecture specialists recommend the smallest truthful closeout evidence.
+- `decision.operation-shape`: resolved as four pure operations: create, restore, inspect, and record.
+- `decision.closeout-envelope`: resolved as derived specialist fan-in readiness; integration, verification, review, merge, milestone, and memory remain external artifacts.
 
 ## Authority And Capabilities
 
@@ -71,4 +71,4 @@ No provider, model, prompt, executor, credential, grant, or runtime profile ente
 
 ## Handoff
 
-`ready`: launch the three manifest-resolved Wave-1 contracts, preserve and verify their exact raw handoffs, assess dependency fan-in, then launch the architecture integration contract.
+`pass`: all four exact handoffs verify. Wave-1 fan-in is `integrationReady: true`; the architecture synthesis returned `pass` and is frozen in ADR 0005 and `specialist-run-contract.md`.

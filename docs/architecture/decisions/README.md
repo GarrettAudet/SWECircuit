@@ -10,5 +10,6 @@ Long-lived public or cross-module decisions belong here. Each ADR records contex
 | [0002](0002-bounded-executor-boundary.md) | Accepted | V10 one-packet host-injected execution boundary, invocation grants, cancellation truthfulness, and child evidence. |
 | [0003](0003-portable-orchestration-control-plane.md) | Deferred | Preserved universal runtime-control-plane design and four failed review rounds; no longer the V11 implementation target. |
 | [0004](0004-specialist-compiler-first.md) | Proposed | V11 ships the pure Specialist Compiler first: exact task-shaped team construction, deterministic optimization, and digest-bound IDE packages.
+| [0005](0005-immutable-specialist-run-session.md) | Accepted | V12 adds a source-preserving immutable run session with pure create, restore, inspect, and record operations over one approved V11 package. |
 
 Feature plans preserve implementation detail. The decision log in `docs/memory/decisions.md` provides the fast retrieval path back to accepted ADRs.

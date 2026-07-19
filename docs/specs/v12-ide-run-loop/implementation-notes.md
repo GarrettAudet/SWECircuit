@@ -2,7 +2,7 @@
 
 ## Status
 
-No implementation has been integrated. Architecture compilation is the active stage.
+No kernel implementation has been integrated. Architecture passed; implementation compilation is the active stage.
 
 ## Baseline
 
@@ -19,4 +19,4 @@ No implementation has been integrated. Architecture compilation is the active st
 - The first launch handle was lost from visible context during host output compaction. The host had no list-agents operation, so the integration owner recovered the exact handle from the caller-owned session ledger instead of launching a duplicate. V12 must make the approved roster and accepted handoffs recoverable from the persisted session value.
 - The first specialist returned a 13,011-byte raw handoff. The host preserved the returned string as exact UTF-8 bytes before interpretation; sandbox-specific persistence remained an external host concern.
 - A narrow host verifier now authenticates each raw handoff, computes the integration blueprint's exact V11 transitive fan-in, and keeps verification evidence separate from raw source artifacts.
-- Further observations will be appended after compilation, launch, verification, and fan-in.
+- V11 authenticated 52,161 raw Wave-1 bytes, found all three required `pass` handoffs, and returned `integrationReady: true` for the synthesis blueprint.
