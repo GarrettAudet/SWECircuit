@@ -1,0 +1,2098 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.verification",
+    "revision": 1,
+    "objective": "Complete independent V12 adversarial verification and the visible IDE dogfood surface over the frozen public candidate.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.architecture-frozen",
+        "statement": "ADR 0005 and the Specialist Run contract are the complete implementation authority.",
+        "rationale": "Architecture fan-in passed and no blocking decision remains."
+      },
+      {
+        "id": "assumption.host-edit-fallback",
+        "statement": "After native apply_patch fails before mutation, the host may perform an exact precondition-hash-guarded PowerShell write inside the approved scope.",
+        "rationale": "Foundation Revision 1 proved the temporary worktree patch helper is unavailable while bounded escalated PowerShell writes remain auditable and fail closed."
+      },
+      {
+        "id": "assumption.host-effects-external",
+        "statement": "All runtime, persistence, Git, merge, and memory effects remain external to core.",
+        "rationale": "V12 is a pure evidence session, not the deferred universal scheduler."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.dogfood.ide-run-loop",
+        "description": "Make the four-operation IDE journey visible and dogfoodable without hiding external host responsibilities.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.ide-dogfood",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Provide a replayable IDE journey and measured host-boundary evidence for AC7 and AC8.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.verify.run-session",
+        "description": "Independently attack the complete V12 contract, schema, transitions, inspection, limits, authority boundary, and public surface.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.run-verification",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Provide independent negative, boundary, lifecycle, schema, and package-consumer evidence for AC1-AC6 and AC9.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.compiler-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-compiler.test.mjs",
+        "digest": "sha256:2847895078aa56d9e051f0b399b2e923cce3edc647c2d471c76034fd12159200",
+        "bytes": 62973,
+        "description": "Existing package construction and verification fixtures.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "test/specialist-compiler.test.mjs"
+      },
+      {
+        "id": "context.handoff-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-handoff.test.mjs",
+        "digest": "sha256:41d25b24adb4062992012983b4eb99175f371929fb83e522f1723799b3e196af",
+        "bytes": 10709,
+        "description": "Existing adversarial package and handoff tests.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "test/specialist-handoff.test.mjs"
+      },
+      {
+        "id": "context.ide-guide",
+        "kind": "repository",
+        "locator": "path:docs/ide/specialist-agent-kickoff.md",
+        "digest": "sha256:8ceec4c3478b9f2adc7000893705f41b09b153d9747637884ac07e46b416eaf3",
+        "bytes": 17565,
+        "description": "Current visible IDE specialist workflow.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop"
+        ],
+        "readScope": "docs/ide/specialist-agent-kickoff.md"
+      },
+      {
+        "id": "context.index",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Existing public package export surface.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.inspection-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-inspection.test.mjs",
+        "digest": "sha256:6dcec494c85a807ed5d48e6d710f6c3d83b2d70c453e00d100efb8983eab42f8",
+        "bytes": 18218,
+        "description": "Focused V12 inspection tests.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "test/specialist-run-inspection.test.mjs"
+      },
+      {
+        "id": "context.modules-readme",
+        "kind": "repository",
+        "locator": "path:docs/modules/README.md",
+        "digest": "sha256:1dd8bdeddafe09d2b32d3e573a7184406e72570b1922659e7703bbd28a389716",
+        "bytes": 2542,
+        "description": "Current module catalog guidance.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop"
+        ],
+        "readScope": "docs/modules/README.md"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
+        "bytes": 2847,
+        "description": "Existing package scripts and export map.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.packed-check",
+        "kind": "repository",
+        "locator": "path:scripts/check-packed-consumer.mjs",
+        "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e",
+        "bytes": 43244,
+        "description": "Installed-package export and runtime verification.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "scripts/check-packed-consumer.mjs"
+      },
+      {
+        "id": "context.packed-host",
+        "kind": "repository",
+        "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+        "digest": "sha256:90633af96b2afaa66dfaddd66e27f2e050dfd0ac5c052f8c1e2413d21db74d00",
+        "bytes": 23434,
+        "description": "Installed-consumer TypeScript host fixture.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "scripts/fixtures/packed-consumer-host.ts"
+      },
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+        "bytes": 3101,
+        "description": "Current concise public product surface.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+        "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+        "bytes": 16223,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.run-inspection",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-inspection.ts",
+        "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+        "bytes": 14484,
+        "description": "V12 deterministic inspection implementation.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-run-inspection.ts"
+      },
+      {
+        "id": "context.run-schema-code",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+        "bytes": 3371,
+        "description": "Frozen V12 run-session schema validator.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.run-schema-json",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+        "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+        "bytes": 17405,
+        "description": "Frozen V12 run-session JSON Schema.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+      },
+      {
+        "id": "context.run-session",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-session.ts",
+        "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+        "bytes": 18723,
+        "description": "Frozen V12 session creation, restoration, and validation foundation.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-run-session.ts"
+      },
+      {
+        "id": "context.run-transition",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-transition.ts",
+        "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+        "bytes": 8015,
+        "description": "V12 handoff transition implementation.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-run-transition.ts"
+      },
+      {
+        "id": "context.run-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Frozen V12 run-session wire and public types.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.specialist-handoff",
+        "kind": "repository",
+        "locator": "path:src/specialist-handoff.ts",
+        "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+        "bytes": 17810,
+        "description": "Existing package-bound raw handoff and fan-in implementation.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-handoff.ts"
+      },
+      {
+        "id": "context.specialist-render",
+        "kind": "repository",
+        "locator": "path:src/specialist-render.ts",
+        "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7",
+        "bytes": 19184,
+        "description": "Existing rendered package verification and manifest resolution.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-render.ts"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+        "digest": "sha256:acbb09315f1e22a61a08b549ff7ba4142d61e9c04c859cf2e991690492caf3f3",
+        "bytes": 1867,
+        "description": "Frozen V12 verification obligations.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md"
+      },
+      {
+        "id": "context.transition-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-transition.test.mjs",
+        "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+        "bytes": 9861,
+        "description": "Focused V12 transition tests.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "test/specialist-run-transition.test.mjs"
+      },
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "dogfood.ide-run-loop",
+        "verification.run-session"
+      ],
+      "allowedCapabilities": [
+        "document.dogfood-ide-run-loop",
+        "verify.adversarial-run-session"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "README.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+            "package.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "scripts/run-v12-dogfood.mjs",
+            "src/index.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-handoff.test.mjs",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run-transition.test.mjs",
+            "test/specialist-run.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "scripts/run-v12-dogfood.mjs",
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+      ],
+      "maxAgents": 2,
+      "maxConcurrency": 2
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "dogfood.ide-run-loop",
+        "objective": "Make the four-operation IDE journey visible and dogfoodable without hiding external host responsibilities.",
+        "weight": 6,
+        "module": {
+          "id": "dogfood.ide-run-loop",
+          "action": "Add a deterministic V12 dogfood script and concise module/IDE guidance that shows goal review, package approval, dependency eligibility, exact fan-in, routing, and separate integration closeout.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenRunReleaseCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IdeRunLoopDogfood"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "document.dogfood-ide-run-loop"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.ide-guide",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.modules-readme",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.readme",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-inspection",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-schema-json",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-session",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-transition",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-types",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+            "package.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/run-v12-dogfood.mjs",
+            "src/index.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts"
+          ],
+          "write": [
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "scripts/run-v12-dogfood.mjs"
+          ],
+          "conflictZones": [
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "scripts/run-v12-dogfood.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/modules/README.md",
+              "docs/modules/specialist-run-session.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+              "package.json",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "scripts/run-v12-dogfood.mjs",
+              "src/index.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/modules/README.md",
+              "docs/modules/specialist-run-session.md",
+              "scripts/run-v12-dogfood.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.ide-dogfood"
+        ],
+        "handoffArtifacts": [
+          "ide-run-loop-dogfood.md"
+        ],
+        "stopConditions": [
+          "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+          "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract."
+        ]
+      },
+      {
+        "id": "verify.run-session",
+        "objective": "Independently attack the complete V12 contract, schema, transitions, inspection, limits, authority boundary, and public surface.",
+        "weight": 9,
+        "module": {
+          "id": "verification.run-session",
+          "action": "Add adversarial, boundary, permutation, fresh-process, differential, public-export, and compatibility tests without repairing production code.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenRunReleaseCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "RunSessionVerification"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "verify.adversarial-run-session"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.compiler-tests",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.handoff-tests",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.inspection-tests",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.packed-check",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.packed-host",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-inspection",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-schema-code",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-schema-json",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-session",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-transition",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.run-types",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.specialist-handoff",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.specialist-render",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.transition-tests",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          },
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement or verify the exact frozen V12 verification contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+            "package.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/index.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-handoff.test.mjs",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run-transition.test.mjs",
+            "test/specialist-run.test.mjs"
+          ],
+          "write": [
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run.test.mjs"
+          ],
+          "conflictZones": [
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+              "package.json",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/fixtures/packed-consumer-host.ts",
+              "src/index.ts",
+              "src/specialist-handoff.ts",
+              "src/specialist-render.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "test/specialist-compiler.test.mjs",
+              "test/specialist-handoff.test.mjs",
+              "test/specialist-run-inspection.test.mjs",
+              "test/specialist-run-schema.test.mjs",
+              "test/specialist-run-transition.test.mjs",
+              "test/specialist-run.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "test/specialist-run-schema.test.mjs",
+              "test/specialist-run.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.run-verification"
+        ],
+        "handoffArtifacts": [
+          "run-session-verification.md"
+        ],
+        "stopConditions": [
+          "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+          "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:6c5ae1648b5607731fa81fa1f5dc4c1df5ccb745b298ba85e6c120ddc2961ff9",
+  "proposedCandidates": [],
+  "proposalEvaluations": [],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v12.ide-run-loop.implementation.verification",
+    "goalRevision": 1,
+    "allowedModules": [
+      "dogfood.ide-run-loop",
+      "verification.run-session"
+    ],
+    "allowedCapabilities": [
+      "document.dogfood-ide-run-loop",
+      "verify.adversarial-run-session"
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.compiler-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-compiler.test.mjs",
+        "digest": "sha256:2847895078aa56d9e051f0b399b2e923cce3edc647c2d471c76034fd12159200",
+        "bytes": 62973,
+        "description": "Existing package construction and verification fixtures.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "test/specialist-compiler.test.mjs"
+      },
+      {
+        "id": "context.handoff-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-handoff.test.mjs",
+        "digest": "sha256:41d25b24adb4062992012983b4eb99175f371929fb83e522f1723799b3e196af",
+        "bytes": 10709,
+        "description": "Existing adversarial package and handoff tests.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "test/specialist-handoff.test.mjs"
+      },
+      {
+        "id": "context.ide-guide",
+        "kind": "repository",
+        "locator": "path:docs/ide/specialist-agent-kickoff.md",
+        "digest": "sha256:8ceec4c3478b9f2adc7000893705f41b09b153d9747637884ac07e46b416eaf3",
+        "bytes": 17565,
+        "description": "Current visible IDE specialist workflow.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop"
+        ],
+        "readScope": "docs/ide/specialist-agent-kickoff.md"
+      },
+      {
+        "id": "context.index",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Existing public package export surface.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.inspection-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-inspection.test.mjs",
+        "digest": "sha256:6dcec494c85a807ed5d48e6d710f6c3d83b2d70c453e00d100efb8983eab42f8",
+        "bytes": 18218,
+        "description": "Focused V12 inspection tests.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "test/specialist-run-inspection.test.mjs"
+      },
+      {
+        "id": "context.modules-readme",
+        "kind": "repository",
+        "locator": "path:docs/modules/README.md",
+        "digest": "sha256:1dd8bdeddafe09d2b32d3e573a7184406e72570b1922659e7703bbd28a389716",
+        "bytes": 2542,
+        "description": "Current module catalog guidance.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop"
+        ],
+        "readScope": "docs/modules/README.md"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
+        "bytes": 2847,
+        "description": "Existing package scripts and export map.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.packed-check",
+        "kind": "repository",
+        "locator": "path:scripts/check-packed-consumer.mjs",
+        "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e",
+        "bytes": 43244,
+        "description": "Installed-package export and runtime verification.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "scripts/check-packed-consumer.mjs"
+      },
+      {
+        "id": "context.packed-host",
+        "kind": "repository",
+        "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+        "digest": "sha256:90633af96b2afaa66dfaddd66e27f2e050dfd0ac5c052f8c1e2413d21db74d00",
+        "bytes": 23434,
+        "description": "Installed-consumer TypeScript host fixture.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "scripts/fixtures/packed-consumer-host.ts"
+      },
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+        "bytes": 3101,
+        "description": "Current concise public product surface.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+        "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+        "bytes": 16223,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.run-inspection",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-inspection.ts",
+        "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+        "bytes": 14484,
+        "description": "V12 deterministic inspection implementation.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-run-inspection.ts"
+      },
+      {
+        "id": "context.run-schema-code",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+        "bytes": 3371,
+        "description": "Frozen V12 run-session schema validator.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.run-schema-json",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+        "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+        "bytes": 17405,
+        "description": "Frozen V12 run-session JSON Schema.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+      },
+      {
+        "id": "context.run-session",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-session.ts",
+        "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+        "bytes": 18723,
+        "description": "Frozen V12 session creation, restoration, and validation foundation.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-run-session.ts"
+      },
+      {
+        "id": "context.run-transition",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-transition.ts",
+        "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+        "bytes": 8015,
+        "description": "V12 handoff transition implementation.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-run-transition.ts"
+      },
+      {
+        "id": "context.run-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Frozen V12 run-session wire and public types.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.specialist-handoff",
+        "kind": "repository",
+        "locator": "path:src/specialist-handoff.ts",
+        "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+        "bytes": 17810,
+        "description": "Existing package-bound raw handoff and fan-in implementation.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-handoff.ts"
+      },
+      {
+        "id": "context.specialist-render",
+        "kind": "repository",
+        "locator": "path:src/specialist-render.ts",
+        "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7",
+        "bytes": 19184,
+        "description": "Existing rendered package verification and manifest resolution.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "src/specialist-render.ts"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+        "digest": "sha256:acbb09315f1e22a61a08b549ff7ba4142d61e9c04c859cf2e991690492caf3f3",
+        "bytes": 1867,
+        "description": "Frozen V12 verification obligations.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md"
+      },
+      {
+        "id": "context.transition-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-transition.test.mjs",
+        "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+        "bytes": 9861,
+        "description": "Focused V12 transition tests.",
+        "allowedWorkUnits": [
+          "verify.run-session"
+        ],
+        "readScope": "test/specialist-run-transition.test.mjs"
+      },
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "README.md",
+          "docs/ide/specialist-agent-kickoff.md",
+          "docs/modules/README.md",
+          "docs/modules/specialist-run-session.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+          "package.json",
+          "schemas/v1alpha1/specialist-run.schema.json",
+          "scripts/check-packed-consumer.mjs",
+          "scripts/fixtures/packed-consumer-host.ts",
+          "scripts/run-v12-dogfood.mjs",
+          "src/index.ts",
+          "src/specialist-handoff.ts",
+          "src/specialist-render.ts",
+          "src/specialist-run-inspection.ts",
+          "src/specialist-run-schema.ts",
+          "src/specialist-run-session.ts",
+          "src/specialist-run-transition.ts",
+          "src/specialist-run-types.ts",
+          "test/specialist-compiler.test.mjs",
+          "test/specialist-handoff.test.mjs",
+          "test/specialist-run-inspection.test.mjs",
+          "test/specialist-run-schema.test.mjs",
+          "test/specialist-run-transition.test.mjs",
+          "test/specialist-run.test.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "docs/ide/specialist-agent-kickoff.md",
+          "docs/modules/README.md",
+          "docs/modules/specialist-run-session.md",
+          "scripts/run-v12-dogfood.mjs",
+          "test/specialist-run-schema.test.mjs",
+          "test/specialist-run.test.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "node",
+          "npm",
+          "powershell"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+    ],
+    "maxAgents": 2,
+    "maxConcurrency": 2,
+    "contentDigest": "sha256:28c2df33db73a9386cc1d561dd1b72d92f86b8648312d7ace54a970518064f9f"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 2,
+    "evaluatedCandidates": 2,
+    "eligibleCandidates": 2,
+    "retainedAlternatives": 1,
+    "evaluationSetDigest": "sha256:046e17c4f6783279582b434050c50e2453622f282c1475e3e1f6aabef80bb5f0"
+  },
+  "serialBaseline": {
+    "id": "team.c2ccba7cfa141f3a4c0c796ef75c9692969796ad5720ea126c971916029da2a7",
+    "partition": [
+      [
+        "dogfood.ide-run-loop",
+        "verify.run-session"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 16,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 15,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.b6b00b832d7fc0c882bc3f22f9403ecc2d8bab1af75fd7e8aa86731b8dcaf342",
+        "start": 0,
+        "finish": 16
+      }
+    ],
+    "contentDigest": "sha256:9a946db6166a65daed807d69a41ee9af7b895d16d334bcee1e592c209712b4e1"
+  },
+  "selected": {
+    "id": "team.6a7ba2420f0ed3561663f0d08c4112baccd686d80f20cccb823cf6e7e067c454",
+    "partition": [
+      [
+        "dogfood.ide-run-loop"
+      ],
+      [
+        "verify.run-session"
+      ]
+    ],
+    "origins": [
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 2,
+      "projectedMakespan": 10,
+      "peakConcurrency": 2,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 103742,
+      "duplicatedPermissionScopes": 14,
+      "totalWorkWeight": 15,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
+        "start": 0,
+        "finish": 10
+      },
+      {
+        "agentId": "agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f",
+        "start": 0,
+        "finish": 7
+      }
+    ],
+    "contentDigest": "sha256:367c51929b29fec0406658ff9729cdc660cc6d7404e500e44a1ce988322b931c"
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 10,
+    "serialValue": 16,
+    "serialRejectionCodes": []
+  },
+  "alternatives": [
+    {
+      "id": "team.c2ccba7cfa141f3a4c0c796ef75c9692969796ad5720ea126c971916029da2a7",
+      "partition": [
+        [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 16,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 15,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.b6b00b832d7fc0c882bc3f22f9403ecc2d8bab1af75fd7e8aa86731b8dcaf342",
+          "start": 0,
+          "finish": 16
+        }
+      ],
+      "contentDigest": "sha256:9a946db6166a65daed807d69a41ee9af7b895d16d334bcee1e592c209712b4e1"
+    }
+  ],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
+      "goalId": "v12.ide-run-loop.implementation.verification",
+      "goalRevision": 1,
+      "goalDigest": "sha256:6c5ae1648b5607731fa81fa1f5dc4c1df5ccb745b298ba85e6c120ddc2961ff9",
+      "candidateId": "team.6a7ba2420f0ed3561663f0d08c4112baccd686d80f20cccb823cf6e7e067c454",
+      "workUnitIds": [
+        "verify.run-session"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "verify.run-session",
+          "objective": "Independently attack the complete V12 contract, schema, transitions, inspection, limits, authority boundary, and public surface."
+        }
+      ],
+      "modules": [
+        {
+          "id": "verification.run-session",
+          "action": "Add adversarial, boundary, permutation, fresh-process, differential, public-export, and compatibility tests without repairing production code.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenRunReleaseCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "RunSessionVerification"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr-0005",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+          "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+          "bytes": 9031,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md"
+        },
+        {
+          "sourceId": "context.compiler-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-compiler.test.mjs",
+          "digest": "sha256:2847895078aa56d9e051f0b399b2e923cce3edc647c2d471c76034fd12159200",
+          "bytes": 62973,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "test/specialist-compiler.test.mjs"
+        },
+        {
+          "sourceId": "context.handoff-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-handoff.test.mjs",
+          "digest": "sha256:41d25b24adb4062992012983b4eb99175f371929fb83e522f1723799b3e196af",
+          "bytes": 10709,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "test/specialist-handoff.test.mjs"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+          "bytes": 5447,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.inspection-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-inspection.test.mjs",
+          "digest": "sha256:6dcec494c85a807ed5d48e6d710f6c3d83b2d70c453e00d100efb8983eab42f8",
+          "bytes": 18218,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "test/specialist-run-inspection.test.mjs"
+        },
+        {
+          "sourceId": "context.package",
+          "kind": "repository",
+          "locator": "path:package.json",
+          "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
+          "bytes": 2847,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "package.json"
+        },
+        {
+          "sourceId": "context.packed-check",
+          "kind": "repository",
+          "locator": "path:scripts/check-packed-consumer.mjs",
+          "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e",
+          "bytes": 43244,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "scripts/check-packed-consumer.mjs"
+        },
+        {
+          "sourceId": "context.packed-host",
+          "kind": "repository",
+          "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+          "digest": "sha256:90633af96b2afaa66dfaddd66e27f2e050dfd0ac5c052f8c1e2413d21db74d00",
+          "bytes": 23434,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "scripts/fixtures/packed-consumer-host.ts"
+        },
+        {
+          "sourceId": "context.run-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+          "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+          "bytes": 16223,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md"
+        },
+        {
+          "sourceId": "context.run-inspection",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-inspection.ts",
+          "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+          "bytes": 14484,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "src/specialist-run-inspection.ts"
+        },
+        {
+          "sourceId": "context.run-schema-code",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-schema.ts",
+          "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+          "bytes": 3371,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "src/specialist-run-schema.ts"
+        },
+        {
+          "sourceId": "context.run-schema-json",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+          "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+          "bytes": 17405,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+        },
+        {
+          "sourceId": "context.run-session",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-session.ts",
+          "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+          "bytes": 18723,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "src/specialist-run-session.ts"
+        },
+        {
+          "sourceId": "context.run-transition",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-transition.ts",
+          "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+          "bytes": 8015,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "src/specialist-run-transition.ts"
+        },
+        {
+          "sourceId": "context.run-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.specialist-handoff",
+          "kind": "repository",
+          "locator": "path:src/specialist-handoff.ts",
+          "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+          "bytes": 17810,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "src/specialist-handoff.ts"
+        },
+        {
+          "sourceId": "context.specialist-render",
+          "kind": "repository",
+          "locator": "path:src/specialist-render.ts",
+          "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7",
+          "bytes": 19184,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "src/specialist-render.ts"
+        },
+        {
+          "sourceId": "context.test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+          "digest": "sha256:acbb09315f1e22a61a08b549ff7ba4142d61e9c04c859cf2e991690492caf3f3",
+          "bytes": 1867,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md"
+        },
+        {
+          "sourceId": "context.transition-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-transition.test.mjs",
+          "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+          "bytes": 9861,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "test/specialist-run-transition.test.mjs"
+        },
+        {
+          "sourceId": "context.v12-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+          "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+          "bytes": 5478,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "verify.run-session"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "verify.adversarial-run-session"
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+            "package.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/index.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-compiler.test.mjs",
+            "test/specialist-handoff.test.mjs",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run-transition.test.mjs",
+            "test/specialist-run.test.mjs"
+          ],
+          "write": [
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run.test.mjs"
+          ],
+          "conflictZones": [
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+              "package.json",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/fixtures/packed-consumer-host.ts",
+              "src/index.ts",
+              "src/specialist-handoff.ts",
+              "src/specialist-render.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "test/specialist-compiler.test.mjs",
+              "test/specialist-handoff.test.mjs",
+              "test/specialist-run-inspection.test.mjs",
+              "test/specialist-run-schema.test.mjs",
+              "test/specialist-run-transition.test.mjs",
+              "test/specialist-run.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "test/specialist-run-schema.test.mjs",
+              "test/specialist-run.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.verify.run-session",
+          "criterion": "Independently attack the complete V12 contract, schema, transitions, inspection, limits, authority boundary, and public surface.",
+          "requirementId": "evidence.run-verification",
+          "kind": "test",
+          "duty": "produce",
+          "description": "Provide independent negative, boundary, lifecycle, schema, and package-consumer evidence for AC1-AC6 and AC9.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "run-session-verification.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+        "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+        "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+        "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract."
+      ],
+      "contentDigest": "sha256:6c9dadb14ab7c5c3cf7ae1db73178027e912d929b39a8243cbca13fd18ba0cb8"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f",
+      "goalId": "v12.ide-run-loop.implementation.verification",
+      "goalRevision": 1,
+      "goalDigest": "sha256:6c5ae1648b5607731fa81fa1f5dc4c1df5ccb745b298ba85e6c120ddc2961ff9",
+      "candidateId": "team.6a7ba2420f0ed3561663f0d08c4112baccd686d80f20cccb823cf6e7e067c454",
+      "workUnitIds": [
+        "dogfood.ide-run-loop"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "dogfood.ide-run-loop",
+          "objective": "Make the four-operation IDE journey visible and dogfoodable without hiding external host responsibilities."
+        }
+      ],
+      "modules": [
+        {
+          "id": "dogfood.ide-run-loop",
+          "action": "Add a deterministic V12 dogfood script and concise module/IDE guidance that shows goal review, package approval, dependency eligibility, exact fan-in, routing, and separate integration closeout.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenRunReleaseCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IdeRunLoopDogfood"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr-0005",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+          "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+          "bytes": 9031,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md"
+        },
+        {
+          "sourceId": "context.ide-guide",
+          "kind": "repository",
+          "locator": "path:docs/ide/specialist-agent-kickoff.md",
+          "digest": "sha256:8ceec4c3478b9f2adc7000893705f41b09b153d9747637884ac07e46b416eaf3",
+          "bytes": 17565,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "docs/ide/specialist-agent-kickoff.md"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+          "bytes": 5447,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.modules-readme",
+          "kind": "repository",
+          "locator": "path:docs/modules/README.md",
+          "digest": "sha256:1dd8bdeddafe09d2b32d3e573a7184406e72570b1922659e7703bbd28a389716",
+          "bytes": 2542,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "docs/modules/README.md"
+        },
+        {
+          "sourceId": "context.package",
+          "kind": "repository",
+          "locator": "path:package.json",
+          "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
+          "bytes": 2847,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "package.json"
+        },
+        {
+          "sourceId": "context.readme",
+          "kind": "repository",
+          "locator": "path:README.md",
+          "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+          "bytes": 3101,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "README.md"
+        },
+        {
+          "sourceId": "context.run-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+          "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+          "bytes": 16223,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md"
+        },
+        {
+          "sourceId": "context.run-inspection",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-inspection.ts",
+          "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+          "bytes": 14484,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "src/specialist-run-inspection.ts"
+        },
+        {
+          "sourceId": "context.run-schema-json",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+          "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+          "bytes": 17405,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+        },
+        {
+          "sourceId": "context.run-session",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-session.ts",
+          "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+          "bytes": 18723,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "src/specialist-run-session.ts"
+        },
+        {
+          "sourceId": "context.run-transition",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-transition.ts",
+          "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+          "bytes": 8015,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "src/specialist-run-transition.ts"
+        },
+        {
+          "sourceId": "context.run-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+          "digest": "sha256:acbb09315f1e22a61a08b549ff7ba4142d61e9c04c859cf2e991690492caf3f3",
+          "bytes": 1867,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md"
+        },
+        {
+          "sourceId": "context.v12-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+          "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+          "bytes": 5478,
+          "purposes": [
+            "Implement or verify the exact frozen V12 verification contract."
+          ],
+          "workUnitIds": [
+            "dogfood.ide-run-loop"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "document.dogfood-ide-run-loop"
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+            "package.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/run-v12-dogfood.mjs",
+            "src/index.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts"
+          ],
+          "write": [
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "scripts/run-v12-dogfood.mjs"
+          ],
+          "conflictZones": [
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "scripts/run-v12-dogfood.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/modules/README.md",
+              "docs/modules/specialist-run-session.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/inputs/test-plan.md",
+              "package.json",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "scripts/run-v12-dogfood.mjs",
+              "src/index.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/modules/README.md",
+              "docs/modules/specialist-run-session.md",
+              "scripts/run-v12-dogfood.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.dogfood.ide-run-loop",
+          "criterion": "Make the four-operation IDE journey visible and dogfoodable without hiding external host responsibilities.",
+          "requirementId": "evidence.ide-dogfood",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Provide a replayable IDE journey and measured host-boundary evidence for AC7 and AC8.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "ide-run-loop-dogfood.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+        "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+        "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+        "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract."
+      ],
+      "contentDigest": "sha256:fb82dbe4b27bc72be8b80c1afb95f34c00a2e44b17e65520a39ebf53c5c4fe2a"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
+        "agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:b719fd06f811091968c14ed8ff531ed5cd9df22d90d050e76c355dd542a1aed6"
+}

@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v12.ide-run-loop.implementation.verification",
+  "goalRevision": 1,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:b719fd06f811091968c14ed8ff531ed5cd9df22d90d050e76c355dd542a1aed6",
+  "selectedCandidateId": "team.6a7ba2420f0ed3561663f0d08c4112baccd686d80f20cccb823cf6e7e067c454",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
+        "agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:11e08a1f5e8bef49708905025c2fc766284108ad65ff27e23334fc9853f0f74c",
+  "compilationFileBytes": 82225,
+  "agents": [
+    {
+      "agentId": "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
+      "blueprintDigest": "sha256:6c9dadb14ab7c5c3cf7ae1db73178027e912d929b39a8243cbca13fd18ba0cb8",
+      "contractFile": "agents/agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4.md",
+      "contractDigest": "sha256:75b25648cace3704a00d4df5a5cc4f6ad0d3c904a6c4b4891c1bd9b6fe132812",
+      "contractBytes": 19362
+    },
+    {
+      "agentId": "agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f",
+      "blueprintDigest": "sha256:fb82dbe4b27bc72be8b80c1afb95f34c00a2e44b17e65520a39ebf53c5c4fe2a",
+      "contractFile": "agents/agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f.md",
+      "contractDigest": "sha256:7b26b70a7a1315956a6f8067dc5bf44da520ec3a4df13896fc787d011bb5596b",
+      "contractBytes": 16077
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:bac28412174d8944bfcfb9e001d88a38138a00d31b31db9df7a58c65bbe23eeb",
+  "integrationBytes": 4225,
+  "contentDigest": "sha256:c3c4f0c8aba6fa7582e75eb2296c445c3ce271b00a84ca1a67857e76c1b14a33"
+}

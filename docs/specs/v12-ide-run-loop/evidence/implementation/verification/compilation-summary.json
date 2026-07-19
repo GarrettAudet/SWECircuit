@@ -1,0 +1,170 @@
+{
+  "phase": "verification",
+  "goalId": "v12.ide-run-loop.implementation.verification",
+  "goalRevision": 1,
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 2,
+    "evaluatedCandidates": 2,
+    "eligibleCandidates": 2,
+    "retainedAlternatives": 1,
+    "evaluationSetDigest": "sha256:046e17c4f6783279582b434050c50e2453622f282c1475e3e1f6aabef80bb5f0"
+  },
+  "serialBaseline": {
+    "id": "team.c2ccba7cfa141f3a4c0c796ef75c9692969796ad5720ea126c971916029da2a7",
+    "partition": [
+      [
+        "dogfood.ide-run-loop",
+        "verify.run-session"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 16,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 15,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.b6b00b832d7fc0c882bc3f22f9403ecc2d8bab1af75fd7e8aa86731b8dcaf342",
+        "start": 0,
+        "finish": 16
+      }
+    ],
+    "contentDigest": "sha256:9a946db6166a65daed807d69a41ee9af7b895d16d334bcee1e592c209712b4e1"
+  },
+  "selected": {
+    "id": "team.6a7ba2420f0ed3561663f0d08c4112baccd686d80f20cccb823cf6e7e067c454",
+    "partition": [
+      [
+        "dogfood.ide-run-loop"
+      ],
+      [
+        "verify.run-session"
+      ]
+    ],
+    "origins": [
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 2,
+      "projectedMakespan": 10,
+      "peakConcurrency": 2,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 103742,
+      "duplicatedPermissionScopes": 14,
+      "totalWorkWeight": 15,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
+        "start": 0,
+        "finish": 10
+      },
+      {
+        "agentId": "agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f",
+        "start": 0,
+        "finish": 7
+      }
+    ],
+    "contentDigest": "sha256:367c51929b29fec0406658ff9729cdc660cc6d7404e500e44a1ce988322b931c"
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 10,
+    "serialValue": 16,
+    "serialRejectionCodes": []
+  },
+  "retainedAlternatives": [
+    {
+      "id": "team.c2ccba7cfa141f3a4c0c796ef75c9692969796ad5720ea126c971916029da2a7",
+      "partition": [
+        [
+          "dogfood.ide-run-loop",
+          "verify.run-session"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 16,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 15,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.b6b00b832d7fc0c882bc3f22f9403ecc2d8bab1af75fd7e8aa86731b8dcaf342",
+          "start": 0,
+          "finish": 16
+        }
+      ],
+      "contentDigest": "sha256:9a946db6166a65daed807d69a41ee9af7b895d16d334bcee1e592c209712b4e1"
+    }
+  ],
+  "compilationDigest": "sha256:b719fd06f811091968c14ed8ff531ed5cd9df22d90d050e76c355dd542a1aed6",
+  "packageDigest": "sha256:56117917b1f230336e4a08c92283a785d488b9dd77e4fe32c9e0f261f5e5c5fa",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
+        "agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
+      "digest": "sha256:6c9dadb14ab7c5c3cf7ae1db73178027e912d929b39a8243cbca13fd18ba0cb8",
+      "workUnitIds": [
+        "verify.run-session"
+      ],
+      "dependencyAgentIds": [],
+      "contractFile": "agents/agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4.md"
+    },
+    {
+      "id": "agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f",
+      "digest": "sha256:fb82dbe4b27bc72be8b80c1afb95f34c00a2e44b17e65520a39ebf53c5c4fe2a",
+      "workUnitIds": [
+        "dogfood.ide-run-loop"
+      ],
+      "dependencyAgentIds": [],
+      "contractFile": "agents/agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f.md"
+    }
+  ],
+  "packageVerified": true,
+  "runtimeInvoked": false
+}
