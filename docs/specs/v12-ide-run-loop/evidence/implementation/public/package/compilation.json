@@ -1,0 +1,1419 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.public",
+    "revision": 1,
+    "objective": "Integrate the accepted Specialist Run implementation into the additive public package surface without changing V11 identities.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.architecture-frozen",
+        "statement": "ADR 0005 and the Specialist Run contract are the complete implementation authority.",
+        "rationale": "Architecture fan-in passed and no blocking decision remains."
+      },
+      {
+        "id": "assumption.host-edit-fallback",
+        "statement": "After native apply_patch fails before mutation, the host may perform an exact precondition-hash-guarded PowerShell write inside the approved scope.",
+        "rationale": "Foundation Revision 1 proved the temporary worktree patch helper is unavailable while bounded escalated PowerShell writes remain auditable and fail closed."
+      },
+      {
+        "id": "assumption.host-effects-external",
+        "statement": "All runtime, persistence, Git, merge, and memory effects remain external to core.",
+        "rationale": "V12 is a pure evidence session, not the deferred universal scheduler."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.integrate.public-surface",
+        "description": "Export the four operations, constants, and closed types; publish the schema path; and prove clean installed-consumer use.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.public-integration",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Provide declaration, schema export, packed-consumer, and V11 compatibility evidence for AC6 and AC9.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.constants",
+        "kind": "repository",
+        "locator": "path:src/constants.ts",
+        "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
+        "bytes": 2571,
+        "description": "Existing public kernel constants and limits.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/constants.ts"
+      },
+      {
+        "id": "context.diagnostic-catalog",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/diagnostic-catalog.json",
+        "digest": "sha256:816bc731f6f4fab8132430aded14d28a100fef3ab6e0d6f04f25bace2653ad3a",
+        "bytes": 12641,
+        "description": "Normative diagnostic catalog kept in parity with runtime definitions.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "schemas/v1alpha1/diagnostic-catalog.json"
+      },
+      {
+        "id": "context.diagnostics",
+        "kind": "repository",
+        "locator": "path:src/diagnostics.ts",
+        "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+        "bytes": 25190,
+        "description": "Existing diagnostic registry and stable operation result helpers.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/diagnostics.ts"
+      },
+      {
+        "id": "context.index",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dfa16eda45276f9caf5f59e12b2a20c5c0650a153b84d04510e0feac754b672b",
+        "bytes": 4688,
+        "description": "Existing public package export surface.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.inspection-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-inspection.test.mjs",
+        "digest": "sha256:6dcec494c85a807ed5d48e6d710f6c3d83b2d70c453e00d100efb8983eab42f8",
+        "bytes": 18218,
+        "description": "Focused V12 inspection tests.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "test/specialist-run-inspection.test.mjs"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:52acc84e561245f27afe26af16c000ce5d1e121b5649c4e70c2d03ec140c7be7",
+        "bytes": 2549,
+        "description": "Existing package scripts and export map.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.packed-check",
+        "kind": "repository",
+        "locator": "path:scripts/check-packed-consumer.mjs",
+        "digest": "sha256:dccdb91dbd30beb5961595c301545a3979e274e54ec73c751d16431cdf5cd8eb",
+        "bytes": 37768,
+        "description": "Installed-package export and runtime verification.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "scripts/check-packed-consumer.mjs"
+      },
+      {
+        "id": "context.packed-host",
+        "kind": "repository",
+        "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+        "digest": "sha256:9911410ebb6c7d1ee9904dbfa9c70adbac5213c7b3fbc3ee4d782f8bd57e89e7",
+        "bytes": 18435,
+        "description": "Installed-consumer TypeScript host fixture.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "scripts/fixtures/packed-consumer-host.ts"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md",
+        "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+        "bytes": 16223,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.run-inspection",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-inspection.ts",
+        "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+        "bytes": 14484,
+        "description": "V12 deterministic inspection implementation.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/specialist-run-inspection.ts"
+      },
+      {
+        "id": "context.run-schema-code",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+        "bytes": 3371,
+        "description": "Frozen V12 run-session schema validator.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.run-schema-json",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+        "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+        "bytes": 17405,
+        "description": "Frozen V12 run-session JSON Schema.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+      },
+      {
+        "id": "context.run-session",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-session.ts",
+        "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+        "bytes": 18723,
+        "description": "Frozen V12 session creation, restoration, and validation foundation.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/specialist-run-session.ts"
+      },
+      {
+        "id": "context.run-transition",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-transition.ts",
+        "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+        "bytes": 8015,
+        "description": "V12 handoff transition implementation.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/specialist-run-transition.ts"
+      },
+      {
+        "id": "context.run-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Frozen V12 run-session wire and public types.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.schema-readme",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/README.md",
+        "digest": "sha256:02a965b0c98dfeb522086339866d1b62340802b1cbccafdbf97b261120a96b41",
+        "bytes": 18724,
+        "description": "Published schema catalog and semantics.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "schemas/v1alpha1/README.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md",
+        "digest": "sha256:acbb09315f1e22a61a08b549ff7ba4142d61e9c04c859cf2e991690492caf3f3",
+        "bytes": 1867,
+        "description": "Frozen V12 verification obligations.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md"
+      },
+      {
+        "id": "context.transition-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-transition.test.mjs",
+        "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+        "bytes": 9861,
+        "description": "Focused V12 transition tests.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "test/specialist-run-transition.test.mjs"
+      },
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "integration.run-public-surface"
+      ],
+      "allowedCapabilities": [
+        "integrate.public-package-surface"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md",
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-transition.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/index.ts"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "integrate.public-surface",
+        "objective": "Export the four operations, constants, and closed types; publish the schema path; and prove clean installed-consumer use.",
+        "weight": 6,
+        "module": {
+          "id": "integration.run-public-surface",
+          "action": "Update only the additive export, package, schema catalog, and packed-consumer surfaces; retain every V11 export and add the V12 dogfood command without implementing host effects.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "VerifiedRunImplementation"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IntegratedRunPublicSurface"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "integrate.public-package-surface"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.constants",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.diagnostic-catalog",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.diagnostics",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.inspection-tests",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.packed-check",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.packed-host",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.run-inspection",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.run-schema-code",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.run-schema-json",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.run-session",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.run-transition",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.run-types",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.schema-readme",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.transition-tests",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          },
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement or verify the exact frozen V12 public contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md",
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-transition.test.mjs"
+          ],
+          "write": [
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/index.ts"
+          ],
+          "conflictZones": [
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/index.ts"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md",
+              "package.json",
+              "schemas/v1alpha1/README.md",
+              "schemas/v1alpha1/diagnostic-catalog.json",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/fixtures/packed-consumer-host.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "test/specialist-run-inspection.test.mjs",
+              "test/specialist-run-transition.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "package.json",
+              "schemas/v1alpha1/README.md",
+              "schemas/v1alpha1/diagnostic-catalog.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/fixtures/packed-consumer-host.ts",
+              "src/index.ts"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.public-integration"
+        ],
+        "handoffArtifacts": [
+          "public-surface-integration.md"
+        ],
+        "stopConditions": [
+          "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+          "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:02a26ec0d800ab1e9d0d11f73b9deb3f62b5388cfbb979e4a8ae63c8ebcd7378",
+  "proposedCandidates": [],
+  "proposalEvaluations": [],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v12.ide-run-loop.implementation.public",
+    "goalRevision": 1,
+    "allowedModules": [
+      "integration.run-public-surface"
+    ],
+    "allowedCapabilities": [
+      "integrate.public-package-surface"
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.constants",
+        "kind": "repository",
+        "locator": "path:src/constants.ts",
+        "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
+        "bytes": 2571,
+        "description": "Existing public kernel constants and limits.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/constants.ts"
+      },
+      {
+        "id": "context.diagnostic-catalog",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/diagnostic-catalog.json",
+        "digest": "sha256:816bc731f6f4fab8132430aded14d28a100fef3ab6e0d6f04f25bace2653ad3a",
+        "bytes": 12641,
+        "description": "Normative diagnostic catalog kept in parity with runtime definitions.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "schemas/v1alpha1/diagnostic-catalog.json"
+      },
+      {
+        "id": "context.diagnostics",
+        "kind": "repository",
+        "locator": "path:src/diagnostics.ts",
+        "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+        "bytes": 25190,
+        "description": "Existing diagnostic registry and stable operation result helpers.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/diagnostics.ts"
+      },
+      {
+        "id": "context.index",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dfa16eda45276f9caf5f59e12b2a20c5c0650a153b84d04510e0feac754b672b",
+        "bytes": 4688,
+        "description": "Existing public package export surface.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.inspection-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-inspection.test.mjs",
+        "digest": "sha256:6dcec494c85a807ed5d48e6d710f6c3d83b2d70c453e00d100efb8983eab42f8",
+        "bytes": 18218,
+        "description": "Focused V12 inspection tests.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "test/specialist-run-inspection.test.mjs"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:52acc84e561245f27afe26af16c000ce5d1e121b5649c4e70c2d03ec140c7be7",
+        "bytes": 2549,
+        "description": "Existing package scripts and export map.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.packed-check",
+        "kind": "repository",
+        "locator": "path:scripts/check-packed-consumer.mjs",
+        "digest": "sha256:dccdb91dbd30beb5961595c301545a3979e274e54ec73c751d16431cdf5cd8eb",
+        "bytes": 37768,
+        "description": "Installed-package export and runtime verification.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "scripts/check-packed-consumer.mjs"
+      },
+      {
+        "id": "context.packed-host",
+        "kind": "repository",
+        "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+        "digest": "sha256:9911410ebb6c7d1ee9904dbfa9c70adbac5213c7b3fbc3ee4d782f8bd57e89e7",
+        "bytes": 18435,
+        "description": "Installed-consumer TypeScript host fixture.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "scripts/fixtures/packed-consumer-host.ts"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md",
+        "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+        "bytes": 16223,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.run-inspection",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-inspection.ts",
+        "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+        "bytes": 14484,
+        "description": "V12 deterministic inspection implementation.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/specialist-run-inspection.ts"
+      },
+      {
+        "id": "context.run-schema-code",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+        "bytes": 3371,
+        "description": "Frozen V12 run-session schema validator.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.run-schema-json",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+        "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+        "bytes": 17405,
+        "description": "Frozen V12 run-session JSON Schema.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+      },
+      {
+        "id": "context.run-session",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-session.ts",
+        "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+        "bytes": 18723,
+        "description": "Frozen V12 session creation, restoration, and validation foundation.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/specialist-run-session.ts"
+      },
+      {
+        "id": "context.run-transition",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-transition.ts",
+        "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+        "bytes": 8015,
+        "description": "V12 handoff transition implementation.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/specialist-run-transition.ts"
+      },
+      {
+        "id": "context.run-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Frozen V12 run-session wire and public types.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.schema-readme",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/README.md",
+        "digest": "sha256:02a965b0c98dfeb522086339866d1b62340802b1cbccafdbf97b261120a96b41",
+        "bytes": 18724,
+        "description": "Published schema catalog and semantics.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "schemas/v1alpha1/README.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md",
+        "digest": "sha256:acbb09315f1e22a61a08b549ff7ba4142d61e9c04c859cf2e991690492caf3f3",
+        "bytes": 1867,
+        "description": "Frozen V12 verification obligations.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md"
+      },
+      {
+        "id": "context.transition-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-transition.test.mjs",
+        "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+        "bytes": 9861,
+        "description": "Focused V12 transition tests.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "test/specialist-run-transition.test.mjs"
+      },
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "integrate.public-surface"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md",
+          "package.json",
+          "schemas/v1alpha1/README.md",
+          "schemas/v1alpha1/diagnostic-catalog.json",
+          "schemas/v1alpha1/specialist-run.schema.json",
+          "scripts/check-packed-consumer.mjs",
+          "scripts/fixtures/packed-consumer-host.ts",
+          "src/constants.ts",
+          "src/diagnostics.ts",
+          "src/index.ts",
+          "src/specialist-run-inspection.ts",
+          "src/specialist-run-schema.ts",
+          "src/specialist-run-session.ts",
+          "src/specialist-run-transition.ts",
+          "src/specialist-run-types.ts",
+          "test/specialist-run-inspection.test.mjs",
+          "test/specialist-run-transition.test.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "package.json",
+          "schemas/v1alpha1/README.md",
+          "schemas/v1alpha1/diagnostic-catalog.json",
+          "scripts/check-packed-consumer.mjs",
+          "scripts/fixtures/packed-consumer-host.ts",
+          "src/index.ts"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "node",
+          "npm",
+          "powershell"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+    ],
+    "maxAgents": 1,
+    "maxConcurrency": 1,
+    "contentDigest": "sha256:5bf6cf9e056245d04c5f5f759cc80ecd011e1a7dbef618898562110e19d9c8d4"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:76651ec22b5bfcb95808802f18bfadc69e225e78ec567ed3aeb750cf9dc59801"
+  },
+  "serialBaseline": {
+    "id": "team.1188e52efea8241e53a452397083ee7f0a9c6b48f3d4034833a96f5621a828e7",
+    "partition": [
+      [
+        "integrate.public-surface"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 7,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 6,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.7420e1ee8bbc7fbf7c4ea1a7d6d7fd1e546e7704b329c15d5f29078f9f380b16",
+        "start": 0,
+        "finish": 7
+      }
+    ],
+    "contentDigest": "sha256:5b853888aec1804ab83b38f8518c9395f1b8b111ee76203e822b045ff2e28cfd"
+  },
+  "selected": {
+    "id": "team.1188e52efea8241e53a452397083ee7f0a9c6b48f3d4034833a96f5621a828e7",
+    "partition": [
+      [
+        "integrate.public-surface"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 7,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 6,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.7420e1ee8bbc7fbf7c4ea1a7d6d7fd1e546e7704b329c15d5f29078f9f380b16",
+        "start": 0,
+        "finish": 7
+      }
+    ],
+    "contentDigest": "sha256:5b853888aec1804ab83b38f8518c9395f1b8b111ee76203e822b045ff2e28cfd"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.1188e52efea8241e53a452397083ee7f0a9c6b48f3d4034833a96f5621a828e7",
+    "serialValue": "team.1188e52efea8241e53a452397083ee7f0a9c6b48f3d4034833a96f5621a828e7",
+    "serialRejectionCodes": []
+  },
+  "alternatives": [],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.7420e1ee8bbc7fbf7c4ea1a7d6d7fd1e546e7704b329c15d5f29078f9f380b16",
+      "goalId": "v12.ide-run-loop.implementation.public",
+      "goalRevision": 1,
+      "goalDigest": "sha256:02a26ec0d800ab1e9d0d11f73b9deb3f62b5388cfbb979e4a8ae63c8ebcd7378",
+      "candidateId": "team.1188e52efea8241e53a452397083ee7f0a9c6b48f3d4034833a96f5621a828e7",
+      "workUnitIds": [
+        "integrate.public-surface"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "integrate.public-surface",
+          "objective": "Export the four operations, constants, and closed types; publish the schema path; and prove clean installed-consumer use."
+        }
+      ],
+      "modules": [
+        {
+          "id": "integration.run-public-surface",
+          "action": "Update only the additive export, package, schema catalog, and packed-consumer surfaces; retain every V11 export and add the V12 dogfood command without implementing host effects.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "VerifiedRunImplementation"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IntegratedRunPublicSurface"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr-0005",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md",
+          "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+          "bytes": 9031,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md"
+        },
+        {
+          "sourceId": "context.constants",
+          "kind": "repository",
+          "locator": "path:src/constants.ts",
+          "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
+          "bytes": 2571,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "src/constants.ts"
+        },
+        {
+          "sourceId": "context.diagnostic-catalog",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/diagnostic-catalog.json",
+          "digest": "sha256:816bc731f6f4fab8132430aded14d28a100fef3ab6e0d6f04f25bace2653ad3a",
+          "bytes": 12641,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "schemas/v1alpha1/diagnostic-catalog.json"
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "kind": "repository",
+          "locator": "path:src/diagnostics.ts",
+          "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+          "bytes": 25190,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "src/diagnostics.ts"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dfa16eda45276f9caf5f59e12b2a20c5c0650a153b84d04510e0feac754b672b",
+          "bytes": 4688,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.inspection-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-inspection.test.mjs",
+          "digest": "sha256:6dcec494c85a807ed5d48e6d710f6c3d83b2d70c453e00d100efb8983eab42f8",
+          "bytes": 18218,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "test/specialist-run-inspection.test.mjs"
+        },
+        {
+          "sourceId": "context.package",
+          "kind": "repository",
+          "locator": "path:package.json",
+          "digest": "sha256:52acc84e561245f27afe26af16c000ce5d1e121b5649c4e70c2d03ec140c7be7",
+          "bytes": 2549,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "package.json"
+        },
+        {
+          "sourceId": "context.packed-check",
+          "kind": "repository",
+          "locator": "path:scripts/check-packed-consumer.mjs",
+          "digest": "sha256:dccdb91dbd30beb5961595c301545a3979e274e54ec73c751d16431cdf5cd8eb",
+          "bytes": 37768,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "scripts/check-packed-consumer.mjs"
+        },
+        {
+          "sourceId": "context.packed-host",
+          "kind": "repository",
+          "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+          "digest": "sha256:9911410ebb6c7d1ee9904dbfa9c70adbac5213c7b3fbc3ee4d782f8bd57e89e7",
+          "bytes": 18435,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "scripts/fixtures/packed-consumer-host.ts"
+        },
+        {
+          "sourceId": "context.run-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md",
+          "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+          "bytes": 16223,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md"
+        },
+        {
+          "sourceId": "context.run-inspection",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-inspection.ts",
+          "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+          "bytes": 14484,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "src/specialist-run-inspection.ts"
+        },
+        {
+          "sourceId": "context.run-schema-code",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-schema.ts",
+          "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+          "bytes": 3371,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "src/specialist-run-schema.ts"
+        },
+        {
+          "sourceId": "context.run-schema-json",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+          "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+          "bytes": 17405,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+        },
+        {
+          "sourceId": "context.run-session",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-session.ts",
+          "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+          "bytes": 18723,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "src/specialist-run-session.ts"
+        },
+        {
+          "sourceId": "context.run-transition",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-transition.ts",
+          "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+          "bytes": 8015,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "src/specialist-run-transition.ts"
+        },
+        {
+          "sourceId": "context.run-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.schema-readme",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/README.md",
+          "digest": "sha256:02a965b0c98dfeb522086339866d1b62340802b1cbccafdbf97b261120a96b41",
+          "bytes": 18724,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "schemas/v1alpha1/README.md"
+        },
+        {
+          "sourceId": "context.test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md",
+          "digest": "sha256:acbb09315f1e22a61a08b549ff7ba4142d61e9c04c859cf2e991690492caf3f3",
+          "bytes": 1867,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md"
+        },
+        {
+          "sourceId": "context.transition-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-transition.test.mjs",
+          "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+          "bytes": 9861,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "test/specialist-run-transition.test.mjs"
+        },
+        {
+          "sourceId": "context.v12-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md",
+          "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+          "bytes": 5478,
+          "purposes": [
+            "Implement or verify the exact frozen V12 public contract."
+          ],
+          "workUnitIds": [
+            "integrate.public-surface"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "integrate.public-package-surface"
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md",
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-transition.test.mjs"
+          ],
+          "write": [
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/index.ts"
+          ],
+          "conflictZones": [
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/index.ts"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/public/inputs/test-plan.md",
+              "package.json",
+              "schemas/v1alpha1/README.md",
+              "schemas/v1alpha1/diagnostic-catalog.json",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/fixtures/packed-consumer-host.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "test/specialist-run-inspection.test.mjs",
+              "test/specialist-run-transition.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "package.json",
+              "schemas/v1alpha1/README.md",
+              "schemas/v1alpha1/diagnostic-catalog.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/fixtures/packed-consumer-host.ts",
+              "src/index.ts"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.integrate.public-surface",
+          "criterion": "Export the four operations, constants, and closed types; publish the schema path; and prove clean installed-consumer use.",
+          "requirementId": "evidence.public-integration",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Provide declaration, schema export, packed-consumer, and V11 compatibility evidence for AC6 and AC9.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "public-surface-integration.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+        "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+        "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+        "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract."
+      ],
+      "contentDigest": "sha256:e485f54685142b60e94004ecd9e35bb33da7d969967a666252674e7e25fc8a78"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.7420e1ee8bbc7fbf7c4ea1a7d6d7fd1e546e7704b329c15d5f29078f9f380b16"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:e0f60f3dc69bfbcc8b0d6b37c5fc048b39d5d1ccae123849961ee5f2548646cb"
+}
