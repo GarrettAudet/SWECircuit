@@ -34,6 +34,11 @@ interface RawSessionSnapshot {
   readonly limitExceeded: boolean;
 }
 
+interface CanonicalBase64Snapshot {
+  readonly bytes: Uint8Array | null;
+  readonly limitExceeded: boolean;
+}
+
 interface AcceptedHandoffValidation {
   readonly rows: readonly SpecialistRunAcceptedHandoff[] | null;
   readonly diagnostics: readonly Diagnostic[];
@@ -239,21 +244,24 @@ function buildSession(
   return freezeJson(session as SpecialistRunSession);
 }
 
-function decodeCanonicalBase64(value: string): Uint8Array | null {
+function decodeCanonicalBase64(value: string): CanonicalBase64Snapshot {
   if (value.length > SPECIALIST_RUN_LIMITS.rawHandoffBase64Chars) {
-    return null;
+    return Object.freeze({ bytes: null, limitExceeded: true });
   }
   try {
     const decoded = Buffer.from(value, "base64");
-    if (
-      decoded.byteLength > SPECIALIST_RUN_LIMITS.rawHandoffBytes ||
-      decoded.toString("base64") !== value
-    ) {
-      return null;
+    if (decoded.byteLength > SPECIALIST_RUN_LIMITS.rawHandoffBytes) {
+      return Object.freeze({ bytes: null, limitExceeded: true });
     }
-    return new Uint8Array(decoded);
+    if (decoded.toString("base64") !== value) {
+      return Object.freeze({ bytes: null, limitExceeded: false });
+    }
+    return Object.freeze({
+      bytes: new Uint8Array(decoded),
+      limitExceeded: false,
+    });
   } catch {
-    return null;
+    return Object.freeze({ bytes: null, limitExceeded: false });
   }
 }
 
@@ -281,10 +289,13 @@ function dependencyClosure(
   return Object.freeze([...required].sort(compareText));
 }
 
-function invalidAcceptedHandoffs(pointer = "/acceptedHandoffs"): AcceptedHandoffValidation {
+function invalidAcceptedHandoffs(
+  pointer = "/acceptedHandoffs",
+  code: "SC4401" | "SC4402" = "SC4401",
+): AcceptedHandoffValidation {
   return Object.freeze({
     rows: null,
-    diagnostics: Object.freeze([createDiagnostic("SC4401", SESSION_ARTIFACT, pointer)]),
+    diagnostics: Object.freeze([createDiagnostic(code, SESSION_ARTIFACT, pointer)]),
   });
 }
 
@@ -310,8 +321,12 @@ function validateAcceptedHandoffs(
   const rows: SpecialistRunAcceptedHandoff[] = [];
   for (const [index, row] of session.acceptedHandoffs.entries()) {
     const pointer = appendJsonPointer("/acceptedHandoffs", index);
-    const raw = decodeCanonicalBase64(row.rawBase64);
-    if (raw === null || raw.byteLength !== row.rawBytes || rawSha256Digest(raw) !== row.rawDigest) {
+    const decoded = decodeCanonicalBase64(row.rawBase64);
+    if (decoded.bytes === null) {
+      return invalidAcceptedHandoffs(pointer, decoded.limitExceeded ? "SC4402" : "SC4401");
+    }
+    const raw = decoded.bytes;
+    if (raw.byteLength !== row.rawBytes || rawSha256Digest(raw) !== row.rawDigest) {
       return invalidAcceptedHandoffs(pointer);
     }
 

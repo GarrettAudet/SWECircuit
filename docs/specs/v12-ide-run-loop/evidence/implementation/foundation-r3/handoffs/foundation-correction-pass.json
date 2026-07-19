@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.foundation",
+    "revision": 3,
+    "digest": "sha256:15cef3bb459e45ea5488da6f5d8f270331d5a88a8b0d7ee20cf0ffe73e4525de"
+  },
+  "agent": {
+    "id": "agent.9fd755787fd56ff15ec922d15077146bfb9dad79040dcd47538bc71cfe35bb3f",
+    "blueprintDigest": "sha256:7b6a342e48785d39857ba5f5ee8115119290cdef74226c25566163947f0d7f9c"
+  },
+  "compilationDigest": "sha256:2a7a3f2e6a2c591b89eb5304be6662488e15561df4add9750a189ce426f43707",
+  "summary": "Corrected decoded-base64 resource classification and added a real-package regression covering SC4402 overflow and SC4401 malformed input; focused build, typecheck, and test checks pass.",
+  "workUnitsCompleted": [
+    "fix.foundation-resource-classification"
+  ],
+  "artifacts": [
+    {
+      "name": "foundation-boundary-correction.md",
+      "mediaType": "text/markdown",
+      "content": "# Foundation boundary correction\n\n## Source verification\n\nAll 21 declared context sources matched their exact raw byte counts and SHA-256 digests before use.\n\n## Changes\n\n- `src/specialist-run-session.ts` now distinguishes decoded-byte limit excess from malformed or non-canonical base64. Canonical base64 decoding beyond `rawHandoffBytes` returns SC4402; malformed, non-canonical, or binding-mismatched input retains SC4401.\n- `test/specialist-run-foundation.test.mjs` creates a real compiled and rendered specialist package, constructs a bound run session, and verifies both classifications persistently.\n\n## Verification\n\n- PASS: `npm.cmd run typecheck`.\n- PASS: `npm.cmd run build` after the contract-directed sandbox escalation.\n- PASS: `node --test test/specialist-run-foundation.test.mjs` with 1 test passed and 0 failed.\n- Final source binding: `src/specialist-run-session.ts`, 18748 bytes, SHA-256 `327603aeb01baee1624e8e90084b302d0eebf8addaeb7197643da80c6c8ad38d`.\n- Final test binding: `test/specialist-run-foundation.test.mjs`, 3270 bytes, SHA-256 `6a85588160d7da1020611705bec80666d104e8f8c726fcd750d5916dbfc7c23a`.\n\n## Failed attempts preserved\n\n- Native `apply_patch` failed before mutation because the host sandbox helper could not refresh the target worktree.\n- Initial fallback preparation failed before mutation because the orchestration isolate lacked `TextEncoder`.\n- The exact precondition-hash-guarded PowerShell fallback was denied by the default sandbox before mutation; its approved escalated retry succeeded and immediately verified both written files byte-for-byte.\n- The first local build attempt failed with TS5033 access-denied errors for generated `dist` outputs; the contract-directed escalated retry passed.\n\nNo network access, Git operation, descendant-agent launch, or undeclared source edit was performed."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.foundation-resource-classification",
+      "requirementId": "evidence.foundation-boundary-correction",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "foundation-boundary-correction.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The full suite was intentionally not run; its known diagnostic-catalog parity failure remains preserved and outside this correction scope."
+  ],
+  "followUps": []
+}

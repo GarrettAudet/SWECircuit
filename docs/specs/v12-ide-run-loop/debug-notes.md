@@ -104,3 +104,10 @@ Confirmed Foundation resource-boundary classification defect: `fix`.
 ### Smallest Causal Fix
 
 Return a bounded decode result that distinguishes invalid encoding from decoded-byte overflow, map only overflow to `SC4402`, and add a real-package regression proving both classifications without changing the wire contract.
+
+### Verification
+
+- Foundation Revision 3 returned an exact package-verified 3,405-byte `pass` handoff with `phaseReady: true`.
+- The focused real-package test proves decoded overflow emits `SC4402` and malformed canonical binding emits `SC4401`.
+- Independent format, lint, typecheck, build, and focused test gates passed after deterministic integration formatting.
+- The full suite passed 370 of 371 tests; only the separately routed diagnostic catalog parity gate remains red.
