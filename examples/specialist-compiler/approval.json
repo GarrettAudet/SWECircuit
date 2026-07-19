@@ -7,8 +7,8 @@
       "path": "src/index.ts",
       "description": "The installed package public API.",
       "workUnitId": "review.api",
-      "bytes": 4688,
-      "digest": "sha256:dfa16eda45276f9caf5f59e12b2a20c5c0650a153b84d04510e0feac754b672b"
+      "bytes": 5447,
+      "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f"
     },
     {
       "id": "context.workflow-contract",
@@ -20,7 +20,7 @@
     }
   ],
   "expectation": {
-    "compilationDigest": "sha256:e8c097acd2a3fe970b96ce17b80dbe560ca739a682b5df9aa693bff32bbdcc04",
-    "packageDigest": "sha256:96013b9710e1803433d44abb34982cb21013d506c3435b72dfad0c67d477e490"
+    "compilationDigest": "sha256:6b8365c73d6c31f731cce8937518ba79f23a0efb66269b8d9345b1df9fe767d8",
+    "packageDigest": "sha256:6bdf0cb1f84f3b175a21c04af1b57d6967e4ed45279461141c20ab2bac79e7c3"
   }
 }

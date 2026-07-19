@@ -14,7 +14,8 @@
     },
     "./schemas/common.schema.json": "./schemas/v1alpha1/common.schema.json",
     "./schemas/specialist-compiler.schema.json": "./schemas/v1alpha1/specialist-compiler.schema.json",
-    "./schemas/specialist-handoff.schema.json": "./schemas/v1alpha1/specialist-handoff.schema.json"
+    "./schemas/specialist-handoff.schema.json": "./schemas/v1alpha1/specialist-handoff.schema.json",
+    "./schemas/specialist-run.schema.json": "./schemas/v1alpha1/specialist-run.schema.json"
   },
   "files": [
     "dist",
@@ -26,15 +27,16 @@
     "dogfood:v9": "npm run build --silent && node scripts/run-v9-dogfood.mjs",
     "dogfood:v10": "npm run build --silent && node scripts/run-v10-dogfood.mjs --check-evidence",
     "dogfood:v11": "npm run build --silent && node scripts/run-v11-dogfood.mjs --check-evidence",
+    "dogfood:v12": "npm run build --silent && node scripts/run-v12-dogfood.mjs --check-evidence",
     "example:specialist": "node examples/specialist-compiler/run.mjs",
-    "format": "biome format --write src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
-    "format:check": "biome format src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
-    "lint": "biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts",
+    "format": "biome format --write src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
+    "format:check": "biome format src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
+    "lint": "biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build --silent && node --test test/*.test.mjs",
     "pack:check": "npm pack --dry-run --cache .local/npm-cache",
     "consumer:check": "npm run build --silent && node scripts/check-packed-consumer.mjs",
-    "verify": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run example:specialist && npm run dogfood:v10 && npm run dogfood:v11 && npm run pack:check && npm run consumer:check"
+    "verify": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run example:specialist && npm run dogfood:v10 && npm run dogfood:v11 && npm run dogfood:v12 && npm run pack:check && npm run consumer:check"
   },
   "dependencies": {
     "ajv": "8.20.0",

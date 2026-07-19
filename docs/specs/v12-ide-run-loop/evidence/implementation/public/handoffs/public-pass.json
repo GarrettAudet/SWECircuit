@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.public",
+    "revision": 1,
+    "digest": "sha256:02a26ec0d800ab1e9d0d11f73b9deb3f62b5388cfbb979e4a8ae63c8ebcd7378"
+  },
+  "agent": {
+    "id": "agent.7420e1ee8bbc7fbf7c4ea1a7d6d7fd1e546e7704b329c15d5f29078f9f380b16",
+    "blueprintDigest": "sha256:e485f54685142b60e94004ecd9e35bb33da7d969967a666252674e7e25fc8a78"
+  },
+  "compilationDigest": "sha256:e0f60f3dc69bfbcc8b0d6b37c5fc048b39d5d1ccae123849961ee5f2548646cb",
+  "summary": "Completed the additive V12 public surface, schema and diagnostics publication, and clean installed-consumer proof while preserving the V11 API and retained package identity.",
+  "workUnitsCompleted": [
+    "integrate.public-surface"
+  ],
+  "artifacts": [
+    {
+      "name": "public-surface-integration.md",
+      "mediaType": "text/markdown",
+      "content": "# Public Surface Integration\n\n## Result\n\nThe owned V12 public integration is complete. All 20 declared source bindings were verified against their exact raw SHA-256 digest and byte count before use.\n\n## Changes\n\n- Exported the four frozen operations, three constants, and all 13 closed run types from `src/index.ts` without removing or changing any V11 export.\n- Published `swecircuit/schemas/specialist-run.schema.json`, added the planned `dogfood:v12` command, and included it in the future canonical gate.\n- Advanced the diagnostic catalog to 1.5.0 with exact `SC4401` through `SC4405` entries and documented the V12 API and host boundary.\n- Extended the packed-consumer gate and TypeScript host to compile and execute create, inspect, record, restore, schema resolution, exact raw retention, and integration-ready inspection from a clean offline installation.\n\n## Verification\n\nPassed: JSON parsing; JavaScript syntax check; focused Biome format and lint; `npm.cmd run typecheck`; `npm.cmd run build`; focused V12 tests with 6 of 6 passing; `npm.cmd run pack:check`; and final `npm.cmd run consumer:check`.\n\nThe installed-consumer proof compiled all V11 and V12 declarations, retained the approved V11 compilation/package identity pair, resolved and strictly compiled the exported run schema, restored the exact accepted handoff, and reached `integration_ready` through the installed package.\n\n## Bounded Failures\n\nThe future `scripts/run-v12-dogfood.mjs` is not present because it belongs to the next verification work unit. An early `npm.cmd run dogfood:v12` attempt therefore stopped at `MODULE_NOT_FOUND`; the future script did not run. Broad format and lint scripts similarly reported that planned path, while the focused checks passed.\n\nThe broad test attempt passed 375 of 376 tests; the remaining first-run example reported a stale context-source binding. `npm.cmd run dogfood:v11` likewise reported its preserved pre-V12 `src/constants.ts` binding instead of the already-delivered V12 source bytes. The clean installed-consumer V11 compatibility and retained package-identity checks passed.\n\n## Edit Integrity\n\nNative `apply_patch` failed before mutation and the original `src/index.ts` binding was reverified. Every edit then used the authorized exact precondition-hash-guarded PowerShell fallback with immediate readback and SHA-256 verification. One fallback initially wrote two literal newline escapes into `package.json`; the malformed intermediate bytes were detected immediately and corrected under their new exact hash guard before validation.\n\nFinal source hashes: `package.json` `sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c`; schema README `sha256:e2bd5e0ca5123873d07fe5bdaff4181b38c34a6cbea0220ecb02e78a62f18223`; diagnostic catalog `sha256:ca09d174600a7841dcab90b15fe1d95bc9a24f72411704fbe794d2f52dec84a2`; packed check `sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e`; TypeScript host `sha256:90633af96b2afaa66dfaddd66e27f2e050dfd0ac5c052f8c1e2413d21db74d00`; public index `sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f`."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.integrate.public-surface",
+      "requirementId": "evidence.public-integration",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "public-surface-integration.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The canonical gate remains temporarily incomplete until the separately owned V12 dogfood script is integrated.",
+    "Preserved V11 dogfood and first-run source approvals currently bind pre-V12 source bytes and require an independently reviewed refresh."
+  ],
+  "followUps": [
+    "Integrate `scripts/run-v12-dogfood.mjs`, then run `npm.cmd run dogfood:v12` and the complete canonical gate.",
+    "Review and refresh the immutable V11 dogfood and first-run context bindings without changing the retained V11 public package identity."
+  ]
+}

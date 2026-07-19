@@ -2,7 +2,7 @@
 
 ## Status
 
-Architecture passed. Foundation Revision 2 is package-verified and under integration review; downstream implementation has not started.
+Architecture, foundation, transition, inspection, and public integration passed. Independent verification and IDE dogfood are next.
 
 ## Baseline
 
@@ -34,3 +34,8 @@ Architecture passed. Foundation Revision 2 is package-verified and under integra
 - Transition and inspection ran concurrently with exact disjoint source/test write sets. Transition finished first; inspection continued independently. Their 4,114-byte and 4,997-byte raw `pass` handoffs verified as the complete expected roster with `phaseReady: true`.
 - Independent integration applied deterministic Biome formatting to the four agent outputs, then passed format, lint, typecheck, build, and all six combined V12 focused tests.
 - A separate integration-owner lifecycle probe used a real two-agent package and passed `create -> inspect -> record prerequisite -> inspect -> record dependent -> inspect`, ending at `integration_ready` with two accepted evidence rows.
+- Public integration compiled one exact specialist against compilation `sha256:e0f60f3dc69bfbcc8b0d6b37c5fc048b39d5d1ccae123849961ee5f2548646cb` and package `sha256:edea1a4de9906ca13dedd8164e1d84179934e4037bc9f418f7b492d872081617`. Its exact 5,004-byte `pass` handoff verified with raw digest `sha256:575289f727acdcfe27e76a093f1b6cdf15bd7a855632adbf352ce07e403a41e1` and `phaseReady: true`.
+- Integration-owner review confirmed additive root exports, exact `SC4401`-`SC4405` catalog parity, the package-owned run schema export, and a clean installed-consumer lifecycle using no source-checkout internals.
+- The first full suite after public integration passed 375 of 376 tests. Diagnosis proved that only the first-run example's reviewed `src/index.ts` bytes were stale; the repository-owned deterministic approval derivation refreshed that source binding and its dependent compilation/package expectation. The focused example suite then passed 7 of 7 and the full suite passed 376 of 376.
+- Independent build, dry-run package inspection, and offline installed-consumer verification passed. The installed package creates, inspects, records, restores, and reinspects a run session while retaining the approved V11 package identity pair.
+- The V12 dogfood command intentionally points to the separately owned verification-phase script and remains temporarily unrunnable until that disjoint work unit lands. V11 dogfood evidence also binds current live repository sources; refresh it once, after the remaining V12 source and guidance edits settle, so it is not invalidated twice.

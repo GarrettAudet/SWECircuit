@@ -111,3 +111,39 @@ Return a bounded decode result that distinguishes invalid encoding from decoded-
 - The focused real-package test proves decoded overflow emits `SC4402` and malformed canonical binding emits `SC4401`.
 - Independent format, lint, typecheck, build, and focused test gates passed after deterministic integration formatting.
 - The full suite passed 370 of 371 tests; only the separately routed diagnostic catalog parity gate remains red.
+
+## Public Integration Approval Refresh
+
+### Reproduction
+
+Run the complete test suite after the public V12 exports and diagnostic catalog update.
+
+### Evidence
+
+- Runtime/catalog parity passed and all V12 tests passed.
+- The suite passed 375 of 376 tests.
+- The sole failure was `first-run specialist example is deterministic, approval-bound, and read-only` with `Context source mismatch.`
+- `examples/specialist-compiler/approval.json` bound `src/index.ts` at 4,688 bytes and `sha256:dfa16eda45276f9caf5f59e12b2a20c5c0650a153b84d04510e0feac754b672b`; the reviewed additive V12 export surface is 5,447 bytes and `sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f`.
+
+### Classification
+
+Expected approval maintenance after an intentional public-source change: `fix`. This is not a V12 runtime defect or a V11 identity change.
+
+### Confirmed Cause
+
+The example correctly failed closed because its exact source approval predated the additive V12 root exports. The dependent example compilation and package digests therefore also changed.
+
+### Smallest Causal Fix
+
+Use the example's deterministic `--derive-approval` operation, review the exact result, and refresh only the source bytes/digest plus dependent compilation/package expectation in `examples/specialist-compiler/approval.json`.
+
+### Verification
+
+- Focused first-run suite: 7 of 7 passed.
+- Complete kernel suite: 376 of 376 passed.
+- Dry-run package inspection passed.
+- Clean offline installed-consumer verification passed.
+
+### Deferred Evidence Refresh
+
+V11 dogfood evidence binds live repository sources that the remaining V12 verification wave will still change. Refresh and independently verify that evidence only after those edits settle; an earlier refresh would be immediately stale.

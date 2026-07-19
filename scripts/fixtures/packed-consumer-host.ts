@@ -10,16 +10,23 @@ import {
   type AgentBlueprintObjective,
   type CompileAgentBlueprintsInput,
   compileAgentBlueprints,
+  createSpecialistRunSession,
   deriveTaskAuthorityProjection,
   type ExecuteWorkPacketOptions,
   type ExecutionGrant,
   type ExecutionGrantPermission,
   type ExecutionSummary,
   executeWorkPacket,
+  inspectSpecialistRunSession,
+  recordSpecialistRunHandoff,
   type RenderedSpecialistFile,
   type RenderedSpecialistPackage,
   renderSpecialistPackage,
+  restoreSpecialistRunSession,
   SPECIALIST_API_VERSION,
+  SPECIALIST_RUN_API_VERSION,
+  type SPECIALIST_RUN_KINDS,
+  SPECIALIST_RUN_LIMITS,
   verifySpecialistPackage,
   verifySpecialistHandoff,
   type SPECIALIST_KINDS,
@@ -70,6 +77,19 @@ import {
   type SpecialistSelectionReason,
   type SpecialistUnresolvedDecision,
   type SpecialistWorkUnit,
+  type SpecialistRunAcceptedEvidence,
+  type SpecialistRunAcceptedHandoff,
+  type SpecialistRunAgentStatus,
+  type SpecialistRunAgentStatusKind,
+  type SpecialistRunApiVersion,
+  type SpecialistRunEligibleContract,
+  type SpecialistRunEvidenceBinding,
+  type SpecialistRunGoalBinding,
+  type SpecialistRunInspection,
+  type SpecialistRunNextAction,
+  type SpecialistRunRoute,
+  type SpecialistRunSession,
+  type SpecialistRunStage,
   type TaskAuthorityProjection,
   type WorkPacketExecutor,
   type WorkPacketExecutorRequest,
@@ -211,6 +231,22 @@ type SpecialistDeclarationSurface = readonly [
   VerifiedSpecialistHandoff,
 ];
 
+type SpecialistRunDeclarationSurface = readonly [
+  SpecialistRunAcceptedEvidence,
+  SpecialistRunAcceptedHandoff,
+  SpecialistRunAgentStatus,
+  SpecialistRunAgentStatusKind,
+  SpecialistRunApiVersion,
+  SpecialistRunEligibleContract,
+  SpecialistRunEvidenceBinding,
+  SpecialistRunGoalBinding,
+  SpecialistRunInspection,
+  SpecialistRunNextAction,
+  SpecialistRunRoute,
+  SpecialistRunSession,
+  SpecialistRunStage,
+];
+
 type DeepKeys<T> = T extends readonly (infer Entry)[]
   ? DeepKeys<Entry>
   : T extends object
@@ -229,7 +265,7 @@ type ForbiddenSpecialistKey =
   | "agentProfile"
   | "assignment";
 type SpecialistForbiddenDeclarationKeys = Extract<
-  DeepKeys<SpecialistDeclarationSurface[number]>,
+  DeepKeys<SpecialistDeclarationSurface[number] | SpecialistRunDeclarationSurface[number]>,
   ForbiddenSpecialistKey
 >;
 type IsNever<T> = [T] extends [never] ? true : false;
@@ -249,6 +285,24 @@ const specialistKinds: typeof SPECIALIST_KINDS = [
   "SpecialistPackageManifest",
 ];
 const specialistLimits: typeof SPECIALIST_LIMITS = SPECIALIST_LIMITS;
+const specialistRunApiVersion: SpecialistRunApiVersion = SPECIALIST_RUN_API_VERSION;
+const specialistRunKinds: typeof SPECIALIST_RUN_KINDS = [
+  "SpecialistRunSession",
+  "SpecialistRunInspection",
+];
+const specialistRunLimits: typeof SPECIALIST_RUN_LIMITS = SPECIALIST_RUN_LIMITS;
+const specialistRunStages = {
+  collecting: true,
+  routed: true,
+  integration_ready: true,
+} satisfies Record<SpecialistRunStage, true>;
+const specialistRunAgentStatuses = {
+  accepted_pass: true,
+  accepted_non_pass: true,
+  dependency_eligible: true,
+  waiting_for_dependencies: true,
+  session_routed: true,
+} satisfies Record<SpecialistRunAgentStatusKind, true>;
 const specialistContextKinds = {
   repository: true,
   documentation: true,
@@ -508,6 +562,67 @@ if (!specialistHandoffVerificationResult.ok || specialistHandoffVerificationResu
 }
 const verifiedSpecialistHandoff: VerifiedSpecialistHandoff =
   specialistHandoffVerificationResult.value;
+
+const specialistRunCreationResult = createSpecialistRunSession(
+  specialistPackage,
+  retainedSpecialistExpectation,
+);
+if (!specialistRunCreationResult.ok || specialistRunCreationResult.value === null) {
+  throw new Error("The installed specialist run creator rejected the verified package.");
+}
+const specialistRunSession: SpecialistRunSession = specialistRunCreationResult.value;
+const specialistRunInitialInspectionResult = inspectSpecialistRunSession(
+  specialistRunSession,
+  retainedSpecialistExpectation,
+);
+if (
+  !specialistRunInitialInspectionResult.ok ||
+  specialistRunInitialInspectionResult.value === null ||
+  specialistRunInitialInspectionResult.value.stage !== "collecting"
+) {
+  throw new Error("The installed specialist run inspector rejected the initial session.");
+}
+const specialistRunInitialInspection: SpecialistRunInspection =
+  specialistRunInitialInspectionResult.value;
+const specialistRunRecordResult = recordSpecialistRunHandoff(
+  specialistRunSession,
+  retainedSpecialistExpectation,
+  rawSpecialistHandoff,
+);
+if (!specialistRunRecordResult.ok || specialistRunRecordResult.value === null) {
+  throw new Error("The installed specialist run recorder rejected the verified handoff.");
+}
+const recordedSpecialistRunSession: SpecialistRunSession = specialistRunRecordResult.value;
+const rawSpecialistRunSession = new TextEncoder().encode(
+  JSON.stringify(recordedSpecialistRunSession),
+);
+const specialistRunRestoreResult = restoreSpecialistRunSession(
+  rawSpecialistRunSession,
+  retainedSpecialistExpectation,
+);
+if (!specialistRunRestoreResult.ok || specialistRunRestoreResult.value === null) {
+  throw new Error("The installed specialist run restorer rejected the serialized session.");
+}
+const restoredSpecialistRunSession: SpecialistRunSession = specialistRunRestoreResult.value;
+const acceptedSpecialistRunHandoff: SpecialistRunAcceptedHandoff | undefined =
+  restoredSpecialistRunSession.acceptedHandoffs[0];
+if (acceptedSpecialistRunHandoff === undefined) {
+  throw new Error("The restored specialist run session omitted its accepted handoff.");
+}
+const specialistRunFinalInspectionResult = inspectSpecialistRunSession(
+  restoredSpecialistRunSession,
+  retainedSpecialistExpectation,
+);
+if (
+  !specialistRunFinalInspectionResult.ok ||
+  specialistRunFinalInspectionResult.value === null ||
+  !specialistRunFinalInspectionResult.value.integrationReady
+) {
+  throw new Error("The installed specialist run inspector did not close complete fan-in.");
+}
+const specialistRunFinalInspection: SpecialistRunInspection =
+  specialistRunFinalInspectionResult.value;
+
 const specialistHandoffAssessmentResult = assessSpecialistHandoffs(
   specialistPackage,
   retainedSpecialistExpectation,
@@ -531,8 +646,13 @@ console.log(
     candidateAnalysis: specialistAnalysis.selectionStatus === "selected",
     fanInReady: specialistHandoffAssessment.integrationReady,
     handoffVerified: verifiedSpecialistHandoff.kind === "VerifiedSpecialistHandoff",
+    runAcceptedHandoffs: restoredSpecialistRunSession.acceptedHandoffs.length,
+    runIntegrationReady: specialistRunFinalInspection.integrationReady,
+    runSessionRestored:
+      restoredSpecialistRunSession.contentDigest === recordedSpecialistRunSession.contentDigest,
     specialistAgents: specialistCompilation.blueprints.length,
     specialistFiles: specialistPackage.files.length,
+    specialistRunApiVersion: specialistRunSession.apiVersion,
   }),
 );
 
@@ -541,6 +661,11 @@ void [
   specialistApiVersion,
   specialistKinds,
   specialistLimits,
+  specialistRunApiVersion,
+  specialistRunKinds,
+  specialistRunLimits,
+  specialistRunStages,
+  specialistRunAgentStatuses,
   specialistContextKinds,
   specialistEvidenceDuties,
   specialistSearchModes,
@@ -558,4 +683,10 @@ void [
   specialistHandoff,
   specialistHandoffAssessment,
   verifiedSpecialistHandoff,
+  specialistRunSession,
+  specialistRunInitialInspection,
+  recordedSpecialistRunSession,
+  restoredSpecialistRunSession,
+  acceptedSpecialistRunHandoff,
+  specialistRunFinalInspection,
 ];

@@ -26,6 +26,10 @@ const REQUIRED_PACKED_FILES = Object.freeze([
   "dist/specialist-compiler.d.ts",
   "dist/specialist-handoff.d.ts",
   "dist/specialist-render.d.ts",
+  "dist/specialist-run-inspection.d.ts",
+  "dist/specialist-run-session.d.ts",
+  "dist/specialist-run-transition.d.ts",
+  "dist/specialist-run-types.d.ts",
   "dist/specialist-types.d.ts",
   "docs/framework/executor-boundary.md",
   "package.json",
@@ -34,6 +38,7 @@ const REQUIRED_PACKED_FILES = Object.freeze([
   "schemas/v1alpha1/run-event.schema.json",
   "schemas/v1alpha1/specialist-compiler.schema.json",
   "schemas/v1alpha1/specialist-handoff.schema.json",
+  "schemas/v1alpha1/specialist-run.schema.json",
 ]);
 const FORBIDDEN_PACKED_FILES = new Set([".npmrc"]);
 const FORBIDDEN_PACKED_PREFIXES = Object.freeze(["scripts/", "src/", "test/"]);
@@ -54,14 +59,21 @@ import {
   SPECIALIST_API_VERSION,
   SPECIALIST_KINDS,
   SPECIALIST_LIMITS,
+  SPECIALIST_RUN_API_VERSION,
+  SPECIALIST_RUN_KINDS,
+  SPECIALIST_RUN_LIMITS,
   compileAgentBlueprints,
   createDeterministicTestExecutor,
+  createSpecialistRunSession,
   createToolchainProbe,
   deriveTaskAuthorityProjection,
   executeWorkPacket,
   initializeProject,
+  inspectSpecialistRunSession,
   inspectTrace,
+  recordSpecialistRunHandoff,
   renderSpecialistPackage,
+  restoreSpecialistRunSession,
   TOOLCHAIN,
   verifySpecialistPackage,
   verifySpecialistHandoff,
@@ -95,6 +107,10 @@ assert.equal(
 );
 assert.equal(
   existsSync(join(installedPackage, "schemas", "v1alpha1", "specialist-handoff.schema.json")),
+  true,
+);
+assert.equal(
+  existsSync(join(installedPackage, "schemas", "v1alpha1", "specialist-run.schema.json")),
   true,
 );
 assert.equal(existsSync(join(installedPackage, "src")), false);
@@ -135,6 +151,18 @@ assert.equal(
   handoffSchema.$id,
   "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-handoff.schema.json",
 );
+const specialistRunSchemaPath = realpathSync(
+  fileURLToPath(import.meta.resolve("swecircuit/schemas/specialist-run.schema.json")),
+);
+assert.equal(
+  relative(installedPackage, specialistRunSchemaPath).replaceAll("\\", "/"),
+  "schemas/v1alpha1/specialist-run.schema.json",
+);
+const specialistRunSchema = JSON.parse(readFileSync(specialistRunSchemaPath, "utf8"));
+assert.equal(
+  specialistRunSchema.$id,
+  "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-run.schema.json",
+);
 const specialistSchemaRegistry = new Ajv2020({
   allErrors: true,
   strict: true,
@@ -143,7 +171,8 @@ const specialistSchemaRegistry = new Ajv2020({
 specialistSchemaRegistry.addSchema(commonSchema);
 specialistSchemaRegistry.addSchema(specialistSchema);
 specialistSchemaRegistry.addSchema(handoffSchema);
-for (const schema of [specialistSchema, handoffSchema]) {
+specialistSchemaRegistry.addSchema(specialistRunSchema);
+for (const schema of [specialistSchema, handoffSchema, specialistRunSchema]) {
   assert.equal(typeof specialistSchemaRegistry.getSchema(schema.$id), "function");
   for (const definition of Object.keys(schema.$defs)) {
     assert.doesNotThrow(() =>
@@ -383,6 +412,22 @@ assert.deepEqual(SPECIALIST_KINDS, [
 assert.equal(SPECIALIST_LIMITS.exactSearchWorkUnits, 8);
 assert.equal(SPECIALIST_LIMITS.agents, 16);
 assert.equal(Object.isFrozen(SPECIALIST_LIMITS), true);
+
+assert.equal(SPECIALIST_RUN_API_VERSION, "swecircuit/specialist-run/v1alpha1");
+assert.deepEqual(SPECIALIST_RUN_KINDS, [
+  "SpecialistRunSession",
+  "SpecialistRunInspection",
+]);
+assert.deepEqual(SPECIALIST_RUN_LIMITS, {
+  rawSessionInputBytes: 134_217_728,
+  canonicalSessionBytes: 134_217_728,
+  acceptedHandoffs: 16,
+  rawHandoffBytes: 1_048_576,
+  rawHandoffBase64Chars: 1_398_104,
+  canonicalInspectionBytes: 67_108_864,
+});
+assert.equal(Object.isFrozen(SPECIALIST_RUN_KINDS), true);
+assert.equal(Object.isFrozen(SPECIALIST_RUN_LIMITS), true);
 
 const specialistGoal = {
   apiVersion: SPECIALIST_API_VERSION,
@@ -696,6 +741,78 @@ assert.equal(
   JSON.stringify(specialistHandoffVerification.diagnostics),
 );
 assert.notEqual(specialistHandoffVerification.value, null);
+
+const specialistRunCreation = createSpecialistRunSession(
+  specialistPackage,
+  retainedSpecialistExpectation,
+);
+assert.equal(specialistRunCreation.ok, true, JSON.stringify(specialistRunCreation.diagnostics));
+assert.notEqual(specialistRunCreation.value, null);
+const specialistRunSession = specialistRunCreation.value;
+assert.equal(specialistRunSession.apiVersion, SPECIALIST_RUN_API_VERSION);
+assert.equal(specialistRunSession.kind, SPECIALIST_RUN_KINDS[0]);
+assert.deepEqual(specialistRunSession.acceptedHandoffs, []);
+assert.equal(Object.isFrozen(specialistRunSession), true);
+
+const specialistRunInitialInspection = inspectSpecialistRunSession(
+  specialistRunSession,
+  retainedSpecialistExpectation,
+);
+assert.equal(
+  specialistRunInitialInspection.ok,
+  true,
+  JSON.stringify(specialistRunInitialInspection.diagnostics),
+);
+assert.notEqual(specialistRunInitialInspection.value, null);
+assert.equal(specialistRunInitialInspection.value.stage, "collecting");
+assert.equal(specialistRunInitialInspection.value.integrationReady, false);
+assert.deepEqual(
+  specialistRunInitialInspection.value.dependencyEligibleContracts.map(
+    (contract) => contract.agentId,
+  ),
+  [specialistBlueprint.id],
+);
+
+const specialistRunRecord = recordSpecialistRunHandoff(
+  specialistRunSession,
+  retainedSpecialistExpectation,
+  rawSpecialistHandoff,
+);
+assert.equal(specialistRunRecord.ok, true, JSON.stringify(specialistRunRecord.diagnostics));
+assert.notEqual(specialistRunRecord.value, null);
+assert.equal(specialistRunRecord.value.acceptedHandoffs.length, 1);
+assert.equal(
+  specialistRunRecord.value.acceptedHandoffs[0].rawBase64,
+  Buffer.from(rawSpecialistHandoff).toString("base64"),
+);
+const rawSpecialistRunSession = new TextEncoder().encode(
+  JSON.stringify(specialistRunRecord.value),
+);
+const specialistRunRestore = restoreSpecialistRunSession(
+  rawSpecialistRunSession,
+  retainedSpecialistExpectation,
+);
+assert.equal(specialistRunRestore.ok, true, JSON.stringify(specialistRunRestore.diagnostics));
+assert.notEqual(specialistRunRestore.value, null);
+assert.deepEqual(specialistRunRestore.value, specialistRunRecord.value);
+
+const specialistRunFinalInspection = inspectSpecialistRunSession(
+  specialistRunRestore.value,
+  retainedSpecialistExpectation,
+);
+assert.equal(
+  specialistRunFinalInspection.ok,
+  true,
+  JSON.stringify(specialistRunFinalInspection.diagnostics),
+);
+assert.notEqual(specialistRunFinalInspection.value, null);
+assert.equal(specialistRunFinalInspection.value.stage, "integration_ready");
+assert.equal(specialistRunFinalInspection.value.integrationReady, true);
+assert.equal(specialistRunFinalInspection.value.specialistOutcome, "pass");
+assert.equal(specialistRunFinalInspection.value.acceptedEvidence.length, 1);
+assertProviderNeutralKeys(specialistRunRestore.value);
+assertProviderNeutralKeys(specialistRunFinalInspection.value);
+
 const mismatchedSpecialistExpectation = Object.freeze({
   ...retainedSpecialistExpectation,
   packageDigest: "sha256:" + "f".repeat(64),
@@ -734,6 +851,11 @@ process.stdout.write(
     handoffSchemaSubpath: true,
     handoffVerified: specialistHandoffVerification.value.kind === "VerifiedSpecialistHandoff",
     initialized: true,
+    runAcceptedHandoffs: specialistRunRestore.value.acceptedHandoffs.length,
+    runIntegrationReady: specialistRunFinalInspection.value.integrationReady,
+    runSchemaSubpath: true,
+    runSessionRestored:
+      specialistRunRestore.value.contentDigest === specialistRunRecord.value.contentDigest,
     inspectedEvents: inspected.value.eventCount,
     mismatchedApprovalRejected: true,
     inspectedExecutionEvents: executionInspection.value.eventCount,
@@ -741,7 +863,9 @@ process.stdout.write(
     projectId: validated.value.projectId,
     specialistAgents: specialistCompilation.blueprints.length,
     specialistFiles: specialistPackage.files.length,
+    specialistRunApiVersion: specialistRunSession.apiVersion,
     specialistSchemaSubpath: true,
+    strictSpecialistRunSchemaRegistry: true,
     strictSpecialistSchemaRegistry: true,
     validated: true,
   }) + "\n",
@@ -1006,6 +1130,10 @@ try {
     installedManifest.exports?.["./schemas/specialist-handoff.schema.json"],
     "./schemas/v1alpha1/specialist-handoff.schema.json",
   );
+  assert.equal(
+    installedManifest.exports?.["./schemas/specialist-run.schema.json"],
+    "./schemas/v1alpha1/specialist-run.schema.json",
+  );
   run(
     process.execPath,
     [
@@ -1039,8 +1167,12 @@ try {
     candidateAnalysis: true,
     fanInReady: true,
     handoffVerified: true,
+    runAcceptedHandoffs: 1,
+    runIntegrationReady: true,
+    runSessionRestored: true,
     specialistAgents: 1,
     specialistFiles: 4,
+    specialistRunApiVersion: "swecircuit/specialist-run/v1alpha1",
   });
 
   const consumerOutput = run(
@@ -1069,15 +1201,21 @@ try {
     mismatchedApprovalRejected: true,
     privateInterface: true,
     projectId: "clean-consumer",
+    runAcceptedHandoffs: 1,
+    runIntegrationReady: true,
+    runSchemaSubpath: true,
+    runSessionRestored: true,
     specialistAgents: 1,
     specialistFiles: 4,
+    specialistRunApiVersion: "swecircuit/specialist-run/v1alpha1",
     specialistSchemaSubpath: true,
+    strictSpecialistRunSchemaRegistry: true,
     strictSpecialistSchemaRegistry: true,
     validated: true,
   });
 
   process.stdout.write(
-    "Maintainer installed-package compatibility gate passed (private artifact, offline install, public TypeScript host, compile, render, handoff, fan-in, approval-bound verify).\n",
+    "Maintainer installed-package compatibility gate passed (private artifact, offline install, public TypeScript host, compile, render, handoff, run restore, fan-in, approval-bound verify).\n",
   );
 } finally {
   assert.deepEqual(

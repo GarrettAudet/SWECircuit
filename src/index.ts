@@ -9,6 +9,9 @@ export {
   SPECIALIST_API_VERSION,
   SPECIALIST_KINDS,
   SPECIALIST_LIMITS,
+  SPECIALIST_RUN_API_VERSION,
+  SPECIALIST_RUN_KINDS,
+  SPECIALIST_RUN_LIMITS,
 } from "./constants.js";
 export {
   createDiagnostic,
@@ -50,6 +53,27 @@ export {
 } from "./specialist-compiler.js";
 export { renderSpecialistPackage, verifySpecialistPackage } from "./specialist-render.js";
 export { assessSpecialistHandoffs, verifySpecialistHandoff } from "./specialist-handoff.js";
+export { inspectSpecialistRunSession } from "./specialist-run-inspection.js";
+export {
+  createSpecialistRunSession,
+  restoreSpecialistRunSession,
+} from "./specialist-run-session.js";
+export { recordSpecialistRunHandoff } from "./specialist-run-transition.js";
+export type {
+  SpecialistRunAcceptedEvidence,
+  SpecialistRunAcceptedHandoff,
+  SpecialistRunAgentStatus,
+  SpecialistRunAgentStatusKind,
+  SpecialistRunApiVersion,
+  SpecialistRunEligibleContract,
+  SpecialistRunEvidenceBinding,
+  SpecialistRunGoalBinding,
+  SpecialistRunInspection,
+  SpecialistRunNextAction,
+  SpecialistRunRoute,
+  SpecialistRunSession,
+  SpecialistRunStage,
+} from "./specialist-run-types.js";
 export type {
   AgentBlueprint,
   AgentBlueprintAuthority,

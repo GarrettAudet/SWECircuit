@@ -2,9 +2,9 @@
 
 ## Scope
 
-This directory defines the package-owned machine contracts for the SWECircuit kernel. The `swecircuit/v1alpha1` family initializes a project, validates explicit artifacts, inspects caller-owned traces, and can execute one host-selected WorkPacket through a caller-injected executor. The additive `swecircuit/specialist/v1alpha1` family validates reviewed goals, analyzes and compiles specialist teams, renders and verifies packages, verifies raw handoffs, and assesses dependency fan-in.
+This directory defines the package-owned machine contracts for the SWECircuit kernel. The `swecircuit/v1alpha1` family initializes a project, validates explicit artifacts, inspects caller-owned traces, and can execute one host-selected WorkPacket through a caller-injected executor. The additive `swecircuit/specialist/v1alpha1` family validates reviewed goals, analyzes and compiles specialist teams, renders and verifies packages, verifies raw handoffs, and assesses dependency fan-in. The additive `swecircuit/specialist-run/v1alpha1` family creates, restores, inspects, and advances one immutable evidence-reducing session over a complete verified specialist package.
 
-Canonical input is strict UTF-8 JSON. Every artifact is closed to unknown fields and carries `apiVersion` and `kind`. The six project artifact kinds remain under `swecircuit/v1alpha1`; specialist goals, requests, and handoffs use the separate `swecircuit/specialist/v1alpha1` API and are not project-discovery artifacts.
+Canonical input is strict UTF-8 JSON. Every artifact is closed to unknown fields and carries `apiVersion` and `kind`. The six project artifact kinds remain under `swecircuit/v1alpha1`; specialist goals, requests, handoffs, run sessions, and run inspections use their separate specialist API families and are not project-discovery artifacts.
 
 ## Identity
 
@@ -139,6 +139,14 @@ Installed consumers resolve the complete specialist registry through `swecircuit
 
 Specialist compilation, analysis, rendering, package verification, raw-handoff verification, and fan-in assessment return immutable values. They do not read caller locators, write files, launch agents, enforce permissions, persist evidence, merge code, or update memory.
 
+## Specialist Run Session
+
+`specialist-run.schema.json` closes the source-preserving `SpecialistRunSession` and derived `SpecialistRunInspection` wire values. The session embeds the complete package verified against an external `SpecialistPackageExpectation`, retains each accepted raw handoff as canonical padded base64, and binds the complete value with a domain-separated digest. Restore rechecks the package, raw handoff bytes, canonical ordering, dependency closure, and every identity binding.
+
+The public operations are `createSpecialistRunSession`, `restoreSpecialistRunSession`, `inspectSpecialistRunSession`, and `recordSpecialistRunHandoff`. They return detached, deeply frozen values or stable diagnostics. Inspection reports dependency-eligible exact manifest contracts, accepted evidence bindings, terminal non-`pass` routes, complete-roster integration readiness, and the next external actor. Exact replay is idempotent; a conflicting second handoff, premature handoff, or post-route handoff fails closed.
+
+Installed consumers resolve the run schema through `swecircuit/schemas/specialist-run.schema.json`. No private package path or network retrieval is required. Core performs no filesystem, network, process, Git, launch, persistence, integration, review, merge, release, or memory effect; the external host retains those responsibilities and supplies the trusted compilation and package digest pair on every operation.
+
 ## Compatibility
 
 v1alpha1 compatibility is exact: compatibility.apiVersions contains swecircuit/v1alpha1. Package-version range grammar is deferred until public package compatibility exists.
@@ -152,6 +160,8 @@ Unreleased T008 closes the RunEvent union, changes event metadata to ID-only, re
 Unreleased V10 adds the provider-neutral executeWorkPacket library boundary without adding an artifact kind or changing an artifact schema. It adds SC4201 through SC4210 for execution input, compatibility, identity, grant, permission, policy, privacy-canary, and snapshot-limit failures. The diagnostic catalog advances to 1.3.0; event type version remains 1.0.0, and the machine API remains swecircuit/v1alpha1.
 
 Unreleased V11 adds `swecircuit/specialist/v1alpha1`, candidate analysis, deterministic AgentBlueprint compilation, reproducible package rendering and two-digest verification, strict raw handoff verification, and dependency-complete fan-in assessment. It adds `SC4301` through `SC4313`; the diagnostic catalog advances to 1.4.0. The six project artifact kinds and `swecircuit/v1alpha1` event vocabulary do not change.
+
+Unreleased V12 adds `swecircuit/specialist-run/v1alpha1`, four pure specialist run operations, immutable session and inspection values, exact raw-handoff retention, dependency eligibility, terminal non-`pass` routing, and complete-roster integration readiness. It adds `SC4401` through `SC4405`; the diagnostic catalog advances to 1.5.0. Every V11 export and identity remains unchanged, and core still performs no host effect.
 ## Diagnostics
 
 diagnostic-catalog.json is normative. Codes, rules, severities, and exit classes are stable for v1alpha1.

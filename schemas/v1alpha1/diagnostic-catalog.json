@@ -1,5 +1,5 @@
 {
-  "version": "1.4.0",
+  "version": "1.5.0",
   "diagnosticShape": {
     "required": ["code", "severity", "artifact", "pointer", "rule", "message"],
     "optional": ["hint"],
@@ -529,6 +529,36 @@
     {
       "code": "SC4313",
       "rule": "specialist.handoff-set.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4401",
+      "rule": "specialist.run.session-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4402",
+      "rule": "specialist.run.limit-exceeded",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4403",
+      "rule": "specialist.run.handoff-conflict",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4404",
+      "rule": "specialist.run.handoff-premature",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4405",
+      "rule": "specialist.run.session-routed",
       "severity": "error",
       "exitClass": 2
     },
