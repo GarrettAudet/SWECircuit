@@ -122,6 +122,10 @@ const REPOSITORY_SOURCES = {
     "schemas/v1alpha1/README.md",
     "Published schema catalog and semantics.",
   ],
+  "context.diagnostic-catalog": [
+    "schemas/v1alpha1/diagnostic-catalog.json",
+    "Normative diagnostic catalog kept in parity with runtime definitions.",
+  ],
   "context.ide-guide": [
     "docs/ide/specialist-agent-kickoff.md",
     "Current visible IDE specialist workflow.",
@@ -174,6 +178,11 @@ const FOUNDATION_WRITES = [
   "src/specialist-run-types.ts",
 ];
 
+const FOUNDATION_FIX_WRITES = [
+  "src/specialist-run-session.ts",
+  "test/specialist-run-foundation.test.mjs",
+];
+
 const TRANSITION_WRITES = [
   "src/specialist-run-transition.ts",
   "test/specialist-run-transition.test.mjs",
@@ -186,6 +195,7 @@ const INSPECTION_WRITES = [
 
 const PUBLIC_WRITES = [
   "package.json",
+  "schemas/v1alpha1/diagnostic-catalog.json",
   "schemas/v1alpha1/README.md",
   "scripts/check-packed-consumer.mjs",
   "scripts/fixtures/packed-consumer-host.ts",
@@ -259,6 +269,8 @@ const CONFIGS = {
       "Implement exact Specialist Run handoff transitions and deterministic inspection in parallel over the frozen foundation.",
     maxAgents: 2,
     maxConcurrency: 2,
+    processScopes: ["node", "npm", "powershell"],
+    allowHashGuardedFallback: true,
     sourceIds: [
       "context.v12-spec",
       "context.run-contract",
@@ -355,6 +367,8 @@ const CONFIGS = {
       "Integrate the accepted Specialist Run implementation into the additive public package surface without changing V11 identities.",
     maxAgents: 1,
     maxConcurrency: 1,
+    processScopes: ["node", "npm", "powershell"],
+    allowHashGuardedFallback: true,
     sourceIds: [
       "context.v12-spec",
       "context.run-contract",
@@ -365,6 +379,7 @@ const CONFIGS = {
       "context.index",
       "context.package",
       "context.schema-readme",
+      "context.diagnostic-catalog",
       "context.packed-host",
       "context.packed-check",
       "context.run-types",
@@ -401,6 +416,8 @@ const CONFIGS = {
       "Complete independent V12 adversarial verification and the visible IDE dogfood surface over the frozen public candidate.",
     maxAgents: 2,
     maxConcurrency: 2,
+    processScopes: ["node", "npm", "powershell"],
+    allowHashGuardedFallback: true,
     sourceIds: [
       "context.v12-spec",
       "context.run-contract",
@@ -509,6 +526,59 @@ CONFIGS["foundation-r2"] = {
   goalRevision: 2,
   processScopes: ["node", "npm", "powershell"],
   allowHashGuardedFallback: true,
+};
+
+CONFIGS["foundation-r3"] = {
+  objective:
+    "Correct the Foundation Revision-2 decoded raw-handoff boundary classification and add durable focused regression coverage without changing the frozen public or wire contract.",
+  goalPhase: "foundation",
+  goalRevision: 3,
+  maxAgents: 1,
+  maxConcurrency: 1,
+  processScopes: ["node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.specialist-types",
+    "context.specialist-handoff",
+    "context.specialist-render",
+    "context.canonical-json",
+    "context.json-parser",
+    "context.snapshot",
+    "context.privacy",
+    "context.text",
+    "context.model",
+    "context.constants",
+    "context.diagnostics",
+    "context.run-types",
+    "context.run-schema-code",
+    "context.run-schema-json",
+    "context.run-session",
+    "context.handoff-tests",
+    "context.compiler-tests",
+  ],
+  workUnits: [
+    {
+      id: "fix.foundation-resource-classification",
+      objective:
+        "Return SC4402 when canonical base64 at the character ceiling decodes beyond rawHandoffBytes, retain SC4401 for malformed base64, and lock both cases with a focused persistent test.",
+      weight: 3,
+      moduleId: "diagnosis.run-session-foundation",
+      action:
+        "Apply the smallest causal correction to decoded-base64 classification and add a real-package regression test; preserve every other create and restore semantic and do not add transition, inspection, or public exports.",
+      inputType: "VerifiedFoundationBoundaryFailure",
+      outputType: "CorrectedRunSessionFoundation",
+      capability: "diagnose.resource-boundary-classification",
+      evidenceId: "evidence.foundation-boundary-correction",
+      evidenceDescription:
+        "Provide focused regression, typecheck, and compatibility evidence for the exact decoded-byte boundary defect.",
+      artifact: "foundation-boundary-correction.md",
+      writes: FOUNDATION_FIX_WRITES,
+    },
+  ],
 };
 
 function digest(bytes) {

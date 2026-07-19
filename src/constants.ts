@@ -2,6 +2,22 @@ export const API_VERSION = "swecircuit/v1alpha1" as const;
 export const EVENT_TYPE_VERSION = "1.0.0" as const;
 export const SPECIALIST_API_VERSION = "swecircuit/specialist/v1alpha1" as const;
 
+export const SPECIALIST_RUN_API_VERSION = "swecircuit/specialist-run/v1alpha1" as const;
+
+export const SPECIALIST_RUN_KINDS = Object.freeze([
+  "SpecialistRunSession",
+  "SpecialistRunInspection",
+] as const);
+
+export const SPECIALIST_RUN_LIMITS = Object.freeze({
+  rawSessionInputBytes: 134_217_728,
+  canonicalSessionBytes: 134_217_728,
+  acceptedHandoffs: 16,
+  rawHandoffBytes: 1_048_576,
+  rawHandoffBase64Chars: 1_398_104,
+  canonicalInspectionBytes: 67_108_864,
+} as const);
+
 export const SPECIALIST_KINDS = [
   "GoalContract",
   "SpecialistCompilationRequest",

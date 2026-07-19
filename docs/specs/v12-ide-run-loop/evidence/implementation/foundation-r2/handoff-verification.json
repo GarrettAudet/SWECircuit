@@ -1,0 +1,27 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "foundation-r2",
+  "compilationDigest": "sha256:3c76ddb9c2c25b510d7f6d36f701f7271db941f019d3615946afa58d2207b435",
+  "packageDigest": "sha256:be7fc744d42e29c19ee3a4a5703ca538f3a3c0b3699db41cf79b491b51cf7c04",
+  "expectedAgentIds": [
+    "agent.d3c2ceb9fe1389bd70a7262a546249e2329e304fc371ce50e0bb3dd50d4c9cd2"
+  ],
+  "receivedAgentIds": [
+    "agent.d3c2ceb9fe1389bd70a7262a546249e2329e304fc371ce50e0bb3dd50d4c9cd2"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "foundation-pass.json",
+      "agentId": "agent.d3c2ceb9fe1389bd70a7262a546249e2329e304fc371ce50e0bb3dd50d4c9cd2",
+      "outcome": "pass",
+      "rawBytes": 9166,
+      "rawDigest": "sha256:07bb35bcaed621c0ea57bc402fc30e65a561a56f2f54ba8aeedc2e1d3deb71ac",
+      "semanticDigest": "sha256:988f68c9ae7af02d1497ec852e4acbcf676682d267a195ff566136cf1a16015a",
+      "contentDigest": "sha256:3f14647a2d0ab9111d43c3d305daa32c8b86457553f72dacd3fd821ccf2c98dc"
+    }
+  ],
+  "phaseReady": true,
+  "note": "This is an external complete-package gate. Each raw handoff was verified by V11 core; a verified non-pass outcome remains a workflow route."
+}

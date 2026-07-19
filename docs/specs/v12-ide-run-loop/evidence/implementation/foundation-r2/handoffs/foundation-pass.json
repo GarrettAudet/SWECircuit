@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.foundation",
+    "revision": 2,
+    "digest": "sha256:f7a90f4d881625468a194ac61744e6f643aa56f41eb550c6a7b1e83157ab496d"
+  },
+  "agent": {
+    "id": "agent.d3c2ceb9fe1389bd70a7262a546249e2329e304fc371ce50e0bb3dd50d4c9cd2",
+    "blueprintDigest": "sha256:afd64d674b9af78d18ba159f7a06d5872e963dbab20c30345d941d904a86698f"
+  },
+  "compilationDigest": "sha256:3c76ddb9c2c25b510d7f6d36f701f7271db941f019d3615946afa58d2207b435",
+  "summary": "Implemented the revision-2 Specialist Run foundation in exactly six authorized files. Added closed types and schema, exact constants and limits, SC4401-SC4405, defensive package-bound validation, canonical create and raw restore operations, and no transition or inspection behavior. Focused format, lint, typecheck, schema, lifecycle, adversarial, immutability, and byte-scope checks pass.",
+  "workUnitsCompleted": [
+    "implement.foundation"
+  ],
+  "artifacts": [
+    {
+      "name": "foundation-implementation.md",
+      "mediaType": "text/markdown",
+      "content": "# Foundation Implementation\n\n## Outcome\n\nPass. Foundation GoalContract revision 2 was implemented without resuming revision 1, widening scope, changing Git state, using network access, or adding host effects.\n\n## Files Changed\n\n- `schemas/v1alpha1/specialist-run.schema.json`: closed session and inspection schema; 17405 bytes; SHA-256 `8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5`.\n- `src/constants.ts`: exact Specialist Run API version, kinds, and limits; 2571 bytes; SHA-256 `b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058`.\n- `src/diagnostics.ts`: SC4401-SC4405 definitions; 25190 bytes; SHA-256 `3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6`.\n- `src/specialist-run-schema.ts`: strict AJV session, inspection, and root validators; 3371 bytes; SHA-256 `705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23`.\n- `src/specialist-run-session.ts`: defensive validator plus create and raw restore operations; 18144 bytes; SHA-256 `e84765ebafafcbb89cdf5cb3645444be7a3f16d5857f4a531779e240deb43bcc`.\n- `src/specialist-run-types.ts`: complete frozen session and inspection declarations; 4222 bytes; SHA-256 `01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c`.\n\nAll final files are ASCII with LF line endings and contain no TAB, CR, or unsafe control bytes.\n\n## Decisions\n\n- Reused `verifySpecialistPackage` and `verifySpecialistHandoff` without reclassifying their V11 diagnostics.\n- Registered the exact session digest domain `swecircuit/specialist-run/session/v1alpha1`; inspection declarations and schema are present, but no inspection implementation was added.\n- Embedded the canonical package returned by V11 verification and reconstructed goal, compilation, package, selected-candidate, manifest, and blueprint bindings from it.\n- Required canonical padded base64, exact raw byte count, raw SHA-256, verified handoff identity and outcome, ordinal agent ordering, uniqueness, transitive passing dependencies, and at most one non-pass row on restore.\n- Bound compilation parsing to the existing V11 `SPECIALIST_LIMITS.outputBytes` ceiling so a valid package up to 4 MiB is not narrowed by the generic parser default.\n- Mapped malformed closed-session and restore semantics to SC4401, aggregate or raw resource excess to SC4402, and retained SC4307-SC4313 and SC9001 from composed V11 operations.\n- Kept provider, runtime, persistence, transition, inspection, Git, merge, and memory effects absent.\n\n## Source Verification\n\nThe generated revision-2 contract was read first. A read-only PowerShell verifier then recomputed raw SHA-256 and byte count for all 22 declared repository sources. Every source matched its exact contract binding before any source content was relied upon.\n\n## Fallback Protocol\n\nNative `apply_patch` was attempted first and failed before reading or mutating `src/constants.ts` with the known sandbox refresh error `helper_unknown_error: setup refresh had errors`.\n\nBefore fallback mutation, `src/constants.ts` was asserted at SHA-256 `f00156e582cafaea19f6db6f55e042422c488b660483f5fccee1d6b1988cee6f`, `src/diagnostics.ts` at SHA-256 `570e2d2349f6e466999f7a8d9c15b0f82342afa4ccd1042729c282e66c4a7f14`, and the four new files were asserted nonexistent. Every fallback write used an exact UTF-8 payload or unique exact replacement after a current SHA-256 precondition, remained inside the six-file scope, and was immediately byte-compared and rehashed. Biome formatting was also guarded by the six current hashes before its escalated retry.\n\n## Verification\n\n- `npm.cmd exec -- biome format schemas/v1alpha1/specialist-run.schema.json src/constants.ts src/diagnostics.ts src/specialist-run-schema.ts src/specialist-run-session.ts src/specialist-run-types.ts` - PASS; checked six files with no fixes required.\n- `npm.cmd exec -- biome lint src/constants.ts src/diagnostics.ts src/specialist-run-schema.ts src/specialist-run-session.ts src/specialist-run-types.ts` - PASS; checked five files with no fixes required.\n- `npm.cmd run typecheck` - PASS; `tsc -p tsconfig.json --noEmit` exited 0.\n- `node --input-type=module -e` strict AJV probe - PASS; root, session, and inspection schemas compiled under strict Draft 2020-12 settings.\n- `node --experimental-strip-types --input-type=module -e` lifecycle probe - PASS; a real one-agent V11 request compiled and rendered, creation passed, serialization and fresh restore passed, harmless outer whitespace and reordered root properties converged, and outputs were detached and deeply frozen.\n- The same lifecycle probe verified SC4307 for wrong package and compilation expectations and SC4401 for unknown fields, stale bindings, duplicate keys, malformed UTF-8, and proxied raw bytes.\n- A defensive validator probe verified that accessor and proxy session objects fail with SC4401 without invoking the accessor.\n- A closed-surface probe verified exact constants, limits, SC4401-SC4405 severity and exit code, exact session, goal, and accepted-row keys, and absence of inspect or record implementations.\n- Final PowerShell scope and byte audit - PASS; exactly the six declared outputs were accounted for and all were LF-only ASCII.\n\n## Failed Attempts\n\n- Native `apply_patch` failed before mutation because the Windows sandbox helper could not refresh.\n- The first read-only line-ending probe had a PowerShell empty-pipe parser error; the corrected probe passed and made no mutation.\n- The first fallback payload composer stopped before invoking PowerShell because the tool isolate lacked `TextEncoder`; no mutation occurred.\n- The first guarded PowerShell writer had invalid generic `SequenceEqual[byte]` syntax and failed during parsing before mutation; byte comparison was replaced with exact base64 equality.\n- The initial formatter check exited 1 because four files required mechanical formatting; no files were changed by that check.\n- The first guarded formatter write was denied by the default sandbox and reported no fixes; the required escalated retry used the same hash preconditions and passed.\n- The first inline AJV probe lost JavaScript quotes through PowerShell parsing; a shell-safe equivalent passed.\n- The first inline lifecycle probe had a quoted duplicate-key fixture parse error before execution; a shell-safe fixture passed.\n\n## Residual Risks\n\n- Persistent V12 regression tests, package exports, inspection, record transitions, integrated review, and the canonical repository gate are outside this six-file foundation authority.\n- This foundation proves create and restore semantics only. It intentionally makes no launch, scheduling, persistence, integration, merge, or memory claim.\n\n## Follow-Ups\n\n- Dependent work should implement inspection and record semantics against `validateSpecialistRunSession` without weakening package or raw-handoff verification.\n- The integration owner should add authorized exports and focused persistent tests, then run the complete repository verification and independent review gates."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.implement.foundation",
+      "requirementId": "evidence.foundation-implementation",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "foundation-implementation.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Persistent V12 regression tests, package exports, inspection, record transitions, integrated review, and the full repository gate remain outside this six-file work unit.",
+    "The foundation intentionally provides no provider, runtime, persistence, launch, Git, merge, or memory effects."
+  ],
+  "followUps": [
+    "Implement inspection and record semantics against the defensive session validator in their separately approved work units.",
+    "Add authorized exports and persistent tests during integration, then run the canonical repository gate and independent review."
+  ]
+}

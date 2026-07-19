@@ -59,3 +59,48 @@ Host edit-capability mismatch: `block`, then revise the reviewed execution autho
 ### Next Action
 
 Compile Foundation Revision 2 with the same source and write ceiling plus explicit permission for a precondition-hash-guarded PowerShell fallback only after native `apply_patch` fails before mutation.
+## Foundation Revision 2 Integration
+
+### Reproduction
+
+Run the complete existing kernel test suite after the package-bound Foundation Revision-2 handoff verifies `pass`.
+
+### Evidence
+
+- Format, lint, typecheck, and build passed independently.
+- The suite passed 369 of 370 tests.
+- `test/json-kernel.test.mjs` rejected the five new runtime diagnostic definitions because `schemas/v1alpha1/diagnostic-catalog.json` still ends at `SC4313`.
+- The six-file Foundation authority did not include the normative catalog, and no Foundation file needs correction.
+
+### Classification
+
+Cross-phase ownership omission: `fix` the downstream public-integration contract before compiling it. This is not a recurring product defect and does not justify patching the verified Foundation output.
+
+### Next Action
+
+Add the normative diagnostic catalog to the public-integration source and write scope, retain the failing test as a required downstream gate, and continue only after independent Foundation review finds no in-scope defect.
+## Foundation Boundary Classification
+
+### Reproduction
+
+Create a valid empty session from the exact approved Foundation Revision-2 package, add one schema-valid accepted row whose canonical 1,398,104-character base64 value decodes to 1,048,578 bytes, recompute the session digest, and restore it.
+
+### Evidence
+
+- Declared `rawHandoffBytes`: 1,048,576.
+- Declared `rawHandoffBase64Chars`: 1,398,104.
+- Actual decoded probe size: 1,048,578.
+- Actual diagnostic: `SC4401`.
+- Required diagnostic for raw resource excess: `SC4402`.
+
+### Classification
+
+Confirmed Foundation resource-boundary classification defect: `fix`.
+
+### Root Cause
+
+`decodeCanonicalBase64` collapses malformed encoding and decoded-byte overflow into one `null` result, so `validateAcceptedHandoffs` cannot preserve the contract's distinct invalid-input and resource-limit routes.
+
+### Smallest Causal Fix
+
+Return a bounded decode result that distinguishes invalid encoding from decoded-byte overflow, map only overflow to `SC4402`, and add a real-package regression proving both classifications without changing the wire contract.
