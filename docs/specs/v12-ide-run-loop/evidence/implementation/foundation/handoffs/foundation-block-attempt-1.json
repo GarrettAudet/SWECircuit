@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "block",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.foundation",
+    "revision": 1,
+    "digest": "sha256:5204f67ee7a2d4da6011846f2e089e0123710e7977470b5de511bf648207e5c8"
+  },
+  "agent": {
+    "id": "agent.d3c2ceb9fe1389bd70a7262a546249e2329e304fc371ce50e0bb3dd50d4c9cd2",
+    "blueprintDigest": "sha256:73f24453b2797c292b6eb20615ae94633202def7447577652cde302738953712"
+  },
+  "compilationDigest": "sha256:034c4f1fae6f8d03fa945917f1c7fa901164398f2d9af52c82b083af72450487",
+  "summary": "Blocked before implementation because every apply_patch route was denied by the host; all six target files remain unchanged.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "foundation-implementation.md",
+      "mediaType": "text/markdown",
+      "content": "# Foundation Implementation\n\n## Files changed\n\n- None.\n- `src/constants.ts` remains 2088 bytes with SHA-256 `f00156e582cafaea19f6db6f55e042422c488b660483f5fccee1d6b1988cee6f`.\n- `src/diagnostics.ts` remains 23891 bytes with SHA-256 `570e2d2349f6e466999f7a8d9c15b0f82342afa4ccd1042729c282e66c4a7f14`.\n- The four new run files remain absent.\n\n## Implementation decisions\n\n- Verified all 22 declared repository sources against their exact byte counts and SHA-256 digests before relying on them; every binding passed.\n- Preserved the exact write scope and did not substitute Node, Git, direct shell writes, or another undeclared editing mechanism when `apply_patch` failed.\n- Stopped with workflow outcome `block` instead of claiming partial implementation.\n\n## Commands and outcomes\n\n- Raw contract read and SHA-256 measurement: exit 0; contract size 20440 bytes and SHA-256 `6882b9d79fb74fd55b0f9f9166740754e14ae49bb7bbb212cb2c8f2852ce553c`.\n- `node -e` raw verifier for all 22 declared context entries: exit 0; `declaredSources: 22`, `allVerified: true`.\n- Native `apply_patch` using repository-relative paths: failed before application with `windows sandbox failed: helper_unknown_error: setup refresh had errors`.\n- `@'<patch>'@ | apply_patch` from `C:/tmp/swecircuit-identity-main`: exit 1 with `Access is denied.`\n- The same repository-scoped wrapper with escalated sandbox permission: exit 1 with `Access is denied.`\n- `@'<patch>'@ | cmd.exe /d /c apply_patch` with escalated sandbox permission: exit 1 with `Access is denied.`\n- Native `apply_patch` using absolute target paths: failed before application with the same sandbox refresh error.\n- Final `node -e` target-scope digest and existence verifier: exit 0; `targetScopeUnchanged: true`.\n\n## Failed attempts\n\n- Four distinct host-supported `apply_patch` invocation paths were attempted. None reached file mutation.\n\n## Residual risks and follow-ups\n\n- AC1 and AC6 foundation behavior remains unimplemented and unverified.\n- Re-run this exact approved contract after the host exposes `C:/tmp/swecircuit-identity-main` to the native patch workspace or otherwise permits its repository-scoped `apply_patch` wrapper.\n- No build, schema, or create/restore conformance checks were run because no implementation was applied."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.implement.foundation",
+      "requirementId": "evidence.foundation-implementation",
+      "kind": "review",
+      "duty": "produce",
+      "status": "block",
+      "artifact": "foundation-implementation.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The SpecialistRunSession foundation remains absent at this checkpoint."
+  ],
+  "followUps": [
+    "Enable repository-scoped apply_patch access for C:/tmp/swecircuit-identity-main and rerun the exact bound specialist contract."
+  ]
+}

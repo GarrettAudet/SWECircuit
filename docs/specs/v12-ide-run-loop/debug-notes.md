@@ -37,3 +37,25 @@ Workflow artifact conformance and host integration mismatch: `fix`, then `diagno
 ## Next Diagnostic Trigger
 
 Enter `diagnose` if compilation, package verification, raw handoff verification, fan-in assessment, or integrated verification fails non-obviously or repeatedly.
+
+## Foundation Attempt 1
+
+### Reproduction
+
+Launch the approval-bound Foundation Revision-1 contract from the temporary `C:\tmp\swecircuit-identity-main` worktree and attempt its first scoped edit with native `apply_patch`.
+
+### Evidence
+
+- All 22 declared sources matched their exact byte and SHA-256 bindings.
+- Native `apply_patch` failed before mutation with the recurring Windows sandbox refresh error.
+- Wrapper and escalated wrapper invocations were denied.
+- All six target files remained unchanged.
+- The exact 3,776-byte handoff verified through V11 with outcome `block` and raw digest `sha256:81471e5dd7363a856e0825b35c337aa7bd0ac507b5e9b39d34418eed71aca008`.
+
+### Classification
+
+Host edit-capability mismatch: `block`, then revise the reviewed execution authority without changing product scope.
+
+### Next Action
+
+Compile Foundation Revision 2 with the same source and write ceiling plus explicit permission for a precondition-hash-guarded PowerShell fallback only after native `apply_patch` fails before mutation.

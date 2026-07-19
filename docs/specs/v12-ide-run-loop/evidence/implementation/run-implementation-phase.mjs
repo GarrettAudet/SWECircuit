@@ -295,6 +295,23 @@ const CONFIGS = {
           "Provide transition, replay, routing, diagnostic precedence, and immutability evidence for AC3 and AC4.",
         artifact: "handoff-transition-implementation.md",
         writes: TRANSITION_WRITES,
+        sourceIds: [
+          "context.v12-spec",
+          "context.run-contract",
+          "context.adr-0005",
+          "context.test-plan",
+          "context.specialist-types",
+          "context.specialist-handoff",
+          "context.canonical-json",
+          "context.snapshot",
+          "context.constants",
+          "context.diagnostics",
+          "context.run-types",
+          "context.run-schema-code",
+          "context.run-schema-json",
+          "context.run-session",
+          "context.handoff-tests",
+        ],
       },
       {
         id: "implement.session-inspection",
@@ -312,6 +329,24 @@ const CONFIGS = {
           "Provide DAG status, manifest resolution, evidence binding, and complete-roster readiness evidence for AC2 and AC5.",
         artifact: "session-inspection-implementation.md",
         writes: INSPECTION_WRITES,
+        sourceIds: [
+          "context.v12-spec",
+          "context.run-contract",
+          "context.adr-0005",
+          "context.test-plan",
+          "context.specialist-types",
+          "context.specialist-handoff",
+          "context.specialist-render",
+          "context.canonical-json",
+          "context.snapshot",
+          "context.constants",
+          "context.diagnostics",
+          "context.run-types",
+          "context.run-schema-code",
+          "context.run-schema-json",
+          "context.run-session",
+          "context.compiler-tests",
+        ],
       },
     ],
   },
@@ -408,6 +443,28 @@ const CONFIGS = {
           "Provide independent negative, boundary, lifecycle, schema, and package-consumer evidence for AC1-AC6 and AC9.",
         artifact: "run-session-verification.md",
         writes: VERIFICATION_WRITES,
+        sourceIds: [
+          "context.v12-spec",
+          "context.run-contract",
+          "context.adr-0005",
+          "context.test-plan",
+          "context.package",
+          "context.index",
+          "context.specialist-handoff",
+          "context.specialist-render",
+          "context.run-types",
+          "context.run-schema-code",
+          "context.run-schema-json",
+          "context.run-session",
+          "context.run-transition",
+          "context.run-inspection",
+          "context.transition-tests",
+          "context.inspection-tests",
+          "context.handoff-tests",
+          "context.compiler-tests",
+          "context.packed-host",
+          "context.packed-check",
+        ],
       },
       {
         id: "dogfood.ide-run-loop",
@@ -425,9 +482,33 @@ const CONFIGS = {
           "Provide a replayable IDE journey and measured host-boundary evidence for AC7 and AC8.",
         artifact: "ide-run-loop-dogfood.md",
         writes: DOGFOOD_WRITES,
+        sourceIds: [
+          "context.v12-spec",
+          "context.run-contract",
+          "context.adr-0005",
+          "context.test-plan",
+          "context.package",
+          "context.index",
+          "context.run-types",
+          "context.run-schema-json",
+          "context.run-session",
+          "context.run-transition",
+          "context.run-inspection",
+          "context.ide-guide",
+          "context.modules-readme",
+          "context.readme",
+        ],
       },
     ],
   },
+};
+
+CONFIGS["foundation-r2"] = {
+  ...CONFIGS.foundation,
+  goalPhase: "foundation",
+  goalRevision: 2,
+  processScopes: ["node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
 };
 
 function digest(bytes) {
@@ -487,6 +568,11 @@ async function bindSources(config) {
   return Promise.all(
     sourceDefinitions(config).map(async (source) => {
       const bytes = await readFile(join(ROOT, source.path));
+      const allowedWorkUnits = config.workUnits
+        .filter((workUnit) =>
+          (workUnit.sourceIds ?? config.sourceIds).includes(source.id),
+        )
+        .map((workUnit) => workUnit.id);
       return {
         id: source.id,
         kind: "repository",
@@ -494,7 +580,7 @@ async function bindSources(config) {
         digest: digest(bytes),
         bytes: bytes.byteLength,
         description: source.description,
-        allowedWorkUnits: config.workUnits.map((workUnit) => workUnit.id),
+        allowedWorkUnits,
         readScope: source.path,
       };
     }),
@@ -508,9 +594,21 @@ function uses(sourceIds) {
   }));
 }
 
-function unit(config, definition, sourcePaths) {
+function unit(config, definition, pathBySourceId) {
+  const sourceIds = definition.sourceIds ?? config.sourceIds;
+  const sourcePaths = sourceIds.map((sourceId) => {
+    const path = pathBySourceId.get(sourceId);
+    if (path === undefined) {
+      throw new Error(`Missing bound source for ${definition.id}: ${sourceId}`);
+    }
+    return path;
+  });
   const read = [...new Set([...sourcePaths, ...definition.writes])].sort();
   const write = [...definition.writes].sort();
+  const processScopes = config.processScopes ?? ["node", "npm"];
+  const editFallback = config.allowHashGuardedFallback
+    ? "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately."
+    : "Use native apply_patch for manual file edits.";
   return {
     id: definition.id,
     objective: definition.objective,
@@ -523,18 +621,19 @@ function unit(config, definition, sourcePaths) {
     },
     dependencies: [],
     requiredCapabilities: [definition.capability],
-    contextUses: uses(config.sourceIds),
+    contextUses: uses(sourceIds),
     scope: { read, write, conflictZones: write },
     permissions: [
       { kind: "filesystem.read", scopes: read },
       { kind: "filesystem.write", scopes: write },
-      { kind: "process.spawn", scopes: ["node", "npm"] },
+      { kind: "process.spawn", scopes: processScopes },
     ],
     evidenceRequirementIds: [definition.evidenceId],
     handoffArtifacts: [definition.artifact],
     stopConditions: [
       "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
       "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract.",
+      editFallback,
       "Run only local focused verification allowed by the contract and report every failing command truthfully.",
       "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
     ],
@@ -543,19 +642,23 @@ function unit(config, definition, sourcePaths) {
 
 function requestFor(config, contextSources) {
   const sourcePaths = contextSources.map((source) => source.readScope).sort();
+  const pathBySourceId = new Map(
+    contextSources.map((source) => [source.id, source.readScope]),
+  );
   const allWrites = [...new Set(config.workUnits.flatMap((workUnit) => workUnit.writes))].sort();
   const allowedModules = config.workUnits.map((workUnit) => workUnit.moduleId).sort();
   const allowedCapabilities = config.workUnits
     .map((workUnit) => workUnit.capability)
     .sort();
+  const processScopes = config.processScopes ?? ["node", "npm"];
   return {
     apiVersion: "swecircuit/specialist/v1alpha1",
     kind: "SpecialistCompilationRequest",
     goal: {
       apiVersion: "swecircuit/specialist/v1alpha1",
       kind: "GoalContract",
-      id: `v12.ide-run-loop.implementation.${phase}`,
-      revision: 1,
+      id: `v12.ide-run-loop.implementation.${config.goalPhase ?? phase}`,
+      revision: config.goalRevision ?? 1,
       objective: config.objective,
       integrationOwner: "codex.main",
       assumptions: [
@@ -569,6 +672,17 @@ function requestFor(config, contextSources) {
           statement: "All runtime, persistence, Git, merge, and memory effects remain external to core.",
           rationale: "V12 is a pure evidence session, not the deferred universal scheduler.",
         },
+        ...(config.allowHashGuardedFallback
+          ? [
+              {
+                id: "assumption.host-edit-fallback",
+                statement:
+                  "After native apply_patch fails before mutation, the host may perform an exact precondition-hash-guarded PowerShell write inside the approved scope.",
+                rationale:
+                  "Foundation Revision 1 proved the temporary worktree patch helper is unavailable while bounded escalated PowerShell writes remain auditable and fail closed.",
+              },
+            ]
+          : []),
       ],
       unresolvedDecisions: [],
       acceptanceCriteria: config.workUnits.map((workUnit) => ({
@@ -591,7 +705,7 @@ function requestFor(config, contextSources) {
         permissionCeiling: [
           { kind: "filesystem.read", scopes: [...new Set([...sourcePaths, ...allWrites])].sort() },
           { kind: "filesystem.write", scopes: allWrites },
-          { kind: "process.spawn", scopes: ["node", "npm"] },
+          { kind: "process.spawn", scopes: processScopes },
         ],
         forbiddenEffects: [
           "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects.",
@@ -601,7 +715,7 @@ function requestFor(config, contextSources) {
       },
       optimization: { agentStartupCost: 1, handoffCost: 1 },
       workUnits: config.workUnits.map((workUnit) =>
-        unit(config, workUnit, sourcePaths),
+        unit(config, workUnit, pathBySourceId),
       ),
     },
   };
