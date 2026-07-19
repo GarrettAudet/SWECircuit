@@ -1,0 +1,754 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.architecture",
+    "revision": 1,
+    "objective": "Produce an implementation-ready architecture for a portable host-assisted IDE Run Loop over one approved V11 specialist package.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.host-assisted",
+        "statement": "V12 derives host instructions and evidence but performs no host runtime effect.",
+        "rationale": "This is the smallest usable IDE-neutral layer over V11 without repeating the universal runtime coupling."
+      },
+      {
+        "id": "assumption.single-package",
+        "statement": "One V12 run binds one approved V11 specialist package.",
+        "rationale": "Multi-package runtime graphs are unnecessary for the first usable run loop."
+      },
+      {
+        "id": "assumption.caller-persistence",
+        "statement": "The external host persists immutable JSON-serializable session values.",
+        "rationale": "Core can remain deterministic and effect-free while runs remain restartable from caller-owned files."
+      }
+    ],
+    "unresolvedDecisions": [
+      {
+        "id": "decision.operation-shape",
+        "question": "What is the smallest public operation set for session creation, inspection, handoff acceptance, routing, and closeout?",
+        "owner": "codex.main",
+        "blocking": false,
+        "proceedRationale": "Architecture specialists own a recommendation; implementation remains gated on integrated acceptance."
+      },
+      {
+        "id": "decision.closeout-envelope",
+        "question": "Which closeout facts can core derive without claiming host-owned tests, merge, persistence, or memory effects?",
+        "owner": "codex.main",
+        "blocking": false,
+        "proceedRationale": "The architecture pass can compare bounded options before any public API is frozen."
+      }
+    ],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.product-run-loop",
+        "description": "The design gives an IDE one clear path from an approved package to visible launch, fan-in, integration, and closeout instructions.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.product-run-loop-review",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the exact product and IDE usability review.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.lifecycle-recovery",
+        "description": "The design has deterministic monotonic state, explicit outcomes, safe dependency readiness, and a bounded relationship to deferred runtime corrections.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.lifecycle-recovery-review",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the exact lifecycle and recovery review.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.authority-portability",
+        "description": "The design preserves exact package and handoff identity, least authority, caller persistence, and IDE/provider neutrality without claiming runtime effects.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.authority-portability-review",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the exact authority, security, and portability review.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.integrated-architecture",
+        "description": "One implementation-ready decision maps operations, state, routes, tests, deferred behavior, and work units to V12 AC1-AC9.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.integrated-architecture",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the integrated architecture decision brief.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md",
+        "digest": "sha256:669126e41e8a219c39c7ebd15c6d93e19206f124faf8fbef67b2124b8153d258",
+        "bytes": 5069,
+        "description": "Immutable V12 feature-spec snapshot.",
+        "allowedWorkUnits": [
+          "analyze.product-run-loop",
+          "analyze.lifecycle-recovery",
+          "analyze.authority-portability",
+          "integrate.architecture"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md"
+      },
+      {
+        "id": "context.v12-goal-synthesis",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md",
+        "digest": "sha256:ecb7ee7725a8e86b46b91c6802f90e7b60a8b7c949b06a650c5c6f433f733a8e",
+        "bytes": 3943,
+        "description": "Immutable V12 goal-synthesis snapshot.",
+        "allowedWorkUnits": [
+          "analyze.product-run-loop",
+          "analyze.lifecycle-recovery",
+          "analyze.authority-portability",
+          "integrate.architecture"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md"
+      },
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+        "bytes": 3101,
+        "description": "Released V11.1 public product and host boundary.",
+        "allowedWorkUnits": [
+          "analyze.product-run-loop"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.ide-kickoff",
+        "kind": "repository",
+        "locator": "path:docs/ide/specialist-agent-kickoff.md",
+        "digest": "sha256:8ceec4c3478b9f2adc7000893705f41b09b153d9747637884ac07e46b416eaf3",
+        "bytes": 17565,
+        "description": "Current visible IDE specialist workflow.",
+        "allowedWorkUnits": [
+          "analyze.product-run-loop",
+          "analyze.authority-portability",
+          "integrate.architecture"
+        ],
+        "readScope": "docs/ide/specialist-agent-kickoff.md"
+      },
+      {
+        "id": "context.handbook",
+        "kind": "repository",
+        "locator": "path:docs/ai/handbook.md",
+        "digest": "sha256:a75adc0a5bda7ee618a8eeec983614bb53d5941be6f75212c2da88b4710f6dd4",
+        "bytes": 39728,
+        "description": "Current workflow, interaction, parallelization, and integration rules.",
+        "allowedWorkUnits": [
+          "analyze.product-run-loop",
+          "analyze.lifecycle-recovery"
+        ],
+        "readScope": "docs/ai/handbook.md"
+      },
+      {
+        "id": "context.adr-0003",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+        "digest": "sha256:eec8606ebe84bd4cacd4bd5db1952ba2b536e067f9dc78b521ab38d3a526472f",
+        "bytes": 19559,
+        "description": "Deferred universal runtime-control-plane design evidence.",
+        "allowedWorkUnits": [
+          "analyze.lifecycle-recovery"
+        ],
+        "readScope": "docs/architecture/decisions/0003-portable-orchestration-control-plane.md"
+      },
+      {
+        "id": "context.adr-0004",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0004-specialist-compiler-first.md",
+        "digest": "sha256:f8f62c11f4b408a1eeac32597f08dd214fffa53ccf155c921045c0ab911ac654",
+        "bytes": 7732,
+        "description": "Accepted compiler-first boundary and deferred runtime list.",
+        "allowedWorkUnits": [
+          "analyze.product-run-loop",
+          "analyze.lifecycle-recovery",
+          "analyze.authority-portability",
+          "integrate.architecture"
+        ],
+        "readScope": "docs/architecture/decisions/0004-specialist-compiler-first.md"
+      },
+      {
+        "id": "context.round-4",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+        "digest": "sha256:4a56f0e52a9f3f05339a1d1677868888242a007d159854f3683baeca54d1969d",
+        "bytes": 12182,
+        "description": "Independent findings against the coupled universal runtime.",
+        "allowedWorkUnits": [
+          "analyze.lifecycle-recovery",
+          "analyze.authority-portability"
+        ],
+        "readScope": "docs/specs/v11-orchestration-planner/architecture-review-round-4.md"
+      },
+      {
+        "id": "context.correction-design",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+        "digest": "sha256:89d962f6b1a67911cee1c9b0f0c8dfca676f90aaa123a810e30858615b1ed91d",
+        "bytes": 4159,
+        "description": "Mandatory correction record for later runtime-adjacent work.",
+        "allowedWorkUnits": [
+          "analyze.lifecycle-recovery",
+          "analyze.authority-portability",
+          "integrate.architecture"
+        ],
+        "readScope": "docs/specs/v11-orchestration-planner/revision-5-correction-design.md"
+      },
+      {
+        "id": "context.compiler-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "digest": "sha256:ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9",
+        "bytes": 36886,
+        "description": "Normative V11 package, handoff, fan-in, and host contract.",
+        "allowedWorkUnits": [
+          "analyze.product-run-loop",
+          "analyze.authority-portability",
+          "integrate.architecture"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+      },
+      {
+        "id": "context.executor-boundary",
+        "kind": "repository",
+        "locator": "path:docs/framework/executor-boundary.md",
+        "digest": "sha256:93c9c44febfbe2f422def110e20349b711f7fe072731e3fcdda115c7fa867454",
+        "bytes": 5644,
+        "description": "Existing bounded host-injected execution boundary.",
+        "allowedWorkUnits": [
+          "analyze.lifecycle-recovery",
+          "analyze.authority-portability"
+        ],
+        "readScope": "docs/framework/executor-boundary.md"
+      },
+      {
+        "id": "context.public-api",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dfa16eda45276f9caf5f59e12b2a20c5c0650a153b84d04510e0feac754b672b",
+        "bytes": 4688,
+        "description": "Current public kernel export surface.",
+        "allowedWorkUnits": [
+          "analyze.product-run-loop",
+          "analyze.authority-portability"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.handoff-implementation",
+        "kind": "repository",
+        "locator": "path:src/specialist-handoff.ts",
+        "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+        "bytes": 17810,
+        "description": "Current raw handoff and dependency fan-in implementation.",
+        "allowedWorkUnits": [
+          "analyze.lifecycle-recovery",
+          "analyze.authority-portability"
+        ],
+        "readScope": "src/specialist-handoff.ts"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:52acc84e561245f27afe26af16c000ce5d1e121b5649c4e70c2d03ec140c7be7",
+        "bytes": 2549,
+        "description": "Current package, scripts, and installed-consumer surface.",
+        "allowedWorkUnits": [
+          "analyze.product-run-loop",
+          "analyze.authority-portability"
+        ],
+        "readScope": "package.json"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "review.product-run-loop",
+        "review.lifecycle-recovery",
+        "review.authority-portability",
+        "architecture.synthesize-run-loop"
+      ],
+      "allowedCapabilities": [
+        "analyze.ide-product-flow",
+        "analyze.monotonic-lifecycle",
+        "audit.authority-portability",
+        "synthesize.run-loop-architecture"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "README.md",
+            "docs/ai/handbook.md",
+            "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/framework/executor-boundary.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md",
+            "package.json",
+            "src/index.ts",
+            "src/specialist-handoff.ts"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not write files, run tests, access the network, launch descendants, change Git state, or claim that core performs host effects."
+      ],
+      "maxAgents": 4,
+      "maxConcurrency": 3
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "analyze.product-run-loop",
+        "objective": "Define the smallest V12 behavior and one-message IDE experience that makes an approved V11 specialist package usable without hiding host responsibilities.",
+        "weight": 6,
+        "module": {
+          "id": "review.product-run-loop",
+          "action": "Trace the developer and IDE journey, identify indispensable artifacts and decisions, reject ceremony, and return testable product/API recommendations mapped to AC1-AC9.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV12Intent"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "ProductRunLoopReview"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "analyze.ide-product-flow"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.v12-goal-synthesis",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.readme",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.ide-kickoff",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.handbook",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.adr-0004",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.public-api",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          }
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/ai/handbook.md",
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md",
+            "package.json",
+            "src/index.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/ai/handbook.md",
+              "docs/architecture/decisions/0004-specialist-compiler-first.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md",
+              "package.json",
+              "src/index.ts"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.product-run-loop-review"
+        ],
+        "handoffArtifacts": [
+          "product-run-loop-review.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Do not edit files, run tests, access the network, launch descendants, or change Git state.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      },
+      {
+        "id": "analyze.lifecycle-recovery",
+        "objective": "Design a deterministic monotonic session lifecycle over the fixed V11 package DAG and separate it rigorously from the deferred universal scheduler.",
+        "weight": 7,
+        "module": {
+          "id": "review.lifecycle-recovery",
+          "action": "Map states, transitions, non-pass routes, dependency readiness, serialization, replay, and failure boundaries against every relevant Round-4 correction; identify mandatory versus deferred behavior.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV12Intent"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "LifecycleRecoveryReview"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "analyze.monotonic-lifecycle"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.v12-goal-synthesis",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.handbook",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.adr-0003",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.adr-0004",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.round-4",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.correction-design",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.executor-boundary",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.handoff-implementation",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/ai/handbook.md",
+            "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/framework/executor-boundary.md",
+            "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md",
+            "src/specialist-handoff.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/ai/handbook.md",
+              "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+              "docs/architecture/decisions/0004-specialist-compiler-first.md",
+              "docs/framework/executor-boundary.md",
+              "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+              "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+              "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md",
+              "src/specialist-handoff.ts"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.lifecycle-recovery-review"
+        ],
+        "handoffArtifacts": [
+          "lifecycle-recovery-review.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Do not edit files, run tests, access the network, launch descendants, or change Git state.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      },
+      {
+        "id": "analyze.authority-portability",
+        "objective": "Audit the proposed V12 layer for exact identity, least authority, immutable caller persistence, security, public API truth, and IDE/provider portability.",
+        "weight": 7,
+        "module": {
+          "id": "review.authority-portability",
+          "action": "Define trust inputs and outputs, reject confused-deputy and stale-evidence paths, enumerate forbidden host claims, and return concrete schema/API/test obligations mapped to AC1-AC9.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV12Intent"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "AuthorityPortabilityReview"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "audit.authority-portability"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.v12-goal-synthesis",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.ide-kickoff",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.adr-0004",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.round-4",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.correction-design",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.executor-boundary",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.public-api",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.handoff-implementation",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/framework/executor-boundary.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md",
+            "package.json",
+            "src/index.ts",
+            "src/specialist-handoff.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0004-specialist-compiler-first.md",
+              "docs/framework/executor-boundary.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+              "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md",
+              "package.json",
+              "src/index.ts",
+              "src/specialist-handoff.ts"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.authority-portability-review"
+        ],
+        "handoffArtifacts": [
+          "authority-portability-review.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Do not edit files, run tests, access the network, launch descendants, or change Git state.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      },
+      {
+        "id": "integrate.architecture",
+        "objective": "Synthesize the three verified reviews into one bounded implementation-ready V12 architecture and work decomposition.",
+        "weight": 5,
+        "module": {
+          "id": "architecture.synthesize-run-loop",
+          "action": "Reconcile product, lifecycle, and authority evidence; produce exact operation boundaries, state and routing model, artifact flow, deferred list, acceptance mapping, implementation units, and stop conditions.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "VerifiedArchitectureReviews"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "RunLoopArchitectureDecision"
+            }
+          ]
+        },
+        "dependencies": [
+          "analyze.product-run-loop",
+          "analyze.lifecycle-recovery",
+          "analyze.authority-portability"
+        ],
+        "requiredCapabilities": [
+          "synthesize.run-loop-architecture"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.v12-goal-synthesis",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.ide-kickoff",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.adr-0004",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.correction-design",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          },
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Inspect the exact frozen V12 architecture input."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0004-specialist-compiler-first.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v12-ide-run-loop/evidence/architecture/inputs/spec.md"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.integrated-architecture"
+        ],
+        "handoffArtifacts": [
+          "v12-run-loop-architecture.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Do not edit files, run tests, access the network, launch descendants, or change Git state.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      }
+    ]
+  }
+}

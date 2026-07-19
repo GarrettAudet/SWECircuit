@@ -1,0 +1,12 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.architecture",
+  "goalRevision": 1,
+  "approvedBy": "repository-owner-via-main-agent",
+  "approvalBasis": "The owner explicitly approved proceeding with V12 dogfood; the main agent separately reviewed this exact deterministic roster before launch.",
+  "expectation": {
+    "compilationDigest": "sha256:662a7ca9303d3d347dbbe32835b3f2635b37f22ef8b051214a9e5924cb3f6415",
+    "packageDigest": "sha256:a119a349e0705f73c15ac3f2c8757e4964ecf16e4dc445bc2e62f8ba51691c87"
+  }
+}
