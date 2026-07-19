@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v12.ide-run-loop.implementation.parallel",
+  "goalRevision": 1,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:7384e593d56913a2059673fb2c10e7778aa56627a7e98754cd0913f9c5ecf065",
+  "selectedCandidateId": "team.1211b491d3b076f55d1087a63ddf95c56084772491426cb56e49b8f9d2180cef",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.926fabd8855b608197816dc16ee42b3e12e98196c057e77c53d07504e9b2f428",
+        "agent.cb73b4a9eb8cd6278d0985fb4c22785bb5891dfdb6daef34dbe0248304c29e70"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:a37c84ccc4b18f56098fa9a8e41cfca8f264282159f5b20a246c0dd81c628b14",
+  "compilationFileBytes": 73887,
+  "agents": [
+    {
+      "agentId": "agent.926fabd8855b608197816dc16ee42b3e12e98196c057e77c53d07504e9b2f428",
+      "blueprintDigest": "sha256:5ae8e3fb034a80b517d87d61da758bfc7a07bf8290804a536bcf5447465511a6",
+      "contractFile": "agents/agent.926fabd8855b608197816dc16ee42b3e12e98196c057e77c53d07504e9b2f428.md",
+      "contractDigest": "sha256:7b4e135c9da5fab9959f05307f73821d11363b48412a2e0afff28cf08625c943",
+      "contractBytes": 16553
+    },
+    {
+      "agentId": "agent.cb73b4a9eb8cd6278d0985fb4c22785bb5891dfdb6daef34dbe0248304c29e70",
+      "blueprintDigest": "sha256:2c71092cda04f03b4fdebadd835267fb39a9ba6d41162419f2833cf89fdc1614",
+      "contractFile": "agents/agent.cb73b4a9eb8cd6278d0985fb4c22785bb5891dfdb6daef34dbe0248304c29e70.md",
+      "contractDigest": "sha256:a4ecf400662a2142b1768800dd8e52d1d08a4dc19a9e8f9ad07abc62d55bd4f5",
+      "contractBytes": 17182
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:292a85b94e9572d71548e63c999fae0d27d73df5f9c9cb1c4c55b516e8b89539",
+  "integrationBytes": 4219,
+  "contentDigest": "sha256:dc1f3cc2e654e23bc6dcfd1f32ecc6c884e9b9f4e08c758ec8e4e1f4355a38cc"
+}

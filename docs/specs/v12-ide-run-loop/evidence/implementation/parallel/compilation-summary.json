@@ -1,0 +1,170 @@
+{
+  "phase": "parallel",
+  "goalId": "v12.ide-run-loop.implementation.parallel",
+  "goalRevision": 1,
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 2,
+    "evaluatedCandidates": 2,
+    "eligibleCandidates": 2,
+    "retainedAlternatives": 1,
+    "evaluationSetDigest": "sha256:b89b22bed017f4d229e491fe3210aa2bb400ac2a8a9b47bf26e76127b1803d35"
+  },
+  "serialBaseline": {
+    "id": "team.f37acde7ee426e6aa08655faf72bef1f449720d5ea51b84853db0f1e8394be09",
+    "partition": [
+      [
+        "implement.handoff-transition",
+        "implement.session-inspection"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 15,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 14,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.749d2a2e1ad7a5bc8bed125d827701408fab56d1e2906386961863883a272282",
+        "start": 0,
+        "finish": 15
+      }
+    ],
+    "contentDigest": "sha256:1c4647107f059285f118e5ec96e7341e19b8687ed0753e489767584b83294219"
+  },
+  "selected": {
+    "id": "team.1211b491d3b076f55d1087a63ddf95c56084772491426cb56e49b8f9d2180cef",
+    "partition": [
+      [
+        "implement.handoff-transition"
+      ],
+      [
+        "implement.session-inspection"
+      ]
+    ],
+    "origins": [
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 2,
+      "projectedMakespan": 8,
+      "peakConcurrency": 2,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 150388,
+      "duplicatedPermissionScopes": 17,
+      "totalWorkWeight": 14,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.926fabd8855b608197816dc16ee42b3e12e98196c057e77c53d07504e9b2f428",
+        "start": 0,
+        "finish": 8
+      },
+      {
+        "agentId": "agent.cb73b4a9eb8cd6278d0985fb4c22785bb5891dfdb6daef34dbe0248304c29e70",
+        "start": 0,
+        "finish": 8
+      }
+    ],
+    "contentDigest": "sha256:6a855893fa3a191e08d895bb87edb76b12838934c3c45be1dfdd825368ec753e"
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 8,
+    "serialValue": 15,
+    "serialRejectionCodes": []
+  },
+  "retainedAlternatives": [
+    {
+      "id": "team.f37acde7ee426e6aa08655faf72bef1f449720d5ea51b84853db0f1e8394be09",
+      "partition": [
+        [
+          "implement.handoff-transition",
+          "implement.session-inspection"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 15,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 14,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.749d2a2e1ad7a5bc8bed125d827701408fab56d1e2906386961863883a272282",
+          "start": 0,
+          "finish": 15
+        }
+      ],
+      "contentDigest": "sha256:1c4647107f059285f118e5ec96e7341e19b8687ed0753e489767584b83294219"
+    }
+  ],
+  "compilationDigest": "sha256:7384e593d56913a2059673fb2c10e7778aa56627a7e98754cd0913f9c5ecf065",
+  "packageDigest": "sha256:fa9a6aab056aaa9e7f931dea01d92a3d4f6001e4c44a9f534ebc0dfb4e736d6b",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.926fabd8855b608197816dc16ee42b3e12e98196c057e77c53d07504e9b2f428",
+        "agent.cb73b4a9eb8cd6278d0985fb4c22785bb5891dfdb6daef34dbe0248304c29e70"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.926fabd8855b608197816dc16ee42b3e12e98196c057e77c53d07504e9b2f428",
+      "digest": "sha256:5ae8e3fb034a80b517d87d61da758bfc7a07bf8290804a536bcf5447465511a6",
+      "workUnitIds": [
+        "implement.handoff-transition"
+      ],
+      "dependencyAgentIds": [],
+      "contractFile": "agents/agent.926fabd8855b608197816dc16ee42b3e12e98196c057e77c53d07504e9b2f428.md"
+    },
+    {
+      "id": "agent.cb73b4a9eb8cd6278d0985fb4c22785bb5891dfdb6daef34dbe0248304c29e70",
+      "digest": "sha256:2c71092cda04f03b4fdebadd835267fb39a9ba6d41162419f2833cf89fdc1614",
+      "workUnitIds": [
+        "implement.session-inspection"
+      ],
+      "dependencyAgentIds": [],
+      "contractFile": "agents/agent.cb73b4a9eb8cd6278d0985fb4c22785bb5891dfdb6daef34dbe0248304c29e70.md"
+    }
+  ],
+  "packageVerified": true,
+  "runtimeInvoked": false
+}

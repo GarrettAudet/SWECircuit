@@ -1,0 +1,7 @@
+{
+  "phase": "parallel",
+  "checkpoint": "2a2f57d1dbc52b795bcec08a6a2a4405f2c9f187",
+  "goalId": "v12.ide-run-loop.implementation.parallel",
+  "goalRevision": 1,
+  "runtimeInvoked": false
+}
