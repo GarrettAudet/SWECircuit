@@ -1,0 +1,115 @@
+{
+  "phase": "foundation",
+  "goalId": "v12.ide-run-loop.implementation.foundation",
+  "goalRevision": 1,
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:1f2ce10197b207c4ecc1b57fb182faed0624a65fb032641cd8e947bd4cdd9e8f"
+  },
+  "serialBaseline": {
+    "id": "team.a4691fd24da0db98c4eb8a284182fb6445282dc26ab0cf093b9066e6a00fd7a8",
+    "partition": [
+      [
+        "implement.foundation"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 14,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 13,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.d3c2ceb9fe1389bd70a7262a546249e2329e304fc371ce50e0bb3dd50d4c9cd2",
+        "start": 0,
+        "finish": 14
+      }
+    ],
+    "contentDigest": "sha256:0ab1d7637f467499b7d488e3157c14898ac2423be1bed969471a0f41c22f97de"
+  },
+  "selected": {
+    "id": "team.a4691fd24da0db98c4eb8a284182fb6445282dc26ab0cf093b9066e6a00fd7a8",
+    "partition": [
+      [
+        "implement.foundation"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 14,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 13,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.d3c2ceb9fe1389bd70a7262a546249e2329e304fc371ce50e0bb3dd50d4c9cd2",
+        "start": 0,
+        "finish": 14
+      }
+    ],
+    "contentDigest": "sha256:0ab1d7637f467499b7d488e3157c14898ac2423be1bed969471a0f41c22f97de"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.a4691fd24da0db98c4eb8a284182fb6445282dc26ab0cf093b9066e6a00fd7a8",
+    "serialValue": "team.a4691fd24da0db98c4eb8a284182fb6445282dc26ab0cf093b9066e6a00fd7a8",
+    "serialRejectionCodes": []
+  },
+  "retainedAlternatives": [],
+  "compilationDigest": "sha256:034c4f1fae6f8d03fa945917f1c7fa901164398f2d9af52c82b083af72450487",
+  "packageDigest": "sha256:f66a977971b9476c164d510c31644480fa8f6d9b2a146423ebb771cb235c4be9",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.d3c2ceb9fe1389bd70a7262a546249e2329e304fc371ce50e0bb3dd50d4c9cd2"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.d3c2ceb9fe1389bd70a7262a546249e2329e304fc371ce50e0bb3dd50d4c9cd2",
+      "digest": "sha256:73f24453b2797c292b6eb20615ae94633202def7447577652cde302738953712",
+      "workUnitIds": [
+        "implement.foundation"
+      ],
+      "dependencyAgentIds": [],
+      "contractFile": "agents/agent.d3c2ceb9fe1389bd70a7262a546249e2329e304fc371ce50e0bb3dd50d4c9cd2.md"
+    }
+  ],
+  "packageVerified": true,
+  "runtimeInvoked": false
+}
