@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.parallel",
+    "revision": 1,
+    "digest": "sha256:03dd37de45d9b35c3221188aa4730f35590fb91dcedb2b7503b5e5628c502222"
+  },
+  "agent": {
+    "id": "agent.cb73b4a9eb8cd6278d0985fb4c22785bb5891dfdb6daef34dbe0248304c29e70",
+    "blueprintDigest": "sha256:2c71092cda04f03b4fdebadd835267fb39a9ba6d41162419f2833cf89fdc1614"
+  },
+  "compilationDigest": "sha256:7384e593d56913a2059673fb2c10e7778aa56627a7e98754cd0913f9c5ecf065",
+  "summary": "Implemented deterministic specialist-run inspection with manifest-resolved eligibility, accepted evidence, routing, complete-roster readiness, and focused DAG coverage. Final build and focused tests pass.",
+  "workUnitsCompleted": [
+    "implement.session-inspection"
+  ],
+  "artifacts": [
+    {
+      "name": "session-inspection-implementation.md",
+      "mediaType": "text/markdown",
+      "content": "# Session Inspection Implementation\n\n## Result\n\nImplemented `inspectSpecialistRunSession` as a bounded, immutable evidence derivation over a reverified run session. It derives every selected agent status, exact manifest-resolved eligible contract, accepted evidence binding, terminal route, specialist outcome, complete-roster integration readiness, closed next action, and domain-separated inspection digest without performing host effects.\n\n## Contract Evidence\n\n- Revalidates the complete session against the external package expectation before inspection.\n- Resolves eligible contract path, media type, bytes, digest, and content through the verified manifest and package file binding.\n- Reports `accepted_pass`, `accepted_non_pass`, `dependency_eligible`, `waiting_for_dependencies`, and `session_routed` with exact direct blockers and terminal routes.\n- Re-verifies accepted raw handoffs and exposes semantic digests, artifact bindings without artifact content, and canonically ordered evidence duties.\n- Reports dependency eligibility only while collecting and leaves evaluation or launch decisions to the external host.\n- Routes every non-pass outcome through the integration owner and prevents unsettled work from remaining eligible after routing.\n- Sets integration readiness only when every blueprint in the complete selected roster has an accepted pass handoff.\n- Bounds, schema-validates, detaches, deeply freezes, and hashes the complete inspection.\n\n## DAG And Differential Coverage\n\nFocused tests exercise roots, chains, a diamond, fan-out, fan-in, a disconnected component, partial completion, terminal routing, and complete-roster closure. A V11 dependency assessment for the final dependent agent becomes ready while V12 integration readiness remains false until the disconnected agent and target agent also pass, proving the complete-roster distinction. All seven non-pass outcomes are checked for exact route propagation.\n\n## Verification\n\n- All 16 declared context sources matched their required raw SHA-256 digest and byte count before use.\n- Final `npm.cmd run build`: pass.\n- Final `node --test test/specialist-run-inspection.test.mjs`: pass, 2 tests, 0 failures.\n- `src/specialist-run-inspection.ts`: 14528 bytes, `sha256:0a8142e52182622157864a3ca544c350d77a76584464a4e50ea0a30e6d6cbdc5`.\n- `test/specialist-run-inspection.test.mjs`: 18286 bytes, `sha256:d131e00c8a9701850a9a5c7dc0717b4fd25b512b16c1f688b8a16e6981255624`.\n\n## Failed Attempts\n\nThe first sandboxed build was denied access to generated `dist` files and also exposed a route-outcome narrowing error; the narrowing was corrected and the required normal build then passed with host permission. The first focused test run exposed a test fixture that reused one module identity with differing actions; the fixture was corrected and subsequent focused runs passed. Native `apply_patch` created the files successfully, but later update attempts failed before mutation because of the documented sandbox. Only the authorized precondition-hash-guarded PowerShell fallback was then used. Parser, sandbox-write, and exact-replacement setup failures occurred before mutation; successful fallback writes immediately verified exact bytes. One read probe encountered the initially absent target file, and one diagnostic `rg` expression was malformed; neither changed files."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.implement.session-inspection",
+      "requirementId": "evidence.inspection-implementation",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "session-inspection-implementation.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Only the contract-required build and focused test file were run; repository-wide verification remains integration-owner work."
+  ],
+  "followUps": [
+    "Run the canonical repository gate after integration with the remaining V12 work units."
+  ]
+}
