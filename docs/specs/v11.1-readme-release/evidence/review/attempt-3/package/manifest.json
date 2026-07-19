@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v11.1.readme-release-review",
+  "goalRevision": 3,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:ecef2f2cc16ed52d387056bd48c8b159bc015718b4eaeaa311f6e14b777a4034",
+  "selectedCandidateId": "team.2077ab2a9679e183beebc81946f8640a8f31a8fa2ce3613775c5729d54195571",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+        "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:a32c386bcc1e70b3e7a203320ee37d9c8b1a2ed2d496d94c7b634b179e459d74",
+  "compilationFileBytes": 28123,
+  "agents": [
+    {
+      "agentId": "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+      "blueprintDigest": "sha256:ca01ae0e740509b3cabfad403ef7d557dbc60e26b402b7fc1a4d0f36bd4bcba2",
+      "contractFile": "agents/agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437.md",
+      "contractDigest": "sha256:2df1cf9a6bd8cdead0ec8cb6c25306c4bf4ed6509fadbaf77d8e437924edf990",
+      "contractBytes": 7542
+    },
+    {
+      "agentId": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+      "blueprintDigest": "sha256:dc25b37ae8c5dcc288caaebb4eb47c10177a4267a3ed94f15091b8bc486702e8",
+      "contractFile": "agents/agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d.md",
+      "contractDigest": "sha256:18154aa062138eaecbb7245f6448bc88b06250099d17c5369ab0f7cf85ed76cb",
+      "contractBytes": 8122
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:642b76bfa85e0959510671a71a4cfcaf4b4cb52369403654a6fec8d20d02d38a",
+  "integrationBytes": 3291,
+  "contentDigest": "sha256:bae3bbf04d0d30597098a4892b34b83ff3f57786e01f80a47ab6092057327ea4"
+}

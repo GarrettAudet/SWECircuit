@@ -1,7 +1,7 @@
 # Specialist Contract: agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e
 
-Compilation: `sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36`
-Blueprint: `sha256:ec37da37dac6450cf6225c4ee7a8d926b3bbcc0f600fc55b496bfa6c5cc4a305`
+Compilation: `sha256:4c3cb3249ff21f51387d05ed5b34810a5797844e137c755cfb8af01bb3fc221a`
+Blueprint: `sha256:9a90dab164de6f1701a4911d7c4b01868a63d1bfa7452768a7168fc3456068b6`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 30,
-  "goalDigest": "sha256:9743420992fef85e1ca82c26a259dde8f1524d7aed6506dbba43e702bb4479c1",
+  "goalRevision": 31,
+  "goalDigest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "review.product-api"
@@ -397,8 +397,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.readme",
       "kind": "repository",
       "locator": "path:README.md",
-      "digest": "sha256:bc164b251bfd2c79be1c6bd6a1906e8172d49135b43f3cc48bdb60295abeccb4",
-      "bytes": 7487,
+      "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+      "bytes": 3101,
       "purposes": [
         "Review public positioning and clarity."
       ],
@@ -638,7 +638,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop with REVISE if a generic role can substitute for exact task demand.",
     "Stop with REVISE if the public contract requires a provider or runtime."
   ],
-  "contentDigest": "sha256:ec37da37dac6450cf6225c4ee7a8d926b3bbcc0f600fc55b496bfa6c5cc4a305"
+  "contentDigest": "sha256:9a90dab164de6f1701a4911d7c4b01868a63d1bfa7452768a7168fc3456068b6"
 }
 ```
 
@@ -659,14 +659,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 30,
-    "digest": "sha256:9743420992fef85e1ca82c26a259dde8f1524d7aed6506dbba43e702bb4479c1"
+    "revision": 31,
+    "digest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2"
   },
   "agent": {
     "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
-    "blueprintDigest": "sha256:ec37da37dac6450cf6225c4ee7a8d926b3bbcc0f600fc55b496bfa6c5cc4a305"
+    "blueprintDigest": "sha256:9a90dab164de6f1701a4911d7c4b01868a63d1bfa7452768a7168fc3456068b6"
   },
-  "compilationDigest": "sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36",
+  "compilationDigest": "sha256:4c3cb3249ff21f51387d05ed5b34810a5797844e137c755cfb8af01bb3fc221a",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "review.product-api"

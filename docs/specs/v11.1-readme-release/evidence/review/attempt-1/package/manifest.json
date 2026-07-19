@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v11.1.readme-release-review",
+  "goalRevision": 1,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:834690f6c366371e2bd450d121d27be4f82964d98ee84e39b6e82da70c3ad511",
+  "selectedCandidateId": "team.2077ab2a9679e183beebc81946f8640a8f31a8fa2ce3613775c5729d54195571",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+        "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:a5c60c4db502d8fe9097c483b6ee3cf3d8ef5ab56eaf89ee6ebe750a7dd0604c",
+  "compilationFileBytes": 28126,
+  "agents": [
+    {
+      "agentId": "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+      "blueprintDigest": "sha256:1173e7e8858d669c20b7d4a1a29dc30b85e9d60e7d95822232ced16ade755249",
+      "contractFile": "agents/agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437.md",
+      "contractDigest": "sha256:9cb888ac1b7539af7d50c826e5f8fb55041a712bc52d69a0f0fa30f3eda32e62",
+      "contractBytes": 7543
+    },
+    {
+      "agentId": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+      "blueprintDigest": "sha256:9094d24d34ec1ba3774388bee3f474935c6dac58f42f6ad9b2a88b77009eb048",
+      "contractFile": "agents/agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d.md",
+      "contractDigest": "sha256:1ad9d8715a6c03d05161414e49a43a413b9f134bc5db8e3e88eb56b261993eda",
+      "contractBytes": 8122
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:678f50c4c59ec4a373582cbf89aff06bb630221ff94149f67eb51f2dc9b08306",
+  "integrationBytes": 3291,
+  "contentDigest": "sha256:97deaeec02344247494402d9b3495ba04115944d1b58ee7cd24b0282b551b006"
+}

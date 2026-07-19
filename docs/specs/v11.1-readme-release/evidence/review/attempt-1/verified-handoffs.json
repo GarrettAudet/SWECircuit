@@ -1,0 +1,136 @@
+{
+  "apiVersion": "swecircuit/review-gate/v1alpha1",
+  "kind": "ExternalReviewGate",
+  "compilationDigest": "sha256:834690f6c366371e2bd450d121d27be4f82964d98ee84e39b6e82da70c3ad511",
+  "packageDigest": "sha256:a56144a6c04b2842150e3f5e594f1f9e92e1c6f12c3d774c1c5e82ae91b04f9a",
+  "verifiedHandoffs": [
+    {
+      "name": "visual",
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "VerifiedSpecialistHandoff",
+      "handoff": {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "SpecialistAgentHandoff",
+        "outcome": "fix",
+        "destination": "codex.main",
+        "goal": {
+          "id": "v11.1.readme-release-review",
+          "revision": 1,
+          "digest": "sha256:42a8b062d83c7b4da8a99c126156ca98726cb596756d0951289c59afdbcb56ed"
+        },
+        "agent": {
+          "id": "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+          "blueprintDigest": "sha256:1173e7e8858d669c20b7d4a1a29dc30b85e9d60e7d95822232ced16ade755249"
+        },
+        "compilationDigest": "sha256:834690f6c366371e2bd450d121d27be4f82964d98ee84e39b6e82da70c3ad511",
+        "summary": "Fix: the verified GIF is clear at native size, but its fixed 1500px-wide composition makes essential explanatory labels illegible when proportionally reduced in a narrow README viewport.",
+        "workUnitsCompleted": [
+          "review.visual"
+        ],
+        "artifacts": [
+          {
+            "name": "visual-clarity-review.json",
+            "mediaType": "application/json",
+            "content": "{\"verdict\":\"fix\",\"checks\":[{\"name\":\"boundSources\",\"status\":\"pass\",\"detail\":\"README.md, generator source, and GIF matched their declared SHA-256 digests and byte counts before review.\"},{\"name\":\"firstReadAndStates\",\"status\":\"pass\",\"detail\":\"Opening, parallel, and complete states establish goal, module sequence, routed UI/API/TEST specialists, and return to VERIFY without overlap.\"},{\"name\":\"routingAndFanIn\",\"status\":\"pass\",\"detail\":\"The ROUTE branch, parallel agents, colored return packets, VERIFY handoff check, MERGE, TRACE, and MEMORY form a coherent end-to-end path.\"},{\"name\":\"hostBoundaryAndRail\",\"status\":\"pass\",\"detail\":\"The GIF and adjacent README distinguish core contract compilation and verification from the external IDE or host that runs specialists and integrates work.\"},{\"name\":\"reducedWidthLegibility\",\"status\":\"fix\",\"detail\":\"At proportional half-width display, 14px phase labels become about 7px and 15px explanatory labels become about 7.5px; the host-run-parallel caption, module details, and verify/trace meaning are no longer reliably readable.\"}],\"findings\":[{\"id\":\"visual.reduced-width-text\",\"severity\":\"release\",\"scope\":\"README GIF responsive legibility\",\"evidence\":\"The fixed 1500x560 frame relies on 14-16px phase and trace text plus 15px detail text. A typical constrained README image scales those labels below readable size before the flow can be understood.\",\"impact\":\"Narrow-viewport readers can see the broad diagram but lose the explanatory language that establishes modular-rail meaning, external-host responsibility, and verified fan-in.\",\"recommendation\":\"Provide a narrow-layout companion visual or redesign the GIF with materially larger essential labels and fewer simultaneous text elements so its key explanatory copy remains legible at constrained display widths.\"}]}"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.visual-clarity",
+            "requirementId": "evidence.visual-review",
+            "kind": "review",
+            "duty": "produce",
+            "status": "fix",
+            "artifact": "visual-clarity-review.json"
+          }
+        ],
+        "assumptions": [
+          "Reduced-width assessment uses proportional rendering of the verified 1500x560 GIF in a constrained README viewport."
+        ],
+        "risks": [
+          "The release surface remains difficult to comprehend on narrow displays until the reduced-width finding is addressed."
+        ],
+        "followUps": [
+          "Recheck opening, parallel, and final states at narrow README widths after the responsive visual treatment is revised."
+        ]
+      },
+      "rawBytes": 3359,
+      "rawDigest": "sha256:968a3cab575088c3b268c74c6d11ab56f60c90b6071532bb0185a079210b43d8",
+      "semanticDigest": "sha256:55613b33f80a878ebd12c7ae043470e743bc496867accdbc300376afc36a20e8",
+      "artifactBindings": [
+        {
+          "name": "visual-clarity-review.json",
+          "mediaType": "application/json",
+          "bytes": 1815,
+          "digest": "sha256:2dd7db56ac4864d3081df4fbae2d3edd12418955219a07e67c35c59ed14ffdfd"
+        }
+      ],
+      "contentDigest": "sha256:6f536977c90899c7bb52005b472177781f9565219b7aec7ece2c609b7366e709"
+    },
+    {
+      "name": "boundary",
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "VerifiedSpecialistHandoff",
+      "handoff": {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "SpecialistAgentHandoff",
+        "outcome": "fix",
+        "destination": "codex.main",
+        "goal": {
+          "id": "v11.1.readme-release-review",
+          "revision": 1,
+          "digest": "sha256:42a8b062d83c7b4da8a99c126156ca98726cb596756d0951289c59afdbcb56ed"
+        },
+        "agent": {
+          "id": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+          "blueprintDigest": "sha256:9094d24d34ec1ba3774388bee3f474935c6dac58f42f6ad9b2a88b77009eb048"
+        },
+        "compilationDigest": "sha256:834690f6c366371e2bd450d121d27be4f82964d98ee84e39b6e82da70c3ad511",
+        "summary": "The read-only V11 capability-boundary review completed with four actionable release findings in README ownership language and checker regression coverage.",
+        "workUnitsCompleted": [
+          "review.boundary"
+        ],
+        "artifacts": [
+          {
+            "name": "capability-boundary-review.json",
+            "mediaType": "application/json",
+            "content": "{\"verdict\":\"fix\",\"method\":\"Static read-only audit. All four declared sources matched their bound raw SHA-256 digests and byte counts before use. The checker and test harness were not executed because the frozen authority forbids writes and the harness creates fixtures.\",\"sourceVerification\":[{\"id\":\"context.readme\",\"bytes\":2591,\"digest\":\"match\"},{\"id\":\"context.compiler-contract\",\"bytes\":36886,\"digest\":\"match\"},{\"id\":\"context.checker\",\"bytes\":77645,\"digest\":\"match\"},{\"id\":\"context.checker-tests\",\"bytes\":89769,\"digest\":\"match\"}],\"checkedClaims\":[{\"claim\":\"semantic decomposition ownership\",\"status\":\"fail\",\"evidence\":\"README.md:14 assigns decomposition to Compile, while the normative contract at line 41 assigns atomic semantic decomposition to the IDE or human and permits core only to group reviewed work units.\"},{\"claim\":\"specialist compilation\",\"status\":\"pass\",\"evidence\":\"README.md:18 and README.md:37 accurately assign deterministic portable specialist contract and package compilation to core without agent execution.\"},{\"claim\":\"package and handoff verification\",\"status\":\"partial\",\"evidence\":\"README.md:7, README.md:16, and README.md:37 are truthful, but check-template.ps1:1591-1597 requires only a generic core verification anchor and an example package anchor, not general core package verification, raw-handoff verification, or fan-in assessment.\"},{\"claim\":\"provider and model choice\",\"status\":\"fail\",\"evidence\":\"README.md:19 and its required checker anchor assign model choice to the host but omit provider choice, which the normative contract assigns externally at lines 38 and 455.\"},{\"claim\":\"launching and scheduling\",\"status\":\"fail\",\"evidence\":\"README.md:19 correctly assigns launch to the host, but README.md:9 says SWECircuit routes work in parallel and README.md:15 presents parallel execution categorically. Contract lines 243 and 454 make launch waves planning-only and reserve dispatch to the host.\"},{\"claim\":\"permission enforcement\",\"status\":\"partial\",\"evidence\":\"README.md:19 correctly assigns enforcement to the host and the checker rejects direct SWECircuit enforcement claims, but no focused test exercises the enforcement branch of check-template.ps1:1639.\"},{\"claim\":\"tool execution\",\"status\":\"partial\",\"evidence\":\"README.md:19 correctly assigns tools to the host, but the checker has no negative guard or fixture for a claim that SWECircuit runs tools even though contract line 395 limits core to returned values without caller-directed I/O.\"},{\"claim\":\"integration and merge\",\"status\":\"fail\",\"evidence\":\"README.md:19 assigns integration to the host, but README.md:9 attributes integration to SWECircuit. Merge has a tested negative rule but no positive host anchor despite contract lines 39 and 460.\"},{\"claim\":\"trace persistence\",\"status\":\"fail\",\"evidence\":\"README.md:16 says to preserve the execution trace without naming the owner, and the host anchor omits persistence. The checker has negative write and persist branches but no positive host anchor and no persist-branch fixture; contract lines 38, 39, and 458 place persistence outside core.\"},{\"claim\":\"memory updates\",\"status\":\"fail\",\"evidence\":\"README.md:19 assigns memory updates to the host, but README.md:9 says SWECircuit retains learning in memory. The checker blocks only the exact automatic-update wording; contract lines 38, 39, and 461 keep memory mutation outside core.\"},{\"claim\":\"checker positive truth anchors\",\"status\":\"partial\",\"evidence\":\"All five required active phrases at check-template.ps1:1591-1597 are present. Focused mutation tests remove only the core capability at test-check-template.ps1:717-724 and the host boundary at test-check-template.ps1:1132-1139, leaving the other boundary details unprotected.\"},{\"claim\":\"checker negative overclaim regressions\",\"status\":\"fail\",\"evidence\":\"Tests at test-check-template.ps1:594-608 cover seven first-regex overclaims, but no direct fixture covers the enforcement, load, persistence, or process alternatives at check-template.ps1:1639. Routing, dispatch, tool, integration, provider or model selection, and nonautomatic memory wording also escape the patterns.\"}],\"actionableFindings\":[{\"id\":\"F1\",\"location\":\"README.md:14\",\"finding\":\"Compile is described as semantically decomposing the goal, violating the reviewed-input boundary.\",\"action\":\"Move atomic decomposition to the IDE or human Define stage and describe Compile as validation, legal grouping, selection against the serial baseline, and exact blueprint compilation.\"},{\"id\":\"F2\",\"location\":\"README.md:9,15\",\"finding\":\"Active visual and step prose implies SWECircuit routes runtime work and always runs specialists in parallel, and the visual also attributes integration and memory retention to SWECircuit.\",\"action\":\"Name the external host or integration owner for scheduling, execution, integration, trace persistence, and memory updates, and make concurrency conditional on the approved dependency plan.\"},{\"id\":\"F3\",\"location\":\"README.md:19; scripts/check-template.ps1:1591-1597\",\"finding\":\"The positive boundary anchor omits host provider choice, merge, and trace persistence and does not protect explicit core package, raw-handoff, and fan-in verification.\",\"action\":\"Add concise exact positive anchors for those responsibilities and protect each boundary anchor with a mutation fixture.\"},{\"id\":\"F4\",\"location\":\"scripts/check-template.ps1:1636-1650; scripts/test-check-template.ps1:594-608\",\"finding\":\"Negative rules and fixtures do not cover several normative overclaims, and the entire second capability regex lacks focused tests.\",\"action\":\"Cover host-owned provider and model selection, agent dispatch and routing, tool execution, integration and merge, trace persistence, permission enforcement, and memory mutation with active-prose failure fixtures plus truthful host and negation controls.\"}],\"failedAttempts\":[\"The initial metadata-only verification command had a PowerShell parse error before reading a source; the corrected read-only command verified all four sources.\"]}"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.boundary-accuracy",
+            "requirementId": "evidence.boundary-review",
+            "kind": "review",
+            "duty": "produce",
+            "status": "fix",
+            "artifact": "capability-boundary-review.json"
+          }
+        ],
+        "assumptions": [],
+        "risks": [
+          "The checker and tests were audited statically rather than executed because the frozen no-write authority excludes the fixture-writing test harness."
+        ],
+        "followUps": [
+          "Correct README semantic decomposition and runtime ownership wording.",
+          "Complete the positive core-versus-host anchors for provider choice, package and handoff verification, merge, trace persistence, and memory.",
+          "Expand negative overclaim rules and add focused mutation fixtures for every protected boundary."
+        ]
+      },
+      "rawBytes": 7825,
+      "rawDigest": "sha256:73207dc73860941400b265a066c97a9159943da53631d70b64e1566e53c2534e",
+      "semanticDigest": "sha256:f74df332e3ae6da3082a3fd82673d20a59c8f6429582ee98442fd372995d627e",
+      "artifactBindings": [
+        {
+          "name": "capability-boundary-review.json",
+          "mediaType": "application/json",
+          "bytes": 6017,
+          "digest": "sha256:4d07a8965fa2cfecf7de096819df3a3356b73488c4ce09be44434f551d084666"
+        }
+      ],
+      "contentDigest": "sha256:f9096b011a2c061d9ae650dcc85055f90803bcc728046a3cfe390556a5eaeb29"
+    }
+  ],
+  "integrationReady": false,
+  "note": "Each raw handoff was verified by core. This external gate does not claim a SpecialistHandoffSetAssessment because the integration owner is not a dependent AgentBlueprint."
+}

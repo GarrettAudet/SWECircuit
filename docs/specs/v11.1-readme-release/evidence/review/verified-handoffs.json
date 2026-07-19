@@ -1,0 +1,124 @@
+{
+  "apiVersion": "swecircuit/review-gate/v1alpha1",
+  "kind": "ExternalReviewGate",
+  "compilationDigest": "sha256:571b1b4e57401ab25b92e7973ef298d287f3175a68f6363f56177ea90b46f135",
+  "packageDigest": "sha256:09a7cdea81b1d3b81f681ee0f4808c166f526107c2da7a66701f1d1c086f79cd",
+  "verifiedHandoffs": [
+    {
+      "name": "visual",
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "VerifiedSpecialistHandoff",
+      "handoff": {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "SpecialistAgentHandoff",
+        "outcome": "pass",
+        "destination": "codex.main",
+        "goal": {
+          "id": "v11.1.readme-release-review",
+          "revision": 5,
+          "digest": "sha256:7ed6b1a80f0e07218881697f2eaff44776b1a18e8f1a9a9e19dcf89d0de364d7"
+        },
+        "agent": {
+          "id": "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+          "blueprintDigest": "sha256:dd177b4e846ed1ed649de967860c492daa7f00f45b019e6907ffd21f90acf58f"
+        },
+        "compilationDigest": "sha256:571b1b4e57401ab25b92e7973ef298d287f3175a68f6363f56177ea90b46f135",
+        "summary": "Pass. All declared source byte counts and SHA-256 digests matched. The 45-line README and unchanged GIF remain clear on first read at 600 CSS pixels: modules lead to host-parallel UI/API/TEST specialists, verified fan-in, merge, memory, and the execution trace without overlap or ambiguity. The restored two-command CLI quick start remains concise and understandable.",
+        "workUnitsCompleted": [
+          "review.visual"
+        ],
+        "artifacts": [
+          {
+            "name": "visual-clarity-review.json",
+            "mediaType": "application/json",
+            "content": "{\"verdict\":\"pass\",\"sourceVerification\":[{\"locator\":\"path:docs/assets/source/generate-swecircuit-flow-gif.py\",\"sha256\":\"03e4350eac22235d778117fddd865130aeeab0a88261d27179474619b3b27798\",\"bytes\":12805,\"status\":\"matched\"},{\"locator\":\"path:README.md\",\"sha256\":\"6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc\",\"bytes\":3101,\"status\":\"matched\"},{\"locator\":\"path:docs/assets/swecircuit-flow.gif\",\"sha256\":\"90b627c4e3b116d98b49dea34eeabd5e4d69718c60fb583d2d3b792fdfd98483\",\"bytes\":913700,\"status\":\"matched\"}],\"review\":{\"readmeLines\":45,\"gifViewport\":\"600 CSS pixels wide\",\"statesInspected\":[\"opening\",\"parallel\",\"complete\"],\"result\":\"The diagram clearly presents GOAL, SPEC/PLAN/COMPILE modules, a HOST MAY PARALLELIZE branch to UI/API/TEST, visible fan-in to VERIFY, then MERGE and MEMORY, with FULL EXECUTION TRACE. Labels, connectors, and active states remain legible and non-overlapping at the reviewed scale. Adjacent README prose establishes the developer/IDE, SWECircuit, external-host, and integration-owner roles before the image. The two CLI commands for validate and inspect remain a compact, ordered quick start before the specialist example.\"},\"findings\":[]}"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.visual-clarity",
+            "requirementId": "evidence.visual-review",
+            "kind": "review",
+            "duty": "produce",
+            "status": "pass",
+            "artifact": "visual-clarity-review.json"
+          }
+        ],
+        "assumptions": [],
+        "risks": [],
+        "followUps": []
+      },
+      "rawBytes": 2531,
+      "rawDigest": "sha256:48e37c688d3a13c0fbb4aca039af695b6c841fb00956381be05cfd3b50e9b427",
+      "semanticDigest": "sha256:a75253cf0d9869778349e3b805879c3dcbd9235686fb714410ef6d12c06bdc3a",
+      "artifactBindings": [
+        {
+          "name": "visual-clarity-review.json",
+          "mediaType": "application/json",
+          "bytes": 1180,
+          "digest": "sha256:85b70c0fd8d7ae49e17ccc5506f31d2a2c77475a5586b4a6e7c8ed7cefe5f9d8"
+        }
+      ],
+      "contentDigest": "sha256:12d959192b3a96b570acafa09cfbb79b96d457e1a911262c89ab6405434b7e64"
+    },
+    {
+      "name": "boundary",
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "VerifiedSpecialistHandoff",
+      "handoff": {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "SpecialistAgentHandoff",
+        "outcome": "pass",
+        "destination": "codex.main",
+        "goal": {
+          "id": "v11.1.readme-release-review",
+          "revision": 5,
+          "digest": "sha256:7ed6b1a80f0e07218881697f2eaff44776b1a18e8f1a9a9e19dcf89d0de364d7"
+        },
+        "agent": {
+          "id": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+          "blueprintDigest": "sha256:a3d82a7d39fbf62efb056d4d7af8e331959e5c05399c2c2621b7a0b1e196fb83"
+        },
+        "compilationDigest": "sha256:571b1b4e57401ab25b92e7973ef298d287f3175a68f6363f56177ea90b46f135",
+        "summary": "Revision 4 capability-boundary findings remain closed in Revision 5. The README restores the local validate and inspect CLI examples, preserves the in-memory no-write and no-launch specialist example boundary, assigns runtime effects to the external host, and limits core claims to compilation and approval-bound verification. Checker rules and negative fixtures anchor the restored commands, required core and host responsibility text, and forbidden runtime overclaims.",
+        "workUnitsCompleted": [
+          "review.boundary"
+        ],
+        "artifacts": [
+          {
+            "name": "capability-boundary-review.json",
+            "mediaType": "application/json",
+            "content": "{\"outcome\":\"pass\",\"sourceVerification\":[{\"sourceId\":\"context.readme\",\"bytes\":3101,\"sha256\":\"6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc\",\"status\":\"match\"},{\"sourceId\":\"context.compiler-contract\",\"bytes\":36886,\"sha256\":\"ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9\",\"status\":\"match\"},{\"sourceId\":\"context.checker\",\"bytes\":80644,\"sha256\":\"e7df2c505bb86fc026eb1934a3834d5ae8faf9e2e23992ad45fb5d7bad82af41\",\"status\":\"match\"},{\"sourceId\":\"context.checker-tests\",\"bytes\":101985,\"sha256\":\"f81f09c537d228ab88686bcaa7b57f09388239f39e2e03feb86070b584428e81\",\"status\":\"match\"}],\"revision4Findings\":{\"readOnlyCliCommands\":{\"status\":\"closed\",\"evidence\":[\"README includes node dist/cli.js validate --project examples/minimal\",\"README includes node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl\",\"README describes those commands only as validating and inspecting the minimal project\"]},\"checkerAnchors\":{\"status\":\"closed\",\"evidence\":[\"check-template requires both exact local CLI command examples\",\"test-check-template removes each command independently and expects checker failure\",\"checker rejects published npx, installable package, global binary, and published CLI claims\"]},\"capabilityBoundary\":{\"status\":\"closed\",\"evidence\":[\"README assigns provider and model selection, dispatch, permission enforcement, tool execution, integration, merge, trace persistence, and memory updates to an external IDE or agent host\",\"README limits core claims to specialist contract compilation and verification of approval-bound packages, raw handoffs, and dependency fan-in\",\"README states the specialist example operates in memory, writes no files, and launches no agents\",\"checker requires the core and host truth anchors and rejects positive core claims for execution, isolation, persistence, capacity, recovery, merge readiness, decomposition, and memory mutation\",\"checker tests cover required core anchors, required host responsibility anchors, truthful negation, aliases, modal overclaims, and fenced-content handling\"]}},\"contradictions\":[],\"missingTruthAnchors\":[],\"verificationMethod\":\"Static read-only review of all digest-bound sources. The write-producing checker matrix was not executed, as required by the specialist contract.\"}"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.boundary-accuracy",
+            "requirementId": "evidence.boundary-review",
+            "kind": "review",
+            "duty": "produce",
+            "status": "pass",
+            "artifact": "capability-boundary-review.json"
+          }
+        ],
+        "assumptions": [],
+        "risks": [],
+        "followUps": []
+      },
+      "rawBytes": 3806,
+      "rawDigest": "sha256:36fbbe2e738dc0fa02e76f4a729ad2c7ca84387a2db4b35a06325c74b8fd91eb",
+      "semanticDigest": "sha256:d8f50f1d990e92bf8172401627319495e6ec367f7eb9e90f4c3ceafd65316bc3",
+      "artifactBindings": [
+        {
+          "name": "capability-boundary-review.json",
+          "mediaType": "application/json",
+          "bytes": 2287,
+          "digest": "sha256:5e758b3f50cb7e34f563f7be844016b269897f03f833b3e213ab9cc4c9166f7d"
+        }
+      ],
+      "contentDigest": "sha256:937863d11ce64d4d8a37bbdf31c5609dbba25f1852c73d35e4ee81d4512c321a"
+    }
+  ],
+  "integrationReady": true,
+  "note": "Each raw handoff was verified by core. This external gate does not claim a SpecialistHandoffSetAssessment because the integration owner is not a dependent AgentBlueprint."
+}

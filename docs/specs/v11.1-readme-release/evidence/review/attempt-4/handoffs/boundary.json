@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v11.1.readme-release-review",
+    "revision": 4,
+    "digest": "sha256:7d1b1898d5cf34bc884a6894a5de227c551458e1608b41d4bc9b493a95bee564"
+  },
+  "agent": {
+    "id": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+    "blueprintDigest": "sha256:2e0ccd6146121b1ccdb8b5b2d618750e747f07df4d0a368f20adfd57c7eb7d20"
+  },
+  "compilationDigest": "sha256:d835edb8382a904d54012caa0641193007b8b46ba79960ba21640ee7a2e0f086",
+  "summary": "Pass. All four declared sources matched their approved raw SHA-256 digests and byte counts. Revision 4 preserves disjunctive developer-or-IDE decomposition ownership, applies bounded core/compiler aliases and affirmative modal grammar across every V11 host-owned exclusion family, and accurately states the positive compiler-core versus external-host boundary.",
+  "workUnitsCompleted": [
+    "review.boundary"
+  ],
+  "artifacts": [
+    {
+      "name": "capability-boundary-review.json",
+      "mediaType": "application/json",
+      "content": "{\"verdict\":\"pass\",\"method\":\"Static read-only audit after exact source-byte verification.\",\"sourceVerification\":[{\"sourceId\":\"context.readme\",\"bytes\":2897,\"sha256\":\"565789d343fa5a40f6346116a8696054460d4ba2d9cc168bb0a3d5f5be681950\",\"status\":\"pass\"},{\"sourceId\":\"context.compiler-contract\",\"bytes\":36886,\"sha256\":\"ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9\",\"status\":\"pass\"},{\"sourceId\":\"context.checker\",\"bytes\":80483,\"sha256\":\"424afc9ae5716489dc9c62dd36b0836b2aa8f564c5d3f0f148f55cfdeb6177b1\",\"status\":\"pass\"},{\"sourceId\":\"context.checker-tests\",\"bytes\":101766,\"sha256\":\"4f55b594f07af0a3589c97a97995faa23e1105231e4e91c89822481837bef6c1\",\"status\":\"pass\"}],\"revision3Findings\":[{\"finding\":\"disjunctive-human-ide-ownership\",\"status\":\"pass\",\"observations\":[\"README assigns closure and atomic decomposition to a developer or IDE, consistent with the normative IDE-or-human responsibility.\",\"The checker accepts developer-only, IDE-only, and explicit disjunction forms while rejecting conjunctive developer-and-IDE ownership.\",\"Checker tests cover missing ownership, both single-owner forms, and the prohibited conjunctive form.\"]},{\"finding\":\"bounded-aliases-and-modal-grammar\",\"status\":\"pass\",\"families\":[\"execution-and-dispatch\",\"provider-model-prompt-profile-executor-credential-selection\",\"runtime-capacity-and-launch-wave-guarantees\",\"sandbox-worktree-filesystem-permission-and-process isolation\",\"runtime-persistence\",\"retry-cancel-resume-and-recovery\",\"merge-and-merge-readiness\",\"durable-memory-mutation\"],\"observations\":[\"A shared bounded subject grammar covers SWECircuit, core, and compiler aliases.\",\"A shared bounded affirmative modal grammar covers can, will, may, must, and does forms.\",\"Every host-owned exclusion family is checked using that shared alias and modal grammar.\",\"Tests include direct exclusions plus an alias and modal mutation for each family.\"]}],\"positiveBoundary\":{\"status\":\"pass\",\"observations\":[\"README positively assigns deterministic contract compilation and approval-bound package, raw-handoff, and dependency-fan-in verification to core.\",\"README assigns provider and model selection, dispatch, permission enforcement, tool execution, integration, merge, trace persistence, and memory updates to an external IDE or agent host.\",\"Required-text and mutation tests protect the core capability anchors, conditional dependency-safe host execution, and each stated host responsibility.\",\"These claims match the normative public-operation effect boundaries and explicit V11 exclusions.\"]},\"contradictions\":[],\"missingTruthAnchors\":[]}"
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.boundary-accuracy",
+      "requirementId": "evidence.boundary-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "capability-boundary-review.json"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Checker tests were inspected but not executed because their fixture harness writes files and the approved specialist authority is read-only."
+  ],
+  "followUps": []
+}

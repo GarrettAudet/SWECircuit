@@ -1,6 +1,6 @@
 # Specialist Integration Contract
 
-Compilation: `sha256:79c5a7103225b12398e27c0e959b993597f38dcc5ddca6d9750a4d2b62f2d065`
+Compilation: `sha256:5a8c1a13e0daca3411a023283b44e1d3ec9cc09b620733641f851b48892237b3`
 
 The integration owner launches only the contracts bound to this compilation, preserves each raw handoff, verifies required evidence, resolves declared dependencies in order, and returns to clarification or redesign when a specialist crosses its boundary.
 
@@ -16,9 +16,9 @@ The integration owner launches only the contracts bound to this compilation, pre
 
 ```json
 {
-  "compilationDigest": "sha256:79c5a7103225b12398e27c0e959b993597f38dcc5ddca6d9750a4d2b62f2d065",
+  "compilationDigest": "sha256:5a8c1a13e0daca3411a023283b44e1d3ec9cc09b620733641f851b48892237b3",
   "goalId": "v11.specialist-compiler.prelaunch-audit",
-  "goalRevision": 30,
+  "goalRevision": 31,
   "assumptions": [
     {
       "id": "assumption.audit-is-trust-root",
@@ -49,7 +49,7 @@ The integration owner launches only the contracts bound to this compilation, pre
     "evaluatedCandidates": 2,
     "eligibleCandidates": 1,
     "retainedAlternatives": 1,
-    "evaluationSetDigest": "sha256:27f404492db1280f629db02016bd4f4b15f16f63e8db27b6f1be55d1e51377e9"
+    "evaluationSetDigest": "sha256:9881261ce5cee56e5fbef962a9fb068d4fafe0a95299a66a234c8229bff97b62"
   },
   "selectedCandidateId": "team.357beba7ab91a91ad49896b7d31e2fb6c61d9277c3d50582a02bad331a809b12",
   "selectedMetrics": {
@@ -58,7 +58,7 @@ The integration owner launches only the contracts bound to this compilation, pre
     "peakConcurrency": 1,
     "conflictPairs": 0,
     "handoffCount": 1,
-    "duplicatedContextBytes": 791102,
+    "duplicatedContextBytes": 791109,
     "duplicatedPermissionScopes": 10,
     "totalWorkWeight": 11,
     "totalStartupCost": 4,
@@ -109,11 +109,11 @@ The integration owner launches only the contracts bound to this compilation, pre
   "blueprintDigests": [
     {
       "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
-      "digest": "sha256:171c794790476ea6430de2722f49438a6ab162479598bfc0b03bb409afda45f1"
+      "digest": "sha256:c344ea24d58f630c2355ce895c17f3f2141c2f4f02dbdefe9f59f4b7affb4045"
     },
     {
       "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
-      "digest": "sha256:de2e1845df758093d3a850610431e17c510030f80ac4d51643b84ea370373bbf"
+      "digest": "sha256:d0aeea0dc38d0bc2a02dd12022f949ed5ce5c32f17cfd9213c7485d0b1fde7f3"
     }
   ]
 }

@@ -2,34 +2,42 @@
 
 ## Purpose
 
-This folder stores public README and documentation visuals. Assets should clarify SWECircuit without becoming a second source of workflow truth.
+This folder stores public README and documentation visuals. Assets explain SWECircuit; the adjacent prose remains authoritative about implemented behavior.
 
 ## Assets
 
 | File | Used By | Purpose |
 | --- | --- | --- |
-| `swecircuit-overview.png` | `README.md` | Current SWECircuit target operating model for a task moving through standardized modules, agent routing, verified integration, and memory. |
+| `swecircuit-flow.gif` | `README.md` | Current one-goal-to-verified-change workflow animation. |
+| `source/generate-swecircuit-flow-gif.py` | Maintainers | Deterministic layout, animation, and mechanical validation source for the primary GIF. |
+| `swecircuit-overview.png` | V9 source record | Historical static SWECircuit overview preserved as provenance. |
 | `tracerail-overview.png` | V8 source record | Historical user-approved TraceRail overview preserved as provenance. |
-| `tracerail-module-contract.gif` | Supporting docs | Generated example of a goal becoming a traceable work package. |
-| `tracerail-rail-flow.gif` | Supporting docs | Generated example of gates routing typed outcomes. |
-| `tracerail-platform-composition.gif` | Supporting docs | Generated example of bounded work units returning to an integration owner. |
-| `source/generate-readme-demo-gifs.py` | Maintainers | Deterministic source for the supporting GIF sequence. |
+| `tracerail-module-contract.gif` | Supporting docs | Historical generated module example. |
+| `tracerail-rail-flow.gif` | Supporting docs | Historical generated gate-routing example. |
+| `tracerail-platform-composition.gif` | Supporting docs | Historical generated orchestration example. |
+| `source/generate-readme-demo-gifs.py` | Maintainers | Deterministic source for the historical supporting GIF sequence. |
 
 ## Source
 
-`swecircuit-overview.png` is the V9 public overview. It preserves the accepted V8 information hierarchy while updating the project identity and composition language. It represents the target operating model; the adjacent README text is authoritative about which operations the V9 kernel implements today.
+`swecircuit-flow.gif` is a self-contained 920 x 560 animation generated with Pillow. It shows the current framework boundary: a developer or IDE defines atomic work, core compiles and verifies contracts, the host may run approved specialists in parallel, and one owner integrates, persists the trace, and updates memory.
 
-`tracerail-overview.png` remains the exact user-approved V8 source artifact and is not a current README embed. The supporting GIFs are generated from `source/generate-readme-demo-gifs.py` with the bundled Codex Python runtime and Pillow; they remain historical supporting material rather than the primary README story.
+Run the generator with the bundled Codex Python runtime or any Python environment with Pillow:
+
+```powershell
+python docs/assets/source/generate-swecircuit-flow-gif.py --qa-dir <temporary-qa-directory>
+```
+
+The generator validates dimensions, optimized frame count, loop duration, and a 3 MB size ceiling. `--qa-dir` writes representative start, module, parallel, and complete frames for review.
 
 ## Visual Standard
 
-- Explain the product before introducing framework vocabulary.
-- Show one coherent path from user task to verified change and durable memory.
+- Explain the product before framework vocabulary.
+- Show one coherent path from goal to verified change and durable memory.
 - Keep labels readable when GitHub scales the image.
-- Use one primary README visual, not a sequence that readers must decode.
-- Preserve the approved output exactly unless a new visual passes public-surface review.
-- Treat visual comprehension as a human review gate; file existence alone is not evidence of clarity.
+- Use one primary README visual.
+- Treat conceptual comprehension as a human review gate; file existence is not clarity evidence.
+- Keep host-owned execution visibly separate from core compilation and verification.
 
 ## Update Rule
 
-When the primary visual changes, update the README embed, checker requirement, feature package, milestone, and memory. Inspect the rendered README at desktop and narrow widths before committing.
+When the primary visual changes, update the README embed, checker requirement, feature package, milestone, and memory. Regenerate from source, run mechanical checks, and inspect representative frames at desktop and narrow widths before committing.

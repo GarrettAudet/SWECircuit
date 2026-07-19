@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Obtain the owner's explicit V11 merge decision without widening the accepted Revision 30 boundary. Technical acceptance is `PASS` for Candidate A `sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36` / `sha256:ddb642a474815b4ded464b40f5bd8225a404f610d3bd4a91d0ab2d43dc695f43`. The Audit B trust root, all five Candidate A handoffs, integration-ready fan-in, post-integration reconstruction, final 119-case and 370-test gates, 44-file accepted archive, branch publication, and all seven hosted CI jobs passed. The exact published candidate is commit `461354c6f5e7c07fb78160d46d8c236c55fb91cf`; only owner merge approval remains.
+Publish the owner-approved V11.1 README release without widening the accepted Revision 5 boundary. V11 is already merged to `main` at `759b2e7ac71a0fbc5f1e8e4e4d5158299561fd5a`. V11.1 compilation `sha256:571b1b4e57401ab25b92e7973ef298d287f3175a68f6363f56177ea90b46f135` and package `sha256:09a7cdea81b1d3b81f681ee0f4808c166f526107c2da7a66701f1d1c086f79cd` passed exact package verification, two independent raw `pass` handoffs, and external integration-readiness assessment. V11 Revision 31 refreshed the three changed public-source bindings; Candidate A `sha256:4c3cb3249ff21f51387d05ed5b34810a5797844e137c755cfb8af01bb3fc221a` / `sha256:7f54a2346f0e29fde56d537dc8677136f3723561d9a9b57574871a4484029e63` and Audit B `sha256:5a8c1a13e0daca3411a023283b44e1d3ec9cc09b620733641f851b48892237b3` / `sha256:95c502bc2c71c048268115e1e3fa80860ff66c8f0715c21da8adeb7aa6222ea0` pass the two-package trust root and strict replay. The targeted quick-start suite, 256.9-second checker matrix, 370-test kernel suite, complete canonical gate, and offline installed-consumer gate pass locally. Hosted branch CI, fast-forward, and final `main` observation remain.
 
 ## Current Stage
 
-V10 technical acceptance remains preserved at candidate `fa4371e` with evidence closeout `8ac3372` and is still owner-gated. Main remains the V9 baseline.
+V10 remains preserved historical evidence. V11 is the current merged baseline on `main`; V11.1 is dogfooding that baseline for the concise public release.
 
 V11 universal-runtime Round 4 failed against `d486b7f` with four REVISE verdicts, 10 high findings, and 9 medium findings. Raw evidence and correction design were committed at `6da0376`; the workflow emitted `split` rather than another broad patch cycle.
 
@@ -24,7 +24,7 @@ Revision 22 compiled Candidate A `sha256:642ad0726e8019231d6e357a8602c387a47a637
 
 Revision 23 compiled Candidate A `sha256:36ebb90c8420a368e4246ce22e7804a0952396c526c36b3b498436d2919f20b6` / `sha256:232d928ae4e0e92f9cc2e25a611df8c6922eefe343a6ba7dee0f7aabccae99bc` and Audit B `sha256:ced8b145b120e77e349a02c3ebbe55c94d960854ad9fd71988126444b9a0517e` / `sha256:08fc0af95b9613308d25bbb5e2c40bb369c7753cc7b75e809b716d08b8645343`. Audit B independently reproduced all 203 partitions and both package identities; preparation authenticated 37 sources; product/API, algorithm/lifecycle, and release verification passed. Release completed 354/354 tests and all 119 checker cases. Security/trace returned `REVISE` because token-local secret detection allowed a credential assignment or Bearer value split across pointer delimiters to survive in the cumulative public pointer. Integration did not launch; the complete retired run is preserved under `evidence/dogfood/runs/attempt-23/`.
 
-`safePointer` validates each candidate emitted pointer prefix and its decoded semantic prefix before appending a token, preserving only the longest prefix that does not match the shared high-confidence secret detector. Revisions 24-29 then added candidate analysis, strict raw handoffs, transitive fan-in, a truthful first run, packed-consumer parity, the corrected prelaunch superset, restored public compatibility, self-sufficient generated handoff contracts, complete fan-out rejection evidence, approval-freshness enforcement, and a hardened first-run host boundary. Revision 30 bound the corrected bytes, repeated the complete two-package audit and Candidate A cycle, passed technical integration, and passed all seven jobs in hosted run `29659867978` at published commit `461354c6f5e7c07fb78160d46d8c236c55fb91cf`. No merge, provider execution, or V11 runtime enforcement is claimed.
+`safePointer` validates each candidate emitted pointer prefix and its decoded semantic prefix before appending a token, preserving only the longest prefix that does not match the shared high-confidence secret detector. Revisions 24-29 then added candidate analysis, strict raw handoffs, transitive fan-in, a truthful first run, packed-consumer parity, the corrected prelaunch superset, restored public compatibility, self-sufficient generated handoff contracts, complete fan-out rejection evidence, approval-freshness enforcement, and a hardened first-run host boundary. Revision 30 bound the corrected bytes, repeated the complete two-package audit and Candidate A cycle, passed technical integration, and passed all seven jobs in hosted run `29659867978` at published commit `461354c6f5e7c07fb78160d46d8c236c55fb91cf`. The owner-approved closeout fast-forwarded V11 to `main` at `759b2e7ac71a0fbc5f1e8e4e4d5158299561fd5a`; no provider execution or V11 runtime enforcement is claimed.
 
 Revision 24 added a non-launchable candidate-analysis result, strict raw-handoff verification, transitive dependency fan-in, a truthful first run, and packed-consumer coverage. Candidate A and Audit B compiled and approval-verified, but prelaunch inspection found the custom `PrelaunchAuditHandoff` omitted the blueprint-required `agent` and `compilationDigest` fields while its closed validator rejected those fields. No Audit B agent launched; both revision-24 approvals are retired.
 
@@ -38,7 +38,7 @@ Revision 28 compiled Candidate A `sha256:18e40b2586375f0b7004fe088b7b2ebc2f0bd60
 
 Revision 29 compiled Candidate A `sha256:10cc520eb9c4f277876e76cd82908baa3cfcc01e1b84d5ae7c16d910b88075da` / `sha256:1e3afc96dc43950e21b3db94752a6f6fe9c33931ab36b0ce4a2adc2229a59994` and Audit B `sha256:17d7985ed3c4d0f817550b29d9b95308d11a5acaf13dabdee288e3b1d692742d` / `sha256:807d04eb877751acbe4802ccf147bf0853ac4df3390a953ed4669fc572bbbfb7`. Receipt, Audit B, launch authorization, preparation, algorithm/lifecycle, and release passed. Product/API and security/trace returned `FIX` for incomplete final-authorization summaries and unsafe first-run approval/source boundaries; complete fan-in was non-ready and no integration occurred. Revision 29 is archived and retired. At that stage, the summaries, host, tests, and retained approval were corrected for a fresh revision.
 
-Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36` / `sha256:ddb642a474815b4ded464b40f5bd8225a404f610d3bd4a91d0ab2d43dc695f43` and Audit B `sha256:79c5a7103225b12398e27c0e959b993597f38dcc5ddca6d9750a4d2b62f2d065` / `sha256:367d9b3d57b918aabc6543dae16b9b3cf5fee81338fd241226ef9bef2209510f`. The external receipt, semantic Audit B, launch authorization, preparation, product/API, algorithm/lifecycle, security/trace, and release retry 30b all passed. Final machine fan-in has no missing dependency and `integrationReady: true`. Technical integration, post-integration replay, archival, branch publication, and hosted CI are complete; the owner merge decision remains.
+Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36` / `sha256:ddb642a474815b4ded464b40f5bd8225a404f610d3bd4a91d0ab2d43dc695f43` and Audit B `sha256:79c5a7103225b12398e27c0e959b993597f38dcc5ddca6d9750a4d2b62f2d065` / `sha256:367d9b3d57b918aabc6543dae16b9b3cf5fee81338fd241226ef9bef2209510f`. The external receipt, semantic Audit B, launch authorization, preparation, product/API, algorithm/lifecycle, security/trace, and release retry 30b all passed. Final machine fan-in has no missing dependency and `integrationReady: true`. Technical integration, post-integration replay, archival, branch publication, hosted CI, owner approval, and the fast-forward to `main` are complete.
 
 ## Important Current Constraints
 
@@ -63,9 +63,14 @@ Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27
 - Logical arrays and candidate partitions are normalized; labels, proposal order, and input insertion order must not influence selected semantics.
 - Every rendered file and launch entry binds the exact compilation digest. Any changed goal, work unit, candidate, or blueprint requires recompilation and a new review.
 - The Round-4 runtime corrections in docs/specs/v11-orchestration-planner/revision-5-correction-design.md remain mandatory input for a later runtime layer.
-- V11 remains stacked on owner-gated V10 for continuity. Revision 30 technical integration is complete; post-integration replay, final host verification/archive, branch publication, baseline selection, and owner merge approval remain open.
+- V11 is the current merged baseline. V11.1 changes only the public explanation, deterministic visual, checker guards, and release records; it adds no runtime effect.
 
 ## Recently Learned
+
+- A concise public README needs stronger executable truth guards because fewer words carry more semantic weight.
+- Public capability checks should cover bounded core aliases and affirmative modal grammar while retaining truthful-negative controls.
+- Host prompts must distinguish agent effects from read-only tools used to deliver declared context; over-constraining that translation can block a valid specialist contract.
+- Public documentation tests remain compatibility contracts during concision work; independent semantic review does not replace the canonical repository gate.
 
 - A specialized agent is not a role label: semantic intent must be explicit, deterministic demand must exclude runtime supply even transitively, EvidenceBindings must be constructible before blueprints, and materialization must be trace-bound before dispatch.
 - Restartability requires finalized accepted-work semantics in canonical state; a tail event and digest-only history are insufficient for terminal evidence.
@@ -184,8 +189,7 @@ Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27
 
 ## Next Likely Work
 
-- Preserve the exact Revision 30 integration handoff before any archive step.
-- Reconstruct and verify both approved package pairs after the live integration-output edits.
-- Run the final host repository gates and preserve their exact evidence.
-- Archive attempt 30 only after post-integration replay succeeds.
-- Commit and push the release-ready branch, then request the owner's explicit merge decision without claiming hosted CI or runtime effects that did not occur.
+- Reconstruct and verify the accepted V11.1 Revision 5 pair after release-record integration.
+- Run the canonical repository gate and preserve exact local evidence.
+- Publish `codex/v11.1-readme-release`, require hosted CI, and fast-forward the exact candidate to `main` under the owner's standing approval.
+- Record the final main SHA and hosted run without claiming any core-owned runtime effect.

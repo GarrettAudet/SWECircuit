@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v11.1.readme-release-review",
+    "revision": 3,
+    "digest": "sha256:94ea3e1bb5c775b9ddc5ee664cd736dab795c59519778cdfe017a33ec790f101"
+  },
+  "agent": {
+    "id": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+    "blueprintDigest": "sha256:dc25b37ae8c5dcc288caaebb4eb47c10177a4267a3ed94f15091b8bc486702e8"
+  },
+  "compilationDigest": "sha256:ecef2f2cc16ed52d387056bd48c8b159bc015718b4eaeaa311f6e14b777a4034",
+  "summary": "Fix required: the README and checker incorrectly make human/IDE decomposition conjunctive, and the checker permits host-capability overclaims expressed through ordinary aliases or modal grammar.",
+  "workUnitsCompleted": [
+    "review.boundary"
+  ],
+  "artifacts": [
+    {
+      "name": "capability-boundary-review.json",
+      "mediaType": "application/json",
+      "content": "{\"apiVersion\":\"swecircuit/review/v1\",\"kind\":\"CapabilityBoundaryReview\",\"verdict\":\"fix\",\"sourceVerification\":[{\"path\":\"README.md\",\"bytes\":2900,\"sha256\":\"5f1de5c6204e98559a4c118dd3d19d5fec1bc8d9179590e60293a571605b4867\",\"status\":\"verified\"},{\"path\":\"docs/specs/v11-specialist-compiler/specialist-compiler-contract.md\",\"bytes\":36886,\"sha256\":\"ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9\",\"status\":\"verified\"},{\"path\":\"scripts/check-template.ps1\",\"bytes\":79545,\"sha256\":\"81ae18705c4aea201409e868962299a902356f11cd21172ef5ca70dbdf589443\",\"status\":\"verified\"},{\"path\":\"scripts/test-check-template.ps1\",\"bytes\":98157,\"sha256\":\"829e0f802187f110dd57b12a497c9805ea8fdbc047fd2fd50a9a4bb09703d92a\",\"status\":\"verified\"}],\"scopeCompliance\":{\"filesInspected\":[\"README.md\",\"docs/specs/v11-specialist-compiler/specialist-compiler-contract.md\",\"scripts/check-template.ps1\",\"scripts/test-check-template.ps1\"],\"filesWritten\":0,\"networkAccess\":false,\"agentsLaunched\":false,\"testsExecuted\":false},\"findings\":[{\"id\":\"CB-001\",\"severity\":\"high\",\"title\":\"README and checker make human/IDE decomposition conjunctive\",\"locations\":[\"README.md:7\",\"README.md:13\",\"scripts/check-template.ps1:1593\",\"scripts/test-check-template.ps1:772\"],\"normativeEvidence\":[\"docs/specs/v11-specialist-compiler/specialist-compiler-contract.md:15\",\"docs/specs/v11-specialist-compiler/specialist-compiler-contract.md:37\",\"docs/specs/v11-specialist-compiler/specialist-compiler-contract.md:41\",\"docs/specs/v11-specialist-compiler/specialist-compiler-contract.md:83\"],\"observed\":\"The normative contract assigns clarification and atomic decomposition to an IDE or human. The README instead says the developer and IDE define and decompose the work. The checker requires that exact conjunctive wording, and its regression test treats removal of the conjunction-bound sentence as failure.\",\"impact\":\"The public surface narrows a valid human-only or IDE-only workflow into an apparent two-party requirement, and the checker prevents correcting that boundary without changing its rule and fixture.\",\"requiredChange\":\"Use disjunctive wording such as the developer or IDE in both README ownership statements, update the required active-text anchor, and add regressions proving human-only and IDE-only decomposition remain valid while core decomposition remains forbidden.\"},{\"id\":\"CB-002\",\"severity\":\"medium\",\"title\":\"Forbidden-capability checks are bypassed by ordinary aliases and modal grammar\",\"locations\":[\"scripts/check-template.ps1:1642\",\"scripts/check-template.ps1:1643\",\"scripts/check-template.ps1:1644\",\"scripts/check-template.ps1:1645\",\"scripts/check-template.ps1:1646\",\"scripts/check-template.ps1:1647\",\"scripts/test-check-template.ps1:612\"],\"observed\":\"Every forbidden capability expression is anchored to the literal subject SWECircuit or SWECircuit core followed immediately by a selected present-tense verb. Equivalent active claims such as Core dispatches agents, The compiler persists handoffs, or SWECircuit can enforce permissions do not match. The negative fixtures mirror the accepted literal grammar and do not exercise aliases, modal forms, or equivalent V11-core subjects.\",\"impact\":\"A README can pass the checker while explicitly assigning any host-owned exclusion family to core using ordinary public prose.\",\"requiredChange\":\"Extend contradiction detection and tests to bounded core aliases and common modal grammar, or constrain capability prose to a closed canonical section whose noncanonical positive claims fail review.\"}],\"audit\":{\"conditionalHumanIdeDecomposition\":{\"status\":\"fail\",\"detail\":\"Core decomposition is correctly forbidden, but the required human/IDE ownership wording is incorrectly conjunctive.\"},\"externalHostExecutionAndOwnership\":{\"status\":\"pass\",\"detail\":\"README lines 7, 9, 15, 16, and 19 assign execution, dispatch, permission enforcement, tools, integration, merge, persistence, and memory updates to an external host or integration owner; parallel execution remains conditional and dependency-safe.\"},\"coreVerification\":{\"status\":\"pass\",\"detail\":\"README lines 16, 18, 31, and 37 accurately limit core to compilation and verification of approval-bound packages, raw handoffs, and dependency fan-in without file materialization or agent execution. Checker anchors and tests preserve package, handoff, and fan-in wording.\"},\"hostOwnedExclusionFamilies\":[{\"family\":\"agent_execution_and_dispatch\",\"status\":\"covered\",\"checker\":\"scripts/check-template.ps1:1642\",\"tests\":\"scripts/test-check-template.ps1:612-658\"},{\"family\":\"provider_model_prompt_profile_executor_credential_selection\",\"status\":\"covered\",\"checker\":\"scripts/check-template.ps1:1642\",\"tests\":\"scripts/test-check-template.ps1:612-658\"},{\"family\":\"runtime_capacity_and_launch_wave_guarantees\",\"status\":\"covered\",\"checker\":\"scripts/check-template.ps1:1645\",\"tests\":\"scripts/test-check-template.ps1:612-658\"},{\"family\":\"sandbox_worktree_filesystem_permission_and_process_enforcement\",\"status\":\"covered\",\"checker\":\"scripts/check-template.ps1:1643\",\"tests\":\"scripts/test-check-template.ps1:612-658\"},{\"family\":\"runtime_persistence\",\"status\":\"covered\",\"checker\":\"scripts/check-template.ps1:1644\",\"tests\":\"scripts/test-check-template.ps1:612-658\"},{\"family\":\"retry_cancel_resume_and_recovery\",\"status\":\"covered\",\"checker\":\"scripts/check-template.ps1:1646\",\"tests\":\"scripts/test-check-template.ps1:612-658\"},{\"family\":\"merge_and_merge_readiness\",\"status\":\"covered\",\"checker\":\"scripts/check-template.ps1:1642 and 1646\",\"tests\":\"scripts/test-check-template.ps1:612-658\"},{\"family\":\"automatic_memory_mutation\",\"status\":\"covered\",\"checker\":\"scripts/check-template.ps1:1642\",\"tests\":\"scripts/test-check-template.ps1:612-658\"}],\"checkerTestAssessment\":{\"status\":\"fix\",\"detail\":\"The suite has family-level negative fixtures, truthful-negation coverage, required ownership anchors, conditional host/dependency-safe mutations, and extensive fenced-content regressions. It enforces the incorrect decomposition conjunction and lacks regressions for alias or modal overclaims.\"}},\"failedAttempts\":[{\"operation\":\"Initial source metadata verification command\",\"reason\":\"PowerShell rejected a pipeline placed directly after foreach with an empty-pipe parser error.\",\"effect\":\"No declared source content was used before the corrected digest-and-byte verification completed.\"}],\"residualRisks\":[\"Natural-language contradiction checking remains lexical; bounded aliases and modal tests reduce concrete bypasses but cannot prove arbitrary paraphrase equivalence.\",\"No checker execution was performed because this contract permits read-only inspection only.\"]}"
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.boundary-accuracy",
+      "requirementId": "evidence.boundary-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "capability-boundary-review.json"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Natural-language contradiction checking remains lexical and cannot prove arbitrary paraphrase equivalence."
+  ],
+  "followUps": [
+    "Correct the decomposition ownership conjunction in the README, checker anchor, and tests.",
+    "Add bounded alias and modal-grammar negative regressions for every host-owned exclusion family."
+  ]
+}

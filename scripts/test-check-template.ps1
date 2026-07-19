@@ -545,7 +545,7 @@ try {
     $historicalOverviewFixture = New-Fixture "historical-readme-overview"
     $historicalOverviewPath = Join-Path $historicalOverviewFixture "README.md"
     $historicalOverviewText = (Get-Content -LiteralPath $historicalOverviewPath -Raw).Replace(
-        "docs/assets/swecircuit-overview.png",
+        "docs/assets/swecircuit-flow.gif",
         "docs/assets/tracerail-overview.png"
     )
     Write-Utf8 $historicalOverviewPath $historicalOverviewText
@@ -555,12 +555,37 @@ try {
     $plainOverviewPath = Join-Path $plainOverviewFixture "README.md"
     $plainOverviewText = [regex]::Replace(
         (Get-Content -LiteralPath $plainOverviewPath -Raw),
-        '(?m)^!\[[^\r\n]*\]\(docs/assets/swecircuit-overview\.png\)\s*$',
-        "Current asset: docs/assets/swecircuit-overview.png"
+        '(?m)^!\[[^\r\n]*\]\(docs/assets/swecircuit-flow\.gif\)\s*$',
+        "Current asset: docs/assets/swecircuit-flow.gif"
     )
     Write-Utf8 $plainOverviewPath $plainOverviewText
     Assert-CheckerResult "plain-text current overview reference" $plainOverviewFixture $false
 
+    $workflowAltText = "A reviewed goal moves through workflow modules; an external host may run approved specialists in parallel, and an integration owner verifies handoffs, merges the change, preserves the trace, and updates memory."
+    $visualOwnershipMutations = @(
+        @{ Name = "generic-alt"; Old = $workflowAltText; New = "Generic workflow diagram." },
+        @{ Name = "core-runs"; Old = "an external host may run approved specialists in parallel"; New = "SWECircuit runs specialists in parallel" },
+        @{ Name = "unconditional-host"; Old = "an external host may run approved specialists in parallel"; New = "an external host runs approved specialists in parallel" },
+        @{ Name = "core-integrates"; Old = "an integration owner verifies handoffs, merges the change, preserves the trace, and updates memory"; New = "SWECircuit integrates the change and updates memory" }
+    )
+    foreach ($mutation in $visualOwnershipMutations) {
+        $fixture = New-Fixture ("readme-visual-ownership-" + $mutation.Name)
+        $path = Join-Path $fixture "README.md"
+        $content = Get-Content -LiteralPath $path -Raw
+        if (-not $content.Contains($mutation.Old)) {
+            throw "Visual ownership fixture source is missing: $($mutation.Name)"
+        }
+        Write-Utf8 $path ($content.Replace($mutation.Old, $mutation.New))
+        Assert-CheckerResult ("README visual ownership: " + $mutation.Name) $fixture $false
+    }
+
+    $secondVisualFixture = New-Fixture "second-readme-visual"
+    $secondVisualPath = Join-Path $secondVisualFixture "README.md"
+    $secondVisualText = (Get-Content -LiteralPath $secondVisualPath -Raw).TrimEnd([char]13, [char]10) +
+        [Environment]::NewLine + [Environment]::NewLine +
+        "![Historical V9 overview](docs/assets/swecircuit-overview.png)" + [Environment]::NewLine
+    Write-Utf8 $secondVisualPath $secondVisualText
+    Assert-CheckerResult "README second standalone visual" $secondVisualFixture $false "exactly one standalone workflow visual"
     $historicalLinkFixture = New-Fixture "historical-overview-link"
     $historicalLinkPath = Join-Path $historicalLinkFixture "README.md"
     $historicalLinkText = (Get-Content -LiteralPath $historicalLinkPath -Raw) + [Environment]::NewLine + "[Historical V8 overview](docs/assets/tracerail-overview.png)" + [Environment]::NewLine
@@ -568,13 +593,15 @@ try {
     Assert-CheckerResult "historical overview provenance link" $historicalLinkFixture $true
 
     $missingOverviewFixture = New-Fixture "missing-current-overview"
-    Remove-FixtureItem (Join-Path $missingOverviewFixture "docs\assets\swecircuit-overview.png")
+    Remove-FixtureItem (Join-Path $missingOverviewFixture "docs\assets\swecircuit-flow.gif")
     Assert-CheckerResult "missing current overview asset" $missingOverviewFixture $false
 
     $operationCommands = @(
-        @{ Name = "init"; Text = "node dist/cli.js init --project <existing-empty-directory> --project-id quick-start" },
+        @{ Name = "install"; Text = "npm ci" },
+        @{ Name = "build"; Text = "npm run build" },
         @{ Name = "validate"; Text = "node dist/cli.js validate --project examples/minimal" },
-        @{ Name = "inspect"; Text = "node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl" }
+        @{ Name = "inspect"; Text = "node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl" },
+        @{ Name = "example"; Text = "npm run example:specialist" }
     )
     foreach ($operation in $operationCommands) {
         $fixture = New-Fixture ("missing-readme-" + $operation.Name)
@@ -587,11 +614,48 @@ try {
     $capabilityOverclaims = @(
         @{ Name = "launches"; Text = "SWECircuit launches agents." },
         @{ Name = "schedules"; Text = "SWECircuit schedules agents." },
+        @{ Name = "dispatches"; Text = "SWECircuit dispatches agents." },
+        @{ Name = "routes"; Text = "SWECircuit routes work in parallel." },
         @{ Name = "executes"; Text = "SWECircuit executes circuits." },
+        @{ Name = "tools"; Text = "SWECircuit runs tools." },
         @{ Name = "writes"; Text = "SWECircuit writes traces." },
+        @{ Name = "persists-traces"; Text = "SWECircuit persists traces." },
         @{ Name = "retrieves"; Text = "SWECircuit retrieves evidence." },
+        @{ Name = "integrates"; Text = "SWECircuit integrates changes." },
         @{ Name = "merges"; Text = "SWECircuit merges branches." },
-        @{ Name = "updates"; Text = "SWECircuit updates memory automatically." }
+        @{ Name = "providers"; Text = "SWECircuit selects providers." },
+        @{ Name = "models"; Text = "SWECircuit selects models." },
+        @{ Name = "updates-auto"; Text = "SWECircuit updates memory automatically." },
+        @{ Name = "updates"; Text = "SWECircuit updates memory." },
+        @{ Name = "permissions"; Text = "SWECircuit enforces permissions." },
+        @{ Name = "grants"; Text = "SWECircuit enforces grants." },
+        @{ Name = "load-providers"; Text = "SWECircuit loads providers." },
+        @{ Name = "load-adapters"; Text = "SWECircuit loads adapters." },
+        @{ Name = "persists-events"; Text = "SWECircuit persists events." },
+        @{ Name = "terminates"; Text = "SWECircuit terminates process trees." },
+        @{ Name = "decomposes"; Text = "SWECircuit decomposes the goal." },
+        @{ Name = "creates-work"; Text = "SWECircuit creates atomic work units." },
+        @{ Name = "runs-specialists"; Text = "SWECircuit runs specialists." },
+        @{ Name = "selects-prompt"; Text = "SWECircuit selects a prompt." },
+        @{ Name = "selects-profile"; Text = "SWECircuit selects a profile." },
+        @{ Name = "selects-executor"; Text = "SWECircuit selects an executor." },
+        @{ Name = "selects-credential"; Text = "SWECircuit selects a credential." },
+        @{ Name = "runtime-capacity"; Text = "SWECircuit reserves runtime capacity." },
+        @{ Name = "launch-waves"; Text = "SWECircuit guarantees projected launch waves." },
+        @{ Name = "creates-sandbox"; Text = "SWECircuit creates sandboxes." },
+        @{ Name = "creates-worktree"; Text = "SWECircuit creates worktrees." },
+        @{ Name = "filesystem-boundary"; Text = "SWECircuit enforces filesystem boundaries." },
+        @{ Name = "workspace-isolation"; Text = "SWECircuit enforces workspace isolation." },
+        @{ Name = "process-limits"; Text = "SWECircuit enforces process limits." },
+        @{ Name = "persists-state"; Text = "SWECircuit persists state." },
+        @{ Name = "persists-prompts"; Text = "SWECircuit persists prompts." },
+        @{ Name = "persists-results"; Text = "SWECircuit persists results." },
+        @{ Name = "persists-handoffs"; Text = "SWECircuit persists handoffs." },
+        @{ Name = "retries"; Text = "SWECircuit retries runtime work." },
+        @{ Name = "cancels"; Text = "SWECircuit cancels runtime work." },
+        @{ Name = "resumes"; Text = "SWECircuit resumes runtime work." },
+        @{ Name = "recovers"; Text = "SWECircuit recovers runtime work." },
+        @{ Name = "merge-readiness"; Text = "SWECircuit decides merge readiness." }
     )
     foreach ($claim in $capabilityOverclaims) {
         $fixture = New-Fixture ("readme-overclaim-" + $claim.Name)
@@ -601,6 +665,25 @@ try {
         Assert-CheckerResult ("README capability overclaim: " + $claim.Name) $fixture $false
     }
 
+    $aliasAndModalOverclaims = @(
+        @{ Family = "execution"; Alias = "Core dispatches agents."; Modal = "SWECircuit can dispatch agents." },
+        @{ Family = "selection"; Alias = "The compiler selects providers."; Modal = "SWECircuit may select providers." },
+        @{ Family = "capacity"; Alias = "Core reserves runtime capacity."; Modal = "SWECircuit can reserve runtime capacity." },
+        @{ Family = "isolation"; Alias = "The compiler enforces permissions."; Modal = "SWECircuit can enforce permissions." },
+        @{ Family = "persistence"; Alias = "Core persists handoffs."; Modal = "SWECircuit may persist handoffs." },
+        @{ Family = "recovery"; Alias = "The compiler retries runtime work."; Modal = "SWECircuit can retry runtime work." },
+        @{ Family = "merge-readiness"; Alias = "Core decides merge readiness."; Modal = "SWECircuit may decide merge readiness." },
+        @{ Family = "memory"; Alias = "The compiler updates memory."; Modal = "SWECircuit can update memory." }
+    )
+    foreach ($claim in $aliasAndModalOverclaims) {
+        foreach ($form in @("Alias", "Modal")) {
+            $fixture = New-Fixture ("readme-overclaim-" + $claim.Family + "-" + $form.ToLowerInvariant())
+            $path = Join-Path $fixture "README.md"
+            $content = (Get-Content -LiteralPath $path -Raw) + [Environment]::NewLine + $claim[$form] + [Environment]::NewLine
+            Write-Utf8 $path $content
+            Assert-CheckerResult ("README " + $claim.Family + " overclaim via " + $form.ToLowerInvariant()) $fixture $false
+        }
+    }
     $truthfulNegationFixture = New-Fixture "truthful-capability-negation"
     $truthfulNegationPath = Join-Path $truthfulNegationFixture "README.md"
     $truthfulNegationText = (Get-Content -LiteralPath $truthfulNegationPath -Raw) + [Environment]::NewLine + "SWECircuit writes no traces; callers own trace production." + [Environment]::NewLine
@@ -707,19 +790,93 @@ try {
     Write-Utf8 $staleKernelPath $staleKernelText
     Assert-CheckerResult "README stale planned-kernel claim" $staleKernelFixture $false
 
+    $missingDecompositionOwnerFixture = New-Fixture "missing-decomposition-owner"
+    $missingDecompositionOwnerPath = Join-Path $missingDecompositionOwnerFixture "README.md"
+    $missingDecompositionOwnerText = (Get-Content -LiteralPath $missingDecompositionOwnerPath -Raw).Replace(
+        "a developer or IDE closes the goal and decomposes it into atomic work units",
+        "decomposition owner removed"
+    )
+    Write-Utf8 $missingDecompositionOwnerPath $missingDecompositionOwnerText
+    Assert-CheckerResult "README missing decomposition owner" $missingDecompositionOwnerFixture $false "README must assign atomic decomposition to a developer or IDE"
+
+    $humanOnlyDecompositionFixture = New-Fixture "human-only-decomposition-owner"
+    $humanOnlyDecompositionPath = Join-Path $humanOnlyDecompositionFixture "README.md"
+    $humanOnlyDecompositionText = (Get-Content -LiteralPath $humanOnlyDecompositionPath -Raw).Replace(
+        "a developer or IDE closes the goal and decomposes it into atomic work units",
+        "a developer closes the goal and decomposes it into atomic work units"
+    )
+    Write-Utf8 $humanOnlyDecompositionPath $humanOnlyDecompositionText
+    Assert-CheckerResult "README human-only decomposition owner" $humanOnlyDecompositionFixture $true
+
+    $ideOnlyDecompositionFixture = New-Fixture "ide-only-decomposition-owner"
+    $ideOnlyDecompositionPath = Join-Path $ideOnlyDecompositionFixture "README.md"
+    $ideOnlyDecompositionText = (Get-Content -LiteralPath $ideOnlyDecompositionPath -Raw).Replace(
+        "a developer or IDE closes the goal and decomposes it into atomic work units",
+        "an IDE closes the goal and decomposes it into atomic work units"
+    )
+    Write-Utf8 $ideOnlyDecompositionPath $ideOnlyDecompositionText
+    Assert-CheckerResult "README IDE-only decomposition owner" $ideOnlyDecompositionFixture $true
+
+    $conjunctiveDecompositionFixture = New-Fixture "conjunctive-decomposition-owner"
+    $conjunctiveDecompositionPath = Join-Path $conjunctiveDecompositionFixture "README.md"
+    $conjunctiveDecompositionText = (Get-Content -LiteralPath $conjunctiveDecompositionPath -Raw).Replace(
+        "a developer or IDE closes the goal and decomposes it into atomic work units",
+        "the developer and IDE close the goal and decompose it into atomic work units"
+    )
+    Write-Utf8 $conjunctiveDecompositionPath $conjunctiveDecompositionText
+    Assert-CheckerResult "README conjunctive decomposition owner" $conjunctiveDecompositionFixture $false "README must assign atomic decomposition to a developer or IDE"
+
+    $missingReviewedWorkFixture = New-Fixture "missing-reviewed-work-boundary"
+    $missingReviewedWorkPath = Join-Path $missingReviewedWorkFixture "README.md"
+    $missingReviewedWorkText = (Get-Content -LiteralPath $missingReviewedWorkPath -Raw).Replace(
+        "SWECircuit validates the reviewed work units, groups them into legal specialist teams",
+        "compiler input boundary removed"
+    )
+    Write-Utf8 $missingReviewedWorkPath $missingReviewedWorkText
+    Assert-CheckerResult "README missing reviewed-work compiler boundary" $missingReviewedWorkFixture $false
+
+    $conditionalHostMutations = @(
+        @{ Name = "owner"; Old = "an external host selects providers, models, and tools"; New = "SWECircuit selects providers, models, and tools" },
+        @{ Name = "conditional"; Old = "then may run dependency-safe contracts in parallel"; New = "then runs dependency-safe contracts in parallel" },
+        @{ Name = "dependency-safe"; Old = "dependency-safe contracts"; New = "all contracts" }
+    )
+    foreach ($mutation in $conditionalHostMutations) {
+        $fixture = New-Fixture ("missing-conditional-host-" + $mutation.Name)
+        $path = Join-Path $fixture "README.md"
+        $content = Get-Content -LiteralPath $path -Raw
+        if (-not $content.Contains($mutation.Old)) {
+            throw "Conditional host fixture source is missing: $($mutation.Name)"
+        }
+        Write-Utf8 $path ($content.Replace($mutation.Old, $mutation.New))
+        Assert-CheckerResult ("README conditional host boundary: " + $mutation.Name) $fixture $false
+    }
+
     $missingCapabilityFixture = New-Fixture "missing-current-capability"
     $missingCapabilityPath = Join-Path $missingCapabilityFixture "README.md"
     $missingCapabilityText = (Get-Content -LiteralPath $missingCapabilityPath -Raw).Replace(
-        "The V10 kernel can now validate and execute one host-selected work packet through a caller-injected executor",
-        "The V10 kernel status is undocumented"
+        "SWECircuit core compiles specialist contracts and verifies approval-bound packages, raw handoffs, and dependency fan-in.",
+        "Core capability removed."
     )
     Write-Utf8 $missingCapabilityPath $missingCapabilityText
     Assert-CheckerResult "README missing current kernel capability" $missingCapabilityFixture $false
 
+    $coreVerificationAnchors = @(
+        @{ Name = "package"; Text = "approval-bound packages" },
+        @{ Name = "handoff"; Text = "raw handoffs" },
+        @{ Name = "fan-in"; Text = "dependency fan-in" }
+    )
+    foreach ($coreAnchor in $coreVerificationAnchors) {
+        $fixture = New-Fixture ("missing-core-verification-" + $coreAnchor.Name)
+        $path = Join-Path $fixture "README.md"
+        $content = (Get-Content -LiteralPath $path -Raw).Replace($coreAnchor.Text, "removed-core-anchor")
+        Write-Utf8 $path $content
+        Assert-CheckerResult ("README missing core verification anchor: " + $coreAnchor.Name) $fixture $false
+    }
+
     $fencedCapabilityFixture = New-Fixture "fenced-readme-current-capability"
     $fencedCapabilityPath = Join-Path $fencedCapabilityFixture "README.md"
     $fencedCapabilityText = Get-Content -LiteralPath $fencedCapabilityPath -Raw
-    $capabilityPhrase = "The V10 kernel can now validate and execute one host-selected work packet through a caller-injected executor"
+    $capabilityPhrase = "SWECircuit core compiles specialist contracts and verifies approval-bound packages, raw handoffs, and dependency fan-in."
     $capabilityLine = @($fencedCapabilityText -split "\r?\n" | Where-Object { $_.Contains($capabilityPhrase) })[0]
     if ([string]::IsNullOrWhiteSpace($capabilityLine)) {
         throw "Fenced capability fixture could not find the current capability line."
@@ -1125,11 +1282,28 @@ try {
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
     $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(
-        "The V10 kernel does not dynamically load adapters, execute circuits, terminate process trees, merge branches, or update memory automatically.",
+        "An external IDE or agent host selects providers and models, dispatches agents, enforces permissions, runs tools, integrates and merges changes, persists traces, and updates memory.",
         "Runtime boundary removed."
     )
     Write-Utf8 $missingBoundaryPath $missingBoundaryText
     Assert-CheckerResult "README missing runtime boundary" $missingBoundaryFixture $false
+
+    $hostResponsibilityAnchors = @(
+        @{ Name = "provider-model"; Text = "selects providers and models" },
+        @{ Name = "dispatch"; Text = "dispatches agents" },
+        @{ Name = "permissions"; Text = "enforces permissions" },
+        @{ Name = "tools"; Text = "runs tools" },
+        @{ Name = "merge"; Text = "integrates and merges changes" },
+        @{ Name = "trace"; Text = "persists traces" },
+        @{ Name = "memory"; Text = "updates memory" }
+    )
+    foreach ($hostAnchor in $hostResponsibilityAnchors) {
+        $fixture = New-Fixture ("missing-host-responsibility-" + $hostAnchor.Name)
+        $path = Join-Path $fixture "README.md"
+        $content = (Get-Content -LiteralPath $path -Raw).Replace($hostAnchor.Text, "removed-host-anchor")
+        Write-Utf8 $path $content
+        Assert-CheckerResult ("README missing host responsibility: " + $hostAnchor.Name) $fixture $false
+    }
 
     $executorLivenessPhrase = "all activity capable of advancing the invocation or producing invocation effects has stopped"
     $livenessSurfaces = @(

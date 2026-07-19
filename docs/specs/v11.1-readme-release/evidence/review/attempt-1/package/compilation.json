@@ -1,0 +1,856 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v11.1.readme-release-review",
+    "revision": 1,
+    "objective": "Independently review the frozen V11.1 README release for visual comprehension and capability-boundary accuracy.",
+    "integrationOwner": "codex.main",
+    "assumptions": [],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.boundary-accuracy",
+        "description": "The concise README and checker preserve the exact V11 core versus external-host capability boundary.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.boundary-review",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve an independent capability-boundary verdict.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.visual-clarity",
+        "description": "The primary visual explains modules, host-run parallel specialists, verified fan-in, integration, trace, and memory without overlap or ambiguity.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.visual-review",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve an independent visual-comprehension verdict.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.checker",
+        "kind": "repository",
+        "locator": "path:scripts/check-template.ps1",
+        "digest": "sha256:647c1b67a2acbe85a1f739da627615ec88c8aa37325b0a3c10fb7819758bb2cc",
+        "bytes": 77645,
+        "description": "Public-surface enforcement rules.",
+        "allowedWorkUnits": [
+          "review.boundary"
+        ],
+        "readScope": "scripts/check-template.ps1"
+      },
+      {
+        "id": "context.checker-tests",
+        "kind": "repository",
+        "locator": "path:scripts/test-check-template.ps1",
+        "digest": "sha256:632192e9fa0cb623f77d915a9f550d9c8fec3c079e0edb8ce3163c72a022f422",
+        "bytes": 89769,
+        "description": "Negative public-surface regression fixtures.",
+        "allowedWorkUnits": [
+          "review.boundary"
+        ],
+        "readScope": "scripts/test-check-template.ps1"
+      },
+      {
+        "id": "context.compiler-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "digest": "sha256:ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9",
+        "bytes": 36886,
+        "description": "Normative V11 compiler and host boundary.",
+        "allowedWorkUnits": [
+          "review.boundary"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+      },
+      {
+        "id": "context.generator",
+        "kind": "repository",
+        "locator": "path:docs/assets/source/generate-swecircuit-flow-gif.py",
+        "digest": "sha256:791015e6f1c3be650a041269af4d78a10bc1543d909e0fc5255f1b977e3ecc56",
+        "bytes": 13277,
+        "description": "Deterministic GIF layout and validation source.",
+        "allowedWorkUnits": [
+          "review.visual"
+        ],
+        "readScope": "docs/assets/source/generate-swecircuit-flow-gif.py"
+      },
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:9fc34535ef595282377b1d3a60b9a82ad6870b55c0fe7ce954bc557e1db9a66e",
+        "bytes": 2591,
+        "description": "Frozen concise public README candidate.",
+        "allowedWorkUnits": [
+          "review.boundary",
+          "review.visual"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.workflow-gif",
+        "kind": "repository",
+        "locator": "path:docs/assets/swecircuit-flow.gif",
+        "digest": "sha256:b5ec584d7dee842e158b3fdde21f582c19ce1091e43494819b01c01aeed21e9b",
+        "bytes": 1261035,
+        "description": "Exact primary animated workflow asset.",
+        "allowedWorkUnits": [
+          "review.visual"
+        ],
+        "readScope": "docs/assets/swecircuit-flow.gif"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "review.capability-boundary",
+        "review.visual-clarity"
+      ],
+      "allowedCapabilities": [
+        "analyze.visual-flow",
+        "audit.public-contract"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "README.md",
+            "docs/assets/source/generate-swecircuit-flow-gif.py",
+            "docs/assets/swecircuit-flow.gif",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "scripts/check-template.ps1",
+            "scripts/test-check-template.ps1"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not write files, access the network, launch another agent, or change the candidate."
+      ],
+      "maxAgents": 2,
+      "maxConcurrency": 2
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "review.boundary",
+        "objective": "Audit the concise README and its checker rules against the normative V11 compiler and external-host boundary.",
+        "weight": 5,
+        "module": {
+          "id": "review.capability-boundary",
+          "action": "Compare every public capability claim and negative regression with the normative contract; report contradictions or missing truth anchors.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "FrozenPublicSurface"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "ReviewEvidence"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "audit.public-contract"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.checker",
+            "purpose": "Review the exact frozen public candidate."
+          },
+          {
+            "sourceId": "context.checker-tests",
+            "purpose": "Review the exact frozen public candidate."
+          },
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Review the exact frozen public candidate."
+          },
+          {
+            "sourceId": "context.readme",
+            "purpose": "Review the exact frozen public candidate."
+          }
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "scripts/check-template.ps1",
+            "scripts/test-check-template.ps1"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "scripts/check-template.ps1",
+              "scripts/test-check-template.ps1"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.boundary-review"
+        ],
+        "handoffArtifacts": [
+          "capability-boundary-review.json"
+        ],
+        "stopConditions": [
+          "Do not modify repository files.",
+          "Stop if a declared source is unavailable or does not match its bound digest."
+        ]
+      },
+      {
+        "id": "review.visual",
+        "objective": "Judge whether the README GIF communicates the SWECircuit concept clearly at first read and remains legible when scaled.",
+        "weight": 4,
+        "module": {
+          "id": "review.visual-clarity",
+          "action": "Inspect the opening, parallel, and complete visual states plus adjacent README prose; report only actionable clarity findings.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "FrozenPublicSurface"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "ReviewEvidence"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "analyze.visual-flow"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.generator",
+            "purpose": "Review the exact frozen public candidate."
+          },
+          {
+            "sourceId": "context.readme",
+            "purpose": "Review the exact frozen public candidate."
+          },
+          {
+            "sourceId": "context.workflow-gif",
+            "purpose": "Review the exact frozen public candidate."
+          }
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/assets/source/generate-swecircuit-flow-gif.py",
+            "docs/assets/swecircuit-flow.gif"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/assets/source/generate-swecircuit-flow-gif.py",
+              "docs/assets/swecircuit-flow.gif"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.visual-review"
+        ],
+        "handoffArtifacts": [
+          "visual-clarity-review.json"
+        ],
+        "stopConditions": [
+          "Do not modify repository files.",
+          "Stop if a declared source is unavailable or does not match its bound digest."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:42a8b062d83c7b4da8a99c126156ca98726cb596756d0951289c59afdbcb56ed",
+  "proposedCandidates": [],
+  "proposalEvaluations": [],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v11.1.readme-release-review",
+    "goalRevision": 1,
+    "allowedModules": [
+      "review.capability-boundary",
+      "review.visual-clarity"
+    ],
+    "allowedCapabilities": [
+      "analyze.visual-flow",
+      "audit.public-contract"
+    ],
+    "contextSources": [
+      {
+        "id": "context.checker",
+        "kind": "repository",
+        "locator": "path:scripts/check-template.ps1",
+        "digest": "sha256:647c1b67a2acbe85a1f739da627615ec88c8aa37325b0a3c10fb7819758bb2cc",
+        "bytes": 77645,
+        "description": "Public-surface enforcement rules.",
+        "allowedWorkUnits": [
+          "review.boundary"
+        ],
+        "readScope": "scripts/check-template.ps1"
+      },
+      {
+        "id": "context.checker-tests",
+        "kind": "repository",
+        "locator": "path:scripts/test-check-template.ps1",
+        "digest": "sha256:632192e9fa0cb623f77d915a9f550d9c8fec3c079e0edb8ce3163c72a022f422",
+        "bytes": 89769,
+        "description": "Negative public-surface regression fixtures.",
+        "allowedWorkUnits": [
+          "review.boundary"
+        ],
+        "readScope": "scripts/test-check-template.ps1"
+      },
+      {
+        "id": "context.compiler-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "digest": "sha256:ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9",
+        "bytes": 36886,
+        "description": "Normative V11 compiler and host boundary.",
+        "allowedWorkUnits": [
+          "review.boundary"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+      },
+      {
+        "id": "context.generator",
+        "kind": "repository",
+        "locator": "path:docs/assets/source/generate-swecircuit-flow-gif.py",
+        "digest": "sha256:791015e6f1c3be650a041269af4d78a10bc1543d909e0fc5255f1b977e3ecc56",
+        "bytes": 13277,
+        "description": "Deterministic GIF layout and validation source.",
+        "allowedWorkUnits": [
+          "review.visual"
+        ],
+        "readScope": "docs/assets/source/generate-swecircuit-flow-gif.py"
+      },
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:9fc34535ef595282377b1d3a60b9a82ad6870b55c0fe7ce954bc557e1db9a66e",
+        "bytes": 2591,
+        "description": "Frozen concise public README candidate.",
+        "allowedWorkUnits": [
+          "review.boundary",
+          "review.visual"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.workflow-gif",
+        "kind": "repository",
+        "locator": "path:docs/assets/swecircuit-flow.gif",
+        "digest": "sha256:b5ec584d7dee842e158b3fdde21f582c19ce1091e43494819b01c01aeed21e9b",
+        "bytes": 1261035,
+        "description": "Exact primary animated workflow asset.",
+        "allowedWorkUnits": [
+          "review.visual"
+        ],
+        "readScope": "docs/assets/swecircuit-flow.gif"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "README.md",
+          "docs/assets/source/generate-swecircuit-flow-gif.py",
+          "docs/assets/swecircuit-flow.gif",
+          "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "scripts/check-template.ps1",
+          "scripts/test-check-template.ps1"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not write files, access the network, launch another agent, or change the candidate."
+    ],
+    "maxAgents": 2,
+    "maxConcurrency": 2,
+    "contentDigest": "sha256:64ac38850c265eb2dff4b126e46f831bb34f5337c1da2b8ffc6311958dd41946"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 2,
+    "evaluatedCandidates": 2,
+    "eligibleCandidates": 2,
+    "retainedAlternatives": 1,
+    "evaluationSetDigest": "sha256:51b8767a0a37c30951511f7208338fee078ebb06e1d6b7f1f8d3b65e686d49f3"
+  },
+  "serialBaseline": {
+    "id": "team.5191d0bc7ed7c0332f151f3819ab721e8b51790395a328680390ca4ce366eb91",
+    "partition": [
+      [
+        "review.boundary",
+        "review.visual"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 10,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 9,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.5c1481869f61203465abc1d18575ba6b22f9a52eb4b0d6097923066d66efbe65",
+        "start": 0,
+        "finish": 10
+      }
+    ],
+    "contentDigest": "sha256:a028a17e32f3485a894c8cc6cd7f6df6dc06728d1a305931059eba8aa140a59f"
+  },
+  "selected": {
+    "id": "team.2077ab2a9679e183beebc81946f8640a8f31a8fa2ce3613775c5729d54195571",
+    "partition": [
+      [
+        "review.boundary"
+      ],
+      [
+        "review.visual"
+      ]
+    ],
+    "origins": [
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 2,
+      "projectedMakespan": 6,
+      "peakConcurrency": 2,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 2591,
+      "duplicatedPermissionScopes": 1,
+      "totalWorkWeight": 9,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+        "start": 0,
+        "finish": 5
+      },
+      {
+        "agentId": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+        "start": 0,
+        "finish": 6
+      }
+    ],
+    "contentDigest": "sha256:2f9e772864c29c8f138a7d92ff77652635a483d48984a92c29e7af5ba809dc11"
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 6,
+    "serialValue": 10,
+    "serialRejectionCodes": []
+  },
+  "alternatives": [
+    {
+      "id": "team.5191d0bc7ed7c0332f151f3819ab721e8b51790395a328680390ca4ce366eb91",
+      "partition": [
+        [
+          "review.boundary",
+          "review.visual"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 10,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 9,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.5c1481869f61203465abc1d18575ba6b22f9a52eb4b0d6097923066d66efbe65",
+          "start": 0,
+          "finish": 10
+        }
+      ],
+      "contentDigest": "sha256:a028a17e32f3485a894c8cc6cd7f6df6dc06728d1a305931059eba8aa140a59f"
+    }
+  ],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+      "goalId": "v11.1.readme-release-review",
+      "goalRevision": 1,
+      "goalDigest": "sha256:42a8b062d83c7b4da8a99c126156ca98726cb596756d0951289c59afdbcb56ed",
+      "candidateId": "team.2077ab2a9679e183beebc81946f8640a8f31a8fa2ce3613775c5729d54195571",
+      "workUnitIds": [
+        "review.visual"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.visual",
+          "objective": "Judge whether the README GIF communicates the SWECircuit concept clearly at first read and remains legible when scaled."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.visual-clarity",
+          "action": "Inspect the opening, parallel, and complete visual states plus adjacent README prose; report only actionable clarity findings.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "FrozenPublicSurface"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "ReviewEvidence"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.generator",
+          "kind": "repository",
+          "locator": "path:docs/assets/source/generate-swecircuit-flow-gif.py",
+          "digest": "sha256:791015e6f1c3be650a041269af4d78a10bc1543d909e0fc5255f1b977e3ecc56",
+          "bytes": 13277,
+          "purposes": [
+            "Review the exact frozen public candidate."
+          ],
+          "workUnitIds": [
+            "review.visual"
+          ],
+          "readScope": "docs/assets/source/generate-swecircuit-flow-gif.py"
+        },
+        {
+          "sourceId": "context.readme",
+          "kind": "repository",
+          "locator": "path:README.md",
+          "digest": "sha256:9fc34535ef595282377b1d3a60b9a82ad6870b55c0fe7ce954bc557e1db9a66e",
+          "bytes": 2591,
+          "purposes": [
+            "Review the exact frozen public candidate."
+          ],
+          "workUnitIds": [
+            "review.visual"
+          ],
+          "readScope": "README.md"
+        },
+        {
+          "sourceId": "context.workflow-gif",
+          "kind": "repository",
+          "locator": "path:docs/assets/swecircuit-flow.gif",
+          "digest": "sha256:b5ec584d7dee842e158b3fdde21f582c19ce1091e43494819b01c01aeed21e9b",
+          "bytes": 1261035,
+          "purposes": [
+            "Review the exact frozen public candidate."
+          ],
+          "workUnitIds": [
+            "review.visual"
+          ],
+          "readScope": "docs/assets/swecircuit-flow.gif"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "analyze.visual-flow"
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/assets/source/generate-swecircuit-flow-gif.py",
+            "docs/assets/swecircuit-flow.gif"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/assets/source/generate-swecircuit-flow-gif.py",
+              "docs/assets/swecircuit-flow.gif"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not write files, access the network, launch another agent, or change the candidate."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.visual-clarity",
+          "criterion": "The primary visual explains modules, host-run parallel specialists, verified fan-in, integration, trace, and memory without overlap or ambiguity.",
+          "requirementId": "evidence.visual-review",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Preserve an independent visual-comprehension verdict.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "visual-clarity-review.json"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not modify repository files.",
+        "Stop if a declared source is unavailable or does not match its bound digest."
+      ],
+      "contentDigest": "sha256:1173e7e8858d669c20b7d4a1a29dc30b85e9d60e7d95822232ced16ade755249"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+      "goalId": "v11.1.readme-release-review",
+      "goalRevision": 1,
+      "goalDigest": "sha256:42a8b062d83c7b4da8a99c126156ca98726cb596756d0951289c59afdbcb56ed",
+      "candidateId": "team.2077ab2a9679e183beebc81946f8640a8f31a8fa2ce3613775c5729d54195571",
+      "workUnitIds": [
+        "review.boundary"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.boundary",
+          "objective": "Audit the concise README and its checker rules against the normative V11 compiler and external-host boundary."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.capability-boundary",
+          "action": "Compare every public capability claim and negative regression with the normative contract; report contradictions or missing truth anchors.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "FrozenPublicSurface"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "ReviewEvidence"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.checker",
+          "kind": "repository",
+          "locator": "path:scripts/check-template.ps1",
+          "digest": "sha256:647c1b67a2acbe85a1f739da627615ec88c8aa37325b0a3c10fb7819758bb2cc",
+          "bytes": 77645,
+          "purposes": [
+            "Review the exact frozen public candidate."
+          ],
+          "workUnitIds": [
+            "review.boundary"
+          ],
+          "readScope": "scripts/check-template.ps1"
+        },
+        {
+          "sourceId": "context.checker-tests",
+          "kind": "repository",
+          "locator": "path:scripts/test-check-template.ps1",
+          "digest": "sha256:632192e9fa0cb623f77d915a9f550d9c8fec3c079e0edb8ce3163c72a022f422",
+          "bytes": 89769,
+          "purposes": [
+            "Review the exact frozen public candidate."
+          ],
+          "workUnitIds": [
+            "review.boundary"
+          ],
+          "readScope": "scripts/test-check-template.ps1"
+        },
+        {
+          "sourceId": "context.compiler-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+          "digest": "sha256:ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9",
+          "bytes": 36886,
+          "purposes": [
+            "Review the exact frozen public candidate."
+          ],
+          "workUnitIds": [
+            "review.boundary"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+        },
+        {
+          "sourceId": "context.readme",
+          "kind": "repository",
+          "locator": "path:README.md",
+          "digest": "sha256:9fc34535ef595282377b1d3a60b9a82ad6870b55c0fe7ce954bc557e1db9a66e",
+          "bytes": 2591,
+          "purposes": [
+            "Review the exact frozen public candidate."
+          ],
+          "workUnitIds": [
+            "review.boundary"
+          ],
+          "readScope": "README.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "audit.public-contract"
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "scripts/check-template.ps1",
+            "scripts/test-check-template.ps1"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+              "scripts/check-template.ps1",
+              "scripts/test-check-template.ps1"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not write files, access the network, launch another agent, or change the candidate."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.boundary-accuracy",
+          "criterion": "The concise README and checker preserve the exact V11 core versus external-host capability boundary.",
+          "requirementId": "evidence.boundary-review",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Preserve an independent capability-boundary verdict.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "capability-boundary-review.json"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not modify repository files.",
+        "Stop if a declared source is unavailable or does not match its bound digest."
+      ],
+      "contentDigest": "sha256:9094d24d34ec1ba3774388bee3f474935c6dac58f42f6ad9b2a88b77009eb048"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+        "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:834690f6c366371e2bd450d121d27be4f82964d98ee84e39b6e82da70c3ad511"
+}

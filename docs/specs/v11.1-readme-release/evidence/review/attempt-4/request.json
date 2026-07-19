@@ -1,0 +1,293 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v11.1.readme-release-review",
+    "revision": 4,
+    "objective": "Independently review the frozen V11.1 README release for visual comprehension and capability-boundary accuracy.",
+    "integrationOwner": "codex.main",
+    "assumptions": [],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.visual-clarity",
+        "description": "The primary visual explains modules, host-run parallel specialists, verified fan-in, integration, trace, and memory without overlap or ambiguity.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.visual-review",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve an independent visual-comprehension verdict.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.boundary-accuracy",
+        "description": "The concise README and checker preserve the exact V11 core versus external-host capability boundary.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.boundary-review",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve an independent capability-boundary verdict.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:565789d343fa5a40f6346116a8696054460d4ba2d9cc168bb0a3d5f5be681950",
+        "bytes": 2897,
+        "description": "Frozen concise public README candidate.",
+        "allowedWorkUnits": [
+          "review.visual",
+          "review.boundary"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.workflow-gif",
+        "kind": "repository",
+        "locator": "path:docs/assets/swecircuit-flow.gif",
+        "digest": "sha256:90b627c4e3b116d98b49dea34eeabd5e4d69718c60fb583d2d3b792fdfd98483",
+        "bytes": 913700,
+        "description": "Exact primary animated workflow asset.",
+        "allowedWorkUnits": [
+          "review.visual"
+        ],
+        "readScope": "docs/assets/swecircuit-flow.gif"
+      },
+      {
+        "id": "context.generator",
+        "kind": "repository",
+        "locator": "path:docs/assets/source/generate-swecircuit-flow-gif.py",
+        "digest": "sha256:03e4350eac22235d778117fddd865130aeeab0a88261d27179474619b3b27798",
+        "bytes": 12805,
+        "description": "Deterministic GIF layout and validation source.",
+        "allowedWorkUnits": [
+          "review.visual"
+        ],
+        "readScope": "docs/assets/source/generate-swecircuit-flow-gif.py"
+      },
+      {
+        "id": "context.checker",
+        "kind": "repository",
+        "locator": "path:scripts/check-template.ps1",
+        "digest": "sha256:424afc9ae5716489dc9c62dd36b0836b2aa8f564c5d3f0f148f55cfdeb6177b1",
+        "bytes": 80483,
+        "description": "Public-surface enforcement rules.",
+        "allowedWorkUnits": [
+          "review.boundary"
+        ],
+        "readScope": "scripts/check-template.ps1"
+      },
+      {
+        "id": "context.checker-tests",
+        "kind": "repository",
+        "locator": "path:scripts/test-check-template.ps1",
+        "digest": "sha256:4f55b594f07af0a3589c97a97995faa23e1105231e4e91c89822481837bef6c1",
+        "bytes": 101766,
+        "description": "Negative public-surface regression fixtures.",
+        "allowedWorkUnits": [
+          "review.boundary"
+        ],
+        "readScope": "scripts/test-check-template.ps1"
+      },
+      {
+        "id": "context.compiler-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "digest": "sha256:ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9",
+        "bytes": 36886,
+        "description": "Normative V11 compiler and host boundary.",
+        "allowedWorkUnits": [
+          "review.boundary"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "review.visual-clarity",
+        "review.capability-boundary"
+      ],
+      "allowedCapabilities": [
+        "analyze.visual-flow",
+        "audit.public-contract"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "README.md",
+            "docs/assets/source/generate-swecircuit-flow-gif.py",
+            "docs/assets/swecircuit-flow.gif",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+            "scripts/check-template.ps1",
+            "scripts/test-check-template.ps1"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not write files, access the network, launch another agent, or change the candidate."
+      ],
+      "maxAgents": 2,
+      "maxConcurrency": 2
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "review.visual",
+        "objective": "Judge whether the README GIF communicates the SWECircuit concept clearly at first read and remains legible when scaled.",
+        "weight": 4,
+        "module": {
+          "id": "review.visual-clarity",
+          "action": "Inspect the opening, parallel, and complete visual states plus adjacent README prose; report only actionable clarity findings.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "FrozenPublicSurface"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "ReviewEvidence"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "analyze.visual-flow"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.readme",
+            "purpose": "Review the exact frozen public candidate."
+          },
+          {
+            "sourceId": "context.workflow-gif",
+            "purpose": "Review the exact frozen public candidate."
+          },
+          {
+            "sourceId": "context.generator",
+            "purpose": "Review the exact frozen public candidate."
+          }
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/assets/swecircuit-flow.gif",
+            "docs/assets/source/generate-swecircuit-flow-gif.py"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/assets/swecircuit-flow.gif",
+              "docs/assets/source/generate-swecircuit-flow-gif.py"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.visual-review"
+        ],
+        "handoffArtifacts": [
+          "visual-clarity-review.json"
+        ],
+        "stopConditions": [
+          "Stop if a declared source is unavailable or does not match its bound digest.",
+          "Do not modify repository files."
+        ]
+      },
+      {
+        "id": "review.boundary",
+        "objective": "Audit the concise README and its checker rules against the normative V11 compiler and external-host boundary.",
+        "weight": 5,
+        "module": {
+          "id": "review.capability-boundary",
+          "action": "Compare every public capability claim and negative regression with the normative contract; report contradictions or missing truth anchors.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "FrozenPublicSurface"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "review",
+              "artifactType": "ReviewEvidence"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "audit.public-contract"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.readme",
+            "purpose": "Review the exact frozen public candidate."
+          },
+          {
+            "sourceId": "context.checker",
+            "purpose": "Review the exact frozen public candidate."
+          },
+          {
+            "sourceId": "context.checker-tests",
+            "purpose": "Review the exact frozen public candidate."
+          },
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Review the exact frozen public candidate."
+          }
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "scripts/check-template.ps1",
+            "scripts/test-check-template.ps1",
+            "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "scripts/check-template.ps1",
+              "scripts/test-check-template.ps1",
+              "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.boundary-review"
+        ],
+        "handoffArtifacts": [
+          "capability-boundary-review.json"
+        ],
+        "stopConditions": [
+          "Stop if a declared source is unavailable or does not match its bound digest.",
+          "Do not modify repository files."
+        ]
+      }
+    ]
+  }
+}

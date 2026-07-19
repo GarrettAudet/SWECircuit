@@ -6,6 +6,10 @@
 
 Keep the first thing a user sees simple, but make deeper protocols available when complexity appears.
 
+### Concise Public Contract
+
+Keep the README short by binding one product sentence, one visual, one quick path, and one explicit capability boundary to executable positive and negative checks. Review the scaled visual and preserve truthful-negative controls; fewer public words carry more semantic weight.
+
 ### Typed Stage Outcomes
 
 Every workflow stage emits one of:
@@ -324,3 +328,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V10 event-date provenance review](../specs/v10-executor-adapter/debug-notes.md#exact-candidate-event-date-provenance-review) and [RCA](../specs/v10-executor-adapter/root-cause-analysis.md#event-date-provenance-addendum) | Source-Derived Event Dates |
 | [V10 evidence-attribution review](../specs/v10-executor-adapter/debug-notes.md#exact-candidate-evidence-attribution-review) and [RCA](../specs/v10-executor-adapter/root-cause-analysis.md#candidate-bound-evidence-attribution-addendum) | Candidate-Bound Verification Evidence |
 | [V10 milestone](../milestones/v10.md#next-recommended-work) and [decision](decisions.md) | Portable Policy, Execution-Adapter Effects |
+| [V11.1 README release spec](../specs/v11.1-readme-release/spec.md), [accepted review](../specs/v11.1-readme-release/review.md), and [debug notes](../specs/v11.1-readme-release/debug-notes.md) | Concise Public Contract |

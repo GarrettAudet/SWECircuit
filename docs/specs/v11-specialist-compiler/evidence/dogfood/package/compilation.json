@@ -5,7 +5,7 @@
     "apiVersion": "swecircuit/specialist/v1alpha1",
     "kind": "GoalContract",
     "id": "v11.specialist-compiler.release",
-    "revision": 30,
+    "revision": 31,
     "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit with an exact external verification receipt, a hardened first-run reference host, self-sufficient generated handoff contracts, publicly closed specialist schemas, deterministic artifact media and normalized evidence controls, exact candidate analysis, raw handoff and dependency fan-in verification, canonical gates, traceable integration, and owner merge gate without claiming runtime orchestration.",
     "integrationOwner": "v11.integration-owner",
     "assumptions": [
@@ -772,8 +772,8 @@
         "id": "context.readme",
         "kind": "repository",
         "locator": "path:README.md",
-        "digest": "sha256:bc164b251bfd2c79be1c6bd6a1906e8172d49135b43f3cc48bdb60295abeccb4",
-        "bytes": 7487,
+        "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+        "bytes": 3101,
         "description": "The public V11 positioning and boundary.",
         "allowedWorkUnits": [
           "integrate.release",
@@ -902,8 +902,8 @@
         "id": "context.template-checker",
         "kind": "repository",
         "locator": "path:scripts/check-template.ps1",
-        "digest": "sha256:b1409d0b5110d7226de69f42b6ae37c5bae24c8347f43e8a9e190179213b398a",
-        "bytes": 77532,
+        "digest": "sha256:e7df2c505bb86fc026eb1934a3834d5ae8faf9e2e23992ad45fb5d7bad82af41",
+        "bytes": 80644,
         "description": "Workflow artifact validation gate.",
         "allowedWorkUnits": [
           "verify.release-gates"
@@ -914,8 +914,8 @@
         "id": "context.template-checker-tests",
         "kind": "repository",
         "locator": "path:scripts/test-check-template.ps1",
-        "digest": "sha256:374701fbf2181e787cf0a8346c475cf6e803cc61eecdc5f288d0c07a534adc51",
-        "bytes": 89500,
+        "digest": "sha256:f81f09c537d228ab88686bcaa7b57f09388239f39e2e03feb86070b584428e81",
+        "bytes": 101985,
         "description": "Template-checker regression matrix.",
         "allowedWorkUnits": [
           "verify.release-gates"
@@ -2689,7 +2689,7 @@
       }
     ]
   },
-  "goalDigest": "sha256:9743420992fef85e1ca82c26a259dde8f1524d7aed6506dbba43e702bb4479c1",
+  "goalDigest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2",
   "proposedCandidates": [
     {
       "id": "candidate.consolidated-reviews",
@@ -2768,7 +2768,7 @@
         "peakConcurrency": 2,
         "conflictPairs": 0,
         "handoffCount": 4,
-        "duplicatedContextBytes": 1333865,
+        "duplicatedContextBytes": 1325093,
         "duplicatedPermissionScopes": 96,
         "totalWorkWeight": 38,
         "totalStartupCost": 8,
@@ -2796,7 +2796,7 @@
           "finish": 41
         }
       ],
-      "contentDigest": "sha256:64a3444011e19476e5f1dc11e53221b0bb020df00ce30bb5b408b512454064dd"
+      "contentDigest": "sha256:4cf1ccc25360f66cc774567e806e9cd30ec55c7f8c43f6a45085608c97663719"
     },
     {
       "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
@@ -2835,7 +2835,7 @@
         "peakConcurrency": 4,
         "conflictPairs": 0,
         "handoffCount": 8,
-        "duplicatedContextBytes": 2160465,
+        "duplicatedContextBytes": 2151693,
         "duplicatedPermissionScopes": 149,
         "totalWorkWeight": 38,
         "totalStartupCost": 12,
@@ -2873,14 +2873,14 @@
           "finish": 23
         }
       ],
-      "contentDigest": "sha256:ffb3fea22b084fd58d7e6376365fd5208443b1c3c8603577d28e7ba0d0136eaf"
+      "contentDigest": "sha256:b41d96bda67cef90d7d5a0abab9e85549660bb403c0f5278043293f34102e653"
     }
   ],
   "authority": {
     "apiVersion": "swecircuit/specialist/v1alpha1",
     "kind": "TaskAuthorityProjection",
     "goalId": "v11.specialist-compiler.release",
-    "goalRevision": 30,
+    "goalRevision": 31,
     "allowedModules": [
       "integrate.release",
       "review.algorithm-lifecycle",
@@ -3523,8 +3523,8 @@
         "id": "context.readme",
         "kind": "repository",
         "locator": "path:README.md",
-        "digest": "sha256:bc164b251bfd2c79be1c6bd6a1906e8172d49135b43f3cc48bdb60295abeccb4",
-        "bytes": 7487,
+        "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+        "bytes": 3101,
         "description": "The public V11 positioning and boundary.",
         "allowedWorkUnits": [
           "integrate.release",
@@ -3653,8 +3653,8 @@
         "id": "context.template-checker",
         "kind": "repository",
         "locator": "path:scripts/check-template.ps1",
-        "digest": "sha256:b1409d0b5110d7226de69f42b6ae37c5bae24c8347f43e8a9e190179213b398a",
-        "bytes": 77532,
+        "digest": "sha256:e7df2c505bb86fc026eb1934a3834d5ae8faf9e2e23992ad45fb5d7bad82af41",
+        "bytes": 80644,
         "description": "Workflow artifact validation gate.",
         "allowedWorkUnits": [
           "verify.release-gates"
@@ -3665,8 +3665,8 @@
         "id": "context.template-checker-tests",
         "kind": "repository",
         "locator": "path:scripts/test-check-template.ps1",
-        "digest": "sha256:374701fbf2181e787cf0a8346c475cf6e803cc61eecdc5f288d0c07a534adc51",
-        "bytes": 89500,
+        "digest": "sha256:f81f09c537d228ab88686bcaa7b57f09388239f39e2e03feb86070b584428e81",
+        "bytes": 101985,
         "description": "Template-checker regression matrix.",
         "allowedWorkUnits": [
           "verify.release-gates"
@@ -3825,7 +3825,7 @@
     ],
     "maxAgents": 6,
     "maxConcurrency": 4,
-    "contentDigest": "sha256:1953465c8579cd311549d5c38920dbe823c1bb0d56e7da1505956781991a52ce"
+    "contentDigest": "sha256:67149f3b1da3dd06124321a4d740d6ff6804a27a480834906101f9051b09d629"
   },
   "search": {
     "mode": "exact",
@@ -3834,7 +3834,7 @@
     "evaluatedCandidates": 203,
     "eligibleCandidates": 52,
     "retainedAlternatives": 8,
-    "evaluationSetDigest": "sha256:b06ca0269695b6781200cd3314c9d21201f1b56e073f7d385cc9205967e8d774"
+    "evaluationSetDigest": "sha256:1b88f2db09e14651605c1bd85eb24e536f75047e5751f50b3e365b1911743404"
   },
   "serialBaseline": {
     "id": "team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696",
@@ -3915,7 +3915,7 @@
       "peakConcurrency": 4,
       "conflictPairs": 0,
       "handoffCount": 8,
-      "duplicatedContextBytes": 2160465,
+      "duplicatedContextBytes": 2151693,
       "duplicatedPermissionScopes": 149,
       "totalWorkWeight": 38,
       "totalStartupCost": 12,
@@ -3953,7 +3953,7 @@
         "finish": 23
       }
     ],
-    "contentDigest": "sha256:ffb3fea22b084fd58d7e6376365fd5208443b1c3c8603577d28e7ba0d0136eaf"
+    "contentDigest": "sha256:b41d96bda67cef90d7d5a0abab9e85549660bb403c0f5278043293f34102e653"
   },
   "selectionReason": {
     "kind": "serial_ineligible",
@@ -3997,7 +3997,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1909454,
+        "duplicatedContextBytes": 1900682,
         "duplicatedPermissionScopes": 126,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4030,7 +4030,7 @@
           "finish": 26
         }
       ],
-      "contentDigest": "sha256:68c91200917f925736c8d4c45aea632a0cf52be84752cb47b4a8c343d0f8f965"
+      "contentDigest": "sha256:33688965f92177f696b9892df331a958632c97d247d60819d72cbb3ab53512ac"
     },
     {
       "id": "team.45f4d849dd94a8f90a9eeb07668333991f925ccebceeda6b7370ed2d3fb7ed5e",
@@ -4064,7 +4064,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1688972,
+        "duplicatedContextBytes": 1680200,
         "duplicatedPermissionScopes": 118,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4097,7 +4097,7 @@
           "finish": 28
         }
       ],
-      "contentDigest": "sha256:955b479a40340fdf36601bf254b1e67bb289d8d2de364c6d00273981f93ef96d"
+      "contentDigest": "sha256:4e4b71382faca6c3a4c21f11ab359f14e3bf04a42fe9d61d4ba5a7c0d93ebca6"
     },
     {
       "id": "team.6d035e2f118ca820b9aa81136a9e5ed99af0c39c555d464f9225fcf3123b3810",
@@ -4131,7 +4131,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1973833,
+        "duplicatedContextBytes": 1965061,
         "duplicatedPermissionScopes": 134,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4164,7 +4164,7 @@
           "finish": 28
         }
       ],
-      "contentDigest": "sha256:849c1fcfcdd719ddf6c311c15d5467040c5857cfbbd30f53bafc56aa66764be1"
+      "contentDigest": "sha256:a408dabd40cc666e93e3e3551492f263e0466dc2fd68895186b293c26e5ec6e4"
     },
     {
       "id": "team.97fb6fe39c2c8525d320a80d60732e6fa44acd1e7a7d4d91d5a651b378afd026",
@@ -4198,7 +4198,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 7,
-        "duplicatedContextBytes": 1682080,
+        "duplicatedContextBytes": 1673308,
         "duplicatedPermissionScopes": 115,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4231,7 +4231,7 @@
           "finish": 28
         }
       ],
-      "contentDigest": "sha256:4f265006f9ac0bf6973fac7d107dd96c695118993de257d7c74dd34e06ea87dc"
+      "contentDigest": "sha256:22f161077fb46e00a7d07b7ba0a0d9acf3bb7844ed5c925628fe38873f0fcb6b"
     },
     {
       "id": "team.6386f37c4fbd36cfc6e9d38ddb22d90af99c42025bb13037d4bd39512d37115b",
@@ -4263,7 +4263,7 @@
         "peakConcurrency": 2,
         "conflictPairs": 0,
         "handoffCount": 4,
-        "duplicatedContextBytes": 1461391,
+        "duplicatedContextBytes": 1452619,
         "duplicatedPermissionScopes": 105,
         "totalWorkWeight": 38,
         "totalStartupCost": 8,
@@ -4291,7 +4291,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:5638110950a09f0cb3ddf0663768e53a15c03e692d8074faee1a6ae04b9e9970"
+      "contentDigest": "sha256:6c7475a674729dc8e63992f1ff752bbe0fb76b1ee7b09546eca37467c9d7b444"
     },
     {
       "id": "team.4040deb17ee5a9c829c00f5d44257775fd0839cbde171b6dbf78082123dda4a2",
@@ -4323,7 +4323,7 @@
         "peakConcurrency": 2,
         "conflictPairs": 0,
         "handoffCount": 4,
-        "duplicatedContextBytes": 1487874,
+        "duplicatedContextBytes": 1479102,
         "duplicatedPermissionScopes": 104,
         "totalWorkWeight": 38,
         "totalStartupCost": 8,
@@ -4351,7 +4351,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:385c519f337081f25d91b0399bfae9e7191097fc4f81a8c9ab851bd09aea5b10"
+      "contentDigest": "sha256:42d027b4c36933ec25b12d6cec98b4e82132836e5265537c6883049d1a3d5516"
     },
     {
       "id": "team.5c6e8bb4e8613ad3fa21f6e8d57ee6dc80636c372445c6656ce2ae8fac7d5b64",
@@ -4385,7 +4385,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1674506,
+        "duplicatedContextBytes": 1665734,
         "duplicatedPermissionScopes": 119,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4418,7 +4418,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:14cc31f193446155704e3120dd40ce1a8b5609de63ef98db7fd2f2e61bb711e3"
+      "contentDigest": "sha256:8f9c95894f91558c8605cbcc724c80a9c66696616cdd8d58c619a3b79c08ef4d"
     },
     {
       "id": "team.22cfc8a181aaa7d8f16949ba7125acebce7ceab8dc45dcd1fa93e2fe9def8827",
@@ -4452,7 +4452,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1932884,
+        "duplicatedContextBytes": 1924112,
         "duplicatedPermissionScopes": 136,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4485,7 +4485,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:cfd12aff7d88627a357f888b6fe05f6d14b65512f9abdae5922dc89120c50dbb"
+      "contentDigest": "sha256:7b6cf0fe31d53ca69b0a6e579e7186b37cdb36479166822e2254775a90fed21f"
     }
   ],
   "blueprints": [
@@ -4494,8 +4494,8 @@
       "kind": "AgentBlueprint",
       "id": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 30,
-      "goalDigest": "sha256:9743420992fef85e1ca82c26a259dde8f1524d7aed6506dbba43e702bb4479c1",
+      "goalRevision": 31,
+      "goalDigest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "review.algorithm-lifecycle"
@@ -4919,15 +4919,15 @@
         "Stop with REVISE if bounded search is represented as a global optimum.",
         "Stop with REVISE if selection can change under logical input permutation."
       ],
-      "contentDigest": "sha256:89a5ecd5ed50cd332234d4d92677b06c94da4e3df0324e2c329d5d57d2358f8d"
+      "contentDigest": "sha256:59c63c8fe9cdd3fbc691a391b8f71c680bfc4ddbe1f80e63d7f800fcabdcd16e"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 30,
-      "goalDigest": "sha256:9743420992fef85e1ca82c26a259dde8f1524d7aed6506dbba43e702bb4479c1",
+      "goalRevision": 31,
+      "goalDigest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "integrate.release"
@@ -4999,8 +4999,8 @@
           "sourceId": "context.readme",
           "kind": "repository",
           "locator": "path:README.md",
-          "digest": "sha256:bc164b251bfd2c79be1c6bd6a1906e8172d49135b43f3cc48bdb60295abeccb4",
-          "bytes": 7487,
+          "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+          "bytes": 3101,
           "purposes": [
             "Keep public status accurate."
           ],
@@ -5140,15 +5140,15 @@
         "Stop if any independent review returns REVISE.",
         "Stop unless the separate prelaunch audit is approval-bound, verified, and PASS before candidate launch approval."
       ],
-      "contentDigest": "sha256:9e0647bcffd338ab145e2093485845254fadb2d3d0965c888f48adc2c23239b6"
+      "contentDigest": "sha256:495504f3e53760111b3018fff9c2df84b22265aa9b985735f7f90d9563ebbda5"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 30,
-      "goalDigest": "sha256:9743420992fef85e1ca82c26a259dde8f1524d7aed6506dbba43e702bb4479c1",
+      "goalRevision": 31,
+      "goalDigest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "review.product-api"
@@ -5521,8 +5521,8 @@
           "sourceId": "context.readme",
           "kind": "repository",
           "locator": "path:README.md",
-          "digest": "sha256:bc164b251bfd2c79be1c6bd6a1906e8172d49135b43f3cc48bdb60295abeccb4",
-          "bytes": 7487,
+          "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+          "bytes": 3101,
           "purposes": [
             "Review public positioning and clarity."
           ],
@@ -5762,15 +5762,15 @@
         "Stop with REVISE if a generic role can substitute for exact task demand.",
         "Stop with REVISE if the public contract requires a provider or runtime."
       ],
-      "contentDigest": "sha256:ec37da37dac6450cf6225c4ee7a8d926b3bbcc0f600fc55b496bfa6c5cc4a305"
+      "contentDigest": "sha256:9a90dab164de6f1701a4911d7c4b01868a63d1bfa7452768a7168fc3456068b6"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 30,
-      "goalDigest": "sha256:9743420992fef85e1ca82c26a259dde8f1524d7aed6506dbba43e702bb4479c1",
+      "goalRevision": 31,
+      "goalDigest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "verify.release-gates"
@@ -6241,8 +6241,8 @@
           "sourceId": "context.template-checker",
           "kind": "repository",
           "locator": "path:scripts/check-template.ps1",
-          "digest": "sha256:b1409d0b5110d7226de69f42b6ae37c5bae24c8347f43e8a9e190179213b398a",
-          "bytes": 77532,
+          "digest": "sha256:e7df2c505bb86fc026eb1934a3834d5ae8faf9e2e23992ad45fb5d7bad82af41",
+          "bytes": 80644,
           "purposes": [
             "Verify workflow artifact checks."
           ],
@@ -6255,8 +6255,8 @@
           "sourceId": "context.template-checker-tests",
           "kind": "repository",
           "locator": "path:scripts/test-check-template.ps1",
-          "digest": "sha256:374701fbf2181e787cf0a8346c475cf6e803cc61eecdc5f288d0c07a534adc51",
-          "bytes": 89500,
+          "digest": "sha256:f81f09c537d228ab88686bcaa7b57f09388239f39e2e03feb86070b584428e81",
+          "bytes": 101985,
           "purposes": [
             "Verify checker regression coverage."
           ],
@@ -6461,15 +6461,15 @@
         "On Windows, stop with FIX unless the full negative checker matrix uses a verified short-path spelling that resolves to the same authorized .local/npm-cache target.",
         "Stop with FIX if any canonical gate fails or cannot be reproduced."
       ],
-      "contentDigest": "sha256:41b2bb9ebd0273d17856c90a7f46220cfafa6aff4585f020aa403ca541f55347"
+      "contentDigest": "sha256:4adcace794aa15b032abbf0ea013d89b2d0d0d0f2389e22c4829be0ac7aefe4b"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 30,
-      "goalDigest": "sha256:9743420992fef85e1ca82c26a259dde8f1524d7aed6506dbba43e702bb4479c1",
+      "goalRevision": 31,
+      "goalDigest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "review.security-trace"
@@ -7357,15 +7357,15 @@
         "Stop with REVISE if escaped or raw malformed Unicode reaches a launchable semantic handoff.",
         "Stop with REVISE if package tampering can retain the reviewed digest."
       ],
-      "contentDigest": "sha256:ff172e905e10218fa93efe32715102a2367daab22bb9b2fc6c3107b264028919"
+      "contentDigest": "sha256:1749f80c4e75a173a37fe5aa93f46ff1188da3373500d890366f6b72966dc168"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 30,
-      "goalDigest": "sha256:9743420992fef85e1ca82c26a259dde8f1524d7aed6506dbba43e702bb4479c1",
+      "goalRevision": 31,
+      "goalDigest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "prepare.candidate"
@@ -7974,8 +7974,8 @@
           "sourceId": "context.readme",
           "kind": "repository",
           "locator": "path:README.md",
-          "digest": "sha256:bc164b251bfd2c79be1c6bd6a1906e8172d49135b43f3cc48bdb60295abeccb4",
-          "bytes": 7487,
+          "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+          "bytes": 3101,
           "purposes": [
             "Bind this exact candidate source before independent review."
           ],
@@ -8329,7 +8329,7 @@
       "stopConditions": [
         "Stop if any declared source digest or byte count does not match."
       ],
-      "contentDigest": "sha256:d95f0b86260fa755a7043fa50965ef4fe254a7b85d72c4e9976c1475d33113ff"
+      "contentDigest": "sha256:68fac4ba7dc138e177eea110112e161d1e381d7027ab1ca7f8169c9976511175"
     }
   ],
   "launchWaves": [
@@ -8355,5 +8355,5 @@
       ]
     }
   ],
-  "contentDigest": "sha256:ced8186898ebb27bac53e50e6b803c353766ae015464a2bae2b758cb6cf6cc36"
+  "contentDigest": "sha256:4c3cb3249ff21f51387d05ed5b34810a5797844e137c755cfb8af01bb3fc221a"
 }

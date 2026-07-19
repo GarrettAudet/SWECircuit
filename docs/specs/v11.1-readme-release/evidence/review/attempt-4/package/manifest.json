@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v11.1.readme-release-review",
+  "goalRevision": 4,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:d835edb8382a904d54012caa0641193007b8b46ba79960ba21640ee7a2e0f086",
+  "selectedCandidateId": "team.2077ab2a9679e183beebc81946f8640a8f31a8fa2ce3613775c5729d54195571",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+        "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:a49553d7b0fee97e98f359c90255b2cf8e0d9dc1c711a66344dd92d6b6bd5f1d",
+  "compilationFileBytes": 28126,
+  "agents": [
+    {
+      "agentId": "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+      "blueprintDigest": "sha256:00d98d44347afa82dcc7cb97e618a4dfeb75b8dd7fdf7757d48e6c93367de16d",
+      "contractFile": "agents/agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437.md",
+      "contractDigest": "sha256:1264b791202afa54e95e86305224c41d317c44f994c752b3913f070a19fd3b66",
+      "contractBytes": 7542
+    },
+    {
+      "agentId": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+      "blueprintDigest": "sha256:2e0ccd6146121b1ccdb8b5b2d618750e747f07df4d0a368f20adfd57c7eb7d20",
+      "contractFile": "agents/agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d.md",
+      "contractDigest": "sha256:d356bc0039cfce098c1bc4682abdc360df58fdc79d258eea00de764712571ae3",
+      "contractBytes": 8123
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:6cd0dcf1042f89d9b403f987a8004e99645e08841972f84d0a0b78c912477b28",
+  "integrationBytes": 3291,
+  "contentDigest": "sha256:99e0a2101c4468dc88eec70bfb8c62768be5189e2b719e804dbf69b9a8d042e3"
+}

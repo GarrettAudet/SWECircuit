@@ -1,0 +1,64 @@
+{
+  "goalId": "v11.1.readme-release-review",
+  "goalRevision": 1,
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 2,
+    "evaluatedCandidates": 2,
+    "eligibleCandidates": 2,
+    "retainedAlternatives": 1,
+    "evaluationSetDigest": "sha256:51b8767a0a37c30951511f7208338fee078ebb06e1d6b7f1f8d3b65e686d49f3"
+  },
+  "serialBaseline": {
+    "agentCount": 1,
+    "projectedMakespan": 10,
+    "peakConcurrency": 1,
+    "conflictPairs": 0,
+    "handoffCount": 0,
+    "duplicatedContextBytes": 0,
+    "duplicatedPermissionScopes": 0,
+    "totalWorkWeight": 9,
+    "totalStartupCost": 1,
+    "totalHandoffCost": 0
+  },
+  "selected": {
+    "agentCount": 2,
+    "projectedMakespan": 6,
+    "peakConcurrency": 2,
+    "conflictPairs": 0,
+    "handoffCount": 0,
+    "duplicatedContextBytes": 2591,
+    "duplicatedPermissionScopes": 1,
+    "totalWorkWeight": 9,
+    "totalStartupCost": 2,
+    "totalHandoffCost": 0
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 6,
+    "serialValue": 10,
+    "serialRejectionCodes": []
+  },
+  "compilationDigest": "sha256:834690f6c366371e2bd450d121d27be4f82964d98ee84e39b6e82da70c3ad511",
+  "packageDigest": "sha256:a56144a6c04b2842150e3f5e594f1f9e92e1c6f12c3d774c1c5e82ae91b04f9a",
+  "agents": [
+    {
+      "id": "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+      "workUnitIds": [
+        "review.visual"
+      ],
+      "contractFile": "agents/agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437.md"
+    },
+    {
+      "id": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+      "workUnitIds": [
+        "review.boundary"
+      ],
+      "contractFile": "agents/agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d.md"
+    }
+  ],
+  "packageVerified": true,
+  "runtimeInvoked": false
+}

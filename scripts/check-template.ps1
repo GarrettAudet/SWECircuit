@@ -1284,6 +1284,8 @@ $requiredFiles = @(
     "docs/README.md",
     "docs/assets/README.md",
     "docs/assets/source/generate-readme-demo-gifs.py",
+    "docs/assets/source/generate-swecircuit-flow-gif.py",
+    "docs/assets/swecircuit-flow.gif",
     "docs/assets/swecircuit-overview.png",
     "docs/assets/tracerail-overview.png",
     "docs/assets/tracerail-module-contract.gif",
@@ -1556,10 +1558,7 @@ if ($rejectionCriteria -match '(?m)^\s*\|') {
 
 Test-HasHeadings "README.md" @(
     "How It Works",
-    "Core Contracts",
     "Start Here",
-    "Repository Guide",
-    "Principles",
     "Status"
 )
 $readme = Read-Text (Join-Path $Root "README.md")
@@ -1574,10 +1573,16 @@ if ($activeReadme -notmatch [regex]::Escape("https://github.com/GarrettAudet/SWE
 if ($activeReadme -match [regex]::Escape("https://github.com/GarrettAudet/TraceRail")) {
     Add-Failure "README contains the retired GarrettAudet/TraceRail repository URL"
 }
-$currentOverviewPath = "docs/assets/swecircuit-overview.png"
-$currentOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape($currentOverviewPath) + '\)[ \t]*\r?$'
-if ($activeReadme -notmatch $currentOverviewPattern) {
-    Add-Failure "README missing current SWECircuit overview visual embed: $currentOverviewPath"
+$currentVisualPath = "docs/assets/swecircuit-flow.gif"
+$currentVisualAltText = "A reviewed goal moves through workflow modules; an external host may run approved specialists in parallel, and an integration owner verifies handoffs, merges the change, preserves the trace, and updates memory."
+$currentVisualPattern = '(?m)^!\[' + [regex]::Escape($currentVisualAltText) + '\]\(' + [regex]::Escape($currentVisualPath) + '\)[ \t]*\r?$'
+if ($activeReadme -notmatch $currentVisualPattern) {
+    Add-Failure "README missing ownership-bound SWECircuit workflow visual embed: $currentVisualPath"
+}
+$readmeVisualPattern = '(?m)^!\[[^\]\r\n]+\]\([^\)\r\n]+\)[ \t]*\r?$'
+$readmeVisualCount = [regex]::Matches($activeReadme, $readmeVisualPattern).Count
+if ($readmeVisualCount -ne 1) {
+    Add-Failure "README must contain exactly one standalone workflow visual embed"
 }
 $historicalOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape("docs/assets/tracerail-overview.png") + '\)[ \t]*\r?$'
 if ($activeReadme -match $historicalOverviewPattern) {
@@ -1585,10 +1590,13 @@ if ($activeReadme -match $historicalOverviewPattern) {
 }
 
 $requiredReadmeActiveText = @(
-    "The V10 kernel can now validate and execute one host-selected work packet through a caller-injected executor",
-    "External hosts still select and schedule work, enforce permissions, isolate runtimes, persist traces, and merge changes.",
-    "These are repository-local development commands for the private workspace",
-    "The V10 kernel does not dynamically load adapters, execute circuits, terminate process trees, merge branches, or update memory automatically."
+    "SWECircuit validates the reviewed work units, groups them into legal specialist teams",
+    "an external host selects providers, models, and tools, then may run dependency-safe contracts in parallel.",
+    "SWECircuit core compiles specialist contracts and verifies approval-bound packages, raw handoffs, and dependency fan-in.",
+    "An external IDE or agent host selects providers and models, dispatches agents, enforces permissions, runs tools, integrates and merges changes, persists traces, and updates memory.",
+    "The specialist example compiles and verifies a two-specialist package in memory. It writes no files and launches no agents.",
+    "V11 is the current baseline.",
+    "V10's bounded injected-executor boundary remains available for one host-selected work packet"
 )
 foreach ($requiredText in $requiredReadmeActiveText) {
     if ($activeReadme -notmatch [regex]::Escape($requiredText)) {
@@ -1596,10 +1604,17 @@ foreach ($requiredText in $requiredReadmeActiveText) {
     }
 }
 
+$decompositionOwnerPattern = '(?i)(?<!and\s)\b(?:(?:a|the)\s+developer(?:\s+or\s+(?:(?:an?|the)\s+)?IDE)?|(?:(?:an?|the)\s+)?IDE(?:\s+or\s+(?:a|the)\s+developer)?)\s+closes?\s+the\s+goal\s+and\s+decomposes?\s+it\s+into\s+atomic\s+work\s+units\b'
+if ($activeReadme -notmatch $decompositionOwnerPattern) {
+    Add-Failure "README must assign atomic decomposition to a developer or IDE"
+}
+
 $requiredReadmeCommandExamples = @(
-    "node dist/cli.js init --project <existing-empty-directory> --project-id quick-start",
+    "npm ci",
+    "npm run build",
     "node dist/cli.js validate --project examples/minimal",
-    "node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl"
+    "node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl",
+    "npm run example:specialist"
 )
 foreach ($requiredCommand in $requiredReadmeCommandExamples) {
     if ($readme -notmatch [regex]::Escape($requiredCommand)) {
@@ -1628,10 +1643,16 @@ foreach ($linkTarget in $requiredReadmeLinks) {
     }
 }
 
+$coreCapabilitySubjectPattern = '(?:SWECircuit(?:\s+core)?|(?:the\s+)?core|(?:the\s+)?(?:SWECircuit\s+)?compiler)'
+$coreCapabilityModalPattern = '(?:(?:can|will|may|must|does)\s+)?'
 $forbiddenActiveReadmePatterns = @(
     @{ Pattern = '(?i)\bplanned executable kernel\b'; Message = "README still describes the implemented kernel as planned" },
-    @{ Pattern = '(?i)\bSWECircuit\s+(?:launches\s+agents|schedules\s+agents|executes\s+circuits|writes\s+traces|retrieves\s+evidence|merges\s+branches|updates\s+memory\s+automatically)\b'; Message = "README positively claims a capability owned by an external runtime" },
-    @{ Pattern = '(?i)\bSWECircuit\s+(?:enforces\s+(?:permissions|grants)|loads\s+(?:providers|adapters)|persists\s+(?:traces|events)|terminates\s+process(?:es|\s+trees))\b'; Message = "README positively claims host-owned execution authority or persistence" }
+    @{ Pattern = '(?i)\b' + $coreCapabilitySubjectPattern + '\s+' + $coreCapabilityModalPattern + '(?:launch(?:es)?\s+agents|schedul(?:e|es)\s+agents|dispatch(?:es)?\s+agents|rout(?:e|es)\s+(?:agents|work)(?:\s+in\s+parallel)?|execut(?:e|es)\s+(?:agents|circuits)|run(?:s)?\s+(?:specialists|tools)|writ(?:e|es)\s+traces|retriev(?:e|es)\s+evidence|integrat(?:e|es)\s+(?:changes|work)|merg(?:e|es)\s+(?:branches|changes)|select(?:s)?\s+(?:(?:a|an)\s+)?(?:providers?|models?|prompts?|profiles?|executors?|credentials?)|updat(?:e|es)\s+(?:durable\s+)?memory(?:\s+automatically)?)\b'; Message = "README positively claims a capability owned by an external runtime" },
+    @{ Pattern = '(?i)\b' + $coreCapabilitySubjectPattern + '\s+' + $coreCapabilityModalPattern + '(?:(?:creat(?:e|es)|enforc(?:e|es))\s+(?:sandboxes?|worktrees?|filesystem\s+boundar(?:y|ies)|workspace\s+isolation|permissions|grants|process\s+limits?)|load(?:s)?\s+(?:providers|adapters)|terminat(?:e|es)\s+process(?:es|\s+trees))\b'; Message = "README positively claims host-owned isolation or execution authority" },
+    @{ Pattern = '(?i)\b' + $coreCapabilitySubjectPattern + '\s+' + $coreCapabilityModalPattern + 'persist(?:s)?\s+(?:state|events|prompts|traces|results|handoffs)\b'; Message = "README positively claims host-owned runtime persistence" },
+    @{ Pattern = '(?i)\b' + $coreCapabilitySubjectPattern + '\s+' + $coreCapabilityModalPattern + '(?:reserv(?:e|es)\s+runtime\s+capacity|guarantee(?:s)?\s+(?:the\s+)?projected\s+launch\s+waves)\b'; Message = "README positively claims host-owned capacity or launch guarantees" },
+    @{ Pattern = '(?i)\b' + $coreCapabilitySubjectPattern + '\s+' + $coreCapabilityModalPattern + '(?:(?:retry|retries|cancel(?:s)?|resum(?:e|es)|recover(?:s)?)\s+(?:runtime\s+)?work|decid(?:e|es)\s+merge\s+readiness)\b'; Message = "README positively claims host-owned recovery or merge-readiness decisions" },
+    @{ Pattern = '(?i)\b' + $coreCapabilitySubjectPattern + '\s+' + $coreCapabilityModalPattern + '(?:decompos(?:e|es)\s+(?:the\s+)?(?:goal|task)|creat(?:e|es)\s+atomic\s+work\s+units)\b'; Message = "README assigns semantic decomposition to core instead of the developer or IDE" }
 )
 foreach ($rule in $forbiddenActiveReadmePatterns) {
     if ($activeReadme -match $rule.Pattern) {

@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v11.1.readme-release-review",
+  "goalRevision": 5,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:571b1b4e57401ab25b92e7973ef298d287f3175a68f6363f56177ea90b46f135",
+  "selectedCandidateId": "team.2077ab2a9679e183beebc81946f8640a8f31a8fa2ce3613775c5729d54195571",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+        "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:748d2afff970075bcf99996ecf1ae13dc29e6b48d866e39aa6902dbffa462abc",
+  "compilationFileBytes": 28126,
+  "agents": [
+    {
+      "agentId": "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+      "blueprintDigest": "sha256:dd177b4e846ed1ed649de967860c492daa7f00f45b019e6907ffd21f90acf58f",
+      "contractFile": "agents/agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437.md",
+      "contractDigest": "sha256:e1ada3a2e7433dc2902a3a0aa09dbc5f2c77ecaa39630903ffd88fa1dddb3717",
+      "contractBytes": 7542
+    },
+    {
+      "agentId": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+      "blueprintDigest": "sha256:a3d82a7d39fbf62efb056d4d7af8e331959e5c05399c2c2621b7a0b1e196fb83",
+      "contractFile": "agents/agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d.md",
+      "contractDigest": "sha256:7fa8f5bbfbf74d7bc2e1a8dd3609bb0565a9759337c734005b17232c14bf93ef",
+      "contractBytes": 8123
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:3f44a4d56323265edbcfbaf0bb78f8fed179328b029d5ef78d651917a6446979",
+  "integrationBytes": 3291,
+  "contentDigest": "sha256:fbd05faa99291e6d8ace67c5805029af42511944987eb5fd1e38272d7175a5a0"
+}

@@ -1,0 +1,137 @@
+{
+  "apiVersion": "swecircuit/review-gate/v1alpha1",
+  "kind": "ExternalReviewGate",
+  "compilationDigest": "sha256:b8179d2e86be0f8e2d9de5bbaf2b14fa77c53c4c2ce07ed966a22c0f8f93a5e6",
+  "packageDigest": "sha256:ec476d5f9a9b714e2947142b4ac0ebd2631d6420160031b62e9b2baab30331b0",
+  "verifiedHandoffs": [
+    {
+      "name": "visual",
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "VerifiedSpecialistHandoff",
+      "handoff": {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "SpecialistAgentHandoff",
+        "outcome": "fix",
+        "destination": "codex.main",
+        "goal": {
+          "id": "v11.1.readme-release-review",
+          "revision": 2,
+          "digest": "sha256:61bc6acf808998c6ae773481dfae551d2b0e6b17fdf2755dfc3624b910daad02"
+        },
+        "agent": {
+          "id": "agent.4a46f9924c1597feda7441bbb503b7c8445330fedf0bab277cd9784397d09437",
+          "blueprintDigest": "sha256:21d37fb2c6e3ccdffbf393dffee3eb2abb58323352aa3898c7fb4159e37701fb"
+        },
+        "compilationDigest": "sha256:b8179d2e86be0f8e2d9de5bbaf2b14fa77c53c4c2ce07ed966a22c0f8f93a5e6",
+        "summary": "Visual review completed: the flow is clear at native size, but the reduced-width legibility finding remains actionable.",
+        "workUnitsCompleted": [
+          "review.visual"
+        ],
+        "artifacts": [
+          {
+            "name": "visual-clarity-review.json",
+            "mediaType": "application/json",
+            "content": "{\"verdict\":\"fix\",\"checks\":{\"sources\":{\"generator\":{\"status\":\"pass\",\"sha256\":\"3418ad3060593601371a5ec5d7389da2a170952e9cced3c9557fdb1f47b85a37\",\"bytes\":12933},\"readme\":{\"status\":\"pass\",\"sha256\":\"5f1de5c6204e98559a4c118dd3d19d5fec1bc8d9179590e60293a571605b4867\",\"bytes\":2900},\"gif\":{\"status\":\"pass\",\"sha256\":\"519585ef77a34f0b7faa5b122f4b8ebc759525f0de6f25e2243ffb387735cc20\",\"bytes\":1024955}},\"initial\":\"pass: goal and modular workflow rail are comprehensible on first read.\",\"parallel\":\"pass: the three specialist lanes and conditional external-host parallelism are explicit.\",\"final\":\"pass: the return path visibly fans into VERIFY, then continues through MERGE and MEMORY.\",\"owner\":\"pass: the owner label plus adjacent README prose clearly assign verification, integration, trace preservation, and memory updates.\",\"trace\":\"pass: the continuous full-execution trace is visually distinct and named.\",\"overlap\":\"pass: no harmful text or route overlap; interlocking module connectors read as intentional rail connections.\",\"halfWidth\":\"fix: at 600px rendered width, the 14-17px internal labels scale to about 7-8.5px and module labels to about 11px, making the host-parallel label and AGENT captions unreliable to read.\"},\"priorReducedWidthFinding\":{\"resolved\":false,\"reason\":\"The revised layout removes collision concerns but does not raise the scaled text size enough for dependable half-width reading.\"},\"findings\":[{\"id\":\"half-width-legibility\",\"severity\":\"release\",\"action\":\"Provide a 600px-specific composition or increase and simplify the internal labels so every required concept remains legible at half-width; re-review opening, parallel, and final frames at 600x280.\"}]}"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.visual-clarity",
+            "requirementId": "evidence.visual-review",
+            "kind": "review",
+            "duty": "produce",
+            "status": "fix",
+            "artifact": "visual-clarity-review.json"
+          }
+        ],
+        "assumptions": [
+          "Half-width legibility means rendering the 1200x560 GIF at 600x280 CSS pixels."
+        ],
+        "risks": [
+          "The visual is release-ready at native size, but reduced-width viewers may miss the parallelism condition and agent identity labels."
+        ],
+        "followUps": [
+          "Re-review the exact opening, parallel, and final states after a reduced-width typography or composition adjustment."
+        ]
+      },
+      "rawBytes": 3132,
+      "rawDigest": "sha256:72f97ff7016f7c763d06e1515ff2e358646d3d631531bc8d87c305a0edddc28a",
+      "semanticDigest": "sha256:1de3a8dcb37b4152b35010fec5a7870b14d7057263a8e824bc41acff57fbb871",
+      "artifactBindings": [
+        {
+          "name": "visual-clarity-review.json",
+          "mediaType": "application/json",
+          "bytes": 1678,
+          "digest": "sha256:f1bee4e8fd63946580aec05c741f546243721c4842088fd81fd9ae9dc5e36f3b"
+        }
+      ],
+      "contentDigest": "sha256:23e191a54dc85611057e4b9df0e29c6bd14c33d5c1bfef98bff1648117557a16"
+    },
+    {
+      "name": "boundary",
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "VerifiedSpecialistHandoff",
+      "handoff": {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "SpecialistAgentHandoff",
+        "outcome": "fix",
+        "destination": "codex.main",
+        "goal": {
+          "id": "v11.1.readme-release-review",
+          "revision": 2,
+          "digest": "sha256:61bc6acf808998c6ae773481dfae551d2b0e6b17fdf2755dfc3624b910daad02"
+        },
+        "agent": {
+          "id": "agent.6a94d5401d38c780124bfeaba9f9b4f2096eb15f921cbad595ce13f030788c5d",
+          "blueprintDigest": "sha256:4e2e1e1daaf1d91c8ba1755f8309e0edf0b384eb2ee99010bdd795ebb6de4d6e"
+        },
+        "compilationDigest": "sha256:b8179d2e86be0f8e2d9de5bbaf2b14fa77c53c4c2ce07ed966a22c0f8f93a5e6",
+        "summary": "Revision 2 is not release-ready: the README states the V11 boundary accurately, but the checker does not preserve conditional host and visual ownership or cover every normative host-owned exclusion family.",
+        "workUnitsCompleted": [
+          "review.boundary"
+        ],
+        "artifacts": [
+          {
+            "name": "capability-boundary-review.json",
+            "mediaType": "application/json",
+            "content": "{\"verdict\":\"fix\",\"checkedClaims\":[{\"id\":\"bound-source-integrity\",\"status\":\"pass\",\"evidence\":[{\"path\":\"README.md\",\"bytes\":2900,\"sha256\":\"sha256:5f1de5c6204e98559a4c118dd3d19d5fec1bc8d9179590e60293a571605b4867\"},{\"path\":\"docs/specs/v11-specialist-compiler/specialist-compiler-contract.md\",\"bytes\":36886,\"sha256\":\"sha256:ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9\"},{\"path\":\"scripts/check-template.ps1\",\"bytes\":78340,\"sha256\":\"sha256:43bb11d956e9879f4b501c1251b7db3468feacd90ab1b7b96ed7a5e15481b95d\"},{\"path\":\"scripts/test-check-template.ps1\",\"bytes\":93938,\"sha256\":\"sha256:f6d4025fdbf86ffc3f02503f66290f160b2db7e9d70214ab0385bff7a41f0ed5\"}]},{\"id\":\"human-ide-semantic-decomposition\",\"status\":\"pass\",\"evidence\":\"README.md:7 and README.md:13-14 assign atomic decomposition to the developer and IDE and legal grouping to core; scripts/check-template.ps1:1591-1604 requires those anchors and :1642 rejects core decomposition; scripts/test-check-template.ps1:616-617 and :733-749 cover both directions.\"},{\"id\":\"conditional-host-scheduling-dispatch-visual\",\"status\":\"fix\",\"evidence\":\"README.md:9 and :15 correctly assign approved, dependency-safe parallel execution to an external host and make it conditional. scripts/check-template.ps1:1576-1588 checks only visual path and count, while :1595 requires host dispatch without preserving conditionality; the visual tests at scripts/test-check-template.ps1:545-570 do not test ownership or conditional execution.\"},{\"id\":\"positive-core-host-anchors\",\"status\":\"pass\",\"evidence\":\"README.md:18-19 positively assigns package, raw-handoff, and dependency-fan-in verification to core and provider/model selection, dispatch, merge, trace persistence, and memory updates to the external host. scripts/check-template.ps1:1594-1595 requires both anchors; scripts/test-check-template.ps1:760-770 and :1188-1202 remove and test each requested component.\"},{\"id\":\"negative-host-capability-families\",\"status\":\"fix\",\"evidence\":\"scripts/check-template.ps1:1638-1648 and scripts/test-check-template.ps1:594-625 cover execution and dispatch, provider and model selection, tools, permissions, trace and event persistence, integration and merge, memory, and decomposition. They omit exclusions required by the normative contract at :455-460 for prompt, profile, executor, and credential choice; runtime capacity and launch-wave guarantees; sandbox, worktree, filesystem-boundary, workspace-isolation, and process-limit enforcement; state, prompt, result, and handoff persistence; retry, cancel, resume, and recovery; and merge-readiness decisions.\"}],\"priorFindingDisposition\":[{\"finding\":\"human/IDE semantic decomposition ownership\",\"disposition\":\"resolved\",\"basis\":\"README, checker, and focused positive and negative fixtures agree with the normative ownership boundary.\"},{\"finding\":\"conditional host scheduling/dispatch and visual ownership\",\"disposition\":\"partially-resolved\",\"basis\":\"The README is accurate, but checker and fixture protection is incomplete.\"},{\"finding\":\"complete positive core-versus-host anchors\",\"disposition\":\"resolved\",\"basis\":\"All requested positive anchors are present and individually regression-tested.\"},{\"finding\":\"focused negative regression coverage for every host-owned capability family\",\"disposition\":\"unresolved\",\"basis\":\"Several explicit V11 exclusion families have neither checker patterns nor failing fixtures.\"}],\"actionableFindings\":[{\"id\":\"R2-1\",\"severity\":\"release\",\"location\":\"scripts/check-template.ps1:1576\",\"finding\":\"Conditional external-host scheduling and visual ownership can be removed or reassigned while the checker still passes.\",\"requiredFix\":\"Require active ownership-bearing visual alt text and the approved, dependency-safe, conditional host execution statement; add removal and reassignment fixtures.\"},{\"id\":\"R2-2\",\"severity\":\"release\",\"location\":\"scripts/check-template.ps1:1638\",\"finding\":\"Negative rules and fixtures do not cover every host-owned family explicitly excluded by V11.\",\"requiredFix\":\"Add focused checker alternatives and one failing fixture per omitted exclusion family, including runtime supply, capacity, isolation, persistence, recovery, and merge-readiness claims.\"}]}"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.boundary-accuracy",
+            "requirementId": "evidence.boundary-review",
+            "kind": "review",
+            "duty": "produce",
+            "status": "fix",
+            "artifact": "capability-boundary-review.json"
+          }
+        ],
+        "assumptions": [
+          "Visual ownership was assessed from the bound README alt text and checker rules because the GIF payload is outside the declared read scope."
+        ],
+        "risks": [
+          "The write-producing regression harness was not executed; test conclusions are based on static review as required."
+        ],
+        "followUps": [
+          "Strengthen the checker and fixtures for conditional external-host scheduling and visual ownership.",
+          "Add negative regression coverage for every omitted V11 host-owned exclusion family."
+        ]
+      },
+      "rawBytes": 5968,
+      "rawDigest": "sha256:0345de6e39f11eb554e3f6494dab430a46eb6c5bbeda64f869a0634f87364475",
+      "semanticDigest": "sha256:fbfd3bbf08810aaa3b6e9936bc7ee4ad3278bd174b6ee3e24fe55fc5595b1407",
+      "artifactBindings": [
+        {
+          "name": "capability-boundary-review.json",
+          "mediaType": "application/json",
+          "bytes": 4197,
+          "digest": "sha256:420c1af742bf4257ba125404ed3c4c17831d902b065e080ba143a8358fc31c63"
+        }
+      ],
+      "contentDigest": "sha256:fba19ebd4a5a291a0b9510c0fcbaeb486f35486101ba75a5666cab6f7dcfe87e"
+    }
+  ],
+  "integrationReady": false,
+  "note": "Each raw handoff was verified by core. This external gate does not claim a SpecialistHandoffSetAssessment because the integration owner is not a dependent AgentBlueprint."
+}

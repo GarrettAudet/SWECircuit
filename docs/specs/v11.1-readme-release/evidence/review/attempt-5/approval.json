@@ -1,0 +1,87 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v11.1.readme-release-review",
+  "goalRevision": 5,
+  "approvedBy": "repository-owner",
+  "approvalBasis": "The owner approved the V11 merge and scoped README/GIF release work through completion.",
+  "contextSources": [
+    {
+      "id": "context.readme",
+      "kind": "repository",
+      "locator": "path:README.md",
+      "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+      "bytes": 3101,
+      "description": "Frozen concise public README candidate.",
+      "allowedWorkUnits": [
+        "review.visual",
+        "review.boundary"
+      ],
+      "readScope": "README.md"
+    },
+    {
+      "id": "context.workflow-gif",
+      "kind": "repository",
+      "locator": "path:docs/assets/swecircuit-flow.gif",
+      "digest": "sha256:90b627c4e3b116d98b49dea34eeabd5e4d69718c60fb583d2d3b792fdfd98483",
+      "bytes": 913700,
+      "description": "Exact primary animated workflow asset.",
+      "allowedWorkUnits": [
+        "review.visual"
+      ],
+      "readScope": "docs/assets/swecircuit-flow.gif"
+    },
+    {
+      "id": "context.generator",
+      "kind": "repository",
+      "locator": "path:docs/assets/source/generate-swecircuit-flow-gif.py",
+      "digest": "sha256:03e4350eac22235d778117fddd865130aeeab0a88261d27179474619b3b27798",
+      "bytes": 12805,
+      "description": "Deterministic GIF layout and validation source.",
+      "allowedWorkUnits": [
+        "review.visual"
+      ],
+      "readScope": "docs/assets/source/generate-swecircuit-flow-gif.py"
+    },
+    {
+      "id": "context.checker",
+      "kind": "repository",
+      "locator": "path:scripts/check-template.ps1",
+      "digest": "sha256:e7df2c505bb86fc026eb1934a3834d5ae8faf9e2e23992ad45fb5d7bad82af41",
+      "bytes": 80644,
+      "description": "Public-surface enforcement rules.",
+      "allowedWorkUnits": [
+        "review.boundary"
+      ],
+      "readScope": "scripts/check-template.ps1"
+    },
+    {
+      "id": "context.checker-tests",
+      "kind": "repository",
+      "locator": "path:scripts/test-check-template.ps1",
+      "digest": "sha256:f81f09c537d228ab88686bcaa7b57f09388239f39e2e03feb86070b584428e81",
+      "bytes": 101985,
+      "description": "Negative public-surface regression fixtures.",
+      "allowedWorkUnits": [
+        "review.boundary"
+      ],
+      "readScope": "scripts/test-check-template.ps1"
+    },
+    {
+      "id": "context.compiler-contract",
+      "kind": "repository",
+      "locator": "path:docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+      "digest": "sha256:ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9",
+      "bytes": 36886,
+      "description": "Normative V11 compiler and host boundary.",
+      "allowedWorkUnits": [
+        "review.boundary"
+      ],
+      "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
+    }
+  ],
+  "expectation": {
+    "compilationDigest": "sha256:571b1b4e57401ab25b92e7973ef298d287f3175a68f6363f56177ea90b46f135",
+    "packageDigest": "sha256:09a7cdea81b1d3b81f681ee0f4808c166f526107c2da7a66701f1d1c086f79cd"
+  }
+}

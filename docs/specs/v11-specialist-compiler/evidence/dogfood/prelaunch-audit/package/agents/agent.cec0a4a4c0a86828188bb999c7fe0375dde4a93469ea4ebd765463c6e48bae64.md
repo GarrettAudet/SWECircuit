@@ -1,7 +1,7 @@
 # Specialist Contract: agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64
 
-Compilation: `sha256:79c5a7103225b12398e27c0e959b993597f38dcc5ddca6d9750a4d2b62f2d065`
-Blueprint: `sha256:de2e1845df758093d3a850610431e17c510030f80ac4d51643b84ea370373bbf`
+Compilation: `sha256:5a8c1a13e0daca3411a023283b44e1d3ec9cc09b620733641f851b48892237b3`
+Blueprint: `sha256:d0aeea0dc38d0bc2a02dd12022f949ed5ce5c32f17cfd9213c7485d0b1fde7f3`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
   "goalId": "v11.specialist-compiler.prelaunch-audit",
-  "goalRevision": 30,
-  "goalDigest": "sha256:0398a385d52b5e0e1591d098c2180adf6e0195aabf560305dc0fbe0647c5609e",
+  "goalRevision": 31,
+  "goalDigest": "sha256:3997adf0a01cad35d260d9b78726ad63aafe6dfedc7551aff67bc38d27337a76",
   "candidateId": "team.357beba7ab91a91ad49896b7d31e2fb6c61d9277c3d50582a02bad331a809b12",
   "workUnitIds": [
     "audit.review-candidate-compilation"
@@ -79,8 +79,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.candidate-artifact.01",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
-      "digest": "sha256:26feb9117fe1c2259ede9f6ca1ab08eb537fbe0ec0849d46c31e5a738ca4b985",
-      "bytes": 313357,
+      "digest": "sha256:efa6852747663dbd868e35cfb4b0cbb2ebef18c98d38cf4a950f9b996e723ecc",
+      "bytes": 313360,
       "purposes": [
         "Authenticate the exact frozen candidate compilation and rendered package."
       ],
@@ -93,7 +93,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.candidate-artifact.02",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
-      "digest": "sha256:840d63959675c9d811710921715272d8c20a4f229a0f9ea602a6a376cb6a2d19",
+      "digest": "sha256:c4ea9fecf89b881f42d2b372d45deb5b29b675bc3723c3eefb5e84ac7d562567",
       "bytes": 18937,
       "purposes": [
         "Authenticate the exact frozen candidate compilation and rendered package."
@@ -107,7 +107,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.candidate-artifact.03",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
-      "digest": "sha256:890aea131a9033382c845cd406e4261a3611072c1f9379779e4ae7d951aa1743",
+      "digest": "sha256:706f786c7863e05ac774321ac6b332864fdf79ef7a6909c8f9252b3351088751",
       "bytes": 11199,
       "purposes": [
         "Authenticate the exact frozen candidate compilation and rendered package."
@@ -121,7 +121,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.candidate-artifact.04",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
-      "digest": "sha256:5235257ca03990e9151607c2f028ec7ede76729eb857e7941a5e6fdb1f60374d",
+      "digest": "sha256:af30eb78aa111961f0370c1f10677a4426748b00a6f24b25fb25979a18a6fcb8",
       "bytes": 23776,
       "purposes": [
         "Authenticate the exact frozen candidate compilation and rendered package."
@@ -135,8 +135,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.candidate-artifact.05",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
-      "digest": "sha256:4afa71c30adf0adc5ae1cde7e67297ed4085ca17c06a86a615858f65a9ce8746",
-      "bytes": 27304,
+      "digest": "sha256:f13ed4883a80f7a02e0a970fc77052b971fc508486b85260213ae8f50f461d6e",
+      "bytes": 27305,
       "purposes": [
         "Authenticate the exact frozen candidate compilation and rendered package."
       ],
@@ -149,7 +149,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.candidate-artifact.06",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
-      "digest": "sha256:5dc8ffda2b830dd97f80008b938d9091e8bd3bf8bf1be9356cee30465444da3d",
+      "digest": "sha256:59666e9b356cf1ad643cf567b18fc22a3b973d28d29dc7e5bf9717fca8c771d0",
       "bytes": 33804,
       "purposes": [
         "Authenticate the exact frozen candidate compilation and rendered package."
@@ -163,7 +163,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.candidate-artifact.07",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
-      "digest": "sha256:f8b7a18fee2b8e23aaed2eb22bd9bb8d7e101399e2c1bb9b77e2552c84d33ddf",
+      "digest": "sha256:404752725f166555b40efb18ed80d67ce8ff8640d3b4f3fce7516dc94107549c",
       "bytes": 37023,
       "purposes": [
         "Authenticate the exact frozen candidate compilation and rendered package."
@@ -177,8 +177,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.candidate-artifact.08",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
-      "digest": "sha256:26feb9117fe1c2259ede9f6ca1ab08eb537fbe0ec0849d46c31e5a738ca4b985",
-      "bytes": 313357,
+      "digest": "sha256:efa6852747663dbd868e35cfb4b0cbb2ebef18c98d38cf4a950f9b996e723ecc",
+      "bytes": 313360,
       "purposes": [
         "Authenticate the exact frozen candidate compilation and rendered package."
       ],
@@ -191,7 +191,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.candidate-artifact.09",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
-      "digest": "sha256:b6e6c393469098bd3075379bea448ce8266f099d4db4c454bef1cd4c488f7af3",
+      "digest": "sha256:cc66d0843255269df5f227908e90605b952b18f17eee8a13ae014791104d35f4",
       "bytes": 8142,
       "purposes": [
         "Authenticate the exact frozen candidate compilation and rendered package."
@@ -205,7 +205,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.candidate-artifact.10",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
-      "digest": "sha256:bb4ae9ccd10b0eabd4c144453dd087913ad3aa2d41d64ebe45752d347110455a",
+      "digest": "sha256:3fab750b97024c54ab7c2cb59c20de40367ce185f4d4dd4715562749fa78e349",
       "bytes": 4203,
       "purposes": [
         "Authenticate the exact frozen candidate compilation and rendered package."
@@ -1086,7 +1086,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop with FIX if the host-delivered PrelaunchPackageVerificationReceipt is absent, non-PASS, malformed, or binds different Candidate A or Audit B identities.",
     "Stop with FIX unless the raw result is a closed swecircuit/prelaunch-audit-handoff/v1alpha1 PrelaunchAuditHandoff JSON object that satisfies the standard agent and compilation handoff fields, binds this goal, reviewer blueprint, Candidate A and Audit B digest pairs, both review duties, and a pass outcome."
   ],
-  "contentDigest": "sha256:de2e1845df758093d3a850610431e17c510030f80ac4d51643b84ea370373bbf"
+  "contentDigest": "sha256:d0aeea0dc38d0bc2a02dd12022f949ed5ce5c32f17cfd9213c7485d0b1fde7f3"
 }
 ```
 
@@ -1107,14 +1107,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.prelaunch-audit",
-    "revision": 30,
-    "digest": "sha256:0398a385d52b5e0e1591d098c2180adf6e0195aabf560305dc0fbe0647c5609e"
+    "revision": 31,
+    "digest": "sha256:3997adf0a01cad35d260d9b78726ad63aafe6dfedc7551aff67bc38d27337a76"
   },
   "agent": {
     "id": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
-    "blueprintDigest": "sha256:de2e1845df758093d3a850610431e17c510030f80ac4d51643b84ea370373bbf"
+    "blueprintDigest": "sha256:d0aeea0dc38d0bc2a02dd12022f949ed5ce5c32f17cfd9213c7485d0b1fde7f3"
   },
-  "compilationDigest": "sha256:79c5a7103225b12398e27c0e959b993597f38dcc5ddca6d9750a4d2b62f2d065",
+  "compilationDigest": "sha256:5a8c1a13e0daca3411a023283b44e1d3ec9cc09b620733641f851b48892237b3",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "audit.review-candidate-compilation"
