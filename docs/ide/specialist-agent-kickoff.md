@@ -2,13 +2,13 @@
 
 ## Status
 
-Reference IDE flow for `swecircuit/specialist/v1alpha1`. Exact technical acceptance, branch, and merge status is maintained in `docs/milestones/v11.md`.
+Reference IDE flow for `swecircuit/specialist/v1alpha1` packages and `swecircuit/specialist-run/v1alpha1` sessions. Exact technical acceptance, branch, and merge status remains in the active milestone.
 
-The normative machine and responsibility contract is `docs/specs/v11-specialist-compiler/specialist-compiler-contract.md`.
+The normative machine and responsibility contracts are `docs/specs/v11-specialist-compiler/specialist-compiler-contract.md` and `docs/specs/v12-ide-run-loop/specialist-run-contract.md`.
 
 ## Purpose
 
-Make one user message visibly become a reviewed `GoalContract`, an internally constructed and deterministically selected specialist team, exact `AgentBlueprints`, and a digest-bound package that an external host can launch.
+Make one user message visibly become a reviewed `GoalContract`, a deterministically selected specialist team, an approval-bound package, and an inspectable run session that an external host can materialize without assigning host effects to core.
 
 ```txt
 user message + repository context
@@ -22,11 +22,14 @@ user message + repository context
   -> compilation.json + contracts + packageDigest
   | verifySpecialistPackage(expected digests)
   -> two-digest launch approval
-  | external IDE or agent host
-  -> actual agent execution + exact raw handoffs
-  | verifySpecialistHandoff + assessSpecialistHandoffs
-  -> evidence-bound results + dependency-complete fan-in
-  -> external integration and later workflow stages
+  | createSpecialistRunSession + inspectSpecialistRunSession
+  -> dependency-eligible exact contracts + visible blockers and next actor
+  | external IDE or agent host materializes eligible contracts
+  -> exact preserved raw handoffs
+  | recordSpecialistRunHandoff + inspect or restore
+  -> verified fan-in closure or explicit terminal route
+  | separate integration owner
+  -> integration + repository verification + review + milestone + merge + memory
 ```
 
 The free-form message is semantic input, not canonical compiler input. The IDE constructs the closed JSON contract and keeps product judgment visible. Core optimizes only how reviewed atomic work units are grouped.
@@ -217,9 +220,59 @@ const contractsByWave = packageValue.manifest.launchWaves.map((wave) => ({
 
 Treat `launchWaves[].agentIds`, `manifest.agents[].agentId`, and `contractFile` as opaque manifest data. Never construct a filename such as `agents/${agentId}.md`, manually copy an agent ID or filename from displayed compilation output, or infer either value from naming conventions. A missing or mismatched manifest binding emits `block`; it is not repaired by guesswork.
 
-Hand the verified package to an external IDE or agent host. The host chooses provider, model, transient prompt translation, credentials, isolation, actual scheduling, and persistence. It may not add work, widen authority, omit evidence, weaken stop conditions, or change handoffs while claiming either approved digest.
+Hand the verified package and the external approval record to an IDE or agent host. The host chooses provider, model, transient prompt translation, credentials, isolation, actual scheduling, and persistence. It may not add work, widen authority, omit evidence, weaken stop conditions, or change handoffs while claiming either approved digest.
 
-### 8. Integrate Through The External Workflow
+### 8. Run The Four-Operation IDE Loop
+
+Keep the approval record outside the package. Create only against its exact trusted pair, then inspect before considering any contract for launch:
+
+```ts
+const created = createSpecialistRunSession(verifiedPackage, approvedExpectation);
+const inspection =
+  created.ok && created.value !== null
+    ? inspectSpecialistRunSession(created.value, approvedExpectation)
+    : created;
+```
+
+The IDE shows the inspection's stage, every agent status, exact manifest-resolved eligible contract, accepted evidence, routes, specialist outcome, integration readiness, and next external actor. `dependencyEligible` means only that every transitive prerequisite has an accepted `pass` handoff in the prior session. It is not proof of approval freshness, authority enforcement, isolation, capacity, duplicate-live-work prevention, dispatch, or at-most-once execution.
+
+For each eligible contract, the external host must independently:
+
+1. confirm that the two-digest approval is still current;
+2. authenticate every delivered context item by exact raw digest and byte count;
+3. enforce permissions, workspace isolation, and the duplicate-live-work policy;
+4. select runtime supply and materialize only the exact manifest-resolved contract; and
+5. preserve the returned handoff as exact raw UTF-8 bytes before verification or parsing.
+
+Advance by passing those same preserved bytes to `recordSpecialistRunHandoff`. Reinspect the returned successor before evaluating more work. Preserve the prior immutable session until the host has serialized the update under its own persistence or compare-and-swap policy.
+
+```ts
+const advanced = recordSpecialistRunHandoff(
+  priorSession,
+  approvedExpectation,
+  exactRawHandoffBytes,
+);
+const next =
+  advanced.ok && advanced.value !== null
+    ? inspectSpecialistRunSession(advanced.value, approvedExpectation)
+    : advanced;
+```
+
+On restart, pass bounded raw serialized session bytes and the same external expectation to `restoreSpecialistRunSession`, then inspect again. Never restore from a digest-only summary or trust package-carried expectations as approval.
+
+A verified non-`pass` handoff is accepted evidence and workflow non-success. The session becomes `routed`, no unsettled contract remains eligible, later settlements fail closed, and the exact route goes to the integration owner. Retry or replacement requires an externally reviewed new package or workflow decision; core does not retry.
+
+The deterministic local replay is:
+
+```powershell
+npm.cmd run dogfood:v12
+```
+
+It uses a fixture host to authenticate declared context, verify an independently pinned package pair, exercise create, inspect, record, and restore, preserve exact raw handoff bytes, prove a two-root dependency fan-in, and prove terminal routing. It launches no agents and performs no merge or memory effect.
+
+The V12 gate passes only when the source-preserving session remains bound to the externally approved digest pair, every accepted row re-verifies from exact raw bytes, terminal routes remain workflow non-success, and complete-roster `pass` fan-in precedes the separate integration-owner stage.
+
+### 9. Integrate Through The External Workflow
 
 The external host and integration owner MUST:
 
@@ -236,6 +289,8 @@ The external host and integration owner MUST:
 A verified handoff may still carry `fix`, `diagnose`, `clarify`, `redesign`, `split`, `block`, or `learn`; verification proves identity and contract closure, not a successful work outcome. Preserve the returned raw and semantic digests with the integration evidence.
 
 These are host/workflow duties. A successful V11 compilation or render does not prove that any agent ran, any sandbox held, any change merged, or any memory was updated.
+
+V12 `integrationReady` proves only complete specialist `pass` fan-in for the selected roster. The separately governed integration owner still integrates immutable accepted artifacts, runs feature and repository verification, obtains any required independent review, updates the milestone, requests merge approval, merges, and updates durable memory. None of those closeout stages is a fifth run-session operation or a core effect.
 
 ## Gate
 
@@ -271,10 +326,12 @@ Route to:
 - Successful `verifySpecialistPackage` result against both expectations.
 - Later launch evidence, exact raw handoff bytes, `VerifiedSpecialistHandoff` values, `SpecialistHandoffSetAssessment` values, integration verification, review, merge, and memory evidence owned by the external workflow.
 
-## V11 Boundary
+## Core Boundary
 
 V11 constructs and renders exact task demand, verifies closed raw handoffs, and assesses dependency fan-in. It does not execute agents, enforce a sandbox, merge changes, or update memory. It also does not select providers/models, manage credentials, reserve runtime capacity, dispatch projected waves, retry work, persist traces, or recover processes. Do not describe the V11 kickoff as a universal runtime.
 
+V12 adds only an immutable evidence reducer over one complete approved V11 package. It derives dependency eligibility, exact accepted evidence, terminal routing, replay, and complete-roster specialist fan-in closure. It does not authenticate approval or actors, establish freshness or exactly-once execution, launch or observe work, persist atomically, integrate, test, review, merge, release, or update memory.
+
 ## Adapter Boundary
 
-Codex, Claude Code, Cursor, Copilot, CI systems, local runtimes, and other hosts MAY implement this kickoff. An adapter is conforming only when it preserves the reviewed GoalContract, exact compiler result, `compilation.json`, blueprint boundaries, both approved digests, and package verification. Runtime translation remains external and cannot redefine compiler semantics.
+Codex, Claude Code, Cursor, Copilot, CI systems, local runtimes, and other hosts MAY implement this kickoff. An adapter is conforming only when it preserves the reviewed GoalContract, exact compiler result, `compilation.json`, blueprint boundaries, both approved digests, package verification, source-preserving session, and exact raw handoffs. Runtime translation and integration closeout remain external and cannot redefine compiler or run-session semantics.

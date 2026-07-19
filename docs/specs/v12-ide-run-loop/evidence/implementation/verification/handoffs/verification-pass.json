@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.verification",
+    "revision": 1,
+    "digest": "sha256:6c5ae1648b5607731fa81fa1f5dc4c1df5ccb745b298ba85e6c120ddc2961ff9"
+  },
+  "agent": {
+    "id": "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
+    "blueprintDigest": "sha256:6c9dadb14ab7c5c3cf7ae1db73178027e912d929b39a8243cbca13fd18ba0cb8"
+  },
+  "compilationDigest": "sha256:b719fd06f811091968c14ed8ff531ed5cd9df22d90d050e76c355dd542a1aed6",
+  "summary": "Reauthenticated every declared source and both authorized test files, then passed the final focused style and nine-test verification gates without finding a production defect.",
+  "workUnitsCompleted": [
+    "verify.run-session"
+  ],
+  "artifacts": [
+    {
+      "name": "run-session-verification.md",
+      "mediaType": "text/markdown",
+      "content": "# Run Session Verification\n\n## Identity\n\n- Compilation: `sha256:b719fd06f811091968c14ed8ff531ed5cd9df22d90d050e76c355dd542a1aed6`\n- Blueprint: `sha256:6c9dadb14ab7c5c3cf7ae1db73178027e912d929b39a8243cbca13fd18ba0cb8`\n- Approved package: `sha256:56117917b1f230336e4a08c92283a785d488b9dd77e4fe32c9e0f261f5e5c5fa`\n\n## Authentication\n\nAll 20 declared source bindings matched their exact raw SHA-256 digest and byte count before the final gates.\n\n- `test/specialist-run-schema.test.mjs`: 12,562 bytes, `sha256:433a3257d077df66f842fc3928b06520c74cab7c861a0415881df91f5d226f7a`\n- `test/specialist-run.test.mjs`: 32,721 bytes, `sha256:46b886df83f4096339d557fcaf0bab4db31f25097a1048df7136aaf93d51b0ef`\n- Both authorized files are strict UTF-8 with normalized LF and contain no CR or TAB characters.\n\n## Coverage\n\nThe suites independently cover strict closed schemas, exact constants and routes, public exports, packed-consumer compatibility bindings, root, chain, diamond, fan-out, fan-in, disconnected, and complete DAGs, differential V11 assessment, valid arrival permutations, fresh-process restore and inspection, expectation and substitution attacks, malformed UTF-8, duplicate keys, unknown fields, secrets, controls, lone surrogates, proxies, accessors, stale and conflicting handoffs, replay, transition precedence, every non-pass route, deep freezing, caller detachment, exact 1 MiB handoff acceptance, canonical base64 expansion, and one-unit-over rejection.\n\n## Final Gates\n\n- `npm.cmd exec --offline -- biome check test\\specialist-run-schema.test.mjs test\\specialist-run.test.mjs`: PASS, two files checked, no fixes applied.\n- `node --test test\\specialist-run-schema.test.mjs test\\specialist-run.test.mjs`: PASS, 9 passed, 0 failed, 0 skipped, 0 cancelled.\n\n## Preserved Attempts\n\nThe first boundary fixture incorrectly placed the aggregate 1 MiB budget into one artifact and was correctly rejected by the existing 16 KiB text limit. The fixture was corrected to distribute the exact byte budget across 65 contract-declared artifacts; no production code changed. Initial style findings were corrected. Native `apply_patch` later failed before mutation under the known Windows sandbox, so the contract-authorized SHA-256-precondition-guarded PowerShell fallback was used and resulting bytes were immediately verified.\n\n## Result\n\nThe V12 run-session schema, lifecycle, inspection, dependency, routing, restart, authority-boundary, public-export, and compatibility behaviors passed focused independent verification. No production defect was found."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.verify.run-session",
+      "requirementId": "evidence.run-verification",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "run-session-verification.md"
+    }
+  ],
+  "assumptions": [
+    "Focused tests imported the existing built package through its public self-reference; rebuilding distribution artifacts was outside the exact two-file write authority."
+  ],
+  "risks": [
+    "The full canonical npm verify and packed-consumer packaging gates were not run because they can write outside the declared scope."
+  ],
+  "followUps": [
+    "The integration owner should rebuild the release candidate and run the canonical repository and packed-consumer gates before approval."
+  ]
+}

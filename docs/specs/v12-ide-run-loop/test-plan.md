@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted architecture; implementation compilation pending.
+Implementation and focused verification passed; canonical release verification and final independent review are in progress.
 
 ## Contract Tests
 

@@ -147,3 +147,74 @@ Use the example's deterministic `--derive-approval` operation, review the exact 
 ### Deferred Evidence Refresh
 
 V11 dogfood evidence binds live repository sources that the remaining V12 verification wave will still change. Refresh and independently verify that evidence only after those edits settle; an earlier refresh would be immediately stale.
+
+## Verification Portability Correction
+
+### Reproduction
+
+Review the new public schema-export assertion for behavior on Linux CI after its specialist handoff verifies on Windows.
+
+### Evidence
+
+- The assertion ended the resolved file path with `schemas\\v1alpha1\\specialist-run.schema.json`.
+- The focused 9-test verification suite passed on Windows.
+- Linux resolves the same package export with `/`, so the assertion would fail before testing product behavior.
+
+### Classification
+
+Test portability defect: `fix`. Production code, schema resolution, and package exports are unaffected.
+
+### Smallest Causal Fix
+
+Normalize backslashes to slashes in the assertion and compare the portable package-owned suffix.
+
+### Verification
+
+- Focused schema and adversarial suite: 9 of 9 passed.
+- Biome check and dogfood script syntax check passed.
+- V12 dogfood produced two byte-identical reports.
+
+## V11 Source Freshness
+
+### Reproduction
+
+Run `npm.cmd run verify` after all V12 implementation, tests, public guidance, and dogfood files settle.
+
+### Evidence
+
+- Format, lint, typecheck, all 385 tests, the public example, and V10 dogfood passed.
+- V11 dogfood stopped at `context.constants` before compilation because its approval-bound GoalContract expected the pre-V12 2,088-byte source and received the reviewed 2,571-byte V12 source.
+- Exact comparison found 10 intentional mismatches among 57 source bindings: constants, packed-consumer check and host, diagnostic catalog and runtime definitions, first-run approval, IDE kickoff, root exports, package metadata, and schema guidance.
+- The remaining 47 source bindings match exactly.
+
+### Classification
+
+Expected approval freshness failure after intentional bound-source changes: `fix`. This is evidence that the V11 gate fails closed, not a V12 runtime defect.
+
+### Next Action
+
+Freeze the V12 verification checkpoint, refresh only the 10 exact tuples in a new V11 dogfood revision, reconstruct and separately approve Candidate A and Audit B, require the closed semantic audit handoff, and rebuild launch authorization before rerunning the canonical gate.
+
+## Module Contract Conformance
+
+### Reproduction
+
+Run the repository template checker after integrating `docs/modules/specialist-run-session.md`.
+
+### Evidence
+
+- The guide contained the correct interface fields in one table.
+- The checker required non-empty `Purpose`, `Input`, `Action`, `Output`, `Gate`, `Outcome`, `Artifacts`, and `Adapter` sections for every module contract.
+- No runtime, schema, test, package, or public API file was implicated.
+
+### Classification
+
+Documentation contract-shape defect: `fix`.
+
+### Smallest Causal Fix
+
+Replace the interface table with the eight required headings while preserving the same semantics and host boundary.
+
+### Verification
+
+The repository template checker passed on rerun.

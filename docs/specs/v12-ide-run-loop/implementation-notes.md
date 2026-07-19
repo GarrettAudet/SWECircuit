@@ -2,7 +2,7 @@
 
 ## Status
 
-Architecture, foundation, transition, inspection, and public integration passed. Independent verification and IDE dogfood are next.
+Architecture, implementation, public integration, adversarial verification, and IDE dogfood passed. Canonical release verification and independent final review are next.
 
 ## Baseline
 
@@ -39,3 +39,10 @@ Architecture, foundation, transition, inspection, and public integration passed.
 - The first full suite after public integration passed 375 of 376 tests. Diagnosis proved that only the first-run example's reviewed `src/index.ts` bytes were stale; the repository-owned deterministic approval derivation refreshed that source binding and its dependent compilation/package expectation. The focused example suite then passed 7 of 7 and the full suite passed 376 of 376.
 - Independent build, dry-run package inspection, and offline installed-consumer verification passed. The installed package creates, inspects, records, restores, and reinspects a run session while retaining the approved V11 package identity pair.
 - The V12 dogfood command intentionally points to the separately owned verification-phase script and remains temporarily unrunnable until that disjoint work unit lands. V11 dogfood evidence also binds current live repository sources; refresh it once, after the remaining V12 source and guidance edits settle, so it is not invalidated twice.
+- The verification compiler evaluated the serial and two-agent partitions, selecting two disjoint specialists with projected makespan 10 versus 16, peak concurrency 2, zero conflicts, and compilation/package digests `sha256:b719fd06f811091968c14ed8ff531ed5cd9df22d90d050e76c355dd542a1aed6` / `sha256:56117917b1f230336e4a08c92283a785d488b9dd77e4fe32c9e0f261f5e5c5fa`.
+- Exact verification and dogfood handoffs passed and were preserved at 4,356 and 6,031 bytes with raw digests `sha256:d2b3ea9c077345fecc78f504a5e376207c367706b9685da4485509fc5c048137` and `sha256:1357ace5bbffef6194e17a43e12edcedd32aa29cc9967cdabd40aa21a004a4d2`.
+- Nine focused adversarial tests pass across representative DAGs, every valid arrival permutation, fresh-process restore, package and caller substitution attacks, replay, every non-pass route, and exact byte limits.
+- The deterministic IDE dogfood journey runs twice to byte-identical reports, begins with two eligible roots, rejects premature dependent work with `SC4404`, reaches complete verified fan-in, preserves exact raw handoffs, routes `fix` terminally, and leaves launch, persistence, integration, merge, and memory to the host.
+- Integration review corrected one test-only Windows path assumption before Linux CI by normalizing the resolved schema path; the focused suite remained 9 of 9 green.
+- The first canonical gate passed format, lint, typecheck, all 385 tests, the public specialist example, and V10 dogfood before V11 dogfood correctly rejected its pre-V12 `src/constants.ts` binding. Ten of 57 V11 source tuples changed intentionally; the other 47 still authenticate exactly.
+- The repository template checker then caught that the new run-session guide described the interface in a table but omitted the framework's required module headings. Integration reshaped only that guide into the standard contract; the checker passed on rerun.

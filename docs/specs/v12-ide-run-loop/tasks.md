@@ -2,7 +2,7 @@
 
 ## Status
 
-T005 in progress.
+T006 in progress.
 
 ## Task List
 
@@ -14,7 +14,7 @@ T005 in progress.
   Verification: exact raw handoffs verify; architecture integration has complete transitive `pass` fan-in.
 - [x] T004: Freeze the V12 ADR and implementation contract.
   Verification: product, lifecycle, authority, API, and test obligations map to AC1-AC9 with no blocking decision.
-- [ ] T005: Compile and implement disjoint V12 work units.
+- [x] T005: Compile and implement disjoint V12 work units.
   Verification: every code or documentation change maps to an exact task-shaped contract and handoff.
 - [ ] T006: Run integrated verification and independent review.
   Verification: focused tests, canonical gate, package consumer, checker matrix, dogfood, and reviewer evidence pass.
@@ -23,7 +23,7 @@ T005 in progress.
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 is compiled from ADR 0005 and `specialist-run-contract.md`; transition and inspection implementation may run in parallel only after their shared session validator is frozen.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then returned both exact handoffs to one integration owner.
 
 ## Out Of Scope
 
