@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved release candidate.
+Released and verified on `main`.
 
 ## Review Outcome
 
@@ -10,7 +10,7 @@ Approved release candidate.
 
 ## Spec Alignment
 
-The 45-line README uses one GIF, one short four-stage explanation, a runnable source quick start, explicit core/host ownership, and concise navigation. It retains the tested read-only validate and inspect commands without restoring the prior long internal-contract sections. AC1-AC5, AC7, and AC8 are satisfied; AC6 closes with final repository and hosted gates.
+The 45-line README uses one GIF, one short four-stage explanation, a runnable source quick start, explicit core/host ownership, and concise navigation. It retains the tested read-only validate and inspect commands without restoring the prior long internal-contract sections. AC1-AC8 are satisfied; AC6 closed with the exact fast-forward and successful final main run.
 
 ## Architecture Alignment
 
@@ -25,6 +25,7 @@ The release changes no runtime contract. Product clarification and atomic decomp
 - Boundary handoff: exact raw `pass`, 3,806 bytes, `sha256:36fbbe2e738dc0fa02e76f4a729ad2c7ca84387a2db4b35a06325c74b8fd91eb`.
 - Accepted archive: `evidence/review/attempt-5/`, including the package, approvals, raw handoffs, and verified integration record.
 - V11 source freshness: Revision 31 Candidate A and separately approved Audit B both reconstruct; the exact semantic audit and launch authorization pass strict dogfood replay.
+- Publication: branch run `29682189374` and final main run `29682498282` each passed all seven jobs for commit `0674f3923aae629594cd27d349e118424fef8fe0`.
 
 ## Findings
 

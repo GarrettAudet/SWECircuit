@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-Publish the owner-approved V11.1 README release without widening the accepted Revision 5 boundary. V11 is already merged to `main` at `759b2e7ac71a0fbc5f1e8e4e4d5158299561fd5a`. V11.1 compilation `sha256:571b1b4e57401ab25b92e7973ef298d287f3175a68f6363f56177ea90b46f135` and package `sha256:09a7cdea81b1d3b81f681ee0f4808c166f526107c2da7a66701f1d1c086f79cd` passed exact package verification, two independent raw `pass` handoffs, and external integration-readiness assessment. V11 Revision 31 refreshed the three changed public-source bindings; Candidate A `sha256:4c3cb3249ff21f51387d05ed5b34810a5797844e137c755cfb8af01bb3fc221a` / `sha256:7f54a2346f0e29fde56d537dc8677136f3723561d9a9b57574871a4484029e63` and Audit B `sha256:5a8c1a13e0daca3411a023283b44e1d3ec9cc09b620733641f851b48892237b3` / `sha256:95c502bc2c71c048268115e1e3fa80860ff66c8f0715c21da8adeb7aa6222ea0` pass the two-package trust root and strict replay. The targeted quick-start suite, 256.9-second checker matrix, 370-test kernel suite, complete canonical gate, and offline installed-consumer gate pass locally. Hosted branch CI, fast-forward, and final `main` observation remain.
+V11.1 is released on `main` at `0674f3923aae629594cd27d349e118424fef8fe0`. Its concise README and deterministic workflow GIF passed exact Revision 5 visual and capability review, V11 Revision 31 source-freshness replay, the complete local gate, all seven jobs in branch run `29682189374`, an exact fast-forward from the V11 baseline, and all seven jobs in final main run `29682498282`. V11 remains runtime-neutral: core compiles and verifies specialist contracts while an external host owns model selection, dispatch, isolation, execution, integration, persistence, merge, and memory mutation.
 
 ## Current Stage
 
-V10 remains preserved historical evidence. V11 is the current merged baseline on `main`; V11.1 is dogfooding that baseline for the concise public release.
+V10 remains preserved historical evidence. V11.1 is the current released public baseline on `main` and must be dogfooded for the next bounded product goal.
 
 V11 universal-runtime Round 4 failed against `d486b7f` with four REVISE verdicts, 10 high findings, and 9 medium findings. Raw evidence and correction design were committed at `6da0376`; the workflow emitted `split` rather than another broad patch cycle.
 
@@ -189,7 +189,6 @@ Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27
 
 ## Next Likely Work
 
-- Reconstruct and verify the accepted V11.1 Revision 5 pair after release-record integration.
-- Run the canonical repository gate and preserve exact local evidence.
-- Publish `codex/v11.1-readme-release`, require hosted CI, and fast-forward the exact candidate to `main` under the owner's standing approval.
-- Record the final main SHA and hosted run without claiming any core-owned runtime effect.
+- Choose the next bounded product goal and open a dedicated version branch from `0674f3923aae629594cd27d349e118424fef8fe0`.
+- Dogfood the V11.1 public and IDE interaction surface while preserving V11's exact core/host boundary.
+- Reduce checker fixture-copy cost and release trust-root breadth without weakening coverage or traceability.

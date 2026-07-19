@@ -2,7 +2,7 @@
 
 ## Status
 
-Release candidate accepted; publication pending.
+Complete and released on `main`.
 
 ## Task List
 
@@ -21,7 +21,7 @@ Release candidate accepted; publication pending.
 - [x] T005: Perform independent review.
   Scope: Conceptual clarity, visual legibility, capability honesty, and diff risk.
   Verification: Revision 5 preserves two exact verified `pass` handoffs and `integrationReady: true`.
-- [ ] T006: Close verification and release records.
+- [x] T006: Close verification and release records.
   Scope: Canonical verification, milestone, active context, history, retrieval, patterns, commit, CI, and merge.
   Verification: Exact branch and final main evidence are preserved.
 
