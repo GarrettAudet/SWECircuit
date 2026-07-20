@@ -1,7 +1,7 @@
 # Specialist Contract: agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e
 
-Compilation: `sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032`
-Blueprint: `sha256:2cc6fe9168ae0dca07c5046a98eec2dd5618776dc34d76d49ed6c7fa7fd3b24e`
+Compilation: `sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8`
+Blueprint: `sha256:5e408bece5eada6e728be48e7368861b419faaf39671fd116a45a12318731137`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 32,
-  "goalDigest": "sha256:b6b9659b3ecf44d7998c1ffaf1e12d7745154011632b9329634dcc59fff134bf",
+  "goalRevision": 33,
+  "goalDigest": "sha256:0a8ca44848f309abe438996f72311526759b379606ce539adb723bacabdead9b",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "review.product-api"
@@ -131,8 +131,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.constants",
       "kind": "repository",
       "locator": "path:src/constants.ts",
-      "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
-      "bytes": 2571,
+      "digest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a",
+      "bytes": 2570,
       "purposes": [
         "Review the public product and API contract."
       ],
@@ -299,8 +299,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.handoff-schema-loader",
       "kind": "repository",
       "locator": "path:src/specialist-handoff-schema.ts",
-      "digest": "sha256:b48779dc0b5e29124e9b689e11613bd850e4a33cf9f65eca8d3a051865ce5911",
-      "bytes": 2421,
+      "digest": "sha256:b46e29306e5605092f8923a427fdad431b0d8e4d84d8693af90bdb2c275aa581",
+      "bytes": 2275,
       "purposes": [
         "Review the public product and API contract."
       ],
@@ -369,8 +369,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
-      "bytes": 2847,
+      "digest": "sha256:f395932106ac25216ca753127f7b97b01497090a7c4115732de77784fff2c5ce",
+      "bytes": 3723,
       "purposes": [
         "Review the public product and API contract."
       ],
@@ -638,7 +638,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop with REVISE if a generic role can substitute for exact task demand.",
     "Stop with REVISE if the public contract requires a provider or runtime."
   ],
-  "contentDigest": "sha256:2cc6fe9168ae0dca07c5046a98eec2dd5618776dc34d76d49ed6c7fa7fd3b24e"
+  "contentDigest": "sha256:5e408bece5eada6e728be48e7368861b419faaf39671fd116a45a12318731137"
 }
 ```
 
@@ -659,14 +659,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 32,
-    "digest": "sha256:b6b9659b3ecf44d7998c1ffaf1e12d7745154011632b9329634dcc59fff134bf"
+    "revision": 33,
+    "digest": "sha256:0a8ca44848f309abe438996f72311526759b379606ce539adb723bacabdead9b"
   },
   "agent": {
     "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
-    "blueprintDigest": "sha256:2cc6fe9168ae0dca07c5046a98eec2dd5618776dc34d76d49ed6c7fa7fd3b24e"
+    "blueprintDigest": "sha256:5e408bece5eada6e728be48e7368861b419faaf39671fd116a45a12318731137"
   },
-  "compilationDigest": "sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032",
+  "compilationDigest": "sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "review.product-api"

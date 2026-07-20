@@ -9,6 +9,13 @@ import {
 
 const EVIDENCE = dirname(fileURLToPath(import.meta.url));
 const handoffPaths = process.argv.slice(2);
+const EXPECTED_GOAL_ID = "v12.ide-run-loop.release-review-r2";
+const EXPECTED_GOAL_REVISION = 1;
+const EXPECTED_WORK_UNIT_IDS = Object.freeze([
+  "review.r2.lifecycle-correctness",
+  "review.r2.product-api-ide",
+  "review.r2.security-trace-authority",
+]);
 
 function requireValue(result, stage) {
   if (!result.ok || result.value === null) {
@@ -24,6 +31,77 @@ function requireCondition(condition, message) {
   if (!condition) {
     throw new Error(message);
   }
+}
+
+function compareOrdinal(left, right) {
+  return left < right ? -1 : left > right ? 1 : 0;
+}
+
+function assertExactStringArray(actual, expected, label) {
+  requireCondition(
+    Array.isArray(actual) &&
+      actual.length === expected.length &&
+      actual.every((value, index) => value === expected[index]),
+    `${label} mismatch.`,
+  );
+}
+
+function expectedPackageAgentIds(specialistPackage) {
+  const compilationFiles = specialistPackage.files.filter(
+    (file) => file.path === "compilation.json",
+  );
+  requireCondition(
+    compilationFiles.length === 1,
+    "Approved release-review-r2 package has an unexpected compilation-file roster.",
+  );
+  const compilation = JSON.parse(compilationFiles[0].content);
+  requireCondition(
+    compilation.goal?.id === EXPECTED_GOAL_ID &&
+      compilation.goal.revision === EXPECTED_GOAL_REVISION &&
+      Array.isArray(compilation.goal.workUnits) &&
+      Array.isArray(compilation.blueprints),
+    "Approved release-review-r2 package goal binding mismatch.",
+  );
+
+  const requestedWorkUnitIds = compilation.goal.workUnits
+    .map((unit) => unit.id)
+    .sort(compareOrdinal);
+  assertExactStringArray(
+    requestedWorkUnitIds,
+    EXPECTED_WORK_UNIT_IDS,
+    "Approved release-review-r2 request roster",
+  );
+
+  const blueprintWorkUnitIds = [];
+  for (const blueprint of compilation.blueprints) {
+    requireCondition(
+      Array.isArray(blueprint.workUnitIds) &&
+        blueprint.workUnitIds.length === 1 &&
+        Array.isArray(blueprint.dependencies) &&
+        blueprint.dependencies.length === 0,
+      `Unexpected release-review-r2 blueprint shape: ${String(blueprint.id)}.`,
+    );
+    blueprintWorkUnitIds.push(blueprint.workUnitIds[0]);
+  }
+  blueprintWorkUnitIds.sort(compareOrdinal);
+  assertExactStringArray(
+    blueprintWorkUnitIds,
+    EXPECTED_WORK_UNIT_IDS,
+    "Approved release-review-r2 blueprint roster",
+  );
+
+  const blueprintAgentIds = compilation.blueprints
+    .map((blueprint) => blueprint.id)
+    .sort(compareOrdinal);
+  const manifestAgentIds = specialistPackage.manifest.agents
+    .map((agent) => agent.agentId)
+    .sort(compareOrdinal);
+  assertExactStringArray(
+    manifestAgentIds,
+    blueprintAgentIds,
+    "Approved release-review-r2 manifest roster",
+  );
+  return manifestAgentIds;
 }
 
 function safeHandoffPath(path) {
@@ -74,9 +152,7 @@ async function main() {
     "Approval-bound release-review-r2 package verification",
   );
 
-  const expectedAgentIds = specialistPackage.manifest.agents
-    .map((agent) => agent.agentId)
-    .sort();
+  const expectedAgentIds = expectedPackageAgentIds(specialistPackage);
   const verified = [];
   for (const handoffPath of handoffPaths) {
     const raw = await readFile(safeHandoffPath(handoffPath));

@@ -2,7 +2,7 @@
 
 ## Status
 
-Architecture, implementation, public integration, adversarial verification, IDE dogfood, V11 trust-root refresh, and canonical release verification passed. Independent final review is next.
+Release-correction revision 5, integrated verification, and V11 trust-root revision 33 pass. The exact candidate-bound canonical gate and independent R2 release review remain before V12 acceptance.
 
 ## Baseline
 
@@ -55,3 +55,10 @@ Architecture, implementation, public integration, adversarial verification, IDE 
 - The product, lifecycle, and security raw handoffs are 5,819, 5,649, and 7,259 bytes with raw digests `sha256:7fb4caf2142208d0735d17bc75610098e671113f1c7a1047cc29bb62ce0e2a26`, `sha256:13e1b510607a4c23223b59a0190e3e490be3e95fc94e56dba45cd5e4bf3bdc84`, and `sha256:605a4e7065e1c4af2b3114129e919a810e430b584e31c718c0d78fa02fa027b7`.
 - V11 handoff verification authenticated the complete expected roster. All three exact outcomes are `fix`, so `releaseReady` is false and no release or merge action is authorized.
 - Confirmed correction scope is limited to runtime schema purity, requirement-first evidence ordering, reachable aggregate resource proof, implementation-package dogfood with AC8 friction measurements, and immutable primary release evidence.
+- Correction revisions 2 and 3 preserved exact `split` outcomes while tracing cold-operation filesystem reads through V11 handoff and compiler validation. Revision 4 removed those reads with bundled immutable schema data and returned exact `pass`.
+- Revision 5 selected two disjoint specialists with projected makespan 8 versus serial 15. Its compilation/package pair is `sha256:fd9c21ca81ddcef94bc1da50faf721238145a9807eae7860a34583c8512c9ff5` / `sha256:c29570501b69f2b791d32890b48bb74d90091e649513d5915c636e1141518717`.
+- The exact dogfood and release-evidence handoffs are 12,438 and 7,056 bytes with raw digests `sha256:ce6cc26eee8eea92928381ee2b97da0e32397194369d09c7879f4c27e4d6d8af` and `sha256:6342efa7f78f9a6bbfc531836e2853f26daeac32d382682ee663b378668eaec6`. Both verify `pass`; the complete package gate is `phaseReady: true`.
+- Fresh-source integration passes build, format, lint, typecheck, template check, both V12 dogfood modes, and all 388 kernel tests. The maximum 16-agent aggregate resource proof runs inside the canonical suite.
+- V11 revision 33 binds Candidate A `sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8` / `sha256:fd5b6e5182fa482fc14bebb5ef5b32cfb551df0e842bd0864e0aa0f9d500807f` and Audit B `sha256:cfc9d4059e83a01cd02cddd4ab62d9bc0363dde46c23da5007cfbcaf1d5931cf` / `sha256:081ff3cafcb6eb80d3387d356853bda669f64673587e43b0fdc01e5080d81493`.
+- Audit B independently reproduced all 203 partitions, all 57 Candidate A contexts, six blueprints, authority and evidence ownership, schedule, compilation identity, and all nine package files. Its exact binder and semantic handoffs are 15,438 and 7,481 bytes with raw digests `sha256:8164cd7d135899c3b90e8abdd1ce2b5cd571f1957316a7ddc32377196f692c64` and `sha256:c9d361744cbec3e3d8c3a8830c5319c58e410e54729238eff19b8ae30b696ae3`.
+- Integration removed the R2 harness's hardcoded revision-32 audit path. The current semantic handoff is now resolved from the exact cross-package launch authorization and will be reviewed as candidate source.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Release-correction revision 5 and integrated verification pass, including all 388 kernel tests and V11 trust-root revision 33. The exact candidate-bound canonical gate and independent R2 release review remain pending.
+Implementation, focused verification, and the first canonical candidate gate passed. Independent release review attempt 1 returned `fix`; correction and repeat verification are in progress.
 
 ## Contract Tests
 
@@ -41,11 +41,3 @@ Release-correction revision 5 and integrated verification pass, including all 38
 - Template checker and checker regression matrix.
 - V11 and V12 dogfood replay.
 - Independent product/API, correctness/lifecycle, and security/trace review.
-
-## Current Evidence
-
-- R5 complete-package handoff gate: two of two exact `pass`; `phaseReady: true`.
-- Fresh build, format, lint, typecheck, template check, synthetic dogfood, and implementation-package dogfood: `pass`.
-- Full kernel suite: 388 of 388 tests.
-- V11 revision-33 Candidate A, Audit B, receipt, semantic handoff, and cross-package authorization: `pass`.
-- Candidate-bound `npm.cmd run verify` receipt and three R2 reviewer handoffs: pending until candidate freeze.

@@ -1,7 +1,7 @@
 # Specialist Contract: agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc
 
-Compilation: `sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032`
-Blueprint: `sha256:fd4bbab3c3c8d2764bbcc9d2aee55939016c66c52674e9dd0cb08c6f8850658f`
+Compilation: `sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8`
+Blueprint: `sha256:db01103793b6c78f43b33b3344227c5ef89791dc72d6a0ee8907a5b644922d90`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 32,
-  "goalDigest": "sha256:b6b9659b3ecf44d7998c1ffaf1e12d7745154011632b9329634dcc59fff134bf",
+  "goalRevision": 33,
+  "goalDigest": "sha256:0a8ca44848f309abe438996f72311526759b379606ce539adb723bacabdead9b",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "review.security-trace"
@@ -145,8 +145,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.constants",
       "kind": "repository",
       "locator": "path:src/constants.ts",
-      "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
-      "bytes": 2571,
+      "digest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a",
+      "bytes": 2570,
       "purposes": [
         "Review privacy, authority, raw-boundary, and trace behavior."
       ],
@@ -397,8 +397,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.handoff-schema-loader",
       "kind": "repository",
       "locator": "path:src/specialist-handoff-schema.ts",
-      "digest": "sha256:b48779dc0b5e29124e9b689e11613bd850e4a33cf9f65eca8d3a051865ce5911",
-      "bytes": 2421,
+      "digest": "sha256:b46e29306e5605092f8923a427fdad431b0d8e4d84d8693af90bdb2c275aa581",
+      "bytes": 2275,
       "purposes": [
         "Review privacy, authority, raw-boundary, and trace behavior."
       ],
@@ -509,8 +509,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
-      "bytes": 2847,
+      "digest": "sha256:f395932106ac25216ca753127f7b97b01497090a7c4115732de77784fff2c5ce",
+      "bytes": 3723,
       "purposes": [
         "Review privacy, authority, raw-boundary, and trace behavior."
       ],
@@ -691,8 +691,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.specialist-schema",
       "kind": "repository",
       "locator": "path:src/specialist-schema.ts",
-      "digest": "sha256:e59a903d0fab9ba58de19032969107fe6d517526a153ce8e6bc081360b1a4799",
-      "bytes": 2968,
+      "digest": "sha256:b651ab211e2551f1df678c7616713ba5c5729a47b1d463c82e3ca95dece349bc",
+      "bytes": 2815,
       "purposes": [
         "Audit closed schema dispatch."
       ],
@@ -912,7 +912,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop with REVISE if escaped or raw malformed Unicode reaches a launchable semantic handoff.",
     "Stop with REVISE if package tampering can retain the reviewed digest."
   ],
-  "contentDigest": "sha256:fd4bbab3c3c8d2764bbcc9d2aee55939016c66c52674e9dd0cb08c6f8850658f"
+  "contentDigest": "sha256:db01103793b6c78f43b33b3344227c5ef89791dc72d6a0ee8907a5b644922d90"
 }
 ```
 
@@ -933,14 +933,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 32,
-    "digest": "sha256:b6b9659b3ecf44d7998c1ffaf1e12d7745154011632b9329634dcc59fff134bf"
+    "revision": 33,
+    "digest": "sha256:0a8ca44848f309abe438996f72311526759b379606ce539adb723bacabdead9b"
   },
   "agent": {
     "id": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
-    "blueprintDigest": "sha256:fd4bbab3c3c8d2764bbcc9d2aee55939016c66c52674e9dd0cb08c6f8850658f"
+    "blueprintDigest": "sha256:db01103793b6c78f43b33b3344227c5ef89791dc72d6a0ee8907a5b644922d90"
   },
-  "compilationDigest": "sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032",
+  "compilationDigest": "sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "review.security-trace"

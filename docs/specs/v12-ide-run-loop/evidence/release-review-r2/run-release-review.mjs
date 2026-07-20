@@ -33,11 +33,306 @@ const GATE_STDOUT =
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log";
 const GATE_STDERR =
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log";
+const V11_LAUNCH_AUTHORIZATION =
+  "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json";
+const V11_HANDOFF_ROOT =
+  "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/";
 
 const PRODUCT = "review.r2.product-api-ide";
 const LIFECYCLE = "review.r2.lifecycle-correctness";
 const SECURITY = "review.r2.security-trace-authority";
 const ALL_REVIEWS = Object.freeze([PRODUCT, LIFECYCLE, SECURITY]);
+const CORRECTION_GOAL = "v12.ide-run-loop.implementation.release-correction";
+
+const AGENTS = Object.freeze({
+  correctionR1Release:
+    "agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664",
+  correctionR1Resource:
+    "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50",
+  correctionR1Retired:
+    "agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe",
+  correctionR1Dogfood:
+    "agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666",
+  correctionR2:
+    "agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe",
+  correctionR3:
+    "agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d",
+  correctionR4:
+    "agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba",
+  correctionR5Dogfood:
+    "agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5",
+  correctionR5ReleaseEvidence:
+    "agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73",
+  verification:
+    "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
+  verificationDogfood:
+    "agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f",
+  reviewLifecycle:
+    "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+  reviewProduct:
+    "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+  reviewSecurity:
+    "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34",
+});
+
+function expectedHandoff(agentId, outcome, rawBytes = null, rawDigest = null, file = null) {
+  return Object.freeze({ file: file ?? `${agentId}.json`, agentId, outcome, rawBytes, rawDigest });
+}
+
+function evidenceSpec({
+  id,
+  root,
+  goalId = CORRECTION_GOAL,
+  goalRevision,
+  expectation,
+  packageAgentIds,
+  handoffs,
+  complete,
+  ready,
+  reportKind = "ImplementationPhaseHandoffVerification",
+  phase = id,
+  readinessField = "phaseReady",
+}) {
+  return Object.freeze({
+    id,
+    root,
+    goalId,
+    goalRevision,
+    expectation: Object.freeze({
+      compilationDigest: expectation[0],
+      packageDigest: expectation[1],
+    }),
+    packageAgentIds: Object.freeze([...packageAgentIds]),
+    handoffs: Object.freeze([...handoffs]),
+    complete,
+    ready,
+    reportKind,
+    phase,
+    readinessField,
+  });
+}
+
+const PRIMARY_EVIDENCE_SPECS = Object.freeze([
+  evidenceSpec({
+    id: "release-correction-r1",
+    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction",
+    goalRevision: 1,
+    expectation: [
+      "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+      "sha256:0243a0cea075424c7c919a6af876b4f023f9e635234cf6ec07a0d7cb9543bf6c",
+    ],
+    packageAgentIds: [
+      AGENTS.correctionR1Release,
+      AGENTS.correctionR1Resource,
+      AGENTS.correctionR1Retired,
+      AGENTS.correctionR1Dogfood,
+    ],
+    handoffs: [
+      expectedHandoff(
+        AGENTS.correctionR1Release,
+        "pass",
+        5693,
+        "sha256:3510b98137b0cd8746d5440f4254bcfed8c493f714a57539a705eb12012c12fd",
+      ),
+      expectedHandoff(
+        AGENTS.correctionR1Resource,
+        "pass",
+        6718,
+        "sha256:f74436e9e9a234cc8c41cba9a3b47ee84d8e0bff3ceba811252f008686c51677",
+      ),
+      expectedHandoff(
+        AGENTS.correctionR1Dogfood,
+        "pass",
+        6667,
+        "sha256:23bbdd75d90ee42595b5f22f1ba2c9ba9f608866b049285b027ae579225b2e4b",
+      ),
+    ],
+    complete: false,
+    ready: false,
+    phase: "release-correction",
+  }),
+  evidenceSpec({
+    id: "release-correction-r2",
+    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2",
+    goalRevision: 2,
+    expectation: [
+      "sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672",
+      "sha256:cff1fa3d5eaa668e962b212f8128018c3e4b2721404fa457ca73c79578011fcc",
+    ],
+    packageAgentIds: [AGENTS.correctionR2],
+    handoffs: [
+      expectedHandoff(
+        AGENTS.correctionR2,
+        "split",
+        7254,
+        "sha256:8db3fea6a6f47fba804f72d454660bafda7ab5d06691d729157e2f8f3aba66be",
+      ),
+    ],
+    complete: true,
+    ready: false,
+  }),
+  evidenceSpec({
+    id: "release-correction-r3",
+    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3",
+    goalRevision: 3,
+    expectation: [
+      "sha256:ded9a26906a9a00a5f0b12dc3420e909a91e70ef9a3ee03905ac1676efb40638",
+      "sha256:19c13189225b8bedd69b03edb2c4c3821aa9d8256e39209f5c10641527dc4d01",
+    ],
+    packageAgentIds: [AGENTS.correctionR3],
+    handoffs: [
+      expectedHandoff(
+        AGENTS.correctionR3,
+        "split",
+        8095,
+        "sha256:89ab112ce3df0a97f64db2994fc792238955b7007a7ce0310b4af39b4340d3df",
+      ),
+    ],
+    complete: true,
+    ready: false,
+  }),
+  evidenceSpec({
+    id: "release-correction-r4",
+    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4",
+    goalRevision: 4,
+    expectation: [
+      "sha256:aa13bb1f6a8ff21658b718ccd46e6a5a26dacd8d1c9baa990b92e37161627660",
+      "sha256:edaba251ee9b258474674225d38123df2772dfc42b7cd52e1d49dff8791f5065",
+    ],
+    packageAgentIds: [AGENTS.correctionR4],
+    handoffs: [
+      expectedHandoff(
+        AGENTS.correctionR4,
+        "pass",
+        9058,
+        "sha256:5afb33ee3c7f456ea0331d7d0735a0291cd69fb5d7a4c6c6d80982177d815090",
+      ),
+    ],
+    complete: true,
+    ready: true,
+  }),
+  evidenceSpec({
+    id: "release-correction-r5",
+    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5",
+    goalRevision: 5,
+    expectation: [
+      "sha256:fd9c21ca81ddcef94bc1da50faf721238145a9807eae7860a34583c8512c9ff5",
+      "sha256:c29570501b69f2b791d32890b48bb74d90091e649513d5915c636e1141518717",
+    ],
+    packageAgentIds: [AGENTS.correctionR5Dogfood, AGENTS.correctionR5ReleaseEvidence],
+    handoffs: [
+      expectedHandoff(AGENTS.correctionR5Dogfood, "pass"),
+      expectedHandoff(AGENTS.correctionR5ReleaseEvidence, "pass"),
+    ],
+    complete: true,
+    ready: true,
+  }),
+  evidenceSpec({
+    id: "implementation-verification",
+    root: "docs/specs/v12-ide-run-loop/evidence/implementation/verification",
+    goalId: "v12.ide-run-loop.implementation.verification",
+    goalRevision: 1,
+    expectation: [
+      "sha256:b719fd06f811091968c14ed8ff531ed5cd9df22d90d050e76c355dd542a1aed6",
+      "sha256:56117917b1f230336e4a08c92283a785d488b9dd77e4fe32c9e0f261f5e5c5fa",
+    ],
+    packageAgentIds: [AGENTS.verification, AGENTS.verificationDogfood],
+    handoffs: [
+      expectedHandoff(
+        AGENTS.verification,
+        "pass",
+        4356,
+        "sha256:d2b3ea9c077345fecc78f504a5e376207c367706b9685da4485509fc5c048137",
+        "verification-pass.json",
+      ),
+      expectedHandoff(
+        AGENTS.verificationDogfood,
+        "pass",
+        6031,
+        "sha256:1357ace5bbffef6194e17a43e12edcedd32aa29cc9967cdabd40aa21a004a4d2",
+        "dogfood-pass.json",
+      ),
+    ],
+    complete: true,
+    ready: true,
+    phase: "verification",
+  }),
+  evidenceSpec({
+    id: "release-review-r1",
+    root: "docs/specs/v12-ide-run-loop/evidence/release-review",
+    goalId: "v12.ide-run-loop.release-review",
+    goalRevision: 1,
+    expectation: [
+      "sha256:cd70618e14b23dfae4538c41b6709791238684192b5c000f4e577f0edd6b5fd3",
+      "sha256:7a809141af324cdea7028fb07ee6ca6cb79daccfbdf319e2fd8b2c1346a007ee",
+    ],
+    packageAgentIds: [AGENTS.reviewLifecycle, AGENTS.reviewProduct, AGENTS.reviewSecurity],
+    handoffs: [
+      expectedHandoff(
+        AGENTS.reviewLifecycle,
+        "fix",
+        5649,
+        "sha256:13e1b510607a4c23223b59a0190e3e490be3e95fc94e56dba45cd5e4bf3bdc84",
+        "lifecycle-correctness-fix-attempt-1.json",
+      ),
+      expectedHandoff(
+        AGENTS.reviewProduct,
+        "fix",
+        5819,
+        "sha256:7fb4caf2142208d0735d17bc75610098e671113f1c7a1047cc29bb62ce0e2a26",
+        "product-api-ide-fix-attempt-1.json",
+      ),
+      expectedHandoff(
+        AGENTS.reviewSecurity,
+        "fix",
+        7259,
+        "sha256:605a4e7065e1c4af2b3114129e919a810e430b584e31c718c0d78fa02fa027b7",
+        "security-trace-authority-fix-attempt-1.json",
+      ),
+    ],
+    complete: true,
+    ready: false,
+    reportKind: "ReleaseReviewHandoffVerification",
+    phase: null,
+    readinessField: "releaseReady",
+  }),
+]);
+
+const CORRECTION_REPLAN_SPECS = Object.freeze([
+  {
+    path: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+    bytes: 3795,
+    digest: "sha256:73fcd5841f739c4f353355ddba6b412d68c3b2d8233ccc371ef2de9a2477d282",
+    fromRevision: 1,
+    toRevision: 2,
+    route: "redesign",
+    triggerAgentId: AGENTS.correctionR1Resource,
+    retiredAgentId: AGENTS.correctionR1Retired,
+    replacementAgentId: AGENTS.correctionR2,
+  },
+  {
+    path: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+    bytes: 2807,
+    digest: "sha256:67eac872b0d88bbade9af9afda268178f57077b0abdc4f605444ead1da6c186c",
+    fromRevision: 2,
+    toRevision: 3,
+    route: "split",
+    triggerAgentId: AGENTS.correctionR2,
+    retiredAgentId: null,
+    replacementAgentId: AGENTS.correctionR3,
+  },
+  {
+    path: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json",
+    bytes: 2701,
+    digest: "sha256:64376261a673ebc7ec29222ee90569097915879521d8ea062a36a9d156e8b34d",
+    fromRevision: 3,
+    toRevision: 4,
+    route: "split",
+    triggerAgentId: AGENTS.correctionR3,
+    retiredAgentId: null,
+    replacementAgentId: AGENTS.correctionR4,
+  },
+]);
 
 function source(id, path, description, allowedWorkUnits, snapshotPath = null) {
   return { id, path, description, allowedWorkUnits, snapshotPath };
@@ -282,7 +577,7 @@ const STATIC_SOURCES = [
   ),
   source(
     "context.v11-launch-authorization",
-    "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+    V11_LAUNCH_AUTHORIZATION,
     "Cross-package launch authorization.",
     [SECURITY],
   ),
@@ -296,12 +591,6 @@ const STATIC_SOURCES = [
     "context.v11-audit-approval",
     "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
     "Exact owner-approved Audit-B digest pair bytes.",
-    [SECURITY],
-  ),
-  source(
-    "context.v11-audit-handoff",
-    "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json",
-    "Exact independent semantic audit PASS handoff.",
     [SECURITY],
   ),
   source(
@@ -360,6 +649,11 @@ const DYNAMIC_ROOTS = [
     description: "Exact V12 release-correction package, handoffs, and primary evidence.",
     allowedWorkUnits: ALL_REVIEWS,
   },
+  ...[2, 3, 4, 5].map((revision) => ({
+    path: `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r${revision}`,
+    description: `Exact V12 release-correction revision ${revision} package, handoffs, replans, and primary evidence.`,
+    allowedWorkUnits: ALL_REVIEWS,
+  })),
   {
     path: "docs/specs/v12-ide-run-loop/evidence/implementation/verification",
     description: "Exact V12 implementation verification package and raw evidence.",
@@ -430,10 +724,6 @@ function decodeUtf8(bytes, label) {
   }
 }
 
-async function readJson(path) {
-  const bytes = await readFile(absolute(path));
-  return JSON.parse(decodeUtf8(bytes, path));
-}
 
 async function readCanonicalJson(path) {
   const bytes = await readFile(absolute(path));
@@ -488,6 +778,23 @@ function dynamicSourceId(path) {
 
 async function collectSourceSpecs() {
   const byPath = new Map(STATIC_SOURCES.map((entry) => [entry.path, entry]));
+  const launchAuthorization = (await readCanonicalJson(V11_LAUNCH_AUTHORIZATION)).value;
+  const currentAuditHandoff = launchAuthorization?.handoff?.path;
+  requireCondition(
+    typeof currentAuditHandoff === "string" &&
+      currentAuditHandoff.startsWith(V11_HANDOFF_ROOT) &&
+      currentAuditHandoff.endsWith(".json"),
+    "Current V11 launch authorization has an unsafe audit handoff path.",
+  );
+  byPath.set(
+    currentAuditHandoff,
+    source(
+      "context.v11-audit-handoff",
+      currentAuditHandoff,
+      "Exact independent semantic audit PASS handoff bound by the current launch authorization.",
+      [SECURITY],
+    ),
+  );
   for (const root of DYNAMIC_ROOTS) {
     for (const path of await walkFiles(root.path)) {
       if (path.includes("/package/")) {
@@ -666,118 +973,313 @@ async function validateGateReceipt(candidate) {
   };
 }
 
-async function verifyEvidenceSet(id, root, requirePass) {
-  const packagePath = `${root}/package-envelope.json`;
-  const approvalPath = `${root}/approval.json`;
-  const reportPath = `${root}/handoff-verification.json`;
-  const specialistPackage = await readJson(packagePath);
-  const approval = await readJson(approvalPath);
-  const report = await readJson(reportPath);
+function assertExactStringArray(actual, expected, label) {
+  requireCondition(Array.isArray(actual), `${label} must be an array.`);
   requireCondition(
-    approval && typeof approval === "object" && approval.expectation,
-    `${id} approval lacks an expectation.`,
+    actual.length === expected.length &&
+      actual.every((value, index) => value === expected[index]),
+    `${label} mismatch.`,
+  );
+}
+
+function expectedReportKeys(spec) {
+  const prefix = ["apiVersion", "kind"];
+  if (spec.phase !== null) {
+    prefix.push("phase");
+  }
+  return [
+    ...prefix,
+    "compilationDigest",
+    "packageDigest",
+    "expectedAgentIds",
+    "receivedAgentIds",
+    "complete",
+    "verifiedHandoffs",
+    spec.readinessField,
+    "note",
+  ];
+}
+
+async function verifyEvidenceSet(spec) {
+  const packagePath = `${spec.root}/package-envelope.json`;
+  const approvalPath = `${spec.root}/approval.json`;
+  const reportPath = `${spec.root}/handoff-verification.json`;
+  const specialistPackage = (await readCanonicalJson(packagePath)).value;
+  const approval = (await readCanonicalJson(approvalPath)).value;
+  const report = (await readCanonicalJson(reportPath)).value;
+
+  requireCondition(
+    approval &&
+      typeof approval === "object" &&
+      JSON.stringify(approval.expectation) === JSON.stringify(spec.expectation),
+    `${spec.id} approval does not bind the frozen package expectation.`,
   );
   requireValue(
-    verifySpecialistPackage(specialistPackage, approval.expectation),
-    `${id} package verification`,
-  );
-  requireCondition(
-    report.compilationDigest === approval.expectation.compilationDigest &&
-      report.packageDigest === approval.expectation.packageDigest &&
-      Array.isArray(report.verifiedHandoffs),
-    `${id} handoff-verification report does not bind the approved package.`,
+    verifySpecialistPackage(specialistPackage, spec.expectation),
+    `${spec.id} package verification`,
   );
 
-  const handoffRoot = `${root}/handoffs`;
-  const selectedFiles = report.verifiedHandoffs.map((entry) => entry.file);
-  requireCondition(
-    selectedFiles.every(
-      (file) =>
-        typeof file === "string" &&
-        /^[A-Za-z0-9._-]+\.json$/.test(file) &&
-        file !== "." &&
-        file !== "..",
-    ) && new Set(selectedFiles).size === selectedFiles.length,
-    `${id} handoff-verification report contains unsafe or duplicate files.`,
-  );
-  const handoffPaths = selectedFiles
-    .map((file) => `${handoffRoot}/${file}`)
+  const expectedAgentIds = [...spec.packageAgentIds].sort(compareOrdinal);
+  const packageAgentIds = specialistPackage.manifest.agents
+    .map((entry) => entry.agentId)
     .sort(compareOrdinal);
+  requireCondition(
+    specialistPackage.manifest.goalId === spec.goalId &&
+      specialistPackage.manifest.goalRevision === spec.goalRevision,
+    `${spec.id} package goal binding mismatch.`,
+  );
+  assertExactStringArray(
+    packageAgentIds,
+    expectedAgentIds,
+    `${spec.id} approved package roster`,
+  );
+
+  assertExactKeys(report, expectedReportKeys(spec), `${spec.id} handoff report`);
+  requireCondition(
+    report.apiVersion === "swecircuit/run-evidence/v1alpha1" &&
+      report.kind === spec.reportKind &&
+      (spec.phase === null || report.phase === spec.phase) &&
+      report.compilationDigest === spec.expectation.compilationDigest &&
+      report.packageDigest === spec.expectation.packageDigest,
+    `${spec.id} handoff report identity mismatch.`,
+  );
+  assertExactStringArray(
+    report.expectedAgentIds,
+    expectedAgentIds,
+    `${spec.id} reported package roster`,
+  );
+
+  const expectedHandoffs = [...spec.handoffs].sort((left, right) =>
+    compareOrdinal(left.agentId, right.agentId),
+  );
+  const expectedFiles = expectedHandoffs.map((entry) => entry.file).sort(compareOrdinal);
+  const expectedReceivedAgentIds = expectedHandoffs.map((entry) => entry.agentId);
+  const handoffRoot = `${spec.root}/handoffs`;
+
+  requireCondition(
+    Array.isArray(report.verifiedHandoffs) &&
+      report.verifiedHandoffs.length === expectedHandoffs.length,
+    `${spec.id} handoff report roster length mismatch.`,
+  );
+  const reportFiles = report.verifiedHandoffs
+    .map((entry) => entry.file)
+    .sort(compareOrdinal);
+  assertExactStringArray(reportFiles, expectedFiles, `${spec.id} reported handoff files`);
+
   const verified = [];
-  for (const path of handoffPaths) {
+  for (const expectedHandoff of expectedHandoffs) {
+    const path = `${handoffRoot}/${expectedHandoff.file}`;
     const raw = await readFile(absolute(path));
     const value = requireValue(
-      verifySpecialistHandoff(specialistPackage, approval.expectation, raw),
-      `${id} raw handoff verification for ${path}`,
+      verifySpecialistHandoff(specialistPackage, spec.expectation, raw),
+      `${spec.id} raw handoff verification for ${path}`,
+    );
+    requireCondition(
+      value.handoff.agent.id === expectedHandoff.agentId &&
+        value.handoff.outcome === expectedHandoff.outcome &&
+        (expectedHandoff.rawBytes === null || value.rawBytes === expectedHandoff.rawBytes) &&
+        (expectedHandoff.rawDigest === null ||
+          value.rawDigest === expectedHandoff.rawDigest),
+      `${spec.id} contains an unexpected handoff identity or outcome: ${path}.`,
+    );
+
+    const reported = report.verifiedHandoffs.find(
+      (candidate) => candidate.file === expectedHandoff.file,
+    );
+    assertExactKeys(
+      reported,
+      [
+        "file",
+        "agentId",
+        "outcome",
+        "rawBytes",
+        "rawDigest",
+        "semanticDigest",
+        "contentDigest",
+      ],
+      `${spec.id} report row for ${expectedHandoff.file}`,
+    );
+    requireCondition(
+      reported.agentId === value.handoff.agent.id &&
+        reported.outcome === value.handoff.outcome &&
+        reported.rawBytes === value.rawBytes &&
+        reported.rawDigest === value.rawDigest &&
+        reported.semanticDigest === value.semanticDigest &&
+        reported.contentDigest === value.contentDigest,
+      `${spec.id} handoff report row does not match raw evidence: ${path}.`,
     );
     verified.push({
       path,
+      file: expectedHandoff.file,
       agentId: value.handoff.agent.id,
       outcome: value.handoff.outcome,
       bytes: value.rawBytes,
       digest: value.rawDigest,
     });
   }
-  for (const entry of verified) {
-    const reported = report.verifiedHandoffs.find(
-      (candidate) => candidate.file === entry.path.slice(handoffRoot.length + 1),
-    );
-    requireCondition(
-      reported &&
-        reported.agentId === entry.agentId &&
-        reported.outcome === entry.outcome &&
-        reported.rawBytes === entry.bytes &&
-        reported.rawDigest === entry.digest,
-      `${id} handoff-verification row does not match raw evidence: ${entry.path}.`,
-    );
-  }
+
   verified.sort((left, right) => compareOrdinal(left.agentId, right.agentId));
-  const expectedAgentIds = specialistPackage.manifest.agents
-    .map((entry) => entry.agentId)
-    .sort(compareOrdinal);
-  const receivedAgentIds = verified.map((entry) => entry.agentId);
-  requireCondition(
-    new Set(receivedAgentIds).size === receivedAgentIds.length &&
-      expectedAgentIds.length === receivedAgentIds.length &&
-      expectedAgentIds.every((agentId, index) => agentId === receivedAgentIds[index]),
-    `${id} does not contain one exact raw handoff for every approved agent.`,
+  assertExactStringArray(
+    report.receivedAgentIds,
+    expectedReceivedAgentIds,
+    `${spec.id} received roster`,
   );
-  if (requirePass) {
-    requireCondition(
-      verified.every((entry) => entry.outcome === "pass"),
-      `${id} contains a verified non-pass route.`,
-    );
-  }
+  requireCondition(
+    report.complete === spec.complete &&
+      report[spec.readinessField] === spec.ready &&
+      typeof report.note === "string" &&
+      report.note.length > 0,
+    `${spec.id} completion or readiness outcome mismatch.`,
+  );
+  const missingAgentIds = expectedAgentIds.filter(
+    (agentId) => !expectedReceivedAgentIds.includes(agentId),
+  );
+  requireCondition(
+    spec.complete === (missingAgentIds.length === 0),
+    `${spec.id} declared completeness does not match its exact roster.`,
+  );
+
   return {
-    id,
-    compilationDigest: approval.expectation.compilationDigest,
-    packageDigest: approval.expectation.packageDigest,
+    id: spec.id,
+    goalRevision: spec.goalRevision,
+    compilationDigest: spec.expectation.compilationDigest,
+    packageDigest: spec.expectation.packageDigest,
     packagePath,
     approvalPath,
     reportPath,
-    requirePass,
+    expectedAgentIds,
+    receivedAgentIds: expectedReceivedAgentIds,
+    missingAgentIds,
+    complete: spec.complete,
+    ready: spec.ready,
     rawHandoffs: verified,
   };
 }
 
+async function verifyCorrectionLineage(evidenceSets) {
+  const correctionSets = evidenceSets
+    .filter((entry) => entry.id.startsWith("release-correction-r"))
+    .sort((left, right) => left.goalRevision - right.goalRevision);
+  requireCondition(
+    correctionSets.length === 5 &&
+      correctionSets.every((entry, index) => entry.goalRevision === index + 1),
+    "Correction evidence does not contain the exact revision-1 through revision-5 chain.",
+  );
+
+  const byRevision = new Map(
+    correctionSets.map((entry) => [entry.goalRevision, entry]),
+  );
+  const replans = [];
+  for (const spec of CORRECTION_REPLAN_SPECS) {
+    const parsed = await readCanonicalJson(spec.path);
+    requireCondition(
+      parsed.bytes.byteLength === spec.bytes && digest(parsed.bytes) === spec.digest,
+      `Correction replan raw binding mismatch: ${spec.path}.`,
+    );
+    const replan = parsed.value;
+    requireCondition(
+      replan.apiVersion === "swecircuit/run-evidence/v1alpha1" &&
+        replan.kind === "SpecialistContractReplan" &&
+        replan.goal?.id === CORRECTION_GOAL &&
+        replan.goal.fromRevision === spec.fromRevision &&
+        replan.goal.toRevision === spec.toRevision &&
+        replan.route === spec.route,
+      `Correction replan identity mismatch: ${spec.path}.`,
+    );
+
+    const prior = byRevision.get(spec.fromRevision);
+    const replacement = byRevision.get(spec.toRevision);
+    requireCondition(prior && replacement, `Correction replan has an unknown revision: ${spec.path}.`);
+    const trigger = prior.rawHandoffs.find(
+      (entry) => entry.agentId === spec.triggerAgentId,
+    );
+    const replacementHandoff = replacement.rawHandoffs.find(
+      (entry) => entry.agentId === spec.replacementAgentId,
+    );
+    requireCondition(
+      trigger &&
+        replacementHandoff &&
+        replan.trigger?.agentId === trigger.agentId &&
+        replan.trigger.handoffPath === trigger.path &&
+        replan.trigger.handoffBytes === trigger.bytes &&
+        replan.trigger.handoffDigest === trigger.digest &&
+        replan.trigger.outcome === trigger.outcome,
+      `Correction replan trigger mismatch: ${spec.path}.`,
+    );
+    requireCondition(
+      replan.replacementContract?.compilationDigest === replacement.compilationDigest &&
+        replan.replacementContract.packageDigest === replacement.packageDigest &&
+        replan.replacementContract.agentId === replacementHandoff.agentId &&
+        replan.replacementContract.handoffPath === replacementHandoff.path &&
+        replan.replacementContract.handoffBytes === replacementHandoff.bytes &&
+        replan.replacementContract.handoffDigest === replacementHandoff.digest &&
+        replan.replacementContract.outcome === replacementHandoff.outcome &&
+        replan.replacementContract.approved === true &&
+        replan.replacementContract.launched === true &&
+        replan.replacementContract.completed ===
+          (replacementHandoff.outcome === "pass"),
+      `Correction replacement contract mismatch: ${spec.path}.`,
+    );
+    if (spec.retiredAgentId !== null) {
+      requireCondition(
+        prior.missingAgentIds.length === 1 &&
+          prior.missingAgentIds[0] === spec.retiredAgentId &&
+          replan.retiredContract?.compilationDigest === prior.compilationDigest &&
+          replan.retiredContract.packageDigest === prior.packageDigest &&
+          replan.retiredContract.agentId === spec.retiredAgentId &&
+          replan.retiredContract.launched === false &&
+          replan.retiredContract.handoff === null,
+        `Correction retired contract mismatch: ${spec.path}.`,
+      );
+    }
+
+    replans.push({
+      path: spec.path,
+      bytes: spec.bytes,
+      digest: spec.digest,
+      fromRevision: spec.fromRevision,
+      toRevision: spec.toRevision,
+      route: spec.route,
+      triggerAgentId: trigger.agentId,
+      triggerOutcome: trigger.outcome,
+      retiredAgentId: spec.retiredAgentId,
+      replacementAgentId: replacementHandoff.agentId,
+      replacementOutcome: replacementHandoff.outcome,
+    });
+  }
+
+  return {
+    goalId: CORRECTION_GOAL,
+    revisions: correctionSets.map((entry) => ({
+      revision: entry.goalRevision,
+      compilationDigest: entry.compilationDigest,
+      packageDigest: entry.packageDigest,
+      expectedAgentIds: entry.expectedAgentIds,
+      receivedAgentIds: entry.receivedAgentIds,
+      missingAgentIds: entry.missingAgentIds,
+      complete: entry.complete,
+      ready: entry.ready,
+      outcomes: entry.rawHandoffs.map((handoff) => ({
+        agentId: handoff.agentId,
+        outcome: handoff.outcome,
+        path: handoff.path,
+        bytes: handoff.bytes,
+        digest: handoff.digest,
+      })),
+    })),
+    replans,
+  };
+}
+
 async function verifyPrimaryEvidenceSets() {
-  return [
-    await verifyEvidenceSet(
-      "release-correction",
-      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction",
-      true,
-    ),
-    await verifyEvidenceSet(
-      "implementation-verification",
-      "docs/specs/v12-ide-run-loop/evidence/implementation/verification",
-      true,
-    ),
-    await verifyEvidenceSet(
-      "release-review-r1",
-      "docs/specs/v12-ide-run-loop/evidence/release-review",
-      false,
-    ),
-  ];
+  const evidenceSets = [];
+  for (const spec of PRIMARY_EVIDENCE_SPECS) {
+    evidenceSets.push(await verifyEvidenceSet(spec));
+  }
+  return {
+    evidenceSets,
+    correctionLineage: await verifyCorrectionLineage(evidenceSets),
+  };
 }
 
 async function materializeSnapshots(sources) {
@@ -832,7 +1334,7 @@ function reviewedSourceByPath(rows, path) {
   return row;
 }
 
-function assertPrimaryCoverage(contextSources, rows, evidenceSets) {
+function assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLineage) {
   const scopes = new Set(contextSources.map((entry) => entry.readScope));
   for (const path of [
     CANDIDATE_MANIFEST,
@@ -856,6 +1358,7 @@ function assertPrimaryCoverage(contextSources, rows, evidenceSets) {
     requiredRawPaths.push(set.packagePath, set.approvalPath, set.reportPath);
     requiredRawPaths.push(...set.rawHandoffs.map((entry) => entry.path));
   }
+  requiredRawPaths.push(...correctionLineage.replans.map((entry) => entry.path));
   for (const path of new Set(requiredRawPaths)) {
     const row = reviewedSourceByPath(rows, path);
     requireCondition(
@@ -1064,7 +1567,7 @@ async function prepare() {
   const sources = await collectSourceSpecs();
   await verifyCheckpoint(checkpoint, sources);
   const gate = await validateGateReceipt(checkpoint);
-  const evidenceSets = await verifyPrimaryEvidenceSets();
+  const { evidenceSets, correctionLineage } = await verifyPrimaryEvidenceSets();
   const rows = await materializeSnapshots(sources);
   const preIntegration = reviewedSourceByPath(
     rows,
@@ -1091,11 +1594,12 @@ async function prepare() {
       digest: preIntegration.digest,
     },
     verifiedEvidenceSets: evidenceSets,
+    correctionLineage,
     reviewedSources: rows,
   };
   await writeImmutableJson(CANDIDATE_MANIFEST, candidateManifest);
   const contextSources = await preparedContexts(rows, candidateManifest);
-  assertPrimaryCoverage(contextSources, rows, evidenceSets);
+  assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLineage);
   const request = requestFor(contextSources, checkpoint);
   await writeImmutableJson(
     "docs/specs/v12-ide-run-loop/evidence/release-review-r2/request.json",
@@ -1111,6 +1615,7 @@ async function prepare() {
       canonicalGateReceipt: gate.receiptBinding,
       sourceSnapshots: rows.length,
       primaryEvidenceSets: evidenceSets.map((entry) => entry.id),
+      correctionReplans: correctionLineage.replans.map((entry) => entry.path),
       runtimeInvoked: false,
     },
   );
@@ -1126,6 +1631,8 @@ async function prepare() {
           (total, entry) => total + entry.rawHandoffs.length,
           0,
         ),
+        correctionRevisions: correctionLineage.revisions.length,
+        correctionReplans: correctionLineage.replans.length,
         workUnits: request.goal.workUnits.map((entry) => entry.id),
       },
       null,
@@ -1149,6 +1656,7 @@ async function validatePreparedInputs() {
       "canonicalGate",
       "preIntegrationReview",
       "verifiedEvidenceSets",
+      "correctionLineage",
       "reviewedSources",
     ],
     "candidate manifest",
@@ -1164,10 +1672,11 @@ async function validatePreparedInputs() {
   const sources = await collectSourceSpecs();
   await verifyCheckpoint(manifest.candidateCommit, sources);
   const gate = await validateGateReceipt(manifest.candidateCommit);
-  const evidenceSets = await verifyPrimaryEvidenceSets();
+  const { evidenceSets, correctionLineage } = await verifyPrimaryEvidenceSets();
   requireCondition(
-    JSON.stringify(manifest.verifiedEvidenceSets) === JSON.stringify(evidenceSets),
-    "Prepared primary-evidence verification changed.",
+    JSON.stringify(manifest.verifiedEvidenceSets) === JSON.stringify(evidenceSets) &&
+      JSON.stringify(manifest.correctionLineage) === JSON.stringify(correctionLineage),
+    "Prepared primary-evidence verification or correction lineage changed.",
   );
   requireCondition(
     JSON.stringify(manifest.canonicalGate) ===
@@ -1227,7 +1736,12 @@ async function validatePreparedInputs() {
       `Prepared context source changed: ${context.readScope}.`,
     );
   }
-  assertPrimaryCoverage(contextSources, manifest.reviewedSources, evidenceSets);
+  assertPrimaryCoverage(
+    contextSources,
+    manifest.reviewedSources,
+    evidenceSets,
+    correctionLineage,
+  );
   return { manifest, request };
 }
 

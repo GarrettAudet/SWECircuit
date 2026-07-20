@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: integrated verification passed; release review attempt 1 returned a complete verified `fix` roster, and the correction revision is active.
+T006 in progress: the exact revision-5 correction roster, 388-test integrated suite, and V11 trust-root revision 33 pass. Candidate freeze, canonical receipt, and R2 independent review remain.
 
 ## Task List
 

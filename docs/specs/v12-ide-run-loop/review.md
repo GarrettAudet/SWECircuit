@@ -2,7 +2,7 @@
 
 ## Status
 
-Release review attempt 1 completed with a verified `fix` route. A bounded correction revision is in progress; V12 is not merge-ready.
+Release review attempt 1 completed with a verified `fix` route. Its causal corrections and V11 trust-root refresh now pass integrated verification; the replacement candidate and R2 review are not yet frozen, so V12 is not merge-ready.
 
 ## Scope
 
@@ -31,6 +31,15 @@ Review the exact V12 goal, architecture, public contract, implementation, tests,
 ## Evidence
 
 All three exact raw handoffs verify against the approved package. Their raw SHA-256 digests are `sha256:7fb4caf2142208d0735d17bc75610098e671113f1c7a1047cc29bb62ce0e2a26`, `sha256:13e1b510607a4c23223b59a0190e3e490be3e95fc94e56dba45cd5e4bf3bdc84`, and `sha256:605a4e7065e1c4af2b3114129e919a810e430b584e31c718c0d78fa02fa027b7`. The complete-roster verification is preserved under `evidence/release-review/` with `releaseReady: false`.
+
+## Correction Readiness
+
+- Revision 5 binds compilation `sha256:fd9c21ca81ddcef94bc1da50faf721238145a9807eae7860a34583c8512c9ff5` and package `sha256:c29570501b69f2b791d32890b48bb74d90091e649513d5915c636e1141518717`.
+- Both exact revision-5 handoffs verify `pass`; the complete package gate is `phaseReady: true`.
+- Fresh integration passes build, format, lint, typecheck, template validation, both dogfood modes, and all 388 kernel tests.
+- V11 trust-root revision 33 passes exact package reconstruction, binder verification, independent semantic audit, and cross-package authorization.
+- The R2 harness snapshots the current semantic audit handoff from the exact launch authorization instead of a hardcoded attempt number.
+- No replacement candidate commit, candidate-bound gate receipt, R2 package, or R2 reviewer outcome is claimed yet.
 
 ## Outcome
 

@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v12.ide-run-loop.implementation.release-correction",
+  "goalRevision": 5,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:fd9c21ca81ddcef94bc1da50faf721238145a9807eae7860a34583c8512c9ff5",
+  "selectedCandidateId": "team.bf712b91fe7b13ed4043c18e1a6589383011df3158d018a99bdf487fafddf410",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5",
+        "agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:bb3d3d45262b4e4cc8a43231cfd1b6bd49f69143f37a6b5c8a1d7eb42b5aeb0a",
+  "compilationFileBytes": 205860,
+  "agents": [
+    {
+      "agentId": "agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5",
+      "blueprintDigest": "sha256:3b5f8c951b16cee089d032abe62987c37fd64281a6d1c83720567d100b91aed2",
+      "contractFile": "agents/agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5.md",
+      "contractDigest": "sha256:fbd5828d2643b2a93d814d2f9a79053d80bd5c848560eb14537ff6238f90af3e",
+      "contractBytes": 39382
+    },
+    {
+      "agentId": "agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73",
+      "blueprintDigest": "sha256:b8ff878867be0b3ce8ade47cee92d90abda79ae38265f67d64d8fdc214a95d11",
+      "contractFile": "agents/agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73.md",
+      "contractDigest": "sha256:9ad664b6dc7f009baed50682a3e6579a955fd5ce90a10ca60d583986b4b6aedc",
+      "contractBytes": 43845
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:de00c24103ca64d9a0ef51fb9bf71fbaa4eeeaed2ec8c5d13cd643ca60aefea9",
+  "integrationBytes": 4229,
+  "contentDigest": "sha256:84ca5ed579348cd221f8fd1926009ea8103cbf2b81f9680bed6d85e99369f814"
+}

@@ -2,7 +2,7 @@
 
 ## Status
 
-No active product defect. Preserve any dogfood failure before correction.
+No active product defect. Release-correction revision 5 and V11 trust-root revision 33 pass; candidate-bound verification and R2 review remain.
 
 ## Reproduction
 
@@ -274,3 +274,35 @@ The first two review requests failed closed with `SC4304`. A review artifact is 
 ### Route
 
 `fix`. Preserve attempt 1 unchanged, compile disjoint correction work, dogfood that exact correction package through V12, freeze a new candidate, and repeat all three release reviews.
+## Release Correction Revisions 1-5
+
+### Route
+
+Revision 1 returned three exact `pass` handoffs but retired one stale, unlaunched contract. Revisions 2 and 3 returned exact `split` outcomes as cold-operation filesystem reads moved from V12 schema loading into composed V11 validators. Revision 4 bundled immutable schema data for all composed validators and returned `pass`. Revision 5 rebound implementation-package dogfood and immutable R2 release evidence through two disjoint specialists.
+
+### Stable Evidence
+
+- Revision-5 compilation/package: `sha256:fd9c21ca81ddcef94bc1da50faf721238145a9807eae7860a34583c8512c9ff5` / `sha256:c29570501b69f2b791d32890b48bb74d90091e649513d5915c636e1141518717`.
+- Exact handoffs: 12,438 bytes at `sha256:ce6cc26eee8eea92928381ee2b97da0e32397194369d09c7879f4c27e4d6d8af`; 7,056 bytes at `sha256:6342efa7f78f9a6bbfc531836e2853f26daeac32d382682ee663b378668eaec6`.
+- Complete package roster: two of two verified `pass`; `phaseReady: true`.
+- Integrated verification: build, format, lint, typecheck, template checker, both V12 dogfood modes, and 388 of 388 kernel tests pass.
+
+## V11 Trust-Root Revision 33
+
+### Reproduction
+
+Run V11 evidence replay after revision-5 changes to `src/constants.ts`, composed schema sources, and `package.json`.
+
+### Evidence
+
+- Revision 32 correctly failed closed on stale `context.constants` bytes.
+- Revision 33 Candidate A: `sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8` / `sha256:fd5b6e5182fa482fc14bebb5ef5b32cfb551df0e842bd0864e0aa0f9d500807f`.
+- Revision 33 Audit B: `sha256:cfc9d4059e83a01cd02cddd4ab62d9bc0363dde46c23da5007cfbcaf1d5931cf` / `sha256:081ff3cafcb6eb80d3387d356853bda669f64673587e43b0fdc01e5080d81493`.
+- Receipt: 2,255 bytes at `sha256:097bf81b00ac354f804b55ee0182e058fbe5970c0671cbda8eeef8219a391abb`.
+- Binder: 15,438 bytes at `sha256:8164cd7d135899c3b90e8abdd1ce2b5cd571f1957316a7ddc32377196f692c64`.
+- Independent semantic audit: 7,481 bytes at `sha256:c9d361744cbec3e3d8c3a8830c5319c58e410e54729238eff19b8ae30b696ae3`.
+- `node scripts/run-v11-dogfood.mjs --check-evidence`: `pass`.
+
+### Integration Finding
+
+The R2 harness named revision 32's semantic handoff directly. Integration replaced that attempt-specific source with the exact path bound by the current launch authorization. The candidate-bound R2 reviewers must evaluate this post-specialist correction before acceptance.

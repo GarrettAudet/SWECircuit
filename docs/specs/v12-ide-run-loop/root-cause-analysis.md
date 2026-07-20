@@ -2,7 +2,7 @@
 
 ## Status
 
-Active for the first V12 dogfood host-integration failure.
+No unresolved causal defect. Release-review attempt 1 corrections pass integrated verification; candidate-bound R2 review remains the acceptance gate.
 
 ## Reproduction
 
@@ -99,3 +99,7 @@ The complete three-agent package-bound roster returned `fix`. Raw source evidenc
 ### Regression Gate
 
 The replacement candidate must pass focused causal tests, the complete canonical gate, deterministic implementation-package dogfood, exact source and handoff verification, and a fresh three-domain release review. Attempt-1 identities cannot authorize the replacement.
+
+## Correction Confirmation
+
+The correction chain preserved each non-success route instead of repeatedly patching: revision 1 exposed stale scope, revisions 2 and 3 returned `split` with progressively narrower cold-read evidence, revision 4 closed the composed filesystem-read chain, and revision 5 rebound real dogfood and primary release evidence. Both revision-5 handoffs verify `pass`, the integrated suite passes 388 of 388 tests, and V11 revision 33 independently re-authenticates the final bound sources. The remaining uncertainty is deliberately externalized to the candidate-bound canonical receipt and three independent R2 reviewers.

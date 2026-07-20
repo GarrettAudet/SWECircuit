@@ -2,7 +2,7 @@
   "apiVersion": "swecircuit/specialist/v1alpha1",
   "kind": "GoalContract",
   "id": "v11.specialist-compiler.release",
-  "revision": 32,
+  "revision": 33,
   "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit with an exact external verification receipt, a hardened first-run reference host, self-sufficient generated handoff contracts, publicly closed specialist schemas, deterministic artifact media and normalized evidence controls, exact candidate analysis, raw handoff and dependency fan-in verification, canonical gates, traceable integration, and owner merge gate without claiming runtime orchestration.",
   "integrationOwner": "v11.integration-owner",
   "assumptions": [
@@ -275,8 +275,8 @@
       "id": "context.constants",
       "kind": "repository",
       "locator": "path:src/constants.ts",
-      "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
-      "bytes": 2571,
+      "digest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a",
+      "bytes": 2570,
       "description": "Specialist and shared resource limits.",
       "allowedWorkUnits": [
         "prepare.candidate",
@@ -573,8 +573,8 @@
       "id": "context.handoff-schema-loader",
       "kind": "repository",
       "locator": "path:src/specialist-handoff-schema.ts",
-      "digest": "sha256:b48779dc0b5e29124e9b689e11613bd850e4a33cf9f65eca8d3a051865ce5911",
-      "bytes": 2421,
+      "digest": "sha256:b46e29306e5605092f8923a427fdad431b0d8e4d84d8693af90bdb2c275aa581",
+      "bytes": 2275,
       "description": "The package-owned specialist handoff schema loader.",
       "allowedWorkUnits": [
         "prepare.candidate",
@@ -686,8 +686,8 @@
       "id": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
-      "bytes": 2847,
+      "digest": "sha256:f395932106ac25216ca753127f7b97b01497090a7c4115732de77784fff2c5ce",
+      "bytes": 3723,
       "description": "Canonical build, test, dogfood, package, and consumer gates.",
       "allowedWorkUnits": [
         "prepare.candidate",
@@ -886,8 +886,8 @@
       "id": "context.specialist-schema",
       "kind": "repository",
       "locator": "path:src/specialist-schema.ts",
-      "digest": "sha256:e59a903d0fab9ba58de19032969107fe6d517526a153ce8e6bc081360b1a4799",
-      "bytes": 2968,
+      "digest": "sha256:b651ab211e2551f1df678c7616713ba5c5729a47b1d463c82e3ca95dece349bc",
+      "bytes": 2815,
       "description": "Strict Specialist Compiler schema dispatch.",
       "allowedWorkUnits": [
         "prepare.candidate",
