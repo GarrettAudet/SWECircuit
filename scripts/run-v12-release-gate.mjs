@@ -18,6 +18,7 @@ const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const EVIDENCE = join(ROOT, "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs");
 const CANDIDATE_PATTERN = /^[0-9a-f]{40}$/;
 const MATERIALIZATION_DIGEST_DOMAIN = "swecircuit/release-gate/materialization/v1alpha1";
+const GIT_CONTEXT_STRATEGY = "disposable-shared-object-git-context";
 
 const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
 const MATERIALIZATION_PARENT = join(ROOT, ".local", "v12-release-gate");
@@ -62,16 +63,44 @@ function candidateEvidencePaths(candidateCommit) {
   });
 }
 
-function runGit(args) {
+function runGit(args, options = {}) {
   const result = spawnSync("git", args, {
-    cwd: ROOT,
+    cwd: options.cwd ?? ROOT,
     encoding: null,
+    env: options.environment ?? process.env,
     maxBuffer: 128 * 1024 * 1024,
+    windowsHide: true,
   });
   if (result.error) {
     throw result.error;
   }
   return result;
+}
+
+function sanitizedGitEnvironment() {
+  const environment = { ...process.env };
+  const repositoryKeys = new Set([
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    "GIT_CEILING_DIRECTORIES",
+    "GIT_COMMON_DIR",
+    "GIT_DIR",
+    "GIT_INDEX_FILE",
+    "GIT_INTERNAL_SUPER_PREFIX",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_OPTIONAL_LOCKS",
+    "GIT_PREFIX",
+    "GIT_WORK_TREE",
+  ]);
+  for (const key of Object.keys(environment)) {
+    const upper = key.toUpperCase();
+    if (repositoryKeys.has(upper) || /^GIT_CONFIG_(?:COUNT|KEY_\d+|VALUE_\d+)$/u.test(upper)) {
+      delete environment[key];
+    }
+  }
+  environment.GIT_CONFIG_NOSYSTEM = "1";
+  environment.GIT_CONFIG_GLOBAL = process.platform === "win32" ? "NUL" : "/dev/null";
+  environment.GIT_TERMINAL_PROMPT = "0";
+  return environment;
 }
 
 function strictUtf8(bytes, label) {
@@ -310,12 +339,109 @@ async function materializeCandidateSource(candidateCommit) {
   }
 }
 
-function commandEnvironment() {
-  const environment = { ...process.env };
+function requireGitSuccess(result, label) {
+  requireCondition(
+    result.status === 0 && result.signal === null,
+    `${label} failed: ${
+      Buffer.from(result.stderr ?? [])
+        .toString("utf8")
+        .trim() || "unknown Git failure"
+    }`,
+  );
+}
+
+function candidateGitEnvironment(root, worktree) {
+  return {
+    ...sanitizedGitEnvironment(),
+    GIT_CEILING_DIRECTORIES: MATERIALIZATION_PARENT,
+    GIT_DIR: root,
+    GIT_INDEX_FILE: join(root, "candidate.index"),
+    GIT_OPTIONAL_LOCKS: "0",
+    GIT_WORK_TREE: worktree,
+  };
+}
+
+function inspectCandidateGitContext(context) {
+  const options = { cwd: context.worktree, environment: context.environment };
+  const headResult = runGit(["rev-parse", "--verify", "HEAD"], options);
+  requireGitSuccess(headResult, "Candidate Git HEAD inspection");
+  const head = Buffer.from(headResult.stdout).toString("ascii").trim();
+  requireCondition(CANDIDATE_PATTERN.test(head), "Candidate Git HEAD is not a full object ID.");
+
+  const statusResult = runGit(["status", "--porcelain=v1", "--untracked-files=all"], options);
+  requireGitSuccess(statusResult, "Candidate Git status inspection");
+  return {
+    head,
+    trackedState: Buffer.from(statusResult.stdout).byteLength === 0 ? "clean" : "dirty",
+  };
+}
+
+async function removeCandidateGitContext(root) {
+  requireCondition(
+    dirname(root) === MATERIALIZATION_PARENT &&
+      root.startsWith(`${MATERIALIZATION_PARENT}${sep}git-`),
+    "Refusing to remove an unexpected candidate Git context path.",
+  );
+  await rm(root, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+  try {
+    await rmdir(MATERIALIZATION_PARENT);
+  } catch (error) {
+    if (
+      !error ||
+      typeof error !== "object" ||
+      (error.code !== "ENOENT" && error.code !== "ENOTEMPTY" && error.code !== "EEXIST")
+    ) {
+      throw error;
+    }
+  }
+}
+
+async function createCandidateGitContext(candidateCommit, worktree) {
+  const sourceResult = runGit(["rev-parse", "--path-format=absolute", "--git-common-dir"]);
+  requireGitSuccess(sourceResult, "Source Git common-directory inspection");
+  const source = strictUtf8(sourceResult.stdout, "Source Git common directory").trim();
+  requireCondition(isAbsolute(source), "Source Git common directory is not absolute.");
+
+  await mkdir(MATERIALIZATION_PARENT, { recursive: true });
+  const root = await mkdtemp(join(MATERIALIZATION_PARENT, "git-"));
+  const baseEnvironment = sanitizedGitEnvironment();
+  try {
+    const cloneResult = runGit(["clone", "--bare", "--shared", "--quiet", "--", source, root], {
+      environment: baseEnvironment,
+    });
+    requireGitSuccess(cloneResult, "Disposable candidate Git clone");
+
+    const environment = candidateGitEnvironment(root, worktree);
+    const setupEnvironment = { ...environment };
+    delete setupEnvironment.GIT_OPTIONAL_LOCKS;
+    const options = { cwd: worktree, environment: setupEnvironment };
+    for (const [label, args] of [
+      ["Candidate Git non-bare configuration", ["config", "core.bare", "false"]],
+      ["Candidate Git reference binding", ["update-ref", "refs/heads/candidate", candidateCommit]],
+      ["Candidate Git HEAD binding", ["symbolic-ref", "HEAD", "refs/heads/candidate"]],
+      ["Candidate Git index binding", ["read-tree", candidateCommit]],
+    ]) {
+      requireGitSuccess(runGit(args, options), label);
+    }
+
+    const context = { root, worktree, environment };
+    const before = inspectCandidateGitContext(context);
+    requireCondition(
+      before.head === candidateCommit && before.trackedState === "clean",
+      "Disposable candidate Git context does not match the exact materialized candidate.",
+    );
+    return { ...context, before };
+  } catch (error) {
+    await removeCandidateGitContext(root);
+    throw error;
+  }
+}
+
+function commandEnvironment(gitContext) {
+  const environment = { ...gitContext.environment };
   const pathKey = Object.keys(environment).find((key) => key.toLowerCase() === "path") ?? "PATH";
   environment[pathKey] =
     join(ROOT, "node_modules", ".bin") + delimiter + (environment[pathKey] ?? "");
-  environment.GIT_CEILING_DIRECTORIES = MATERIALIZATION_PARENT;
   return environment;
 }
 
@@ -481,10 +607,20 @@ async function main() {
   }
 
   const materialization = await materializeCandidateSource(candidateCommit);
+  let gitContext;
+  try {
+    gitContext = await createCandidateGitContext(candidateCommit, materialization.root);
+  } catch (error) {
+    await removeMaterialization(materialization.root);
+    throw error;
+  }
   let gateResult;
   let materializationDigestAfter = null;
   let materializationInspectionError = null;
   let materializationCleanupError = null;
+  let gitContextAfter = { head: null, trackedState: "unavailable" };
+  let gitContextInspectionError = null;
+  let gitContextCleanupError = null;
   try {
     const stdoutHandle = await open(outputs.stdout, "wx");
     let stderrHandle;
@@ -499,7 +635,7 @@ async function main() {
       gateResult = spawnSync(COMMAND.executable, [...COMMAND.arguments], {
         cwd: materialization.root,
         encoding: null,
-        env: commandEnvironment(),
+        env: commandEnvironment(gitContext),
         stdio: ["ignore", stdoutHandle.fd, stderrHandle.fd],
         windowsHide: true,
       });
@@ -509,12 +645,22 @@ async function main() {
 
     try {
       materializationDigestAfter = (
-        await inspectMaterialization(materialization.root, materialization.entries)
+        await inspectExactMaterialization(materialization.root, materialization.entries)
       ).digest;
     } catch (error) {
       materializationInspectionError = normalizedError(error);
     }
+    try {
+      gitContextAfter = inspectCandidateGitContext(gitContext);
+    } catch (error) {
+      gitContextInspectionError = normalizedError(error);
+    }
   } finally {
+    try {
+      await removeCandidateGitContext(gitContext.root);
+    } catch (error) {
+      gitContextCleanupError = normalizedError(error);
+    }
     try {
       await removeMaterialization(materialization.root);
     } catch (error) {
@@ -540,7 +686,13 @@ async function main() {
     after.trackedState === "clean" &&
     materializationDigestAfter === materialization.source.digest &&
     materializationInspectionError === null &&
-    materializationCleanupError === null;
+    materializationCleanupError === null &&
+    gitContext.before.head === candidateCommit &&
+    gitContext.before.trackedState === "clean" &&
+    gitContextAfter.head === candidateCommit &&
+    gitContextAfter.trackedState === "clean" &&
+    gitContextInspectionError === null &&
+    gitContextCleanupError === null;
 
   const receipt = {
     apiVersion: "swecircuit/release-gate/v1alpha1",
@@ -563,6 +715,15 @@ async function main() {
       digestAfter: materializationDigestAfter,
       inspectionError: materializationInspectionError,
       cleanupError: materializationCleanupError,
+    },
+    gitContext: {
+      strategy: GIT_CONTEXT_STRATEGY,
+      headBefore: gitContext.before.head,
+      headAfter: gitContextAfter.head,
+      trackedStateBefore: gitContext.before.trackedState,
+      trackedStateAfter: gitContextAfter.trackedState,
+      inspectionError: gitContextInspectionError,
+      cleanupError: gitContextCleanupError,
     },
     command: {
       executable: COMMAND.executable,
@@ -590,6 +751,7 @@ async function main() {
         receipt: repositoryPath(outputs.receipt),
         candidateSource: receipt.candidateSource,
         materialization: receipt.materialization,
+        gitContext: receipt.gitContext,
         stdout: receipt.stdout,
         stderr: receipt.stderr,
       },
@@ -603,9 +765,13 @@ async function main() {
 }
 
 export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
+  commandEnvironment,
+  createCandidateGitContext,
+  inspectCandidateGitContext,
   inspectExactMaterialization,
   inspectMaterialization,
   materializeCandidateSource,
+  removeCandidateGitContext,
   removeMaterialization,
 });
 

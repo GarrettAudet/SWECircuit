@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { readFile, rm, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
@@ -90,6 +90,46 @@ test("candidate materialization excludes and detects uncommitted verification in
   }
 });
 
+test("candidate Git context is disposable, exact, and usable from the materialization", async () => {
+  const candidateCommit = runGit(["rev-parse", "--verify", "HEAD"]);
+  const liveGitDirectory = runGit(["rev-parse", "--path-format=absolute", "--git-dir"]);
+  const liveHeadBefore = runGit(["rev-parse", "--verify", "HEAD"]);
+  const materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
+  let gitContext;
+
+  try {
+    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
+      candidateCommit,
+      materialization.root,
+    );
+    assert.notEqual(resolve(gitContext.root), resolve(liveGitDirectory));
+    assert.equal(dirname(gitContext.root), join(ROOT, ".local", "v12-release-gate"));
+    assert.deepEqual(RELEASE_GATE_TEST_HOOKS.inspectCandidateGitContext(gitContext), {
+      head: candidateCommit,
+      trackedState: "clean",
+    });
+
+    const environment = RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext);
+    const childHead = spawnSync("git", ["rev-parse", "--verify", "HEAD"], {
+      cwd: materialization.root,
+      encoding: "utf8",
+      env: environment,
+      windowsHide: true,
+    });
+    assert.equal(childHead.status, 0, childHead.stderr);
+    assert.equal(childHead.stdout.trim(), candidateCommit);
+    assert.equal(environment.GIT_DIR, gitContext.root);
+    assert.equal(environment.GIT_WORK_TREE, materialization.root);
+    assert.notEqual(resolve(environment.GIT_DIR), resolve(liveGitDirectory));
+    assert.equal(runGit(["rev-parse", "--verify", "HEAD"]), liveHeadBefore);
+  } finally {
+    if (gitContext !== undefined) {
+      await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
+    }
+    await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+  }
+});
+
 test("canonical command is pinned to the authenticated materialization", () => {
   const mainSource = releaseGateSource.slice(releaseGateSource.indexOf("async function main()"));
   assert.match(
@@ -98,9 +138,16 @@ test("canonical command is pinned to the authenticated materialization", () => {
   );
   assert.match(
     mainSource,
-    /spawnSync\(COMMAND\.executable,[\s\S]*?cwd: materialization\.root,[\s\S]*?env: commandEnvironment\(\),/u,
+    /gitContext = await createCandidateGitContext\(candidateCommit, materialization\.root\);/u,
+  );
+  assert.match(
+    mainSource,
+    /spawnSync\(COMMAND\.executable,[\s\S]*?cwd: materialization\.root,[\s\S]*?env: commandEnvironment\(gitContext\),/u,
   );
   assert.doesNotMatch(mainSource, /spawnSync\(COMMAND\.executable,[\s\S]*?cwd: ROOT,/u);
+  assert.match(mainSource, /inspectExactMaterialization\(materialization\.root/u);
+  assert.match(mainSource, /strategy: GIT_CONTEXT_STRATEGY/u);
+  assert.match(mainSource, /await removeCandidateGitContext\(gitContext\.root\);/u);
   assert.match(mainSource, /materializationDigestAfter === materialization\.source\.digest/u);
   assert.match(mainSource, /cleanupError: materializationCleanupError/u);
 });
@@ -118,6 +165,7 @@ test("R2 closes the stronger receipt and all six causal security sources", () =>
     reviewHarnessSource,
     /receipt\.materialization\.digestAfter === expectedCandidateSource\.digest/u,
   );
+  assert.match(reviewHarnessSource, /receipt\.gitContext\.strategy ===/u);
   assert.match(reviewHarnessSource, /for \(const path of REQUIRED_SECURITY_CAUSAL_SOURCES\)/u);
 
   const requiredCausalSecuritySources = [

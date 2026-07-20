@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -23,6 +23,7 @@ const BASELINE = "c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c";
 const CANDIDATE_PATTERN = /^[0-9a-f]{40}$/;
 const DIGEST_PATTERN = /^sha256:[0-9a-f]{64}$/;
 const MATERIALIZATION_DIGEST_DOMAIN = "swecircuit/release-gate/materialization/v1alpha1";
+const GIT_CONTEXT_STRATEGY = "disposable-shared-object-git-context";
 const REQUIRED_SECURITY_CAUSAL_SOURCES = Object.freeze([
   ".gitattributes",
   ".gitignore",
@@ -626,6 +627,10 @@ function candidateRunPaths(candidate) {
     root,
     inputs,
     snapshotRoot: `${inputs}/source-snapshots`,
+    gateEvidenceRoot: `${inputs}/canonical-gate`,
+    gateReceiptSnapshot: `${inputs}/canonical-gate/canonical-gate-receipt.json`,
+    gateStdoutSnapshot: `${inputs}/canonical-gate/canonical-gate.stdout.log`,
+    gateStderrSnapshot: `${inputs}/canonical-gate/canonical-gate.stderr.log`,
     candidateManifest: `${inputs}/candidate.json`,
     preIntegrationReview: `${inputs}/pre-integration-review.md`,
     request: `${root}/request.json`,
@@ -891,6 +896,19 @@ function gitOutput(args) {
   });
 }
 
+function gitResult(args) {
+  const result = spawnSync("git", args, {
+    cwd: ROOT,
+    encoding: null,
+    maxBuffer: 134_217_728,
+    windowsHide: true,
+  });
+  if (result.error) {
+    throw result.error;
+  }
+  return result;
+}
+
 function gitNulRecords(bytes, label) {
   const input = Buffer.from(bytes);
   requireCondition(
@@ -1153,20 +1171,26 @@ function requireBytePreservingEvidencePaths(candidate, paths) {
   );
 }
 
-function requireVersionableEvidencePaths(paths, candidateTree) {
+function requireVersionableEvidencePaths(paths) {
   for (const path of Object.values(paths)) {
+    const result = gitResult(["check-ignore", "--quiet", "--no-index", "--", path]);
     requireCondition(
-      candidateTree.has(path),
-      `Required canonical-gate evidence is not committed in candidate ${candidateTree.commit}: ${path}.`,
+      result.status === 0 || result.status === 1,
+      `Unable to inspect Git ignore policy for canonical-gate evidence: ${path}.`,
+    );
+    requireCondition(
+      result.status === 1,
+      `Required canonical-gate evidence is ignored by Git: ${path}.`,
     );
   }
 }
 
-function requireNoWorkingTreeOnlySources(paths, untrackedPaths) {
+function requireNoWorkingTreeOnlySources(paths, gatePaths, untrackedPaths) {
   const allowedPrefix = `${paths.root}/`;
+  const allowedGatePaths = new Set(Object.values(gatePaths));
   for (const path of untrackedPaths) {
     requireCondition(
-      path.startsWith(allowedPrefix),
+      path.startsWith(allowedPrefix) || allowedGatePaths.has(path),
       `Working-tree-only source is outside the candidate run root: ${path}.`,
     );
   }
@@ -1185,10 +1209,10 @@ async function verifyCheckpoint(candidate, paths) {
     gitOutput(["ls-files", "--others", "--exclude-standard", "-z"]),
     "Untracked repository path listing",
   ).map((pathBytes) => decodeUtf8(pathBytes, "Untracked repository path"));
-  requireNoWorkingTreeOnlySources(paths, untracked);
+  requireNoWorkingTreeOnlySources(paths, gateEvidencePaths(candidate), untracked);
 }
 
-function validateBoundCandidateFile(value, expectedPath, label, candidateTree) {
+function validateBoundExternalFile(value, expectedPath, label, bytes) {
   assertExactKeys(value, ["path", "mediaType", "bytes", "digest"], label);
   requireCondition(value.path === expectedPath, `${label} path mismatch.`);
   requireCondition(
@@ -1197,18 +1221,47 @@ function validateBoundCandidateFile(value, expectedPath, label, candidateTree) {
   );
   requireCondition(Number.isSafeInteger(value.bytes) && value.bytes >= 0, `${label} byte count invalid.`);
   requireCondition(DIGEST_PATTERN.test(value.digest), `${label} digest invalid.`);
-  const bytes = candidateTree.file(expectedPath).bytes;
   requireCondition(
     bytes.byteLength === value.bytes && digest(bytes) === value.digest,
-    `${label} raw candidate-blob binding mismatch.`,
+    `${label} raw external-evidence binding mismatch.`,
   );
 }
 
-async function validateGateReceipt(candidate, candidateTree = loadCandidateTree(candidate)) {
-  const paths = gateEvidencePaths(candidate);
-  requireVersionableEvidencePaths(paths, candidateTree);
-  requireBytePreservingEvidencePaths(candidate, paths);
-  const parsed = readCandidateCanonicalJson(candidateTree, paths.receipt);
+function externalEvidenceBinding(originalPath, snapshotPath, mediaType, bytes) {
+  return {
+    originalPath,
+    snapshotPath,
+    mediaType,
+    bytes: bytes.byteLength,
+    digest: digest(bytes),
+  };
+}
+
+function capturedGateEvidencePaths(paths) {
+  return Object.freeze({
+    receipt: paths.gateReceiptSnapshot,
+    stdout: paths.gateStdoutSnapshot,
+    stderr: paths.gateStderrSnapshot,
+  });
+}
+
+async function validateGateReceipt(
+  candidate,
+  candidateTree = loadCandidateTree(candidate),
+  readPaths = gateEvidencePaths(candidate),
+) {
+  const originalPaths = gateEvidencePaths(candidate);
+  requireVersionableEvidencePaths(originalPaths);
+  requireBytePreservingEvidencePaths(candidate, originalPaths);
+  for (const path of Object.values(originalPaths)) {
+    requireCondition(
+      !candidateTree.has(path),
+      `Post-commit canonical-gate evidence must not masquerade as candidate source: ${path}.`,
+    );
+  }
+  const parsed = await readCanonicalJson(readPaths.receipt);
+  const stdoutBytes = await readFile(absolute(readPaths.stdout));
+  const stderrBytes = await readFile(absolute(readPaths.stderr));
   const receipt = parsed.value;
   assertExactKeys(
     receipt,
@@ -1220,6 +1273,7 @@ async function validateGateReceipt(candidate, candidateTree = loadCandidateTree(
       "repository",
       "candidateSource",
       "materialization",
+      "gitContext",
       "command",
       "result",
       "exitCode",
@@ -1291,6 +1345,29 @@ async function validateGateReceipt(candidate, candidateTree = loadCandidateTree(
     "Canonical gate did not use and preserve an authenticated candidate materialization.",
   );
   assertExactKeys(
+    receipt.gitContext,
+    [
+      "strategy",
+      "headBefore",
+      "headAfter",
+      "trackedStateBefore",
+      "trackedStateAfter",
+      "inspectionError",
+      "cleanupError",
+    ],
+    "canonical-gate Git context binding",
+  );
+  requireCondition(
+    receipt.gitContext.strategy === GIT_CONTEXT_STRATEGY &&
+      receipt.gitContext.headBefore === candidate &&
+      receipt.gitContext.headAfter === candidate &&
+      receipt.gitContext.trackedStateBefore === "clean" &&
+      receipt.gitContext.trackedStateAfter === "clean" &&
+      receipt.gitContext.inspectionError === null &&
+      receipt.gitContext.cleanupError === null,
+    "Canonical gate did not preserve a clean disposable candidate Git context.",
+  );
+  assertExactKeys(
     receipt.command,
     ["executable", "arguments", "canonical"],
     "canonical-gate command",
@@ -1312,17 +1389,25 @@ async function validateGateReceipt(candidate, candidateTree = loadCandidateTree(
       receipt.spawnError === null,
     "Canonical gate did not pass cleanly.",
   );
-  validateBoundCandidateFile(receipt.stdout, paths.stdout, "canonical-gate stdout", candidateTree);
-  validateBoundCandidateFile(receipt.stderr, paths.stderr, "canonical-gate stderr", candidateTree);
+  validateBoundExternalFile(
+    receipt.stdout,
+    originalPaths.stdout,
+    "canonical-gate stdout",
+    stdoutBytes,
+  );
+  validateBoundExternalFile(
+    receipt.stderr,
+    originalPaths.stderr,
+    "canonical-gate stderr",
+    stderrBytes,
+  );
   return {
-    paths,
+    paths: originalPaths,
+    readPaths,
     receipt,
-    receiptBinding: {
-      path: paths.receipt,
-      mediaType: "application/json",
-      bytes: parsed.bytes.byteLength,
-      digest: digest(parsed.bytes),
-    },
+    receiptBytes: parsed.bytes,
+    stdoutBytes,
+    stderrBytes,
   };
 }
 
@@ -1774,24 +1859,34 @@ async function directContext(id, path, description, allowedWorkUnits) {
   };
 }
 
-function directCandidateContext(
-  candidateTree,
-  id,
-  path,
-  description,
-  allowedWorkUnits,
-) {
-  const bytes = candidateTree.file(path).bytes;
+function gateEvidenceBindings(gate, paths) {
   return {
-    id,
-    kind: "repository",
-    locator: `path:${path}`,
-    digest: digest(bytes),
-    bytes: bytes.byteLength,
-    description,
-    allowedWorkUnits,
-    readScope: path,
+    receipt: externalEvidenceBinding(
+      gate.paths.receipt,
+      paths.gateReceiptSnapshot,
+      "application/json",
+      gate.receiptBytes,
+    ),
+    stdout: externalEvidenceBinding(
+      gate.paths.stdout,
+      paths.gateStdoutSnapshot,
+      "text/plain; charset=utf-8",
+      gate.stdoutBytes,
+    ),
+    stderr: externalEvidenceBinding(
+      gate.paths.stderr,
+      paths.gateStderrSnapshot,
+      "text/plain; charset=utf-8",
+      gate.stderrBytes,
+    ),
   };
+}
+
+async function materializeGateEvidence(gate, paths) {
+  await writeImmutable(paths.gateReceiptSnapshot, gate.receiptBytes);
+  await writeImmutable(paths.gateStdoutSnapshot, gate.stdoutBytes);
+  await writeImmutable(paths.gateStderrSnapshot, gate.stderrBytes);
+  return gateEvidenceBindings(gate, paths);
 }
 
 function reviewedSourceByPath(rows, path) {
@@ -1800,14 +1895,21 @@ function reviewedSourceByPath(rows, path) {
   return row;
 }
 
-function assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLineage, gatePaths, paths) {
+function assertPrimaryCoverage(
+  contextSources,
+  rows,
+  evidenceSets,
+  correctionLineage,
+  capturedGatePaths,
+  paths,
+) {
   const scopes = new Set(contextSources.map((entry) => entry.readScope));
   for (const path of [
     paths.candidateManifest,
     paths.preIntegrationReview,
-    gatePaths.receipt,
-    gatePaths.stdout,
-    gatePaths.stderr,
+    capturedGatePaths.receipt,
+    capturedGatePaths.stdout,
+    capturedGatePaths.stderr,
   ]) {
     requireCondition(scopes.has(path), `Missing direct release context: ${path}.`);
   }
@@ -1944,9 +2046,9 @@ function requestFor(contextSources, candidate) {
         {
           id: "assumption.canonical-gate-primary-evidence",
           statement:
-            "The canonical gate passed from an authenticated materialization of the exact committed candidate tree, and its raw stdout, raw stderr, and closed receipt are direct reviewer sources.",
+            "The canonical gate passed from an authenticated materialization and disposable Git context for the exact committed candidate tree; immutable copies of its raw stdout, raw stderr, and closed receipt are direct reviewer sources.",
           rationale:
-            "The release-gate wrapper binds the commit, tree, file count, byte count, source digest, pre/post materialization digest, cleanup, exact output bytes, command, exit status, and pre/post HEAD without a timestamp or summary-only claim.",
+            "The release-gate wrapper binds the candidate source and disposable Git identity, then the review harness captures the necessarily post-commit outputs outside the candidate and binds both their original and immutable snapshot paths to exact bytes.",
         },
         {
           id: "assumption.external-host-boundary",
@@ -2001,11 +2103,10 @@ function requestFor(contextSources, candidate) {
 async function preparedContexts(
   rows,
   candidateManifest,
-  gatePaths,
   paths,
-  candidateTree,
 ) {
   const contexts = rows.map(contextSource);
+  const gatePaths = capturedGateEvidencePaths(paths);
   contexts.push(
     await directContext(
       "context.candidate-manifest",
@@ -2013,25 +2114,22 @@ async function preparedContexts(
       "Closed candidate, gate, tooling, snapshot, and primary-evidence binding manifest.",
       ALL_REVIEWS,
     ),
-    directCandidateContext(
-      candidateTree,
+    await directContext(
       "context.canonical-gate-receipt",
       gatePaths.receipt,
-      "Closed exact-candidate canonical-gate receipt.",
+      "Immutable copy of the closed exact-candidate canonical-gate receipt.",
       ALL_REVIEWS,
     ),
-    directCandidateContext(
-      candidateTree,
+    await directContext(
       "context.canonical-gate-stdout",
       gatePaths.stdout,
-      "Exact raw canonical-gate stdout bytes.",
+      "Immutable copy of the exact raw canonical-gate stdout bytes.",
       ALL_REVIEWS,
     ),
-    directCandidateContext(
-      candidateTree,
+    await directContext(
       "context.canonical-gate-stderr",
       gatePaths.stderr,
-      "Exact raw canonical-gate stderr bytes.",
+      "Immutable copy of the exact raw canonical-gate stderr bytes.",
       ALL_REVIEWS,
     ),
   );
@@ -2053,6 +2151,7 @@ async function prepare() {
   const reviewTooling = await authenticateReviewTooling(candidateTree);
   const sources = collectSourceSpecs(candidateTree);
   const gate = await validateGateReceipt(checkpoint, candidateTree);
+  const gateEvidence = await materializeGateEvidence(gate, paths);
   const { evidenceSets, correctionLineage } =
     await verifyPrimaryEvidenceSets(candidateTree);
   const rows = await materializeSnapshots(sources, candidateTree, paths);
@@ -2070,11 +2169,12 @@ async function prepare() {
     runRoot: paths.root,
     reviewTooling,
     canonicalGate: {
-      receipt: gate.receiptBinding,
+      receipt: gateEvidence.receipt,
       candidateSource: gate.receipt.candidateSource,
       materialization: gate.receipt.materialization,
-      stdout: gate.receipt.stdout,
-      stderr: gate.receipt.stderr,
+      gitContext: gate.receipt.gitContext,
+      stdout: gateEvidence.stdout,
+      stderr: gateEvidence.stderr,
       command: gate.receipt.command.canonical,
       result: gate.receipt.result,
     },
@@ -2091,19 +2191,13 @@ async function prepare() {
     reviewedSources: rows,
   };
   await writeImmutableJson(paths.candidateManifest, candidateManifest);
-  const contextSources = await preparedContexts(
-    rows,
-    candidateManifest,
-    gate.paths,
-    paths,
-    candidateTree,
-  );
+  const contextSources = await preparedContexts(rows, candidateManifest, paths);
   assertPrimaryCoverage(
     contextSources,
     rows,
     evidenceSets,
     correctionLineage,
-    gate.paths,
+    capturedGateEvidencePaths(paths),
     paths,
   );
   const request = requestFor(contextSources, checkpoint);
@@ -2115,7 +2209,7 @@ async function prepare() {
     goalId: request.goal.id,
     goalRevision: request.goal.revision,
     reviewTooling,
-    canonicalGateReceipt: gate.receiptBinding,
+    canonicalGateReceipt: gateEvidence.receipt,
     sourceSnapshots: rows.length,
     primaryEvidenceSets: evidenceSets.map((entry) => entry.id),
     correctionRevisions: correctionLineage.revisions.map((entry) => entry.revision),
@@ -2182,7 +2276,12 @@ async function validatePreparedInputs(candidate) {
   );
 
   const sources = collectSourceSpecs(candidateTree);
-  const gate = await validateGateReceipt(candidate, candidateTree);
+  const gate = await validateGateReceipt(
+    candidate,
+    candidateTree,
+    capturedGateEvidencePaths(paths),
+  );
+  const gateEvidence = gateEvidenceBindings(gate, paths);
   const { evidenceSets, correctionLineage } =
     await verifyPrimaryEvidenceSets(candidateTree);
   requireCondition(
@@ -2193,11 +2292,12 @@ async function validatePreparedInputs(candidate) {
   requireCondition(
     JSON.stringify(manifest.canonicalGate) ===
       JSON.stringify({
-        receipt: gate.receiptBinding,
+        receipt: gateEvidence.receipt,
         candidateSource: gate.receipt.candidateSource,
         materialization: gate.receipt.materialization,
-        stdout: gate.receipt.stdout,
-        stderr: gate.receipt.stderr,
+        gitContext: gate.receipt.gitContext,
+        stdout: gateEvidence.stdout,
+        stderr: gateEvidence.stderr,
         command: gate.receipt.command.canonical,
         result: gate.receipt.result,
       }),
@@ -2257,7 +2357,7 @@ async function validatePreparedInputs(candidate) {
     manifest.reviewedSources,
     evidenceSets,
     correctionLineage,
-    gate.paths,
+    capturedGateEvidencePaths(paths),
     paths,
   );
   return { manifest, request, paths, candidateTree, reviewTooling };
@@ -2361,11 +2461,16 @@ async function pathsMode() {
   const candidateTree = loadCandidateTree(checkpoint);
   await authenticateReviewTooling(candidateTree);
   const gatePaths = gateEvidencePaths(checkpoint);
-  requireVersionableEvidencePaths(gatePaths, candidateTree);
+  requireVersionableEvidencePaths(gatePaths);
   requireBytePreservingEvidencePaths(checkpoint, gatePaths);
   process.stdout.write(
     `${JSON.stringify(
-      { candidateCommit: checkpoint, run: paths, canonicalGate: gatePaths },
+      {
+        candidateCommit: checkpoint,
+        run: paths,
+        canonicalGate: gatePaths,
+        canonicalGateCapture: capturedGateEvidencePaths(paths),
+      },
       null,
       2,
     )}\n`,
@@ -2391,11 +2496,15 @@ export const RELEASE_REVIEW_TEST_HOOKS = Object.freeze({
   HARNESS_REPOSITORY_PATH,
   VERIFIER_REPOSITORY_PATH,
   candidateRunPaths,
+  capturedGateEvidencePaths,
   gateEvidencePaths,
+  externalEvidenceBinding,
+  gateEvidenceBindings,
   loadCandidateTree,
   candidateTreeWithOverrides,
   discoverCorrectionEvidenceSpecs,
   collectSourceSpecs,
+  validateGateReceipt,
   verifyEvidenceSet,
   reviewedSourceMaterialization,
   authenticateToolBytes,

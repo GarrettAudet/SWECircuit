@@ -1,0 +1,47 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 11,
+    "digest": "sha256:08dfc0dd162b0b53ec73e8b3f4476aae3fd2f7b91b87037a968bcd80e633f201"
+  },
+  "agent": {
+    "id": "agent.fc51d7897f1fcd89e4867726e6b59af3fad4142bec43943ddaa17cfe54d9d3b2",
+    "blueprintDigest": "sha256:70a4d7e671fb7891514ab15d4d118a9ad8c7253fe5851933837264a6d8a9560d"
+  },
+  "compilationDigest": "sha256:f934262e856c37e1167698f07a48f38ae73427b38f6dacdeabddfd0d9ece1825",
+  "summary": "Completed the R11 release correction: exact candidate bytes now run with a disposable candidate-bound Git context, gate evidence remains necessarily post-commit external evidence, immutable R2 snapshots bind its exact bytes, self-referential candidate-source claims fail closed, and focused verification passed.",
+  "workUnitsCompleted": [
+    "fix.release-gate-git-context.r11"
+  ],
+  "artifacts": [
+    {
+      "name": "release-gate-git-context-correction-r11.md",
+      "mediaType": "text/markdown",
+      "content": "# Release Gate Git Context Correction R11\n\n## Outcome\n\nPass.\n\n## Host Execution\n\nThree IDE-native specialist launches produced no edits, checkpoint response, or raw handoff and were cancelled under the bounded liveness policy. The standalone integration owner then executed the exact approved R11 contract without widening its four-file write scope. The failed launches remain preserved in `attempt-history.md`; this handoff represents the explicit owner fallback, not an inferred subagent result.\n\n## Corrections\n\n- The release gate materializes exact candidate Git blobs and creates a disposable bare shared-object Git directory, candidate ref, separate index, and exact materialization worktree.\n- The child canonical command receives only the disposable Git environment. Pre/post candidate HEAD and clean state are authenticated, while the live repository metadata remains outside the child Git directory.\n- Candidate source is byte-inspected after execution, and both temporary Git context and materialization have bounded checked cleanup.\n- R2 now rejects a candidate that claims its own post-commit gate outputs as committed source. It reads the three exact external outputs, writes immutable copies under the candidate-addressed review run, and binds original path, snapshot path, media type, byte count, and digest into the manifest and approval inputs.\n- Untracked-input admission permits only the candidate run root and the three exact gate-output paths; sibling or substituted paths fail closed.\n- Focused regressions cover disposable Git usability, unchanged live HEAD, cleanup, exact external-evidence allowlisting, snapshot bindings, and explicit no-self-reference logic.\n\n## Verification\n\n- `node --check` passed for all four authorized files.\n- `npm.cmd run format:check` passed 95 files.\n- `npm.cmd run lint` passed 81 files with informational diagnostics only.\n- The six release-review harness tests passed in the combined focused run.\n- The initial five-test release-gate run was correctly blocked by sandbox `EPERM` at the bounded scratch directory; after granting that exact filesystem operation, all 5 tests passed in 188.8 seconds.\n- `git diff --check` passed.\n- The full exact committed-tree canonical gate remains the Candidate 5 freeze action and was not represented as completed here.\n\n## Resulting Bindings\n\n- `scripts/run-v12-release-gate.mjs`: 26,471 bytes, `sha256:271d7d03749b1eb28b9734545ddb957ae4bf551e0319226cc0282f908fbefc96`.\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`: 86,125 bytes, `sha256:bfcba840a52b92a622628a0b071a9c1c18731540f7d5b877a40fcf675bf1c495`.\n- `test/v12-release-gate.test.mjs`: 8,328 bytes, `sha256:36f2692c2e1244ecb2611760787b7a8544788913b1b55faa2b2c0778b2ff3284`.\n- `test/v12-release-review.test.mjs`: 10,449 bytes, `sha256:761d5d328ad2f6d63ccee5e2e6e3b30c0dd28166fcab2786011f9fcad6724cf6`.\n\n## Scope Integrity\n\nOnly the four declared R11 implementation paths changed under this contract. No network access, descendant launch, Git mutation, candidate-evidence rewrite, or core runtime claim was introduced."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.release-gate-git-context.r11",
+      "requirementId": "evidence.release-gate-git-context.r11",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "release-gate-git-context-correction-r11.md"
+    }
+  ],
+  "assumptions": [
+    "The standalone integration owner may execute the exact approved contract after three preserved IDE-host launches fail liveness without producing a raw handoff."
+  ],
+  "risks": [
+    "The shared-object disposable Git context reads immutable objects from the source repository object store; Candidate 5 review must confirm that this does not expose live metadata or permit source mutation.",
+    "The full canonical suite has not yet run from the committed Candidate 5 tree and remains a release gate."
+  ],
+  "followUps": [
+    "Verify this exact raw handoff against the approved R11 compilation and package digests, freeze Candidate 5, run the exact committed-tree gate, and launch the complete independent R2 reviewer roster."
+  ]
+}

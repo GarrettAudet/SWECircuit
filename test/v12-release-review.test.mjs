@@ -105,15 +105,24 @@ test("correction lineage requires revisions 1 through 10 and has no terminal cou
 test("working-tree-only inputs and unsafe handoff paths fail closed", () => {
   const candidate = "c".repeat(40);
   const runPaths = RELEASE_REVIEW_TEST_HOOKS.candidateRunPaths(candidate);
+  const gatePaths = RELEASE_REVIEW_TEST_HOOKS.gateEvidencePaths(candidate);
 
-  RELEASE_REVIEW_TEST_HOOKS.requireNoWorkingTreeOnlySources(runPaths, [
+  RELEASE_REVIEW_TEST_HOOKS.requireNoWorkingTreeOnlySources(runPaths, gatePaths, [
     runPaths.request,
     `${runPaths.handoffs}/agent.json`,
+    ...Object.values(gatePaths),
   ]);
   assert.throws(
     () =>
-      RELEASE_REVIEW_TEST_HOOKS.requireNoWorkingTreeOnlySources(runPaths, [
+      RELEASE_REVIEW_TEST_HOOKS.requireNoWorkingTreeOnlySources(runPaths, gatePaths, [
         "test/working-tree-only-source.test.mjs",
+      ]),
+    /Working-tree-only source is outside the candidate run root/u,
+  );
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_TEST_HOOKS.requireNoWorkingTreeOnlySources(runPaths, gatePaths, [
+        `${gatePaths.receipt}.substituted`,
       ]),
     /Working-tree-only source is outside the candidate run root/u,
   );
@@ -135,6 +144,52 @@ test("working-tree-only inputs and unsafe handoff paths fail closed", () => {
   ]) {
     assert.throws(() => RELEASE_REVIEW_HANDOFF_TEST_HOOKS.safeHandoffPath(unsafe, runPaths));
   }
+});
+
+test("post-commit gate evidence is captured outside the candidate without self-reference", () => {
+  const candidate = "e".repeat(40);
+  const runPaths = RELEASE_REVIEW_TEST_HOOKS.candidateRunPaths(candidate);
+  const original = RELEASE_REVIEW_TEST_HOOKS.gateEvidencePaths(candidate);
+  const captured = RELEASE_REVIEW_TEST_HOOKS.capturedGateEvidencePaths(runPaths);
+  assert.deepEqual(captured, {
+    receipt: runPaths.gateReceiptSnapshot,
+    stdout: runPaths.gateStdoutSnapshot,
+    stderr: runPaths.gateStderrSnapshot,
+  });
+
+  const gate = {
+    paths: original,
+    receiptBytes: Buffer.from('{"outcome":"pass"}\n', "utf8"),
+    stdoutBytes: Buffer.from("verified\n", "utf8"),
+    stderrBytes: Buffer.alloc(0),
+  };
+  const bindings = RELEASE_REVIEW_TEST_HOOKS.gateEvidenceBindings(gate, runPaths);
+  assert.deepEqual(bindings.receipt, {
+    originalPath: original.receipt,
+    snapshotPath: captured.receipt,
+    mediaType: "application/json",
+    bytes: gate.receiptBytes.byteLength,
+    digest: digest(gate.receiptBytes),
+  });
+  assert.deepEqual(bindings.stdout, {
+    originalPath: original.stdout,
+    snapshotPath: captured.stdout,
+    mediaType: "text/plain; charset=utf-8",
+    bytes: gate.stdoutBytes.byteLength,
+    digest: digest(gate.stdoutBytes),
+  });
+  assert.deepEqual(bindings.stderr, {
+    originalPath: original.stderr,
+    snapshotPath: captured.stderr,
+    mediaType: "text/plain; charset=utf-8",
+    bytes: 0,
+    digest: digest(gate.stderrBytes),
+  });
+  assert.notEqual(bindings.receipt.originalPath, bindings.receipt.snapshotPath);
+  assert.match(
+    RELEASE_REVIEW_TEST_HOOKS.validateGateReceipt.toString(),
+    /!candidateTree\.has\(path\)/u,
+  );
 });
 
 test("reviewer snapshots and tooling identity use exact candidate Git blobs", () => {
