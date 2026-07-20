@@ -451,6 +451,30 @@ const REPOSITORY_SOURCES = {
     "docs/specs/v12-ide-run-loop/evidence/release-review-r2/handoffs/agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627.json",
     "Exact Candidate 3 product/API/IDE FIX handoff identifying the untracked-input proof gap.",
   ],
+  "context.candidate-three-retirement": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-3-retirement.md",
+    "Preserved Candidate 3 retirement record, including the immutable R2 evidence lifecycle finding.",
+  ],
+  "context.release-correction-r9-package": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/package-envelope.json",
+    "Owner-approved revision-9 committed-source and security-context correction package.",
+  ],
+  "context.release-correction-r9-approval": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/approval.json",
+    "Exact owner approval for the revision-9 package.",
+  ],
+  "context.release-correction-r9-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoffs/agent.f135c6a031895dbe7733367c2e1729fa86815ec89a935f13f00cb079d5c60ae5-pass-attempt-3.json",
+    "Exact revision-9 committed-source and security-context PASS handoff.",
+  ],
+  "context.release-correction-r9-report": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoff-verification.json",
+    "Complete revision-9 PASS handoff report.",
+  ],
+  "context.release-gate-tests": [
+    "test/v12-release-gate.test.mjs",
+    "Focused committed-source canonical-gate and R2 context regressions.",
+  ],
 };
 
 const FOUNDATION_WRITES = [
@@ -567,6 +591,12 @@ const RELEASE_R9_PROOF_CLOSURE_WRITES = [
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
   "scripts/run-v12-release-gate.mjs",
   "test/v12-release-gate.test.mjs",
+];
+
+const RELEASE_R10_REVIEW_LIFECYCLE_WRITES = [
+  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+  "test/v12-release-review.test.mjs",
 ];
 
 const CONFIGS = {
@@ -1942,6 +1972,98 @@ CONFIGS["release-correction-r9"] = {
         "context.release-correction-r8-report",
         "context.candidate-three-gate-receipt",
         "context.candidate-three-product-review",
+      ],
+    },
+  ],
+};
+
+CONFIGS["release-correction-r10"] = {
+  objective:
+    "Make the R2 release review repeatable across immutable candidates without overwriting prior evidence or hardcoding one more correction revision into executable policy.",
+  goalPhase: "release-correction",
+  goalRevision: 10,
+  maxAgents: 1,
+  maxConcurrency: 1,
+  processScopes: ["git", "node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  assumptions: [
+    {
+      id: "assumption.candidate-three-evidence-immutable",
+      statement:
+        "Every existing Candidate 3 R2 artifact is immutable historical evidence and must not be deleted, moved, renamed, or overwritten.",
+      rationale:
+        "Candidate 3 is retired, but its exact review package and findings remain part of the release trace.",
+    },
+    {
+      id: "assumption.candidate-addressed-review-runs",
+      statement:
+        "Each new R2 run owns a closed root under docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/<candidate>/; the already candidate-addressed canonical-gate evidence remains outside that root and is referenced by exact binding.",
+      rationale:
+        "Candidate identity must separate snapshots, packages, approvals, handoffs, and reports while preserving shared immutable gate evidence.",
+    },
+    {
+      id: "assumption.candidate-git-source-truth",
+      statement:
+        "Reviewer source discovery and snapshot bytes come from the exact candidate Git tree and blobs, not a mutable working-tree enumeration or a verify-then-read sequence.",
+      rationale:
+        "This removes untracked discovery and time-of-check/time-of-use ambiguity from the release-review context boundary.",
+    },
+    {
+      id: "assumption.data-driven-correction-lineage",
+      statement:
+        "Release-correction evidence is discovered from exact candidate paths, must form a contiguous revision sequence beginning at one, and is package-, approval-, report-, and raw-handoff-verified without a hardcoded terminal revision.",
+      rationale:
+        "Adding a release correction must not require another source edit merely to increment a lineage count.",
+    },
+  ],
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.package",
+    "context.release-review-r2-harness",
+    "context.release-review-r2-verifier",
+    "context.release-gate",
+    "context.release-gate-tests",
+    "context.candidate-three-retirement",
+    "context.release-correction-r9-package",
+    "context.release-correction-r9-approval",
+    "context.release-correction-r9-handoff",
+    "context.release-correction-r9-report",
+  ],
+  workUnits: [
+    {
+      id: "fix.release-review-lifecycle.r10",
+      objective:
+        "Give every candidate an immutable, self-contained R2 run while deriving reviewer sources and correction evidence from the exact candidate Git tree.",
+      weight: 10,
+      moduleId: "correction.release-review-lifecycle",
+      action:
+        "Candidate-address every generated R2 artifact, authenticate harness and verifier candidate identity, replace fixed revision-1-through-8 policy with fail-closed candidate-tree lineage discovery and exact package/handoff verification, snapshot source bytes from Git blobs, and add focused lifecycle and adversarial regressions.",
+      inputType: "SingleUseReviewRootAndHardcodedCorrectionChain",
+      outputType: "RepeatableCandidateBoundReleaseReview",
+      capability: "fix.release-review-lifecycle",
+      evidenceId: "evidence.release-review-lifecycle.r10",
+      evidenceDescription:
+        "Prove two candidate identities resolve to disjoint closed run roots; legacy Candidate 3 evidence remains byte-identical; malformed candidates, unsafe handoff paths, missing or non-contiguous correction revisions, substituted package or handoff bytes, and working-tree-only sources fail closed; exact candidate Git blobs become reviewer snapshots; revision 9 and revision 10 are included without a hardcoded terminal count; and focused syntax, format, lint, test, and diff checks pass.",
+      artifact: "release-review-lifecycle-correction-r10.md",
+      writes: RELEASE_R10_REVIEW_LIFECYCLE_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.package",
+        "context.release-review-r2-harness",
+        "context.release-review-r2-verifier",
+        "context.release-gate",
+        "context.release-gate-tests",
+        "context.candidate-three-retirement",
+        "context.release-correction-r9-package",
+        "context.release-correction-r9-approval",
+        "context.release-correction-r9-handoff",
+        "context.release-correction-r9-report",
       ],
     },
   ],

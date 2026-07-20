@@ -1,0 +1,457 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 10,
+    "objective": "Make the R2 release review repeatable across immutable candidates without overwriting prior evidence or hardcoding one more correction revision into executable policy.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.architecture-frozen",
+        "statement": "ADR 0005 and the Specialist Run contract are the complete implementation authority.",
+        "rationale": "Architecture fan-in passed and no blocking decision remains."
+      },
+      {
+        "id": "assumption.host-effects-external",
+        "statement": "All runtime, persistence, Git, merge, and memory effects remain external to core.",
+        "rationale": "V12 is a pure evidence session, not the deferred universal scheduler."
+      },
+      {
+        "id": "assumption.host-edit-fallback",
+        "statement": "After native apply_patch fails before mutation, the host may perform an exact precondition-hash-guarded PowerShell write inside the approved scope.",
+        "rationale": "Foundation Revision 1 proved the temporary worktree patch helper is unavailable while bounded escalated PowerShell writes remain auditable and fail closed."
+      },
+      {
+        "id": "assumption.candidate-three-evidence-immutable",
+        "statement": "Every existing Candidate 3 R2 artifact is immutable historical evidence and must not be deleted, moved, renamed, or overwritten.",
+        "rationale": "Candidate 3 is retired, but its exact review package and findings remain part of the release trace."
+      },
+      {
+        "id": "assumption.candidate-addressed-review-runs",
+        "statement": "Each new R2 run owns a closed root under docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/<candidate>/; the already candidate-addressed canonical-gate evidence remains outside that root and is referenced by exact binding.",
+        "rationale": "Candidate identity must separate snapshots, packages, approvals, handoffs, and reports while preserving shared immutable gate evidence."
+      },
+      {
+        "id": "assumption.candidate-git-source-truth",
+        "statement": "Reviewer source discovery and snapshot bytes come from the exact candidate Git tree and blobs, not a mutable working-tree enumeration or a verify-then-read sequence.",
+        "rationale": "This removes untracked discovery and time-of-check/time-of-use ambiguity from the release-review context boundary."
+      },
+      {
+        "id": "assumption.data-driven-correction-lineage",
+        "statement": "Release-correction evidence is discovered from exact candidate paths, must form a contiguous revision sequence beginning at one, and is package-, approval-, report-, and raw-handoff-verified without a hardcoded terminal revision.",
+        "rationale": "Adding a release correction must not require another source edit merely to increment a lineage count."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.fix.release-review-lifecycle.r10",
+        "description": "Give every candidate an immutable, self-contained R2 run while deriving reviewer sources and correction evidence from the exact candidate Git tree.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.release-review-lifecycle.r10",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Prove two candidate identities resolve to disjoint closed run roots; legacy Candidate 3 evidence remains byte-identical; malformed candidates, unsafe handoff paths, missing or non-contiguous correction revisions, substituted package or handoff bytes, and working-tree-only sources fail closed; exact candidate Git blobs become reviewer snapshots; revision 9 and revision 10 are included without a hardcoded terminal count; and focused syntax, format, lint, test, and diff checks pass.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/spec.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/test-plan.md",
+        "digest": "sha256:719101c2d8f34c0538e5d87515176d432e47460407c70a2c4668bcbbd1c93f9c",
+        "bytes": 3097,
+        "description": "Frozen V12 verification obligations.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/test-plan.md"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
+        "bytes": 2946,
+        "description": "Existing package scripts and export map.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-review-r2-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:5759c3dcbda018c2ef4dd9cf0f6e317b88ba6e214766a707230659a9d9d2a9f1",
+        "bytes": 77356,
+        "description": "Current candidate-bound R2 release-review preparation and compilation harness.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-r2-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:e30bbf7548d6481935d14db57630e4e5bdaa9aff2df56337b957d07acc83d2aa",
+        "bytes": 6984,
+        "description": "Current exact R2 reviewer handoff verifier.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:4358570c4375eb6ed5da902bd83220cfd042051cb96c4171734ea067dcfab4b6",
+        "bytes": 20319,
+        "description": "Current candidate-bound canonical gate wrapper.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-gate.test.mjs",
+        "digest": "sha256:ff86bdfd6986498bd1944bdfedd15fd862beca1c90dd58c208b7ba0b2e92ff2a",
+        "bytes": 6070,
+        "description": "Focused committed-source canonical-gate and R2 context regressions.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.candidate-three-retirement",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-3-retirement.md",
+        "digest": "sha256:d4f8c06ffe5cad4d11d288e226d1983e8bf557ec722afac29cf0d682cb64be6f",
+        "bytes": 1920,
+        "description": "Preserved Candidate 3 retirement record, including the immutable R2 evidence lifecycle finding.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-3-retirement.md"
+      },
+      {
+        "id": "context.release-correction-r9-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/package-envelope.json",
+        "digest": "sha256:bd5da675c08f9a4691fe9ea5c211c65d876044ad302ba02d7021ba4ce1e7d30c",
+        "bytes": 106478,
+        "description": "Owner-approved revision-9 committed-source and security-context correction package.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/package-envelope.json"
+      },
+      {
+        "id": "context.release-correction-r9-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/approval.json",
+        "digest": "sha256:8745eaa9c90a9c7f8cfc01bc9f668810a31fee3a84281dcdea229d0a26d48da3",
+        "bytes": 641,
+        "description": "Exact owner approval for the revision-9 package.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/approval.json"
+      },
+      {
+        "id": "context.release-correction-r9-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoffs/agent.f135c6a031895dbe7733367c2e1729fa86815ec89a935f13f00cb079d5c60ae5-pass-attempt-3.json",
+        "digest": "sha256:f36ddf35492244b21248fe96a5363f1c7222fb206a4fe11f5d213427c37a4956",
+        "bytes": 4584,
+        "description": "Exact revision-9 committed-source and security-context PASS handoff.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoffs/agent.f135c6a031895dbe7733367c2e1729fa86815ec89a935f13f00cb079d5c60ae5-pass-attempt-3.json"
+      },
+      {
+        "id": "context.release-correction-r9-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoff-verification.json",
+        "digest": "sha256:edd2df13589f4b327ed303bb75992ea79f06d70f0ca1b53730bfa2cfb13e060c",
+        "bytes": 1321,
+        "description": "Complete revision-9 PASS handoff report.",
+        "allowedWorkUnits": [
+          "fix.release-review-lifecycle.r10"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoff-verification.json"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "correction.release-review-lifecycle"
+      ],
+      "allowedCapabilities": [
+        "fix.release-review-lifecycle"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoffs/agent.f135c6a031895dbe7733367c2e1729fa86815ec89a935f13f00cb079d5c60ae5-pass-attempt-3.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-3-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.release-review-lifecycle.r10",
+        "objective": "Give every candidate an immutable, self-contained R2 run while deriving reviewer sources and correction evidence from the exact candidate Git tree.",
+        "weight": 10,
+        "module": {
+          "id": "correction.release-review-lifecycle",
+          "action": "Candidate-address every generated R2 artifact, authenticate harness and verifier candidate identity, replace fixed revision-1-through-8 policy with fail-closed candidate-tree lineage discovery and exact package/handoff verification, snapshot source bytes from Git blobs, and add focused lifecycle and adversarial regressions.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "SingleUseReviewRootAndHardcodedCorrectionChain"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "RepeatableCandidateBoundReleaseReview"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.release-review-lifecycle"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.release-review-r2-harness",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.release-review-r2-verifier",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.release-gate",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.release-gate-tests",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.candidate-three-retirement",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r9-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r9-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r9-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r9-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r10 contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoffs/agent.f135c6a031895dbe7733367c2e1729fa86815ec89a935f13f00cb079d5c60ae5-pass-attempt-3.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-3-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "write": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "conflictZones": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/handoffs/agent.f135c6a031895dbe7733367c2e1729fa86815ec89a935f13f00cb079d5c60ae5-pass-attempt-3.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r9/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-3-retirement.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.release-review-lifecycle.r10"
+        ],
+        "handoffArtifacts": [
+          "release-review-lifecycle-correction-r10.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract.",
+          "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+          "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      }
+    ]
+  }
+}
