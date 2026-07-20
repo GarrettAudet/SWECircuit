@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v12.ide-run-loop.implementation.release-correction",
+  "goalRevision": 12,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:a22663c51b5477531f8dc8a08e17841cf52d7aa837507cc672dcae5f1ca8eb48",
+  "selectedCandidateId": "team.7fc42093732183df6e09291e3ab97e5296ece22fcc2cb10717a261ae95bd2c84",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.08756f07d108e3a95f45b3e101188efc5424183131fc2397f2c3a82c3db5afad",
+        "agent.5e3d0971d9dfb8df24441208aade1de4518d137dd6c90c77b28de04c3b2ae3c6"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:bda1a74cb70dec1bd1faf2b9f78b2830f943e367a814cc1afbf2311b9a596a6c",
+  "compilationFileBytes": 105416,
+  "agents": [
+    {
+      "agentId": "agent.08756f07d108e3a95f45b3e101188efc5424183131fc2397f2c3a82c3db5afad",
+      "blueprintDigest": "sha256:aef70ab0ebb59ee457af0e09473be4d859a0db512f6f5da64f0f0ff5cb4d7f67",
+      "contractFile": "agents/agent.08756f07d108e3a95f45b3e101188efc5424183131fc2397f2c3a82c3db5afad.md",
+      "contractDigest": "sha256:8a23383b5684ca5ee4adb6037dff2ead117b211804d1d398ce098e05d79ce88c",
+      "contractBytes": 22017
+    },
+    {
+      "agentId": "agent.5e3d0971d9dfb8df24441208aade1de4518d137dd6c90c77b28de04c3b2ae3c6",
+      "blueprintDigest": "sha256:fc9e263283ea524dbe0f33cbca2e9b45ab0c29d734b980d91537fa10280535c5",
+      "contractFile": "agents/agent.5e3d0971d9dfb8df24441208aade1de4518d137dd6c90c77b28de04c3b2ae3c6.md",
+      "contractDigest": "sha256:8b32b184f53a123be161e08ce4a5b0bf159a67bb346c3406f7830b69a294823a",
+      "contractBytes": 22946
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:202ce4c2660fff2c720e96b4ff36629a35b19778b88efea8fa94500b76eed078",
+  "integrationBytes": 5172,
+  "contentDigest": "sha256:21f8d067337d1755e086b53084572ab27bcf306d6ea2b386abc2a59c6f1d7db4"
+}

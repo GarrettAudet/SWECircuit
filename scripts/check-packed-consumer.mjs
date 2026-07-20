@@ -9,12 +9,23 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { isAbsolute, join, relative, resolve, sep } from "node:path";
+import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
-const LOCAL_STATE_ROOT = join(ROOT, ".local");
-const NPM_CACHE = join(ROOT, ".local", "npm-cache");
+const npmCacheSupplies = Object.entries(process.env)
+  .filter(([key]) => key.toLowerCase() === "npm_config_cache")
+  .map(([, value]) => value);
+assert.ok(npmCacheSupplies.length > 0, "The host must supply npm_config_cache through npm.");
+assert.equal(
+  npmCacheSupplies.every((value) => typeof value === "string" && value.length > 0),
+  true,
+  "The host-supplied npm cache must be non-empty.",
+);
+const resolvedNpmCacheSupplies = new Set(npmCacheSupplies.map((value) => resolve(ROOT, value)));
+assert.equal(resolvedNpmCacheSupplies.size, 1, "Host npm cache supplies must resolve identically.");
+const NPM_CACHE = [...resolvedNpmCacheSupplies][0];
+const LOCAL_STATE_ROOT = dirname(NPM_CACHE);
 const CONSUMER_WORKSPACE_PREFIX = join(NPM_CACHE, "swecircuit-packed-consumer-");
 const NPM_EXEC_PATH = process.env.npm_execpath;
 assert.equal(typeof NPM_EXEC_PATH, "string", "Run the packed-consumer check through npm.");
@@ -943,15 +954,17 @@ function ensurePlainDirectory(path) {
   return directoryIdentity(path);
 }
 
-function ensureCacheTree(repositoryRoot) {
-  const resolvedRoot = resolve(repositoryRoot);
-  const localStateRoot = resolve(resolvedRoot, ".local");
-  const cacheRoot = resolve(localStateRoot, "npm-cache");
-  assert.equal(relative(resolvedRoot, localStateRoot), ".local");
-  assert.equal(relative(localStateRoot, cacheRoot), "npm-cache");
+function ensureCacheTree(localStateRoot, cacheRoot) {
+  const resolvedLocalStateRoot = resolve(localStateRoot);
+  const resolvedCacheRoot = resolve(cacheRoot);
+  const cacheRelative = relative(resolvedLocalStateRoot, resolvedCacheRoot);
+  assert.notEqual(cacheRelative, "");
+  assert.equal(isAbsolute(cacheRelative), false);
+  assert.notEqual(cacheRelative, "..");
+  assert.equal(cacheRelative.startsWith(`..${sep}`), false);
 
-  const localStateIdentity = ensurePlainDirectory(localStateRoot);
-  const cacheIdentity = ensurePlainDirectory(cacheRoot);
+  const localStateIdentity = ensurePlainDirectory(resolvedLocalStateRoot);
+  const cacheIdentity = ensurePlainDirectory(resolvedCacheRoot);
   assert.deepEqual(
     directoryIdentity(localStateRoot),
     localStateIdentity,
@@ -965,7 +978,10 @@ function runMissingCacheRootCheck() {
   const checkIdentity = directoryIdentity(checkRoot);
   try {
     assert.equal(lstatIfPresent(join(checkRoot, ".local")), null);
-    const checkTree = ensureCacheTree(checkRoot);
+    const checkTree = ensureCacheTree(
+      join(checkRoot, ".local"),
+      join(checkRoot, ".local", "npm-cache"),
+    );
     assert.deepEqual(directoryIdentity(checkTree.localStateRoot), checkTree.localStateIdentity);
     assert.deepEqual(directoryIdentity(checkTree.cacheRoot), checkTree.cacheIdentity);
   } finally {
@@ -998,7 +1014,7 @@ assert.equal(rootManifest.bin, undefined);
 assert.equal(typeof rootManifest.dependencies, "object");
 assert.equal(rootManifest.dependencies.swecircuit, undefined);
 
-const cacheTree = ensureCacheTree(ROOT);
+const cacheTree = ensureCacheTree(LOCAL_STATE_ROOT, NPM_CACHE);
 assert.equal(cacheTree.localStateRoot, resolve(LOCAL_STATE_ROOT));
 assert.equal(cacheTree.cacheRoot, resolve(NPM_CACHE));
 runMissingCacheRootCheck();

@@ -1,7 +1,7 @@
 # Specialist Contract: agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9
 
-Compilation: `sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681`
-Blueprint: `sha256:a9afdac385e4c9ace8af1af973f6145b54a75505c85d2d3c98935de5eca6f114`
+Compilation: `sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c`
+Blueprint: `sha256:6a49c3d6b4c41b2065203574fdf2b8320537b41a0d5be7c4bf1bcd32422b5615`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 36,
-  "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
+  "goalRevision": 37,
+  "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "integrate.release"
@@ -93,6 +93,20 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
     },
     {
+      "sourceId": "context.gitattributes",
+      "kind": "repository",
+      "locator": "path:.gitattributes",
+      "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+      "bytes": 501,
+      "purposes": [
+        "Authenticate the exact repository source-byte normalization policy."
+      ],
+      "workUnitIds": [
+        "integrate.release"
+      ],
+      "readScope": ".gitattributes"
+    },
+    {
       "sourceId": "context.readme",
       "kind": "repository",
       "locator": "path:README.md",
@@ -141,6 +155,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     ],
     "scope": {
       "read": [
+        ".gitattributes",
         "README.md",
         "docs/memory/**",
         "docs/milestones/v11.md",
@@ -163,6 +178,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       {
         "kind": "filesystem.read",
         "scopes": [
+          ".gitattributes",
           "README.md",
           "docs/memory/**",
           "docs/milestones/v11.md",
@@ -237,7 +253,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop if any independent review returns REVISE.",
     "Stop unless the separate prelaunch audit is approval-bound, verified, and PASS before candidate launch approval."
   ],
-  "contentDigest": "sha256:a9afdac385e4c9ace8af1af973f6145b54a75505c85d2d3c98935de5eca6f114"
+  "contentDigest": "sha256:6a49c3d6b4c41b2065203574fdf2b8320537b41a0d5be7c4bf1bcd32422b5615"
 }
 ```
 
@@ -258,14 +274,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 36,
-    "digest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573"
+    "revision": 37,
+    "digest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f"
   },
   "agent": {
     "id": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
-    "blueprintDigest": "sha256:a9afdac385e4c9ace8af1af973f6145b54a75505c85d2d3c98935de5eca6f114"
+    "blueprintDigest": "sha256:6a49c3d6b4c41b2065203574fdf2b8320537b41a0d5be7c4bf1bcd32422b5615"
   },
-  "compilationDigest": "sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681",
+  "compilationDigest": "sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "integrate.release"

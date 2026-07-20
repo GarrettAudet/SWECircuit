@@ -2,7 +2,7 @@
   "reportVersion": "1.0.0",
   "result": "pass",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 36,
+  "goalRevision": 37,
   "assumptions": [
     {
       "id": "assumption.atomic-work-reviewed",
@@ -11,8 +11,8 @@
     },
     {
       "id": "assumption.checkout-canonical-context",
-      "statement": "Every repository context source is byte-identical under the declared Git checkout rules, with no custom filter or working-tree encoding.",
-      "rationale": "A reviewed launch package must reconstruct from a clean checkout, not only the integration owner working tree."
+      "statement": "Every repository context source is LF-only, unchanged by Git clean filtering, and byte-identical to the exact committed Git blob representation.",
+      "rationale": "A reviewed launch package must retain one source identity across supported checkouts and exact candidate materialization."
     },
     {
       "id": "assumption.external-approval-root",
@@ -125,8 +125,8 @@
       {
         "sourceId": "context.consumer-check",
         "path": "scripts/check-packed-consumer.mjs",
-        "bytes": 43243,
-        "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe"
+        "bytes": 44049,
+        "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a"
       },
       {
         "sourceId": "context.contributing",
@@ -149,14 +149,14 @@
       {
         "sourceId": "context.dogfood-runner",
         "path": "scripts/run-v11-dogfood.mjs",
-        "bytes": 58524,
-        "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda"
+        "bytes": 58302,
+        "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e"
       },
       {
         "sourceId": "context.dogfood-runner-tests",
         "path": "test/v11-dogfood-runner.test.mjs",
-        "bytes": 41879,
-        "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d"
+        "bytes": 43787,
+        "digest": "sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284"
       },
       {
         "sourceId": "context.first-run",
@@ -179,8 +179,8 @@
       {
         "sourceId": "context.first-run-tests",
         "path": "test/specialist-first-run.test.mjs",
-        "bytes": 8553,
-        "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0"
+        "bytes": 8984,
+        "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b"
       },
       {
         "sourceId": "context.fixture.conflict-heavy",
@@ -217,6 +217,12 @@
         "path": "test/fixtures/specialist-compiler/under-split.json",
         "bytes": 6224,
         "digest": "sha256:3ef5d99ff5fd47f6ddf0b46d30effa513488d6806bb275ba598871e93a9c537c"
+      },
+      {
+        "sourceId": "context.gitattributes",
+        "path": ".gitattributes",
+        "bytes": 501,
+        "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953"
       },
       {
         "sourceId": "context.handbook",
@@ -287,8 +293,8 @@
       {
         "sourceId": "context.package",
         "path": "package.json",
-        "bytes": 2946,
-        "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2"
+        "bytes": 2931,
+        "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368"
       },
       {
         "sourceId": "context.packed-consumer-host",
@@ -377,14 +383,14 @@
       {
         "sourceId": "context.template-checker",
         "path": "scripts/check-template.ps1",
-        "bytes": 80766,
-        "digest": "sha256:f0d14d1cf7d61f338c588d57b28415cbd045b05ac7b81fa80432373fa1bbf81e"
+        "bytes": 78529,
+        "digest": "sha256:5c6fb77dc0a817be6c137805088b408c32b01bc7fc81ccc3f2cd4874014cf424"
       },
       {
         "sourceId": "context.template-checker-tests",
         "path": "scripts/test-check-template.ps1",
-        "bytes": 102789,
-        "digest": "sha256:1cec6a958b7eb40f1a8a60d3dc81f6c4b464c68c310e815c9339857dcca767f6"
+        "bytes": 101000,
+        "digest": "sha256:33c057636bcf96949df1d1311fc8ddee5913370a2b4fdb8f57c99f6ae5e6e882"
       },
       {
         "sourceId": "context.text",
@@ -406,7 +412,7 @@
       }
     ]
   },
-  "compilationDigest": "sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681",
+  "compilationDigest": "sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c",
   "search": {
     "mode": "exact",
     "claim": "exhaustive_partition_search_fixed_scheduler",
@@ -414,7 +420,7 @@
     "evaluatedCandidates": 203,
     "eligibleCandidates": 52,
     "retainedAlternatives": 8,
-    "evaluationSetDigest": "sha256:4ef2dbec313fd4dad49834027407233a50a88749049a2544ea81c647f28c437d"
+    "evaluationSetDigest": "sha256:1ae6a85c10dd9462f9be1f14c2ea4a33d8f651d285eeff9000eede1da3571920"
   },
   "serialBaseline": {
     "id": "team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696",
@@ -472,8 +478,8 @@
       "peakConcurrency": 4,
       "conflictPairs": 0,
       "handoffCount": 8,
-      "duplicatedContextBytes": 2209319,
-      "duplicatedPermissionScopes": 149,
+      "duplicatedContextBytes": 2219293,
+      "duplicatedPermissionScopes": 154,
       "totalWorkWeight": 38,
       "totalStartupCost": 12,
       "totalHandoffCost": 8
@@ -493,8 +499,8 @@
         "peakConcurrency": 2,
         "conflictPairs": 0,
         "handoffCount": 4,
-        "duplicatedContextBytes": 1361784,
-        "duplicatedPermissionScopes": 96,
+        "duplicatedContextBytes": 1369103,
+        "duplicatedPermissionScopes": 99,
         "totalWorkWeight": 38,
         "totalStartupCost": 8,
         "totalHandoffCost": 4
@@ -513,8 +519,8 @@
         "peakConcurrency": 4,
         "conflictPairs": 0,
         "handoffCount": 8,
-        "duplicatedContextBytes": 2209319,
-        "duplicatedPermissionScopes": 149,
+        "duplicatedContextBytes": 2219293,
+        "duplicatedPermissionScopes": 154,
         "totalWorkWeight": 38,
         "totalStartupCost": 12,
         "totalHandoffCost": 8
@@ -547,7 +553,7 @@
   "blueprintAssignments": [
     {
       "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
-      "blueprintDigest": "sha256:a6191d57d1774ee3fa693d6725446e84038a46b40ed6e2300c7673b291bc9ca3",
+      "blueprintDigest": "sha256:4e5c47e83142da89a2095eefa5b36aa26ceb8cf82b4d46ab29c539f4f228979a",
       "workUnitIds": [
         "review.algorithm-lifecycle"
       ],
@@ -560,7 +566,7 @@
     },
     {
       "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
-      "blueprintDigest": "sha256:a9afdac385e4c9ace8af1af973f6145b54a75505c85d2d3c98935de5eca6f114",
+      "blueprintDigest": "sha256:6a49c3d6b4c41b2065203574fdf2b8320537b41a0d5be7c4bf1bcd32422b5615",
       "workUnitIds": [
         "integrate.release"
       ],
@@ -576,7 +582,7 @@
     },
     {
       "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
-      "blueprintDigest": "sha256:f773d4e72b0fbb2444169c8874131082ba831ec1ff8d1c2cadc762500d45f8f3",
+      "blueprintDigest": "sha256:8aacd75344285df73bc39ee77fd7977c8eace6b8a1ff6ab7ca0b9f75f793184f",
       "workUnitIds": [
         "review.product-api"
       ],
@@ -589,7 +595,7 @@
     },
     {
       "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
-      "blueprintDigest": "sha256:1bbe59370412b205bc4267d8ec0f7bfaeeffa9bf45dd4d82b84bcd3c93b0bf87",
+      "blueprintDigest": "sha256:a9606975daa6e020e753fc0f2cc036413e4e8ece1c578350f12e37f68bdc575b",
       "workUnitIds": [
         "verify.release-gates"
       ],
@@ -602,7 +608,7 @@
     },
     {
       "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
-      "blueprintDigest": "sha256:8cf04402310e34be6644c91992ca66301d1f31b5621e4ba0dcce5edfe5fe7c31",
+      "blueprintDigest": "sha256:9ce55d9e47109655fb7846b15bd3c964cf9e78a5bd235f1700b1c1ef3ace505f",
       "workUnitIds": [
         "review.security-trace"
       ],
@@ -615,7 +621,7 @@
     },
     {
       "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
-      "blueprintDigest": "sha256:44ab7abc768e87bf873e63cc045c5adbf986530c235a413094afd7b60df28b2a",
+      "blueprintDigest": "sha256:f4c30a4cc336f3985c902f5829be5acc90d9e22b96ed014fdc8e7442a3cb6106",
       "workUnitIds": [
         "prepare.candidate"
       ],
@@ -630,53 +636,53 @@
       "result": "pass",
       "expectationFile": "approval.json"
     },
-    "packageDigest": "sha256:66ffa021c2def7b9487ae42fddb27570c1de8b895485ee0c9ab26f6c707cf1e2",
-    "manifestDigest": "sha256:7f02a86aa55f7c3419bdb4627f86ece3ac7cb5177ea75690719150495ab6b554",
+    "packageDigest": "sha256:42ec6c54edefb0fda5287b3ba4145bd0d7e59e8f2ff3ba55c92f1610d09c78d6",
+    "manifestDigest": "sha256:ecc316e66cc99c83d7aa636706cd378aa9d1be58a250089e1c4f2ae5b141d0d7",
     "files": [
       {
         "path": "agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
-        "bytes": 18937,
-        "digest": "sha256:61b55b540e32d27e06d173962f9ed32d12e6da8403f209e7a9cceef6e9b0d57d"
+        "bytes": 19438,
+        "digest": "sha256:ef16faf5b09c975cbea4fb8e3eccc1de15314534a0c123ad2d01285effa046e2"
       },
       {
         "path": "agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
-        "bytes": 11199,
-        "digest": "sha256:1ede69c1456b1bc8e5596bd713163c90eb8d7622c30b8cbb06379130df046ec2"
+        "bytes": 11691,
+        "digest": "sha256:8660d74d0541db14037ba819af26bccc943dee1cccb4e09e5239e4a74c803169"
       },
       {
         "path": "agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
-        "bytes": 23776,
-        "digest": "sha256:7dfd8c28c3dc757840465471083177a089c1bf9ae0060cca9353de48ab9533ba"
+        "bytes": 24269,
+        "digest": "sha256:f409ae88b7535dcadbb23e3cd085998f3a7a0cdae40b8dc88ed456acfb1d2426"
       },
       {
         "path": "agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
-        "bytes": 27305,
-        "digest": "sha256:2f2c857534355b1876eb1d206f284f68fbf3df3d8f50060e2fca7505f328a262"
+        "bytes": 27800,
+        "digest": "sha256:f32d6d8ce9cc86a4de251abad2dfc2e48b5e427bb6760622fe12f34da6bb4da4"
       },
       {
         "path": "agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
-        "bytes": 33804,
-        "digest": "sha256:8198c4a0c6dc29fb4626854c330101ce0eebd2545ea02d1684dee1af52c7ca6d"
+        "bytes": 34300,
+        "digest": "sha256:99f68a5fe355a7c3d0adf84721296942fafe28c5231e4532b04ba8b3822ee96a"
       },
       {
         "path": "agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
-        "bytes": 37023,
-        "digest": "sha256:405009178e9fa91333a8da4d735c19bdd928356972af3e0b810aecd58d11a4cb"
+        "bytes": 37515,
+        "digest": "sha256:d4c00aaec631337e11b641e85dc0e167d10415c2dcc7bd39323065da0ebd51db"
       },
       {
         "path": "compilation.json",
-        "bytes": 313384,
-        "digest": "sha256:4e99e2efaf56ac98d29b9f1e8feec0c9fe91a5c5a8da234df2669ed1355f603e"
+        "bytes": 319450,
+        "digest": "sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc"
       },
       {
         "path": "integration.md",
-        "bytes": 8142,
-        "digest": "sha256:599d9cc2fc7b2e0d1f31e6f29674dc06326c4d3116a75ae97939f58f8c4c0077"
+        "bytes": 8161,
+        "digest": "sha256:5e99da6620c53940f5dd5d711a82c8c64e248be36c1e5fd6eecf852a6307e1e4"
       },
       {
         "path": "manifest.json",
         "bytes": 4203,
-        "digest": "sha256:7a9277fcc8176e6e0b76e6b1c4fad4461e2ef28d1352b6b6c274d247aef74e2b"
+        "digest": "sha256:0c1068f526bcd286527f2678205221b25b8aab869e4c662d12a572bd55823599"
       }
     ]
   }

@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: Candidate 4 is retired, R11 is integrated at `efc8a86`, and the IDECircuit public-surface pass has a green template checker, complete checker regression matrix, refreshed V11 trust chain, and canonical repository gate. Candidate 5 freeze and complete fresh R2 review remain.
+T006 in progress: Candidates 4 and 5 are retired. Revision 12 corrects checkout-dependent V11 evidence and candidate-local runtime state; its two exact specialist handoffs pass. V11 Revision 37 now has a verified two-package trust chain. Candidate 6 freeze, its exact canonical gate, and a complete fresh R2 review remain.
 
 ## Task List
 

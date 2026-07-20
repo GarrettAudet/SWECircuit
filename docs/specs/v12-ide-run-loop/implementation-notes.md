@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation is complete, but release-correction revision 11 is active. Candidate 4 is retired after its exact committed-tree gate exposed missing isolated Git context and a latent self-referential gate-evidence rule. Candidate 5 canonical verification and complete independent R2 review remain before V12 acceptance.
+The V12 product implementation is complete. Candidates 4 and 5 are retired; release-correction revision 12 is integrated and V11 Revision 37 passes its complete two-package trust replay. Candidate 6 canonical verification and complete independent R2 review remain before V12 acceptance.
 
 ## Baseline
 
@@ -105,3 +105,12 @@ The V12 product implementation is complete, but release-correction revision 11 i
 - V11 revision 36 now binds Candidate A `sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681` / `sha256:66ffa021c2def7b9487ae42fddb27570c1de8b895485ee0c9ab26f6c707cf1e2` and Audit B `sha256:5ad47788b7d6bd0d0ad149fbbde109ee15e92a5aba82d8ce902548edf2d06765` / `sha256:2c7c9acf44bcd82cb0320850f66497fc3ebff5fb1f4682cc135cff1dc6015a4b`.
 - The revision-36 binder is 12,986 bytes at `sha256:ab17516c3e132c86ed9b94e445b9abbae22948827776b8bd80e47c736bef17f2`; the independent semantic handoff is 8,654 bytes at `sha256:52ce1327efa5f3a9e206b9fa66b5bba40debd6de98bda9f3122361555f6ace6a`. Standard handoff verification, dependency assessment, prelaunch reconstruction, and full V11 evidence replay all pass.
 - The final canonical `npm.cmd run verify` passed in 240 seconds: format, lint, typecheck, build, the full test suite, the public specialist example, V10/V11/V12 dogfood, package inspection, and clean installed-consumer verification.
+
+## Candidate 5 And Revision 12
+
+- Candidate 5 `62e51278904b3036971f6fcd40577313f1168e2a` passed all 399 tests, then failed closed on two checkout-dependent V11 PowerShell bindings and an unexpected candidate-local `.local` runtime path. Its exact receipt and raw logs remain immutable under `evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/`.
+- Revision 12 compiled two disjoint specialists with projected makespan 11 versus serial 19 and zero conflicts. Compilation/package are `sha256:a22663c51b5477531f8dc8a08e17841cf52d7aa837507cc672dcae5f1ca8eb48` / `sha256:26bc2190b4acd7d4fe253228eabad5862d0819717b75b7b7f20e6264dfc4d4ce`; both exact raw handoffs verify `pass` and complete fan-in is ready.
+- Integration requires LF clean-filter-stable V11 source bytes, binds `.gitattributes`, supplies npm cache state outside the candidate materialization, removes only authenticated generated `dist`, and prunes test-owned empty parents without weakening exact post-command inspection.
+- Focused release-gate coverage passes 7/7; V11 and first-run coverage passes 38/38. An empty-cache probe correctly reproduced npm `ENOTCACHED`, while the intended warm host-cache path passed dry-run package and installed-consumer verification.
+- V11 Revision 37 now binds Candidate A `sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c` / `sha256:42ec6c54edefb0fda5287b3ba4145bd0d7e59e8f2ff3ba55c92f1610d09c78d6` and Audit B `sha256:58704463065c13dbf84aca3eccd3cc7ae75533111e26e615c3fa2827e77da568` / `sha256:04d67198f0dd761f8a11d1b8ab85594e65594de2b1f0f323f498c32874246987`.
+- The 2,255-byte external receipt, 7,492-byte binder, 7,602-byte independent semantic `pass`, and 984-byte cross-package authorization all verify. Complete `--check-evidence` replay returns `pass`; Candidate 6 can now be frozen.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Release review attempt 1 and Candidate 3 produced verified release-blocking `fix` routes. Candidate 4 then failed its exact committed-tree gate before R2 because Git-aware regressions had no isolated Git context. Revision 11 is the active correction; Candidate 5 is not yet frozen, so V12 is not merge-ready.
+Release review attempt 1 and Candidate 3 produced verified release-blocking `fix` routes. Candidates 4 and 5 then failed their exact committed-tree gates and are retired. Revision 12 is integrated, and V11 Revision 37 passes the complete two-package trust replay. Candidate 6 exact verification and a complete fresh R2 review remain, so V12 is not merge-ready.
 
 ## Scope
 
@@ -56,6 +56,12 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 - R10 places every new R2 artifact under `runs/{candidate}/`, reads reviewer sources from exact candidate Git blobs, and verifies a contiguous correction lineage without a hardcoded terminal revision. Compilation/package: `sha256:383a9ee2d20773c8608f7da195f9e7ea5212838dc7d82f0865bc1cefd38e2400` / `sha256:985a85fe77b507088cde4df3d0352c21b142fe09541cf4d5295a5869b28cf075`.
 - Main-agent verification passes exact syntax, formatter/linter checks, 5 of 5 R10 lifecycle tests, 4 of 4 release-gate tests, the template checker, and the package-bound R10 handoff gate.
 
+## Candidate 5 And Correction 12
+
+- Candidate 5 `62e51278904b3036971f6fcd40577313f1168e2a` is permanently retired. Its exact gate passed all 399 tests, then exposed checkout-dependent V11 evidence bytes and candidate-local runtime state.
+- Revision 12's two specialist handoffs verify `pass` against compilation/package `sha256:a22663c51b5477531f8dc8a08e17841cf52d7aa837507cc672dcae5f1ca8eb48` / `sha256:26bc2190b4acd7d4fe253228eabad5862d0819717b75b7b7f20e6264dfc4d4ce`.
+- V11 Revision 37 independently reconstructs and verifies Candidate A and Audit B, including the external receipt, dependency handoff, semantic audit, and cross-package authorization. Full V11 evidence replay passes.
+
 ## Outcome
 
-`fix`. Candidate 4 is retired. Release and merge remain stopped until R11 closes the isolated Git-context and external-evidence provenance defects, Candidate 5 passes the exact canonical gate, and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.
+`fix`. Candidate 5's route is satisfied by Revision 12. Release and merge remain stopped until Candidate 6 passes the exact canonical gate and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.

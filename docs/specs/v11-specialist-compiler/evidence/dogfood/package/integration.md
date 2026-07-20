@@ -1,6 +1,6 @@
 # Specialist Integration Contract
 
-Compilation: `sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681`
+Compilation: `sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c`
 
 The integration owner launches only the contracts bound to this compilation, preserves each raw handoff, verifies required evidence, resolves declared dependencies in order, and returns to clarification or redesign when a specialist crosses its boundary.
 
@@ -16,9 +16,9 @@ The integration owner launches only the contracts bound to this compilation, pre
 
 ```json
 {
-  "compilationDigest": "sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681",
+  "compilationDigest": "sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 36,
+  "goalRevision": 37,
   "assumptions": [
     {
       "id": "assumption.atomic-work-reviewed",
@@ -27,8 +27,8 @@ The integration owner launches only the contracts bound to this compilation, pre
     },
     {
       "id": "assumption.checkout-canonical-context",
-      "statement": "Every repository context source is byte-identical under the declared Git checkout rules, with no custom filter or working-tree encoding.",
-      "rationale": "A reviewed launch package must reconstruct from a clean checkout, not only the integration owner working tree."
+      "statement": "Every repository context source is LF-only, unchanged by Git clean filtering, and byte-identical to the exact committed Git blob representation.",
+      "rationale": "A reviewed launch package must retain one source identity across supported checkouts and exact candidate materialization."
     },
     {
       "id": "assumption.external-approval-root",
@@ -82,7 +82,7 @@ The integration owner launches only the contracts bound to this compilation, pre
     "evaluatedCandidates": 203,
     "eligibleCandidates": 52,
     "retainedAlternatives": 8,
-    "evaluationSetDigest": "sha256:4ef2dbec313fd4dad49834027407233a50a88749049a2544ea81c647f28c437d"
+    "evaluationSetDigest": "sha256:1ae6a85c10dd9462f9be1f14c2ea4a33d8f651d285eeff9000eede1da3571920"
   },
   "selectedCandidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "selectedMetrics": {
@@ -91,8 +91,8 @@ The integration owner launches only the contracts bound to this compilation, pre
     "peakConcurrency": 4,
     "conflictPairs": 0,
     "handoffCount": 8,
-    "duplicatedContextBytes": 2209319,
-    "duplicatedPermissionScopes": 149,
+    "duplicatedContextBytes": 2219293,
+    "duplicatedPermissionScopes": 154,
     "totalWorkWeight": 38,
     "totalStartupCost": 12,
     "totalHandoffCost": 8
@@ -151,27 +151,27 @@ The integration owner launches only the contracts bound to this compilation, pre
   "blueprintDigests": [
     {
       "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
-      "digest": "sha256:a6191d57d1774ee3fa693d6725446e84038a46b40ed6e2300c7673b291bc9ca3"
+      "digest": "sha256:4e5c47e83142da89a2095eefa5b36aa26ceb8cf82b4d46ab29c539f4f228979a"
     },
     {
       "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
-      "digest": "sha256:a9afdac385e4c9ace8af1af973f6145b54a75505c85d2d3c98935de5eca6f114"
+      "digest": "sha256:6a49c3d6b4c41b2065203574fdf2b8320537b41a0d5be7c4bf1bcd32422b5615"
     },
     {
       "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
-      "digest": "sha256:f773d4e72b0fbb2444169c8874131082ba831ec1ff8d1c2cadc762500d45f8f3"
+      "digest": "sha256:8aacd75344285df73bc39ee77fd7977c8eace6b8a1ff6ab7ca0b9f75f793184f"
     },
     {
       "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
-      "digest": "sha256:1bbe59370412b205bc4267d8ec0f7bfaeeffa9bf45dd4d82b84bcd3c93b0bf87"
+      "digest": "sha256:a9606975daa6e020e753fc0f2cc036413e4e8ece1c578350f12e37f68bdc575b"
     },
     {
       "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
-      "digest": "sha256:8cf04402310e34be6644c91992ca66301d1f31b5621e4ba0dcce5edfe5fe7c31"
+      "digest": "sha256:9ce55d9e47109655fb7846b15bd3c964cf9e78a5bd235f1700b1c1ef3ace505f"
     },
     {
       "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
-      "digest": "sha256:44ab7abc768e87bf873e63cc045c5adbf986530c235a413094afd7b60df28b2a"
+      "digest": "sha256:f4c30a4cc336f3985c902f5829be5acc90d9e22b96ed014fdc8e7442a3cb6106"
     }
   ]
 }

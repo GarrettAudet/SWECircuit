@@ -1,22 +1,22 @@
 {
   "candidate": {
-    "compilationDigest": "sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681",
-    "packageDigest": "sha256:66ffa021c2def7b9487ae42fddb27570c1de8b895485ee0c9ab26f6c707cf1e2"
+    "compilationDigest": "sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c",
+    "packageDigest": "sha256:42ec6c54edefb0fda5287b3ba4145bd0d7e59e8f2ff3ba55c92f1610d09c78d6"
   },
   "prelaunchAudit": {
-    "compilationDigest": "sha256:5ad47788b7d6bd0d0ad149fbbde109ee15e92a5aba82d8ce902548edf2d06765",
-    "packageDigest": "sha256:2c7c9acf44bcd82cb0320850f66497fc3ebff5fb1f4682cc135cff1dc6015a4b"
+    "compilationDigest": "sha256:58704463065c13dbf84aca3eccd3cc7ae75533111e26e615c3fa2827e77da568",
+    "packageDigest": "sha256:04d67198f0dd761f8a11d1b8ab85594e65594de2b1f0f323f498c32874246987"
   },
   "verificationReceipt": {
     "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
-    "digest": "sha256:2605133783fcf1d8d2629fb0a78ba9c1f996e1865b87f8221d9d82d85d59657c",
+    "digest": "sha256:11438c7379d7a207039f5678a102ea59b8e44448c32f313f0766bb17eefc87f1",
     "bytes": 2255,
     "outcome": "pass"
   },
   "handoff": {
-    "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-36.json",
-    "digest": "sha256:52ce1327efa5f3a9e206b9fa66b5bba40debd6de98bda9f3122361555f6ace6a",
-    "bytes": 8654,
+    "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-37.json",
+    "digest": "sha256:a4206bc654b77147fd583aa9eb8e0d925d8246f737567b29e46a1c65cbcf302f",
+    "bytes": 7602,
     "outcome": "pass"
   }
 }

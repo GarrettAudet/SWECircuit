@@ -1,0 +1,52 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 37,
+    "digest": "sha256:4c45547d7a27db2e1447947ad8a86e25e9818921ff529ed2d1d3b0ae0968e6a3"
+  },
+  "agent": {
+    "id": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+    "blueprintDigest": "sha256:aceaf2ce9222343c4587ff2c7e9e90782639928d56a2cfa14f8c6d3285856f41"
+  },
+  "compilationDigest": "sha256:58704463065c13dbf84aca3eccd3cc7ae75533111e26e615c3fa2827e77da568",
+  "summary": "Authenticated all 10 declared Candidate A context files, the rendered manifest and contract bindings, and the exact external PASS receipt for the approved Candidate A and Audit B digest pairs. Candidate A remains unapproved for launch.",
+  "workUnitsCompleted": [
+    "audit.bind-candidate"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-audit-binding.json",
+      "mediaType": "application/json",
+      "content": "{\"apiVersion\":\"swecircuit/specialist/v1alpha1\",\"kind\":\"CandidateAuditBinding\",\"outcome\":\"pass\",\"candidate\":{\"goalId\":\"v11.specialist-compiler.release\",\"goalRevision\":37,\"selectedCandidateId\":\"team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d\",\"compilationDigest\":\"sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c\",\"packageDigest\":\"sha256:42ec6c54edefb0fda5287b3ba4145bd0d7e59e8f2ff3ba55c92f1610d09c78d6\",\"verificationOutcome\":\"pass\",\"manifest\":{\"contentDigest\":\"sha256:ecc316e66cc99c83d7aa636706cd378aa9d1be58a250089e1c4f2ae5b141d0d7\",\"fileDigest\":\"sha256:0c1068f526bcd286527f2678205221b25b8aab869e4c662d12a572bd55823599\",\"bytes\":4203,\"compilationFileDigest\":\"sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc\",\"compilationFileBytes\":319450}},\"prelaunchAudit\":{\"compilationDigest\":\"sha256:58704463065c13dbf84aca3eccd3cc7ae75533111e26e615c3fa2827e77da568\",\"packageDigest\":\"sha256:04d67198f0dd761f8a11d1b8ab85594e65594de2b1f0f323f498c32874246987\",\"verificationOutcome\":\"pass\",\"approvalOutcome\":\"pass\",\"binder\":{\"agentId\":\"agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6\",\"blueprintDigest\":\"sha256:aceaf2ce9222343c4587ff2c7e9e90782639928d56a2cfa14f8c6d3285856f41\",\"contractFile\":\"agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md\",\"contractDigest\":\"sha256:e74b2bd968c4e86081ba42d94cbc60693caf91eb8b8cc81d64e455cfccb2d6d5\",\"contractBytes\":16224}},\"verificationReceipt\":{\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json\",\"digest\":\"sha256:11438c7379d7a207039f5678a102ea59b8e44448c32f313f0766bb17eefc87f1\",\"bytes\":2255,\"outcome\":\"pass\",\"verifierOperation\":\"verifySpecialistPackage\",\"auditApproval\":{\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json\",\"digest\":\"sha256:dcae6d853c763683f470390cb113e4e6654ec1f1b433d2a2f69417b7da06002d\",\"bytes\":195},\"candidateLaunchApproved\":false},\"declaredContexts\":[{\"sourceId\":\"context.candidate-artifact.01\",\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json\",\"digest\":\"sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc\",\"bytes\":319450,\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.02\",\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md\",\"digest\":\"sha256:ef16faf5b09c975cbea4fb8e3eccc1de15314534a0c123ad2d01285effa046e2\",\"bytes\":19438,\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.03\",\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md\",\"digest\":\"sha256:8660d74d0541db14037ba819af26bccc943dee1cccb4e09e5239e4a74c803169\",\"bytes\":11691,\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.04\",\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md\",\"digest\":\"sha256:f409ae88b7535dcadbb23e3cd085998f3a7a0cdae40b8dc88ed456acfb1d2426\",\"bytes\":24269,\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.05\",\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md\",\"digest\":\"sha256:f32d6d8ce9cc86a4de251abad2dfc2e48b5e427bb6760622fe12f34da6bb4da4\",\"bytes\":27800,\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.06\",\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md\",\"digest\":\"sha256:99f68a5fe355a7c3d0adf84721296942fafe28c5231e4532b04ba8b3822ee96a\",\"bytes\":34300,\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.07\",\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md\",\"digest\":\"sha256:d4c00aaec631337e11b641e85dc0e167d10415c2dcc7bd39323065da0ebd51db\",\"bytes\":37515,\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.08\",\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json\",\"digest\":\"sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc\",\"bytes\":319450,\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.09\",\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md\",\"digest\":\"sha256:5e99da6620c53940f5dd5d711a82c8c64e248be36c1e5fd6eecf852a6307e1e4\",\"bytes\":8161,\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.10\",\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json\",\"digest\":\"sha256:0c1068f526bcd286527f2678205221b25b8aab869e4c662d12a572bd55823599\",\"bytes\":4203,\"status\":\"pass\"}],\"verification\":{\"allDeclaredContextRawIdentities\":\"pass\",\"compilationCopiesByteIdentity\":\"pass\",\"compilationDomainIdentity\":\"pass\",\"manifestBindings\":\"pass\",\"renderedAgentContractBindings\":\"pass\",\"integrationContractBinding\":\"pass\",\"candidatePackageVerificationReceipt\":\"pass\",\"auditPackageVerificationReceipt\":\"pass\",\"candidateLaunchApproved\":false}}"
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-binding",
+      "kind": "digest",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "candidate-audit-binding.json"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-binding",
+      "kind": "digest",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "candidate-audit-binding.json"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This binding authenticates the frozen Candidate A review inputs but is not semantic approval or launch authorization."
+  ],
+  "followUps": [
+    "Preserve this handoff as exact raw UTF-8 bytes, verify it against the approved Audit B package and digest pair, and assess it before starting the dependent semantic reviewer."
+  ]
+}

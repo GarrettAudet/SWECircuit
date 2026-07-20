@@ -34,7 +34,7 @@
     "lint": "biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build --silent && node --test test/*.test.mjs",
-    "pack:check": "npm pack --dry-run --cache .local/npm-cache",
+    "pack:check": "npm pack --dry-run --offline",
     "consumer:check": "npm run build --silent && node scripts/check-packed-consumer.mjs",
     "verify": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run example:specialist && npm run dogfood:v10 && npm run dogfood:v11 && npm run dogfood:v12 && npm run pack:check && npm run consumer:check"
   },

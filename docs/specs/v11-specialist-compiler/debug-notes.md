@@ -354,3 +354,13 @@ Enter diagnosis if the same golden case fails twice, exact search violates its d
 - The failure was confined to a mutable integration output; no Candidate A or Audit B source binding changed.
 - The host restored both required sections, reran the template checker, then passed the full 119-case matrix and canonical 370-test verification.
 - Post-integration package reconstruction remained exact, and the 44-file archive manifest verified every copied byte.
+
+## Revision 37 Checkout-Stable Trust Rebuild
+
+- Candidate 5 exposed that two V11 PowerShell context bindings retained Windows CRLF checkout bytes while exact candidate materialization supplied their committed LF blobs. Exactly two of 57 Revision 36 contexts differed; the mismatch was line-ending-only but correctly invalidated replay.
+- Revision 37 requires explicit `eol=lf`, identical raw and clean-filter object identities, no carriage returns, and exactly one bound `path:.gitattributes` policy source across all 58 contexts.
+- Candidate A rebuilt as `sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c` / `sha256:42ec6c54edefb0fda5287b3ba4145bd0d7e59e8f2ff3ba55c92f1610d09c78d6`; Audit B rebuilt as `sha256:58704463065c13dbf84aca3eccd3cc7ae75533111e26e615c3fa2827e77da568` / `sha256:04d67198f0dd761f8a11d1b8ab85594e65594de2b1f0f323f498c32874246987`.
+- The external receipt is 2,255 bytes at `sha256:11438c7379d7a207039f5678a102ea59b8e44448c32f313f0766bb17eefc87f1`. The verified binder is 7,492 bytes at `sha256:526da25d6b3e31dc49ab013d9f94013f9c9b2788ff16c2f90a5ab974bb5ef78b` and satisfied the reviewer's exact dependency closure.
+- Independent Audit B reproduced all 203 Candidate A partitions, 52 eligible candidates, the selected six-agent schedule, authority, evidence ownership, and all nine rendered files. Its 7,602-byte semantic `pass` is `sha256:a4206bc654b77147fd583aa9eb8e0d925d8246f737567b29e46a1c65cbcf302f`.
+- The 984-byte cross-package authorization is `sha256:edfa8d8cf6e87a1cfd0fc7db13fa7c77be2075c638d5487955afbdc7f1622459`. The host reasserted Candidate A approval only after preserving the receipt, binder, semantic `pass`, and authorization.
+- `node scripts/run-v11-dogfood.mjs --check-evidence` returns `pass` for Candidate A, Audit B, the receipt, and launch authorization. This restores V11 evidence replay; it does not execute agents or release V12.

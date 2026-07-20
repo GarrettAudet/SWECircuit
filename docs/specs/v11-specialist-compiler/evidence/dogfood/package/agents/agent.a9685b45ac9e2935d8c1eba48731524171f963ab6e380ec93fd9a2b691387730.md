@@ -1,7 +1,7 @@
 # Specialist Contract: agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730
 
-Compilation: `sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681`
-Blueprint: `sha256:44ab7abc768e87bf873e63cc045c5adbf986530c235a413094afd7b60df28b2a`
+Compilation: `sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c`
+Blueprint: `sha256:f4c30a4cc336f3985c902f5829be5acc90d9e22b96ed014fdc8e7442a3cb6106`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 36,
-  "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
+  "goalRevision": 37,
+  "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "prepare.candidate"
@@ -171,8 +171,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.consumer-check",
       "kind": "repository",
       "locator": "path:scripts/check-packed-consumer.mjs",
-      "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
-      "bytes": 43243,
+      "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+      "bytes": 44049,
       "purposes": [
         "Bind this exact candidate source before independent review."
       ],
@@ -227,8 +227,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.dogfood-runner",
       "kind": "repository",
       "locator": "path:scripts/run-v11-dogfood.mjs",
-      "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda",
-      "bytes": 58524,
+      "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e",
+      "bytes": 58302,
       "purposes": [
         "Bind this exact candidate source before independent review."
       ],
@@ -241,8 +241,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.dogfood-runner-tests",
       "kind": "repository",
       "locator": "path:test/v11-dogfood-runner.test.mjs",
-      "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d",
-      "bytes": 41879,
+      "digest": "sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284",
+      "bytes": 43787,
       "purposes": [
         "Bind the host containment regression before independent review."
       ],
@@ -297,8 +297,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.first-run-tests",
       "kind": "repository",
       "locator": "path:test/specialist-first-run.test.mjs",
-      "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-      "bytes": 8553,
+      "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+      "bytes": 8984,
       "purposes": [
         "Bind this exact revision-30 source before independent review."
       ],
@@ -390,6 +390,20 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
         "prepare.candidate"
       ],
       "readScope": "test/fixtures/specialist-compiler/under-split.json"
+    },
+    {
+      "sourceId": "context.gitattributes",
+      "kind": "repository",
+      "locator": "path:.gitattributes",
+      "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+      "bytes": 501,
+      "purposes": [
+        "Authenticate the exact repository source-byte normalization policy."
+      ],
+      "workUnitIds": [
+        "prepare.candidate"
+      ],
+      "readScope": ".gitattributes"
     },
     {
       "sourceId": "context.handbook",
@@ -549,8 +563,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
-      "bytes": 2946,
+      "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+      "bytes": 2931,
       "purposes": [
         "Bind this exact revision-30 source before independent review."
       ],
@@ -804,6 +818,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     ],
     "scope": {
       "read": [
+        ".gitattributes",
         "AGENTS.md",
         "CHANGELOG.md",
         "CONTRIBUTING.md",
@@ -865,6 +880,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       {
         "kind": "filesystem.read",
         "scopes": [
+          ".gitattributes",
           "AGENTS.md",
           "CHANGELOG.md",
           "CONTRIBUTING.md",
@@ -988,7 +1004,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "stopConditions": [
     "Stop if any declared source digest or byte count does not match."
   ],
-  "contentDigest": "sha256:44ab7abc768e87bf873e63cc045c5adbf986530c235a413094afd7b60df28b2a"
+  "contentDigest": "sha256:f4c30a4cc336f3985c902f5829be5acc90d9e22b96ed014fdc8e7442a3cb6106"
 }
 ```
 
@@ -1009,14 +1025,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 36,
-    "digest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573"
+    "revision": 37,
+    "digest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f"
   },
   "agent": {
     "id": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
-    "blueprintDigest": "sha256:44ab7abc768e87bf873e63cc045c5adbf986530c235a413094afd7b60df28b2a"
+    "blueprintDigest": "sha256:f4c30a4cc336f3985c902f5829be5acc90d9e22b96ed014fdc8e7442a3cb6106"
   },
-  "compilationDigest": "sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681",
+  "compilationDigest": "sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "prepare.candidate"

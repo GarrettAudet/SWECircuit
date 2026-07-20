@@ -2,7 +2,7 @@
   "apiVersion": "swecircuit/specialist/v1alpha1",
   "kind": "GoalContract",
   "id": "v11.specialist-compiler.release",
-  "revision": 36,
+  "revision": 37,
   "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit with an exact external verification receipt, a hardened first-run reference host, self-sufficient generated handoff contracts, publicly closed specialist schemas, deterministic artifact media and normalized evidence controls, exact candidate analysis, raw handoff and dependency fan-in verification, canonical gates, traceable integration, and owner merge gate without claiming runtime orchestration.",
   "integrationOwner": "v11.integration-owner",
   "assumptions": [
@@ -33,8 +33,8 @@
     },
     {
       "id": "assumption.checkout-canonical-context",
-      "statement": "Every repository context source is byte-identical under the declared Git checkout rules, with no custom filter or working-tree encoding.",
-      "rationale": "A reviewed launch package must reconstruct from a clean checkout, not only the integration owner working tree."
+      "statement": "Every repository context source is LF-only, unchanged by Git clean filtering, and byte-identical to the exact committed Git blob representation.",
+      "rationale": "A reviewed launch package must retain one source identity across supported checkouts and exact candidate materialization."
     },
     {
       "id": "assumption.two-phase-prelaunch-audit",
@@ -290,8 +290,8 @@
       "id": "context.consumer-check",
       "kind": "repository",
       "locator": "path:scripts/check-packed-consumer.mjs",
-      "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
-      "bytes": 43243,
+      "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+      "bytes": 44049,
       "description": "Offline installed-package verification that compiles and executes the public TypeScript host, asserts its structured receipt, and verifies retained approval.",
       "allowedWorkUnits": [
         "prepare.candidate",
@@ -349,8 +349,8 @@
       "id": "context.dogfood-runner",
       "kind": "repository",
       "locator": "path:scripts/run-v11-dogfood.mjs",
-      "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda",
-      "bytes": 58524,
+      "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e",
+      "bytes": 58302,
       "description": "V11 context binding, fail-closed checkout-canonical validation, external approval, package verification, and evidence harness.",
       "allowedWorkUnits": [
         "prepare.candidate",
@@ -363,8 +363,8 @@
       "id": "context.dogfood-runner-tests",
       "kind": "repository",
       "locator": "path:test/v11-dogfood-runner.test.mjs",
-      "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d",
-      "bytes": 41879,
+      "digest": "sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284",
+      "bytes": 43787,
       "description": "Direct checkout-canonical, transform-sentinel, containment, strict-control, and evidence-write regressions for the V11 dogfood host.",
       "allowedWorkUnits": [
         "prepare.candidate",
@@ -422,8 +422,8 @@
       "id": "context.first-run-tests",
       "kind": "repository",
       "locator": "path:test/specialist-first-run.test.mjs",
-      "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-      "bytes": 8553,
+      "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+      "bytes": 8984,
       "description": "The deterministic and read-only first-run regressions.",
       "allowedWorkUnits": [
         "prepare.candidate",
@@ -523,6 +523,23 @@
         "verify.release-gates"
       ],
       "readScope": "test/fixtures/specialist-compiler/under-split.json"
+    },
+    {
+      "id": "context.gitattributes",
+      "kind": "repository",
+      "locator": "path:.gitattributes",
+      "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+      "bytes": 501,
+      "description": "The exact Git normalization policy that defines repository source-byte identity.",
+      "allowedWorkUnits": [
+        "integrate.release",
+        "prepare.candidate",
+        "review.algorithm-lifecycle",
+        "review.product-api",
+        "review.security-trace",
+        "verify.release-gates"
+      ],
+      "readScope": ".gitattributes"
     },
     {
       "id": "context.handbook",
@@ -686,8 +703,8 @@
       "id": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
-      "bytes": 2946,
+      "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+      "bytes": 2931,
       "description": "Canonical build, test, dogfood, package, and consumer gates.",
       "allowedWorkUnits": [
         "prepare.candidate",
@@ -899,8 +916,8 @@
       "id": "context.template-checker",
       "kind": "repository",
       "locator": "path:scripts/check-template.ps1",
-      "digest": "sha256:f0d14d1cf7d61f338c588d57b28415cbd045b05ac7b81fa80432373fa1bbf81e",
-      "bytes": 80766,
+      "digest": "sha256:5c6fb77dc0a817be6c137805088b408c32b01bc7fc81ccc3f2cd4874014cf424",
+      "bytes": 78529,
       "description": "Workflow artifact validation gate.",
       "allowedWorkUnits": [
         "verify.release-gates"
@@ -911,8 +928,8 @@
       "id": "context.template-checker-tests",
       "kind": "repository",
       "locator": "path:scripts/test-check-template.ps1",
-      "digest": "sha256:1cec6a958b7eb40f1a8a60d3dc81f6c4b464c68c310e815c9339857dcca767f6",
-      "bytes": 102789,
+      "digest": "sha256:33c057636bcf96949df1d1311fc8ddee5913370a2b4fdb8f57c99f6ae5e6e882",
+      "bytes": 101000,
       "description": "Template-checker regression matrix.",
       "allowedWorkUnits": [
         "verify.release-gates"
@@ -987,6 +1004,7 @@
         "kind": "filesystem.read",
         "scopes": [
           ".git/**",
+          ".gitattributes",
           ".github/**",
           "AGENTS.md",
           "CHANGELOG.md",
@@ -1216,6 +1234,10 @@
           "purpose": "Bind this exact golden fixture before independent review."
         },
         {
+          "sourceId": "context.gitattributes",
+          "purpose": "Authenticate the exact repository source-byte normalization policy."
+        },
+        {
           "sourceId": "context.handbook",
           "purpose": "Bind this exact revision-30 source before independent review."
         },
@@ -1334,6 +1356,7 @@
       ],
       "scope": {
         "read": [
+          ".gitattributes",
           "AGENTS.md",
           "CHANGELOG.md",
           "CONTRIBUTING.md",
@@ -1395,6 +1418,7 @@
         {
           "kind": "filesystem.read",
           "scopes": [
+            ".gitattributes",
             "AGENTS.md",
             "CHANGELOG.md",
             "CONTRIBUTING.md",
@@ -1553,6 +1577,10 @@
           "purpose": "Review the public product and API contract."
         },
         {
+          "sourceId": "context.gitattributes",
+          "purpose": "Authenticate the exact repository source-byte normalization policy."
+        },
+        {
           "sourceId": "context.handbook",
           "purpose": "Review the public product and API contract."
         },
@@ -1627,6 +1655,7 @@
       ],
       "scope": {
         "read": [
+          ".gitattributes",
           "AGENTS.md",
           "CHANGELOG.md",
           "CONTRIBUTING.md",
@@ -1667,6 +1696,7 @@
         {
           "kind": "filesystem.read",
           "scopes": [
+            ".gitattributes",
             "AGENTS.md",
             "CHANGELOG.md",
             "CONTRIBUTING.md",
@@ -1800,6 +1830,10 @@
           "purpose": "Audit the expected optimization outcome for this golden fixture."
         },
         {
+          "sourceId": "context.gitattributes",
+          "purpose": "Authenticate the exact repository source-byte normalization policy."
+        },
+        {
           "sourceId": "context.handoff",
           "purpose": "Review deterministic candidate, lifecycle, and dependency behavior."
         },
@@ -1830,6 +1864,7 @@
       ],
       "scope": {
         "read": [
+          ".gitattributes",
           "docs/modules/specialist-agent-compiler.md",
           "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
           "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
@@ -1858,6 +1893,7 @@
         {
           "kind": "filesystem.read",
           "scopes": [
+            ".gitattributes",
             "docs/modules/specialist-agent-compiler.md",
             "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
             "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
@@ -2013,6 +2049,10 @@
           "purpose": "Audit fixture-driven authority and boundary coverage."
         },
         {
+          "sourceId": "context.gitattributes",
+          "purpose": "Authenticate the exact repository source-byte normalization policy."
+        },
+        {
           "sourceId": "context.handbook",
           "purpose": "Review privacy, authority, raw-boundary, and trace behavior."
         },
@@ -2127,6 +2167,7 @@
       ],
       "scope": {
         "read": [
+          ".gitattributes",
           "AGENTS.md",
           "docs/ai/handbook.md",
           "docs/ide/specialist-agent-kickoff.md",
@@ -2184,6 +2225,7 @@
         {
           "kind": "filesystem.read",
           "scopes": [
+            ".gitattributes",
             "AGENTS.md",
             "docs/ai/handbook.md",
             "docs/ide/specialist-agent-kickoff.md",
@@ -2364,6 +2406,10 @@
           "purpose": "Execute the bound golden fixture through the release gates."
         },
         {
+          "sourceId": "context.gitattributes",
+          "purpose": "Authenticate the exact repository source-byte normalization policy."
+        },
+        {
           "sourceId": "context.handoff",
           "purpose": "Exercise this source through the canonical release gates."
         },
@@ -2423,6 +2469,7 @@
       "scope": {
         "read": [
           ".git/**",
+          ".gitattributes",
           ".github/**",
           "AGENTS.md",
           "CHANGELOG.md",
@@ -2484,6 +2531,7 @@
           "kind": "filesystem.read",
           "scopes": [
             ".git/**",
+            ".gitattributes",
             ".github/**",
             "AGENTS.md",
             "CHANGELOG.md",
@@ -2607,6 +2655,10 @@
           "purpose": "Preserve the final compiler boundary."
         },
         {
+          "sourceId": "context.gitattributes",
+          "purpose": "Authenticate the exact repository source-byte normalization policy."
+        },
+        {
           "sourceId": "context.readme",
           "purpose": "Keep public status accurate."
         },
@@ -2621,6 +2673,7 @@
       ],
       "scope": {
         "read": [
+          ".gitattributes",
           "README.md",
           "docs/memory/**",
           "docs/milestones/v11.md",
@@ -2643,6 +2696,7 @@
         {
           "kind": "filesystem.read",
           "scopes": [
+            ".gitattributes",
             "README.md",
             "docs/memory/**",
             "docs/milestones/v11.md",

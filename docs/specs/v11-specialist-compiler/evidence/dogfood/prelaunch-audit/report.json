@@ -2,7 +2,7 @@
   "reportVersion": "1.0.0",
   "result": "pass",
   "goalId": "v11.specialist-compiler.prelaunch-audit",
-  "goalRevision": 36,
+  "goalRevision": 37,
   "assumptions": [
     {
       "id": "assumption.audit-is-trust-root",
@@ -38,62 +38,62 @@
       {
         "sourceId": "context.candidate-artifact.01",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
-        "bytes": 313384,
-        "digest": "sha256:4e99e2efaf56ac98d29b9f1e8feec0c9fe91a5c5a8da234df2669ed1355f603e"
+        "bytes": 319450,
+        "digest": "sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc"
       },
       {
         "sourceId": "context.candidate-artifact.02",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
-        "bytes": 18937,
-        "digest": "sha256:61b55b540e32d27e06d173962f9ed32d12e6da8403f209e7a9cceef6e9b0d57d"
+        "bytes": 19438,
+        "digest": "sha256:ef16faf5b09c975cbea4fb8e3eccc1de15314534a0c123ad2d01285effa046e2"
       },
       {
         "sourceId": "context.candidate-artifact.03",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
-        "bytes": 11199,
-        "digest": "sha256:1ede69c1456b1bc8e5596bd713163c90eb8d7622c30b8cbb06379130df046ec2"
+        "bytes": 11691,
+        "digest": "sha256:8660d74d0541db14037ba819af26bccc943dee1cccb4e09e5239e4a74c803169"
       },
       {
         "sourceId": "context.candidate-artifact.04",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
-        "bytes": 23776,
-        "digest": "sha256:7dfd8c28c3dc757840465471083177a089c1bf9ae0060cca9353de48ab9533ba"
+        "bytes": 24269,
+        "digest": "sha256:f409ae88b7535dcadbb23e3cd085998f3a7a0cdae40b8dc88ed456acfb1d2426"
       },
       {
         "sourceId": "context.candidate-artifact.05",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
-        "bytes": 27305,
-        "digest": "sha256:2f2c857534355b1876eb1d206f284f68fbf3df3d8f50060e2fca7505f328a262"
+        "bytes": 27800,
+        "digest": "sha256:f32d6d8ce9cc86a4de251abad2dfc2e48b5e427bb6760622fe12f34da6bb4da4"
       },
       {
         "sourceId": "context.candidate-artifact.06",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
-        "bytes": 33804,
-        "digest": "sha256:8198c4a0c6dc29fb4626854c330101ce0eebd2545ea02d1684dee1af52c7ca6d"
+        "bytes": 34300,
+        "digest": "sha256:99f68a5fe355a7c3d0adf84721296942fafe28c5231e4532b04ba8b3822ee96a"
       },
       {
         "sourceId": "context.candidate-artifact.07",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
-        "bytes": 37023,
-        "digest": "sha256:405009178e9fa91333a8da4d735c19bdd928356972af3e0b810aecd58d11a4cb"
+        "bytes": 37515,
+        "digest": "sha256:d4c00aaec631337e11b641e85dc0e167d10415c2dcc7bd39323065da0ebd51db"
       },
       {
         "sourceId": "context.candidate-artifact.08",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
-        "bytes": 313384,
-        "digest": "sha256:4e99e2efaf56ac98d29b9f1e8feec0c9fe91a5c5a8da234df2669ed1355f603e"
+        "bytes": 319450,
+        "digest": "sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc"
       },
       {
         "sourceId": "context.candidate-artifact.09",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
-        "bytes": 8142,
-        "digest": "sha256:599d9cc2fc7b2e0d1f31e6f29674dc06326c4d3116a75ae97939f58f8c4c0077"
+        "bytes": 8161,
+        "digest": "sha256:5e99da6620c53940f5dd5d711a82c8c64e248be36c1e5fd6eecf852a6307e1e4"
       },
       {
         "sourceId": "context.candidate-artifact.10",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
         "bytes": 4203,
-        "digest": "sha256:7a9277fcc8176e6e0b76e6b1c4fad4461e2ef28d1352b6b6c274d247aef74e2b"
+        "digest": "sha256:0c1068f526bcd286527f2678205221b25b8aab869e4c662d12a572bd55823599"
       },
       {
         "sourceId": "context.canonical-json",
@@ -134,8 +134,8 @@
       {
         "sourceId": "context.consumer-check",
         "path": "scripts/check-packed-consumer.mjs",
-        "bytes": 43243,
-        "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe"
+        "bytes": 44049,
+        "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a"
       },
       {
         "sourceId": "context.diagnostic-catalog",
@@ -152,14 +152,14 @@
       {
         "sourceId": "context.dogfood-runner",
         "path": "scripts/run-v11-dogfood.mjs",
-        "bytes": 58524,
-        "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda"
+        "bytes": 58302,
+        "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e"
       },
       {
         "sourceId": "context.dogfood-runner-tests",
         "path": "test/v11-dogfood-runner.test.mjs",
-        "bytes": 41879,
-        "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d"
+        "bytes": 43787,
+        "digest": "sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284"
       },
       {
         "sourceId": "context.first-run",
@@ -176,8 +176,8 @@
       {
         "sourceId": "context.first-run-tests",
         "path": "test/specialist-first-run.test.mjs",
-        "bytes": 8553,
-        "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0"
+        "bytes": 8984,
+        "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b"
       },
       {
         "sourceId": "context.fixture.conflict-heavy",
@@ -214,6 +214,12 @@
         "path": "test/fixtures/specialist-compiler/under-split.json",
         "bytes": 6224,
         "digest": "sha256:3ef5d99ff5fd47f6ddf0b46d30effa513488d6806bb275ba598871e93a9c537c"
+      },
+      {
+        "sourceId": "context.gitattributes",
+        "path": ".gitattributes",
+        "bytes": 501,
+        "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953"
       },
       {
         "sourceId": "context.handbook",
@@ -284,8 +290,8 @@
       {
         "sourceId": "context.package",
         "path": "package.json",
-        "bytes": 2946,
-        "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2"
+        "bytes": 2931,
+        "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368"
       },
       {
         "sourceId": "context.packed-consumer-host",
@@ -385,7 +391,7 @@
       }
     ]
   },
-  "compilationDigest": "sha256:5ad47788b7d6bd0d0ad149fbbde109ee15e92a5aba82d8ce902548edf2d06765",
+  "compilationDigest": "sha256:58704463065c13dbf84aca3eccd3cc7ae75533111e26e615c3fa2827e77da568",
   "search": {
     "mode": "exact",
     "claim": "exhaustive_partition_search_fixed_scheduler",
@@ -393,7 +399,7 @@
     "evaluatedCandidates": 2,
     "eligibleCandidates": 1,
     "retainedAlternatives": 1,
-    "evaluationSetDigest": "sha256:a9ca380a9e2732635727c7b2d75e750f0473cc5e78c72e6bf9252b8647e2a562"
+    "evaluationSetDigest": "sha256:2b2e654f0ddb3658ed825ec79c28ad901b93106bce5eef595e560bf7765dd5b3"
   },
   "serialBaseline": {
     "id": "team.c47c69651ba006e72c72b8ff6513f486c385e52d612a70cb95fb296d49b5ae93",
@@ -439,7 +445,7 @@
       "peakConcurrency": 1,
       "conflictPairs": 0,
       "handoffCount": 1,
-      "duplicatedContextBytes": 791157,
+      "duplicatedContextBytes": 806277,
       "duplicatedPermissionScopes": 10,
       "totalWorkWeight": 11,
       "totalStartupCost": 4,
@@ -464,7 +470,7 @@
   "blueprintAssignments": [
     {
       "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
-      "blueprintDigest": "sha256:7d8bc098b835f31ff5ad179f227fcef83e7df28b0d5d5fe35f6a2391b3a091f4",
+      "blueprintDigest": "sha256:aceaf2ce9222343c4587ff2c7e9e90782639928d56a2cfa14f8c6d3285856f41",
       "workUnitIds": [
         "audit.bind-candidate"
       ],
@@ -475,7 +481,7 @@
     },
     {
       "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
-      "blueprintDigest": "sha256:7e19a897c33625c9848bac4431dc0ec34ca830596f2415651942cf9d50c1e362",
+      "blueprintDigest": "sha256:55f426dacb867462506f872f49402466aae9da8a0ff0a905906aad82824dcf34",
       "workUnitIds": [
         "audit.review-candidate-compilation"
       ],
@@ -492,33 +498,33 @@
       "result": "pass",
       "expectationFile": "approval.json"
     },
-    "packageDigest": "sha256:2c7c9acf44bcd82cb0320850f66497fc3ebff5fb1f4682cc135cff1dc6015a4b",
-    "manifestDigest": "sha256:2d7a200361dfb176e141e1ee32047210c514f142e2a4a2c39ca2c2083a41d8a0",
+    "packageDigest": "sha256:04d67198f0dd761f8a11d1b8ab85594e65594de2b1f0f323f498c32874246987",
+    "manifestDigest": "sha256:2be83dd01bca6ffa0337a927a91ced3e2b8ccfa7771ebcc34c6122ac5898b5fc",
     "files": [
       {
         "path": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
         "bytes": 16224,
-        "digest": "sha256:32e5d9771aa647f3c27b9853b2c3881bcaa8dbd488502f0c34bc964ed7e7ea99"
+        "digest": "sha256:e74b2bd968c4e86081ba42d94cbc60693caf91eb8b8cc81d64e455cfccb2d6d5"
       },
       {
         "path": "agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
-        "bytes": 46179,
-        "digest": "sha256:604e2e6f9cc7b876650ede254abc5b6209b6e835b6c98ec2b6efe9c6c4769309"
+        "bytes": 46700,
+        "digest": "sha256:603263241453279113ccb14897ff193602a9ed5f6a1fb865a0f3f13f371ecd6f"
       },
       {
         "path": "compilation.json",
-        "bytes": 168271,
-        "digest": "sha256:9dc83589427bbaf4d33fd582fdcfe149a36339062258f90b836d190a3ae3eade"
+        "bytes": 170107,
+        "digest": "sha256:9e53afe1e44ad75ac7a053e17f2596e737e9a8e4dd725e85ed2f1dce56f95a82"
       },
       {
         "path": "integration.md",
         "bytes": 4711,
-        "digest": "sha256:d618d4562abe80aa224716dd548230e603459d16fc4c907731e31810bad64452"
+        "digest": "sha256:6a7e2f55a542f827e920835961f50e09f8c22fccd710361e383fd62f278f69e4"
       },
       {
         "path": "manifest.json",
         "bytes": 2072,
-        "digest": "sha256:c73e9bf90ba33e0625d603f81ce7c40da01ac78bcf3e8914a85fbd1f46a803be"
+        "digest": "sha256:cea994196524ac476207a175948195947d327db0fed2f5cf261f32968b25307d"
       }
     ]
   }

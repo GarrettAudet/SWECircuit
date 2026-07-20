@@ -466,3 +466,38 @@ Release-environment isolation defect. R9 correctly removed mutable source, but r
 ### Route
 
 Retire Candidate 4. Revision 11 must provide disposable candidate-bound Git metadata over the exact materialized worktree and must capture gate receipt/log bytes as external immutable R2 evidence rather than self-referential source.
+
+## Candidate 5 Exact Gate
+
+### Reproduction
+
+Freeze candidate `62e51278904b3036971f6fcd40577313f1168e2a` and run `node scripts/run-v12-release-gate.mjs 62e51278904b3036971f6fcd40577313f1168e2a`.
+
+### Stable Evidence
+
+- Result: `fail`; all 399 tests pass before V11 evidence replay stops.
+- V11 expected 80,766 CRLF checkout bytes for `scripts/check-template.ps1`, but exact materialization supplied the committed 78,529 LF bytes. The second bound PowerShell checker has the same line-ending-only mismatch.
+- Candidate source: tree `925bfd2b9f64d135448b2d2e18adad6e475bf51e`, 1,985 files, 55,943,345 bytes, `sha256:675c00dbfa40be24a43d5a296e8427de4d25add6f8d46b101e9d1f08ab3ab8bc`.
+- Post-command source inspection independently rejected an unexpected `.local` directory. Disposable Git context, live HEAD, tracked state, and cleanup remained exact.
+- Receipt and raw logs are preserved under `evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/`.
+
+### Classification
+
+Two independent reproducibility defects: checkout-dependent evidence identity and verification-runtime state inside the authenticated source tree.
+
+### Confirmed Causes
+
+- V11 compared retained bindings to raw checkout bytes and explicitly accepted CRLF even though Git clean filtering stores different LF bytes. Exactly two of 57 active context bindings are affected.
+- Project npm policy points cache state at `.local/npm-cache`; the canonical child inherited that policy. Release-gate and first-run tests also created temporary descendants without pruning all empty parents.
+
+### Route
+
+Retire Candidate 5. Revision 12 must require byte-stable V11 context sources, bind the attribute policy itself, direct npm runtime cache outside the candidate, and close every test-owned temporary path before Candidate 6 repeats the complete gate.
+
+## Revision 12 Integration And V11 Revision 37
+
+- Revision 12 compiled two disjoint specialists against `sha256:a22663c51b5477531f8dc8a08e17841cf52d7aa837507cc672dcae5f1ca8eb48` / `sha256:26bc2190b4acd7d4fe253228eabad5862d0819717b75b7b7f20e6264dfc4d4ce`; both exact raw handoffs verify `pass` and complete fan-in is ready.
+- The source-identity lane removed CRLF evidence acceptance, bound `.gitattributes`, and rebuilt all 58 V11 source bindings. The runtime-purity lane moved npm cache supply outside candidate source, removed only generated `dist`, and closed owned empty scratch parents.
+- Focused release-gate tests pass 7/7. V11 and first-run tests pass 38/38. A deliberate empty-cache consumer probe returned `ENOTCACHED`; the intended warm external cache passed package and consumer checks.
+- V11 Revision 37 completed its two-phase audit. Candidate A, Audit B, the 2,255-byte external receipt, 7,492-byte dependency handoff, 7,602-byte independent semantic `pass`, 984-byte authorization, and full evidence replay all verify.
+- Route: `pass` for correction integration and V11 trust replay. Freeze Candidate 6; do not reuse Candidate 5.

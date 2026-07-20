@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { readFile, rm, writeFile } from "node:fs/promises";
-import { dirname, join, resolve } from "node:path";
+import { access, mkdir, mkdtemp, readFile, rmdir, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
@@ -36,6 +37,18 @@ function runNode(args) {
 
 function escapedPattern(value) {
   return value.replaceAll(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+async function pathExists(path) {
+  try {
+    await access(path);
+    return true;
+  } catch (error) {
+    if (error && typeof error === "object" && error.code === "ENOENT") {
+      return false;
+    }
+    throw error;
+  }
 }
 
 test("candidate materialization excludes and detects uncommitted verification inputs", async () => {
@@ -85,6 +98,29 @@ test("candidate materialization excludes and detects uncommitted verification in
       materialization.entries,
     );
     assert.equal(restored.digest, materialization.source.digest);
+
+    const generated = join(materialization.root, "dist");
+    await mkdir(generated);
+    await writeFile(join(generated, "index.js"), "generated output\n", "utf8");
+    assert.equal(
+      await RELEASE_GATE_TEST_HOOKS.removeGeneratedBuildOutput(
+        materialization.root,
+        materialization.entries,
+      ),
+      true,
+    );
+    assert.equal(await pathExists(generated), false);
+
+    const undeclared = join(materialization.root, ".local");
+    await mkdir(undeclared);
+    await assert.rejects(
+      RELEASE_GATE_TEST_HOOKS.inspectExactMaterialization(
+        materialization.root,
+        materialization.entries,
+      ),
+      /unexpected directory: \.local/u,
+    );
+    await rmdir(undeclared);
   } finally {
     await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
   }
@@ -120,6 +156,15 @@ test("candidate Git context is disposable, exact, and usable from the materializ
     assert.equal(childHead.stdout.trim(), candidateCommit);
     assert.equal(environment.GIT_DIR, gitContext.root);
     assert.equal(environment.GIT_WORK_TREE, materialization.root);
+    assert.equal(environment.npm_config_cache, RELEASE_GATE_TEST_HOOKS.hostNpmCache);
+    assert.equal(isAbsolute(environment.npm_config_cache), true);
+    const cacheFromMaterialization = relative(materialization.root, environment.npm_config_cache);
+    assert.equal(
+      cacheFromMaterialization === ".." ||
+        cacheFromMaterialization.startsWith("../") ||
+        cacheFromMaterialization.startsWith("..\\"),
+      true,
+    );
     assert.notEqual(resolve(environment.GIT_DIR), resolve(liveGitDirectory));
     assert.equal(runGit(["rev-parse", "--verify", "HEAD"]), liveHeadBefore);
   } finally {
@@ -127,6 +172,47 @@ test("candidate Git context is disposable, exact, and usable from the materializ
       await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
     }
     await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+  }
+});
+
+test("candidate scratch cleanup supports reverse owner order", async () => {
+  const parent = RELEASE_GATE_TEST_HOOKS.materializationParent;
+  await mkdir(parent, { recursive: true });
+  const materializationRoot = await mkdtemp(join(parent, "candidate-"));
+  const gitRoot = await mkdtemp(join(parent, "git-"));
+
+  try {
+    await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materializationRoot);
+    assert.equal(await pathExists(materializationRoot), false);
+    assert.equal(await pathExists(gitRoot), true);
+    await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitRoot);
+    assert.equal(await pathExists(gitRoot), false);
+  } finally {
+    if (await pathExists(materializationRoot)) {
+      await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materializationRoot);
+    }
+    if (await pathExists(gitRoot)) {
+      await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitRoot);
+    }
+  }
+});
+
+test("empty-directory pruning preserves unrelated state", async () => {
+  const root = await mkdtemp(join(tmpdir(), "swecircuit-empty-prune-"));
+  const empty = join(root, "empty");
+  const shared = join(root, "shared");
+  const sentinel = join(shared, "sentinel.txt");
+  try {
+    await mkdir(empty);
+    await RELEASE_GATE_TEST_HOOKS.pruneEmptyDirectory(empty);
+    assert.equal(await pathExists(empty), false);
+
+    await mkdir(shared);
+    await writeFile(sentinel, "preserve\n", "utf8");
+    await RELEASE_GATE_TEST_HOOKS.pruneEmptyDirectory(shared);
+    assert.equal(await readFile(sentinel, "utf8"), "preserve\n");
+  } finally {
+    await rm(root, { force: true, recursive: true });
   }
 });
 
@@ -145,6 +231,7 @@ test("canonical command is pinned to the authenticated materialization", () => {
     /spawnSync\(COMMAND\.executable,[\s\S]*?cwd: materialization\.root,[\s\S]*?env: commandEnvironment\(gitContext\),/u,
   );
   assert.doesNotMatch(mainSource, /spawnSync\(COMMAND\.executable,[\s\S]*?cwd: ROOT,/u);
+  assert.match(mainSource, /removeGeneratedBuildOutput\(materialization\.root/u);
   assert.match(mainSource, /inspectExactMaterialization\(materialization\.root/u);
   assert.match(mainSource, /strategy: GIT_CONTEXT_STRATEGY/u);
   assert.match(mainSource, /await removeCandidateGitContext\(gitContext\.root\);/u);

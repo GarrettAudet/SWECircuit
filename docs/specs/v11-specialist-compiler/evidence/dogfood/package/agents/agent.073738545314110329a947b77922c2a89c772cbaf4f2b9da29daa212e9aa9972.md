@@ -1,7 +1,7 @@
 # Specialist Contract: agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972
 
-Compilation: `sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681`
-Blueprint: `sha256:a6191d57d1774ee3fa693d6725446e84038a46b40ed6e2300c7673b291bc9ca3`
+Compilation: `sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c`
+Blueprint: `sha256:4e5c47e83142da89a2095eefa5b36aa26ceb8cf82b4d46ab29c539f4f228979a`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 36,
-  "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
+  "goalRevision": 37,
+  "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "review.algorithm-lifecycle"
@@ -145,8 +145,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.first-run-tests",
       "kind": "repository",
       "locator": "path:test/specialist-first-run.test.mjs",
-      "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-      "bytes": 8553,
+      "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+      "bytes": 8984,
       "purposes": [
         "Review deterministic candidate, lifecycle, and dependency behavior."
       ],
@@ -238,6 +238,20 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
         "review.algorithm-lifecycle"
       ],
       "readScope": "test/fixtures/specialist-compiler/under-split.json"
+    },
+    {
+      "sourceId": "context.gitattributes",
+      "kind": "repository",
+      "locator": "path:.gitattributes",
+      "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+      "bytes": 501,
+      "purposes": [
+        "Authenticate the exact repository source-byte normalization policy."
+      ],
+      "workUnitIds": [
+        "review.algorithm-lifecycle"
+      ],
+      "readScope": ".gitattributes"
     },
     {
       "sourceId": "context.handoff",
@@ -344,6 +358,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     ],
     "scope": {
       "read": [
+        ".gitattributes",
         "docs/modules/specialist-agent-compiler.md",
         "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
         "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
@@ -372,6 +387,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       {
         "kind": "filesystem.read",
         "scopes": [
+          ".gitattributes",
           "docs/modules/specialist-agent-compiler.md",
           "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
           "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
@@ -448,7 +464,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop with REVISE if bounded search is represented as a global optimum.",
     "Stop with REVISE if selection can change under logical input permutation."
   ],
-  "contentDigest": "sha256:a6191d57d1774ee3fa693d6725446e84038a46b40ed6e2300c7673b291bc9ca3"
+  "contentDigest": "sha256:4e5c47e83142da89a2095eefa5b36aa26ceb8cf82b4d46ab29c539f4f228979a"
 }
 ```
 
@@ -469,14 +485,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 36,
-    "digest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573"
+    "revision": 37,
+    "digest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f"
   },
   "agent": {
     "id": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
-    "blueprintDigest": "sha256:a6191d57d1774ee3fa693d6725446e84038a46b40ed6e2300c7673b291bc9ca3"
+    "blueprintDigest": "sha256:4e5c47e83142da89a2095eefa5b36aa26ceb8cf82b4d46ab29c539f4f228979a"
   },
-  "compilationDigest": "sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681",
+  "compilationDigest": "sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "review.algorithm-lifecycle"

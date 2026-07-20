@@ -1,8 +1,16 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmdirSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
-import { join, relative, sep } from "node:path";
+import { dirname, join, relative, sep } from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
@@ -65,6 +73,21 @@ function assertSnapshotEqual(before, after) {
     const actual = after[index];
     assert.equal(actual.path, expected.path);
     assert.deepEqual(actual.content, expected.content, expected.path);
+  }
+}
+
+function pruneEmptyDirectory(path) {
+  try {
+    rmdirSync(path);
+  } catch (error) {
+    if (
+      !error ||
+      typeof error !== "object" ||
+      !("code" in error) ||
+      (error.code !== "ENOENT" && error.code !== "ENOTEMPTY" && error.code !== "EEXIST")
+    ) {
+      throw error;
+    }
   }
 }
 
@@ -231,6 +254,8 @@ test("first-run source reads reject directories and external junction targets", 
     assert.equal(readFileSync(externalFile, "utf8"), "outside repository boundary\n");
   } finally {
     rmSync(repositorySandbox, { force: true, recursive: true });
+    pruneEmptyDirectory(LOCAL_TEMP_ROOT);
+    pruneEmptyDirectory(dirname(LOCAL_TEMP_ROOT));
     rmSync(external, { force: true, recursive: true });
     rmSync(approvals, { force: true, recursive: true });
   }

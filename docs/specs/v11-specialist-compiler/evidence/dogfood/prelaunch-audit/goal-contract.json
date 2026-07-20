@@ -2,8 +2,8 @@
   "apiVersion": "swecircuit/specialist/v1alpha1",
   "kind": "GoalContract",
   "id": "v11.specialist-compiler.prelaunch-audit",
-  "revision": 36,
-  "objective": "Independently audit candidate sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681 and package sha256:66ffa021c2def7b9487ae42fddb27570c1de8b895485ee0c9ab26f6c707cf1e2 before launch approval.",
+  "revision": 37,
+  "objective": "Independently audit candidate sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c and package sha256:42ec6c54edefb0fda5287b3ba4145bd0d7e59e8f2ff3ba55c92f1610d09c78d6 before launch approval.",
   "integrationOwner": "v11.integration-owner",
   "assumptions": [
     {
@@ -87,8 +87,8 @@
       "id": "context.candidate-artifact.01",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
-      "digest": "sha256:4e99e2efaf56ac98d29b9f1e8feec0c9fe91a5c5a8da234df2669ed1355f603e",
-      "bytes": 313384,
+      "digest": "sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc",
+      "bytes": 319450,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json.",
       "allowedWorkUnits": [
         "audit.bind-candidate",
@@ -100,8 +100,8 @@
       "id": "context.candidate-artifact.02",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
-      "digest": "sha256:61b55b540e32d27e06d173962f9ed32d12e6da8403f209e7a9cceef6e9b0d57d",
-      "bytes": 18937,
+      "digest": "sha256:ef16faf5b09c975cbea4fb8e3eccc1de15314534a0c123ad2d01285effa046e2",
+      "bytes": 19438,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md.",
       "allowedWorkUnits": [
         "audit.bind-candidate",
@@ -113,8 +113,8 @@
       "id": "context.candidate-artifact.03",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
-      "digest": "sha256:1ede69c1456b1bc8e5596bd713163c90eb8d7622c30b8cbb06379130df046ec2",
-      "bytes": 11199,
+      "digest": "sha256:8660d74d0541db14037ba819af26bccc943dee1cccb4e09e5239e4a74c803169",
+      "bytes": 11691,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md.",
       "allowedWorkUnits": [
         "audit.bind-candidate",
@@ -126,8 +126,8 @@
       "id": "context.candidate-artifact.04",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
-      "digest": "sha256:7dfd8c28c3dc757840465471083177a089c1bf9ae0060cca9353de48ab9533ba",
-      "bytes": 23776,
+      "digest": "sha256:f409ae88b7535dcadbb23e3cd085998f3a7a0cdae40b8dc88ed456acfb1d2426",
+      "bytes": 24269,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md.",
       "allowedWorkUnits": [
         "audit.bind-candidate",
@@ -139,8 +139,8 @@
       "id": "context.candidate-artifact.05",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
-      "digest": "sha256:2f2c857534355b1876eb1d206f284f68fbf3df3d8f50060e2fca7505f328a262",
-      "bytes": 27305,
+      "digest": "sha256:f32d6d8ce9cc86a4de251abad2dfc2e48b5e427bb6760622fe12f34da6bb4da4",
+      "bytes": 27800,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md.",
       "allowedWorkUnits": [
         "audit.bind-candidate",
@@ -152,8 +152,8 @@
       "id": "context.candidate-artifact.06",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
-      "digest": "sha256:8198c4a0c6dc29fb4626854c330101ce0eebd2545ea02d1684dee1af52c7ca6d",
-      "bytes": 33804,
+      "digest": "sha256:99f68a5fe355a7c3d0adf84721296942fafe28c5231e4532b04ba8b3822ee96a",
+      "bytes": 34300,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md.",
       "allowedWorkUnits": [
         "audit.bind-candidate",
@@ -165,8 +165,8 @@
       "id": "context.candidate-artifact.07",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
-      "digest": "sha256:405009178e9fa91333a8da4d735c19bdd928356972af3e0b810aecd58d11a4cb",
-      "bytes": 37023,
+      "digest": "sha256:d4c00aaec631337e11b641e85dc0e167d10415c2dcc7bd39323065da0ebd51db",
+      "bytes": 37515,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md.",
       "allowedWorkUnits": [
         "audit.bind-candidate",
@@ -178,8 +178,8 @@
       "id": "context.candidate-artifact.08",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
-      "digest": "sha256:4e99e2efaf56ac98d29b9f1e8feec0c9fe91a5c5a8da234df2669ed1355f603e",
-      "bytes": 313384,
+      "digest": "sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc",
+      "bytes": 319450,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json.",
       "allowedWorkUnits": [
         "audit.bind-candidate",
@@ -191,8 +191,8 @@
       "id": "context.candidate-artifact.09",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
-      "digest": "sha256:599d9cc2fc7b2e0d1f31e6f29674dc06326c4d3116a75ae97939f58f8c4c0077",
-      "bytes": 8142,
+      "digest": "sha256:5e99da6620c53940f5dd5d711a82c8c64e248be36c1e5fd6eecf852a6307e1e4",
+      "bytes": 8161,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md.",
       "allowedWorkUnits": [
         "audit.bind-candidate",
@@ -204,7 +204,7 @@
       "id": "context.candidate-artifact.10",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
-      "digest": "sha256:7a9277fcc8176e6e0b76e6b1c4fad4461e2ef28d1352b6b6c274d247aef74e2b",
+      "digest": "sha256:0c1068f526bcd286527f2678205221b25b8aab869e4c662d12a572bd55823599",
       "bytes": 4203,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json.",
       "allowedWorkUnits": [
@@ -289,8 +289,8 @@
       "id": "context.consumer-check",
       "kind": "repository",
       "locator": "path:scripts/check-packed-consumer.mjs",
-      "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
-      "bytes": 43243,
+      "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+      "bytes": 44049,
       "description": "Offline installed-package verification that compiles and executes the public TypeScript host, asserts its structured receipt, and verifies retained approval.",
       "allowedWorkUnits": [
         "audit.review-candidate-compilation"
@@ -325,8 +325,8 @@
       "id": "context.dogfood-runner",
       "kind": "repository",
       "locator": "path:scripts/run-v11-dogfood.mjs",
-      "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda",
-      "bytes": 58524,
+      "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e",
+      "bytes": 58302,
       "description": "V11 context binding, fail-closed checkout-canonical validation, external approval, package verification, and evidence harness.",
       "allowedWorkUnits": [
         "audit.review-candidate-compilation"
@@ -337,8 +337,8 @@
       "id": "context.dogfood-runner-tests",
       "kind": "repository",
       "locator": "path:test/v11-dogfood-runner.test.mjs",
-      "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d",
-      "bytes": 41879,
+      "digest": "sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284",
+      "bytes": 43787,
       "description": "Direct checkout-canonical, transform-sentinel, containment, strict-control, and evidence-write regressions for the V11 dogfood host.",
       "allowedWorkUnits": [
         "audit.review-candidate-compilation"
@@ -373,8 +373,8 @@
       "id": "context.first-run-tests",
       "kind": "repository",
       "locator": "path:test/specialist-first-run.test.mjs",
-      "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-      "bytes": 8553,
+      "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+      "bytes": 8984,
       "description": "The deterministic and read-only first-run regressions.",
       "allowedWorkUnits": [
         "audit.review-candidate-compilation"
@@ -452,6 +452,18 @@
         "audit.review-candidate-compilation"
       ],
       "readScope": "test/fixtures/specialist-compiler/under-split.json"
+    },
+    {
+      "id": "context.gitattributes",
+      "kind": "repository",
+      "locator": "path:.gitattributes",
+      "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+      "bytes": 501,
+      "description": "The exact Git normalization policy that defines repository source-byte identity.",
+      "allowedWorkUnits": [
+        "audit.review-candidate-compilation"
+      ],
+      "readScope": ".gitattributes"
     },
     {
       "id": "context.handbook",
@@ -589,8 +601,8 @@
       "id": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
-      "bytes": 2946,
+      "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+      "bytes": 2931,
       "description": "Canonical build, test, dogfood, package, and consumer gates.",
       "allowedWorkUnits": [
         "audit.review-candidate-compilation"
@@ -803,6 +815,7 @@
       {
         "kind": "filesystem.read",
         "scopes": [
+          ".gitattributes",
           "AGENTS.md",
           "docs/ai/handbook.md",
           "docs/ide/specialist-agent-kickoff.md",
@@ -1158,6 +1171,10 @@
           "purpose": "Audit the candidate against its declared compiler, contract, and test evidence."
         },
         {
+          "sourceId": "context.gitattributes",
+          "purpose": "Audit the candidate against its declared compiler, contract, and test evidence."
+        },
+        {
           "sourceId": "context.handbook",
           "purpose": "Audit the candidate against its declared compiler, contract, and test evidence."
         },
@@ -1272,6 +1289,7 @@
       ],
       "scope": {
         "read": [
+          ".gitattributes",
           "AGENTS.md",
           "docs/ai/handbook.md",
           "docs/ide/specialist-agent-kickoff.md",
@@ -1339,6 +1357,7 @@
         {
           "kind": "filesystem.read",
           "scopes": [
+            ".gitattributes",
             "AGENTS.md",
             "docs/ai/handbook.md",
             "docs/ide/specialist-agent-kickoff.md",

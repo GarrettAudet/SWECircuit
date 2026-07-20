@@ -491,3 +491,23 @@ Restore `Why It Matters` and `Next Recommended Work` without changing any immuta
 ### Durable Rule
 
 Integration handoff verification proves the compiled envelope, not every repository-local document convention. Final host validation remains mandatory after integration and before archival or publication.
+
+## Revision 37 Checkout-Canonical Evidence Identity
+
+### Incident
+
+Candidate 5 materialized exact committed Git blobs and passed all kernel tests, then V11 replay rejected two PowerShell sources because Revision 36 had bound CRLF Windows checkout bytes instead of the LF bytes stored in Git.
+
+### Confirmed Cause
+
+The canonicality guard allowed an explicit CRLF checkout policy even when Git clean filtering changed the reviewed bytes. Durable evidence identity therefore depended on host checkout behavior. The attribute policy itself was also outside the reviewed context set.
+
+### Causal Fix And Regression
+
+Use LF as the one source-evidence representation. Require every V11 repository context to have explicit `eol=lf`, contain no carriage return, and produce the same raw and clean-filter object identity. Bind `.gitattributes` exactly once so the rule is part of the reviewed source set. Focused coverage accepts stable LF, rejects CRLF and clean-filter changes, rejects missing or duplicate policy bindings, and verifies all active Revision 37 contexts.
+
+Candidate A and Audit B were rebuilt and independently approval-verified. The exact receipt, binder handoff, dependent semantic audit, and cross-package authorization all pass, and complete V11 evidence replay returns `pass`.
+
+### Durable Rule
+
+Source-bound evidence must use bytes stable across checkout, clean filtering, and committed-tree materialization. A host-specific working-tree representation cannot be a portable trust identity.

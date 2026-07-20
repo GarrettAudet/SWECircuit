@@ -133,19 +133,6 @@ function readGitAttributes(repositoryRoot, relativePath) {
   return parseGitAttributes(relativePath, result.stdout ?? []);
 }
 
-function isCanonicalCrlf(bytes) {
-  for (let index = 0; index < bytes.byteLength; index += 1) {
-    const value = bytes[index];
-    if (value === 0x0d && bytes[index + 1] !== 0x0a) {
-      return false;
-    }
-    if (value === 0x0a && bytes[index - 1] !== 0x0d) {
-      return false;
-    }
-  }
-  return true;
-}
-
 export function verifyCheckoutCanonicalContext(
   relativePath,
   bytes,
@@ -160,23 +147,14 @@ export function verifyCheckoutCanonicalContext(
     );
   }
 
-  if (!Object.hasOwn(attributes, "eol") || !["lf", "crlf"].includes(attributes.eol)) {
-    fail(
-      `context is not checkout-canonical for ${relativePath}: explicit eol=lf or eol=crlf is required`,
-    );
+  if (!Object.hasOwn(attributes, "eol") || attributes.eol !== "lf") {
+    fail(`context is not checkout-canonical for ${relativePath}: explicit eol=lf is required`);
   }
 
   const rawObjectId = hashObject(repositoryRoot, relativePath, bytes, false);
   const filteredObjectId = hashObject(repositoryRoot, relativePath, bytes, true);
 
-  if (
-    attributes.eol === "lf" &&
-    rawObjectId === filteredObjectId &&
-    !Buffer.from(bytes).includes(0x0d)
-  ) {
-    return;
-  }
-  if (attributes.eol === "crlf" && isCanonicalCrlf(bytes)) {
+  if (rawObjectId === filteredObjectId && !Buffer.from(bytes).includes(0x0d)) {
     return;
   }
 
@@ -279,6 +257,13 @@ export function verifyDogfoodContext(goal, repositoryRoot = root) {
   const unsupported = goal.contextSources.find((source) => source.kind !== "repository");
   if (unsupported !== undefined) {
     fail(`unsupported context source kind for ${unsupported.id}: ${unsupported.kind}`);
+  }
+
+  const attributePolicySources = goal.contextSources.filter(
+    (source) => source.locator === "path:.gitattributes",
+  );
+  if (attributePolicySources.length !== 1) {
+    fail("context source policy must bind path:.gitattributes exactly once");
   }
 
   const resolvedRoot = requireRepositoryRoot(repositoryRoot);

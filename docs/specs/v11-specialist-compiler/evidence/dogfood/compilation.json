@@ -5,7 +5,7 @@
     "apiVersion": "swecircuit/specialist/v1alpha1",
     "kind": "GoalContract",
     "id": "v11.specialist-compiler.release",
-    "revision": 36,
+    "revision": 37,
     "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit with an exact external verification receipt, a hardened first-run reference host, self-sufficient generated handoff contracts, publicly closed specialist schemas, deterministic artifact media and normalized evidence controls, exact candidate analysis, raw handoff and dependency fan-in verification, canonical gates, traceable integration, and owner merge gate without claiming runtime orchestration.",
     "integrationOwner": "v11.integration-owner",
     "assumptions": [
@@ -16,8 +16,8 @@
       },
       {
         "id": "assumption.checkout-canonical-context",
-        "statement": "Every repository context source is byte-identical under the declared Git checkout rules, with no custom filter or working-tree encoding.",
-        "rationale": "A reviewed launch package must reconstruct from a clean checkout, not only the integration owner working tree."
+        "statement": "Every repository context source is LF-only, unchanged by Git clean filtering, and byte-identical to the exact committed Git blob representation.",
+        "rationale": "A reviewed launch package must retain one source identity across supported checkouts and exact candidate materialization."
       },
       {
         "id": "assumption.external-approval-root",
@@ -293,8 +293,8 @@
         "id": "context.consumer-check",
         "kind": "repository",
         "locator": "path:scripts/check-packed-consumer.mjs",
-        "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
-        "bytes": 43243,
+        "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+        "bytes": 44049,
         "description": "Offline installed-package verification that compiles and executes the public TypeScript host, asserts its structured receipt, and verifies retained approval.",
         "allowedWorkUnits": [
           "prepare.candidate",
@@ -352,8 +352,8 @@
         "id": "context.dogfood-runner",
         "kind": "repository",
         "locator": "path:scripts/run-v11-dogfood.mjs",
-        "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda",
-        "bytes": 58524,
+        "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e",
+        "bytes": 58302,
         "description": "V11 context binding, fail-closed checkout-canonical validation, external approval, package verification, and evidence harness.",
         "allowedWorkUnits": [
           "prepare.candidate",
@@ -366,8 +366,8 @@
         "id": "context.dogfood-runner-tests",
         "kind": "repository",
         "locator": "path:test/v11-dogfood-runner.test.mjs",
-        "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d",
-        "bytes": 41879,
+        "digest": "sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284",
+        "bytes": 43787,
         "description": "Direct checkout-canonical, transform-sentinel, containment, strict-control, and evidence-write regressions for the V11 dogfood host.",
         "allowedWorkUnits": [
           "prepare.candidate",
@@ -425,8 +425,8 @@
         "id": "context.first-run-tests",
         "kind": "repository",
         "locator": "path:test/specialist-first-run.test.mjs",
-        "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-        "bytes": 8553,
+        "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+        "bytes": 8984,
         "description": "The deterministic and read-only first-run regressions.",
         "allowedWorkUnits": [
           "prepare.candidate",
@@ -526,6 +526,23 @@
           "verify.release-gates"
         ],
         "readScope": "test/fixtures/specialist-compiler/under-split.json"
+      },
+      {
+        "id": "context.gitattributes",
+        "kind": "repository",
+        "locator": "path:.gitattributes",
+        "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+        "bytes": 501,
+        "description": "The exact Git normalization policy that defines repository source-byte identity.",
+        "allowedWorkUnits": [
+          "integrate.release",
+          "prepare.candidate",
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "readScope": ".gitattributes"
       },
       {
         "id": "context.handbook",
@@ -689,8 +706,8 @@
         "id": "context.package",
         "kind": "repository",
         "locator": "path:package.json",
-        "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
-        "bytes": 2946,
+        "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+        "bytes": 2931,
         "description": "Canonical build, test, dogfood, package, and consumer gates.",
         "allowedWorkUnits": [
           "prepare.candidate",
@@ -902,8 +919,8 @@
         "id": "context.template-checker",
         "kind": "repository",
         "locator": "path:scripts/check-template.ps1",
-        "digest": "sha256:f0d14d1cf7d61f338c588d57b28415cbd045b05ac7b81fa80432373fa1bbf81e",
-        "bytes": 80766,
+        "digest": "sha256:5c6fb77dc0a817be6c137805088b408c32b01bc7fc81ccc3f2cd4874014cf424",
+        "bytes": 78529,
         "description": "Workflow artifact validation gate.",
         "allowedWorkUnits": [
           "verify.release-gates"
@@ -914,8 +931,8 @@
         "id": "context.template-checker-tests",
         "kind": "repository",
         "locator": "path:scripts/test-check-template.ps1",
-        "digest": "sha256:1cec6a958b7eb40f1a8a60d3dc81f6c4b464c68c310e815c9339857dcca767f6",
-        "bytes": 102789,
+        "digest": "sha256:33c057636bcf96949df1d1311fc8ddee5913370a2b4fdb8f57c99f6ae5e6e882",
+        "bytes": 101000,
         "description": "Template-checker regression matrix.",
         "allowedWorkUnits": [
           "verify.release-gates"
@@ -990,6 +1007,7 @@
           "kind": "filesystem.read",
           "scopes": [
             ".git/**",
+            ".gitattributes",
             ".github/**",
             "AGENTS.md",
             "CHANGELOG.md",
@@ -1140,6 +1158,10 @@
             "purpose": "Preserve the final compiler boundary."
           },
           {
+            "sourceId": "context.gitattributes",
+            "purpose": "Authenticate the exact repository source-byte normalization policy."
+          },
+          {
             "sourceId": "context.readme",
             "purpose": "Keep public status accurate."
           },
@@ -1154,6 +1176,7 @@
         ],
         "scope": {
           "read": [
+            ".gitattributes",
             "README.md",
             "docs/memory/**",
             "docs/milestones/v11.md",
@@ -1176,6 +1199,7 @@
           {
             "kind": "filesystem.read",
             "scopes": [
+              ".gitattributes",
               "README.md",
               "docs/memory/**",
               "docs/milestones/v11.md",
@@ -1339,6 +1363,10 @@
             "purpose": "Bind this exact golden fixture before independent review."
           },
           {
+            "sourceId": "context.gitattributes",
+            "purpose": "Authenticate the exact repository source-byte normalization policy."
+          },
+          {
             "sourceId": "context.handbook",
             "purpose": "Bind this exact revision-30 source before independent review."
           },
@@ -1457,6 +1485,7 @@
         ],
         "scope": {
           "read": [
+            ".gitattributes",
             "AGENTS.md",
             "CHANGELOG.md",
             "CONTRIBUTING.md",
@@ -1518,6 +1547,7 @@
           {
             "kind": "filesystem.read",
             "scopes": [
+              ".gitattributes",
               "AGENTS.md",
               "CHANGELOG.md",
               "CONTRIBUTING.md",
@@ -1672,6 +1702,10 @@
             "purpose": "Audit the expected optimization outcome for this golden fixture."
           },
           {
+            "sourceId": "context.gitattributes",
+            "purpose": "Authenticate the exact repository source-byte normalization policy."
+          },
+          {
             "sourceId": "context.handoff",
             "purpose": "Review deterministic candidate, lifecycle, and dependency behavior."
           },
@@ -1702,6 +1736,7 @@
         ],
         "scope": {
           "read": [
+            ".gitattributes",
             "docs/modules/specialist-agent-compiler.md",
             "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
             "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
@@ -1730,6 +1765,7 @@
           {
             "kind": "filesystem.read",
             "scopes": [
+              ".gitattributes",
               "docs/modules/specialist-agent-compiler.md",
               "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
               "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
@@ -1857,6 +1893,10 @@
             "purpose": "Review the public product and API contract."
           },
           {
+            "sourceId": "context.gitattributes",
+            "purpose": "Authenticate the exact repository source-byte normalization policy."
+          },
+          {
             "sourceId": "context.handbook",
             "purpose": "Review the public product and API contract."
           },
@@ -1931,6 +1971,7 @@
         ],
         "scope": {
           "read": [
+            ".gitattributes",
             "AGENTS.md",
             "CHANGELOG.md",
             "CONTRIBUTING.md",
@@ -1971,6 +2012,7 @@
           {
             "kind": "filesystem.read",
             "scopes": [
+              ".gitattributes",
               "AGENTS.md",
               "CHANGELOG.md",
               "CONTRIBUTING.md",
@@ -2136,6 +2178,10 @@
             "purpose": "Audit fixture-driven authority and boundary coverage."
           },
           {
+            "sourceId": "context.gitattributes",
+            "purpose": "Authenticate the exact repository source-byte normalization policy."
+          },
+          {
             "sourceId": "context.handbook",
             "purpose": "Review privacy, authority, raw-boundary, and trace behavior."
           },
@@ -2250,6 +2296,7 @@
         ],
         "scope": {
           "read": [
+            ".gitattributes",
             "AGENTS.md",
             "docs/ai/handbook.md",
             "docs/ide/specialist-agent-kickoff.md",
@@ -2307,6 +2354,7 @@
           {
             "kind": "filesystem.read",
             "scopes": [
+              ".gitattributes",
               "AGENTS.md",
               "docs/ai/handbook.md",
               "docs/ide/specialist-agent-kickoff.md",
@@ -2487,6 +2535,10 @@
             "purpose": "Execute the bound golden fixture through the release gates."
           },
           {
+            "sourceId": "context.gitattributes",
+            "purpose": "Authenticate the exact repository source-byte normalization policy."
+          },
+          {
             "sourceId": "context.handoff",
             "purpose": "Exercise this source through the canonical release gates."
           },
@@ -2546,6 +2598,7 @@
         "scope": {
           "read": [
             ".git/**",
+            ".gitattributes",
             ".github/**",
             "AGENTS.md",
             "CHANGELOG.md",
@@ -2607,6 +2660,7 @@
             "kind": "filesystem.read",
             "scopes": [
               ".git/**",
+              ".gitattributes",
               ".github/**",
               "AGENTS.md",
               "CHANGELOG.md",
@@ -2689,7 +2743,7 @@
       }
     ]
   },
-  "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
+  "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
   "proposedCandidates": [
     {
       "id": "candidate.consolidated-reviews",
@@ -2768,8 +2822,8 @@
         "peakConcurrency": 2,
         "conflictPairs": 0,
         "handoffCount": 4,
-        "duplicatedContextBytes": 1361784,
-        "duplicatedPermissionScopes": 96,
+        "duplicatedContextBytes": 1369103,
+        "duplicatedPermissionScopes": 99,
         "totalWorkWeight": 38,
         "totalStartupCost": 8,
         "totalHandoffCost": 4
@@ -2796,7 +2850,7 @@
           "finish": 41
         }
       ],
-      "contentDigest": "sha256:28dcf325e0c420008aab87ce2124c6d78c998c12ebe035b5f0ad48f210a595e7"
+      "contentDigest": "sha256:951477d47ffac7770e8b6b54d6ff910d2377f7664dd1d0ed9a0e13054b2f0ae5"
     },
     {
       "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
@@ -2835,8 +2889,8 @@
         "peakConcurrency": 4,
         "conflictPairs": 0,
         "handoffCount": 8,
-        "duplicatedContextBytes": 2209319,
-        "duplicatedPermissionScopes": 149,
+        "duplicatedContextBytes": 2219293,
+        "duplicatedPermissionScopes": 154,
         "totalWorkWeight": 38,
         "totalStartupCost": 12,
         "totalHandoffCost": 8
@@ -2873,14 +2927,14 @@
           "finish": 23
         }
       ],
-      "contentDigest": "sha256:ff02023e87fcecb8291191d4af9a45f87e54b51ef9f61f117284d75cffd7eef7"
+      "contentDigest": "sha256:43e28a46d15e87daa19f2d602ef8bc04ee3e7555b821990e92e31e6b9fdb58ed"
     }
   ],
   "authority": {
     "apiVersion": "swecircuit/specialist/v1alpha1",
     "kind": "TaskAuthorityProjection",
     "goalId": "v11.specialist-compiler.release",
-    "goalRevision": 36,
+    "goalRevision": 37,
     "allowedModules": [
       "integrate.release",
       "review.algorithm-lifecycle",
@@ -3044,8 +3098,8 @@
         "id": "context.consumer-check",
         "kind": "repository",
         "locator": "path:scripts/check-packed-consumer.mjs",
-        "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
-        "bytes": 43243,
+        "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+        "bytes": 44049,
         "description": "Offline installed-package verification that compiles and executes the public TypeScript host, asserts its structured receipt, and verifies retained approval.",
         "allowedWorkUnits": [
           "prepare.candidate",
@@ -3103,8 +3157,8 @@
         "id": "context.dogfood-runner",
         "kind": "repository",
         "locator": "path:scripts/run-v11-dogfood.mjs",
-        "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda",
-        "bytes": 58524,
+        "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e",
+        "bytes": 58302,
         "description": "V11 context binding, fail-closed checkout-canonical validation, external approval, package verification, and evidence harness.",
         "allowedWorkUnits": [
           "prepare.candidate",
@@ -3117,8 +3171,8 @@
         "id": "context.dogfood-runner-tests",
         "kind": "repository",
         "locator": "path:test/v11-dogfood-runner.test.mjs",
-        "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d",
-        "bytes": 41879,
+        "digest": "sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284",
+        "bytes": 43787,
         "description": "Direct checkout-canonical, transform-sentinel, containment, strict-control, and evidence-write regressions for the V11 dogfood host.",
         "allowedWorkUnits": [
           "prepare.candidate",
@@ -3176,8 +3230,8 @@
         "id": "context.first-run-tests",
         "kind": "repository",
         "locator": "path:test/specialist-first-run.test.mjs",
-        "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-        "bytes": 8553,
+        "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+        "bytes": 8984,
         "description": "The deterministic and read-only first-run regressions.",
         "allowedWorkUnits": [
           "prepare.candidate",
@@ -3277,6 +3331,23 @@
           "verify.release-gates"
         ],
         "readScope": "test/fixtures/specialist-compiler/under-split.json"
+      },
+      {
+        "id": "context.gitattributes",
+        "kind": "repository",
+        "locator": "path:.gitattributes",
+        "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+        "bytes": 501,
+        "description": "The exact Git normalization policy that defines repository source-byte identity.",
+        "allowedWorkUnits": [
+          "integrate.release",
+          "prepare.candidate",
+          "review.algorithm-lifecycle",
+          "review.product-api",
+          "review.security-trace",
+          "verify.release-gates"
+        ],
+        "readScope": ".gitattributes"
       },
       {
         "id": "context.handbook",
@@ -3440,8 +3511,8 @@
         "id": "context.package",
         "kind": "repository",
         "locator": "path:package.json",
-        "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
-        "bytes": 2946,
+        "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+        "bytes": 2931,
         "description": "Canonical build, test, dogfood, package, and consumer gates.",
         "allowedWorkUnits": [
           "prepare.candidate",
@@ -3653,8 +3724,8 @@
         "id": "context.template-checker",
         "kind": "repository",
         "locator": "path:scripts/check-template.ps1",
-        "digest": "sha256:f0d14d1cf7d61f338c588d57b28415cbd045b05ac7b81fa80432373fa1bbf81e",
-        "bytes": 80766,
+        "digest": "sha256:5c6fb77dc0a817be6c137805088b408c32b01bc7fc81ccc3f2cd4874014cf424",
+        "bytes": 78529,
         "description": "Workflow artifact validation gate.",
         "allowedWorkUnits": [
           "verify.release-gates"
@@ -3665,8 +3736,8 @@
         "id": "context.template-checker-tests",
         "kind": "repository",
         "locator": "path:scripts/test-check-template.ps1",
-        "digest": "sha256:1cec6a958b7eb40f1a8a60d3dc81f6c4b464c68c310e815c9339857dcca767f6",
-        "bytes": 102789,
+        "digest": "sha256:33c057636bcf96949df1d1311fc8ddee5913370a2b4fdb8f57c99f6ae5e6e882",
+        "bytes": 101000,
         "description": "Template-checker regression matrix.",
         "allowedWorkUnits": [
           "verify.release-gates"
@@ -3724,6 +3795,7 @@
         "kind": "filesystem.read",
         "scopes": [
           ".git/**",
+          ".gitattributes",
           ".github/**",
           "AGENTS.md",
           "CHANGELOG.md",
@@ -3825,7 +3897,7 @@
     ],
     "maxAgents": 6,
     "maxConcurrency": 4,
-    "contentDigest": "sha256:4155677cd0462389d233260bd2ccd5c52f2ac25133a59a7e85e3d74eea59ab46"
+    "contentDigest": "sha256:679665e371422b47573ecd1176598bc06e0913b35ce97e68cf1c9cb5ccf5913a"
   },
   "search": {
     "mode": "exact",
@@ -3834,7 +3906,7 @@
     "evaluatedCandidates": 203,
     "eligibleCandidates": 52,
     "retainedAlternatives": 8,
-    "evaluationSetDigest": "sha256:4ef2dbec313fd4dad49834027407233a50a88749049a2544ea81c647f28c437d"
+    "evaluationSetDigest": "sha256:1ae6a85c10dd9462f9be1f14c2ea4a33d8f651d285eeff9000eede1da3571920"
   },
   "serialBaseline": {
     "id": "team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696",
@@ -3915,8 +3987,8 @@
       "peakConcurrency": 4,
       "conflictPairs": 0,
       "handoffCount": 8,
-      "duplicatedContextBytes": 2209319,
-      "duplicatedPermissionScopes": 149,
+      "duplicatedContextBytes": 2219293,
+      "duplicatedPermissionScopes": 154,
       "totalWorkWeight": 38,
       "totalStartupCost": 12,
       "totalHandoffCost": 8
@@ -3953,7 +4025,7 @@
         "finish": 23
       }
     ],
-    "contentDigest": "sha256:ff02023e87fcecb8291191d4af9a45f87e54b51ef9f61f117284d75cffd7eef7"
+    "contentDigest": "sha256:43e28a46d15e87daa19f2d602ef8bc04ee3e7555b821990e92e31e6b9fdb58ed"
   },
   "selectionReason": {
     "kind": "serial_ineligible",
@@ -3997,8 +4069,8 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1943401,
-        "duplicatedPermissionScopes": 126,
+        "duplicatedContextBytes": 1951652,
+        "duplicatedPermissionScopes": 130,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
         "totalHandoffCost": 6
@@ -4030,7 +4102,7 @@
           "finish": 26
         }
       ],
-      "contentDigest": "sha256:625bf9c62d11e9e7b75c3e4ad00c98ad39e8c6f67cc72c3284870e22134850de"
+      "contentDigest": "sha256:a281281c88b6eb2bf3467f47a3e79cdf3cf0ed2fc431526d04cd8162e0c7828e"
     },
     {
       "id": "team.45f4d849dd94a8f90a9eeb07668333991f925ccebceeda6b7370ed2d3fb7ed5e",
@@ -4064,8 +4136,8 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1722919,
-        "duplicatedPermissionScopes": 118,
+        "duplicatedContextBytes": 1729484,
+        "duplicatedPermissionScopes": 122,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
         "totalHandoffCost": 6
@@ -4097,7 +4169,7 @@
           "finish": 28
         }
       ],
-      "contentDigest": "sha256:cb8fa039e871a91837bb05c121c0fa60bb5ec2d5bec64da4dd79f2d4a9a6e8e8"
+      "contentDigest": "sha256:05478c20476956a4dcc78d788cf1662b5020c84b7f9c076d4aedb97eb08bd79a"
     },
     {
       "id": "team.6d035e2f118ca820b9aa81136a9e5ed99af0c39c555d464f9225fcf3123b3810",
@@ -4131,8 +4203,8 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 2022687,
-        "duplicatedPermissionScopes": 134,
+        "duplicatedContextBytes": 2031729,
+        "duplicatedPermissionScopes": 138,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
         "totalHandoffCost": 6
@@ -4164,7 +4236,7 @@
           "finish": 28
         }
       ],
-      "contentDigest": "sha256:cd39a62e7be493f7cfa9551ad185659498eb1a384ed77e0ddb4889c4259f23ee"
+      "contentDigest": "sha256:972a609d9b9757490eb2d346faa53b97986dc39c55b5453f312a45bbf884629b"
     },
     {
       "id": "team.97fb6fe39c2c8525d320a80d60732e6fa44acd1e7a7d4d91d5a651b378afd026",
@@ -4198,8 +4270,8 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 7,
-        "duplicatedContextBytes": 1716027,
-        "duplicatedPermissionScopes": 115,
+        "duplicatedContextBytes": 1722592,
+        "duplicatedPermissionScopes": 119,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
         "totalHandoffCost": 7
@@ -4231,7 +4303,7 @@
           "finish": 28
         }
       ],
-      "contentDigest": "sha256:1d8ef330176c9e6e972c3f004ca6b4d349654eec42c0fcab923009f334d0ae6d"
+      "contentDigest": "sha256:d639ab99a4141ce84ec3060e1b9f9cb298419b64b3480a27e9e24681fffb0e74"
     },
     {
       "id": "team.6386f37c4fbd36cfc6e9d38ddb22d90af99c42025bb13037d4bd39512d37115b",
@@ -4263,8 +4335,8 @@
         "peakConcurrency": 2,
         "conflictPairs": 0,
         "handoffCount": 4,
-        "duplicatedContextBytes": 1494856,
-        "duplicatedPermissionScopes": 105,
+        "duplicatedContextBytes": 1500489,
+        "duplicatedPermissionScopes": 108,
         "totalWorkWeight": 38,
         "totalStartupCost": 8,
         "totalHandoffCost": 4
@@ -4291,7 +4363,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:06993761516916d643315fadf0868702d01595eab43b59c22ad03be133838056"
+      "contentDigest": "sha256:165d3fbf33c2e803cf0c9c414a396f8fbf47d392cf1d3b6bbb86c5789b8c00d4"
     },
     {
       "id": "team.4040deb17ee5a9c829c00f5d44257775fd0839cbde171b6dbf78082123dda4a2",
@@ -4323,8 +4395,8 @@
         "peakConcurrency": 2,
         "conflictPairs": 0,
         "handoffCount": 4,
-        "duplicatedContextBytes": 1516275,
-        "duplicatedPermissionScopes": 104,
+        "duplicatedContextBytes": 1523594,
+        "duplicatedPermissionScopes": 107,
         "totalWorkWeight": 38,
         "totalStartupCost": 8,
         "totalHandoffCost": 4
@@ -4351,7 +4423,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:79514ddbbf729d4022e04207b7c885813f36ef58cdd3b0befbaa0f2f4717b331"
+      "contentDigest": "sha256:727efadcbce2557e08ba889de2119f8fbf3a8fccb2e665fe88100d42664a3bcc"
     },
     {
       "id": "team.5c6e8bb4e8613ad3fa21f6e8d57ee6dc80636c372445c6656ce2ae8fac7d5b64",
@@ -4385,8 +4457,8 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1702907,
-        "duplicatedPermissionScopes": 119,
+        "duplicatedContextBytes": 1711158,
+        "duplicatedPermissionScopes": 123,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
         "totalHandoffCost": 6
@@ -4418,7 +4490,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:6bbea3ae7eb1e167122d52bc47136b8059b416f40546d06911bb8f7286408add"
+      "contentDigest": "sha256:fa9380cada7cf05cf9b7016daa36edf1c8fd0806b826aa793b358f886104ddbb"
     },
     {
       "id": "team.22cfc8a181aaa7d8f16949ba7125acebce7ceab8dc45dcd1fa93e2fe9def8827",
@@ -4452,8 +4524,8 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1981256,
-        "duplicatedPermissionScopes": 136,
+        "duplicatedContextBytes": 1990298,
+        "duplicatedPermissionScopes": 140,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
         "totalHandoffCost": 6
@@ -4485,7 +4557,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:74581ac6a35e3aea8c4def3a641a8690bfbad5e8e143bfabfcd4e49f7e43fc9c"
+      "contentDigest": "sha256:88bd970266811e88c66886026818c5ce60fecc417fc9cd9109d7777664177c70"
     }
   ],
   "blueprints": [
@@ -4494,8 +4566,8 @@
       "kind": "AgentBlueprint",
       "id": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 36,
-      "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
+      "goalRevision": 37,
+      "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "review.algorithm-lifecycle"
@@ -4616,8 +4688,8 @@
           "sourceId": "context.first-run-tests",
           "kind": "repository",
           "locator": "path:test/specialist-first-run.test.mjs",
-          "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-          "bytes": 8553,
+          "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+          "bytes": 8984,
           "purposes": [
             "Review deterministic candidate, lifecycle, and dependency behavior."
           ],
@@ -4709,6 +4781,20 @@
             "review.algorithm-lifecycle"
           ],
           "readScope": "test/fixtures/specialist-compiler/under-split.json"
+        },
+        {
+          "sourceId": "context.gitattributes",
+          "kind": "repository",
+          "locator": "path:.gitattributes",
+          "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+          "bytes": 501,
+          "purposes": [
+            "Authenticate the exact repository source-byte normalization policy."
+          ],
+          "workUnitIds": [
+            "review.algorithm-lifecycle"
+          ],
+          "readScope": ".gitattributes"
         },
         {
           "sourceId": "context.handoff",
@@ -4815,6 +4901,7 @@
         ],
         "scope": {
           "read": [
+            ".gitattributes",
             "docs/modules/specialist-agent-compiler.md",
             "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
             "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
@@ -4843,6 +4930,7 @@
           {
             "kind": "filesystem.read",
             "scopes": [
+              ".gitattributes",
               "docs/modules/specialist-agent-compiler.md",
               "docs/specs/v11-specialist-compiler/evidence/dogfood/inputs/spec-before-integration.md",
               "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
@@ -4919,15 +5007,15 @@
         "Stop with REVISE if bounded search is represented as a global optimum.",
         "Stop with REVISE if selection can change under logical input permutation."
       ],
-      "contentDigest": "sha256:a6191d57d1774ee3fa693d6725446e84038a46b40ed6e2300c7673b291bc9ca3"
+      "contentDigest": "sha256:4e5c47e83142da89a2095eefa5b36aa26ceb8cf82b4d46ab29c539f4f228979a"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 36,
-      "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
+      "goalRevision": 37,
+      "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "integrate.release"
@@ -4996,6 +5084,20 @@
           "readScope": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md"
         },
         {
+          "sourceId": "context.gitattributes",
+          "kind": "repository",
+          "locator": "path:.gitattributes",
+          "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+          "bytes": 501,
+          "purposes": [
+            "Authenticate the exact repository source-byte normalization policy."
+          ],
+          "workUnitIds": [
+            "integrate.release"
+          ],
+          "readScope": ".gitattributes"
+        },
+        {
           "sourceId": "context.readme",
           "kind": "repository",
           "locator": "path:README.md",
@@ -5044,6 +5146,7 @@
         ],
         "scope": {
           "read": [
+            ".gitattributes",
             "README.md",
             "docs/memory/**",
             "docs/milestones/v11.md",
@@ -5066,6 +5169,7 @@
           {
             "kind": "filesystem.read",
             "scopes": [
+              ".gitattributes",
               "README.md",
               "docs/memory/**",
               "docs/milestones/v11.md",
@@ -5140,15 +5244,15 @@
         "Stop if any independent review returns REVISE.",
         "Stop unless the separate prelaunch audit is approval-bound, verified, and PASS before candidate launch approval."
       ],
-      "contentDigest": "sha256:a9afdac385e4c9ace8af1af973f6145b54a75505c85d2d3c98935de5eca6f114"
+      "contentDigest": "sha256:6a49c3d6b4c41b2065203574fdf2b8320537b41a0d5be7c4bf1bcd32422b5615"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 36,
-      "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
+      "goalRevision": 37,
+      "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "review.product-api"
@@ -5269,8 +5373,8 @@
           "sourceId": "context.consumer-check",
           "kind": "repository",
           "locator": "path:scripts/check-packed-consumer.mjs",
-          "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
-          "bytes": 43243,
+          "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+          "bytes": 44049,
           "purposes": [
             "Review the executable installed-consumer trust boundary."
           ],
@@ -5367,8 +5471,8 @@
           "sourceId": "context.first-run-tests",
           "kind": "repository",
           "locator": "path:test/specialist-first-run.test.mjs",
-          "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-          "bytes": 8553,
+          "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+          "bytes": 8984,
           "purposes": [
             "Review the public product and API contract."
           ],
@@ -5376,6 +5480,20 @@
             "review.product-api"
           ],
           "readScope": "test/specialist-first-run.test.mjs"
+        },
+        {
+          "sourceId": "context.gitattributes",
+          "kind": "repository",
+          "locator": "path:.gitattributes",
+          "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+          "bytes": 501,
+          "purposes": [
+            "Authenticate the exact repository source-byte normalization policy."
+          ],
+          "workUnitIds": [
+            "review.product-api"
+          ],
+          "readScope": ".gitattributes"
         },
         {
           "sourceId": "context.handbook",
@@ -5493,8 +5611,8 @@
           "sourceId": "context.package",
           "kind": "repository",
           "locator": "path:package.json",
-          "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
-          "bytes": 2946,
+          "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+          "bytes": 2931,
           "purposes": [
             "Review the public product and API contract."
           ],
@@ -5636,6 +5754,7 @@
         ],
         "scope": {
           "read": [
+            ".gitattributes",
             "AGENTS.md",
             "CHANGELOG.md",
             "CONTRIBUTING.md",
@@ -5676,6 +5795,7 @@
           {
             "kind": "filesystem.read",
             "scopes": [
+              ".gitattributes",
               "AGENTS.md",
               "CHANGELOG.md",
               "CONTRIBUTING.md",
@@ -5762,15 +5882,15 @@
         "Stop with REVISE if a generic role can substitute for exact task demand.",
         "Stop with REVISE if the public contract requires a provider or runtime."
       ],
-      "contentDigest": "sha256:f773d4e72b0fbb2444169c8874131082ba831ec1ff8d1c2cadc762500d45f8f3"
+      "contentDigest": "sha256:8aacd75344285df73bc39ee77fd7977c8eace6b8a1ff6ab7ca0b9f75f793184f"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 36,
-      "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
+      "goalRevision": 37,
+      "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "verify.release-gates"
@@ -5863,8 +5983,8 @@
           "sourceId": "context.consumer-check",
           "kind": "repository",
           "locator": "path:scripts/check-packed-consumer.mjs",
-          "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
-          "bytes": 43243,
+          "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+          "bytes": 44049,
           "purposes": [
             "Verify the offline packed-consumer gate."
           ],
@@ -5919,8 +6039,8 @@
           "sourceId": "context.dogfood-runner",
           "kind": "repository",
           "locator": "path:scripts/run-v11-dogfood.mjs",
-          "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda",
-          "bytes": 58524,
+          "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e",
+          "bytes": 58302,
           "purposes": [
             "Verify committed V11 dogfood evidence."
           ],
@@ -5933,8 +6053,8 @@
           "sourceId": "context.dogfood-runner-tests",
           "kind": "repository",
           "locator": "path:test/v11-dogfood-runner.test.mjs",
-          "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d",
-          "bytes": 41879,
+          "digest": "sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284",
+          "bytes": 43787,
           "purposes": [
             "Execute the host containment regression through the release gates."
           ],
@@ -5989,8 +6109,8 @@
           "sourceId": "context.first-run-tests",
           "kind": "repository",
           "locator": "path:test/specialist-first-run.test.mjs",
-          "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-          "bytes": 8553,
+          "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+          "bytes": 8984,
           "purposes": [
             "Exercise this source through the canonical release gates."
           ],
@@ -6084,6 +6204,20 @@
           "readScope": "test/fixtures/specialist-compiler/under-split.json"
         },
         {
+          "sourceId": "context.gitattributes",
+          "kind": "repository",
+          "locator": "path:.gitattributes",
+          "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+          "bytes": 501,
+          "purposes": [
+            "Authenticate the exact repository source-byte normalization policy."
+          ],
+          "workUnitIds": [
+            "verify.release-gates"
+          ],
+          "readScope": ".gitattributes"
+        },
+        {
           "sourceId": "context.handoff",
           "kind": "repository",
           "locator": "path:src/specialist-handoff.ts",
@@ -6143,8 +6277,8 @@
           "sourceId": "context.package",
           "kind": "repository",
           "locator": "path:package.json",
-          "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
-          "bytes": 2946,
+          "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+          "bytes": 2931,
           "purposes": [
             "Exercise this source through the canonical release gates."
           ],
@@ -6241,8 +6375,8 @@
           "sourceId": "context.template-checker",
           "kind": "repository",
           "locator": "path:scripts/check-template.ps1",
-          "digest": "sha256:f0d14d1cf7d61f338c588d57b28415cbd045b05ac7b81fa80432373fa1bbf81e",
-          "bytes": 80766,
+          "digest": "sha256:5c6fb77dc0a817be6c137805088b408c32b01bc7fc81ccc3f2cd4874014cf424",
+          "bytes": 78529,
           "purposes": [
             "Verify workflow artifact checks."
           ],
@@ -6255,8 +6389,8 @@
           "sourceId": "context.template-checker-tests",
           "kind": "repository",
           "locator": "path:scripts/test-check-template.ps1",
-          "digest": "sha256:1cec6a958b7eb40f1a8a60d3dc81f6c4b464c68c310e815c9339857dcca767f6",
-          "bytes": 102789,
+          "digest": "sha256:33c057636bcf96949df1d1311fc8ddee5913370a2b4fdb8f57c99f6ae5e6e882",
+          "bytes": 101000,
           "purposes": [
             "Verify checker regression coverage."
           ],
@@ -6287,6 +6421,7 @@
         "scope": {
           "read": [
             ".git/**",
+            ".gitattributes",
             ".github/**",
             "AGENTS.md",
             "CHANGELOG.md",
@@ -6348,6 +6483,7 @@
             "kind": "filesystem.read",
             "scopes": [
               ".git/**",
+              ".gitattributes",
               ".github/**",
               "AGENTS.md",
               "CHANGELOG.md",
@@ -6461,15 +6597,15 @@
         "On Windows, stop with FIX unless the full negative checker matrix uses a verified short-path spelling that resolves to the same authorized .local/npm-cache target.",
         "Stop with FIX if any canonical gate fails or cannot be reproduced."
       ],
-      "contentDigest": "sha256:1bbe59370412b205bc4267d8ec0f7bfaeeffa9bf45dd4d82b84bcd3c93b0bf87"
+      "contentDigest": "sha256:a9606975daa6e020e753fc0f2cc036413e4e8ece1c578350f12e37f68bdc575b"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 36,
-      "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
+      "goalRevision": 37,
+      "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "review.security-trace"
@@ -6604,8 +6740,8 @@
           "sourceId": "context.consumer-check",
           "kind": "repository",
           "locator": "path:scripts/check-packed-consumer.mjs",
-          "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
-          "bytes": 43243,
+          "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+          "bytes": 44049,
           "purposes": [
             "Audit installed-package verification behavior."
           ],
@@ -6646,8 +6782,8 @@
           "sourceId": "context.dogfood-runner",
           "kind": "repository",
           "locator": "path:scripts/run-v11-dogfood.mjs",
-          "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda",
-          "bytes": 58524,
+          "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e",
+          "bytes": 58302,
           "purposes": [
             "Audit external approval separation and evidence verification."
           ],
@@ -6660,8 +6796,8 @@
           "sourceId": "context.dogfood-runner-tests",
           "kind": "repository",
           "locator": "path:test/v11-dogfood-runner.test.mjs",
-          "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d",
-          "bytes": 41879,
+          "digest": "sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284",
+          "bytes": 43787,
           "purposes": [
             "Audit the direct external-link containment regression."
           ],
@@ -6702,8 +6838,8 @@
           "sourceId": "context.first-run-tests",
           "kind": "repository",
           "locator": "path:test/specialist-first-run.test.mjs",
-          "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-          "bytes": 8553,
+          "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+          "bytes": 8984,
           "purposes": [
             "Review privacy, authority, raw-boundary, and trace behavior."
           ],
@@ -6795,6 +6931,20 @@
             "review.security-trace"
           ],
           "readScope": "test/fixtures/specialist-compiler/under-split.json"
+        },
+        {
+          "sourceId": "context.gitattributes",
+          "kind": "repository",
+          "locator": "path:.gitattributes",
+          "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+          "bytes": 501,
+          "purposes": [
+            "Authenticate the exact repository source-byte normalization policy."
+          ],
+          "workUnitIds": [
+            "review.security-trace"
+          ],
+          "readScope": ".gitattributes"
         },
         {
           "sourceId": "context.handbook",
@@ -6954,8 +7104,8 @@
           "sourceId": "context.package",
           "kind": "repository",
           "locator": "path:package.json",
-          "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
-          "bytes": 2946,
+          "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+          "bytes": 2931,
           "purposes": [
             "Review privacy, authority, raw-boundary, and trace behavior."
           ],
@@ -7195,6 +7345,7 @@
         ],
         "scope": {
           "read": [
+            ".gitattributes",
             "AGENTS.md",
             "docs/ai/handbook.md",
             "docs/ide/specialist-agent-kickoff.md",
@@ -7252,6 +7403,7 @@
           {
             "kind": "filesystem.read",
             "scopes": [
+              ".gitattributes",
               "AGENTS.md",
               "docs/ai/handbook.md",
               "docs/ide/specialist-agent-kickoff.md",
@@ -7357,15 +7509,15 @@
         "Stop with REVISE if escaped or raw malformed Unicode reaches a launchable semantic handoff.",
         "Stop with REVISE if package tampering can retain the reviewed digest."
       ],
-      "contentDigest": "sha256:8cf04402310e34be6644c91992ca66301d1f31b5621e4ba0dcce5edfe5fe7c31"
+      "contentDigest": "sha256:9ce55d9e47109655fb7846b15bd3c964cf9e78a5bd235f1700b1c1ef3ace505f"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 36,
-      "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
+      "goalRevision": 37,
+      "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "prepare.candidate"
@@ -7512,8 +7664,8 @@
           "sourceId": "context.consumer-check",
           "kind": "repository",
           "locator": "path:scripts/check-packed-consumer.mjs",
-          "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
-          "bytes": 43243,
+          "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+          "bytes": 44049,
           "purposes": [
             "Bind this exact candidate source before independent review."
           ],
@@ -7568,8 +7720,8 @@
           "sourceId": "context.dogfood-runner",
           "kind": "repository",
           "locator": "path:scripts/run-v11-dogfood.mjs",
-          "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda",
-          "bytes": 58524,
+          "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e",
+          "bytes": 58302,
           "purposes": [
             "Bind this exact candidate source before independent review."
           ],
@@ -7582,8 +7734,8 @@
           "sourceId": "context.dogfood-runner-tests",
           "kind": "repository",
           "locator": "path:test/v11-dogfood-runner.test.mjs",
-          "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d",
-          "bytes": 41879,
+          "digest": "sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284",
+          "bytes": 43787,
           "purposes": [
             "Bind the host containment regression before independent review."
           ],
@@ -7638,8 +7790,8 @@
           "sourceId": "context.first-run-tests",
           "kind": "repository",
           "locator": "path:test/specialist-first-run.test.mjs",
-          "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
-          "bytes": 8553,
+          "digest": "sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b",
+          "bytes": 8984,
           "purposes": [
             "Bind this exact revision-30 source before independent review."
           ],
@@ -7731,6 +7883,20 @@
             "prepare.candidate"
           ],
           "readScope": "test/fixtures/specialist-compiler/under-split.json"
+        },
+        {
+          "sourceId": "context.gitattributes",
+          "kind": "repository",
+          "locator": "path:.gitattributes",
+          "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
+          "bytes": 501,
+          "purposes": [
+            "Authenticate the exact repository source-byte normalization policy."
+          ],
+          "workUnitIds": [
+            "prepare.candidate"
+          ],
+          "readScope": ".gitattributes"
         },
         {
           "sourceId": "context.handbook",
@@ -7890,8 +8056,8 @@
           "sourceId": "context.package",
           "kind": "repository",
           "locator": "path:package.json",
-          "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
-          "bytes": 2946,
+          "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+          "bytes": 2931,
           "purposes": [
             "Bind this exact revision-30 source before independent review."
           ],
@@ -8145,6 +8311,7 @@
         ],
         "scope": {
           "read": [
+            ".gitattributes",
             "AGENTS.md",
             "CHANGELOG.md",
             "CONTRIBUTING.md",
@@ -8206,6 +8373,7 @@
           {
             "kind": "filesystem.read",
             "scopes": [
+              ".gitattributes",
               "AGENTS.md",
               "CHANGELOG.md",
               "CONTRIBUTING.md",
@@ -8329,7 +8497,7 @@
       "stopConditions": [
         "Stop if any declared source digest or byte count does not match."
       ],
-      "contentDigest": "sha256:44ab7abc768e87bf873e63cc045c5adbf986530c235a413094afd7b60df28b2a"
+      "contentDigest": "sha256:f4c30a4cc336f3985c902f5829be5acc90d9e22b96ed014fdc8e7442a3cb6106"
     }
   ],
   "launchWaves": [
@@ -8355,5 +8523,5 @@
       ]
     }
   ],
-  "contentDigest": "sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681"
+  "contentDigest": "sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c"
 }

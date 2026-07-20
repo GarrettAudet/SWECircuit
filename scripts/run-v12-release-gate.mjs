@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import {
   access,
+  lstat,
   mkdir,
   mkdtemp,
   open,
@@ -22,6 +23,8 @@ const GIT_CONTEXT_STRATEGY = "disposable-shared-object-git-context";
 
 const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
 const MATERIALIZATION_PARENT = join(ROOT, ".local", "v12-release-gate");
+const GENERATED_BUILD_DIRECTORY = "dist";
+const DEFAULT_HOST_NPM_CACHE = join(ROOT, ".local", "npm-cache");
 
 const COMMAND =
   process.platform === "win32"
@@ -49,6 +52,24 @@ function requireCondition(condition, message) {
     throw new Error(message);
   }
 }
+
+function resolveHostNpmCache(environment) {
+  const supplies = Object.entries(environment)
+    .filter(([key]) => key.toLowerCase() === "npm_config_cache")
+    .map(([, value]) => value);
+  if (supplies.length === 0) {
+    return DEFAULT_HOST_NPM_CACHE;
+  }
+  requireCondition(
+    supplies.every((value) => typeof value === "string" && value.length > 0),
+    "Host npm cache supply must be non-empty.",
+  );
+  const resolved = new Set(supplies.map((value) => resolve(ROOT, value)));
+  requireCondition(resolved.size === 1, "Host npm cache supplies must resolve identically.");
+  return [...resolved][0];
+}
+
+const HOST_NPM_CACHE = resolveHostNpmCache(process.env);
 
 function candidateEvidencePaths(candidateCommit) {
   requireCondition(
@@ -280,6 +301,74 @@ async function inspectExactMaterialization(root, entries) {
   return inspectMaterialization(root, entries);
 }
 
+function isEmptyDirectoryError(error) {
+  return (
+    error &&
+    typeof error === "object" &&
+    (error.code === "ENOENT" || error.code === "ENOTEMPTY" || error.code === "EEXIST")
+  );
+}
+
+async function pruneEmptyDirectory(path) {
+  try {
+    await rmdir(path);
+  } catch (error) {
+    if (!isEmptyDirectoryError(error)) {
+      throw error;
+    }
+  }
+}
+
+async function pruneMaterializationParents() {
+  await pruneEmptyDirectory(MATERIALIZATION_PARENT);
+  await pruneEmptyDirectory(dirname(MATERIALIZATION_PARENT));
+}
+
+async function requireRegularGeneratedTree(root) {
+  const stats = await lstat(root);
+  requireCondition(
+    stats.isDirectory() && !stats.isSymbolicLink(),
+    `Generated build output is not a plain directory: ${GENERATED_BUILD_DIRECTORY}.`,
+  );
+  for (const child of await readdir(root, { withFileTypes: true })) {
+    const path = join(root, child.name);
+    const childStats = await lstat(path);
+    requireCondition(
+      !childStats.isSymbolicLink() && (childStats.isDirectory() || childStats.isFile()),
+      `Generated build output contains a non-regular entry: ${child.name}.`,
+    );
+    if (childStats.isDirectory()) {
+      await requireRegularGeneratedTree(path);
+    }
+  }
+}
+
+async function removeGeneratedBuildOutput(root, entries) {
+  requireCondition(
+    !entries.some(
+      (entry) =>
+        entry.path === GENERATED_BUILD_DIRECTORY ||
+        entry.path.startsWith(`${GENERATED_BUILD_DIRECTORY}/`),
+    ),
+    `Candidate source unexpectedly owns ${GENERATED_BUILD_DIRECTORY}.`,
+  );
+  const generatedRoot = resolve(root, GENERATED_BUILD_DIRECTORY);
+  requireCondition(
+    dirname(generatedRoot) === resolve(root),
+    "Generated build output is outside the candidate materialization.",
+  );
+  try {
+    await requireRegularGeneratedTree(generatedRoot);
+  } catch (error) {
+    if (error && typeof error === "object" && error.code === "ENOENT") {
+      return false;
+    }
+    throw error;
+  }
+  await rm(generatedRoot, { recursive: true, force: false, maxRetries: 3, retryDelay: 100 });
+  return true;
+}
+
 async function removeMaterialization(root) {
   requireCondition(
     dirname(root) === MATERIALIZATION_PARENT &&
@@ -287,17 +376,7 @@ async function removeMaterialization(root) {
     "Refusing to remove an unexpected materialization path.",
   );
   await rm(root, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
-  try {
-    await rmdir(MATERIALIZATION_PARENT);
-  } catch (error) {
-    if (
-      !error ||
-      typeof error !== "object" ||
-      (error.code !== "ENOENT" && error.code !== "ENOTEMPTY" && error.code !== "EEXIST")
-    ) {
-      throw error;
-    }
-  }
+  await pruneMaterializationParents();
 }
 
 async function materializeCandidateSource(candidateCommit) {
@@ -383,17 +462,7 @@ async function removeCandidateGitContext(root) {
     "Refusing to remove an unexpected candidate Git context path.",
   );
   await rm(root, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
-  try {
-    await rmdir(MATERIALIZATION_PARENT);
-  } catch (error) {
-    if (
-      !error ||
-      typeof error !== "object" ||
-      (error.code !== "ENOENT" && error.code !== "ENOTEMPTY" && error.code !== "EEXIST")
-    ) {
-      throw error;
-    }
-  }
+  await pruneMaterializationParents();
 }
 
 async function createCandidateGitContext(candidateCommit, worktree) {
@@ -442,6 +511,19 @@ function commandEnvironment(gitContext) {
   const pathKey = Object.keys(environment).find((key) => key.toLowerCase() === "path") ?? "PATH";
   environment[pathKey] =
     join(ROOT, "node_modules", ".bin") + delimiter + (environment[pathKey] ?? "");
+  const cacheFromWorktree = relative(resolve(gitContext.worktree), HOST_NPM_CACHE);
+  requireCondition(
+    isAbsolute(cacheFromWorktree) ||
+      cacheFromWorktree === ".." ||
+      cacheFromWorktree.startsWith(`..${sep}`),
+    "Host-owned npm cache must remain outside the candidate materialization.",
+  );
+  for (const key of Object.keys(environment)) {
+    if (key.toLowerCase() === "npm_config_cache") {
+      delete environment[key];
+    }
+  }
+  environment.npm_config_cache = HOST_NPM_CACHE;
   return environment;
 }
 
@@ -644,6 +726,7 @@ async function main() {
     }
 
     try {
+      await removeGeneratedBuildOutput(materialization.root, materialization.entries);
       materializationDigestAfter = (
         await inspectExactMaterialization(materialization.root, materialization.entries)
       ).digest;
@@ -770,8 +853,12 @@ export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
   inspectCandidateGitContext,
   inspectExactMaterialization,
   inspectMaterialization,
+  hostNpmCache: HOST_NPM_CACHE,
+  materializationParent: MATERIALIZATION_PARENT,
   materializeCandidateSource,
+  pruneEmptyDirectory,
   removeCandidateGitContext,
+  removeGeneratedBuildOutput,
   removeMaterialization,
 });
 

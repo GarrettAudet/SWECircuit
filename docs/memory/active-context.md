@@ -2,7 +2,9 @@
 
 ## Current Focus
 
-V12 IDE Run Loop is in release correction on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Candidate 4 `eff7d7afd5cb57a655f41803da96d824b9ba3438` is retired. R11 is integrated at `efc8a86`; the active public-surface pass positions IDECircuit as the orchestration layer for agentic IDEs while retaining SWECircuit 0.x machine identifiers. Candidate 5 exact verification and complete R2 review remain.
+V12 IDE Run Loop is in final release-candidate verification on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Candidates 4 and 5 are retired. Revision 12 corrects checkout-dependent V11 evidence identity and candidate-local runtime state; its two exact specialist handoffs pass. V11 Revision 37 passes its complete two-package trust replay. The public surface positions IDECircuit as the orchestration layer for agentic IDEs while retaining SWECircuit 0.x machine identifiers. Candidate 6 exact verification and complete R2 review remain.
+
+Revision 37 binds Candidate A `sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c` / `sha256:42ec6c54edefb0fda5287b3ba4145bd0d7e59e8f2ff3ba55c92f1610d09c78d6` and Audit B `sha256:58704463065c13dbf84aca3eccd3cc7ae75533111e26e615c3fa2827e77da568` / `sha256:04d67198f0dd761f8a11d1b8ab85594e65594de2b1f0f323f498c32874246987`. The exact external receipt, binder, independent semantic `pass`, cross-package authorization, and `--check-evidence` replay all pass. Durable rule: release identities use clean-filter-stable LF source bytes, and runtime cache or scratch supply stays outside authenticated candidate source.
 
 ## Current Stage
 

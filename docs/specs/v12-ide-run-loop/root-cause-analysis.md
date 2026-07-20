@@ -226,3 +226,40 @@ Focused tests must prove nested materialization retains Git object access, the t
 ### Durable Learning
 
 Exact source isolation and execution context isolation are separate guarantees. Post-commit evidence cannot be part of the commit it proves; it needs an explicit external-evidence provenance class and immutable package binding.
+
+## Candidate 5 Checkout Identity And Runtime-State RCA
+
+### Reproduction
+
+Candidate 5 executes all 399 tests from exact committed blobs, then fails V11 replay on `scripts/check-template.ps1`. Independent post-command inspection rejects an unexpected `.local` directory.
+
+### Confirmed Root Causes
+
+- V11 retained raw Windows checkout bytes for two `*.ps1` sources while the candidate gate correctly authenticated and materialized their LF Git blobs. The canonicality guard accepted a clean-filter transformation instead of requiring evidence bytes to be Git-stable.
+- The canonical command inherited repository-local npm cache configuration, and two tests left temporary parent paths. Runtime supply and source identity therefore occupied the same tree.
+
+### Causal Correction
+
+Revision 12 separates the causes into disjoint specialist modules. The first makes every active V11 source binding clean-filter stable, binds `.gitattributes`, and rebuilds the V11 trust chain. The second supplies npm cache state outside the candidate materialization and makes test-owned path cleanup complete without weakening exact post-command inspection.
+
+### Regression Coverage
+
+Candidate 6 must prove live checkout bytes, clean-filtered bytes, and committed materialization bytes share one V11 identity; all active V11 sources pass the same rule; external cache supply remains outside the candidate; test cleanup works in either order and preserves unrelated sentinels; and the complete candidate materialization has the same exact digest before and after `npm verify`.
+
+### Durable Learning
+
+An exact-source gate must define both canonical source bytes and external runtime supply. Checkout transforms cannot participate in durable evidence identity, and ignored runtime paths are still source-tree mutations when verification runs inside an authenticated materialization.
+
+## Candidate 5 Correction Closure
+
+### Implemented Fix
+
+Revision 12 made source identity and runtime supply separate invariants. V11 now binds only LF clean-filter-stable bytes and the governing `.gitattributes` file. The release gate supplies one host-owned npm cache outside the candidate, permits removal only of authenticated generated `dist`, retains strict rejection of every other undeclared path, and prunes only empty owned parents.
+
+### Verification
+
+Both exact Revision 12 specialist handoffs pass and their complete fan-in is ready. Focused release-gate coverage passes 7/7; V11 and first-run coverage passes 38/38. V11 Revision 37 rebuilt Candidate A and Audit B, completed the external receipt, binder, dependent semantic audit, cross-package authorization, and full `--check-evidence` replay with `pass`.
+
+### Residual Gate
+
+Candidate 5 remains retired. Candidate 6 must commit the corrected bytes, pass the exact candidate gate from its own materialized tree, and complete a fresh three-reviewer R2 package before release.

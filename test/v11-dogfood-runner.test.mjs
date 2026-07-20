@@ -34,6 +34,17 @@ function withTempDirectory(callback) {
   }
 }
 
+function repositorySourceBinding(relativePath, id) {
+  const bytes = readFileSync(join(process.cwd(), ...relativePath.split("/")));
+  return {
+    id,
+    kind: "repository",
+    locator: `path:${relativePath}`,
+    bytes: bytes.byteLength,
+    digest: `sha256:${createHash("sha256").update(bytes).digest("hex")}`,
+  };
+}
+
 test("dogfood context reads accept regular files inside the repository root", () => {
   withTempDirectory((repositoryRoot) => {
     mkdirSync(join(repositoryRoot, "context"));
@@ -65,37 +76,39 @@ test("dogfood context verification rejects bytes changed by an LF clean filter",
   );
 });
 
-test("dogfood context verification accepts a deterministic CRLF checkout round trip", () => {
-  const bytes = Buffer.from("line one\r\nline two\r\n", "utf8");
-  const rawObjectId = "a".repeat(40);
-  const filteredObjectId = "b".repeat(40);
+test("dogfood context verification accepts LF bytes unchanged by the clean filter", () => {
+  const bytes = Buffer.from("line one\nline two\n", "utf8");
+  const objectId = "a".repeat(40);
 
   assert.doesNotThrow(() =>
     verifyCheckoutCanonicalContext(
-      "scripts/check.ps1",
+      "context/source.txt",
       bytes,
       process.cwd(),
-      (_repositoryRoot, _relativePath, _bytes, applyFilters) =>
-        applyFilters ? filteredObjectId : rawObjectId,
-      () => ({ text: "set", eol: "crlf" }),
+      () => objectId,
+      () => ({ text: "auto", eol: "lf" }),
     ),
   );
 });
 
-test("dogfood context verification rejects LF bytes under an explicit CRLF checkout", () => {
-  const objectId = "a".repeat(40);
+test("dogfood context verification rejects an explicit CRLF checkout before hashing bytes", () => {
+  let hashCalls = 0;
 
   assert.throws(
     () =>
       verifyCheckoutCanonicalContext(
         "scripts/check.ps1",
-        Buffer.from("line one\nline two\n", "utf8"),
+        Buffer.from("line one\r\nline two\r\n", "utf8"),
         process.cwd(),
-        () => objectId,
+        () => {
+          hashCalls += 1;
+          return "a".repeat(40);
+        },
         () => ({ text: "set", eol: "crlf" }),
       ),
-    /context is not checkout-canonical.*Git checkout rules would change reviewed bytes/,
+    /context is not checkout-canonical.*explicit eol=lf is required/,
   );
+  assert.equal(hashCalls, 0);
 });
 
 test("dogfood context verification rejects an active custom Git filter", () => {
@@ -145,7 +158,7 @@ test("dogfood context verification rejects a source without an explicit eol poli
           },
           () => attributes,
         ),
-      /context is not checkout-canonical.*explicit eol=lf or eol=crlf is required/,
+      /context is not checkout-canonical.*explicit eol=lf is required/,
     );
     assert.equal(hashCalls, 0);
   }
@@ -407,6 +420,57 @@ test("dogfood context verification rejects unsupported source kinds", () => {
       /unsupported context source kind for context\.external: external/,
     );
   });
+});
+
+test("dogfood context verification requires one exact attribute-policy binding", () => {
+  withTempDirectory((repositoryRoot) => {
+    assert.throws(
+      () => verifyDogfoodContext({ contextSources: [] }, repositoryRoot),
+      /context source policy must bind path:\.gitattributes exactly once/,
+    );
+    assert.throws(
+      () =>
+        verifyDogfoodContext(
+          {
+            contextSources: [
+              { kind: "repository", locator: "path:.gitattributes" },
+              { kind: "repository", locator: "path:.gitattributes" },
+            ],
+          },
+          repositoryRoot,
+        ),
+      /context source policy must bind path:\.gitattributes exactly once/,
+    );
+  });
+});
+
+test("every active V11 source is LF clean-filter stable with the attribute policy bound", () => {
+  const goal = JSON.parse(
+    readFileSync(
+      join(
+        process.cwd(),
+        "docs",
+        "specs",
+        "v11-specialist-compiler",
+        "evidence",
+        "dogfood",
+        "goal-contract.json",
+      ),
+      "utf8",
+    ),
+  );
+  const contextSources = goal.contextSources
+    .filter((source) => source.locator !== "path:.gitattributes")
+    .map((source) => {
+      const relativePath = source.locator.slice(5).split("#", 1)[0];
+      return { ...source, ...repositorySourceBinding(relativePath, source.id) };
+    });
+  contextSources.push(repositorySourceBinding(".gitattributes", "context.gitattributes"));
+
+  const verified = verifyDogfoodContext({ ...goal, contextSources }, process.cwd());
+
+  assert.equal(verified.length, contextSources.length);
+  assert.equal(verified.filter((source) => source.path === ".gitattributes").length, 1);
 });
 
 function syntheticCandidateForAudit() {
