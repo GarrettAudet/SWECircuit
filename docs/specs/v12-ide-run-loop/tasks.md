@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress.
+T006 in progress: integrated verification passed; independent release review remains.
 
 ## Task List
 

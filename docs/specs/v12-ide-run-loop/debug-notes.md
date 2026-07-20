@@ -218,3 +218,30 @@ Replace the interface table with the eight required headings while preserving th
 ### Verification
 
 The repository template checker passed on rerun.
+
+## V11 Trust-Root Revision 32
+
+### Reproduction
+
+Refresh the V11 dogfood evidence after the 10 intentional V12 source changes, then require the complete Candidate-A and independent Audit-B approval chain before rerunning the canonical gate.
+
+### Evidence
+
+- The reviewed GoalContract is 101,219 bytes with raw digest `sha256:55d7d298be4d565ea07e971d33447531166e5d4b20d380044ac2295aa365db93`.
+- Candidate A binds compilation `sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032` to package `sha256:21ec2ef20b2e246b12b31f371391faa6d1a4a3fefb0cb65bd0e537ca8a8fbc73`.
+- Audit B binds compilation `sha256:9a457e8f7e42ae8612d4634a2af6116e73a87be249727e318ac56029e74ada02` to package `sha256:e3442404af6f797de723273a94c97bd5427ae22505468f4ffd5ad410fd2c9e7e`.
+- The package-verification receipt is 2,255 bytes with raw digest `sha256:ec3b6097f49dd779add089bdeb6aca817ad0cec99f6c64c7919b8bfed6b522d2` and outcome `pass`.
+- The exact binder and semantic-audit handoffs are 9,801 and 11,662 bytes with raw digests `sha256:d9e848309c816cb244e6b21d14d7ec196626729c768cfee582f57a691da2f06b` and `sha256:8491f7964081601fc42a1bc1e3ad095c30fc3adf7999d827008939ef2d5444b2`.
+- Launch authorization binds both package pairs, the exact receipt, and the exact semantic `pass` handoff; its raw digest is `sha256:cf50b7bf37035442aa7e20e02f2fcab8ff2e2f10b89779d6e49d4a698e74bffb`.
+
+### Classification
+
+Expected approval maintenance after intentional bound-source changes: `fix`, then independently re-authenticate. No V11 or V12 runtime defect was found.
+
+### Verification
+
+- `node scripts\run-v11-dogfood.mjs --check-evidence`: pass.
+- Repository template checker: pass.
+- Complete checker regression matrix: pass.
+- V12 dogfood, package dry run, and clean offline installed-consumer gate: pass.
+- Canonical `npm.cmd run verify`: pass, including all 385 tests and V10/V11/V12 dogfood.

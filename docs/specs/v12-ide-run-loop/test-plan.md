@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation and focused verification passed; canonical release verification and final independent review are in progress.
+Implementation, focused verification, and canonical release verification passed; final independent review is in progress.
 
 ## Contract Tests
 

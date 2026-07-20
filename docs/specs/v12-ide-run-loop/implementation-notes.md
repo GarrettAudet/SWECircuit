@@ -2,7 +2,7 @@
 
 ## Status
 
-Architecture, implementation, public integration, adversarial verification, and IDE dogfood passed. Canonical release verification and independent final review are next.
+Architecture, implementation, public integration, adversarial verification, IDE dogfood, V11 trust-root refresh, and canonical release verification passed. Independent final review is next.
 
 ## Baseline
 
@@ -46,3 +46,7 @@ Architecture, implementation, public integration, adversarial verification, and 
 - Integration review corrected one test-only Windows path assumption before Linux CI by normalizing the resolved schema path; the focused suite remained 9 of 9 green.
 - The first canonical gate passed format, lint, typecheck, all 385 tests, the public specialist example, and V10 dogfood before V11 dogfood correctly rejected its pre-V12 `src/constants.ts` binding. Ten of 57 V11 source tuples changed intentionally; the other 47 still authenticate exactly.
 - The repository template checker then caught that the new run-session guide described the interface in a table but omitted the framework's required module headings. Integration reshaped only that guide into the standard contract; the checker passed on rerun.
+- V11 dogfood revision 32 refreshed only the 10 intentionally changed source tuples and retained exact authentication for the other 47. Candidate A now binds compilation `sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032` to package `sha256:21ec2ef20b2e246b12b31f371391faa6d1a4a3fefb0cb65bd0e537ca8a8fbc73`; independent Audit B binds compilation `sha256:9a457e8f7e42ae8612d4634a2af6116e73a87be249727e318ac56029e74ada02` to package `sha256:e3442404af6f797de723273a94c97bd5427ae22505468f4ffd5ad410fd2c9e7e`.
+- Audit B independently authenticated all 59 sources and reconstructed the 203-candidate search, six Candidate-A blueprints, and nine package files. Its exact verification receipt, binder handoff, semantic `pass` handoff, and cross-package launch authorization all pass the V11 evidence checker.
+- The checker regression matrix, V12 deterministic dogfood, dry-run package inspection, clean offline installed-consumer gate, and V11 exact evidence replay all pass independently.
+- The complete canonical gate passes format, lint, typecheck, all 385 tests, the public specialist example, V10/V11/V12 dogfood, dry-run package inspection, and the clean installed-consumer gate.

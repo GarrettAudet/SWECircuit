@@ -1,7 +1,7 @@
 # Specialist Contract: agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e
 
-Compilation: `sha256:4c3cb3249ff21f51387d05ed5b34810a5797844e137c755cfb8af01bb3fc221a`
-Blueprint: `sha256:9a90dab164de6f1701a4911d7c4b01868a63d1bfa7452768a7168fc3456068b6`
+Compilation: `sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032`
+Blueprint: `sha256:2cc6fe9168ae0dca07c5046a98eec2dd5618776dc34d76d49ed6c7fa7fd3b24e`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 31,
-  "goalDigest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2",
+  "goalRevision": 32,
+  "goalDigest": "sha256:b6b9659b3ecf44d7998c1ffaf1e12d7745154011632b9329634dcc59fff134bf",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "review.product-api"
@@ -131,8 +131,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.constants",
       "kind": "repository",
       "locator": "path:src/constants.ts",
-      "digest": "sha256:f00156e582cafaea19f6db6f55e042422c488b660483f5fccee1d6b1988cee6f",
-      "bytes": 2088,
+      "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
+      "bytes": 2571,
       "purposes": [
         "Review the public product and API contract."
       ],
@@ -145,8 +145,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.consumer-check",
       "kind": "repository",
       "locator": "path:scripts/check-packed-consumer.mjs",
-      "digest": "sha256:dccdb91dbd30beb5961595c301545a3979e274e54ec73c751d16431cdf5cd8eb",
-      "bytes": 37768,
+      "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e",
+      "bytes": 43244,
       "purposes": [
         "Review the executable installed-consumer trust boundary."
       ],
@@ -173,8 +173,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.diagnostic-catalog",
       "kind": "repository",
       "locator": "path:schemas/v1alpha1/diagnostic-catalog.json",
-      "digest": "sha256:816bc731f6f4fab8132430aded14d28a100fef3ab6e0d6f04f25bace2653ad3a",
-      "bytes": 12641,
+      "digest": "sha256:ca09d174600a7841dcab90b15fe1d95bc9a24f72411704fbe794d2f52dec84a2",
+      "bytes": 13307,
       "purposes": [
         "Review the public product and API contract."
       ],
@@ -187,8 +187,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.diagnostics",
       "kind": "repository",
       "locator": "path:src/diagnostics.ts",
-      "digest": "sha256:570e2d2349f6e466999f7a8d9c15b0f82342afa4ccd1042729c282e66c4a7f14",
-      "bytes": 23891,
+      "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+      "bytes": 25190,
       "purposes": [
         "Review the public product and API contract."
       ],
@@ -215,7 +215,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.first-run-approval",
       "kind": "repository",
       "locator": "path:examples/specialist-compiler/approval.json",
-      "digest": "sha256:65543af5d1218be4f9746d9cbb35e81dc6701287fc7b337e9dd476f18d560335",
+      "digest": "sha256:f2e039165920c5b770347672ab0c74e3897430d3a6a008b9b0de044895578f52",
       "bytes": 972,
       "purposes": [
         "Review the public product and API contract."
@@ -327,8 +327,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.ide-kickoff",
       "kind": "repository",
       "locator": "path:docs/ide/specialist-agent-kickoff.md",
-      "digest": "sha256:8ceec4c3478b9f2adc7000893705f41b09b153d9747637884ac07e46b416eaf3",
-      "bytes": 17565,
+      "digest": "sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c",
+      "bytes": 22016,
       "purposes": [
         "Review the shortest user-visible compile-and-hand-off path."
       ],
@@ -341,8 +341,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.index",
       "kind": "repository",
       "locator": "path:src/index.ts",
-      "digest": "sha256:dfa16eda45276f9caf5f59e12b2a20c5c0650a153b84d04510e0feac754b672b",
-      "bytes": 4688,
+      "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+      "bytes": 5447,
       "purposes": [
         "Review the exact public export inventory."
       ],
@@ -369,8 +369,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:52acc84e561245f27afe26af16c000ce5d1e121b5649c4e70c2d03ec140c7be7",
-      "bytes": 2549,
+      "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
+      "bytes": 2847,
       "purposes": [
         "Review the public product and API contract."
       ],
@@ -383,8 +383,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.packed-consumer-host",
       "kind": "repository",
       "locator": "path:scripts/fixtures/packed-consumer-host.ts",
-      "digest": "sha256:9911410ebb6c7d1ee9904dbfa9c70adbac5213c7b3fbc3ee4d782f8bd57e89e7",
-      "bytes": 18435,
+      "digest": "sha256:90633af96b2afaa66dfaddd66e27f2e050dfd0ac5c052f8c1e2413d21db74d00",
+      "bytes": 23434,
       "purposes": [
         "Review installed TypeScript API use and permission-kind parity."
       ],
@@ -439,8 +439,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.schema-readme",
       "kind": "repository",
       "locator": "path:schemas/v1alpha1/README.md",
-      "digest": "sha256:02a965b0c98dfeb522086339866d1b62340802b1cbccafdbf97b261120a96b41",
-      "bytes": 18724,
+      "digest": "sha256:e2bd5e0ca5123873d07fe5bdaff4181b38c34a6cbea0220ecb02e78a62f18223",
+      "bytes": 20795,
       "purposes": [
         "Review the public product and API contract."
       ],
@@ -638,7 +638,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop with REVISE if a generic role can substitute for exact task demand.",
     "Stop with REVISE if the public contract requires a provider or runtime."
   ],
-  "contentDigest": "sha256:9a90dab164de6f1701a4911d7c4b01868a63d1bfa7452768a7168fc3456068b6"
+  "contentDigest": "sha256:2cc6fe9168ae0dca07c5046a98eec2dd5618776dc34d76d49ed6c7fa7fd3b24e"
 }
 ```
 
@@ -659,14 +659,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 31,
-    "digest": "sha256:d43fcccf8b879581c97a29f0c7c0c8c645e9581f7491b92a812a5403c594a7b2"
+    "revision": 32,
+    "digest": "sha256:b6b9659b3ecf44d7998c1ffaf1e12d7745154011632b9329634dcc59fff134bf"
   },
   "agent": {
     "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
-    "blueprintDigest": "sha256:9a90dab164de6f1701a4911d7c4b01868a63d1bfa7452768a7168fc3456068b6"
+    "blueprintDigest": "sha256:2cc6fe9168ae0dca07c5046a98eec2dd5618776dc34d76d49ed6c7fa7fd3b24e"
   },
-  "compilationDigest": "sha256:4c3cb3249ff21f51387d05ed5b34810a5797844e137c755cfb8af01bb3fc221a",
+  "compilationDigest": "sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "review.product-api"

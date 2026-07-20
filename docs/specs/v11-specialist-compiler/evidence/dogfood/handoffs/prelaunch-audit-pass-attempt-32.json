@@ -1,0 +1,60 @@
+{
+  "apiVersion": "swecircuit/prelaunch-audit-handoff/v1alpha1",
+  "kind": "PrelaunchAuditHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 32,
+    "digest": "sha256:c389bb3b11a4e742f8e89c5929249b82539ccdf986ab13918ae270d0218be02c"
+  },
+  "agent": {
+    "id": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:8df3982b0d5b95741ba2250eec46167b67c28f5829bec0b124a1a10e8bb514cc"
+  },
+  "compilationDigest": "sha256:9a457e8f7e42ae8612d4634a2af6116e73a87be249727e318ac56029e74ada02",
+  "reviewer": {
+    "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:8df3982b0d5b95741ba2250eec46167b67c28f5829bec0b124a1a10e8bb514cc"
+  },
+  "candidate": {
+    "compilationDigest": "sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032",
+    "packageDigest": "sha256:21ec2ef20b2e246b12b31f371391faa6d1a4a3fefb0cb65bd0e537ca8a8fbc73"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:9a457e8f7e42ae8612d4634a2af6116e73a87be249727e318ac56029e74ada02",
+    "packageDigest": "sha256:e3442404af6f797de723273a94c97bd5427ae22505468f4ffd5ad410fd2c9e7e"
+  },
+  "summary": "PASS: independently authenticated all 59 declared sources and exactly reconstructed Candidate A search, selection, schedule, authority, evidence, domain digests, nine rendered files, manifest, and package root; Candidate A remains unapproved and unlaunched.",
+  "workUnitsCompleted": [
+    "audit.review-candidate-compilation"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-compilation-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Compilation Review\n\nOutcome: PASS\n\n## Scope and boundary\n\nI independently reviewed the exact revision 32 Candidate A compilation and rendered package named by the approved Audit B reviewer contract. This review is semantic admission evidence only. I made no repository changes, used no network or provider, approved or launched no Candidate A contract, widened no authority, and performed no integration.\n\n## Authenticated inputs\n\n- The Audit B reviewer contract is 46,179 raw UTF-8 bytes with SHA-256 sha256:524424f97e3c9e89a878dd2eab28281fdf4dc3e4a82cb4d3d087d6289f865302. Its independently recomputed blueprint digest is sha256:8df3982b0d5b95741ba2250eec46167b67c28f5829bec0b124a1a10e8bb514cc and binds goal v11.specialist-compiler.prelaunch-audit revision 32, goal digest sha256:c389bb3b11a4e742f8e89c5929249b82539ccdf986ab13918ae270d0218be02c, this one review work unit, both independent review duties, read-only scope, and the declared stop conditions.\n- All 59 repository context items declared by the reviewer contract were authenticated before semantic use. Every raw byte count, SHA-256 digest, locator path, and readScope matched. This includes all 10 Candidate A artifact bindings: the frozen compilation plus the nine rendered package files.\n- The frozen and packaged compilation copies are byte-identical at 313,360 bytes with raw digest sha256:d9fb530c753f9e8987f90198292c53b13d8b5235246a78e62344515e0b2c082a.\n- The dependency handoff was accepted as the host-verified and fan-in-ready runtime input stated in the kickoff: 9,801 raw UTF-8 bytes with digest sha256:d9e848309c816cb244e6b21d14d7ec196626729c768cfee582f57a691da2f06b. Its CandidateAuditBinding lists all 10 Candidate A artifacts, and each listed byte count and digest agrees with my independent measurements.\n- The closed host receipt is PASS and binds Candidate A pair sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032 / sha256:21ec2ef20b2e246b12b31f371391faa6d1a4a3fefb0cb65bd0e537ca8a8fbc73 and Audit B pair sha256:9a457e8f7e42ae8612d4634a2af6116e73a87be249727e318ac56029e74ada02 / sha256:e3442404af6f797de723273a94c97bd5427ae22505468f4ffd5ad410fd2c9e7e. It names verifySpecialistPackage, the exact API version, the exact binder and reviewer bindings and waves, and the Audit B approval record at 195 bytes with digest sha256:9ececde079abbfdc6a37809714047c3a26f4966e2830582e2c53abdd638d9c9d. candidateLaunchApproved remains false.\n\n## Exact search and selection\n\nI independently reimplemented the authenticated canonical digest framing, exact partition enumeration, evidence-independence gate, fixed scheduler, metric calculation, comparator, blueprint projection, renderer, manifest, and package-root calculation in a read-only in-memory check. The reconstructed compilation is canonically identical to the frozen compilation.\n\n- Six fixed work units produce all 203 Bell partitions under maxAgents 6. The exact search reports 203 evaluated and 52 eligible candidates, eight retained alternatives, and evaluation-set digest sha256:fcaeff224c7225ca725cb179c7f7806e0c2915763e83549f3b01c6e96fe52655.\n- The serial baseline team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696 is correctly ineligible for evidence_independence. Its otherwise projected metrics are one agent, makespan 40, peak concurrency 1, zero conflicts, and zero handoffs.\n- The selected team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d is eligible and has six agents, makespan 23, peak concurrency 4, zero conflict pairs, eight handoffs, 2,207,989 duplicated context bytes, 149 duplicated permission scopes, work weight 38, startup cost 12, and handoff cost 8.\n- The selection reason is exactly serial_ineligible with decisiveField evidence_independence. Among eligible teams, the selected team is first under the required lexicographic comparator. The next retained alternative has makespan 26. The proposed specialized partition resolves to the selected team; the proposed consolidated-review partition is eligible but has makespan 41.\n- The fixed schedule reconstructs exactly: prepare.candidate 0-3; algorithm review 4-16; product/API review 4-14; release verification 4-11; security/trace review 4-16; integration 17-23. Launch waves at starts 0, 4, and 17 match the compilation, integration contract, and manifest.\n\n## Authority and evidence\n\n- The goal digest reconstructs as sha256:b6b9659b3ecf44d7998c1ffaf1e12d7745154011632b9329634dcc59fff134bf and the authority projection as sha256:76538aa140abc9502b2d59817f2b5d181cc49e273752ebcd34afd831ebdc4509.\n- All six blueprints reconstruct from the selected partition with exact work ownership, Module actions and ports, dependency closure, 57 declared Candidate A context bindings, capabilities, scopes, permissions, forbidden effects, evidence duties, handoff artifacts, and stop conditions. Every Candidate A context declaration is used, locator-contained by readScope, allowed for its consuming work unit, and covered by that unit's read permission and the owner ceiling.\n- All eight evidence requirements are owned and compiled exactly once: four produce, one verify, and three review. Algorithm, product/API, and security/trace reviewers are separate from their prepare.candidate producer. The release verifier is separate from the integrate.release producer. No requested independence gate is weakened.\n- Four blueprints are read-only. Only verify.release-gates can write .local/npm-cache/** and dist/**; only integrate.release can write docs/memory/**, docs/milestones/v11.md, and docs/specs/v11-specialist-compiler/**. Those demands are exact subsets of the reviewed ceiling. No blueprint requests network.connect or secrets.read, and no role, provider, model, prompt, executor, grant, credential, or runtime field appears.\n- The only unresolved decision is nonblocking runtime supply owned by v11.integration-owner with an explicit proceed rationale outside the compiler boundary. The four forbidden effects are preserved verbatim in every blueprint.\n\n## Blueprint and rendered-package bindings\n\n- review.algorithm-lifecycle: agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972; blueprint sha256:b3057da847a6ac73ad975fd8a610d36d1f34fb2d4a54072ce1a9572ebd39f4d8; contract 18,937 bytes, sha256:e4d8665e5c945700b12bd28a8e799c8aa821855f860a81e8d1a796def07bca35.\n- integrate.release: agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9; blueprint sha256:82f441dbaf52473a9c429221a6fcc1199158f72de0cb6aa3daf46673fa285638; contract 11,199 bytes, sha256:20eec1459a6f0d64a75bd0dda89d2365f9cda60d41464a19a2468bae4711c61c.\n- review.product-api: agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e; blueprint sha256:2cc6fe9168ae0dca07c5046a98eec2dd5618776dc34d76d49ed6c7fa7fd3b24e; contract 23,776 bytes, sha256:e0fa57015eed6445a31013faa8ba79c778d880b249bb1aa57757b8d9b302f779.\n- verify.release-gates: agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8; blueprint sha256:54f39a05c9c8961e388d67fd9d37199d405c02ff6b9c7fc2d17b3e64b6a9a992; contract 27,305 bytes, sha256:b74bbb0ad31a73097a6797546729fa6dbd21f95be13e73bcafd8d4b591c5fc36.\n- review.security-trace: agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc; blueprint sha256:fd4bbab3c3c8d2764bbcc9d2aee55939016c66c52674e9dd0cb08c6f8850658f; contract 33,804 bytes, sha256:9b27e1d345049e7c6dcb6c4f8ae5933f81f46a77929df84aa250b6d91ea33973.\n- prepare.candidate: agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730; blueprint sha256:c944b90e29030be303e84df8f6f0d909c563d4c654a12641ea678ed7e5030e53; contract 37,023 bytes, sha256:8f44282ba816aca3b2d817af803b86f10446e594caeab5f705b119bb17da65da.\n\nEvery agent contract was regenerated byte-for-byte and its two embedded JSON blocks were parsed. Each embedded blueprint equals the compilation blueprint. Each concrete SpecialistAgentHandoff is closed, binds the exact goal, compilation, agent, work, artifacts, deterministic media types, and evidence duties, and preserves string artifact content.\n\nThe integration contract regenerates to 8,142 bytes with raw digest sha256:3a5c5d44885056af1772d98252fff02a0232064c85b7a09df7cc4a590c6ed51e. The manifest regenerates to 4,203 bytes with raw digest sha256:126b206d06a7c0155ace91eaec68c3a35daf8b53c4ec563cc0fb05fa9bdbcefc and domain content digest sha256:1fa18ac618ba00e59cd87cd7613fae74921018da06d21c5d71f5dc5b38e37cea. All nine rendered files match exact content, media type, bytes, and raw digest. The compilation domain digest is sha256:f267fec5a479297e8b35f5f56c19014cfc6f840379643b09219d8442e3f2c032 and the independently reconstructed package root is sha256:21ec2ef20b2e246b12b31f371391faa6d1a4a3fefb0cb65bd0e537ca8a8fbc73.\n\n## Decision\n\nBoth owned review duties PASS. Candidate A's search, selection, schedule, authority, evidence coverage, identities, digests, rendered contracts, manifest, and package root agree with the authenticated sources and runtime bindings. This PASS does not approve or launch Candidate A. The external host must preserve and validate this exact raw envelope, bind it with the exact receipt bytes in the cross-package authorization, and only afterward separately approve and verify Candidate A."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}
