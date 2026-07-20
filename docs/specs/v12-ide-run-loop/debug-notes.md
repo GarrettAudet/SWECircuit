@@ -245,3 +245,32 @@ Expected approval maintenance after intentional bound-source changes: `fix`, the
 - Complete checker regression matrix: pass.
 - V12 dogfood, package dry run, and clean offline installed-consumer gate: pass.
 - Canonical `npm.cmd run verify`: pass, including all 385 tests and V10/V11/V12 dogfood.
+
+## Release Review Attempt 1
+
+### Reproduction
+
+Compile three read-only release-review work units over exact candidate `d914b273ba619e3cfa42206c8d9f136be73075e3`, approval-bind the rendered package, launch the complete roster, preserve each raw result, and verify all handoffs through V11.
+
+### Stable Evidence
+
+- Compilation/package: `sha256:cd70618e14b23dfae4538c41b6709791238684192b5c000f4e577f0edd6b5fd3` / `sha256:7a809141af324cdea7028fb07ee6ca6cb79daccfbdf319e2fd8b2c1346a007ee`.
+- Search: exact, five candidates evaluated, three specialists selected, makespan 9 versus serial 25, zero conflicts.
+- Complete raw roster: product 5,819 bytes, lifecycle 5,649 bytes, security 7,259 bytes.
+- Every handoff verifies against the approved package and every outcome is `fix`; `releaseReady` is false.
+
+### Compilation Diagnostic
+
+The first two review requests failed closed with `SC4304`. A review artifact is itself `kind: review` with `duty: produce`; `duty: review` denotes review of another producer represented inside the same goal. The frozen candidate producer is external to this audit goal, so its immutable commit and source manifest form the producer boundary.
+
+### Confirmed Findings
+
+- The evidence comparator uses `criterionId` before the V11 requirement identity.
+- Lazy JSON Schema loading introduces first-use filesystem I/O into all four public operations.
+- Existing tests do not construct the required maximum 16-agent aggregate or prove every published resource constant is reachable.
+- The canonical dogfood is an API fixture, not a session over an actual V12 implementation package, and omits the complete AC8 friction record.
+- Release review bound a mutable live review file and summary-only verification evidence without a candidate-bound raw canonical-gate receipt.
+
+### Route
+
+`fix`. Preserve attempt 1 unchanged, compile disjoint correction work, dogfood that exact correction package through V12, freeze a new candidate, and repeat all three release reviews.

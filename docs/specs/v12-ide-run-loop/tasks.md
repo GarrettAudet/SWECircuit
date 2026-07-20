@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: integrated verification passed; independent release review remains.
+T006 in progress: integrated verification passed; release review attempt 1 returned a complete verified `fix` roster, and the correction revision is active.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 in progress: integrated verification passed; independent release review rem
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then returned both exact handoffs to one integration owner.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Their complete package-bound roster routed `fix` before merge.
 
 ## Out Of Scope
 

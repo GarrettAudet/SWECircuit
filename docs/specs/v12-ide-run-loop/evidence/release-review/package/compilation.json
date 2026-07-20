@@ -1,0 +1,3971 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.release-review",
+    "revision": 1,
+    "objective": "Independently determine whether exact V12 candidate d914b273ba619e3cfa42206c8d9f136be73075e3 is release-ready across product truth, lifecycle correctness, and security/trace authority.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.exact-candidate",
+        "statement": "Every reviewed tracked source is byte-identical to candidate d914b273ba619e3cfa42206c8d9f136be73075e3.",
+        "rationale": "The review harness checks HEAD and every reviewed path before compiling digest-bound contracts."
+      },
+      {
+        "id": "assumption.external-producer",
+        "statement": "The candidate producer is external to this audit goal; every compiled work unit is a read-only reviewer with no candidate write authority.",
+        "rationale": "Compiler-level producer/checker separation applies only when both duties are represented inside one goal. Here the immutable commit and digest-bound source manifest are the producer boundary."
+      },
+      {
+        "id": "assumption.host-boundary",
+        "statement": "V12 core creates, restores, inspects, and records immutable evidence sessions but does not launch, persist, schedule, integrate, merge, or mutate memory.",
+        "rationale": "Review must judge the implemented provider-neutral contract rather than the deferred runtime layer."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.review.lifecycle-correctness",
+        "description": "Audit V12 lifecycle correctness, deterministic recovery, dependency eligibility, exact fan-in, terminal routing, immutability, and adversarial coverage.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.lifecycle-correctness-release-review",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the exact independent LifecycleCorrectnessReleaseReview evidence.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.review.product-api-ide",
+        "description": "Audit whether V12 presents one accurate, simple, IDE-neutral path from an approved package through visible specialist work to verified integration handoff.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.product-api-ide-release-review",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the exact independent ProductApiIdeReleaseReview evidence.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.review.security-trace-authority",
+        "description": "Audit V12 security, source preservation, exact identity, authority closure, traceability, approval freshness, and external-host boundary for release.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.security-trace-authority-release-review",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the exact independent SecurityTraceAuthorityReleaseReview evidence.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted V12 architecture decision.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/architecture/decisions/0005-immutable-specialist-run-session.md"
+      },
+      {
+        "id": "context.adversarial-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run.test.mjs",
+        "digest": "sha256:46b886df83f4096339d557fcaf0bab4db31f25097a1048df7136aaf93d51b0ef",
+        "bytes": 32721,
+        "description": "Integrated adversarial, permutation, restore, and limit tests.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "test/specialist-run.test.mjs"
+      },
+      {
+        "id": "context.architecture",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+        "digest": "sha256:cbfc5691b997c7aac70e04376bde109f7b8b787a61672a4e3f0c401519417157",
+        "bytes": 26018,
+        "description": "Integrated implementation architecture.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md"
+      },
+      {
+        "id": "context.candidate-manifest",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+        "digest": "sha256:af16ab6ce302a85451cd99198d9a8ab93c8b159c47d4a79345248d5c08759c3f",
+        "bytes": 8162,
+        "description": "Immutable candidate commit and complete reviewed-source binding manifest.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json"
+      },
+      {
+        "id": "context.constants",
+        "kind": "repository",
+        "locator": "path:src/constants.ts",
+        "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
+        "bytes": 2571,
+        "description": "Public V12 limits and contract constants.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/constants.ts"
+      },
+      {
+        "id": "context.consumer-check",
+        "kind": "repository",
+        "locator": "path:scripts/check-packed-consumer.mjs",
+        "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e",
+        "bytes": 43244,
+        "description": "Clean installed-package compatibility gate.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide"
+        ],
+        "readScope": "scripts/check-packed-consumer.mjs"
+      },
+      {
+        "id": "context.consumer-host",
+        "kind": "repository",
+        "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+        "digest": "sha256:90633af96b2afaa66dfaddd66e27f2e050dfd0ac5c052f8c1e2413d21db74d00",
+        "bytes": 23434,
+        "description": "Public TypeScript consumer fixture.",
+        "allowedWorkUnits": [
+          "review.product-api-ide"
+        ],
+        "readScope": "scripts/fixtures/packed-consumer-host.ts"
+      },
+      {
+        "id": "context.debug-notes",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/debug-notes.md",
+        "digest": "sha256:6b23e256aba35b834105f7a0da2ab085560da8532b688436594dc58a33e4087f",
+        "bytes": 11727,
+        "description": "Preserved failures, diagnoses, and causal corrections.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/debug-notes.md"
+      },
+      {
+        "id": "context.diagnostic-catalog",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/diagnostic-catalog.json",
+        "digest": "sha256:ca09d174600a7841dcab90b15fe1d95bc9a24f72411704fbe794d2f52dec84a2",
+        "bytes": 13307,
+        "description": "Normative diagnostic catalog.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "schemas/v1alpha1/diagnostic-catalog.json"
+      },
+      {
+        "id": "context.diagnostics",
+        "kind": "repository",
+        "locator": "path:src/diagnostics.ts",
+        "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+        "bytes": 25190,
+        "description": "Stable runtime diagnostics.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/diagnostics.ts"
+      },
+      {
+        "id": "context.dogfood",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-dogfood.mjs",
+        "digest": "sha256:61bab56f5dbba096b4cb87d07ce34dd09a561f08575243f2cc8d4c786ea7ce39",
+        "bytes": 17905,
+        "description": "Deterministic four-operation IDE journey.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide"
+        ],
+        "readScope": "scripts/run-v12-dogfood.mjs"
+      },
+      {
+        "id": "context.foundation-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-foundation.test.mjs",
+        "digest": "sha256:345b99d02442e0f7f1d9bdf79f4251c3c849753b785c73ff14d5dfcfcabb211e",
+        "bytes": 3270,
+        "description": "V12 create, restore, identity, and boundary tests.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "test/specialist-run-foundation.test.mjs"
+      },
+      {
+        "id": "context.handoff",
+        "kind": "repository",
+        "locator": "path:src/specialist-handoff.ts",
+        "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+        "bytes": 17810,
+        "description": "V11 exact raw handoff and fan-in verifier composed by V12.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-handoff.ts"
+      },
+      {
+        "id": "context.ide-guide",
+        "kind": "repository",
+        "locator": "path:docs/ide/specialist-agent-kickoff.md",
+        "digest": "sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c",
+        "bytes": 22016,
+        "description": "Visible IDE run-loop procedure.",
+        "allowedWorkUnits": [
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/ide/specialist-agent-kickoff.md"
+      },
+      {
+        "id": "context.implementation-notes",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/implementation-notes.md",
+        "digest": "sha256:0458b4cfba87efb55027f2fc9123fae4c875f7742dd23383c3b3c781ea92d1c1",
+        "bytes": 9911,
+        "description": "Integrated implementation and verification evidence summary.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/implementation-notes.md"
+      },
+      {
+        "id": "context.index",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Public TypeScript exports.",
+        "allowedWorkUnits": [
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.inspection-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-inspection.test.mjs",
+        "digest": "sha256:6dcec494c85a807ed5d48e6d710f6c3d83b2d70c453e00d100efb8983eab42f8",
+        "bytes": 18218,
+        "description": "V12 DAG inspection and readiness tests.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "test/specialist-run-inspection.test.mjs"
+      },
+      {
+        "id": "context.module-guide",
+        "kind": "repository",
+        "locator": "path:docs/modules/specialist-run-session.md",
+        "digest": "sha256:862548641f8846bc471fa11c6a2d3a95e664a74db6382337638dd3588692df43",
+        "bytes": 4205,
+        "description": "Reusable module contract for the run session.",
+        "allowedWorkUnits": [
+          "review.product-api-ide"
+        ],
+        "readScope": "docs/modules/specialist-run-session.md"
+      },
+      {
+        "id": "context.modules-index",
+        "kind": "repository",
+        "locator": "path:docs/modules/README.md",
+        "digest": "sha256:8293e0fd966ddf2eba089d8bfef2f328489851a789eacd251bbb9d96e58c49e5",
+        "bytes": 2744,
+        "description": "Module catalog integration.",
+        "allowedWorkUnits": [
+          "review.product-api-ide"
+        ],
+        "readScope": "docs/modules/README.md"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
+        "bytes": 2847,
+        "description": "Published package and export surface.",
+        "allowedWorkUnits": [
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+        "bytes": 3101,
+        "description": "Concise public product surface.",
+        "allowedWorkUnits": [
+          "review.product-api-ide"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.render",
+        "kind": "repository",
+        "locator": "path:src/specialist-render.ts",
+        "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7",
+        "bytes": 19184,
+        "description": "V11 approved-package verification and manifest resolution.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-render.ts"
+      },
+      {
+        "id": "context.review",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/review.md",
+        "digest": "sha256:88102e5df58f5cba462e51cebdfe7b859b046403725d8e4fec79f9f597604592",
+        "bytes": 598,
+        "description": "Current release review record.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/review.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+        "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+        "bytes": 16223,
+        "description": "Normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+      },
+      {
+        "id": "context.run-inspection",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-inspection.ts",
+        "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+        "bytes": 14484,
+        "description": "Deterministic package-DAG inspection implementation.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-run-inspection.ts"
+      },
+      {
+        "id": "context.run-schema",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+        "bytes": 3371,
+        "description": "Strict run-session schema validator.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.run-schema-json",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+        "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+        "bytes": 17405,
+        "description": "Package-owned closed run-session JSON Schema.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+      },
+      {
+        "id": "context.run-session",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-session.ts",
+        "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+        "bytes": 18723,
+        "description": "Create and restore implementation.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-run-session.ts"
+      },
+      {
+        "id": "context.run-transition",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-transition.ts",
+        "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+        "bytes": 8015,
+        "description": "Monotonic handoff transition implementation.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-run-transition.ts"
+      },
+      {
+        "id": "context.run-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Closed V12 public and wire types.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.schema-guide",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/README.md",
+        "digest": "sha256:e2bd5e0ca5123873d07fe5bdaff4181b38c34a6cbea0220ecb02e78a62f18223",
+        "bytes": 20795,
+        "description": "Published schema semantics and host boundary.",
+        "allowedWorkUnits": [
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "schemas/v1alpha1/README.md"
+      },
+      {
+        "id": "context.schema-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-schema.test.mjs",
+        "digest": "sha256:71c15cd600444bcf4de98ba5e22f9cd26c77781afc3d58d62bc53fc1618d5491",
+        "bytes": 12597,
+        "description": "V12 strict schema and public export tests.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "test/specialist-run-schema.test.mjs"
+      },
+      {
+        "id": "context.spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "V12 acceptance contract.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/spec.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/test-plan.md",
+        "digest": "sha256:694b83cec4e8ef1c56111972d5ea398863071f23cdda9b18c0bddc7e3f0bda8d",
+        "bytes": 1930,
+        "description": "V12 verification plan.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/test-plan.md"
+      },
+      {
+        "id": "context.transition-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-transition.test.mjs",
+        "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+        "bytes": 9861,
+        "description": "V12 transition, replay, and route tests.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "test/specialist-run-transition.test.mjs"
+      },
+      {
+        "id": "context.v11-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+        "digest": "sha256:0f75189a9c6ea5ba1c179cfdd2c5b1f13bd83364fb74303d3815e54ca82cdf64",
+        "bytes": 195,
+        "description": "Current Candidate-A approval binding.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json"
+      },
+      {
+        "id": "context.v11-audit-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json",
+        "digest": "sha256:8491f7964081601fc42a1bc1e3ad095c30fc3adf7999d827008939ef2d5444b2",
+        "bytes": 11662,
+        "description": "Exact independent semantic audit PASS handoff.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json"
+      },
+      {
+        "id": "context.v11-compilation",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+        "digest": "sha256:d9fb530c753f9e8987f90198292c53b13d8b5235246a78e62344515e0b2c082a",
+        "bytes": 313360,
+        "description": "Current Candidate-A deterministic compilation.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json"
+      },
+      {
+        "id": "context.v11-goal",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+        "digest": "sha256:55d7d298be4d565ea07e971d33447531166e5d4b20d380044ac2295aa365db93",
+        "bytes": 101219,
+        "description": "Current V11 revision-32 reviewed GoalContract.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json"
+      },
+      {
+        "id": "context.v11-launch-authorization",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+        "digest": "sha256:cf50b7bf37035442aa7e20e02f2fcab8ff2e2f10b89779d6e49d4a698e74bffb",
+        "bytes": 985,
+        "description": "Cross-package launch authorization.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json"
+      },
+      {
+        "id": "context.v11-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+        "digest": "sha256:ec3b6097f49dd779add089bdeb6aca817ad0cec99f6c64c7919b8bfed6b522d2",
+        "bytes": 2255,
+        "description": "Independent Audit-B package verification receipt.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json"
+      },
+      {
+        "id": "context.v11-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+        "digest": "sha256:4f3f99a452ae7901fef0f763269996f27e10470c958b217d1c89aef27e20d8e3",
+        "bytes": 25696,
+        "description": "Current V11 dogfood report.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/report.json"
+      },
+      {
+        "id": "context.v12-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+        "digest": "sha256:985aac5600d600af68be12d6d8f258ce262a1f5ee0d0490d5e85c55dc0ebb103",
+        "bytes": 1878,
+        "description": "Complete V12 verification-wave handoff gate.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "release-review.lifecycle-correctness",
+        "release-review.product-api-ide",
+        "release-review.security-trace-authority"
+      ],
+      "allowedCapabilities": [
+        "audit.lifecycle-correctness-recovery",
+        "audit.product-api-ide-truth",
+        "audit.security-trace-authority"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "README.md",
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+            "docs/specs/v12-ide-run-loop/debug-notes.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+            "docs/specs/v12-ide-run-loop/implementation-notes.md",
+            "docs/specs/v12-ide-run-loop/review.md",
+            "docs/specs/v12-ide-run-loop/spec.md",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/test-plan.md",
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "scripts/run-v12-dogfood.mjs",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-run-foundation.test.mjs",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run-transition.test.mjs",
+            "test/specialist-run.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "npm"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not edit files, change Git state, access the network, launch descendants, repair findings, or claim that core performs external host effects."
+      ],
+      "maxAgents": 3,
+      "maxConcurrency": 3
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "review.lifecycle-correctness",
+        "objective": "Audit V12 lifecycle correctness, deterministic recovery, dependency eligibility, exact fan-in, terminal routing, immutability, and adversarial coverage.",
+        "weight": 8,
+        "module": {
+          "id": "release-review.lifecycle-correctness",
+          "action": "Trace all four operations through representative DAGs and every non-pass route; inspect validation precedence, replay, fresh-process restore, limits, tests, and dogfood without repairing production.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV12ReleaseCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "LifecycleCorrectnessReleaseReview"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "audit.lifecycle-correctness-recovery"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.adversarial-tests",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.architecture",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.candidate-manifest",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.constants",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.consumer-check",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.debug-notes",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.diagnostic-catalog",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.diagnostics",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.dogfood",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.foundation-tests",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.handoff",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.implementation-notes",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.inspection-tests",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.render",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.review",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.run-inspection",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.run-schema",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.run-schema-json",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.run-session",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.run-transition",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.run-types",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.schema-tests",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.spec",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.transition-tests",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          },
+          {
+            "sourceId": "context.v12-verification",
+            "purpose": "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/specs/v12-ide-run-loop/debug-notes.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+            "docs/specs/v12-ide-run-loop/implementation-notes.md",
+            "docs/specs/v12-ide-run-loop/review.md",
+            "docs/specs/v12-ide-run-loop/spec.md",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/test-plan.md",
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-dogfood.mjs",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-run-foundation.test.mjs",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run-transition.test.mjs",
+            "test/specialist-run.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/specs/v12-ide-run-loop/debug-notes.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+              "docs/specs/v12-ide-run-loop/implementation-notes.md",
+              "docs/specs/v12-ide-run-loop/review.md",
+              "docs/specs/v12-ide-run-loop/spec.md",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/test-plan.md",
+              "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+              "schemas/v1alpha1/diagnostic-catalog.json",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/run-v12-dogfood.mjs",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/specialist-handoff.ts",
+              "src/specialist-render.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "test/specialist-run-foundation.test.mjs",
+              "test/specialist-run-inspection.test.mjs",
+              "test/specialist-run-schema.test.mjs",
+              "test/specialist-run-transition.test.mjs",
+              "test/specialist-run.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.lifecycle-correctness-release-review"
+        ],
+        "handoffArtifacts": [
+          "lifecycle-correctness-release-review.md"
+        ],
+        "stopConditions": [
+          "Authenticate every declared source against its exact byte count and SHA-256 binding before review.",
+          "Do not edit files, change Git state, access the network, launch descendants, or repair a finding.",
+          "Report findings first with severity and exact file/line evidence; use pass only when this review domain is release-ready.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+          "Use only local read-only inspection and bounded verification commands; report any command that changes tracked bytes as a failure."
+        ]
+      },
+      {
+        "id": "review.product-api-ide",
+        "objective": "Audit whether V12 presents one accurate, simple, IDE-neutral path from an approved package through visible specialist work to verified integration handoff.",
+        "weight": 8,
+        "module": {
+          "id": "release-review.product-api-ide",
+          "action": "Review product truth, public API shape, schema publication, installed-consumer behavior, IDE guidance, module composition, and dogfood claims against AC1-AC9; reject ambiguity or host-effect overclaim.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV12ReleaseCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "ProductApiIdeReleaseReview"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "audit.product-api-ide-truth"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.architecture",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.candidate-manifest",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.consumer-check",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.consumer-host",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.dogfood",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.ide-guide",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.implementation-notes",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.module-guide",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.modules-index",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.readme",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.review",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.schema-guide",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.spec",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Audit the exact V12 product, public API, IDE, and usability surface."
+          }
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+            "docs/specs/v12-ide-run-loop/implementation-notes.md",
+            "docs/specs/v12-ide-run-loop/review.md",
+            "docs/specs/v12-ide-run-loop/spec.md",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/test-plan.md",
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "scripts/run-v12-dogfood.mjs",
+            "src/index.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/modules/README.md",
+              "docs/modules/specialist-run-session.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+              "docs/specs/v12-ide-run-loop/implementation-notes.md",
+              "docs/specs/v12-ide-run-loop/review.md",
+              "docs/specs/v12-ide-run-loop/spec.md",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/test-plan.md",
+              "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+              "package.json",
+              "schemas/v1alpha1/README.md",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/fixtures/packed-consumer-host.ts",
+              "scripts/run-v12-dogfood.mjs",
+              "src/index.ts"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.product-api-ide-release-review"
+        ],
+        "handoffArtifacts": [
+          "product-api-ide-release-review.md"
+        ],
+        "stopConditions": [
+          "Authenticate every declared source against its exact byte count and SHA-256 binding before review.",
+          "Do not edit files, change Git state, access the network, launch descendants, or repair a finding.",
+          "Report findings first with severity and exact file/line evidence; use pass only when this review domain is release-ready.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+          "Use only local read-only inspection and bounded verification commands; report any command that changes tracked bytes as a failure."
+        ]
+      },
+      {
+        "id": "review.security-trace-authority",
+        "objective": "Audit V12 security, source preservation, exact identity, authority closure, traceability, approval freshness, and external-host boundary for release.",
+        "weight": 8,
+        "module": {
+          "id": "release-review.security-trace-authority",
+          "action": "Attack digest substitution, malformed or stale sessions and handoffs, confused-deputy authority, unsafe controls, evidence provenance, V11 trust-root refresh, and any claim that pure core performs host effects.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV12ReleaseCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "SecurityTraceAuthorityReleaseReview"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "audit.security-trace-authority"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.adversarial-tests",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.architecture",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.candidate-manifest",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.constants",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.debug-notes",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.diagnostic-catalog",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.diagnostics",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.foundation-tests",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.handoff",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.ide-guide",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.implementation-notes",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.inspection-tests",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.render",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.review",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.run-inspection",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.run-schema",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.run-schema-json",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.run-session",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.run-transition",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.run-types",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.schema-guide",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.schema-tests",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.spec",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.transition-tests",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.v11-approval",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.v11-audit-handoff",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.v11-compilation",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.v11-goal",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.v11-launch-authorization",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.v11-receipt",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.v11-report",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          },
+          {
+            "sourceId": "context.v12-verification",
+            "purpose": "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+            "docs/specs/v12-ide-run-loop/debug-notes.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+            "docs/specs/v12-ide-run-loop/implementation-notes.md",
+            "docs/specs/v12-ide-run-loop/review.md",
+            "docs/specs/v12-ide-run-loop/spec.md",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/test-plan.md",
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-run-foundation.test.mjs",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run-transition.test.mjs",
+            "test/specialist-run.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+              "docs/specs/v12-ide-run-loop/debug-notes.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+              "docs/specs/v12-ide-run-loop/implementation-notes.md",
+              "docs/specs/v12-ide-run-loop/review.md",
+              "docs/specs/v12-ide-run-loop/spec.md",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/test-plan.md",
+              "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+              "package.json",
+              "schemas/v1alpha1/README.md",
+              "schemas/v1alpha1/diagnostic-catalog.json",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/specialist-handoff.ts",
+              "src/specialist-render.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "test/specialist-run-foundation.test.mjs",
+              "test/specialist-run-inspection.test.mjs",
+              "test/specialist-run-schema.test.mjs",
+              "test/specialist-run-transition.test.mjs",
+              "test/specialist-run.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.security-trace-authority-release-review"
+        ],
+        "handoffArtifacts": [
+          "security-trace-authority-release-review.md"
+        ],
+        "stopConditions": [
+          "Authenticate every declared source against its exact byte count and SHA-256 binding before review.",
+          "Do not edit files, change Git state, access the network, launch descendants, or repair a finding.",
+          "Report findings first with severity and exact file/line evidence; use pass only when this review domain is release-ready.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+          "Use only local read-only inspection and bounded verification commands; report any command that changes tracked bytes as a failure."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:a62b75ffda9ec7460e81572548f2cf65665a7683be4c1b41a1f2e8cad1c19dfd",
+  "proposedCandidates": [],
+  "proposalEvaluations": [],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v12.ide-run-loop.release-review",
+    "goalRevision": 1,
+    "allowedModules": [
+      "release-review.lifecycle-correctness",
+      "release-review.product-api-ide",
+      "release-review.security-trace-authority"
+    ],
+    "allowedCapabilities": [
+      "audit.lifecycle-correctness-recovery",
+      "audit.product-api-ide-truth",
+      "audit.security-trace-authority"
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted V12 architecture decision.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/architecture/decisions/0005-immutable-specialist-run-session.md"
+      },
+      {
+        "id": "context.adversarial-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run.test.mjs",
+        "digest": "sha256:46b886df83f4096339d557fcaf0bab4db31f25097a1048df7136aaf93d51b0ef",
+        "bytes": 32721,
+        "description": "Integrated adversarial, permutation, restore, and limit tests.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "test/specialist-run.test.mjs"
+      },
+      {
+        "id": "context.architecture",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+        "digest": "sha256:cbfc5691b997c7aac70e04376bde109f7b8b787a61672a4e3f0c401519417157",
+        "bytes": 26018,
+        "description": "Integrated implementation architecture.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md"
+      },
+      {
+        "id": "context.candidate-manifest",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+        "digest": "sha256:af16ab6ce302a85451cd99198d9a8ab93c8b159c47d4a79345248d5c08759c3f",
+        "bytes": 8162,
+        "description": "Immutable candidate commit and complete reviewed-source binding manifest.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json"
+      },
+      {
+        "id": "context.constants",
+        "kind": "repository",
+        "locator": "path:src/constants.ts",
+        "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
+        "bytes": 2571,
+        "description": "Public V12 limits and contract constants.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/constants.ts"
+      },
+      {
+        "id": "context.consumer-check",
+        "kind": "repository",
+        "locator": "path:scripts/check-packed-consumer.mjs",
+        "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e",
+        "bytes": 43244,
+        "description": "Clean installed-package compatibility gate.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide"
+        ],
+        "readScope": "scripts/check-packed-consumer.mjs"
+      },
+      {
+        "id": "context.consumer-host",
+        "kind": "repository",
+        "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+        "digest": "sha256:90633af96b2afaa66dfaddd66e27f2e050dfd0ac5c052f8c1e2413d21db74d00",
+        "bytes": 23434,
+        "description": "Public TypeScript consumer fixture.",
+        "allowedWorkUnits": [
+          "review.product-api-ide"
+        ],
+        "readScope": "scripts/fixtures/packed-consumer-host.ts"
+      },
+      {
+        "id": "context.debug-notes",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/debug-notes.md",
+        "digest": "sha256:6b23e256aba35b834105f7a0da2ab085560da8532b688436594dc58a33e4087f",
+        "bytes": 11727,
+        "description": "Preserved failures, diagnoses, and causal corrections.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/debug-notes.md"
+      },
+      {
+        "id": "context.diagnostic-catalog",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/diagnostic-catalog.json",
+        "digest": "sha256:ca09d174600a7841dcab90b15fe1d95bc9a24f72411704fbe794d2f52dec84a2",
+        "bytes": 13307,
+        "description": "Normative diagnostic catalog.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "schemas/v1alpha1/diagnostic-catalog.json"
+      },
+      {
+        "id": "context.diagnostics",
+        "kind": "repository",
+        "locator": "path:src/diagnostics.ts",
+        "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+        "bytes": 25190,
+        "description": "Stable runtime diagnostics.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/diagnostics.ts"
+      },
+      {
+        "id": "context.dogfood",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-dogfood.mjs",
+        "digest": "sha256:61bab56f5dbba096b4cb87d07ce34dd09a561f08575243f2cc8d4c786ea7ce39",
+        "bytes": 17905,
+        "description": "Deterministic four-operation IDE journey.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide"
+        ],
+        "readScope": "scripts/run-v12-dogfood.mjs"
+      },
+      {
+        "id": "context.foundation-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-foundation.test.mjs",
+        "digest": "sha256:345b99d02442e0f7f1d9bdf79f4251c3c849753b785c73ff14d5dfcfcabb211e",
+        "bytes": 3270,
+        "description": "V12 create, restore, identity, and boundary tests.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "test/specialist-run-foundation.test.mjs"
+      },
+      {
+        "id": "context.handoff",
+        "kind": "repository",
+        "locator": "path:src/specialist-handoff.ts",
+        "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+        "bytes": 17810,
+        "description": "V11 exact raw handoff and fan-in verifier composed by V12.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-handoff.ts"
+      },
+      {
+        "id": "context.ide-guide",
+        "kind": "repository",
+        "locator": "path:docs/ide/specialist-agent-kickoff.md",
+        "digest": "sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c",
+        "bytes": 22016,
+        "description": "Visible IDE run-loop procedure.",
+        "allowedWorkUnits": [
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/ide/specialist-agent-kickoff.md"
+      },
+      {
+        "id": "context.implementation-notes",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/implementation-notes.md",
+        "digest": "sha256:0458b4cfba87efb55027f2fc9123fae4c875f7742dd23383c3b3c781ea92d1c1",
+        "bytes": 9911,
+        "description": "Integrated implementation and verification evidence summary.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/implementation-notes.md"
+      },
+      {
+        "id": "context.index",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Public TypeScript exports.",
+        "allowedWorkUnits": [
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.inspection-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-inspection.test.mjs",
+        "digest": "sha256:6dcec494c85a807ed5d48e6d710f6c3d83b2d70c453e00d100efb8983eab42f8",
+        "bytes": 18218,
+        "description": "V12 DAG inspection and readiness tests.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "test/specialist-run-inspection.test.mjs"
+      },
+      {
+        "id": "context.module-guide",
+        "kind": "repository",
+        "locator": "path:docs/modules/specialist-run-session.md",
+        "digest": "sha256:862548641f8846bc471fa11c6a2d3a95e664a74db6382337638dd3588692df43",
+        "bytes": 4205,
+        "description": "Reusable module contract for the run session.",
+        "allowedWorkUnits": [
+          "review.product-api-ide"
+        ],
+        "readScope": "docs/modules/specialist-run-session.md"
+      },
+      {
+        "id": "context.modules-index",
+        "kind": "repository",
+        "locator": "path:docs/modules/README.md",
+        "digest": "sha256:8293e0fd966ddf2eba089d8bfef2f328489851a789eacd251bbb9d96e58c49e5",
+        "bytes": 2744,
+        "description": "Module catalog integration.",
+        "allowedWorkUnits": [
+          "review.product-api-ide"
+        ],
+        "readScope": "docs/modules/README.md"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
+        "bytes": 2847,
+        "description": "Published package and export surface.",
+        "allowedWorkUnits": [
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+        "bytes": 3101,
+        "description": "Concise public product surface.",
+        "allowedWorkUnits": [
+          "review.product-api-ide"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.render",
+        "kind": "repository",
+        "locator": "path:src/specialist-render.ts",
+        "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7",
+        "bytes": 19184,
+        "description": "V11 approved-package verification and manifest resolution.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-render.ts"
+      },
+      {
+        "id": "context.review",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/review.md",
+        "digest": "sha256:88102e5df58f5cba462e51cebdfe7b859b046403725d8e4fec79f9f597604592",
+        "bytes": 598,
+        "description": "Current release review record.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/review.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+        "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+        "bytes": 16223,
+        "description": "Normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+      },
+      {
+        "id": "context.run-inspection",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-inspection.ts",
+        "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+        "bytes": 14484,
+        "description": "Deterministic package-DAG inspection implementation.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-run-inspection.ts"
+      },
+      {
+        "id": "context.run-schema",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+        "bytes": 3371,
+        "description": "Strict run-session schema validator.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.run-schema-json",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+        "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+        "bytes": 17405,
+        "description": "Package-owned closed run-session JSON Schema.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+      },
+      {
+        "id": "context.run-session",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-session.ts",
+        "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+        "bytes": 18723,
+        "description": "Create and restore implementation.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-run-session.ts"
+      },
+      {
+        "id": "context.run-transition",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-transition.ts",
+        "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+        "bytes": 8015,
+        "description": "Monotonic handoff transition implementation.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-run-transition.ts"
+      },
+      {
+        "id": "context.run-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Closed V12 public and wire types.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.schema-guide",
+        "kind": "repository",
+        "locator": "path:schemas/v1alpha1/README.md",
+        "digest": "sha256:e2bd5e0ca5123873d07fe5bdaff4181b38c34a6cbea0220ecb02e78a62f18223",
+        "bytes": 20795,
+        "description": "Published schema semantics and host boundary.",
+        "allowedWorkUnits": [
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "schemas/v1alpha1/README.md"
+      },
+      {
+        "id": "context.schema-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-schema.test.mjs",
+        "digest": "sha256:71c15cd600444bcf4de98ba5e22f9cd26c77781afc3d58d62bc53fc1618d5491",
+        "bytes": 12597,
+        "description": "V12 strict schema and public export tests.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "test/specialist-run-schema.test.mjs"
+      },
+      {
+        "id": "context.spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "V12 acceptance contract.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/spec.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/test-plan.md",
+        "digest": "sha256:694b83cec4e8ef1c56111972d5ea398863071f23cdda9b18c0bddc7e3f0bda8d",
+        "bytes": 1930,
+        "description": "V12 verification plan.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/test-plan.md"
+      },
+      {
+        "id": "context.transition-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-run-transition.test.mjs",
+        "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+        "bytes": 9861,
+        "description": "V12 transition, replay, and route tests.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "test/specialist-run-transition.test.mjs"
+      },
+      {
+        "id": "context.v11-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+        "digest": "sha256:0f75189a9c6ea5ba1c179cfdd2c5b1f13bd83364fb74303d3815e54ca82cdf64",
+        "bytes": 195,
+        "description": "Current Candidate-A approval binding.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json"
+      },
+      {
+        "id": "context.v11-audit-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json",
+        "digest": "sha256:8491f7964081601fc42a1bc1e3ad095c30fc3adf7999d827008939ef2d5444b2",
+        "bytes": 11662,
+        "description": "Exact independent semantic audit PASS handoff.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json"
+      },
+      {
+        "id": "context.v11-compilation",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+        "digest": "sha256:d9fb530c753f9e8987f90198292c53b13d8b5235246a78e62344515e0b2c082a",
+        "bytes": 313360,
+        "description": "Current Candidate-A deterministic compilation.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json"
+      },
+      {
+        "id": "context.v11-goal",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+        "digest": "sha256:55d7d298be4d565ea07e971d33447531166e5d4b20d380044ac2295aa365db93",
+        "bytes": 101219,
+        "description": "Current V11 revision-32 reviewed GoalContract.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json"
+      },
+      {
+        "id": "context.v11-launch-authorization",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+        "digest": "sha256:cf50b7bf37035442aa7e20e02f2fcab8ff2e2f10b89779d6e49d4a698e74bffb",
+        "bytes": 985,
+        "description": "Cross-package launch authorization.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json"
+      },
+      {
+        "id": "context.v11-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+        "digest": "sha256:ec3b6097f49dd779add089bdeb6aca817ad0cec99f6c64c7919b8bfed6b522d2",
+        "bytes": 2255,
+        "description": "Independent Audit-B package verification receipt.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json"
+      },
+      {
+        "id": "context.v11-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+        "digest": "sha256:4f3f99a452ae7901fef0f763269996f27e10470c958b217d1c89aef27e20d8e3",
+        "bytes": 25696,
+        "description": "Current V11 dogfood report.",
+        "allowedWorkUnits": [
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/report.json"
+      },
+      {
+        "id": "context.v12-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+        "digest": "sha256:985aac5600d600af68be12d6d8f258ce262a1f5ee0d0490d5e85c55dc0ebb103",
+        "bytes": 1878,
+        "description": "Complete V12 verification-wave handoff gate.",
+        "allowedWorkUnits": [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "README.md",
+          "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+          "docs/ide/specialist-agent-kickoff.md",
+          "docs/modules/README.md",
+          "docs/modules/specialist-run-session.md",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+          "docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+          "docs/specs/v12-ide-run-loop/debug-notes.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+          "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+          "docs/specs/v12-ide-run-loop/implementation-notes.md",
+          "docs/specs/v12-ide-run-loop/review.md",
+          "docs/specs/v12-ide-run-loop/spec.md",
+          "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+          "docs/specs/v12-ide-run-loop/test-plan.md",
+          "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+          "package.json",
+          "schemas/v1alpha1/README.md",
+          "schemas/v1alpha1/diagnostic-catalog.json",
+          "schemas/v1alpha1/specialist-run.schema.json",
+          "scripts/check-packed-consumer.mjs",
+          "scripts/fixtures/packed-consumer-host.ts",
+          "scripts/run-v12-dogfood.mjs",
+          "src/constants.ts",
+          "src/diagnostics.ts",
+          "src/index.ts",
+          "src/specialist-handoff.ts",
+          "src/specialist-render.ts",
+          "src/specialist-run-inspection.ts",
+          "src/specialist-run-schema.ts",
+          "src/specialist-run-session.ts",
+          "src/specialist-run-transition.ts",
+          "src/specialist-run-types.ts",
+          "test/specialist-run-foundation.test.mjs",
+          "test/specialist-run-inspection.test.mjs",
+          "test/specialist-run-schema.test.mjs",
+          "test/specialist-run-transition.test.mjs",
+          "test/specialist-run.test.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "git",
+          "node",
+          "npm"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not edit files, change Git state, access the network, launch descendants, repair findings, or claim that core performs external host effects."
+    ],
+    "maxAgents": 3,
+    "maxConcurrency": 3,
+    "contentDigest": "sha256:6521d2c265c506d58c5ea0476cc2d6fe9528c801872cd8f65ccadc006c0b9fd9"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 3,
+    "evaluatedCandidates": 5,
+    "eligibleCandidates": 5,
+    "retainedAlternatives": 4,
+    "evaluationSetDigest": "sha256:bf90cf8e3b542acd0142b9d46eaa8894c06cad03c75c8eb1936ff4ad743a437d"
+  },
+  "serialBaseline": {
+    "id": "team.ba9100672b51e597af4d8fd8555ed979a699d79e9d7a97fba01c393f34cb6fbc",
+    "partition": [
+      [
+        "review.lifecycle-correctness",
+        "review.product-api-ide",
+        "review.security-trace-authority"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 25,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 24,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.a8bdca5f7ebb7dcdb197089fc93f955570a06e3b19c09b9bbfca1f551d9b9c40",
+        "start": 0,
+        "finish": 25
+      }
+    ],
+    "contentDigest": "sha256:8162cda990472c4e7b523b87a3ba422dbdebe3b3a70a93517c3b7bf9540431cc"
+  },
+  "selected": {
+    "id": "team.c59afff49b8af248cdf6c9b5bcfbb94595856ddd6b4a84fd9331e0858a1505ec",
+    "partition": [
+      [
+        "review.lifecycle-correctness"
+      ],
+      [
+        "review.product-api-ide"
+      ],
+      [
+        "review.security-trace-authority"
+      ]
+    ],
+    "origins": [
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 3,
+      "projectedMakespan": 9,
+      "peakConcurrency": 3,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 501510,
+      "duplicatedPermissionScopes": 46,
+      "totalWorkWeight": 24,
+      "totalStartupCost": 3,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+        "start": 0,
+        "finish": 9
+      },
+      {
+        "agentId": "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+        "start": 0,
+        "finish": 9
+      },
+      {
+        "agentId": "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34",
+        "start": 0,
+        "finish": 9
+      }
+    ],
+    "contentDigest": "sha256:2d4da97ef697ae79006ff3260415912a4781a1675771e4f734cbf0ec5634361a"
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 9,
+    "serialValue": 25,
+    "serialRejectionCodes": []
+  },
+  "alternatives": [
+    {
+      "id": "team.839d75ae51f424817e1a90037796a9b19a709bd4810f5ec8e31ba26963dbcec9",
+      "partition": [
+        [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        [
+          "review.product-api-ide"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 17,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 189605,
+        "duplicatedPermissionScopes": 17,
+        "totalWorkWeight": 24,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.cc61259fd06d16314785235a0fe485ab7d7b47cf2b45c80ff91a91fdc7f6ec19",
+          "start": 0,
+          "finish": 17
+        }
+      ],
+      "contentDigest": "sha256:6da2c5d919828dd2c243cd8af4559009dd5495261e9742a054d62a130f30b219"
+    },
+    {
+      "id": "team.90d65dd0e2be8802f9d0d22ba5de4b04cab0d1cb7cd830d7c649968701c9ea22",
+      "partition": [
+        [
+          "review.lifecycle-correctness",
+          "review.product-api-ide"
+        ],
+        [
+          "review.security-trace-authority"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 17,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 363010,
+        "duplicatedPermissionScopes": 33,
+        "totalWorkWeight": 24,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.5fee20e2cdb02a841f38ea55b4bd21d618564f411293453d16663d35158a4a97",
+          "start": 0,
+          "finish": 17
+        },
+        {
+          "agentId": "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34",
+          "start": 0,
+          "finish": 9
+        }
+      ],
+      "contentDigest": "sha256:d0afd61b97f7f0e90696d554cd740c38053d2128f4402fb69e6cf65ac94d8588"
+    },
+    {
+      "id": "team.b488d328397e6ad0650ad33cb7bf1218ed64043ac6d2b1a33f80aced29e8284b",
+      "partition": [
+        [
+          "review.lifecycle-correctness"
+        ],
+        [
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 17,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 373054,
+        "duplicatedPermissionScopes": 31,
+        "totalWorkWeight": 24,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.b316388bcb385a76115bde721e7e5f589ea7ccc3f49838f1bf7dd3d4799d096a",
+          "start": 0,
+          "finish": 17
+        }
+      ],
+      "contentDigest": "sha256:407b74e401686996694e7fd7e23e6af5a692102d4007b011f58c26230bc3709e"
+    },
+    {
+      "id": "team.ba9100672b51e597af4d8fd8555ed979a699d79e9d7a97fba01c393f34cb6fbc",
+      "partition": [
+        [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 25,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 24,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a8bdca5f7ebb7dcdb197089fc93f955570a06e3b19c09b9bbfca1f551d9b9c40",
+          "start": 0,
+          "finish": 25
+        }
+      ],
+      "contentDigest": "sha256:8162cda990472c4e7b523b87a3ba422dbdebe3b3a70a93517c3b7bf9540431cc"
+    }
+  ],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+      "goalId": "v12.ide-run-loop.release-review",
+      "goalRevision": 1,
+      "goalDigest": "sha256:a62b75ffda9ec7460e81572548f2cf65665a7683be4c1b41a1f2e8cad1c19dfd",
+      "candidateId": "team.c59afff49b8af248cdf6c9b5bcfbb94595856ddd6b4a84fd9331e0858a1505ec",
+      "workUnitIds": [
+        "review.lifecycle-correctness"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.lifecycle-correctness",
+          "objective": "Audit V12 lifecycle correctness, deterministic recovery, dependency eligibility, exact fan-in, terminal routing, immutability, and adversarial coverage."
+        }
+      ],
+      "modules": [
+        {
+          "id": "release-review.lifecycle-correctness",
+          "action": "Trace all four operations through representative DAGs and every non-pass route; inspect validation precedence, replay, fresh-process restore, limits, tests, and dogfood without repairing production.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV12ReleaseCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "LifecycleCorrectnessReleaseReview"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+          "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+          "bytes": 9031,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "docs/architecture/decisions/0005-immutable-specialist-run-session.md"
+        },
+        {
+          "sourceId": "context.adversarial-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run.test.mjs",
+          "digest": "sha256:46b886df83f4096339d557fcaf0bab4db31f25097a1048df7136aaf93d51b0ef",
+          "bytes": 32721,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "test/specialist-run.test.mjs"
+        },
+        {
+          "sourceId": "context.architecture",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+          "digest": "sha256:cbfc5691b997c7aac70e04376bde109f7b8b787a61672a4e3f0c401519417157",
+          "bytes": 26018,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md"
+        },
+        {
+          "sourceId": "context.candidate-manifest",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+          "digest": "sha256:af16ab6ce302a85451cd99198d9a8ab93c8b159c47d4a79345248d5c08759c3f",
+          "bytes": 8162,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json"
+        },
+        {
+          "sourceId": "context.constants",
+          "kind": "repository",
+          "locator": "path:src/constants.ts",
+          "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
+          "bytes": 2571,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "src/constants.ts"
+        },
+        {
+          "sourceId": "context.consumer-check",
+          "kind": "repository",
+          "locator": "path:scripts/check-packed-consumer.mjs",
+          "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e",
+          "bytes": 43244,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "scripts/check-packed-consumer.mjs"
+        },
+        {
+          "sourceId": "context.debug-notes",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/debug-notes.md",
+          "digest": "sha256:6b23e256aba35b834105f7a0da2ab085560da8532b688436594dc58a33e4087f",
+          "bytes": 11727,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/debug-notes.md"
+        },
+        {
+          "sourceId": "context.diagnostic-catalog",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/diagnostic-catalog.json",
+          "digest": "sha256:ca09d174600a7841dcab90b15fe1d95bc9a24f72411704fbe794d2f52dec84a2",
+          "bytes": 13307,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "schemas/v1alpha1/diagnostic-catalog.json"
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "kind": "repository",
+          "locator": "path:src/diagnostics.ts",
+          "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+          "bytes": 25190,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "src/diagnostics.ts"
+        },
+        {
+          "sourceId": "context.dogfood",
+          "kind": "repository",
+          "locator": "path:scripts/run-v12-dogfood.mjs",
+          "digest": "sha256:61bab56f5dbba096b4cb87d07ce34dd09a561f08575243f2cc8d4c786ea7ce39",
+          "bytes": 17905,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "scripts/run-v12-dogfood.mjs"
+        },
+        {
+          "sourceId": "context.foundation-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-foundation.test.mjs",
+          "digest": "sha256:345b99d02442e0f7f1d9bdf79f4251c3c849753b785c73ff14d5dfcfcabb211e",
+          "bytes": 3270,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "test/specialist-run-foundation.test.mjs"
+        },
+        {
+          "sourceId": "context.handoff",
+          "kind": "repository",
+          "locator": "path:src/specialist-handoff.ts",
+          "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+          "bytes": 17810,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "src/specialist-handoff.ts"
+        },
+        {
+          "sourceId": "context.implementation-notes",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/implementation-notes.md",
+          "digest": "sha256:0458b4cfba87efb55027f2fc9123fae4c875f7742dd23383c3b3c781ea92d1c1",
+          "bytes": 9911,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/implementation-notes.md"
+        },
+        {
+          "sourceId": "context.inspection-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-inspection.test.mjs",
+          "digest": "sha256:6dcec494c85a807ed5d48e6d710f6c3d83b2d70c453e00d100efb8983eab42f8",
+          "bytes": 18218,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "test/specialist-run-inspection.test.mjs"
+        },
+        {
+          "sourceId": "context.render",
+          "kind": "repository",
+          "locator": "path:src/specialist-render.ts",
+          "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7",
+          "bytes": 19184,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "src/specialist-render.ts"
+        },
+        {
+          "sourceId": "context.review",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/review.md",
+          "digest": "sha256:88102e5df58f5cba462e51cebdfe7b859b046403725d8e4fec79f9f597604592",
+          "bytes": 598,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/review.md"
+        },
+        {
+          "sourceId": "context.run-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+          "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+          "bytes": 16223,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+        },
+        {
+          "sourceId": "context.run-inspection",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-inspection.ts",
+          "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+          "bytes": 14484,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "src/specialist-run-inspection.ts"
+        },
+        {
+          "sourceId": "context.run-schema",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-schema.ts",
+          "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+          "bytes": 3371,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "src/specialist-run-schema.ts"
+        },
+        {
+          "sourceId": "context.run-schema-json",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+          "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+          "bytes": 17405,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+        },
+        {
+          "sourceId": "context.run-session",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-session.ts",
+          "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+          "bytes": 18723,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "src/specialist-run-session.ts"
+        },
+        {
+          "sourceId": "context.run-transition",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-transition.ts",
+          "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+          "bytes": 8015,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "src/specialist-run-transition.ts"
+        },
+        {
+          "sourceId": "context.run-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.schema-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-schema.test.mjs",
+          "digest": "sha256:71c15cd600444bcf4de98ba5e22f9cd26c77781afc3d58d62bc53fc1618d5491",
+          "bytes": 12597,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "test/specialist-run-schema.test.mjs"
+        },
+        {
+          "sourceId": "context.spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/spec.md",
+          "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+          "bytes": 5478,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/spec.md"
+        },
+        {
+          "sourceId": "context.test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/test-plan.md",
+          "digest": "sha256:694b83cec4e8ef1c56111972d5ea398863071f23cdda9b18c0bddc7e3f0bda8d",
+          "bytes": 1930,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/test-plan.md"
+        },
+        {
+          "sourceId": "context.transition-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-transition.test.mjs",
+          "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+          "bytes": 9861,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "test/specialist-run-transition.test.mjs"
+        },
+        {
+          "sourceId": "context.v12-verification",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+          "digest": "sha256:985aac5600d600af68be12d6d8f258ce262a1f5ee0d0490d5e85c55dc0ebb103",
+          "bytes": 1878,
+          "purposes": [
+            "Audit exact V12 state, transition, inspection, recovery, and test behavior."
+          ],
+          "workUnitIds": [
+            "review.lifecycle-correctness"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "audit.lifecycle-correctness-recovery"
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/specs/v12-ide-run-loop/debug-notes.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+            "docs/specs/v12-ide-run-loop/implementation-notes.md",
+            "docs/specs/v12-ide-run-loop/review.md",
+            "docs/specs/v12-ide-run-loop/spec.md",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/test-plan.md",
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-dogfood.mjs",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-run-foundation.test.mjs",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run-transition.test.mjs",
+            "test/specialist-run.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/specs/v12-ide-run-loop/debug-notes.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+              "docs/specs/v12-ide-run-loop/implementation-notes.md",
+              "docs/specs/v12-ide-run-loop/review.md",
+              "docs/specs/v12-ide-run-loop/spec.md",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/test-plan.md",
+              "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+              "schemas/v1alpha1/diagnostic-catalog.json",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/run-v12-dogfood.mjs",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/specialist-handoff.ts",
+              "src/specialist-render.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "test/specialist-run-foundation.test.mjs",
+              "test/specialist-run-inspection.test.mjs",
+              "test/specialist-run-schema.test.mjs",
+              "test/specialist-run-transition.test.mjs",
+              "test/specialist-run.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not edit files, change Git state, access the network, launch descendants, repair findings, or claim that core performs external host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.review.lifecycle-correctness",
+          "criterion": "Audit V12 lifecycle correctness, deterministic recovery, dependency eligibility, exact fan-in, terminal routing, immutability, and adversarial coverage.",
+          "requirementId": "evidence.lifecycle-correctness-release-review",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Preserve the exact independent LifecycleCorrectnessReleaseReview evidence.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "lifecycle-correctness-release-review.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Authenticate every declared source against its exact byte count and SHA-256 binding before review.",
+        "Do not edit files, change Git state, access the network, launch descendants, or repair a finding.",
+        "Report findings first with severity and exact file/line evidence; use pass only when this review domain is release-ready.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+        "Use only local read-only inspection and bounded verification commands; report any command that changes tracked bytes as a failure."
+      ],
+      "contentDigest": "sha256:4a21400e89107a1646123fb7ba55379dd5979ec01056b8202f629766347bcc07"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+      "goalId": "v12.ide-run-loop.release-review",
+      "goalRevision": 1,
+      "goalDigest": "sha256:a62b75ffda9ec7460e81572548f2cf65665a7683be4c1b41a1f2e8cad1c19dfd",
+      "candidateId": "team.c59afff49b8af248cdf6c9b5bcfbb94595856ddd6b4a84fd9331e0858a1505ec",
+      "workUnitIds": [
+        "review.product-api-ide"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.product-api-ide",
+          "objective": "Audit whether V12 presents one accurate, simple, IDE-neutral path from an approved package through visible specialist work to verified integration handoff."
+        }
+      ],
+      "modules": [
+        {
+          "id": "release-review.product-api-ide",
+          "action": "Review product truth, public API shape, schema publication, installed-consumer behavior, IDE guidance, module composition, and dogfood claims against AC1-AC9; reject ambiguity or host-effect overclaim.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV12ReleaseCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "ProductApiIdeReleaseReview"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+          "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+          "bytes": 9031,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/architecture/decisions/0005-immutable-specialist-run-session.md"
+        },
+        {
+          "sourceId": "context.architecture",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+          "digest": "sha256:cbfc5691b997c7aac70e04376bde109f7b8b787a61672a4e3f0c401519417157",
+          "bytes": 26018,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md"
+        },
+        {
+          "sourceId": "context.candidate-manifest",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+          "digest": "sha256:af16ab6ce302a85451cd99198d9a8ab93c8b159c47d4a79345248d5c08759c3f",
+          "bytes": 8162,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json"
+        },
+        {
+          "sourceId": "context.consumer-check",
+          "kind": "repository",
+          "locator": "path:scripts/check-packed-consumer.mjs",
+          "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e",
+          "bytes": 43244,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "scripts/check-packed-consumer.mjs"
+        },
+        {
+          "sourceId": "context.consumer-host",
+          "kind": "repository",
+          "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+          "digest": "sha256:90633af96b2afaa66dfaddd66e27f2e050dfd0ac5c052f8c1e2413d21db74d00",
+          "bytes": 23434,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "scripts/fixtures/packed-consumer-host.ts"
+        },
+        {
+          "sourceId": "context.dogfood",
+          "kind": "repository",
+          "locator": "path:scripts/run-v12-dogfood.mjs",
+          "digest": "sha256:61bab56f5dbba096b4cb87d07ce34dd09a561f08575243f2cc8d4c786ea7ce39",
+          "bytes": 17905,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "scripts/run-v12-dogfood.mjs"
+        },
+        {
+          "sourceId": "context.ide-guide",
+          "kind": "repository",
+          "locator": "path:docs/ide/specialist-agent-kickoff.md",
+          "digest": "sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c",
+          "bytes": 22016,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/ide/specialist-agent-kickoff.md"
+        },
+        {
+          "sourceId": "context.implementation-notes",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/implementation-notes.md",
+          "digest": "sha256:0458b4cfba87efb55027f2fc9123fae4c875f7742dd23383c3b3c781ea92d1c1",
+          "bytes": 9911,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/implementation-notes.md"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+          "bytes": 5447,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.module-guide",
+          "kind": "repository",
+          "locator": "path:docs/modules/specialist-run-session.md",
+          "digest": "sha256:862548641f8846bc471fa11c6a2d3a95e664a74db6382337638dd3588692df43",
+          "bytes": 4205,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/modules/specialist-run-session.md"
+        },
+        {
+          "sourceId": "context.modules-index",
+          "kind": "repository",
+          "locator": "path:docs/modules/README.md",
+          "digest": "sha256:8293e0fd966ddf2eba089d8bfef2f328489851a789eacd251bbb9d96e58c49e5",
+          "bytes": 2744,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/modules/README.md"
+        },
+        {
+          "sourceId": "context.package",
+          "kind": "repository",
+          "locator": "path:package.json",
+          "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
+          "bytes": 2847,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "package.json"
+        },
+        {
+          "sourceId": "context.readme",
+          "kind": "repository",
+          "locator": "path:README.md",
+          "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+          "bytes": 3101,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "README.md"
+        },
+        {
+          "sourceId": "context.review",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/review.md",
+          "digest": "sha256:88102e5df58f5cba462e51cebdfe7b859b046403725d8e4fec79f9f597604592",
+          "bytes": 598,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/review.md"
+        },
+        {
+          "sourceId": "context.run-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+          "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+          "bytes": 16223,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+        },
+        {
+          "sourceId": "context.schema-guide",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/README.md",
+          "digest": "sha256:e2bd5e0ca5123873d07fe5bdaff4181b38c34a6cbea0220ecb02e78a62f18223",
+          "bytes": 20795,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "schemas/v1alpha1/README.md"
+        },
+        {
+          "sourceId": "context.spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/spec.md",
+          "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+          "bytes": 5478,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/spec.md"
+        },
+        {
+          "sourceId": "context.test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/test-plan.md",
+          "digest": "sha256:694b83cec4e8ef1c56111972d5ea398863071f23cdda9b18c0bddc7e3f0bda8d",
+          "bytes": 1930,
+          "purposes": [
+            "Audit the exact V12 product, public API, IDE, and usability surface."
+          ],
+          "workUnitIds": [
+            "review.product-api-ide"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/test-plan.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "audit.product-api-ide-truth"
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/modules/specialist-run-session.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+            "docs/specs/v12-ide-run-loop/implementation-notes.md",
+            "docs/specs/v12-ide-run-loop/review.md",
+            "docs/specs/v12-ide-run-loop/spec.md",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/test-plan.md",
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "scripts/run-v12-dogfood.mjs",
+            "src/index.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/modules/README.md",
+              "docs/modules/specialist-run-session.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+              "docs/specs/v12-ide-run-loop/implementation-notes.md",
+              "docs/specs/v12-ide-run-loop/review.md",
+              "docs/specs/v12-ide-run-loop/spec.md",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/test-plan.md",
+              "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+              "package.json",
+              "schemas/v1alpha1/README.md",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/fixtures/packed-consumer-host.ts",
+              "scripts/run-v12-dogfood.mjs",
+              "src/index.ts"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not edit files, change Git state, access the network, launch descendants, repair findings, or claim that core performs external host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.review.product-api-ide",
+          "criterion": "Audit whether V12 presents one accurate, simple, IDE-neutral path from an approved package through visible specialist work to verified integration handoff.",
+          "requirementId": "evidence.product-api-ide-release-review",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Preserve the exact independent ProductApiIdeReleaseReview evidence.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "product-api-ide-release-review.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Authenticate every declared source against its exact byte count and SHA-256 binding before review.",
+        "Do not edit files, change Git state, access the network, launch descendants, or repair a finding.",
+        "Report findings first with severity and exact file/line evidence; use pass only when this review domain is release-ready.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+        "Use only local read-only inspection and bounded verification commands; report any command that changes tracked bytes as a failure."
+      ],
+      "contentDigest": "sha256:c755c5e5e1474d06fe6bbae940fcc67a27dfc0b7f0be2181670f09816a2bf80f"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34",
+      "goalId": "v12.ide-run-loop.release-review",
+      "goalRevision": 1,
+      "goalDigest": "sha256:a62b75ffda9ec7460e81572548f2cf65665a7683be4c1b41a1f2e8cad1c19dfd",
+      "candidateId": "team.c59afff49b8af248cdf6c9b5bcfbb94595856ddd6b4a84fd9331e0858a1505ec",
+      "workUnitIds": [
+        "review.security-trace-authority"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.security-trace-authority",
+          "objective": "Audit V12 security, source preservation, exact identity, authority closure, traceability, approval freshness, and external-host boundary for release."
+        }
+      ],
+      "modules": [
+        {
+          "id": "release-review.security-trace-authority",
+          "action": "Attack digest substitution, malformed or stale sessions and handoffs, confused-deputy authority, unsafe controls, evidence provenance, V11 trust-root refresh, and any claim that pure core performs host effects.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV12ReleaseCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "SecurityTraceAuthorityReleaseReview"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+          "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+          "bytes": 9031,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/architecture/decisions/0005-immutable-specialist-run-session.md"
+        },
+        {
+          "sourceId": "context.adversarial-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run.test.mjs",
+          "digest": "sha256:46b886df83f4096339d557fcaf0bab4db31f25097a1048df7136aaf93d51b0ef",
+          "bytes": 32721,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "test/specialist-run.test.mjs"
+        },
+        {
+          "sourceId": "context.architecture",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+          "digest": "sha256:cbfc5691b997c7aac70e04376bde109f7b8b787a61672a4e3f0c401519417157",
+          "bytes": 26018,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md"
+        },
+        {
+          "sourceId": "context.candidate-manifest",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+          "digest": "sha256:af16ab6ce302a85451cd99198d9a8ab93c8b159c47d4a79345248d5c08759c3f",
+          "bytes": 8162,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json"
+        },
+        {
+          "sourceId": "context.constants",
+          "kind": "repository",
+          "locator": "path:src/constants.ts",
+          "digest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
+          "bytes": 2571,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "src/constants.ts"
+        },
+        {
+          "sourceId": "context.debug-notes",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/debug-notes.md",
+          "digest": "sha256:6b23e256aba35b834105f7a0da2ab085560da8532b688436594dc58a33e4087f",
+          "bytes": 11727,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/debug-notes.md"
+        },
+        {
+          "sourceId": "context.diagnostic-catalog",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/diagnostic-catalog.json",
+          "digest": "sha256:ca09d174600a7841dcab90b15fe1d95bc9a24f72411704fbe794d2f52dec84a2",
+          "bytes": 13307,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "schemas/v1alpha1/diagnostic-catalog.json"
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "kind": "repository",
+          "locator": "path:src/diagnostics.ts",
+          "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+          "bytes": 25190,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "src/diagnostics.ts"
+        },
+        {
+          "sourceId": "context.foundation-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-foundation.test.mjs",
+          "digest": "sha256:345b99d02442e0f7f1d9bdf79f4251c3c849753b785c73ff14d5dfcfcabb211e",
+          "bytes": 3270,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "test/specialist-run-foundation.test.mjs"
+        },
+        {
+          "sourceId": "context.handoff",
+          "kind": "repository",
+          "locator": "path:src/specialist-handoff.ts",
+          "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+          "bytes": 17810,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "src/specialist-handoff.ts"
+        },
+        {
+          "sourceId": "context.ide-guide",
+          "kind": "repository",
+          "locator": "path:docs/ide/specialist-agent-kickoff.md",
+          "digest": "sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c",
+          "bytes": 22016,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/ide/specialist-agent-kickoff.md"
+        },
+        {
+          "sourceId": "context.implementation-notes",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/implementation-notes.md",
+          "digest": "sha256:0458b4cfba87efb55027f2fc9123fae4c875f7742dd23383c3b3c781ea92d1c1",
+          "bytes": 9911,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/implementation-notes.md"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+          "bytes": 5447,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.inspection-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-inspection.test.mjs",
+          "digest": "sha256:6dcec494c85a807ed5d48e6d710f6c3d83b2d70c453e00d100efb8983eab42f8",
+          "bytes": 18218,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "test/specialist-run-inspection.test.mjs"
+        },
+        {
+          "sourceId": "context.package",
+          "kind": "repository",
+          "locator": "path:package.json",
+          "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
+          "bytes": 2847,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "package.json"
+        },
+        {
+          "sourceId": "context.render",
+          "kind": "repository",
+          "locator": "path:src/specialist-render.ts",
+          "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7",
+          "bytes": 19184,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "src/specialist-render.ts"
+        },
+        {
+          "sourceId": "context.review",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/review.md",
+          "digest": "sha256:88102e5df58f5cba462e51cebdfe7b859b046403725d8e4fec79f9f597604592",
+          "bytes": 598,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/review.md"
+        },
+        {
+          "sourceId": "context.run-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+          "digest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+          "bytes": 16223,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+        },
+        {
+          "sourceId": "context.run-inspection",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-inspection.ts",
+          "digest": "sha256:c20a875b521387aad12831a4508a1fff76371a76d53bc27740dfe527b16eb90e",
+          "bytes": 14484,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "src/specialist-run-inspection.ts"
+        },
+        {
+          "sourceId": "context.run-schema",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-schema.ts",
+          "digest": "sha256:705357ee174691f4e5b177f1a9d4ff3abf38adad46ce32264f9dd3f846b5dd23",
+          "bytes": 3371,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "src/specialist-run-schema.ts"
+        },
+        {
+          "sourceId": "context.run-schema-json",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+          "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+          "bytes": 17405,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+        },
+        {
+          "sourceId": "context.run-session",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-session.ts",
+          "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+          "bytes": 18723,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "src/specialist-run-session.ts"
+        },
+        {
+          "sourceId": "context.run-transition",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-transition.ts",
+          "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+          "bytes": 8015,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "src/specialist-run-transition.ts"
+        },
+        {
+          "sourceId": "context.run-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.schema-guide",
+          "kind": "repository",
+          "locator": "path:schemas/v1alpha1/README.md",
+          "digest": "sha256:e2bd5e0ca5123873d07fe5bdaff4181b38c34a6cbea0220ecb02e78a62f18223",
+          "bytes": 20795,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "schemas/v1alpha1/README.md"
+        },
+        {
+          "sourceId": "context.schema-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-schema.test.mjs",
+          "digest": "sha256:71c15cd600444bcf4de98ba5e22f9cd26c77781afc3d58d62bc53fc1618d5491",
+          "bytes": 12597,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "test/specialist-run-schema.test.mjs"
+        },
+        {
+          "sourceId": "context.spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/spec.md",
+          "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+          "bytes": 5478,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/spec.md"
+        },
+        {
+          "sourceId": "context.test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/test-plan.md",
+          "digest": "sha256:694b83cec4e8ef1c56111972d5ea398863071f23cdda9b18c0bddc7e3f0bda8d",
+          "bytes": 1930,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/test-plan.md"
+        },
+        {
+          "sourceId": "context.transition-tests",
+          "kind": "repository",
+          "locator": "path:test/specialist-run-transition.test.mjs",
+          "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+          "bytes": 9861,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "test/specialist-run-transition.test.mjs"
+        },
+        {
+          "sourceId": "context.v11-approval",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+          "digest": "sha256:0f75189a9c6ea5ba1c179cfdd2c5b1f13bd83364fb74303d3815e54ca82cdf64",
+          "bytes": 195,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json"
+        },
+        {
+          "sourceId": "context.v11-audit-handoff",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json",
+          "digest": "sha256:8491f7964081601fc42a1bc1e3ad095c30fc3adf7999d827008939ef2d5444b2",
+          "bytes": 11662,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json"
+        },
+        {
+          "sourceId": "context.v11-compilation",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+          "digest": "sha256:d9fb530c753f9e8987f90198292c53b13d8b5235246a78e62344515e0b2c082a",
+          "bytes": 313360,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json"
+        },
+        {
+          "sourceId": "context.v11-goal",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+          "digest": "sha256:55d7d298be4d565ea07e971d33447531166e5d4b20d380044ac2295aa365db93",
+          "bytes": 101219,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json"
+        },
+        {
+          "sourceId": "context.v11-launch-authorization",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+          "digest": "sha256:cf50b7bf37035442aa7e20e02f2fcab8ff2e2f10b89779d6e49d4a698e74bffb",
+          "bytes": 985,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json"
+        },
+        {
+          "sourceId": "context.v11-receipt",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+          "digest": "sha256:ec3b6097f49dd779add089bdeb6aca817ad0cec99f6c64c7919b8bfed6b522d2",
+          "bytes": 2255,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json"
+        },
+        {
+          "sourceId": "context.v11-report",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+          "digest": "sha256:4f3f99a452ae7901fef0f763269996f27e10470c958b217d1c89aef27e20d8e3",
+          "bytes": 25696,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/report.json"
+        },
+        {
+          "sourceId": "context.v12-verification",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+          "digest": "sha256:985aac5600d600af68be12d6d8f258ce262a1f5ee0d0490d5e85c55dc0ebb103",
+          "bytes": 1878,
+          "purposes": [
+            "Audit exact V12 identity, authority, evidence, trust-root, and host boundaries."
+          ],
+          "workUnitIds": [
+            "review.security-trace-authority"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "audit.security-trace-authority"
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+            "docs/specs/v12-ide-run-loop/debug-notes.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+            "docs/specs/v12-ide-run-loop/implementation-notes.md",
+            "docs/specs/v12-ide-run-loop/review.md",
+            "docs/specs/v12-ide-run-loop/spec.md",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/test-plan.md",
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "package.json",
+            "schemas/v1alpha1/README.md",
+            "schemas/v1alpha1/diagnostic-catalog.json",
+            "schemas/v1alpha1/specialist-run.schema.json",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/specialist-run-foundation.test.mjs",
+            "test/specialist-run-inspection.test.mjs",
+            "test/specialist-run-schema.test.mjs",
+            "test/specialist-run-transition.test.mjs",
+            "test/specialist-run.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-32.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+              "docs/specs/v12-ide-run-loop/debug-notes.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json",
+              "docs/specs/v12-ide-run-loop/implementation-notes.md",
+              "docs/specs/v12-ide-run-loop/review.md",
+              "docs/specs/v12-ide-run-loop/spec.md",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/test-plan.md",
+              "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+              "package.json",
+              "schemas/v1alpha1/README.md",
+              "schemas/v1alpha1/diagnostic-catalog.json",
+              "schemas/v1alpha1/specialist-run.schema.json",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/specialist-handoff.ts",
+              "src/specialist-render.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "test/specialist-run-foundation.test.mjs",
+              "test/specialist-run-inspection.test.mjs",
+              "test/specialist-run-schema.test.mjs",
+              "test/specialist-run-transition.test.mjs",
+              "test/specialist-run.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not edit files, change Git state, access the network, launch descendants, repair findings, or claim that core performs external host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.review.security-trace-authority",
+          "criterion": "Audit V12 security, source preservation, exact identity, authority closure, traceability, approval freshness, and external-host boundary for release.",
+          "requirementId": "evidence.security-trace-authority-release-review",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Preserve the exact independent SecurityTraceAuthorityReleaseReview evidence.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "security-trace-authority-release-review.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Authenticate every declared source against its exact byte count and SHA-256 binding before review.",
+        "Do not edit files, change Git state, access the network, launch descendants, or repair a finding.",
+        "Report findings first with severity and exact file/line evidence; use pass only when this review domain is release-ready.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+        "Use only local read-only inspection and bounded verification commands; report any command that changes tracked bytes as a failure."
+      ],
+      "contentDigest": "sha256:c480f8e421ddac1a2e960174ea59b3185137835abcd5125f32e80eef518c2cd5"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+        "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+        "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:cd70618e14b23dfae4538c41b6709791238684192b5c000f4e577f0edd6b5fd3"
+}

@@ -1,0 +1,47 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review",
+    "revision": 1,
+    "digest": "sha256:a62b75ffda9ec7460e81572548f2cf65665a7683be4c1b41a1f2e8cad1c19dfd"
+  },
+  "agent": {
+    "id": "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34",
+    "blueprintDigest": "sha256:c480f8e421ddac1a2e960174ea59b3185137835abcd5125f32e80eef518c2cd5"
+  },
+  "compilationDigest": "sha256:cd70618e14b23dfae4538c41b6709791238684192b5c000f4e577f0edd6b5fd3",
+  "summary": "FIX: V12 is not release-ready in the security, trace, and authority domain. Runtime schema loading violates the effect-free boundary, mutable and summary-only review evidence breaks approval replay, and required aggregate resource-limit proof is absent.",
+  "workUnitsCompleted": [
+    "review.security-trace-authority"
+  ],
+  "artifacts": [
+    {
+      "name": "security-trace-authority-release-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Findings\n\n1. Severity: high. The four run operations are not filesystem-effect-free. `src/specialist-run-schema.ts:1` imports `readFileSync`, `src/specialist-run-schema.ts:20-22` reads the packaged schema, and `src/specialist-run-schema.ts:35` performs that read lazily on the first validation. This is reached from creation at `src/specialist-run-session.ts:490` and from validation used by restore, inspect, and record at `src/specialist-run-session.ts:411`. It contradicts the no-I/O contract at `docs/specs/v12-ide-run-loop/specialist-run-contract.md:67` and the no-filesystem claim at `schemas/v1alpha1/README.md:148`. The same API input can therefore depend on mutable or unavailable host filesystem state and on whether the process initialized the validator earlier. Required correction: bundle or precompile the validator from immutable module data, add a regression proving all four operations perform no filesystem access, and rerun the exact release gate.\n\n2. Severity: high. The release package binds a mutable, stale review document instead of an immutable pre-integration snapshot. `docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json:49-52` binds the live `docs/specs/v12-ide-run-loop/review.md`; that file still says architecture handoffs are pending at `docs/specs/v12-ide-run-loop/review.md:5` and that implementation may not begin at `docs/specs/v12-ide-run-loop/review.md:20`, while `docs/specs/v12-ide-run-loop/implementation-notes.md:5` says implementation and canonical verification passed. The V11 trust-root assumption explicitly requires mutable release documents to be reviewed through immutable snapshots at `docs/specs/v11-specialist-compiler/evidence/dogfood/report.json:28-30`, and the V12 architecture repeats the snapshot obligation at `docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md:172`. Updating the live review after fan-in will change an authenticated context source and retire this exact package. Required correction: freeze a pre-integration review snapshot under release evidence, bind reviewers to that snapshot, then recompile, rerender, verify, and reapprove the exact package before relaunch.\n\n3. Severity: high. The declared review context preserves verification summaries but omits primary authority evidence needed for independent replay. `docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json:16-34` names two raw handoff files and their digests, but `docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json:219-223` and the generated contract at `docs/specs/v12-ide-run-loop/evidence/release-review/package/agents/agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34.md:563-574` bind only the summary. Likewise, `docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json:20-23` binds the Audit B approval record, while the generated context at `docs/specs/v12-ide-run-loop/evidence/release-review/package/agents/agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34.md:535-546` supplies only the receipt. The canonical gate is also only a scalar assertion at `docs/specs/v12-ide-run-loop/evidence/release-review/inputs/candidate.json:8-12`, with no immutable raw log or receipt binding it to the candidate commit. Required correction: bind the exact raw V12 handoffs, Audit B approval bytes, and an immutable canonical-gate receipt or log to the release inputs and specialist context, then recompile and reapprove. Summaries must not be the only truth.\n\n4. Severity: high. The normative aggregate resource proof is missing from the declared V12 tests. `docs/specs/v12-ide-run-loop/specialist-run-contract.md:336-344` requires every limit to be reached by a valid fixture, one maximum package plus sixteen maximum handoffs to fit, and at-limit and one-unit-over coverage for session and inspection paths. `test/specialist-run.test.mjs:925-993` exercises one maximum handoff and one over-limit raw session, while `test/specialist-run-schema.test.mjs:339-360` checks only structural handoff limits. No declared test drives sixteen maximum valid handoffs, the canonical session boundary, or the canonical inspection boundary. Required correction: add the complete aggregate fixture and runtime boundary tests. If lower component limits make an aggregate constant unreachable, reconcile the normative contract and limits through a reviewed revision before claiming the resource proof passes.\n\n# Authentication And Boundary\n\nAll 37 declared context sources matched their exact raw byte counts and SHA-256 bindings before substantive review. Inspection remained inside declared read scope. No file was edited, no Git state changed, no network was used, no descendant was launched, and no finding was repaired.\n\n# Verdict\n\nOutcome: `fix`. The exact security, trace, and authority domain is not release-ready until the four findings are corrected and the replacement candidate is independently authenticated and reviewed."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.security-trace-authority",
+      "requirementId": "evidence.security-trace-authority-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "security-trace-authority-release-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Until corrected, run-session behavior can depend on mutable host filesystem state and the declared review package cannot independently replay its complete approval and verification chain.",
+    "Aggregate session and inspection resource limits remain unproven against their normative release requirements."
+  ],
+  "followUps": [
+    "Remove lazy runtime filesystem schema loading and add no-filesystem-effect coverage for all four public operations.",
+    "Freeze mutable release inputs and bind the exact raw gate, handoff, and trust-root evidence in a newly compiled and approved review package.",
+    "Add or reconcile the aggregate resource-boundary proof, rerun the canonical gate, and repeat this independent domain review on the exact replacement candidate."
+  ]
+}

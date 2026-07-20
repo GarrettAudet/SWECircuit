@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation, focused verification, and canonical release verification passed; final independent review is in progress.
+Implementation, focused verification, and the first canonical candidate gate passed. Independent release review attempt 1 returned `fix`; correction and repeat verification are in progress.
 
 ## Contract Tests
 

@@ -1,0 +1,47 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review",
+    "revision": 1,
+    "digest": "sha256:a62b75ffda9ec7460e81572548f2cf65665a7683be4c1b41a1f2e8cad1c19dfd"
+  },
+  "agent": {
+    "id": "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+    "blueprintDigest": "sha256:c755c5e5e1474d06fe6bbae940fcc67a27dfc0b7f0be2181670f09816a2bf80f"
+  },
+  "compilationDigest": "sha256:cd70618e14b23dfae4538c41b6709791238684192b5c000f4e577f0edd6b5fd3",
+  "summary": "fix: AC8 lacks implementation-bound dogfood and required friction evidence, and the release review source still reports a pre-implementation state.",
+  "workUnitsCompleted": [
+    "review.product-api-ide"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-ide-release-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Product/API/IDE Release Review\n\n## Findings\n\n### High: AC8 dogfood does not exercise the V12 implementation package or preserve the required friction evidence\n\nThe release contract requires the dogfood work unit to use the exact V12 operations on V12's implementation package and preserve measured friction (`docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md:186`). AC8 further requires measurements for blocking questions, approval prompts, core calls, manual contract lookups, rejected transitions, serialized session size, reverification cost, resume equality, persistence steps, and adapter-only translation (`docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md:202`; `docs/specs/v12-ide-run-loop/spec.md:52`).\n\nThe canonical V12 dogfood instead binds only `README.md` as context and defines synthetic `root.left`, `root.right`, and `fanin.close` work (`scripts/run-v12-dogfood.mjs:18`; `scripts/run-v12-dogfood.mjs:28`; `scripts/run-v12-dogfood.mjs:54`). It fabricates each raw handoff in-process (`scripts/run-v12-dogfood.mjs:136`) and compiles that fixture goal (`scripts/run-v12-dogfood.mjs:250`). Its report covers operation counts, dependency mechanics, replay, routing, and host boundaries, but omits most of the required friction measurements and any binding to the V12 implementation package (`scripts/run-v12-dogfood.mjs:420`).\n\nImpact: the fixture is useful API regression evidence, but it cannot substantiate the release claim that V12 was dogfooded on its own implementation with the required source-preserving run evidence and measured friction. AC8 is not release-ready.\n\nRequired fix: preserve an approval-bound V12 session over the actual V12 implementation package, its exact raw specialist handoffs and inspections, immutable integration snapshot, integrated verification, and every AC8 friction metric. Keep the synthetic fixture as a regression test, not as the sole canonical dogfood proof.\n\n### Medium: The release review record still asserts a pre-implementation state\n\nThe tracked review says architecture compilation and handoffs are pending (`docs/specs/v12-ide-run-loop/review.md:5`) and says implementation may not begin (`docs/specs/v12-ide-run-loop/review.md:20`). That contradicts the candidate's own implementation status, which says implementation, dogfood, and canonical verification passed and final review is next (`docs/specs/v12-ide-run-loop/implementation-notes.md:5`), and the test plan, which says final independent review is in progress (`docs/specs/v12-ide-run-loop/test-plan.md:5`).\n\nImpact: the source-of-truth review artifact misstates the lifecycle gate for the exact candidate, so a user or IDE cannot reliably determine the current release stage.\n\nRequired fix: update the review status and outcome to the actual release-review stage, then record the independent review fan-in and final route. Because this changes a candidate-bound source, regenerate and reapprove the affected release-review package.\n\n## Verified Surface\n\nAll 18 declared context sources matched their blueprint byte counts and raw SHA-256 digests before review. The root export surface, package schema subpath, installed-consumer TypeScript host, module contract, schema guide, and IDE kickoff consistently expose the four pure operations and keep launch, persistence, integration, merge, release, and memory effects external. Read-only `node --check` passed for both declared JavaScript verification scripts. No tracked candidate bytes changed during review.\n\n## Verdict\n\nOutcome: `fix`. The public API and IDE responsibility boundary are coherent, but the exact release domain is not ready while AC8 lacks its required implementation-bound dogfood evidence and the review source reports a stale lifecycle state.\n"
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.product-api-ide",
+      "requirementId": "evidence.product-api-ide-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "product-api-ide-release-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The full canonical gate was not rerun under this specialist's no-edit authority; the authenticated candidate manifest reports a passing 385-test gate.",
+    "README.md:39 remains accurate before V12 owner approval but will become stale if the separately governed promotion stage does not update the public baseline."
+  ],
+  "followUps": [
+    "Produce and authenticate the implementation-bound V12 dogfood evidence and complete AC8 friction report, then rerun canonical verification.",
+    "Refresh docs/specs/v12-ide-run-loop/review.md to the actual release-review state and preserve the independent fan-in verdict.",
+    "Regenerate and obtain approval for the exact changed release candidate and specialist review package before release."
+  ]
+}

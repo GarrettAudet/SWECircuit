@@ -69,3 +69,33 @@ Revision 2 must authenticate the same sources, remain within the same six-file c
 ### Durable Learning
 
 Portable agent contracts must distinguish semantic write authority from host editing capability. A host-specific fallback can materialize the same authority, but it must be explicit, bounded, revisioned, and auditable rather than silently improvised.
+
+## Release Review Attempt 1
+
+### Reproduction
+
+Run the exact product/API/IDE, lifecycle/correctness, and security/trace/authority reviewers over candidate `d914b273ba619e3cfa42206c8d9f136be73075e3` after the full 385-test canonical gate passes.
+
+### Stable Evidence
+
+The complete three-agent package-bound roster returned `fix`. Raw source evidence and verifier output are preserved under `evidence/release-review/`; no reviewer edited production or repaired a finding.
+
+### Confirmed Root Causes
+
+- Correlated criterion and requirement fixture IDs hid that inspection sorted by criterion before the unique V11 requirement identity.
+- The run validator copied the repository's schema-loading pattern without reconciling V12's stronger no-filesystem-effect contract.
+- Boundary coverage proved individual inputs but never constructed the normative maximum aggregate; green tests therefore overstated resource-proof completeness.
+- The synthetic dogfood fixture was treated as both API regression coverage and implementation dogfood, even though AC8 requires an actual implementation package and measured friction.
+- Release review was added after the candidate freeze without first separating immutable reviewer inputs from mutable closeout outputs or preserving primary raw gate evidence.
+
+### Smallest Causal Corrections
+
+- Sort evidence by `requirementId` first and add counterordered IDs.
+- Bundle immutable schema data into the module and prove all four operations survive with filesystem reads disabled.
+- Build the real 16-agent aggregate fixture, then either prove every exact limit or revise unreachable limits through the reviewed contract.
+- Run V12 over the exact correction package and its exact raw handoffs; preserve sessions, inspections, integration snapshot, and all AC8 metrics.
+- Snapshot mutable review input and bind raw V12 handoffs, Audit-B approval bytes, and a candidate-bound canonical-gate log/receipt into the next review package.
+
+### Regression Gate
+
+The replacement candidate must pass focused causal tests, the complete canonical gate, deterministic implementation-package dogfood, exact source and handoff verification, and a fresh three-domain release review. Attempt-1 identities cannot authorize the replacement.

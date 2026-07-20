@@ -1,0 +1,49 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review",
+    "revision": 1,
+    "digest": "sha256:a62b75ffda9ec7460e81572548f2cf65665a7683be4c1b41a1f2e8cad1c19dfd"
+  },
+  "agent": {
+    "id": "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+    "blueprintDigest": "sha256:4a21400e89107a1646123fb7ba55379dd5979ec01056b8202f629766347bcc07"
+  },
+  "compilationDigest": "sha256:cd70618e14b23dfae4538c41b6709791238684192b5c000f4e577f0edd6b5fd3",
+  "summary": "Lifecycle review found one canonical-ordering defect and one release-gate resource-proof gap. The exact domain is not release-ready.",
+  "workUnitsCompleted": [
+    "review.lifecycle-correctness"
+  ],
+  "artifacts": [
+    {
+      "name": "lifecycle-correctness-release-review.md",
+      "mediaType": "text/markdown",
+      "content": "## Findings\n\n1. **High - Accepted evidence uses the wrong canonical primary identity (`fix`).** The run contract requires arrays to be ordered by primary ID and then the complete tuple at `docs/specs/v12-ide-run-loop/specialist-run-contract.md:213`. V11 treats `requirementId` as the unique evidence-duty identity at `src/specialist-handoff.ts:298` and performs duty lookup by that field at `src/specialist-handoff.ts:302`. The inspection comparator instead orders `criterionId` before `requirementId` at `src/specialist-run-inspection.ts:108`, while the inspection test explicitly expects lexical `requirementId` order at `test/specialist-run-inspection.test.mjs:371`. The current fixture correlates criterion and requirement IDs, so it cannot expose the mismatch. Valid counterordered IDs produce a contract-inconsistent evidence array and inspection digest. Sort by `requirementId` first, retain the remaining closed tuple as tie-breakers, and add a counterordered regression fixture.\n\n2. **High - The mandatory aggregate resource proof is absent (`fix`).** The normative resource gate requires every exact constant, one maximum valid package plus 16 maximum valid handoffs, and at-limit versus one-unit-over behavior at `docs/specs/v12-ide-run-loop/specialist-run-contract.md:336`. The boundary test creates only two agents and records one maximum handoff at `test/specialist-run.test.mjs:925` through `test/specialist-run.test.mjs:976`; its over-limit checks cover only raw handoff and raw session inputs at `test/specialist-run.test.mjs:979`. The schema test creates 16 synthetic rows at `test/specialist-run-schema.test.mjs:339` but maximizes only the first row at `test/specialist-run-schema.test.mjs:348` and never verifies, records, restores, or inspects them. Consequently the aggregate checks at `src/specialist-run-session.ts:239`, `src/specialist-run-transition.ts:129`, and `src/specialist-run-inspection.ts:383` have no release-gate boundary proof. Add a real 16-agent verified package with 16 maximum valid raw handoffs, prove record/restore/inspect behavior and convergence, and exercise each published boundary. If constituent ceilings make an aggregate at-limit valid fixture unreachable, correct the normative reachability claim through reviewed contract change before release.\n\n## Authentication\n\nAll 28 declared context sources matched their contract-bound byte counts and raw SHA-256 digests before substantive review. The approved compilation and package bindings matched the assigned contract.\n\n## Verification\n\nThe bounded focused command `node --test test/specialist-run-foundation.test.mjs test/specialist-run-transition.test.mjs test/specialist-run-inspection.test.mjs test/specialist-run-schema.test.mjs test/specialist-run.test.mjs` passed 15 of 15 tests. Passing existing tests does not close the two findings because their fixtures do not exercise the counterordered evidence identity or required aggregate resource construction.\n\n## Reviewed Behavior\n\nCreate, restore, inspect, and record preserve package binding, pass-only transitive dependency eligibility, exact replay, conflicting-settlement rejection, terminal non-pass routing, complete-roster fan-in, detached immutable values, independent arrival convergence, and fresh-process restoration for the covered fixtures. No production repair, file edit, Git mutation, network access, or descendant launch was performed.\n\n## Outcome\n\n`fix`. Correct canonical evidence ordering and complete the normative resource proof, then rerun the canonical gate and repeat lifecycle release review against the new exact candidate."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.lifecycle-correctness",
+      "requirementId": "evidence.lifecycle-correctness-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "lifecycle-correctness-release-review.md"
+    }
+  ],
+  "assumptions": [
+    "SpecialistRunEvidenceBinding uses requirementId as its primary identity because V11 uniqueness and duty lookup are requirementId-bound."
+  ],
+  "risks": [
+    "Correcting evidence ordering changes inspection digests for valid packages whose criterion and requirement IDs have different lexical orders.",
+    "Maximum aggregate session and inspection behavior remains unproved under the exact supported 16-agent workload."
+  ],
+  "followUps": [
+    "Correct the evidence comparator and add a counterordered canonicalization regression.",
+    "Add the complete maximum-package and 16-maximum-handoff resource proof.",
+    "Rerun canonical verification and repeat independent lifecycle review on the corrected release candidate."
+  ]
+}
