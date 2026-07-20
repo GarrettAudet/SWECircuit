@@ -222,13 +222,22 @@ process.stdout.write(JSON.stringify({ operation: payload.operation, filesystemRe
 `;
 
 test("bundled specialist schemas have exact source parity", async () => {
-  const { COMMON_SCHEMA_SOURCE, SPECIALIST_HANDOFF_SCHEMA_SOURCE } = await import(
-    "../dist/specialist-handoff-schema-data.js"
-  );
+  const { COMMON_SCHEMA_SOURCE: HANDOFF_COMMON_SCHEMA_SOURCE, SPECIALIST_HANDOFF_SCHEMA_SOURCE } =
+    await import("../dist/specialist-handoff-schema-data.js");
   const { SPECIALIST_RUN_SCHEMA_SOURCE } = await import("../dist/specialist-run-schema-data.js");
+  const { COMMON_SCHEMA_SOURCE: COMPILER_COMMON_SCHEMA_SOURCE, SPECIALIST_COMPILER_SCHEMA_SOURCE } =
+    await import("../dist/specialist-schema-data.js");
   const schemas = [
     {
-      bundled: COMMON_SCHEMA_SOURCE,
+      bundled: COMPILER_COMMON_SCHEMA_SOURCE,
+      path: "../schemas/v1alpha1/common.schema.json",
+    },
+    {
+      bundled: SPECIALIST_COMPILER_SCHEMA_SOURCE,
+      path: "../schemas/v1alpha1/specialist-compiler.schema.json",
+    },
+    {
+      bundled: HANDOFF_COMMON_SCHEMA_SOURCE,
       path: "../schemas/v1alpha1/common.schema.json",
     },
     {

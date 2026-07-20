@@ -1,0 +1,842 @@
+# Specialist Contract: agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba
+
+Compilation: `sha256:aa13bb1f6a8ff21658b718ccd46e6a5a26dacd8d1c9baa990b92e37161627660`
+Blueprint: `sha256:60ed65c721e9140a6fa0d917ff7b98d32319b12d58644f0518eb95b7792556d3`
+
+This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
+
+## Operating Rules
+
+1. Verify every delivered context item against its declared raw SHA-256 digest and byte count before using it.
+2. Work only on the listed work units, Modules, scopes, capabilities, and permissions.
+3. Respect agent dependencies and stop when a stop condition or undeclared decision is reached.
+4. Produce every assigned evidence duty and every required handoff field.
+5. Report assumptions, risks, failed attempts, and follow-up work; do not silently expand scope.
+
+Manifest file digests use standard SHA-256 over the exact file bytes. Compilation, blueprint, manifest, and package identities are SWECircuit domain-separated digests and must be verified through the package verifier or another implementation of the published contract.
+
+## Blueprint
+
+```json
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprint",
+  "id": "agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba",
+  "goalId": "v12.ide-run-loop.implementation.release-correction",
+  "goalRevision": 4,
+  "goalDigest": "sha256:e64ad5908c0aece9f731f200aa11d0c72fa43c5ec786743d5876cc4d6c45437a",
+  "candidateId": "team.5068f46c9c846214f5aa25f6a194b93e0eba458915e217137eee6b0d29d15172",
+  "workUnitIds": [
+    "fix.runtime-purity-ordering.r4"
+  ],
+  "objectives": [
+    {
+      "workUnitId": "fix.runtime-purity-ordering.r4",
+      "objective": "Make create, restore, inspect, and record perform zero filesystem reads during cold package reconstruction while preserving all revision-2 and revision-3 corrections."
+    }
+  ],
+  "modules": [
+    {
+      "id": "correction.runtime-purity-ordering",
+      "action": "Authenticate the revision-3 split, preserve the existing bundled Run and Handoff validators, bundle exact common and Specialist Compiler schema source bytes into a package-owned TypeScript data module, remove Specialist Compiler validator filesystem loading, and make the existing unprimed four-operation and counterordered regressions pass without cache priming.",
+      "inputPorts": [
+        {
+          "name": "input",
+          "artifactType": "VerifiedPackageReconstructionSplit"
+        }
+      ],
+      "outputPorts": [
+        {
+          "name": "output",
+          "artifactType": "PureOrderedRunOperations"
+        }
+      ]
+    }
+  ],
+  "dependencies": [],
+  "contextUses": [
+    {
+      "sourceId": "context.adr-0005",
+      "kind": "repository",
+      "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/adr-0005.md",
+      "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+      "bytes": 9031,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/adr-0005.md"
+    },
+    {
+      "sourceId": "context.canonical-json",
+      "kind": "repository",
+      "locator": "path:src/canonical-json.ts",
+      "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+      "bytes": 7405,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/canonical-json.ts"
+    },
+    {
+      "sourceId": "context.common-schema-json",
+      "kind": "repository",
+      "locator": "path:schemas/v1alpha1/common.schema.json",
+      "digest": "sha256:d3cdcd5d8723477db18a77a2396c6ea475bbc0e1cca44f952a594cc55832e636",
+      "bytes": 10709,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "schemas/v1alpha1/common.schema.json"
+    },
+    {
+      "sourceId": "context.compiler-tests",
+      "kind": "repository",
+      "locator": "path:test/specialist-compiler.test.mjs",
+      "digest": "sha256:2847895078aa56d9e051f0b399b2e923cce3edc647c2d471c76034fd12159200",
+      "bytes": 62973,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "test/specialist-compiler.test.mjs"
+    },
+    {
+      "sourceId": "context.constants",
+      "kind": "repository",
+      "locator": "path:src/constants.ts",
+      "digest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a",
+      "bytes": 2570,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/constants.ts"
+    },
+    {
+      "sourceId": "context.diagnostics",
+      "kind": "repository",
+      "locator": "path:src/diagnostics.ts",
+      "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+      "bytes": 25190,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/diagnostics.ts"
+    },
+    {
+      "sourceId": "context.foundation-tests",
+      "kind": "repository",
+      "locator": "path:test/specialist-run-foundation.test.mjs",
+      "digest": "sha256:a7faf8978eb8dda7fb869ba9b43d949274079c6f40b5f65098ee94e9976bfe1c",
+      "bytes": 9786,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "test/specialist-run-foundation.test.mjs"
+    },
+    {
+      "sourceId": "context.handoff-schema-code",
+      "kind": "repository",
+      "locator": "path:src/specialist-handoff-schema.ts",
+      "digest": "sha256:b46e29306e5605092f8923a427fdad431b0d8e4d84d8693af90bdb2c275aa581",
+      "bytes": 2275,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-handoff-schema.ts"
+    },
+    {
+      "sourceId": "context.handoff-schema-data",
+      "kind": "repository",
+      "locator": "path:src/specialist-handoff-schema-data.ts",
+      "digest": "sha256:83f9df80b8d48e8ca4bbf2b92cad5b701b3b723aa8b5843d3adb829267c8603c",
+      "bytes": 15109,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-handoff-schema-data.ts"
+    },
+    {
+      "sourceId": "context.handoff-schema-json",
+      "kind": "repository",
+      "locator": "path:schemas/v1alpha1/specialist-handoff.schema.json",
+      "digest": "sha256:afade2b11be6db71a17aa35841d292b99e05c6a4c157505c3b649a3f145aa4e9",
+      "bytes": 4287,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "schemas/v1alpha1/specialist-handoff.schema.json"
+    },
+    {
+      "sourceId": "context.handoff-tests",
+      "kind": "repository",
+      "locator": "path:test/specialist-handoff.test.mjs",
+      "digest": "sha256:41d25b24adb4062992012983b4eb99175f371929fb83e522f1723799b3e196af",
+      "bytes": 10709,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "test/specialist-handoff.test.mjs"
+    },
+    {
+      "sourceId": "context.inspection-tests",
+      "kind": "repository",
+      "locator": "path:test/specialist-run-inspection.test.mjs",
+      "digest": "sha256:9b78ef93fea4bfb7929a5061f57f6ab0b338d71052ba702b76dc86edef0ed271",
+      "bytes": 18933,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "test/specialist-run-inspection.test.mjs"
+    },
+    {
+      "sourceId": "context.json-parser",
+      "kind": "repository",
+      "locator": "path:src/json.ts",
+      "digest": "sha256:a1f119ecb906ccf5d8397d2ce84e7b357ef5276df2ac448c99cc498d963c8a8a",
+      "bytes": 4808,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/json.ts"
+    },
+    {
+      "sourceId": "context.model",
+      "kind": "repository",
+      "locator": "path:src/model.ts",
+      "digest": "sha256:c67bf6036ec16d40516bcf01a49e8714f82588e29a9c596b117dc73c36cf4b83",
+      "bytes": 5961,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/model.ts"
+    },
+    {
+      "sourceId": "context.privacy",
+      "kind": "repository",
+      "locator": "path:src/privacy.ts",
+      "digest": "sha256:e6ffecf6135e7369913e51df78a522dcb3de3907d698f7f7cd2c1e7117ac972c",
+      "bytes": 1047,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/privacy.ts"
+    },
+    {
+      "sourceId": "context.release-correction-r3-approval",
+      "kind": "repository",
+      "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json",
+      "digest": "sha256:615cc4bd3965a7344a53485a35c58bcada2217609760388d2a729beda4c574cc",
+      "bytes": 641,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json"
+    },
+    {
+      "sourceId": "context.release-correction-r3-handoff",
+      "kind": "repository",
+      "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+      "digest": "sha256:89ab112ce3df0a97f64db2994fc792238955b7007a7ce0310b4af39b4340d3df",
+      "bytes": 8095,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json"
+    },
+    {
+      "sourceId": "context.release-correction-r3-package",
+      "kind": "repository",
+      "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json",
+      "digest": "sha256:26bf421f81127ecfe85f31b6d044a2a3accbaca788ab378a90e2db4733a887a6",
+      "bytes": 141194,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json"
+    },
+    {
+      "sourceId": "context.release-correction-r3-replan",
+      "kind": "repository",
+      "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+      "digest": "sha256:67eac872b0d88bbade9af9afda268178f57077b0abdc4f605444ead1da6c186c",
+      "bytes": 2807,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json"
+    },
+    {
+      "sourceId": "context.review-lifecycle",
+      "kind": "repository",
+      "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json",
+      "digest": "sha256:13e1b510607a4c23223b59a0190e3e490be3e95fc94e56dba45cd5e4bf3bdc84",
+      "bytes": 5649,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json"
+    },
+    {
+      "sourceId": "context.review-security",
+      "kind": "repository",
+      "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json",
+      "digest": "sha256:605a4e7065e1c4af2b3114129e919a810e430b584e31c718c0d78fa02fa027b7",
+      "bytes": 7259,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json"
+    },
+    {
+      "sourceId": "context.run-contract",
+      "kind": "repository",
+      "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/specialist-run-contract.md",
+      "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+      "bytes": 17133,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/specialist-run-contract.md"
+    },
+    {
+      "sourceId": "context.run-inspection",
+      "kind": "repository",
+      "locator": "path:src/specialist-run-inspection.ts",
+      "digest": "sha256:83d46b99d0bd553e36566aa5551b14c945b6177122c2c73f69e41ad6367f30ac",
+      "bytes": 14484,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-run-inspection.ts"
+    },
+    {
+      "sourceId": "context.run-schema-code",
+      "kind": "repository",
+      "locator": "path:src/specialist-run-schema.ts",
+      "digest": "sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d",
+      "bytes": 3180,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-run-schema.ts"
+    },
+    {
+      "sourceId": "context.run-schema-data",
+      "kind": "repository",
+      "locator": "path:src/specialist-run-schema-data.ts",
+      "digest": "sha256:a41ed770e2d250cde3fed83910ba0a099eb84ea1fc6f9142e91f6659a1cd0bc1",
+      "bytes": 17463,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-run-schema-data.ts"
+    },
+    {
+      "sourceId": "context.run-schema-json",
+      "kind": "repository",
+      "locator": "path:schemas/v1alpha1/specialist-run.schema.json",
+      "digest": "sha256:8949156f35ab5c4e9efcc86c5509b6a0fb137ced45a0c4c6da3648621797bba5",
+      "bytes": 17405,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "schemas/v1alpha1/specialist-run.schema.json"
+    },
+    {
+      "sourceId": "context.run-session",
+      "kind": "repository",
+      "locator": "path:src/specialist-run-session.ts",
+      "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+      "bytes": 18723,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-run-session.ts"
+    },
+    {
+      "sourceId": "context.run-transition",
+      "kind": "repository",
+      "locator": "path:src/specialist-run-transition.ts",
+      "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+      "bytes": 8015,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-run-transition.ts"
+    },
+    {
+      "sourceId": "context.run-types",
+      "kind": "repository",
+      "locator": "path:src/specialist-run-types.ts",
+      "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+      "bytes": 4222,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-run-types.ts"
+    },
+    {
+      "sourceId": "context.snapshot",
+      "kind": "repository",
+      "locator": "path:src/snapshot.ts",
+      "digest": "sha256:4def623274433afd49467c46aceae479115a881a13af3c6359f908772a19ca1e",
+      "bytes": 5045,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/snapshot.ts"
+    },
+    {
+      "sourceId": "context.specialist-handoff",
+      "kind": "repository",
+      "locator": "path:src/specialist-handoff.ts",
+      "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+      "bytes": 17810,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-handoff.ts"
+    },
+    {
+      "sourceId": "context.specialist-render",
+      "kind": "repository",
+      "locator": "path:src/specialist-render.ts",
+      "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7",
+      "bytes": 19184,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-render.ts"
+    },
+    {
+      "sourceId": "context.specialist-schema-code",
+      "kind": "repository",
+      "locator": "path:src/specialist-schema.ts",
+      "digest": "sha256:e59a903d0fab9ba58de19032969107fe6d517526a153ce8e6bc081360b1a4799",
+      "bytes": 2968,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-schema.ts"
+    },
+    {
+      "sourceId": "context.specialist-schema-json",
+      "kind": "repository",
+      "locator": "path:schemas/v1alpha1/specialist-compiler.schema.json",
+      "digest": "sha256:860cbe31f1b86676ea35df361e0d1b215aa92e8253bd5de266fded42fe6039cd",
+      "bytes": 15392,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "schemas/v1alpha1/specialist-compiler.schema.json"
+    },
+    {
+      "sourceId": "context.specialist-types",
+      "kind": "repository",
+      "locator": "path:src/specialist-types.ts",
+      "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+      "bytes": 16047,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/specialist-types.ts"
+    },
+    {
+      "sourceId": "context.test-plan",
+      "kind": "repository",
+      "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/test-plan.md",
+      "digest": "sha256:2dc1648ba64fec0573806bea455559a3ac4c678e50f60b99933a4529784fbea4",
+      "bytes": 1998,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/test-plan.md"
+    },
+    {
+      "sourceId": "context.text",
+      "kind": "repository",
+      "locator": "path:src/text.ts",
+      "digest": "sha256:7aaf03f50e16bc4917112e560dfd65f3e00a818df07cdca5310128a24e9d8644",
+      "bytes": 985,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "src/text.ts"
+    },
+    {
+      "sourceId": "context.transition-tests",
+      "kind": "repository",
+      "locator": "path:test/specialist-run-transition.test.mjs",
+      "digest": "sha256:bc140c1c1e02a02160c6a7b0ed8399b99dda99d418a6f6f9151039548eb39c28",
+      "bytes": 9861,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "test/specialist-run-transition.test.mjs"
+    },
+    {
+      "sourceId": "context.v12-spec",
+      "kind": "repository",
+      "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/spec.md",
+      "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+      "bytes": 5478,
+      "purposes": [
+        "Implement or verify the exact frozen V12 release-correction-r4 contract."
+      ],
+      "workUnitIds": [
+        "fix.runtime-purity-ordering.r4"
+      ],
+      "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/spec.md"
+    }
+  ],
+  "authority": {
+    "requiredCapabilities": [
+      "fix.runtime-purity-ordering"
+    ],
+    "scope": {
+      "read": [
+        "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json",
+        "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+        "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json",
+        "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+        "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/adr-0005.md",
+        "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/spec.md",
+        "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/specialist-run-contract.md",
+        "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/test-plan.md",
+        "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json",
+        "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json",
+        "schemas/v1alpha1/common.schema.json",
+        "schemas/v1alpha1/specialist-compiler.schema.json",
+        "schemas/v1alpha1/specialist-handoff.schema.json",
+        "schemas/v1alpha1/specialist-run.schema.json",
+        "src/canonical-json.ts",
+        "src/constants.ts",
+        "src/diagnostics.ts",
+        "src/json.ts",
+        "src/model.ts",
+        "src/privacy.ts",
+        "src/snapshot.ts",
+        "src/specialist-handoff-schema-data.ts",
+        "src/specialist-handoff-schema.ts",
+        "src/specialist-handoff.ts",
+        "src/specialist-render.ts",
+        "src/specialist-run-inspection.ts",
+        "src/specialist-run-schema-data.ts",
+        "src/specialist-run-schema.ts",
+        "src/specialist-run-session.ts",
+        "src/specialist-run-transition.ts",
+        "src/specialist-run-types.ts",
+        "src/specialist-schema-data.ts",
+        "src/specialist-schema.ts",
+        "src/specialist-types.ts",
+        "src/text.ts",
+        "test/specialist-compiler.test.mjs",
+        "test/specialist-handoff.test.mjs",
+        "test/specialist-run-foundation.test.mjs",
+        "test/specialist-run-inspection.test.mjs",
+        "test/specialist-run-transition.test.mjs"
+      ],
+      "write": [
+        "src/specialist-handoff-schema-data.ts",
+        "src/specialist-handoff-schema.ts",
+        "src/specialist-run-inspection.ts",
+        "src/specialist-run-schema-data.ts",
+        "src/specialist-run-schema.ts",
+        "src/specialist-schema-data.ts",
+        "src/specialist-schema.ts",
+        "test/specialist-run-foundation.test.mjs",
+        "test/specialist-run-inspection.test.mjs"
+      ],
+      "conflictZones": [
+        "src/specialist-handoff-schema-data.ts",
+        "src/specialist-handoff-schema.ts",
+        "src/specialist-run-inspection.ts",
+        "src/specialist-run-schema-data.ts",
+        "src/specialist-run-schema.ts",
+        "src/specialist-schema-data.ts",
+        "src/specialist-schema.ts",
+        "test/specialist-run-foundation.test.mjs",
+        "test/specialist-run-inspection.test.mjs"
+      ]
+    },
+    "permissions": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/adr-0005.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/spec.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/specialist-run-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/inputs/test-plan.md",
+          "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json",
+          "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json",
+          "schemas/v1alpha1/common.schema.json",
+          "schemas/v1alpha1/specialist-compiler.schema.json",
+          "schemas/v1alpha1/specialist-handoff.schema.json",
+          "schemas/v1alpha1/specialist-run.schema.json",
+          "src/canonical-json.ts",
+          "src/constants.ts",
+          "src/diagnostics.ts",
+          "src/json.ts",
+          "src/model.ts",
+          "src/privacy.ts",
+          "src/snapshot.ts",
+          "src/specialist-handoff-schema-data.ts",
+          "src/specialist-handoff-schema.ts",
+          "src/specialist-handoff.ts",
+          "src/specialist-render.ts",
+          "src/specialist-run-inspection.ts",
+          "src/specialist-run-schema-data.ts",
+          "src/specialist-run-schema.ts",
+          "src/specialist-run-session.ts",
+          "src/specialist-run-transition.ts",
+          "src/specialist-run-types.ts",
+          "src/specialist-schema-data.ts",
+          "src/specialist-schema.ts",
+          "src/specialist-types.ts",
+          "src/text.ts",
+          "test/specialist-compiler.test.mjs",
+          "test/specialist-handoff.test.mjs",
+          "test/specialist-run-foundation.test.mjs",
+          "test/specialist-run-inspection.test.mjs",
+          "test/specialist-run-transition.test.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "src/specialist-handoff-schema-data.ts",
+          "src/specialist-handoff-schema.ts",
+          "src/specialist-run-inspection.ts",
+          "src/specialist-run-schema-data.ts",
+          "src/specialist-run-schema.ts",
+          "src/specialist-schema-data.ts",
+          "src/specialist-schema.ts",
+          "test/specialist-run-foundation.test.mjs",
+          "test/specialist-run-inspection.test.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "node",
+          "npm",
+          "powershell"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+    ]
+  },
+  "evidenceDuties": [
+    {
+      "criterionId": "criterion.fix.runtime-purity-ordering.r4",
+      "criterion": "Make create, restore, inspect, and record perform zero filesystem reads during cold package reconstruction while preserving all revision-2 and revision-3 corrections.",
+      "requirementId": "evidence.runtime-purity-ordering.r4",
+      "kind": "review",
+      "duty": "produce",
+      "description": "Provide package and split authentication, exact parity for every bundled schema, an unprimed zero-filesystem-read proof for all four operations, counterordered identity evidence, focused compiler/handoff/run tests, typecheck, build, and resulting-byte bindings.",
+      "independentFromProducer": false
+    }
+  ],
+  "handoff": {
+    "destination": "codex.main",
+    "artifacts": [
+      "runtime-purity-ordering-correction-r4.md"
+    ],
+    "requiredFields": [
+      "apiVersion",
+      "kind",
+      "outcome",
+      "destination",
+      "goal",
+      "agent",
+      "compilationDigest",
+      "summary",
+      "workUnitsCompleted",
+      "artifacts",
+      "evidence",
+      "assumptions",
+      "risks",
+      "followUps"
+    ]
+  },
+  "stopConditions": [
+    "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+    "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+    "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+    "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+    "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract."
+  ],
+  "contentDigest": "sha256:60ed65c721e9140a6fa0d917ff7b98d32319b12d58644f0518eb95b7792556d3"
+}
+```
+
+## Required Handoff Envelope
+
+Return one strict UTF-8 JSON object with exactly the shape below. Replace the summary and artifact content, but do not add keys or substitute the blueprint evidence-duty shape.
+
+- Artifact content is always a string, including for application/json.
+- Evidence entries contain exactly criterionId, requirementId, kind, duty, status, and artifact.
+- A pass must list every owned work unit, exact artifact name, and exact evidence duty. A non-pass outcome lists only work actually completed and preserves bounded failure evidence.
+- If a stop condition explicitly requires a stricter custom envelope, the host must provide that closed schema; it must retain the standard goal, agent, compilation, artifact, evidence, and outcome bindings shown here.
+
+```json
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 4,
+    "digest": "sha256:e64ad5908c0aece9f731f200aa11d0c72fa43c5ec786743d5876cc4d6c45437a"
+  },
+  "agent": {
+    "id": "agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba",
+    "blueprintDigest": "sha256:60ed65c721e9140a6fa0d917ff7b98d32319b12d58644f0518eb95b7792556d3"
+  },
+  "compilationDigest": "sha256:aa13bb1f6a8ff21658b718ccd46e6a5a26dacd8d1c9baa990b92e37161627660",
+  "summary": "Replace with a concise result summary.",
+  "workUnitsCompleted": [
+    "fix.runtime-purity-ordering.r4"
+  ],
+  "artifacts": [
+    {
+      "name": "runtime-purity-ordering-correction-r4.md",
+      "mediaType": "text/markdown",
+      "content": "Replace with the complete artifact content."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.runtime-purity-ordering.r4",
+      "requirementId": "evidence.runtime-purity-ordering.r4",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "runtime-purity-ordering-correction-r4.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}
+```

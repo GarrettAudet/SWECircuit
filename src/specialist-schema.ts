@@ -1,9 +1,11 @@
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import type { ErrorObject, ValidateFunction } from "ajv";
 import { Ajv2020 } from "ajv/dist/2020.js";
 import { appendJsonPointer, createDiagnostic } from "./diagnostics.js";
 import type { JsonValue } from "./model.js";
+import {
+  COMMON_SCHEMA_SOURCE,
+  SPECIALIST_COMPILER_SCHEMA_SOURCE,
+} from "./specialist-schema-data.js";
 import type { Diagnostic } from "./types.js";
 
 const SPECIALIST_SCHEMA_ID =
@@ -16,11 +18,6 @@ interface SpecialistSchemaRegistry {
 
 let registry: SpecialistSchemaRegistry | undefined;
 
-function readSchema(fileName: string): object {
-  const url = new URL(`../schemas/v1alpha1/${fileName}`, import.meta.url);
-  return JSON.parse(readFileSync(fileURLToPath(url), "utf8")) as object;
-}
-
 function specialistSchemaRegistry(): SpecialistSchemaRegistry {
   if (registry !== undefined) {
     return registry;
@@ -31,8 +28,8 @@ function specialistSchemaRegistry(): SpecialistSchemaRegistry {
     strict: true,
     validateFormats: false,
   });
-  ajv.addSchema(readSchema("common.schema.json"));
-  ajv.addSchema(readSchema("specialist-compiler.schema.json"));
+  ajv.addSchema(JSON.parse(COMMON_SCHEMA_SOURCE) as object);
+  ajv.addSchema(JSON.parse(SPECIALIST_COMPILER_SCHEMA_SOURCE) as object);
 
   const goal = ajv.compile({ $ref: `${SPECIALIST_SCHEMA_ID}#/$defs/goalContract` });
   const request = ajv.compile({ $ref: `${SPECIALIST_SCHEMA_ID}#/$defs/compilationRequest` });

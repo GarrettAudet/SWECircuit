@@ -975,10 +975,7 @@ test("the 16-agent maximum-handoff aggregate converges below conservative run sa
   );
 
   const rawByUnit = new Map(
-    definitions.map((definition) => [
-      definition.id,
-      maximumRawHandoff(fixture, definition.id),
-    ]),
+    definitions.map((definition) => [definition.id, maximumRawHandoff(fixture, definition.id)]),
   );
   for (const [unitId, raw] of rawByUnit) {
     assertOk(
@@ -1033,10 +1030,7 @@ test("the 16-agent maximum-handoff aggregate converges below conservative run sa
   assert.deepEqual(restoredInspection, forwardInspection);
   assert.equal(forwardInspection.stage, "integration_ready");
   assert.equal(forwardInspection.integrationReady, true);
-  assert.equal(
-    forwardInspection.acceptedEvidence.length,
-    SPECIALIST_RUN_LIMITS.acceptedHandoffs,
-  );
+  assert.equal(forwardInspection.acceptedEvidence.length, SPECIALIST_RUN_LIMITS.acceptedHandoffs);
 
   // The V11 verifier bounds the complete package envelope at eight output budgets.
   const packageEnvelopeCeiling = SPECIALIST_LIMITS.outputBytes * 8;
@@ -1061,9 +1055,7 @@ test("the 16-agent maximum-handoff aggregate converges below conservative run sa
   // the package envelope ceiling. This deliberately counts both maxima at once.
   const acceptedEvidenceCeiling =
     SPECIALIST_RUN_LIMITS.acceptedHandoffs *
-    (SPECIALIST_RUN_LIMITS.rawHandoffBytes +
-      SPECIALIST_LIMITS.handoffArtifacts * 128 +
-      1_024);
+    (SPECIALIST_RUN_LIMITS.rawHandoffBytes + SPECIALIST_LIMITS.handoffArtifacts * 128 + 1_024);
   const statusAndRootReserve =
     SPECIALIST_RUN_LIMITS.acceptedHandoffs *
       (SPECIALIST_RUN_LIMITS.acceptedHandoffs * ("agent.".length + 64 + 3) * 2 + 4_096) +
