@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: release-correction revisions 6 through 8, the current full pre-freeze gate, and V11 trust-root revision 35 pass. Candidate 2 passed its canonical gate but is retired after fail-closed R2 preparation. Candidate 3 freeze, canonical receipt, and R2 independent review remain.
+T006 in progress: release-correction revisions 1 through 10 and V11 trust-root revision 35 pass their package gates. Candidate 3 passed its canonical gate but returned one independent `pass` and two release-blocking `fix` routes. Candidate 4 freeze, canonical receipt, and a complete fresh R2 review remain.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 in progress: release-correction revisions 6 through 8, the current full pre
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Their complete package-bound roster routed `fix` before merge; revisions 1-8 now preserve the correction chain, and the replacement R2 wave remains pending.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Candidate 3 again routed `fix`; revisions 1-10 now preserve the correction chain, and the replacement R2 wave remains pending.
 
 ## Out Of Scope
 

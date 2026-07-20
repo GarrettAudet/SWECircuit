@@ -2,7 +2,7 @@
 
 ## Status
 
-Release review attempt 1 completed with a verified `fix` route. Corrections now pass through revision 8 and the V11 revision-35 trust chain; Candidate 2 passed its canonical gate but is retired after fail-closed R2 preparation; Candidate 3 and its review are not yet frozen, so V12 is not merge-ready.
+Release review attempt 1 and Candidate 3 both produced verified release-blocking `fix` routes. Corrections now pass through revision 10 and the V11 revision-35 trust chain. Candidate 4 and its complete R2 review are not yet frozen, so V12 is not merge-ready.
 
 ## Scope
 
@@ -42,6 +42,20 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 - The R2 harness resolves the current semantic audit from launch authorization and binds the complete revision-1 through revision-8 correction lineage.
 - Candidate 2 `4c7695519d274a8e3d939061dfa184b99dc8ac45` has an exact passing gate receipt but no R2 package or reviewer outcome. Canonical authorization serialization is fixed; Candidate 3 is not yet frozen.
 
+## Candidate 3 Review
+
+- Candidate: `4ad12367cc0b36ea460ceabc48e5a41ca662e3df`; canonical gate: `pass`.
+- Product/API/IDE: `fix` because the gate could consume untracked verification inputs.
+- Security/trace/authority: `fix` because six causal source files were absent from the approved context.
+- Lifecycle/correctness: `pass`; that scoped result cannot override either blocking route.
+- Candidate 3 is permanently retired. Its exact receipt, available raw handoff, package identities, and route are preserved under `evidence/release-review-r2/`.
+
+## Corrections 9-10
+
+- R9 binds the canonical gate to a materialized exact Git tree, excludes uncommitted source, closes all six security sources, and passes four focused regressions. Compilation/package: `sha256:ca0488cd362c3757183da85238001ff1e14e9dee702bf58af27347684a4cdc6d` / `sha256:f9e337812c8ee4ef85431894855279c5a113ccfb0c0a9b4402b4e5137d519400`.
+- R10 places every new R2 artifact under `runs/{candidate}/`, reads reviewer sources from exact candidate Git blobs, and verifies a contiguous correction lineage without a hardcoded terminal revision. Compilation/package: `sha256:383a9ee2d20773c8608f7da195f9e7ea5212838dc7d82f0865bc1cefd38e2400` / `sha256:985a85fe77b507088cde4df3d0352c21b142fe09541cf4d5295a5869b28cf075`.
+- Main-agent verification passes exact syntax, formatter/linter checks, 5 of 5 R10 lifecycle tests, 4 of 4 release-gate tests, the template checker, and the package-bound R10 handoff gate.
+
 ## Outcome
 
-`fix`. Release and merge remain stopped. Correct the causal defects, dogfood the correction package through V12, rerun the canonical candidate-bound gate, and repeat all three independent reviews against a newly compiled and approved package.
+`fix`. The known Candidate 3 causes are corrected, but release and merge remain stopped until Candidate 4 passes the exact canonical gate and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.

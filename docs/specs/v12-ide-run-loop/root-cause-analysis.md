@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate 1 diagnosis is closed through release-correction revision 8. No active product defect is confirmed; Candidate 2 passed its canonical gate but is retired after R2 preparation failed closed; Candidate 3 has not yet been frozen or authorized for release review.
+Candidate 1 and Candidate 2 diagnoses are closed. Candidate 3 passed its canonical gate but is retired after two independent `fix` routes; their causes are closed by release-correction revisions 9 and 10. Candidate 4 release evidence remains pending.
 
 ## Reproduction
 
@@ -180,3 +180,27 @@ Parse and reserialize the unchanged value with `JSON.stringify(value, null, 2)` 
 ### Regression Coverage
 
 R2 canonical parsing is the regression gate. Candidate 3 must include the canonical authorization, pass the exact candidate wrapper, and complete R2 preparation and revalidation before any reviewer launches.
+
+## Candidate 3 Committed-Source And Review-Lifecycle RCA
+
+### Reproduction
+
+Candidate 3 passed `npm verify`, but the product reviewer proved the wrapper only checked tracked cleanliness and could consume untracked verification inputs. The security reviewer separately found six causal source files missing from its approved R2 context.
+
+### Confirmed Root Causes
+
+- The canonical command executed in the live worktree rather than a materialization of the exact candidate Git tree.
+- R2 enumerated reviewer sources from mutable filesystem state and used one global immutable output root.
+- Correction lineage encoded revisions 1 through 8 as executable policy, so every new correction required another harness edit.
+
+### Causal Fix
+
+R9 authenticates and materializes exact committed blobs, pins `npm verify` to that tree, binds the materialization digest and cleanup result, and supplies all six security sources. R10 gives each candidate a closed `runs/{candidate}/` root, discovers and snapshots source from candidate Git blobs, authenticates both review tools, and verifies one contiguous correction sequence beginning at revision 1 with no terminal ceiling.
+
+### Regression Coverage
+
+Four release-gate tests and five release-review lifecycle tests cover uncommitted source exclusion, exact command isolation, all six security sources, malformed candidates, disjoint run roots, Candidate 3 preservation, missing or malformed revisions, revision-11 extensibility, unsafe handoff paths, Git-blob snapshots, tool substitution, and R9 package/handoff substitution.
+
+### Durable Learning
+
+A clean live worktree is not the same proof as executing committed source. Release evidence must bind the exact Git tree, and repeated immutable attempts need candidate-addressed roots plus data-driven lineage rather than a globally fixed output path or revision count.

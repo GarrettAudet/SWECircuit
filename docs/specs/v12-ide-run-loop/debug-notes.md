@@ -421,3 +421,27 @@ R2 stopped before source snapshots, compilation, approval, or reviewer launch be
 ### Smallest Causal Fix
 
 Reserialize the same parsed value with the canonical JSON writer. The resulting file is 984 bytes at `sha256:88304c6bcf03b8737af8859ab4096d66bf77f70b88f33c040da0094dc32fe3e5`, and V11 exact evidence replay remains `pass`. Candidate 2 remains immutable and retired; Candidate 3 must repeat the exact gate before R2.
+
+## Candidate 3 Release Review
+
+### Reproduction
+
+Freeze candidate `4ad12367cc0b36ea460ceabc48e5a41ca662e3df`, run its exact canonical gate, and execute the product, lifecycle, and security R2 reviews.
+
+### Stable Evidence
+
+- Canonical gate: `pass`.
+- Lifecycle/correctness: `pass`.
+- Product/API/IDE: `fix` because verification could consume untracked source.
+- Security/trace/authority: `fix` because `.gitattributes`, `.gitignore`, and four specialist schema source files were absent from the approved context.
+- Candidate 3 is retired; its preserved identities and available raw handoff are recorded in `evidence/release-review-r2/candidate-3-retirement.md`.
+
+### Route
+
+R9 moved canonical verification into an exact committed-tree materialization and closed the six-source review context. R10 made every later R2 run candidate-addressed, moved snapshot discovery to candidate Git blobs, and replaced the fixed correction ceiling with contiguous lineage discovery.
+
+## R10 Host Runtime Attempts
+
+Two inherited-runtime attempts stalled without handoffs. A fresh attempt failed closed after the host delivered the wrong checkout and then emitted a schema-invalid `block` handoff. The exact rejected 2,592 bytes remain preserved. A fourth attempt retained the same approved specialist contract, received the exact worktree/checkpoint, and used a manually selected `gpt-5.6-sol` plus `high` reasoning profile. Its 5,595-byte `pass` handoff verifies against the R10 package and the focused 5-test lifecycle suite passes.
+
+This is host liveness and runtime-supply evidence, not V12 model-routing behavior. The full attempt trace is `evidence/implementation/release-correction-r10/attempt-history.md`.

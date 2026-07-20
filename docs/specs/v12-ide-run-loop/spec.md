@@ -2,7 +2,7 @@
 
 ## Status
 
-In progress on `codex/v12-ide-run-loop`.
+Implementation complete on `codex/v12-ide-run-loop`; exact Candidate 4 verification and independent R2 release review remain.
 
 ## Problem
 
@@ -42,14 +42,14 @@ V11 can compile exact specialist contracts and verify packages and handoffs, but
 
 ## Acceptance Criteria
 
-- [ ] AC1: Given an approved V11 package and expected digest pair, creating a run session returns one immutable source-preserving value bound to that exact package and complete selected blueprint set.
-- [ ] AC2: Given a valid session, inspection returns every dependency-eligible manifest-resolved specialist contract and one closed reason for every other contract.
-- [ ] AC3: Given exact raw specialist handoff bytes, recording the handoff either returns a new verified session state or a stable fail-closed diagnostic without mutating the prior state.
-- [ ] AC4: A verified non-`pass` handoff routes visibly and cannot satisfy a dependent agent or integration gate.
-- [ ] AC5: Integration readiness becomes true only after every blueprint in the complete selected roster has one verified `pass` handoff.
-- [ ] AC6: Raw serialized session bytes can be restored in a fresh process using the external expectation and re-inspected with the same canonical semantics, with no provider, model, executor, time, randomness, callback, or host-state data.
-- [ ] AC7: One IDE kickoff guide demonstrates natural-language intake, clarification, GoalContract review, specialist compilation, host fan-out, verified fan-in, integration, review, and memory handoff.
-- [ ] AC8: V12 is dogfooded on its own implementation using task-shaped specialists, preserved raw handoffs, integrated verification, and measured friction.
+- [x] AC1: Given an approved V11 package and expected digest pair, creating a run session returns one immutable source-preserving value bound to that exact package and complete selected blueprint set.
+- [x] AC2: Given a valid session, inspection returns every dependency-eligible manifest-resolved specialist contract and one closed reason for every other contract.
+- [x] AC3: Given exact raw specialist handoff bytes, recording the handoff either returns a new verified session state or a stable fail-closed diagnostic without mutating the prior state.
+- [x] AC4: A verified non-`pass` handoff routes visibly and cannot satisfy a dependent agent or integration gate.
+- [x] AC5: Integration readiness becomes true only after every blueprint in the complete selected roster has one verified `pass` handoff.
+- [x] AC6: Raw serialized session bytes can be restored in a fresh process using the external expectation and re-inspected with the same canonical semantics, with no provider, model, executor, time, randomness, callback, or host-state data.
+- [x] AC7: One IDE kickoff guide demonstrates natural-language intake, clarification, GoalContract review, specialist compilation, host fan-out, verified fan-in, integration, review, and memory handoff.
+- [x] AC8: V12 is dogfooded on its own implementation using task-shaped specialists, preserved raw handoffs, integrated verification, and measured friction.
 - [ ] AC9: The canonical repository gate and independent product, lifecycle, security, and API reviews pass for the exact release candidate.
 
 ## Architecture Impact

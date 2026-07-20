@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-V11.1 is released on `main` at `0674f3923aae629594cd27d349e118424fef8fe0`. Its concise README and deterministic workflow GIF passed exact Revision 5 visual and capability review, V11 Revision 31 source-freshness replay, the complete local gate, all seven jobs in branch run `29682189374`, an exact fast-forward from the V11 baseline, and all seven jobs in final main run `29682498282`. V11 remains runtime-neutral: core compiles and verifies specialist contracts while an external host owns model selection, dispatch, isolation, execution, integration, persistence, merge, and memory mutation.
+V12 IDE Run Loop is in release-candidate preparation on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. The implementation adds pure create, restore, inspect, and record operations for one approved specialist package, exact raw-handoff verification, dependency eligibility, visible non-`pass` routing, and complete-roster integration readiness. Candidate 3 is retired after product and security `fix` routes; R9 and R10 pass their package and focused integration gates; Candidate 4 canonical verification and complete R2 review remain.
 
 ## Current Stage
 
-V10 remains preserved historical evidence. V11.1 is the current released public baseline on `main` and must be dogfooded for the next bounded product goal.
+V11.1 remains the released public baseline on `main`. V12 is the active dogfood version and is not merge-ready until one exact candidate passes the canonical gate, all three independent R2 reviewers, hosted CI, and the owner merge gate. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
 
 V11 universal-runtime Round 4 failed against `d486b7f` with four REVISE verdicts, 10 high findings, and 9 medium findings. Raw evidence and correction design were committed at `6da0376`; the workflow emitted `split` rather than another broad patch cycle.
 
@@ -189,6 +189,6 @@ Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27
 
 ## Next Likely Work
 
-- Choose the next bounded product goal and open a dedicated version branch from `0674f3923aae629594cd27d349e118424fef8fe0`.
-- Dogfood the V11.1 public and IDE interaction surface while preserving V11's exact core/host boundary.
-- Reduce checker fixture-copy cost and release trust-root breadth without weakening coverage or traceability.
+- Freeze Candidate 4, run the exact committed-tree canonical gate, and preserve its candidate-addressed receipt and raw logs.
+- Compile, approve, and launch the three exact R2 reviewers; accept release only if the complete package-bound roster returns `pass`.
+- After V12 release, open a dedicated version for provider-neutral runtime demand, IDE capability inventory, deterministic model/effort assignment, and native host spawning; use the 2026-07-20 routing scan as intake.
