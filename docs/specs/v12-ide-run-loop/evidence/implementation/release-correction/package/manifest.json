@@ -1,0 +1,63 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v12.ide-run-loop.implementation.release-correction",
+  "goalRevision": 1,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+  "selectedCandidateId": "team.7f129b68e86f4588829f626a4ea14d4f204f16eee03d3a060c389b6433c475ed",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664",
+        "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50",
+        "agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666"
+      ]
+    },
+    {
+      "start": 9,
+      "agentIds": [
+        "agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:bfe66bf07552d6a7d1dffb2500feacb4fa3838f667e424b94649ab4833435ded",
+  "compilationFileBytes": 193472,
+  "agents": [
+    {
+      "agentId": "agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664",
+      "blueprintDigest": "sha256:a1bd224f72e44059217e2df9379f2201b348d52cb7cf6dc5796e85e08db3aef6",
+      "contractFile": "agents/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.md",
+      "contractDigest": "sha256:b660746acab7da5f2cdd266c17670d0922a0a728f73bf135d2dc164cb801883f",
+      "contractBytes": 20183
+    },
+    {
+      "agentId": "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50",
+      "blueprintDigest": "sha256:64b807f9361e6955ad8c366f86882f101dc9be0fcabfe2b8c9fd0a20f5812af1",
+      "contractFile": "agents/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.md",
+      "contractDigest": "sha256:d4abef2a3b47b21c29eb62afa17ef7764ab9af0db677e363e0baeb6ebda4ec1f",
+      "contractBytes": 20411
+    },
+    {
+      "agentId": "agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe",
+      "blueprintDigest": "sha256:c3aac0f6fa62c3b0fe995e92b831607634f48573479bd48359438df266d9c0bd",
+      "contractFile": "agents/agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe.md",
+      "contractDigest": "sha256:5919cdb5e05d15ffcc5ddf8a70f6b2f4b62485d5595e282bf191776be9669df6",
+      "contractBytes": 23524
+    },
+    {
+      "agentId": "agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666",
+      "blueprintDigest": "sha256:a13b55a1f1516a9442639b821472fe16a6918850d4e0063ef84cb0df9aca27a1",
+      "contractFile": "agents/agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666.md",
+      "contractDigest": "sha256:b6187192b14c05d6c599b604e02cc2920d5a81a2114df8a8624ecd2ebde50670",
+      "contractBytes": 22036
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:638cc45dca5182094af478fec3cd7a2b9ac78944edb0bc2e6454dae476c92234",
+  "integrationBytes": 4843,
+  "contentDigest": "sha256:cf5bdae74c3754d642aa7dfa65424e6693c113b70a9cbe7055bfc6cdfa6fd3a9"
+}

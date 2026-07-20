@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 1,
+    "digest": "sha256:1bea0e225945a75a3afad84d628ef7b761d4985840c15c3d82a667e55bdd8388"
+  },
+  "agent": {
+    "id": "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50",
+    "blueprintDigest": "sha256:64b807f9361e6955ad8c366f86882f101dc9be0fcabfe2b8c9fd0a20f5812af1"
+  },
+  "compilationDigest": "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+  "summary": "Closed the aggregate resource proof with a verified 16-agent package, sixteen exact maximum handoffs, convergence and boundary tests, conservative aggregate-ceiling calculations, and an evidence-backed reduction of the unsafe raw-session input ceiling from 128 MiB to 64 MiB.",
+  "workUnitsCompleted": [
+    "fix.aggregate-resource-proof"
+  ],
+  "artifacts": [
+    {
+      "name": "aggregate-resource-proof-correction.md",
+      "mediaType": "text/markdown",
+      "content": "## Authentication\n\nAll 19 declared context sources matched their exact byte counts and raw SHA-256 bindings before use. `verifySpecialistPackage` accepted compilation `sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2` and package `sha256:0243a0cea075424c7c919a6af876b4f023f9e635234cf6ec07a0d7cb9543bf6c` with no diagnostics.\n\n## Correction\n\nThe live contract now distinguishes reachable constituent limits from conservative aggregate safeguards. `canonicalSessionBytes` and `canonicalInspectionBytes` remain unchanged because constituent ceilings prove semantically valid at-limit values cannot exist. `rawSessionInputBytes` changed from 134,217,728 to 67,108,864 after an exact 128 MiB valid padded input exhausted V8's 4 GiB heap in isolation. The 64 MiB ceiling remains above the maximum canonical-session proof while making its exact accepted edge executable.\n\nA focused fixture now compiles and verifies 16 independent agents. Every agent supplies a valid 1,048,576-byte handoff whose canonical base64 is exactly 1,398,104 characters. Forward and reverse independent arrival orders produce identical sessions and inspections. Serialization, restore, reinspection, complete-roster evidence, and `integration_ready` convergence pass.\n\n## Boundary Calculations\n\n- Sixteen raw handoffs: 16,777,216 bytes.\n- Sixteen base64 payloads: 22,369,664 characters.\n- Complete accepted-row envelope including metadata: 22,375,057 bytes.\n- Verified V11 package-envelope ceiling: `8 * 4,194,304 = 33,554,432` bytes.\n- Session root reserve: 20,736 bytes.\n- Session constituent ceiling: `33,554,432 + 22,375,057 + 20,736 = 55,950,225` bytes.\n- Raw-session input ceiling: 67,108,864 bytes, leaving 11,158,639 bytes of headroom.\n- Canonical-session safeguard: 134,217,728 bytes, leaving 78,267,503 bytes of headroom.\n- Accepted-evidence ceiling after artifact content becomes bounded bindings: 17,055,744 bytes.\n- Inspection status and root reserve: 193,024 bytes.\n- Inspection constituent ceiling: `33,554,432 + 17,055,744 + 193,024 = 50,803,200` bytes.\n- Canonical-inspection safeguard: 67,108,864 bytes, leaving 16,305,664 bytes of headroom.\n\nThese strict upper bounds prove that exact aggregate at-limit fixtures are unreachable and justify correcting wording instead of weakening the 16-agent or 1 MiB handoff contract.\n\n## Focused Verification\n\n- Source and test syntax checks passed for `src/constants.ts`, `test/specialist-run.test.mjs`, and `test/specialist-run-schema.test.mjs`.\n- An authenticated in-memory substitution of the corrected source constant into the pre-existing build ran the two owned tests without writing `dist`.\n- `the 16-agent maximum-handoff aggregate converges below conservative run safeguards`: pass in 92.8 seconds.\n- `raw handoff and run input boundaries reject one-unit excess without truncation`: pass in 7.2 seconds.\n- Exact 64 MiB raw-session input passed restore.\n- A 1,048,577-byte handoff rejected with `SC4308`.\n- A 67,108,865-byte raw session rejected with `SC4402` before parsing.\n- Combined focused result: 2 tests passed, 0 failed, 100.6 seconds.\n\n## Preserved Failed Attempts\n\nNative `apply_patch` failed before mutation because the Windows sandbox helper could not refresh. The first fallback-construction attempt failed before execution because the tool isolate lacked `TextEncoder`. The unprivileged hash-guarded PowerShell fallback was denied before mutation; the contract-approved escalated retry succeeded and immediately verified resulting bytes.\n\nThe initial focused file run failed after 154 seconds with V8 heap exhaustion. Isolation proved the 16-agent aggregate passed independently in 88.8 seconds, while the 128 MiB padded raw-session case alone exhausted the heap after 42 seconds. This established the raw-session constant correction. A direct public-constant test then failed because the unchanged generated `dist` still exports the old value. Editing generated output was outside authority. The first in-memory loader run failed before test execution when Node reapplied the hook to already substituted source; an idempotent exact-value guard corrected the verifier setup.\n\n## Resulting Bytes\n\n- `docs/specs/v12-ide-run-loop/specialist-run-contract.md`: 17,133 bytes, `sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242`.\n- `src/constants.ts`: 2,570 bytes, `sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a`.\n- `test/specialist-run-schema.test.mjs`: 12,596 bytes, `sha256:6bed3f897fdf550e644c249c468eb3d3e5f0748e833675f4eb2638686a0b204a`.\n- `test/specialist-run.test.mjs`: 38,894 bytes, `sha256:92defd1421d6a8e258354f480441c98074023a106ab17f99835b210231888021`.\n\nAll four outputs contain normalized LF with no CR or TAB bytes. No network, Git mutation, descendant agent launch, provider/runtime expansion, or write outside declared scope occurred."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.aggregate-resource-proof",
+      "requirementId": "evidence.aggregate-resource-proof",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "aggregate-resource-proof-correction.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The pre-existing generated dist output still contains the old constant because rebuilding or editing it was outside this specialist's exact write scope."
+  ],
+  "followUps": [
+    "The integration owner must rebuild generated output, run the canonical repository gate, and repeat independent release review against the integrated candidate."
+  ]
+}

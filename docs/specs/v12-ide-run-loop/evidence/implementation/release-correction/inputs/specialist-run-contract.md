@@ -28,7 +28,7 @@ export const SPECIALIST_RUN_KINDS = Object.freeze([
 ] as const);
 
 export const SPECIALIST_RUN_LIMITS = Object.freeze({
-  rawSessionInputBytes: 67_108_864,
+  rawSessionInputBytes: 134_217_728,
   canonicalSessionBytes: 134_217_728,
   acceptedHandoffs: 16,
   rawHandoffBytes: 1_048_576,
@@ -38,8 +38,6 @@ export const SPECIALIST_RUN_LIMITS = Object.freeze({
 ```
 
 V11 package, text, schema, agent, handoff, and output limits remain normative and are not widened.
-
-`rawSessionInputBytes` is the preparse attacker-input ceiling. It remains above the constituent-derived maximum canonical session while staying below the deliberately conservative `canonicalSessionBytes` safeguard.
 
 ## Public Operations
 
@@ -339,10 +337,9 @@ Exact replay is not a diagnostic. A valid non-`pass` is not an operation error.
 
 Tests must prove:
 
-- Every constituent acceptance limit is reached by a valid fixture: 16 accepted handoffs, `rawHandoffBytes`, `rawHandoffBase64Chars`, and `rawSessionInputBytes`.
-- One complete 16-agent V11 package plus 16 maximum valid handoffs and base64 expansion fits `canonicalSessionBytes`; record, restore, and inspect converge for independent arrival orders.
-- `canonicalSessionBytes` and `canonicalInspectionBytes` are conservative aggregate safeguards. Tests must derive strict upper bounds from the constituent V11 package, roster, handoff, artifact, identifier, and text ceilings; they do not claim that a semantically valid value can reach either aggregate safeguard exactly.
-- Reachable at-limit values pass and one-unit-over raw inputs fail without truncation. Unreachable aggregate safeguards require constituent-ceiling calculations, a real maximum-handoff workload below the guard, and no synthetic claim of valid at-limit reachability.
+- Every exact constant is reachable by a valid fixture.
+- One maximum valid V11 package plus 16 maximum valid handoffs and base64 expansion fits `canonicalSessionBytes`.
+- At-limit values pass and one-unit-over values fail without truncation.
 - Raw bounds are checked before parse, decode, canonicalization, or allocation proportional to attacker-declared size.
 - Inspection and diagnostic paths remain bounded.
 

@@ -167,6 +167,82 @@ const REPOSITORY_SOURCES = {
     "test/specialist-run-inspection.test.mjs",
     "Focused V12 inspection tests.",
   ],
+  "context.foundation-tests": [
+    "test/specialist-run-foundation.test.mjs",
+    "Focused V12 create, restore, identity, and boundary tests.",
+  ],
+  "context.schema-tests": [
+    "test/specialist-run-schema.test.mjs",
+    "Strict V12 schema and public export tests.",
+  ],
+  "context.run-tests": [
+    "test/specialist-run.test.mjs",
+    "Integrated V12 adversarial, permutation, restore, and resource tests.",
+  ],
+  "context.review-product": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/product-api-ide-fix-attempt-1.json",
+    "Exact product/API/IDE release-review FIX handoff.",
+  ],
+  "context.review-lifecycle": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json",
+    "Exact lifecycle/correctness release-review FIX handoff.",
+  ],
+  "context.review-security": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json",
+    "Exact security/trace/authority release-review FIX handoff.",
+  ],
+  "context.review-verification": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review/handoff-verification.json",
+    "Complete package-bound attempt-1 release-review routing report.",
+  ],
+  "context.review-harness": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review/run-release-review.mjs",
+    "Attempt-1 release-review compiler and approval harness.",
+  ],
+  "context.review-handoff-verifier": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review/verify-release-review-handoffs.mjs",
+    "Attempt-1 exact raw reviewer handoff verifier.",
+  ],
+  "context.verification-package": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/verification/package-envelope.json",
+    "Approved V12 verification implementation package.",
+  ],
+  "context.verification-approval": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/verification/approval.json",
+    "Exact V12 verification package approval.",
+  ],
+  "context.verification-handoff-a": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/verification-pass.json",
+    "Exact raw V12 adversarial-verification handoff.",
+  ],
+  "context.verification-handoff-b": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/dogfood-pass.json",
+    "Exact raw V12 IDE-dogfood handoff.",
+  ],
+  "context.verification-report": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+    "Complete V12 verification implementation handoff report.",
+  ],
+  "context.v11-audit-approval": [
+    "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
+    "Exact current Audit-B approval bytes required for release replay.",
+  ],
+  "context.release-correction-package": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package-envelope.json",
+    "Original owner-approved release-correction package whose downstream contract was retired.",
+  ],
+  "context.release-correction-approval": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/approval.json",
+    "Exact owner approval for the original release-correction package.",
+  ],
+  "context.release-correction-aggregate-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json",
+    "Verified upstream aggregate-resource PASS handoff that changed bound runtime sources.",
+  ],
+  "context.retired-runtime-contract": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package/agents/agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe.md",
+    "Exact unlaunched runtime-purity contract retired after its source bindings became stale.",
+  ],
 };
 
 const FOUNDATION_WRITES = [
@@ -212,6 +288,29 @@ const DOGFOOD_WRITES = [
   "docs/modules/README.md",
   "docs/modules/specialist-run-session.md",
   "scripts/run-v12-dogfood.mjs",
+];
+
+const RELEASE_PURITY_WRITES = [
+  "src/specialist-run-inspection.ts",
+  "src/specialist-run-schema-data.ts",
+  "src/specialist-run-schema.ts",
+  "test/specialist-run-foundation.test.mjs",
+  "test/specialist-run-inspection.test.mjs",
+];
+
+const RELEASE_RESOURCE_WRITES = [
+  "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+  "src/constants.ts",
+  "test/specialist-run-schema.test.mjs",
+  "test/specialist-run.test.mjs",
+];
+
+const RELEASE_DOGFOOD_WRITES = ["scripts/run-v12-dogfood.mjs"];
+
+const RELEASE_EVIDENCE_WRITES = [
+  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+  "scripts/run-v12-release-gate.mjs",
 ];
 
 const CONFIGS = {
@@ -581,6 +680,288 @@ CONFIGS["foundation-r3"] = {
   ],
 };
 
+CONFIGS["release-correction"] = {
+  objective:
+    "Correct every causal V12 release-review attempt-1 finding without adding provider runtime behavior or widening the four-operation public contract.",
+  goalRevision: 1,
+  maxAgents: 4,
+  maxConcurrency: 4,
+  processScopes: ["node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.specialist-types",
+    "context.specialist-handoff",
+    "context.specialist-render",
+    "context.canonical-json",
+    "context.json-parser",
+    "context.snapshot",
+    "context.privacy",
+    "context.text",
+    "context.model",
+    "context.constants",
+    "context.diagnostics",
+    "context.package",
+    "context.run-types",
+    "context.run-schema-code",
+    "context.run-schema-json",
+    "context.run-session",
+    "context.run-transition",
+    "context.run-inspection",
+    "context.foundation-tests",
+    "context.transition-tests",
+    "context.inspection-tests",
+    "context.schema-tests",
+    "context.run-tests",
+    "context.ide-guide",
+    "context.modules-readme",
+    "context.readme",
+    "context.review-product",
+    "context.review-lifecycle",
+    "context.review-security",
+    "context.review-verification",
+    "context.review-harness",
+    "context.review-handoff-verifier",
+    "context.verification-package",
+    "context.verification-approval",
+    "context.verification-handoff-a",
+    "context.verification-handoff-b",
+    "context.verification-report",
+    "context.v11-audit-approval",
+  ],
+  workUnits: [
+    {
+      id: "fix.runtime-purity-ordering",
+      objective:
+        "Remove first-use filesystem schema loading from all four run operations, order accepted evidence by requirement identity, and lock both corrections with causal tests.",
+      weight: 8,
+      moduleId: "correction.runtime-purity-ordering",
+      action:
+        "Bundle immutable package-owned schema data into TypeScript without changing the exported schema subpath; compose it with the existing strict Ajv validator, add a fresh-process no-filesystem-read proof for create/restore/inspect/record, sort evidence by requirementId before the complete tuple, and add counterordered IDs.",
+      inputType: "VerifiedReleaseReviewFindings",
+      outputType: "PureOrderedRunOperations",
+      capability: "fix.runtime-purity-ordering",
+      evidenceId: "evidence.runtime-purity-ordering",
+      evidenceDescription:
+        "Provide exact source parity, no-filesystem-effect, counterordered identity, focused test, typecheck, and build evidence.",
+      artifact: "runtime-purity-ordering-correction.md",
+      writes: RELEASE_PURITY_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.specialist-handoff",
+        "context.specialist-render",
+        "context.canonical-json",
+        "context.json-parser",
+        "context.snapshot",
+        "context.privacy",
+        "context.text",
+        "context.model",
+        "context.constants",
+        "context.diagnostics",
+        "context.run-types",
+        "context.run-schema-code",
+        "context.run-schema-json",
+        "context.run-session",
+        "context.run-transition",
+        "context.run-inspection",
+        "context.foundation-tests",
+        "context.transition-tests",
+        "context.inspection-tests",
+        "context.review-lifecycle",
+        "context.review-security",
+      ],
+    },
+    {
+      id: "fix.aggregate-resource-proof",
+      objective:
+        "Close the normative aggregate resource proof with a real 16-agent package and 16 maximum valid handoffs, or make the smallest reviewed contract correction for any provably unreachable aggregate ceiling.",
+      weight: 8,
+      moduleId: "correction.aggregate-resource-proof",
+      action:
+        "Construct the complete valid aggregate, exercise record/restore/inspect convergence and every published boundary, distinguish raw attacker limits from conservative aggregate safeguards, and change constants or Resource Proof wording only when constituent ceilings prove exact at-limit reachability impossible.",
+      inputType: "VerifiedReleaseReviewFindings",
+      outputType: "ReachableAggregateResourceProof",
+      capability: "fix.aggregate-resource-proof",
+      evidenceId: "evidence.aggregate-resource-proof",
+      evidenceDescription:
+        "Provide the 16-agent maximum-handoff fixture, boundary calculations, at-limit/over-limit evidence where reachable, focused tests, and rationale for any reviewed contract correction.",
+      artifact: "aggregate-resource-proof-correction.md",
+      writes: RELEASE_RESOURCE_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.specialist-types",
+        "context.specialist-handoff",
+        "context.specialist-render",
+        "context.canonical-json",
+        "context.constants",
+        "context.diagnostics",
+        "context.run-types",
+        "context.run-schema-json",
+        "context.run-session",
+        "context.run-transition",
+        "context.run-inspection",
+        "context.schema-tests",
+        "context.run-tests",
+        "context.review-lifecycle",
+        "context.review-security",
+      ],
+    },
+    {
+      id: "fix.implementation-dogfood",
+      objective:
+        "Make canonical V12 dogfood operate on the exact release-correction implementation package and raw handoffs while preserving the existing synthetic API regression journey.",
+      weight: 6,
+      moduleId: "correction.implementation-dogfood",
+      action:
+        "Extend the deterministic dogfood harness to load the approval-bound release-correction package through public V12 operations, derive contracts from its manifest, record exact raw handoffs, serialize/restore/reinspect, preserve an immutable integration snapshot, and report every AC8 friction metric without claiming host effects.",
+      inputType: "VerifiedReleaseReviewFindings",
+      outputType: "ImplementationPackageDogfoodHarness",
+      capability: "fix.implementation-dogfood",
+      evidenceId: "evidence.implementation-dogfood",
+      evidenceDescription:
+        "Provide syntax and synthetic-regression evidence plus a finalization contract the integration owner can run only after the exact correction handoffs exist.",
+      artifact: "implementation-dogfood-correction.md",
+      writes: RELEASE_DOGFOOD_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.package",
+        "context.specialist-handoff",
+        "context.specialist-render",
+        "context.run-types",
+        "context.run-session",
+        "context.run-transition",
+        "context.run-inspection",
+        "context.ide-guide",
+        "context.modules-readme",
+        "context.readme",
+        "context.verification-package",
+        "context.verification-approval",
+        "context.verification-handoff-a",
+        "context.verification-handoff-b",
+        "context.verification-report",
+        "context.review-product",
+        "context.review-security",
+      ],
+    },
+    {
+      id: "fix.release-evidence",
+      objective:
+        "Create the immutable candidate-bound canonical-gate receipt and second release-review harness with source snapshots and complete primary evidence.",
+      weight: 6,
+      moduleId: "correction.release-evidence",
+      action:
+        "Add a local gate wrapper that preserves exact stdout/stderr bytes and a closed candidate receipt; revise the next review harness to bind an immutable pre-integration review snapshot, raw V12 handoffs, Audit-B approval bytes, gate log and receipt, and all exact reviewer sources before compilation and approval.",
+      inputType: "VerifiedReleaseReviewFindings",
+      outputType: "ImmutableReleaseEvidenceHarness",
+      capability: "fix.release-evidence",
+      evidenceId: "evidence.release-evidence",
+      evidenceDescription:
+        "Provide script syntax, closed receipt validation, immutable snapshot behavior, primary-source context coverage, and no-summary-only release claim evidence.",
+      artifact: "release-evidence-correction.md",
+      writes: RELEASE_EVIDENCE_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.package",
+        "context.review-harness",
+        "context.review-handoff-verifier",
+        "context.review-product",
+        "context.review-lifecycle",
+        "context.review-security",
+        "context.review-verification",
+        "context.verification-handoff-a",
+        "context.verification-handoff-b",
+        "context.verification-report",
+        "context.v11-audit-approval",
+      ],
+    },
+  ],
+};
+
+CONFIGS["release-correction-r2"] = {
+  objective:
+    "Complete the remaining V12 runtime-purity and evidence-ordering correction after a verified upstream resource change invalidated the original source-bound specialist contract.",
+  goalPhase: "release-correction",
+  goalRevision: 2,
+  maxAgents: 1,
+  maxConcurrency: 1,
+  processScopes: ["node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  assumptions: [
+    {
+      id: "assumption.source-bound-replan",
+      statement:
+        "The original runtime-purity specialist contract is retired and must not launch because verified upstream work changed its bound run contract and constants sources.",
+      rationale:
+        "A source-bound contract cannot authenticate or safely act on bytes that differ from its approved package; revision 2 recompiles the remaining work against the exact integrated sources.",
+    },
+  ],
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.specialist-handoff",
+    "context.specialist-render",
+    "context.canonical-json",
+    "context.json-parser",
+    "context.snapshot",
+    "context.privacy",
+    "context.text",
+    "context.model",
+    "context.constants",
+    "context.diagnostics",
+    "context.run-types",
+    "context.run-schema-code",
+    "context.run-schema-json",
+    "context.run-session",
+    "context.run-transition",
+    "context.run-inspection",
+    "context.foundation-tests",
+    "context.transition-tests",
+    "context.inspection-tests",
+    "context.review-lifecycle",
+    "context.review-security",
+    "context.release-correction-package",
+    "context.release-correction-approval",
+    "context.release-correction-aggregate-handoff",
+    "context.retired-runtime-contract",
+  ],
+  workUnits: [
+    {
+      id: "fix.runtime-purity-ordering.r2",
+      objective:
+        "Remove first-use filesystem schema loading from all four run operations, order accepted evidence by requirement identity, and lock both corrections with causal tests against the integrated resource limits.",
+      weight: 8,
+      moduleId: "correction.runtime-purity-ordering",
+      action:
+        "Authenticate the retired contract and upstream PASS evidence, then bundle immutable package-owned schema data into TypeScript without changing the exported schema subpath; compose it with the existing strict Ajv validator, add a fresh-process no-filesystem-read proof for create/restore/inspect/record, sort evidence by requirementId before the complete tuple, and add counterordered IDs.",
+      inputType: "VerifiedSourceBoundReplan",
+      outputType: "PureOrderedRunOperations",
+      capability: "fix.runtime-purity-ordering",
+      evidenceId: "evidence.runtime-purity-ordering.r2",
+      evidenceDescription:
+        "Provide retired-contract authentication, exact source parity, no-filesystem-effect, counterordered identity, focused test, typecheck, and build evidence.",
+      artifact: "runtime-purity-ordering-correction-r2.md",
+      writes: RELEASE_PURITY_WRITES,
+    },
+  ],
+};
+
 function digest(bytes) {
   return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
 }
@@ -753,6 +1134,7 @@ function requestFor(config, contextSources) {
               },
             ]
           : []),
+        ...(config.assumptions ?? []),
       ],
       unresolvedDecisions: [],
       acceptanceCriteria: config.workUnits.map((workUnit) => ({

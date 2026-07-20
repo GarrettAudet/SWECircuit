@@ -269,6 +269,29 @@ function rawHandoff(fixture, unitId, outcome = "pass") {
   return encoder.encode(JSON.stringify(handoffFor(fixture, unitId, outcome)));
 }
 
+function maximumRawHandoff(fixture, unitId) {
+  const handoff = handoffFor(fixture, unitId);
+  for (const artifact of handoff.artifacts) {
+    artifact.content = "x";
+  }
+  let padding =
+    SPECIALIST_RUN_LIMITS.rawHandoffBytes - encoder.encode(JSON.stringify(handoff)).byteLength;
+  assert.ok(padding >= 0, `${unitId} exceeds the raw handoff boundary before padding`);
+  for (const artifact of handoff.artifacts) {
+    const addition = Math.min(SPECIALIST_LIMITS.textBytes - artifact.content.length, padding);
+    artifact.content += "x".repeat(addition);
+    padding -= addition;
+  }
+  assert.equal(padding, 0, `${unitId} artifacts could not reach the raw handoff boundary`);
+  const raw = encoder.encode(JSON.stringify(handoff));
+  assert.equal(raw.byteLength, SPECIALIST_RUN_LIMITS.rawHandoffBytes);
+  return raw;
+}
+
+function jsonByteLength(value) {
+  return Buffer.byteLength(JSON.stringify(value));
+}
+
 function dependencyClosure(definitions, targetId) {
   const byId = new Map(definitions.map((definition) => [definition.id, definition]));
   const pending = [...byId.get(targetId).dependencies];
@@ -922,6 +945,141 @@ test("handoff attacks, transition precedence, replay, and every non-pass route a
   }
 });
 
+test("the 16-agent maximum-handoff aggregate converges below conservative run safeguards", () => {
+  const definitions = Array.from({ length: SPECIALIST_RUN_LIMITS.acceptedHandoffs }, (_, index) => {
+    const unit = String(index + 1).padStart(2, "0");
+    return {
+      id: `unit.aggregate.${unit}`,
+      dependencies: [],
+      handoffArtifacts: Array.from(
+        { length: 65 },
+        (_, artifactIndex) =>
+          `artifact.aggregate.${unit}.${String(artifactIndex + 1).padStart(3, "0")}.md`,
+      ),
+    };
+  });
+  const fixture = makeFixture(definitions, "aggregate-boundary");
+  assert.equal(fixture.compilation.blueprints.length, SPECIALIST_LIMITS.agents);
+  assertOk(
+    verifySpecialistPackage(fixture.specialistPackage, fixture.expectation),
+    "16-agent aggregate package verification",
+  );
+
+  const initialInspection = assertOk(
+    inspectSpecialistRunSession(fixture.initialSession, fixture.expectation),
+    "16-agent initial inspection",
+  );
+  assert.equal(
+    initialInspection.dependencyEligibleContracts.length,
+    SPECIALIST_RUN_LIMITS.acceptedHandoffs,
+  );
+
+  const rawByUnit = new Map(
+    definitions.map((definition) => [
+      definition.id,
+      maximumRawHandoff(fixture, definition.id),
+    ]),
+  );
+  for (const [unitId, raw] of rawByUnit) {
+    assertOk(
+      verifySpecialistHandoff(fixture.specialistPackage, fixture.expectation, raw),
+      `${unitId} maximum handoff verification`,
+    );
+  }
+
+  const recordAll = (order, label) => {
+    let session = fixture.initialSession;
+    for (const unitId of order) {
+      session = assertOk(
+        recordSpecialistRunHandoff(session, fixture.expectation, rawByUnit.get(unitId)),
+        `${label} record ${unitId}`,
+      );
+    }
+    return session;
+  };
+  const forwardOrder = definitions.map((definition) => definition.id);
+  const reverseOrder = [...forwardOrder].reverse();
+  const forward = recordAll(forwardOrder, "forward aggregate");
+  const reverse = recordAll(reverseOrder, "reverse aggregate");
+  assert.deepEqual(reverse, forward, "independent maximum-handoff arrivals diverged");
+  assert.equal(forward.acceptedHandoffs.length, SPECIALIST_RUN_LIMITS.acceptedHandoffs);
+  assert.equal(
+    forward.acceptedHandoffs.every(
+      (row) =>
+        row.rawBytes === SPECIALIST_RUN_LIMITS.rawHandoffBytes &&
+        row.rawBase64.length === SPECIALIST_RUN_LIMITS.rawHandoffBase64Chars,
+    ),
+    true,
+  );
+
+  const restored = assertOk(
+    restoreSpecialistRunSession(encoder.encode(JSON.stringify(forward)), fixture.expectation),
+    "16-agent maximum-handoff restore",
+  );
+  assert.deepEqual(restored, forward);
+  const forwardInspection = assertOk(
+    inspectSpecialistRunSession(forward, fixture.expectation),
+    "16-agent maximum-handoff inspection",
+  );
+  const reverseInspection = assertOk(
+    inspectSpecialistRunSession(reverse, fixture.expectation),
+    "reverse maximum-handoff inspection",
+  );
+  const restoredInspection = assertOk(
+    inspectSpecialistRunSession(restored, fixture.expectation),
+    "restored maximum-handoff inspection",
+  );
+  assert.deepEqual(reverseInspection, forwardInspection);
+  assert.deepEqual(restoredInspection, forwardInspection);
+  assert.equal(forwardInspection.stage, "integration_ready");
+  assert.equal(forwardInspection.integrationReady, true);
+  assert.equal(
+    forwardInspection.acceptedEvidence.length,
+    SPECIALIST_RUN_LIMITS.acceptedHandoffs,
+  );
+
+  // The V11 verifier bounds the complete package envelope at eight output budgets.
+  const packageEnvelopeCeiling = SPECIALIST_LIMITS.outputBytes * 8;
+  assert.ok(jsonByteLength(fixture.specialistPackage) <= packageEnvelopeCeiling);
+  const acceptedRowsAtCeiling = jsonByteLength(forward.acceptedHandoffs);
+  const sessionRootReserve =
+    SPECIALIST_LIMITS.textBytes + 2 * SPECIALIST_LIMITS.identifierBytes + 4_096;
+  const sessionConstituentCeiling =
+    packageEnvelopeCeiling + acceptedRowsAtCeiling + sessionRootReserve;
+  assert.ok(jsonByteLength(forward) <= sessionConstituentCeiling);
+  assert.ok(
+    sessionConstituentCeiling < SPECIALIST_RUN_LIMITS.rawSessionInputBytes,
+    "the maximum canonical session must fit the raw restore boundary",
+  );
+  assert.ok(
+    sessionConstituentCeiling < SPECIALIST_RUN_LIMITS.canonicalSessionBytes,
+    `${sessionConstituentCeiling} must remain below the session safeguard`,
+  );
+
+  // Inspection replaces artifact content with bindings. The only possible growth over each
+  // raw handoff is bounded binding metadata, while eligible contract content is already inside
+  // the package envelope ceiling. This deliberately counts both maxima at once.
+  const acceptedEvidenceCeiling =
+    SPECIALIST_RUN_LIMITS.acceptedHandoffs *
+    (SPECIALIST_RUN_LIMITS.rawHandoffBytes +
+      SPECIALIST_LIMITS.handoffArtifacts * 128 +
+      1_024);
+  const statusAndRootReserve =
+    SPECIALIST_RUN_LIMITS.acceptedHandoffs *
+      (SPECIALIST_RUN_LIMITS.acceptedHandoffs * ("agent.".length + 64 + 3) * 2 + 4_096) +
+    SPECIALIST_RUN_LIMITS.acceptedHandoffs * 512 +
+    SPECIALIST_LIMITS.textBytes +
+    65_536;
+  const inspectionConstituentCeiling =
+    packageEnvelopeCeiling + acceptedEvidenceCeiling + statusAndRootReserve;
+  assert.ok(jsonByteLength(initialInspection) <= inspectionConstituentCeiling);
+  assert.ok(jsonByteLength(forwardInspection) <= inspectionConstituentCeiling);
+  assert.ok(
+    inspectionConstituentCeiling < SPECIALIST_RUN_LIMITS.canonicalInspectionBytes,
+    `${inspectionConstituentCeiling} must remain below the inspection safeguard`,
+  );
+});
+
 test("raw handoff and run input boundaries reject one-unit excess without truncation", () => {
   const fixture = makeFixture(
     [
@@ -937,22 +1095,7 @@ test("raw handoff and run input boundaries reject one-unit excess without trunca
     ],
     "boundary",
   );
-  const maximumHandoff = handoffFor(fixture, "unit.a");
-  for (const artifact of maximumHandoff.artifacts) {
-    artifact.content = "x";
-  }
-  let padding =
-    SPECIALIST_RUN_LIMITS.rawHandoffBytes -
-    encoder.encode(JSON.stringify(maximumHandoff)).byteLength;
-  assert.ok(padding > 0);
-  for (const artifact of maximumHandoff.artifacts) {
-    const addition = Math.min(SPECIALIST_LIMITS.textBytes - artifact.content.length, padding);
-    artifact.content += "x".repeat(addition);
-    padding -= addition;
-  }
-  assert.equal(padding, 0, "declared artifacts could not reach the raw handoff boundary");
-  const exactRaw = encoder.encode(JSON.stringify(maximumHandoff));
-  assert.equal(exactRaw.byteLength, SPECIALIST_RUN_LIMITS.rawHandoffBytes);
+  const exactRaw = maximumRawHandoff(fixture, "unit.a");
 
   assertOk(
     verifySpecialistHandoff(fixture.specialistPackage, fixture.expectation, exactRaw),
@@ -974,6 +1117,15 @@ test("raw handoff and run input boundaries reject one-unit excess without trunca
   assertOk(
     restoreSpecialistRunSession(encoder.encode(JSON.stringify(recorded)), fixture.expectation),
     "session with maximum raw handoff",
+  );
+
+  const canonicalRawSession = encoder.encode(JSON.stringify(fixture.initialSession));
+  const atLimitRawSession = new Uint8Array(SPECIALIST_RUN_LIMITS.rawSessionInputBytes);
+  atLimitRawSession.set(canonicalRawSession);
+  atLimitRawSession.fill(0x20, canonicalRawSession.byteLength);
+  assertOk(
+    restoreSpecialistRunSession(atLimitRawSession, fixture.expectation),
+    "raw session at exact input boundary",
   );
 
   const oneByteOverHandoff = new Uint8Array(SPECIALIST_RUN_LIMITS.rawHandoffBytes + 1);

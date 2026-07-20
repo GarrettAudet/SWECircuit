@@ -10,7 +10,7 @@ export const SPECIALIST_RUN_KINDS = Object.freeze([
 ] as const);
 
 export const SPECIALIST_RUN_LIMITS = Object.freeze({
-  rawSessionInputBytes: 134_217_728,
+  rawSessionInputBytes: 67_108_864,
   canonicalSessionBytes: 134_217_728,
   acceptedHandoffs: 16,
   rawHandoffBytes: 1_048_576,

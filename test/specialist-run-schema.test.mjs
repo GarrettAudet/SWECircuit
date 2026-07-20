@@ -177,7 +177,7 @@ test("public run constants, operations, schema export, and V11 compatibility are
   assert.equal(SPECIALIST_RUN_API_VERSION, "swecircuit/specialist-run/v1alpha1");
   assert.deepEqual([...SPECIALIST_RUN_KINDS], ["SpecialistRunSession", "SpecialistRunInspection"]);
   assert.deepEqual(SPECIALIST_RUN_LIMITS, {
-    rawSessionInputBytes: 134_217_728,
+    rawSessionInputBytes: 67_108_864,
     canonicalSessionBytes: 134_217_728,
     acceptedHandoffs: 16,
     rawHandoffBytes: 1_048_576,

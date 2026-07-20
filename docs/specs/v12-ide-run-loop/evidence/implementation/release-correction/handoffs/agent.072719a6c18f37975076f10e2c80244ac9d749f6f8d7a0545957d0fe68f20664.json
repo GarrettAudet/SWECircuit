@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 1,
+    "digest": "sha256:1bea0e225945a75a3afad84d628ef7b761d4985840c15c3d82a667e55bdd8388"
+  },
+  "agent": {
+    "id": "agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664",
+    "blueprintDigest": "sha256:a1bd224f72e44059217e2df9379f2201b348d52cb7cf6dc5796e85e08db3aef6"
+  },
+  "compilationDigest": "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+  "summary": "Created the candidate-bound canonical-gate wrapper and immutable R2 release-review preparation, approval, and raw-handoff verification harnesses within the exact write scope.",
+  "workUnitsCompleted": [
+    "fix.release-evidence"
+  ],
+  "artifacts": [
+    {
+      "name": "release-evidence-correction.md",
+      "mediaType": "text/markdown",
+      "content": "# Release Evidence Correction\n\n## Identity\n\nAll 15 declared sources matched their exact byte counts and raw SHA-256 bindings before use and again after implementation. The generated contract matched the verified package envelope bytes. `verifySpecialistPackage` passed before editing and after final verification for compilation `sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2` and package `sha256:0243a0cea075424c7c919a6af876b4f023f9e635234cf6ec07a0d7cb9543bf6c`.\n\n## Outputs\n\n- `scripts/run-v12-release-gate.mjs`: 6149 bytes, `sha256:70c80d5c3c51e8abc566b26c12b1649675d2fc49268367b13383d0eaf0a0a301`.\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`: 45984 bytes, `sha256:34011532653b096f470d3aba9ccb91c587cdfcf301a8c53e1bec20460cd138ed`.\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs`: 4483 bytes, `sha256:9b40e420b3330e810d92fee2d0afe5ab3b22700bf1e4bba4ce16cc7dd61df368`.\n\nThe gate wrapper refuses an inexact or dirty candidate, writes stdout and stderr once as exact raw bytes, records their byte counts and SHA-256 digests, checks pre-gate and post-gate HEAD and tracked cleanliness, and writes a closed canonical receipt without time or summary-only assertions.\n\nThe R2 harness validates the receipt's exact closed shape and raw log bindings. It authenticates every reviewer source against the candidate Git blob, creates write-once immutable snapshots, preserves a dedicated pre-integration review snapshot, and revalidates every byte before compilation and approval. Direct contexts include the gate receipt and logs, raw V12 verification handoffs, raw first-review findings, Audit-B approval bytes, correction and verification package approvals, verification reports, and every report-selected raw handoff. Preserved extra attempts remain snapshotted but cannot replace the explicitly selected and independently reverified handoffs.\n\nThe R2 handoff verifier first verifies the owner-approved package, accepts only safe relative handoff paths, verifies every exact raw reviewer handoff, enforces complete unique roster coverage, and keeps verified non-pass outcomes from authorizing release.\n\n## Focused Verification\n\n- `node --check` passed for all three scripts.\n- Offline Biome checks through stdin passed with output byte-identical to each source file.\n- All three outputs are strict UTF-8 without BOM, CR, or TAB bytes.\n- Final approved-package verification passed with the exact owner digest pair.\n- The canonical candidate gate and R2 prepare, compile, approve, and review stages were intentionally not run because correction integration and its final candidate commit do not yet exist.\n\n## Preserved Failures\n\nTwo early PowerShell existence probes failed before mutation with an empty-pipe parser error and were corrected. A direct Biome path check failed because repository configuration ignored all three new paths; strict stdin byte comparisons then passed. Native `apply_patch` later failed before mutation with the known Windows sandbox refresh error. The first exact SHA-256-precondition-guarded PowerShell fallback was denied before mutation and the unchanged hash was confirmed. The same guarded fallback succeeded with approved sandbox escalation, after which syntax, formatting, encoding, byte count, and digest checks passed.\n\n## Boundary\n\nOnly the three declared files were written. No Git state was changed, no network was used, no agents were launched, and no runtime or provider layer was added."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.release-evidence",
+      "requirementId": "evidence.release-evidence",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "release-evidence-correction.md"
+    }
+  ],
+  "assumptions": [
+    "The integration owner will commit the complete corrected candidate and its verified correction handoffs before invoking the release-gate wrapper.",
+    "A subsequent review revision will be used instead of overwriting immutable R2 evidence if the corrected candidate or selected handoffs change."
+  ],
+  "risks": [
+    "End-to-end gate receipt production and R2 package compilation remain unexecuted until correction integration supplies the exact clean candidate and complete pass handoffs."
+  ],
+  "followUps": [
+    "After correction integration, run `node scripts/run-v12-release-gate.mjs <candidate-commit>` against the exact clean committed candidate.",
+    "Run the R2 harness through prepare, compile, owner approval, independent reviews, and exact raw handoff verification without mutating the preserved evidence."
+  ]
+}
