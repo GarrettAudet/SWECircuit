@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -27,12 +27,8 @@ const CANDIDATE_MANIFEST =
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/candidate.json";
 const PRE_INTEGRATION_REVIEW =
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/pre-integration-review.md";
-const GATE_RECEIPT =
-  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json";
-const GATE_STDOUT =
-  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log";
-const GATE_STDERR =
-  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log";
+const GATE_EVIDENCE_ROOT =
+  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates";
 const V11_LAUNCH_AUTHORIZATION =
   "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json";
 const V11_HANDOFF_ROOT =
@@ -63,6 +59,14 @@ const AGENTS = Object.freeze({
     "agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5",
   correctionR5ReleaseEvidence:
     "agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73",
+  correctionR6Gate:
+    "agent.4a4cca8bce6a03e1f36dfd28b9505ff33920a045636f8715b10110fdbd408985",
+  correctionR6Consumer:
+    "agent.9579818ca2843121c26d1c38b48b0f78421bcba0ed39783ced3bfd842a45904e",
+  correctionR7EvidenceRetention:
+    "agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c",
+  correctionR8ByteIntegrity:
+    "agent.bfd8eac4d28210315485602103cca93bb3b7a534be1ddcd493b9ff8bea94921d",
   verification:
     "agent.96f004a9e6e206746893d3c06b2068f94f0d918574adcaf935bd1ac50ab3f5f4",
   verificationDogfood:
@@ -223,6 +227,72 @@ const PRIMARY_EVIDENCE_SPECS = Object.freeze([
     handoffs: [
       expectedHandoff(AGENTS.correctionR5Dogfood, "pass"),
       expectedHandoff(AGENTS.correctionR5ReleaseEvidence, "pass"),
+    ],
+    complete: true,
+    ready: true,
+  }),
+  evidenceSpec({
+    id: "release-correction-r6",
+    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6",
+    goalRevision: 6,
+    expectation: [
+      "sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998",
+      "sha256:5acb302e44bb08f8626fb3773ba27acf5af5ae3f3d09d95beea1f2538a46826a",
+    ],
+    packageAgentIds: [AGENTS.correctionR6Gate, AGENTS.correctionR6Consumer],
+    handoffs: [
+      expectedHandoff(
+        AGENTS.correctionR6Gate,
+        "pass",
+        5061,
+        "sha256:3c95ca87255613bdcb96f0a894a03ce012c4d5662a3379230c07166e56fcf33b",
+      ),
+      expectedHandoff(
+        AGENTS.correctionR6Consumer,
+        "pass",
+        5291,
+        "sha256:939099add2852e3dfe14b307fc55e46c89b56a1dd0c735d15bf35e82f99a5a68",
+      ),
+    ],
+    complete: true,
+    ready: true,
+  }),
+  evidenceSpec({
+    id: "release-correction-r7",
+    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7",
+    goalRevision: 7,
+    expectation: [
+      "sha256:e7f6a2d27f613ea1a898b781584039dff8704d88a940965814d45b04a5537920",
+      "sha256:df3ed49a4d38fdbac275b82036dc4354d6b76bac3b2fa97dfbd385c3fdad85b8",
+    ],
+    packageAgentIds: [AGENTS.correctionR7EvidenceRetention],
+    handoffs: [
+      expectedHandoff(
+        AGENTS.correctionR7EvidenceRetention,
+        "pass",
+        5812,
+        "sha256:1432e2c7a6f7384583d5dc27e155a7148621f6f4cbddd17c3b6bd18dd3991a32",
+      ),
+    ],
+    complete: true,
+    ready: true,
+  }),
+  evidenceSpec({
+    id: "release-correction-r8",
+    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8",
+    goalRevision: 8,
+    expectation: [
+      "sha256:526cb3c687c60ebc99fc1856b2d3ef7b017dfd14fd9772711669d59d34b18fef",
+      "sha256:d655468c5e37171d5ef83af2299bf08291029e9c08751ef056c2d655f24cfb1d",
+    ],
+    packageAgentIds: [AGENTS.correctionR8ByteIntegrity],
+    handoffs: [
+      expectedHandoff(
+        AGENTS.correctionR8ByteIntegrity,
+        "pass",
+        8035,
+        "sha256:624577edaed5b154f3c4e90daff0dd06f17187c1fa4aa4128e75eb5914bb3df1",
+      ),
     ],
     complete: true,
     ready: true,
@@ -641,6 +711,24 @@ const STATIC_SOURCES = [
     "Exact raw first security/trace review finding.",
     ALL_REVIEWS,
   ),
+  source(
+    "context.canonical-gate-attempt-1-receipt",
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+    "Immutable failed canonical-gate receipt for retired candidate 989e6ea.",
+    ALL_REVIEWS,
+  ),
+  source(
+    "context.canonical-gate-attempt-1-stdout",
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+    "Exact raw stdout from retired candidate 989e6ea's failed canonical gate.",
+    ALL_REVIEWS,
+  ),
+  source(
+    "context.canonical-gate-attempt-1-stderr",
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+    "Exact raw stderr from retired candidate 989e6ea's failed canonical gate.",
+    ALL_REVIEWS,
+  ),
 ];
 
 const DYNAMIC_ROOTS = [
@@ -649,7 +737,7 @@ const DYNAMIC_ROOTS = [
     description: "Exact V12 release-correction package, handoffs, and primary evidence.",
     allowedWorkUnits: ALL_REVIEWS,
   },
-  ...[2, 3, 4, 5].map((revision) => ({
+  ...[2, 3, 4, 5, 6, 7, 8].map((revision) => ({
     path: `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r${revision}`,
     description: `Exact V12 release-correction revision ${revision} package, handoffs, replans, and primary evidence.`,
     allowedWorkUnits: ALL_REVIEWS,
@@ -683,6 +771,19 @@ function requireCondition(condition, message) {
   if (!condition) {
     throw new Error(message);
   }
+}
+
+function gateEvidencePaths(candidate) {
+  requireCondition(
+    typeof candidate === "string" && CANDIDATE_PATTERN.test(candidate),
+    "Candidate commit must be an exact 40-character lowercase commit ID.",
+  );
+  const root = `${GATE_EVIDENCE_ROOT}/${candidate}`;
+  return Object.freeze({
+    receipt: `${root}/canonical-gate-receipt.json`,
+    stdout: `${root}/canonical-gate.stdout.log`,
+    stderr: `${root}/canonical-gate.stderr.log`,
+  });
 }
 
 function requireValue(result, stage) {
@@ -846,6 +947,68 @@ function gitOutput(args) {
   });
 }
 
+function inspectEvidenceAttributes(path) {
+  const fields = Buffer.from(
+    gitOutput(["check-attr", "-z", "text", "diff", "merge", "--", path]),
+  )
+    .toString("utf8")
+    .split("\0");
+  requireCondition(
+    fields.length === 10 && fields.at(-1) === "",
+    `Git returned malformed attributes for required canonical-gate evidence: ${path}.`,
+  );
+  const attributes = {};
+  for (let index = 0; index < fields.length - 1; index += 3) {
+    requireCondition(
+      fields[index] === path &&
+        ["text", "diff", "merge"].includes(fields[index + 1]) &&
+        attributes[fields[index + 1]] === undefined,
+      `Git returned unexpected attributes for required canonical-gate evidence: ${path}.`,
+    );
+    attributes[fields[index + 1]] = fields[index + 2];
+  }
+  return attributes;
+}
+
+function requireBytePreservingEvidencePaths(paths) {
+  for (const path of [paths.stdout, paths.stderr]) {
+    const attributes = inspectEvidenceAttributes(path);
+    requireCondition(
+      attributes.text === "unset" && attributes.diff === "unset" && attributes.merge === "unset",
+      `Required canonical-gate raw evidence is not binary in Git: ${path}.`,
+    );
+  }
+
+  const receiptAttributes = inspectEvidenceAttributes(paths.receipt);
+  requireCondition(
+    receiptAttributes.text === "auto" &&
+      receiptAttributes.diff === "unspecified" &&
+      receiptAttributes.merge === "unspecified",
+    `Required canonical-gate receipt does not retain normal text policy in Git: ${paths.receipt}.`,
+  );
+}
+
+function requireVersionableEvidencePaths(paths) {
+  for (const path of Object.values(paths)) {
+    const result = spawnSync("git", ["check-ignore", "--quiet", "--no-index", "--", path], {
+      cwd: ROOT,
+      encoding: null,
+      maxBuffer: 134_217_728,
+    });
+    if (result.error) {
+      throw result.error;
+    }
+    requireCondition(
+      result.status === 0 || result.status === 1,
+      `Unable to inspect Git ignore policy for required canonical-gate evidence: ${path}.`,
+    );
+    requireCondition(
+      result.status === 1,
+      `Required canonical-gate evidence is ignored by Git: ${path}.`,
+    );
+  }
+}
+
 async function verifyCheckpoint(candidate, sources) {
   const head = Buffer.from(gitOutput(["rev-parse", "HEAD"])).toString("ascii").trim();
   requireCondition(head === candidate, `Candidate checkpoint mismatch: HEAD is ${head}.`);
@@ -892,7 +1055,10 @@ async function validateBoundFile(value, expectedPath, label) {
 }
 
 async function validateGateReceipt(candidate) {
-  const parsed = await readCanonicalJson(GATE_RECEIPT);
+  const paths = gateEvidencePaths(candidate);
+  requireVersionableEvidencePaths(paths);
+  requireBytePreservingEvidencePaths(paths);
+  const parsed = await readCanonicalJson(paths.receipt);
   const receipt = parsed.value;
   assertExactKeys(
     receipt,
@@ -960,12 +1126,13 @@ async function validateGateReceipt(candidate) {
       receipt.spawnError === null,
     "Canonical gate did not pass cleanly.",
   );
-  await validateBoundFile(receipt.stdout, GATE_STDOUT, "canonical-gate stdout");
-  await validateBoundFile(receipt.stderr, GATE_STDERR, "canonical-gate stderr");
+  await validateBoundFile(receipt.stdout, paths.stdout, "canonical-gate stdout");
+  await validateBoundFile(receipt.stderr, paths.stderr, "canonical-gate stderr");
   return {
+    paths,
     receipt,
     receiptBinding: {
-      path: GATE_RECEIPT,
+      path: paths.receipt,
       mediaType: "application/json",
       bytes: parsed.bytes.byteLength,
       digest: digest(parsed.bytes),
@@ -1161,9 +1328,9 @@ async function verifyCorrectionLineage(evidenceSets) {
     .filter((entry) => entry.id.startsWith("release-correction-r"))
     .sort((left, right) => left.goalRevision - right.goalRevision);
   requireCondition(
-    correctionSets.length === 5 &&
+    correctionSets.length === 8 &&
       correctionSets.every((entry, index) => entry.goalRevision === index + 1),
-    "Correction evidence does not contain the exact revision-1 through revision-5 chain.",
+    "Correction evidence does not contain the exact revision-1 through revision-8 chain.",
   );
 
   const byRevision = new Map(
@@ -1334,14 +1501,14 @@ function reviewedSourceByPath(rows, path) {
   return row;
 }
 
-function assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLineage) {
+function assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLineage, gatePaths) {
   const scopes = new Set(contextSources.map((entry) => entry.readScope));
   for (const path of [
     CANDIDATE_MANIFEST,
     PRE_INTEGRATION_REVIEW,
-    GATE_RECEIPT,
-    GATE_STDOUT,
-    GATE_STDERR,
+    gatePaths.receipt,
+    gatePaths.stdout,
+    gatePaths.stderr,
   ]) {
     requireCondition(scopes.has(path), `Missing direct release context: ${path}.`);
   }
@@ -1524,7 +1691,7 @@ function requestFor(contextSources, candidate) {
   };
 }
 
-async function preparedContexts(rows, candidateManifest) {
+async function preparedContexts(rows, candidateManifest, gatePaths) {
   const contexts = rows.map(contextSource);
   contexts.push(
     await directContext(
@@ -1535,19 +1702,19 @@ async function preparedContexts(rows, candidateManifest) {
     ),
     await directContext(
       "context.canonical-gate-receipt",
-      GATE_RECEIPT,
+      gatePaths.receipt,
       "Closed exact-candidate canonical-gate receipt.",
       ALL_REVIEWS,
     ),
     await directContext(
       "context.canonical-gate-stdout",
-      GATE_STDOUT,
+      gatePaths.stdout,
       "Exact raw canonical-gate stdout bytes.",
       ALL_REVIEWS,
     ),
     await directContext(
       "context.canonical-gate-stderr",
-      GATE_STDERR,
+      gatePaths.stderr,
       "Exact raw canonical-gate stderr bytes.",
       ALL_REVIEWS,
     ),
@@ -1598,8 +1765,8 @@ async function prepare() {
     reviewedSources: rows,
   };
   await writeImmutableJson(CANDIDATE_MANIFEST, candidateManifest);
-  const contextSources = await preparedContexts(rows, candidateManifest);
-  assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLineage);
+  const contextSources = await preparedContexts(rows, candidateManifest, gate.paths);
+  assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLineage, gate.paths);
   const request = requestFor(contextSources, checkpoint);
   await writeImmutableJson(
     "docs/specs/v12-ide-run-loop/evidence/release-review-r2/request.json",
@@ -1741,6 +1908,7 @@ async function validatePreparedInputs() {
     manifest.reviewedSources,
     evidenceSets,
     correctionLineage,
+    gate.paths,
   );
   return { manifest, request };
 }
@@ -1856,6 +2024,11 @@ async function main() {
     await compile();
   } else if (mode === "approve") {
     await approve();
+  } else if (mode === "paths") {
+    const paths = gateEvidencePaths(checkpoint);
+    requireVersionableEvidencePaths(paths);
+    requireBytePreservingEvidencePaths(paths);
+    process.stdout.write(`${JSON.stringify({ candidateCommit: checkpoint, ...paths }, null, 2)}\n`);
   } else {
     throw new Error(`Unknown mode: ${mode}.`);
   }

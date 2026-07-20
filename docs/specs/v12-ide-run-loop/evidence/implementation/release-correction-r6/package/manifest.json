@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v12.ide-run-loop.implementation.release-correction",
+  "goalRevision": 6,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998",
+  "selectedCandidateId": "team.3004c1655868f13cabb8822f3740579a38e3367a8d81708211e06032135c1b60",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.4a4cca8bce6a03e1f36dfd28b9505ff33920a045636f8715b10110fdbd408985",
+        "agent.9579818ca2843121c26d1c38b48b0f78421bcba0ed39783ced3bfd842a45904e"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:b77736c6c9728d69409e23fc988ad35c603097a8e34842331142a49480ef47ba",
+  "compilationFileBytes": 92672,
+  "agents": [
+    {
+      "agentId": "agent.4a4cca8bce6a03e1f36dfd28b9505ff33920a045636f8715b10110fdbd408985",
+      "blueprintDigest": "sha256:b0bd0dd466b28e97da45a52154df49a867d9a6146d1aecce7d33bfaade10bbc2",
+      "contractFile": "agents/agent.4a4cca8bce6a03e1f36dfd28b9505ff33920a045636f8715b10110fdbd408985.md",
+      "contractDigest": "sha256:e3882456b2c136018e996192f40b6e3ece14825e4fde3c61b135beaa89408fe3",
+      "contractBytes": 21064
+    },
+    {
+      "agentId": "agent.9579818ca2843121c26d1c38b48b0f78421bcba0ed39783ced3bfd842a45904e",
+      "blueprintDigest": "sha256:34e03e0a7ae677492b76b42096c7583c5999b609d24fe7230bf014b944429731",
+      "contractFile": "agents/agent.9579818ca2843121c26d1c38b48b0f78421bcba0ed39783ced3bfd842a45904e.md",
+      "contractDigest": "sha256:90e307f8e30b98b3ad57d5b4ddf248bbb4e218beaef1b5d3a740199357cadbbb",
+      "contractBytes": 19036
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:d02cf71b01168fdae50c7e8254a5f23757166976eee8628ea0b90db1c655149c",
+  "integrationBytes": 5025,
+  "contentDigest": "sha256:becb247dd4cd92bc6be84bb2df32769c41bd6cbc72b0a75e2540b47eaccb4302"
+}

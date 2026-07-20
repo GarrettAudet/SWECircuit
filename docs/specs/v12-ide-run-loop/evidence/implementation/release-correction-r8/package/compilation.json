@@ -1,0 +1,1265 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 8,
+    "objective": "Make canonical-gate raw stdout and stderr byte-preserving across Git staging and checkout, and make both gate consumers reject ambiguous text attributes.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.architecture-frozen",
+        "statement": "ADR 0005 and the Specialist Run contract are the complete implementation authority.",
+        "rationale": "Architecture fan-in passed and no blocking decision remains."
+      },
+      {
+        "id": "assumption.host-edit-fallback",
+        "statement": "After native apply_patch fails before mutation, the host may perform an exact precondition-hash-guarded PowerShell write inside the approved scope.",
+        "rationale": "Foundation Revision 1 proved the temporary worktree patch helper is unavailable while bounded escalated PowerShell writes remain auditable and fail closed."
+      },
+      {
+        "id": "assumption.host-effects-external",
+        "statement": "All runtime, persistence, Git, merge, and memory effects remain external to core.",
+        "rationale": "V12 is a pure evidence session, not the deferred universal scheduler."
+      },
+      {
+        "id": "assumption.raw-evidence-needs-explicit-binary-policy",
+        "statement": "A matching local index blob is insufficient unless canonical raw logs are explicitly exempt from text normalization for every clone and platform.",
+        "rationale": "The repository applies text=auto and LF checkout globally, while Candidate 1 stderr contains mixed raw process output and triggers text whitespace diagnostics."
+      },
+      {
+        "id": "assumption.revision-seven-remains-source-evidence",
+        "statement": "Revision 7 remains a valid pass for ignore-policy retention, but Candidate 2 cannot freeze until byte-preserving Git attributes are independently enforced.",
+        "rationale": "Visibility and byte identity are distinct durable-evidence properties."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.fix.candidate-evidence-byte-integrity.r8",
+        "description": "Preserve canonical-gate stdout and stderr as exact raw bytes through Git staging, checkout, and R2 consumption.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.candidate-evidence-byte-integrity.r8",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Authenticate unchanged Candidate 1 bytes, prove exact binary attributes for legacy and synthetic candidate logs, prove unrelated logs and receipt JSON retain normal policy, prove worktree and staged raw bytes match receipt bindings, and provide fail-closed consumer, path-parity, syntax, format, and whitespace results.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.failed-gate-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+        "digest": "sha256:4c636e486f36c22b74f12fdd4b4470eb9056f63f64eca05058ae6923976bb15c",
+        "bytes": 1221,
+        "description": "Immutable candidate-1 canonical-gate failure receipt.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.failed-gate-stderr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+        "digest": "sha256:4381d1a9ce1c36beb8723eadfb3619288935b9d095de672c450121c23dc0dfad",
+        "bytes": 11763,
+        "description": "Exact raw candidate-1 canonical-gate stderr bytes.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log"
+      },
+      {
+        "id": "context.failed-gate-stdout",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+        "digest": "sha256:afb6b266dd504cbf89d2cb55b6f9c5c6872fd5636acef8848e2105257aecef12",
+        "bytes": 295768,
+        "description": "Exact raw candidate-1 canonical-gate stdout bytes.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log"
+      },
+      {
+        "id": "context.gitattributes",
+        "kind": "repository",
+        "locator": "path:.gitattributes",
+        "digest": "sha256:4b44dad78a39990f561a67e639a81058eaca0aee74f82c5d3ee682312e6673a3",
+        "bytes": 105,
+        "description": "Repository text and binary normalization policy for evidence byte preservation.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": ".gitattributes"
+      },
+      {
+        "id": "context.gitignore",
+        "kind": "repository",
+        "locator": "path:.gitignore",
+        "digest": "sha256:790a8c26a42342f3b5143df2e56b9c43145c2faa5758f443b63cb52b85d9b8a8",
+        "bytes": 732,
+        "description": "Repository ignore policy that currently suppresses canonical-gate raw log evidence.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": ".gitignore"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
+        "bytes": 2946,
+        "description": "Existing package scripts and export map.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-correction-r7-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json",
+        "digest": "sha256:a8074ac4e6a476a42817be111dccd8cca67b43d3d93067a9ff2460989da2fa5a",
+        "bytes": 641,
+        "description": "Exact owner approval for the revision-7 package.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json"
+      },
+      {
+        "id": "context.release-correction-r7-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json",
+        "digest": "sha256:1432e2c7a6f7384583d5dc27e155a7148621f6f4cbddd17c3b6bd18dd3991a32",
+        "bytes": 5812,
+        "description": "Exact revision-7 candidate-evidence retention PASS handoff.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json"
+      },
+      {
+        "id": "context.release-correction-r7-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json",
+        "digest": "sha256:9788872c5ee79402dea890f36f36291eaf27c8b46f3d4f9802651f8176a15f73",
+        "bytes": 98036,
+        "description": "Owner-approved revision-7 evidence-retention package.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json"
+      },
+      {
+        "id": "context.release-correction-r7-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
+        "digest": "sha256:091169f4ca7592f8deb2b84b9930b5eb04361d3ffea3dd767b62ebddb809e53e",
+        "bytes": 1306,
+        "description": "Complete revision-7 PASS handoff report.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:0d10ab5d7717ab0324b47c2002c2dc4e5718126bdcea496354fb38e0e198f5d9",
+        "bytes": 7631,
+        "description": "Current candidate-bound canonical gate wrapper.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-review-r2-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:ca0c5b3e2648a40824cf9f03843a2bfbc11d668ec0b08212994617d2e27fd512",
+        "bytes": 67996,
+        "description": "Current candidate-bound R2 release-review preparation and compilation harness.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-r2-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:e30bbf7548d6481935d14db57630e4e5bdaa9aff2df56337b957d07acc83d2aa",
+        "bytes": 6984,
+        "description": "Current exact R2 reviewer handoff verifier.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md",
+        "digest": "sha256:45db81d73288f31c6fff70092337b2ace8e38b476a0f11fafacff9c5e80462b8",
+        "bytes": 2744,
+        "description": "Frozen V12 verification obligations.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md"
+      },
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "correction.candidate-evidence-byte-integrity"
+      ],
+      "allowedCapabilities": [
+        "fix.candidate-evidence-byte-integrity"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            ".gitattributes",
+            ".gitignore",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            ".gitattributes",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "scripts/run-v12-release-gate.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.candidate-evidence-byte-integrity.r8",
+        "objective": "Preserve canonical-gate stdout and stderr as exact raw bytes through Git staging, checkout, and R2 consumption.",
+        "weight": 5,
+        "module": {
+          "id": "correction.candidate-evidence-byte-integrity",
+          "action": "Declare only legacy and candidate-addressed canonical gate logs binary in .gitattributes, then make the release wrapper and R2 preparation/revalidation fail closed unless Git reports text, diff, and merge unset for both raw paths while the receipt remains normal text.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "VersionableButAttributeAmbiguousGateEvidence"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "GitBytePreservingCandidateGateEvidence"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.candidate-evidence-byte-integrity"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.failed-gate-receipt",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.failed-gate-stderr",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.failed-gate-stdout",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.gitattributes",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.gitignore",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r7-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r7-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r7-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r7-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.release-gate",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.release-review-r2-harness",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.release-review-r2-verifier",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          },
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            ".gitattributes",
+            ".gitignore",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs"
+          ],
+          "write": [
+            ".gitattributes",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "scripts/run-v12-release-gate.mjs"
+          ],
+          "conflictZones": [
+            ".gitattributes",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "scripts/run-v12-release-gate.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".gitattributes",
+              ".gitignore",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              ".gitattributes",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "scripts/run-v12-release-gate.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.candidate-evidence-byte-integrity.r8"
+        ],
+        "handoffArtifacts": [
+          "candidate-evidence-byte-integrity-correction-r8.md"
+        ],
+        "stopConditions": [
+          "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+          "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:6e589764ff44ebcfd59cddc3a6b64cb452084c301124bc8c3792aacc9977b098",
+  "proposedCandidates": [],
+  "proposalEvaluations": [],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v12.ide-run-loop.implementation.release-correction",
+    "goalRevision": 8,
+    "allowedModules": [
+      "correction.candidate-evidence-byte-integrity"
+    ],
+    "allowedCapabilities": [
+      "fix.candidate-evidence-byte-integrity"
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.failed-gate-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+        "digest": "sha256:4c636e486f36c22b74f12fdd4b4470eb9056f63f64eca05058ae6923976bb15c",
+        "bytes": 1221,
+        "description": "Immutable candidate-1 canonical-gate failure receipt.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.failed-gate-stderr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+        "digest": "sha256:4381d1a9ce1c36beb8723eadfb3619288935b9d095de672c450121c23dc0dfad",
+        "bytes": 11763,
+        "description": "Exact raw candidate-1 canonical-gate stderr bytes.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log"
+      },
+      {
+        "id": "context.failed-gate-stdout",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+        "digest": "sha256:afb6b266dd504cbf89d2cb55b6f9c5c6872fd5636acef8848e2105257aecef12",
+        "bytes": 295768,
+        "description": "Exact raw candidate-1 canonical-gate stdout bytes.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log"
+      },
+      {
+        "id": "context.gitattributes",
+        "kind": "repository",
+        "locator": "path:.gitattributes",
+        "digest": "sha256:4b44dad78a39990f561a67e639a81058eaca0aee74f82c5d3ee682312e6673a3",
+        "bytes": 105,
+        "description": "Repository text and binary normalization policy for evidence byte preservation.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": ".gitattributes"
+      },
+      {
+        "id": "context.gitignore",
+        "kind": "repository",
+        "locator": "path:.gitignore",
+        "digest": "sha256:790a8c26a42342f3b5143df2e56b9c43145c2faa5758f443b63cb52b85d9b8a8",
+        "bytes": 732,
+        "description": "Repository ignore policy that currently suppresses canonical-gate raw log evidence.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": ".gitignore"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
+        "bytes": 2946,
+        "description": "Existing package scripts and export map.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-correction-r7-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json",
+        "digest": "sha256:a8074ac4e6a476a42817be111dccd8cca67b43d3d93067a9ff2460989da2fa5a",
+        "bytes": 641,
+        "description": "Exact owner approval for the revision-7 package.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json"
+      },
+      {
+        "id": "context.release-correction-r7-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json",
+        "digest": "sha256:1432e2c7a6f7384583d5dc27e155a7148621f6f4cbddd17c3b6bd18dd3991a32",
+        "bytes": 5812,
+        "description": "Exact revision-7 candidate-evidence retention PASS handoff.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json"
+      },
+      {
+        "id": "context.release-correction-r7-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json",
+        "digest": "sha256:9788872c5ee79402dea890f36f36291eaf27c8b46f3d4f9802651f8176a15f73",
+        "bytes": 98036,
+        "description": "Owner-approved revision-7 evidence-retention package.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json"
+      },
+      {
+        "id": "context.release-correction-r7-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
+        "digest": "sha256:091169f4ca7592f8deb2b84b9930b5eb04361d3ffea3dd767b62ebddb809e53e",
+        "bytes": 1306,
+        "description": "Complete revision-7 PASS handoff report.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:0d10ab5d7717ab0324b47c2002c2dc4e5718126bdcea496354fb38e0e198f5d9",
+        "bytes": 7631,
+        "description": "Current candidate-bound canonical gate wrapper.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-review-r2-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:ca0c5b3e2648a40824cf9f03843a2bfbc11d668ec0b08212994617d2e27fd512",
+        "bytes": 67996,
+        "description": "Current candidate-bound R2 release-review preparation and compilation harness.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-r2-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:e30bbf7548d6481935d14db57630e4e5bdaa9aff2df56337b957d07acc83d2aa",
+        "bytes": 6984,
+        "description": "Current exact R2 reviewer handoff verifier.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md",
+        "digest": "sha256:45db81d73288f31c6fff70092337b2ace8e38b476a0f11fafacff9c5e80462b8",
+        "bytes": 2744,
+        "description": "Frozen V12 verification obligations.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md"
+      },
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "fix.candidate-evidence-byte-integrity.r8"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          ".gitattributes",
+          ".gitignore",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+          "package.json",
+          "scripts/run-v12-release-gate.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          ".gitattributes",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+          "scripts/run-v12-release-gate.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "git",
+          "node",
+          "npm",
+          "powershell"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+    ],
+    "maxAgents": 1,
+    "maxConcurrency": 1,
+    "contentDigest": "sha256:1b3f12c64e2d2e7dc819230c1cc0a65569ed45ad3cef2c0ed2a223662c8c3994"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:665b0588c06745b644acf7bca19588e62ac9ce547d4b01537a770972d2c0face"
+  },
+  "serialBaseline": {
+    "id": "team.bdd681c5d3c5362f4a6952d9b240345a6f96d32757856a1402d08d53450f8913",
+    "partition": [
+      [
+        "fix.candidate-evidence-byte-integrity.r8"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 6,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 5,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.bfd8eac4d28210315485602103cca93bb3b7a534be1ddcd493b9ff8bea94921d",
+        "start": 0,
+        "finish": 6
+      }
+    ],
+    "contentDigest": "sha256:75ece6ddd393ebf73ebfbe055a46862d6cbff9d23688fd10e75b42492a335c6b"
+  },
+  "selected": {
+    "id": "team.bdd681c5d3c5362f4a6952d9b240345a6f96d32757856a1402d08d53450f8913",
+    "partition": [
+      [
+        "fix.candidate-evidence-byte-integrity.r8"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 6,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 5,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.bfd8eac4d28210315485602103cca93bb3b7a534be1ddcd493b9ff8bea94921d",
+        "start": 0,
+        "finish": 6
+      }
+    ],
+    "contentDigest": "sha256:75ece6ddd393ebf73ebfbe055a46862d6cbff9d23688fd10e75b42492a335c6b"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.bdd681c5d3c5362f4a6952d9b240345a6f96d32757856a1402d08d53450f8913",
+    "serialValue": "team.bdd681c5d3c5362f4a6952d9b240345a6f96d32757856a1402d08d53450f8913",
+    "serialRejectionCodes": []
+  },
+  "alternatives": [],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.bfd8eac4d28210315485602103cca93bb3b7a534be1ddcd493b9ff8bea94921d",
+      "goalId": "v12.ide-run-loop.implementation.release-correction",
+      "goalRevision": 8,
+      "goalDigest": "sha256:6e589764ff44ebcfd59cddc3a6b64cb452084c301124bc8c3792aacc9977b098",
+      "candidateId": "team.bdd681c5d3c5362f4a6952d9b240345a6f96d32757856a1402d08d53450f8913",
+      "workUnitIds": [
+        "fix.candidate-evidence-byte-integrity.r8"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "fix.candidate-evidence-byte-integrity.r8",
+          "objective": "Preserve canonical-gate stdout and stderr as exact raw bytes through Git staging, checkout, and R2 consumption."
+        }
+      ],
+      "modules": [
+        {
+          "id": "correction.candidate-evidence-byte-integrity",
+          "action": "Declare only legacy and candidate-addressed canonical gate logs binary in .gitattributes, then make the release wrapper and R2 preparation/revalidation fail closed unless Git reports text, diff, and merge unset for both raw paths while the receipt remains normal text.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "VersionableButAttributeAmbiguousGateEvidence"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "GitBytePreservingCandidateGateEvidence"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr-0005",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md",
+          "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+          "bytes": 9031,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md"
+        },
+        {
+          "sourceId": "context.failed-gate-receipt",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+          "digest": "sha256:4c636e486f36c22b74f12fdd4b4470eb9056f63f64eca05058ae6923976bb15c",
+          "bytes": 1221,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json"
+        },
+        {
+          "sourceId": "context.failed-gate-stderr",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+          "digest": "sha256:4381d1a9ce1c36beb8723eadfb3619288935b9d095de672c450121c23dc0dfad",
+          "bytes": 11763,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log"
+        },
+        {
+          "sourceId": "context.failed-gate-stdout",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+          "digest": "sha256:afb6b266dd504cbf89d2cb55b6f9c5c6872fd5636acef8848e2105257aecef12",
+          "bytes": 295768,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log"
+        },
+        {
+          "sourceId": "context.gitattributes",
+          "kind": "repository",
+          "locator": "path:.gitattributes",
+          "digest": "sha256:4b44dad78a39990f561a67e639a81058eaca0aee74f82c5d3ee682312e6673a3",
+          "bytes": 105,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": ".gitattributes"
+        },
+        {
+          "sourceId": "context.gitignore",
+          "kind": "repository",
+          "locator": "path:.gitignore",
+          "digest": "sha256:790a8c26a42342f3b5143df2e56b9c43145c2faa5758f443b63cb52b85d9b8a8",
+          "bytes": 732,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": ".gitignore"
+        },
+        {
+          "sourceId": "context.package",
+          "kind": "repository",
+          "locator": "path:package.json",
+          "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
+          "bytes": 2946,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "package.json"
+        },
+        {
+          "sourceId": "context.release-correction-r7-approval",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json",
+          "digest": "sha256:a8074ac4e6a476a42817be111dccd8cca67b43d3d93067a9ff2460989da2fa5a",
+          "bytes": 641,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json"
+        },
+        {
+          "sourceId": "context.release-correction-r7-handoff",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json",
+          "digest": "sha256:1432e2c7a6f7384583d5dc27e155a7148621f6f4cbddd17c3b6bd18dd3991a32",
+          "bytes": 5812,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json"
+        },
+        {
+          "sourceId": "context.release-correction-r7-package",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json",
+          "digest": "sha256:9788872c5ee79402dea890f36f36291eaf27c8b46f3d4f9802651f8176a15f73",
+          "bytes": 98036,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json"
+        },
+        {
+          "sourceId": "context.release-correction-r7-report",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
+          "digest": "sha256:091169f4ca7592f8deb2b84b9930b5eb04361d3ffea3dd767b62ebddb809e53e",
+          "bytes": 1306,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json"
+        },
+        {
+          "sourceId": "context.release-gate",
+          "kind": "repository",
+          "locator": "path:scripts/run-v12-release-gate.mjs",
+          "digest": "sha256:0d10ab5d7717ab0324b47c2002c2dc4e5718126bdcea496354fb38e0e198f5d9",
+          "bytes": 7631,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "scripts/run-v12-release-gate.mjs"
+        },
+        {
+          "sourceId": "context.release-review-r2-harness",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+          "digest": "sha256:ca0c5b3e2648a40824cf9f03843a2bfbc11d668ec0b08212994617d2e27fd512",
+          "bytes": 67996,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+        },
+        {
+          "sourceId": "context.release-review-r2-verifier",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+          "digest": "sha256:e30bbf7548d6481935d14db57630e4e5bdaa9aff2df56337b957d07acc83d2aa",
+          "bytes": 6984,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+        },
+        {
+          "sourceId": "context.run-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md",
+          "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+          "bytes": 17133,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md"
+        },
+        {
+          "sourceId": "context.test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md",
+          "digest": "sha256:45db81d73288f31c6fff70092337b2ace8e38b476a0f11fafacff9c5e80462b8",
+          "bytes": 2744,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md"
+        },
+        {
+          "sourceId": "context.v12-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md",
+          "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+          "bytes": 5478,
+          "purposes": [
+            "Implement or verify the exact frozen V12 release-correction-r8 contract."
+          ],
+          "workUnitIds": [
+            "fix.candidate-evidence-byte-integrity.r8"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "fix.candidate-evidence-byte-integrity"
+        ],
+        "scope": {
+          "read": [
+            ".gitattributes",
+            ".gitignore",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs"
+          ],
+          "write": [
+            ".gitattributes",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "scripts/run-v12-release-gate.mjs"
+          ],
+          "conflictZones": [
+            ".gitattributes",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "scripts/run-v12-release-gate.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".gitattributes",
+              ".gitignore",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              ".gitattributes",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "scripts/run-v12-release-gate.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.fix.candidate-evidence-byte-integrity.r8",
+          "criterion": "Preserve canonical-gate stdout and stderr as exact raw bytes through Git staging, checkout, and R2 consumption.",
+          "requirementId": "evidence.candidate-evidence-byte-integrity.r8",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Authenticate unchanged Candidate 1 bytes, prove exact binary attributes for legacy and synthetic candidate logs, prove unrelated logs and receipt JSON retain normal policy, prove worktree and staged raw bytes match receipt bindings, and provide fail-closed consumer, path-parity, syntax, format, and whitespace results.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "candidate-evidence-byte-integrity-correction-r8.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+        "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+        "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+        "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract."
+      ],
+      "contentDigest": "sha256:19975ccdad35ac6506112366a046f1d3c373b560d6e9842f7df6fee73fdd4eaa"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.bfd8eac4d28210315485602103cca93bb3b7a534be1ddcd493b9ff8bea94921d"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:526cb3c687c60ebc99fc1856b2d3ef7b017dfd14fd9772711669d59d34b18fef"
+}

@@ -2,7 +2,7 @@
 
 ## Status
 
-Release-correction revision 5 and integrated verification pass, including all 388 kernel tests and V11 trust-root revision 33. The exact candidate-bound canonical gate and independent R2 release review remain pending.
+Release-correction revisions 6 through 8, V11 trust-root revision 35, and the current full pre-freeze gate pass. The exact Candidate 2 canonical gate and independent R2 release review remain pending.
 
 ## Contract Tests
 
@@ -44,8 +44,10 @@ Release-correction revision 5 and integrated verification pass, including all 38
 
 ## Current Evidence
 
-- R5 complete-package handoff gate: two of two exact `pass`; `phaseReady: true`.
-- Fresh build, format, lint, typecheck, template check, synthetic dogfood, and implementation-package dogfood: `pass`.
-- Full kernel suite: 388 of 388 tests.
-- V11 revision-33 Candidate A, Audit B, receipt, semantic handoff, and cross-package authorization: `pass`.
-- Candidate-bound `npm.cmd run verify` receipt and three R2 reviewer handoffs: pending until candidate freeze.
+- R6 complete-package handoff gate: two of two exact `pass`; `phaseReady: true`.
+- R7 complete-package handoff gate: one of one exact `pass`; `phaseReady: true`.
+- R8 complete-package handoff gate: one of one exact `pass`; `phaseReady: true`.
+- Canonical evidence retention: legacy and candidate-addressed gate logs are versionable and explicitly binary; unrelated logs remain ignored; receipts retain normal text policy; wrapper/R2 paths are byte-equivalent.
+- Current full pre-freeze gate: format, lint, typecheck, 388 of 388 tests, examples, V10/V11/V12 dogfood, package inspection, and clean installed-consumer verification pass.
+- V11 revision-35 Candidate A, Audit B, receipt, binder, semantic handoff, and cross-package authorization: `pass`.
+- Candidate 2 `npm.cmd run verify` receipt and three R2 reviewer handoffs: pending until candidate freeze.

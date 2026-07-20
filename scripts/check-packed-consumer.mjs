@@ -419,7 +419,7 @@ assert.deepEqual(SPECIALIST_RUN_KINDS, [
   "SpecialistRunInspection",
 ]);
 assert.deepEqual(SPECIALIST_RUN_LIMITS, {
-  rawSessionInputBytes: 134_217_728,
+  rawSessionInputBytes: 67_108_864,
   canonicalSessionBytes: 134_217_728,
   acceptedHandoffs: 16,
   rawHandoffBytes: 1_048_576,

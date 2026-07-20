@@ -1,0 +1,293 @@
+src\specialist-handoff-schema-data.ts:438:49 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+    436 │ `;
+    437 │ 
+  > 438 │ export const SPECIALIST_HANDOFF_SCHEMA_SOURCE = String.raw`{
+        │                                                 ^^^^^^^^^^^^
+  > 439 │   "$schema": "https://json-schema.org/draft/2020-12/schema",
+         ...
+  > 624 │   }
+  > 625 │ }
+  > 626 │ `;
+        │ ^
+    627 │ 
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+src\specialist-run-schema-data.ts:1:45 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+    > 1 │ export const SPECIALIST_RUN_SCHEMA_SOURCE = String.raw`{
+        │                                             ^^^^^^^^^^^^
+    > 2 │   "$schema": "https://json-schema.org/draft/2020-12/schema",
+    > 3 │   "$id": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-run.schema.json",
+    > 4 │   "title": "SWECircuit Specialist Run v1alpha1",
+         ...
+  > 721 │   }
+  > 722 │ }
+  > 723 │ `;
+        │ ^
+    724 │ 
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+src\specialist-schema-data.ts:438:50 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+     436 │ `;
+     437 │ 
+   > 438 │ export const SPECIALIST_COMPILER_SCHEMA_SOURCE = String.raw`{
+         │                                                  ^^^^^^^^^^^^
+   > 439 │   "$schema": "https://json-schema.org/draft/2020-12/schema",
+          ...
+  > 1074 │   }
+  > 1075 │ }
+  > 1076 │ `;
+         │ ^
+    1077 │ 
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+test\specialist-run-foundation.test.mjs:150:35 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+    148 │ }
+    149 │ 
+  > 150 │ const NO_FILESYSTEM_READ_SCRIPT = String.raw`
+        │                                   ^^^^^^^^^^^
+  > 151 │ import assert from "node:assert/strict";
+         ...
+  > 221 │ process.stdout.write(JSON.stringify({ operation: payload.operation, filesystemReads }));
+  > 222 │ `;
+        │ ^
+    223 │ 
+    224 │ test("bundled specialist schemas have exact source parity", async () => {
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+npm notice
+npm notice package: swecircuit@0.0.0
+npm notice Tarball Contents
+npm notice 3.1kB README.md
+npm notice 534B dist/canonical-json.d.ts
+npm notice 556B dist/canonical-json.d.ts.map
+npm notice 7.5kB dist/canonical-json.js
+npm notice 8.8kB dist/canonical-json.js.map
+npm notice 824B dist/cli.d.ts
+npm notice 764B dist/cli.d.ts.map
+npm notice 6.3kB dist/cli.js
+npm notice 6.6kB dist/cli.js.map
+npm notice 2.6kB dist/constants.d.ts
+npm notice 922B dist/constants.d.ts.map
+npm notice 2.5kB dist/constants.js
+npm notice 2.0kB dist/constants.js.map
+npm notice 17.4kB dist/diagnostics.d.ts
+npm notice 1.5kB dist/diagnostics.d.ts.map
+npm notice 22.7kB dist/diagnostics.js
+npm notice 13.8kB dist/diagnostics.js.map
+npm notice 4.5kB dist/execution.d.ts
+npm notice 4.2kB dist/execution.d.ts.map
+npm notice 37.4kB dist/execution.js
+npm notice 36.7kB dist/execution.js.map
+npm notice 4.5kB dist/index.d.ts
+npm notice 2.6kB dist/index.d.ts.map
+npm notice 2.3kB dist/index.js
+npm notice 1.9kB dist/index.js.map
+npm notice 1.1kB dist/initialize.d.ts
+npm notice 763B dist/initialize.d.ts.map
+npm notice 15.1kB dist/initialize.js
+npm notice 14.9kB dist/initialize.js.map
+npm notice 607B dist/json.d.ts
+npm notice 628B dist/json.d.ts.map
+npm notice 4.6kB dist/json.js
+npm notice 5.0kB dist/json.js.map
+npm notice 6.5kB dist/model.d.ts
+npm notice 6.3kB dist/model.d.ts.map
+npm notice 44B dist/model.js
+npm notice 102B dist/model.js.map
+npm notice 1.7kB dist/path.d.ts
+npm notice 1.5kB dist/path.d.ts.map
+npm notice 12.1kB dist/path.js
+npm notice 12.3kB dist/path.js.map
+npm notice 424B dist/permissions.d.ts
+npm notice 423B dist/permissions.d.ts.map
+npm notice 3.3kB dist/permissions.js
+npm notice 3.5kB dist/permissions.js.map
+npm notice 344B dist/privacy.d.ts
+npm notice 348B dist/privacy.d.ts.map
+npm notice 981B dist/privacy.js
+npm notice 710B dist/privacy.js.map
+npm notice 633B dist/schema.d.ts
+npm notice 636B dist/schema.d.ts.map
+npm notice 6.1kB dist/schema.js
+npm notice 6.2kB dist/schema.js.map
+npm notice 471B dist/semantics.d.ts
+npm notice 445B dist/semantics.d.ts.map
+npm notice 17.5kB dist/semantics.js
+npm notice 19.1kB dist/semantics.js.map
+npm notice 347B dist/snapshot.d.ts
+npm notice 389B dist/snapshot.d.ts.map
+npm notice 4.5kB dist/snapshot.js
+npm notice 5.4kB dist/snapshot.js.map
+npm notice 660B dist/specialist-compiler.d.ts
+npm notice 535B dist/specialist-compiler.d.ts.map
+npm notice 62.4kB dist/specialist-compiler.js
+npm notice 66.3kB dist/specialist-compiler.js.map
+npm notice 174B dist/specialist-handoff-schema-data.d.ts
+npm notice 221B dist/specialist-handoff-schema-data.d.ts.map
+npm notice 15.2kB dist/specialist-handoff-schema-data.js
+npm notice 900B dist/specialist-handoff-schema-data.js.map
+npm notice 262B dist/specialist-handoff-schema.d.ts
+npm notice 324B dist/specialist-handoff-schema.d.ts.map
+npm notice 2.0kB dist/specialist-handoff-schema.js
+npm notice 1.9kB dist/specialist-handoff-schema.js.map
+npm notice 663B dist/specialist-handoff.d.ts
+npm notice 537B dist/specialist-handoff.d.ts.map
+npm notice 15.8kB dist/specialist-handoff.js
+npm notice 15.6kB dist/specialist-handoff.js.map
+npm notice 492B dist/specialist-render.d.ts
+npm notice 451B dist/specialist-render.d.ts.map
+npm notice 18.1kB dist/specialist-render.js
+npm notice 14.2kB dist/specialist-render.js.map
+npm notice 421B dist/specialist-run-inspection.d.ts
+npm notice 400B dist/specialist-run-inspection.d.ts.map
+npm notice 13.2kB dist/specialist-run-inspection.js
+npm notice 12.2kB dist/specialist-run-inspection.js.map
+npm notice 115B dist/specialist-run-schema-data.d.ts
+npm notice 180B dist/specialist-run-schema-data.d.ts.map
+npm notice 17.5kB dist/specialist-run-schema-data.js
+npm notice 929B dist/specialist-run-schema-data.js.map
+npm notice 495B dist/specialist-run-schema.d.ts
+npm notice 489B dist/specialist-run-schema.d.ts.map
+npm notice 2.5kB dist/specialist-run-schema.js
+npm notice 2.4kB dist/specialist-run-schema.js.map
+npm notice 754B dist/specialist-run-session.d.ts
+npm notice 612B dist/specialist-run-session.d.ts.map
+npm notice 16.8kB dist/specialist-run-session.js
+npm notice 16.4kB dist/specialist-run-session.js.map
+npm notice 438B dist/specialist-run-transition.d.ts
+npm notice 420B dist/specialist-run-transition.d.ts.map
+npm notice 7.1kB dist/specialist-run-transition.js
+npm notice 7.0kB dist/specialist-run-transition.js.map
+npm notice 4.3kB dist/specialist-run-types.d.ts
+npm notice 3.8kB dist/specialist-run-types.d.ts.map
+npm notice 59B dist/specialist-run-types.js
+npm notice 132B dist/specialist-run-types.js.map
+npm notice 167B dist/specialist-schema-data.d.ts
+npm notice 206B dist/specialist-schema-data.d.ts.map
+npm notice 26.3kB dist/specialist-schema-data.js
+npm notice 1.3kB dist/specialist-schema-data.js.map
+npm notice 367B dist/specialist-schema.d.ts
+npm notice 394B dist/specialist-schema.d.ts.map
+npm notice 2.2kB dist/specialist-schema.js
+npm notice 2.2kB dist/specialist-schema.js.map
+npm notice 16.6kB dist/specialist-types.d.ts
+npm notice 14.2kB dist/specialist-types.d.ts.map
+npm notice 55B dist/specialist-types.js
+npm notice 124B dist/specialist-types.js.map
+npm notice 180B dist/text.d.ts
+npm notice 212B dist/text.d.ts.map
+npm notice 1.1kB dist/text.js
+npm notice 1.2kB dist/text.js.map
+npm notice 651B dist/trace.d.ts
+npm notice 572B dist/trace.d.ts.map
+npm notice 21.3kB dist/trace.js
+npm notice 22.0kB dist/trace.js.map
+npm notice 4.2kB dist/types.d.ts
+npm notice 3.9kB dist/types.d.ts.map
+npm notice 44B dist/types.js
+npm notice 102B dist/types.js.map
+npm notice 504B dist/validate.d.ts
+npm notice 455B dist/validate.d.ts.map
+npm notice 6.9kB dist/validate.js
+npm notice 7.4kB dist/validate.js.map
+npm notice 5.6kB docs/framework/executor-boundary.md
+npm notice 3.7kB package.json
+npm notice 5.1kB schemas/v1alpha1/adapter-manifest.schema.json
+npm notice 5.4kB schemas/v1alpha1/circuit.schema.json
+npm notice 10.7kB schemas/v1alpha1/common.schema.json
+npm notice 13.3kB schemas/v1alpha1/diagnostic-catalog.json
+npm notice 2.6kB schemas/v1alpha1/module.schema.json
+npm notice 1.2kB schemas/v1alpha1/project.schema.json
+npm notice 20.8kB schemas/v1alpha1/README.md
+npm notice 11.1kB schemas/v1alpha1/run-event.schema.json
+npm notice 15.4kB schemas/v1alpha1/specialist-compiler.schema.json
+npm notice 4.3kB schemas/v1alpha1/specialist-handoff.schema.json
+npm notice 17.4kB schemas/v1alpha1/specialist-run.schema.json
+npm notice 5.4kB schemas/v1alpha1/work-packet.schema.json
+npm notice Tarball Details
+npm notice name: swecircuit
+npm notice version: 0.0.0
+npm notice filename: swecircuit-0.0.0.tgz
+npm notice package size: 158.3 kB
+npm notice unpacked size: 929.7 kB
+npm notice shasum: d5fe73bd2cea3121018a45e7a96bef02e384ee82
+npm notice integrity: sha512-1xq0kcaqTAk8U[...]9VqWr6AvaBkjQ==
+npm notice total files: 147
+npm notice
+file:///C:/tmp/swecircuit-identity-main/scripts/check-packed-consumer.mjs:885
+    throw new Error(
+          ^
+
+Error: packed consumer verification failed with exit 1.
+stdout:
+
+stderr:
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
+    acceptedHandoffs: 16,
+    canonicalInspectionBytes: 67108864,
+    canonicalSessionBytes: 134217728,
+    rawHandoffBase64Chars: 1398104,
+    rawHandoffBytes: 1048576,
++   rawSessionInputBytes: 67108864
+-   rawSessionInputBytes: 134217728
+  }
+
+    at file:///C:/tmp/swecircuit-identity-main/.local/npm-cache/swecircuit-packed-consumer-I5M5AZ/consumer/verify.mjs:371:8 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: {
+    rawSessionInputBytes: 67108864,
+    canonicalSessionBytes: 134217728,
+    acceptedHandoffs: 16,
+    rawHandoffBytes: 1048576,
+    rawHandoffBase64Chars: 1398104,
+    canonicalInspectionBytes: 67108864
+  },
+  expected: {
+    rawSessionInputBytes: 134217728,
+    canonicalSessionBytes: 134217728,
+    acceptedHandoffs: 16,
+    rawHandoffBytes: 1048576,
+    rawHandoffBase64Chars: 1398104,
+    canonicalInspectionBytes: 67108864
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.1
+
+    at run (file:///C:/tmp/swecircuit-identity-main/scripts/check-packed-consumer.mjs:885:11)
+    at file:///C:/tmp/swecircuit-identity-main/scripts/check-packed-consumer.mjs:1178:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.14.1

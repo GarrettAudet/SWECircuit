@@ -2,7 +2,7 @@
 
 ## Status
 
-Release-correction revision 5, integrated verification, and V11 trust-root revision 33 pass. The exact candidate-bound canonical gate and independent R2 release review remain before V12 acceptance.
+Release-correction revisions 6 through 8, the current full pre-freeze gate, and V11 trust-root revision 35 pass. Candidate 2's exact canonical gate and independent R2 release review remain before V12 acceptance.
 
 ## Baseline
 
@@ -62,3 +62,17 @@ Release-correction revision 5, integrated verification, and V11 trust-root revis
 - V11 revision 33 binds Candidate A `sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8` / `sha256:fd5b6e5182fa482fc14bebb5ef5b32cfb551df0e842bd0864e0aa0f9d500807f` and Audit B `sha256:cfc9d4059e83a01cd02cddd4ab62d9bc0363dde46c23da5007cfbcaf1d5931cf` / `sha256:081ff3cafcb6eb80d3387d356853bda669f64673587e43b0fdc01e5080d81493`.
 - Audit B independently reproduced all 203 partitions, all 57 Candidate A contexts, six blueprints, authority and evidence ownership, schedule, compilation identity, and all nine package files. Its exact binder and semantic handoffs are 15,438 and 7,481 bytes with raw digests `sha256:8164cd7d135899c3b90e8abdd1ce2b5cd571f1957316a7ddc32377196f692c64` and `sha256:c9d361744cbec3e3d8c3a8830c5319c58e410e54729238eff19b8ae30b696ae3`.
 - Integration removed the R2 harness's hardcoded revision-32 audit path. The current semantic handoff is now resolved from the exact cross-package launch authorization and will be reviewed as candidate source.
+
+## Candidate 1 And Revisions 6-7
+
+- Candidate 1 `989e6ea6da754ecddcf06507567647bd9d84be02` failed its exact canonical gate only at the packed-consumer raw-limit assertion; pre/post HEAD remained identical and tracked state stayed clean.
+- Revision 6 restored 64 MiB consumer/architecture parity and made future gate evidence candidate-addressed. Its two exact handoffs verify `pass` against compilation/package `sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998` / `sha256:5acb302e44bb08f8626fb3773ba27acf5af5ae3f3d09d95beea1f2538a46826a`.
+- Pre-freeze integration found that global `*.log` ignore policy hid the receipt-bound raw stdout and stderr. Revision 7 preserved the general policy, exposed only canonical gate logs, and made both gate consumers reject ignored evidence paths.
+- Revision 7's exact 5,812-byte `pass` handoff verifies at `sha256:1432e2c7a6f7384583d5dc27e155a7148621f6f4cbddd17c3b6bd18dd3991a32` against compilation/package `sha256:e7f6a2d27f613ea1a898b781584039dff8704d88a940965814d45b04a5537920` / `sha256:df3ed49a4d38fdbac275b82036dc4354d6b76bac3b2fa97dfbd385c3fdad85b8`.
+- Revision 8 makes only canonical raw logs explicitly binary and makes both gate consumers reject ambiguous Git attributes. Its exact 8,035-byte `pass` handoff verifies at `sha256:624577edaed5b154f3c4e90daff0dd06f17187c1fa4aa4128e75eb5914bb3df1` against compilation/package `sha256:526cb3c687c60ebc99fc1856b2d3ef7b017dfd14fd9772711669d59d34b18fef` / `sha256:d655468c5e37171d5ef83af2299bf08291029e9c08751ef056c2d655f24cfb1d`.
+- Integration added revisions 7 and 8 to the immutable R2 correction lineage and reverified script syntax, candidate-path parity, and `git diff --check`.
+- V11 revision 35 binds Candidate A `sha256:5af627b5a678bbd268e2170d5b399dc7b898ce9f4b716b1a6ed65d8019b78583` / `sha256:f6d64d94f2834f0fafd2675043114359d4dddac86e8e7add22a8555bdbf598a1` and Audit B `sha256:b53beaf3141b90e6cc2631d05327c2b4d57b697c43e974e3bc5ca24325d905eb` / `sha256:9fb651dfda936e332500bf96cb451fda06f1356462723b25402a56d1e11c6b45`.
+- The revision-35 binder and independent semantic audit both pass, and the exact cross-package launch authorization passes `node scripts/run-v11-dogfood.mjs --check-evidence`.
+- Approval bytes are canonical LF so Git checkout cannot invalidate their raw digest; the stale revision-34 binder remains preserved as failed-attempt evidence.
+- Biome directly covers both V12 scripts, with the redundant stdin quality workaround removed.
+- The current full pre-freeze `npm.cmd run verify` passes format, lint, typecheck, all 388 tests, examples, V10/V11/V12 dogfood, package inspection, and clean installed-consumer verification.

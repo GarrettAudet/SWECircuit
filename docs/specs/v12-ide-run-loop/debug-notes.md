@@ -2,7 +2,7 @@
 
 ## Status
 
-No active product defect. Release-correction revision 5 and V11 trust-root revision 33 pass; candidate-bound verification and R2 review remain.
+No active product defect. Release-correction revisions 6 through 8 and V11 trust-root revision 35 pass. Candidate 2 freeze, candidate-bound canonical verification, and R2 review remain.
 
 ## Reproduction
 
@@ -306,3 +306,104 @@ Run V11 evidence replay after revision-5 changes to `src/constants.ts`, composed
 ### Integration Finding
 
 The R2 harness named revision 32's semantic handoff directly. Integration replaced that attempt-specific source with the exact path bound by the current launch authorization. The candidate-bound R2 reviewers must evaluate this post-specialist correction before acceptance.
+## Candidate Canonical Gate Attempt 1
+
+### Reproduction
+
+Run `node scripts/run-v12-release-gate.mjs 989e6ea6da754ecddcf06507567647bd9d84be02` from the clean frozen candidate.
+
+### Stable Evidence
+
+- Receipt: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json`, outcome `fail`, exit code 1.
+- Raw stdout: 295,768 bytes at `sha256:afb6b266dd504cbf89d2cb55b6f9c5c6872fd5636acef8848e2105257aecef12`.
+- Raw stderr: 11,763 bytes at `sha256:4381d1a9ce1c36beb8723eadfb3619288935b9d095de672c450121c23dc0dfad`.
+- `HEAD` remained the exact candidate and tracked state remained clean before and after the gate.
+
+### Competing Hypotheses
+
+- The packed tarball exported a stale V12 constant.
+- The reviewed 64 MiB runtime limit was incorrect.
+- The clean installed-consumer fixture retained the superseded 128 MiB expectation.
+
+### Confirmed Cause And Route
+
+The built package, `src/constants.ts`, the normative contract, and focused tests all expose 67,108,864 bytes. Only `scripts/check-packed-consumer.mjs` and the live architecture summary retained the superseded raw-input value. The global immutable gate filenames also prevented a corrected candidate from producing a distinct receipt without overwriting attempt 1. Route `redesign`: revision 6 splits consumer/architecture parity from candidate-scoped gate identity, preserves the failure bytes, and requires a new candidate and canonical gate before any reviewer launch.
+
+## Release Correction Revision 6
+
+### Stable Evidence
+
+- Compilation/package: `sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998` / `sha256:5acb302e44bb08f8626fb3773ba27acf5af5ae3f3d09d95beea1f2538a46826a`.
+- Candidate-gate identity handoff: 5,061 bytes at `sha256:3c95ca87255613bdcb96f0a894a03ce012c4d5662a3379230c07166e56fcf33b`.
+- Consumer/architecture parity handoff: 5,291 bytes at `sha256:939099add2852e3dfe14b307fc55e46c89b56a1dd0c735d15bf35e82f99a5a68`.
+- Complete package roster: two of two verified `pass`; `phaseReady: true`.
+- Candidate 1 receipt and raw logs remain byte-identical at their original paths. Future gate evidence is derived under `canonical-gates/CANDIDATE_COMMIT/`.
+
+### Outcome
+
+`pass`. The 64 MiB raw-input contract is consistent across source, architecture, and the packed consumer, while the independent 128 MiB canonical-session safeguard remains unchanged.
+
+## Candidate Evidence Retention Diagnosis And Revision 7
+
+### Reproduction
+
+Run `git check-ignore -v` for Candidate 1's exact stdout and stderr paths. Both resolved to the global `*.log` rule even though the receipt bound their exact bytes.
+
+### Confirmed Cause
+
+The gate made raw evidence immutable by path and digest but did not make those paths versionable. A local receipt could therefore pass while a fresh clone omitted its source logs.
+
+### Correction And Evidence
+
+- Revision-7 compilation/package: `sha256:e7f6a2d27f613ea1a898b781584039dff8704d88a940965814d45b04a5537920` / `sha256:df3ed49a4d38fdbac275b82036dc4354d6b76bac3b2fa97dfbd385c3fdad85b8`.
+- Exact handoff: 5,812 bytes at `sha256:1432e2c7a6f7384583d5dc27e155a7148621f6f4cbddd17c3b6bd18dd3991a32`.
+- Complete package roster: one of one verified `pass`; `phaseReady: true`.
+- Four narrow ignore exceptions expose only legacy and candidate-addressed canonical stdout/stderr logs. Unrelated logs remain ignored.
+- Both gate consumers fail closed when any required evidence path is ignored, and their candidate path modes remain byte-equivalent.
+- Integration extended the immutable R2 correction lineage through revision 7 and rechecked syntax, path parity, and whitespace.
+
+## V11 Trust-Root Revision 35
+
+### Stable Evidence
+
+- Candidate A compilation/package: `sha256:5af627b5a678bbd268e2170d5b399dc7b898ce9f4b716b1a6ed65d8019b78583` / `sha256:f6d64d94f2834f0fafd2675043114359d4dddac86e8e7add22a8555bdbf598a1`.
+- Audit B compilation/package: `sha256:b53beaf3141b90e6cc2631d05327c2b4d57b697c43e974e3bc5ca24325d905eb` / `sha256:9fb651dfda936e332500bf96cb451fda06f1356462723b25402a56d1e11c6b45`.
+- Verification receipt: 2,255 bytes at `sha256:892f2097eb39e62371fd3452083cd004d1c5454b040b6242586ee0482f6b8950`.
+- Binder: 10,589 bytes at `sha256:a4d8fb4466b38ffa33f141dfa1a5ab87ba5f43b0fb839b682af93426cebcc7be`.
+- Independent semantic audit: 7,428 bytes at `sha256:0c11390a4804492f081e0b8e2253e24ae17df3a84785a6ac64e6486b0ae21047`.
+- `node scripts/run-v11-dogfood.mjs --check-evidence`: `pass`.
+
+## Approval Portability And Quality-Gate Coverage
+
+### Reproduction
+
+Compare the generated V11 approval bytes with `.gitattributes` and inspect Biome's explicit file list after adding V12 release scripts.
+
+### Confirmed Causes
+
+- The revision-34 approval JSON combined CRLF and LF. Git's required LF normalization would change its raw digest on Linux, invalidating the otherwise passing receipt after checkout.
+- Biome directly covered workflow scripts only through V11. A separate stdin workaround for the release gate produced misleading failure behavior once that file became natively included.
+
+### Correction
+
+Approval generation now emits canonical LF UTF-8 bytes. Revision-34 binder output remains preserved as stale attempt evidence; revision 35 rebuilt both approved packages, receipt, binder, semantic audit, and authorization from normalized bytes. Biome now directly includes both V12 scripts, and the redundant stdin quality helper was removed.
+
+### Verification
+
+Revision-35 evidence replay passes exactly. The current full pre-freeze `npm.cmd run verify` passes format, lint, typecheck, all 388 tests, examples, V10/V11/V12 dogfood, package inspection, and the clean installed-consumer gate.
+
+## Candidate Evidence Byte Integrity Revision 8
+
+### Reproduction
+
+After staging Candidate 1's exact raw logs, `git diff --cached --check` treated their process output as text. The staged blobs happened to remain byte-identical locally, but the global `text=auto eol=lf` policy left cross-platform normalization dependent on Git heuristics.
+
+### Correction And Evidence
+
+- Compilation/package: `sha256:526cb3c687c60ebc99fc1856b2d3ef7b017dfd14fd9772711669d59d34b18fef` / `sha256:d655468c5e37171d5ef83af2299bf08291029e9c08751ef056c2d655f24cfb1d`.
+- Exact handoff: 8,035 bytes at `sha256:624577edaed5b154f3c4e90daff0dd06f17187c1fa4aa4128e75eb5914bb3df1`.
+- Complete package roster: one of one verified `pass`; `phaseReady: true`.
+- Four exact canonical-log patterns are binary; receipts, near misses, sibling paths, deeper paths, and unrelated logs retain normal policy.
+- Both gate consumers parse NUL-delimited Git attributes and reject unless raw stdout/stderr have text, diff, and merge unset while the receipt retains normal text policy.
+- Worktree, staged blob, would-stage, and checkout-filter bytes match the receipt under normal settings and forced `core.autocrlf=true` with CRLF checkout.
+- Integration extends the immutable R2 correction lineage through revision 8.

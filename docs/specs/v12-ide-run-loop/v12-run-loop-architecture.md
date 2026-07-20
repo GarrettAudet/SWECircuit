@@ -86,14 +86,14 @@ Export these exact readonly `SPECIALIST_RUN_LIMITS` values:
 
 | Limit | Value |
 | --- | ---: |
-| `rawSessionInputBytes` | 134217728 |
+| `rawSessionInputBytes` | 67108864 |
 | `canonicalSessionBytes` | 134217728 |
 | `acceptedHandoffs` | 16 |
 | `rawHandoffBytes` | 1048576 |
 | `rawHandoffBase64Chars` | 1398104 |
 | `canonicalInspectionBytes` | 67108864 |
 
-The V11 package aggregate-content ceiling of 4194304 bytes and all V11 text, schema, and handoff limits remain normative and are not widened. Check raw size before parse or decode, and check the successor's canonical size before returning it. A maximum fixture must prove that one maximum valid V11 package plus one maximum raw handoff for each of 16 blueprints fits the 128 MiB session bound. At-limit and one-byte-over tests are release gates; do not silently truncate, omit sources, or fall back to digest-only state.
+The V11 package aggregate-content ceiling of 4194304 bytes and all V11 text, schema, and handoff limits remain normative and are not widened. Enforce the 64 MiB `rawSessionInputBytes` ceiling before parse or decode, and independently enforce the conservative 128 MiB `canonicalSessionBytes` safeguard before returning a successor. A maximum fixture must prove that one maximum valid V11 package plus one maximum raw handoff for each of 16 blueprints fits the canonical-session safeguard. At-limit and one-byte-over tests are release gates; do not silently truncate, omit sources, or fall back to digest-only state.
 
 ## Transition And Recovery Semantics
 

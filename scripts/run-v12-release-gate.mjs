@@ -1,21 +1,14 @@
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { access, mkdir, open, readFile, writeFile } from "node:fs/promises";
-import { join, relative } from "node:path";
+import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
-const EVIDENCE = join(
-  ROOT,
-  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs",
-);
+const EVIDENCE = join(ROOT, "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs");
 const CANDIDATE_PATTERN = /^[0-9a-f]{40}$/;
 
-const OUTPUTS = Object.freeze({
-  stdout: join(EVIDENCE, "canonical-gate.stdout.log"),
-  stderr: join(EVIDENCE, "canonical-gate.stderr.log"),
-  receipt: join(EVIDENCE, "canonical-gate-receipt.json"),
-});
+const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
 
 const COMMAND =
   process.platform === "win32"
@@ -44,6 +37,19 @@ function requireCondition(condition, message) {
   }
 }
 
+function candidateEvidencePaths(candidateCommit) {
+  requireCondition(
+    typeof candidateCommit === "string" && CANDIDATE_PATTERN.test(candidateCommit),
+    "Candidate commit must be an exact 40-character lowercase commit ID.",
+  );
+  const root = join(CANDIDATE_EVIDENCE_ROOT, candidateCommit);
+  return Object.freeze({
+    receipt: join(root, "canonical-gate-receipt.json"),
+    stdout: join(root, "canonical-gate.stdout.log"),
+    stderr: join(root, "canonical-gate.stderr.log"),
+  });
+}
+
 function runGit(args) {
   const result = spawnSync("git", args, {
     cwd: ROOT,
@@ -54,6 +60,75 @@ function runGit(args) {
     throw result.error;
   }
   return result;
+}
+
+function inspectEvidenceAttributes(path) {
+  const repositoryRelativePath = repositoryPath(path);
+  const result = runGit([
+    "check-attr",
+    "-z",
+    "text",
+    "diff",
+    "merge",
+    "--",
+    repositoryRelativePath,
+  ]);
+  requireCondition(
+    result.status === 0,
+    `Unable to inspect Git attributes for required release-gate evidence: ${repositoryRelativePath}.`,
+  );
+
+  const fields = Buffer.from(result.stdout).toString("utf8").split("\0");
+  requireCondition(
+    fields.length === 10 && fields.at(-1) === "",
+    `Git returned malformed attributes for required release-gate evidence: ${repositoryRelativePath}.`,
+  );
+  const attributes = {};
+  for (let index = 0; index < fields.length - 1; index += 3) {
+    requireCondition(
+      fields[index] === repositoryRelativePath &&
+        ["text", "diff", "merge"].includes(fields[index + 1]) &&
+        attributes[fields[index + 1]] === undefined,
+      `Git returned unexpected attributes for required release-gate evidence: ${repositoryRelativePath}.`,
+    );
+    attributes[fields[index + 1]] = fields[index + 2];
+  }
+  return attributes;
+}
+
+function requireBytePreservingEvidencePaths(paths) {
+  for (const path of [paths.stdout, paths.stderr]) {
+    const repositoryRelativePath = repositoryPath(path);
+    const attributes = inspectEvidenceAttributes(path);
+    requireCondition(
+      attributes.text === "unset" && attributes.diff === "unset" && attributes.merge === "unset",
+      `Required release-gate raw evidence is not binary in Git: ${repositoryRelativePath}.`,
+    );
+  }
+
+  const receiptPath = repositoryPath(paths.receipt);
+  const receiptAttributes = inspectEvidenceAttributes(paths.receipt);
+  requireCondition(
+    receiptAttributes.text === "auto" &&
+      receiptAttributes.diff === "unspecified" &&
+      receiptAttributes.merge === "unspecified",
+    `Required release-gate receipt does not retain normal text policy in Git: ${receiptPath}.`,
+  );
+}
+
+function requireVersionableEvidencePaths(paths) {
+  for (const path of Object.values(paths)) {
+    const repositoryRelativePath = repositoryPath(path);
+    const result = runGit(["check-ignore", "--quiet", "--no-index", "--", repositoryRelativePath]);
+    requireCondition(
+      result.status === 0 || result.status === 1,
+      `Unable to inspect Git ignore policy for required release-gate evidence: ${repositoryRelativePath}.`,
+    );
+    requireCondition(
+      result.status === 1,
+      `Required release-gate evidence is ignored by Git: ${repositoryRelativePath}.`,
+    );
+  }
 }
 
 function inspectRepository() {
@@ -104,11 +179,31 @@ function normalizedError(error) {
 }
 
 async function main() {
-  const candidateCommit = process.argv[2];
+  const pathOnly = process.argv[2] === "paths";
+  const candidateCommit = pathOnly ? process.argv[3] : process.argv[2];
   requireCondition(
     typeof candidateCommit === "string" && CANDIDATE_PATTERN.test(candidateCommit),
-    "Usage: node scripts/run-v12-release-gate.mjs <exact-40-character-candidate-commit>",
+    "Usage: node scripts/run-v12-release-gate.mjs [paths] <exact-40-character-candidate-commit>",
   );
+  const outputs = candidateEvidencePaths(candidateCommit);
+  requireVersionableEvidencePaths(outputs);
+  requireBytePreservingEvidencePaths(outputs);
+
+  if (pathOnly) {
+    process.stdout.write(
+      `${JSON.stringify(
+        {
+          candidateCommit,
+          receipt: repositoryPath(outputs.receipt),
+          stdout: repositoryPath(outputs.stdout),
+          stderr: repositoryPath(outputs.stderr),
+        },
+        null,
+        2,
+      )}\n`,
+    );
+    return;
+  }
 
   const before = inspectRepository();
   requireCondition(
@@ -120,18 +215,18 @@ async function main() {
     "Refusing to run the candidate gate with tracked repository changes.",
   );
 
-  await mkdir(EVIDENCE, { recursive: true });
-  for (const path of Object.values(OUTPUTS)) {
+  await mkdir(dirname(outputs.receipt), { recursive: true });
+  for (const path of Object.values(outputs)) {
     requireCondition(
       !(await pathExists(path)),
       `Immutable release-gate evidence already exists: ${repositoryPath(path)}.`,
     );
   }
 
-  const stdoutHandle = await open(OUTPUTS.stdout, "wx");
+  const stdoutHandle = await open(outputs.stdout, "wx");
   let stderrHandle;
   try {
-    stderrHandle = await open(OUTPUTS.stderr, "wx");
+    stderrHandle = await open(outputs.stderr, "wx");
   } catch (error) {
     await stdoutHandle.close();
     throw error;
@@ -187,11 +282,11 @@ async function main() {
     exitCode: Number.isInteger(gateResult.status) ? gateResult.status : null,
     signal: typeof gateResult.signal === "string" ? gateResult.signal : null,
     spawnError,
-    stdout: await fileBinding(OUTPUTS.stdout),
-    stderr: await fileBinding(OUTPUTS.stderr),
+    stdout: await fileBinding(outputs.stdout),
+    stderr: await fileBinding(outputs.stderr),
   };
 
-  await writeFile(OUTPUTS.receipt, `${JSON.stringify(receipt, null, 2)}\n`, {
+  await writeFile(outputs.receipt, `${JSON.stringify(receipt, null, 2)}\n`, {
     encoding: "utf8",
     flag: "wx",
   });
@@ -201,7 +296,7 @@ async function main() {
         outcome: receipt.result,
         candidateCommit,
         command: receipt.command.canonical,
-        receipt: repositoryPath(OUTPUTS.receipt),
+        receipt: repositoryPath(outputs.receipt),
         stdout: receipt.stdout,
         stderr: receipt.stderr,
       },

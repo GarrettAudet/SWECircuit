@@ -343,6 +343,86 @@ const REPOSITORY_SOURCES = {
     "scripts/run-v12-release-gate.mjs",
     "Current candidate-bound canonical gate wrapper.",
   ],
+  "context.run-architecture": [
+    "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+    "Live V12 architecture summary whose published limits must match the normative contract.",
+  ],
+  "context.release-correction-r5-package": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/package-envelope.json",
+    "Owner-approved revision-5 release-evidence and dogfood package.",
+  ],
+  "context.release-correction-r5-approval": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/approval.json",
+    "Exact owner approval for the revision-5 package.",
+  ],
+  "context.release-correction-r5-dogfood-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5.json",
+    "Exact revision-5 implementation-dogfood PASS handoff.",
+  ],
+  "context.release-correction-r5-release-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73.json",
+    "Exact revision-5 release-evidence PASS handoff.",
+  ],
+  "context.release-correction-r5-report": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoff-verification.json",
+    "Complete revision-5 PASS handoff report.",
+  ],
+  "context.failed-gate-receipt": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+    "Immutable candidate-1 canonical-gate failure receipt.",
+  ],
+  "context.failed-gate-stdout": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+    "Exact raw candidate-1 canonical-gate stdout bytes.",
+  ],
+  "context.failed-gate-stderr": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+    "Exact raw candidate-1 canonical-gate stderr bytes.",
+  ],
+  "context.gitignore": [
+    ".gitignore",
+    "Repository ignore policy that currently suppresses canonical-gate raw log evidence.",
+  ],
+  "context.release-correction-r6-package": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/package-envelope.json",
+    "Owner-approved revision-6 consumer-parity and candidate-identity package.",
+  ],
+  "context.release-correction-r6-approval": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/approval.json",
+    "Exact owner approval for the revision-6 package.",
+  ],
+  "context.release-correction-r6-gate-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/handoffs/agent.4a4cca8bce6a03e1f36dfd28b9505ff33920a045636f8715b10110fdbd408985.json",
+    "Exact revision-6 candidate-gate identity PASS handoff.",
+  ],
+  "context.release-correction-r6-consumer-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/handoffs/agent.9579818ca2843121c26d1c38b48b0f78421bcba0ed39783ced3bfd842a45904e.json",
+    "Exact revision-6 consumer and architecture parity PASS handoff.",
+  ],
+  "context.release-correction-r6-report": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/handoff-verification.json",
+    "Complete revision-6 PASS handoff report.",
+  ],
+  "context.gitattributes": [
+    ".gitattributes",
+    "Repository text and binary normalization policy for evidence byte preservation.",
+  ],
+  "context.release-correction-r7-package": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/package-envelope.json",
+    "Owner-approved revision-7 evidence-retention package.",
+  ],
+  "context.release-correction-r7-approval": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/approval.json",
+    "Exact owner approval for the revision-7 package.",
+  ],
+  "context.release-correction-r7-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoffs/agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c.json",
+    "Exact revision-7 candidate-evidence retention PASS handoff.",
+  ],
+  "context.release-correction-r7-report": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
+    "Complete revision-7 PASS handoff report.",
+  ],
 };
 
 const FOUNDATION_WRITES = [
@@ -431,6 +511,28 @@ const RELEASE_R5_EVIDENCE_WRITES = [
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
   "package.json",
+];
+
+const RELEASE_R6_CONSUMER_WRITES = [
+  "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+  "scripts/check-packed-consumer.mjs",
+];
+
+const RELEASE_R6_GATE_WRITES = [
+  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+  "scripts/run-v12-release-gate.mjs",
+];
+
+const RELEASE_R7_EVIDENCE_RETENTION_WRITES = [
+  ".gitignore",
+  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+  "scripts/run-v12-release-gate.mjs",
+];
+
+const RELEASE_R8_BYTE_INTEGRITY_WRITES = [
+  ".gitattributes",
+  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+  "scripts/run-v12-release-gate.mjs",
 ];
 
 const CONFIGS = {
@@ -1426,6 +1528,293 @@ CONFIGS["release-correction-r5"] = {
   ],
 };
 
+CONFIGS["release-correction-r6"] = {
+  objective:
+    "Close the exact candidate-1 canonical-gate failure by restoring installed-consumer and architecture parity and making immutable gate evidence candidate-scoped before another candidate is frozen.",
+  goalPhase: "release-correction",
+  goalRevision: 6,
+  maxAgents: 2,
+  maxConcurrency: 2,
+  processScopes: ["node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  assumptions: [
+    {
+      id: "assumption.candidate-one-failed-closed",
+      statement:
+        "Candidate 989e6ea6da754ecddcf06507567647bd9d84be02 is retired after its exact canonical gate returned fail while HEAD and tracked state remained unchanged.",
+      rationale:
+        "The immutable receipt and raw logs bind the stale packed-consumer expectation to the exact failed candidate without authorizing review launch.",
+    },
+    {
+      id: "assumption.failed-gate-evidence-immutable",
+      statement:
+        "The candidate-1 receipt and raw logs remain preserved at their original paths and must not be overwritten, deleted, or reclassified as passing evidence.",
+      rationale:
+        "A corrected commit needs a new candidate-scoped evidence directory so each gate result retains one unambiguous identity.",
+    },
+  ],
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.constants",
+    "context.package",
+    "context.packed-host",
+    "context.packed-check",
+    "context.run-architecture",
+    "context.release-gate",
+    "context.release-review-r2-harness",
+    "context.release-review-r2-verifier",
+    "context.release-correction-r5-package",
+    "context.release-correction-r5-approval",
+    "context.release-correction-r5-dogfood-handoff",
+    "context.release-correction-r5-release-handoff",
+    "context.release-correction-r5-report",
+    "context.failed-gate-receipt",
+    "context.failed-gate-stdout",
+    "context.failed-gate-stderr",
+  ],
+  workUnits: [
+    {
+      id: "fix.consumer-contract-parity.r6",
+      objective:
+        "Make the clean installed-consumer gate and live architecture summary agree exactly with the reviewed 64 MiB raw-session input ceiling while preserving the independent 128 MiB canonical-session safeguard.",
+      weight: 5,
+      moduleId: "correction.consumer-contract-parity",
+      action:
+        "Authenticate the exact failed gate, compare the installed package export with constants and the normative contract, correct only the stale packed-consumer expectation and live architecture limit explanation, and prove the focused installed-consumer gate passes without weakening the reviewed runtime limit.",
+      inputType: "FailedCanonicalConsumerGate",
+      outputType: "ConsumerAndArchitectureLimitParity",
+      capability: "fix.consumer-contract-parity",
+      evidenceId: "evidence.consumer-contract-parity.r6",
+      evidenceDescription:
+        "Provide exact failure authentication, source-of-truth comparison, resulting-byte bindings, syntax and format checks, and a passing clean installed-consumer gate.",
+      artifact: "consumer-contract-parity-correction-r6.md",
+      writes: RELEASE_R6_CONSUMER_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.constants",
+        "context.package",
+        "context.packed-host",
+        "context.packed-check",
+        "context.run-architecture",
+        "context.release-correction-r5-package",
+        "context.release-correction-r5-approval",
+        "context.release-correction-r5-report",
+        "context.failed-gate-receipt",
+        "context.failed-gate-stdout",
+        "context.failed-gate-stderr",
+      ],
+    },
+    {
+      id: "fix.candidate-gate-identity.r6",
+      objective:
+        "Make canonical-gate evidence immutable per exact candidate and make R2 preparation resolve only the passing receipt and raw logs derived for its requested candidate.",
+      weight: 6,
+      moduleId: "correction.candidate-gate-identity",
+      action:
+        "Preserve the candidate-1 failure at its original paths, change future gate output to a candidate-addressed directory, derive the same paths from the exact candidate in R2 preparation and revalidation, reject mismatched or failing receipts, and verify no existing evidence can be overwritten or mistaken for another candidate.",
+      inputType: "ImmutableFailedCanonicalGate",
+      outputType: "CandidateScopedCanonicalGateEvidence",
+      capability: "fix.candidate-gate-identity",
+      evidenceId: "evidence.candidate-gate-identity.r6",
+      evidenceDescription:
+        "Provide immutable failure preservation, exact path-derivation parity, mismatch and overwrite rejection, syntax and format checks, and focused dry-run evidence without running a replacement canonical gate.",
+      artifact: "candidate-gate-identity-correction-r6.md",
+      writes: RELEASE_R6_GATE_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.package",
+        "context.release-gate",
+        "context.release-review-r2-harness",
+        "context.release-review-r2-verifier",
+        "context.release-correction-r5-package",
+        "context.release-correction-r5-approval",
+        "context.release-correction-r5-dogfood-handoff",
+        "context.release-correction-r5-release-handoff",
+        "context.release-correction-r5-report",
+        "context.failed-gate-receipt",
+        "context.failed-gate-stdout",
+        "context.failed-gate-stderr",
+      ],
+    },
+  ],
+};
+
+CONFIGS["release-correction-r7"] = {
+  objective:
+    "Make exact canonical-gate raw logs versionable and make both the gate wrapper and R2 review fail closed when required evidence paths are ignored.",
+  goalPhase: "release-correction",
+  goalRevision: 7,
+  maxAgents: 1,
+  maxConcurrency: 1,
+  processScopes: ["git", "node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  assumptions: [
+    {
+      id: "assumption.raw-gate-logs-must-be-versionable",
+      statement:
+        "The canonical receipt is not durable release evidence unless its exact stdout and stderr source bytes can be committed and recovered from a fresh clone.",
+      rationale:
+        "The repository currently ignores every .log file, including both exact candidate-1 gate logs and future candidate-addressed gate logs.",
+    },
+    {
+      id: "assumption.candidate-one-bytes-remain-immutable",
+      statement:
+        "Revision 7 may make the candidate-1 raw logs visible to Git but must not change their bytes, paths, receipt bindings, or failed outcome.",
+      rationale:
+        "The failed attempt remains primary source evidence and cannot be rewritten to simplify retention.",
+    },
+  ],
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.package",
+    "context.gitignore",
+    "context.release-gate",
+    "context.release-review-r2-harness",
+    "context.release-review-r2-verifier",
+    "context.release-correction-r6-package",
+    "context.release-correction-r6-approval",
+    "context.release-correction-r6-gate-handoff",
+    "context.release-correction-r6-consumer-handoff",
+    "context.release-correction-r6-report",
+    "context.failed-gate-receipt",
+    "context.failed-gate-stdout",
+    "context.failed-gate-stderr",
+  ],
+  workUnits: [
+    {
+      id: "fix.candidate-evidence-retention.r7",
+      objective:
+        "Preserve exact canonical-gate raw evidence in Git without weakening the repository's general log-ignore policy.",
+      weight: 5,
+      moduleId: "correction.candidate-evidence-retention",
+      action:
+        "Add the narrowest durable ignore-policy exception for canonical-gate stdout and stderr evidence, then make the release-gate wrapper and R2 preparation/revalidation reject any required evidence path that Git still classifies as ignored.",
+      inputType: "IgnoredCanonicalGateEvidence",
+      outputType: "VersionableCandidateBoundGateEvidence",
+      capability: "fix.candidate-evidence-retention",
+      evidenceId: "evidence.candidate-evidence-retention.r7",
+      evidenceDescription:
+        "Authenticate unchanged candidate-1 bytes, prove legacy and synthetic candidate-addressed canonical logs are not ignored while unrelated logs remain ignored, prove wrapper/R2 path parity and fail-closed behavior, and provide syntax, format, and focused regression results.",
+      artifact: "candidate-evidence-retention-correction-r7.md",
+      writes: RELEASE_R7_EVIDENCE_RETENTION_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.package",
+        "context.gitignore",
+        "context.release-gate",
+        "context.release-review-r2-harness",
+        "context.release-review-r2-verifier",
+        "context.release-correction-r6-package",
+        "context.release-correction-r6-approval",
+        "context.release-correction-r6-gate-handoff",
+        "context.release-correction-r6-consumer-handoff",
+        "context.release-correction-r6-report",
+        "context.failed-gate-receipt",
+        "context.failed-gate-stdout",
+        "context.failed-gate-stderr",
+      ],
+    },
+  ],
+};
+
+CONFIGS["release-correction-r8"] = {
+  objective:
+    "Make canonical-gate raw stdout and stderr byte-preserving across Git staging and checkout, and make both gate consumers reject ambiguous text attributes.",
+  goalPhase: "release-correction",
+  goalRevision: 8,
+  maxAgents: 1,
+  maxConcurrency: 1,
+  processScopes: ["git", "node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  assumptions: [
+    {
+      id: "assumption.raw-evidence-needs-explicit-binary-policy",
+      statement:
+        "A matching local index blob is insufficient unless canonical raw logs are explicitly exempt from text normalization for every clone and platform.",
+      rationale:
+        "The repository applies text=auto and LF checkout globally, while Candidate 1 stderr contains mixed raw process output and triggers text whitespace diagnostics.",
+    },
+    {
+      id: "assumption.revision-seven-remains-source-evidence",
+      statement:
+        "Revision 7 remains a valid pass for ignore-policy retention, but Candidate 2 cannot freeze until byte-preserving Git attributes are independently enforced.",
+      rationale:
+        "Visibility and byte identity are distinct durable-evidence properties.",
+    },
+  ],
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.package",
+    "context.gitignore",
+    "context.gitattributes",
+    "context.release-gate",
+    "context.release-review-r2-harness",
+    "context.release-review-r2-verifier",
+    "context.release-correction-r7-package",
+    "context.release-correction-r7-approval",
+    "context.release-correction-r7-handoff",
+    "context.release-correction-r7-report",
+    "context.failed-gate-receipt",
+    "context.failed-gate-stdout",
+    "context.failed-gate-stderr",
+  ],
+  workUnits: [
+    {
+      id: "fix.candidate-evidence-byte-integrity.r8",
+      objective:
+        "Preserve canonical-gate stdout and stderr as exact raw bytes through Git staging, checkout, and R2 consumption.",
+      weight: 5,
+      moduleId: "correction.candidate-evidence-byte-integrity",
+      action:
+        "Declare only legacy and candidate-addressed canonical gate logs binary in .gitattributes, then make the release wrapper and R2 preparation/revalidation fail closed unless Git reports text, diff, and merge unset for both raw paths while the receipt remains normal text.",
+      inputType: "VersionableButAttributeAmbiguousGateEvidence",
+      outputType: "GitBytePreservingCandidateGateEvidence",
+      capability: "fix.candidate-evidence-byte-integrity",
+      evidenceId: "evidence.candidate-evidence-byte-integrity.r8",
+      evidenceDescription:
+        "Authenticate unchanged Candidate 1 bytes, prove exact binary attributes for legacy and synthetic candidate logs, prove unrelated logs and receipt JSON retain normal policy, prove worktree and staged raw bytes match receipt bindings, and provide fail-closed consumer, path-parity, syntax, format, and whitespace results.",
+      artifact: "candidate-evidence-byte-integrity-correction-r8.md",
+      writes: RELEASE_R8_BYTE_INTEGRITY_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.package",
+        "context.gitignore",
+        "context.gitattributes",
+        "context.release-gate",
+        "context.release-review-r2-harness",
+        "context.release-review-r2-verifier",
+        "context.release-correction-r7-package",
+        "context.release-correction-r7-approval",
+        "context.release-correction-r7-handoff",
+        "context.release-correction-r7-report",
+        "context.failed-gate-receipt",
+        "context.failed-gate-stdout",
+        "context.failed-gate-stderr",
+      ],
+    },
+  ],
+};
 function digest(bytes) {
   return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
 }

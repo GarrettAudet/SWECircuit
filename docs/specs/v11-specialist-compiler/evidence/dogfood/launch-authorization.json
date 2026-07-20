@@ -1,22 +1,22 @@
 {
-  "candidate": {
-    "compilationDigest": "sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8",
-    "packageDigest": "sha256:fd5b6e5182fa482fc14bebb5ef5b32cfb551df0e842bd0864e0aa0f9d500807f"
-  },
-  "prelaunchAudit": {
-    "compilationDigest": "sha256:cfc9d4059e83a01cd02cddd4ab62d9bc0363dde46c23da5007cfbcaf1d5931cf",
-    "packageDigest": "sha256:081ff3cafcb6eb80d3387d356853bda669f64673587e43b0fdc01e5080d81493"
-  },
-  "verificationReceipt": {
-    "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
-    "digest": "sha256:097bf81b00ac354f804b55ee0182e058fbe5970c0671cbda8eeef8219a391abb",
-    "bytes": 2255,
-    "outcome": "pass"
-  },
-  "handoff": {
-    "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-33.json",
-    "digest": "sha256:c9d361744cbec3e3d8c3a8830c5319c58e410e54729238eff19b8ae30b696ae3",
-    "bytes": 7481,
-    "outcome": "pass"
-  }
+    "candidate":  {
+                      "compilationDigest":  "sha256:5af627b5a678bbd268e2170d5b399dc7b898ce9f4b716b1a6ed65d8019b78583",
+                      "packageDigest":  "sha256:f6d64d94f2834f0fafd2675043114359d4dddac86e8e7add22a8555bdbf598a1"
+                  },
+    "prelaunchAudit":  {
+                           "compilationDigest":  "sha256:b53beaf3141b90e6cc2631d05327c2b4d57b697c43e974e3bc5ca24325d905eb",
+                           "packageDigest":  "sha256:9fb651dfda936e332500bf96cb451fda06f1356462723b25402a56d1e11c6b45"
+                       },
+    "verificationReceipt":  {
+                                "path":  "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+                                "digest":  "sha256:892f2097eb39e62371fd3452083cd004d1c5454b040b6242586ee0482f6b8950",
+                                "bytes":  2255,
+                                "outcome":  "pass"
+                            },
+    "handoff":  {
+                    "path":  "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-35.json",
+                    "digest":  "sha256:0c11390a4804492f081e0b8e2253e24ae17df3a84785a6ac64e6486b0ae21047",
+                    "bytes":  7428,
+                    "outcome":  "pass"
+                }
 }

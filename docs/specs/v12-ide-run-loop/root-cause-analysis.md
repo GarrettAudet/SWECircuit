@@ -2,7 +2,7 @@
 
 ## Status
 
-No unresolved causal defect. Release-review attempt 1 corrections pass integrated verification; candidate-bound R2 review remains the acceptance gate.
+Candidate 1 diagnosis is closed through release-correction revision 8. No active product defect is confirmed; Candidate 2 has not yet been frozen or authorized for release review.
 
 ## Reproduction
 
@@ -103,3 +103,66 @@ The replacement candidate must pass focused causal tests, the complete canonical
 ## Correction Confirmation
 
 The correction chain preserved each non-success route instead of repeatedly patching: revision 1 exposed stale scope, revisions 2 and 3 returned `split` with progressively narrower cold-read evidence, revision 4 closed the composed filesystem-read chain, and revision 5 rebound real dogfood and primary release evidence. Both revision-5 handoffs verify `pass`, the integrated suite passes 388 of 388 tests, and V11 revision 33 independently re-authenticates the final bound sources. The remaining uncertainty is deliberately externalized to the candidate-bound canonical receipt and three independent R2 reviewers.
+## Candidate Canonical Gate Attempt 1
+
+### Reproduction
+
+Run the candidate-bound wrapper over clean commit `989e6ea6da754ecddcf06507567647bd9d84be02`. `npm.cmd run verify` reaches the clean packed-consumer check and exits 1.
+
+### Stable Evidence
+
+The closed receipt records unchanged pre/post `HEAD`, clean tracked state, exact raw output bindings, and failure. The installed consumer received `rawSessionInputBytes: 67108864` but its fixture expected `134217728`.
+
+### Confirmed Root Cause
+
+Revision 1 intentionally reduced only the raw preparse input ceiling to 64 MiB after the 128 MiB at-limit fixture exhausted the runtime heap. The source constant, normative contract, and focused boundaries were updated, but the independent packed-consumer expectation and live architecture summary were omitted from that write scope. Candidate-global immutable output names were a separate evidence-harness design defect revealed by the first failed run.
+
+### Causal Correction
+
+Revision 6 gives disjoint specialists exact authority over consumer/architecture parity and candidate-addressed gate evidence. Attempt-1 bytes remain immutable. A new candidate must pass a newly addressed canonical gate; a passing focused rerun alone cannot authorize release review.
+
+## Candidate Evidence Retention
+
+### Reproduction
+
+Candidate 1's receipt binds exact stdout and stderr paths and digests, but `git check-ignore -v` classified both source files under the repository-wide `*.log` rule.
+
+### Confirmed Root Cause
+
+The candidate-addressed gate design solved identity and overwrite safety but inherited a general ignore policy that made its primary raw evidence invisible to normal Git staging. Receipt validity and repository durability were therefore separate conditions, while the gate enforced only the first.
+
+### Causal Correction
+
+Revision 7 adds four path-specific negations without weakening unrelated log ignores. The release wrapper checks all required output paths before repository inspection or mutation, and R2 checks the same paths before consuming a receipt. Integration binds the revision-7 package and exact handoff into the R2 correction lineage.
+
+### Regression Coverage
+
+Legacy and synthetic candidate canonical logs must return not-ignored, unrelated logs must remain ignored, wrapper and R2 path output must be byte-equivalent, malformed candidates must fail, and Candidate 1's receipt/stdout/stderr byte bindings must remain unchanged.
+
+## Approval And Quality-Gate Portability
+
+### Confirmed Root Causes
+
+Raw approval identity was generated with mixed line endings even though repository checkout policy normalizes text to LF, and V12 release scripts were omitted from Biome's explicit source list. Both defects were local-green/CI-different risks.
+
+### Causal Correction
+
+Generate canonical LF approval bytes, rebuild the V11 trust chain as revision 35, include both V12 scripts directly in Biome, and remove the now-redundant stdin workaround. Preserve the stale revision-34 binder as failed-attempt evidence rather than treating it as launch authority.
+
+### Regression Coverage
+
+The exact revision-35 evidence replay and the current full `npm.cmd run verify` both pass. Approval byte counts and digests are bound in the receipt, and format/lint now inspect the V12 scripts through the canonical package scripts.
+
+## Git Attribute Byte Integrity
+
+### Confirmed Root Cause
+
+Making raw logs visible to Git did not explicitly exempt them from the repository-wide `text=auto eol=lf` policy. Local staged bytes matched only because Git's content heuristic did not transform this specific output; that was not a portable evidence contract.
+
+### Causal Correction
+
+Revision 8 declares only the four canonical stdout/stderr path shapes binary and makes both the gate wrapper and R2 validate exact text, diff, and merge attributes before reporting paths, writing evidence, or consuming a receipt.
+
+### Regression Coverage
+
+The proof compares worktree, staged, would-stage, and checkout-filter bytes to receipt digests, repeats under forced autocrlf and CRLF checkout, verifies normal policy for receipts and near misses, exercises negative attribute mutations, and keeps wrapper/R2 path output byte-equivalent.

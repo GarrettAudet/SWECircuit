@@ -1,6 +1,6 @@
 # Specialist Integration Contract
 
-Compilation: `sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8`
+Compilation: `sha256:5af627b5a678bbd268e2170d5b399dc7b898ce9f4b716b1a6ed65d8019b78583`
 
 The integration owner launches only the contracts bound to this compilation, preserves each raw handoff, verifies required evidence, resolves declared dependencies in order, and returns to clarification or redesign when a specialist crosses its boundary.
 
@@ -16,9 +16,9 @@ The integration owner launches only the contracts bound to this compilation, pre
 
 ```json
 {
-  "compilationDigest": "sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8",
+  "compilationDigest": "sha256:5af627b5a678bbd268e2170d5b399dc7b898ce9f4b716b1a6ed65d8019b78583",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 33,
+  "goalRevision": 35,
   "assumptions": [
     {
       "id": "assumption.atomic-work-reviewed",
@@ -82,7 +82,7 @@ The integration owner launches only the contracts bound to this compilation, pre
     "evaluatedCandidates": 203,
     "eligibleCandidates": 52,
     "retainedAlternatives": 8,
-    "evaluationSetDigest": "sha256:a4886f3f2136af397e4cea437aec6a1576d635e891350283f417806c35a6ad8a"
+    "evaluationSetDigest": "sha256:a81a776b658f87464181765a004c642c92960938d1f8c4543144e6f020071a5f"
   },
   "selectedCandidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "selectedMetrics": {
@@ -91,7 +91,7 @@ The integration owner launches only the contracts bound to this compilation, pre
     "peakConcurrency": 4,
     "conflictPairs": 0,
     "handoffCount": 8,
-    "duplicatedContextBytes": 2210169,
+    "duplicatedContextBytes": 2207835,
     "duplicatedPermissionScopes": 149,
     "totalWorkWeight": 38,
     "totalStartupCost": 12,
@@ -151,27 +151,27 @@ The integration owner launches only the contracts bound to this compilation, pre
   "blueprintDigests": [
     {
       "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
-      "digest": "sha256:25b5efc039a23fe4654113965bde4da5684de4f1ccc739f88ef4e4f4fc486804"
+      "digest": "sha256:73a9311460c5d4b3a920ada7422d8cf102f65cab98fc4092a725cd4594cb3e76"
     },
     {
       "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
-      "digest": "sha256:cce9c2d731e10fcefcd19a604eaaeda2ee94bd9d40f6a6376c37837f7c1b9098"
+      "digest": "sha256:4d071f5891a2aaf635c50796ef4c16b9362b384dbc09cd1a6bd6ae0d9030462f"
     },
     {
       "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
-      "digest": "sha256:5e408bece5eada6e728be48e7368861b419faaf39671fd116a45a12318731137"
+      "digest": "sha256:ffb76045e19d0c622b1a958d3d9f46d88ea7ffd80d2b8bc5395dfdbbac403617"
     },
     {
       "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
-      "digest": "sha256:451956b055def27028eb798410e73169254f1e60013511102f78b76b639fb559"
+      "digest": "sha256:353fbd52eb587a9ea8bc5b7c01f69bdd8de2f876dd3ff32c9d5df253d5a19440"
     },
     {
       "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
-      "digest": "sha256:db01103793b6c78f43b33b3344227c5ef89791dc72d6a0ee8907a5b644922d90"
+      "digest": "sha256:3c2cdf035b2159f06de659f7d68dbae54c643c18f6ff7032688bf0cfb8222d0f"
     },
     {
       "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
-      "digest": "sha256:b5c3b1e7119bf0d5b714a0e8e5f07b844d18ce5832efb39e3b040ad79c89e399"
+      "digest": "sha256:c1de8c893b8b0490916d94a542a47ef52ce87fd5a5d53f672d6f9bc058e7eb8e"
     }
   ]
 }

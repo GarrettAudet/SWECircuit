@@ -2,7 +2,7 @@
 
 ## Status
 
-Release review attempt 1 completed with a verified `fix` route. Its causal corrections and V11 trust-root refresh now pass integrated verification; the replacement candidate and R2 review are not yet frozen, so V12 is not merge-ready.
+Release review attempt 1 completed with a verified `fix` route. Corrections now pass through revision 8 and the V11 revision-35 trust chain; Candidate 2 and its R2 review are not yet frozen, so V12 is not merge-ready.
 
 ## Scope
 
@@ -34,12 +34,13 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 
 ## Correction Readiness
 
-- Revision 5 binds compilation `sha256:fd9c21ca81ddcef94bc1da50faf721238145a9807eae7860a34583c8512c9ff5` and package `sha256:c29570501b69f2b791d32890b48bb74d90091e649513d5915c636e1141518717`.
-- Both exact revision-5 handoffs verify `pass`; the complete package gate is `phaseReady: true`.
-- Fresh integration passes build, format, lint, typecheck, template validation, both dogfood modes, and all 388 kernel tests.
-- V11 trust-root revision 33 passes exact package reconstruction, binder verification, independent semantic audit, and cross-package authorization.
-- The R2 harness snapshots the current semantic audit handoff from the exact launch authorization instead of a hardcoded attempt number.
-- No replacement candidate commit, candidate-bound gate receipt, R2 package, or R2 reviewer outcome is claimed yet.
+- Revision 6 binds compilation/package `sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998` / `sha256:5acb302e44bb08f8626fb3773ba27acf5af5ae3f3d09d95beea1f2538a46826a`; both exact handoffs verify `pass`.
+- Revision 7 binds compilation/package `sha256:e7f6a2d27f613ea1a898b781584039dff8704d88a940965814d45b04a5537920` / `sha256:df3ed49a4d38fdbac275b82036dc4354d6b76bac3b2fa97dfbd385c3fdad85b8`; its exact handoff verifies `pass`.
+- Revision 8 binds compilation/package `sha256:526cb3c687c60ebc99fc1856b2d3ef7b017dfd14fd9772711669d59d34b18fef` / `sha256:d655468c5e37171d5ef83af2299bf08291029e9c08751ef056c2d655f24cfb1d`; its exact handoff verifies `pass`.
+- The current full pre-freeze gate passes format, lint, typecheck, all 388 tests, examples, V10/V11/V12 dogfood, package inspection, and clean installed-consumer verification.
+- V11 trust-root revision 35 passes exact package reconstruction, binder verification, independent semantic audit, and cross-package authorization.
+- The R2 harness resolves the current semantic audit from launch authorization and binds the complete revision-1 through revision-8 correction lineage.
+- No Candidate 2 commit, candidate-bound gate receipt, R2 package, or R2 reviewer outcome is claimed yet.
 
 ## Outcome
 

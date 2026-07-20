@@ -27,17 +27,14 @@ const SYNTHETIC_APPROVED_EXPECTATION = Object.freeze({
   packageDigest: "sha256:0d201fc9b733a725a5fd3578607b0fc95eca203409c89dc22d4591e2059e5b07",
 });
 const RELEASE_CORRECTION_GOAL_ID = "v12.ide-run-loop.implementation.release-correction";
-const RELEASE_CORRECTION_BASE =
-  "docs/specs/v12-ide-run-loop/evidence/implementation";
+const RELEASE_CORRECTION_BASE = "docs/specs/v12-ide-run-loop/evidence/implementation";
 const REVISION_CHAIN = Object.freeze([
   {
     revision: 1,
     root: RELEASE_CORRECTION_BASE + "/release-correction",
     expectation: {
-      compilationDigest:
-        "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
-      packageDigest:
-        "sha256:0243a0cea075424c7c919a6af876b4f023f9e635234cf6ec07a0d7cb9543bf6c",
+      compilationDigest: "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+      packageDigest: "sha256:0243a0cea075424c7c919a6af876b4f023f9e635234cf6ec07a0d7cb9543bf6c",
     },
     approval: {
       bytes: 641,
@@ -53,27 +50,21 @@ const REVISION_CHAIN = Object.freeze([
     },
     handoffs: [
       {
-        agentId:
-          "agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664",
+        agentId: "agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664",
         bytes: 5693,
-        digest:
-          "sha256:3510b98137b0cd8746d5440f4254bcfed8c493f714a57539a705eb12012c12fd",
+        digest: "sha256:3510b98137b0cd8746d5440f4254bcfed8c493f714a57539a705eb12012c12fd",
         outcome: "pass",
       },
       {
-        agentId:
-          "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50",
+        agentId: "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50",
         bytes: 6718,
-        digest:
-          "sha256:f74436e9e9a234cc8c41cba9a3b47ee84d8e0bff3ceba811252f008686c51677",
+        digest: "sha256:f74436e9e9a234cc8c41cba9a3b47ee84d8e0bff3ceba811252f008686c51677",
         outcome: "pass",
       },
       {
-        agentId:
-          "agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666",
+        agentId: "agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666",
         bytes: 6667,
-        digest:
-          "sha256:23bbdd75d90ee42595b5f22f1ba2c9ba9f608866b049285b027ae579225b2e4b",
+        digest: "sha256:23bbdd75d90ee42595b5f22f1ba2c9ba9f608866b049285b027ae579225b2e4b",
         outcome: "pass",
       },
     ],
@@ -83,10 +74,8 @@ const REVISION_CHAIN = Object.freeze([
     revision: 2,
     root: RELEASE_CORRECTION_BASE + "/release-correction-r2",
     expectation: {
-      compilationDigest:
-        "sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672",
-      packageDigest:
-        "sha256:cff1fa3d5eaa668e962b212f8128018c3e4b2721404fa457ca73c79578011fcc",
+      compilationDigest: "sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672",
+      packageDigest: "sha256:cff1fa3d5eaa668e962b212f8128018c3e4b2721404fa457ca73c79578011fcc",
     },
     approval: {
       bytes: 641,
@@ -102,11 +91,9 @@ const REVISION_CHAIN = Object.freeze([
     },
     handoffs: [
       {
-        agentId:
-          "agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe",
+        agentId: "agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe",
         bytes: 7254,
-        digest:
-          "sha256:8db3fea6a6f47fba804f72d454660bafda7ab5d06691d729157e2f8f3aba66be",
+        digest: "sha256:8db3fea6a6f47fba804f72d454660bafda7ab5d06691d729157e2f8f3aba66be",
         outcome: "split",
       },
     ],
@@ -116,10 +103,8 @@ const REVISION_CHAIN = Object.freeze([
     revision: 3,
     root: RELEASE_CORRECTION_BASE + "/release-correction-r3",
     expectation: {
-      compilationDigest:
-        "sha256:ded9a26906a9a00a5f0b12dc3420e909a91e70ef9a3ee03905ac1676efb40638",
-      packageDigest:
-        "sha256:19c13189225b8bedd69b03edb2c4c3821aa9d8256e39209f5c10641527dc4d01",
+      compilationDigest: "sha256:ded9a26906a9a00a5f0b12dc3420e909a91e70ef9a3ee03905ac1676efb40638",
+      packageDigest: "sha256:19c13189225b8bedd69b03edb2c4c3821aa9d8256e39209f5c10641527dc4d01",
     },
     approval: {
       bytes: 641,
@@ -135,11 +120,9 @@ const REVISION_CHAIN = Object.freeze([
     },
     handoffs: [
       {
-        agentId:
-          "agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d",
+        agentId: "agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d",
         bytes: 8095,
-        digest:
-          "sha256:89ab112ce3df0a97f64db2994fc792238955b7007a7ce0310b4af39b4340d3df",
+        digest: "sha256:89ab112ce3df0a97f64db2994fc792238955b7007a7ce0310b4af39b4340d3df",
         outcome: "split",
       },
     ],
@@ -149,10 +132,8 @@ const REVISION_CHAIN = Object.freeze([
     revision: 4,
     root: RELEASE_CORRECTION_BASE + "/release-correction-r4",
     expectation: {
-      compilationDigest:
-        "sha256:aa13bb1f6a8ff21658b718ccd46e6a5a26dacd8d1c9baa990b92e37161627660",
-      packageDigest:
-        "sha256:edaba251ee9b258474674225d38123df2772dfc42b7cd52e1d49dff8791f5065",
+      compilationDigest: "sha256:aa13bb1f6a8ff21658b718ccd46e6a5a26dacd8d1c9baa990b92e37161627660",
+      packageDigest: "sha256:edaba251ee9b258474674225d38123df2772dfc42b7cd52e1d49dff8791f5065",
     },
     approval: {
       bytes: 641,
@@ -168,11 +149,9 @@ const REVISION_CHAIN = Object.freeze([
     },
     handoffs: [
       {
-        agentId:
-          "agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba",
+        agentId: "agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba",
         bytes: 9058,
-        digest:
-          "sha256:5afb33ee3c7f456ea0331d7d0735a0291cd69fb5d7a4c6c6d80982177d815090",
+        digest: "sha256:5afb33ee3c7f456ea0331d7d0735a0291cd69fb5d7a4c6c6d80982177d815090",
         outcome: "pass",
       },
     ],
@@ -562,7 +541,13 @@ async function runJourney() {
   );
   const replayedSession = expectOk(
     "record byte-identical replay",
-    call("record", recordSpecialistRunHandoff, session, SYNTHETIC_APPROVED_EXPECTATION, dependentRaw),
+    call(
+      "record",
+      recordSpecialistRunHandoff,
+      session,
+      SYNTHETIC_APPROVED_EXPECTATION,
+      dependentRaw,
+    ),
   );
   assert.equal(replayedSession.contentDigest, session.contentDigest);
   const closeout = integrationOwnerCloseout(finalInspection);
@@ -635,7 +620,8 @@ async function runJourney() {
     replay: {
       rawSessionBytes: rawSessionBytes.byteLength,
       restoredSessionDigest: restoredSession.contentDigest,
-      inspectionDigestStable: restoredInspection.contentDigest === dependencyInspection.contentDigest,
+      inspectionDigestStable:
+        restoredInspection.contentDigest === dependencyInspection.contentDigest,
       byteIdenticalHandoffIdempotent: replayedSession.contentDigest === session.contentDigest,
     },
     acceptedFanIn: finalInspection.acceptedEvidence.map((entry) => ({
@@ -688,7 +674,10 @@ function assertNormalizedLfUtf8(label, rawBytes) {
   assert.equal(content.includes("\r"), false, label + ": CR is not allowed");
   assert.equal(content.includes("\t"), false, label + ": TAB is not allowed");
   assert.equal(
-    /[\u0000-\u0009\u000b-\u001f\u007f-\u009f]/u.test(content),
+    [...content].some((character) => {
+      const code = character.charCodeAt(0);
+      return code <= 9 || (code >= 11 && code <= 31) || (code >= 127 && code <= 159);
+    }),
     false,
     label + ": unsafe control character",
   );
@@ -714,9 +703,7 @@ async function readAuthenticatedJson(binding, label) {
 }
 
 function packageCompilation(specialistPackage) {
-  const compilationFile = specialistPackage.files.find(
-    (file) => file.path === "compilation.json",
-  );
+  const compilationFile = specialistPackage.files.find((file) => file.path === "compilation.json");
   assert.notEqual(compilationFile, undefined, "verified package lacks compilation.json");
   return JSON.parse(compilationFile.content);
 }
@@ -750,10 +737,7 @@ async function loadReleaseCorrectionRevision(definition, supportCalls) {
     "verify revision " + definition.revision + " package against external approval",
     verifySpecialistPackage(packageInput.value, definition.expectation),
   );
-  assert.equal(
-    specialistPackage.compilationDigest,
-    definition.expectation.compilationDigest,
-  );
+  assert.equal(specialistPackage.compilationDigest, definition.expectation.compilationDigest);
   assert.equal(specialistPackage.packageDigest, definition.expectation.packageDigest);
 
   const compilation = packageCompilation(specialistPackage);
@@ -805,11 +789,7 @@ async function loadReleaseCorrectionRevision(definition, supportCalls) {
     supportCalls.verifyHandoff += 1;
     const verified = expectOk(
       "verify revision " + definition.revision + " handoff " + binding.agentId,
-      verifySpecialistHandoff(
-        specialistPackage,
-        definition.expectation,
-        handoffInput.rawBytes,
-      ),
+      verifySpecialistHandoff(specialistPackage, definition.expectation, handoffInput.rawBytes),
     );
     assert.equal(verified.handoff.agent.id, binding.agentId);
     assert.equal(verified.handoff.agent.blueprintDigest, manifestAgent.blueprintDigest);
@@ -851,9 +831,7 @@ async function loadReleaseCorrectionRevision(definition, supportCalls) {
     compilation,
     report,
     handoffs,
-    missingAgentIds: manifestAgentIds.filter(
-      (agentId) => !deliveredAgentIds.includes(agentId),
-    ),
+    missingAgentIds: manifestAgentIds.filter((agentId) => !deliveredAgentIds.includes(agentId)),
     packageFiles: specialistPackage.files.map((file) => ({
       path: file.path,
       mediaType: file.mediaType,
@@ -903,18 +881,12 @@ async function authenticateReplanChain(revisions) {
       replan.replacementContract.compilationDigest,
       to.definition.expectation.compilationDigest,
     );
-    assert.equal(
-      replan.replacementContract.packageDigest,
-      to.definition.expectation.packageDigest,
-    );
+    assert.equal(replan.replacementContract.packageDigest, to.definition.expectation.packageDigest);
     const replacementAgent = to.specialistPackage.manifest.agents.find(
       (agent) => agent.agentId === replan.replacementContract.agentId,
     );
     assert.notEqual(replacementAgent, undefined, "replacement agent is absent from package");
-    assert.equal(
-      replan.replacementContract.blueprintDigest,
-      replacementAgent.blueprintDigest,
-    );
+    assert.equal(replan.replacementContract.blueprintDigest, replacementAgent.blueprintDigest);
     assert.equal(
       replan.replacementContract.contractPath,
       to.definition.root + "/package/" + replacementAgent.contractFile,
@@ -982,8 +954,7 @@ async function authenticateReplanChain(revisions) {
       });
     }
     preventedUnsafeLaunches += replan.friction.unsafeLaunchesPrevented ?? 0;
-    cachePrimingShortcutsRejected +=
-      replan.friction.cachePrimingShortcutsRejected ?? 0;
+    cachePrimingShortcutsRejected += replan.friction.cachePrimingShortcutsRejected ?? 0;
     additionalApprovalPrompts += replan.friction.additionalApprovalPrompts;
 
     replans.push({
@@ -1103,12 +1074,7 @@ async function runReleaseCorrectionJourney() {
   );
   const initialInspection = expectOk(
     "inspect revision-4 initial session",
-    call(
-      "inspect",
-      inspectSpecialistRunSession,
-      session,
-      revision4.definition.expectation,
-    ),
+    call("inspect", inspectSpecialistRunSession, session, revision4.definition.expectation),
   );
   assert.equal(initialInspection.stage, "collecting");
   const contracts = manifestResolvedContracts(
@@ -1132,12 +1098,7 @@ async function runReleaseCorrectionJourney() {
   );
   const recordedInspection = expectOk(
     "inspect completed revision-4 session",
-    call(
-      "inspect",
-      inspectSpecialistRunSession,
-      session,
-      revision4.definition.expectation,
-    ),
+    call("inspect", inspectSpecialistRunSession, session, revision4.definition.expectation),
   );
   assert.equal(recordedInspection.stage, "integration_ready");
   assert.equal(recordedInspection.specialistOutcome, "pass");
@@ -1147,27 +1108,16 @@ async function runReleaseCorrectionJourney() {
   const { snapshot, restoredBytes } = createImmutableIntegrationSnapshot(session);
   const restoredSession = expectOk(
     "restore revision-4 integration snapshot",
-    call(
-      "restore",
-      restoreSpecialistRunSession,
-      restoredBytes,
-      revision4.definition.expectation,
-    ),
+    call("restore", restoreSpecialistRunSession, restoredBytes, revision4.definition.expectation),
   );
   const restoredInspection = expectOk(
     "reinspect restored revision-4 session",
-    call(
-      "inspect",
-      inspectSpecialistRunSession,
-      restoredSession,
-      revision4.definition.expectation,
-    ),
+    call("inspect", inspectSpecialistRunSession, restoredSession, revision4.definition.expectation),
   );
   const resumeEquality = {
     sessionDigestEqual: restoredSession.contentDigest === session.contentDigest,
     canonicalSessionEqual: JSON.stringify(restoredSession) === JSON.stringify(session),
-    inspectionDigestEqual:
-      restoredInspection.contentDigest === recordedInspection.contentDigest,
+    inspectionDigestEqual: restoredInspection.contentDigest === recordedInspection.contentDigest,
     canonicalInspectionEqual:
       JSON.stringify(restoredInspection) === JSON.stringify(recordedInspection),
   };
@@ -1254,9 +1204,7 @@ async function runReleaseCorrectionJourney() {
         supportingPublicCalls: supportCalls,
       },
       integratedVerification: {
-        acceptedAgentIds: restoredInspection.acceptedEvidence.map(
-          (entry) => entry.agentId,
-        ),
+        acceptedAgentIds: restoredInspection.acceptedEvidence.map((entry) => entry.agentId),
         specialistOutcome: restoredInspection.specialistOutcome,
         integrationReady: restoredInspection.integrationReady,
         nextActor: restoredInspection.nextAction.actor,
@@ -1351,8 +1299,7 @@ async function runReleaseCorrectionJourney() {
 const args = process.argv.slice(2);
 assert.ok(
   args.length === 0 ||
-    (args.length === 1 &&
-      (args[0] === "--check-evidence" || args[0] === "--synthetic-only")),
+    (args.length === 1 && (args[0] === "--check-evidence" || args[0] === "--synthetic-only")),
   "usage: node scripts/run-v12-dogfood.mjs [--check-evidence|--synthetic-only]",
 );
 
@@ -1393,14 +1340,16 @@ if (args[0] === "--synthetic-only") {
     ),
     [["pass", "pass", "pass"], ["split"], ["split"], ["pass"]],
   );
-  assert.deepEqual(
-    implementationFirst.revision4Session.operations.calls,
-    { create: 1, restore: 1, inspect: 3, record: 1 },
-  );
-  assert.deepEqual(
-    implementationFirst.revision4Session.operations.supportingPublicCalls,
-    { verifyPackage: 4, verifyHandoff: 6 },
-  );
+  assert.deepEqual(implementationFirst.revision4Session.operations.calls, {
+    create: 1,
+    restore: 1,
+    inspect: 3,
+    record: 1,
+  });
+  assert.deepEqual(implementationFirst.revision4Session.operations.supportingPublicCalls, {
+    verifyPackage: 4,
+    verifyHandoff: 6,
+  });
   assert.deepEqual(implementationFirst.friction.revisionChainExpansion, {
     replans: 3,
     retiredContracts: 3,

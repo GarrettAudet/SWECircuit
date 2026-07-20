@@ -2,7 +2,7 @@
   "reportVersion": "1.0.0",
   "result": "pass",
   "goalId": "v11.specialist-compiler.prelaunch-audit",
-  "goalRevision": 33,
+  "goalRevision": 35,
   "assumptions": [
     {
       "id": "assumption.audit-is-trust-root",
@@ -39,61 +39,61 @@
         "sourceId": "context.candidate-artifact.01",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
         "bytes": 313360,
-        "digest": "sha256:47763de1933c8111e7e0cdb24582d452032d322ee6815a3bd327bb49aa205ba3"
+        "digest": "sha256:9546d0b207b1dc10e67684d20fd603a372338dd35b0e1103a0e873ee2ebe5bac"
       },
       {
         "sourceId": "context.candidate-artifact.02",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
         "bytes": 18937,
-        "digest": "sha256:ce58ef708ad086f84b78860fa8340052d532cba04663441cdb51498b1d4a3b1b"
+        "digest": "sha256:d577545c32f3e5189c1d2dab510a5839da1b0234680ecae98cd270761669d547"
       },
       {
         "sourceId": "context.candidate-artifact.03",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
         "bytes": 11199,
-        "digest": "sha256:4f1956009e4c7e987f0ab700380519819e1906dfe9ed52d1d28388312924ce52"
+        "digest": "sha256:d3c38c4d79a97ffa992a6c9c3f62d66ef56dc1d51eab4dd5f90f749d9c5dcdef"
       },
       {
         "sourceId": "context.candidate-artifact.04",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
         "bytes": 23776,
-        "digest": "sha256:57b76e09372f0b1004e4cc557b146feea3ce60e8f658bd84ce819fee43554405"
+        "digest": "sha256:337afba618503fa82b32652d404bf1e68c7b8ec30bc05e1601fe6fc73e516771"
       },
       {
         "sourceId": "context.candidate-artifact.05",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
         "bytes": 27305,
-        "digest": "sha256:18ef3030a363b17e4b7e36a0c0a35cbf1dd97ff0f16fadac02b79a62d63b4e3a"
+        "digest": "sha256:e5d1df8852619bc2e527a9c7d99f0636b0a7bbdf26d2ecbc7b32eab94b146f5d"
       },
       {
         "sourceId": "context.candidate-artifact.06",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
         "bytes": 33804,
-        "digest": "sha256:8cf7bf14b7cf6988c8084aff8b76800453d5cf0c7d3882dcbccdcb55d6104a09"
+        "digest": "sha256:2a430cbbcb8fcfb9b43310dee64454391a9d6d2406349996f4fcb623f058bce8"
       },
       {
         "sourceId": "context.candidate-artifact.07",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
         "bytes": 37023,
-        "digest": "sha256:972b6c69c8af598abd4bbba9b94edb3763f2474fee55845f28038e603d068ce0"
+        "digest": "sha256:902ea956494e47f6bdff7f323620efdfbc7c34f94a94eeb66fa28c51ab3b4f69"
       },
       {
         "sourceId": "context.candidate-artifact.08",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
         "bytes": 313360,
-        "digest": "sha256:47763de1933c8111e7e0cdb24582d452032d322ee6815a3bd327bb49aa205ba3"
+        "digest": "sha256:9546d0b207b1dc10e67684d20fd603a372338dd35b0e1103a0e873ee2ebe5bac"
       },
       {
         "sourceId": "context.candidate-artifact.09",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
         "bytes": 8142,
-        "digest": "sha256:9b218cd2cceaf7940ad08ffbd2afe4443238bcad4ce02672904e0b75a9d0a5cc"
+        "digest": "sha256:7f2944dbe486e7c3e0f64d223196e57ef02e48da6954f7cb3e3e490f1195c330"
       },
       {
         "sourceId": "context.candidate-artifact.10",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
         "bytes": 4203,
-        "digest": "sha256:dc2f952cb15c09bbb77b84a320e8d09accfb3392c1e9ecb6216bd1a369dc3afa"
+        "digest": "sha256:d011b701f738cd77e7305d466453bd23b36a64461d05a2fbff3b6ee53596197b"
       },
       {
         "sourceId": "context.canonical-json",
@@ -134,8 +134,8 @@
       {
         "sourceId": "context.consumer-check",
         "path": "scripts/check-packed-consumer.mjs",
-        "bytes": 43244,
-        "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e"
+        "bytes": 43243,
+        "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe"
       },
       {
         "sourceId": "context.diagnostic-catalog",
@@ -284,8 +284,8 @@
       {
         "sourceId": "context.package",
         "path": "package.json",
-        "bytes": 3723,
-        "digest": "sha256:f395932106ac25216ca753127f7b97b01497090a7c4115732de77784fff2c5ce"
+        "bytes": 2946,
+        "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2"
       },
       {
         "sourceId": "context.packed-consumer-host",
@@ -385,7 +385,7 @@
       }
     ]
   },
-  "compilationDigest": "sha256:cfc9d4059e83a01cd02cddd4ab62d9bc0363dde46c23da5007cfbcaf1d5931cf",
+  "compilationDigest": "sha256:b53beaf3141b90e6cc2631d05327c2b4d57b697c43e974e3bc5ca24325d905eb",
   "search": {
     "mode": "exact",
     "claim": "exhaustive_partition_search_fixed_scheduler",
@@ -464,7 +464,7 @@
   "blueprintAssignments": [
     {
       "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
-      "blueprintDigest": "sha256:8368712e5986cb2f9e43d6666637a7610301afd6ec33d7cc9cfeea68264af920",
+      "blueprintDigest": "sha256:915a26025d251108de5164f6297b233245b5c673385ae8a8958466dcf72b15fe",
       "workUnitIds": [
         "audit.bind-candidate"
       ],
@@ -475,7 +475,7 @@
     },
     {
       "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
-      "blueprintDigest": "sha256:718dae51406026f4fe658f2363db2880e811de89438683d131e931a1842639e9",
+      "blueprintDigest": "sha256:35d3a199037b3dea850c7c23201053806526affc5ad9067e01aa78b358fcb940",
       "workUnitIds": [
         "audit.review-candidate-compilation"
       ],
@@ -492,33 +492,33 @@
       "result": "pass",
       "expectationFile": "approval.json"
     },
-    "packageDigest": "sha256:081ff3cafcb6eb80d3387d356853bda669f64673587e43b0fdc01e5080d81493",
-    "manifestDigest": "sha256:fd70e655ecb9d7dc6e444c778d508593e32d692621fcc7456df70a05404b9799",
+    "packageDigest": "sha256:9fb651dfda936e332500bf96cb451fda06f1356462723b25402a56d1e11c6b45",
+    "manifestDigest": "sha256:bbe7af9ecf30795ecb8b5890d7d0762b2419da361cc831576181493ba204e0ea",
     "files": [
       {
         "path": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
         "bytes": 16224,
-        "digest": "sha256:b1114009da89546851100c5cb5b647f0ad53a39ded834f817ef998afaa719762"
+        "digest": "sha256:f2facdec26beb7f1ac9f46b431cf7ff5a8e57a8313d95fe4252c84d1cd8602a4"
       },
       {
         "path": "agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
         "bytes": 46179,
-        "digest": "sha256:b6622ec10fb80e2d1729c4506a36a8ce2ac21228489112d2dca4ff8782ecb4c8"
+        "digest": "sha256:b6108acbcd931d9d286a7905e12956b1b57fb3c79953f407e2be07746ba4a142"
       },
       {
         "path": "compilation.json",
         "bytes": 168271,
-        "digest": "sha256:2a6d457536a6e7a4ffd460bd733740121dd64fc7c7320e8fb7bd83896612f601"
+        "digest": "sha256:e553e1a4a80253831b0c63b4563b7f467f7b4675911a3148a1a950e4d37bd305"
       },
       {
         "path": "integration.md",
         "bytes": 4711,
-        "digest": "sha256:4b46a9e6818de256c89d4904b45139172906da1d3813d13c325af8cc6dbad1d2"
+        "digest": "sha256:e8380c7a3f1daa206852669ce324e45912846885feb2becfb8ea3ebf5bb2c8fa"
       },
       {
         "path": "manifest.json",
         "bytes": 2072,
-        "digest": "sha256:b899808770907bfd551f00aa76c6a6ecc5d9a23f85b3a5fa04713cbf7d8c8719"
+        "digest": "sha256:59fcca6939dccf8a30aa3d8fb641e6d257aec931de1730ac317d1297984e9610"
       }
     ]
   }

@@ -2,8 +2,8 @@
   "apiVersion": "swecircuit/specialist/v1alpha1",
   "kind": "GoalContract",
   "id": "v11.specialist-compiler.prelaunch-audit",
-  "revision": 33,
-  "objective": "Independently audit candidate sha256:213982e89622636fdc842f446ef3421f7d1c895dc25b59ca560156a3c47248a8 and package sha256:fd5b6e5182fa482fc14bebb5ef5b32cfb551df0e842bd0864e0aa0f9d500807f before launch approval.",
+  "revision": 35,
+  "objective": "Independently audit candidate sha256:5af627b5a678bbd268e2170d5b399dc7b898ce9f4b716b1a6ed65d8019b78583 and package sha256:f6d64d94f2834f0fafd2675043114359d4dddac86e8e7add22a8555bdbf598a1 before launch approval.",
   "integrationOwner": "v11.integration-owner",
   "assumptions": [
     {
@@ -87,7 +87,7 @@
       "id": "context.candidate-artifact.01",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
-      "digest": "sha256:47763de1933c8111e7e0cdb24582d452032d322ee6815a3bd327bb49aa205ba3",
+      "digest": "sha256:9546d0b207b1dc10e67684d20fd603a372338dd35b0e1103a0e873ee2ebe5bac",
       "bytes": 313360,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json.",
       "allowedWorkUnits": [
@@ -100,7 +100,7 @@
       "id": "context.candidate-artifact.02",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
-      "digest": "sha256:ce58ef708ad086f84b78860fa8340052d532cba04663441cdb51498b1d4a3b1b",
+      "digest": "sha256:d577545c32f3e5189c1d2dab510a5839da1b0234680ecae98cd270761669d547",
       "bytes": 18937,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md.",
       "allowedWorkUnits": [
@@ -113,7 +113,7 @@
       "id": "context.candidate-artifact.03",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
-      "digest": "sha256:4f1956009e4c7e987f0ab700380519819e1906dfe9ed52d1d28388312924ce52",
+      "digest": "sha256:d3c38c4d79a97ffa992a6c9c3f62d66ef56dc1d51eab4dd5f90f749d9c5dcdef",
       "bytes": 11199,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md.",
       "allowedWorkUnits": [
@@ -126,7 +126,7 @@
       "id": "context.candidate-artifact.04",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
-      "digest": "sha256:57b76e09372f0b1004e4cc557b146feea3ce60e8f658bd84ce819fee43554405",
+      "digest": "sha256:337afba618503fa82b32652d404bf1e68c7b8ec30bc05e1601fe6fc73e516771",
       "bytes": 23776,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md.",
       "allowedWorkUnits": [
@@ -139,7 +139,7 @@
       "id": "context.candidate-artifact.05",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
-      "digest": "sha256:18ef3030a363b17e4b7e36a0c0a35cbf1dd97ff0f16fadac02b79a62d63b4e3a",
+      "digest": "sha256:e5d1df8852619bc2e527a9c7d99f0636b0a7bbdf26d2ecbc7b32eab94b146f5d",
       "bytes": 27305,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md.",
       "allowedWorkUnits": [
@@ -152,7 +152,7 @@
       "id": "context.candidate-artifact.06",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
-      "digest": "sha256:8cf7bf14b7cf6988c8084aff8b76800453d5cf0c7d3882dcbccdcb55d6104a09",
+      "digest": "sha256:2a430cbbcb8fcfb9b43310dee64454391a9d6d2406349996f4fcb623f058bce8",
       "bytes": 33804,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md.",
       "allowedWorkUnits": [
@@ -165,7 +165,7 @@
       "id": "context.candidate-artifact.07",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
-      "digest": "sha256:972b6c69c8af598abd4bbba9b94edb3763f2474fee55845f28038e603d068ce0",
+      "digest": "sha256:902ea956494e47f6bdff7f323620efdfbc7c34f94a94eeb66fa28c51ab3b4f69",
       "bytes": 37023,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md.",
       "allowedWorkUnits": [
@@ -178,7 +178,7 @@
       "id": "context.candidate-artifact.08",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
-      "digest": "sha256:47763de1933c8111e7e0cdb24582d452032d322ee6815a3bd327bb49aa205ba3",
+      "digest": "sha256:9546d0b207b1dc10e67684d20fd603a372338dd35b0e1103a0e873ee2ebe5bac",
       "bytes": 313360,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json.",
       "allowedWorkUnits": [
@@ -191,7 +191,7 @@
       "id": "context.candidate-artifact.09",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
-      "digest": "sha256:9b218cd2cceaf7940ad08ffbd2afe4443238bcad4ce02672904e0b75a9d0a5cc",
+      "digest": "sha256:7f2944dbe486e7c3e0f64d223196e57ef02e48da6954f7cb3e3e490f1195c330",
       "bytes": 8142,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md.",
       "allowedWorkUnits": [
@@ -204,7 +204,7 @@
       "id": "context.candidate-artifact.10",
       "kind": "repository",
       "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
-      "digest": "sha256:dc2f952cb15c09bbb77b84a320e8d09accfb3392c1e9ecb6216bd1a369dc3afa",
+      "digest": "sha256:d011b701f738cd77e7305d466453bd23b36a64461d05a2fbff3b6ee53596197b",
       "bytes": 4203,
       "description": "Immutable candidate artifact: docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json.",
       "allowedWorkUnits": [
@@ -289,8 +289,8 @@
       "id": "context.consumer-check",
       "kind": "repository",
       "locator": "path:scripts/check-packed-consumer.mjs",
-      "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e",
-      "bytes": 43244,
+      "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
+      "bytes": 43243,
       "description": "Offline installed-package verification that compiles and executes the public TypeScript host, asserts its structured receipt, and verifies retained approval.",
       "allowedWorkUnits": [
         "audit.review-candidate-compilation"
@@ -589,8 +589,8 @@
       "id": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:f395932106ac25216ca753127f7b97b01497090a7c4115732de77784fff2c5ce",
-      "bytes": 3723,
+      "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
+      "bytes": 2946,
       "description": "Canonical build, test, dogfood, package, and consumer gates.",
       "allowedWorkUnits": [
         "audit.review-candidate-compilation"
