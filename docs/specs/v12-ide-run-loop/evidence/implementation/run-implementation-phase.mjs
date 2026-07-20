@@ -98,6 +98,10 @@ const REPOSITORY_SOURCES = {
     "src/specialist-handoff-schema.ts",
     "Existing Specialist Handoff schema validator pattern.",
   ],
+  "context.handoff-schema-data": [
+    "src/specialist-handoff-schema-data.ts",
+    "Revision-3 package-owned common and Specialist Handoff schema data.",
+  ],
   "context.handoff-schema-json": [
     "schemas/v1alpha1/specialist-handoff.schema.json",
     "Existing closed Specialist Handoff schema pattern.",
@@ -267,6 +271,22 @@ const REPOSITORY_SOURCES = {
     "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
     "Trace of the retired revision-1 contract and revision-2 replacement result.",
   ],
+  "context.release-correction-r3-package": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json",
+    "Owner-approved revision-3 package that produced the package-reconstruction split.",
+  ],
+  "context.release-correction-r3-approval": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json",
+    "Exact owner approval for the revision-3 package.",
+  ],
+  "context.release-correction-r3-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+    "Verified revision-3 SPLIT handoff identifying the package-reconstruction schema read.",
+  ],
+  "context.release-correction-r3-replan": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+    "Trace of the revision-2 split and revision-3 scope expansion.",
+  ],
 };
 
 const FOUNDATION_WRITES = [
@@ -326,6 +346,12 @@ const RELEASE_PURITY_R3_WRITES = [
   ...RELEASE_PURITY_WRITES,
   "src/specialist-handoff-schema-data.ts",
   "src/specialist-handoff-schema.ts",
+];
+
+const RELEASE_PURITY_R4_WRITES = [
+  ...RELEASE_PURITY_R3_WRITES,
+  "src/specialist-schema-data.ts",
+  "src/specialist-schema.ts",
 ];
 
 const RELEASE_RESOURCE_WRITES = [
@@ -1063,6 +1089,86 @@ CONFIGS["release-correction-r3"] = {
         "Provide package and split authentication, exact parity for all bundled schemas, an unprimed zero-filesystem-read proof for all four operations, counterordered identity evidence, focused tests, typecheck, build, and resulting-byte bindings.",
       artifact: "runtime-purity-ordering-correction-r3.md",
       writes: RELEASE_PURITY_R3_WRITES,
+    },
+  ],
+};
+
+CONFIGS["release-correction-r4"] = {
+  objective:
+    "Complete V12 first-use runtime purity after revision 3 proved that all four operations reach the Specialist Compiler schema loader through package reconstruction.",
+  goalPhase: "release-correction",
+  goalRevision: 4,
+  maxAgents: 1,
+  maxConcurrency: 1,
+  processScopes: ["node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  assumptions: [
+    {
+      id: "assumption.package-reconstruction-split",
+      statement:
+        "Revision 3 is a verified split: its V12 and V11 handoff-loader corrections are preserved, and revision 4 adds only the causally reached Specialist Compiler schema loader.",
+      rationale:
+        "Every truly cold operation produced the same single common.schema.json read while verifySpecialistPackage reconstructed the compilation through compileAgentBlueprints.",
+    },
+  ],
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.specialist-types",
+    "context.specialist-handoff",
+    "context.specialist-render",
+    "context.specialist-schema-code",
+    "context.specialist-schema-json",
+    "context.canonical-json",
+    "context.json-parser",
+    "context.snapshot",
+    "context.privacy",
+    "context.text",
+    "context.model",
+    "context.constants",
+    "context.diagnostics",
+    "context.run-types",
+    "context.run-schema-code",
+    "context.run-schema-data",
+    "context.run-schema-json",
+    "context.run-session",
+    "context.run-transition",
+    "context.run-inspection",
+    "context.handoff-schema-code",
+    "context.handoff-schema-data",
+    "context.handoff-schema-json",
+    "context.common-schema-json",
+    "context.foundation-tests",
+    "context.transition-tests",
+    "context.inspection-tests",
+    "context.handoff-tests",
+    "context.compiler-tests",
+    "context.review-lifecycle",
+    "context.review-security",
+    "context.release-correction-r3-package",
+    "context.release-correction-r3-approval",
+    "context.release-correction-r3-handoff",
+    "context.release-correction-r3-replan",
+  ],
+  workUnits: [
+    {
+      id: "fix.runtime-purity-ordering.r4",
+      objective:
+        "Make create, restore, inspect, and record perform zero filesystem reads during cold package reconstruction while preserving all revision-2 and revision-3 corrections.",
+      weight: 8,
+      moduleId: "correction.runtime-purity-ordering",
+      action:
+        "Authenticate the revision-3 split, preserve the existing bundled Run and Handoff validators, bundle exact common and Specialist Compiler schema source bytes into a package-owned TypeScript data module, remove Specialist Compiler validator filesystem loading, and make the existing unprimed four-operation and counterordered regressions pass without cache priming.",
+      inputType: "VerifiedPackageReconstructionSplit",
+      outputType: "PureOrderedRunOperations",
+      capability: "fix.runtime-purity-ordering",
+      evidenceId: "evidence.runtime-purity-ordering.r4",
+      evidenceDescription:
+        "Provide package and split authentication, exact parity for every bundled schema, an unprimed zero-filesystem-read proof for all four operations, counterordered identity evidence, focused compiler/handoff/run tests, typecheck, build, and resulting-byte bindings.",
+      artifact: "runtime-purity-ordering-correction-r4.md",
+      writes: RELEASE_PURITY_R4_WRITES,
     },
   ],
 };
