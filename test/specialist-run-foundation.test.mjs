@@ -157,11 +157,6 @@ const payload = JSON.parse(readFileSync(0, "utf8"));
 const sessionModule = await import(payload.moduleUrls.session);
 const inspectionModule = await import(payload.moduleUrls.inspection);
 const transitionModule = await import(payload.moduleUrls.transition);
-const renderModule = await import(
-  new URL("./specialist-render.js", payload.moduleUrls.session).href,
-);
-const beforePatch = renderModule.verifySpecialistPackage(payload.package, payload.expectation);
-assert.equal(beforePatch.ok, true, JSON.stringify(beforePatch.diagnostics));
 const filesystemReads = [];
 const blockedRead = (name) => (...args) => {
   filesystemReads.push({
@@ -200,8 +195,6 @@ for (const name of ["access", "lstat", "open", "readFile", "readdir", "realpath"
   }
 }
 syncBuiltinESMExports();
-const afterPatch = renderModule.verifySpecialistPackage(payload.package, payload.expectation);
-assert.equal(afterPatch.ok, true, JSON.stringify(afterPatch.diagnostics));
 
 let result;
 if (payload.operation === "create") {
@@ -228,16 +221,32 @@ assert.deepEqual(filesystemReads, []);
 process.stdout.write(JSON.stringify({ operation: payload.operation, filesystemReads }));
 `;
 
-test("bundled specialist run schema has exact source parity", async () => {
-  const { SPECIALIST_RUN_SCHEMA_SOURCE } = await import("../dist/specialist-run-schema-data.js");
-  const exportedSchemaSource = readFileSync(
-    new URL("../schemas/v1alpha1/specialist-run.schema.json", import.meta.url),
-    "utf8",
+test("bundled specialist schemas have exact source parity", async () => {
+  const { COMMON_SCHEMA_SOURCE, SPECIALIST_HANDOFF_SCHEMA_SOURCE } = await import(
+    "../dist/specialist-handoff-schema-data.js"
   );
-  assert.equal(SPECIALIST_RUN_SCHEMA_SOURCE, exportedSchemaSource);
-  assert.deepEqual(JSON.parse(SPECIALIST_RUN_SCHEMA_SOURCE), JSON.parse(exportedSchemaSource));
-});
+  const { SPECIALIST_RUN_SCHEMA_SOURCE } = await import("../dist/specialist-run-schema-data.js");
+  const schemas = [
+    {
+      bundled: COMMON_SCHEMA_SOURCE,
+      path: "../schemas/v1alpha1/common.schema.json",
+    },
+    {
+      bundled: SPECIALIST_HANDOFF_SCHEMA_SOURCE,
+      path: "../schemas/v1alpha1/specialist-handoff.schema.json",
+    },
+    {
+      bundled: SPECIALIST_RUN_SCHEMA_SOURCE,
+      path: "../schemas/v1alpha1/specialist-run.schema.json",
+    },
+  ];
 
+  for (const schema of schemas) {
+    const exported = readFileSync(new URL(schema.path, import.meta.url), "utf8");
+    assert.equal(schema.bundled, exported);
+    assert.deepEqual(JSON.parse(schema.bundled), JSON.parse(exported));
+  }
+});
 test("create, restore, inspect, and record perform no first-use filesystem reads", () => {
   const { blueprint, compilation, expectation, session } = setup();
   assert.notEqual(blueprint, undefined);
@@ -255,6 +264,7 @@ test("create, restore, inspect, and record perform no first-use filesystem reads
     },
   };
 
+  const observations = [];
   for (const operation of ["create", "restore", "inspect", "record"]) {
     const child = spawnSync(
       process.execPath,
@@ -266,8 +276,21 @@ test("create, restore, inspect, and record perform no first-use filesystem reads
         maxBuffer: 4 * 1024 * 1024,
       },
     );
-    assert.equal(child.error, undefined, operation);
-    assert.equal(child.status, 0, `${operation}: stdout=${child.stdout} stderr=${child.stderr}`);
-    assert.deepEqual(JSON.parse(child.stdout), { operation, filesystemReads: [] });
+    observations.push({
+      operation,
+      error: child.error?.message ?? null,
+      status: child.status,
+      stdout: child.stdout,
+      stderr: child.stderr,
+    });
+  }
+
+  assert.deepEqual(
+    observations.filter((observation) => observation.error !== null || observation.status !== 0),
+    [],
+    JSON.stringify(observations, null, 2),
+  );
+  for (const { operation, stdout } of observations) {
+    assert.deepEqual(JSON.parse(stdout), { operation, filesystemReads: [] });
   }
 });

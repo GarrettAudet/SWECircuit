@@ -1,20 +1,17 @@
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import type { ErrorObject, ValidateFunction } from "ajv";
 import { Ajv2020 } from "ajv/dist/2020.js";
 import { appendJsonPointer, createDiagnostic } from "./diagnostics.js";
 import type { JsonValue } from "./model.js";
+import {
+  COMMON_SCHEMA_SOURCE,
+  SPECIALIST_HANDOFF_SCHEMA_SOURCE,
+} from "./specialist-handoff-schema-data.js";
 import type { Diagnostic } from "./types.js";
 
 const HANDOFF_SCHEMA_ID =
   "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-handoff.schema.json";
 
 let validator: ValidateFunction<unknown> | undefined;
-
-function readSchema(fileName: string): object {
-  const url = new URL(`../schemas/v1alpha1/${fileName}`, import.meta.url);
-  return JSON.parse(readFileSync(fileURLToPath(url), "utf8")) as object;
-}
 
 function handoffValidator(): ValidateFunction<unknown> {
   if (validator !== undefined) {
@@ -25,8 +22,8 @@ function handoffValidator(): ValidateFunction<unknown> {
     strict: true,
     validateFormats: false,
   });
-  ajv.addSchema(readSchema("common.schema.json"));
-  ajv.addSchema(readSchema("specialist-handoff.schema.json"));
+  ajv.addSchema(JSON.parse(COMMON_SCHEMA_SOURCE) as object);
+  ajv.addSchema(JSON.parse(SPECIALIST_HANDOFF_SCHEMA_SOURCE) as object);
   const compiled = ajv.getSchema(HANDOFF_SCHEMA_ID);
   if (compiled === undefined) {
     throw new TypeError("Specialist handoff schema did not compile.");
