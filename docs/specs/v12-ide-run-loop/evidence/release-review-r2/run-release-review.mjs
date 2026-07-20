@@ -21,6 +21,15 @@ const checkpoint = process.argv[3];
 const BASELINE = "c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c";
 const CANDIDATE_PATTERN = /^[0-9a-f]{40}$/;
 const DIGEST_PATTERN = /^sha256:[0-9a-f]{64}$/;
+const MATERIALIZATION_DIGEST_DOMAIN = "swecircuit/release-gate/materialization/v1alpha1";
+const REQUIRED_SECURITY_CAUSAL_SOURCES = Object.freeze([
+  ".gitattributes",
+  ".gitignore",
+  "src/specialist-handoff-schema-data.ts",
+  "src/specialist-handoff-schema.ts",
+  "src/specialist-schema-data.ts",
+  "src/specialist-schema.ts",
+]);
 const SNAPSHOT_ROOT =
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/source-snapshots";
 const CANDIDATE_MANIFEST =
@@ -410,6 +419,18 @@ function source(id, path, description, allowedWorkUnits, snapshotPath = null) {
 
 const STATIC_SOURCES = [
   source(
+    "context.gitattributes",
+    ".gitattributes",
+    "Candidate Git attribute policy governing canonical evidence byte preservation.",
+    [SECURITY],
+  ),
+  source(
+    "context.gitignore",
+    ".gitignore",
+    "Candidate ignore policy governing canonical evidence retention and scratch isolation.",
+    [SECURITY],
+  ),
+  source(
     "context.spec",
     "docs/specs/v12-ide-run-loop/spec.md",
     "V12 acceptance contract.",
@@ -464,6 +485,42 @@ const STATIC_SOURCES = [
     "package.json",
     "Published package and export surface.",
     [PRODUCT, SECURITY],
+  ),
+  source(
+    "context.specialist-compiler-schema-json",
+    "schemas/v1alpha1/specialist-compiler.schema.json",
+    "Published closed V11 specialist compiler schema.",
+    [SECURITY],
+  ),
+  source(
+    "context.specialist-handoff-schema-json",
+    "schemas/v1alpha1/specialist-handoff.schema.json",
+    "Published closed V11 specialist handoff schema.",
+    [SECURITY],
+  ),
+  source(
+    "context.specialist-handoff-schema-source",
+    "src/specialist-handoff-schema-data.ts",
+    "Embedded V11 specialist handoff schema source.",
+    [SECURITY],
+  ),
+  source(
+    "context.specialist-handoff-schema-validator",
+    "src/specialist-handoff-schema.ts",
+    "Strict V11 specialist handoff schema loader and validator.",
+    [SECURITY],
+  ),
+  source(
+    "context.specialist-compiler-schema-source",
+    "src/specialist-schema-data.ts",
+    "Embedded V11 specialist compiler schema source.",
+    [SECURITY],
+  ),
+  source(
+    "context.specialist-compiler-schema-validator",
+    "src/specialist-schema.ts",
+    "Strict V11 specialist compiler schema loader and validator.",
+    [SECURITY],
   ),
   source(
     "context.index",
@@ -947,6 +1004,103 @@ function gitOutput(args) {
   });
 }
 
+function gitNulRecords(bytes, label) {
+  const input = Buffer.from(bytes);
+  requireCondition(
+    input.byteLength === 0 || input.at(-1) === 0,
+    `${label} is not NUL terminated.`,
+  );
+  const records = [];
+  let start = 0;
+  for (let index = 0; index < input.byteLength; index += 1) {
+    if (input[index] === 0) {
+      records.push(input.subarray(start, index));
+      start = index + 1;
+    }
+  }
+  return records;
+}
+
+function updateGateFrame(hash, bytes) {
+  const value = Buffer.from(bytes);
+  const size = Buffer.allocUnsafe(8);
+  size.writeBigUInt64BE(BigInt(value.byteLength));
+  hash.update(size);
+  hash.update(value);
+}
+
+function candidateSourceBinding(candidate) {
+  const commit = Buffer.from(
+    gitOutput(["rev-parse", "--verify", `${candidate}^{commit}`]),
+  )
+    .toString("ascii")
+    .trim();
+  requireCondition(commit === candidate, "Candidate commit identity mismatch.");
+
+  const tree = Buffer.from(gitOutput(["rev-parse", "--verify", `${candidate}^{tree}`]))
+    .toString("ascii")
+    .trim();
+  requireCondition(CANDIDATE_PATTERN.test(tree), "Candidate tree identity is invalid.");
+
+  const entries = gitNulRecords(
+    gitOutput(["ls-tree", "-rz", "--full-tree", candidate]),
+    "Candidate tree listing",
+  ).map((record) => {
+    const tab = record.indexOf(9);
+    requireCondition(tab > 0 && tab < record.byteLength - 1, "Candidate tree entry is malformed.");
+    const match = /^(100644|100755) blob ([0-9a-f]{40})$/.exec(
+      record.subarray(0, tab).toString("ascii"),
+    );
+    requireCondition(
+      match !== null,
+      "Candidate tree must contain only regular committed files.",
+    );
+    const pathBytes = Buffer.from(record.subarray(tab + 1));
+    const path = decodeUtf8(pathBytes, "Candidate tree path");
+    requireCondition(
+      path.length > 0 &&
+        !path.startsWith("/") &&
+        !/^[A-Za-z]:/u.test(path) &&
+        !/[\u0000-\u001f\u007f]/u.test(path) &&
+        !path.includes("\\") &&
+        path
+          .split("/")
+          .every(
+            (segment) =>
+              segment.length > 0 &&
+              segment !== "." &&
+              segment !== ".." &&
+              segment.toLowerCase() !== ".git",
+          ),
+      `Candidate tree contains an unsafe path: ${JSON.stringify(path)}.`,
+    );
+    return { mode: match[1], objectId: match[2], path, pathBytes };
+  });
+  entries.sort((left, right) => Buffer.compare(left.pathBytes, right.pathBytes));
+  const seen = new Set();
+  const hash = createHash("sha256");
+  updateGateFrame(hash, Buffer.from(MATERIALIZATION_DIGEST_DOMAIN, "utf8"));
+  let bytes = 0;
+  for (const entry of entries) {
+    const key = process.platform === "win32" ? entry.path.toLowerCase() : entry.path;
+    requireCondition(!seen.has(key), `Candidate tree path is not unique: ${entry.path}.`);
+    seen.add(key);
+    const content = Buffer.from(gitOutput(["cat-file", "blob", entry.objectId]));
+    bytes += content.byteLength;
+    updateGateFrame(hash, Buffer.from(entry.mode, "ascii"));
+    updateGateFrame(hash, entry.pathBytes);
+    updateGateFrame(hash, content);
+  }
+  requireCondition(entries.length > 0, "Candidate tree is empty.");
+  return {
+    commit,
+    tree,
+    files: entries.length,
+    bytes,
+    digest: `sha256:${hash.digest("hex")}`,
+  };
+}
+
 function inspectEvidenceAttributes(path) {
   const fields = Buffer.from(
     gitOutput(["check-attr", "-z", "text", "diff", "merge", "--", path]),
@@ -1068,6 +1222,8 @@ async function validateGateReceipt(candidate) {
       "version",
       "candidateCommit",
       "repository",
+      "candidateSource",
+      "materialization",
       "command",
       "result",
       "exitCode",
@@ -1103,6 +1259,40 @@ async function validateGateReceipt(candidate) {
       receipt.repository.trackedStateAfter === "clean" &&
       receipt.repository.inspectionError === null,
     "Canonical gate did not preserve the exact clean candidate.",
+  );
+
+  const expectedCandidateSource = candidateSourceBinding(candidate);
+  assertExactKeys(
+    receipt.candidateSource,
+    ["commit", "tree", "files", "bytes", "digest"],
+    "canonical-gate candidate source binding",
+  );
+  requireCondition(
+    JSON.stringify(receipt.candidateSource) === JSON.stringify(expectedCandidateSource),
+    "Canonical-gate candidate source binding does not match the committed Git tree.",
+  );
+  assertExactKeys(
+    receipt.materialization,
+    [
+      "strategy",
+      "files",
+      "bytes",
+      "digestBefore",
+      "digestAfter",
+      "inspectionError",
+      "cleanupError",
+    ],
+    "canonical-gate materialization binding",
+  );
+  requireCondition(
+    receipt.materialization.strategy === "exact-git-blob-materialization" &&
+      receipt.materialization.files === expectedCandidateSource.files &&
+      receipt.materialization.bytes === expectedCandidateSource.bytes &&
+      receipt.materialization.digestBefore === expectedCandidateSource.digest &&
+      receipt.materialization.digestAfter === expectedCandidateSource.digest &&
+      receipt.materialization.inspectionError === null &&
+      receipt.materialization.cleanupError === null,
+    "Canonical gate did not use and preserve an authenticated candidate materialization.",
   );
   assertExactKeys(
     receipt.command,
@@ -1533,6 +1723,14 @@ function assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLin
       `Primary evidence is summary-only or absent from reviewer context: ${path}.`,
     );
   }
+
+  for (const path of REQUIRED_SECURITY_CAUSAL_SOURCES) {
+    const row = reviewedSourceByPath(rows, path);
+    requireCondition(
+      row.allowedWorkUnits.includes(SECURITY) && scopes.has(row.snapshotPath),
+      `Security reviewer lacks a required causal source: ${path}.`,
+    );
+  }
 }
 
 function reviewDefinitions() {
@@ -1637,9 +1835,9 @@ function requestFor(contextSources, candidate) {
         {
           id: "assumption.canonical-gate-primary-evidence",
           statement:
-            "The canonical gate passed for the exact clean candidate and its raw stdout, raw stderr, and closed receipt are direct reviewer sources.",
+            "The canonical gate passed from an authenticated materialization of the exact committed candidate tree, and its raw stdout, raw stderr, and closed receipt are direct reviewer sources.",
           rationale:
-            "The release-gate wrapper binds exact output bytes, command, exit status, pre/post HEAD, and tracked cleanliness without a timestamp or summary-only claim.",
+            "The release-gate wrapper binds the commit, tree, file count, byte count, source digest, pre/post materialization digest, cleanup, exact output bytes, command, exit status, and pre/post HEAD without a timestamp or summary-only claim.",
         },
         {
           id: "assumption.external-host-boundary",
@@ -1749,6 +1947,8 @@ async function prepare() {
     branch: "codex/v12-ide-run-loop",
     canonicalGate: {
       receipt: gate.receiptBinding,
+      candidateSource: gate.receipt.candidateSource,
+      materialization: gate.receipt.materialization,
       stdout: gate.receipt.stdout,
       stderr: gate.receipt.stderr,
       command: gate.receipt.command.canonical,
@@ -1849,6 +2049,8 @@ async function validatePreparedInputs() {
     JSON.stringify(manifest.canonicalGate) ===
       JSON.stringify({
         receipt: gate.receiptBinding,
+        candidateSource: gate.receipt.candidateSource,
+        materialization: gate.receipt.materialization,
         stdout: gate.receipt.stdout,
         stderr: gate.receipt.stderr,
         command: gate.receipt.command.canonical,

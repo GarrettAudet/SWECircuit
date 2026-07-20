@@ -1,14 +1,26 @@
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
-import { access, mkdir, open, readFile, writeFile } from "node:fs/promises";
-import { dirname, join, relative } from "node:path";
+import {
+  access,
+  mkdir,
+  mkdtemp,
+  open,
+  readFile,
+  readdir,
+  rm,
+  rmdir,
+  writeFile,
+} from "node:fs/promises";
+import { delimiter, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const EVIDENCE = join(ROOT, "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs");
 const CANDIDATE_PATTERN = /^[0-9a-f]{40}$/;
+const MATERIALIZATION_DIGEST_DOMAIN = "swecircuit/release-gate/materialization/v1alpha1";
 
 const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
+const MATERIALIZATION_PARENT = join(ROOT, ".local", "v12-release-gate");
 
 const COMMAND =
   process.platform === "win32"
@@ -54,12 +66,257 @@ function runGit(args) {
   const result = spawnSync("git", args, {
     cwd: ROOT,
     encoding: null,
-    maxBuffer: 16 * 1024 * 1024,
+    maxBuffer: 128 * 1024 * 1024,
   });
   if (result.error) {
     throw result.error;
   }
   return result;
+}
+
+function strictUtf8(bytes, label) {
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    throw new Error(label + " is not strict UTF-8.");
+  }
+}
+
+function nulRecords(bytes, label) {
+  const input = Buffer.from(bytes);
+  requireCondition(input.byteLength === 0 || input.at(-1) === 0, label + " is not NUL terminated.");
+  const records = [];
+  let start = 0;
+  for (let index = 0; index < input.byteLength; index += 1) {
+    if (input[index] === 0) {
+      records.push(input.subarray(start, index));
+      start = index + 1;
+    }
+  }
+  return records;
+}
+
+function safeTreePath(pathBytes) {
+  const path = strictUtf8(pathBytes, "Candidate tree path");
+  requireCondition(
+    path.length > 0 &&
+      !isAbsolute(path) &&
+      // biome-ignore lint/suspicious/noControlCharactersInRegex: Candidate paths deliberately reject unsafe controls.
+      !/[\u0000-\u001f\u007f]/u.test(path) &&
+      !path.includes("\\"),
+    "Candidate tree contains an unsafe path: " + JSON.stringify(path) + ".",
+  );
+  const segments = path.split("/");
+  requireCondition(
+    segments.every(
+      (segment) =>
+        segment.length > 0 &&
+        segment !== "." &&
+        segment !== ".." &&
+        segment.toLowerCase() !== ".git",
+    ),
+    "Candidate tree contains an unsafe path: " + JSON.stringify(path) + ".",
+  );
+  return { path, segments };
+}
+
+function candidateTree(candidateCommit) {
+  const commitResult = runGit(["rev-parse", "--verify", candidateCommit + "^{commit}"]);
+  requireCondition(commitResult.status === 0, "Unable to resolve candidate commit.");
+  requireCondition(
+    Buffer.from(commitResult.stdout).toString("ascii").trim() === candidateCommit,
+    "Candidate commit did not resolve to its exact identity.",
+  );
+
+  const treeResult = runGit(["rev-parse", "--verify", candidateCommit + "^{tree}"]);
+  requireCondition(treeResult.status === 0, "Unable to resolve candidate tree.");
+  const tree = Buffer.from(treeResult.stdout).toString("ascii").trim();
+  requireCondition(CANDIDATE_PATTERN.test(tree), "Candidate tree is not a full object ID.");
+
+  const listingResult = runGit(["ls-tree", "-rz", "--full-tree", candidateCommit]);
+  requireCondition(listingResult.status === 0, "Unable to enumerate candidate tree.");
+  const entries = nulRecords(listingResult.stdout, "Candidate tree listing").map((record) => {
+    const tab = record.indexOf(9);
+    requireCondition(tab > 0 && tab < record.byteLength - 1, "Candidate tree entry is malformed.");
+    const header = record.subarray(0, tab).toString("ascii");
+    const match = /^(100644|100755) blob ([0-9a-f]{40})$/.exec(header);
+    requireCondition(match !== null, "Candidate tree must contain only regular committed files.");
+    const pathBytes = Buffer.from(record.subarray(tab + 1));
+    return { mode: match[1], objectId: match[2], pathBytes, ...safeTreePath(pathBytes) };
+  });
+  entries.sort((left, right) => Buffer.compare(left.pathBytes, right.pathBytes));
+  const seen = new Set();
+  for (const entry of entries) {
+    const key = process.platform === "win32" ? entry.path.toLowerCase() : entry.path;
+    requireCondition(!seen.has(key), "Candidate tree path is not unique: " + entry.path + ".");
+    seen.add(key);
+  }
+  requireCondition(entries.length > 0, "Candidate tree is empty.");
+  return { tree, entries };
+}
+
+function readGitBlob(objectId) {
+  const result = runGit(["cat-file", "blob", objectId]);
+  requireCondition(result.status === 0, "Unable to read candidate blob " + objectId + ".");
+  return Buffer.from(result.stdout);
+}
+
+function updateFramed(hash, bytes) {
+  const value = Buffer.from(bytes);
+  const size = Buffer.allocUnsafe(8);
+  size.writeBigUInt64BE(BigInt(value.byteLength));
+  hash.update(size);
+  hash.update(value);
+}
+
+function createMaterializationDigest() {
+  const hash = createHash("sha256");
+  updateFramed(hash, Buffer.from(MATERIALIZATION_DIGEST_DOMAIN, "utf8"));
+  return hash;
+}
+
+function updateMaterializationDigest(hash, entry, bytes) {
+  updateFramed(hash, Buffer.from(entry.mode, "ascii"));
+  updateFramed(hash, entry.pathBytes);
+  updateFramed(hash, bytes);
+}
+
+function finishMaterializationDigest(hash) {
+  return "sha256:" + hash.digest("hex");
+}
+
+function materializedPath(root, entry) {
+  const path = resolve(root, ...entry.segments);
+  requireCondition(
+    path.startsWith(resolve(root) + sep),
+    "Candidate tree path escapes materialization: " + entry.path + ".",
+  );
+  return path;
+}
+
+async function inspectMaterialization(root, entries) {
+  const hash = createMaterializationDigest();
+  let bytes = 0;
+  for (const entry of entries) {
+    const content = await readFile(materializedPath(root, entry));
+    bytes += content.byteLength;
+    updateMaterializationDigest(hash, entry, content);
+  }
+  return {
+    files: entries.length,
+    bytes,
+    digest: finishMaterializationDigest(hash),
+  };
+}
+
+async function inspectExactMaterialization(root, entries) {
+  const expectedFiles = entries.map((entry) => entry.path);
+  const expectedDirectories = new Set([""]);
+  for (const entry of entries) {
+    for (let length = 1; length < entry.segments.length; length += 1) {
+      expectedDirectories.add(entry.segments.slice(0, length).join("/"));
+    }
+  }
+
+  const actualFiles = [];
+  async function visit(directory, repositoryDirectory) {
+    const children = await readdir(directory, { withFileTypes: true });
+    for (const child of children) {
+      const repositoryPath = repositoryDirectory
+        ? repositoryDirectory + "/" + child.name
+        : child.name;
+      const path = join(directory, child.name);
+      if (child.isDirectory()) {
+        requireCondition(
+          expectedDirectories.has(repositoryPath),
+          "Candidate materialization contains an unexpected directory: " + repositoryPath + ".",
+        );
+        await visit(path, repositoryPath);
+      } else {
+        requireCondition(
+          child.isFile(),
+          "Candidate materialization contains a non-regular entry: " + repositoryPath + ".",
+        );
+        actualFiles.push(repositoryPath);
+      }
+    }
+  }
+  await visit(root, "");
+  actualFiles.sort((left, right) => Buffer.compare(Buffer.from(left), Buffer.from(right)));
+  requireCondition(
+    actualFiles.length === expectedFiles.length &&
+      actualFiles.every((path, index) => path === expectedFiles[index]),
+    "Candidate materialization contains files outside the committed Git tree.",
+  );
+  return inspectMaterialization(root, entries);
+}
+
+async function removeMaterialization(root) {
+  requireCondition(
+    dirname(root) === MATERIALIZATION_PARENT &&
+      root.startsWith(MATERIALIZATION_PARENT + sep + "candidate-"),
+    "Refusing to remove an unexpected materialization path.",
+  );
+  await rm(root, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+  try {
+    await rmdir(MATERIALIZATION_PARENT);
+  } catch (error) {
+    if (
+      !error ||
+      typeof error !== "object" ||
+      (error.code !== "ENOENT" && error.code !== "ENOTEMPTY" && error.code !== "EEXIST")
+    ) {
+      throw error;
+    }
+  }
+}
+
+async function materializeCandidateSource(candidateCommit) {
+  const { tree, entries } = candidateTree(candidateCommit);
+  await mkdir(MATERIALIZATION_PARENT, { recursive: true });
+  const root = await mkdtemp(join(MATERIALIZATION_PARENT, "candidate-"));
+  const hash = createMaterializationDigest();
+  let bytes = 0;
+  try {
+    for (const entry of entries) {
+      const content = readGitBlob(entry.objectId);
+      const target = materializedPath(root, entry);
+      await mkdir(dirname(target), { recursive: true });
+      await writeFile(target, content, {
+        flag: "wx",
+        mode: entry.mode === "100755" ? 0o755 : 0o644,
+      });
+      bytes += content.byteLength;
+      updateMaterializationDigest(hash, entry, content);
+    }
+    const source = {
+      commit: candidateCommit,
+      tree,
+      files: entries.length,
+      bytes,
+      digest: finishMaterializationDigest(hash),
+    };
+    const inspected = await inspectExactMaterialization(root, entries);
+    requireCondition(
+      inspected.files === source.files &&
+        inspected.bytes === source.bytes &&
+        inspected.digest === source.digest,
+      "Candidate materialization does not match committed source bytes.",
+    );
+    return { root, entries, source };
+  } catch (error) {
+    await removeMaterialization(root);
+    throw error;
+  }
+}
+
+function commandEnvironment() {
+  const environment = { ...process.env };
+  const pathKey = Object.keys(environment).find((key) => key.toLowerCase() === "path") ?? "PATH";
+  environment[pathKey] =
+    join(ROOT, "node_modules", ".bin") + delimiter + (environment[pathKey] ?? "");
+  environment.GIT_CEILING_DIRECTORIES = MATERIALIZATION_PARENT;
+  return environment;
 }
 
 function inspectEvidenceAttributes(path) {
@@ -223,25 +480,46 @@ async function main() {
     );
   }
 
-  const stdoutHandle = await open(outputs.stdout, "wx");
-  let stderrHandle;
-  try {
-    stderrHandle = await open(outputs.stderr, "wx");
-  } catch (error) {
-    await stdoutHandle.close();
-    throw error;
-  }
-
+  const materialization = await materializeCandidateSource(candidateCommit);
   let gateResult;
+  let materializationDigestAfter = null;
+  let materializationInspectionError = null;
+  let materializationCleanupError = null;
   try {
-    gateResult = spawnSync(COMMAND.executable, [...COMMAND.arguments], {
-      cwd: ROOT,
-      encoding: null,
-      stdio: ["ignore", stdoutHandle.fd, stderrHandle.fd],
-      windowsHide: true,
-    });
+    const stdoutHandle = await open(outputs.stdout, "wx");
+    let stderrHandle;
+    try {
+      stderrHandle = await open(outputs.stderr, "wx");
+    } catch (error) {
+      await stdoutHandle.close();
+      throw error;
+    }
+
+    try {
+      gateResult = spawnSync(COMMAND.executable, [...COMMAND.arguments], {
+        cwd: materialization.root,
+        encoding: null,
+        env: commandEnvironment(),
+        stdio: ["ignore", stdoutHandle.fd, stderrHandle.fd],
+        windowsHide: true,
+      });
+    } finally {
+      await Promise.all([stdoutHandle.close(), stderrHandle.close()]);
+    }
+
+    try {
+      materializationDigestAfter = (
+        await inspectMaterialization(materialization.root, materialization.entries)
+      ).digest;
+    } catch (error) {
+      materializationInspectionError = normalizedError(error);
+    }
   } finally {
-    await Promise.all([stdoutHandle.close(), stderrHandle.close()]);
+    try {
+      await removeMaterialization(materialization.root);
+    } catch (error) {
+      materializationCleanupError = normalizedError(error);
+    }
   }
 
   let after = { head: null, trackedState: "unavailable" };
@@ -259,7 +537,10 @@ async function main() {
     spawnError === null &&
     repositoryInspectionError === null &&
     after.head === candidateCommit &&
-    after.trackedState === "clean";
+    after.trackedState === "clean" &&
+    materializationDigestAfter === materialization.source.digest &&
+    materializationInspectionError === null &&
+    materializationCleanupError === null;
 
   const receipt = {
     apiVersion: "swecircuit/release-gate/v1alpha1",
@@ -272,6 +553,16 @@ async function main() {
       trackedStateBefore: before.trackedState,
       trackedStateAfter: after.trackedState,
       inspectionError: repositoryInspectionError,
+    },
+    candidateSource: materialization.source,
+    materialization: {
+      strategy: "exact-git-blob-materialization",
+      files: materialization.source.files,
+      bytes: materialization.source.bytes,
+      digestBefore: materialization.source.digest,
+      digestAfter: materializationDigestAfter,
+      inspectionError: materializationInspectionError,
+      cleanupError: materializationCleanupError,
     },
     command: {
       executable: COMMAND.executable,
@@ -297,6 +588,8 @@ async function main() {
         candidateCommit,
         command: receipt.command.canonical,
         receipt: repositoryPath(outputs.receipt),
+        candidateSource: receipt.candidateSource,
+        materialization: receipt.materialization,
         stdout: receipt.stdout,
         stderr: receipt.stderr,
       },
@@ -309,7 +602,19 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  process.stderr.write(`${error instanceof Error ? error.message : "Unknown error"}\n`);
-  process.exitCode = 1;
+export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
+  inspectExactMaterialization,
+  inspectMaterialization,
+  materializeCandidateSource,
+  removeMaterialization,
 });
+
+if (
+  typeof process.argv[1] === "string" &&
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+) {
+  main().catch((error) => {
+    process.stderr.write(`${error instanceof Error ? error.message : "Unknown error"}\n`);
+    process.exitCode = 1;
+  });
+}
