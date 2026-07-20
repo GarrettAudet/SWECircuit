@@ -1,0 +1,60 @@
+{
+  "apiVersion": "swecircuit/prelaunch-audit-handoff/v1alpha1",
+  "kind": "PrelaunchAuditHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 36,
+    "digest": "sha256:f4355f75d07a27f3c2a880fd51859ffd72cfb6bd3d875dd1f712d3bab21b6b46"
+  },
+  "agent": {
+    "id": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:7e19a897c33625c9848bac4431dc0ec34ca830596f2415651942cf9d50c1e362"
+  },
+  "compilationDigest": "sha256:5ad47788b7d6bd0d0ad149fbbde109ee15e92a5aba82d8ce902548edf2d06765",
+  "reviewer": {
+    "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:7e19a897c33625c9848bac4431dc0ec34ca830596f2415651942cf9d50c1e362"
+  },
+  "candidate": {
+    "compilationDigest": "sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681",
+    "packageDigest": "sha256:66ffa021c2def7b9487ae42fddb27570c1de8b895485ee0c9ab26f6c707cf1e2"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:5ad47788b7d6bd0d0ad149fbbde109ee15e92a5aba82d8ce902548edf2d06765",
+    "packageDigest": "sha256:2c7c9acf44bcd82cb0320850f66497fc3ebff5fb1f4682cc135cff1dc6015a4b"
+  },
+  "summary": "PASS. Independently reconstructed Candidate A and its package byte-for-byte, reproduced all 203 fixed-scheduler partitions and the selected candidate, and confirmed exact authority, evidence independence, schedule, digest, manifest, and rendered-contract bindings for both assigned review duties.",
+  "workUnitsCompleted": [
+    "audit.review-candidate-compilation"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-compilation-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Compilation Review\n\nOutcome: `PASS`\n\n## Trust inputs\n\n- Re-authenticated all 59 declared reviewer context items against their exact raw SHA-256 digests and byte counts. The reviewer contract is 46179 bytes with raw digest sha256:604e2e6f9cc7b876650ede254abc5b6209b6e835b6c98ec2b6efe9c6c4769309.\n- Parsed and checked the host receipt at 2255 bytes and raw digest sha256:2605133783fcf1d8d2629fb0a78ba9c1f996e1865b87f8221d9d82d85d59657c. It binds the exact Candidate A and Audit B digest pairs, both package-verification outcomes, the approved reviewer identity, and candidateLaunchApproved false.\n- Checked the host-verified binder dependency handoff at 12986 bytes and raw digest sha256:ab17516c3e132c86ed9b94e445b9abbae22948827776b8bd80e47c736bef17f2. Its CandidateAuditBinding authenticates all 10 Candidate A artifacts and the exact receipt. Its stated scope excludes semantic review, so no semantic PASS was inferred from that handoff, its prose, filename, or outcome.\n\n## Exact reconstruction\n\n- Recompiled the frozen revision-36 GoalContract and both normalized proposals from authenticated Candidate A bytes. The independently invoked compiler returned an object exactly equal to the frozen compilation with goal digest sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573 and compilation digest sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681.\n- Rerendered the package and compared every byte. All nine files, including six agent contracts, compilation.json, integration.md, and manifest.json, matched their authenticated bytes and raw file digests. The external and packaged compilation copies are byte-identical at 313384 bytes.\n- The reconstructed manifest content digest is sha256:7f02a86aa55f7c3419bdb4627f86ece3ac7cb5177ea75690719150495ab6b554. The reconstructed package digest is sha256:66ffa021c2def7b9487ae42fddb27570c1de8b895485ee0c9ab26f6c707cf1e2.\n- verifySpecialistPackage returned PASS with a non-null value against the exact Candidate A compilation and package expectations delivered in the external receipt.\n\n## Candidate selection review\n\n- A separate evaluator implemented the published partition, eligibility, fixed-scheduler, metric, comparator, and domain-separated digest rules without calling the compiler. It enumerated all 203 canonical set partitions for six work units under maxAgents 6, matching Bell(6), and found the claimed 52 eligible candidates.\n- The evaluator reproduced the serial baseline as ineligible for evidence_independence, all proposal evaluations, all eight retained alternatives, and evaluation-set digest sha256:4ef2dbec313fd4dad49834027407233a50a88749049a2544ea81c647f28c437d.\n- The selected candidate team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d assigns one stable work unit to each of six specialists. It exactly wins the fixed comparator with makespan 23, peak concurrency 4, zero conflict pairs, eight cross-agent handoffs, 2209319 duplicated context bytes, and 149 duplicated permission scopes.\n- The schedule is exact: preparation runs 0-3; algorithm, product/API, release-gate, and security/trace work start at 4 and finish at 16, 14, 11, and 16; integration starts at 17 and finishes at 23. The exact search claim is limited correctly to the reviewed work-unit partitions and fixed scheduler and makes no claim about globally optimal decomposition or runtime performance.\n\n## Authority, evidence, and package review\n\n- Independently derived TaskAuthorityProjection sha256:4155677cd0462389d233260bd2ccd5c52f2ac25133a59a7e85e3d74eea59ab46 from the goal. All 57 context declarations, Module and capability demands, filesystem scopes, process demands, forbidden effects, maxAgents, and maxConcurrency are preserved.\n- All work-unit permissions are covered by the owner ceiling; filesystem read and write permissions equal each unit's declared scopes; every repository locator is normalized and covered by its declared readScope; and each source use is purpose-bound and work-unit-authorized.\n- Each of the eight evidence requirements has exactly one owner. Algorithm, product/API, and security/trace producers are separated from their independent reviewers, and the release record producer is separated from the independent release-gate verifier. The serial candidate therefore fails closed while the selected candidate satisfies every independence gate.\n- Independently derived all six blueprints from the selected partition. Every derived blueprint, blueprint digest, objective, Module port, dependency, context binding, authority union, evidence duty, handoff artifact, required field, and stop condition exactly matches the compilation.\n- Parsed all six rendered contracts. Each embeds its exact blueprint and one closed concrete SpecialistAgentHandoff with the correct goal, compilation, agent, work-unit, artifact media, and evidence bindings. No provider, model, prompt, role, executor, credential, runtime, or grant key appears.\n- The manifest exactly binds Candidate A, all three launch waves, all six contracts, the integration contract, raw-file digest semantics, and compilation.json. No selection, authority, evidence, schedule, digest, contract, or package claim differed.\n\n## Failed attempt and boundary\n\nAn initial audit assertion treated filesystem ceiling scopes as exact strings and flagged integration read scopes nested below docs/**. Rechecking with the contract's documented /** containment rule cleared the assertion; every permission remains within the owner ceiling. This was an audit-harness correction, not a Candidate A mismatch.\n\nThis review performed no repository mutation, network access, approval, launch, integration, merge, or durable-memory update. Candidate A remains unapproved for launch until the host preserves this exact semantic handoff, creates the cross-package authorization, and separately approves and verifies Candidate A.\n\n## Conclusion\n\nPASS. Candidate A is exactly reconstructable from authenticated bytes. Its exhaustive selection, fixed schedule, metrics, authority projection, evidence independence, blueprints, rendered contracts, manifest, compilation digest, and package digest all satisfy both assigned review duties."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}

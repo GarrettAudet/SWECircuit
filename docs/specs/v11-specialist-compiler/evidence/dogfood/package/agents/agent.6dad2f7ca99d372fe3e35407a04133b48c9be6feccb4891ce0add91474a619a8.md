@@ -1,7 +1,7 @@
 # Specialist Contract: agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8
 
-Compilation: `sha256:5af627b5a678bbd268e2170d5b399dc7b898ce9f4b716b1a6ed65d8019b78583`
-Blueprint: `sha256:353fbd52eb587a9ea8bc5b7c01f69bdd8de2f876dd3ff32c9d5df253d5a19440`
+Compilation: `sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681`
+Blueprint: `sha256:1bbe59370412b205bc4267d8ec0f7bfaeeffa9bf45dd4d82b84bcd3c93b0bf87`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 35,
-  "goalDigest": "sha256:bdcfc239b7b56c4a1441e6a6e982c5151ca324c24782d72cde49f327fcb9ceac",
+  "goalRevision": 36,
+  "goalDigest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "verify.release-gates"
@@ -495,8 +495,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.template-checker",
       "kind": "repository",
       "locator": "path:scripts/check-template.ps1",
-      "digest": "sha256:e7df2c505bb86fc026eb1934a3834d5ae8faf9e2e23992ad45fb5d7bad82af41",
-      "bytes": 80644,
+      "digest": "sha256:f0d14d1cf7d61f338c588d57b28415cbd045b05ac7b81fa80432373fa1bbf81e",
+      "bytes": 80766,
       "purposes": [
         "Verify workflow artifact checks."
       ],
@@ -509,8 +509,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.template-checker-tests",
       "kind": "repository",
       "locator": "path:scripts/test-check-template.ps1",
-      "digest": "sha256:f81f09c537d228ab88686bcaa7b57f09388239f39e2e03feb86070b584428e81",
-      "bytes": 101985,
+      "digest": "sha256:1cec6a958b7eb40f1a8a60d3dc81f6c4b464c68c310e815c9339857dcca767f6",
+      "bytes": 102789,
       "purposes": [
         "Verify checker regression coverage."
       ],
@@ -715,7 +715,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "On Windows, stop with FIX unless the full negative checker matrix uses a verified short-path spelling that resolves to the same authorized .local/npm-cache target.",
     "Stop with FIX if any canonical gate fails or cannot be reproduced."
   ],
-  "contentDigest": "sha256:353fbd52eb587a9ea8bc5b7c01f69bdd8de2f876dd3ff32c9d5df253d5a19440"
+  "contentDigest": "sha256:1bbe59370412b205bc4267d8ec0f7bfaeeffa9bf45dd4d82b84bcd3c93b0bf87"
 }
 ```
 
@@ -736,14 +736,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 35,
-    "digest": "sha256:bdcfc239b7b56c4a1441e6a6e982c5151ca324c24782d72cde49f327fcb9ceac"
+    "revision": 36,
+    "digest": "sha256:2ea077df940ecd3f980aa72b7c84d7ff5f2f7cbc0311e48871f4069ba0d05573"
   },
   "agent": {
     "id": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
-    "blueprintDigest": "sha256:353fbd52eb587a9ea8bc5b7c01f69bdd8de2f876dd3ff32c9d5df253d5a19440"
+    "blueprintDigest": "sha256:1bbe59370412b205bc4267d8ec0f7bfaeeffa9bf45dd4d82b84bcd3c93b0bf87"
   },
-  "compilationDigest": "sha256:5af627b5a678bbd268e2170d5b399dc7b898ce9f4b716b1a6ed65d8019b78583",
+  "compilationDigest": "sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "verify.release-gates"

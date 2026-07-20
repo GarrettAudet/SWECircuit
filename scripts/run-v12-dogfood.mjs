@@ -19,12 +19,12 @@ const decoder = new TextDecoder("utf-8", { fatal: true });
 const SOURCE_BINDING = Object.freeze({
   sourceId: "context.readme",
   path: "README.md",
-  bytes: 3101,
-  digest: "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+  bytes: 3843,
+  digest: "sha256:d37b90c342a1a46a2b9c374ae660c998d2c63d047267fc72c865b68d0bb3a9fc",
 });
 const SYNTHETIC_APPROVED_EXPECTATION = Object.freeze({
-  compilationDigest: "sha256:da35488617408938ddfb63b181768037841276a0e3cd2ba40b04444d97155a37",
-  packageDigest: "sha256:0d201fc9b733a725a5fd3578607b0fc95eca203409c89dc22d4591e2059e5b07",
+  compilationDigest: "sha256:fa99e8a16cf253d4218576ae98ae55f2413bae7b1f94973bb7b61bf124877523",
+  packageDigest: "sha256:cbbc76d492b9dcb11136665555d24060d0ec26616eb7b28b0ebc402b2de000bb",
 });
 const RELEASE_CORRECTION_GOAL_ID = "v12.ide-run-loop.implementation.release-correction";
 const RELEASE_CORRECTION_BASE = "docs/specs/v12-ide-run-loop/evidence/implementation";

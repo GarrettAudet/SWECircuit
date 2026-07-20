@@ -1,4 +1,4 @@
-"""Generate the primary SWECircuit README workflow animation."""
+"""Generate the primary IDECircuit README workflow animation."""
 
 from __future__ import annotations
 
@@ -267,7 +267,7 @@ def draw_frame(t: float) -> Image.Image:
     image = Image.new("RGB", (WIDTH, HEIGHT), COLORS["background"])
     draw = ImageDraw.Draw(image)
 
-    draw.text((20, 32), "HOW SWECIRCUIT WORKS", font=FONTS["eyebrow"], fill=COLORS["blue"])
+    draw.text((20, 32), "HOW IDECIRCUIT WORKS", font=FONTS["eyebrow"], fill=COLORS["blue"])
     draw.text(
         (20, 60),
         "One goal. Modular work. Verified change.",

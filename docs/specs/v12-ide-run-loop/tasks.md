@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: Candidate 4 is retired after its exact committed-tree gate exposed missing isolated Git context and an impossible post-commit-evidence-as-source rule. Revision 11 is being compiled; Candidate 5 gate and complete fresh R2 review remain.
+T006 in progress: Candidate 4 is retired, R11 is integrated at `efc8a86`, and the IDECircuit public-surface pass has a green template checker, complete checker regression matrix, refreshed V11 trust chain, and canonical repository gate. Candidate 5 freeze and complete fresh R2 review remain.
 
 ## Task List
 

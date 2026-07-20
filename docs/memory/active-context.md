@@ -2,7 +2,7 @@
 
 ## Current Focus
 
-V12 IDE Run Loop is in release correction on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. The product implementation is complete. Candidate 4 `eff7d7afd5cb57a655f41803da96d824b9ba3438` is retired after its exact committed-tree gate passed source and repository integrity but failed five Git-aware regressions inside a metadata-free materialization. R11 is the active isolated Git-context and external-evidence correction; Candidate 5 and complete R2 review remain.
+V12 IDE Run Loop is in release correction on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Candidate 4 `eff7d7afd5cb57a655f41803da96d824b9ba3438` is retired. R11 is integrated at `efc8a86`; the active public-surface pass positions IDECircuit as the orchestration layer for agentic IDEs while retaining SWECircuit 0.x machine identifiers. Candidate 5 exact verification and complete R2 review remain.
 
 ## Current Stage
 

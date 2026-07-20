@@ -88,3 +88,20 @@ The V12 product implementation is complete, but release-correction revision 11 i
 - Independent integration passes 5 of 5 R10 lifecycle tests, 4 of 4 release-gate tests, syntax, exact formatter/linter checks, `git diff --check`, and the template checker.
 - The complete post-R10 pre-freeze `npm.cmd run verify` passes format, lint, typecheck, the full test suite, examples, V10/V11/V12 dogfood, package inspection, and clean installed-consumer verification in 158.8 seconds.
 - The accepted post-V12 direction is portable runtime demand plus host capability inventory plus an owner-visible runtime assignment. Concrete model, effort, skills, tools, and IDE-native spawning remain adapter-owned effects.
+
+## IDECircuit Public Identity Pass
+
+- The owner selected IDECircuit as the public product identity and the positioning `The orchestration layer for agentic IDEs.`
+- The concise README now explains one goal, reviewed atomic work, exact task-specific specialist contracts, host-owned dependency-safe execution, verified fan-in, integration, trace preservation, and memory.
+- The current repository URL, private npm workspace, schemas, and generated asset paths retain SWECircuit identifiers as an explicit 0.x compatibility boundary.
+- The primary deterministic GIF retains its compatibility filename and now presents IDECircuit in-frame.
+- README guards now recognize both IDECircuit and SWECircuit core aliases when rejecting host-owned capability overclaims.
+- A bounded 240.5-second checker run was preserved as incomplete after its wrapper timeout; every emitted case had passed.
+- The first complete run found five stale no-op prose mutations. The fixtures were retargeted and given explicit source guards.
+- The final checker regression matrix passed in 322.8 seconds; the template checker and `git diff --check` also pass.
+- The first exact-tree canonical attempt passed format, lint, and typecheck, then stopped before tests when the managed Windows sandbox denied TypeScript writes to the ignored `dist/` directory; no product assertion failed.
+- The approved workspace-write rerun passed the kernel suite and then correctly rejected stale V11 source evidence after the README and checker changes.
+- A separate sequence audit caught that Candidate A's revision-36 digest approval had been written before semantic prelaunch review. The approval was withdrawn, Audit B remained approved, and Candidate A was reapproved only after the exact binder, semantic `pass` handoff, and cross-package authorization were preserved.
+- V11 revision 36 now binds Candidate A `sha256:62e044c0d24a996c650c3fa884eefca216f5801e8a8b1ac677d1579b1c3ea681` / `sha256:66ffa021c2def7b9487ae42fddb27570c1de8b895485ee0c9ab26f6c707cf1e2` and Audit B `sha256:5ad47788b7d6bd0d0ad149fbbde109ee15e92a5aba82d8ce902548edf2d06765` / `sha256:2c7c9acf44bcd82cb0320850f66497fc3ebff5fb1f4682cc135cff1dc6015a4b`.
+- The revision-36 binder is 12,986 bytes at `sha256:ab17516c3e132c86ed9b94e445b9abbae22948827776b8bd80e47c736bef17f2`; the independent semantic handoff is 8,654 bytes at `sha256:52ce1327efa5f3a9e206b9fa66b5bba40debd6de98bda9f3122361555f6ace6a`. Standard handoff verification, dependency assessment, prelaunch reconstruction, and full V11 evidence replay all pass.
+- The final canonical `npm.cmd run verify` passed in 240 seconds: format, lint, typecheck, build, the full test suite, the public specialist example, V10/V11/V12 dogfood, package inspection, and clean installed-consumer verification.

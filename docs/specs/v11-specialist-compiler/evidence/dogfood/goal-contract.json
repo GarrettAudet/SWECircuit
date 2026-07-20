@@ -2,7 +2,7 @@
   "apiVersion": "swecircuit/specialist/v1alpha1",
   "kind": "GoalContract",
   "id": "v11.specialist-compiler.release",
-  "revision": 35,
+  "revision": 36,
   "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit with an exact external verification receipt, a hardened first-run reference host, self-sufficient generated handoff contracts, publicly closed specialist schemas, deterministic artifact media and normalized evidence controls, exact candidate analysis, raw handoff and dependency fan-in verification, canonical gates, traceable integration, and owner merge gate without claiming runtime orchestration.",
   "integrationOwner": "v11.integration-owner",
   "assumptions": [
@@ -769,9 +769,9 @@
       "id": "context.readme",
       "kind": "repository",
       "locator": "path:README.md",
-      "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
-      "bytes": 3101,
-      "description": "The public V11 positioning and boundary.",
+      "digest": "sha256:d37b90c342a1a46a2b9c374ae660c998d2c63d047267fc72c865b68d0bb3a9fc",
+      "bytes": 3843,
+      "description": "The public IDECircuit positioning and host boundary.",
       "allowedWorkUnits": [
         "integrate.release",
         "prepare.candidate",
@@ -899,8 +899,8 @@
       "id": "context.template-checker",
       "kind": "repository",
       "locator": "path:scripts/check-template.ps1",
-      "digest": "sha256:e7df2c505bb86fc026eb1934a3834d5ae8faf9e2e23992ad45fb5d7bad82af41",
-      "bytes": 80644,
+      "digest": "sha256:f0d14d1cf7d61f338c588d57b28415cbd045b05ac7b81fa80432373fa1bbf81e",
+      "bytes": 80766,
       "description": "Workflow artifact validation gate.",
       "allowedWorkUnits": [
         "verify.release-gates"
@@ -911,8 +911,8 @@
       "id": "context.template-checker-tests",
       "kind": "repository",
       "locator": "path:scripts/test-check-template.ps1",
-      "digest": "sha256:f81f09c537d228ab88686bcaa7b57f09388239f39e2e03feb86070b584428e81",
-      "bytes": 101985,
+      "digest": "sha256:1cec6a958b7eb40f1a8a60d3dc81f6c4b464c68c310e815c9339857dcca767f6",
+      "bytes": 102789,
       "description": "Template-checker regression matrix.",
       "allowedWorkUnits": [
         "verify.release-gates"

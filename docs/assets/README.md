@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This folder stores public README and documentation visuals. Assets explain SWECircuit; the adjacent prose remains authoritative about implemented behavior.
+This folder stores public README and documentation visuals. Assets explain IDECircuit; the adjacent prose remains authoritative about implemented behavior.
 
 ## Assets
 
@@ -19,7 +19,7 @@ This folder stores public README and documentation visuals. Assets explain SWECi
 
 ## Source
 
-`swecircuit-flow.gif` is a self-contained 920 x 560 animation generated with Pillow. It shows the current framework boundary: a developer or IDE defines atomic work, core compiles and verifies contracts, the host may run approved specialists in parallel, and one owner integrates, persists the trace, and updates memory.
+`swecircuit-flow.gif` is a self-contained 920 x 560 animation generated with Pillow. It shows the current IDECircuit boundary: a developer or IDE defines atomic work, core compiles and verifies contracts, the host may run approved specialists in parallel, and one owner integrates, persists the trace, and updates memory. Its filename remains a 0.x compatibility path.
 
 Run the generator with the bundled Codex Python runtime or any Python environment with Pillow:
 

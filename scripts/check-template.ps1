@@ -1563,9 +1563,9 @@ Test-HasHeadings "README.md" @(
 )
 $readme = Read-Text (Join-Path $Root "README.md")
 $activeReadme = Remove-MarkdownFencedContent $readme
-$readmeHeadingCount = [regex]::Matches($activeReadme, '(?m)^# SWECircuit[ \t]*\r?$').Count
+$readmeHeadingCount = [regex]::Matches($activeReadme, '(?m)^# IDECircuit[ \t]*\r?$').Count
 if ($readmeHeadingCount -ne 1) {
-    Add-Failure "README must use SWECircuit as the current project heading"
+    Add-Failure "README must use IDECircuit as the current product heading"
 }
 if ($activeReadme -notmatch [regex]::Escape("https://github.com/GarrettAudet/SWECircuit")) {
     Add-Failure "README must link the current GarrettAudet/SWECircuit repository"
@@ -1577,7 +1577,7 @@ $currentVisualPath = "docs/assets/swecircuit-flow.gif"
 $currentVisualAltText = "A reviewed goal moves through workflow modules; an external host may run approved specialists in parallel, and an integration owner verifies handoffs, merges the change, preserves the trace, and updates memory."
 $currentVisualPattern = '(?m)^!\[' + [regex]::Escape($currentVisualAltText) + '\]\(' + [regex]::Escape($currentVisualPath) + '\)[ \t]*\r?$'
 if ($activeReadme -notmatch $currentVisualPattern) {
-    Add-Failure "README missing ownership-bound SWECircuit workflow visual embed: $currentVisualPath"
+    Add-Failure "README missing ownership-bound IDECircuit workflow visual embed: $currentVisualPath"
 }
 $readmeVisualPattern = '(?m)^!\[[^\]\r\n]+\]\([^\)\r\n]+\)[ \t]*\r?$'
 $readmeVisualCount = [regex]::Matches($activeReadme, $readmeVisualPattern).Count
@@ -1586,17 +1586,18 @@ if ($readmeVisualCount -ne 1) {
 }
 $historicalOverviewPattern = '(?m)^!\[[^\]\r\n]+\]\(' + [regex]::Escape("docs/assets/tracerail-overview.png") + '\)[ \t]*\r?$'
 if ($activeReadme -match $historicalOverviewPattern) {
-    Add-Failure "README embeds the historical TraceRail overview instead of the current SWECircuit overview"
+    Add-Failure "README embeds the historical TraceRail overview instead of the current IDECircuit workflow"
 }
 
 $requiredReadmeActiveText = @(
-    "SWECircuit validates the reviewed work units, groups them into legal specialist teams",
-    "an external host selects providers, models, and tools, then may run dependency-safe contracts in parallel.",
-    "SWECircuit core compiles specialist contracts and verifies approval-bound packages, raw handoffs, and dependency fan-in.",
-    "An external IDE or agent host selects providers and models, dispatches agents, enforces permissions, runs tools, integrates and merges changes, persists traces, and updates memory.",
+    "IDECircuit validates reviewed work units, compares legal specialist teams with a serial baseline, and emits exact contracts.",
+    "An external IDE host selects providers, models, effort, skills, and tools, then may run dependency-safe contracts in parallel.",
+    "IDECircuit Core compiles specialist contracts and verifies approval-bound packages, raw handoffs, dependency fan-in, and immutable run sessions.",
+    "An external IDE host dispatches agents, enforces permissions, executes tools, integrates and merges changes, persists traces, and updates memory.",
     "The specialist example compiles and verifies a two-specialist package in memory. It writes no files and launches no agents.",
-    "V11 is the current baseline.",
-    "V10's bounded injected-executor boundary remains available for one host-selected work packet"
+    "V11 is the stable baseline.",
+    "V10's bounded injected-executor boundary remains available for one host-selected work packet",
+    "IDECircuit is the public product identity."
 )
 foreach ($requiredText in $requiredReadmeActiveText) {
     if ($activeReadme -notmatch [regex]::Escape($requiredText)) {
@@ -1643,7 +1644,7 @@ foreach ($linkTarget in $requiredReadmeLinks) {
     }
 }
 
-$coreCapabilitySubjectPattern = '(?:SWECircuit(?:\s+core)?|(?:the\s+)?core|(?:the\s+)?(?:SWECircuit\s+)?compiler)'
+$coreCapabilitySubjectPattern = '(?:(?:IDE|SWE)Circuit(?:\s+core)?|(?:the\s+)?core|(?:the\s+)?(?:(?:IDE|SWE)Circuit\s+)?compiler)'
 $coreCapabilityModalPattern = '(?:(?:can|will|may|must|does)\s+)?'
 $forbiddenActiveReadmePatterns = @(
     @{ Pattern = '(?i)\bplanned executable kernel\b'; Message = "README still describes the implemented kernel as planned" },
@@ -1663,7 +1664,7 @@ foreach ($rule in $forbiddenActiveReadmePatterns) {
 $forbiddenReadmeCommandPatterns = @(
     @{ Pattern = '(?i)\bnpx\s+swecircuit\b'; Message = "README implies a published npx command" },
     @{ Pattern = '(?i)\bnpm\s+install\s+(?:-g\s+)?swecircuit\b'; Message = "README implies an installable SWECircuit package" },
-    @{ Pattern = '(?i)\b(?:published|public)\s+SWECircuit\s+CLI\b'; Message = "README implies a published SWECircuit CLI" }
+    @{ Pattern = '(?i)\b(?:published|public)\s+(?:IDE|SWE)Circuit\s+CLI\b'; Message = "README implies a published IDECircuit CLI" }
 )
 foreach ($rule in $forbiddenReadmeCommandPatterns) {
     if ($readme -match $rule.Pattern) {

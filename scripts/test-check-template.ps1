@@ -470,7 +470,7 @@ try {
 
     $legacyHeadingFixture = New-Fixture "legacy-readme-heading"
     $legacyHeadingPath = Join-Path $legacyHeadingFixture "README.md"
-    $legacyHeadingText = (Get-Content -LiteralPath $legacyHeadingPath -Raw).Replace("# SWECircuit", "# TraceRail")
+    $legacyHeadingText = (Get-Content -LiteralPath $legacyHeadingPath -Raw).Replace("# IDECircuit", "# TraceRail")
     Write-Utf8 $legacyHeadingPath $legacyHeadingText
     Assert-CheckerResult "legacy README project heading" $legacyHeadingFixture $false
 
@@ -612,7 +612,7 @@ try {
     }
 
     $capabilityOverclaims = @(
-        @{ Name = "launches"; Text = "SWECircuit launches agents." },
+        @{ Name = "launches"; Text = "IDECircuit launches agents." },
         @{ Name = "schedules"; Text = "SWECircuit schedules agents." },
         @{ Name = "dispatches"; Text = "SWECircuit dispatches agents." },
         @{ Name = "routes"; Text = "SWECircuit routes work in parallel." },
@@ -725,7 +725,8 @@ try {
         @{ Name = "npx"; Text = "npx swecircuit" },
         @{ Name = "npm"; Text = "npm install swecircuit" },
         @{ Name = "global"; Text = "npm install -g swecircuit" },
-        @{ Name = "published-cli"; Text = "Use the published SWECircuit CLI." }
+        @{ Name = "published-cli"; Text = "Use the published IDECircuit CLI." },
+        @{ Name = "published-legacy-cli"; Text = "Use the published SWECircuit CLI." }
     )
     foreach ($claim in $publicCommandClaims) {
         $fixture = New-Fixture ("readme-public-command-" + $claim.Name)
@@ -790,10 +791,15 @@ try {
     Write-Utf8 $staleKernelPath $staleKernelText
     Assert-CheckerResult "README stale planned-kernel claim" $staleKernelFixture $false
 
+    $decompositionOwnerPhrase = "A developer or IDE closes the goal and decomposes it into atomic work units"
     $missingDecompositionOwnerFixture = New-Fixture "missing-decomposition-owner"
     $missingDecompositionOwnerPath = Join-Path $missingDecompositionOwnerFixture "README.md"
-    $missingDecompositionOwnerText = (Get-Content -LiteralPath $missingDecompositionOwnerPath -Raw).Replace(
-        "a developer or IDE closes the goal and decomposes it into atomic work units",
+    $missingDecompositionOwnerSource = Get-Content -LiteralPath $missingDecompositionOwnerPath -Raw
+    if (-not $missingDecompositionOwnerSource.Contains($decompositionOwnerPhrase)) {
+        throw "Decomposition fixture source is missing the current owner phrase."
+    }
+    $missingDecompositionOwnerText = $missingDecompositionOwnerSource.Replace(
+        $decompositionOwnerPhrase,
         "decomposition owner removed"
     )
     Write-Utf8 $missingDecompositionOwnerPath $missingDecompositionOwnerText
@@ -802,7 +808,7 @@ try {
     $humanOnlyDecompositionFixture = New-Fixture "human-only-decomposition-owner"
     $humanOnlyDecompositionPath = Join-Path $humanOnlyDecompositionFixture "README.md"
     $humanOnlyDecompositionText = (Get-Content -LiteralPath $humanOnlyDecompositionPath -Raw).Replace(
-        "a developer or IDE closes the goal and decomposes it into atomic work units",
+        $decompositionOwnerPhrase,
         "a developer closes the goal and decomposes it into atomic work units"
     )
     Write-Utf8 $humanOnlyDecompositionPath $humanOnlyDecompositionText
@@ -811,7 +817,7 @@ try {
     $ideOnlyDecompositionFixture = New-Fixture "ide-only-decomposition-owner"
     $ideOnlyDecompositionPath = Join-Path $ideOnlyDecompositionFixture "README.md"
     $ideOnlyDecompositionText = (Get-Content -LiteralPath $ideOnlyDecompositionPath -Raw).Replace(
-        "a developer or IDE closes the goal and decomposes it into atomic work units",
+        $decompositionOwnerPhrase,
         "an IDE closes the goal and decomposes it into atomic work units"
     )
     Write-Utf8 $ideOnlyDecompositionPath $ideOnlyDecompositionText
@@ -820,7 +826,7 @@ try {
     $conjunctiveDecompositionFixture = New-Fixture "conjunctive-decomposition-owner"
     $conjunctiveDecompositionPath = Join-Path $conjunctiveDecompositionFixture "README.md"
     $conjunctiveDecompositionText = (Get-Content -LiteralPath $conjunctiveDecompositionPath -Raw).Replace(
-        "a developer or IDE closes the goal and decomposes it into atomic work units",
+        $decompositionOwnerPhrase,
         "the developer and IDE close the goal and decompose it into atomic work units"
     )
     Write-Utf8 $conjunctiveDecompositionPath $conjunctiveDecompositionText
@@ -829,14 +835,14 @@ try {
     $missingReviewedWorkFixture = New-Fixture "missing-reviewed-work-boundary"
     $missingReviewedWorkPath = Join-Path $missingReviewedWorkFixture "README.md"
     $missingReviewedWorkText = (Get-Content -LiteralPath $missingReviewedWorkPath -Raw).Replace(
-        "SWECircuit validates the reviewed work units, groups them into legal specialist teams",
+        "IDECircuit validates reviewed work units, compares legal specialist teams with a serial baseline, and emits exact contracts.",
         "compiler input boundary removed"
     )
     Write-Utf8 $missingReviewedWorkPath $missingReviewedWorkText
     Assert-CheckerResult "README missing reviewed-work compiler boundary" $missingReviewedWorkFixture $false
 
     $conditionalHostMutations = @(
-        @{ Name = "owner"; Old = "an external host selects providers, models, and tools"; New = "SWECircuit selects providers, models, and tools" },
+        @{ Name = "owner"; Old = "An external IDE host selects providers, models, effort, skills, and tools"; New = "IDECircuit selects providers, models, effort, skills, and tools" },
         @{ Name = "conditional"; Old = "then may run dependency-safe contracts in parallel"; New = "then runs dependency-safe contracts in parallel" },
         @{ Name = "dependency-safe"; Old = "dependency-safe contracts"; New = "all contracts" }
     )
@@ -854,7 +860,7 @@ try {
     $missingCapabilityFixture = New-Fixture "missing-current-capability"
     $missingCapabilityPath = Join-Path $missingCapabilityFixture "README.md"
     $missingCapabilityText = (Get-Content -LiteralPath $missingCapabilityPath -Raw).Replace(
-        "SWECircuit core compiles specialist contracts and verifies approval-bound packages, raw handoffs, and dependency fan-in.",
+        "IDECircuit Core compiles specialist contracts and verifies approval-bound packages, raw handoffs, dependency fan-in, and immutable run sessions.",
         "Core capability removed."
     )
     Write-Utf8 $missingCapabilityPath $missingCapabilityText
@@ -876,7 +882,7 @@ try {
     $fencedCapabilityFixture = New-Fixture "fenced-readme-current-capability"
     $fencedCapabilityPath = Join-Path $fencedCapabilityFixture "README.md"
     $fencedCapabilityText = Get-Content -LiteralPath $fencedCapabilityPath -Raw
-    $capabilityPhrase = "SWECircuit core compiles specialist contracts and verifies approval-bound packages, raw handoffs, and dependency fan-in."
+    $capabilityPhrase = "IDECircuit Core compiles specialist contracts and verifies approval-bound packages, raw handoffs, dependency fan-in, and immutable run sessions."
     $capabilityLine = @($fencedCapabilityText -split "\r?\n" | Where-Object { $_.Contains($capabilityPhrase) })[0]
     if ([string]::IsNullOrWhiteSpace($capabilityLine)) {
         throw "Fenced capability fixture could not find the current capability line."
@@ -1279,20 +1285,25 @@ try {
     Write-Utf8 $overLimitMixedContinuationPath $overLimitMixedContinuationText
     Assert-CheckerResult "over-limit mixed list continuation remains literal" $overLimitMixedContinuationFixture $true
 
+    $runtimeBoundaryPhrase = "An external IDE host dispatches agents, enforces permissions, executes tools, integrates and merges changes, persists traces, and updates memory."
     $missingBoundaryFixture = New-Fixture "missing-runtime-boundary"
     $missingBoundaryPath = Join-Path $missingBoundaryFixture "README.md"
-    $missingBoundaryText = (Get-Content -LiteralPath $missingBoundaryPath -Raw).Replace(
-        "An external IDE or agent host selects providers and models, dispatches agents, enforces permissions, runs tools, integrates and merges changes, persists traces, and updates memory.",
+    $missingBoundarySource = Get-Content -LiteralPath $missingBoundaryPath -Raw
+    if (-not $missingBoundarySource.Contains($runtimeBoundaryPhrase)) {
+        throw "Runtime-boundary fixture source is missing the current host phrase."
+    }
+    $missingBoundaryText = $missingBoundarySource.Replace(
+        $runtimeBoundaryPhrase,
         "Runtime boundary removed."
     )
     Write-Utf8 $missingBoundaryPath $missingBoundaryText
     Assert-CheckerResult "README missing runtime boundary" $missingBoundaryFixture $false
 
     $hostResponsibilityAnchors = @(
-        @{ Name = "provider-model"; Text = "selects providers and models" },
+        @{ Name = "provider-model"; Text = "selects providers, models, effort, skills, and tools" },
         @{ Name = "dispatch"; Text = "dispatches agents" },
         @{ Name = "permissions"; Text = "enforces permissions" },
-        @{ Name = "tools"; Text = "runs tools" },
+        @{ Name = "tools"; Text = "executes tools" },
         @{ Name = "merge"; Text = "integrates and merges changes" },
         @{ Name = "trace"; Text = "persists traces" },
         @{ Name = "memory"; Text = "updates memory" }
@@ -1300,7 +1311,11 @@ try {
     foreach ($hostAnchor in $hostResponsibilityAnchors) {
         $fixture = New-Fixture ("missing-host-responsibility-" + $hostAnchor.Name)
         $path = Join-Path $fixture "README.md"
-        $content = (Get-Content -LiteralPath $path -Raw).Replace($hostAnchor.Text, "removed-host-anchor")
+        $source = Get-Content -LiteralPath $path -Raw
+        if (-not $source.Contains($hostAnchor.Text)) {
+            throw "Host-responsibility fixture source is missing: $($hostAnchor.Name)"
+        }
+        $content = $source.Replace($hostAnchor.Text, "removed-host-anchor")
         Write-Utf8 $path $content
         Assert-CheckerResult ("README missing host responsibility: " + $hostAnchor.Name) $fixture $false
     }
