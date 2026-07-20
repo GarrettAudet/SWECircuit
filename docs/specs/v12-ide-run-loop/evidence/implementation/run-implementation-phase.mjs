@@ -102,6 +102,10 @@ const REPOSITORY_SOURCES = {
     "schemas/v1alpha1/specialist-handoff.schema.json",
     "Existing closed Specialist Handoff schema pattern.",
   ],
+  "context.common-schema-json": [
+    "schemas/v1alpha1/common.schema.json",
+    "Existing shared schema definitions consumed by the V11 handoff validator.",
+  ],
   "context.handoff-tests": [
     "test/specialist-handoff.test.mjs",
     "Existing adversarial package and handoff tests.",
@@ -142,6 +146,10 @@ const REPOSITORY_SOURCES = {
   "context.run-schema-code": [
     "src/specialist-run-schema.ts",
     "Frozen V12 run-session schema validator.",
+  ],
+  "context.run-schema-data": [
+    "src/specialist-run-schema-data.ts",
+    "Revision-2 package-owned V12 run schema data module.",
   ],
   "context.run-schema-json": [
     "schemas/v1alpha1/specialist-run.schema.json",
@@ -243,6 +251,22 @@ const REPOSITORY_SOURCES = {
     "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package/agents/agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe.md",
     "Exact unlaunched runtime-purity contract retired after its source bindings became stale.",
   ],
+  "context.release-correction-r2-package": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/package-envelope.json",
+    "Owner-approved revision-2 package that produced the verified split diagnosis.",
+  ],
+  "context.release-correction-r2-approval": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/approval.json",
+    "Exact owner approval for the revision-2 package.",
+  ],
+  "context.release-correction-r2-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoffs/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.json",
+    "Verified revision-2 SPLIT handoff with the bounded V11 first-use filesystem diagnosis.",
+  ],
+  "context.release-correction-r2-replan": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+    "Trace of the retired revision-1 contract and revision-2 replacement result.",
+  ],
 };
 
 const FOUNDATION_WRITES = [
@@ -296,6 +320,12 @@ const RELEASE_PURITY_WRITES = [
   "src/specialist-run-schema.ts",
   "test/specialist-run-foundation.test.mjs",
   "test/specialist-run-inspection.test.mjs",
+];
+
+const RELEASE_PURITY_R3_WRITES = [
+  ...RELEASE_PURITY_WRITES,
+  "src/specialist-handoff-schema-data.ts",
+  "src/specialist-handoff-schema.ts",
 ];
 
 const RELEASE_RESOURCE_WRITES = [
@@ -958,6 +988,81 @@ CONFIGS["release-correction-r2"] = {
         "Provide retired-contract authentication, exact source parity, no-filesystem-effect, counterordered identity, focused test, typecheck, and build evidence.",
       artifact: "runtime-purity-ordering-correction-r2.md",
       writes: RELEASE_PURITY_WRITES,
+    },
+  ],
+};
+
+CONFIGS["release-correction-r3"] = {
+  objective:
+    "Complete V12 first-use runtime purity after revision 2 proved that record reaches the unchanged V11 handoff schema loader outside its prior authority.",
+  goalPhase: "release-correction",
+  goalRevision: 3,
+  maxAgents: 1,
+  maxConcurrency: 1,
+  processScopes: ["node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  assumptions: [
+    {
+      id: "assumption.split-scope-expansion",
+      statement:
+        "Revision 2 is a verified split: its partial V12 corrections are preserved, and revision 3 adds only the causally proven V11 handoff schema loader to authority.",
+      rationale:
+        "The unprimed four-operation regression reached exactly one out-of-scope read of common.schema.json from recordSpecialistRunHandoff; priming the validator would hide the defect.",
+    },
+  ],
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.specialist-handoff",
+    "context.specialist-render",
+    "context.canonical-json",
+    "context.json-parser",
+    "context.snapshot",
+    "context.privacy",
+    "context.text",
+    "context.model",
+    "context.constants",
+    "context.diagnostics",
+    "context.run-types",
+    "context.run-schema-code",
+    "context.run-schema-data",
+    "context.run-schema-json",
+    "context.run-session",
+    "context.run-transition",
+    "context.run-inspection",
+    "context.handoff-schema-code",
+    "context.handoff-schema-json",
+    "context.common-schema-json",
+    "context.foundation-tests",
+    "context.transition-tests",
+    "context.inspection-tests",
+    "context.handoff-tests",
+    "context.review-lifecycle",
+    "context.review-security",
+    "context.release-correction-r2-package",
+    "context.release-correction-r2-approval",
+    "context.release-correction-r2-handoff",
+    "context.release-correction-r2-replan",
+  ],
+  workUnits: [
+    {
+      id: "fix.runtime-purity-ordering.r3",
+      objective:
+        "Make create, restore, inspect, and record perform zero filesystem reads on their first unprimed invocation while preserving the revision-2 requirement-primary ordering correction.",
+      weight: 8,
+      moduleId: "correction.runtime-purity-ordering",
+      action:
+        "Authenticate the revision-2 split, preserve its V12 schema-data and ordering changes, bundle exact common and Specialist Handoff schema source bytes into a package-owned TypeScript data module, remove V11 handoff-validator filesystem loading, and make the existing unprimed four-operation and counterordered regressions pass without cache priming.",
+      inputType: "VerifiedRuntimePuritySplit",
+      outputType: "PureOrderedRunOperations",
+      capability: "fix.runtime-purity-ordering",
+      evidenceId: "evidence.runtime-purity-ordering.r3",
+      evidenceDescription:
+        "Provide package and split authentication, exact parity for all bundled schemas, an unprimed zero-filesystem-read proof for all four operations, counterordered identity evidence, focused tests, typecheck, build, and resulting-byte bindings.",
+      artifact: "runtime-purity-ordering-correction-r3.md",
+      writes: RELEASE_PURITY_R3_WRITES,
     },
   ],
 };
