@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
-import { execFileSync, spawnSync } from "node:child_process";
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { execFileSync } from "node:child_process";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -12,9 +12,10 @@ import {
 } from "../../../../../dist/index.js";
 
 const ROOT = fileURLToPath(new URL("../../../../../", import.meta.url));
-const EVIDENCE = dirname(fileURLToPath(import.meta.url));
-const INPUTS = join(EVIDENCE, "inputs");
-const PACKAGE_DIR = join(EVIDENCE, "package");
+const SCRIPT_PATH = fileURLToPath(import.meta.url);
+const REVIEW_ROOT = "docs/specs/v12-ide-run-loop/evidence/release-review-r2";
+const HARNESS_REPOSITORY_PATH = `${REVIEW_ROOT}/run-release-review.mjs`;
+const VERIFIER_REPOSITORY_PATH = `${REVIEW_ROOT}/verify-release-review-handoffs.mjs`;
 const mode = process.argv[2] ?? "prepare";
 const checkpoint = process.argv[3];
 
@@ -30,12 +31,7 @@ const REQUIRED_SECURITY_CAUSAL_SOURCES = Object.freeze([
   "src/specialist-schema-data.ts",
   "src/specialist-schema.ts",
 ]);
-const SNAPSHOT_ROOT =
-  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/source-snapshots";
-const CANDIDATE_MANIFEST =
-  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/candidate.json";
-const PRE_INTEGRATION_REVIEW =
-  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/pre-integration-review.md";
+
 const GATE_EVIDENCE_ROOT =
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates";
 const V11_LAUNCH_AUTHORIZATION =
@@ -48,6 +44,7 @@ const LIFECYCLE = "review.r2.lifecycle-correctness";
 const SECURITY = "review.r2.security-trace-authority";
 const ALL_REVIEWS = Object.freeze([PRODUCT, LIFECYCLE, SECURITY]);
 const CORRECTION_GOAL = "v12.ide-run-loop.implementation.release-correction";
+const MINIMUM_CORRECTION_REVISION = 10;
 
 const AGENTS = Object.freeze({
   correctionR1Release:
@@ -127,186 +124,6 @@ function evidenceSpec({
 
 const PRIMARY_EVIDENCE_SPECS = Object.freeze([
   evidenceSpec({
-    id: "release-correction-r1",
-    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction",
-    goalRevision: 1,
-    expectation: [
-      "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
-      "sha256:0243a0cea075424c7c919a6af876b4f023f9e635234cf6ec07a0d7cb9543bf6c",
-    ],
-    packageAgentIds: [
-      AGENTS.correctionR1Release,
-      AGENTS.correctionR1Resource,
-      AGENTS.correctionR1Retired,
-      AGENTS.correctionR1Dogfood,
-    ],
-    handoffs: [
-      expectedHandoff(
-        AGENTS.correctionR1Release,
-        "pass",
-        5693,
-        "sha256:3510b98137b0cd8746d5440f4254bcfed8c493f714a57539a705eb12012c12fd",
-      ),
-      expectedHandoff(
-        AGENTS.correctionR1Resource,
-        "pass",
-        6718,
-        "sha256:f74436e9e9a234cc8c41cba9a3b47ee84d8e0bff3ceba811252f008686c51677",
-      ),
-      expectedHandoff(
-        AGENTS.correctionR1Dogfood,
-        "pass",
-        6667,
-        "sha256:23bbdd75d90ee42595b5f22f1ba2c9ba9f608866b049285b027ae579225b2e4b",
-      ),
-    ],
-    complete: false,
-    ready: false,
-    phase: "release-correction",
-  }),
-  evidenceSpec({
-    id: "release-correction-r2",
-    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2",
-    goalRevision: 2,
-    expectation: [
-      "sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672",
-      "sha256:cff1fa3d5eaa668e962b212f8128018c3e4b2721404fa457ca73c79578011fcc",
-    ],
-    packageAgentIds: [AGENTS.correctionR2],
-    handoffs: [
-      expectedHandoff(
-        AGENTS.correctionR2,
-        "split",
-        7254,
-        "sha256:8db3fea6a6f47fba804f72d454660bafda7ab5d06691d729157e2f8f3aba66be",
-      ),
-    ],
-    complete: true,
-    ready: false,
-  }),
-  evidenceSpec({
-    id: "release-correction-r3",
-    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3",
-    goalRevision: 3,
-    expectation: [
-      "sha256:ded9a26906a9a00a5f0b12dc3420e909a91e70ef9a3ee03905ac1676efb40638",
-      "sha256:19c13189225b8bedd69b03edb2c4c3821aa9d8256e39209f5c10641527dc4d01",
-    ],
-    packageAgentIds: [AGENTS.correctionR3],
-    handoffs: [
-      expectedHandoff(
-        AGENTS.correctionR3,
-        "split",
-        8095,
-        "sha256:89ab112ce3df0a97f64db2994fc792238955b7007a7ce0310b4af39b4340d3df",
-      ),
-    ],
-    complete: true,
-    ready: false,
-  }),
-  evidenceSpec({
-    id: "release-correction-r4",
-    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4",
-    goalRevision: 4,
-    expectation: [
-      "sha256:aa13bb1f6a8ff21658b718ccd46e6a5a26dacd8d1c9baa990b92e37161627660",
-      "sha256:edaba251ee9b258474674225d38123df2772dfc42b7cd52e1d49dff8791f5065",
-    ],
-    packageAgentIds: [AGENTS.correctionR4],
-    handoffs: [
-      expectedHandoff(
-        AGENTS.correctionR4,
-        "pass",
-        9058,
-        "sha256:5afb33ee3c7f456ea0331d7d0735a0291cd69fb5d7a4c6c6d80982177d815090",
-      ),
-    ],
-    complete: true,
-    ready: true,
-  }),
-  evidenceSpec({
-    id: "release-correction-r5",
-    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5",
-    goalRevision: 5,
-    expectation: [
-      "sha256:fd9c21ca81ddcef94bc1da50faf721238145a9807eae7860a34583c8512c9ff5",
-      "sha256:c29570501b69f2b791d32890b48bb74d90091e649513d5915c636e1141518717",
-    ],
-    packageAgentIds: [AGENTS.correctionR5Dogfood, AGENTS.correctionR5ReleaseEvidence],
-    handoffs: [
-      expectedHandoff(AGENTS.correctionR5Dogfood, "pass"),
-      expectedHandoff(AGENTS.correctionR5ReleaseEvidence, "pass"),
-    ],
-    complete: true,
-    ready: true,
-  }),
-  evidenceSpec({
-    id: "release-correction-r6",
-    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6",
-    goalRevision: 6,
-    expectation: [
-      "sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998",
-      "sha256:5acb302e44bb08f8626fb3773ba27acf5af5ae3f3d09d95beea1f2538a46826a",
-    ],
-    packageAgentIds: [AGENTS.correctionR6Gate, AGENTS.correctionR6Consumer],
-    handoffs: [
-      expectedHandoff(
-        AGENTS.correctionR6Gate,
-        "pass",
-        5061,
-        "sha256:3c95ca87255613bdcb96f0a894a03ce012c4d5662a3379230c07166e56fcf33b",
-      ),
-      expectedHandoff(
-        AGENTS.correctionR6Consumer,
-        "pass",
-        5291,
-        "sha256:939099add2852e3dfe14b307fc55e46c89b56a1dd0c735d15bf35e82f99a5a68",
-      ),
-    ],
-    complete: true,
-    ready: true,
-  }),
-  evidenceSpec({
-    id: "release-correction-r7",
-    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7",
-    goalRevision: 7,
-    expectation: [
-      "sha256:e7f6a2d27f613ea1a898b781584039dff8704d88a940965814d45b04a5537920",
-      "sha256:df3ed49a4d38fdbac275b82036dc4354d6b76bac3b2fa97dfbd385c3fdad85b8",
-    ],
-    packageAgentIds: [AGENTS.correctionR7EvidenceRetention],
-    handoffs: [
-      expectedHandoff(
-        AGENTS.correctionR7EvidenceRetention,
-        "pass",
-        5812,
-        "sha256:1432e2c7a6f7384583d5dc27e155a7148621f6f4cbddd17c3b6bd18dd3991a32",
-      ),
-    ],
-    complete: true,
-    ready: true,
-  }),
-  evidenceSpec({
-    id: "release-correction-r8",
-    root: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8",
-    goalRevision: 8,
-    expectation: [
-      "sha256:526cb3c687c60ebc99fc1856b2d3ef7b017dfd14fd9772711669d59d34b18fef",
-      "sha256:d655468c5e37171d5ef83af2299bf08291029e9c08751ef056c2d655f24cfb1d",
-    ],
-    packageAgentIds: [AGENTS.correctionR8ByteIntegrity],
-    handoffs: [
-      expectedHandoff(
-        AGENTS.correctionR8ByteIntegrity,
-        "pass",
-        8035,
-        "sha256:624577edaed5b154f3c4e90daff0dd06f17187c1fa4aa4128e75eb5914bb3df1",
-      ),
-    ],
-    complete: true,
-    ready: true,
-  }),
-  evidenceSpec({
     id: "implementation-verification",
     root: "docs/specs/v12-ide-run-loop/evidence/implementation/verification",
     goalId: "v12.ide-run-loop.implementation.verification",
@@ -377,42 +194,6 @@ const PRIMARY_EVIDENCE_SPECS = Object.freeze([
   }),
 ]);
 
-const CORRECTION_REPLAN_SPECS = Object.freeze([
-  {
-    path: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
-    bytes: 3795,
-    digest: "sha256:73fcd5841f739c4f353355ddba6b412d68c3b2d8233ccc371ef2de9a2477d282",
-    fromRevision: 1,
-    toRevision: 2,
-    route: "redesign",
-    triggerAgentId: AGENTS.correctionR1Resource,
-    retiredAgentId: AGENTS.correctionR1Retired,
-    replacementAgentId: AGENTS.correctionR2,
-  },
-  {
-    path: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
-    bytes: 2807,
-    digest: "sha256:67eac872b0d88bbade9af9afda268178f57077b0abdc4f605444ead1da6c186c",
-    fromRevision: 2,
-    toRevision: 3,
-    route: "split",
-    triggerAgentId: AGENTS.correctionR2,
-    retiredAgentId: null,
-    replacementAgentId: AGENTS.correctionR3,
-  },
-  {
-    path: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json",
-    bytes: 2701,
-    digest: "sha256:64376261a673ebc7ec29222ee90569097915879521d8ea062a36a9d156e8b34d",
-    fromRevision: 3,
-    toRevision: 4,
-    route: "split",
-    triggerAgentId: AGENTS.correctionR3,
-    retiredAgentId: null,
-    replacementAgentId: AGENTS.correctionR4,
-  },
-]);
-
 function source(id, path, description, allowedWorkUnits, snapshotPath = null) {
   return { id, path, description, allowedWorkUnits, snapshotPath };
 }
@@ -477,7 +258,7 @@ const STATIC_SOURCES = [
     "docs/specs/v12-ide-run-loop/review.md",
     "Immutable pre-integration release-review snapshot.",
     ALL_REVIEWS,
-    PRE_INTEGRATION_REVIEW,
+    "pre-integration-review.md",
   ),
   source("context.readme", "README.md", "Concise public product surface.", [PRODUCT]),
   source(
@@ -563,6 +344,18 @@ const STATIC_SOURCES = [
     "scripts/run-v12-release-gate.mjs",
     "Candidate-bound canonical-gate evidence wrapper.",
     ALL_REVIEWS,
+  ),
+  source(
+    "context.release-gate-tests",
+    "test/v12-release-gate.test.mjs",
+    "Candidate-materialization and R2 security-context regressions.",
+    [LIFECYCLE, SECURITY],
+  ),
+  source(
+    "context.release-review-r2-tests",
+    "test/v12-release-review.test.mjs",
+    "Candidate-addressed R2 lifecycle and adversarial regressions.",
+    [LIFECYCLE, SECURITY],
   ),
   source(
     "context.review-r2-harness",
@@ -788,17 +581,10 @@ const STATIC_SOURCES = [
   ),
 ];
 
-const DYNAMIC_ROOTS = [
-  {
-    path: "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction",
-    description: "Exact V12 release-correction package, handoffs, and primary evidence.",
-    allowedWorkUnits: ALL_REVIEWS,
-  },
-  ...[2, 3, 4, 5, 6, 7, 8].map((revision) => ({
-    path: `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r${revision}`,
-    description: `Exact V12 release-correction revision ${revision} package, handoffs, replans, and primary evidence.`,
-    allowedWorkUnits: ALL_REVIEWS,
-  })),
+const CORRECTION_ROOT_PREFIX =
+  "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction";
+
+const FIXED_DYNAMIC_ROOTS = Object.freeze([
   {
     path: "docs/specs/v12-ide-run-loop/evidence/implementation/verification",
     description: "Exact V12 implementation verification package and raw evidence.",
@@ -814,8 +600,7 @@ const DYNAMIC_ROOTS = [
     description: "Exact V11 Audit-B package, approval, receipt, and semantic evidence.",
     allowedWorkUnits: [SECURITY],
   },
-];
-
+]);
 function compareOrdinal(left, right) {
   return left < right ? -1 : left > right ? 1 : 0;
 }
@@ -830,6 +615,29 @@ function requireCondition(condition, message) {
   }
 }
 
+function candidateRunPaths(candidate) {
+  requireCondition(
+    typeof candidate === "string" && CANDIDATE_PATTERN.test(candidate),
+    "Candidate commit must be an exact 40-character lowercase commit ID.",
+  );
+  const root = `${REVIEW_ROOT}/runs/${candidate}`;
+  const inputs = `${root}/inputs`;
+  return Object.freeze({
+    root,
+    inputs,
+    snapshotRoot: `${inputs}/source-snapshots`,
+    candidateManifest: `${inputs}/candidate.json`,
+    preIntegrationReview: `${inputs}/pre-integration-review.md`,
+    request: `${root}/request.json`,
+    phaseMetadata: `${root}/phase-metadata.json`,
+    packageDir: `${root}/package`,
+    packageEnvelope: `${root}/package-envelope.json`,
+    compilationSummary: `${root}/compilation-summary.json`,
+    approval: `${root}/approval.json`,
+    handoffs: `${root}/handoffs`,
+    handoffVerification: `${root}/handoff-verification.json`,
+  });
+}
 function gateEvidencePaths(candidate) {
   requireCondition(
     typeof candidate === "string" && CANDIDATE_PATTERN.test(candidate),
@@ -857,8 +665,10 @@ function absolute(path) {
   return join(ROOT, ...path.split("/"));
 }
 
-function snapshotPath(entry) {
-  return entry.snapshotPath ?? `${SNAPSHOT_ROOT}/${entry.path}`;
+function snapshotPath(entry, paths) {
+  return entry.snapshotPath === null
+    ? `${paths.snapshotRoot}/${entry.path}`
+    : `${paths.inputs}/${entry.snapshotPath}`;
 }
 
 function assertExactKeys(value, expected, label) {
@@ -883,15 +693,22 @@ function decodeUtf8(bytes, label) {
 }
 
 
-async function readCanonicalJson(path) {
-  const bytes = await readFile(absolute(path));
-  const text = decodeUtf8(bytes, path);
+function parseCanonicalJson(bytes, label) {
+  const text = decodeUtf8(bytes, label);
   const value = JSON.parse(text);
   requireCondition(
     `${JSON.stringify(value, null, 2)}\n` === text,
-    `${path} is not canonical JSON with normalized LF.`,
+    `${label} is not canonical JSON with normalized LF.`,
   );
-  return { bytes, value };
+  return { bytes: Buffer.from(bytes), value };
+}
+
+async function readCanonicalJson(path) {
+  return parseCanonicalJson(await readFile(absolute(path)), path);
+}
+
+function readCandidateCanonicalJson(candidateTree, path) {
+  return parseCanonicalJson(candidateTree.file(path).bytes, path);
 }
 
 async function writeImmutable(path, bytes) {
@@ -912,31 +729,94 @@ async function writeImmutableJson(path, value) {
   await writeImmutable(path, Buffer.from(`${JSON.stringify(value, null, 2)}\n`, "utf8"));
 }
 
-async function walkFiles(root) {
-  const output = [];
-  async function visit(path) {
-    const entries = await readdir(absolute(path), { withFileTypes: true });
-    entries.sort((left, right) => compareOrdinal(left.name, right.name));
-    for (const entry of entries) {
-      const child = `${path}/${entry.name}`;
-      if (entry.isDirectory()) {
-        await visit(child);
-      } else if (entry.isFile()) {
-        output.push(child);
-      }
-    }
-  }
-  await visit(root);
-  return output;
-}
-
 function dynamicSourceId(path) {
   return `context.snapshot.${createHash("sha256").update(path).digest("hex").slice(0, 24)}`;
 }
 
-async function collectSourceSpecs() {
+function correctionRevisionFromPath(path) {
+  if (path === CORRECTION_ROOT_PREFIX || path.startsWith(`${CORRECTION_ROOT_PREFIX}/`)) {
+    return { revision: 1, root: CORRECTION_ROOT_PREFIX };
+  }
+  const prefix = `${CORRECTION_ROOT_PREFIX}-r`;
+  if (!path.startsWith(prefix)) {
+    return null;
+  }
+  const remainder = path.slice(prefix.length);
+  const slash = remainder.indexOf("/");
+  const token = slash === -1 ? remainder : remainder.slice(0, slash);
+  requireCondition(
+    /^[1-9][0-9]*$/u.test(token),
+    `Malformed correction revision directory in candidate tree: ${path}.`,
+  );
+  const revision = Number(token);
+  requireCondition(
+    Number.isSafeInteger(revision) && revision > 1,
+    `Invalid or duplicate correction revision directory in candidate tree: ${path}.`,
+  );
+  return { revision, root: `${prefix}${token}` };
+}
+
+function discoverCorrectionEvidenceSpecs(candidateTreeOrPaths) {
+  const paths = Array.isArray(candidateTreeOrPaths)
+    ? candidateTreeOrPaths
+    : candidateTreeOrPaths.paths;
+  requireCondition(Array.isArray(paths), "Candidate tree paths are unavailable.");
+  const roots = new Map();
+  for (const path of paths) {
+    const parsed = correctionRevisionFromPath(path);
+    if (parsed === null) {
+      continue;
+    }
+    const prior = roots.get(parsed.revision);
+    requireCondition(
+      prior === undefined || prior === parsed.root,
+      `Candidate tree contains duplicate correction revision ${parsed.revision}.`,
+    );
+    roots.set(parsed.revision, parsed.root);
+  }
+  requireCondition(roots.size > 0 && roots.has(1), "Correction revision 1 is missing.");
+  const revisions = [...roots.keys()].sort((left, right) => left - right);
+  for (let index = 0; index < revisions.length; index += 1) {
+    requireCondition(
+      revisions[index] === index + 1,
+      `Correction revision sequence is not contiguous from revision 1: missing revision ${index + 1}.`,
+    );
+  }
+  requireCondition(
+    revisions.at(-1) >= MINIMUM_CORRECTION_REVISION,
+    `Correction evidence stops before required revision ${MINIMUM_CORRECTION_REVISION}.`,
+  );
+  return revisions.map((revision) => {
+    const root = roots.get(revision);
+    return Object.freeze({
+      id: `release-correction-r${revision}`,
+      root,
+      goalId: CORRECTION_GOAL,
+      goalRevision: revision,
+      reportKind: "ImplementationPhaseHandoffVerification",
+      phase: revision === 1 ? "release-correction" : `release-correction-r${revision}`,
+      readinessField: "phaseReady",
+    });
+  });
+}
+
+function candidateDynamicRoots(candidateTree) {
+  return [
+    ...discoverCorrectionEvidenceSpecs(candidateTree).map((spec) => ({
+      path: spec.root,
+      description: `Exact V12 release-correction revision ${spec.goalRevision} package, handoffs, replans, and primary evidence.`,
+      allowedWorkUnits: ALL_REVIEWS,
+    })),
+    ...FIXED_DYNAMIC_ROOTS,
+  ];
+}
+
+function collectSourceSpecs(candidateTree) {
   const byPath = new Map(STATIC_SOURCES.map((entry) => [entry.path, entry]));
-  const launchAuthorization = (await readCanonicalJson(V11_LAUNCH_AUTHORIZATION)).value;
+  const launchAuthorization = readCandidateCanonicalJson(
+    candidateTree,
+    V11_LAUNCH_AUTHORIZATION,
+  ).value;
   const currentAuditHandoff = launchAuthorization?.handoff?.path;
   requireCondition(
     typeof currentAuditHandoff === "string" &&
@@ -953,8 +833,11 @@ async function collectSourceSpecs() {
       [SECURITY],
     ),
   );
-  for (const root of DYNAMIC_ROOTS) {
-    for (const path of await walkFiles(root.path)) {
+
+  for (const root of candidateDynamicRoots(candidateTree)) {
+    const paths = candidateTree.list(root.path);
+    requireCondition(paths.length > 0, `Candidate tree lacks required evidence root: ${root.path}.`);
+    for (const path of paths) {
       if (path.includes("/package/")) {
         continue;
       }
@@ -967,7 +850,7 @@ async function collectSourceSpecs() {
     }
   }
 
-  for (const path of await walkFiles("src")) {
+  for (const path of candidateTree.paths) {
     if (path.startsWith("src/specialist-run") && !byPath.has(path)) {
       byPath.set(
         path,
@@ -979,8 +862,6 @@ async function collectSourceSpecs() {
         ),
       );
     }
-  }
-  for (const path of await walkFiles("test")) {
     if (path.startsWith("test/specialist-run") && !byPath.has(path)) {
       byPath.set(
         path,
@@ -993,9 +874,15 @@ async function collectSourceSpecs() {
       );
     }
   }
+
+  for (const entry of byPath.values()) {
+    requireCondition(
+      candidateTree.has(entry.path),
+      `Reviewer source is not committed in candidate ${candidateTree.commit}: ${entry.path}.`,
+    );
+  }
   return [...byPath.values()].sort((left, right) => compareOrdinal(left.path, right.path));
 }
-
 function gitOutput(args) {
   return execFileSync("git", args, {
     cwd: ROOT,
@@ -1029,7 +916,49 @@ function updateGateFrame(hash, bytes) {
   hash.update(value);
 }
 
-function candidateSourceBinding(candidate) {
+const CANDIDATE_TREE_CACHE = new Map();
+
+function createCandidateTreeView(commit, tree, entries, sourceBinding) {
+  const byPath = new Map(entries.map((entry) => [entry.path, entry]));
+  const paths = Object.freeze(entries.map((entry) => entry.path));
+  return Object.freeze({
+    commit,
+    tree,
+    source: Object.freeze({ ...sourceBinding }),
+    paths,
+    has(path) {
+      return byPath.has(path);
+    },
+    list(root) {
+      const prefix = `${root}/`;
+      return paths.filter((path) => path.startsWith(prefix));
+    },
+    file(path) {
+      const entry = byPath.get(path);
+      requireCondition(
+        entry !== undefined,
+        `Candidate ${commit} does not contain required Git blob: ${path}.`,
+      );
+      return {
+        mode: entry.mode,
+        objectId: entry.objectId,
+        path: entry.path,
+        bytes: Buffer.from(entry.bytes),
+      };
+    },
+  });
+}
+
+function loadCandidateTree(candidate) {
+  requireCondition(
+    typeof candidate === "string" && CANDIDATE_PATTERN.test(candidate),
+    "Candidate commit must be an exact 40-character lowercase commit ID.",
+  );
+  const cached = CANDIDATE_TREE_CACHE.get(candidate);
+  if (cached !== undefined) {
+    return cached;
+  }
+
   const commit = Buffer.from(
     gitOutput(["rev-parse", "--verify", `${candidate}^{commit}`]),
   )
@@ -1061,6 +990,7 @@ function candidateSourceBinding(candidate) {
       path.length > 0 &&
         !path.startsWith("/") &&
         !/^[A-Za-z]:/u.test(path) &&
+        // biome-ignore lint/suspicious/noControlCharactersInRegex: the candidate boundary must reject unsafe path controls.
         !/[\u0000-\u001f\u007f]/u.test(path) &&
         !path.includes("\\") &&
         path
@@ -1074,36 +1004,117 @@ function candidateSourceBinding(candidate) {
           ),
       `Candidate tree contains an unsafe path: ${JSON.stringify(path)}.`,
     );
-    return { mode: match[1], objectId: match[2], path, pathBytes };
+    return {
+      mode: match[1],
+      objectId: match[2],
+      path,
+      pathBytes,
+      bytes: Buffer.from(gitOutput(["cat-file", "blob", match[2]])),
+    };
   });
   entries.sort((left, right) => Buffer.compare(left.pathBytes, right.pathBytes));
+
   const seen = new Set();
   const hash = createHash("sha256");
   updateGateFrame(hash, Buffer.from(MATERIALIZATION_DIGEST_DOMAIN, "utf8"));
-  let bytes = 0;
+  let totalBytes = 0;
   for (const entry of entries) {
     const key = process.platform === "win32" ? entry.path.toLowerCase() : entry.path;
     requireCondition(!seen.has(key), `Candidate tree path is not unique: ${entry.path}.`);
     seen.add(key);
-    const content = Buffer.from(gitOutput(["cat-file", "blob", entry.objectId]));
-    bytes += content.byteLength;
+    totalBytes += entry.bytes.byteLength;
     updateGateFrame(hash, Buffer.from(entry.mode, "ascii"));
     updateGateFrame(hash, entry.pathBytes);
-    updateGateFrame(hash, content);
+    updateGateFrame(hash, entry.bytes);
   }
   requireCondition(entries.length > 0, "Candidate tree is empty.");
-  return {
+  const candidateTree = createCandidateTreeView(commit, tree, entries, {
     commit,
     tree,
     files: entries.length,
-    bytes,
+    bytes: totalBytes,
     digest: `sha256:${hash.digest("hex")}`,
+  });
+  CANDIDATE_TREE_CACHE.set(candidate, candidateTree);
+  return candidateTree;
+}
+
+function candidateTreeWithOverrides(candidateTree, overrides = {}, omittedPaths = []) {
+  const overrideMap = new Map(Object.entries(overrides));
+  const omitted = new Set(omittedPaths);
+  const paths = Object.freeze(candidateTree.paths.filter((path) => !omitted.has(path)));
+  return Object.freeze({
+    ...candidateTree,
+    paths,
+    has(path) {
+      return !omitted.has(path) && candidateTree.has(path);
+    },
+    list(root) {
+      const prefix = `${root}/`;
+      return paths.filter((path) => path.startsWith(prefix));
+    },
+    file(path) {
+      requireCondition(!omitted.has(path), `Candidate tree omits test path: ${path}.`);
+      const entry = candidateTree.file(path);
+      return overrideMap.has(path)
+        ? { ...entry, bytes: Buffer.from(overrideMap.get(path)) }
+        : entry;
+    },
+  });
+}
+
+function candidateSourceBinding(candidate) {
+  return loadCandidateTree(candidate).source;
+}
+
+function candidateFileBinding(candidateTree, path, mediaType) {
+  const file = candidateTree.file(path);
+  return {
+    path,
+    mediaType,
+    mode: file.mode,
+    objectId: file.objectId,
+    bytes: file.bytes.byteLength,
+    digest: digest(file.bytes),
   };
 }
 
-function inspectEvidenceAttributes(path) {
+function authenticateToolBytes(candidateTree, path, actualBytes, label) {
+  const expected = candidateFileBinding(candidateTree, path, "text/javascript");
+  requireCondition(
+    Buffer.from(actualBytes).equals(candidateTree.file(path).bytes),
+    `${label} bytes do not match candidate ${candidateTree.commit}: ${path}.`,
+  );
+  return expected;
+}
+
+async function authenticateReviewTooling(candidateTree) {
+  const harness = authenticateToolBytes(
+    candidateTree,
+    HARNESS_REPOSITORY_PATH,
+    await readFile(SCRIPT_PATH),
+    "Release-review harness",
+  );
+  const verifier = authenticateToolBytes(
+    candidateTree,
+    VERIFIER_REPOSITORY_PATH,
+    await readFile(absolute(VERIFIER_REPOSITORY_PATH)),
+    "Release-review handoff verifier",
+  );
+  return { candidateCommit: candidateTree.commit, harness, verifier };
+}
+function inspectEvidenceAttributes(candidate, path) {
   const fields = Buffer.from(
-    gitOutput(["check-attr", "-z", "text", "diff", "merge", "--", path]),
+    gitOutput([
+      "check-attr",
+      `--source=${candidate}`,
+      "-z",
+      "text",
+      "diff",
+      "merge",
+      "--",
+      path,
+    ]),
   )
     .toString("utf8")
     .split("\0");
@@ -1124,46 +1135,44 @@ function inspectEvidenceAttributes(path) {
   return attributes;
 }
 
-function requireBytePreservingEvidencePaths(paths) {
+function requireBytePreservingEvidencePaths(candidate, paths) {
   for (const path of [paths.stdout, paths.stderr]) {
-    const attributes = inspectEvidenceAttributes(path);
+    const attributes = inspectEvidenceAttributes(candidate, path);
     requireCondition(
       attributes.text === "unset" && attributes.diff === "unset" && attributes.merge === "unset",
-      `Required canonical-gate raw evidence is not binary in Git: ${path}.`,
+      `Required canonical-gate raw evidence is not binary in candidate ${candidate}: ${path}.`,
     );
   }
 
-  const receiptAttributes = inspectEvidenceAttributes(paths.receipt);
+  const receiptAttributes = inspectEvidenceAttributes(candidate, paths.receipt);
   requireCondition(
     receiptAttributes.text === "auto" &&
       receiptAttributes.diff === "unspecified" &&
       receiptAttributes.merge === "unspecified",
-    `Required canonical-gate receipt does not retain normal text policy in Git: ${paths.receipt}.`,
+    `Required canonical-gate receipt does not retain normal text policy in candidate ${candidate}: ${paths.receipt}.`,
   );
 }
 
-function requireVersionableEvidencePaths(paths) {
+function requireVersionableEvidencePaths(paths, candidateTree) {
   for (const path of Object.values(paths)) {
-    const result = spawnSync("git", ["check-ignore", "--quiet", "--no-index", "--", path], {
-      cwd: ROOT,
-      encoding: null,
-      maxBuffer: 134_217_728,
-    });
-    if (result.error) {
-      throw result.error;
-    }
     requireCondition(
-      result.status === 0 || result.status === 1,
-      `Unable to inspect Git ignore policy for required canonical-gate evidence: ${path}.`,
-    );
-    requireCondition(
-      result.status === 1,
-      `Required canonical-gate evidence is ignored by Git: ${path}.`,
+      candidateTree.has(path),
+      `Required canonical-gate evidence is not committed in candidate ${candidateTree.commit}: ${path}.`,
     );
   }
 }
 
-async function verifyCheckpoint(candidate, sources) {
+function requireNoWorkingTreeOnlySources(paths, untrackedPaths) {
+  const allowedPrefix = `${paths.root}/`;
+  for (const path of untrackedPaths) {
+    requireCondition(
+      path.startsWith(allowedPrefix),
+      `Working-tree-only source is outside the candidate run root: ${path}.`,
+    );
+  }
+}
+
+async function verifyCheckpoint(candidate, paths) {
   const head = Buffer.from(gitOutput(["rev-parse", "HEAD"])).toString("ascii").trim();
   requireCondition(head === candidate, `Candidate checkpoint mismatch: HEAD is ${head}.`);
   try {
@@ -1172,27 +1181,14 @@ async function verifyCheckpoint(candidate, sources) {
     throw new Error("Tracked repository state differs from candidate HEAD.");
   }
 
-  for (const entry of sources) {
-    const disk = await readFile(absolute(entry.path));
-    let committed;
-    try {
-      committed = Buffer.from(gitOutput(["show", `${candidate}:${entry.path}`]));
-    } catch {
-      throw new Error(`Reviewer source is not committed in candidate ${candidate}: ${entry.path}.`);
-    }
-    requireCondition(
-      disk.equals(committed),
-      `Reviewer source differs from candidate ${candidate}: ${entry.path}.`,
-    );
-  }
+  const untracked = gitNulRecords(
+    gitOutput(["ls-files", "--others", "--exclude-standard", "-z"]),
+    "Untracked repository path listing",
+  ).map((pathBytes) => decodeUtf8(pathBytes, "Untracked repository path"));
+  requireNoWorkingTreeOnlySources(paths, untracked);
 }
 
-async function binding(path, mediaType) {
-  const bytes = await readFile(absolute(path));
-  return { path, mediaType, bytes: bytes.byteLength, digest: digest(bytes) };
-}
-
-async function validateBoundFile(value, expectedPath, label) {
+function validateBoundCandidateFile(value, expectedPath, label, candidateTree) {
   assertExactKeys(value, ["path", "mediaType", "bytes", "digest"], label);
   requireCondition(value.path === expectedPath, `${label} path mismatch.`);
   requireCondition(
@@ -1201,18 +1197,18 @@ async function validateBoundFile(value, expectedPath, label) {
   );
   requireCondition(Number.isSafeInteger(value.bytes) && value.bytes >= 0, `${label} byte count invalid.`);
   requireCondition(DIGEST_PATTERN.test(value.digest), `${label} digest invalid.`);
-  const actual = await binding(expectedPath, "application/octet-stream");
+  const bytes = candidateTree.file(expectedPath).bytes;
   requireCondition(
-    actual.bytes === value.bytes && actual.digest === value.digest,
-    `${label} raw byte binding mismatch.`,
+    bytes.byteLength === value.bytes && digest(bytes) === value.digest,
+    `${label} raw candidate-blob binding mismatch.`,
   );
 }
 
-async function validateGateReceipt(candidate) {
+async function validateGateReceipt(candidate, candidateTree = loadCandidateTree(candidate)) {
   const paths = gateEvidencePaths(candidate);
-  requireVersionableEvidencePaths(paths);
-  requireBytePreservingEvidencePaths(paths);
-  const parsed = await readCanonicalJson(paths.receipt);
+  requireVersionableEvidencePaths(paths, candidateTree);
+  requireBytePreservingEvidencePaths(candidate, paths);
+  const parsed = readCandidateCanonicalJson(candidateTree, paths.receipt);
   const receipt = parsed.value;
   assertExactKeys(
     receipt,
@@ -1316,8 +1312,8 @@ async function validateGateReceipt(candidate) {
       receipt.spawnError === null,
     "Canonical gate did not pass cleanly.",
   );
-  await validateBoundFile(receipt.stdout, paths.stdout, "canonical-gate stdout");
-  await validateBoundFile(receipt.stderr, paths.stderr, "canonical-gate stderr");
+  validateBoundCandidateFile(receipt.stdout, paths.stdout, "canonical-gate stdout", candidateTree);
+  validateBoundCandidateFile(receipt.stderr, paths.stderr, "canonical-gate stderr", candidateTree);
   return {
     paths,
     receipt,
@@ -1357,27 +1353,86 @@ function expectedReportKeys(spec) {
   ];
 }
 
-async function verifyEvidenceSet(spec) {
+function safeHandoffFile(file, label) {
+  requireCondition(
+    typeof file === "string" &&
+      file.length > 5 &&
+      file.endsWith(".json") &&
+      !file.includes("/") &&
+      !file.includes("\\") &&
+      file !== "." &&
+      file !== ".." &&
+      // biome-ignore lint/suspicious/noControlCharactersInRegex: raw handoff paths reject every unsafe control.
+      !/[\u0000-\u001f\u007f]/u.test(file),
+    `${label} is an unsafe raw handoff file: ${String(file)}.`,
+  );
+  return file;
+}
+
+function exactCandidateBinding(candidateTree, path, mediaType) {
+  const file = candidateTree.file(path);
+  return {
+    path,
+    mediaType,
+    bytes: file.bytes.byteLength,
+    digest: digest(file.bytes),
+  };
+}
+
+async function verifyEvidenceSet(candidateTree, spec) {
   const packagePath = `${spec.root}/package-envelope.json`;
   const approvalPath = `${spec.root}/approval.json`;
   const reportPath = `${spec.root}/handoff-verification.json`;
-  const specialistPackage = (await readCanonicalJson(packagePath)).value;
-  const approval = (await readCanonicalJson(approvalPath)).value;
-  const report = (await readCanonicalJson(reportPath)).value;
+  const specialistPackage = readCandidateCanonicalJson(candidateTree, packagePath).value;
+  const approvalParsed = readCandidateCanonicalJson(candidateTree, approvalPath);
+  const reportParsed = readCandidateCanonicalJson(candidateTree, reportPath);
+  const approval = approvalParsed.value;
+  const report = reportParsed.value;
 
-  requireCondition(
-    approval &&
-      typeof approval === "object" &&
-      JSON.stringify(approval.expectation) === JSON.stringify(spec.expectation),
-    `${spec.id} approval does not bind the frozen package expectation.`,
+  assertExactKeys(
+    approval,
+    [
+      "apiVersion",
+      "kind",
+      "goalId",
+      "goalRevision",
+      "approvedBy",
+      "approvalBasis",
+      "expectation",
+    ],
+    `${spec.id} approval`,
   );
+  assertExactKeys(
+    approval.expectation,
+    ["compilationDigest", "packageDigest"],
+    `${spec.id} package expectation`,
+  );
+  requireCondition(
+    approval.apiVersion === "swecircuit/review-approval/v1alpha1" &&
+      approval.kind === "SpecialistReviewApproval" &&
+      approval.goalId === spec.goalId &&
+      approval.goalRevision === spec.goalRevision &&
+      typeof approval.approvedBy === "string" &&
+      approval.approvedBy.length > 0 &&
+      typeof approval.approvalBasis === "string" &&
+      approval.approvalBasis.length > 0 &&
+      DIGEST_PATTERN.test(approval.expectation.compilationDigest) &&
+      DIGEST_PATTERN.test(approval.expectation.packageDigest),
+    `${spec.id} approval identity or expectation is invalid.`,
+  );
+  if (spec.expectation !== undefined) {
+    requireCondition(
+      JSON.stringify(approval.expectation) === JSON.stringify(spec.expectation),
+      `${spec.id} approval does not bind the frozen package expectation.`,
+    );
+  }
+  const expectation = approval.expectation;
   requireValue(
-    verifySpecialistPackage(specialistPackage, spec.expectation),
+    verifySpecialistPackage(specialistPackage, expectation),
     `${spec.id} package verification`,
   );
 
-  const expectedAgentIds = [...spec.packageAgentIds].sort(compareOrdinal);
-  const packageAgentIds = specialistPackage.manifest.agents
+  const expectedAgentIds = specialistPackage.manifest.agents
     .map((entry) => entry.agentId)
     .sort(compareOrdinal);
   requireCondition(
@@ -1385,19 +1440,21 @@ async function verifyEvidenceSet(spec) {
       specialistPackage.manifest.goalRevision === spec.goalRevision,
     `${spec.id} package goal binding mismatch.`,
   );
-  assertExactStringArray(
-    packageAgentIds,
-    expectedAgentIds,
-    `${spec.id} approved package roster`,
-  );
+  if (spec.packageAgentIds !== undefined) {
+    assertExactStringArray(
+      expectedAgentIds,
+      [...spec.packageAgentIds].sort(compareOrdinal),
+      `${spec.id} approved package roster`,
+    );
+  }
 
   assertExactKeys(report, expectedReportKeys(spec), `${spec.id} handoff report`);
   requireCondition(
     report.apiVersion === "swecircuit/run-evidence/v1alpha1" &&
       report.kind === spec.reportKind &&
       (spec.phase === null || report.phase === spec.phase) &&
-      report.compilationDigest === spec.expectation.compilationDigest &&
-      report.packageDigest === spec.expectation.packageDigest,
+      report.compilationDigest === expectation.compilationDigest &&
+      report.packageDigest === expectation.packageDigest,
     `${spec.id} handoff report identity mismatch.`,
   );
   assertExactStringArray(
@@ -1405,44 +1462,26 @@ async function verifyEvidenceSet(spec) {
     expectedAgentIds,
     `${spec.id} reported package roster`,
   );
-
-  const expectedHandoffs = [...spec.handoffs].sort((left, right) =>
-    compareOrdinal(left.agentId, right.agentId),
-  );
-  const expectedFiles = expectedHandoffs.map((entry) => entry.file).sort(compareOrdinal);
-  const expectedReceivedAgentIds = expectedHandoffs.map((entry) => entry.agentId);
-  const handoffRoot = `${spec.root}/handoffs`;
-
   requireCondition(
-    Array.isArray(report.verifiedHandoffs) &&
-      report.verifiedHandoffs.length === expectedHandoffs.length,
-    `${spec.id} handoff report roster length mismatch.`,
+    Array.isArray(report.verifiedHandoffs),
+    `${spec.id} handoff report lacks a verified handoff roster.`,
   );
-  const reportFiles = report.verifiedHandoffs
-    .map((entry) => entry.file)
-    .sort(compareOrdinal);
-  assertExactStringArray(reportFiles, expectedFiles, `${spec.id} reported handoff files`);
+
+  const expectedHandoffs = spec.handoffs === undefined
+    ? null
+    : new Map(spec.handoffs.map((entry) => [entry.file, entry]));
+  if (expectedHandoffs !== null) {
+    assertExactStringArray(
+      report.verifiedHandoffs.map((entry) => entry.file).sort(compareOrdinal),
+      [...expectedHandoffs.keys()].sort(compareOrdinal),
+      `${spec.id} reported handoff files`,
+    );
+  }
 
   const verified = [];
-  for (const expectedHandoff of expectedHandoffs) {
-    const path = `${handoffRoot}/${expectedHandoff.file}`;
-    const raw = await readFile(absolute(path));
-    const value = requireValue(
-      verifySpecialistHandoff(specialistPackage, spec.expectation, raw),
-      `${spec.id} raw handoff verification for ${path}`,
-    );
-    requireCondition(
-      value.handoff.agent.id === expectedHandoff.agentId &&
-        value.handoff.outcome === expectedHandoff.outcome &&
-        (expectedHandoff.rawBytes === null || value.rawBytes === expectedHandoff.rawBytes) &&
-        (expectedHandoff.rawDigest === null ||
-          value.rawDigest === expectedHandoff.rawDigest),
-      `${spec.id} contains an unexpected handoff identity or outcome: ${path}.`,
-    );
-
-    const reported = report.verifiedHandoffs.find(
-      (candidate) => candidate.file === expectedHandoff.file,
-    );
+  const seenFiles = new Set();
+  const seenAgents = new Set();
+  for (const reported of report.verifiedHandoffs) {
     assertExactKeys(
       reported,
       [
@@ -1454,8 +1493,22 @@ async function verifyEvidenceSet(spec) {
         "semanticDigest",
         "contentDigest",
       ],
-      `${spec.id} report row for ${expectedHandoff.file}`,
+      `${spec.id} reported handoff row`,
     );
+    const file = safeHandoffFile(reported.file, `${spec.id} reported handoff`);
+    requireCondition(!seenFiles.has(file), `${spec.id} reports duplicate handoff file: ${file}.`);
+    seenFiles.add(file);
+    const path = `${spec.root}/handoffs/${file}`;
+    const raw = candidateTree.file(path).bytes;
+    const value = requireValue(
+      verifySpecialistHandoff(specialistPackage, expectation, raw),
+      `${spec.id} raw handoff verification for ${path}`,
+    );
+    requireCondition(
+      !seenAgents.has(value.handoff.agent.id),
+      `${spec.id} contains duplicate handoffs for agent ${value.handoff.agent.id}.`,
+    );
+    seenAgents.add(value.handoff.agent.id);
     requireCondition(
       reported.agentId === value.handoff.agent.id &&
         reported.outcome === value.handoff.outcome &&
@@ -1463,110 +1516,124 @@ async function verifyEvidenceSet(spec) {
         reported.rawDigest === value.rawDigest &&
         reported.semanticDigest === value.semanticDigest &&
         reported.contentDigest === value.contentDigest,
-      `${spec.id} handoff report row does not match raw evidence: ${path}.`,
+      `${spec.id} handoff report row does not match raw candidate evidence: ${path}.`,
     );
+
+    const expected = expectedHandoffs?.get(file);
+    if (expected !== undefined) {
+      requireCondition(
+        value.handoff.agent.id === expected.agentId &&
+          value.handoff.outcome === expected.outcome &&
+          (expected.rawBytes === null || value.rawBytes === expected.rawBytes) &&
+          (expected.rawDigest === null || value.rawDigest === expected.rawDigest),
+        `${spec.id} contains an unexpected frozen handoff identity or outcome: ${path}.`,
+      );
+    }
     verified.push({
       path,
-      file: expectedHandoff.file,
+      file,
       agentId: value.handoff.agent.id,
       outcome: value.handoff.outcome,
       bytes: value.rawBytes,
       digest: value.rawDigest,
+      semanticDigest: value.semanticDigest,
+      contentDigest: value.contentDigest,
     });
   }
 
   verified.sort((left, right) => compareOrdinal(left.agentId, right.agentId));
+  const receivedAgentIds = verified.map((entry) => entry.agentId);
   assertExactStringArray(
     report.receivedAgentIds,
-    expectedReceivedAgentIds,
+    receivedAgentIds,
     `${spec.id} received roster`,
   );
+  const complete =
+    expectedAgentIds.length === receivedAgentIds.length &&
+    expectedAgentIds.every((agentId, index) => agentId === receivedAgentIds[index]);
+  const ready = complete && verified.every((entry) => entry.outcome === "pass");
   requireCondition(
-    report.complete === spec.complete &&
-      report[spec.readinessField] === spec.ready &&
+    report.complete === complete &&
+      report[spec.readinessField] === ready &&
       typeof report.note === "string" &&
       report.note.length > 0,
     `${spec.id} completion or readiness outcome mismatch.`,
   );
-  const missingAgentIds = expectedAgentIds.filter(
-    (agentId) => !expectedReceivedAgentIds.includes(agentId),
-  );
-  requireCondition(
-    spec.complete === (missingAgentIds.length === 0),
-    `${spec.id} declared completeness does not match its exact roster.`,
-  );
+  if (spec.complete !== undefined) {
+    requireCondition(
+      complete === spec.complete && ready === spec.ready,
+      `${spec.id} frozen completion or readiness changed.`,
+    );
+  }
 
+  const missingAgentIds = expectedAgentIds.filter(
+    (agentId) => !receivedAgentIds.includes(agentId),
+  );
   return {
     id: spec.id,
+    root: spec.root,
     goalRevision: spec.goalRevision,
-    compilationDigest: spec.expectation.compilationDigest,
-    packageDigest: spec.expectation.packageDigest,
+    compilationDigest: expectation.compilationDigest,
+    packageDigest: expectation.packageDigest,
     packagePath,
+    packageBinding: exactCandidateBinding(candidateTree, packagePath, "application/json"),
     approvalPath,
+    approvalBinding: exactCandidateBinding(candidateTree, approvalPath, "application/json"),
     reportPath,
+    reportBinding: exactCandidateBinding(candidateTree, reportPath, "application/json"),
     expectedAgentIds,
-    receivedAgentIds: expectedReceivedAgentIds,
+    receivedAgentIds,
     missingAgentIds,
-    complete: spec.complete,
-    ready: spec.ready,
+    complete,
+    ready,
     rawHandoffs: verified,
   };
 }
 
-async function verifyCorrectionLineage(evidenceSets) {
-  const correctionSets = evidenceSets
-    .filter((entry) => entry.id.startsWith("release-correction-r"))
-    .sort((left, right) => left.goalRevision - right.goalRevision);
-  requireCondition(
-    correctionSets.length === 8 &&
-      correctionSets.every((entry, index) => entry.goalRevision === index + 1),
-    "Correction evidence does not contain the exact revision-1 through revision-8 chain.",
-  );
-
+function verifyCorrectionReplans(candidateTree, correctionSets) {
   const byRevision = new Map(
     correctionSets.map((entry) => [entry.goalRevision, entry]),
   );
   const replans = [];
-  for (const spec of CORRECTION_REPLAN_SPECS) {
-    const parsed = await readCanonicalJson(spec.path);
-    requireCondition(
-      parsed.bytes.byteLength === spec.bytes && digest(parsed.bytes) === spec.digest,
-      `Correction replan raw binding mismatch: ${spec.path}.`,
-    );
+  for (const replacement of correctionSets) {
+    if (replacement.goalRevision === 1) {
+      continue;
+    }
+    const path = `${replacement.root}/replan.json`;
+    if (!candidateTree.has(path)) {
+      continue;
+    }
+    const parsed = readCandidateCanonicalJson(candidateTree, path);
     const replan = parsed.value;
+    const prior = byRevision.get(replacement.goalRevision - 1);
     requireCondition(
       replan.apiVersion === "swecircuit/run-evidence/v1alpha1" &&
         replan.kind === "SpecialistContractReplan" &&
         replan.goal?.id === CORRECTION_GOAL &&
-        replan.goal.fromRevision === spec.fromRevision &&
-        replan.goal.toRevision === spec.toRevision &&
-        replan.route === spec.route,
-      `Correction replan identity mismatch: ${spec.path}.`,
+        replan.goal.fromRevision === replacement.goalRevision - 1 &&
+        replan.goal.toRevision === replacement.goalRevision &&
+        typeof replan.route === "string" &&
+        prior !== undefined,
+      `Correction replan identity mismatch: ${path}.`,
     );
-
-    const prior = byRevision.get(spec.fromRevision);
-    const replacement = byRevision.get(spec.toRevision);
-    requireCondition(prior && replacement, `Correction replan has an unknown revision: ${spec.path}.`);
     const trigger = prior.rawHandoffs.find(
-      (entry) => entry.agentId === spec.triggerAgentId,
+      (entry) => entry.agentId === replan.trigger?.agentId,
     );
     const replacementHandoff = replacement.rawHandoffs.find(
-      (entry) => entry.agentId === spec.replacementAgentId,
+      (entry) => entry.agentId === replan.replacementContract?.agentId,
     );
     requireCondition(
-      trigger &&
-        replacementHandoff &&
-        replan.trigger?.agentId === trigger.agentId &&
+      trigger !== undefined &&
         replan.trigger.handoffPath === trigger.path &&
         replan.trigger.handoffBytes === trigger.bytes &&
         replan.trigger.handoffDigest === trigger.digest &&
         replan.trigger.outcome === trigger.outcome,
-      `Correction replan trigger mismatch: ${spec.path}.`,
+      `Correction replan trigger mismatch: ${path}.`,
     );
     requireCondition(
-      replan.replacementContract?.compilationDigest === replacement.compilationDigest &&
+      replacementHandoff !== undefined &&
+        replan.replacementContract.compilationDigest === replacement.compilationDigest &&
         replan.replacementContract.packageDigest === replacement.packageDigest &&
-        replan.replacementContract.agentId === replacementHandoff.agentId &&
         replan.replacementContract.handoffPath === replacementHandoff.path &&
         replan.replacementContract.handoffBytes === replacementHandoff.bytes &&
         replan.replacementContract.handoffDigest === replacementHandoff.digest &&
@@ -1575,36 +1642,45 @@ async function verifyCorrectionLineage(evidenceSets) {
         replan.replacementContract.launched === true &&
         replan.replacementContract.completed ===
           (replacementHandoff.outcome === "pass"),
-      `Correction replacement contract mismatch: ${spec.path}.`,
+      `Correction replacement contract mismatch: ${path}.`,
     );
-    if (spec.retiredAgentId !== null) {
+    if (replan.retiredContract !== null && replan.retiredContract !== undefined) {
       requireCondition(
         prior.missingAgentIds.length === 1 &&
-          prior.missingAgentIds[0] === spec.retiredAgentId &&
-          replan.retiredContract?.compilationDigest === prior.compilationDigest &&
+          replan.retiredContract.compilationDigest === prior.compilationDigest &&
           replan.retiredContract.packageDigest === prior.packageDigest &&
-          replan.retiredContract.agentId === spec.retiredAgentId &&
+          replan.retiredContract.agentId === prior.missingAgentIds[0] &&
           replan.retiredContract.launched === false &&
           replan.retiredContract.handoff === null,
-        `Correction retired contract mismatch: ${spec.path}.`,
+        `Correction retired contract mismatch: ${path}.`,
       );
     }
-
     replans.push({
-      path: spec.path,
-      bytes: spec.bytes,
-      digest: spec.digest,
-      fromRevision: spec.fromRevision,
-      toRevision: spec.toRevision,
-      route: spec.route,
+      path,
+      bytes: parsed.bytes.byteLength,
+      digest: digest(parsed.bytes),
+      fromRevision: replacement.goalRevision - 1,
+      toRevision: replacement.goalRevision,
+      route: replan.route,
       triggerAgentId: trigger.agentId,
       triggerOutcome: trigger.outcome,
-      retiredAgentId: spec.retiredAgentId,
+      retiredAgentId: replan.retiredContract?.agentId ?? null,
       replacementAgentId: replacementHandoff.agentId,
       replacementOutcome: replacementHandoff.outcome,
     });
   }
+  return replans;
+}
 
+function verifyCorrectionLineage(candidateTree, evidenceSets, correctionSpecs) {
+  const correctionSets = evidenceSets
+    .filter((entry) => entry.id.startsWith("release-correction-r"))
+    .sort((left, right) => left.goalRevision - right.goalRevision);
+  requireCondition(
+    correctionSets.length === correctionSpecs.length &&
+      correctionSets.every((entry, index) => entry.goalRevision === index + 1),
+    "Correction evidence does not contain one contiguous verified sequence from revision 1.",
+  );
   return {
     goalId: CORRECTION_GOAL,
     revisions: correctionSets.map((entry) => ({
@@ -1624,40 +1700,53 @@ async function verifyCorrectionLineage(evidenceSets) {
         digest: handoff.digest,
       })),
     })),
-    replans,
+    replans: verifyCorrectionReplans(candidateTree, correctionSets),
   };
 }
 
-async function verifyPrimaryEvidenceSets() {
+async function verifyPrimaryEvidenceSets(candidateTree) {
+  const correctionSpecs = discoverCorrectionEvidenceSpecs(candidateTree);
   const evidenceSets = [];
-  for (const spec of PRIMARY_EVIDENCE_SPECS) {
-    evidenceSets.push(await verifyEvidenceSet(spec));
+  for (const spec of [...correctionSpecs, ...PRIMARY_EVIDENCE_SPECS]) {
+    evidenceSets.push(await verifyEvidenceSet(candidateTree, spec));
   }
   return {
     evidenceSets,
-    correctionLineage: await verifyCorrectionLineage(evidenceSets),
+    correctionLineage: verifyCorrectionLineage(
+      candidateTree,
+      evidenceSets,
+      correctionSpecs,
+    ),
   };
 }
-
-async function materializeSnapshots(sources) {
-  const rows = [];
-  for (const entry of sources) {
-    const bytes = await readFile(absolute(entry.path));
-    const target = snapshotPath(entry);
-    await writeImmutable(target, bytes);
-    rows.push({
+function reviewedSourceMaterialization(entry, candidateTree, paths) {
+  const file = candidateTree.file(entry.path);
+  const target = snapshotPath(entry, paths);
+  return {
+    bytes: file.bytes,
+    row: {
       contextId: entry.id,
       originalPath: entry.path,
+      candidateMode: file.mode,
+      candidateObjectId: file.objectId,
       snapshotPath: target,
       description: entry.description,
       allowedWorkUnits: entry.allowedWorkUnits,
-      bytes: bytes.byteLength,
-      digest: digest(bytes),
-    });
+      bytes: file.bytes.byteLength,
+      digest: digest(file.bytes),
+    },
+  };
+}
+
+async function materializeSnapshots(sources, candidateTree, paths) {
+  const rows = [];
+  for (const entry of sources) {
+    const materialization = reviewedSourceMaterialization(entry, candidateTree, paths);
+    await writeImmutable(materialization.row.snapshotPath, materialization.bytes);
+    rows.push(materialization.row);
   }
   return rows;
 }
-
 function contextSource(row) {
   return {
     id: row.contextId,
@@ -1685,17 +1774,37 @@ async function directContext(id, path, description, allowedWorkUnits) {
   };
 }
 
+function directCandidateContext(
+  candidateTree,
+  id,
+  path,
+  description,
+  allowedWorkUnits,
+) {
+  const bytes = candidateTree.file(path).bytes;
+  return {
+    id,
+    kind: "repository",
+    locator: `path:${path}`,
+    digest: digest(bytes),
+    bytes: bytes.byteLength,
+    description,
+    allowedWorkUnits,
+    readScope: path,
+  };
+}
+
 function reviewedSourceByPath(rows, path) {
   const row = rows.find((entry) => entry.originalPath === path);
   requireCondition(row, `Required primary source was not snapshotted: ${path}.`);
   return row;
 }
 
-function assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLineage, gatePaths) {
+function assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLineage, gatePaths, paths) {
   const scopes = new Set(contextSources.map((entry) => entry.readScope));
   for (const path of [
-    CANDIDATE_MANIFEST,
-    PRE_INTEGRATION_REVIEW,
+    paths.candidateManifest,
+    paths.preIntegrationReview,
     gatePaths.receipt,
     gatePaths.stdout,
     gatePaths.stderr,
@@ -1889,28 +1998,37 @@ function requestFor(contextSources, candidate) {
   };
 }
 
-async function preparedContexts(rows, candidateManifest, gatePaths) {
+async function preparedContexts(
+  rows,
+  candidateManifest,
+  gatePaths,
+  paths,
+  candidateTree,
+) {
   const contexts = rows.map(contextSource);
   contexts.push(
     await directContext(
       "context.candidate-manifest",
-      CANDIDATE_MANIFEST,
-      "Closed candidate, gate, snapshot, and primary-evidence binding manifest.",
+      paths.candidateManifest,
+      "Closed candidate, gate, tooling, snapshot, and primary-evidence binding manifest.",
       ALL_REVIEWS,
     ),
-    await directContext(
+    directCandidateContext(
+      candidateTree,
       "context.canonical-gate-receipt",
       gatePaths.receipt,
       "Closed exact-candidate canonical-gate receipt.",
       ALL_REVIEWS,
     ),
-    await directContext(
+    directCandidateContext(
+      candidateTree,
       "context.canonical-gate-stdout",
       gatePaths.stdout,
       "Exact raw canonical-gate stdout bytes.",
       ALL_REVIEWS,
     ),
-    await directContext(
+    directCandidateContext(
+      candidateTree,
       "context.canonical-gate-stderr",
       gatePaths.stderr,
       "Exact raw canonical-gate stderr bytes.",
@@ -1929,11 +2047,15 @@ async function prepare() {
     typeof checkpoint === "string" && CANDIDATE_PATTERN.test(checkpoint),
     "prepare requires the exact 40-character candidate commit.",
   );
-  const sources = await collectSourceSpecs();
-  await verifyCheckpoint(checkpoint, sources);
-  const gate = await validateGateReceipt(checkpoint);
-  const { evidenceSets, correctionLineage } = await verifyPrimaryEvidenceSets();
-  const rows = await materializeSnapshots(sources);
+  const paths = candidateRunPaths(checkpoint);
+  const candidateTree = loadCandidateTree(checkpoint);
+  await verifyCheckpoint(checkpoint, paths);
+  const reviewTooling = await authenticateReviewTooling(candidateTree);
+  const sources = collectSourceSpecs(candidateTree);
+  const gate = await validateGateReceipt(checkpoint, candidateTree);
+  const { evidenceSets, correctionLineage } =
+    await verifyPrimaryEvidenceSets(candidateTree);
+  const rows = await materializeSnapshots(sources, candidateTree, paths);
   const preIntegration = reviewedSourceByPath(
     rows,
     "docs/specs/v12-ide-run-loop/review.md",
@@ -1945,6 +2067,8 @@ async function prepare() {
     baselineCommit: BASELINE,
     candidateCommit: checkpoint,
     branch: "codex/v12-ide-run-loop",
+    runRoot: paths.root,
+    reviewTooling,
     canonicalGate: {
       receipt: gate.receiptBinding,
       candidateSource: gate.receipt.candidateSource,
@@ -1956,6 +2080,8 @@ async function prepare() {
     },
     preIntegrationReview: {
       originalPath: preIntegration.originalPath,
+      candidateMode: preIntegration.candidateMode,
+      candidateObjectId: preIntegration.candidateObjectId,
       snapshotPath: preIntegration.snapshotPath,
       bytes: preIntegration.bytes,
       digest: preIntegration.digest,
@@ -1964,34 +2090,45 @@ async function prepare() {
     correctionLineage,
     reviewedSources: rows,
   };
-  await writeImmutableJson(CANDIDATE_MANIFEST, candidateManifest);
-  const contextSources = await preparedContexts(rows, candidateManifest, gate.paths);
-  assertPrimaryCoverage(contextSources, rows, evidenceSets, correctionLineage, gate.paths);
+  await writeImmutableJson(paths.candidateManifest, candidateManifest);
+  const contextSources = await preparedContexts(
+    rows,
+    candidateManifest,
+    gate.paths,
+    paths,
+    candidateTree,
+  );
+  assertPrimaryCoverage(
+    contextSources,
+    rows,
+    evidenceSets,
+    correctionLineage,
+    gate.paths,
+    paths,
+  );
   const request = requestFor(contextSources, checkpoint);
-  await writeImmutableJson(
-    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/request.json",
-    request,
-  );
-  await writeImmutableJson(
-    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/phase-metadata.json",
-    {
-      phase: "release-review-r2",
-      checkpoint,
-      goalId: request.goal.id,
-      goalRevision: request.goal.revision,
-      canonicalGateReceipt: gate.receiptBinding,
-      sourceSnapshots: rows.length,
-      primaryEvidenceSets: evidenceSets.map((entry) => entry.id),
-      correctionReplans: correctionLineage.replans.map((entry) => entry.path),
-      runtimeInvoked: false,
-    },
-  );
+  await writeImmutableJson(paths.request, request);
+  await writeImmutableJson(paths.phaseMetadata, {
+    phase: "release-review-r2",
+    checkpoint,
+    runRoot: paths.root,
+    goalId: request.goal.id,
+    goalRevision: request.goal.revision,
+    reviewTooling,
+    canonicalGateReceipt: gate.receiptBinding,
+    sourceSnapshots: rows.length,
+    primaryEvidenceSets: evidenceSets.map((entry) => entry.id),
+    correctionRevisions: correctionLineage.revisions.map((entry) => entry.revision),
+    correctionReplans: correctionLineage.replans.map((entry) => entry.path),
+    runtimeInvoked: false,
+  });
   process.stdout.write(
     `${JSON.stringify(
       {
         outcome: "pass",
         stage: "release-review-r2-prepared",
         checkpoint,
+        runRoot: paths.root,
         contextSources: contextSources.length,
         sourceSnapshots: rows.length,
         primaryRawHandoffs: evidenceSets.reduce(
@@ -2008,8 +2145,12 @@ async function prepare() {
   );
 }
 
-async function validatePreparedInputs() {
-  const parsedManifest = await readCanonicalJson(CANDIDATE_MANIFEST);
+async function validatePreparedInputs(candidate) {
+  const paths = candidateRunPaths(candidate);
+  const candidateTree = loadCandidateTree(candidate);
+  await verifyCheckpoint(candidate, paths);
+  const reviewTooling = await authenticateReviewTooling(candidateTree);
+  const parsedManifest = await readCanonicalJson(paths.candidateManifest);
   const manifest = parsedManifest.value;
   assertExactKeys(
     manifest,
@@ -2020,6 +2161,8 @@ async function validatePreparedInputs() {
       "baselineCommit",
       "candidateCommit",
       "branch",
+      "runRoot",
+      "reviewTooling",
       "canonicalGate",
       "preIntegrationReview",
       "verifiedEvidenceSets",
@@ -2032,14 +2175,16 @@ async function validatePreparedInputs() {
     manifest.apiVersion === "swecircuit/release-candidate/v1alpha1" &&
       manifest.kind === "ReleaseCandidateManifest" &&
       manifest.version === "V12" &&
-      CANDIDATE_PATTERN.test(manifest.candidateCommit),
-    "Prepared candidate manifest identity mismatch.",
+      manifest.candidateCommit === candidate &&
+      manifest.runRoot === paths.root &&
+      JSON.stringify(manifest.reviewTooling) === JSON.stringify(reviewTooling),
+    "Prepared candidate manifest identity or tooling binding mismatch.",
   );
 
-  const sources = await collectSourceSpecs();
-  await verifyCheckpoint(manifest.candidateCommit, sources);
-  const gate = await validateGateReceipt(manifest.candidateCommit);
-  const { evidenceSets, correctionLineage } = await verifyPrimaryEvidenceSets();
+  const sources = collectSourceSpecs(candidateTree);
+  const gate = await validateGateReceipt(candidate, candidateTree);
+  const { evidenceSets, correctionLineage } =
+    await verifyPrimaryEvidenceSets(candidateTree);
   requireCondition(
     JSON.stringify(manifest.verifiedEvidenceSets) === JSON.stringify(evidenceSets) &&
       JSON.stringify(manifest.correctionLineage) === JSON.stringify(correctionLineage),
@@ -2070,6 +2215,8 @@ async function validatePreparedInputs() {
       [
         "contextId",
         "originalPath",
+        "candidateMode",
+        "candidateObjectId",
         "snapshotPath",
         "description",
         "allowedWorkUnits",
@@ -2080,28 +2227,28 @@ async function validatePreparedInputs() {
     );
     const entry = sourceByPath.get(row.originalPath);
     requireCondition(entry, `Unknown prepared reviewer source: ${row.originalPath}.`);
+    const expected = reviewedSourceMaterialization(entry, candidateTree, paths).row;
     requireCondition(
-      row.contextId === entry.id &&
-        row.snapshotPath === snapshotPath(entry) &&
-        row.description === entry.description &&
-        JSON.stringify(row.allowedWorkUnits) === JSON.stringify(entry.allowedWorkUnits),
+      JSON.stringify(row) === JSON.stringify(expected),
       `Prepared reviewer source metadata changed: ${row.originalPath}.`,
     );
-    const bytes = await readFile(absolute(row.snapshotPath));
+    const snapshotBytes = await readFile(absolute(row.snapshotPath));
+    const candidateBytes = candidateTree.file(row.originalPath).bytes;
     requireCondition(
-      bytes.byteLength === row.bytes && digest(bytes) === row.digest,
-      `Prepared reviewer snapshot changed: ${row.snapshotPath}.`,
+      snapshotBytes.equals(candidateBytes) &&
+        snapshotBytes.byteLength === row.bytes &&
+        digest(snapshotBytes) === row.digest,
+      `Prepared reviewer snapshot changed or differs from its candidate Git blob: ${row.snapshotPath}.`,
     );
   }
 
-  const requestPath = "docs/specs/v12-ide-run-loop/evidence/release-review-r2/request.json";
-  const request = (await readCanonicalJson(requestPath)).value;
+  const request = (await readCanonicalJson(paths.request)).value;
   const contextSources = request.goal?.contextSources;
   requireCondition(Array.isArray(contextSources), "Prepared request lacks context sources.");
   for (const context of contextSources) {
-    const bytes = await readFile(absolute(context.readScope));
+    const contextBytes = await readFile(absolute(context.readScope));
     requireCondition(
-      bytes.byteLength === context.bytes && digest(bytes) === context.digest,
+      contextBytes.byteLength === context.bytes && digest(contextBytes) === context.digest,
       `Prepared context source changed: ${context.readScope}.`,
     );
   }
@@ -2111,12 +2258,13 @@ async function validatePreparedInputs() {
     evidenceSets,
     correctionLineage,
     gate.paths,
+    paths,
   );
-  return { manifest, request };
+  return { manifest, request, paths, candidateTree, reviewTooling };
 }
 
 async function compile() {
-  const { manifest, request } = await validatePreparedInputs();
+  const { manifest, request, paths } = await validatePreparedInputs(checkpoint);
   const compilation = requireValue(
     compileAgentBlueprints(request),
     "Release-review-r2 compilation",
@@ -2135,18 +2283,16 @@ async function compile() {
   );
   for (const file of specialistPackage.files) {
     await writeImmutable(
-      `docs/specs/v12-ide-run-loop/evidence/release-review-r2/package/${file.path}`,
+      `${paths.packageDir}/${file.path}`,
       Buffer.from(file.content, "utf8"),
     );
   }
-  await writeImmutableJson(
-    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/package-envelope.json",
-    specialistPackage,
-  );
+  await writeImmutableJson(paths.packageEnvelope, specialistPackage);
   const summary = {
     goalId: compilation.goal.id,
     goalRevision: compilation.goal.revision,
     candidateCommit: manifest.candidateCommit,
+    runRoot: paths.root,
     search: compilation.search,
     serialBaseline: compilation.serialBaseline,
     selected: compilation.selected,
@@ -2168,20 +2314,13 @@ async function compile() {
     ownerApproved: false,
     runtimeInvoked: false,
   };
-  await writeImmutableJson(
-    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/compilation-summary.json",
-    summary,
-  );
+  await writeImmutableJson(paths.compilationSummary, summary);
   process.stdout.write(`${JSON.stringify(summary, null, 2)}\n`);
 }
 
 async function approve() {
-  const { manifest, request } = await validatePreparedInputs();
-  const specialistPackage = (
-    await readCanonicalJson(
-      "docs/specs/v12-ide-run-loop/evidence/release-review-r2/package-envelope.json",
-    )
-  ).value;
+  const { manifest, request, paths } = await validatePreparedInputs(checkpoint);
+  const specialistPackage = (await readCanonicalJson(paths.packageEnvelope)).value;
   const expectation = {
     compilationDigest: specialistPackage.compilationDigest,
     packageDigest: specialistPackage.packageDigest,
@@ -2201,18 +2340,32 @@ async function approve() {
       "The owner reviewed this exact corrected candidate, immutable source snapshots, primary evidence, three task-shaped read-only contracts, authority, and compilation/package digest pair before launch.",
     expectation,
   };
-  await writeImmutableJson(
-    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/approval.json",
-    approval,
-  );
+  await writeImmutableJson(paths.approval, approval);
   process.stdout.write(
     `${JSON.stringify(
       {
         outcome: "pass",
         stage: "release-review-r2-package-approved",
         candidateCommit: manifest.candidateCommit,
+        runRoot: paths.root,
         ...expectation,
       },
+      null,
+      2,
+    )}\n`,
+  );
+}
+
+async function pathsMode() {
+  const paths = candidateRunPaths(checkpoint);
+  const candidateTree = loadCandidateTree(checkpoint);
+  await authenticateReviewTooling(candidateTree);
+  const gatePaths = gateEvidencePaths(checkpoint);
+  requireVersionableEvidencePaths(gatePaths, candidateTree);
+  requireBytePreservingEvidencePaths(checkpoint, gatePaths);
+  process.stdout.write(
+    `${JSON.stringify(
+      { candidateCommit: checkpoint, run: paths, canonicalGate: gatePaths },
       null,
       2,
     )}\n`,
@@ -2227,16 +2380,33 @@ async function main() {
   } else if (mode === "approve") {
     await approve();
   } else if (mode === "paths") {
-    const paths = gateEvidencePaths(checkpoint);
-    requireVersionableEvidencePaths(paths);
-    requireBytePreservingEvidencePaths(paths);
-    process.stdout.write(`${JSON.stringify({ candidateCommit: checkpoint, ...paths }, null, 2)}\n`);
+    await pathsMode();
   } else {
     throw new Error(`Unknown mode: ${mode}.`);
   }
 }
 
-main().catch((error) => {
-  process.stderr.write(`${error instanceof Error ? error.message : "Unknown error"}\n`);
-  process.exitCode = 1;
+export const RELEASE_REVIEW_TEST_HOOKS = Object.freeze({
+  REVIEW_ROOT,
+  HARNESS_REPOSITORY_PATH,
+  VERIFIER_REPOSITORY_PATH,
+  candidateRunPaths,
+  gateEvidencePaths,
+  loadCandidateTree,
+  candidateTreeWithOverrides,
+  discoverCorrectionEvidenceSpecs,
+  collectSourceSpecs,
+  verifyEvidenceSet,
+  reviewedSourceMaterialization,
+  authenticateToolBytes,
+  authenticateReviewTooling,
+  requireNoWorkingTreeOnlySources,
+  verifyCheckpoint,
 });
+
+if (process.argv[1] && resolve(process.argv[1]) === resolve(SCRIPT_PATH)) {
+  main().catch((error) => {
+    process.stderr.write(`${error instanceof Error ? error.message : "Unknown error"}\n`);
+    process.exitCode = 1;
+  });
+}
