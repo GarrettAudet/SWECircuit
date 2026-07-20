@@ -475,6 +475,38 @@ const REPOSITORY_SOURCES = {
     "test/v12-release-gate.test.mjs",
     "Focused committed-source canonical-gate and R2 context regressions.",
   ],
+  "context.release-review-tests": [
+    "test/v12-release-review.test.mjs",
+    "Focused candidate-addressed release-review lifecycle regressions.",
+  ],
+  "context.candidate-four-gate-receipt": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/eff7d7afd5cb57a655f41803da96d824b9ba3438/canonical-gate-receipt.json",
+    "Exact Candidate 4 failed canonical-gate receipt.",
+  ],
+  "context.candidate-four-gate-stdout": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/eff7d7afd5cb57a655f41803da96d824b9ba3438/canonical-gate.stdout.log",
+    "Exact Candidate 4 raw canonical-gate stdout bytes.",
+  ],
+  "context.candidate-four-gate-stderr": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/eff7d7afd5cb57a655f41803da96d824b9ba3438/canonical-gate.stderr.log",
+    "Exact Candidate 4 raw canonical-gate stderr bytes.",
+  ],
+  "context.release-correction-r10-package": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/package-envelope.json",
+    "Owner-approved revision-10 candidate-addressed review lifecycle package.",
+  ],
+  "context.release-correction-r10-approval": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/approval.json",
+    "Exact owner approval for the revision-10 package.",
+  ],
+  "context.release-correction-r10-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/handoffs/agent.01bebea4cedebc757d3d9891799351cb34d830ae83529ab5cbe417de68d8604f-pass-attempt-4.json",
+    "Exact revision-10 candidate-addressed review lifecycle PASS handoff.",
+  ],
+  "context.release-correction-r10-report": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/handoff-verification.json",
+    "Complete revision-10 PASS handoff report.",
+  ],
 };
 
 const FOUNDATION_WRITES = [
@@ -596,6 +628,13 @@ const RELEASE_R9_PROOF_CLOSURE_WRITES = [
 const RELEASE_R10_REVIEW_LIFECYCLE_WRITES = [
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+  "test/v12-release-review.test.mjs",
+];
+
+const RELEASE_R11_ISOLATED_GIT_CONTEXT_WRITES = [
+  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+  "scripts/run-v12-release-gate.mjs",
+  "test/v12-release-gate.test.mjs",
   "test/v12-release-review.test.mjs",
 ];
 
@@ -2064,6 +2103,100 @@ CONFIGS["release-correction-r10"] = {
         "context.release-correction-r9-approval",
         "context.release-correction-r9-handoff",
         "context.release-correction-r9-report",
+      ],
+    },
+  ],
+};
+CONFIGS["release-correction-r11"] = {
+  objective:
+    "Make exact-candidate release execution Git-aware without reconnecting it to mutable source bytes or live repository metadata, and preserve post-commit gate output as external immutable review evidence.",
+  goalPhase: "release-correction",
+  goalRevision: 11,
+  maxAgents: 1,
+  maxConcurrency: 1,
+  processScopes: ["git", "node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  assumptions: [
+    {
+      id: "assumption.candidate-four-evidence-immutable",
+      statement:
+        "Candidate 4 and its failed canonical-gate receipt and raw logs are immutable historical evidence and must not be deleted, moved, renamed, overwritten, or treated as a passing candidate.",
+      rationale:
+        "The failure proves the exact source materialization had no repository context and preserves the route into revision 11.",
+    },
+    {
+      id: "assumption.disposable-git-view",
+      statement:
+        "The canonical command may receive only a disposable Git metadata, ref, and index view whose worktree is the exact candidate materialization and whose immutable objects are read by object ID; the real repository metadata is never the command's Git directory.",
+      rationale:
+        "Git-aware tests need commit and attribute operations without regaining access to mutable checkout bytes or writing live repository state.",
+    },
+    {
+      id: "assumption.external-gate-evidence",
+      statement:
+        "A candidate's receipt and raw logs are necessarily produced after that candidate commit and therefore enter R2 as exact host evidence captured into immutable candidate-addressed snapshots, never as self-referential candidate Git blobs.",
+      rationale:
+        "Committed reviewer source and post-commit execution evidence require distinct provenance rules while remaining package- and approval-bound.",
+    },
+  ],
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.package",
+    "context.gitattributes",
+    "context.gitignore",
+    "context.release-gate",
+    "context.release-gate-tests",
+    "context.release-review-r2-harness",
+    "context.release-review-r2-verifier",
+    "context.release-review-tests",
+    "context.candidate-four-gate-receipt",
+    "context.candidate-four-gate-stdout",
+    "context.candidate-four-gate-stderr",
+    "context.release-correction-r10-package",
+    "context.release-correction-r10-approval",
+    "context.release-correction-r10-handoff",
+    "context.release-correction-r10-report",
+  ],
+  workUnits: [
+    {
+      id: "fix.release-gate-git-context.r11",
+      objective:
+        "Run the canonical suite from exact candidate bytes with an isolated disposable Git view, and capture its necessarily post-commit evidence into immutable R2 snapshots without weakening candidate-source provenance.",
+      weight: 13,
+      moduleId: "correction.release-gate-git-context",
+      action:
+        "Construct and clean a candidate-bound temporary Git metadata/ref/index context backed by immutable object lookup, authenticate pre/post HEAD and source bytes, keep the live repository metadata outside the child command, classify gate receipt and logs as exact external evidence, snapshot them once into the candidate-addressed R2 root, bind them into compilation and approval, and add focused nested-materialization and substitution regressions.",
+      inputType: "ExactCandidateWithoutGitContextAndSelfReferentialGateEvidence",
+      outputType: "IsolatedGitAwareGateAndBoundExternalEvidence",
+      capability: "fix.release-gate-git-context",
+      evidenceId: "evidence.release-gate-git-context.r11",
+      evidenceDescription:
+        "Prove Git-aware release tests pass inside exact blob materialization; the child Git directory, ref, and index are disposable and candidate-bound; nested materialization retains object access; candidate source and live repository state remain unchanged; temporary Git state is cleaned; only the three exact gate outputs are accepted as working-tree external evidence; R2 snapshots and package-binds their exact bytes; self-referential candidate-blob evidence is rejected; and focused syntax, format, lint, test, and diff checks pass.",
+      artifact: "release-gate-git-context-correction-r11.md",
+      writes: RELEASE_R11_ISOLATED_GIT_CONTEXT_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.package",
+        "context.gitattributes",
+        "context.gitignore",
+        "context.release-gate",
+        "context.release-gate-tests",
+        "context.release-review-r2-harness",
+        "context.release-review-r2-verifier",
+        "context.release-review-tests",
+        "context.candidate-four-gate-receipt",
+        "context.candidate-four-gate-stdout",
+        "context.candidate-four-gate-stderr",
+        "context.release-correction-r10-package",
+        "context.release-correction-r10-approval",
+        "context.release-correction-r10-handoff",
+        "context.release-correction-r10-report",
       ],
     },
   ],

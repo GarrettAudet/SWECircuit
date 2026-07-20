@@ -2,7 +2,7 @@
 
 ## Status
 
-Release-correction revisions 1 through 10 and V11 trust-root revision 35 pass their exact package gates. Candidate 3 passed its exact canonical gate but is retired after independent product and security `fix` routes. R9 committed-source isolation and R10 candidate-addressed review lifecycle tests pass; a fresh complete gate and R2 review remain for Candidate 4.
+Release-correction revisions 1 through 10 and V11 trust-root revision 35 pass their package gates. Candidate 4 is retired after its exact gate failed five Git-aware regressions inside a metadata-free source materialization. R11 must prove an isolated disposable Git view and immutable external gate-evidence capture before Candidate 5.
 
 ## Contract Tests
 
@@ -54,4 +54,5 @@ Release-correction revisions 1 through 10 and V11 trust-root revision 35 pass th
 - Candidate 3 `4ad12367cc0b36ea460ceabc48e5a41ca662e3df` canonical receipt: `pass`; lifecycle review: `pass`; product and security review: `fix`; candidate retired.
 - R9 focused committed-source gate tests: 4 of 4 `pass`; exact specialist handoff: 4,584 bytes at `sha256:f36ddf35492244b21248fe96a5363f1c7222fb206a4fe11f5d213427c37a4956`; `phaseReady: true`.
 - R10 lifecycle tests: 5 of 5 `pass`; independent full release-gate tests: 4 of 4 `pass`; exact accepted handoff: 5,595 bytes at `sha256:3e58dddde82171b5090debc1ea76a29298fe7a7e0f9a27dd39fd1f826350e543`; `phaseReady: true`.
-- Candidate 4 exact canonical receipt and complete three-reviewer R2 roster: pending.
+- Candidate 4 exact canonical receipt: `fail`; 392 of 397 tests pass, five Git-context tests fail, source and repository integrity checks pass, candidate retired.
+- R11 isolated Git context, external gate-evidence snapshot, focused regressions, Candidate 5 exact receipt, and complete three-reviewer R2 roster: pending.

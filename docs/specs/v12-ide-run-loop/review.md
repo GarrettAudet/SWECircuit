@@ -2,7 +2,7 @@
 
 ## Status
 
-Release review attempt 1 and Candidate 3 both produced verified release-blocking `fix` routes. Corrections now pass through revision 10 and the V11 revision-35 trust chain. Candidate 4 and its complete R2 review are not yet frozen, so V12 is not merge-ready.
+Release review attempt 1 and Candidate 3 produced verified release-blocking `fix` routes. Candidate 4 then failed its exact committed-tree gate before R2 because Git-aware regressions had no isolated Git context. Revision 11 is the active correction; Candidate 5 is not yet frozen, so V12 is not merge-ready.
 
 ## Scope
 
@@ -58,4 +58,4 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 
 ## Outcome
 
-`fix`. The known Candidate 3 causes are corrected, but release and merge remain stopped until Candidate 4 passes the exact canonical gate and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.
+`fix`. Candidate 4 is retired. Release and merge remain stopped until R11 closes the isolated Git-context and external-evidence provenance defects, Candidate 5 passes the exact canonical gate, and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.

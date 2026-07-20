@@ -1,0 +1,578 @@
+
+> swecircuit@0.0.0 verify
+> npm run format:check && npm run lint && npm run typecheck && npm test && npm run example:specialist && npm run dogfood:v10 && npm run dogfood:v11 && npm run dogfood:v12 && npm run pack:check && npm run consumer:check
+
+
+> swecircuit@0.0.0 format:check
+> biome format src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json
+
+Checked 95 files in 163ms. No fixes applied.
+
+> swecircuit@0.0.0 lint
+> biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 51.
+Checked 81 files in 94ms. No fixes applied.
+Found 71 infos.
+
+> swecircuit@0.0.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+
+> swecircuit@0.0.0 test
+> npm run build --silent && node --test test/*.test.mjs
+
+✔ the internal CLI exposes one fixed help surface (464.8745ms)
+✔ init, validate, and inspect human output comes from library summaries (2543.1942ms)
+✔ JSON mode writes exactly one operation result to stdout for success and failure (883.8591ms)
+✔ human failures use stderr and never print a success summary (248.6712ms)
+✔ human warning results keep success on stdout and warnings on stderr (390.0702ms)
+▶ invalid commands and option shapes deterministically emit cli.usage
+  ✔ missing command (220.6024ms)
+  ✔ unknown command (236.6168ms)
+  ✔ unknown option (218.6941ms)
+  ✔ duplicate option (186.6168ms)
+  ✔ extra positional (199.5782ms)
+  ✔ inspect missing trace (184.0554ms)
+  ✔ trace on validate (182.2755ms)
+  ✔ project id on validate (179.9257ms)
+  ✔ command help (212.5557ms)
+✔ invalid commands and option shapes deterministically emit cli.usage (2010.6387ms)
+✔ unexpected operation throws become one sanitized internal failure (1.7449ms)
+✔ the CLI remains a renderer-only internal surface (0.6557ms)
+✔ the V9 dogfood circuit is measured, bounded, and semantically repeatable (7609.9217ms)
+✔ the V9 dogfood harness removes its owned workspace after an injected failure (1482.5187ms)
+✔ the V9 dogfood harness cleans up when setup fails after ownership capture (4.8947ms)
+✔ the committed observation digest and caller-owned retry trace stay linked (330.9389ms)
+✔ one valid packet executes once and returns an immutable V9-compatible journal (376.4218ms)
+✔ normal class executors can implement the public port (4.367ms)
+✔ operation success stays separate from declared work failure (3.6533ms)
+▶ every preflight rejection prevents executor invocation
+  ✔ null packet (1.8426ms)
+  ✔ null manifest (5.805ms)
+  ✔ wrong packet kind (9.26ms)
+  ✔ incompatible manifest kind (1.671ms)
+  ✔ manifest declares kernel-owned output (1.5818ms)
+  ✔ executor identity mismatch (1.2667ms)
+  ✔ malformed grant (1.8284ms)
+  ✔ invalid timeout policy (1.4653ms)
+✔ every preflight rejection prevents executor invocation (33.7791ms)
+▶ permission grants fail closed in every direction
+  ✔ grant misses a manifest request (4.008ms)
+  ✔ grant adds unrequested authority (1.6071ms)
+  ✔ grant exceeds packet ceiling (1.2988ms)
+  ✔ broad request is not covered by narrow grant (1.2362ms)
+  ✔ broad grant is not covered by narrow request (1.2896ms)
+✔ permission grants fail closed in every direction (10.8387ms)
+▶ throws and malformed settlements become fixed failures without raw values
+  ✔ throw (2.7054ms)
+  ✔ malformed extra field (2.4385ms)
+  ✔ secret evidence (2.66ms)
+✔ throws and malformed settlements become fixed failures without raw values (8.7298ms)
+✔ fulfillment observation detaches settlement before later mutation (3.2799ms)
+▶ return-bound input canaries fail preflight without leaking
+  ✔ run ID (1.253ms)
+  ✔ attempt ID (1.0469ms)
+  ✔ correlation ID (0.9487ms)
+  ✔ packet ID (1.3111ms)
+  ✔ grant ID (1.219ms)
+  ✔ issuer (1.0655ms)
+  ✔ executor ID (1.1517ms)
+✔ return-bound input canaries fail preflight without leaking (9.4624ms)
+▶ already-aborted and already-expired work never invokes the executor
+  ✔ caller abort (2.7207ms)
+  ✔ packet deadline (2.5509ms)
+✔ already-aborted and already-expired work never invokes the executor (5.8432ms)
+▶ acknowledged caller cancellation and timeout produce exact terminal journals
+  ✔ caller cancellation (3.0023ms)
+  ✔ deadline (2.6091ms)
+✔ acknowledged caller cancellation and timeout produce exact terminal journals (6.2121ms)
+✔ an unacknowledged abort remains non-terminal and late rejection is observed (2.3686ms)
+✔ completion observed at or after the absolute deadline cannot become success (3.6837ms)
+✔ an early deadline wake-up re-arms instead of cancelling work (2.144ms)
+✔ settlement outside the abort acknowledgement window stays unconfirmed (2.103ms)
+▶ hostile proxies and forged signals fail closed without escaping the API
+  ✔ revoked work packet (1.1912ms)
+  ✔ revoked options (0.594ms)
+  ✔ live proxy traps are not invoked (1.033ms)
+  ✔ revoked AbortSignal proxy (1.0271ms)
+  ✔ forged AbortSignal (1.1542ms)
+  ✔ revoked settlement (2.056ms)
+✔ hostile proxies and forged signals fail closed without escaping the API (8.2516ms)
+▶ snapshot depth and node ceilings reject work before executor invocation
+  ✔ huge sparse array (1.8747ms)
+  ✔ small sparse array (1.1369ms)
+  ✔ dense oversized object (299.9095ms)
+  ✔ excessive depth (2.12ms)
+✔ snapshot depth and node ceilings reject work before executor invocation (306.0447ms)
+▶ the final invocation gate catches cancellation and deadline changes
+  ✔ caller abort while the deadline timer is armed (6.3902ms)
+  ✔ deadline reached after the final gate read (3.8295ms)
+  ✔ deadline reached while the deadline timer is armed (2.6903ms)
+✔ the final invocation gate catches cancellation and deadline changes (13.6631ms)
+▶ abort cause uses the first observed monotonic event
+  ✔ caller observed before deadline remains caller (3.5961ms)
+  ✔ caller first observed after deadline is deadline (4.6802ms)
+✔ abort cause uses the first observed monotonic event (8.7991ms)
+▶ direct inputs are detached, bounded, and accessor-free
+  ✔ cycle (1.1362ms)
+  ✔ accessor (1.2592ms)
+  ✔ source mutation cannot change executor input (3.148ms)
+✔ direct inputs are detached, bounded, and accessor-free (6.2289ms)
+✔ initialization creates the smallest valid project with frozen bytes (375.9888ms)
+✔ an explicit project ID wins and initialization never discovers an ancestor (49.2767ms)
+✔ default project ID transformation is exact across edge cases (171.5078ms)
+✔ invalid explicit IDs fail before creating owned paths (3.455ms)
+✔ repeated initialization reports every owned collision without changing output (31.0122ms)
+✔ manifest collisions preserve exact bytes and do not create a catalog (6.017ms)
+✔ catalog collisions preserve existing content and do not create a manifest (5.3928ms)
+✔ a linked catalog is a collision and its target is never changed (7.3535ms)
+✔ invalid and missing target roots fail without creating paths (2.3973ms)
+▶ every initialization checkpoint fails closed and rolls back owned entries
+  ✔ beforeCatalogCreate (15.6442ms)
+  ✔ afterCatalogCreate (6.9435ms)
+  ✔ beforeModulesCreate (6.473ms)
+  ✔ afterModulesCreate (8.844ms)
+  ✔ beforeCircuitsCreate (12.3834ms)
+  ✔ afterCircuitsCreate (10.5722ms)
+  ✔ beforeManifestOpen (12.4483ms)
+  ✔ afterManifestOpen (17.109ms)
+  ✔ afterManifestWrite (17.1219ms)
+  ✔ afterManifestFsync (22.1838ms)
+  ✔ beforeValidation (19.3141ms)
+  ✔ afterValidation (24.6995ms)
+  ✔ beforeManifestClose (22.8154ms)
+✔ every initialization checkpoint fails closed and rolls back owned entries (199.4153ms)
+▶ successful creations that fail before identity capture are preserved and reported
+  ✔ afterCatalogCreateBeforeCapture (3.8417ms)
+  ✔ afterModulesCreateBeforeCapture (6.0476ms)
+  ✔ afterCircuitsCreateBeforeCapture (9.4162ms)
+  ✔ afterManifestOpenBeforeCapture (18.453ms)
+✔ successful creations that fail before identity capture are preserved and reported (38.6834ms)
+✔ non-empty rollback targets survive with an explicit cleanup diagnostic (8.9661ms)
+✔ identity-changed rollback targets and displaced entries are preserved (11.6975ms)
+✔ two coordinated processes produce exactly one initialized project (1124.6501ms)
+✔ initialization and generated-project validation stay offline and process-free (46.2796ms)
+✔ initializer source has no network, process, or adapter execution surface (0.7372ms)
+✔ runtime diagnostic definitions exactly match the normative catalog (6.9665ms)
+✔ strict JSON parsing rejects invalid UTF-8, syntax extensions, duplicate keys, and unsafe numbers (7.3042ms)
+✔ strict JSON parsing enforces artifact byte and depth ceilings before validation (126.9694ms)
+✔ dispatch fails closed with stable version and kind diagnostics (1.1491ms)
+✔ schema failures normalize permission, privacy, and stop-condition policy (352.4442ms)
+✔ diagnostics are sanitized, deduplicated, and sorted deterministically (1.5708ms)
+✔ an explicit minimal project validates without discovery or optional adapters (291.6248ms)
+✔ a complete parallel project validates module routing, ownership, joins, and ceilings (89.1029ms)
+▶ project loading rejects lexical escapes and every portable forbidden path form
+  ✔ parent (8.0673ms)
+  ✔ posix absolute (17.6851ms)
+  ✔ windows absolute (7.2367ms)
+  ✔ unc (6.1702ms)
+  ✔ device (6.9149ms)
+  ✔ alternate stream (6.4916ms)
+  ✔ URI (4.0452ms)
+  ✔ backslash (4.115ms)
+  ✔ lone high surrogate (4.3715ms)
+  ✔ lone low surrogate (4.6524ms)
+✔ project loading rejects lexical escapes and every portable forbidden path form (72.3332ms)
+✔ project loading distinguishes missing references, non-files, and safe I/O failures (13.3344ms)
+✔ contained missing-file diagnostics suppress secret-bearing artifact names (11.8322ms)
+▶ explicit project roots reject remote, device, stream, and control forms before I/O
+  ✔ file URI (2.525ms)
+  ✔ network URI (0.395ms)
+  ✔ slash UNC (0.4166ms)
+  ✔ backslash UNC (0.1282ms)
+  ✔ device path (0.101ms)
+  ✔ alternate stream (0.128ms)
+  ✔ control character (0.0988ms)
+  ✔ lone high surrogate (0.0963ms)
+  ✔ lone low surrogate (0.0931ms)
+✔ explicit project roots reject remote, device, stream, and control forms before I/O (10.1745ms)
+✔ project loading rejects links below the trust root (10.3119ms)
+✔ project loading rejects external links without dereferencing their target (9.7009ms)
+✔ project validation accepts a root reached through an aliased ancestor (9.1687ms)
+✔ canonical containment distinguishes internal aliases from resolved escape (1.0659ms)
+✔ project references fail closed for wrong kinds and duplicate identities (87.9089ms)
+✔ reference and graph diagnostics identify undeclared outcomes, ports, and fan-in (187.386ms)
+✔ every project and graph reference class emits reference.not-found (205.9957ms)
+✔ cycles, fan-out ownership, and permission ceilings are enforced semantically (151.5062ms)
+✔ multi-node cycles require a bound on every cyclic route (85.82ms)
+✔ fan-out declarations and entry reachability stay structurally consistent (106.0798ms)
+✔ permission grammar covers every kind and filesystem prefix boundaries (227.3549ms)
+✔ project and circuit collection ceilings emit dedicated limit diagnostics (1507.794ms)
+✔ the documented source-checkout example is repeatable and read-only (3216.5602ms)
+✔ the documented initialization grammar works in a temporary project (1830.9417ms)
+✔ the quick start remains a private source-checkout interface (1.249ms)
+✔ all v1alpha1 schemas compile together in strict Ajv 2020 mode (314.7966ms)
+✔ one canonical fixture for every supported kind passes its schema (430.1873ms)
+✔ schema and fixture paths are repository-owned local files (0.4868ms)
+✔ the diagnostic catalog and adversarial matrix are closed and internally consistent (17.7916ms)
+✔ every concrete object boundary in all six valid fixtures rejects unknown fields (463.3527ms)
+✔ the parallel circuit fixture declares fan-out, bounded work ownership, and one fan-in policy (98.3264ms)
+✔ schema boundaries reject permission, privacy, compatibility, and terminal-state ambiguity (215.8893ms)
+✔ minimal projects and timestamp-free events remain valid (114.5609ms)
+✔ package schemas use only local package-owned references and strict known keywords (92.5007ms)
+✔ strict parser fixtures expose syntax and duplicate-key failures (7.9869ms)
+✔ golden specialist selection: one-agent-optimal (255.2206ms)
+✔ golden specialist selection: genuinely-parallel (9.0742ms)
+✔ golden specialist selection: under-split (12.3204ms)
+✔ golden specialist selection: over-split (10.2692ms)
+✔ golden specialist selection: conflict-heavy (9.179ms)
+✔ golden specialist selection: generic-role (6.1752ms)
+✔ candidate analysis exposes deterministic rejection evidence when no team is eligible (17.3854ms)
+✔ candidate analysis and compilation select the same exact team (16.4728ms)
+✔ generated team and agent identifiers retain the full SHA-256 suffix (10.0296ms)
+✔ selected blueprints close exact ownership, authority, context, evidence, handoff, and digests (65.3332ms)
+✔ exact search evaluates every allowed canonical partition through the declared limit (2782.1954ms)
+✔ fixed scheduler prioritizes the longer remaining critical path (6.5704ms)
+✔ fixed scheduler breaks equal critical paths by longer duration (11.0295ms)
+✔ fixed scheduler breaks remaining ties by agent ID (3.5107ms)
+✔ fixed scheduler enforces maximum concurrency (6.4202ms)
+✔ fixed scheduler serializes declared conflict zones (4.3514ms)
+✔ fixed scheduler releases dependencies after the handoff cost (3.8353ms)
+✔ above-limit goals use deterministic bounded structural candidates without an optimum claim (24.2509ms)
+✔ every supplied proposal remains inspectable beyond the retained-alternative window (18.4094ms)
+✔ logical array and object-key permutations produce byte-identical compiled semantics (37.6424ms)
+✔ compiled values are deeply frozen and detached from mutable caller input (4.7766ms)
+✔ reviewed assumptions and nonblocking decisions are digest-bound and rendered (14.9628ms)
+✔ blocking unresolved decisions reject before team construction (1.5173ms)
+✔ selection reason reports the first decisive baseline comparison (10.1718ms)
+✔ repository locators reject leading and nested dot or parent segments (7.0188ms)
+✔ repository locator paths cannot exceed their declared read scope (3.8313ms)
+✔ authority, context, and evidence violations reject before a launchable roster exists (13.5645ms)
+✔ goal dependency cycles and partition-induced agent cycles are rejected (6.0665ms)
+✔ generic role and provider/runtime extensions fail closed while exact ownership stays supply-free (8.7489ms)
+✔ C1 controls fail closed before diagnostics or rendering (15.6327ms)
+✔ Unicode bidi controls fail closed before diagnostics or rendering (37.0142ms)
+✔ bounded UTF-8 measurement matches raw and JSON encoding boundaries (0.3691ms)
+✔ secret-bearing unknown property keys stop at the parent before schema validation (2.0441ms)
+✔ oversized compiler input rejects before serialization or UTF-8 buffer allocation (9.5517ms)
+✔ secret-bearing input is rejected without echoing the secret (1.3023ms)
+✔ digest tampering fails verification and renderer reconstruction (13.3988ms)
+✔ renderer output is deterministic and binds paths, blueprints, bytes, and compilation (115.6339ms)
+✔ package verification rejects oversized content before UTF-8 buffer allocation (61.8255ms)
+✔ trusted package verification succeeds and coordinated recomputation cannot reuse approval (45.7026ms)
+✔ rendered manifest binds every emitted contract and integration file digest (10.8178ms)
+✔ first-run specialist example is deterministic, approval-bound, and read-only (1469.106ms)
+✔ first-run specialist example rejects a stale source approval before compilation (513.9684ms)
+✔ first-run approval parsing is bounded, strict UTF-8, and duplicate-aware (1344.1058ms)
+✔ first-run approval objects reject unknown fields at every boundary (847.2957ms)
+✔ first-run source paths reject unsafe, non-scalar, and secret-bearing forms before I/O (2875.3836ms)
+✔ first-run source reads reject directories and external junction targets (404.5834ms)
+✔ first-run rejects secret-bearing approval paths without echoing them (193.3391ms)
+✔ raw specialist handoffs verify exact package, blueprint, evidence, and artifact bindings (363.8798ms)
+✔ handoff verification fails closed on stale identity, incomplete evidence, malformed JSON, and secrets (124.3169ms)
+✔ handoff verification binds artifact media types and permits only normalized LF controls (90.8727ms)
+✔ fan-in is ready only for one PASS handoff from every exact transitive dependency (60.9323ms)
+✔ fan-in rejects valid handoffs from agents outside the target dependency closure (22.9049ms)
+✔ handoff byte boundaries reject proxies and accessors without invoking caller code (37.9542ms)
+✔ decoded handoff overflow is SC4402 while malformed base64 remains SC4401 (564.1451ms)
+✔ bundled specialist schemas have exact source parity (5.4224ms)
+✔ create, restore, inspect, and record perform no first-use filesystem reads (3148.3476ms)
+✔ inspection derives manifest contracts, DAG statuses, evidence, and complete-roster readiness (5844.7922ms)
+✔ inspection closes every non-pass route and marks all unsettled work session-routed (3330.7435ms)
+✔ public run constants, operations, schema export, and V11 compatibility are exact (4.6146ms)
+✔ the strict schema accepts both canonical roots and closes every nested object (24.8001ms)
+✔ schema boundaries and every workflow route remain exact (136.5375ms)
+✔ recording is monotonic, dependency-gated, replay-safe, and source-preserving (872.9011ms)
+✔ every verified non-pass outcome records once and terminally routes later work (1287.2273ms)
+✔ recording applies validation and handoff diagnostic precedence without caller mutation (105.054ms)
+✔ root, chain, diamond, fan-out, fan-in, disconnected, and complete DAGs agree with V11 (8208.9834ms)
+✔ all valid independent arrival permutations converge to one session and inspection (6392.3729ms)
+✔ fresh-process restore and inspection preserve canonical semantics without host state (493.7297ms)
+✔ restore, expectation, caller-code, and coordinated-substitution attacks fail closed (81.3547ms)
+✔ handoff attacks, transition precedence, replay, and every non-pass route are closed (798.3801ms)
+✔ the 16-agent maximum-handoff aggregate converges below conservative run safeguards (93499.8794ms)
+✔ raw handoff and run input boundaries reject one-unit excess without truncation (7017.1993ms)
+✔ the specialist schemas and every definition compile in strict Ajv 2020 mode (307.8932ms)
+✔ the specialist schema accepts its two canonical closed input kinds (163.6878ms)
+✔ the handoff schema accepts every canonical outcome and remains closed (96.9739ms)
+✔ every concrete specialist input object boundary rejects provider-shaped fields (113.4417ms)
+✔ role and runtime supply cannot enter goal, request, work, or proposal contracts (125.9529ms)
+✔ repository context requires readScope and external context forbids it (86.947ms)
+✔ permission kinds are the exact provider-neutral schema set (117.6753ms)
+✔ specialist references stay inside package-owned v1alpha1 schemas (57.3648ms)
+✔ TypeScript ESM output loads with the approved production dependencies (103.9412ms)
+✔ inspection reconstructs interleaved runs, parallel attempts, retries, outcomes, and evidence (332.9012ms)
+▶ [T12] zero-event terminators are accepted once and rejected when repeated
+  ✔ empty-file (4.5008ms)
+  ✔ single-final-lf (6.3653ms)
+  ✔ single-final-crlf (5.5439ms)
+  ✔ repeated-final-lf (4.4767ms)
+  ✔ repeated-final-crlf (4.328ms)
+✔ [T12] zero-event terminators are accepted once and rejected when repeated (26.9019ms)
+✔ logical order accepts valid same-run backward causation and ignores timestamps (5.3866ms)
+▶ sequence, event identity, and causation diagnostics are deterministic
+  ✔ duplicate sequence (5.3122ms)
+  ✔ regressing sequence (5.0916ms)
+  ✔ duplicate event id (9.1635ms)
+  ✔ missing cause (26.9058ms)
+  ✔ forward cause (15.2557ms)
+  ✔ cross-run cause (10.88ms)
+✔ sequence, event identity, and causation diagnostics are deterministic (74.3096ms)
+▶ [T14] every legal attempt transition is accepted
+  ✔ queued-to-running (10.3346ms)
+  ✔ queued-to-cancelled (5.2103ms)
+  ✔ running-to-input_required (7.052ms)
+  ✔ running-to-completed (12.5004ms)
+  ✔ running-to-failed (14.0958ms)
+  ✔ running-to-cancelled (7.2138ms)
+  ✔ running-to-timed_out (4.563ms)
+  ✔ input_required-to-running (4.7557ms)
+  ✔ input_required-to-cancelled (4.9065ms)
+  ✔ input_required-to-timed_out (5.2887ms)
+✔ [T14] every legal attempt transition is accepted (77.8797ms)
+▶ [T04] every disallowed non-terminal transition is rejected
+  ✔ queued-to-queued (9.7425ms)
+  ✔ queued-to-input_required (5.5839ms)
+  ✔ queued-to-completed (6.5037ms)
+  ✔ queued-to-failed (7.9745ms)
+  ✔ queued-to-timed_out (5.5958ms)
+  ✔ running-to-queued (5.3993ms)
+  ✔ running-to-running (7.4586ms)
+  ✔ input_required-to-queued (6.7206ms)
+  ✔ input_required-to-input_required (4.5557ms)
+  ✔ input_required-to-completed (4.9285ms)
+  ✔ input_required-to-failed (4.8543ms)
+✔ [T04] every disallowed non-terminal transition is rejected (73.0374ms)
+▶ [T05] every terminal attempt state is immutable
+  ✔ completed (4.7713ms)
+  ✔ failed (4.7938ms)
+  ✔ cancelled (18.6392ms)
+  ✔ timed_out (5.0833ms)
+✔ [T05] every terminal attempt state is immutable (34.1961ms)
+✔ heartbeat, cancellation request, and explicit timeout events are accepted in valid states (6.0568ms)
+▶ attempt transition and terminal-state violations use their dedicated diagnostics
+  ✔ new non-retry must start queued (4.5892ms)
+  ✔ queued cannot complete directly (5.1608ms)
+  ✔ terminal state is immutable (4.8256ms)
+  ✔ heartbeat is state-gated (4.4967ms)
+✔ attempt transition and terminal-state violations use their dedicated diagnostics (20.081ms)
+▶ [T07] heartbeat and cancellation requests are state-gated
+  ✔ heartbeat (5.8959ms)
+  ✔ cancellation-request (4.7833ms)
+✔ [T07] heartbeat and cancellation requests are state-gated (11.4192ms)
+▶ [T10] every attempt-bearing non-state event requires an earlier attempt
+  ✔ heartbeat (4.9059ms)
+  ✔ outcome (5.2325ms)
+  ✔ evidence (4.7805ms)
+✔ [T10] every attempt-bearing non-state event requires an earlier attempt (15.7732ms)
+▶ [T09] retry lineage rejects wrong, completed, and forked predecessors
+  ✔ wrong-predecessor (4.6001ms)
+  ✔ completed-parent (4.8569ms)
+  ✔ forked-successor (8.5564ms)
+✔ [T09] retry lineage rejects wrong, completed, and forked predecessors (18.9303ms)
+▶ [T06/T08/T11] retry declarations and attempt identity use dedicated diagnostics
+  ✔ T06:missing-link (6.9257ms)
+  ✔ T06:not-queued (4.6895ms)
+  ✔ T08:metadata-change (4.3835ms)
+  ✔ T08:duplicate-work-packet-number (4.9071ms)
+  ✔ T11:non-retry (4.5815ms)
+✔ [T06/T08/T11] retry declarations and attempt identity use dedicated diagnostics (27.1856ms)
+▶ attempt identity and retry lineage failures are distinguishable
+  ✔ retry link is required (5.6797ms)
+  ✔ retry must start queued (7.5657ms)
+  ✔ retry lineage must use an eligible predecessor (6.7667ms)
+  ✔ attempt declaration is immutable (4.3879ms)
+  ✔ non-state attempt reference must already exist (11.6704ms)
+✔ attempt identity and retry lineage failures are distinguishable (37.3644ms)
+✔ outcome and evidence records may reference a terminal attempt (5.2733ms)
+✔ [T15] a failed handoff remains explicit in state and evidence summaries (5.3853ms)
+▶ strict JSONL framing rejects BOMs, blanks, lone CR, truncation, duplicate keys, and invalid UTF-8
+  ✔ BOM (6.073ms)
+  ✔ blank record (5.1119ms)
+  ✔ lone CR (7.1711ms)
+  ✔ internal CR before CRLF (5.4746ms)
+  ✔ truncated (13.9477ms)
+  ✔ duplicate key (15.2887ms)
+  ✔ invalid UTF-8 (5.1861ms)
+✔ strict JSONL framing rejects BOMs, blanks, lone CR, truncation, duplicate keys, and invalid UTF-8 (62.5972ms)
+▶ RunEvent dispatch and exact payload ownership fail closed
+  ✔ missing event version (4.9049ms)
+  ✔ non-string event version (4.8976ms)
+  ✔ unsupported event version (70.7607ms)
+  ✔ wrong artifact kind (5.9877ms)
+  ✔ payload smuggling (7.2794ms)
+  ✔ event metadata description (4.4779ms)
+✔ RunEvent dispatch and exact payload ownership fail closed (99.5008ms)
+✔ evidence references are grammar-checked but never dereferenced (11.3568ms)
+▶ [T13] command and test evidence identifiers enforce the 128-character boundary
+  ✔ command-at-limit (4.8255ms)
+  ✔ command-over-limit (12.9548ms)
+  ✔ test-at-limit (5.0556ms)
+  ✔ test-over-limit (5.0577ms)
+✔ [T13] command and test evidence identifiers enforce the 128-character boundary (28.7678ms)
+✔ [L02] bounded reads allocate from the verified descriptor size (0.6535ms)
+✔ trace paths reject unsafe forms, links, non-files, and detectable mutation (13.6823ms)
+✔ line, trace, event-count, and depth ceilings emit dedicated diagnostics (469.5115ms)
+✔ evidence summaries cap deterministically and report exact omissions (170.012ms)
+✔ the normative secret detector has positive and near-miss coverage (0.3364ms)
+✔ [PR03] every rendered summary string slot suppresses secrets with one warning (6.1804ms)
+✔ secret-bearing trace names are suppressed on invalid-input diagnostics too (4.0154ms)
+✔ trace inspection remains offline, process-free, and adapter-free (4.9878ms)
+✔ the V10 executor dogfood trace is bounded, inspectable, and repeatable (415.5509ms)
+✔ the V10 dogfood harness removes its owned workspace after an injected failure (9.6246ms)
+✔ dogfood context reads accept regular files inside the repository root (17.2872ms)
+✔ dogfood context verification rejects bytes changed by an LF clean filter (1.0693ms)
+✔ dogfood context verification accepts a deterministic CRLF checkout round trip (0.4893ms)
+✔ dogfood context verification rejects LF bytes under an explicit CRLF checkout (0.3736ms)
+✔ dogfood context verification rejects an active custom Git filter (0.3786ms)
+✔ dogfood context verification rejects an active working-tree encoding (0.3191ms)
+✔ dogfood context verification rejects a source without an explicit eol policy (0.4637ms)
+✔ dogfood context verification rejects an active filter before hashing bytes (0.3057ms)
+✔ dogfood context verification rejects ident expansion before hashing bytes (0.3695ms)
+✔ dogfood context verification rejects the legacy crlf attribute before hashing bytes (0.4577ms)
+✔ dogfood context verification rejects a bare CR under an explicit LF checkout (0.3325ms)
+✔ dogfood context verification rejects ambiguous filter names before hashing bytes (0.3407ms)
+✔ Git attribute parsing accepts variable unique records and rejects malformed output (1.8929ms)
+✔ dogfood context reads reject an in-root junction targeting an external directory (7.4832ms)
+✔ dogfood goal and approval controls reject duplicate JSON keys (14.6905ms)
+✔ dogfood approval controls reject a parent junction instead of following it (8.0576ms)
+✔ dogfood evidence writes reject package-parent redirection before mutation (10.915ms)
+✔ dogfood context verification rejects unsupported source kinds (1.2931ms)
+✔ prelaunch audit authenticates the complete candidate without self-reference (1.9104ms)
+✔ prelaunch audit forces an independent binder and compilation reviewer (219.8065ms)
+✔ launch authorization binds both packages, the verification receipt, and the exact PASS handoff (57.655ms)
+✔ launch authorization rejects malformed, non-PASS, stale, and incomplete audit handoffs (1229.4319ms)
+✔ launch authorization accepts paired supplementary Unicode in free-text handoff fields (17.4945ms)
+▶ launch authorization rejects secret-bearing and non-scalar handoff paths
+  ✔ lone high surrogate (10.474ms)
+  ✔ lone low surrogate (10.522ms)
+  ✔ secret (14.4889ms)
+✔ launch authorization rejects secret-bearing and non-scalar handoff paths (36.3329ms)
+✔ launch authorization rejects unbound or semantically invalid verification receipts (205.4956ms)
+✔ launch authorization rejects stale package bindings and unowned handoff paths (11.1417ms)
+✖ candidate materialization excludes and detects uncommitted verification inputs (141.5173ms)
+✔ canonical command is pinned to the authenticated materialization (0.6716ms)
+✔ R2 closes the stronger receipt and all six causal security sources (0.7682ms)
+✖ paths mode remains closed and rejects malformed candidate identities (226.4738ms)
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+✖ candidate-addressed run roots are closed, disjoint, and preserve Candidate 3 evidence (95.6805ms)
+✔ correction lineage requires revisions 1 through 10 and has no terminal count (2.7543ms)
+✔ working-tree-only inputs and unsafe handoff paths fail closed (0.8132ms)
+✖ reviewer snapshots and tooling identity use exact candidate Git blobs (82.7437ms)
+✖ revision 9 package and handoff verification rejects substituted bytes (79.545ms)
+ℹ tests 397
+ℹ suites 0
+ℹ pass 392
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 118228.975
+
+✖ failing tests:
+
+test at test\v12-release-gate.test.mjs:41:1
+✖ candidate materialization excludes and detects uncommitted verification inputs (141.5173ms)
+  AssertionError [ERR_ASSERTION]: fatal: not a git repository (or any of the parent directories): .git
+  
+  
+  128 !== 0
+  
+      at runGit (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/test/v12-release-gate.test.mjs:25:10)
+      at TestContext.<anonymous> (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/test/v12-release-gate.test.mjs:42:27)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 128,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test\v12-release-gate.test.mjs:140:1
+✖ paths mode remains closed and rejects malformed candidate identities (226.4738ms)
+  AssertionError [ERR_ASSERTION]: Unable to inspect Git ignore policy for required release-gate evidence: docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0123456789abcdef0123456789abcdef01234567/canonical-gate-receipt.json.
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/test/v12-release-gate.test.mjs:143:10)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+      at Test.postRun (node:internal/test_runner/test:1247:19)
+      at Test.run (node:internal/test_runner/test:1175:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test\v12-release-review.test.mjs:45:1
+✖ candidate-addressed run roots are closed, disjoint, and preserve Candidate 3 evidence (95.6805ms)
+  Error: Command failed: git rev-parse --verify 1b47e0ad10a5c3209fae53397892b7df3cd837be^{commit}
+  fatal: not a git repository (or any of the parent directories): .git
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:925:11)
+      at execFileSync (node:child_process:961:15)
+      at gitOutput (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:887:10)
+      at Object.loadCandidateTree (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:963:5)
+      at TestContext.<anonymous> (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/test/v12-release-review.test.mjs:61:51)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17) {
+    status: 128,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 66 61 74 61 6c 3a 20 6e 6f 74 20 61 20 67 69 74 20 72 65 70 6f 73 69 74 6f 72 79 20 28 6f 72 20 61 6e 79 20 6f 66 20 74 68 65 20 70 61 72 65 6e 74 20 ... 19 more bytes> ],
+    pid: 28664,
+    stdout: <Buffer >,
+    stderr: <Buffer 66 61 74 61 6c 3a 20 6e 6f 74 20 61 20 67 69 74 20 72 65 70 6f 73 69 74 6f 72 79 20 28 6f 72 20 61 6e 79 20 6f 66 20 74 68 65 20 70 61 72 65 6e 74 20 ... 19 more bytes>
+  }
+
+test at test\v12-release-review.test.mjs:140:1
+✖ reviewer snapshots and tooling identity use exact candidate Git blobs (82.7437ms)
+  Error: Command failed: git rev-parse --verify 1b47e0ad10a5c3209fae53397892b7df3cd837be^{commit}
+  fatal: not a git repository (or any of the parent directories): .git
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:925:11)
+      at execFileSync (node:child_process:961:15)
+      at gitOutput (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:887:10)
+      at Object.loadCandidateTree (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:963:5)
+      at TestContext.<anonymous> (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/test/v12-release-review.test.mjs:141:51)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18) {
+    status: 128,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 66 61 74 61 6c 3a 20 6e 6f 74 20 61 20 67 69 74 20 72 65 70 6f 73 69 74 6f 72 79 20 28 6f 72 20 61 6e 79 20 6f 66 20 74 68 65 20 70 61 72 65 6e 74 20 ... 19 more bytes> ],
+    pid: 15956,
+    stdout: <Buffer >,
+    stderr: <Buffer 66 61 74 61 6c 3a 20 6e 6f 74 20 61 20 67 69 74 20 72 65 70 6f 73 69 74 6f 72 79 20 28 6f 72 20 61 6e 79 20 6f 66 20 74 68 65 20 70 61 72 65 6e 74 20 ... 19 more bytes>
+  }
+
+test at test\v12-release-review.test.mjs:183:1
+✖ revision 9 package and handoff verification rejects substituted bytes (79.545ms)
+  Error: Command failed: git rev-parse --verify 1b47e0ad10a5c3209fae53397892b7df3cd837be^{commit}
+  fatal: not a git repository (or any of the parent directories): .git
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:925:11)
+      at execFileSync (node:child_process:961:15)
+      at gitOutput (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:887:10)
+      at Object.loadCandidateTree (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:963:5)
+      at TestContext.<anonymous> (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-1sUQaE/test/v12-release-review.test.mjs:184:51)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18) {
+    status: 128,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 66 61 74 61 6c 3a 20 6e 6f 74 20 61 20 67 69 74 20 72 65 70 6f 73 69 74 6f 72 79 20 28 6f 72 20 61 6e 79 20 6f 66 20 74 68 65 20 70 61 72 65 6e 74 20 ... 19 more bytes> ],
+    pid: 20832,
+    stdout: <Buffer >,
+    stderr: <Buffer 66 61 74 61 6c 3a 20 6e 6f 74 20 61 20 67 69 74 20 72 65 70 6f 73 69 74 6f 72 79 20 28 6f 72 20 61 6e 79 20 6f 66 20 74 68 65 20 70 61 72 65 6e 74 20 ... 19 more bytes>
+  }

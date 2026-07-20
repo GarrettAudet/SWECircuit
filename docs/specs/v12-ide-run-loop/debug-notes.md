@@ -445,3 +445,24 @@ R9 moved canonical verification into an exact committed-tree materialization and
 Two inherited-runtime attempts stalled without handoffs. A fresh attempt failed closed after the host delivered the wrong checkout and then emitted a schema-invalid `block` handoff. The exact rejected 2,592 bytes remain preserved. A fourth attempt retained the same approved specialist contract, received the exact worktree/checkpoint, and used a manually selected `gpt-5.6-sol` plus `high` reasoning profile. Its 5,595-byte `pass` handoff verifies against the R10 package and the focused 5-test lifecycle suite passes.
 
 This is host liveness and runtime-supply evidence, not V12 model-routing behavior. The full attempt trace is `evidence/implementation/release-correction-r10/attempt-history.md`.
+## Candidate 4 Exact Gate
+
+### Reproduction
+
+Freeze candidate `eff7d7afd5cb57a655f41803da96d824b9ba3438` and run `node scripts/run-v12-release-gate.mjs eff7d7afd5cb57a655f41803da96d824b9ba3438`.
+
+### Stable Evidence
+
+- Result: `fail`; 392 of 397 tests passed before the canonical command stopped.
+- All five failures report that the exact source materialization is not a Git repository.
+- Candidate source: tree `b21fb93315684d33dff258e666598f6c28bb20e6`, 1,963 files, 55,546,458 bytes, `sha256:7b5127e589c8b88a005d90c3a6f0b35d4097fdbe85519ed8bab3ff1dd67cca3e`.
+- Pre/post source digests match; live HEAD and tracked state remain exact and clean; materialization cleanup passed.
+- Receipt and exact raw logs are preserved under `evidence/release-review-r2/inputs/canonical-gates/eff7d7afd5cb57a655f41803da96d824b9ba3438/`.
+
+### Classification
+
+Release-environment isolation defect. R9 correctly removed mutable source, but removed the Git object/ref/index context required by R9/R10's own Git-aware regressions. Related-code retrieval also exposed a latent provenance defect: R10 requires post-commit gate outputs to be candidate Git blobs, which no commit can contain under its own hash-addressed path.
+
+### Route
+
+Retire Candidate 4. Revision 11 must provide disposable candidate-bound Git metadata over the exact materialized worktree and must capture gate receipt/log bytes as external immutable R2 evidence rather than self-referential source.

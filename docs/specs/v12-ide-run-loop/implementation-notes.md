@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 implementation and release-correction revisions 1 through 10 pass their current package and focused integration gates. Candidate 3 passed its canonical gate but is retired after product and security `fix` routes. Candidate 4 canonical verification and complete independent R2 review remain before V12 acceptance.
+The V12 product implementation is complete, but release-correction revision 11 is active. Candidate 4 is retired after its exact committed-tree gate exposed missing isolated Git context and a latent self-referential gate-evidence rule. Candidate 5 canonical verification and complete independent R2 review remain before V12 acceptance.
 
 ## Baseline
 

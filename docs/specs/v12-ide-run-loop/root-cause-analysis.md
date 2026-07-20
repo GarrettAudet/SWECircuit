@@ -204,3 +204,25 @@ Four release-gate tests and five release-review lifecycle tests cover uncommitte
 ### Durable Learning
 
 A clean live worktree is not the same proof as executing committed source. Release evidence must bind the exact Git tree, and repeated immutable attempts need candidate-addressed roots plus data-driven lineage rather than a globally fixed output path or revision count.
+## Candidate 4 Git Context And Evidence-Class RCA
+
+### Reproduction
+
+Candidate 4's exact committed-tree gate passed source materialization and then failed five of 397 tests because the child command had no Git repository context.
+
+### Confirmed Root Causes
+
+- Direct blob materialization supplied exact worktree files but no candidate-bound Git directory, ref, object lookup, or index for Git-aware tests.
+- R10 applied the candidate-blob rule to the gate receipt and logs even though those artifacts are necessarily created after the candidate commit. This produces an impossible self-reference rather than stronger provenance.
+
+### Causal Correction
+
+Revision 11 supplies a disposable Git metadata/ref/index view whose worktree is the exact materialization and whose object lookup is candidate-addressed, while keeping the live repository metadata outside the child command. It separately classifies gate outputs as external execution evidence, accepts only the three exact candidate-addressed paths, snapshots their raw bytes once into the R2 run root, and binds those snapshots into the reviewed package and approval.
+
+### Regression Coverage
+
+Focused tests must prove nested materialization retains Git object access, the temporary HEAD is the exact candidate, real repository state and source bytes remain unchanged, temporary metadata is removed, arbitrary working-tree inputs remain rejected, gate evidence cannot masquerade as candidate source, exact external bytes are snapshotted and substitution-detected, and the full committed-tree gate passes before Candidate 5 review.
+
+### Durable Learning
+
+Exact source isolation and execution context isolation are separate guarantees. Post-commit evidence cannot be part of the commit it proves; it needs an explicit external-evidence provenance class and immutable package binding.

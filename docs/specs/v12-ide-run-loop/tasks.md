@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: release-correction revisions 1 through 10 and V11 trust-root revision 35 pass their package gates. Candidate 3 passed its canonical gate but returned one independent `pass` and two release-blocking `fix` routes. Candidate 4 freeze, canonical receipt, and a complete fresh R2 review remain.
+T006 in progress: Candidate 4 is retired after its exact committed-tree gate exposed missing isolated Git context and an impossible post-commit-evidence-as-source rule. Revision 11 is being compiled; Candidate 5 gate and complete fresh R2 review remain.
 
 ## Task List
 

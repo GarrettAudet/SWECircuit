@@ -1,0 +1,415 @@
+scripts\run-v12-dogfood.mjs:34:11 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    32 │   {
+    33 │     revision: 1,
+  > 34 │     root: RELEASE_CORRECTION_BASE + "/release-correction",
+       │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    35 │     expectation: {
+    36 │       compilationDigest: "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+  
+  i Unsafe fix: Use a template literal.
+  
+      32   32 │     {
+      33   33 │       revision: 1,
+      34      │ - ····root:·RELEASE_CORRECTION_BASE·+·"/release-correction",
+           34 │ + ····root:·`${RELEASE_CORRECTION_BASE}/release-correction`,
+      35   35 │       expectation: {
+      36   36 │         compilationDigest: "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+  
+
+scripts\run-v12-dogfood.mjs:75:11 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    73 │   {
+    74 │     revision: 2,
+  > 75 │     root: RELEASE_CORRECTION_BASE + "/release-correction-r2",
+       │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    76 │     expectation: {
+    77 │       compilationDigest: "sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672",
+  
+  i Unsafe fix: Use a template literal.
+  
+      73   73 │     {
+      74   74 │       revision: 2,
+      75      │ - ····root:·RELEASE_CORRECTION_BASE·+·"/release-correction-r2",
+           75 │ + ····root:·`${RELEASE_CORRECTION_BASE}/release-correction-r2`,
+      76   76 │       expectation: {
+      77   77 │         compilationDigest: "sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672",
+  
+
+scripts\run-v12-release-gate.mjs:81:21 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    79 │     return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    80 │   } catch {
+  > 81 │     throw new Error(label + " is not strict UTF-8.");
+       │                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    82 │   }
+    83 │ }
+  
+  i Unsafe fix: Use a template literal.
+  
+     79  79 │       return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+     80  80 │     } catch {
+     81     │ - ····throw·new·Error(label·+·"·is·not·strict·UTF-8.");
+         81 │ + ····throw·new·Error(`${label}·is·not·strict·UTF-8.`);
+     82  82 │     }
+     83  83 │   }
+  
+
+scripts\run-v12-release-gate.mjs:87:66 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    85 │ function nulRecords(bytes, label) {
+    86 │   const input = Buffer.from(bytes);
+  > 87 │   requireCondition(input.byteLength === 0 || input.at(-1) === 0, label + " is not NUL terminated.");
+       │                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    88 │   const records = [];
+    89 │   let start = 0;
+  
+  i Unsafe fix: Use a template literal.
+  
+     85  85 │   function nulRecords(bytes, label) {
+     86  86 │     const input = Buffer.from(bytes);
+     87     │ - ··requireCondition(input.byteLength·===·0·||·input.at(-1)·===·0,·label·+·"·is·not·NUL·terminated.");
+         87 │ + ··requireCondition(input.byteLength·===·0·||·input.at(-1)·===·0,·`${label}·is·not·NUL·terminated.`);
+     88  88 │     const records = [];
+     89  89 │     let start = 0;
+  
+
+scripts\run-v12-release-gate.mjs:107:5 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    105 │       !/[\u0000-\u001f\u007f]/u.test(path) &&
+    106 │       !path.includes("\\"),
+  > 107 │     "Candidate tree contains an unsafe path: " + JSON.stringify(path) + ".",
+        │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    108 │   );
+    109 │   const segments = path.split("/");
+  
+  i Unsafe fix: Use a template literal.
+  
+    105 105 │         !/[\u0000-\u001f\u007f]/u.test(path) &&
+    106 106 │         !path.includes("\\"),
+    107     │ - ····"Candidate·tree·contains·an·unsafe·path:·"·+·JSON.stringify(path)·+·".",
+        107 │ + ····`Candidate·tree·contains·an·unsafe·path:·${JSON.stringify(path)}.`,
+    108 108 │     );
+    109 109 │     const segments = path.split("/");
+  
+
+scripts\run-v12-release-gate.mjs:118:5 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    116 │         segment.toLowerCase() !== ".git",
+    117 │     ),
+  > 118 │     "Candidate tree contains an unsafe path: " + JSON.stringify(path) + ".",
+        │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    119 │   );
+    120 │   return { path, segments };
+  
+  i Unsafe fix: Use a template literal.
+  
+    116 116 │           segment.toLowerCase() !== ".git",
+    117 117 │       ),
+    118     │ - ····"Candidate·tree·contains·an·unsafe·path:·"·+·JSON.stringify(path)·+·".",
+        118 │ + ····`Candidate·tree·contains·an·unsafe·path:·${JSON.stringify(path)}.`,
+    119 119 │     );
+    120 120 │     return { path, segments };
+  
+
+scripts\run-v12-release-gate.mjs:124:57 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    123 │ function candidateTree(candidateCommit) {
+  > 124 │   const commitResult = runGit(["rev-parse", "--verify", candidateCommit + "^{commit}"]);
+        │                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    125 │   requireCondition(commitResult.status === 0, "Unable to resolve candidate commit.");
+    126 │   requireCondition(
+  
+  i Unsafe fix: Use a template literal.
+  
+    122 122 │   
+    123 123 │   function candidateTree(candidateCommit) {
+    124     │ - ··const·commitResult·=·runGit(["rev-parse",·"--verify",·candidateCommit·+·"^{commit}"]);
+        124 │ + ··const·commitResult·=·runGit(["rev-parse",·"--verify",·`${candidateCommit}^{commit}`]);
+    125 125 │     requireCondition(commitResult.status === 0, "Unable to resolve candidate commit.");
+    126 126 │     requireCondition(
+  
+
+scripts\run-v12-release-gate.mjs:131:55 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    129 │   );
+    130 │ 
+  > 131 │   const treeResult = runGit(["rev-parse", "--verify", candidateCommit + "^{tree}"]);
+        │                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    132 │   requireCondition(treeResult.status === 0, "Unable to resolve candidate tree.");
+    133 │   const tree = Buffer.from(treeResult.stdout).toString("ascii").trim();
+  
+  i Unsafe fix: Use a template literal.
+  
+    129 129 │     );
+    130 130 │   
+    131     │ - ··const·treeResult·=·runGit(["rev-parse",·"--verify",·candidateCommit·+·"^{tree}"]);
+        131 │ + ··const·treeResult·=·runGit(["rev-parse",·"--verify",·`${candidateCommit}^{tree}`]);
+    132 132 │     requireCondition(treeResult.status === 0, "Unable to resolve candidate tree.");
+    133 133 │     const tree = Buffer.from(treeResult.stdout).toString("ascii").trim();
+  
+
+scripts\run-v12-release-gate.mjs:151:38 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    149 │   for (const entry of entries) {
+    150 │     const key = process.platform === "win32" ? entry.path.toLowerCase() : entry.path;
+  > 151 │     requireCondition(!seen.has(key), "Candidate tree path is not unique: " + entry.path + ".");
+        │                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    152 │     seen.add(key);
+    153 │   }
+  
+  i Unsafe fix: Use a template literal.
+  
+    149 149 │     for (const entry of entries) {
+    150 150 │       const key = process.platform === "win32" ? entry.path.toLowerCase() : entry.path;
+    151     │ - ····requireCondition(!seen.has(key),·"Candidate·tree·path·is·not·unique:·"·+·entry.path·+·".");
+        151 │ + ····requireCondition(!seen.has(key),·`Candidate·tree·path·is·not·unique:·${entry.path}.`);
+    152 152 │       seen.add(key);
+    153 153 │     }
+  
+
+scripts\run-v12-release-gate.mjs:160:41 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    158 │ function readGitBlob(objectId) {
+    159 │   const result = runGit(["cat-file", "blob", objectId]);
+  > 160 │   requireCondition(result.status === 0, "Unable to read candidate blob " + objectId + ".");
+        │                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    161 │   return Buffer.from(result.stdout);
+    162 │ }
+  
+  i Unsafe fix: Use a template literal.
+  
+    158 158 │   function readGitBlob(objectId) {
+    159 159 │     const result = runGit(["cat-file", "blob", objectId]);
+    160     │ - ··requireCondition(result.status·===·0,·"Unable·to·read·candidate·blob·"·+·objectId·+·".");
+        160 │ + ··requireCondition(result.status·===·0,·`Unable·to·read·candidate·blob·${objectId}.`);
+    161 161 │     return Buffer.from(result.stdout);
+    162 162 │   }
+  
+
+scripts\run-v12-release-gate.mjs:185:10 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    184 │ function finishMaterializationDigest(hash) {
+  > 185 │   return "sha256:" + hash.digest("hex");
+        │          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    186 │ }
+    187 │ 
+  
+  i Unsafe fix: Use a template literal.
+  
+    183 183 │   
+    184 184 │   function finishMaterializationDigest(hash) {
+    185     │ - ··return·"sha256:"·+·hash.digest("hex");
+        185 │ + ··return·`sha256:${hash.digest("hex")}`;
+    186 186 │   }
+    187 187 │   
+  
+
+scripts\run-v12-release-gate.mjs:192:5 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    190 │   requireCondition(
+    191 │     path.startsWith(resolve(root) + sep),
+  > 192 │     "Candidate tree path escapes materialization: " + entry.path + ".",
+        │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    193 │   );
+    194 │   return path;
+  
+  i Unsafe fix: Use a template literal.
+  
+    190 190 │     requireCondition(
+    191 191 │       path.startsWith(resolve(root) + sep),
+    192     │ - ····"Candidate·tree·path·escapes·materialization:·"·+·entry.path·+·".",
+        192 │ + ····`Candidate·tree·path·escapes·materialization:·${entry.path}.`,
+    193 193 │     );
+    194 194 │     return path;
+  
+
+scripts\run-v12-release-gate.mjs:226:11 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    224 │     for (const child of children) {
+    225 │       const repositoryPath = repositoryDirectory
+  > 226 │         ? repositoryDirectory + "/" + child.name
+        │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    227 │         : child.name;
+    228 │       const path = join(directory, child.name);
+  
+  i Unsafe fix: Use a template literal.
+  
+    224 224 │       for (const child of children) {
+    225 225 │         const repositoryPath = repositoryDirectory
+    226     │ - ········?·repositoryDirectory·+·"/"·+·child.name
+        226 │ + ········?·`${repositoryDirectory}/${child.name}`
+    227 227 │           : child.name;
+    228 228 │         const path = join(directory, child.name);
+  
+
+scripts\run-v12-release-gate.mjs:232:11 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    230 │         requireCondition(
+    231 │           expectedDirectories.has(repositoryPath),
+  > 232 │           "Candidate materialization contains an unexpected directory: " + repositoryPath + ".",
+        │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    233 │         );
+    234 │         await visit(path, repositoryPath);
+  
+  i Unsafe fix: Use a template literal.
+  
+    230 230 │           requireCondition(
+    231 231 │             expectedDirectories.has(repositoryPath),
+    232     │ - ··········"Candidate·materialization·contains·an·unexpected·directory:·"·+·repositoryPath·+·".",
+        232 │ + ··········`Candidate·materialization·contains·an·unexpected·directory:·${repositoryPath}.`,
+    233 233 │           );
+    234 234 │           await visit(path, repositoryPath);
+  
+
+scripts\run-v12-release-gate.mjs:238:11 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    236 │         requireCondition(
+    237 │           child.isFile(),
+  > 238 │           "Candidate materialization contains a non-regular entry: " + repositoryPath + ".",
+        │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    239 │         );
+    240 │         actualFiles.push(repositoryPath);
+  
+  i Unsafe fix: Use a template literal.
+  
+    236 236 │           requireCondition(
+    237 237 │             child.isFile(),
+    238     │ - ··········"Candidate·materialization·contains·a·non-regular·entry:·"·+·repositoryPath·+·".",
+        238 │ + ··········`Candidate·materialization·contains·a·non-regular·entry:·${repositoryPath}.`,
+    239 239 │           );
+    240 240 │           actualFiles.push(repositoryPath);
+  
+
+scripts\run-v12-release-gate.mjs:257:23 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+  
+    255 │   requireCondition(
+    256 │     dirname(root) === MATERIALIZATION_PARENT &&
+  > 257 │       root.startsWith(MATERIALIZATION_PARENT + sep + "candidate-"),
+        │                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    258 │     "Refusing to remove an unexpected materialization path.",
+    259 │   );
+  
+  i Unsafe fix: Use a template literal.
+  
+    255 255 │     requireCondition(
+    256 256 │       dirname(root) === MATERIALIZATION_PARENT &&
+    257     │ - ······root.startsWith(MATERIALIZATION_PARENT·+·sep·+·"candidate-"),
+        257 │ + ······root.startsWith(`${MATERIALIZATION_PARENT·+·sep}candidate-`),
+    258 258 │       "Refusing to remove an unexpected materialization path.",
+    259 259 │     );
+  
+
+src\specialist-handoff-schema-data.ts:438:49 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+    436 │ `;
+    437 │ 
+  > 438 │ export const SPECIALIST_HANDOFF_SCHEMA_SOURCE = String.raw`{
+        │                                                 ^^^^^^^^^^^^
+  > 439 │   "$schema": "https://json-schema.org/draft/2020-12/schema",
+         ...
+  > 624 │   }
+  > 625 │ }
+  > 626 │ `;
+        │ ^
+    627 │ 
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+src\specialist-run-schema-data.ts:1:45 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+    > 1 │ export const SPECIALIST_RUN_SCHEMA_SOURCE = String.raw`{
+        │                                             ^^^^^^^^^^^^
+    > 2 │   "$schema": "https://json-schema.org/draft/2020-12/schema",
+    > 3 │   "$id": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-run.schema.json",
+    > 4 │   "title": "SWECircuit Specialist Run v1alpha1",
+         ...
+  > 721 │   }
+  > 722 │ }
+  > 723 │ `;
+        │ ^
+    724 │ 
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+src\specialist-schema-data.ts:438:50 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+     436 │ `;
+     437 │ 
+   > 438 │ export const SPECIALIST_COMPILER_SCHEMA_SOURCE = String.raw`{
+         │                                                  ^^^^^^^^^^^^
+   > 439 │   "$schema": "https://json-schema.org/draft/2020-12/schema",
+          ...
+  > 1074 │   }
+  > 1075 │ }
+  > 1076 │ `;
+         │ ^
+    1077 │ 
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+test\specialist-run-foundation.test.mjs:150:35 lint/complexity/noUselessStringRaw ━━━━━━━━━━━━━━━━━━
+
+  i String.raw is useless when the raw string doesn't contain any escape sequence.
+  
+    148 │ }
+    149 │ 
+  > 150 │ const NO_FILESYSTEM_READ_SCRIPT = String.raw`
+        │                                   ^^^^^^^^^^^
+  > 151 │ import assert from "node:assert/strict";
+         ...
+  > 221 │ process.stdout.write(JSON.stringify({ operation: payload.operation, filesystemReads }));
+  > 222 │ `;
+        │ ^
+    223 │ 
+    224 │ test("bundled specialist schemas have exact source parity", async () => {
+  
+  i Remove the String.raw call because it's useless here, String.raw can deal with string which contains escape sequence like \n, \t, \r, \\, \", \'.
+  
+
+npm notice
+npm notice New minor version of npm available! 11.11.0 -> 11.18.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.18.0
+npm notice To update run: npm install -g npm@11.18.0
+npm notice
