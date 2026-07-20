@@ -2,7 +2,7 @@
 
 ## Status
 
-Release review attempt 1 completed with a verified `fix` route. Corrections now pass through revision 8 and the V11 revision-35 trust chain; Candidate 2 and its R2 review are not yet frozen, so V12 is not merge-ready.
+Release review attempt 1 completed with a verified `fix` route. Corrections now pass through revision 8 and the V11 revision-35 trust chain; Candidate 2 passed its canonical gate but is retired after fail-closed R2 preparation; Candidate 3 and its review are not yet frozen, so V12 is not merge-ready.
 
 ## Scope
 
@@ -40,7 +40,7 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 - The current full pre-freeze gate passes format, lint, typecheck, all 388 tests, examples, V10/V11/V12 dogfood, package inspection, and clean installed-consumer verification.
 - V11 trust-root revision 35 passes exact package reconstruction, binder verification, independent semantic audit, and cross-package authorization.
 - The R2 harness resolves the current semantic audit from launch authorization and binds the complete revision-1 through revision-8 correction lineage.
-- No Candidate 2 commit, candidate-bound gate receipt, R2 package, or R2 reviewer outcome is claimed yet.
+- Candidate 2 `4c7695519d274a8e3d939061dfa184b99dc8ac45` has an exact passing gate receipt but no R2 package or reviewer outcome. Canonical authorization serialization is fixed; Candidate 3 is not yet frozen.
 
 ## Outcome
 

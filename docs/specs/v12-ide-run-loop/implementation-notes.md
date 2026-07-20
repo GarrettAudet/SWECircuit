@@ -2,7 +2,7 @@
 
 ## Status
 
-Release-correction revisions 6 through 8, the current full pre-freeze gate, and V11 trust-root revision 35 pass. Candidate 2's exact canonical gate and independent R2 release review remain before V12 acceptance.
+Release-correction revisions 6 through 8, the current full pre-freeze gate, and V11 trust-root revision 35 pass. Candidate 2 passed its exact canonical gate but is retired after R2 preparation failed closed on noncanonical authorization bytes. Candidate 3's exact gate and independent R2 review remain before V12 acceptance.
 
 ## Baseline
 
@@ -76,3 +76,5 @@ Release-correction revisions 6 through 8, the current full pre-freeze gate, and 
 - Approval bytes are canonical LF so Git checkout cannot invalidate their raw digest; the stale revision-34 binder remains preserved as failed-attempt evidence.
 - Biome directly covers both V12 scripts, with the redundant stdin quality workaround removed.
 - The current full pre-freeze `npm.cmd run verify` passes format, lint, typecheck, all 388 tests, examples, V10/V11/V12 dogfood, package inspection, and clean installed-consumer verification.
+- Candidate 2 `4c7695519d274a8e3d939061dfa184b99dc8ac45` passed its exact canonical receipt, but R2 preparation rejected the 1,343-byte PowerShell-formatted launch authorization before compilation.
+- Canonical reserialization preserves the authorization value at 984 bytes and `sha256:88304c6bcf03b8737af8859ab4096d66bf77f70b88f33c040da0094dc32fe3e5`; V11 evidence replay remains `pass`. Candidate 2 is retired and Candidate 3 must be regated.

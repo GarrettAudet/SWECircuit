@@ -2,7 +2,7 @@
 
 ## Status
 
-No active product defect. Release-correction revisions 6 through 8 and V11 trust-root revision 35 pass. Candidate 2 freeze, candidate-bound canonical verification, and R2 review remain.
+No active product defect. Release-correction revisions 6 through 8 and V11 trust-root revision 35 pass. Candidate 2 is retired after a passing canonical gate and a fail-closed R2 preparation check. Candidate 3 freeze, canonical verification, and R2 review remain.
 
 ## Reproduction
 
@@ -407,3 +407,17 @@ After staging Candidate 1's exact raw logs, `git diff --cached --check` treated 
 - Both gate consumers parse NUL-delimited Git attributes and reject unless raw stdout/stderr have text, diff, and merge unset while the receipt retains normal text policy.
 - Worktree, staged blob, would-stage, and checkout-filter bytes match the receipt under normal settings and forced `core.autocrlf=true` with CRLF checkout.
 - Integration extends the immutable R2 correction lineage through revision 8.
+
+## Candidate 2 Gate And R2 Preparation
+
+### Canonical Gate
+
+Candidate `4c7695519d274a8e3d939061dfa184b99dc8ac45` passed the exact wrapper. Receipt: 1,335 bytes at `sha256:369ff76efb741a5a21cfd07b715d8f240b0f79fcd57388d6736ee40cf6b76e71`; stdout: 295,955 bytes at `sha256:8d5f11b2034a8d1b3256383c00bbe5598750de50e9bb55702f3897cfa22fee79`; stderr: 25,879 bytes at `sha256:f660f2d1f1e263ab7c3c3880f78d94af974e78671e7c41f303df3589079eafe8`. Pre/post HEAD and tracked state remained exact and clean.
+
+### Preparation Failure
+
+R2 stopped before source snapshots, compilation, approval, or reviewer launch because the revision-35 launch authorization was semantically valid JSON but not the repository's canonical two-space LF serialization. The file was 1,343 bytes at `sha256:8df54c114a4795144df8da2b13111e8571daccee55b8cee05e84b1ec8de5b700`.
+
+### Smallest Causal Fix
+
+Reserialize the same parsed value with the canonical JSON writer. The resulting file is 984 bytes at `sha256:88304c6bcf03b8737af8859ab4096d66bf77f70b88f33c040da0094dc32fe3e5`, and V11 exact evidence replay remains `pass`. Candidate 2 remains immutable and retired; Candidate 3 must repeat the exact gate before R2.

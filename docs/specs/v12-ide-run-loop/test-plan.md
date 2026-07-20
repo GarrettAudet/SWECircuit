@@ -2,7 +2,7 @@
 
 ## Status
 
-Release-correction revisions 6 through 8, V11 trust-root revision 35, and the current full pre-freeze gate pass. The exact Candidate 2 canonical gate and independent R2 release review remain pending.
+Release-correction revisions 6 through 8, V11 trust-root revision 35, and the current full pre-freeze gate pass. Candidate 2's exact canonical gate passed, but R2 preparation failed closed before reviewer compilation. Candidate 3's exact gate and independent R2 release review remain pending.
 
 ## Contract Tests
 
@@ -50,4 +50,5 @@ Release-correction revisions 6 through 8, V11 trust-root revision 35, and the cu
 - Canonical evidence retention: legacy and candidate-addressed gate logs are versionable and explicitly binary; unrelated logs remain ignored; receipts retain normal text policy; wrapper/R2 paths are byte-equivalent.
 - Current full pre-freeze gate: format, lint, typecheck, 388 of 388 tests, examples, V10/V11/V12 dogfood, package inspection, and clean installed-consumer verification pass.
 - V11 revision-35 Candidate A, Audit B, receipt, binder, semantic handoff, and cross-package authorization: `pass`.
-- Candidate 2 `npm.cmd run verify` receipt and three R2 reviewer handoffs: pending until candidate freeze.
+- Candidate 2 canonical receipt: `pass`; downstream R2 canonical-source preparation: fail closed before compilation.
+- Candidate 3 `npm.cmd run verify` receipt and three R2 reviewer handoffs: pending until candidate freeze.

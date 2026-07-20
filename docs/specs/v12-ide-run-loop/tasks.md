@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: release-correction revisions 6 through 8, the current full pre-freeze gate, and V11 trust-root revision 35 pass. Candidate 2 freeze, canonical receipt, and R2 independent review remain.
+T006 in progress: release-correction revisions 6 through 8, the current full pre-freeze gate, and V11 trust-root revision 35 pass. Candidate 2 passed its canonical gate but is retired after fail-closed R2 preparation. Candidate 3 freeze, canonical receipt, and R2 independent review remain.
 
 ## Task List
 

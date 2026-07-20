@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate 1 diagnosis is closed through release-correction revision 8. No active product defect is confirmed; Candidate 2 has not yet been frozen or authorized for release review.
+Candidate 1 diagnosis is closed through release-correction revision 8. No active product defect is confirmed; Candidate 2 passed its canonical gate but is retired after R2 preparation failed closed; Candidate 3 has not yet been frozen or authorized for release review.
 
 ## Reproduction
 
@@ -166,3 +166,17 @@ Revision 8 declares only the four canonical stdout/stderr path shapes binary and
 ### Regression Coverage
 
 The proof compares worktree, staged, would-stage, and checkout-filter bytes to receipt digests, repeats under forced autocrlf and CRLF checkout, verifies normal policy for receipts and near misses, exercises negative attribute mutations, and keeps wrapper/R2 path output byte-equivalent.
+
+## Candidate 2 R2 Preparation
+
+### Confirmed Root Cause
+
+A manual hash-guarded integration fallback serialized `launch-authorization.json` with PowerShell's aligned JSON formatting. V11 correctly validated its semantics, but R2 correctly requires canonical raw serialization for source authentication. The mismatch was process-output formatting, not candidate product behavior, package identity, or audit outcome.
+
+### Causal Correction
+
+Parse and reserialize the unchanged value with `JSON.stringify(value, null, 2)` plus one LF, then rerun V11 exact evidence verification. Retire Candidate 2 because its committed source bytes differ from the corrected authorization, despite its passing canonical gate.
+
+### Regression Coverage
+
+R2 canonical parsing is the regression gate. Candidate 3 must include the canonical authorization, pass the exact candidate wrapper, and complete R2 preparation and revalidation before any reviewer launches.
