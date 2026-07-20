@@ -1,0 +1,72 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "SpecialistContractReplan",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "fromRevision": 1,
+    "toRevision": 2
+  },
+  "checkpoint": "af46d1a845b6ab9744e08127aafb6a113d29a1fd",
+  "route": "redesign",
+  "trigger": {
+    "workUnitId": "fix.aggregate-resource-proof",
+    "agentId": "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50",
+    "handoffPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json",
+    "handoffBytes": 6718,
+    "handoffDigest": "sha256:f74436e9e9a234cc8c41cba9a3b47ee84d8e0bff3ceba811252f008686c51677",
+    "outcome": "pass"
+  },
+  "changedBindings": [
+    {
+      "sourceId": "context.constants",
+      "path": "src/constants.ts",
+      "retiredBytes": 2571,
+      "retiredDigest": "sha256:b7050ac085a3fcd7dad839e3fbe930ecbf49224d40a37f0a44dd15052bc06058",
+      "replacementBytes": 2570,
+      "replacementDigest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a"
+    },
+    {
+      "sourceId": "context.run-contract",
+      "path": "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+      "retiredBytes": 16223,
+      "retiredDigest": "sha256:42f53ec000a3cfa69786b0895354ab1b9ab24322305b5ef9d7b33d9a46d13390",
+      "replacementBytes": 17133,
+      "replacementDigest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242"
+    }
+  ],
+  "retiredContract": {
+    "compilationDigest": "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+    "packageDigest": "sha256:0243a0cea075424c7c919a6af876b4f023f9e635234cf6ec07a0d7cb9543bf6c",
+    "agentId": "agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe",
+    "blueprintDigest": "sha256:c3aac0f6fa62c3b0fe995e92b831607634f48573479bd48359438df266d9c0bd",
+    "contractPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package/agents/agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe.md",
+    "launched": false,
+    "handoff": null,
+    "reason": "Two authenticated context sources changed after an upstream verified handoff, so the approved contract could no longer authenticate its working inputs."
+  },
+  "replacementContract": {
+    "compilationDigest": "sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672",
+    "packageDigest": "sha256:cff1fa3d5eaa668e962b212f8128018c3e4b2721404fa457ca73c79578011fcc",
+    "agentId": "agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe",
+    "blueprintDigest": "sha256:bbad5e70232c83f513fb2d9efb4bd9bc209b224d7ed3b1e79cec9b2bffadd869",
+    "contractPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/package/agents/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.md",
+    "approved": true,
+    "launched": true,
+    "handoffPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoffs/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.json",
+    "handoffBytes": 7254,
+    "handoffDigest": "sha256:8db3fea6a6f47fba804f72d454660bafda7ab5d06691d729157e2f8f3aba66be",
+    "outcome": "split",
+    "completed": false,
+    "splitReason": "The unprimed record operation reached an unchanged V11 handoff validator that reads common.schema.json outside revision-2 authority."
+  },
+  "friction": {
+    "replans": 1,
+    "staleContractsRetired": 1,
+    "additionalCompilationCalls": 1,
+    "additionalPackageRenderCalls": 1,
+    "additionalPackageVerificationCalls": 1,
+    "additionalApprovalBindings": 1,
+    "additionalApprovalPrompts": 0,
+    "unsafeLaunchesPrevented": 1
+  }
+}

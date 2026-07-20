@@ -49,7 +49,12 @@ function buildRequest() {
       const producerId = workUnitIds[left];
       const reviewerId = workUnitIds[right];
       const suffix = `${left + 1}-${right + 1}`;
-      const produceId = `evidence.${suffix}.produce`;
+      const produceId =
+        left === 0 && right === 1
+          ? "evidence.9-counterordered.produce"
+          : left === 0 && right === 2
+            ? "evidence.0-counterordered.produce"
+            : `evidence.${suffix}.produce`;
       const reviewId = `evidence.${suffix}.review`;
       evidenceByUnit.get(producerId).push(produceId);
       evidenceByUnit.get(reviewerId).push(reviewId);
@@ -373,6 +378,19 @@ test("inspection derives manifest contracts, DAG statuses, evidence, and complet
       [...handoff.verified.handoff.evidence].map((entry) => entry.requirementId).sort(),
     );
   }
+
+  const unitAEvidence = partial.acceptedEvidence.find(
+    (entry) => entry.agentId === fixture.blueprintByUnit.get("unit.a").id,
+  );
+  assert.notEqual(unitAEvidence, undefined);
+  assert.deepEqual(
+    [unitAEvidence.evidence[0].criterionId, unitAEvidence.evidence[0].requirementId],
+    ["criterion.1-3", "evidence.0-counterordered.produce"],
+  );
+  assert.deepEqual(
+    [unitAEvidence.evidence.at(-1).criterionId, unitAEvidence.evidence.at(-1).requirementId],
+    ["criterion.1-2", "evidence.9-counterordered.produce"],
+  );
 
   const dependencyUnits = ["unit.a", "unit.b", "unit.c", "unit.d"];
   const dependencyRows = dependencyUnits.map((unitId) => acceptedRow(handoffs.get(unitId)));

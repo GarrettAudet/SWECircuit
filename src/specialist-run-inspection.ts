@@ -110,8 +110,8 @@ function compareEvidenceBindings(
   right: SpecialistRunEvidenceBinding,
 ): number {
   return (
-    compareText(left.criterionId, right.criterionId) ||
     compareText(left.requirementId, right.requirementId) ||
+    compareText(left.criterionId, right.criterionId) ||
     compareText(left.kind, right.kind) ||
     compareText(left.duty, right.duty) ||
     compareText(left.status, right.status) ||

@@ -1,9 +1,8 @@
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import type { ErrorObject, ValidateFunction } from "ajv";
 import { Ajv2020 } from "ajv/dist/2020.js";
 import { appendJsonPointer, createDiagnostic } from "./diagnostics.js";
 import type { JsonValue } from "./model.js";
+import { SPECIALIST_RUN_SCHEMA_SOURCE } from "./specialist-run-schema-data.js";
 import type { Diagnostic } from "./types.js";
 
 const SPECIALIST_RUN_SCHEMA_ID =
@@ -17,11 +16,6 @@ interface SpecialistRunSchemaRegistry {
 
 let registry: SpecialistRunSchemaRegistry | undefined;
 
-function readSchema(fileName: string): object {
-  const url = new URL(`../schemas/v1alpha1/${fileName}`, import.meta.url);
-  return JSON.parse(readFileSync(fileURLToPath(url), "utf8")) as object;
-}
-
 function specialistRunSchemaRegistry(): SpecialistRunSchemaRegistry {
   if (registry !== undefined) {
     return registry;
@@ -32,7 +26,7 @@ function specialistRunSchemaRegistry(): SpecialistRunSchemaRegistry {
     strict: true,
     validateFormats: false,
   });
-  ajv.addSchema(readSchema("specialist-run.schema.json"));
+  ajv.addSchema(JSON.parse(SPECIALIST_RUN_SCHEMA_SOURCE) as object);
   const root = ajv.getSchema(SPECIALIST_RUN_SCHEMA_ID);
   if (root === undefined) {
     throw new TypeError("Specialist run schema did not compile.");

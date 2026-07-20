@@ -1,0 +1,723 @@
+export const SPECIALIST_RUN_SCHEMA_SOURCE = String.raw`{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-run.schema.json",
+  "title": "SWECircuit Specialist Run v1alpha1",
+  "description": "Closed source-preserving specialist run session and derived inspection values.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/session"
+    },
+    {
+      "$ref": "#/$defs/inspection"
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "outcome": {
+      "enum": ["pass", "fix", "diagnose", "clarify", "redesign", "split", "block", "learn"]
+    },
+    "nonPassOutcome": {
+      "enum": ["fix", "diagnose", "clarify", "redesign", "split", "block", "learn"]
+    },
+    "goalBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "revision", "digest", "integrationOwner"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "integrationOwner": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "launchWave": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "agentIds"],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "agentIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        }
+      }
+    },
+    "packageAgent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agentId", "blueprintDigest", "contractFile", "contractDigest", "contractBytes"],
+      "properties": {
+        "agentId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "blueprintDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "contractFile": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "contractDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "contractBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        }
+      }
+    },
+    "packageManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiVersion",
+        "kind",
+        "goalId",
+        "goalRevision",
+        "fileDigestAlgorithm",
+        "fileDigestScope",
+        "compilationDigest",
+        "selectedCandidateId",
+        "launchWaves",
+        "compilationFile",
+        "compilationFileDigest",
+        "compilationFileBytes",
+        "agents",
+        "integrationFile",
+        "integrationDigest",
+        "integrationBytes",
+        "contentDigest"
+      ],
+      "properties": {
+        "apiVersion": {
+          "const": "swecircuit/specialist/v1alpha1"
+        },
+        "kind": {
+          "const": "SpecialistPackageManifest"
+        },
+        "goalId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "goalRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "fileDigestAlgorithm": {
+          "const": "sha256"
+        },
+        "fileDigestScope": {
+          "const": "raw-file-bytes"
+        },
+        "compilationDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "selectedCandidateId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "launchWaves": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/launchWave"
+          }
+        },
+        "compilationFile": {
+          "const": "compilation.json"
+        },
+        "compilationFileDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "compilationFileBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        },
+        "agents": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/packageAgent"
+          }
+        },
+        "integrationFile": {
+          "const": "integration.md"
+        },
+        "integrationDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "integrationBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        },
+        "contentDigest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "renderedFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "mediaType", "bytes", "digest", "content"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "mediaType": {
+          "enum": ["application/json", "text/markdown"]
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 4194304
+        }
+      }
+    },
+    "renderedPackage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compilationDigest", "packageDigest", "manifest", "files"],
+      "properties": {
+        "compilationDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "packageDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "manifest": {
+          "$ref": "#/$defs/packageManifest"
+        },
+        "files": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 19,
+          "items": {
+            "$ref": "#/$defs/renderedFile"
+          }
+        }
+      }
+    },
+    "acceptedHandoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agentId",
+        "blueprintDigest",
+        "outcome",
+        "rawEncoding",
+        "rawBytes",
+        "rawDigest",
+        "rawBase64"
+      ],
+      "properties": {
+        "agentId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "blueprintDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "outcome": {
+          "$ref": "#/$defs/outcome"
+        },
+        "rawEncoding": {
+          "const": "base64"
+        },
+        "rawBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        },
+        "rawDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "rawBase64": {
+          "type": "string",
+          "maxLength": 1398104,
+          "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
+        }
+      }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiVersion",
+        "kind",
+        "goal",
+        "compilationDigest",
+        "packageDigest",
+        "selectedCandidateId",
+        "package",
+        "acceptedHandoffs",
+        "contentDigest"
+      ],
+      "properties": {
+        "apiVersion": {
+          "const": "swecircuit/specialist-run/v1alpha1"
+        },
+        "kind": {
+          "const": "SpecialistRunSession"
+        },
+        "goal": {
+          "$ref": "#/$defs/goalBinding"
+        },
+        "compilationDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "packageDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "selectedCandidateId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "package": {
+          "$ref": "#/$defs/renderedPackage"
+        },
+        "acceptedHandoffs": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/acceptedHandoff"
+          }
+        },
+        "contentDigest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agentId", "outcome"],
+      "properties": {
+        "agentId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "outcome": {
+          "$ref": "#/$defs/nonPassOutcome"
+        }
+      }
+    },
+    "agentStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agentId",
+        "blueprintDigest",
+        "dependencies",
+        "status",
+        "outcome",
+        "waitingForAgentIds",
+        "blockingRoutes"
+      ],
+      "properties": {
+        "agentId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "blueprintDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "dependencies": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "status": {
+          "enum": [
+            "accepted_pass",
+            "accepted_non_pass",
+            "dependency_eligible",
+            "waiting_for_dependencies",
+            "session_routed"
+          ]
+        },
+        "outcome": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/outcome"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "waitingForAgentIds": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "blockingRoutes": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/$defs/route"
+          }
+        }
+      }
+    },
+    "eligibleContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agentId", "blueprintDigest", "path", "mediaType", "bytes", "digest", "content"],
+      "properties": {
+        "agentId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "blueprintDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "mediaType": {
+          "const": "text/markdown"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 4194304
+        }
+      }
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "mediaType", "bytes", "digest"],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "mediaType": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 128
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "evidenceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterionId", "requirementId", "kind", "duty", "status", "artifact"],
+      "properties": {
+        "criterionId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "requirementId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "kind": {
+          "enum": [
+            "artifact",
+            "command",
+            "test",
+            "review",
+            "decision",
+            "commit",
+            "digest",
+            "handoff",
+            "memory"
+          ]
+        },
+        "duty": {
+          "enum": ["produce", "verify", "review"]
+        },
+        "status": {
+          "$ref": "#/$defs/outcome"
+        },
+        "artifact": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "acceptedEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agentId",
+        "blueprintDigest",
+        "outcome",
+        "rawBytes",
+        "rawDigest",
+        "semanticDigest",
+        "artifacts",
+        "evidence"
+      ],
+      "properties": {
+        "agentId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "blueprintDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "outcome": {
+          "$ref": "#/$defs/outcome"
+        },
+        "rawBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        },
+        "rawDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "semanticDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "artifacts": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "$ref": "#/$defs/artifactBinding"
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "maxItems": 512,
+          "items": {
+            "$ref": "#/$defs/evidenceBinding"
+          }
+        }
+      }
+    },
+    "evaluateEligibleAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "actor", "agentIds"],
+      "properties": {
+        "kind": {
+          "const": "external_host.evaluate_dependency_eligible_contracts"
+        },
+        "actor": {
+          "const": "external_host"
+        },
+        "agentIds": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        }
+      }
+    },
+    "routeOutcomeAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "actor", "integrationOwner", "routes"],
+      "properties": {
+        "kind": {
+          "const": "integration_owner.route_specialist_outcome"
+        },
+        "actor": {
+          "const": "integration_owner"
+        },
+        "integrationOwner": {
+          "$ref": "#/$defs/identifier"
+        },
+        "routes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/$defs/route"
+          }
+        }
+      }
+    },
+    "integrateAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "actor", "integrationOwner"],
+      "properties": {
+        "kind": {
+          "const": "integration_owner.integrate_and_verify"
+        },
+        "actor": {
+          "const": "integration_owner"
+        },
+        "integrationOwner": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "nextAction": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/evaluateEligibleAction"
+        },
+        {
+          "$ref": "#/$defs/routeOutcomeAction"
+        },
+        {
+          "$ref": "#/$defs/integrateAction"
+        }
+      ]
+    },
+    "inspection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiVersion",
+        "kind",
+        "goal",
+        "compilationDigest",
+        "packageDigest",
+        "selectedCandidateId",
+        "sessionDigest",
+        "stage",
+        "agents",
+        "dependencyEligibleContracts",
+        "acceptedEvidence",
+        "routes",
+        "specialistOutcome",
+        "integrationReady",
+        "nextAction",
+        "contentDigest"
+      ],
+      "properties": {
+        "apiVersion": {
+          "const": "swecircuit/specialist-run/v1alpha1"
+        },
+        "kind": {
+          "const": "SpecialistRunInspection"
+        },
+        "goal": {
+          "$ref": "#/$defs/goalBinding"
+        },
+        "compilationDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "packageDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "selectedCandidateId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "sessionDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "stage": {
+          "enum": ["collecting", "routed", "integration_ready"]
+        },
+        "agents": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/agentStatus"
+          }
+        },
+        "dependencyEligibleContracts": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/eligibleContract"
+          }
+        },
+        "acceptedEvidence": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/acceptedEvidence"
+          }
+        },
+        "routes": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/$defs/route"
+          }
+        },
+        "specialistOutcome": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/outcome"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "integrationReady": {
+          "type": "boolean"
+        },
+        "nextAction": {
+          "$ref": "#/$defs/nextAction"
+        },
+        "contentDigest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    }
+  }
+}
+`;
