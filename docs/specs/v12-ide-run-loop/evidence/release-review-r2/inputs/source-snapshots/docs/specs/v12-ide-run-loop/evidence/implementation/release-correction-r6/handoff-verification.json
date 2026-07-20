@@ -1,0 +1,38 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "release-correction-r6",
+  "compilationDigest": "sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998",
+  "packageDigest": "sha256:5acb302e44bb08f8626fb3773ba27acf5af5ae3f3d09d95beea1f2538a46826a",
+  "expectedAgentIds": [
+    "agent.4a4cca8bce6a03e1f36dfd28b9505ff33920a045636f8715b10110fdbd408985",
+    "agent.9579818ca2843121c26d1c38b48b0f78421bcba0ed39783ced3bfd842a45904e"
+  ],
+  "receivedAgentIds": [
+    "agent.4a4cca8bce6a03e1f36dfd28b9505ff33920a045636f8715b10110fdbd408985",
+    "agent.9579818ca2843121c26d1c38b48b0f78421bcba0ed39783ced3bfd842a45904e"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.4a4cca8bce6a03e1f36dfd28b9505ff33920a045636f8715b10110fdbd408985.json",
+      "agentId": "agent.4a4cca8bce6a03e1f36dfd28b9505ff33920a045636f8715b10110fdbd408985",
+      "outcome": "pass",
+      "rawBytes": 5061,
+      "rawDigest": "sha256:3c95ca87255613bdcb96f0a894a03ce012c4d5662a3379230c07166e56fcf33b",
+      "semanticDigest": "sha256:2b45102d05576f7b3e8297adac3dc5b2843a5b8e981d3dc9ad4408a2ad597fd8",
+      "contentDigest": "sha256:f751fbc02bc666bfa386c05f9f216a191f98c430bd1b526d733791e1581f5471"
+    },
+    {
+      "file": "agent.9579818ca2843121c26d1c38b48b0f78421bcba0ed39783ced3bfd842a45904e.json",
+      "agentId": "agent.9579818ca2843121c26d1c38b48b0f78421bcba0ed39783ced3bfd842a45904e",
+      "outcome": "pass",
+      "rawBytes": 5291,
+      "rawDigest": "sha256:939099add2852e3dfe14b307fc55e46c89b56a1dd0c735d15bf35e82f99a5a68",
+      "semanticDigest": "sha256:e7a8bcc558e34abe6dbf6b12f8a0c4caa0e0232f898fc166201979b71f3c1d08",
+      "contentDigest": "sha256:c378f44796a47737e3d0ba6c3be77a2f879e50404e134f3a8e9f2eccad81ec29"
+    }
+  ],
+  "phaseReady": true,
+  "note": "This is an external complete-package gate. Each raw handoff was verified by V11 core; a verified non-pass outcome remains a workflow route."
+}

@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "split",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 3,
+    "digest": "sha256:a8f4bbbcf84079f7c1b3a1f4724b2020dbd2eb2da2f385ea56abc048a3b105cc"
+  },
+  "agent": {
+    "id": "agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d",
+    "blueprintDigest": "sha256:382469632b31e57b2ef90c14425a1185be1517b27ba735cba0e9668d45bf4848"
+  },
+  "compilationDigest": "sha256:ded9a26906a9a00a5f0b12dc3420e909a91e70ef9a3ee03905ac1676efb40638",
+  "summary": "Split: the scoped handoff schema loader is pure, but truly unprimed create, restore, inspect, and record each reach the same out-of-scope common-schema read during package re-verification.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "runtime-purity-ordering-correction-r3.md",
+      "mediaType": "text/markdown",
+      "content": "## Authentication\n\n`verifySpecialistPackage` accepted revision 3 with no diagnostics at compilation `sha256:ded9a26906a9a00a5f0b12dc3420e909a91e70ef9a3ee03905ac1676efb40638` and package `sha256:19c13189225b8bedd69b03edb2c4c3821aa9d8256e39209f5c10641527dc4d01`. All 34 declared context sources matched their exact raw SHA-256 digests and byte counts before substantive use.\n\nThe revision-2 package independently verified at compilation `sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672` and package `sha256:cff1fa3d5eaa668e962b212f8128018c3e4b2721404fa457ca73c79578011fcc`. Its exact 7,254-byte handoff verified with no diagnostics as `split`, raw digest `sha256:8db3fea6a6f47fba804f72d454660bafda7ab5d06691d729157e2f8f3aba66be`, and semantic digest `sha256:3a80df6c840a56b61667b92a3c296c0572e750e7db70d1d9f8e9bb10a8533d30`.\n\n## Scoped Correction\n\n- Added `src/specialist-handoff-schema-data.ts` with the exact 10,709 common-schema bytes and 4,287 Specialist Handoff schema bytes as immutable TypeScript string data.\n- Removed `node:fs`, `node:url`, and lazy schema-file loading from `src/specialist-handoff-schema.ts`; strict Ajv validation now parses package-owned module data.\n- Preserved revision-2 Specialist Run schema data and requirement-primary accepted-evidence ordering byte-for-byte.\n- Strengthened the regression so interception begins before any validator invocation. It no longer pre-verifies the package or warms a validator, and it captures all four child results before asserting.\n\n## Cold Regression\n\nA Node 24 in-memory hook substituted exactly the five approved production-source modules without writing generated output. Direct cold first-use calls to the Specialist Handoff and Specialist Run schema validators returned expected schema diagnostics with zero intercepted reads. Exact parity passed for all three bundled schemas.\n\nThe complete cold regression did not pass. `create`, `restore`, `inspect`, and `record` each returned `SC4307` from package re-verification and recorded exactly one access: `readFileSync` of `C:\\tmp\\swecircuit-identity-main\\schemas\\v1alpha1\\common.schema.json`. No validator was primed in any child. The read is causally reached inside `verifySpecialistPackage` compilation reconstruction before the scoped correction can complete.\n\nThe implementation owning this newly exposed package-reconstruction read is outside approved read and write authority. The required route is `split`; no warming or authority broadening was used.\n\n## Verification\n\n- Revision-3 package, all 34 context bindings, revision-2 package, and exact semantic split handoff: pass.\n- Three-schema exact source parity and direct cold-validator interception: pass with zero reads.\n- Source-focused `node --test test\\specialist-handoff.test.mjs test\\specialist-run-inspection.test.mjs test\\specialist-run-transition.test.mjs`: 11 of 11 pass, including counterordered requirement-primary identity.\n- Source-focused `node --test test\\specialist-run-foundation.test.mjs`: 2 of 3 pass; the cold four-operation test fails for the four identical out-of-scope reads above.\n- `npm.cmd run typecheck`: pass.\n- `npm.cmd run build -- --noEmit`: pass; no generated output was written.\n- Focused `npm.cmd exec --offline -- biome format` verification for all seven write-scope files: pass.\n- Initial checked-in generated-output reproduction: fail at `create` on stale `specialist-run.schema.json`, consistent with revision-2 evidence and the no-generated-output boundary.\n\n## Execution Notes\n\nPrelaunch helper retries corrected a nonexistent nested envelope path and an unavailable .NET hash API before substantive context use. Native `apply_patch`, one pre-mutation PowerShell parse, and one sandboxed guarded write failed before mutation; approved exact hash-guarded writes then succeeded and were immediately verified. An initial in-memory hook overmapped the bare Ajv import and failed with harness-only `ENOENT`; its corrected retry produced the evidence above. The first sandboxed Biome write was denied; its approved seven-file rerun and check passed. A reporting-only path-normalization retry succeeded. Final-handoff launcher attempts failed on native quoting and data-URL relative-resolution mechanics without touching repository files; this handoff is closed directly from the generated contract shape.\n\nNo network access, Git mutation, agent-descendant launch, generated-output write, validator priming, or intentional write outside the declared scope occurred.\n\n## Resulting Bytes\n\n- `src/specialist-handoff-schema-data.ts`: 15,109 bytes, `sha256:83f9df80b8d48e8ca4bbf2b92cad5b701b3b723aa8b5843d3adb829267c8603c`.\n- `src/specialist-handoff-schema.ts`: 2,275 bytes, `sha256:b46e29306e5605092f8923a427fdad431b0d8e4d84d8693af90bdb2c275aa581`.\n- `src/specialist-run-inspection.ts`: 14,484 bytes, `sha256:83d46b99d0bd553e36566aa5551b14c945b6177122c2c73f69e41ad6367f30ac`.\n- `src/specialist-run-schema-data.ts`: 17,463 bytes, `sha256:a41ed770e2d250cde3fed83910ba0a099eb84ea1fc6f9142e91f6659a1cd0bc1`.\n- `src/specialist-run-schema.ts`: 3,180 bytes, `sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d`.\n- `test/specialist-run-foundation.test.mjs`: 9,786 bytes, `sha256:a7faf8978eb8dda7fb869ba9b43d949274079c6f40b5f65098ee94e9976bfe1c`.\n- `test/specialist-run-inspection.test.mjs`: 18,933 bytes, `sha256:9b78ef93fea4bfb7929a5061f57f6ab0b338d71052ba702b76dc86edef0ed271`.\n\nAll seven files use LF and contain no CR or TAB bytes.\n\n## Outcome\n\n`split`. The scoped handoff schema loader correction is implemented and verified, but the atomic work unit remains incomplete because every truly unprimed operation reaches the same undeclared package-reconstruction filesystem read."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.runtime-purity-ordering.r3",
+      "requirementId": "evidence.runtime-purity-ordering.r3",
+      "kind": "review",
+      "duty": "produce",
+      "status": "split",
+      "artifact": "runtime-purity-ordering-correction-r3.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The partial source edits are not integration-ready because all four truly unprimed operations still fail on the package-reconstruction filesystem read.",
+    "Generated dist output remains stale because it is outside this specialist's exact write scope.",
+    "Priming package verification would hide the remaining process-history dependency and cannot be accepted as completion evidence."
+  ],
+  "followUps": [
+    "Replan with authenticated context and write authority for the schema validator causally reached by verifySpecialistPackage compilation reconstruction, plus the exact immutable schema data it requires.",
+    "Preserve the scoped correction, compile and approve a new revision, then rerun all four cold operations with filesystem interception before every validator invocation.",
+    "After the expanded correction passes, rebuild generated output, run the canonical repository gate, and repeat independent release review on the exact candidate."
+  ]
+}

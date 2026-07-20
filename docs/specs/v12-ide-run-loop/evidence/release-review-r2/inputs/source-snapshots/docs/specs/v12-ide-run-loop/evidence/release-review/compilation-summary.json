@@ -1,0 +1,318 @@
+{
+  "goalId": "v12.ide-run-loop.release-review",
+  "goalRevision": 1,
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 3,
+    "evaluatedCandidates": 5,
+    "eligibleCandidates": 5,
+    "retainedAlternatives": 4,
+    "evaluationSetDigest": "sha256:bf90cf8e3b542acd0142b9d46eaa8894c06cad03c75c8eb1936ff4ad743a437d"
+  },
+  "serialBaseline": {
+    "id": "team.ba9100672b51e597af4d8fd8555ed979a699d79e9d7a97fba01c393f34cb6fbc",
+    "partition": [
+      [
+        "review.lifecycle-correctness",
+        "review.product-api-ide",
+        "review.security-trace-authority"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 25,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 24,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.a8bdca5f7ebb7dcdb197089fc93f955570a06e3b19c09b9bbfca1f551d9b9c40",
+        "start": 0,
+        "finish": 25
+      }
+    ],
+    "contentDigest": "sha256:8162cda990472c4e7b523b87a3ba422dbdebe3b3a70a93517c3b7bf9540431cc"
+  },
+  "selected": {
+    "id": "team.c59afff49b8af248cdf6c9b5bcfbb94595856ddd6b4a84fd9331e0858a1505ec",
+    "partition": [
+      [
+        "review.lifecycle-correctness"
+      ],
+      [
+        "review.product-api-ide"
+      ],
+      [
+        "review.security-trace-authority"
+      ]
+    ],
+    "origins": [
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 3,
+      "projectedMakespan": 9,
+      "peakConcurrency": 3,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 501510,
+      "duplicatedPermissionScopes": 46,
+      "totalWorkWeight": 24,
+      "totalStartupCost": 3,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+        "start": 0,
+        "finish": 9
+      },
+      {
+        "agentId": "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+        "start": 0,
+        "finish": 9
+      },
+      {
+        "agentId": "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34",
+        "start": 0,
+        "finish": 9
+      }
+    ],
+    "contentDigest": "sha256:2d4da97ef697ae79006ff3260415912a4781a1675771e4f734cbf0ec5634361a"
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 9,
+    "serialValue": 25,
+    "serialRejectionCodes": []
+  },
+  "retainedAlternatives": [
+    {
+      "id": "team.839d75ae51f424817e1a90037796a9b19a709bd4810f5ec8e31ba26963dbcec9",
+      "partition": [
+        [
+          "review.lifecycle-correctness",
+          "review.security-trace-authority"
+        ],
+        [
+          "review.product-api-ide"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 17,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 189605,
+        "duplicatedPermissionScopes": 17,
+        "totalWorkWeight": 24,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.cc61259fd06d16314785235a0fe485ab7d7b47cf2b45c80ff91a91fdc7f6ec19",
+          "start": 0,
+          "finish": 17
+        }
+      ],
+      "contentDigest": "sha256:6da2c5d919828dd2c243cd8af4559009dd5495261e9742a054d62a130f30b219"
+    },
+    {
+      "id": "team.90d65dd0e2be8802f9d0d22ba5de4b04cab0d1cb7cd830d7c649968701c9ea22",
+      "partition": [
+        [
+          "review.lifecycle-correctness",
+          "review.product-api-ide"
+        ],
+        [
+          "review.security-trace-authority"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 17,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 363010,
+        "duplicatedPermissionScopes": 33,
+        "totalWorkWeight": 24,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.5fee20e2cdb02a841f38ea55b4bd21d618564f411293453d16663d35158a4a97",
+          "start": 0,
+          "finish": 17
+        },
+        {
+          "agentId": "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34",
+          "start": 0,
+          "finish": 9
+        }
+      ],
+      "contentDigest": "sha256:d0afd61b97f7f0e90696d554cd740c38053d2128f4402fb69e6cf65ac94d8588"
+    },
+    {
+      "id": "team.b488d328397e6ad0650ad33cb7bf1218ed64043ac6d2b1a33f80aced29e8284b",
+      "partition": [
+        [
+          "review.lifecycle-correctness"
+        ],
+        [
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 17,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 373054,
+        "duplicatedPermissionScopes": 31,
+        "totalWorkWeight": 24,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.b316388bcb385a76115bde721e7e5f589ea7ccc3f49838f1bf7dd3d4799d096a",
+          "start": 0,
+          "finish": 17
+        }
+      ],
+      "contentDigest": "sha256:407b74e401686996694e7fd7e23e6af5a692102d4007b011f58c26230bc3709e"
+    },
+    {
+      "id": "team.ba9100672b51e597af4d8fd8555ed979a699d79e9d7a97fba01c393f34cb6fbc",
+      "partition": [
+        [
+          "review.lifecycle-correctness",
+          "review.product-api-ide",
+          "review.security-trace-authority"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 25,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 24,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.a8bdca5f7ebb7dcdb197089fc93f955570a06e3b19c09b9bbfca1f551d9b9c40",
+          "start": 0,
+          "finish": 25
+        }
+      ],
+      "contentDigest": "sha256:8162cda990472c4e7b523b87a3ba422dbdebe3b3a70a93517c3b7bf9540431cc"
+    }
+  ],
+  "compilationDigest": "sha256:cd70618e14b23dfae4538c41b6709791238684192b5c000f4e577f0edd6b5fd3",
+  "packageDigest": "sha256:7a809141af324cdea7028fb07ee6ca6cb79daccfbdf319e2fd8b2c1346a007ee",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+        "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+        "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+      "digest": "sha256:4a21400e89107a1646123fb7ba55379dd5979ec01056b8202f629766347bcc07",
+      "workUnitIds": [
+        "review.lifecycle-correctness"
+      ],
+      "dependencyAgentIds": [],
+      "contractFile": "agents/agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd.md"
+    },
+    {
+      "id": "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+      "digest": "sha256:c755c5e5e1474d06fe6bbae940fcc67a27dfc0b7f0be2181670f09816a2bf80f",
+      "workUnitIds": [
+        "review.product-api-ide"
+      ],
+      "dependencyAgentIds": [],
+      "contractFile": "agents/agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04.md"
+    },
+    {
+      "id": "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34",
+      "digest": "sha256:c480f8e421ddac1a2e960174ea59b3185137835abcd5125f32e80eef518c2cd5",
+      "workUnitIds": [
+        "review.security-trace-authority"
+      ],
+      "dependencyAgentIds": [],
+      "contractFile": "agents/agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34.md"
+    }
+  ],
+  "packageVerified": true,
+  "runtimeInvoked": false
+}

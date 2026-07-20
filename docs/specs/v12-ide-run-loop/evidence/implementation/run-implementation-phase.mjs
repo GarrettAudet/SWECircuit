@@ -90,6 +90,10 @@ const REPOSITORY_SOURCES = {
     "src/specialist-schema.ts",
     "Existing Specialist Compiler schema validator pattern.",
   ],
+  "context.specialist-schema-data": [
+    "src/specialist-schema-data.ts",
+    "Package-owned Specialist Compiler schema data used without runtime filesystem reads.",
+  ],
   "context.specialist-schema-json": [
     "schemas/v1alpha1/specialist-compiler.schema.json",
     "Existing closed Specialist Compiler schema pattern.",
@@ -423,6 +427,30 @@ const REPOSITORY_SOURCES = {
     "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r7/handoff-verification.json",
     "Complete revision-7 PASS handoff report.",
   ],
+  "context.release-correction-r8-package": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/package-envelope.json",
+    "Owner-approved revision-8 byte-integrity package.",
+  ],
+  "context.release-correction-r8-approval": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/approval.json",
+    "Exact owner approval for the revision-8 package.",
+  ],
+  "context.release-correction-r8-handoff": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/handoffs/agent.bfd8eac4d28210315485602103cca93bb3b7a534be1ddcd493b9ff8bea94921d.json",
+    "Exact revision-8 candidate-evidence byte-integrity PASS handoff.",
+  ],
+  "context.release-correction-r8-report": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r8/handoff-verification.json",
+    "Complete revision-8 PASS handoff report.",
+  ],
+  "context.candidate-three-gate-receipt": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/4ad12367cc0b36ea460ceabc48e5a41ca662e3df/canonical-gate-receipt.json",
+    "Exact Candidate 3 canonical-gate receipt whose tracked-only identity proof was rejected.",
+  ],
+  "context.candidate-three-product-review": [
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/handoffs/agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627.json",
+    "Exact Candidate 3 product/API/IDE FIX handoff identifying the untracked-input proof gap.",
+  ],
 };
 
 const FOUNDATION_WRITES = [
@@ -533,6 +561,12 @@ const RELEASE_R8_BYTE_INTEGRITY_WRITES = [
   ".gitattributes",
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
   "scripts/run-v12-release-gate.mjs",
+];
+
+const RELEASE_R9_PROOF_CLOSURE_WRITES = [
+  "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+  "scripts/run-v12-release-gate.mjs",
+  "test/v12-release-gate.test.mjs",
 ];
 
 const CONFIGS = {
@@ -1811,6 +1845,103 @@ CONFIGS["release-correction-r8"] = {
         "context.failed-gate-receipt",
         "context.failed-gate-stdout",
         "context.failed-gate-stderr",
+      ],
+    },
+  ],
+};
+
+CONFIGS["release-correction-r9"] = {
+  objective:
+    "Close Candidate 3 release-proof gaps by running the canonical gate from exact committed candidate sources and making the R2 security context source-complete.",
+  goalPhase: "release-correction",
+  goalRevision: 9,
+  maxAgents: 1,
+  maxConcurrency: 1,
+  processScopes: ["git", "node", "npm", "powershell"],
+  allowHashGuardedFallback: true,
+  assumptions: [
+    {
+      id: "assumption.candidate-three-retired",
+      statement:
+        "Candidate 3 is retired because its tracked-only gate receipt cannot prove that untracked verification inputs were absent.",
+      rationale:
+        "The exact product/API/IDE R2 handoff returned fix even though the functional gate passed.",
+    },
+    {
+      id: "assumption.committed-source-materialization",
+      statement:
+        "The canonical command must execute repository inputs materialized exclusively from the requested candidate Git tree; installed dependencies remain external runtime supply and must not be represented as candidate source.",
+      rationale:
+        "A committed-source materialization closes the finding without maintaining an incomplete allowlist of potentially influential untracked paths.",
+    },
+    {
+      id: "assumption.security-context-completeness",
+      statement:
+        "R2 security review must bind .gitattributes, .gitignore, src/specialist-handoff-schema-data.ts, src/specialist-handoff-schema.ts, src/specialist-schema-data.ts, and src/specialist-schema.ts as exact candidate snapshots.",
+      rationale:
+        "The independent security review identified those six causal correction files as missing from its approved context.",
+    },
+  ],
+  sourceIds: [
+    "context.v12-spec",
+    "context.run-contract",
+    "context.adr-0005",
+    "context.test-plan",
+    "context.package",
+    "context.gitignore",
+    "context.gitattributes",
+    "context.release-gate",
+    "context.release-review-r2-harness",
+    "context.release-review-r2-verifier",
+    "context.specialist-schema-code",
+    "context.specialist-schema-data",
+    "context.handoff-schema-code",
+    "context.handoff-schema-data",
+    "context.release-correction-r8-package",
+    "context.release-correction-r8-approval",
+    "context.release-correction-r8-handoff",
+    "context.release-correction-r8-report",
+    "context.candidate-three-gate-receipt",
+    "context.candidate-three-product-review",
+  ],
+  workUnits: [
+    {
+      id: "fix.release-proof-closure.r9",
+      objective:
+        "Prove the canonical command used only exact committed candidate source bytes and give R2 every primary source required to audit the causal gate and schema corrections.",
+      weight: 9,
+      moduleId: "correction.release-proof-closure",
+      action:
+        "Materialize and authenticate the exact candidate Git tree before running the canonical command, close and validate the stronger receipt in R2, bind the six omitted security sources, and add focused adversarial regression coverage.",
+      inputType: "TrackedOnlyCandidateGateAndIncompleteReviewContext",
+      outputType: "CommittedSourceGateAndSourceCompleteReviewContext",
+      capability: "fix.release-proof-closure",
+      evidenceId: "evidence.release-proof-closure.r9",
+      evidenceDescription:
+        "Prove an untracked source or test cannot influence the canonical command, bind candidate commit/tree/materialization identity and exact gate outputs, prove R2 includes all six security-critical candidate snapshots, and report focused syntax, format, test, and fail-closed results.",
+      artifact: "release-proof-closure-correction-r9.md",
+      writes: RELEASE_R9_PROOF_CLOSURE_WRITES,
+      sourceIds: [
+        "context.v12-spec",
+        "context.run-contract",
+        "context.adr-0005",
+        "context.test-plan",
+        "context.package",
+        "context.gitignore",
+        "context.gitattributes",
+        "context.release-gate",
+        "context.release-review-r2-harness",
+        "context.release-review-r2-verifier",
+        "context.specialist-schema-code",
+        "context.specialist-schema-data",
+        "context.handoff-schema-code",
+        "context.handoff-schema-data",
+        "context.release-correction-r8-package",
+        "context.release-correction-r8-approval",
+        "context.release-correction-r8-handoff",
+        "context.release-correction-r8-report",
+        "context.candidate-three-gate-receipt",
+        "context.candidate-three-product-review",
       ],
     },
   ],

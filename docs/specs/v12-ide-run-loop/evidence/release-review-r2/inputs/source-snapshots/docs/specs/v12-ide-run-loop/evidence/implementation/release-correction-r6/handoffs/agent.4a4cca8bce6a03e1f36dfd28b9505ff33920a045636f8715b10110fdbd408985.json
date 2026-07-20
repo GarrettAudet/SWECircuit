@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 6,
+    "digest": "sha256:63c46ee6638477c065aff6253c1ded9c82f81f2c71588392edcf7c0639d98fab"
+  },
+  "agent": {
+    "id": "agent.4a4cca8bce6a03e1f36dfd28b9505ff33920a045636f8715b10110fdbd408985",
+    "blueprintDigest": "sha256:b0bd0dd466b28e97da45a52154df49a867d9a6146d1aecce7d33bfaade10bbc2"
+  },
+  "compilationDigest": "sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998",
+  "summary": "Candidate-addressed canonical-gate evidence and exact R2 candidate-path validation are implemented; legacy candidate-1 failure evidence remains byte-identical.",
+  "workUnitsCompleted": [
+    "fix.candidate-gate-identity.r6"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-gate-identity-correction-r6.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Gate Identity Correction R6\n\n## Outcome\n\nPass.\n\n## Authentication\n\n- Authenticated all 16 declared sources against their exact byte counts and raw SHA-256 digests before use.\n- Verified the approved specialist package through `verifySpecialistPackage`.\n- Compilation: `sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998`.\n- Package: `sha256:5acb302e44bb08f8626fb3773ba27acf5af5ae3f3d09d95beea1f2538a46826a`.\n- Blueprint: `sha256:b0bd0dd466b28e97da45a52154df49a867d9a6146d1aecce7d33bfaade10bbc2`.\n\n## Changes\n\n- `scripts/run-v12-release-gate.mjs` now derives immutable output paths under `inputs/canonical-gates/<candidateCommit>/` after validating an exact lowercase 40-character commit ID.\n- The release gate preflights every candidate-scoped output and retains exclusive `wx` creation for stdout, stderr, and receipt evidence.\n- `run-release-review.mjs` independently derives the same candidate-scoped receipt and log paths from the exact requested candidate.\n- R2 preparation and subsequent compile or approval revalidation both read the derived receipt, require its exact candidate binding and passing result, validate its embedded stdout and stderr paths, and authenticate the referenced raw bytes.\n- Candidate manifest contexts and primary-coverage checks now use those same derived paths.\n- Both scripts expose a read-only `paths` mode for focused path-parity verification without running the canonical gate.\n\n## Preserved Failure\n\nCandidate `989e6ea6da754ecddcf06507567647bd9d84be02` remains preserved at its original legacy paths:\n\n- Receipt: 1221 bytes, `sha256:4c636e486f36c22b74f12fdd4b4470eb9056f63f64eca05058ae6923976bb15c`.\n- Stdout: 295768 bytes, `sha256:afb6b266dd504cbf89d2cb55b6f9c5c6872fd5636acef8848e2105257aecef12`.\n- Stderr: 11763 bytes, `sha256:4381d1a9ce1c36beb8723eadfb3619288935b9d095de672c450121c23dc0dfad`.\n\nThe focused dry run created no candidate evidence and did not modify these files.\n\n## Verification\n\n- Both modified scripts pass `node --check`.\n- The release-gate script passes its focused Biome format and lint checks.\n- The R2 harness passes direct Biome stdin format and lint checks.\n- Both `paths` modes produced byte-equivalent candidate-addressed JSON for the same synthetic candidate.\n- Both scripts rejected a malformed candidate ID.\n- Focused invariant inspection confirmed preflight collision rejection, exclusive file creation, derived receipt loading, exact embedded log-path checks, and path threading through preparation and revalidation.\n- No replacement canonical gate was run.\n- No network, Git mutation, agent descendant, or out-of-scope file write occurred.\n\n## Resulting Files\n\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`: 64681 bytes, `sha256:112f18afc9058f5444537fd9ea92b2baa9bd08993baacf3e215ff60a47d2bf5d`.\n- `scripts/run-v12-release-gate.mjs`: 7006 bytes, `sha256:f30ab1daf32d26b90d9592deb54aa7829a72de3d150cb799337ad939acd3ca76`.\n\n## Failed Attempts\n\nNative `apply_patch` failed before mutation because the Windows sandbox helper could not refresh. The initial sandboxed PowerShell write was also denied before mutation. As explicitly authorized by the stop condition, both edits were then made with exact precondition-hash-guarded PowerShell writes inside the declared scope and their resulting bytes were verified immediately."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.candidate-gate-identity.r6",
+      "requirementId": "evidence.candidate-gate-identity.r6",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "candidate-gate-identity-correction-r6.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Candidate-path derivation intentionally exists in two standalone scripts; future changes must retain the focused paths-mode parity check."
+  ],
+  "followUps": [
+    "Freeze a new exact candidate, run its candidate-scoped canonical gate once, then invoke R2 preparation with that same commit."
+  ]
+}

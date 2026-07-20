@@ -1,0 +1,39 @@
+{
+  "apiVersion": "swecircuit/release-gate/v1alpha1",
+  "kind": "CanonicalGateReceipt",
+  "version": "V12",
+  "candidateCommit": "4ad12367cc0b36ea460ceabc48e5a41ca662e3df",
+  "repository": {
+    "headBefore": "4ad12367cc0b36ea460ceabc48e5a41ca662e3df",
+    "headAfter": "4ad12367cc0b36ea460ceabc48e5a41ca662e3df",
+    "trackedStateBefore": "clean",
+    "trackedStateAfter": "clean",
+    "inspectionError": null
+  },
+  "command": {
+    "executable": "cmd.exe",
+    "arguments": [
+      "/d",
+      "/s",
+      "/c",
+      "npm.cmd run verify"
+    ],
+    "canonical": "npm.cmd run verify"
+  },
+  "result": "pass",
+  "exitCode": 0,
+  "signal": null,
+  "spawnError": null,
+  "stdout": {
+    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/4ad12367cc0b36ea460ceabc48e5a41ca662e3df/canonical-gate.stdout.log",
+    "mediaType": "application/octet-stream",
+    "bytes": 295945,
+    "digest": "sha256:62fb8db804151a00f2ad82d536ac833e805fe25f1e06f53ef0af910947c2d95c"
+  },
+  "stderr": {
+    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/4ad12367cc0b36ea460ceabc48e5a41ca662e3df/canonical-gate.stderr.log",
+    "mediaType": "application/octet-stream",
+    "bytes": 25879,
+    "digest": "sha256:f660f2d1f1e263ab7c3c3880f78d94af974e78671e7c41f303df3589079eafe8"
+  }
+}

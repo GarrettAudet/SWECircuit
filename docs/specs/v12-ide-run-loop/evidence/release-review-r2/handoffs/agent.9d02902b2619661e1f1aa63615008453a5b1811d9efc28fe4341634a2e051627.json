@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:e00a5edb2704c10e49580d4deba5a79214733691580b336afa17b7a5c63cd8e4"
+  },
+  "agent": {
+    "id": "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+    "blueprintDigest": "sha256:0f3dcfa0b403f5426a8f46ce673c73a2cebd241e2c562e8b08a4fadfd1ba312e"
+  },
+  "compilationDigest": "sha256:8dc8a4592e36ccc04d9873440ce9def42831ebd74d7615c1823ed7d199fae565",
+  "summary": "fix: the public API, schema publication, IDE path, installed consumer, and implementation-bound dogfood are coherent, but AC9 is not established because the canonical gate's clean-candidate check ignores untracked inputs that can affect verification.",
+  "workUnitsCompleted": [
+    "review.r2.product-api-ide"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-ide-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Product/API/IDE Release Review R2\n\n## Findings\n\n### High: AC9's exact-candidate gate ignores untracked verification inputs\n\nThe release-gate wrapper derives repository cleanliness solely from `git diff --quiet HEAD --` and maps exit zero to `trackedState: clean`. It requires that state before and after `npm.cmd run verify` and then emits a passing candidate receipt. Snapshot evidence is `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/source-snapshots/scripts/run-v12-release-gate.mjs:134`, `:140`, `:208`, and `:256`; the original path is `scripts/run-v12-release-gate.mjs`.\n\nThat Git command checks tracked differences but does not enumerate untracked files. The canonical verification command traverses source and test directories and executes a test glob, so untracked TypeScript declarations, modules, schemas, tests, examples, or helpers can influence format, lint, build, test, dogfood, or consumer results while remaining absent from commit `4ad12367cc0b36ea460ceabc48e5a41ca662e3df`. The relevant command surface is snapshotted at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/source-snapshots/package.json:33`, `:34`, `:36`, and `:39`; the original path is `package.json`.\n\nThe R2 harness repeats the tracked-only check and promotes it into the stronger claim that the gate preserved the exact clean candidate. Snapshot evidence is `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:1012`, `:1016`, `:1102`, `:1105`, and `:1640`; the original path is `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`. The immutable receipt itself records only `trackedStateBefore` and `trackedStateAfter` at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/4ad12367cc0b36ea460ceabc48e5a41ca662e3df/canonical-gate-receipt.json:9` and `:10`.\n\nImpact: the authenticated logs prove that a workspace at the candidate HEAD returned success, but they do not prove that only candidate-committed verification inputs produced that success. AC9 explicitly requires the canonical gate to pass for the exact release candidate, so the release-stage claim is not closed.\n\nRequired fix: run the gate from a clean detached candidate materialization, or fail closed on every unexpected untracked gate-consumed path before execution and allow only the three candidate-addressed evidence outputs afterward. Preserve that stronger pre/post identity in the receipt, then freeze a new candidate and regenerate its gate and R2 review package.\n\n## Verified Surface\n\nThe exact specialist contract authenticated at 197929 bytes and `sha256:66a1b689a71a5e64e96efe3100d09e08dfe405dcd779384f1720ca3cd12e9a1b`. All 155 declared context sources matched their contract-bound byte counts and raw SHA-256 digests before use.\n\nThe root exports expose the four pure operations and complete run types; package metadata publishes `./schemas/specialist-run.schema.json`; the strict installed-consumer gate resolves and compiles the schema, compiles a public TypeScript host, and exercises create, inspect, record, restore, and final inspection without source-checkout internals. The IDE guide consistently keeps approval, context delivery, authority enforcement, launch, persistence, integration, review, merge, release, and memory effects outside core.\n\nThe corrected dogfood authenticates the implementation correction package lineage, records the exact revision-4 pass handoff, preserves a 168914-byte source-preserving session snapshot, restores with canonical equality, reports all required AC8 friction categories, and replays byte-identically. The authenticated canonical log reports 388 of 388 tests passing and the installed-consumer gate passing. These remain useful functional observations, but they do not cure the candidate-input identity gap above.\n\nRelease documentation consistently keeps V12 unreleased and owner-gated. No additional product/API/IDE blocker was found within this review scope.\n\n## Verdict\n\nOutcome: `fix`. The corrected V12 product and IDE surface is coherent, but the exact-candidate canonical-gate requirement remains unproven, so this review domain is not release-ready."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.product-api-ide",
+      "requirementId": "evidence.r2.product-api-ide-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "product-api-ide-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This review does not assert that an influencing untracked file was present during the recorded gate; the release blocker is that the immutable receipt cannot prove its absence."
+  ],
+  "followUps": [
+    "Strengthen canonical-gate workspace identity to exclude unexpected untracked verification inputs and record the stronger evidence in the receipt.",
+    "Freeze and gate a new exact candidate, then regenerate and reapprove the R2 compilation and package before repeating independent review."
+  ]
+}

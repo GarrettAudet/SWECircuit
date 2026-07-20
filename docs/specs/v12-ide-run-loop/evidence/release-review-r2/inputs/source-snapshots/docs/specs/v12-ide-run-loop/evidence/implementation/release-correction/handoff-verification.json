@@ -1,0 +1,50 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "release-correction",
+  "compilationDigest": "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+  "packageDigest": "sha256:0243a0cea075424c7c919a6af876b4f023f9e635234cf6ec07a0d7cb9543bf6c",
+  "expectedAgentIds": [
+    "agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664",
+    "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50",
+    "agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe",
+    "agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666"
+  ],
+  "receivedAgentIds": [
+    "agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664",
+    "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50",
+    "agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666"
+  ],
+  "complete": false,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json",
+      "agentId": "agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664",
+      "outcome": "pass",
+      "rawBytes": 5693,
+      "rawDigest": "sha256:3510b98137b0cd8746d5440f4254bcfed8c493f714a57539a705eb12012c12fd",
+      "semanticDigest": "sha256:ded50acb7c687726c3d0b3ce0b09128abf23cc9722d1468da0876e4184202535",
+      "contentDigest": "sha256:8ec0822fe6aa222acd1055844643af0e3980bf9276c45dcc0fced1c37afa9f20"
+    },
+    {
+      "file": "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json",
+      "agentId": "agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50",
+      "outcome": "pass",
+      "rawBytes": 6718,
+      "rawDigest": "sha256:f74436e9e9a234cc8c41cba9a3b47ee84d8e0bff3ceba811252f008686c51677",
+      "semanticDigest": "sha256:13f0cb525db17a0be40d575a119b44b8b66165be98ce3a612a6964e9500d5c7e",
+      "contentDigest": "sha256:c999a51c40400deb971c3daeeca2aa4f0333957480e9e93a279cabb500e34101"
+    },
+    {
+      "file": "agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666.json",
+      "agentId": "agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666",
+      "outcome": "pass",
+      "rawBytes": 6667,
+      "rawDigest": "sha256:23bbdd75d90ee42595b5f22f1ba2c9ba9f608866b049285b027ae579225b2e4b",
+      "semanticDigest": "sha256:73791884b88cf235d2a882e0e485dfe88590e70ad978dde16b7bd069cb38451a",
+      "contentDigest": "sha256:7bf269621630070b2f575bf80702e32e15bf9ae60611fc3f19a74148d89ba00f"
+    }
+  ],
+  "phaseReady": false,
+  "note": "This is an external complete-package gate. Each raw handoff was verified by V11 core; a verified non-pass outcome remains a workflow route."
+}

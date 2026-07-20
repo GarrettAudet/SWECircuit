@@ -1,0 +1,31 @@
+{
+  "phase": "release-review-r2",
+  "checkpoint": "4ad12367cc0b36ea460ceabc48e5a41ca662e3df",
+  "goalId": "v12.ide-run-loop.release-review-r2",
+  "goalRevision": 1,
+  "canonicalGateReceipt": {
+    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/4ad12367cc0b36ea460ceabc48e5a41ca662e3df/canonical-gate-receipt.json",
+    "mediaType": "application/json",
+    "bytes": 1335,
+    "digest": "sha256:cea0b22bca0bd5d6b98f6a679d5439ac39c1ff15d0b9e3334cd7d96a02a43023"
+  },
+  "sourceSnapshots": 179,
+  "primaryEvidenceSets": [
+    "release-correction-r1",
+    "release-correction-r2",
+    "release-correction-r3",
+    "release-correction-r4",
+    "release-correction-r5",
+    "release-correction-r6",
+    "release-correction-r7",
+    "release-correction-r8",
+    "implementation-verification",
+    "release-review-r1"
+  ],
+  "correctionReplans": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json"
+  ],
+  "runtimeInvoked": false
+}

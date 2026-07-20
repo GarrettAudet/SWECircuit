@@ -1,0 +1,13 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.release-review-r2",
+  "goalRevision": 1,
+  "candidateCommit": "4ad12367cc0b36ea460ceabc48e5a41ca662e3df",
+  "approvedBy": "repository-owner-via-integration-owner",
+  "approvalBasis": "The owner reviewed this exact corrected candidate, immutable source snapshots, primary evidence, three task-shaped read-only contracts, authority, and compilation/package digest pair before launch.",
+  "expectation": {
+    "compilationDigest": "sha256:8dc8a4592e36ccc04d9873440ce9def42831ebd74d7615c1823ed7d199fae565",
+    "packageDigest": "sha256:f99dbaf4910039ed8238820bd269fefa60ecef34c4b26e19f668cfd4ee646d27"
+  }
+}

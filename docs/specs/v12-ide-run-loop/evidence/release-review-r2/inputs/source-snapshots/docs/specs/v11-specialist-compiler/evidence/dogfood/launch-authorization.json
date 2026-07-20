@@ -1,0 +1,22 @@
+{
+  "candidate": {
+    "compilationDigest": "sha256:5af627b5a678bbd268e2170d5b399dc7b898ce9f4b716b1a6ed65d8019b78583",
+    "packageDigest": "sha256:f6d64d94f2834f0fafd2675043114359d4dddac86e8e7add22a8555bdbf598a1"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:b53beaf3141b90e6cc2631d05327c2b4d57b697c43e974e3bc5ca24325d905eb",
+    "packageDigest": "sha256:9fb651dfda936e332500bf96cb451fda06f1356462723b25402a56d1e11c6b45"
+  },
+  "verificationReceipt": {
+    "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+    "digest": "sha256:892f2097eb39e62371fd3452083cd004d1c5454b040b6242586ee0482f6b8950",
+    "bytes": 2255,
+    "outcome": "pass"
+  },
+  "handoff": {
+    "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-35.json",
+    "digest": "sha256:0c11390a4804492f081e0b8e2253e24ae17df3a84785a6ac64e6486b0ae21047",
+    "bytes": 7428,
+    "outcome": "pass"
+  }
+}

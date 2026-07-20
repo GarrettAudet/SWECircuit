@@ -1,0 +1,614 @@
+{
+  "version": "1.5.0",
+  "diagnosticShape": {
+    "required": ["code", "severity", "artifact", "pointer", "rule", "message"],
+    "optional": ["hint"],
+    "artifact": "Forward-slash repository-relative path; use . when no candidate path is accepted.",
+    "pointer": "RFC 6901 JSON Pointer. Use an empty string for a document root. Treat JSONL as a zero-based virtual array, for example /0/spec/type.",
+    "sort": ["artifact", "pointer", "code"],
+    "warningsAffectExit": false
+  },
+  "exitClasses": {
+    "0": "Success; warnings may be present.",
+    "2": "Invalid project, artifact, trace, or execution request.",
+    "3": "Invalid command usage.",
+    "4": "Safe I/O failure.",
+    "5": "Unexpected internal failure."
+  },
+  "diagnostics": [
+    {
+      "code": "SC0001",
+      "rule": "cli.usage",
+      "severity": "error",
+      "exitClass": 3
+    },
+    {
+      "code": "SC1001",
+      "rule": "io.safe-failure",
+      "severity": "error",
+      "exitClass": 4
+    },
+    {
+      "code": "SC1011",
+      "rule": "path.lexical-escape",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1012",
+      "rule": "path.forbidden-form",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1013",
+      "rule": "path.link-forbidden",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1014",
+      "rule": "path.resolved-escape",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1015",
+      "rule": "path.not-regular-file",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1021",
+      "rule": "init.path-exists",
+      "severity": "error",
+      "exitClass": 4
+    },
+    {
+      "code": "SC1022",
+      "rule": "init.cleanup-incomplete",
+      "severity": "error",
+      "exitClass": 4
+    },
+    {
+      "code": "SC1101",
+      "rule": "parse.invalid-utf8",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1102",
+      "rule": "parse.json-syntax",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1103",
+      "rule": "parse.duplicate-key",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1104",
+      "rule": "parse.numeric-domain",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1201",
+      "rule": "dispatch.api-version.required",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1202",
+      "rule": "dispatch.api-version.type",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1203",
+      "rule": "dispatch.api-version.unsupported",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1211",
+      "rule": "dispatch.kind.required",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1212",
+      "rule": "dispatch.kind.type",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1213",
+      "rule": "dispatch.kind.unsupported",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1221",
+      "rule": "dispatch.event-version.required",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1222",
+      "rule": "dispatch.event-version.unsupported",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1223",
+      "rule": "dispatch.event-version.type",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1301",
+      "rule": "schema.required",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1302",
+      "rule": "schema.type",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1303",
+      "rule": "schema.additional-property",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1304",
+      "rule": "schema.enum",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1305",
+      "rule": "schema.constraint",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1311",
+      "rule": "schema-registry.remote-ref",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC1312",
+      "rule": "schema-registry.unknown-keyword",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2001",
+      "rule": "reference.not-found",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2002",
+      "rule": "reference.kind-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2003",
+      "rule": "reference.duplicate-identity",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2004",
+      "rule": "reference.port-not-found",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2101",
+      "rule": "graph.outcome-undeclared",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2102",
+      "rule": "graph.unsafe-cycle",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2103",
+      "rule": "graph.ambiguous-fan-in",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2104",
+      "rule": "graph.owner-required",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2105",
+      "rule": "graph.stop-required",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2106",
+      "rule": "graph.transfer-type-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2107",
+      "rule": "graph.fanout-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC2108",
+      "rule": "graph.structural-consistency",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3001",
+      "rule": "trace.sequence.duplicate",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3002",
+      "rule": "trace.sequence.regression",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3003",
+      "rule": "trace.duplicate-event-id",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3011",
+      "rule": "trace.cause.not-found",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3012",
+      "rule": "trace.cause.forward",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3013",
+      "rule": "trace.cause.cross-run",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3021",
+      "rule": "trace.illegal-transition",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3022",
+      "rule": "trace.terminal-immutable",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3023",
+      "rule": "trace.retry.link-required",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3024",
+      "rule": "trace.retry.must-start-queued",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3025",
+      "rule": "trace.event-not-allowed-in-state",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3026",
+      "rule": "trace.attempt.identity-conflict",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3027",
+      "rule": "trace.retry.lineage-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3028",
+      "rule": "trace.attempt.not-found",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC3029",
+      "rule": "trace.attempt.must-start-queued",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4001",
+      "rule": "permission.required",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4002",
+      "rule": "permission.unknown",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4003",
+      "rule": "permission.exceeds-ceiling",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4004",
+      "rule": "permission.self-grant-forbidden",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4101",
+      "rule": "privacy.secret-pattern",
+      "severity": "warning",
+      "exitClass": 0
+    },
+    {
+      "code": "SC4102",
+      "rule": "privacy.forbidden-content",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4103",
+      "rule": "privacy.capture-class-unknown",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4201",
+      "rule": "execution.input-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4202",
+      "rule": "execution.kind-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4203",
+      "rule": "execution.manifest-incompatible",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4204",
+      "rule": "execution.identity-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4205",
+      "rule": "execution.grant-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4206",
+      "rule": "execution.permission-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4207",
+      "rule": "execution.permission-exceeds-ceiling",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4208",
+      "rule": "execution.policy-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4209",
+      "rule": "execution.secret-pattern",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4210",
+      "rule": "execution.snapshot-limit",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4301",
+      "rule": "specialist.input.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4302",
+      "rule": "specialist.goal.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4303",
+      "rule": "specialist.authority.exceeded",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4304",
+      "rule": "specialist.evidence.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4305",
+      "rule": "specialist.candidate.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4306",
+      "rule": "specialist.candidate.none-eligible",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4307",
+      "rule": "specialist.digest.mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4308",
+      "rule": "specialist.limit.exceeded",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4309",
+      "rule": "specialist.secret-pattern",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4310",
+      "rule": "specialist.handoff.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4311",
+      "rule": "specialist.handoff.binding-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4312",
+      "rule": "specialist.handoff.evidence-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4313",
+      "rule": "specialist.handoff-set.invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4401",
+      "rule": "specialist.run.session-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4402",
+      "rule": "specialist.run.limit-exceeded",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4403",
+      "rule": "specialist.run.handoff-conflict",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4404",
+      "rule": "specialist.run.handoff-premature",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4405",
+      "rule": "specialist.run.session-routed",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC5001",
+      "rule": "limit.artifact-bytes",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC5002",
+      "rule": "limit.depth",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC5003",
+      "rule": "limit.reference-count",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC5004",
+      "rule": "limit.edge-count",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC5005",
+      "rule": "limit.line-bytes",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC5006",
+      "rule": "limit.trace-bytes",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC5007",
+      "rule": "limit.event-count",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC9001",
+      "rule": "internal.failure",
+      "severity": "error",
+      "exitClass": 5
+    }
+  ]
+}
