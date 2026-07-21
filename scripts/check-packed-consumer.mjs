@@ -6,6 +6,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  realpathSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -13,6 +14,47 @@ import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
+const TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY = "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT";
+
+function isOutsideRoot(root, path) {
+  const fromRoot = relative(realpathSync(root), path);
+  return isAbsolute(fromRoot) || fromRoot === ".." || fromRoot.startsWith(`..${sep}`);
+}
+
+function plainRegularFileRealPath(path, label) {
+  const stats = lstatSync(path);
+  assert.equal(stats.isSymbolicLink(), false, `${label} must not be a symbolic link.`);
+  assert.equal(stats.isFile(), true, `${label} must be a plain regular file.`);
+  return realpathSync(path);
+}
+
+function resolveTypeScriptEntrypoint(environment) {
+  const supplies = Object.entries(environment)
+    .filter(([key]) => key.toLowerCase() === TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY.toLowerCase())
+    .map(([, value]) => value);
+  assert.ok(
+    supplies.length <= 1,
+    `${TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY} must be supplied at most once, case-insensitively.`,
+  );
+
+  const supplied = supplies.length === 1;
+  const value = supplied ? supplies[0] : join(ROOT, "node_modules", "typescript", "bin", "tsc");
+  assert.equal(typeof value, "string", "The TypeScript entrypoint must be a string.");
+  assert.notEqual(value.length, 0, "The TypeScript entrypoint must be non-empty.");
+  assert.equal(isAbsolute(value), true, "The TypeScript entrypoint must be absolute.");
+
+  const entrypoint = plainRegularFileRealPath(value, "The TypeScript entrypoint");
+  if (supplied) {
+    assert.equal(
+      isOutsideRoot(ROOT, entrypoint),
+      true,
+      "The host-supplied TypeScript entrypoint must resolve outside the candidate source.",
+    );
+  }
+  return entrypoint;
+}
+
+const TYPESCRIPT_ENTRYPOINT = resolveTypeScriptEntrypoint(process.env);
 const npmCacheSupplies = Object.entries(process.env)
   .filter(([key]) => key.toLowerCase() === "npm_config_cache")
   .map(([, value]) => value);
@@ -1153,7 +1195,7 @@ try {
   run(
     process.execPath,
     [
-      join(ROOT, "node_modules", "typescript", "bin", "tsc"),
+      TYPESCRIPT_ENTRYPOINT,
       "--ignoreConfig",
       "--strict",
       "--module",

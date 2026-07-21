@@ -2,7 +2,7 @@
   "apiVersion": "swecircuit/specialist/v1alpha1",
   "kind": "GoalContract",
   "id": "v11.specialist-compiler.release",
-  "revision": 37,
+  "revision": 39,
   "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit with an exact external verification receipt, a hardened first-run reference host, self-sufficient generated handoff contracts, publicly closed specialist schemas, deterministic artifact media and normalized evidence controls, exact candidate analysis, raw handoff and dependency fan-in verification, canonical gates, traceable integration, and owner merge gate without claiming runtime orchestration.",
   "integrationOwner": "v11.integration-owner",
   "assumptions": [
@@ -290,8 +290,8 @@
       "id": "context.consumer-check",
       "kind": "repository",
       "locator": "path:scripts/check-packed-consumer.mjs",
-      "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
-      "bytes": 44049,
+      "digest": "sha256:911e617037a4b9aab715a4bbe6b7f8afb6a48ac240b42c6d76e550165835b19b",
+      "bytes": 45720,
       "description": "Offline installed-package verification that compiles and executes the public TypeScript host, asserts its structured receipt, and verifies retained approval.",
       "allowedWorkUnits": [
         "prepare.candidate",

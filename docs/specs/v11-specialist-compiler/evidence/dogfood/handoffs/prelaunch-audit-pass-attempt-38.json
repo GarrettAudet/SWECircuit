@@ -1,0 +1,64 @@
+{
+  "apiVersion": "swecircuit/prelaunch-audit-handoff/v1alpha1",
+  "kind": "PrelaunchAuditHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 38,
+    "digest": "sha256:9c223332d02d61725b1c0afe83af3cbe3e684d1110f66760ae528a199192f1fd"
+  },
+  "agent": {
+    "id": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:0c6bafb4d3008e5e957cf24682b6e363fde1ee35fa7114895f1aa236551859a2"
+  },
+  "compilationDigest": "sha256:8fe3965dc75b6894bfc4701be32351ddd72f13b17450e8426ba9593a55f4f15a",
+  "reviewer": {
+    "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:0c6bafb4d3008e5e957cf24682b6e363fde1ee35fa7114895f1aa236551859a2"
+  },
+  "candidate": {
+    "compilationDigest": "sha256:30489eed5494663eb47344da10ac9feb30c23b882631d666e1a415b4700aacd3",
+    "packageDigest": "sha256:44a7875f6940a59479b8b9e4d9abbfbeb978bad26ce039f3dda116d19741a63a"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:8fe3965dc75b6894bfc4701be32351ddd72f13b17450e8426ba9593a55f4f15a",
+    "packageDigest": "sha256:0f13bcc14c2d2a8c794d0a1075c17ec128d8de5e64cdfd0ecde135d04e29d7d7"
+  },
+  "summary": "PASS: independently reconstructed Candidate A exact compilation and nine-file package, reproduced the exhaustive selection and schedule, and found no selection, authority, evidence, digest, or rendered-contract discrepancy.",
+  "workUnitsCompleted": [
+    "audit.review-candidate-compilation"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-compilation-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Compilation Review\n\nOutcome: `PASS`\n\n## Inputs\n\n- All 60 declared Audit B context items matched their exact raw SHA-256 digests and byte counts; the 50 shared source bindings also matched Candidate A declarations.\n- The verified dependency handoff matched 10,443 bytes and raw sha256:c3329843d8e1c713b4bee0bd02b131c203ab163a1112aa65140ff6a53f140616. Its closed binder artifact authenticated all 10 Candidate A artifacts and reported every bounded check true.\n- The external receipt matched 2,255 bytes and raw sha256:eb6011319d6f877a6aa6c674115234393d74a35c243c9f0f2c32e31c776cbd37. Independent strict duplicate-aware parsing confirmed its closed shape, PASS outcomes, exact Candidate A and Audit B pairs, exact binder and reviewer identities, manifest-order waves, and candidateLaunchApproved: false.\n\n## Reproduction\n\n- An independent implementation of the published canonical digest, exhaustive partition, fixed scheduler, blueprint, manifest, and package formulas reconstructed Candidate A from the frozen normalized goal and proposals.\n- Exactly 203 canonical partitions were evaluated and 52 were eligible. The selected team was team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d with projected makespan 23; the serial baseline was ineligible only for evidence_independence.\n- Proposal evaluations, eight retained alternatives, evaluation-set digest, authority projection, six blueprints, launch waves, selection reason, and complete canonical compilation all matched. The reproduced compilation digest was sha256:30489eed5494663eb47344da10ac9feb30c23b882631d666e1a415b4700aacd3.\n- Independent rendering matched all nine package files byte for byte, including manifest content digest sha256:cd0480f49bf08b326753b5e093aa65c1e10f955e51a0b07d2eedcbd17ac5ed0f and package digest sha256:44a7875f6940a59479b8b9e4d9abbfbeb978bad26ce039f3dda116d19741a63a.\n\n## Semantic Review\n\n- Revision 38 has no blocking unresolved decision. Six task-specific work units cover candidate binding, algorithm review, product review, security review, release verification, and integration without merge authority.\n- Four acceptance criteria contain eight evidence requirements, each with exactly one owner. Every requested independent review or verification is assigned to an agent distinct from its criterion producer.\n- Every selected blueprint is an exact narrowing of the reviewed goal for work, Module ports, dependencies, context, capabilities, scopes, permissions, evidence, artifacts, and stop conditions. No provider, model, runtime profile, prompt, executor, credential, network, approval, or launch authority was introduced.\n- The schedule respects every dependency, handoff cost, conflict gate, and maxConcurrency 4: candidate preparation runs at 0-3, four independent lanes start at 4 and finish by 16, and integration runs at 17-23.\n- The manifest, integration contract, and six generated contracts preserve the exact compilation and blueprint identities and concrete handoff bindings.\n\nNo selection, authority, evidence, schedule, digest, package, or rendered-contract claim differed. Candidate A remains unapproved and unlaunched."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Runtime supply, workspace isolation, and permission enforcement remain external host duties; this review proves package semantics and bindings only."
+  ],
+  "followUps": [
+    "Preserve and validate this exact raw handoff in the cross-package launch authorization, then separately approve and verify Candidate A before any launch."
+  ]
+}

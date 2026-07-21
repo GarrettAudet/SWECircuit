@@ -1,6 +1,16 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { access, mkdir, mkdtemp, readFile, rmdir, rm, writeFile } from "node:fs/promises";
+import {
+  access,
+  mkdir,
+  mkdtemp,
+  readFile,
+  realpath,
+  rm,
+  rmdir,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import test from "node:test";
@@ -10,11 +20,13 @@ import { RELEASE_GATE_TEST_HOOKS } from "../scripts/run-v12-release-gate.mjs";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const RELEASE_GATE_PATH = join(ROOT, "scripts/run-v12-release-gate.mjs");
+const PACKED_CONSUMER_PATH = join(ROOT, "scripts/check-packed-consumer.mjs");
 const REVIEW_HARNESS_PATH = join(
   ROOT,
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
 );
 const releaseGateSource = await readFile(RELEASE_GATE_PATH, "utf8");
+const packedConsumerSource = await readFile(PACKED_CONSUMER_PATH, "utf8");
 const reviewHarnessSource = await readFile(REVIEW_HARNESS_PATH, "utf8");
 
 function runGit(args) {
@@ -50,6 +62,92 @@ async function pathExists(path) {
     throw error;
   }
 }
+
+test("host TypeScript entrypoint supply is singular, plain, absolute, and external", async () => {
+  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-entrypoint-"));
+  const candidateRoot = join(root, "candidate");
+  const hostRoot = join(root, "host");
+  const hostEntrypoint = join(hostRoot, "tsc.mjs");
+  const candidateEntrypoint = join(candidateRoot, "tsc.mjs");
+  const symbolicEntrypoint = join(root, "typescript-link");
+  const environmentKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
+  const resolveSupply = (environment) =>
+    RELEASE_GATE_TEST_HOOKS.resolveHostTypeScriptEntrypoint(environment, candidateRoot);
+
+  try {
+    await mkdir(candidateRoot);
+    await mkdir(hostRoot);
+    await writeFile(hostEntrypoint, "export {};\n", "utf8");
+    await writeFile(candidateEntrypoint, "export {};\n", "utf8");
+    await symlink(
+      process.platform === "win32" ? hostRoot : hostEntrypoint,
+      symbolicEntrypoint,
+      process.platform === "win32" ? "junction" : "file",
+    );
+
+    const defaultEntrypoint = resolveSupply({});
+    assert.equal(isAbsolute(defaultEntrypoint), true);
+    const defaultFromCandidate = relative(candidateRoot, defaultEntrypoint);
+    assert.equal(
+      isAbsolute(defaultFromCandidate) ||
+        defaultFromCandidate === ".." ||
+        defaultFromCandidate.startsWith("../") ||
+        defaultFromCandidate.startsWith("..\\"),
+      true,
+    );
+
+    assert.equal(
+      resolveSupply({ [environmentKey.toLowerCase()]: hostEntrypoint }),
+      await realpath(hostEntrypoint),
+    );
+    assert.throws(
+      () =>
+        resolveSupply({
+          [environmentKey]: hostEntrypoint,
+          [environmentKey.toLowerCase()]: hostEntrypoint,
+        }),
+      /at most once/u,
+    );
+    assert.throws(() => resolveSupply({ [environmentKey]: "" }), /non-empty/u);
+    assert.throws(() => resolveSupply({ [environmentKey]: "relative/tsc.mjs" }), /absolute/u);
+    assert.throws(() => resolveSupply({ [environmentKey]: join(hostRoot, "missing.mjs") }), {
+      code: "ENOENT",
+    });
+    assert.throws(() => resolveSupply({ [environmentKey]: hostRoot }), /plain regular file/u);
+    assert.throws(() => resolveSupply({ [environmentKey]: symbolicEntrypoint }), /symbolic link/u);
+    assert.throws(
+      () => resolveSupply({ [environmentKey]: candidateEntrypoint }),
+      /outside the candidate materialization/u,
+    );
+  } finally {
+    await rm(root, { force: true, recursive: true });
+  }
+});
+
+test("packed consumer validates and uses the TypeScript entrypoint supply", () => {
+  assert.match(packedConsumerSource, /supplies\.length <= 1/u);
+  assert.match(packedConsumerSource, /const stats = lstatSync\(path\);/u);
+  assert.match(packedConsumerSource, /stats\.isSymbolicLink\(\)/u);
+  assert.match(packedConsumerSource, /stats\.isFile\(\)/u);
+  assert.match(packedConsumerSource, /isOutsideRoot\(ROOT, entrypoint\)/u);
+  assert.match(
+    packedConsumerSource,
+    /const TYPESCRIPT_ENTRYPOINT = resolveTypeScriptEntrypoint\(process\.env\);/u,
+  );
+
+  const compilationStart = packedConsumerSource.indexOf(
+    `  run(\n    process.execPath,\n    [\n      TYPESCRIPT_ENTRYPOINT,`,
+  );
+  const compilationEnd = packedConsumerSource.indexOf("  const typedHostOutput", compilationStart);
+  assert.notEqual(compilationStart, -1);
+  assert.ok(compilationEnd > compilationStart);
+  const compilationSource = packedConsumerSource.slice(compilationStart, compilationEnd);
+  assert.match(compilationSource, /\[\s*TYPESCRIPT_ENTRYPOINT,\s*"--ignoreConfig"/u);
+  assert.doesNotMatch(
+    compilationSource,
+    /join\(ROOT, "node_modules", "typescript", "bin", "tsc"\)/u,
+  );
+});
 
 test("candidate materialization excludes and detects uncommitted verification inputs", async () => {
   const candidateCommit = runGit(["rev-parse", "--verify", "HEAD"]);
@@ -163,6 +261,23 @@ test("candidate Git context is disposable, exact, and usable from the materializ
       cacheFromMaterialization === ".." ||
         cacheFromMaterialization.startsWith("../") ||
         cacheFromMaterialization.startsWith("..\\"),
+      true,
+    );
+    const typeScriptKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
+    assert.deepEqual(
+      Object.keys(environment).filter((key) => key.toLowerCase() === typeScriptKey.toLowerCase()),
+      [typeScriptKey],
+    );
+    assert.equal(isAbsolute(environment[typeScriptKey]), true);
+    const typeScriptFromMaterialization = relative(
+      materialization.root,
+      environment[typeScriptKey],
+    );
+    assert.equal(
+      isAbsolute(typeScriptFromMaterialization) ||
+        typeScriptFromMaterialization === ".." ||
+        typeScriptFromMaterialization.startsWith("../") ||
+        typeScriptFromMaterialization.startsWith("..\\"),
       true,
     );
     assert.notEqual(resolve(environment.GIT_DIR), resolve(liveGitDirectory));

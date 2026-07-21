@@ -263,3 +263,27 @@ Both exact Revision 12 specialist handoffs pass and their complete fan-in is rea
 ### Residual Gate
 
 Candidate 5 remains retired. Candidate 6 must commit the corrected bytes, pass the exact candidate gate from its own materialized tree, and complete a fresh three-reviewer R2 package before release.
+
+## Candidate 6 Host Toolchain Supply RCA
+
+### Reproduction
+
+Candidate 6 preserved an exact 2,008-file source materialization before and after the canonical command and passed every earlier verification stage. The installed-consumer gate then failed because it resolved TypeScript under the candidate root, which intentionally contains committed source and no `node_modules`.
+
+### Confirmed Root Cause
+
+The release host already supplied external npm cache and executable search paths, but `scripts/check-packed-consumer.mjs` bypassed that host boundary for TypeScript and constructed a candidate-local compiler path. Source identity and runtime toolchain supply were still conflated for one final executable.
+
+### Causal Correction
+
+Revision 13 adds a closed `SWECIRCUIT_TYPESCRIPT_ENTRYPOINT` host input. The release gate normalizes it to one case-insensitive key and requires an absolute plain regular non-symlink file resolving outside the candidate. The consumer repeats those checks when supplied, uses the verified file for compilation, and retains its repository-local default for ordinary development.
+
+### Regression Coverage
+
+All 9 release-gate tests pass, covering local default, canonical normalized supply, duplicate case variants, empty, relative, missing, directory, symbolic-link, and candidate-contained paths plus exact materialization and Git-context invariants. Offline installed-package verification also passes.
+
+### Closure And Durable Learning
+
+The exact Revision 13 handoff verifies `pass`, and V11 Revision 39 independently rebuilds and approves the final formatted consumer source through its complete two-package trust chain. Candidate 6 remains retired. Candidate 7 must prove the corrected runtime supply from its own committed materialization before R2 review.
+
+Runtime dependencies required to verify exact source must be explicit host inputs. A dependency-free candidate should never be made impure merely to satisfy the verifier that authenticates it.

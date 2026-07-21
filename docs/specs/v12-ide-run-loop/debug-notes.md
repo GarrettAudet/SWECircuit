@@ -2,7 +2,7 @@
 
 ## Status
 
-No active product defect. Release-correction revisions 6 through 8 and V11 trust-root revision 35 pass. Candidate 2 is retired after a passing canonical gate and a fail-closed R2 preparation check. Candidate 3 freeze, canonical verification, and R2 review remain.
+No active known product defect. Candidates 4, 5, and 6 are retired with exact evidence. Revision 13 and V11 trust-root Revision 38 pass. Candidate 7 freeze, canonical verification, and complete R2 review remain.
 
 ## Reproduction
 
@@ -501,3 +501,39 @@ Retire Candidate 5. Revision 12 must require byte-stable V11 context sources, bi
 - Focused release-gate tests pass 7/7. V11 and first-run tests pass 38/38. A deliberate empty-cache consumer probe returned `ENOTCACHED`; the intended warm external cache passed package and consumer checks.
 - V11 Revision 37 completed its two-phase audit. Candidate A, Audit B, the 2,255-byte external receipt, 7,492-byte dependency handoff, 7,602-byte independent semantic `pass`, 984-byte authorization, and full evidence replay all verify.
 - Route: `pass` for correction integration and V11 trust replay. Freeze Candidate 6; do not reuse Candidate 5.
+
+## Candidate 6 Exact Gate
+
+- Command: `node scripts/run-v12-release-gate.mjs 0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7`.
+- Result: `fail` after all earlier canonical stages passed.
+- Exact source and post-command digests match at `sha256:6bea9eb4e708b506577f3cee47ca36aba9f75abfcb1e660c4569387e3efdacf3`; disposable Git context, live repository state, inspection, and cleanup all pass.
+- The installed consumer invoked `ROOT/node_modules/typescript/bin/tsc` inside the intentionally dependency-free candidate materialization.
+- Receipt and raw logs are immutable under `evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/`.
+- Route: `diagnose`, then `fix`. Candidate 6 is retired and must never be rerun.
+
+## Revision 13 Integration And V11 Revision 38
+
+- Revision 13 selected one specialist because the correction is one atomic three-file responsibility; its exact package and 5,319-byte raw handoff verify `pass`.
+- The host validates and supplies one TypeScript entrypoint outside candidate source; the child independently validates and consumes it. Ordinary local runs default to the local installation.
+- Syntax, `git diff --check`, the offline installed consumer, and all 9 focused release-gate tests pass.
+- V11 Revision 38 rebuilt all 58 source bindings. Candidate A, Audit B, the 2,255-byte external receipt, 10,443-byte binder, 5,827-byte independent semantic `pass`, 984-byte authorization, 31/31 focused tests, and complete evidence replay all verify.
+- Route: `pass` for correction integration and V11 trust replay. Freeze Candidate 7; do not reuse Candidate 6.
+## Revision 13 Pre-Freeze Formatting Drift
+
+### Reproduction
+
+Run `npm.cmd run verify` after Revision 13 integration. The command stops at `format:check` before lint or tests and names exactly `scripts/check-packed-consumer.mjs`, `scripts/run-v12-release-gate.mjs`, and `test/v12-release-gate.test.mjs`.
+
+### Classification
+
+Integration quality-gate mismatch. The specialist's focused behavior and consumer checks passed, but its emitted source bytes had not received the repository's deterministic formatter. No Candidate 7 identity existed, so no candidate was retired.
+
+### Correction And Evidence
+
+Biome formatted only the three named files and organized two import lists. The 9 focused release-gate tests pass in 188.6 seconds; the offline installed consumer, format, lint, typecheck, all 405 kernel tests, 31 V11 trust tests, and the complete checker mutation matrix pass.
+
+Formatting changed the V11-bound consumer source, so Revision 38 could no longer authenticate the final integrated bytes. Revision 39 rebuilt Candidate A and Audit B, preserved an exact 9,342-byte binder and 8,798-byte independent semantic `pass`, validated the 984-byte cross-package authorization, and passed complete evidence replay.
+
+### Route
+
+`fix` -> `learn` -> `pass`. The aggregate pre-freeze gate passes in 235.7 seconds. Freeze Candidate 7 next; do not reuse Candidate 6 or represent Revision 38 as the current source identity.

@@ -1,0 +1,60 @@
+{
+  "apiVersion": "swecircuit/prelaunch-audit-handoff/v1alpha1",
+  "kind": "PrelaunchAuditHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 39,
+    "digest": "sha256:1bf5636c12eed2bcc104a13dd919f712723a744ee6286528a6c52691684486e4"
+  },
+  "agent": {
+    "id": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:124e941b7999bfc92aafdcc4002818a5297b5c348d308a0026cea4ff2f3f8c55"
+  },
+  "compilationDigest": "sha256:39244b4af9521a5b581594185ff0505c1527950a83798f0bab7a5f2711fe87e7",
+  "reviewer": {
+    "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+    "blueprintDigest": "sha256:124e941b7999bfc92aafdcc4002818a5297b5c348d308a0026cea4ff2f3f8c55"
+  },
+  "candidate": {
+    "compilationDigest": "sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509",
+    "packageDigest": "sha256:9ea35d987ed1880698069bd143fd4b1455e33e81f0e6c2953ae3a6ffe0dcf8c0"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:39244b4af9521a5b581594185ff0505c1527950a83798f0bab7a5f2711fe87e7",
+    "packageDigest": "sha256:ebc7f8889659b8c209f0034458f4b7a96ae1bbdbcd3cc3523007a97004b72477"
+  },
+  "summary": "PASS: independently reproduced Candidate A's exact search, selection, schedule, authority and evidence projections, domain identities, and all nine rendered files; no mismatch or authority widening was found.",
+  "workUnitsCompleted": [
+    "audit.review-candidate-compilation"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-compilation-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Compilation Review\n\nOutcome: `PASS`\n\n## Authentication\n\nAll 60 declared Audit B context items matched their raw SHA-256 digests and byte counts. Candidate A's two compilation copies and eight other declared package sources authenticated exactly.\n\nThe external verification receipt authenticated at 2,255 bytes with raw digest `sha256:139b9313a3eebf88190c934c8b9905937f1fec32cc686920fe728152a301fb98`. It is closed, reports `pass`, binds the exact Candidate A and Audit B digest pairs, binds this reviewer contract at 46,700 bytes with raw digest `sha256:7711e41f6a9894fa3e1c210ecacf3b228af2a5f8903d6d6167cec6513a8cd92c`, and retains `candidateLaunchApproved: false`.\n\nThe dependency handoff authenticated at 9,342 bytes with raw digest `sha256:a9188ce7ede41ba90933c87b472ea59b13f171e1b73586deb5f8b0f697109f59`. Its independently recomputed semantic digest is `sha256:9bd15c177a12a8b42a2c942be58899a136a933b1f9dd29ab10ab86a7ece2db1d` and verified-handoff content digest is `sha256:212eca449257cfef0831b3252c606a9d751659999831760d839a5b008e4d125c`. The supplied public fan-in assessment names only the required binder dependency and reports `integrationReady: true`. Binder prose was used only as an authenticated binding, not as semantic review evidence.\n\n## Search And Selection\n\nA fresh compilation from the frozen normalized goal and both proposals returned no diagnostics and reproduced the stored compilation object exactly. The goal digest is `sha256:b44b9c0016cd12e0fd5622070a66bfbf987b24715a15a74ce11fc757ad625bf4`; the compilation digest is `sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509`.\n\nAn independent set-partition enumerator reproduced all 203 canonical partitions for six work units under `maxAgents: 6`, with 52 eligible candidates. It reproduced evaluation-set digest `sha256:358cb1341bd71d20cde233ab53456a4b1f2aeabda767bf766abbadddcef5a332` and the complete selected evaluation exactly. Therefore `search.mode: exact` and `search.claim: exhaustive_partition_search_fixed_scheduler` are accurate within the reviewed fixed-work-unit and fixed-scheduler boundary.\n\nThe serial baseline `team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696` is correctly ineligible for `evidence_independence` and has projected makespan 40. The selected singleton partition `team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d` is eligible and is the unique minimum-makespan candidate at 23; the next ranked eligible candidate has makespan 26. The machine-readable `serial_ineligible` selection reason is therefore correct.\n\nSelected metrics reproduced exactly: six agents, makespan 23, peak concurrency 4, zero conflict pairs, eight handoffs, 2,224,306 duplicated context bytes, 154 duplicated permission scopes, work weight 38, startup cost 12, and handoff cost 8.\n\n## Schedule\n\nThe fixed schedule reproduced exactly: candidate preparation runs 0-3; algorithm review runs 4-16; product review runs 4-14; release verification runs 4-11; security review runs 4-16; integration runs 17-23. The three launch waves at starts 0, 4, and 17 respect all dependency edges, handoff cost 1, maximum concurrency 4, and exact conflict checks.\n\n## Authority And Evidence\n\nIndependent projection from the selected work units reproduced all six blueprints and their domain-separated digests exactly. Every work unit appears once. Modules and capabilities remain within the GoalContract allowlists; filesystem scopes and process demands remain within the permission ceiling; repository locators are relative, segment-safe, covered by declared read scopes, and assigned only to allowed work units. Blueprint read, write, conflict, permission, dependency, context, handoff, and stop-condition sets introduce no authority widening. All forbidden effects are retained.\n\nAll eight evidence requirements are owned exactly once. Candidate preparation owns the algorithm, product, and security producer duties. Separate agents own algorithm review, product review, and security review. Release verification and release-record integration are also separate. Every requested producer/checker independence condition is satisfied.\n\nEach rendered agent contract embeds its exact compilation blueprint, carries the correct compilation and blueprint headers, and contains a standard handoff example bound to the exact work units, artifacts, and evidence duties.\n\n## Digests And Rendered Package\n\nThe selected candidate digest is `sha256:428ec22a642a0cfce6a9424a92a072b01c790fdadd3a6de978c8f904b73d3ce7`. The manifest content digest is `sha256:2c0a501d58772580e2a4c7f9564f0f1df1c15a39eabcdf4edeace671f7da3c80`. The reconstructed package digest is `sha256:9ea35d987ed1880698069bd143fd4b1455e33e81f0e6c2953ae3a6ffe0dcf8c0`.\n\nAll nine rerendered files matched exact content, byte count, and raw SHA-256:\n\n- `agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md`: 19,438 bytes, `sha256:7618323b8b782fbcdb86608aea7e7cfcec2c263b53643ab2d1eb6926be0fe876`.\n- `agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md`: 11,691 bytes, `sha256:f88b803de462d463cce57794005457397382ca1cb8acc5578c3187c545a6d09d`.\n- `agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md`: 24,269 bytes, `sha256:feeff70bed62e2e3431b65f75af2b226381a45c60ece4025b1dc876fcd723cea`.\n- `agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md`: 27,800 bytes, `sha256:987c556b320a0cb5fb5931b9675ce2d65531ad56e05ff24cc12cb21d58058189`.\n- `agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md`: 34,300 bytes, `sha256:8a8f01947d43b679e46b832fafacf8d1aae2b7b3847df709105ab45f40e71f54`.\n- `agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md`: 37,515 bytes, `sha256:ee0228d222af21de62a248e57fb5e6248db86631662389157dca27bcc3fc668f`.\n- `compilation.json`: 319,450 bytes, `sha256:e72139cd6f7a1f00771776480629fa2c659710808e83dc3eda46ded4015a97c8`.\n- `integration.md`: 8,161 bytes, `sha256:e0ba123c5c98720dca21454add775a379cc04b893e4040b18e7a48674d5cb5d4`.\n- `manifest.json`: 4,203 bytes, `sha256:9e152f65666994ca5464066f2eb1b8abb40b8e2cbda71206736248e09489ef2a`.\n\n`verifySpecialistPackage` returned no diagnostics against the trusted Candidate A digest pair. No selection, schedule, authority, evidence, digest, manifest, contract, or package discrepancy was found. This semantic PASS neither approves nor launches Candidate A."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "candidate-compilation-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}

@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: Candidates 4 and 5 are retired. Revision 12 corrects checkout-dependent V11 evidence and candidate-local runtime state; its two exact specialist handoffs pass. V11 Revision 37 now has a verified two-package trust chain. Candidate 6 freeze, its exact canonical gate, and a complete fresh R2 review remain.
+T006 in progress: Candidates 4, 5, and 6 are retired. Revision 13 closes Candidate 6's missing host TypeScript supply; its exact specialist handoff and 9/9 focused regressions pass, and deterministic formatting is integrated. V11 Revision 39 now has a verified two-package trust chain. The aggregate pre-freeze gate passes in 235.7 seconds; Candidate 7 freeze, its exact canonical gate, and a complete fresh R2 review remain.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 in progress: Candidates 4 and 5 are retired. Revision 12 corrects checkout-
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Candidate 3 again routed `fix`; revisions 1-10 now preserve the correction chain, and the replacement R2 wave remains pending.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Candidate 3 routed `fix`; revisions 1-13 preserve every correction and retired candidate, and the Candidate 7 R2 wave remains pending.
 
 ## Out Of Scope
 

@@ -1,0 +1,927 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 13,
+    "objective": "Retire Candidate 6 and make exact-candidate installed-consumer verification use an explicit host-owned TypeScript entrypoint outside authenticated candidate source.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.candidate-six-immutable",
+        "statement": "Candidate 6 and its failed receipt and logs are immutable historical evidence and can never authorize release.",
+        "rationale": "The correction changes source and requires a new candidate identity."
+      },
+      {
+        "id": "assumption.external-toolchain-supply",
+        "statement": "Installed development tools are host runtime supply and do not belong in exact candidate source.",
+        "rationale": "Git materialization intentionally contains committed source only."
+      },
+      {
+        "id": "assumption.host-edit-fallback",
+        "statement": "After native apply_patch fails before mutation, the host may use an exact precondition-hash-guarded write inside approved scope.",
+        "rationale": "The active temporary worktree is not writable through the native patch helper."
+      },
+      {
+        "id": "assumption.local-default",
+        "statement": "Ordinary repository verification may default to its repository-local TypeScript installation when no explicit host supply exists.",
+        "rationale": "Local developer ergonomics remain unchanged outside exact release materialization."
+      },
+      {
+        "id": "assumption.v11-rebuild",
+        "statement": "The integration owner will independently rebuild affected V11 evidence as Revision 38 after source integration.",
+        "rationale": "The implementing specialist cannot authorize its own source changes."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.fix.candidate-toolchain-supply.r13",
+        "description": "The canonical candidate child consumes a validated host-owned TypeScript entrypoint outside the materialization, while ordinary local consumer verification retains a safe repository-local default.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.candidate-toolchain-supply.r13",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Prove closed host supply, regular-file validation, outside-candidate containment, consumer usage, focused regressions, local consumer compatibility, and unchanged exact-source inspection.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.candidate-six-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json",
+        "digest": "sha256:2df9659f79756dfe26f659abaaabcdb31150d9275eebdac01bef55b369f85d9c",
+        "bytes": 2295,
+        "description": "Exact Candidate 6 canonical gate receipt.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.candidate-six-retirement",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md",
+        "digest": "sha256:5a6d3e8262856b5a0c3a4a78dd6ef42a8a0b77cee82db740c983add352a9498a",
+        "bytes": 1292,
+        "description": "Immutable Candidate 6 retirement route.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md"
+      },
+      {
+        "id": "context.candidate-six-stderr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log",
+        "digest": "sha256:4cfd6815e2a9db4b05b103c8d3bcfcfbbce07ac56dfc167895307e96b0bb3262",
+        "bytes": 27686,
+        "description": "Exact Candidate 6 failure output.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log"
+      },
+      {
+        "id": "context.consumer-check",
+        "kind": "repository",
+        "locator": "path:scripts/check-packed-consumer.mjs",
+        "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+        "bytes": 44049,
+        "description": "Installed-consumer host verification and TypeScript compilation path.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "scripts/check-packed-consumer.mjs"
+      },
+      {
+        "id": "context.correction-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md",
+        "digest": "sha256:90edff1aa01e209ce5011f9397cb45ec2def3b7ef8b22e925f5b996307ca8e5e",
+        "bytes": 1861,
+        "description": "Frozen Candidate 6 causal correction contract.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.npmrc",
+        "kind": "repository",
+        "locator": "path:.npmrc",
+        "digest": "sha256:37fc8961e7e93e7c88c1c82e9176611208af2cbee71ff0023bbf809df0d7f5ee",
+        "bytes": 23,
+        "description": "Repository-local npm cache default.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": ".npmrc"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+        "bytes": 2931,
+        "description": "Canonical package and consumer commands.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:5f69e29be75ad68b16a249b9bf58b3800c867a254d618aa6156151d2b84001d7",
+        "bytes": 29597,
+        "description": "Exact candidate materialization and host runtime supply.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-gate.test.mjs",
+        "digest": "sha256:a41a4ceca55c78de46557e4248e1b066849c94c7caf9e33a62b2fd4f78a69314",
+        "bytes": 11488,
+        "description": "Focused exact-candidate and host-supply regressions.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md",
+        "digest": "sha256:bef21b15ae2999faa5209421c4556e1e2e34e180796c50f39476d5883deeb16f",
+        "bytes": 957,
+        "description": "Frozen Revision 13 regression and release plan.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "correction.candidate-toolchain-supply"
+      ],
+      "allowedCapabilities": [
+        "fix.candidate-toolchain-supply"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            ".npmrc",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log",
+            "package.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not use network access, change Git state, launch other agents, write outside the exact scope, create candidate-local dependency trees, weaken exact materialization inspection, or regenerate V11 trust evidence."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.candidate-toolchain-supply.r13",
+        "objective": "Supply and consume one validated external TypeScript entrypoint for clean exact-candidate installed-consumer verification.",
+        "weight": 5,
+        "module": {
+          "id": "correction.candidate-toolchain-supply",
+          "action": "Add a closed host TypeScript entrypoint supply, validate it as an absolute plain regular file outside the candidate when host-supplied, preserve the local default, and cover the exact canonical path.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "CandidateConsumerMissingHostToolchain"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "ExternallySuppliedCandidateConsumerToolchain"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.candidate-toolchain-supply"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.candidate-six-receipt",
+            "purpose": "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          },
+          {
+            "sourceId": "context.candidate-six-retirement",
+            "purpose": "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          },
+          {
+            "sourceId": "context.candidate-six-stderr",
+            "purpose": "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          },
+          {
+            "sourceId": "context.consumer-check",
+            "purpose": "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          },
+          {
+            "sourceId": "context.correction-contract",
+            "purpose": "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          },
+          {
+            "sourceId": "context.npmrc",
+            "purpose": "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          },
+          {
+            "sourceId": "context.release-gate",
+            "purpose": "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          },
+          {
+            "sourceId": "context.release-gate-tests",
+            "purpose": "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          }
+        ],
+        "scope": {
+          "read": [
+            ".npmrc",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log",
+            "package.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs"
+          ],
+          "write": [
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs"
+          ],
+          "conflictZones": [
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".npmrc",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log",
+              "package.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/run-v12-release-gate.mjs",
+              "test/v12-release-gate.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "scripts/check-packed-consumer.mjs",
+              "scripts/run-v12-release-gate.mjs",
+              "test/v12-release-gate.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.candidate-toolchain-supply.r13"
+        ],
+        "handoffArtifacts": [
+          "candidate-toolchain-supply-r13.md"
+        ],
+        "stopConditions": [
+          "Do not use network access, change Git state, launch agents, weaken exact inspection, or regenerate V11 evidence.",
+          "If native apply_patch fails before mutation, use only an exact precondition-hash-guarded write and verify resulting bytes immediately.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+          "Run every focused command in the test plan and report failures truthfully.",
+          "Stop if any declared source fails its exact raw digest and byte binding.",
+          "Write only the declared scope and do not create or link node_modules inside candidate source."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:96b6eaddcdd6242b9860f444ff6fb33e64919c8c9962e1ce584b815ba4a0dcf2",
+  "proposedCandidates": [],
+  "proposalEvaluations": [],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v12.ide-run-loop.implementation.release-correction",
+    "goalRevision": 13,
+    "allowedModules": [
+      "correction.candidate-toolchain-supply"
+    ],
+    "allowedCapabilities": [
+      "fix.candidate-toolchain-supply"
+    ],
+    "contextSources": [
+      {
+        "id": "context.candidate-six-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json",
+        "digest": "sha256:2df9659f79756dfe26f659abaaabcdb31150d9275eebdac01bef55b369f85d9c",
+        "bytes": 2295,
+        "description": "Exact Candidate 6 canonical gate receipt.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.candidate-six-retirement",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md",
+        "digest": "sha256:5a6d3e8262856b5a0c3a4a78dd6ef42a8a0b77cee82db740c983add352a9498a",
+        "bytes": 1292,
+        "description": "Immutable Candidate 6 retirement route.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md"
+      },
+      {
+        "id": "context.candidate-six-stderr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log",
+        "digest": "sha256:4cfd6815e2a9db4b05b103c8d3bcfcfbbce07ac56dfc167895307e96b0bb3262",
+        "bytes": 27686,
+        "description": "Exact Candidate 6 failure output.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log"
+      },
+      {
+        "id": "context.consumer-check",
+        "kind": "repository",
+        "locator": "path:scripts/check-packed-consumer.mjs",
+        "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+        "bytes": 44049,
+        "description": "Installed-consumer host verification and TypeScript compilation path.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "scripts/check-packed-consumer.mjs"
+      },
+      {
+        "id": "context.correction-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md",
+        "digest": "sha256:90edff1aa01e209ce5011f9397cb45ec2def3b7ef8b22e925f5b996307ca8e5e",
+        "bytes": 1861,
+        "description": "Frozen Candidate 6 causal correction contract.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.npmrc",
+        "kind": "repository",
+        "locator": "path:.npmrc",
+        "digest": "sha256:37fc8961e7e93e7c88c1c82e9176611208af2cbee71ff0023bbf809df0d7f5ee",
+        "bytes": 23,
+        "description": "Repository-local npm cache default.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": ".npmrc"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+        "bytes": 2931,
+        "description": "Canonical package and consumer commands.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:5f69e29be75ad68b16a249b9bf58b3800c867a254d618aa6156151d2b84001d7",
+        "bytes": 29597,
+        "description": "Exact candidate materialization and host runtime supply.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-gate.test.mjs",
+        "digest": "sha256:a41a4ceca55c78de46557e4248e1b066849c94c7caf9e33a62b2fd4f78a69314",
+        "bytes": 11488,
+        "description": "Focused exact-candidate and host-supply regressions.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md",
+        "digest": "sha256:bef21b15ae2999faa5209421c4556e1e2e34e180796c50f39476d5883deeb16f",
+        "bytes": 957,
+        "description": "Frozen Revision 13 regression and release plan.",
+        "allowedWorkUnits": [
+          "fix.candidate-toolchain-supply.r13"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          ".npmrc",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log",
+          "package.json",
+          "scripts/check-packed-consumer.mjs",
+          "scripts/run-v12-release-gate.mjs",
+          "test/v12-release-gate.test.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "scripts/check-packed-consumer.mjs",
+          "scripts/run-v12-release-gate.mjs",
+          "test/v12-release-gate.test.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "node",
+          "npm",
+          "powershell"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not use network access, change Git state, launch other agents, write outside the exact scope, create candidate-local dependency trees, weaken exact materialization inspection, or regenerate V11 trust evidence."
+    ],
+    "maxAgents": 1,
+    "maxConcurrency": 1,
+    "contentDigest": "sha256:2ec06d384fa26c42f73ecce919818fdbc7d39c0d35697cc141c0a77b53baf92b"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:051af88be86ec6092f5e1df4c364d1797bc5483d8c045facd43228cb09b8d6e5"
+  },
+  "serialBaseline": {
+    "id": "team.a9a7a3c8007571debb74d715b6b76eeb75a15bbc37e876bf4bbeb0811993b344",
+    "partition": [
+      [
+        "fix.candidate-toolchain-supply.r13"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 6,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 5,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.ee3ab1e48b0732261eea826a1c11e3f8761c84630e3edad4da3e68569e909eb8",
+        "start": 0,
+        "finish": 6
+      }
+    ],
+    "contentDigest": "sha256:bbf88828688ac59378f636aebb824efc5a87394adae86d06a6968242997b0b7c"
+  },
+  "selected": {
+    "id": "team.a9a7a3c8007571debb74d715b6b76eeb75a15bbc37e876bf4bbeb0811993b344",
+    "partition": [
+      [
+        "fix.candidate-toolchain-supply.r13"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 6,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 5,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.ee3ab1e48b0732261eea826a1c11e3f8761c84630e3edad4da3e68569e909eb8",
+        "start": 0,
+        "finish": 6
+      }
+    ],
+    "contentDigest": "sha256:bbf88828688ac59378f636aebb824efc5a87394adae86d06a6968242997b0b7c"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.a9a7a3c8007571debb74d715b6b76eeb75a15bbc37e876bf4bbeb0811993b344",
+    "serialValue": "team.a9a7a3c8007571debb74d715b6b76eeb75a15bbc37e876bf4bbeb0811993b344",
+    "serialRejectionCodes": []
+  },
+  "alternatives": [],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.ee3ab1e48b0732261eea826a1c11e3f8761c84630e3edad4da3e68569e909eb8",
+      "goalId": "v12.ide-run-loop.implementation.release-correction",
+      "goalRevision": 13,
+      "goalDigest": "sha256:96b6eaddcdd6242b9860f444ff6fb33e64919c8c9962e1ce584b815ba4a0dcf2",
+      "candidateId": "team.a9a7a3c8007571debb74d715b6b76eeb75a15bbc37e876bf4bbeb0811993b344",
+      "workUnitIds": [
+        "fix.candidate-toolchain-supply.r13"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "fix.candidate-toolchain-supply.r13",
+          "objective": "Supply and consume one validated external TypeScript entrypoint for clean exact-candidate installed-consumer verification."
+        }
+      ],
+      "modules": [
+        {
+          "id": "correction.candidate-toolchain-supply",
+          "action": "Add a closed host TypeScript entrypoint supply, validate it as an absolute plain regular file outside the candidate when host-supplied, preserve the local default, and cover the exact canonical path.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "CandidateConsumerMissingHostToolchain"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "ExternallySuppliedCandidateConsumerToolchain"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.candidate-six-receipt",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json",
+          "digest": "sha256:2df9659f79756dfe26f659abaaabcdb31150d9275eebdac01bef55b369f85d9c",
+          "bytes": 2295,
+          "purposes": [
+            "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          ],
+          "workUnitIds": [
+            "fix.candidate-toolchain-supply.r13"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json"
+        },
+        {
+          "sourceId": "context.candidate-six-retirement",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md",
+          "digest": "sha256:5a6d3e8262856b5a0c3a4a78dd6ef42a8a0b77cee82db740c983add352a9498a",
+          "bytes": 1292,
+          "purposes": [
+            "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          ],
+          "workUnitIds": [
+            "fix.candidate-toolchain-supply.r13"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md"
+        },
+        {
+          "sourceId": "context.candidate-six-stderr",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log",
+          "digest": "sha256:4cfd6815e2a9db4b05b103c8d3bcfcfbbce07ac56dfc167895307e96b0bb3262",
+          "bytes": 27686,
+          "purposes": [
+            "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          ],
+          "workUnitIds": [
+            "fix.candidate-toolchain-supply.r13"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log"
+        },
+        {
+          "sourceId": "context.consumer-check",
+          "kind": "repository",
+          "locator": "path:scripts/check-packed-consumer.mjs",
+          "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
+          "bytes": 44049,
+          "purposes": [
+            "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          ],
+          "workUnitIds": [
+            "fix.candidate-toolchain-supply.r13"
+          ],
+          "readScope": "scripts/check-packed-consumer.mjs"
+        },
+        {
+          "sourceId": "context.correction-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md",
+          "digest": "sha256:90edff1aa01e209ce5011f9397cb45ec2def3b7ef8b22e925f5b996307ca8e5e",
+          "bytes": 1861,
+          "purposes": [
+            "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          ],
+          "workUnitIds": [
+            "fix.candidate-toolchain-supply.r13"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md"
+        },
+        {
+          "sourceId": "context.npmrc",
+          "kind": "repository",
+          "locator": "path:.npmrc",
+          "digest": "sha256:37fc8961e7e93e7c88c1c82e9176611208af2cbee71ff0023bbf809df0d7f5ee",
+          "bytes": 23,
+          "purposes": [
+            "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          ],
+          "workUnitIds": [
+            "fix.candidate-toolchain-supply.r13"
+          ],
+          "readScope": ".npmrc"
+        },
+        {
+          "sourceId": "context.package",
+          "kind": "repository",
+          "locator": "path:package.json",
+          "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+          "bytes": 2931,
+          "purposes": [
+            "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          ],
+          "workUnitIds": [
+            "fix.candidate-toolchain-supply.r13"
+          ],
+          "readScope": "package.json"
+        },
+        {
+          "sourceId": "context.release-gate",
+          "kind": "repository",
+          "locator": "path:scripts/run-v12-release-gate.mjs",
+          "digest": "sha256:5f69e29be75ad68b16a249b9bf58b3800c867a254d618aa6156151d2b84001d7",
+          "bytes": 29597,
+          "purposes": [
+            "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          ],
+          "workUnitIds": [
+            "fix.candidate-toolchain-supply.r13"
+          ],
+          "readScope": "scripts/run-v12-release-gate.mjs"
+        },
+        {
+          "sourceId": "context.release-gate-tests",
+          "kind": "repository",
+          "locator": "path:test/v12-release-gate.test.mjs",
+          "digest": "sha256:a41a4ceca55c78de46557e4248e1b066849c94c7caf9e33a62b2fd4f78a69314",
+          "bytes": 11488,
+          "purposes": [
+            "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          ],
+          "workUnitIds": [
+            "fix.candidate-toolchain-supply.r13"
+          ],
+          "readScope": "test/v12-release-gate.test.mjs"
+        },
+        {
+          "sourceId": "context.test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md",
+          "digest": "sha256:bef21b15ae2999faa5209421c4556e1e2e34e180796c50f39476d5883deeb16f",
+          "bytes": 957,
+          "purposes": [
+            "Implement and verify fix.candidate-toolchain-supply.r13 against the frozen Candidate 6 evidence and source."
+          ],
+          "workUnitIds": [
+            "fix.candidate-toolchain-supply.r13"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "fix.candidate-toolchain-supply"
+        ],
+        "scope": {
+          "read": [
+            ".npmrc",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log",
+            "package.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs"
+          ],
+          "write": [
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs"
+          ],
+          "conflictZones": [
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".npmrc",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-6-retirement.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7/canonical-gate.stderr.log",
+              "package.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/run-v12-release-gate.mjs",
+              "test/v12-release-gate.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "scripts/check-packed-consumer.mjs",
+              "scripts/run-v12-release-gate.mjs",
+              "test/v12-release-gate.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not use network access, change Git state, launch other agents, write outside the exact scope, create candidate-local dependency trees, weaken exact materialization inspection, or regenerate V11 trust evidence."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.fix.candidate-toolchain-supply.r13",
+          "criterion": "The canonical candidate child consumes a validated host-owned TypeScript entrypoint outside the materialization, while ordinary local consumer verification retains a safe repository-local default.",
+          "requirementId": "evidence.candidate-toolchain-supply.r13",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Prove closed host supply, regular-file validation, outside-candidate containment, consumer usage, focused regressions, local consumer compatibility, and unchanged exact-source inspection.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "candidate-toolchain-supply-r13.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not use network access, change Git state, launch agents, weaken exact inspection, or regenerate V11 evidence.",
+        "If native apply_patch fails before mutation, use only an exact precondition-hash-guarded write and verify resulting bytes immediately.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract.",
+        "Run every focused command in the test plan and report failures truthfully.",
+        "Stop if any declared source fails its exact raw digest and byte binding.",
+        "Write only the declared scope and do not create or link node_modules inside candidate source."
+      ],
+      "contentDigest": "sha256:58733521eaec83ddf85b0f51b6c76b0e53c8b09eecfb0217ae445ca5804eb818"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.ee3ab1e48b0732261eea826a1c11e3f8761c84630e3edad4da3e68569e909eb8"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:812c86d0f802dc5c0fe4c36a94e699a52dc2333a47780516c6e898bb89da6555"
+}

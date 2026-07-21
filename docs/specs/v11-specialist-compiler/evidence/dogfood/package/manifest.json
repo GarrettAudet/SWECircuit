@@ -2,10 +2,10 @@
   "apiVersion": "swecircuit/specialist/v1alpha1",
   "kind": "SpecialistPackageManifest",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 37,
+  "goalRevision": 39,
   "fileDigestAlgorithm": "sha256",
   "fileDigestScope": "raw-file-bytes",
-  "compilationDigest": "sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c",
+  "compilationDigest": "sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509",
   "selectedCandidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "launchWaves": [
     {
@@ -31,54 +31,54 @@
     }
   ],
   "compilationFile": "compilation.json",
-  "compilationFileDigest": "sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc",
+  "compilationFileDigest": "sha256:e72139cd6f7a1f00771776480629fa2c659710808e83dc3eda46ded4015a97c8",
   "compilationFileBytes": 319450,
   "agents": [
     {
       "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
-      "blueprintDigest": "sha256:4e5c47e83142da89a2095eefa5b36aa26ceb8cf82b4d46ab29c539f4f228979a",
+      "blueprintDigest": "sha256:b0ec003f1cabb647d32c4b85d4551ee84b08040779243501ced39a5a5132217b",
       "contractFile": "agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
-      "contractDigest": "sha256:ef16faf5b09c975cbea4fb8e3eccc1de15314534a0c123ad2d01285effa046e2",
+      "contractDigest": "sha256:7618323b8b782fbcdb86608aea7e7cfcec2c263b53643ab2d1eb6926be0fe876",
       "contractBytes": 19438
     },
     {
       "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
-      "blueprintDigest": "sha256:6a49c3d6b4c41b2065203574fdf2b8320537b41a0d5be7c4bf1bcd32422b5615",
+      "blueprintDigest": "sha256:d61c39a876249ebad15d85ffe72cbcdafe0de74a44ce39634c97ac6f9b36ad52",
       "contractFile": "agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
-      "contractDigest": "sha256:8660d74d0541db14037ba819af26bccc943dee1cccb4e09e5239e4a74c803169",
+      "contractDigest": "sha256:f88b803de462d463cce57794005457397382ca1cb8acc5578c3187c545a6d09d",
       "contractBytes": 11691
     },
     {
       "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
-      "blueprintDigest": "sha256:8aacd75344285df73bc39ee77fd7977c8eace6b8a1ff6ab7ca0b9f75f793184f",
+      "blueprintDigest": "sha256:c9d7d645dc62019edbc1d7138b30727d245037e79df7180f968311de639588ab",
       "contractFile": "agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
-      "contractDigest": "sha256:f409ae88b7535dcadbb23e3cd085998f3a7a0cdae40b8dc88ed456acfb1d2426",
+      "contractDigest": "sha256:feeff70bed62e2e3431b65f75af2b226381a45c60ece4025b1dc876fcd723cea",
       "contractBytes": 24269
     },
     {
       "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
-      "blueprintDigest": "sha256:a9606975daa6e020e753fc0f2cc036413e4e8ece1c578350f12e37f68bdc575b",
+      "blueprintDigest": "sha256:8d56f8fdc3efae8e2ff25960f003db63794b67758304fc83757e57174d0d049e",
       "contractFile": "agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
-      "contractDigest": "sha256:f32d6d8ce9cc86a4de251abad2dfc2e48b5e427bb6760622fe12f34da6bb4da4",
+      "contractDigest": "sha256:987c556b320a0cb5fb5931b9675ce2d65531ad56e05ff24cc12cb21d58058189",
       "contractBytes": 27800
     },
     {
       "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
-      "blueprintDigest": "sha256:9ce55d9e47109655fb7846b15bd3c964cf9e78a5bd235f1700b1c1ef3ace505f",
+      "blueprintDigest": "sha256:82a84c65ecf67e32b5c6c15ee8d84ba22afa32b1201282a6931a0bcac81d549d",
       "contractFile": "agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
-      "contractDigest": "sha256:99f68a5fe355a7c3d0adf84721296942fafe28c5231e4532b04ba8b3822ee96a",
+      "contractDigest": "sha256:8a8f01947d43b679e46b832fafacf8d1aae2b7b3847df709105ab45f40e71f54",
       "contractBytes": 34300
     },
     {
       "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
-      "blueprintDigest": "sha256:f4c30a4cc336f3985c902f5829be5acc90d9e22b96ed014fdc8e7442a3cb6106",
+      "blueprintDigest": "sha256:335246643663b72720c8c821bf4f9a2bd55feefef477c558e1d326849b000566",
       "contractFile": "agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
-      "contractDigest": "sha256:d4c00aaec631337e11b641e85dc0e167d10415c2dcc7bd39323065da0ebd51db",
+      "contractDigest": "sha256:ee0228d222af21de62a248e57fb5e6248db86631662389157dca27bcc3fc668f",
       "contractBytes": 37515
     }
   ],
   "integrationFile": "integration.md",
-  "integrationDigest": "sha256:5e99da6620c53940f5dd5d711a82c8c64e248be36c1e5fd6eecf852a6307e1e4",
+  "integrationDigest": "sha256:e0ba123c5c98720dca21454add775a379cc04b893e4040b18e7a48674d5cb5d4",
   "integrationBytes": 8161,
-  "contentDigest": "sha256:ecc316e66cc99c83d7aa636706cd378aa9d1be58a250089e1c4f2ae5b141d0d7"
+  "contentDigest": "sha256:2c0a501d58772580e2a4c7f9564f0f1df1c15a39eabcdf4edeace671f7da3c80"
 }

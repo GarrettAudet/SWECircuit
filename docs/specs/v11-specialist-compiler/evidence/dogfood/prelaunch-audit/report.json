@@ -2,7 +2,7 @@
   "reportVersion": "1.0.0",
   "result": "pass",
   "goalId": "v11.specialist-compiler.prelaunch-audit",
-  "goalRevision": 37,
+  "goalRevision": 39,
   "assumptions": [
     {
       "id": "assumption.audit-is-trust-root",
@@ -39,61 +39,61 @@
         "sourceId": "context.candidate-artifact.01",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
         "bytes": 319450,
-        "digest": "sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc"
+        "digest": "sha256:e72139cd6f7a1f00771776480629fa2c659710808e83dc3eda46ded4015a97c8"
       },
       {
         "sourceId": "context.candidate-artifact.02",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
         "bytes": 19438,
-        "digest": "sha256:ef16faf5b09c975cbea4fb8e3eccc1de15314534a0c123ad2d01285effa046e2"
+        "digest": "sha256:7618323b8b782fbcdb86608aea7e7cfcec2c263b53643ab2d1eb6926be0fe876"
       },
       {
         "sourceId": "context.candidate-artifact.03",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
         "bytes": 11691,
-        "digest": "sha256:8660d74d0541db14037ba819af26bccc943dee1cccb4e09e5239e4a74c803169"
+        "digest": "sha256:f88b803de462d463cce57794005457397382ca1cb8acc5578c3187c545a6d09d"
       },
       {
         "sourceId": "context.candidate-artifact.04",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
         "bytes": 24269,
-        "digest": "sha256:f409ae88b7535dcadbb23e3cd085998f3a7a0cdae40b8dc88ed456acfb1d2426"
+        "digest": "sha256:feeff70bed62e2e3431b65f75af2b226381a45c60ece4025b1dc876fcd723cea"
       },
       {
         "sourceId": "context.candidate-artifact.05",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
         "bytes": 27800,
-        "digest": "sha256:f32d6d8ce9cc86a4de251abad2dfc2e48b5e427bb6760622fe12f34da6bb4da4"
+        "digest": "sha256:987c556b320a0cb5fb5931b9675ce2d65531ad56e05ff24cc12cb21d58058189"
       },
       {
         "sourceId": "context.candidate-artifact.06",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
         "bytes": 34300,
-        "digest": "sha256:99f68a5fe355a7c3d0adf84721296942fafe28c5231e4532b04ba8b3822ee96a"
+        "digest": "sha256:8a8f01947d43b679e46b832fafacf8d1aae2b7b3847df709105ab45f40e71f54"
       },
       {
         "sourceId": "context.candidate-artifact.07",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
         "bytes": 37515,
-        "digest": "sha256:d4c00aaec631337e11b641e85dc0e167d10415c2dcc7bd39323065da0ebd51db"
+        "digest": "sha256:ee0228d222af21de62a248e57fb5e6248db86631662389157dca27bcc3fc668f"
       },
       {
         "sourceId": "context.candidate-artifact.08",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/compilation.json",
         "bytes": 319450,
-        "digest": "sha256:4a5cb30fe5d59672e6f158be32c66f0f9c8e5943d2b9304ad03ffd1b2b4de1bc"
+        "digest": "sha256:e72139cd6f7a1f00771776480629fa2c659710808e83dc3eda46ded4015a97c8"
       },
       {
         "sourceId": "context.candidate-artifact.09",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/integration.md",
         "bytes": 8161,
-        "digest": "sha256:5e99da6620c53940f5dd5d711a82c8c64e248be36c1e5fd6eecf852a6307e1e4"
+        "digest": "sha256:e0ba123c5c98720dca21454add775a379cc04b893e4040b18e7a48674d5cb5d4"
       },
       {
         "sourceId": "context.candidate-artifact.10",
         "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/package/manifest.json",
         "bytes": 4203,
-        "digest": "sha256:0c1068f526bcd286527f2678205221b25b8aab869e4c662d12a572bd55823599"
+        "digest": "sha256:9e152f65666994ca5464066f2eb1b8abb40b8e2cbda71206736248e09489ef2a"
       },
       {
         "sourceId": "context.canonical-json",
@@ -134,8 +134,8 @@
       {
         "sourceId": "context.consumer-check",
         "path": "scripts/check-packed-consumer.mjs",
-        "bytes": 44049,
-        "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a"
+        "bytes": 45720,
+        "digest": "sha256:911e617037a4b9aab715a4bbe6b7f8afb6a48ac240b42c6d76e550165835b19b"
       },
       {
         "sourceId": "context.diagnostic-catalog",
@@ -391,7 +391,7 @@
       }
     ]
   },
-  "compilationDigest": "sha256:58704463065c13dbf84aca3eccd3cc7ae75533111e26e615c3fa2827e77da568",
+  "compilationDigest": "sha256:39244b4af9521a5b581594185ff0505c1527950a83798f0bab7a5f2711fe87e7",
   "search": {
     "mode": "exact",
     "claim": "exhaustive_partition_search_fixed_scheduler",
@@ -470,7 +470,7 @@
   "blueprintAssignments": [
     {
       "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
-      "blueprintDigest": "sha256:aceaf2ce9222343c4587ff2c7e9e90782639928d56a2cfa14f8c6d3285856f41",
+      "blueprintDigest": "sha256:7c19932b96272ab0453878569dee2fb85b0650356114229fce2adca8fcefb472",
       "workUnitIds": [
         "audit.bind-candidate"
       ],
@@ -481,7 +481,7 @@
     },
     {
       "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
-      "blueprintDigest": "sha256:55f426dacb867462506f872f49402466aae9da8a0ff0a905906aad82824dcf34",
+      "blueprintDigest": "sha256:124e941b7999bfc92aafdcc4002818a5297b5c348d308a0026cea4ff2f3f8c55",
       "workUnitIds": [
         "audit.review-candidate-compilation"
       ],
@@ -498,33 +498,33 @@
       "result": "pass",
       "expectationFile": "approval.json"
     },
-    "packageDigest": "sha256:04d67198f0dd761f8a11d1b8ab85594e65594de2b1f0f323f498c32874246987",
-    "manifestDigest": "sha256:2be83dd01bca6ffa0337a927a91ced3e2b8ccfa7771ebcc34c6122ac5898b5fc",
+    "packageDigest": "sha256:ebc7f8889659b8c209f0034458f4b7a96ae1bbdbcd3cc3523007a97004b72477",
+    "manifestDigest": "sha256:2db430f417fac088abf948b0ce61b8c4bb7ba3f94b06b50418b58dc7ac4c5f8f",
     "files": [
       {
         "path": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
         "bytes": 16224,
-        "digest": "sha256:e74b2bd968c4e86081ba42d94cbc60693caf91eb8b8cc81d64e455cfccb2d6d5"
+        "digest": "sha256:4f9f41ee5770452a7258af13a1701d2ddb1c7f51033e21ffa2ed701b5cb982cd"
       },
       {
         "path": "agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
         "bytes": 46700,
-        "digest": "sha256:603263241453279113ccb14897ff193602a9ed5f6a1fb865a0f3f13f371ecd6f"
+        "digest": "sha256:7711e41f6a9894fa3e1c210ecacf3b228af2a5f8903d6d6167cec6513a8cd92c"
       },
       {
         "path": "compilation.json",
         "bytes": 170107,
-        "digest": "sha256:9e53afe1e44ad75ac7a053e17f2596e737e9a8e4dd725e85ed2f1dce56f95a82"
+        "digest": "sha256:125c8722bd9199a033072bb6f17f6a867e20950e8b90618b37e96eed132be04e"
       },
       {
         "path": "integration.md",
         "bytes": 4711,
-        "digest": "sha256:6a7e2f55a542f827e920835961f50e09f8c22fccd710361e383fd62f278f69e4"
+        "digest": "sha256:f037279ab02a8496186ec012814bc45191f49231270f793cc10c7343d1b2db63"
       },
       {
         "path": "manifest.json",
         "bytes": 2072,
-        "digest": "sha256:cea994196524ac476207a175948195947d327db0fed2f5cf261f32968b25307d"
+        "digest": "sha256:8d29b58483b2bf5cdee9cbc348e90017faaa14c34f6082a2bd1ff083e1d4527d"
       }
     ]
   }

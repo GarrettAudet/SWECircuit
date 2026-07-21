@@ -1,13 +1,14 @@
-import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
+import { lstatSync, realpathSync } from "node:fs";
 import {
   access,
   lstat,
   mkdir,
   mkdtemp,
   open,
-  readFile,
   readdir,
+  readFile,
   rm,
   rmdir,
   writeFile,
@@ -25,6 +26,8 @@ const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
 const MATERIALIZATION_PARENT = join(ROOT, ".local", "v12-release-gate");
 const GENERATED_BUILD_DIRECTORY = "dist";
 const DEFAULT_HOST_NPM_CACHE = join(ROOT, ".local", "npm-cache");
+const TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY = "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT";
+const DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT = join(ROOT, "node_modules", "typescript", "bin", "tsc");
 
 const COMMAND =
   process.platform === "win32"
@@ -51,6 +54,42 @@ function requireCondition(condition, message) {
   if (!condition) {
     throw new Error(message);
   }
+}
+
+function isOutsideRoot(root, path) {
+  const fromRoot = relative(realpathSync(root), path);
+  return isAbsolute(fromRoot) || fromRoot === ".." || fromRoot.startsWith(`..${sep}`);
+}
+
+function plainRegularFileRealPath(path, label) {
+  const stats = lstatSync(path);
+  requireCondition(!stats.isSymbolicLink(), `${label} must not be a symbolic link.`);
+  requireCondition(stats.isFile(), `${label} must be a plain regular file.`);
+  return realpathSync(path);
+}
+
+function resolveHostTypeScriptEntrypoint(environment, candidateRoot) {
+  const supplies = Object.entries(environment)
+    .filter(([key]) => key.toLowerCase() === TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY.toLowerCase())
+    .map(([, value]) => value);
+  requireCondition(
+    supplies.length <= 1,
+    `${TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY} must be supplied at most once, case-insensitively.`,
+  );
+
+  const value = supplies.length === 1 ? supplies[0] : DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT;
+  requireCondition(
+    typeof value === "string" && value.length > 0,
+    "Host TypeScript entrypoint supply must be non-empty.",
+  );
+  requireCondition(isAbsolute(value), "Host TypeScript entrypoint supply must be absolute.");
+
+  const entrypoint = plainRegularFileRealPath(value, "Host TypeScript entrypoint supply");
+  requireCondition(
+    isOutsideRoot(candidateRoot, entrypoint),
+    "Host TypeScript entrypoint must resolve outside the candidate materialization.",
+  );
+  return entrypoint;
 }
 
 function resolveHostNpmCache(environment) {
@@ -524,6 +563,14 @@ function commandEnvironment(gitContext) {
     }
   }
   environment.npm_config_cache = HOST_NPM_CACHE;
+
+  const typeScriptEntrypoint = resolveHostTypeScriptEntrypoint(environment, gitContext.worktree);
+  for (const key of Object.keys(environment)) {
+    if (key.toLowerCase() === TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY.toLowerCase()) {
+      delete environment[key];
+    }
+  }
+  environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = typeScriptEntrypoint;
   return environment;
 }
 
@@ -855,6 +902,8 @@ export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
   inspectMaterialization,
   hostNpmCache: HOST_NPM_CACHE,
   materializationParent: MATERIALIZATION_PARENT,
+  resolveHostTypeScriptEntrypoint,
+  typeScriptEntrypointEnvironmentKey: TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY,
   materializeCandidateSource,
   pruneEmptyDirectory,
   removeCandidateGitContext,

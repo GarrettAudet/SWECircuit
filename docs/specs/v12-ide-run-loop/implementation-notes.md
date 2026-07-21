@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation is complete. Candidates 4 and 5 are retired; release-correction revision 12 is integrated and V11 Revision 37 passes its complete two-package trust replay. Candidate 6 canonical verification and complete independent R2 review remain before V12 acceptance.
+The V12 product implementation is complete. Candidates 4, 5, and 6 are retired; release-correction revision 13 is integrated and formatted, and V11 Revision 39 passes its complete two-package trust replay. Candidate 7 canonical verification and complete independent R2 review remain before V12 acceptance.
 
 ## Baseline
 
@@ -114,3 +114,22 @@ The V12 product implementation is complete. Candidates 4 and 5 are retired; rele
 - Focused release-gate coverage passes 7/7; V11 and first-run coverage passes 38/38. An empty-cache probe correctly reproduced npm `ENOTCACHED`, while the intended warm host-cache path passed dry-run package and installed-consumer verification.
 - V11 Revision 37 now binds Candidate A `sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c` / `sha256:42ec6c54edefb0fda5287b3ba4145bd0d7e59e8f2ff3ba55c92f1610d09c78d6` and Audit B `sha256:58704463065c13dbf84aca3eccd3cc7ae75533111e26e615c3fa2827e77da568` / `sha256:04d67198f0dd761f8a11d1b8ab85594e65594de2b1f0f323f498c32874246987`.
 - The 2,255-byte external receipt, 7,492-byte binder, 7,602-byte independent semantic `pass`, and 984-byte cross-package authorization all verify. Complete `--check-evidence` replay returns `pass`; Candidate 6 can now be frozen.
+
+## Candidate 6 And Revision 13
+
+- Candidate 6 `0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7` preserved exact source, Git context, live repository state, and cleanup, then failed only when the installed consumer resolved TypeScript under the dependency-free candidate materialization.
+- Revision 13 compiled one atomic specialist against `sha256:812c86d0f802dc5c0fe4c36a94e699a52dc2333a47780516c6e898bb89da6555` / `sha256:b12698368ee2c73c6d012c1881275ec3bc225107067d05f9614a313d4358da80`.
+- Its 5,319-byte raw handoff verifies `pass` at `sha256:539b591f70c9b5808e79f15d73bda7625b67555b10a36ff0cb9bfb75b4491943`; complete package verification and zero-dependency assessment are ready.
+- The canonical host now passes one validated absolute regular-file TypeScript entrypoint outside candidate source. Local consumer runs retain the repository-local default. Duplicate, empty, relative, absent, directory, symlink, and candidate-contained supplies fail closed.
+- Main-agent verification passes syntax, `git diff --check`, the offline installed-consumer gate, and all 9 focused release-gate regressions in 201.1 seconds.
+- V11 Revision 38 binds Candidate A `sha256:30489eed5494663eb47344da10ac9feb30c23b882631d666e1a415b4700aacd3` / `sha256:44a7875f6940a59479b8b9e4d9abbfbeb978bad26ce039f3dda116d19741a63a` and Audit B `sha256:8fe3965dc75b6894bfc4701be32351ddd72f13b17450e8426ba9593a55f4f15a` / `sha256:0f13bcc14c2d2a8c794d0a1075c17ec128d8de5e64cdfd0ecde135d04e29d7d7`.
+- The 2,255-byte receipt, 10,443-byte binder, 5,827-byte semantic `pass`, 984-byte authorization, 31/31 focused trust tests, and complete `--check-evidence` replay all pass. Candidate 7 can proceed to pre-freeze verification.
+## Revision 13 Final Formatting And V11 Revision 39
+
+- The first aggregate pre-freeze run stopped at `format:check` before lint or tests because the three Revision 13 files had not been passed through the repository formatter.
+- Deterministic Biome formatting changed layout and import order only. Final source identities are `scripts/check-packed-consumer.mjs` 45,720 bytes at `sha256:911e617037a4b9aab715a4bbe6b7f8afb6a48ac240b42c6d76e550165835b19b`, `scripts/run-v12-release-gate.mjs` 31,743 bytes at `sha256:8162fb0b85698c50fa4efc0db91b6f9acc622aa67444c137e03a780dcf7e7f7b`, and `test/v12-release-gate.test.mjs` 16,016 bytes at `sha256:1a33280a311449a87c1f5ceca7a2494065610345c07433c38d97c65c80753405`.
+- Focused verification passes all 9 release-gate regressions in 188.6 seconds, the offline installed-consumer gate, format, lint, typecheck, all 405 kernel tests in 201.1 seconds, all 31 V11 trust-runner tests, and the complete checker mutation matrix in 268.4 seconds.
+- Because formatting changed one V11-bound source identity, Revision 38 remains historical and Revision 39 rebuilt the complete trust chain. Candidate A is `sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509` / `sha256:9ea35d987ed1880698069bd143fd4b1455e33e81f0e6c2953ae3a6ffe0dcf8c0`; Audit B is `sha256:39244b4af9521a5b581594185ff0505c1527950a83798f0bab7a5f2711fe87e7` / `sha256:ebc7f8889659b8c209f0034458f4b7a96ae1bbdbcd3cc3523007a97004b72477`.
+- The exact 2,255-byte receipt, 9,342-byte binder, 8,798-byte independent semantic `pass`, and 984-byte authorization all validate. Complete `--check-evidence` replay returns `pass`.
+- The aggregate pre-freeze `npm.cmd run verify` passes against these final bytes in 235.7 seconds, including all 405 tests, all three dogfood versions, package inspection, and offline installed-consumer verification.
+- Candidate 7 is not yet frozen. Commit these exact final bytes before running its one-shot candidate gate.

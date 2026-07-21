@@ -1,7 +1,7 @@
 # Specialist Contract: agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8
 
-Compilation: `sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c`
-Blueprint: `sha256:a9606975daa6e020e753fc0f2cc036413e4e8ece1c578350f12e37f68bdc575b`
+Compilation: `sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509`
+Blueprint: `sha256:8d56f8fdc3efae8e2ff25960f003db63794b67758304fc83757e57174d0d049e`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 37,
-  "goalDigest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f",
+  "goalRevision": 39,
+  "goalDigest": "sha256:b44b9c0016cd12e0fd5622070a66bfbf987b24715a15a74ce11fc757ad625bf4",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "verify.release-gates"
@@ -117,8 +117,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.consumer-check",
       "kind": "repository",
       "locator": "path:scripts/check-packed-consumer.mjs",
-      "digest": "sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a",
-      "bytes": 44049,
+      "digest": "sha256:911e617037a4b9aab715a4bbe6b7f8afb6a48ac240b42c6d76e550165835b19b",
+      "bytes": 45720,
       "purposes": [
         "Verify the offline packed-consumer gate."
       ],
@@ -731,7 +731,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "On Windows, stop with FIX unless the full negative checker matrix uses a verified short-path spelling that resolves to the same authorized .local/npm-cache target.",
     "Stop with FIX if any canonical gate fails or cannot be reproduced."
   ],
-  "contentDigest": "sha256:a9606975daa6e020e753fc0f2cc036413e4e8ece1c578350f12e37f68bdc575b"
+  "contentDigest": "sha256:8d56f8fdc3efae8e2ff25960f003db63794b67758304fc83757e57174d0d049e"
 }
 ```
 
@@ -752,14 +752,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 37,
-    "digest": "sha256:1279799c98131ac9de1a385de082cf2c61c37bd7644ecfd06d28926ccbd3961f"
+    "revision": 39,
+    "digest": "sha256:b44b9c0016cd12e0fd5622070a66bfbf987b24715a15a74ce11fc757ad625bf4"
   },
   "agent": {
     "id": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
-    "blueprintDigest": "sha256:a9606975daa6e020e753fc0f2cc036413e4e8ece1c578350f12e37f68bdc575b"
+    "blueprintDigest": "sha256:8d56f8fdc3efae8e2ff25960f003db63794b67758304fc83757e57174d0d049e"
   },
-  "compilationDigest": "sha256:a1d7909b154a8a15567deefc8ea8c7f6942eb046d24cf3db41922cb26739274c",
+  "compilationDigest": "sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "verify.release-gates"

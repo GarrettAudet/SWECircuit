@@ -364,3 +364,21 @@ Enter diagnosis if the same golden case fails twice, exact search violates its d
 - Independent Audit B reproduced all 203 Candidate A partitions, 52 eligible candidates, the selected six-agent schedule, authority, evidence ownership, and all nine rendered files. Its 7,602-byte semantic `pass` is `sha256:a4206bc654b77147fd583aa9eb8e0d925d8246f737567b29e46a1c65cbcf302f`.
 - The 984-byte cross-package authorization is `sha256:edfa8d8cf6e87a1cfd0fc7db13fa7c77be2075c638d5487955afbdc7f1622459`. The host reasserted Candidate A approval only after preserving the receipt, binder, semantic `pass`, and authorization.
 - `node scripts/run-v11-dogfood.mjs --check-evidence` returns `pass` for Candidate A, Audit B, the receipt, and launch authorization. This restores V11 evidence replay; it does not execute agents or release V12.
+
+## Revision 38 Host-Toolchain Trust Rebuild
+
+- Revision 13 changed the approval-bound packed-consumer host so exact candidate verification can receive TypeScript as explicit runtime supply outside source.
+- All 58 Candidate A source bindings were recomputed from current LF clean-filter-stable bytes; 31/31 focused V11 trust-runner tests pass.
+- Candidate A rebuilt as `sha256:30489eed5494663eb47344da10ac9feb30c23b882631d666e1a415b4700aacd3` / `sha256:44a7875f6940a59479b8b9e4d9abbfbeb978bad26ce039f3dda116d19741a63a`; Audit B rebuilt as `sha256:8fe3965dc75b6894bfc4701be32351ddd72f13b17450e8426ba9593a55f4f15a` / `sha256:0f13bcc14c2d2a8c794d0a1075c17ec128d8de5e64cdfd0ecde135d04e29d7d7`.
+- The receipt is 2,255 bytes at `sha256:eb6011319d6f877a6aa6c674115234393d74a35c243c9f0f2c32e31c776cbd37`. The 10,443-byte binder is `sha256:c3329843d8e1c713b4bee0bd02b131c203ab163a1112aa65140ff6a53f140616` and made the semantic review dependency-ready.
+- Audit B independently reproduced all 203 Candidate A partitions, 52 eligible candidates, the selected six-agent schedule, authority, evidence ownership, and all nine rendered files. Its 5,827-byte semantic `pass` is `sha256:3d6c5a9ad84713e7f90aab5ab2aaea1a946b9baf9b64efd1c7b1bb5b2c0c46c3`.
+- The 984-byte authorization is `sha256:550ef983bf93e490203ac1558e51ef64deca5b74f660eebfa8226a1384ec3533`. Candidate A approval was reasserted only after authorization verified.
+- Complete `node scripts/run-v11-dogfood.mjs --check-evidence` returns `pass`. This authenticates the changed V11 consumer boundary; it does not execute Candidate A or authorize V12 release.
+## Revision 39 Formatting-Stable Trust Rebuild
+
+- Revision 13's final Biome pass changed only one of the 58 V11-bound source tuples: `scripts/check-packed-consumer.mjs` is now 45,720 bytes at `sha256:911e617037a4b9aab715a4bbe6b7f8afb6a48ac240b42c6d76e550165835b19b`.
+- Candidate A rebuilt as `sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509` / `sha256:9ea35d987ed1880698069bd143fd4b1455e33e81f0e6c2953ae3a6ffe0dcf8c0`; Audit B rebuilt as `sha256:39244b4af9521a5b581594185ff0505c1527950a83798f0bab7a5f2711fe87e7` / `sha256:ebc7f8889659b8c209f0034458f4b7a96ae1bbdbcd3cc3523007a97004b72477`.
+- The external receipt is 2,255 bytes at `sha256:139b9313a3eebf88190c934c8b9905937f1fec32cc686920fe728152a301fb98`. The public verifier accepted the 9,342-byte binder at `sha256:a9188ce7ede41ba90933c87b472ea59b13f171e1b73586deb5f8b0f697109f59`, and dependency fan-in returned `integrationReady: true`.
+- A distinct reviewer independently reproduced all 203 partitions, 52 eligible candidates, the selected six-agent schedule, authority, evidence ownership, and all nine rendered files. Its 8,798-byte semantic `pass` is `sha256:8bf446b6f2b4579f8bc984c6b08370e2473a0f7052da247ea539b018342d59e4`.
+- The 984-byte cross-package authorization is `sha256:271e39899cecadb36720cc2ba418e0d9b51419aa495b9b3c0eef14de5e78859a`. Candidate A approval was written only after authorization verification.
+- All 31 trust-runner tests and complete `node scripts/run-v11-dogfood.mjs --check-evidence` replay pass. Revision 39 authenticates the final formatted source; it does not execute Candidate A or authorize V12 release.

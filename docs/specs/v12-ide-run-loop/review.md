@@ -2,7 +2,7 @@
 
 ## Status
 
-Release review attempt 1 and Candidate 3 produced verified release-blocking `fix` routes. Candidates 4 and 5 then failed their exact committed-tree gates and are retired. Revision 12 is integrated, and V11 Revision 37 passes the complete two-package trust replay. Candidate 6 exact verification and a complete fresh R2 review remain, so V12 is not merge-ready.
+Release review attempt 1 and Candidate 3 produced verified release-blocking `fix` routes. Candidates 4, 5, and 6 then failed their exact committed-tree gates and are retired. Revision 13 is integrated and formatted, and V11 Revision 39 passes the complete two-package trust replay. Candidate 7 exact verification and a complete fresh R2 review remain, so V12 is not merge-ready.
 
 ## Scope
 
@@ -62,6 +62,15 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 - Revision 12's two specialist handoffs verify `pass` against compilation/package `sha256:a22663c51b5477531f8dc8a08e17841cf52d7aa837507cc672dcae5f1ca8eb48` / `sha256:26bc2190b4acd7d4fe253228eabad5862d0819717b75b7b7f20e6264dfc4d4ce`.
 - V11 Revision 37 independently reconstructs and verifies Candidate A and Audit B, including the external receipt, dependency handoff, semantic audit, and cross-package authorization. Full V11 evidence replay passes.
 
+## Candidate 6 And Correction 13
+
+- Candidate 6 `0df22a9f0142cfeb5f3c625ceb30b2d70e41b4f7` is permanently retired. Its exact gate reached the final installed-consumer compile after all earlier stages passed, then exposed a missing external TypeScript toolchain supply.
+- Revision 13's exact handoff verifies `pass` against compilation/package `sha256:812c86d0f802dc5c0fe4c36a94e699a52dc2333a47780516c6e898bb89da6555` / `sha256:b12698368ee2c73c6d012c1881275ec3bc225107067d05f9614a313d4358da80`.
+- Focused verification passes 9/9 release-gate regressions and the offline installed-consumer gate. Candidate source remains dependency-free and exact.
+- Integration applied deterministic Biome formatting to all three Revision 13 source files. All 9 focused regressions, the installed consumer, format, lint, typecheck, all 405 kernel tests, 31 V11 trust tests, and the complete checker mutation matrix pass.
+- The aggregate pre-freeze `npm.cmd run verify` passes in 235.7 seconds, including the public example, V10/V11/V12 dogfood, package inspection, and offline installed consumer.
+- V11 Revision 39 independently reconstructs Candidate A and Audit B, verifies the external receipt and binder, accepts a distinct semantic `pass`, binds the cross-package authorization, and passes complete evidence replay.
+
 ## Outcome
 
-`fix`. Candidate 5's route is satisfied by Revision 12. Release and merge remain stopped until Candidate 6 passes the exact canonical gate and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.
+`fix`. Candidate 6's route is satisfied by Revision 13. Release and merge remain stopped until Candidate 7 passes the exact canonical gate and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.

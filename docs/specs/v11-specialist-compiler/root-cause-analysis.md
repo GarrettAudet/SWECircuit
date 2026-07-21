@@ -511,3 +511,21 @@ Candidate A and Audit B were rebuilt and independently approval-verified. The ex
 ### Durable Rule
 
 Source-bound evidence must use bytes stable across checkout, clean filtering, and committed-tree materialization. A host-specific working-tree representation cannot be a portable trust identity.
+
+## Revision 38 External Toolchain Rebinding
+
+### Trigger
+
+Candidate 6 proved that exact committed source could pass every earlier gate while the installed consumer still expected TypeScript inside a dependency-free materialization. Revision 13 corrected `scripts/check-packed-consumer.mjs`, which is an approval-bound V11 source.
+
+### Required Trust Response
+
+Treat the source change as a new V11 identity. Recompute every LF-stable source binding, rebuild Candidate A and Audit B, approve Audit B as the read-only trust root, verify the external receipt, authenticate the binder before the dependent semantic review, bind the semantic `PASS` into cross-package authorization, and approve Candidate A only afterward.
+
+### Verification
+
+Revision 38 initially completed that sequence. Final deterministic formatting then changed the bound consumer tuple, so Revision 39 repeated the complete trust rebuild. The 31-test focused trust suite and full evidence replay pass; Candidate A and Audit B reconstruct to their current exact approved digest pairs, and authorization validates the exact receipt and semantic handoff bytes.
+
+### Durable Rule
+
+A narrow host-boundary fix can still change an approval-bound source. Scope size never permits reusing a stale package identity; the complete affected trust chain must be rebuilt.
