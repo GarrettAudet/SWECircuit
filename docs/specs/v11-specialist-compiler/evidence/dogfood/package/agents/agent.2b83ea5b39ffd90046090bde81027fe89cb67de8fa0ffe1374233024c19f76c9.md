@@ -1,7 +1,7 @@
 # Specialist Contract: agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9
 
-Compilation: `sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509`
-Blueprint: `sha256:d61c39a876249ebad15d85ffe72cbcdafe0de74a44ce39634c97ac6f9b36ad52`
+Compilation: `sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb`
+Blueprint: `sha256:a4f25eeb66fc3e418b7921f0817b24b605c8119ba6b4fed83e2cc7c3c6481ff6`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 39,
-  "goalDigest": "sha256:b44b9c0016cd12e0fd5622070a66bfbf987b24715a15a74ce11fc757ad625bf4",
+  "goalRevision": 40,
+  "goalDigest": "sha256:c81f82b1e59d5c173f517cd8634d6d6dd130daff6ccbdd6c87dbd5e1695456ff",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "integrate.release"
@@ -253,7 +253,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop if any independent review returns REVISE.",
     "Stop unless the separate prelaunch audit is approval-bound, verified, and PASS before candidate launch approval."
   ],
-  "contentDigest": "sha256:d61c39a876249ebad15d85ffe72cbcdafe0de74a44ce39634c97ac6f9b36ad52"
+  "contentDigest": "sha256:a4f25eeb66fc3e418b7921f0817b24b605c8119ba6b4fed83e2cc7c3c6481ff6"
 }
 ```
 
@@ -274,14 +274,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 39,
-    "digest": "sha256:b44b9c0016cd12e0fd5622070a66bfbf987b24715a15a74ce11fc757ad625bf4"
+    "revision": 40,
+    "digest": "sha256:c81f82b1e59d5c173f517cd8634d6d6dd130daff6ccbdd6c87dbd5e1695456ff"
   },
   "agent": {
     "id": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
-    "blueprintDigest": "sha256:d61c39a876249ebad15d85ffe72cbcdafe0de74a44ce39634c97ac6f9b36ad52"
+    "blueprintDigest": "sha256:a4f25eeb66fc3e418b7921f0817b24b605c8119ba6b4fed83e2cc7c3c6481ff6"
   },
-  "compilationDigest": "sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509",
+  "compilationDigest": "sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "integrate.release"

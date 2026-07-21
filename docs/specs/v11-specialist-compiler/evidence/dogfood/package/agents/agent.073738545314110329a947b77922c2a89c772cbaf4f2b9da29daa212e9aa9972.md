@@ -1,7 +1,7 @@
 # Specialist Contract: agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972
 
-Compilation: `sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509`
-Blueprint: `sha256:b0ec003f1cabb647d32c4b85d4551ee84b08040779243501ced39a5a5132217b`
+Compilation: `sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb`
+Blueprint: `sha256:84b41ba173eef0aeb5bcc9c0cce32289141c0ae32dcafad5e9839de18a4ff9c6`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 39,
-  "goalDigest": "sha256:b44b9c0016cd12e0fd5622070a66bfbf987b24715a15a74ce11fc757ad625bf4",
+  "goalRevision": 40,
+  "goalDigest": "sha256:c81f82b1e59d5c173f517cd8634d6d6dd130daff6ccbdd6c87dbd5e1695456ff",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "review.algorithm-lifecycle"
@@ -464,7 +464,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop with REVISE if bounded search is represented as a global optimum.",
     "Stop with REVISE if selection can change under logical input permutation."
   ],
-  "contentDigest": "sha256:b0ec003f1cabb647d32c4b85d4551ee84b08040779243501ced39a5a5132217b"
+  "contentDigest": "sha256:84b41ba173eef0aeb5bcc9c0cce32289141c0ae32dcafad5e9839de18a4ff9c6"
 }
 ```
 
@@ -485,14 +485,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 39,
-    "digest": "sha256:b44b9c0016cd12e0fd5622070a66bfbf987b24715a15a74ce11fc757ad625bf4"
+    "revision": 40,
+    "digest": "sha256:c81f82b1e59d5c173f517cd8634d6d6dd130daff6ccbdd6c87dbd5e1695456ff"
   },
   "agent": {
     "id": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
-    "blueprintDigest": "sha256:b0ec003f1cabb647d32c4b85d4551ee84b08040779243501ced39a5a5132217b"
+    "blueprintDigest": "sha256:84b41ba173eef0aeb5bcc9c0cce32289141c0ae32dcafad5e9839de18a4ff9c6"
   },
-  "compilationDigest": "sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509",
+  "compilationDigest": "sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "review.algorithm-lifecycle"

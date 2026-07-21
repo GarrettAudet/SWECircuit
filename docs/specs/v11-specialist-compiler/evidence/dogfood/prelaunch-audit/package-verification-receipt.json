@@ -7,34 +7,34 @@
     "specialistApiVersion": "swecircuit/specialist/v1alpha1"
   },
   "candidate": {
-    "compilationDigest": "sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509",
-    "packageDigest": "sha256:9ea35d987ed1880698069bd143fd4b1455e33e81f0e6c2953ae3a6ffe0dcf8c0",
+    "compilationDigest": "sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb",
+    "packageDigest": "sha256:cbc9704873dd1a1d6ef986f5f2d0ec34053db1e5e26152f4663c97363cc1ac98",
     "verificationOutcome": "pass"
   },
   "prelaunchAudit": {
-    "compilationDigest": "sha256:39244b4af9521a5b581594185ff0505c1527950a83798f0bab7a5f2711fe87e7",
-    "packageDigest": "sha256:ebc7f8889659b8c209f0034458f4b7a96ae1bbdbcd3cc3523007a97004b72477",
+    "compilationDigest": "sha256:c0dacfcc63e8d042e7dae3b03d58f23d949d17cf9c283e5208525599e6f2a4ce",
+    "packageDigest": "sha256:261a8696b0d92ab0f4a27f5743f95cc83db861ee4137877f03b13312d31fc63f",
     "verificationOutcome": "pass",
     "approvalOutcome": "pass"
   },
   "auditApproval": {
     "path": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
-    "digest": "sha256:363ec3e7baaaa7711b2a554bef64137b504f79e4acc4067a541c90cf469dd458",
+    "digest": "sha256:202402b4a6f1481df81b0ff66ff1b3218d77687c2d4bbbe7290b7a1f983f1dd6",
     "bytes": 195
   },
   "candidateLaunchApproved": false,
   "binder": {
     "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
-    "blueprintDigest": "sha256:7c19932b96272ab0453878569dee2fb85b0650356114229fce2adca8fcefb472",
+    "blueprintDigest": "sha256:3bf0a8675b781299bdfbd1f20a7b5f4b5c6e04669a36dbf6a3638a80a1dac449",
     "contractFile": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
-    "contractDigest": "sha256:4f9f41ee5770452a7258af13a1701d2ddb1c7f51033e21ffa2ed701b5cb982cd",
+    "contractDigest": "sha256:3be2cff2cb9d07ec87be103601a3ccfac4be2e8bde7d96457d6ec6dafabbddc3",
     "contractBytes": 16224
   },
   "reviewer": {
     "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
-    "blueprintDigest": "sha256:124e941b7999bfc92aafdcc4002818a5297b5c348d308a0026cea4ff2f3f8c55",
+    "blueprintDigest": "sha256:d38a9fa6cca266b7c4b189749dc6ed97df87da7caaf0d67f66131a7cea3fc782",
     "contractFile": "agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
-    "contractDigest": "sha256:7711e41f6a9894fa3e1c210ecacf3b228af2a5f8903d6d6167cec6513a8cd92c",
+    "contractDigest": "sha256:1f39db494b0ff55467c22728ae82d72ddad46cf6d783a29260465a82b212b48d",
     "contractBytes": 46700
   },
   "launchWaves": [

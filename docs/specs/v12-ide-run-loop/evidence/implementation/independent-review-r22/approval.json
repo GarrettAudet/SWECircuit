@@ -1,0 +1,12 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.review.closed-npm-provenance-r22",
+  "goalRevision": 1,
+  "approvedBy": "repository-owner-via-main-agent-standing-release-authorization",
+  "approvalBasis": "The owner authorized all required V12 revisions and audits through release readiness; the integration owner reviewed this exact read-only contract, immutable snapshot set, deterministic roster, authority, and digest pair before launch.",
+  "expectation": {
+    "compilationDigest": "sha256:fd2e58b00bdba106bb708477e3254e8c49bd463cf30b6fe73cd16cf66a927503",
+    "packageDigest": "sha256:517068059fbdae8641252d9273da312584f8a7960c2723d9c59f93a2fae852b2"
+  }
+}

@@ -356,3 +356,21 @@ Revision 16 replaces active future ordinals with evidence-state language, distin
 ### Verification And Learning
 
 Accepted attempt 2 verifies against the original approved package and passes 8 of 8 focused review tests, the template checker, format, lint, and diff gates. Post-integration package reconstruction and accepted raw-handoff verification pass; the canonical repository gate and checker mutation matrix also pass. Durable rule: a verifier-valid specialist `pass` remains subject to integration review against the actual goal; bounded completion may reuse the exact specialist package while every attempt remains immutable.
+
+## Candidate 10 Review Runtime And npm Configuration RCA
+
+### Confirmed Root Causes
+
+1. The release-review parent and handoff verifier imported ignored repository-live build output before authenticating the candidate. The exact source gate therefore proved the committed tree but not the runtime that later compiled, approved, and verified R2 evidence.
+2. Phase-specific external authority was included in stable package identity, so compile, approve, and verify could reconstruct different packages from the same candidate.
+3. Synthetic lifecycle tests reproduced expected values without executing the actual production parent across fresh compile, standalone approve, and verify invocations.
+4. Revision 21 declared an intermediate test source that was neither committed nor preserved, making its package unreconstructable even though behavior passed.
+5. The closed npm environment assigned user and global configuration to the same null-device spelling. npm 11 rejects that duplicate source. The fixture deleted the global variable to succeed, unintentionally restoring host configuration.
+
+### Causal Fix
+
+Derive the review runtime only from authenticated candidate bytes, separate stable policy identity from invocation authority, run each lifecycle phase in a fresh child, and compare real production outputs. Bind every declared source to a retrievable immutable snapshot. For npm, create two distinct zero-byte plain files in the fresh operation root, validate their paths, bytes, links, containment, and case-insensitive non-aliasing before spawn, pass both explicitly, and delete the complete operation root afterward.
+
+### Regression And Closure
+
+Revision 22 removes the compatibility adapter and passes installed npm 11 directly through the copied production parent. The complete 34-test suite covers the real lifecycle, exact byte equality, receipt-last promotion, all ten negative routes, config substitution and alias rejection, and cleanup. Independent package-bound review returns `pass`, and V11 Revision 40 authenticates the final source through its complete two-package trust chain.

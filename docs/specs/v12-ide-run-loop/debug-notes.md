@@ -607,3 +607,15 @@ The first aggregate pre-freeze attempt stopped before tests because the sandbox 
 ### Route
 
 `fix` -> integration rejection -> `fix` -> `pass`. Independent pre-freeze verification passes; freeze a successor source next and run its canonical gate exactly once.
+
+## Candidate 10 Review Runtime And Revision 22
+
+### Reproduction
+
+Candidate 10 passed its one-shot exact source gate, but R2 security review proved the parent and verifier had already imported ignored repository-live `dist/index.js`. Later corrections closed that runtime boundary, then independent reviews found three additional defects in sequence: invocation authority changed stable package identity, lifecycle coverage projected production behavior without executing it, and a package declared an unavailable intermediate source. The copied-production fixture also hid npm 11's rejection of identical user/global config paths by deleting `npm_config_globalconfig`.
+
+### Evidence And Route
+
+Revisions 17-21 preserve `redesign`, `fix`, `diagnose`, and `block` outcomes without promotion. Revision 22 binds immutable pre-edit snapshots, runs the candidate-derived runtime in fresh child processes, uses two distinct authenticated empty npm configuration files, executes installed npm 11 directly, rehashes protected inputs, and promotes only verified staged output. Its 34 tests and independent review pass, followed by complete V11 Revision 40 replay.
+
+Route: `fix` -> `redesign` -> `fix` -> `diagnose` -> `pass` -> independent `fix` -> `pass` -> independent `fix` -> `block` -> `pass` -> independent `pass` -> `learn`. Freeze only a new successor source; never rerun the retired exact gate or R2 package.

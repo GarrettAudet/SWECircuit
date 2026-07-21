@@ -1,0 +1,449 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.review.closed-reconstruction-trust",
+    "revision": 1,
+    "objective": "Independently determine whether exact Revision 19 closes every Revision 18 security and architecture finding without introducing a new trust, routing, or evidence defect.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.untrusted-until-reviewed",
+        "statement": "The passing implementation handoff and focused test result are authenticated evidence but do not supply this review's semantic verdict.",
+        "rationale": "Producer evidence cannot replace independent semantic review."
+      },
+      {
+        "id": "assumption.read-only-review",
+        "statement": "The reviewer has no write authority and must report defects without repairing the reviewed bytes.",
+        "rationale": "Review independence requires immutable producer output."
+      },
+      {
+        "id": "assumption.external-host-boundary",
+        "statement": "Operating-system trust, executable trust, cache provenance, malicious parent code, and hostile same-user isolation remain external-host responsibilities.",
+        "rationale": "The repository must describe but cannot manufacture those host guarantees."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.review.closed-reconstruction-trust.r19",
+        "description": "The exact Revision 19 bytes close all seven prior findings, fail closed at every declared trust boundary, retain behavioral adversarial coverage, and make no stronger host claim than they can establish.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.review.closed-reconstruction-trust.r19",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Provide source-authentication results, one disposition for each Revision 18 finding, new-bypass analysis, test-quality analysis, residual boundaries, and a concrete pass or correction route.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Repository agent and trust invariants.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:15124893f7d12f21b75681ef7b8744509860d3490c378014e9d5f63b0bb01d54",
+        "bytes": 3609,
+        "description": "Final package command and quality-gate wiring.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-gate-parent",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Canonical candidate gate that supplies post-commit evidence.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-gate.test.mjs",
+        "digest": "sha256:31f323f50669a6cb0799c4b9bd32d71652dee14540ae91857cfde8c7ab1774cf",
+        "bytes": 33280,
+        "description": "Final Revision 19 path, closure, and promotion tests.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.release-review-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:6a2b0e28509b01255967b50a437eec9b761dab4cff6b18cd7644a51ff46420bc",
+        "bytes": 117689,
+        "description": "Final Revision 19 candidate-private review harness.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-parent",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-review.mjs",
+        "digest": "sha256:69d9888dd7d8584b5da1efe532f91ccf9e69d18d5b088055271c14e3d390664c",
+        "bytes": 76900,
+        "description": "Final Revision 19 external parent entrypoint.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "scripts/run-v12-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-review.test.mjs",
+        "digest": "sha256:10db954205fe53999baad30c401c8cdf3f659104b3f2c6ac3323ac83f6cb33fd",
+        "bytes": 31450,
+        "description": "Final Revision 19 reconstruction and substitution tests.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "test/v12-release-review.test.mjs"
+      },
+      {
+        "id": "context.release-review-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:dcd0fef854738bc163ac8c0c6213de8a63479d3edc8fc4ca22be2dc9f1d9f39b",
+        "bytes": 27087,
+        "description": "Final Revision 19 candidate-private handoff verifier.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.review-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/inputs/review-contract.md",
+        "digest": "sha256:d4e0432c723e4a91e543addb30ce90828880ae2d412d0a07b67232a74102eb00",
+        "bytes": 3943,
+        "description": "Closed Revision 19 independent review contract.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/inputs/review-contract.md"
+      },
+      {
+        "id": "context.revision-eighteen-review",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/independent-review.md",
+        "digest": "sha256:565324d05ac9f85c671c7ae23f6b0a3f0df43bff7b4a6ceb6e42aae693976561",
+        "bytes": 4428,
+        "description": "Independent Revision 18 rejection and its seven findings.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/independent-review.md"
+      },
+      {
+        "id": "context.revision-nineteen-attempts",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+        "digest": "sha256:94e0a131ab1bc9a347e8ef6eb693501edda9b17b11ce16a336e622be9a74aec4",
+        "bytes": 2623,
+        "description": "Exact Revision 19 attempt and routing history.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md"
+      },
+      {
+        "id": "context.revision-nineteen-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+        "digest": "sha256:d54ecc1b6e2f6b3079ea133a90066fa0a8b88e9f3a08c47924ec14eb1a3d55f1",
+        "bytes": 8193,
+        "description": "Normative Revision 19 correction contract.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.revision-nineteen-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+        "digest": "sha256:ee8665855792db9c241afadff4b300ad55bf71d25f6e930933d18b0931bba894",
+        "bytes": 5918,
+        "description": "Exact package-bound passing implementation handoff.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json"
+      },
+      {
+        "id": "context.revision-nineteen-test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/test-plan.md",
+        "digest": "sha256:1851e0c218d3b9aad90f587e58f5de709bcc9b62a1124cf7fb275383b1fc5d93",
+        "bytes": 3953,
+        "description": "Frozen Revision 19 adversarial verification plan.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/test-plan.md"
+      },
+      {
+        "id": "context.revision-nineteen-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+        "digest": "sha256:8c9e469f10f719394b086fa74d172fdfd2a2c40afdd3d0855df7a22589a47125",
+        "bytes": 1322,
+        "description": "V11 verification of the exact passing implementation handoff.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json"
+      },
+      {
+        "id": "context.specialist-run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Normative IDE-neutral host and specialist execution boundary.",
+        "allowedWorkUnits": [
+          "review.closed-reconstruction-trust.r19"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "review.closed-reconstruction-trust"
+      ],
+      "allowedCapabilities": [
+        "review.release-evidence-security"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "AGENTS.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/inputs/review-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/independent-review.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "powershell",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not edit files, run package installation, mutate Git state, launch descendants, use network access, refresh V11 evidence, run a candidate release gate or R2 phase, claim release readiness, approve merge, or alter prior evidence."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "review.closed-reconstruction-trust.r19",
+        "objective": "Authenticate and independently audit the exact Revision 19 implementation, resolving all seven Revision 18 findings and searching for new trust-boundary defects.",
+        "weight": 16,
+        "module": {
+          "id": "review.closed-reconstruction-trust",
+          "action": "Trace every external input, private phase, process boundary, package identity, promotion path, trust claim, and adversarial test before returning an independent verdict.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "PackageVerifiedRevision19Implementation"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IndependentRevision19SecurityVerdict"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "review.release-evidence-security"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.release-gate-parent",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.release-gate-tests",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.release-review-harness",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.release-review-parent",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.release-review-tests",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.release-review-verifier",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.review-contract",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.revision-eighteen-review",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.revision-nineteen-attempts",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.revision-nineteen-contract",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.revision-nineteen-handoff",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.revision-nineteen-test-plan",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.revision-nineteen-verification",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          },
+          {
+            "sourceId": "context.specialist-run-contract",
+            "purpose": "Independently audit the exact Revision 19 bytes against every Revision 18 rejection cause and search for new release-evidence trust defects."
+          }
+        ],
+        "scope": {
+          "read": [
+            "AGENTS.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/inputs/review-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/independent-review.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/inputs/review-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/independent-review.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs",
+              "scripts/run-v12-release-review.mjs",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "powershell",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.review.closed-reconstruction-trust.r19"
+        ],
+        "handoffArtifacts": [
+          "independent-revision-19-security-review.md"
+        ],
+        "stopConditions": [
+          "Stop before semantic review if any declared context byte count or SHA-256 binding fails.",
+          "Remain read-only; report every defect without changing the reviewed source or evidence.",
+          "Treat focused tests and the producer handoff as evidence only, never as the semantic verdict.",
+          "Resolve all seven Revision 18 findings and search for new bypasses before returning pass.",
+          "Do not claim release readiness, hosted CI, merge, host isolation, cache provenance, or malicious-parent resistance.",
+          "Return only the exact closed SpecialistAgentHandoff JSON object from the generated contract."
+        ]
+      }
+    ]
+  }
+}

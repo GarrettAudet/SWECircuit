@@ -101,4 +101,6 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 
 ## Current Outcome
 
-`fix` for Candidate 9 is satisfied by accepted Revision 16 attempt 2, and independent successor-source pre-freeze verification passes. This is not release approval: successor freeze, exact gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review remain.
+The latest retired candidate's `fix` is satisfied by Revision 22. Its candidate-derived review runtime, real copied-production lifecycle, immutable source snapshots, direct npm 11 execution, and distinct private npm configuration pass exact package verification and independent package-bound review. V11 Revision 40 also passes its complete two-package trust replay.
+
+The checker mutation matrix and complete pre-freeze repository gate pass. This is not release approval: the successor source still needs one exact committed-tree gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.

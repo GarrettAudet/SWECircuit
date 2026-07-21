@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 9,
+    "digest": "sha256:20e576ae7355d0d211e821d54cb92384ff955d4fb04f6c2e514db70df0cf2cf1"
+  },
+  "agent": {
+    "id": "agent.f135c6a031895dbe7733367c2e1729fa86815ec89a935f13f00cb079d5c60ae5",
+    "blueprintDigest": "sha256:2f8c267ce00799d1224eb91b4071fd7f834411cedc4845cacc09a727b4c17c34"
+  },
+  "compilationDigest": "sha256:ca0488cd362c3757183da85238001ff1e14e9dee702bf58af27347684a4cdc6d",
+  "summary": "Implemented the bounded R9 correction in the three authorized paths, but focused verification remains non-pass: two regression tests passed and two failed, one from sandbox denial of the temporary materialization directory and one from an incorrect malformed-input assertion.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "release-proof-closure-correction-r9.md",
+      "mediaType": "text/markdown",
+      "content": "# Release Proof Closure Correction R9\n\n## Outcome\n\nFix.\n\n## Authentication\n\n- Authenticated checkpoint `64d9310`.\n- Authenticated the 23116-byte specialist contract at `sha256:ae6258786d9ba9366410035b3c89f9d45f921ac1a500e3287d1649f1c0b2fb4e`.\n- Authenticated all 20 declared context sources against their exact byte counts and raw SHA-256 digests before substantive use.\n\n## Implemented Correction\n\n- `scripts/run-v12-release-gate.mjs` now resolves the exact candidate commit and tree, enumerates regular committed blobs, materializes only those bytes, computes a framed SHA-256 source identity, rejects unexpected materialized files, executes the canonical command from that materialization, rechecks committed bytes afterward, isolates parent Git discovery, and binds cleanup failure into the receipt result.\n- The canonical receipt now binds candidate commit, tree, file count, byte count, source digest, pre/post materialization digests, exact command result, and exact stdout/stderr bindings.\n- `run-release-review.mjs` independently reconstructs the candidate source binding, validates the stronger closed receipt in preparation and revalidation, carries the binding into the candidate manifest, and requires primary security-review snapshots for the compiler schema JSON, handoff schema JSON, both embedded schema sources, and both schema validators.\n- Added `test/v12-release-gate.test.mjs` with focused materialization, tamper-detection, command-cwd, receipt-closure, schema-source, and path-mode checks.\n\n## Verification\n\n- `node --check` passed for all three authorized files.\n- Scoped `git diff --check` passed.\n- Workspace status showed only the three authorized paths modified or added.\n- Offline Biome formatting initially reported differences. The sandboxed write was denied; the approved escalated formatter then formatted the release wrapper and test file successfully.\n- Focused test result: 4 tests, 2 passed, 2 failed.\n- Failure 1: materialization test received `EPERM` while creating `.local/v12-release-gate` under the sandbox.\n- Failure 2: malformed-candidate behavior correctly returned exit code 1 and the usage message, but the test expected different wording.\n\n## Failed Attempts\n\n- Native `apply_patch` failed before mutation because the Windows sandbox helper could not refresh. Contract-authorized precondition-hash-guarded PowerShell writes were used and each resulting file was immediately rebound.\n- The first guarded write was denied by the sandbox and left the file unchanged; the approved escalated retry succeeded.\n- Sandboxed Biome formatting was denied before mutation; the approved escalated retry succeeded.\n\n## Scope Integrity\n\nNo network access, staging, commit, branch change, descendant launch, evidence/package mutation, or out-of-scope repository edit occurred."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.release-proof-closure.r9",
+      "requirementId": "evidence.release-proof-closure.r9",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "release-proof-closure-correction-r9.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The materialization behavior has not completed its focused runtime test under a filesystem context that permits creation and cleanup of the ignored scratch directory.",
+    "The R2 harness still requires its focused stdin-format and lint confirmation after the liveness stop."
+  ],
+  "followUps": [
+    "Correct the malformed-input assertion to match the wrapper's canonical usage message.",
+    "Rerun the focused test with permission to create and remove `.local/v12-release-gate`, then run focused format, lint, syntax, and diff checks."
+  ]
+}

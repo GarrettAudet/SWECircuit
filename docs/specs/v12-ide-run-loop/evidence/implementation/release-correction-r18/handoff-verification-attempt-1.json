@@ -1,0 +1,27 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "release-correction-r18",
+  "compilationDigest": "sha256:bc3ae4a8e7acbb24f2eb3d628413390c4e9b71da0b3e8030e8117a7935af4755",
+  "packageDigest": "sha256:e56b776d8b6e291016183151aa8cae0395e054ded227e778f0066139c795954a",
+  "expectedAgentIds": [
+    "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264"
+  ],
+  "receivedAgentIds": [
+    "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264-fix-attempt-1.json",
+      "agentId": "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264",
+      "outcome": "fix",
+      "rawBytes": 5259,
+      "rawDigest": "sha256:7a58782a0ad22711ca4aa0a0d26cfb341e8e3710319eb0198195f480beb4cf3f",
+      "semanticDigest": "sha256:1cd42a5573c63e4190377df9c5e41fb2727b7e6fa49b2d71e9a0a4a503390ca8",
+      "contentDigest": "sha256:0a81ee0f1f714a6ce0fcc6d410d1cfb372719d3d061b86fcbf3288047f6f0661"
+    }
+  ],
+  "phaseReady": false,
+  "note": "This is an external complete-package gate. Each raw handoff was verified by V11 core; a verified non-pass outcome remains a workflow route."
+}

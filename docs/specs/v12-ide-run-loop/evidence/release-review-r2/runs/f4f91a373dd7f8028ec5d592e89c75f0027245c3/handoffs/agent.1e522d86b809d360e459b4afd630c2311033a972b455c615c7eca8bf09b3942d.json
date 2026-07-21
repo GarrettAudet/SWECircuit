@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:512a626e9be08a1bd6552eb832abd94d961704cc49f194c170670c0a0e940874"
+  },
+  "agent": {
+    "id": "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+    "blueprintDigest": "sha256:d8b0588de3509fc6e7d8efcc899a6d8780054ae3dd5cb8d04930788ece1854ea"
+  },
+  "compilationDigest": "sha256:289348ac15dc05d3c7920c7f2118190094fd7bbdf103deb3c229c68f2ebbc37c",
+  "summary": "Fix required: the R2 evidence harness and handoff verifier execute mutable, unbound dist/index.js code before authenticating their candidate-bound tooling, so their verification and package-generation semantics are not attributable to the exact candidate.",
+  "workUnitsCompleted": [
+    "review.r2.security-trace-authority"
+  ],
+  "artifacts": [
+    {
+      "name": "security-trace-authority-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Findings\n\n## [High] Release-review trust root executes an unbound generated runtime\n\nThe authenticated snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:12` imports `../../../../../dist/index.js` statically before any candidate authentication. The original candidate path is `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:12`. Its `authenticateReviewTooling` implementation at snapshot/original lines 1126-1139 authenticates only the harness and handoff-verifier script bytes. It does not authenticate the imported runtime module or its transitive closure.\n\nThat unbound module supplies `verifySpecialistPackage`, `verifySpecialistHandoff`, `compileAgentBlueprints`, and `renderSpecialistPackage`. The harness relies on those functions to verify all primary evidence sets at snapshot/original lines 1809-1820 and to compile, render, and self-verify the R2 package at lines 2386-2397. The separate verifier has the same static import at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs:9` (original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs:9`) and delegates approval-bound package and raw-handoff decisions to it at lines 278 and 294.\n\n`dist/` is excluded from the candidate tree by snapshot/original `.gitignore:26`. The canonical-gate wrapper also removes generated `dist` output from its disposable exact-candidate materialization before the post-gate source digest check at snapshot/original `scripts/run-v12-release-gate.mjs:780-782`. Consequently, the passing canonical-gate receipt proves the committed source and its disposable gate execution, but it does not bind the mutable live `dist/index.js` later loaded by the R2 harness. The closed candidate manifest's `reviewTooling` object likewise binds only the harness and verifier scripts.\n\nA stale or modified generated runtime can therefore execute before authentication and can decide whether packages and handoffs are accepted, alter the compiled contract, or perform undeclared effects. Approval of the resulting digest pair does not establish that those outputs were derived under candidate `f4f91a373dd7f8028ec5d592e89c75f0027245c3` semantics. This breaks exact identity, authority closure, and source-preserving release evidence.\n\nRequired correction: execute the harness and verifier from an immutable runtime built inside an exact candidate materialization, or use an authenticated bootstrap that binds the complete candidate-derived module closure before dynamically importing it. Preserve the runtime/materialization binding in the release receipt, then regenerate and freshly approve the R2 package and reviewer handoffs on a successor commit.\n\n# Authentication\n\nThe exact 254294-byte specialist contract was read in full. All 174 declared context sources matched their locator/read-scope relationship, exact byte count, and SHA-256 binding; no context authentication failed. Repository HEAD resolved to the requested candidate commit. The supplied canonical-gate receipt and raw stdout/stderr bindings authenticated and reported `npm.cmd run verify` passing for the exact candidate materialization. Raw correction, implementation-verification, R1 review, and V11 Audit-B trust-chain evidence was reviewed as primary evidence rather than inferred from navigation summaries.\n\n# Additional Review Evidence\n\nThe V12 core itself uses bundled schema sources rather than first-use filesystem reads. Fresh-process purity coverage exercises create, restore, inspect, and record while intercepting filesystem reads. Session restoration and transitions reverify package identity, canonical raw handoff bytes, digests, dependency eligibility, and non-pass routing. The aggregate resource test covers the maximum 16-agent roster with maximum-size handoffs and constituent-derived session and inspection ceilings. The immutable candidate snapshots, raw canonical-gate logs, correction lineage, raw R1 handoffs, Audit-B approval, package-verification receipt, semantic audit handoff, and launch authorization are present and byte-bound.\n\n# Outcome\n\n`fix`. The core corrections close the prior schema-loading, source-preservation, raw-evidence, Audit-B, and aggregate-limit findings, but the R2 release-evidence trust root remains mutable and unauthenticated. This security and trace-authority domain is not release-ready."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.security-trace-authority",
+      "requirementId": "evidence.r2.security-trace-authority-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "security-trace-authority-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Release-review evidence can be generated or accepted by mutable runtime code that is not bound to the candidate commit or canonical-gate receipt."
+  ],
+  "followUps": [
+    "Bind the complete runtime used by the R2 harness and handoff verifier to an exact candidate-derived materialization, then regenerate the package, approval, and fresh reviewer handoffs on a successor commit."
+  ]
+}

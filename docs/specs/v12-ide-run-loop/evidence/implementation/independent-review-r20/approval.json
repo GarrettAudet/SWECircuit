@@ -1,0 +1,12 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.review.stable-reconstruction-authority-r20",
+  "goalRevision": 1,
+  "approvedBy": "external-host-owner-declaration-via-integration-owner",
+  "approvalBasis": "The owner authorized release-completion audits; the integration owner reviewed this exact read-only contract, single-reviewer roster, authority, and digest pair before launch.",
+  "expectation": {
+    "compilationDigest": "sha256:92c57726650787cdbf9af9dba9a2ee5c189df6939c6c299510b9c621ab99970f",
+    "packageDigest": "sha256:a203a2db12370a21d9715c494b65084a03afe450d93859a9750c9d1dd26e0b97"
+  }
+}

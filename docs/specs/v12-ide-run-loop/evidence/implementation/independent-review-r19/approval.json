@@ -1,0 +1,12 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.review.closed-reconstruction-trust",
+  "goalRevision": 1,
+  "approvedBy": "repository-owner-via-main-agent",
+  "approvalBasis": "The owner authorized release-completion audits; the integration owner reviewed this exact read-only contract, one-agent roster, authority, and digest pair before launch.",
+  "expectation": {
+    "compilationDigest": "sha256:e8edeba54363eaabea98a63a6ec9ae61d6ac24888720fd5c146950d9a00f67c6",
+    "packageDigest": "sha256:5635c28776fec9376eeedf96b2239021345474afd6d6dcf81c3556e9eee2b3d0"
+  }
+}

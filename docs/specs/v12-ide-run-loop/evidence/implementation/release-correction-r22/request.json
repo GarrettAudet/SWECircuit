@@ -1,0 +1,530 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 22,
+    "objective": "Repair release-review source provenance and replace the npm 11 masking adapter with production-owned, operation-contained, distinct empty npm configuration files while preserving the real copied-production lifecycle proof.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.snapshots-authoritative",
+        "statement": "The immutable Revision 22 pre-edit snapshots are the only authoritative producer inputs for editable source.",
+        "rationale": "Revision 21 demonstrated that a digest-only uncommitted intermediate cannot support a trusted launch."
+      },
+      {
+        "id": "assumption.private-config-identity",
+        "statement": "Invocation-specific private config paths may vary while their containment policy and empty-file identities remain stable.",
+        "rationale": "Stable reconstruction must bind security semantics without binding disposable absolute paths."
+      },
+      {
+        "id": "assumption.external-host-boundary",
+        "statement": "Executable provenance, offline-cache provenance, process isolation, and hostile same-user resistance remain external-host duties.",
+        "rationale": "Repository code can validate supplied boundaries but cannot enforce the host runtime."
+      },
+      {
+        "id": "assumption.integration-owned-release",
+        "statement": "Independent review, V11 refresh, candidate gate, R2, hosted CI, and merge remain integration-owner work.",
+        "rationale": "The producer cannot approve its own release."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.fix.provenance-npm-config.r22",
+        "description": "Every producer input reconstructs, npm 11 runs only with two authenticated private empty config files, host npm configuration stays excluded, and the complete copied-production lifecycle remains exact.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.fix.provenance-npm-config.r22",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Provide exact snapshot and output identities, private config evidence, npm 11 inspection, fixture lifecycle, package pair, handoff fan-in, receipts, negative routes, commands, and cleanup.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Repository workflow, provenance, diagnosis, and specialist trust invariants.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.specialist-run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Normative IDE-neutral host and specialist execution boundary.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+      },
+      {
+        "id": "context.r22-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/correction-contract.md",
+        "digest": "sha256:e21440b34ded2ee1cf1454aee5d003eeeca888a65382356a1f75cf92b7ab9530",
+        "bytes": 4598,
+        "description": "Closed Revision 22 provenance and npm-config correction contract.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.r22-test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/test-plan.md",
+        "digest": "sha256:0673e28bfb4c68823daec68bd192d3587bb8f4e47b093fad5e4e3d595cf03992",
+        "bytes": 2428,
+        "description": "Closed Revision 22 verification obligations.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/test-plan.md"
+      },
+      {
+        "id": "context.r22-reproductions",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/integration-owner-reproductions.md",
+        "digest": "sha256:481d79b780504b74971ce4e28f0f8aefd9fbe7c253e346995344c2c3eedff467",
+        "bytes": 1621,
+        "description": "Exact integration-owner provenance and npm 11 reproductions.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/integration-owner-reproductions.md"
+      },
+      {
+        "id": "context.pre-parent",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-review.mjs",
+        "digest": "sha256:65f6e19e89d345b114219e24228327ca5f8803b2c51b3c47809ca1fc56a90e4e",
+        "bytes": 83371,
+        "description": "Immutable pre-edit production parent.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-review.mjs"
+      },
+      {
+        "id": "context.pre-gate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Immutable frozen canonical gate.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.pre-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:962be0fe8055a62b4d8f4d38994c4a8560d880acf4b6b903a0d59e80eeb25dbd",
+        "bytes": 122299,
+        "description": "Immutable pre-edit copied worker harness.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.pre-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+        "bytes": 30840,
+        "description": "Immutable frozen package-bound handoff verifier.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.pre-review-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-review.test.mjs",
+        "digest": "sha256:2903c1b6d7a41f5d9af7c62146155941392b2645f205eee003c9ae0730ce9fcb",
+        "bytes": 42687,
+        "description": "Immutable pre-edit release-review regressions.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-review.test.mjs"
+      },
+      {
+        "id": "context.pre-gate-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-gate.test.mjs",
+        "digest": "sha256:07733f1e6db96753a0a4c7a2d8e80a6978a43216d766a98d05a8147b074059e1",
+        "bytes": 33983,
+        "description": "Immutable pre-edit gate regressions.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.pre-lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/helpers/v12-release-review-lifecycle.mjs",
+        "digest": "sha256:56f5ecc17bd19a0647fb8b835a62e7e5dc28644a16046f4fd9f213970240abde",
+        "bytes": 49557,
+        "description": "Immutable pre-edit copied-production lifecycle helper.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/helpers/v12-release-review-lifecycle.mjs"
+      },
+      {
+        "id": "context.pre-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package.json",
+        "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+        "bytes": 3719,
+        "description": "Immutable package and command wiring.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package.json"
+      },
+      {
+        "id": "context.pre-lock",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Immutable exact offline dependency supply.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package-lock.json"
+      },
+      {
+        "id": "context.r21-attempts",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-attempt-history.md",
+        "digest": "sha256:dad5a3055ee56d6295a151274e21c3d5170efd3d30f03e7ed75ca0c0b16c5577",
+        "bytes": 2014,
+        "description": "Immutable Revision 21 routing ledger.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-attempt-history.md"
+      },
+      {
+        "id": "context.r21-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-handoff-verification.json",
+        "digest": "sha256:6fbe4c128f305ef0fbd2d76ed01bf049a9d9a74a142e169907d65542fd1f8040",
+        "bytes": 1326,
+        "description": "Immutable V11 verification of the Revision 21 block.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-handoff-verification.json"
+      },
+      {
+        "id": "context.r21-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-block-handoff.json",
+        "digest": "sha256:0224243c4325b298fb04d6af870f14d70e2b0fa95a5549906e809d5b386155c9",
+        "bytes": 14865,
+        "description": "Exact raw package-bound Revision 21 block handoff.",
+        "allowedWorkUnits": [
+          "fix.provenance-npm-config.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-block-handoff.json"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "release-review.closed-npm-config"
+      ],
+      "allowedCapabilities": [
+        "implement.release-review-trust"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            ".local/npm-cache/**",
+            "AGENTS.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-block-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/integration-owner-reproductions.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/helpers/v12-release-review-lifecycle.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-gate.test.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-review.test.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "scripts/run-v12-release-review.mjs",
+            "test/helpers/v12-release-review-lifecycle.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            ".local/v12-release-gate/**",
+            "dist/**",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "scripts/run-v12-release-review.mjs",
+            "test/helpers/v12-release-review-lifecycle.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not edit immutable snapshots, frozen gate or verifier source, package metadata, lockfile, or prior evidence; mutate Git state; use network access; launch descendants; refresh V11; run release phases against the real repository; claim release readiness; or merge."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.provenance-npm-config.r22",
+        "objective": "Implement and verify reconstructable source provenance plus production-owned private npm configuration across parent, harness, receipts, and lifecycle tests.",
+        "weight": 25,
+        "module": {
+          "id": "release-review.closed-npm-config",
+          "action": "Authenticate immutable pre-edit source, create and validate distinct operation-contained npm configs, remove the masking adapter, and prove the real lifecycle and cleanup.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "BlockedRevision21AndNpm11Reproduction"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "ProvenanceBoundClosedNpmLifecycleProof"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "implement.release-review-trust"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.specialist-run-contract",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.r22-contract",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.r22-test-plan",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.r22-reproductions",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.pre-parent",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.pre-gate",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.pre-harness",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.pre-verifier",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.pre-review-tests",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.pre-gate-tests",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.pre-lifecycle-helper",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.pre-package",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.pre-lock",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.r21-attempts",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.r21-verification",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          },
+          {
+            "sourceId": "context.r21-handoff",
+            "purpose": "Implement and verify the exact Revision 22 provenance and closed npm configuration contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            ".local/npm-cache/**",
+            "AGENTS.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-block-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/integration-owner-reproductions.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/helpers/v12-release-review-lifecycle.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-gate.test.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-review.test.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "scripts/run-v12-release-review.mjs",
+            "test/helpers/v12-release-review-lifecycle.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "write": [
+            ".local/v12-release-gate/**",
+            "dist/**",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "scripts/run-v12-release-review.mjs",
+            "test/helpers/v12-release-review-lifecycle.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "conflictZones": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "scripts/run-v12-release-review.mjs",
+            "test/helpers/v12-release-review-lifecycle.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".local/npm-cache/**",
+              "AGENTS.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-block-handoff.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/integration-owner-reproductions.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package-lock.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-gate.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/helpers/v12-release-review-lifecycle.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-gate.test.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-review.test.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "scripts/run-v12-release-review.mjs",
+              "test/helpers/v12-release-review-lifecycle.mjs",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              ".local/v12-release-gate/**",
+              "dist/**",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "scripts/run-v12-release-review.mjs",
+              "test/helpers/v12-release-review-lifecycle.mjs",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.fix.provenance-npm-config.r22"
+        ],
+        "handoffArtifacts": [
+          "provenance-npm-config-proof-r22.md"
+        ],
+        "stopConditions": [
+          "Stop before editing unless every immutable input and corresponding live pre-edit source matches exactly.",
+          "Do not restore host npm configuration or retain the Revision 21 adapter.",
+          "Do not include invocation-specific temporary config paths in the stable runtime identity.",
+          "Reject config aliasing, substitution, links, non-empty bytes, missing files, and out-of-operation-root paths before npm spawn.",
+          "The positive test must invoke the copied production gate, parents, harness phases, and verifier in separate real processes.",
+          "Keep every fixture and config file outside the source repository and remove it on both pass and failure.",
+          "Run every required command and return only the generated closed SpecialistAgentHandoff JSON."
+        ]
+      }
+    ]
+  }
+}

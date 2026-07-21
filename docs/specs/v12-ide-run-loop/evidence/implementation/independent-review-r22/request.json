@@ -1,0 +1,848 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.review.closed-npm-provenance-r22",
+    "revision": 1,
+    "objective": "Independently determine whether exact Revision 22 closes the Revision 21 provenance failure and npm 11 closed-environment defect without a new trust, cleanup, reconstruction, or test-quality bypass.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.producer-evidence-not-verdict",
+        "statement": "The producer package, handoff, verifier report, and test results are authenticated evidence but do not supply this review's semantic verdict.",
+        "rationale": "Independent review must reason from exact immutable sources."
+      },
+      {
+        "id": "assumption.read-only",
+        "statement": "The reviewer has no write authority and reports defects without repairing reviewed bytes.",
+        "rationale": "The reviewed source and evidence must remain immutable."
+      },
+      {
+        "id": "assumption.host-boundary",
+        "statement": "Executable provenance, offline-cache provenance, operating-system isolation, permission enforcement, and hostile same-user resistance remain external-host duties.",
+        "rationale": "Repository evidence may authenticate declarations and behavior without manufacturing host guarantees."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.review.closed-npm-provenance.r22",
+        "description": "Exact Revision 22 satisfies every closed review point, is fully reconstructable, preserves all valid controls, and introduces no release-blocking trust or test-quality finding.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.review.closed-npm-provenance.r22",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Provide package and source authentication, disposition of every required review point, bypass analysis, test-quality analysis, residual host boundaries, and a concrete pass or correction route.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.review-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/review-contract.md",
+        "digest": "sha256:3f912072ede9e9e3982837bfffb2f4bf8bc4283de87aed679cccef8f316b7710",
+        "bytes": 3278,
+        "description": "Closed Revision 22 independent review authority.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/review-contract.md"
+      },
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/agent-contract.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Immutable independent-review snapshot of AGENTS.md.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/agent-contract.md"
+      },
+      {
+        "id": "context.specialist-run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/specialist-run-contract.md.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/specialist-run-contract.md"
+      },
+      {
+        "id": "context.r22-correction-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-correction-contract.md",
+        "digest": "sha256:e21440b34ded2ee1cf1454aee5d003eeeca888a65382356a1f75cf92b7ab9530",
+        "bytes": 4598,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/correction-contract.md.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-correction-contract.md"
+      },
+      {
+        "id": "context.r22-test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-test-plan.md",
+        "digest": "sha256:0673e28bfb4c68823daec68bd192d3587bb8f4e47b093fad5e4e3d595cf03992",
+        "bytes": 2428,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/test-plan.md.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-test-plan.md"
+      },
+      {
+        "id": "context.r22-reproductions",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-reproductions.md",
+        "digest": "sha256:481d79b780504b74971ce4e28f0f8aefd9fbe7c253e346995344c2c3eedff467",
+        "bytes": 1621,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/integration-owner-reproductions.md.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-reproductions.md"
+      },
+      {
+        "id": "context.pre-parent",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-parent.mjs",
+        "digest": "sha256:65f6e19e89d345b114219e24228327ca5f8803b2c51b3c47809ca1fc56a90e4e",
+        "bytes": 83371,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-parent.mjs"
+      },
+      {
+        "id": "context.pre-gate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/scripts/run-v12-release-gate.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-gate.mjs"
+      },
+      {
+        "id": "context.pre-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-harness.mjs",
+        "digest": "sha256:962be0fe8055a62b4d8f4d38994c4a8560d880acf4b6b903a0d59e80eeb25dbd",
+        "bytes": 122299,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-harness.mjs"
+      },
+      {
+        "id": "context.pre-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-verifier.mjs",
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+        "bytes": 30840,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-verifier.mjs"
+      },
+      {
+        "id": "context.pre-review-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-review-tests.mjs",
+        "digest": "sha256:2903c1b6d7a41f5d9af7c62146155941392b2645f205eee003c9ae0730ce9fcb",
+        "bytes": 42687,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-review.test.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-review-tests.mjs"
+      },
+      {
+        "id": "context.pre-gate-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-gate-tests.mjs",
+        "digest": "sha256:07733f1e6db96753a0a4c7a2d8e80a6978a43216d766a98d05a8147b074059e1",
+        "bytes": 33983,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/v12-release-gate.test.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-gate-tests.mjs"
+      },
+      {
+        "id": "context.pre-lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-lifecycle-helper.mjs",
+        "digest": "sha256:56f5ecc17bd19a0647fb8b835a62e7e5dc28644a16046f4fd9f213970240abde",
+        "bytes": 49557,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/test/helpers/v12-release-review-lifecycle.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-lifecycle-helper.mjs"
+      },
+      {
+        "id": "context.pre-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-package.json",
+        "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+        "bytes": 3719,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-package.json"
+      },
+      {
+        "id": "context.pre-lock",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/pre-edit/package-lock.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-package-lock.json"
+      },
+      {
+        "id": "context.r21-attempts",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-attempt-history.md",
+        "digest": "sha256:dad5a3055ee56d6295a151274e21c3d5170efd3d30f03e7ed75ca0c0b16c5577",
+        "bytes": 2014,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-attempt-history.md.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-attempt-history.md"
+      },
+      {
+        "id": "context.r21-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-handoff-verification.json",
+        "digest": "sha256:6fbe4c128f305ef0fbd2d76ed01bf049a9d9a74a142e169907d65542fd1f8040",
+        "bytes": 1326,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-handoff-verification.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-handoff-verification.json"
+      },
+      {
+        "id": "context.r21-block-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-block-handoff.json",
+        "digest": "sha256:0224243c4325b298fb04d6af870f14d70e2b0fa95a5549906e809d5b386155c9",
+        "bytes": 14865,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/inputs/evidence/r21-block-handoff.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-block-handoff.json"
+      },
+      {
+        "id": "context.final-parent",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-parent.mjs",
+        "digest": "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
+        "bytes": 96946,
+        "description": "Immutable independent-review snapshot of scripts/run-v12-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-parent.mjs"
+      },
+      {
+        "id": "context.final-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-harness.mjs",
+        "digest": "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73",
+        "bytes": 127748,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-harness.mjs"
+      },
+      {
+        "id": "context.final-review-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-review-tests.mjs",
+        "digest": "sha256:1fd87295b69e1f81c41bf1681acf23712b8dd76e65029ac821b98f45c3b2d7c3",
+        "bytes": 44155,
+        "description": "Immutable independent-review snapshot of test/v12-release-review.test.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-review-tests.mjs"
+      },
+      {
+        "id": "context.final-gate-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-gate-tests.mjs",
+        "digest": "sha256:92c72bb85bbcfd6cfafefbede78ccb7cf753d232e068032367c1e0a7828d42b6",
+        "bytes": 42125,
+        "description": "Immutable independent-review snapshot of test/v12-release-gate.test.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-gate-tests.mjs"
+      },
+      {
+        "id": "context.final-lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-lifecycle-helper.mjs",
+        "digest": "sha256:101c53a45cdc4edca820f1a8811b668ca8a9c88c777f2785dee3c82e914f53c5",
+        "bytes": 54920,
+        "description": "Immutable independent-review snapshot of test/helpers/v12-release-review-lifecycle.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-lifecycle-helper.mjs"
+      },
+      {
+        "id": "context.final-gate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Immutable independent-review snapshot of scripts/run-v12-release-gate.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-gate.mjs"
+      },
+      {
+        "id": "context.final-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-verifier.mjs",
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+        "bytes": 30840,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-verifier.mjs"
+      },
+      {
+        "id": "context.final-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-package.json",
+        "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+        "bytes": 3719,
+        "description": "Immutable independent-review snapshot of package.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-package.json"
+      },
+      {
+        "id": "context.final-lock",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Immutable independent-review snapshot of package-lock.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-package-lock.json"
+      },
+      {
+        "id": "context.r22-request",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-request.json",
+        "digest": "sha256:470bacad3fcfe60cf5ac37c5a58095e2f99114bc59d4c2807d88ac1c6d629a8b",
+        "bytes": 29472,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/request.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-request.json"
+      },
+      {
+        "id": "context.r22-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-approval.json",
+        "digest": "sha256:b01043783688294b8af0b45b7d0b29ecbdbdac4b96965392e9c573e7b7f30534",
+        "bytes": 686,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/approval.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-approval.json"
+      },
+      {
+        "id": "context.r22-compilation-summary",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-compilation-summary.json",
+        "digest": "sha256:a47db34028c71f4d077074aca6a04f7b32f283d3679e211894c931ce976a4f4d",
+        "bytes": 3448,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/compilation-summary.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-compilation-summary.json"
+      },
+      {
+        "id": "context.r22-package-envelope",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-package-envelope.json",
+        "digest": "sha256:59794b8d9285f9f618a39124fc39c55e13101edf56df4cf7c012ca97a3ddee07",
+        "bytes": 109869,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/package-envelope.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-package-envelope.json"
+      },
+      {
+        "id": "context.r22-attempts",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-attempt-history.md",
+        "digest": "sha256:d0bbf786a9ccc41a7ad662b943a2fe54600627b1de8f545dc61c1068c0fa8cef",
+        "bytes": 1835,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/attempt-history.md.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-attempt-history.md"
+      },
+      {
+        "id": "context.r22-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-pass-handoff.json",
+        "digest": "sha256:0bfac8263bd0d209baf33f7cbfd29fc68482a52eef187f77fcf7ce66ebf28988",
+        "bytes": 21143,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/handoffs/agent.8f24670b544882730a1763ac030531997dba8400a9cc3c767eceeb1f7a96212d-pass-attempt-1.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-pass-handoff.json"
+      },
+      {
+        "id": "context.r22-handoff-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-handoff-verification.json",
+        "digest": "sha256:f724bf4f6f03446e1835afc815e0da9fceb670075d62e98922494d9f7f9571d4",
+        "bytes": 1323,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/handoff-verification.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-handoff-verification.json"
+      },
+      {
+        "id": "context.r20-review-attempts",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-attempt-history.md",
+        "digest": "sha256:93ad7851321af78560736fbb40c9a5019b4c786be4d79104520072b66b78501c",
+        "bytes": 1284,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r20/attempt-history.md.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-attempt-history.md"
+      },
+      {
+        "id": "context.r20-review-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-fix-handoff.json",
+        "digest": "sha256:c9799090bd054dca1cb299a39fc4e159dc2be6b7f70d27ec290e6d4c6b10c161",
+        "bytes": 15245,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r20/handoffs/agent.d0ed1cc274e25cc8c853efd842f293a8155e40437347d904675cdc0caf83d889-fix-attempt-1.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-fix-handoff.json"
+      },
+      {
+        "id": "context.r20-review-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-verification.json",
+        "digest": "sha256:7fb46adc270b8770de52f019dd62fbd902966276e8346c0750d08c8602480d47",
+        "bytes": 1322,
+        "description": "Immutable independent-review snapshot of docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r20/handoff-verification.json.",
+        "allowedWorkUnits": [
+          "review.closed-npm-provenance.r22"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-verification.json"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "review.closed-npm-provenance"
+      ],
+      "allowedCapabilities": [
+        "review.release-evidence-security"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/review-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/agent-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-gate-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-harness.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-parent.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-verifier.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-gate-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-harness.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-parent.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-verifier.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-fix-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-block-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-compilation-summary.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-pass-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-reproductions.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-request.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/specialist-run-contract.md"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "powershell",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not edit files, install packages, mutate Git state, use network access, launch descendants, refresh V11, run a candidate gate or R2 phase, claim release readiness, approve merge, or alter evidence."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "review.closed-npm-provenance.r22",
+        "objective": "Authenticate and independently audit exact Revision 22 against the closed review contract and search for new trust-boundary, provenance, cleanup, or test-quality defects.",
+        "weight": 21,
+        "module": {
+          "id": "review.closed-npm-provenance",
+          "action": "Trace source provenance, private npm configuration identity, stable reconstruction, child enforcement, receipts, cleanup, package-bound fan-in, real lifecycle execution, and fail-closed coverage before returning an independent verdict.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "PackageVerifiedRevision22Implementation"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IndependentRevision22TrustVerdict"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "review.release-evidence-security"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.review-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.specialist-run-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r22-correction-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r22-test-plan",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r22-reproductions",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.pre-parent",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.pre-gate",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.pre-harness",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.pre-verifier",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.pre-review-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.pre-gate-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.pre-lifecycle-helper",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.pre-package",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.pre-lock",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r21-attempts",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r21-verification",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r21-block-handoff",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.final-parent",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.final-harness",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.final-review-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.final-gate-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.final-lifecycle-helper",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.final-gate",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.final-verifier",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.final-package",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.final-lock",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r22-request",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r22-approval",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r22-compilation-summary",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r22-package-envelope",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r22-attempts",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r22-handoff",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r22-handoff-verification",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r20-review-attempts",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r20-review-handoff",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          },
+          {
+            "sourceId": "context.r20-review-verification",
+            "purpose": "Authenticate and independently audit the exact Revision 22 source, producer package, runtime evidence, and prior rejection chain."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/review-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/agent-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-gate-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-harness.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-parent.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-verifier.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-gate-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-harness.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-parent.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-verifier.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-fix-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-block-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-compilation-summary.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-pass-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-reproductions.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-request.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/specialist-run-contract.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/review-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/agent-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-gate-tests.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-gate.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-harness.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-lifecycle-helper.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-package-lock.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-package.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-parent.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-review-tests.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/final-verifier.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-gate-tests.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-gate.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-harness.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-lifecycle-helper.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-package-lock.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-package.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-parent.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-review-tests.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/pre-verifier.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-fix-handoff.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r20-review-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-block-handoff.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r21-handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-compilation-summary.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-pass-handoff.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-reproductions.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-request.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/r22-test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/inputs/snapshots/specialist-run-contract.md"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "powershell",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.review.closed-npm-provenance.r22"
+        ],
+        "handoffArtifacts": [
+          "independent-revision-22-trust-review.md"
+        ],
+        "stopConditions": [
+          "Stop before semantic review if any declared snapshot byte count or SHA-256 binding fails.",
+          "Remain read-only; report every defect without changing reviewed source or evidence.",
+          "Treat producer tests and handoff as evidence only, never as the semantic verdict.",
+          "Resolve every closed review-contract point and search for new bypasses before returning pass.",
+          "Do not claim release readiness, hosted CI, merge approval, host isolation, cache provenance, or authenticated human identity.",
+          "Return only the exact closed SpecialistAgentHandoff JSON object from the generated contract."
+        ]
+      }
+    ]
+  }
+}

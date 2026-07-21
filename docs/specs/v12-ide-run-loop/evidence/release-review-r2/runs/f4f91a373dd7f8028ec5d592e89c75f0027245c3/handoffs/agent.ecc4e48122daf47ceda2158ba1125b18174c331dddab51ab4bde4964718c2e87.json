@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:512a626e9be08a1bd6552eb832abd94d961704cc49f194c170670c0a0e940874"
+  },
+  "agent": {
+    "id": "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87",
+    "blueprintDigest": "sha256:957bf0322f6b2f5222f70b416f81dc01c2d27a7286c52cf45febedf36785154e"
+  },
+  "compilationDigest": "sha256:289348ac15dc05d3c7920c7f2118190094fd7bbdf103deb3c229c68f2ebbc37c",
+  "summary": "No lifecycle-correctness findings. The authenticated candidate is release-ready within this review domain.",
+  "workUnitsCompleted": [
+    "review.r2.lifecycle-correctness"
+  ],
+  "artifacts": [
+    {
+      "name": "lifecycle-correctness-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "## Findings\n\nNo findings. The exact candidate is release-ready within the lifecycle-correctness review domain.\n\n## Authentication\n\nAll 153 declared immutable context sources matched their contract-bound raw SHA-256 digests and byte counts before substantive review. The generated package reconstructed successfully against approved compilation `sha256:289348ac15dc05d3c7920c7f2118190094fd7bbdf103deb3c229c68f2ebbc37c` and package `sha256:56058e9ddb129d31bbe6bdac61e8aaa22561b7274c18998a89a78375586f223a`. Repository HEAD matched candidate commit `f4f91a373dd7f8028ec5d592e89c75f0027245c3`.\n\n## Lifecycle Review\n\nThe four pure operations conform to the normative contract. Creation verifies the complete package and roster before constructing a bounded frozen session (`src/specialist-run-session.ts:144-244`, `src/specialist-run-session.ts:466-503`; authenticated snapshots at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/inputs/source-snapshots/src/specialist-run-session.ts`). Restore bounds raw input before parsing, rejects invalid closed state, revalidates the domain-separated digest and external package binding, canonically decodes every raw handoff, reverifies V11 semantics, enforces pass-only transitive dependency closure, and reconstructs the canonical value (`src/specialist-run-session.ts:302-457`, `src/specialist-run-session.ts:506-539`).\n\nRecording applies the required precedence: prior-session validation, bounded raw verification, exact replay, conflicting-settlement rejection, terminal-route rejection, transitive dependency eligibility, canonical insertion, aggregate bound, detachment, and freeze (`src/specialist-run-transition.ts:151-223`; snapshot under the same run root at `inputs/source-snapshots/src/specialist-run-transition.ts`). Inspection derives every-agent status, manifest-resolved eligible contracts, exact accepted evidence, terminal routing, and complete-roster readiness without host-effect claims (`src/specialist-run-inspection.ts:153-246`, `src/specialist-run-inspection.ts:277-409`; corresponding authenticated snapshot under `inputs/source-snapshots/src/specialist-run-inspection.ts`). Integration readiness requires roster cardinality equality and an accepted `pass` for every selected blueprint (`src/specialist-run-inspection.ts:306-310`).\n\nCanonical evidence ordering now uses `requirementId` as the primary identity and the complete closed tuple as tie-breakers (`src/specialist-run-inspection.ts:108-150`). The counterordered regression proves this independently of correlated criterion IDs (`test/specialist-run-inspection.test.mjs:52-57`, `test/specialist-run-inspection.test.mjs:376-392`; authenticated snapshot at `inputs/source-snapshots/test/specialist-run-inspection.test.mjs`). Accepted rows, agents, contracts, routes, artifacts, evidence, and next-action IDs are all normalized with ordinal comparison.\n\nDependency behavior is differentially checked across root, chain, diamond, fan-out, fan-in, disconnected, and complete DAGs (`test/specialist-run.test.mjs:342-491`). Independent valid arrival permutations converge (`test/specialist-run.test.mjs:493-535`), fresh-process restore preserves canonical semantics (`test/specialist-run.test.mjs:537-641`), and every non-`pass` route remains terminal and ineligible for fan-in (`test/specialist-run-transition.test.mjs:178-207`, `test/specialist-run-inspection.test.mjs:459-504`). The four operations also have a first-use no-filesystem-read regression (`test/specialist-run-foundation.test.mjs:259-277`).\n\n## Resource Proof\n\nThe corrected aggregate fixture creates and verifies a complete 16-agent package, constructs sixteen valid 1,048,576-byte handoffs with exact 1,398,104-character canonical base64 rows, records them in forward and reverse orders, restores the final session, reinspects it, and proves identical integration-ready values (`test/specialist-run.test.mjs:948-1033`). Constituent ceilings prove the maximum session remains below both the 64 MiB raw restore boundary and 128 MiB canonical safeguard, while inspection remains below its 64 MiB safeguard (`test/specialist-run.test.mjs:1035-1072`). Exact raw-handoff and raw-session boundaries pass, and one-unit-over inputs fail without truncation (`test/specialist-run.test.mjs:1075-1137`).\n\n## Canonical Evidence\n\nThe exact receipt at original path `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json`, snapshotted under this run at `inputs/canonical-gate/canonical-gate-receipt.json`, binds the candidate commit and tree, reports unchanged clean tracked state, exact source materialization, exit code 0, and `npm.cmd run verify` result `pass`. Its authenticated stdout records 408 tests passed with zero failures, including the corrected canonical-ordering, aggregate, recovery, routing, dogfood, package, and installed-consumer paths. The V12 dogfood additionally authenticates real implementation evidence, records the exact revision-4 pass handoff, restores and reinspects the immutable session, reports byte-identical replay, and keeps all runtime and integration effects external (`scripts/run-v12-dogfood.mjs:1061-1295`; authenticated snapshot under `inputs/source-snapshots/scripts/run-v12-dogfood.mjs`).\n\n## Outcome\n\n`pass`. Lifecycle correctness, deterministic recovery, canonical evidence ordering, aggregate resource proof, dependency eligibility, exact fan-in, routing, and immutability are release-ready for this exact candidate. This scoped pass does not establish complete R2 roster readiness or perform hosted CI, integration, merge, or memory closeout."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.lifecycle-correctness",
+      "requirementId": "evidence.r2.lifecycle-correctness-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "lifecycle-correctness-release-review-r2.md"
+    }
+  ],
+  "assumptions": [
+    "The caller-supplied compilation and package digest pair is the external approval trust root required by the contract."
+  ],
+  "risks": [
+    "This lifecycle pass does not establish whole-roster R2 release readiness or perform hosted CI, integration, merge, release, or memory closeout."
+  ],
+  "followUps": [
+    "Verify this exact raw handoff through the approved package and combine it with the complete R2 roster before any release decision."
+  ]
+}

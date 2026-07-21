@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "block",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 19,
+    "digest": "sha256:fb4947a71f4969c3ec54e3c70d2764a93d68dfd5ed43013c3ba2cbff6f575385"
+  },
+  "agent": {
+    "id": "agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012",
+    "blueprintDigest": "sha256:7bf0a41867de47422a1fa329d509abeda50a50955a5ecfb74aed92d496cde2f1"
+  },
+  "compilationDigest": "sha256:f4834982911064d5a3c5f9fa1d2c350376da8bead9d7a036ec639a7b9a52beca",
+  "summary": "Implemented the Revision 19 closed-reconstruction correction within the approved six-file boundary. Focused tests passed independently, but the final post-edit combined invocation was interrupted before producing a result, and the final read-only scope and digest audit was not run. The handoff therefore fails closed with outcome block.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "closed-reconstruction-trust-correction-r19.md",
+      "mediaType": "text/markdown",
+      "content": "# Revision 19 Closed Reconstruction Trust Correction\n\n## Approved identity\n\n- Compilation: `sha256:f4834982911064d5a3c5f9fa1d2c350376da8bead9d7a036ec639a7b9a52beca`\n- Package: `sha256:1cdedbda0fd297f0e06c8bf58f162a7bccd099bc84e4c1935af8cb1ff433042b`\n- Agent: `agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012`\n- Blueprint: `sha256:7bf0a41867de47422a1fa329d509abeda50a50955a5ecfb74aed92d496cde2f1`\n\nAll 22 declared context sources were authenticated against their declared byte counts and SHA-256 digests before editing. The specialist package was verified against the approved compilation and package identities.\n\n## Implemented behavior\n\n- Cumulative private reconstruction for each phase.\n- Explicit cache and parent-digest external inputs.\n- Closed pre-execution inventories and phase-specific input allowlists.\n- Realpath, resolver, ancestor `node_modules`, link, alias, and hardlink confinement.\n- Exact owner compilation and package equality checks.\n- Full package-file reconstruction and comparison before approval or verification.\n- Full-set promotion preflight, immutable exact-file promotion, retry handling, and receipt-last commit semantics.\n- Behavioral adversarial coverage for substitution, source mutation, undeclared files, resolver escape, missing cache, aliasing, promotion failure, conflicts, links, and hardlinks.\n\n## Actual focused results\n\n- Fast explicit-cache and resolver-boundary test: 1/1 passed; 111.315 ms.\n- Final independent `test/v12-release-review.test.mjs`: 15/15 passed; 71.754 seconds.\n- Independent `test/v12-release-gate.test.mjs` from the same implementation state: 14/14 passed; approximately 322.8 seconds.\n- Combined review and gate suite before the final realpath-alias test: 29/29 passed; approximately 338.0 seconds.\n- Final combined review and gate invocation after the realpath-alias test was started but interrupted before completion. It produced no pass or fail result.\n- Offline dependency reconstruction previously passed using the explicit cache, adding 12 packages without network access.\n- Missing-cache behavior previously failed closed without creating the requested cache path or accessing the network.\n- Format, lint, typecheck, build, template validation, and diff whitespace checks passed before the final test-only edit. The edited test file was formatted afterward, but broader checks were not repeated because execution was stopped.\n\n## Deliberately not performed\n\nNo candidate release gate, R2 phase, V11 approval refresh, hosted CI, merge, dependency change, lockfile change, compiler or schema change, evidence mutation, or Git-state mutation was performed.\n\n## Incomplete obligations\n\n- The final post-edit combined two-file test invocation has no completed result.\n- The final read-only audit of the exact changed-file set, byte counts, and SHA-256 digests was not run.\n\n## Residual boundaries\n\nThe external host must still pin and authenticate the parent runner, provision the declared cache, trust the operating system and Node/npm/Git executables, isolate hostile same-user processes, preserve exact handoff bytes, and perform successor release authorization. The implementation does not claim protection against a malicious parent, hostile same-user mutation, compromised host executables, or unverified cache provenance."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.closed-reconstruction-trust.r19",
+      "requirementId": "evidence.fix.closed-reconstruction-trust.r19",
+      "kind": "test",
+      "duty": "produce",
+      "status": "fail",
+      "artifact": "closed-reconstruction-trust-correction-r19.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The final combined behavioral suite was interrupted and therefore cannot support a final pass outcome.",
+    "The final six-file scope, byte-count, and SHA-256 audit remains incomplete.",
+    "External-host isolation, executable trust, cache provenance, and exact evidence preservation remain outside this specialist implementation."
+  ],
+  "followUps": [
+    "The integration owner must rerun the exact combined review and gate test pair and complete the read-only six-file scope and digest audit.",
+    "Only after those checks pass should the integration owner independently review and commit the successor, then run its separately authorized candidate gate and fresh R2 review."
+  ]
+}

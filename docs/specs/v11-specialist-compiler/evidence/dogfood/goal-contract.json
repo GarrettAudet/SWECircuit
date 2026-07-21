@@ -2,7 +2,7 @@
   "apiVersion": "swecircuit/specialist/v1alpha1",
   "kind": "GoalContract",
   "id": "v11.specialist-compiler.release",
-  "revision": 39,
+  "revision": 40,
   "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit with an exact external verification receipt, a hardened first-run reference host, self-sufficient generated handoff contracts, publicly closed specialist schemas, deterministic artifact media and normalized evidence controls, exact candidate analysis, raw handoff and dependency fan-in verification, canonical gates, traceable integration, and owner merge gate without claiming runtime orchestration.",
   "integrationOwner": "v11.integration-owner",
   "assumptions": [
@@ -703,8 +703,8 @@
       "id": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
-      "bytes": 2931,
+      "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+      "bytes": 3719,
       "description": "Canonical build, test, dogfood, package, and consumer gates.",
       "allowedWorkUnits": [
         "prepare.candidate",

@@ -1,0 +1,43 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 9,
+    "digest": "sha256:20e576ae7355d0d211e821d54cb92384ff955d4fb04f6c2e514db70df0cf2cf1"
+  },
+  "agent": {
+    "id": "agent.f135c6a031895dbe7733367c2e1729fa86815ec89a935f13f00cb079d5c60ae5",
+    "blueprintDigest": "sha256:2f8c267ce00799d1224eb91b4071fd7f834411cedc4845cacc09a727b4c17c34"
+  },
+  "compilationDigest": "sha256:ca0488cd362c3757183da85238001ff1e14e9dee702bf58af27347684a4cdc6d",
+  "summary": "Corrected only the malformed-candidate assertion and passed all four focused regressions, but the focused production lint command exposed two pre-existing R9 diagnostics in the release-gate script; the latest authority prohibited changing that production file.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "release-proof-closure-correction-r9.md",
+      "mediaType": "text/markdown",
+      "content": "# Release Proof Closure Correction R9 - Fix Attempt 2\n\n## Outcome\n\nFix.\n\n## Authentication And Scope\n\n- Re-authenticated checkpoint `64d9310` and the exact 23116-byte contract at `sha256:ae6258786d9ba9366410035b3c89f9d45f921ac1a500e3287d1649f1c0b2fb4e`.\n- Preserved the external-host attempt-1 handoff and verification evidence without modification.\n- Changed only `test/v12-release-gate.test.mjs`.\n- Production bindings remained unchanged: release gate `sha256:042d719374b9ebf3818ef1a5f8f0e8f00b8f5578445f7b00c8f0291cda06d9d3`; R2 harness `sha256:730a92947d58dee458aac634d4098fb8aa7845217481fe9ba5d870d74e4320d0`.\n\n## Correction\n\nReplaced the incorrect malformed-candidate regular-expression assertion with exact equality against the wrapper's canonical usage message. The resulting test is 6077 bytes at `sha256:f22139dcce1a7654cc4cc44303d0498fb1720c1c378276df9e57c6900f1b7598`.\n\n## Passing Verification\n\n- `node --check` passed for the authorized scripts and test.\n- Biome format and lint passed for the changed test.\n- Biome formatting passed for the release wrapper.\n- R2 stdin formatting was byte-identical and its stdin lint check passed.\n- Focused regression suite passed 4 of 4 tests in 90.3 seconds: exact candidate materialization and tamper detection, canonical-command isolation, R2 six-source closure, and malformed-candidate fail-closed behavior.\n- Scoped `git diff --check` passed.\n- The temporary `.local/v12-release-gate` materialization was removed.\n\n## Remaining Failure\n\n`npm.cmd exec --offline -- biome lint scripts/run-v12-release-gate.mjs test/v12-release-gate.test.mjs` exited 1. The release wrapper's deliberate unsafe-control rejection regex at line 104 produced two `lint/suspicious/noControlCharactersInRegex` errors. Fourteen string-concatenation findings were informational. The latest attempt-2 instruction authorized only the assertion correction and explicitly prohibited altering production behavior, so this specialist did not modify the release wrapper.\n\n## Scope Integrity\n\nNo evidence file, package file, production behavior, Git state, staged content, commit, network resource, or descendant was changed or invoked outside the approved focused work."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.release-proof-closure.r9",
+      "requirementId": "evidence.release-proof-closure.r9",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "release-proof-closure-correction-r9.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The canonical `npm.cmd run verify` lint stage will remain non-pass while the two release-wrapper control-character regex diagnostics are unsuppressed."
+  ],
+  "followUps": [
+    "Authorize the smallest behavior-neutral release-wrapper lint correction, such as one justified Biome suppression for the deliberate unsafe-control regex.",
+    "Rerun focused lint and the canonical candidate verification after that correction."
+  ]
+}

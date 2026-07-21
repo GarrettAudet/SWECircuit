@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 13,
+    "digest": "sha256:96b6eaddcdd6242b9860f444ff6fb33e64919c8c9962e1ce584b815ba4a0dcf2"
+  },
+  "agent": {
+    "id": "agent.ee3ab1e48b0732261eea826a1c11e3f8761c84630e3edad4da3e68569e909eb8",
+    "blueprintDigest": "sha256:58733521eaec83ddf85b0f51b6c76b0e53c8b09eecfb0217ae445ca5804eb818"
+  },
+  "compilationDigest": "sha256:812c86d0f802dc5c0fe4c36a94e699a52dc2333a47780516c6e898bb89da6555",
+  "summary": "Implemented and verified the closed host-owned TypeScript entrypoint supply while preserving the repository-local consumer default, external npm cache, and exact materialization inspection.",
+  "workUnitsCompleted": [
+    "fix.candidate-toolchain-supply.r13"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-toolchain-supply-r13.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Toolchain Supply R13\n\n## Result\n\nPASS. The release host now supplies one normalized `SWECIRCUIT_TYPESCRIPT_ENTRYPOINT` to the canonical child. Both host and consumer validation reject duplicate case-insensitive supplies, empty or relative paths, missing entries, directories, symbolic links, and paths resolving inside the candidate. Ordinary local consumer verification retains the repository-local TypeScript entrypoint.\n\n## Changes\n\n- `scripts/check-packed-consumer.mjs` validates the optional host supply as an absolute plain regular non-symbolic-link file, resolves it outside candidate source, and uses the validated path for TypeScript compilation.\n- `scripts/run-v12-release-gate.mjs` validates the host entrypoint, proves it resolves outside the materialization, removes case variants, and passes exactly one canonical environment key to the child.\n- `test/v12-release-gate.test.mjs` covers default and case-insensitive supply, duplicate, empty, relative, missing, directory, symbolic-link, and candidate-contained paths; it also proves the normalized value reaches the child and the packed consumer uses it.\n\n## Output Bindings\n\n- `scripts/check-packed-consumer.mjs`: 45,741 bytes, `sha256:7c757db47ae677bf23dab335d66efa02b85a0917cbe0334d013efe001cf86a09`.\n- `scripts/run-v12-release-gate.mjs`: 31,782 bytes, `sha256:5635d0d1a7af6f688dc26c9256a09827b88790ab26958ff17fe5cc57c4a8c868`.\n- `test/v12-release-gate.test.mjs`: 16,073 bytes, `sha256:d20620dec6cb6149d4c3802aaac05b055566c00ff2e4cb7b8f74792fd2ed350e`.\n\n## Verification\n\n- `node --check scripts/run-v12-release-gate.mjs`: PASS, exit 0.\n- `node --check scripts/check-packed-consumer.mjs`: PASS, exit 0.\n- `node --test test/v12-release-gate.test.mjs`: PASS, exit 0, 9 passed, 0 failed, duration 170.8 seconds.\n- `npm.cmd run consumer:check`: PASS, exit 0; offline installed-package compatibility gate passed.\n- `git diff --check`: PASS, exit 0.\n- Exact release-gate scratch was absent after testing; external npm cache contained zero packed-consumer workspace leftovers.\n\n## Authentication\n\n- The 15,450-byte contract and 665-byte approval matched their declared raw SHA-256 bindings before use and after substantive work.\n- All ten declared source contexts matched their exact initial byte and digest bindings before use.\n- Post-work reauthentication matched nine immutable contract, approval, and context bindings plus all three output bindings.\n- `verifySpecialistPackage` passed before and after work with compilation `sha256:812c86d0f802dc5c0fe4c36a94e699a52dc2333a47780516c6e898bb89da6555` and package `sha256:b12698368ee2c73c6d012c1881275ec3bc225107067d05f9614a313d4358da80`.\n\n## Failed Attempts\n\nNative `apply_patch` failed before mutation because the Windows sandbox helper could not refresh. The first hash-guarded write also failed before mutation with `EPERM`. The contract-authorized escalated writes then succeeded only after exact precondition digest checks and immediate byte verification. An initial sandboxed focused-test run failed three existing materialization tests with `EPERM`; the first escalated retry timed out after 124 seconds. Its exact disposable candidate directory was removed through the release-gate cleanup hook, and the final 600-second retry passed all nine tests.\n\n## Scope\n\nOnly the three declared files were modified. No Git mutation, network access, agent launch, candidate-local dependency tree, evidence update, documentation update, or V11 change occurred. Exact materialization inspection and external npm cache behavior remain unchanged."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.candidate-toolchain-supply.r13",
+      "requirementId": "evidence.candidate-toolchain-supply.r13",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "candidate-toolchain-supply-r13.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The integration-owned candidate-addressed canonical gate was intentionally not run in this bounded work unit."
+  ],
+  "followUps": [
+    "The integration owner should rebuild the affected V11 evidence and Audit B chain, run the complete repository gate and checker matrix, commit a new candidate, and execute its canonical gate once."
+  ]
+}

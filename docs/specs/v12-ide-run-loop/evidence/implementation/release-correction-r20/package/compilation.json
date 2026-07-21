@@ -1,0 +1,1672 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 20,
+    "objective": "Separate stable package reconstruction from phase-specific authority, prove one package across fresh compile/approve/verify contexts, close Unicode and cache-location paths, and preserve Revision 19's valid trust controls.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.host-boundary",
+        "statement": "Hostile same-user races, operating-system and executable trust, cache provenance, and parent pin enforcement remain external-host responsibilities.",
+        "rationale": "Repository code can enforce location and byte checks without claiming host isolation."
+      },
+      {
+        "id": "assumption.integration-owned-release",
+        "statement": "The integration owner retains independent review, V11 refresh, successor gate, R2, hosted CI, and merge authority.",
+        "rationale": "The correction producer cannot approve its own release."
+      },
+      {
+        "id": "assumption.prior-evidence-immutable",
+        "statement": "Revision 17-19 producer and independent-review evidence remains immutable; Revision 20 creates a new package and source identity.",
+        "rationale": "A correction must preserve every prior attempt and verdict."
+      },
+      {
+        "id": "assumption.stable-reconstruction",
+        "statement": "Candidate, parent, cache declaration, and canonical-gate bytes define stable reconstruction; owner and handoff values define phase authority only.",
+        "rationale": "Authority must not redefine the package it authorizes."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.fix.stable-reconstruction-authority.r20",
+        "description": "One stable package pair survives fresh compile, approve, and verify reconstruction; phase authority remains separately bound; Unicode and cache overlaps fail closed; prior trust controls remain intact.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.fix.stable-reconstruction-authority.r20",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Provide exact six-file identity, stable/authority digest evidence, cross-invocation success and negative cases, Unicode/cache adversarial results, focused checks, and residual host boundaries.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Repository workflow, trust, and specialist invariants.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.ignore-policy",
+        "kind": "repository",
+        "locator": "path:.gitignore",
+        "digest": "sha256:790a8c26a42342f3b5143df2e56b9c43145c2faa5758f443b63cb52b85d9b8a8",
+        "bytes": 732,
+        "description": "Repository generated and private-state ignore policy.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": ".gitignore"
+      },
+      {
+        "id": "context.independent-review-attempts",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md",
+        "digest": "sha256:65869e2755d0aecca872cfbf7db240f3e80a73941d79cf8a755cc858d4aaefc4",
+        "bytes": 1671,
+        "description": "Independent review routing and exact finding identity.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md"
+      },
+      {
+        "id": "context.independent-review-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json",
+        "digest": "sha256:3e9b1b368f22be254a5835f667be23d19c58f0e3509aec490c0f5e878e69bb41",
+        "bytes": 14245,
+        "description": "Exact package-verified independent Revision 19 fix verdict.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json"
+      },
+      {
+        "id": "context.independent-review-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json",
+        "digest": "sha256:d1a353153617653c72a6d5edfcd655585504b527ea2a337fff289d8be0b7699f",
+        "bytes": 90220,
+        "description": "Owner-approved read-only Revision 19 reviewer package.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json"
+      },
+      {
+        "id": "context.independent-review-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json",
+        "digest": "sha256:671360cccf1c7857416151d69e42a0c8505941691a543583fa285549cdcaa997",
+        "bytes": 1322,
+        "description": "V11 verification of the independent Revision 19 fix verdict.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json"
+      },
+      {
+        "id": "context.integration-owner-reproductions",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md",
+        "digest": "sha256:6505a63c035e6a023e4ec0e2658e5af6269d34e877682d76fb1175e8e42d68ac",
+        "bytes": 1779,
+        "description": "Exact Unicode-path, cache-overlap, and package-identity reproductions.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md"
+      },
+      {
+        "id": "context.lockfile",
+        "kind": "repository",
+        "locator": "path:package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Exact offline dependency supply.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "package-lock.json"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:15124893f7d12f21b75681ef7b8744509860d3490c378014e9d5f63b0bb01d54",
+        "bytes": 3609,
+        "description": "Current package command and quality-gate wiring.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-gate-parent",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Canonical exact-candidate gate that produces the stable post-commit evidence.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-gate.test.mjs",
+        "digest": "sha256:31f323f50669a6cb0799c4b9bd32d71652dee14540ae91857cfde8c7ab1774cf",
+        "bytes": 33280,
+        "description": "Current gate, path, closure, and promotion tests.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.release-review-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:6a2b0e28509b01255967b50a437eec9b761dab4cff6b18cd7644a51ff46420bc",
+        "bytes": 117689,
+        "description": "Revision 19 candidate-private harness requiring identity separation.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-parent",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-review.mjs",
+        "digest": "sha256:69d9888dd7d8584b5da1efe532f91ccf9e69d18d5b088055271c14e3d390664c",
+        "bytes": 76900,
+        "description": "Revision 19 parent requiring the stable reconstruction and phase-authority correction.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "scripts/run-v12-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-review.test.mjs",
+        "digest": "sha256:10db954205fe53999baad30c401c8cdf3f659104b3f2c6ac3323ac83f6cb33fd",
+        "bytes": 31450,
+        "description": "Current release-review behavioral and structural tests.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "test/v12-release-review.test.mjs"
+      },
+      {
+        "id": "context.release-review-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:dcd0fef854738bc163ac8c0c6213de8a63479d3edc8fc4ca22be2dc9f1d9f39b",
+        "bytes": 27087,
+        "description": "Revision 19 verifier requiring phase-authority and Unicode closure.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.revision-nineteen-attempts",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+        "digest": "sha256:94e0a131ab1bc9a347e8ef6eb693501edda9b17b11ce16a336e622be9a74aec4",
+        "bytes": 2623,
+        "description": "Revision 19 implementation and handoff routing history.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md"
+      },
+      {
+        "id": "context.revision-nineteen-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+        "digest": "sha256:d54ecc1b6e2f6b3079ea133a90066fa0a8b88e9f3a08c47924ec14eb1a3d55f1",
+        "bytes": 8193,
+        "description": "Revision 19 trust contract whose valid controls must be preserved.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.revision-nineteen-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+        "digest": "sha256:ee8665855792db9c241afadff4b300ad55bf71d25f6e930933d18b0931bba894",
+        "bytes": 5918,
+        "description": "Exact package-verified Revision 19 producer handoff.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json"
+      },
+      {
+        "id": "context.revision-nineteen-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json",
+        "digest": "sha256:572c54f6e3f86d28c5f4986442e3629907d3056f51e3751b2b09c4b000e78d57",
+        "bytes": 114039,
+        "description": "Owner-approved Revision 19 specialist package.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json"
+      },
+      {
+        "id": "context.revision-nineteen-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+        "digest": "sha256:8c9e469f10f719394b086fa74d172fdfd2a2c40afdd3d0855df7a22589a47125",
+        "bytes": 1322,
+        "description": "V11 verification of the Revision 19 producer handoff.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json"
+      },
+      {
+        "id": "context.revision-twenty-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md",
+        "digest": "sha256:5d2c13a5e71645a8b9e53490d86f52a74e43d31e24cc3d3961fdb1652bf55cfb",
+        "bytes": 7003,
+        "description": "Closed Revision 20 correction contract.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.revision-twenty-test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md",
+        "digest": "sha256:6f1cae601ae51b01f0222434756deba518662ea701ff14ba1848598c89a98d6f",
+        "bytes": 3689,
+        "description": "Frozen Revision 20 behavioral verification plan.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Normative IDE-neutral specialist and external-host boundary.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+      },
+      {
+        "id": "context.schema-runtime",
+        "kind": "repository",
+        "locator": "path:src/schema.ts",
+        "digest": "sha256:ca9fa3d90ba27bea2de8f095b083a8d729bbed93a64aa14988c47c4c20ca6c63",
+        "bytes": 6873,
+        "description": "Schema registry used by exact package reconstruction.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "src/schema.ts"
+      },
+      {
+        "id": "context.specialist-entrypoint",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Public specialist APIs used by the candidate-private harness.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "src/index.ts"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "correction.stable-reconstruction-authority"
+      ],
+      "allowedCapabilities": [
+        "fix.release-evidence-identity"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            ".gitignore",
+            "AGENTS.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "package-lock.json",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "scripts/run-v12-release-review.mjs",
+            "src/index.ts",
+            "src/schema.ts",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not edit outside the six-file scope, mutate prior evidence, change dependencies or lockfile, change compiler or schemas, mutate Git state, use network access, run lifecycle scripts, launch descendants, refresh V11, run a candidate gate or R2 phase, claim release readiness, or merge."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.stable-reconstruction-authority.r20",
+        "objective": "Implement stable reconstruction identity, phase-scoped authority, true cross-invocation package tests, truthful approval labeling, Unicode path closure, and repository-disjoint cache validation.",
+        "weight": 18,
+        "module": {
+          "id": "correction.stable-reconstruction-authority",
+          "action": "Separate stable package inputs from per-phase authority, enforce exact path/cache boundaries, and prove the complete compile-to-verify identity lifecycle behaviorally.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "RejectedRevision19ReleaseReviewProtocol"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "StableRevision20ReleaseReviewProtocol"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.release-evidence-identity"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.ignore-policy",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.independent-review-attempts",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.independent-review-handoff",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.independent-review-package",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.independent-review-verification",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.integration-owner-reproductions",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.lockfile",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.release-gate-parent",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.release-gate-tests",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.release-review-harness",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.release-review-parent",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.release-review-tests",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.release-review-verifier",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.revision-nineteen-attempts",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.revision-nineteen-contract",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.revision-nineteen-handoff",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.revision-nineteen-package",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.revision-nineteen-verification",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.revision-twenty-contract",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.revision-twenty-test-plan",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.schema-runtime",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          },
+          {
+            "sourceId": "context.specialist-entrypoint",
+            "purpose": "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          }
+        ],
+        "scope": {
+          "read": [
+            ".gitignore",
+            "AGENTS.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "package-lock.json",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "scripts/run-v12-release-review.mjs",
+            "src/index.ts",
+            "src/schema.ts",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "write": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "conflictZones": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".gitignore",
+              "AGENTS.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "package-lock.json",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs",
+              "scripts/run-v12-release-review.mjs",
+              "src/index.ts",
+              "src/schema.ts",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "package.json",
+              "scripts/run-v12-release-review.mjs",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.fix.stable-reconstruction-authority.r20"
+        ],
+        "handoffArtifacts": [
+          "stable-reconstruction-authority-correction-r20.md"
+        ],
+        "stopConditions": [
+          "A compile pair must survive fresh approve and verify reconstruction under exact positive and negative behavioral tests.",
+          "Do not claim authenticated owner identity, host isolation, cache provenance, release readiness, hosted CI, merge, or external runtime effects.",
+          "Do not feed owner expectations, raw handoffs, or their digests into candidate manifest, request, compilation, package, prepare output, or compile output identity.",
+          "Edit only the six declared files and preserve every prior evidence artifact.",
+          "Reject non-scalar/control path text and cache/repository realpath overlap before filesystem or cache-using process access.",
+          "Run every frozen check and return only the generated contract's closed SpecialistAgentHandoff JSON.",
+          "Stop before editing if any declared context byte count or SHA-256 binding fails."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:97e7bc05737d098b6f9e48723562e058218d3c36d0ea35095d74d18f582e8f97",
+  "proposedCandidates": [],
+  "proposalEvaluations": [],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v12.ide-run-loop.implementation.release-correction",
+    "goalRevision": 20,
+    "allowedModules": [
+      "correction.stable-reconstruction-authority"
+    ],
+    "allowedCapabilities": [
+      "fix.release-evidence-identity"
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Repository workflow, trust, and specialist invariants.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.ignore-policy",
+        "kind": "repository",
+        "locator": "path:.gitignore",
+        "digest": "sha256:790a8c26a42342f3b5143df2e56b9c43145c2faa5758f443b63cb52b85d9b8a8",
+        "bytes": 732,
+        "description": "Repository generated and private-state ignore policy.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": ".gitignore"
+      },
+      {
+        "id": "context.independent-review-attempts",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md",
+        "digest": "sha256:65869e2755d0aecca872cfbf7db240f3e80a73941d79cf8a755cc858d4aaefc4",
+        "bytes": 1671,
+        "description": "Independent review routing and exact finding identity.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md"
+      },
+      {
+        "id": "context.independent-review-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json",
+        "digest": "sha256:3e9b1b368f22be254a5835f667be23d19c58f0e3509aec490c0f5e878e69bb41",
+        "bytes": 14245,
+        "description": "Exact package-verified independent Revision 19 fix verdict.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json"
+      },
+      {
+        "id": "context.independent-review-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json",
+        "digest": "sha256:d1a353153617653c72a6d5edfcd655585504b527ea2a337fff289d8be0b7699f",
+        "bytes": 90220,
+        "description": "Owner-approved read-only Revision 19 reviewer package.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json"
+      },
+      {
+        "id": "context.independent-review-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json",
+        "digest": "sha256:671360cccf1c7857416151d69e42a0c8505941691a543583fa285549cdcaa997",
+        "bytes": 1322,
+        "description": "V11 verification of the independent Revision 19 fix verdict.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json"
+      },
+      {
+        "id": "context.integration-owner-reproductions",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md",
+        "digest": "sha256:6505a63c035e6a023e4ec0e2658e5af6269d34e877682d76fb1175e8e42d68ac",
+        "bytes": 1779,
+        "description": "Exact Unicode-path, cache-overlap, and package-identity reproductions.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md"
+      },
+      {
+        "id": "context.lockfile",
+        "kind": "repository",
+        "locator": "path:package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Exact offline dependency supply.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "package-lock.json"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:15124893f7d12f21b75681ef7b8744509860d3490c378014e9d5f63b0bb01d54",
+        "bytes": 3609,
+        "description": "Current package command and quality-gate wiring.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-gate-parent",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Canonical exact-candidate gate that produces the stable post-commit evidence.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-gate.test.mjs",
+        "digest": "sha256:31f323f50669a6cb0799c4b9bd32d71652dee14540ae91857cfde8c7ab1774cf",
+        "bytes": 33280,
+        "description": "Current gate, path, closure, and promotion tests.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.release-review-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:6a2b0e28509b01255967b50a437eec9b761dab4cff6b18cd7644a51ff46420bc",
+        "bytes": 117689,
+        "description": "Revision 19 candidate-private harness requiring identity separation.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-parent",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-review.mjs",
+        "digest": "sha256:69d9888dd7d8584b5da1efe532f91ccf9e69d18d5b088055271c14e3d390664c",
+        "bytes": 76900,
+        "description": "Revision 19 parent requiring the stable reconstruction and phase-authority correction.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "scripts/run-v12-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-review.test.mjs",
+        "digest": "sha256:10db954205fe53999baad30c401c8cdf3f659104b3f2c6ac3323ac83f6cb33fd",
+        "bytes": 31450,
+        "description": "Current release-review behavioral and structural tests.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "test/v12-release-review.test.mjs"
+      },
+      {
+        "id": "context.release-review-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:dcd0fef854738bc163ac8c0c6213de8a63479d3edc8fc4ca22be2dc9f1d9f39b",
+        "bytes": 27087,
+        "description": "Revision 19 verifier requiring phase-authority and Unicode closure.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.revision-nineteen-attempts",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+        "digest": "sha256:94e0a131ab1bc9a347e8ef6eb693501edda9b17b11ce16a336e622be9a74aec4",
+        "bytes": 2623,
+        "description": "Revision 19 implementation and handoff routing history.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md"
+      },
+      {
+        "id": "context.revision-nineteen-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+        "digest": "sha256:d54ecc1b6e2f6b3079ea133a90066fa0a8b88e9f3a08c47924ec14eb1a3d55f1",
+        "bytes": 8193,
+        "description": "Revision 19 trust contract whose valid controls must be preserved.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.revision-nineteen-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+        "digest": "sha256:ee8665855792db9c241afadff4b300ad55bf71d25f6e930933d18b0931bba894",
+        "bytes": 5918,
+        "description": "Exact package-verified Revision 19 producer handoff.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json"
+      },
+      {
+        "id": "context.revision-nineteen-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json",
+        "digest": "sha256:572c54f6e3f86d28c5f4986442e3629907d3056f51e3751b2b09c4b000e78d57",
+        "bytes": 114039,
+        "description": "Owner-approved Revision 19 specialist package.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json"
+      },
+      {
+        "id": "context.revision-nineteen-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+        "digest": "sha256:8c9e469f10f719394b086fa74d172fdfd2a2c40afdd3d0855df7a22589a47125",
+        "bytes": 1322,
+        "description": "V11 verification of the Revision 19 producer handoff.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json"
+      },
+      {
+        "id": "context.revision-twenty-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md",
+        "digest": "sha256:5d2c13a5e71645a8b9e53490d86f52a74e43d31e24cc3d3961fdb1652bf55cfb",
+        "bytes": 7003,
+        "description": "Closed Revision 20 correction contract.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.revision-twenty-test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md",
+        "digest": "sha256:6f1cae601ae51b01f0222434756deba518662ea701ff14ba1848598c89a98d6f",
+        "bytes": 3689,
+        "description": "Frozen Revision 20 behavioral verification plan.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Normative IDE-neutral specialist and external-host boundary.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+      },
+      {
+        "id": "context.schema-runtime",
+        "kind": "repository",
+        "locator": "path:src/schema.ts",
+        "digest": "sha256:ca9fa3d90ba27bea2de8f095b083a8d729bbed93a64aa14988c47c4c20ca6c63",
+        "bytes": 6873,
+        "description": "Schema registry used by exact package reconstruction.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "src/schema.ts"
+      },
+      {
+        "id": "context.specialist-entrypoint",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Public specialist APIs used by the candidate-private harness.",
+        "allowedWorkUnits": [
+          "fix.stable-reconstruction-authority.r20"
+        ],
+        "readScope": "src/index.ts"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          ".gitignore",
+          "AGENTS.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+          "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+          "package-lock.json",
+          "package.json",
+          "scripts/run-v12-release-gate.mjs",
+          "scripts/run-v12-release-review.mjs",
+          "src/index.ts",
+          "src/schema.ts",
+          "test/v12-release-gate.test.mjs",
+          "test/v12-release-review.test.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+          "package.json",
+          "scripts/run-v12-release-review.mjs",
+          "test/v12-release-gate.test.mjs",
+          "test/v12-release-review.test.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "git",
+          "node",
+          "npm",
+          "powershell"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not edit outside the six-file scope, mutate prior evidence, change dependencies or lockfile, change compiler or schemas, mutate Git state, use network access, run lifecycle scripts, launch descendants, refresh V11, run a candidate gate or R2 phase, claim release readiness, or merge."
+    ],
+    "maxAgents": 1,
+    "maxConcurrency": 1,
+    "contentDigest": "sha256:a51a6130acf2eb1443957aa771cdb65e3c6c914c7ea31ba1c3c04b9a7e8d6830"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:3102982e7f883b90f4a01729306c06d9022040b4604786b79ecfc97f107552b5"
+  },
+  "serialBaseline": {
+    "id": "team.0d4198308a44bec5947a2119702a917b59781e01fa925c3537e79452995e09ea",
+    "partition": [
+      [
+        "fix.stable-reconstruction-authority.r20"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 19,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 18,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.be88f5743003390c1f1d826c32c6e40a54612c5b1f10296b9aad502a8a990880",
+        "start": 0,
+        "finish": 19
+      }
+    ],
+    "contentDigest": "sha256:59a17728416cdae1118d46150c30b23ed87279ddf95822f1c214f52d2ac6e8fb"
+  },
+  "selected": {
+    "id": "team.0d4198308a44bec5947a2119702a917b59781e01fa925c3537e79452995e09ea",
+    "partition": [
+      [
+        "fix.stable-reconstruction-authority.r20"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 19,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 18,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.be88f5743003390c1f1d826c32c6e40a54612c5b1f10296b9aad502a8a990880",
+        "start": 0,
+        "finish": 19
+      }
+    ],
+    "contentDigest": "sha256:59a17728416cdae1118d46150c30b23ed87279ddf95822f1c214f52d2ac6e8fb"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.0d4198308a44bec5947a2119702a917b59781e01fa925c3537e79452995e09ea",
+    "serialValue": "team.0d4198308a44bec5947a2119702a917b59781e01fa925c3537e79452995e09ea",
+    "serialRejectionCodes": []
+  },
+  "alternatives": [],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.be88f5743003390c1f1d826c32c6e40a54612c5b1f10296b9aad502a8a990880",
+      "goalId": "v12.ide-run-loop.implementation.release-correction",
+      "goalRevision": 20,
+      "goalDigest": "sha256:97e7bc05737d098b6f9e48723562e058218d3c36d0ea35095d74d18f582e8f97",
+      "candidateId": "team.0d4198308a44bec5947a2119702a917b59781e01fa925c3537e79452995e09ea",
+      "workUnitIds": [
+        "fix.stable-reconstruction-authority.r20"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "fix.stable-reconstruction-authority.r20",
+          "objective": "Implement stable reconstruction identity, phase-scoped authority, true cross-invocation package tests, truthful approval labeling, Unicode path closure, and repository-disjoint cache validation."
+        }
+      ],
+      "modules": [
+        {
+          "id": "correction.stable-reconstruction-authority",
+          "action": "Separate stable package inputs from per-phase authority, enforce exact path/cache boundaries, and prove the complete compile-to-verify identity lifecycle behaviorally.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "RejectedRevision19ReleaseReviewProtocol"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "StableRevision20ReleaseReviewProtocol"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.agent-contract",
+          "kind": "repository",
+          "locator": "path:AGENTS.md",
+          "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+          "bytes": 16695,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "AGENTS.md"
+        },
+        {
+          "sourceId": "context.ignore-policy",
+          "kind": "repository",
+          "locator": "path:.gitignore",
+          "digest": "sha256:790a8c26a42342f3b5143df2e56b9c43145c2faa5758f443b63cb52b85d9b8a8",
+          "bytes": 732,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": ".gitignore"
+        },
+        {
+          "sourceId": "context.independent-review-attempts",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md",
+          "digest": "sha256:65869e2755d0aecca872cfbf7db240f3e80a73941d79cf8a755cc858d4aaefc4",
+          "bytes": 1671,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md"
+        },
+        {
+          "sourceId": "context.independent-review-handoff",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json",
+          "digest": "sha256:3e9b1b368f22be254a5835f667be23d19c58f0e3509aec490c0f5e878e69bb41",
+          "bytes": 14245,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json"
+        },
+        {
+          "sourceId": "context.independent-review-package",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json",
+          "digest": "sha256:d1a353153617653c72a6d5edfcd655585504b527ea2a337fff289d8be0b7699f",
+          "bytes": 90220,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json"
+        },
+        {
+          "sourceId": "context.independent-review-verification",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json",
+          "digest": "sha256:671360cccf1c7857416151d69e42a0c8505941691a543583fa285549cdcaa997",
+          "bytes": 1322,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json"
+        },
+        {
+          "sourceId": "context.integration-owner-reproductions",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md",
+          "digest": "sha256:6505a63c035e6a023e4ec0e2658e5af6269d34e877682d76fb1175e8e42d68ac",
+          "bytes": 1779,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md"
+        },
+        {
+          "sourceId": "context.lockfile",
+          "kind": "repository",
+          "locator": "path:package-lock.json",
+          "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+          "bytes": 21014,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "package-lock.json"
+        },
+        {
+          "sourceId": "context.package",
+          "kind": "repository",
+          "locator": "path:package.json",
+          "digest": "sha256:15124893f7d12f21b75681ef7b8744509860d3490c378014e9d5f63b0bb01d54",
+          "bytes": 3609,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "package.json"
+        },
+        {
+          "sourceId": "context.release-gate-parent",
+          "kind": "repository",
+          "locator": "path:scripts/run-v12-release-gate.mjs",
+          "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+          "bytes": 31791,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "scripts/run-v12-release-gate.mjs"
+        },
+        {
+          "sourceId": "context.release-gate-tests",
+          "kind": "repository",
+          "locator": "path:test/v12-release-gate.test.mjs",
+          "digest": "sha256:31f323f50669a6cb0799c4b9bd32d71652dee14540ae91857cfde8c7ab1774cf",
+          "bytes": 33280,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "test/v12-release-gate.test.mjs"
+        },
+        {
+          "sourceId": "context.release-review-harness",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+          "digest": "sha256:6a2b0e28509b01255967b50a437eec9b761dab4cff6b18cd7644a51ff46420bc",
+          "bytes": 117689,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+        },
+        {
+          "sourceId": "context.release-review-parent",
+          "kind": "repository",
+          "locator": "path:scripts/run-v12-release-review.mjs",
+          "digest": "sha256:69d9888dd7d8584b5da1efe532f91ccf9e69d18d5b088055271c14e3d390664c",
+          "bytes": 76900,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "scripts/run-v12-release-review.mjs"
+        },
+        {
+          "sourceId": "context.release-review-tests",
+          "kind": "repository",
+          "locator": "path:test/v12-release-review.test.mjs",
+          "digest": "sha256:10db954205fe53999baad30c401c8cdf3f659104b3f2c6ac3323ac83f6cb33fd",
+          "bytes": 31450,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "test/v12-release-review.test.mjs"
+        },
+        {
+          "sourceId": "context.release-review-verifier",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+          "digest": "sha256:dcd0fef854738bc163ac8c0c6213de8a63479d3edc8fc4ca22be2dc9f1d9f39b",
+          "bytes": 27087,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+        },
+        {
+          "sourceId": "context.revision-nineteen-attempts",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+          "digest": "sha256:94e0a131ab1bc9a347e8ef6eb693501edda9b17b11ce16a336e622be9a74aec4",
+          "bytes": 2623,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md"
+        },
+        {
+          "sourceId": "context.revision-nineteen-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+          "digest": "sha256:d54ecc1b6e2f6b3079ea133a90066fa0a8b88e9f3a08c47924ec14eb1a3d55f1",
+          "bytes": 8193,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md"
+        },
+        {
+          "sourceId": "context.revision-nineteen-handoff",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+          "digest": "sha256:ee8665855792db9c241afadff4b300ad55bf71d25f6e930933d18b0931bba894",
+          "bytes": 5918,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json"
+        },
+        {
+          "sourceId": "context.revision-nineteen-package",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json",
+          "digest": "sha256:572c54f6e3f86d28c5f4986442e3629907d3056f51e3751b2b09c4b000e78d57",
+          "bytes": 114039,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json"
+        },
+        {
+          "sourceId": "context.revision-nineteen-verification",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+          "digest": "sha256:8c9e469f10f719394b086fa74d172fdfd2a2c40afdd3d0855df7a22589a47125",
+          "bytes": 1322,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json"
+        },
+        {
+          "sourceId": "context.revision-twenty-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md",
+          "digest": "sha256:5d2c13a5e71645a8b9e53490d86f52a74e43d31e24cc3d3961fdb1652bf55cfb",
+          "bytes": 7003,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md"
+        },
+        {
+          "sourceId": "context.revision-twenty-test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md",
+          "digest": "sha256:6f1cae601ae51b01f0222434756deba518662ea701ff14ba1848598c89a98d6f",
+          "bytes": 3689,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md"
+        },
+        {
+          "sourceId": "context.run-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+          "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+          "bytes": 17133,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+        },
+        {
+          "sourceId": "context.schema-runtime",
+          "kind": "repository",
+          "locator": "path:src/schema.ts",
+          "digest": "sha256:ca9fa3d90ba27bea2de8f095b083a8d729bbed93a64aa14988c47c4c20ca6c63",
+          "bytes": 6873,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "src/schema.ts"
+        },
+        {
+          "sourceId": "context.specialist-entrypoint",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+          "bytes": 5447,
+          "purposes": [
+            "Implement and behaviorally verify Revision 20 from exact source, producer evidence, independent findings, and integration-owner reproductions."
+          ],
+          "workUnitIds": [
+            "fix.stable-reconstruction-authority.r20"
+          ],
+          "readScope": "src/index.ts"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "fix.release-evidence-identity"
+        ],
+        "scope": {
+          "read": [
+            ".gitignore",
+            "AGENTS.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "package-lock.json",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "scripts/run-v12-release-review.mjs",
+            "src/index.ts",
+            "src/schema.ts",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "write": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "conflictZones": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".gitignore",
+              "AGENTS.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/handoffs/agent.a82cfc1740292f2e9b14f7a981a5bc1ec7358a0f8910bea718f16077b535b5c2-fix-attempt-1.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/handoffs/agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012-pass-attempt-2.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/integration-owner-reproductions.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "package-lock.json",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs",
+              "scripts/run-v12-release-review.mjs",
+              "src/index.ts",
+              "src/schema.ts",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "package.json",
+              "scripts/run-v12-release-review.mjs",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not edit outside the six-file scope, mutate prior evidence, change dependencies or lockfile, change compiler or schemas, mutate Git state, use network access, run lifecycle scripts, launch descendants, refresh V11, run a candidate gate or R2 phase, claim release readiness, or merge."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.fix.stable-reconstruction-authority.r20",
+          "criterion": "One stable package pair survives fresh compile, approve, and verify reconstruction; phase authority remains separately bound; Unicode and cache overlaps fail closed; prior trust controls remain intact.",
+          "requirementId": "evidence.fix.stable-reconstruction-authority.r20",
+          "kind": "test",
+          "duty": "produce",
+          "description": "Provide exact six-file identity, stable/authority digest evidence, cross-invocation success and negative cases, Unicode/cache adversarial results, focused checks, and residual host boundaries.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "stable-reconstruction-authority-correction-r20.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "A compile pair must survive fresh approve and verify reconstruction under exact positive and negative behavioral tests.",
+        "Do not claim authenticated owner identity, host isolation, cache provenance, release readiness, hosted CI, merge, or external runtime effects.",
+        "Do not feed owner expectations, raw handoffs, or their digests into candidate manifest, request, compilation, package, prepare output, or compile output identity.",
+        "Edit only the six declared files and preserve every prior evidence artifact.",
+        "Reject non-scalar/control path text and cache/repository realpath overlap before filesystem or cache-using process access.",
+        "Run every frozen check and return only the generated contract's closed SpecialistAgentHandoff JSON.",
+        "Stop before editing if any declared context byte count or SHA-256 binding fails."
+      ],
+      "contentDigest": "sha256:80246c82d4f48fcb459d639920986008a9e6291178fb916994795b360f7206df"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.be88f5743003390c1f1d826c32c6e40a54612c5b1f10296b9aad502a8a990880"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:54cc2d2d71a36f35e41b76fb4da28301ca73b3e154dcf683456a510d52e6546d"
+}

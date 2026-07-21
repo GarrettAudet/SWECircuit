@@ -1,0 +1,12 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.implementation.release-correction",
+  "goalRevision": 15,
+  "approvedBy": "repository-owner-via-main-agent",
+  "approvalBasis": "The owner authorized release completion and the integration owner reviewed this exact Candidate 8 R2 context-bound correction, one-agent roster, closed write scope, retained primary-evidence duties, unchanged limits, and digest pair before launch.",
+  "expectation": {
+    "compilationDigest": "sha256:857c536099f5fd9d01b0981593bef6f2e8b40eba774db7fae21c501e3bd3e83f",
+    "packageDigest": "sha256:627414164e9176f4ead047a4a857f23f81efc868643dd8aaaa55377186f162c8"
+  }
+}

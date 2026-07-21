@@ -23,7 +23,7 @@ T006 in progress: accepted Revision 16 attempt 2 aligns the source-of-truth rele
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Historical review and correction outcomes remain preserved through Revision 15. The most recent reviewed source passed its exact gate, returned `pass` / `fix` / `pass` from the complete R2 roster, and is retired. A successor review may fan out across three independent domains only after its exact source-bound gate passes.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Historical review and correction outcomes remain preserved through Revision 22. The most recent committed source reviewed by R2 is retired; Revision 22 and its independent review pass, and V11 Revision 40 replay passes. A successor review may fan out across three independent domains only after its exact source-bound gate passes.
 
 ## Out Of Scope
 

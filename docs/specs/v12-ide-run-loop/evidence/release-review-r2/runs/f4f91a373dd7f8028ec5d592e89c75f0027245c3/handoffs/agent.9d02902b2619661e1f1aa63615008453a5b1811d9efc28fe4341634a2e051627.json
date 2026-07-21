@@ -1,0 +1,47 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:512a626e9be08a1bd6552eb832abd94d961704cc49f194c170670c0a0e940874"
+  },
+  "agent": {
+    "id": "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+    "blueprintDigest": "sha256:7758409ade5831bd0a8613d33d6356872011f72b5e5676c46789e435badca773"
+  },
+  "compilationDigest": "sha256:289348ac15dc05d3c7920c7f2118190094fd7bbdf103deb3c229c68f2ebbc37c",
+  "summary": "Pass: corrected V12 presents one coherent, IDE-neutral path from an approved package through visible specialist work to a verified integration handoff. The public API, published schema, installed-consumer behavior, IDE guidance, implementation-bound dogfood evidence, and current release-stage truth agree within this review domain.",
+  "workUnitsCompleted": [
+    "review.r2.product-api-ide"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-ide-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Product/API/IDE Release Review R2\n\n## Findings\n\nNo release-blocking findings were identified in the product, public API, installed-consumer, dogfood, IDE-guidance, or release-truth domain.\n\n## Product And IDE Path\n\nThe corrected workflow exposes a single IDE-neutral path: compile and render an approved package, verify the exact compilation and package digests, create and inspect an immutable run session, let an external host launch only eligible manifest-resolved contracts, preserve and verify raw handoffs, record transitions, restore and reinspect the session, and hand verified dependency evidence to the integration owner. The documentation clearly separates pure kernel operations from host-owned launch, persistence, permission enforcement, and merge effects.\n\nEvidence: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/source-snapshots/docs/ide/specialist-agent-kickoff.md` (original `docs/ide/specialist-agent-kickoff.md`) and snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/source-snapshots/docs/specs/v12-ide-run-loop/spec.md` (original `docs/specs/v12-ide-run-loop/spec.md`).\n\n## Public API And Schema\n\nThe root public API exports the four pure operations `createSpecialistRunSession`, `restoreSpecialistRunSession`, `inspectSpecialistRunSession`, and `recordSpecialistRunTransition` with their public constants and types. Package exports publish the run schema at `./schemas/specialist-run.schema.json`, mapped to the closed Draft 2020-12 `v1alpha1` schema. The schema guide documents package-subpath resolution without private source paths or network access.\n\nEvidence: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/source-snapshots/src/index.ts` (original `src/index.ts`); snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/source-snapshots/package.json` (original `package.json`); snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/source-snapshots/schemas/v1alpha1/specialist-run.schema.json` (original `schemas/v1alpha1/specialist-run.schema.json`); and snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/source-snapshots/schemas/v1alpha1/README.md` (original `schemas/v1alpha1/README.md`).\n\n## Installed Consumer And Canonical Gate\n\nThe installed-consumer fixture imports the public operations and types, compiles a TypeScript host, resolves the exported schema, and exercises create, inspect, record, and restore behavior. The authenticated canonical-gate receipt binds candidate commit `f4f91a373dd7f8028ec5d592e89c75f0027245c3` to a clean exact source materialization and records `npm.cmd run verify` passing. Its raw stdout reports 408 tests passed with zero failures, package inspection passed, and the private-artifact offline installed-consumer compatibility gate passed.\n\nEvidence: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/source-snapshots/scripts/check-packed-consumer.mjs` (original `scripts/check-packed-consumer.mjs`); snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/source-snapshots/scripts/fixtures/packed-consumer-host.ts` (original `scripts/fixtures/packed-consumer-host.ts`); and snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/canonical-gate/canonical-gate-receipt.json` (original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json`) with its authenticated raw stdout and stderr companions.\n\n## Dogfood And Release Truth\n\nThe implementation-bound dogfood authenticates the complete correction chain, consumes the exact successful Revision 4 package and handoff, exercises manifest-based contract lookup and all four public run operations, verifies dependency handoffs, proves byte-identical resume and deterministic replay, and reports the required friction metrics. Revision 16 then reconciles live documentation so the previous R2 pass/fix/pass candidate is retired and the successor remains subject to its exact gate, fresh independent review roster, hosted CI, and owner merge decision. The product surface does not conflate package verification, handoff verification, phase readiness, or release readiness.\n\nEvidence: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/source-snapshots/scripts/run-v12-dogfood.mjs` (original `scripts/run-v12-dogfood.mjs`); authenticated raw R5 handoff whose original is `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/implementation-dogfood-attempt-1.json`; authenticated accepted Revision 16 attempt-2 handoff under original `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r16/handoffs/`; and snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/package/inputs/pre-integration-review.md` (original `docs/specs/v12-ide-run-loop/review.md`).\n\n## Authentication\n\nThe candidate HEAD equals the declared commit. The approved compilation/package pair verified successfully with zero diagnostics. All 142 declared context sources authenticated against their exact byte counts and SHA-256 digests. The verified package manifest reports content digest `sha256:512257fc9d432ac4e00836da0fd1ee92d13f205e6773c9f2c33b2d024c24c268`.\n\n## Failed Attempts\n\nAn initial Windows path check produced false missing-source results because several authenticated snapshot paths exceeded conventional path limits; repeating authentication through extended-length paths verified all 142 sources. One read-only evidence query was malformed and returned no evidence; it was corrected without changing files, Git state, or the evidence set.\n\n## Verdict\n\n`pass`. The candidate is release-ready within this review domain. Overall AC9 and merge readiness still require verified passing handoffs from the complete independent review roster, hosted CI, and the owner-controlled merge gate."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.product-api-ide",
+      "requirementId": "evidence.r2.product-api-ide-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "product-api-ide-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This domain pass does not independently satisfy AC9; the integration owner must verify and assess the complete approved review roster.",
+    "Hosted CI and the owner-controlled merge decision remain external release gates."
+  ],
+  "followUps": [
+    "Verify this raw handoff against the approved compilation and package digests before consuming it.",
+    "Assess the complete independent R2 review roster and continue only when every required verified handoff is present and the integration assessment is ready.",
+    "Run hosted CI and preserve the owner merge decision separately from package and handoff verification."
+  ]
+}

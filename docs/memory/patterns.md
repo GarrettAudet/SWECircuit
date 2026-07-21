@@ -294,6 +294,14 @@ Bind every verification and review result to the immutable tree it exercised. A 
 
 Keep goal decomposition, module composition, capability matching, dependency-aware fan-out and fan-in, gate policy, and trace semantics provider independent. IDE, model, and provider execution adapters expose capabilities and perform assigned execution, isolation, persistence, and other side effects; they do not own workflow policy. Optional orchestration compilers may implement the policy only by emitting SWECircuit's portable contracts. This lets one orchestration model operate across IDEs without reducing SWECircuit to API switching.
 
+### Review Runtime Is Candidate Evidence
+
+Authenticate the code that compiles, approves, executes, and verifies review evidence as part of the reviewed candidate. Do not import ignored build output or repository-live helpers before candidate authentication. Materialize candidate-derived runtime code in a fresh operation root, execute it through a fresh child boundary, rehash protected inputs afterward, and promote only verified staged evidence.
+
+### Private Configuration, Not Host Fallback
+
+Closing a package-manager environment requires explicit private configuration, not a shared null-device alias and not deletion of a variable that restores host defaults. Create distinct empty plain files inside the bounded operation root, validate identity, containment, links, bytes, and non-aliasing before spawn, bind the policy in evidence, and remove the whole operation root afterward.
+
 ## Source Map
 
 Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
@@ -329,3 +337,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V10 evidence-attribution review](../specs/v10-executor-adapter/debug-notes.md#exact-candidate-evidence-attribution-review) and [RCA](../specs/v10-executor-adapter/root-cause-analysis.md#candidate-bound-evidence-attribution-addendum) | Candidate-Bound Verification Evidence |
 | [V10 milestone](../milestones/v10.md#next-recommended-work) and [decision](decisions.md) | Portable Policy, Execution-Adapter Effects |
 | [V11.1 README release spec](../specs/v11.1-readme-release/spec.md), [accepted review](../specs/v11.1-readme-release/review.md), and [debug notes](../specs/v11.1-readme-release/debug-notes.md) | Concise Public Contract |
+| [V12 Candidate 10 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md), [Revision 22 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#candidate-10-review-runtime-and-npm-configuration-rca), and [Revision 22 evidence](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/) | Review Runtime Is Candidate Evidence; Private Configuration, Not Host Fallback |

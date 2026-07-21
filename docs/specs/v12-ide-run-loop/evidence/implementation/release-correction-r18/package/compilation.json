@@ -1,0 +1,1583 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 18,
+    "objective": "Implement a parent/child R2 trust boundary that materializes, installs, builds, binds, executes, re-verifies, cleans, and only then promotes evidence for one exact candidate without importing repository-live runtime modules.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.cache-provisioned",
+        "statement": "The external host has provisioned the explicit content-addressed npm cache; release execution itself remains offline and fails closed if supply is incomplete.",
+        "rationale": "The observed probe proved both ENOTCACHED failure and a subsequent network-free exact-lock success."
+      },
+      {
+        "id": "assumption.host-isolation-boundary",
+        "statement": "The bootstrap binds observed bytes and isolates ordinary repository effects but does not defend against a compromised OS, executable, IDE, or hostile same-user process.",
+        "rationale": "Strong process and filesystem isolation remains an external host responsibility."
+      },
+      {
+        "id": "assumption.integration-owned-release",
+        "statement": "The integration owner retains full verification, successor freeze, one-shot gate, fresh R2, hosted CI, and merge authority.",
+        "rationale": "The correction producer cannot approve its own release."
+      },
+      {
+        "id": "assumption.prior-evidence-immutable",
+        "statement": "Candidate 10, Revision 17, and every prior gate, package, approval, and handoff remain immutable.",
+        "rationale": "The replacement must create a new successor rather than rewrite failed evidence."
+      },
+      {
+        "id": "assumption.single-owner",
+        "statement": "One specialist owns the coupled parent, child workers, package wiring, and tests; the integration owner independently reviews and runs release gates.",
+        "rationale": "The files share one trust protocol and require one coherent output-promotion boundary."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.fix.parent-bootstrap-trust.r18",
+        "description": "Every R2 semantic output is attributable to one parent-verified exact candidate runtime, protected closures remain unchanged, and no evidence reaches the live repository before successful cleanup and promotion checks.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.fix.parent-bootstrap-trust.r18",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Provide exact changed-file, bootstrap identity, offline-lock, runtime-binding, fresh-child, mutation, staging, cleanup, focused-test, full-check, and diff evidence.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Repository workflow and specialist invariants.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.correction-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md",
+        "digest": "sha256:d20c7cc53583d3b2942fd283fc56f7365512b58031ae927ea409bb2409d444a3",
+        "bytes": 5839,
+        "description": "Frozen Revision 18 parent-bootstrap trust contract.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.ignore-policy",
+        "kind": "repository",
+        "locator": "path:.gitignore",
+        "digest": "sha256:790a8c26a42342f3b5143df2e56b9c43145c2faa5758f443b63cb52b85d9b8a8",
+        "bytes": 732,
+        "description": "Generated runtime and scratch exclusion policy.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": ".gitignore"
+      },
+      {
+        "id": "context.lockfile",
+        "kind": "repository",
+        "locator": "path:package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Exact lock graph and SRI metadata for offline installation.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "package-lock.json"
+      },
+      {
+        "id": "context.offline-probe",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md",
+        "digest": "sha256:1dd90d0ff1f8f11c739870708133284a1520ce1ad1e3de6929ddd71a92b6d5a3",
+        "bytes": 1582,
+        "description": "Observed fail-closed and successful offline exact-lock cache behavior.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+        "bytes": 2931,
+        "description": "Build, format, lint, and command wiring.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-gate-harness",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Existing complete Git-blob materialization and disposable Git-context implementation.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-gate.test.mjs",
+        "digest": "sha256:9842abebe89689e3465579d662e70ea541722236d64b986bce222d4ce9996c47",
+        "bytes": 22072,
+        "description": "Current exact materialization and trust regression suite.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.release-review-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:f019b39dc555afd3663519fb427cf73c9eee2b14cc9b5e769b5a1ebc733ffc7e",
+        "bytes": 86706,
+        "description": "Current R2 harness that must become a parent-only candidate child.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-review.test.mjs",
+        "digest": "sha256:1abb654e346f0a6f98aa2fbab69901e0a0f8a5eebef9c9fecfa98375fe38f6e3",
+        "bytes": 12922,
+        "description": "Current R2 lifecycle and adversarial regression suite.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "test/v12-release-review.test.mjs"
+      },
+      {
+        "id": "context.release-review-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:9daa5bc7fde24a8d70d7e68cb8faed7327f9ae4f0b3ed180f00cb8facb48d9ae",
+        "bytes": 11990,
+        "description": "Current raw-handoff verifier that must become a parent-only candidate child.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.retired-candidate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md",
+        "digest": "sha256:3e9cd206b82b5670ec1f454e0fbb1ea352f7d8a78666b1ac8abf0a1a4cb0e2a4",
+        "bytes": 2543,
+        "description": "Candidate 10 exact retirement route.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md"
+      },
+      {
+        "id": "context.retired-gate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json",
+        "digest": "sha256:9d07c1eaa9bf0a22cfbc5c0d33e6fd60cf340a84d7da238d7cb9b21df8f8c65a",
+        "bytes": 2295,
+        "description": "Passing exact gate receipt for the retired candidate.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.revision-seventeen-audit",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md",
+        "digest": "sha256:82725d4372ca647223a6163bf71bab638d9543b90fcab53c68e5009ab342ea49",
+        "bytes": 2096,
+        "description": "Independent read-only architecture audit that forced redesign.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md"
+      },
+      {
+        "id": "context.revision-seventeen-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json",
+        "digest": "sha256:79227fedf63534c9a71eabd6679c0b08fdcdb6bc94a49965d76c60975a996cb5",
+        "bytes": 3206,
+        "description": "Exact raw verified Revision 17 redesign route.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json"
+      },
+      {
+        "id": "context.revision-seventeen-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json",
+        "digest": "sha256:cc6b9500228bd532e3f8558a607cc911b97ecb4d823d27579f039303b125bebf",
+        "bytes": 101579,
+        "description": "Exact retired Revision 17 approved package.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json"
+      },
+      {
+        "id": "context.revision-seventeen-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json",
+        "digest": "sha256:ae5e7dc88346662c2c028064e83190ffe4d2fa3c23f61b69837c65b7d222eece",
+        "bytes": 1361,
+        "description": "Complete non-ready Revision 17 package fan-in.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Normative package, handoff, and non-pass routing semantics.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+      },
+      {
+        "id": "context.schema-runtime",
+        "kind": "repository",
+        "locator": "path:src/schema.ts",
+        "digest": "sha256:ca9fa3d90ba27bea2de8f095b083a8d729bbed93a64aa14988c47c4c20ca6c63",
+        "bytes": 6873,
+        "description": "Runtime file and dependency behavior that constrains materialization lifetime.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "src/schema.ts"
+      },
+      {
+        "id": "context.security-finding",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json",
+        "digest": "sha256:37689ff82d725692c6dfb843cead2bec81e22c074d4e784e635d19d00557dc7f",
+        "bytes": 6572,
+        "description": "Exact raw security finding against the repository-live runtime.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json"
+      },
+      {
+        "id": "context.specialist-entrypoint",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Candidate compiler and verifier export entrypoint.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md",
+        "digest": "sha256:cae44118e1155805e2b2ea54eeba9537ee45cb2ed8d51f4489455bb0c68a4c3e",
+        "bytes": 3421,
+        "description": "Frozen Revision 18 adversarial verification plan.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md"
+      },
+      {
+        "id": "context.typescript",
+        "kind": "repository",
+        "locator": "path:tsconfig.json",
+        "digest": "sha256:962f5730cee225eec5a5c731835eca40fe39034d2ba253bb8ddc7237c0b04cc6",
+        "bytes": 689,
+        "description": "Candidate TypeScript build contract.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "tsconfig.json"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "correction.parent-bootstrap-trust"
+      ],
+      "allowedCapabilities": [
+        "fix.release-evidence-trust"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            ".gitignore",
+            "AGENTS.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "package-lock.json",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "src/index.ts",
+            "src/schema.ts",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs",
+            "tsconfig.json"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not edit outside declared write scope, modify immutable evidence, change core compiler or schema behavior, change dependencies or lockfile, change Git state, use network access, run lifecycle scripts, launch descendants, run a candidate gate, prepare R2 against a release candidate, claim release readiness, or merge."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.parent-bootstrap-trust.r18",
+        "objective": "Implement and adversarially verify the complete parent/child candidate-runtime trust boundary and immutable output-promotion protocol.",
+        "weight": 14,
+        "module": {
+          "id": "correction.parent-bootstrap-trust",
+          "action": "Bind exact candidate tooling, install exact locked supply offline outside repository ancestry, build and bind generated runtime, execute one fresh child, reverify protected closures, clean, and atomically promote only allowed evidence.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "UntrustedReleaseReviewExecution"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "ParentVerifiedReleaseReviewExecution"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.release-evidence-trust"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.correction-contract",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.ignore-policy",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.lockfile",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.offline-probe",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.release-gate-harness",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.release-gate-tests",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.release-review-harness",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.release-review-tests",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.release-review-verifier",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.retired-candidate",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.retired-gate",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.revision-seventeen-audit",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.revision-seventeen-handoff",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.revision-seventeen-package",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.revision-seventeen-verification",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.schema-runtime",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.security-finding",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.specialist-entrypoint",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.typescript",
+            "purpose": "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          }
+        ],
+        "scope": {
+          "read": [
+            ".gitignore",
+            "AGENTS.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "package-lock.json",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "src/index.ts",
+            "src/schema.ts",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs",
+            "tsconfig.json"
+          ],
+          "write": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "conflictZones": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".gitignore",
+              "AGENTS.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "package-lock.json",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs",
+              "src/index.ts",
+              "src/schema.ts",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs",
+              "tsconfig.json"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "package.json",
+              "scripts/run-v12-release-review.mjs",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.fix.parent-bootstrap-trust.r18"
+        ],
+        "handoffArtifacts": [
+          "parent-bootstrap-trust-correction-r18.md"
+        ],
+        "stopConditions": [
+          "Do not claim hostile-process isolation, release readiness, hosted CI, merge, memory closeout, or external-host effects.",
+          "Edit only declared files and preserve every immutable candidate and correction artifact.",
+          "Fail closed if materialization, lock integrity, dependency isolation, runtime identity, staging, post-run verification, or cleanup cannot be proven.",
+          "Return only the exact closed SpecialistAgentHandoff JSON object from the generated contract.",
+          "Run every frozen check and report failures truthfully.",
+          "Stop before editing if any declared context byte count or SHA-256 binding fails.",
+          "The parent must never import candidate runtime modules or execute a live candidate worker.",
+          "The release phase must never enable network access or run package lifecycle hooks."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:d61decb70b1196e1310d18d1e0d930456b6f001b34ae8c8316f50c2a67024dd4",
+  "proposedCandidates": [],
+  "proposalEvaluations": [],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v12.ide-run-loop.implementation.release-correction",
+    "goalRevision": 18,
+    "allowedModules": [
+      "correction.parent-bootstrap-trust"
+    ],
+    "allowedCapabilities": [
+      "fix.release-evidence-trust"
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Repository workflow and specialist invariants.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.correction-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md",
+        "digest": "sha256:d20c7cc53583d3b2942fd283fc56f7365512b58031ae927ea409bb2409d444a3",
+        "bytes": 5839,
+        "description": "Frozen Revision 18 parent-bootstrap trust contract.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.ignore-policy",
+        "kind": "repository",
+        "locator": "path:.gitignore",
+        "digest": "sha256:790a8c26a42342f3b5143df2e56b9c43145c2faa5758f443b63cb52b85d9b8a8",
+        "bytes": 732,
+        "description": "Generated runtime and scratch exclusion policy.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": ".gitignore"
+      },
+      {
+        "id": "context.lockfile",
+        "kind": "repository",
+        "locator": "path:package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Exact lock graph and SRI metadata for offline installation.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "package-lock.json"
+      },
+      {
+        "id": "context.offline-probe",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md",
+        "digest": "sha256:1dd90d0ff1f8f11c739870708133284a1520ce1ad1e3de6929ddd71a92b6d5a3",
+        "bytes": 1582,
+        "description": "Observed fail-closed and successful offline exact-lock cache behavior.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+        "bytes": 2931,
+        "description": "Build, format, lint, and command wiring.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-gate-harness",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Existing complete Git-blob materialization and disposable Git-context implementation.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-gate.test.mjs",
+        "digest": "sha256:9842abebe89689e3465579d662e70ea541722236d64b986bce222d4ce9996c47",
+        "bytes": 22072,
+        "description": "Current exact materialization and trust regression suite.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.release-review-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:f019b39dc555afd3663519fb427cf73c9eee2b14cc9b5e769b5a1ebc733ffc7e",
+        "bytes": 86706,
+        "description": "Current R2 harness that must become a parent-only candidate child.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-review.test.mjs",
+        "digest": "sha256:1abb654e346f0a6f98aa2fbab69901e0a0f8a5eebef9c9fecfa98375fe38f6e3",
+        "bytes": 12922,
+        "description": "Current R2 lifecycle and adversarial regression suite.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "test/v12-release-review.test.mjs"
+      },
+      {
+        "id": "context.release-review-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:9daa5bc7fde24a8d70d7e68cb8faed7327f9ae4f0b3ed180f00cb8facb48d9ae",
+        "bytes": 11990,
+        "description": "Current raw-handoff verifier that must become a parent-only candidate child.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.retired-candidate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md",
+        "digest": "sha256:3e9cd206b82b5670ec1f454e0fbb1ea352f7d8a78666b1ac8abf0a1a4cb0e2a4",
+        "bytes": 2543,
+        "description": "Candidate 10 exact retirement route.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md"
+      },
+      {
+        "id": "context.retired-gate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json",
+        "digest": "sha256:9d07c1eaa9bf0a22cfbc5c0d33e6fd60cf340a84d7da238d7cb9b21df8f8c65a",
+        "bytes": 2295,
+        "description": "Passing exact gate receipt for the retired candidate.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.revision-seventeen-audit",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md",
+        "digest": "sha256:82725d4372ca647223a6163bf71bab638d9543b90fcab53c68e5009ab342ea49",
+        "bytes": 2096,
+        "description": "Independent read-only architecture audit that forced redesign.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md"
+      },
+      {
+        "id": "context.revision-seventeen-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json",
+        "digest": "sha256:79227fedf63534c9a71eabd6679c0b08fdcdb6bc94a49965d76c60975a996cb5",
+        "bytes": 3206,
+        "description": "Exact raw verified Revision 17 redesign route.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json"
+      },
+      {
+        "id": "context.revision-seventeen-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json",
+        "digest": "sha256:cc6b9500228bd532e3f8558a607cc911b97ecb4d823d27579f039303b125bebf",
+        "bytes": 101579,
+        "description": "Exact retired Revision 17 approved package.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json"
+      },
+      {
+        "id": "context.revision-seventeen-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json",
+        "digest": "sha256:ae5e7dc88346662c2c028064e83190ffe4d2fa3c23f61b69837c65b7d222eece",
+        "bytes": 1361,
+        "description": "Complete non-ready Revision 17 package fan-in.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Normative package, handoff, and non-pass routing semantics.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+      },
+      {
+        "id": "context.schema-runtime",
+        "kind": "repository",
+        "locator": "path:src/schema.ts",
+        "digest": "sha256:ca9fa3d90ba27bea2de8f095b083a8d729bbed93a64aa14988c47c4c20ca6c63",
+        "bytes": 6873,
+        "description": "Runtime file and dependency behavior that constrains materialization lifetime.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "src/schema.ts"
+      },
+      {
+        "id": "context.security-finding",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json",
+        "digest": "sha256:37689ff82d725692c6dfb843cead2bec81e22c074d4e784e635d19d00557dc7f",
+        "bytes": 6572,
+        "description": "Exact raw security finding against the repository-live runtime.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json"
+      },
+      {
+        "id": "context.specialist-entrypoint",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Candidate compiler and verifier export entrypoint.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md",
+        "digest": "sha256:cae44118e1155805e2b2ea54eeba9537ee45cb2ed8d51f4489455bb0c68a4c3e",
+        "bytes": 3421,
+        "description": "Frozen Revision 18 adversarial verification plan.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md"
+      },
+      {
+        "id": "context.typescript",
+        "kind": "repository",
+        "locator": "path:tsconfig.json",
+        "digest": "sha256:962f5730cee225eec5a5c731835eca40fe39034d2ba253bb8ddc7237c0b04cc6",
+        "bytes": 689,
+        "description": "Candidate TypeScript build contract.",
+        "allowedWorkUnits": [
+          "fix.parent-bootstrap-trust.r18"
+        ],
+        "readScope": "tsconfig.json"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          ".gitignore",
+          "AGENTS.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+          "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+          "package-lock.json",
+          "package.json",
+          "scripts/run-v12-release-gate.mjs",
+          "src/index.ts",
+          "src/schema.ts",
+          "test/v12-release-gate.test.mjs",
+          "test/v12-release-review.test.mjs",
+          "tsconfig.json"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+          "package.json",
+          "scripts/run-v12-release-review.mjs",
+          "test/v12-release-gate.test.mjs",
+          "test/v12-release-review.test.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "git",
+          "node",
+          "npm",
+          "powershell"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not edit outside declared write scope, modify immutable evidence, change core compiler or schema behavior, change dependencies or lockfile, change Git state, use network access, run lifecycle scripts, launch descendants, run a candidate gate, prepare R2 against a release candidate, claim release readiness, or merge."
+    ],
+    "maxAgents": 1,
+    "maxConcurrency": 1,
+    "contentDigest": "sha256:aa8a98aa3e818177c506a58545d7a4b7f9e5ee2532f056c72d2097d6ffffc4ad"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:6ad0bcbe3a0ab09731419db75d829f32cd0b64ec3d21975d41ea2c1485d980e7"
+  },
+  "serialBaseline": {
+    "id": "team.141ef9a41506c241e0cf24465fd86dcf92672bb7922d7f4ea9efea7ff08bc0ba",
+    "partition": [
+      [
+        "fix.parent-bootstrap-trust.r18"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 15,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 14,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264",
+        "start": 0,
+        "finish": 15
+      }
+    ],
+    "contentDigest": "sha256:fe9e6219401bbbce14311b17dc58d98c40278e6467c7b59470beeeaa96bd812d"
+  },
+  "selected": {
+    "id": "team.141ef9a41506c241e0cf24465fd86dcf92672bb7922d7f4ea9efea7ff08bc0ba",
+    "partition": [
+      [
+        "fix.parent-bootstrap-trust.r18"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 15,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 14,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264",
+        "start": 0,
+        "finish": 15
+      }
+    ],
+    "contentDigest": "sha256:fe9e6219401bbbce14311b17dc58d98c40278e6467c7b59470beeeaa96bd812d"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.141ef9a41506c241e0cf24465fd86dcf92672bb7922d7f4ea9efea7ff08bc0ba",
+    "serialValue": "team.141ef9a41506c241e0cf24465fd86dcf92672bb7922d7f4ea9efea7ff08bc0ba",
+    "serialRejectionCodes": []
+  },
+  "alternatives": [],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264",
+      "goalId": "v12.ide-run-loop.implementation.release-correction",
+      "goalRevision": 18,
+      "goalDigest": "sha256:d61decb70b1196e1310d18d1e0d930456b6f001b34ae8c8316f50c2a67024dd4",
+      "candidateId": "team.141ef9a41506c241e0cf24465fd86dcf92672bb7922d7f4ea9efea7ff08bc0ba",
+      "workUnitIds": [
+        "fix.parent-bootstrap-trust.r18"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "fix.parent-bootstrap-trust.r18",
+          "objective": "Implement and adversarially verify the complete parent/child candidate-runtime trust boundary and immutable output-promotion protocol."
+        }
+      ],
+      "modules": [
+        {
+          "id": "correction.parent-bootstrap-trust",
+          "action": "Bind exact candidate tooling, install exact locked supply offline outside repository ancestry, build and bind generated runtime, execute one fresh child, reverify protected closures, clean, and atomically promote only allowed evidence.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "UntrustedReleaseReviewExecution"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "ParentVerifiedReleaseReviewExecution"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.agent-contract",
+          "kind": "repository",
+          "locator": "path:AGENTS.md",
+          "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+          "bytes": 16695,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "AGENTS.md"
+        },
+        {
+          "sourceId": "context.correction-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md",
+          "digest": "sha256:d20c7cc53583d3b2942fd283fc56f7365512b58031ae927ea409bb2409d444a3",
+          "bytes": 5839,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md"
+        },
+        {
+          "sourceId": "context.ignore-policy",
+          "kind": "repository",
+          "locator": "path:.gitignore",
+          "digest": "sha256:790a8c26a42342f3b5143df2e56b9c43145c2faa5758f443b63cb52b85d9b8a8",
+          "bytes": 732,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": ".gitignore"
+        },
+        {
+          "sourceId": "context.lockfile",
+          "kind": "repository",
+          "locator": "path:package-lock.json",
+          "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+          "bytes": 21014,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "package-lock.json"
+        },
+        {
+          "sourceId": "context.offline-probe",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md",
+          "digest": "sha256:1dd90d0ff1f8f11c739870708133284a1520ce1ad1e3de6929ddd71a92b6d5a3",
+          "bytes": 1582,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md"
+        },
+        {
+          "sourceId": "context.package",
+          "kind": "repository",
+          "locator": "path:package.json",
+          "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+          "bytes": 2931,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "package.json"
+        },
+        {
+          "sourceId": "context.release-gate-harness",
+          "kind": "repository",
+          "locator": "path:scripts/run-v12-release-gate.mjs",
+          "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+          "bytes": 31791,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "scripts/run-v12-release-gate.mjs"
+        },
+        {
+          "sourceId": "context.release-gate-tests",
+          "kind": "repository",
+          "locator": "path:test/v12-release-gate.test.mjs",
+          "digest": "sha256:9842abebe89689e3465579d662e70ea541722236d64b986bce222d4ce9996c47",
+          "bytes": 22072,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "test/v12-release-gate.test.mjs"
+        },
+        {
+          "sourceId": "context.release-review-harness",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+          "digest": "sha256:f019b39dc555afd3663519fb427cf73c9eee2b14cc9b5e769b5a1ebc733ffc7e",
+          "bytes": 86706,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+        },
+        {
+          "sourceId": "context.release-review-tests",
+          "kind": "repository",
+          "locator": "path:test/v12-release-review.test.mjs",
+          "digest": "sha256:1abb654e346f0a6f98aa2fbab69901e0a0f8a5eebef9c9fecfa98375fe38f6e3",
+          "bytes": 12922,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "test/v12-release-review.test.mjs"
+        },
+        {
+          "sourceId": "context.release-review-verifier",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+          "digest": "sha256:9daa5bc7fde24a8d70d7e68cb8faed7327f9ae4f0b3ed180f00cb8facb48d9ae",
+          "bytes": 11990,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+        },
+        {
+          "sourceId": "context.retired-candidate",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md",
+          "digest": "sha256:3e9cd206b82b5670ec1f454e0fbb1ea352f7d8a78666b1ac8abf0a1a4cb0e2a4",
+          "bytes": 2543,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md"
+        },
+        {
+          "sourceId": "context.retired-gate",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json",
+          "digest": "sha256:9d07c1eaa9bf0a22cfbc5c0d33e6fd60cf340a84d7da238d7cb9b21df8f8c65a",
+          "bytes": 2295,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json"
+        },
+        {
+          "sourceId": "context.revision-seventeen-audit",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md",
+          "digest": "sha256:82725d4372ca647223a6163bf71bab638d9543b90fcab53c68e5009ab342ea49",
+          "bytes": 2096,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md"
+        },
+        {
+          "sourceId": "context.revision-seventeen-handoff",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json",
+          "digest": "sha256:79227fedf63534c9a71eabd6679c0b08fdcdb6bc94a49965d76c60975a996cb5",
+          "bytes": 3206,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json"
+        },
+        {
+          "sourceId": "context.revision-seventeen-package",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json",
+          "digest": "sha256:cc6b9500228bd532e3f8558a607cc911b97ecb4d823d27579f039303b125bebf",
+          "bytes": 101579,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json"
+        },
+        {
+          "sourceId": "context.revision-seventeen-verification",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json",
+          "digest": "sha256:ae5e7dc88346662c2c028064e83190ffe4d2fa3c23f61b69837c65b7d222eece",
+          "bytes": 1361,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json"
+        },
+        {
+          "sourceId": "context.run-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+          "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+          "bytes": 17133,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/specialist-run-contract.md"
+        },
+        {
+          "sourceId": "context.schema-runtime",
+          "kind": "repository",
+          "locator": "path:src/schema.ts",
+          "digest": "sha256:ca9fa3d90ba27bea2de8f095b083a8d729bbed93a64aa14988c47c4c20ca6c63",
+          "bytes": 6873,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "src/schema.ts"
+        },
+        {
+          "sourceId": "context.security-finding",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json",
+          "digest": "sha256:37689ff82d725692c6dfb843cead2bec81e22c074d4e784e635d19d00557dc7f",
+          "bytes": 6572,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json"
+        },
+        {
+          "sourceId": "context.specialist-entrypoint",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+          "bytes": 5447,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md",
+          "digest": "sha256:cae44118e1155805e2b2ea54eeba9537ee45cb2ed8d51f4489455bb0c68a4c3e",
+          "bytes": 3421,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md"
+        },
+        {
+          "sourceId": "context.typescript",
+          "kind": "repository",
+          "locator": "path:tsconfig.json",
+          "digest": "sha256:962f5730cee225eec5a5c731835eca40fe39034d2ba253bb8ddc7237c0b04cc6",
+          "bytes": 689,
+          "purposes": [
+            "Implement and verify the Revision 18 parent-bootstrap trust boundary from frozen source and failure evidence."
+          ],
+          "workUnitIds": [
+            "fix.parent-bootstrap-trust.r18"
+          ],
+          "readScope": "tsconfig.json"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "fix.release-evidence-trust"
+        ],
+        "scope": {
+          "read": [
+            ".gitignore",
+            "AGENTS.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+            "package-lock.json",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "src/index.ts",
+            "src/schema.ts",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs",
+            "tsconfig.json"
+          ],
+          "write": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ],
+          "conflictZones": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-review.mjs",
+            "test/v12-release-gate.test.mjs",
+            "test/v12-release-review.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".gitignore",
+              "AGENTS.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/handoffs/agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/offline-cache-probe.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f4f91a373dd7f8028ec5d592e89c75f0027245c3/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/f4f91a373dd7f8028ec5d592e89c75f0027245c3/handoffs/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+              "package-lock.json",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs",
+              "src/index.ts",
+              "src/schema.ts",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs",
+              "tsconfig.json"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "package.json",
+              "scripts/run-v12-release-review.mjs",
+              "test/v12-release-gate.test.mjs",
+              "test/v12-release-review.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not edit outside declared write scope, modify immutable evidence, change core compiler or schema behavior, change dependencies or lockfile, change Git state, use network access, run lifecycle scripts, launch descendants, run a candidate gate, prepare R2 against a release candidate, claim release readiness, or merge."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.fix.parent-bootstrap-trust.r18",
+          "criterion": "Every R2 semantic output is attributable to one parent-verified exact candidate runtime, protected closures remain unchanged, and no evidence reaches the live repository before successful cleanup and promotion checks.",
+          "requirementId": "evidence.fix.parent-bootstrap-trust.r18",
+          "kind": "test",
+          "duty": "produce",
+          "description": "Provide exact changed-file, bootstrap identity, offline-lock, runtime-binding, fresh-child, mutation, staging, cleanup, focused-test, full-check, and diff evidence.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "parent-bootstrap-trust-correction-r18.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not claim hostile-process isolation, release readiness, hosted CI, merge, memory closeout, or external-host effects.",
+        "Edit only declared files and preserve every immutable candidate and correction artifact.",
+        "Fail closed if materialization, lock integrity, dependency isolation, runtime identity, staging, post-run verification, or cleanup cannot be proven.",
+        "Return only the exact closed SpecialistAgentHandoff JSON object from the generated contract.",
+        "Run every frozen check and report failures truthfully.",
+        "Stop before editing if any declared context byte count or SHA-256 binding fails.",
+        "The parent must never import candidate runtime modules or execute a live candidate worker.",
+        "The release phase must never enable network access or run package lifecycle hooks."
+      ],
+      "contentDigest": "sha256:afed29d3600ff495c391ef3753a01e07a39d6c006ccd2a84bd515c3d59dc4f81"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:bc3ae4a8e7acbb24f2eb3d628413390c4e9b71da0b3e8030e8117a7935af4755"
+}

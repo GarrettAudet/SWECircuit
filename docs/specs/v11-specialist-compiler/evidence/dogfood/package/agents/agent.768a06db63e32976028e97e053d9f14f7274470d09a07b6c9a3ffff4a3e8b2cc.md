@@ -1,7 +1,7 @@
 # Specialist Contract: agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc
 
-Compilation: `sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509`
-Blueprint: `sha256:82a84c65ecf67e32b5c6c15ee8d84ba22afa32b1201282a6931a0bcac81d549d`
+Compilation: `sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb`
+Blueprint: `sha256:890327d8c5cfbd714a644447a0eb096d5063d5eaea6b370b087076360b687654`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 39,
-  "goalDigest": "sha256:b44b9c0016cd12e0fd5622070a66bfbf987b24715a15a74ce11fc757ad625bf4",
+  "goalRevision": 40,
+  "goalDigest": "sha256:c81f82b1e59d5c173f517cd8634d6d6dd130daff6ccbdd6c87dbd5e1695456ff",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "review.security-trace"
@@ -523,8 +523,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
-      "bytes": 2931,
+      "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+      "bytes": 3719,
       "purposes": [
         "Review privacy, authority, raw-boundary, and trace behavior."
       ],
@@ -928,7 +928,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop with REVISE if escaped or raw malformed Unicode reaches a launchable semantic handoff.",
     "Stop with REVISE if package tampering can retain the reviewed digest."
   ],
-  "contentDigest": "sha256:82a84c65ecf67e32b5c6c15ee8d84ba22afa32b1201282a6931a0bcac81d549d"
+  "contentDigest": "sha256:890327d8c5cfbd714a644447a0eb096d5063d5eaea6b370b087076360b687654"
 }
 ```
 
@@ -949,14 +949,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 39,
-    "digest": "sha256:b44b9c0016cd12e0fd5622070a66bfbf987b24715a15a74ce11fc757ad625bf4"
+    "revision": 40,
+    "digest": "sha256:c81f82b1e59d5c173f517cd8634d6d6dd130daff6ccbdd6c87dbd5e1695456ff"
   },
   "agent": {
     "id": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
-    "blueprintDigest": "sha256:82a84c65ecf67e32b5c6c15ee8d84ba22afa32b1201282a6931a0bcac81d549d"
+    "blueprintDigest": "sha256:890327d8c5cfbd714a644447a0eb096d5063d5eaea6b370b087076360b687654"
   },
-  "compilationDigest": "sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509",
+  "compilationDigest": "sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "review.security-trace"

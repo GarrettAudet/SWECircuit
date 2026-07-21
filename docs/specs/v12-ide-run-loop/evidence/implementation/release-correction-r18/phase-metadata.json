@@ -1,0 +1,7 @@
+{
+  "phase": "release-correction-r18",
+  "checkpoint": "f4f91a373dd7f8028ec5d592e89c75f0027245c3",
+  "goalId": "v12.ide-run-loop.implementation.release-correction",
+  "goalRevision": 18,
+  "runtimeInvoked": true
+}

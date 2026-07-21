@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. The most recent three-reviewer review routed `pass` / `fix` / `pass`, so `releaseReady: false`; accepted Revision 16 attempt 2 corrects the release trace, and V12 is not merge-ready.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. The most recent committed source reviewed by the complete three-reviewer release gate is retired with `releaseReady: false`; Revision 22, its independent review, V11 Revision 40 replay, the checker matrix, and full pre-freeze verification pass, but V12 is not merge-ready.
 
 ## Contract Tests
 
@@ -63,4 +63,8 @@ Package identity verification and handoff schema verification authenticate prese
 - Commit `447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84` exact canonical receipt: `pass`; complete R2 roster: `pass` / `fix` / `pass`; authenticated `releaseReady: false`; source permanently retired.
 - Revision 16 exact package gate: one of one accepted attempt-2 handoff `pass`; `integrationAccepted: true`; `phaseReady: true`; focused release-review tests 8 of 8 `pass`; template, format, lint, and diff gates `pass`.
 - Post-Revision-16 independent pre-freeze verification: canonical `npm.cmd run verify` `pass` in 350.4 seconds; checker mutation matrix `pass` in 316.7 seconds.
-- Successor-source freeze, exact gate, fresh R2 review, hosted CI, and owner merge decision: pending.
+- The next committed source passed its exact gate but is retired after package-bound security review found the R2 runtime imported ignored repository-live build output before candidate authentication.
+- Revision 22 exact package gate: one of one 21,143-byte handoff `pass`; `phaseReady: true`; complete 34-test copied-production lifecycle and negative matrix `pass`; independent 37-context package-bound review `pass`.
+- V11 Revision 40 Candidate A, Audit B, external receipt, exact binder, 12,843-byte semantic audit, cross-package authorization, and complete evidence replay: `pass`.
+- Post-Revision-22 checker mutation matrix: `pass` in 335 seconds; full pre-freeze `npm.cmd run verify`: `pass` in 1,888.7 seconds.
+- Successor freeze, exact gate, fresh R2 review, hosted CI, and owner merge decision: pending.
