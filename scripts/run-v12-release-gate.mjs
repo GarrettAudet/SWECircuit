@@ -68,7 +68,11 @@ function plainRegularFileRealPath(path, label) {
   return realpathSync(path);
 }
 
-function resolveHostTypeScriptEntrypoint(environment, candidateRoot) {
+function resolveHostTypeScriptEntrypoint(
+  environment,
+  candidateRoot,
+  defaultEntrypoint = DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT,
+) {
   const supplies = Object.entries(environment)
     .filter(([key]) => key.toLowerCase() === TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY.toLowerCase())
     .map(([, value]) => value);
@@ -77,7 +81,7 @@ function resolveHostTypeScriptEntrypoint(environment, candidateRoot) {
     `${TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY} must be supplied at most once, case-insensitively.`,
   );
 
-  const value = supplies.length === 1 ? supplies[0] : DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT;
+  const value = supplies.length === 1 ? supplies[0] : defaultEntrypoint;
   requireCondition(
     typeof value === "string" && value.length > 0,
     "Host TypeScript entrypoint supply must be non-empty.",

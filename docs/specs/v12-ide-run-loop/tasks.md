@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: Candidates 4, 5, and 6 are retired. Revision 13 closes Candidate 6's missing host TypeScript supply; its exact specialist handoff and 9/9 focused regressions pass, and deterministic formatting is integrated. V11 Revision 39 now has a verified two-package trust chain. The aggregate pre-freeze gate passes in 235.7 seconds; Candidate 7 freeze, its exact canonical gate, and a complete fresh R2 review remain.
+T006 in progress: Candidates 4, 5, 6, and 7 are retired. Candidate 7's exact gate preserved source identity and passed 404 of 405 tests before exposing an environment-sensitive unit-test default inside the dependency-free materialization. Revision 14 closes that cause with a verified one-agent read-only package and focused regressions while V11 Revision 39 still replays exactly. The complete pre-freeze `npm.cmd run verify` passes in 238.1 seconds; Candidate 8 freeze, its one-shot gate, and a fresh R2 review remain.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 in progress: Candidates 4, 5, and 6 are retired. Revision 13 closes Candida
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Candidate 3 routed `fix`; revisions 1-13 preserve every correction and retired candidate, and the Candidate 7 R2 wave remains pending.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Candidate 3 routed `fix`; revisions 1-14 preserve every correction and retired candidate. Revision 14 correctly selected one specialist for one atomic verification unit; Candidate 8's later R2 review will fan out across three independent domains.
 
 ## Out Of Scope
 

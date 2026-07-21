@@ -71,8 +71,12 @@ test("host TypeScript entrypoint supply is singular, plain, absolute, and extern
   const candidateEntrypoint = join(candidateRoot, "tsc.mjs");
   const symbolicEntrypoint = join(root, "typescript-link");
   const environmentKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
-  const resolveSupply = (environment) =>
-    RELEASE_GATE_TEST_HOOKS.resolveHostTypeScriptEntrypoint(environment, candidateRoot);
+  const resolveSupply = (environment, defaultEntrypoint = hostEntrypoint) =>
+    RELEASE_GATE_TEST_HOOKS.resolveHostTypeScriptEntrypoint(
+      environment,
+      candidateRoot,
+      defaultEntrypoint,
+    );
 
   try {
     await mkdir(candidateRoot);
@@ -86,6 +90,7 @@ test("host TypeScript entrypoint supply is singular, plain, absolute, and extern
     );
 
     const defaultEntrypoint = resolveSupply({});
+    assert.equal(defaultEntrypoint, await realpath(hostEntrypoint));
     assert.equal(isAbsolute(defaultEntrypoint), true);
     const defaultFromCandidate = relative(candidateRoot, defaultEntrypoint);
     assert.equal(
@@ -95,6 +100,10 @@ test("host TypeScript entrypoint supply is singular, plain, absolute, and extern
         defaultFromCandidate.startsWith("..\\"),
       true,
     );
+
+    assert.throws(() => resolveSupply({}, "relative/tsc.mjs"), /absolute/u);
+    assert.throws(() => resolveSupply({}, symbolicEntrypoint), /symbolic link/u);
+    assert.throws(() => resolveSupply({}, candidateEntrypoint), /outside/u);
 
     assert.equal(
       resolveSupply({ [environmentKey.toLowerCase()]: hostEntrypoint }),

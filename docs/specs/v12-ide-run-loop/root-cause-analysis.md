@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidate 1 and Candidate 2 diagnoses are closed. Candidate 3 passed its canonical gate but is retired after two independent `fix` routes; their causes are closed by release-correction revisions 9 and 10. Candidate 4 release evidence remains pending.
+Candidates 1-7 are retired with immutable evidence. Candidate 3's independent review causes and Candidates 4-7's exact-gate causes are closed through contiguous correction revisions 1-14. Candidate 8 pre-freeze verification and release evidence remain pending.
 
 ## Reproduction
 
@@ -287,3 +287,29 @@ All 9 release-gate tests pass, covering local default, canonical normalized supp
 The exact Revision 13 handoff verifies `pass`, and V11 Revision 39 independently rebuilds and approves the final formatted consumer source through its complete two-package trust chain. Candidate 6 remains retired. Candidate 7 must prove the corrected runtime supply from its own committed materialization before R2 review.
 
 Runtime dependencies required to verify exact source must be explicit host inputs. A dependency-free candidate should never be made impure merely to satisfy the verifier that authenticates it.
+## Candidate 7 Isolation-Test Default RCA
+
+### Symptom
+
+Candidate 7's exact committed-tree gate passed source authentication, Git isolation, live-state checks, cleanup, and 404 of 405 tests. One unit test failed while resolving candidate-local `node_modules/typescript/bin/tsc`.
+
+### Competing Hypotheses
+
+1. The production canonical child did not receive the explicit host toolchain supply.
+2. Environment normalization removed or duplicated the supply before tests.
+3. The unit test bypassed the production environment and selected a candidate-relative development default.
+4. The resolver's containment validation redirected an external supply into candidate source.
+
+The receipt, command environment implementation, stack trace, and focused reproduction reject hypotheses 1, 2, and 4. Hypothesis 3 alone explains why the normal pre-freeze worktree passed and the dependency-free exact candidate failed.
+
+### Confirmed Root Cause
+
+The test intentionally called `resolveHostTypeScriptEntrypoint` with an empty synthetic environment. Because the imported script's `ROOT` was the exact materialization, the resolver selected a development default that cannot exist there. Test setup accidentally depended on repository dependencies even though the production path already supplied an external compiler.
+
+### Causal Fix
+
+Add an internal injectable default parameter whose production default remains `DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT`. The test passes a temporary external plain file as that default. Both explicit and injected paths continue through the same validation. Add direct negative cases for relative, symbolic, and candidate-contained injected defaults.
+
+### Regression And Release Gate
+
+Revision 14's exact specialist authenticates all ten sources, reproduces the evidence chain, confirms the two-argument production call is unchanged, and passes both focused commands. Its exact handoff and complete package gate return `pass`. Candidate 7 remains retired; only a new Candidate 8 commit may run the canonical gate, and R2 remains blocked until that receipt passes.

@@ -1,0 +1,329 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 14,
+    "objective": "Retire Candidate 7 and independently verify the isolated-test default correction without weakening external host toolchain enforcement.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.candidate-seven-immutable",
+        "statement": "Candidate 7 and its exact failed gate evidence are immutable and cannot authorize release.",
+        "rationale": "The source correction requires a new candidate identity."
+      },
+      {
+        "id": "assumption.production-default-unchanged",
+        "statement": "The injectable resolver default is an internal test seam; production continues to omit it and use either explicit normalized host supply or the repository-local development default.",
+        "rationale": "The correction must isolate test setup without weakening runtime enforcement."
+      },
+      {
+        "id": "assumption.integration-owned-release",
+        "statement": "The integration owner retains full-suite verification, successor freeze, exact gate, R2 review, CI, and merge authority.",
+        "rationale": "A bounded correction specialist cannot approve the release it helps verify."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.verify.candidate-isolation-test.r14",
+        "description": "The exact Candidate 7 failure is causally closed by a deterministic external test default while production host-supply enforcement remains unchanged and fail-closed.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.candidate-isolation-test.r14",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Prove exact failure correspondence, unchanged production invocation, shared path validation, focused regression success, immutable evidence, and no authority expansion.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.correction-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r14/inputs/correction-contract.md",
+        "digest": "sha256:8623cbc29adbd4dc29ea373a4ab9f80cef45763d9117dd41d23fef11c0429477",
+        "bytes": 1867,
+        "description": "Frozen Candidate 7 causal correction contract.",
+        "allowedWorkUnits": [
+          "verify.candidate-isolation-test.r14"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r14/inputs/correction-contract.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r14/inputs/test-plan.md",
+        "digest": "sha256:494a8c2515354d37db18d9f795d51daa625e99d1819bfe4f835f7d907caae837",
+        "bytes": 1025,
+        "description": "Frozen Revision 14 verification plan.",
+        "allowedWorkUnits": [
+          "verify.candidate-isolation-test.r14"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r14/inputs/test-plan.md"
+      },
+      {
+        "id": "context.candidate-seven-retirement",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-7-retirement.md",
+        "digest": "sha256:4404bbabec3e13fa15a9469503e1a417710d1cf0b433ffded93fa0e2bf52e7c5",
+        "bytes": 1924,
+        "description": "Immutable Candidate 7 retirement route.",
+        "allowedWorkUnits": [
+          "verify.candidate-isolation-test.r14"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-7-retirement.md"
+      },
+      {
+        "id": "context.candidate-seven-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate-receipt.json",
+        "digest": "sha256:8dfc1033ce467727e8603a11a417b57164f1569a463c2b12c7b1d1efe74de880",
+        "bytes": 2294,
+        "description": "Exact Candidate 7 canonical-gate receipt.",
+        "allowedWorkUnits": [
+          "verify.candidate-isolation-test.r14"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.candidate-seven-stdout",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate.stdout.log",
+        "digest": "sha256:13cc6b063a0d0283f5ece6053a822cf1af5cb9553b5c474e83e1126120ea2830",
+        "bytes": 31949,
+        "description": "Exact Candidate 7 canonical stdout.",
+        "allowedWorkUnits": [
+          "verify.candidate-isolation-test.r14"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate.stdout.log"
+      },
+      {
+        "id": "context.candidate-seven-stderr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate.stderr.log",
+        "digest": "sha256:f1c19d541b010155bd5ed0af4babbe81534106ea1cf3258c758efc36113c95d0",
+        "bytes": 19354,
+        "description": "Exact Candidate 7 canonical stderr.",
+        "allowedWorkUnits": [
+          "verify.candidate-isolation-test.r14"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate.stderr.log"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368",
+        "bytes": 2931,
+        "description": "Canonical verification command surface.",
+        "allowedWorkUnits": [
+          "verify.candidate-isolation-test.r14"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Corrected exact-candidate host-supply implementation.",
+        "allowedWorkUnits": [
+          "verify.candidate-isolation-test.r14"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-gate.test.mjs",
+        "digest": "sha256:681df384c0080e097426274fe66c6c5f440ed82601f0f55baa1cac84e23d0e64",
+        "bytes": 16402,
+        "description": "Corrected host-supply and candidate-isolation regressions.",
+        "allowedWorkUnits": [
+          "verify.candidate-isolation-test.r14"
+        ],
+        "readScope": "test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.revision-thirteen-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/handoff-verification.json",
+        "digest": "sha256:b6a95ec5913a7b8a4a54946f3ffde43233de13109ae0ce89dafc74abfb27498b",
+        "bytes": 1307,
+        "description": "Verified predecessor correction outcome.",
+        "allowedWorkUnits": [
+          "verify.candidate-isolation-test.r14"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/handoff-verification.json"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "verification.candidate-isolation-test"
+      ],
+      "allowedCapabilities": [
+        "verify.candidate-isolation-test"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r14/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r14/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-7-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate.stdout.log",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not edit files, change Git state, use network access, launch descendants, create candidate-local dependencies, rerun Candidate 7, or claim release approval."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "verify.candidate-isolation-test.r14",
+        "objective": "Independently verify the deterministic Candidate 7 isolation-test correction and its security properties.",
+        "weight": 4,
+        "module": {
+          "id": "verification.candidate-isolation-test",
+          "action": "Authenticate the frozen failure and corrected source, inspect production and test call paths, run focused tests, and report whether the causal defect is closed without weakened containment.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "CandidateIsolationTestFailureAndCorrection"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "VerifiedIsolationTestCorrection"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "verify.candidate-isolation-test"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.correction-contract",
+            "purpose": "Independently verify the exact Candidate 7 failure and Revision 14 correction without editing source."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Independently verify the exact Candidate 7 failure and Revision 14 correction without editing source."
+          },
+          {
+            "sourceId": "context.candidate-seven-retirement",
+            "purpose": "Independently verify the exact Candidate 7 failure and Revision 14 correction without editing source."
+          },
+          {
+            "sourceId": "context.candidate-seven-receipt",
+            "purpose": "Independently verify the exact Candidate 7 failure and Revision 14 correction without editing source."
+          },
+          {
+            "sourceId": "context.candidate-seven-stdout",
+            "purpose": "Independently verify the exact Candidate 7 failure and Revision 14 correction without editing source."
+          },
+          {
+            "sourceId": "context.candidate-seven-stderr",
+            "purpose": "Independently verify the exact Candidate 7 failure and Revision 14 correction without editing source."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Independently verify the exact Candidate 7 failure and Revision 14 correction without editing source."
+          },
+          {
+            "sourceId": "context.release-gate",
+            "purpose": "Independently verify the exact Candidate 7 failure and Revision 14 correction without editing source."
+          },
+          {
+            "sourceId": "context.release-gate-tests",
+            "purpose": "Independently verify the exact Candidate 7 failure and Revision 14 correction without editing source."
+          },
+          {
+            "sourceId": "context.revision-thirteen-verification",
+            "purpose": "Independently verify the exact Candidate 7 failure and Revision 14 correction without editing source."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r14/inputs/correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r14/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-7-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate.stdout.log",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "test/v12-release-gate.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r13/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r14/inputs/correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r14/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-7-retirement.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate.stderr.log",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa/canonical-gate.stdout.log",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs",
+              "test/v12-release-gate.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.candidate-isolation-test.r14"
+        ],
+        "handoffArtifacts": [
+          "candidate-isolation-test-r14.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source fails its exact raw digest and byte binding.",
+          "Do not edit source, write repository artifacts, alter Git state, use network access, launch descendants, or rerun Candidate 7.",
+          "Run the focused commands in the frozen test plan and report every failure truthfully.",
+          "Return only the exact closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      }
+    ]
+  }
+}

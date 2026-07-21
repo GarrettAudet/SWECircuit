@@ -2,7 +2,7 @@
 
 ## Status
 
-Release review attempt 1 and Candidate 3 produced verified release-blocking `fix` routes. Candidates 4, 5, and 6 then failed their exact committed-tree gates and are retired. Revision 13 is integrated and formatted, and V11 Revision 39 passes the complete two-package trust replay. Candidate 7 exact verification and a complete fresh R2 review remain, so V12 is not merge-ready.
+Release review attempt 1 and Candidate 3 produced verified release-blocking `fix` routes. Candidates 4, 5, 6, and 7 are retired with exact evidence. Candidate 7's gate passed 404 of 405 tests and exposed only an isolated unit-test default; Revision 14's exact read-only specialist package verifies the causal correction `pass`, and V11 Revision 39 still replays exactly. The complete Candidate 8 pre-freeze suite passes in 238.1 seconds; its exact gate and a complete fresh R2 review remain, so V12 is not merge-ready.
 
 ## Scope
 
@@ -71,6 +71,15 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 - The aggregate pre-freeze `npm.cmd run verify` passes in 235.7 seconds, including the public example, V10/V11/V12 dogfood, package inspection, and offline installed consumer.
 - V11 Revision 39 independently reconstructs Candidate A and Audit B, verifies the external receipt and binder, accepts a distinct semantic `pass`, binds the cross-package authorization, and passes complete evidence replay.
 
+## Candidate 7 And Correction 14
+
+- Candidate 7 `f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa` is permanently retired. Exact source, Git context, live state, and cleanup passed; the canonical suite completed 404/405 tests before the host-supply unit test requested a candidate-local development default.
+- The receipt is 2,294 bytes at `sha256:8dfc1033ce467727e8603a11a417b57164f1569a463c2b12c7b1d1efe74de880`; raw stdout/stderr are preserved at `sha256:13cc6b063a0d0283f5ece6053a822cf1af5cb9553b5c474e83e1126120ea2830` / `sha256:f1c19d541b010155bd5ed0af4babbe81534106ea1cf3258c758efc36113c95d0`.
+- Revision 14's exact search selected the one-agent serial baseline for one atomic read-only verification unit. Compilation/package are `sha256:250a3faad6dfebe5baad3f541187cc7b30e4a3a11bf5638edb9a41a669fef861` / `sha256:4e267e322fda4d51ba2babb25c50c6b9acb800776a7426870eefc4327092510d`.
+- Its 4,930-byte raw handoff verifies `pass` at `sha256:b678fcf1c85ec59304893b428fef0b09210d5b3eac45a51b49e3075a5003b064`; the complete package gate is `phaseReady: true`.
+- Production still resolves the host toolchain with the original two-argument call. The injected test default follows the same absolute, regular-file, symlink, realpath, and outside-candidate checks; focused behavior and Biome checks pass.
+- V11 Revision 39 complete evidence replay remains `pass`; the corrected files do not invalidate its bound source package.
+
 ## Outcome
 
-`fix`. Candidate 6's route is satisfied by Revision 13. Release and merge remain stopped until Candidate 7 passes the exact canonical gate and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.
+`fix`. Candidate 7's route is satisfied by Revision 14. Release and merge remain stopped until Candidate 8 passes its single exact canonical gate and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.

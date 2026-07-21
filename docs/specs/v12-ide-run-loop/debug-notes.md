@@ -2,7 +2,7 @@
 
 ## Status
 
-No active known product defect. Candidates 4, 5, and 6 are retired with exact evidence. Revision 13 and V11 trust-root Revision 38 pass. Candidate 7 freeze, canonical verification, and complete R2 review remain.
+No active known product defect. Candidates 4, 5, 6, and 7 are retired with exact evidence. Revision 14's exact read-only specialist handoff and package gate pass, and V11 Revision 39 still replays exactly. Candidate 8 pre-freeze verification passes; freeze, canonical gate, and complete R2 review remain.
 
 ## Reproduction
 
@@ -537,3 +537,29 @@ Formatting changed the V11-bound consumer source, so Revision 38 could no longer
 ### Route
 
 `fix` -> `learn` -> `pass`. The aggregate pre-freeze gate passes in 235.7 seconds. Freeze Candidate 7 next; do not reuse Candidate 6 or represent Revision 38 as the current source identity.
+## Candidate 7 Exact Gate And Revision 14
+
+### Reproduction
+
+The single permitted gate for `f981929edd75e1ab8e71eb8eb37ef1cd1f21b1fa` ran `npm.cmd run verify` from 2,029 exact committed files. Exact source, disposable Git context, live repository state, post-command bytes, and cleanup passed. The suite completed 404/405 tests and failed only `host TypeScript entrypoint supply is singular, plain, absolute, and external` with `ENOENT` for candidate-local `node_modules/typescript/bin/tsc`.
+
+### Classification And Evidence
+
+- Type: environment-sensitive test fixture at the host/candidate boundary.
+- Receipt: 2,294 bytes, `sha256:8dfc1033ce467727e8603a11a417b57164f1569a463c2b12c7b1d1efe74de880`.
+- Raw stdout/stderr: `sha256:13cc6b063a0d0283f5ece6053a822cf1af5cb9553b5c474e83e1126120ea2830` / `sha256:f1c19d541b010155bd5ed0af4babbe81534106ea1cf3258c758efc36113c95d0`.
+- Route: `diagnose` -> `fix`. Candidate 7 is retired and must never be rerun.
+
+### Confirmed Cause
+
+The production gate passed one explicit external TypeScript entrypoint into the isolated command. The unit test ignored that process environment, called the resolver with `{}`, and therefore selected the imported candidate script's repository-local development default. The normal worktree had `node_modules`; the dependency-free exact candidate did not.
+
+### Correction And Verification
+
+Revision 14 makes the internal default injectable for deterministic testing while production retains the same two-argument call and local-development fallback. Injected defaults pass the same absolute, regular-file, symlink, realpath, and outside-candidate validation. Relative, linked, and candidate-contained defaults now have explicit regressions.
+
+The exact one-agent package binds compilation/package `sha256:250a3faad6dfebe5baad3f541187cc7b30e4a3a11bf5638edb9a41a669fef861` / `sha256:4e267e322fda4d51ba2babb25c50c6b9acb800776a7426870eefc4327092510d`. Its 4,930-byte raw handoff verifies `pass` at `sha256:b678fcf1c85ec59304893b428fef0b09210d5b3eac45a51b49e3075a5003b064`; complete fan-in is ready. Focused behavior and Biome checks pass, all ten bound sources remain byte-identical, and V11 Revision 39 replay remains `pass`.
+
+### Next Route
+
+`pass` for the correction and complete pre-freeze verification. The aggregate `npm.cmd run verify` passes in 238.1 seconds with all 405 tests and release consumers. Freeze Candidate 8, execute its exact gate once, and launch R2 only after a passing receipt.
