@@ -2,13 +2,13 @@
 
 ## Current Focus
 
-V12 IDE Run Loop is in final release-candidate verification on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Candidates 4 through 8 are retired. Candidate 8 `0482bf3783e085c6cef3111d63003daa5197eca8` passed its one-shot exact gate, but fresh R2 preparation reproduced 261 context sources and read scopes against the compiler's closed 256-entry ceiling and failed before package rendering or reviewer launch. Revision 15 removes only correction-root navigation duplicates while preserving primary evidence: compilation/package are `sha256:857c536099f5fd9d01b0981593bef6f2e8b40eba774db7fae21c501e3bd3e83f` / `sha256:627414164e9176f4ead047a4a857f23f81efc868643dd8aaaa55377186f162c8`; its exact 5,129-byte handoff verifies `pass` at `sha256:0e470fae36b543e2eb66b9695511fdf43ff77e1df23122bda31917de4b5c6fbb`. Main-agent focused and complete 10-test release-gate checks pass, as do the canonical repository gate, checker mutation matrix, and V11 Revision 39 replay. Candidate 9 freeze, one exact canonical gate, and a fresh complete three-reviewer R2 remain.
+V12 IDE Run Loop is at successor-source freeze on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Historical attempts and their immutable evidence remain preserved. The most recent reviewed source passed its exact canonical gate, but its complete R2 fan-in routed `pass` / `fix` / `pass` and the authenticated roster result is `releaseReady: false`; that source is retired. Revision 16 accepted attempt 2, aligned active release-state language, and added section-level anti-drift coverage without changing runtime behavior or historical evidence. Independent pre-freeze verification passes, including the 350.4-second canonical repository gate and 316.7-second checker mutation matrix. V12 is not merge-ready pending a successor exact gate, fresh R2 review, hosted CI, and the owner merge gate.
 
 Revision 39 binds Candidate A `sha256:d96c354b605cdd183f66ddfd955be4c744ce62cac53c0cf5477e6ca749c73509` / `sha256:9ea35d987ed1880698069bd143fd4b1455e33e81f0e6c2953ae3a6ffe0dcf8c0` and Audit B `sha256:39244b4af9521a5b581594185ff0505c1527950a83798f0bab7a5f2711fe87e7` / `sha256:ebc7f8889659b8c209f0034458f4b7a96ae1bbdbcd3cc3523007a97004b72477`. The 2,255-byte external receipt, 9,342-byte binder, 8,798-byte independent semantic `pass`, 984-byte authorization, and `--check-evidence` replay all pass. Durable rule: every runtime dependency needed to verify exact source is an explicit validated host input outside that source, and final deterministic formatting must precede byte-bound trust freeze.
 
 ## Current Stage
 
-V11.1 remains the released public baseline on `main`. V12 is the active dogfood version and is not merge-ready until Candidate 9 passes one exact canonical gate, all three independent R2 reviewers, hosted CI, and the owner merge gate. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
+V11.1 remains the released public baseline on `main`. V12 is the active dogfood version and is not merge-ready until a successor source passes one exact canonical gate, all three independent R2 reviewers, hosted CI, and the owner merge gate. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
 
 V11 universal-runtime Round 4 failed against `d486b7f` with four REVISE verdicts, 10 high findings, and 9 medium findings. Raw evidence and correction design were committed at `6da0376`; the workflow emitted `split` rather than another broad patch cycle.
 
@@ -191,6 +191,7 @@ Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27
 
 ## Next Likely Work
 
-- Freeze Candidate 9 from the Revision 15-integrated and trace-reconciled tree, run its exact committed-tree canonical gate once, and preserve its candidate-addressed receipt and raw logs.
-- Compile, approve, and launch the three exact R2 reviewers only after the gate passes; accept release only if the complete package-bound roster returns `pass`.
+- The most recent reviewed source passed its one-shot exact canonical gate, returned `pass` / `fix` / `pass` from the complete R2 roster, and is permanently retired with `releaseReady: false`.
+- Freeze a successor source from the Revision 16-integrated tree, run its exact committed-tree canonical gate once, and preserve its source-addressed receipt and raw logs.
+- Compile, approve, and launch three fresh exact R2 reviewers only after that successor gate passes; continue only if the complete package-bound roster returns `pass`.
 - After V12 release, open a dedicated version for provider-neutral runtime demand, IDE capability inventory, deterministic model/effort assignment, and native host spawning; use the 2026-07-20 routing scan as intake.

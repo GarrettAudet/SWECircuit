@@ -1,0 +1,76 @@
+{
+  "phase": "release-review-r2",
+  "checkpoint": "447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84",
+  "runRoot": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84",
+  "goalId": "v12.ide-run-loop.release-review-r2",
+  "goalRevision": 1,
+  "reviewTooling": {
+    "candidateCommit": "447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84",
+    "harness": {
+      "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+      "mediaType": "text/javascript",
+      "mode": "100644",
+      "objectId": "8f9dcb8258336ad86d1ca45442534ff5d450f1ee",
+      "bytes": 86706,
+      "digest": "sha256:f019b39dc555afd3663519fb427cf73c9eee2b14cc9b5e769b5a1ebc733ffc7e"
+    },
+    "verifier": {
+      "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+      "mediaType": "text/javascript",
+      "mode": "100644",
+      "objectId": "850300f9de25f9965223a602d7a985a9333f658d",
+      "bytes": 11990,
+      "digest": "sha256:9daa5bc7fde24a8d70d7e68cb8faed7327f9ae4f0b3ed180f00cb8facb48d9ae"
+    }
+  },
+  "canonicalGateReceipt": {
+    "originalPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/canonical-gate-receipt.json",
+    "snapshotPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/canonical-gate/canonical-gate-receipt.json",
+    "mediaType": "application/json",
+    "bytes": 2295,
+    "digest": "sha256:1475101ffcab8b2726b4c22b48ec54aed62bf00a949e3dbf204fdcd7222be863"
+  },
+  "sourceSnapshots": 169,
+  "primaryEvidenceSets": [
+    "release-correction-r1",
+    "release-correction-r2",
+    "release-correction-r3",
+    "release-correction-r4",
+    "release-correction-r5",
+    "release-correction-r6",
+    "release-correction-r7",
+    "release-correction-r8",
+    "release-correction-r9",
+    "release-correction-r10",
+    "release-correction-r11",
+    "release-correction-r12",
+    "release-correction-r13",
+    "release-correction-r14",
+    "release-correction-r15",
+    "implementation-verification",
+    "release-review-r1"
+  ],
+  "correctionRevisions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "correctionReplans": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json"
+  ],
+  "runtimeInvoked": true
+}

@@ -1,0 +1,51 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ReleaseReviewHandoffVerification",
+  "phase": "release-review-r2",
+  "candidateCommit": "447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84",
+  "runRoot": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84",
+  "compilationDigest": "sha256:be40c9ff219b8f544bb51cb44d2a0151c93334fcda056fb4026dd9f49b4e487b",
+  "packageDigest": "sha256:b9b563936e860bd0f25dd292d362ce1a59c27ca66094389a49011c4d19c0f0bc",
+  "expectedAgentIds": [
+    "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+    "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+    "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87"
+  ],
+  "receivedAgentIds": [
+    "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+    "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+    "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.json",
+      "agentId": "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+      "outcome": "pass",
+      "rawBytes": 10823,
+      "rawDigest": "sha256:a2e2c6af37766ef6f5d6d5edee183afc6ab88f45f5cbb7ae503438546b4335a4",
+      "semanticDigest": "sha256:c91d02d846d63f44f7dc8c19f83b622b5cf0effe86c53c77600598934d9ddc30",
+      "contentDigest": "sha256:4c7a553f292033e139ba4bedba7444d0806fdc5ea45cbbbec7f9287c3c10803d"
+    },
+    {
+      "file": "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627.json",
+      "agentId": "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+      "outcome": "fix",
+      "rawBytes": 8421,
+      "rawDigest": "sha256:55c84abaeb65749e66898139789ba3ef62263052b342e99f2a53b36ac04caad0",
+      "semanticDigest": "sha256:e6f47ee4a3e131ed89ca773080896a7956ff6170d17c3fa89b2236c09629d076",
+      "contentDigest": "sha256:7cd6101a8870d252216e44e960fc8ca593fb3986fbb57204dce2532de49447be"
+    },
+    {
+      "file": "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87.json",
+      "agentId": "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87",
+      "outcome": "pass",
+      "rawBytes": 7238,
+      "rawDigest": "sha256:d2afae7048c1be13c9faca2bb307e6297adf898e71bc6028e328c1652a6686cc",
+      "semanticDigest": "sha256:21468f30412831611fbdffa9ccc52f7ec14c9215144182652086f3a1c0add9e1",
+      "contentDigest": "sha256:bb55dee82a73bd2ff37de44331b53750533df45508a5a81ce301df543a2c2b21"
+    }
+  ],
+  "releaseReady": false,
+  "note": "Every exact raw reviewer handoff was verified against this candidate's owner-approved R2 package. A verified non-pass remains a workflow route and cannot authorize release."
+}

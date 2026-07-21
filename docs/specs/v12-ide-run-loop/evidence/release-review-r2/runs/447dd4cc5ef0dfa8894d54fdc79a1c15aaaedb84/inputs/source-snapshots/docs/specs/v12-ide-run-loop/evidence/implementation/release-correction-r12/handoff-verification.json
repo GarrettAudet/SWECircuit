@@ -1,0 +1,38 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "release-correction-r12",
+  "compilationDigest": "sha256:a22663c51b5477531f8dc8a08e17841cf52d7aa837507cc672dcae5f1ca8eb48",
+  "packageDigest": "sha256:26bc2190b4acd7d4fe253228eabad5862d0819717b75b7b7f20e6264dfc4d4ce",
+  "expectedAgentIds": [
+    "agent.08756f07d108e3a95f45b3e101188efc5424183131fc2397f2c3a82c3db5afad",
+    "agent.5e3d0971d9dfb8df24441208aade1de4518d137dd6c90c77b28de04c3b2ae3c6"
+  ],
+  "receivedAgentIds": [
+    "agent.08756f07d108e3a95f45b3e101188efc5424183131fc2397f2c3a82c3db5afad",
+    "agent.5e3d0971d9dfb8df24441208aade1de4518d137dd6c90c77b28de04c3b2ae3c6"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.08756f07d108e3a95f45b3e101188efc5424183131fc2397f2c3a82c3db5afad.json",
+      "agentId": "agent.08756f07d108e3a95f45b3e101188efc5424183131fc2397f2c3a82c3db5afad",
+      "outcome": "pass",
+      "rawBytes": 5431,
+      "rawDigest": "sha256:8b1b8463255a74e921853694c5edae46bad51529cc12db88a0ebdc2455ce1ed4",
+      "semanticDigest": "sha256:983979045faf22571ad91e7467d58f9f58f7c65515ea7d423443e732ede2c24c",
+      "contentDigest": "sha256:c2d787faa67c47dd535235aaa05fd54880169d7ad964094a6f9447166c1013dc"
+    },
+    {
+      "file": "agent.5e3d0971d9dfb8df24441208aade1de4518d137dd6c90c77b28de04c3b2ae3c6.json",
+      "agentId": "agent.5e3d0971d9dfb8df24441208aade1de4518d137dd6c90c77b28de04c3b2ae3c6",
+      "outcome": "pass",
+      "rawBytes": 6033,
+      "rawDigest": "sha256:6f0d90bf4c883ba7d26a3970491810677da52c815d1e63048df4a7a4bad86a2e",
+      "semanticDigest": "sha256:4c1e6cf9934a615697d91d657e7cb7dca02be8e2999015192004dd46dedf6b37",
+      "contentDigest": "sha256:f24dc8d9d2e403b55d4b53bdb686fbe57e77dc60074b5945a053db53e6cbdc70"
+    }
+  ],
+  "phaseReady": true,
+  "note": "External complete-package gate: both disjoint raw handoffs verify against the approved digest pair and both route pass; integration-owner review and feature-level verification remain required."
+}

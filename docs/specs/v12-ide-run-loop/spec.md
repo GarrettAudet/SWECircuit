@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation complete on `codex/v12-ide-run-loop`; exact Candidate 4 verification and independent R2 release review remain.
+The V12 product implementation and Revision 16 release-truth correction are complete, and independent pre-freeze verification passes. The most recent reviewed source is retired after its complete R2 fan-in returned `pass` / `fix` / `pass`; the authenticated roster result is `releaseReady: false`. V12 is not merge-ready; a successor exact gate, fresh independent R2 review, hosted CI, and the owner merge gate remain integration-owned.
 
 ## Problem
 

@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 6,
+    "digest": "sha256:63c46ee6638477c065aff6253c1ded9c82f81f2c71588392edcf7c0639d98fab"
+  },
+  "agent": {
+    "id": "agent.9579818ca2843121c26d1c38b48b0f78421bcba0ed39783ced3bfd842a45904e",
+    "blueprintDigest": "sha256:34e03e0a7ae677492b76b42096c7583c5999b609d24fe7230bf014b944429731"
+  },
+  "compilationDigest": "sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998",
+  "summary": "Corrected installed-consumer and architecture parity to the normative 64 MiB raw-session ceiling while preserving the independent 128 MiB canonical-session safeguard; all focused checks and the clean offline installed-consumer gate pass.",
+  "workUnitsCompleted": [
+    "fix.consumer-contract-parity.r6"
+  ],
+  "artifacts": [
+    {
+      "name": "consumer-contract-parity-correction-r6.md",
+      "mediaType": "text/markdown",
+      "content": "# Consumer Contract Parity Correction R6\n\n## Authentication\n\n- Authenticated all 15 declared sources against their exact raw SHA-256 digests and byte counts before use.\n- Authenticated the approved package with `verifySpecialistPackage`; it returned no diagnostics for compilation `sha256:eaad4d35361dc41813b58a17aff340e757744ea32cfb1ae5b17a31b81230a998` and package `sha256:5acb302e44bb08f8626fb3773ba27acf5af5ae3f3d09d95beea1f2538a46826a`.\n\n## Failure Authentication\n\n- The immutable canonical receipt for candidate `989e6ea6da754ecddcf06507567647bd9d84be02` records `npm.cmd run verify` failing with exit code 1.\n- The authenticated stderr proves the installed package exported `rawSessionInputBytes: 67108864`, while the packed-consumer assertion still expected `134217728`.\n- The stale architecture table independently listed `rawSessionInputBytes` as `134217728`.\n\n## Source Of Truth\n\n- `src/constants.ts` and the normative specialist run contract both specify `rawSessionInputBytes: 67_108_864` and `canonicalSessionBytes: 134_217_728`.\n- The raw-session value is the 64 MiB preparse attacker-input ceiling.\n- The canonical-session value remains a separate conservative 128 MiB aggregate safeguard.\n\n## Correction\n\n- Updated the installed-consumer assertion to expect `rawSessionInputBytes: 67_108_864`; `canonicalSessionBytes: 134_217_728` remains unchanged.\n- Updated the live architecture table to `rawSessionInputBytes: 67108864`; `canonicalSessionBytes: 134217728` remains unchanged.\n- Updated the architecture explanation to distinguish the 64 MiB preparse ceiling from the independently enforced 128 MiB canonical-session safeguard.\n\n## Resulting Byte Bindings\n\n- `scripts/check-packed-consumer.mjs`: 43243 bytes, `sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe`.\n- `docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md`: 26111 bytes, `sha256:861a5a5471ecf8463cd8fa9e4035acb3a5c9a16f7e0c65385ba29fa84509d3dc`.\n\n## Verification\n\n- Exact source, contract, consumer, and architecture parity assertions: pass.\n- `node --check scripts/check-packed-consumer.mjs`: pass.\n- `npm.cmd exec --offline -- biome format scripts/check-packed-consumer.mjs`: pass, one file checked with no fixes required.\n- `npm.cmd exec --offline -- biome lint scripts/check-packed-consumer.mjs`: pass, one file checked with no fixes required.\n- Trailing-whitespace checks for both owned files: pass.\n- `npm.cmd run consumer:check`: pass. The gate built the package, packed it, performed a clean offline install, compiled and executed the public TypeScript host, restored the run session, verified fan-in, and completed approval-bound package verification.\n\n## Failed Attempts\n\n- Native `apply_patch` failed before mutation because the Windows sandbox helper could not refresh.\n- The first exact precondition-hash-guarded PowerShell fallback was denied filesystem write access and left both source hashes unchanged.\n- One read-only ad hoc Node parity command was malformed by PowerShell backtick parsing; it made no mutation and was replaced by a successful PowerShell parity assertion.\n- The contract-authorized hash-guarded fallback then changed only the two declared source files and immediately rebound their resulting bytes.\n\n## Scope Compliance\n\nNo network access, Git mutation, descendant-agent launch, or intentional out-of-scope source edit occurred. The installed-consumer gate used only its expected local generated build, cache, and temporary workspace outputs."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.consumer-contract-parity.r6",
+      "requirementId": "evidence.consumer-contract-parity.r6",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "consumer-contract-parity-correction-r6.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The candidate-bound canonical release gate was outside this specialist's focused verification scope and must be rerun by the integration owner."
+  ],
+  "followUps": [
+    "Preserve and verify this raw handoff against the approved revision-6 package before rerunning the immutable candidate-bound canonical release gate."
+  ]
+}

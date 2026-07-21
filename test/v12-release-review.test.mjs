@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { RELEASE_REVIEW_TEST_HOOKS } from "../docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs";
@@ -41,6 +42,75 @@ function correctionSpec(revision) {
     readinessField: "phaseReady",
   };
 }
+
+function activeSection(path, headingName) {
+  const content = readFileSync(path, "utf8");
+  const heading = `## ${headingName}\n`;
+  const start = content.indexOf(heading);
+  assert.notEqual(start, -1, `${path} must contain an active ${headingName} section`);
+  const statusStart = start + heading.length;
+  const nextHeading = content.indexOf("\n## ", statusStart);
+  return content.slice(statusStart, nextHeading === -1 ? content.length : nextHeading);
+}
+
+function activeStatus(path) {
+  return activeSection(path, "Status");
+}
+
+test("active release status avoids candidate-ordinal drift and preserves outcome distinctions", () => {
+  const statusPaths = [
+    "docs/specs/v12-ide-run-loop/spec.md",
+    "docs/specs/v12-ide-run-loop/implementation-notes.md",
+    "docs/specs/v12-ide-run-loop/test-plan.md",
+    "docs/specs/v12-ide-run-loop/review.md",
+    "docs/specs/v12-ide-run-loop/tasks.md",
+    "docs/specs/v12-ide-run-loop/debug-notes.md",
+    "docs/specs/v12-ide-run-loop/root-cause-analysis.md",
+    "docs/milestones/v12.md",
+  ];
+
+  for (const path of statusPaths) {
+    assert.doesNotMatch(activeStatus(path), /\bCandidates?\s+\d+\b/u, path);
+  }
+
+  const testPlanStatus = activeStatus("docs/specs/v12-ide-run-loop/test-plan.md");
+  assert.match(testPlanStatus, /Package identity verification and handoff schema verification/u);
+  assert.match(testPlanStatus, /Revision 1 has incomplete fan-in/u);
+  assert.match(testPlanStatus, /Revisions 2 and 3 retain \x60split\x60 workflow outcomes/u);
+  assert.match(
+    testPlanStatus,
+    /Later correction phases retain their recorded \x60pass\x60 routes/u,
+  );
+  assert.match(testPlanStatus, /releaseReady: false/u);
+});
+
+test("live release routing sections avoid consumed candidate ordinals", () => {
+  const liveSections = [
+    ["docs/memory/active-context.md", ["Next Likely Work"]],
+    [
+      "docs/milestones/v12.md",
+      [
+        "Current Stage",
+        "Approval Gate",
+        "Residual Risks",
+        "Next Recommended Work",
+        "User-Facing Overview",
+      ],
+    ],
+    ["docs/specs/v12-ide-run-loop/tasks.md", ["Parallelization"]],
+    ["docs/specs/v12-ide-run-loop/test-plan.md", ["Current Evidence"]],
+  ];
+
+  for (const [path, headings] of liveSections) {
+    for (const heading of headings) {
+      assert.doesNotMatch(
+        activeSection(path, heading),
+        /\bCandidates?\s+\d+\b/u,
+        `${path} ${heading}`,
+      );
+    }
+  }
+});
 
 test("candidate-addressed run roots are closed, disjoint, and preserve Candidate 3 evidence", () => {
   const firstCandidate = "a".repeat(40);

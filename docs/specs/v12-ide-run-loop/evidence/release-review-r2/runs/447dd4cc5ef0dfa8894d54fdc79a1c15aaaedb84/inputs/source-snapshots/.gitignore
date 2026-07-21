@@ -1,0 +1,36 @@
+# OS and editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Logs and local runtime output
+*.log
+!docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log
+!docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log
+!docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stdout.log
+!docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stderr.log
+logs/
+tmp/
+temp/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Generated dependency folders
+node_modules/
+dist/
+coverage/
+*.tgz
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+
+# SWECircuit local scratch artifacts
+.local/
+.out/

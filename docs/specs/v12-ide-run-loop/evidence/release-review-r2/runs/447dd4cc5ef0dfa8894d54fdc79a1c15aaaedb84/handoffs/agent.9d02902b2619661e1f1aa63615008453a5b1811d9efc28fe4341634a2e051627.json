@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:18a320f3cbabad739b1d2f10c066c6d2afa3d09e19c0c75383140e2ec57e86ff"
+  },
+  "agent": {
+    "id": "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+    "blueprintDigest": "sha256:66d6c6f91e24a28ceecffa65a3afd79a1f594fa8cbdbbe89018a73d393f0a70b"
+  },
+  "compilationDigest": "sha256:be40c9ff219b8f544bb51cb44d2a0151c93334fcda056fb4026dd9f49b4e487b",
+  "summary": "fix: the public API, schema export, installed-consumer path, IDE guidance, implementation-bound dogfood, and exact Candidate 9 gate evidence are coherent, but release-stage source artifacts contradict one another and blur incomplete or non-pass correction gates into pass language.",
+  "workUnitsCompleted": [
+    "review.r2.product-api-ide"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-ide-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Findings\n\n## High: Release-stage truth is contradictory and erases non-pass gate semantics\n\nThe exact candidate exposes three different active stages. The feature spec says Candidate 4 verification remains, implementation notes say Candidate 7 verification remains, while the current review and test plan identify Candidates 4 through 8 as retired and Candidate 9 as next. These are pre-existing contradictions inside the same immutable Candidate 9 source, not post-review drift.\n\nExact snapshot/original-path evidence:\n\n- Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/docs/specs/v12-ide-run-loop/spec.md:5`; original `docs/specs/v12-ide-run-loop/spec.md:5` names Candidate 4.\n- Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/docs/specs/v12-ide-run-loop/implementation-notes.md:5`; original `docs/specs/v12-ide-run-loop/implementation-notes.md:5` names Candidate 7.\n- Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/pre-integration-review.md:5`; original `docs/specs/v12-ide-run-loop/review.md:5` retires Candidates 4 through 8 and identifies Candidate 9 as pending.\n- Direct R2 input `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/candidate.json:6` binds Candidate 9 commit `447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84`; line 76 records its canonical gate as `pass`.\n\nThe test-plan status also says revisions 1 through 15 pass their exact package gates without distinguishing package identity verification from workflow readiness. Primary evidence says revision 1 is incomplete and not phase-ready, while revisions 2 and 3 contain exact `split` outcomes and are not phase-ready. The normative contract says a verified non-`pass` is workflow non-success and never satisfies a dependency.\n\nExact snapshot/original-path evidence:\n\n- Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/docs/specs/v12-ide-run-loop/test-plan.md:5`; original `docs/specs/v12-ide-run-loop/test-plan.md:5` states that revisions 1 through 15 pass their package gates.\n- Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoff-verification.json:18`; original `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoff-verification.json:18` records `complete: false`, with `phaseReady: false` at line 48.\n- Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoff-verification.json:18`; original `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoff-verification.json:18` records `outcome: split`, with `phaseReady: false` at line 25.\n- Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoff-verification.json:18`; original `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoff-verification.json:18` records `outcome: split`, with `phaseReady: false` at line 25.\n- Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/docs/specs/v12-ide-run-loop/specialist-run-contract.md:305`; original `docs/specs/v12-ide-run-loop/specialist-run-contract.md:305` defines non-`pass` as workflow non-success.\n\nImpact: a developer or IDE cannot derive one accurate release stage from the feature package, and the package-gate wording can be read as promoting incomplete or `split` evidence to success. This exact review domain is therefore not release-ready.\n\nRequired correction: remove hard-coded future candidate ordinals from candidate-source status banners, use non-self-referential pre-freeze stage language, and state package verification separately from handoff completion, workflow outcome, and phase readiness. Preserve revision 1 as incomplete, revisions 2 and 3 as `split`, and later successful revisions as their exact outcomes.\n\n# Verified Surface\n\nAll 135 declared context sources matched their exact byte counts and raw SHA-256 bindings before substantive review. The generated contract matches the approved compilation digest, and the caller supplied package expectation `sha256:b9b563936e860bd0f25dd292d362ce1a59c27ca66094389a49011c4d19c0f0bc`.\n\nCandidate 9's authenticated canonical receipt reports `pass`; its raw log reports 406 tests, 406 passes, and zero failures. Root exports expose create, restore, inspect, and record; `package.json` publishes `swecircuit/schemas/specialist-run.schema.json`; the clean offline installed-consumer gate exercises public JavaScript and TypeScript imports, schema registration, approval-bound package and handoff verification, session restore, and complete fan-in. The IDE guide presents the manifest-resolved four-operation loop and keeps approval, context authentication, permission enforcement, launch, persistence, integration, review, merge, and memory external. The implementation dogfood authenticates real release-correction packages and raw handoffs, preserves a restorable immutable session snapshot, and reports every required AC8 friction category.\n\n# Failed Attempt\n\nThe first normal-path authentication probe produced 33 false missing results for Windows paths beyond the traditional path-length boundary. A long-path-aware exact-byte pass then authenticated all 135 declared sources with zero mismatches. No substantive review began before the complete authentication gate succeeded.\n\n# Verdict\n\nOutcome: `fix`. No additional blocking product, public API, schema-publication, installed-consumer, IDE-neutrality, or dogfood defect was found in the declared review domain."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.product-api-ide",
+      "requirementId": "evidence.r2.product-api-ide-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "product-api-ide-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Repairing candidate-source status artifacts retires Candidate 9 and requires a newly frozen source identity rather than mutation of this reviewed candidate.",
+    "The canonical gate was not rerun by this reviewer because descendant execution was forbidden; the exact authenticated receipt and raw logs were reviewed as primary evidence."
+  ],
+  "followUps": [
+    "Correct the feature-package status language and preserve exact distinctions among package verification, handoff completeness, workflow outcome, and phase readiness.",
+    "Freeze a new candidate, run its one-shot canonical gate, compile and approve a fresh candidate-addressed R2 package, and repeat complete independent release review."
+  ]
+}

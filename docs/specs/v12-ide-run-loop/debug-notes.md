@@ -2,7 +2,7 @@
 
 ## Status
 
-No active known product defect. Candidates 4 through 8 are retired with exact evidence. Candidate 8 passed its exact canonical gate, then exposed an R2 evidence-selection scaling defect before reviewer launch. Revision 15's package-bound specialist handoff and complete gate pass; independent focused, release-gate, repository, checker, and V11 replay verification also pass. Candidate 9 freeze, its one-shot gate, and complete R2 review remain.
+No active product defect is recorded. The release workflow remains stopped because the most recent reviewed source is retired after a `pass` / `fix` / `pass` R2 fan-in and an authenticated `releaseReady: false` result. Accepted Revision 16 attempt 2 corrects active source language while preserving immutable evidence, and independent pre-freeze verification passes. V12 is not merge-ready pending a successor exact gate, fresh R2 review, hosted CI, and the owner merge gate.
 
 ## Reproduction
 
@@ -590,4 +590,20 @@ Main-agent verification passes the exact focused reproduction, all 10 release-ga
 
 ### Next Route
 
-`split` -> `diagnose` -> `fix` -> `pass` for the correction. Candidate 8 remains retired. Freeze Candidate 9 and run its canonical gate exactly once before compiling or launching a fresh R2 package.
+`split` -> `diagnose` -> `fix` -> `pass` for the correction. Candidate 8 remains retired. Candidate 9 later passed its one-shot canonical gate, returned `pass` / `fix` / `pass` from the complete R2 roster, and is permanently retired with `releaseReady: false`. Freeze only a successor source, run its canonical gate exactly once, and compile a fresh R2 package only after that gate passes.
+
+## Candidate 9 Release Truth And Revision 16
+
+### Reproduction And Cause
+
+Candidate 9 passed its one-shot exact gate and completed the R2 roster, but product/API/IDE returned `fix`: active source documents named conflicting candidate stages and conflated package verification with workflow success. The first Revision 16 handoff corrected status banners but integration review found stale live routing sections elsewhere.
+
+### Correction And Evidence
+
+Attempt 2 retained the exact approved package, corrected every identified live route, and expanded anti-drift tests to active status and routing sections. The exact handoff is 6,520 bytes at `sha256:51e123c6a202a58a0ea456729b84dbb4995cff2b26b27313c66133fa035ae4b9`; its accepted verification report sets `integrationAccepted: true` and `phaseReady: true`.
+
+The first aggregate pre-freeze attempt stopped before tests because the sandbox denied writes to generated `dist` files. The identical command under approved workspace permissions passed in 350.4 seconds without source changes. The checker mutation matrix then passed in 316.7 seconds.
+
+### Route
+
+`fix` -> integration rejection -> `fix` -> `pass`. Independent pre-freeze verification passes; freeze a successor source next and run its canonical gate exactly once.

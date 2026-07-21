@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidates 1-8 are retired with immutable evidence. Candidate 3's independent review causes, Candidates 4-7's exact-gate causes, and Candidate 8's R2 context-ceiling cause are closed through contiguous correction revisions 1-15. Candidate 9 freeze, exact gate, and fresh complete R2 review remain.
+Historical release attempts and their exact outcomes remain immutable. The most recent reviewed source is retired after its complete R2 fan-in routed `pass` / `fix` / `pass`, with `releaseReady: false`. Accepted Revision 16 attempt 2 corrects active release-state language, and independent pre-freeze verification passes. V12 remains not merge-ready pending a successor exact gate, fresh R2 review, hosted CI, and the owner merge gate.
 
 ## Reproduction
 
@@ -341,4 +341,18 @@ Revision 15 classifies navigation duplication only beneath valid correction root
 
 The regression reconstructs Candidate 8's immutable 261-entry request, proves exactly 94 navigation paths are excluded, proves required primary artifacts remain, and compiles the actual three-reviewer request with 167 contexts and three blueprints. The exact Revision 15 handoff and complete package gate return `pass`; focused, complete release-gate, canonical repository, checker mutation, and V11 replay verification all pass.
 
-Candidate 8 remains retired. Only a newly frozen Candidate 9 may run the canonical gate and generate a fresh candidate-addressed R2 package.
+Candidate 8 remains retired. Candidate 9 later passed its one-shot canonical gate, returned `pass` / `fix` / `pass` from the complete R2 roster, and is permanently retired with `releaseReady: false`. Any later canonical gate and fresh source-addressed R2 package require a newly frozen successor source.
+
+## Candidate 9 Release-Truth RCA
+
+### Confirmed Cause
+
+Mutable feature and milestone status text advanced by hard-coded future candidate ordinals, so later evidence left several active sections describing different release stages. The test-plan banner also treated package verification as if it implied complete fan-in and workflow `pass`.
+
+### Causal Fix
+
+Revision 16 replaces active future ordinals with evidence-state language, distinguishes package identity, handoff validity, workflow outcome, phase readiness, and release readiness, and adds section-level anti-drift regression coverage. Integration review rejected attempt 1 when its regression covered only status banners; attempt 2 expanded the same exact specialist contract to live routing sections without widening authority.
+
+### Verification And Learning
+
+Accepted attempt 2 verifies against the original approved package and passes 8 of 8 focused review tests, the template checker, format, lint, and diff gates. Post-integration package reconstruction and accepted raw-handoff verification pass; the canonical repository gate and checker mutation matrix also pass. Durable rule: a verifier-valid specialist `pass` remains subject to integration review against the actual goal; bounded completion may reuse the exact specialist package while every attempt remains immutable.

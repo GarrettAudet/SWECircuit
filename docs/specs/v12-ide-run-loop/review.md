@@ -2,7 +2,7 @@
 
 ## Status
 
-Release review attempt 1 and Candidate 3 produced verified release-blocking `fix` routes. Candidates 4 through 8 are retired with exact evidence. Candidate 8 passed its one-shot exact canonical gate, then its immutable fresh R2 request failed closed at 261 context/read entries against the 256-entry ceiling before package rendering or reviewer launch. Revision 15's exact package-bound specialist result verifies the causal correction `pass`, and independent focused, release-gate, repository, checker, and V11 replay checks pass. Candidate 9's exact gate and a complete fresh R2 review remain, so V12 is not merge-ready.
+V12 is not merge-ready. The most recent reviewed source is permanently retired: its exact canonical gate passed, its complete three-reviewer R2 fan-in routed `pass` / `fix` / `pass`, and the authenticated roster result is `releaseReady: false`. Revision 16 accepted attempt 2 and corrected active release-state language. A successor source, exact canonical gate, fresh R2 review, hosted CI, and owner merge decision remain outside this correction.
 
 ## Scope
 
@@ -86,8 +86,19 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 - Fresh R2 preparation preserved 261 sources, but compilation returned two `SC4308` diagnostics at the unchanged 256-entry context/read ceiling. No roster was rendered, approved, or launched.
 - Revision 15 excludes only correction navigation duplication and preserves the authoritative primary chain. Its regression reduces the exact failed set by 94 paths to a 167-context request and compiles all three review work units.
 - Compilation/package are `sha256:857c536099f5fd9d01b0981593bef6f2e8b40eba774db7fae21c501e3bd3e83f` / `sha256:627414164e9176f4ead047a4a857f23f81efc868643dd8aaaa55377186f162c8`; the verified final handoff is `sha256:0e470fae36b543e2eb66b9695511fdf43ff77e1df23122bda31917de4b5c6fbb` and complete fan-in is ready.
-- Candidate 8 is permanently retired. Candidate 9 must receive a new one-shot gate and candidate-addressed R2 package.
+- Candidate 8 is permanently retired. Candidate 9 `447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84` subsequently passed its one-shot exact gate, returned `pass` / `fix` / `pass` from its complete R2 roster, and is also permanently retired with `releaseReady: false`.
 
-## Outcome
+## Candidate 8 Outcome
 
-`fix` for Candidate 8's R2 compilation route, satisfied by Revision 15 and advanced to a new-candidate gate. Release and merge remain stopped until Candidate 9 passes its single exact canonical gate and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.
+`fix` for Candidate 8's R2 compilation route, satisfied by Revision 15. Candidate 9 later passed its single exact canonical gate, but its complete three-reviewer R2 package returned `pass` / `fix` / `pass`, so it is retired and release remains stopped. A successor source must pass one exact canonical gate and a newly compiled, approved, complete R2 roster before hosted CI or owner merge review.
+
+## Candidate 9 Review And Revision 16
+
+- Candidate 9's exact gate passed 406 of 406 tests against unchanged source identity. The complete owner-approved R2 roster verified `pass` / `fix` / `pass`; `releaseReady: false` retired the source.
+- The sole blocking finding was contradictory mutable release-stage prose and ambiguous package-gate language. Product/API/IDE returned `fix`; lifecycle and security returned `pass`.
+- Revision 16's first package-valid `pass` was rejected by integration review because live routing sections outside `## Status` remained stale. Attempt 2 corrected those sections and expanded the regression without recompilation or authority expansion.
+- Accepted attempt 2 is bound to compilation/package `sha256:064bb4a993c3ab3410f360684a29bf603c119059eccb62d87294456ecbcfe044` / `sha256:20437ba56376d4b39f459043bac0940e8ded2e298b48de0cd16d437a95c96db6`; raw handoff `sha256:51e123c6a202a58a0ea456729b84dbb4995cff2b26b27313c66133fa035ae4b9`; `integrationAccepted: true`; `phaseReady: true`.
+
+## Current Outcome
+
+`fix` for Candidate 9 is satisfied by accepted Revision 16 attempt 2, and independent successor-source pre-freeze verification passes. This is not release approval: successor freeze, exact gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review remain.

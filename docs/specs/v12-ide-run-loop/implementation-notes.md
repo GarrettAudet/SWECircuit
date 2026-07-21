@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation is complete. Candidates 4, 5, and 6 are retired; release-correction revision 13 is integrated and formatted, and V11 Revision 39 passes its complete two-package trust replay. Candidate 7 canonical verification and complete independent R2 review remain before V12 acceptance.
+The V12 product implementation and Revision 16 release-truth correction are complete. The feature-package release state in `review.md` is authoritative: the most recent reviewed source is retired after `pass` / `fix` / `pass` R2 fan-in, and `releaseReady: false`. Independent pre-freeze verification passes. V12 remains not merge-ready while a successor exact gate, fresh independent R2 review, hosted CI, and the owner merge gate remain integration-owned.
 
 ## Baseline
 
@@ -152,4 +152,12 @@ The V12 product implementation is complete. Candidates 4, 5, and 6 are retired; 
 - The collector now excludes only correction-root `inputs/`, `request.json`, `phase-metadata.json`, and `compilation-summary.json` navigation duplication. It keeps all authoritative package, approval, handoff, verification, replan, gate, and security evidence.
 - The final 5,129-byte specialist handoff verifies `pass` at `sha256:0e470fae36b543e2eb66b9695511fdf43ff77e1df23122bda31917de4b5c6fbb`; semantic/content digests are `sha256:421b9cdefb8e1da2413cafbdde01c9731ca4d7a938f9fe3eee7ace85f038b02c` / `sha256:ea0511d1d5f7c3f4a6578456ad2699ee2f5dc9e662a83dba0771f01d9198a579`, and complete fan-in is ready.
 - Independent integration-owner verification passes the exact 261-to-167 context reproduction, all 10 release-gate tests, static integrity checks, `npm.cmd run verify` in 305.2 seconds, the checker mutation matrix in 265.6 seconds, and standalone V11 Revision 39 evidence replay.
-- Candidate 9 is the next eligible source identity. Candidate 8 must not be regated and its prepared request must not be modified or reused.
+- Candidate 9 `447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84` passed its one-shot exact canonical gate, then its complete R2 roster returned `pass` / `fix` / `pass`; authenticated fan-in records `releaseReady: false`, so Candidate 9 is permanently retired. Candidate 8 and Candidate 9 must not be regated, and their prepared requests must not be modified or reused. Any later exact gate requires a successor source identity.
+
+## Candidate 9 And Revision 16
+
+- Candidate 9's complete three-reviewer package is bound to compilation/package `sha256:be40c9ff219b8f544bb51cb44d2a0151c93334fcda056fb4026dd9f49b4e487b` / `sha256:b9b563936e860bd0f25dd292d362ce1a59c27ca66094389a49011c4d19c0f0bc`; its exact fan-in report records `pass` / `fix` / `pass` and `releaseReady: false`.
+- Revision 16 compiled one specialist at `sha256:064bb4a993c3ab3410f360684a29bf603c119059eccb62d87294456ecbcfe044` / `sha256:20437ba56376d4b39f459043bac0940e8ded2e298b48de0cd16d437a95c96db6`. Integration rejected the first package-valid `pass` as incomplete because live routing sections remained stale.
+- The same exact specialist completed attempt 2 without authority expansion. Its 6,520-byte handoff verifies `pass` at `sha256:51e123c6a202a58a0ea456729b84dbb4995cff2b26b27313c66133fa035ae4b9`; the accepted report sets `integrationAccepted: true` and `phaseReady: true`.
+- Focused release-review tests pass 8 of 8, the template checker passes, format and lint gates pass, and the anti-drift regression now covers status and live routing sections. Exact package reconstruction and accepted attempt-2 handoff verification pass after integration.
+- Independent pre-freeze `npm.cmd run verify` passes in 350.4 seconds, including the full test suite, V10/V11/V12 dogfood, package inspection, and a clean installed consumer. The checker mutation matrix passes in 316.7 seconds.

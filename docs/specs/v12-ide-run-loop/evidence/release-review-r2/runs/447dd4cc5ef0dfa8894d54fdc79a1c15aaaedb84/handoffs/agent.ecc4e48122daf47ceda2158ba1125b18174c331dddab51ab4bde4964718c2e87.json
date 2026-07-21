@@ -1,0 +1,40 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:18a320f3cbabad739b1d2f10c066c6d2afa3d09e19c0c75383140e2ec57e86ff"
+  },
+  "agent": {
+    "id": "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87",
+    "blueprintDigest": "sha256:5a10fee68b9147b9a7c2f8c7489b66c9ea82e9840a5116d45e691669c03225b5"
+  },
+  "compilationDigest": "sha256:be40c9ff219b8f544bb51cb44d2a0151c93334fcda056fb4026dd9f49b4e487b",
+  "summary": "PASS: no release-blocking lifecycle-correctness findings remain. Candidate 9 corrects requirement-primary evidence ordering, proves the supported 16-agent maximum-handoff workload and reachable boundaries, preserves deterministic recovery and terminal routing, and has exact passing canonical-gate evidence.",
+  "workUnitsCompleted": [
+    "review.r2.lifecycle-correctness"
+  ],
+  "artifacts": [
+    {
+      "name": "lifecycle-correctness-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "## Findings\n\nNo release-blocking findings in the assigned lifecycle-correctness domain.\n\n## Authentication\n\nAll 146 declared immutable context sources, totaling 4,483,457 bytes, matched their contract-bound exact byte counts and raw SHA-256 digests before substantive review. The review remained bound to compilation `sha256:be40c9ff219b8f544bb51cb44d2a0151c93334fcda056fb4026dd9f49b4e487b` and the externally approved package digest `sha256:b9b563936e860bd0f25dd292d362ce1a59c27ca66094389a49011c4d19c0f0bc`.\n\n## Corrected R1 Findings\n\nThe prior canonical-ordering defect is closed. Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/src/specialist-run-inspection.ts:108` orders accepted evidence by `requirementId` before the remaining closed tuple; original path `src/specialist-run-inspection.ts:108`. The counterordered regression at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/test/specialist-run-inspection.test.mjs:382`, original path `test/specialist-run-inspection.test.mjs:382`, proves requirement-primary ordering when criterion IDs sort oppositely.\n\nThe prior aggregate-resource-proof gap is closed under the normative contract identified by ADR 0005. Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/docs/architecture/decisions/0005-immutable-specialist-run-session.md:93`, original path `docs/architecture/decisions/0005-immutable-specialist-run-session.md:93`, delegates exact limits and semantics to the live run contract. Snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/docs/specs/v12-ide-run-loop/specialist-run-contract.md:338`, original path `docs/specs/v12-ide-run-loop/specialist-run-contract.md:338`, distinguishes reachable constituent limits from conservative aggregate safeguards.\n\nSnapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/test/specialist-run.test.mjs:948`, original path `test/specialist-run.test.mjs:948`, constructs a verified 16-agent package with sixteen exact 1,048,576-byte handoffs and exact 1,398,104-character base64 values. It proves forward/reverse convergence, restore equality, reinspection equality, complete-roster readiness, and constituent ceilings below both aggregate safeguards. Lines 1075 through 1137 prove reachable raw boundaries and one-unit-over rejection without truncation. Schema coverage at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/source-snapshots/test/specialist-run-schema.test.mjs:339`, original path `test/specialist-run-schema.test.mjs:339`, covers 16 versus 17 rows, exact raw/base64 maxima, and over-limit values.\n\n## Lifecycle Review\n\nCreate embeds the complete reverified package, exact goal and candidate bindings, an empty accepted set, and a detached frozen digest-bound value. Restore bounds raw bytes before parsing, enforces strict closed JSON, revalidates the embedded package, canonically decodes every raw handoff, re-runs V11 verification, enforces requirement-safe ordering and pass-only transitive dependency closure, and reconstructs the canonical session.\n\nRecord revalidates prior state and exact raw evidence before applying the required precedence: identical replay succeeds idempotently, conflicting settlement returns `SC4403`, post-route settlement returns `SC4405`, dependency-ineligible settlement returns `SC4404`, and aggregate excess returns `SC4402`. Verified non-pass outcomes record once as workflow routes and never satisfy dependencies.\n\nInspection revalidates the session, derives all selected blueprint statuses from the verified DAG, exposes only manifest-resolved eligible contracts, reverifies accepted evidence, preserves canonical ordering, globally marks unsettled work as session-routed after a non-pass, and returns integration readiness only after exact all-pass roster fan-in. Independent valid arrival permutations converge to identical session and inspection values. Returned sessions and inspections are detached and deeply frozen.\n\n## Canonical Evidence\n\nThe authenticated gate receipt snapshot is `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/inputs/canonical-gate/canonical-gate-receipt.json`; its original path is `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84/canonical-gate-receipt.json`. It binds candidate `447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84`, unchanged source identity `sha256:f0236e395c5a0f8d99e0eb9d78779a5b86dc39a3a412edc520c8de76e664147c`, clean before/after state, exact `npm.cmd run verify`, exit code 0, and result `pass`.\n\nIts authenticated raw stdout records 406 tests, 406 passes, zero failures, zero skips, and zero todos. It includes passing maximum-handoff aggregate and one-unit-over boundary tests, V10/V11/V12 dogfood, dry-run package inspection, and the installed-consumer compatibility gate. No test or host process was launched during this review; verification was assessed from the contract-required immutable receipt and raw logs.\n\n## Outcome\n\n`pass`. Corrected V12 lifecycle behavior, deterministic recovery, requirement-primary canonical evidence ordering, aggregate resource proof, dependency eligibility, exact fan-in, routing, and immutability are release-ready within this review domain."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.lifecycle-correctness",
+      "requirementId": "evidence.r2.lifecycle-correctness-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "lifecycle-correctness-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}

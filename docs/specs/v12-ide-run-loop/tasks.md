@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: Candidates 4 through 8 are retired. Candidate 8 passed its one-shot exact gate, then its fresh R2 request failed closed at 261 context/read entries against the compiler's 256-entry ceiling before reviewer launch. Revision 15 closes that cause with a verified one-agent package and a compiler-bound 261-to-167 context regression. Independent focused, full release-gate, canonical repository, checker mutation, and V11 replay checks pass. Candidate 9 freeze, its one-shot gate, and a fresh complete R2 review remain.
+T006 in progress: accepted Revision 16 attempt 2 aligns the source-of-truth release state after the most recent reviewed source routed `pass` / `fix` / `pass` and `releaseReady: false`; independent pre-freeze verification passes. V12 remains not merge-ready pending a successor exact gate, fresh R2 review, hosted CI, and the owner merge gate.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 in progress: Candidates 4 through 8 are retired. Candidate 8 passed its one
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Candidate 3 routed `fix`; revisions 1-15 preserve every correction and retired candidate. Revision 15 correctly selected one specialist for one atomic context-selection correction. Candidate 8's R2 stopped before launch; Candidate 9's fresh R2 will fan out across three independent domains only after its exact gate passes.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Historical review and correction outcomes remain preserved through Revision 15. The most recent reviewed source passed its exact gate, returned `pass` / `fix` / `pass` from the complete R2 roster, and is retired. A successor review may fan out across three independent domains only after its exact source-bound gate passes.
 
 ## Out Of Scope
 
