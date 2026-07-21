@@ -1,0 +1,1470 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 5,
+    "objective": "Rebind V12 dogfood and immutable release-review evidence to the complete revision chain after revision 4 closed the cold runtime-purity defect.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.architecture-frozen",
+        "statement": "ADR 0005 and the Specialist Run contract are the complete implementation authority.",
+        "rationale": "Architecture fan-in passed and no blocking decision remains."
+      },
+      {
+        "id": "assumption.host-effects-external",
+        "statement": "All runtime, persistence, Git, merge, and memory effects remain external to core.",
+        "rationale": "V12 is a pure evidence session, not the deferred universal scheduler."
+      },
+      {
+        "id": "assumption.host-edit-fallback",
+        "statement": "After native apply_patch fails before mutation, the host may perform an exact precondition-hash-guarded PowerShell write inside the approved scope.",
+        "rationale": "Foundation Revision 1 proved the temporary worktree patch helper is unavailable while bounded escalated PowerShell writes remain auditable and fail closed."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.fix.implementation-dogfood.r5",
+        "description": "Make canonical V12 dogfood execute the exact successful revision-4 package while preserving and measuring the complete revision-1 through revision-4 replan chain.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.implementation-dogfood.r5",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Provide exact package/handoff/replan authentication, successful revision-4 create-record-restore-inspect evidence, deterministic replay, every AC8 friction metric, syntax, format, and focused regression evidence.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.fix.release-evidence.r5",
+        "description": "Make the immutable R2 release-review harness verify and expose the complete partial, split, and pass correction lineage and include the release-gate wrapper in canonical format and lint coverage.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.release-evidence.r5",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Provide syntax, strict lineage verification, immutable snapshot coverage, direct primary-source coverage, package-script coverage, format, and no-summary-only release evidence.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/spec.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/test-plan.md",
+        "digest": "sha256:2dc1648ba64fec0573806bea455559a3ac4c678e50f60b99933a4529784fbea4",
+        "bytes": 1998,
+        "description": "Frozen V12 verification obligations.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/test-plan.md"
+      },
+      {
+        "id": "context.specialist-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-types.ts",
+        "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+        "bytes": 16047,
+        "description": "Existing V11 compiler, package, and handoff types.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5"
+        ],
+        "readScope": "src/specialist-types.ts"
+      },
+      {
+        "id": "context.specialist-handoff",
+        "kind": "repository",
+        "locator": "path:src/specialist-handoff.ts",
+        "digest": "sha256:069d3886402095f9a0df166aee45d22722da1e175ae2d4f6f0e87a2c736e658a",
+        "bytes": 17810,
+        "description": "Existing package-bound raw handoff and fan-in implementation.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "src/specialist-handoff.ts"
+      },
+      {
+        "id": "context.specialist-render",
+        "kind": "repository",
+        "locator": "path:src/specialist-render.ts",
+        "digest": "sha256:e8c2c73bf266b32ebee589497a5298435bb50f59e50d00d9d70ed3f65dc526e7",
+        "bytes": 19184,
+        "description": "Existing rendered package verification and manifest resolution.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "src/specialist-render.ts"
+      },
+      {
+        "id": "context.canonical-json",
+        "kind": "repository",
+        "locator": "path:src/canonical-json.ts",
+        "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+        "bytes": 7405,
+        "description": "Existing bounded canonical JSON and framed digest primitives.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5"
+        ],
+        "readScope": "src/canonical-json.ts"
+      },
+      {
+        "id": "context.run-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Frozen V12 run-session wire and public types.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.run-session",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-session.ts",
+        "digest": "sha256:0ae9bff6b1727c8e3a5540bb7714288592b93b31de0dc6721a84fd73a6e9a03e",
+        "bytes": 18723,
+        "description": "Frozen V12 session creation, restoration, and validation foundation.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5"
+        ],
+        "readScope": "src/specialist-run-session.ts"
+      },
+      {
+        "id": "context.run-transition",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-transition.ts",
+        "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+        "bytes": 8015,
+        "description": "V12 handoff transition implementation.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5"
+        ],
+        "readScope": "src/specialist-run-transition.ts"
+      },
+      {
+        "id": "context.run-inspection",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-inspection.ts",
+        "digest": "sha256:83d46b99d0bd553e36566aa5551b14c945b6177122c2c73f69e41ad6367f30ac",
+        "bytes": 14484,
+        "description": "V12 deterministic inspection implementation.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5"
+        ],
+        "readScope": "src/specialist-run-inspection.ts"
+      },
+      {
+        "id": "context.ide-guide",
+        "kind": "repository",
+        "locator": "path:docs/ide/specialist-agent-kickoff.md",
+        "digest": "sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c",
+        "bytes": 22016,
+        "description": "Current visible IDE specialist workflow.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5"
+        ],
+        "readScope": "docs/ide/specialist-agent-kickoff.md"
+      },
+      {
+        "id": "context.modules-readme",
+        "kind": "repository",
+        "locator": "path:docs/modules/README.md",
+        "digest": "sha256:8293e0fd966ddf2eba089d8bfef2f328489851a789eacd251bbb9d96e58c49e5",
+        "bytes": 2744,
+        "description": "Current module catalog guidance.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5"
+        ],
+        "readScope": "docs/modules/README.md"
+      },
+      {
+        "id": "context.readme",
+        "kind": "repository",
+        "locator": "path:README.md",
+        "digest": "sha256:6870ce77e4a29a000ff8a8a170d968a735fb339cfac7d412b23080cfc61163dc",
+        "bytes": 3101,
+        "description": "Current concise public product surface.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5"
+        ],
+        "readScope": "README.md"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:7af49d3d12d0f27fd71f785f886d0adfe660e664274e3b12e46423e39b7ad11c",
+        "bytes": 2847,
+        "description": "Existing package scripts and export map.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.v12-dogfood",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-dogfood.mjs",
+        "digest": "sha256:6464f99f641de32e13ed5cb009452fc9a9343a4b3c7431ac633bcb65ebbbb94d",
+        "bytes": 37040,
+        "description": "Current synthetic and obsolete revision-1 implementation dogfood harness.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5"
+        ],
+        "readScope": "scripts/run-v12-dogfood.mjs"
+      },
+      {
+        "id": "context.release-review-r2-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:34011532653b096f470d3aba9ccb91c587cdfcf301a8c53e1bec20460cd138ed",
+        "bytes": 45984,
+        "description": "Current candidate-bound R2 release-review preparation and compilation harness.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-r2-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:9b40e420b3330e810d92fee2d0afe5ab3b22700bf1e4bba4ce16cc7dd61df368",
+        "bytes": 4483,
+        "description": "Current exact R2 reviewer handoff verifier.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:70c80d5c3c51e8abc566b26c12b1649675d2fc49268367b13383d0eaf0a0a301",
+        "bytes": 6149,
+        "description": "Current candidate-bound canonical gate wrapper.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-correction-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package-envelope.json",
+        "digest": "sha256:3db78ce7e72fb6554df199d1ee3d9f8f6f88a2d9a0c15b5395b7fd3ed2bd82bd",
+        "bytes": 313118,
+        "description": "Original owner-approved release-correction package whose downstream contract was retired.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package-envelope.json"
+      },
+      {
+        "id": "context.release-correction-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/approval.json",
+        "digest": "sha256:dc177cddfeae16dcefe456581fcaed2e072a8fa84b4ad67204146062d4995ef2",
+        "bytes": 641,
+        "description": "Exact owner approval for the original release-correction package.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/approval.json"
+      },
+      {
+        "id": "context.release-correction-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoff-verification.json",
+        "digest": "sha256:b33cc6312e2db6481ae9d634607a952a67c3fb09a2c6f42b40a0f7338251dd1e",
+        "bytes": 2767,
+        "description": "Verified incomplete revision-1 report with the retired runtime contract absent.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoff-verification.json"
+      },
+      {
+        "id": "context.release-correction-release-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json",
+        "digest": "sha256:3510b98137b0cd8746d5440f4254bcfed8c493f714a57539a705eb12012c12fd",
+        "bytes": 5693,
+        "description": "Exact revision-1 release-evidence PASS handoff.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json"
+      },
+      {
+        "id": "context.release-correction-aggregate-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json",
+        "digest": "sha256:f74436e9e9a234cc8c41cba9a3b47ee84d8e0bff3ceba811252f008686c51677",
+        "bytes": 6718,
+        "description": "Verified upstream aggregate-resource PASS handoff that changed bound runtime sources.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json"
+      },
+      {
+        "id": "context.release-correction-dogfood-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666.json",
+        "digest": "sha256:23bbdd75d90ee42595b5f22f1ba2c9ba9f608866b049285b027ae579225b2e4b",
+        "bytes": 6667,
+        "description": "Exact revision-1 dogfood-harness PASS handoff.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666.json"
+      },
+      {
+        "id": "context.release-correction-r2-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/package-envelope.json",
+        "digest": "sha256:b0ac5ef2c1131207ccee6a43ade45fd750307f1ab763c7b74d0308d3fe9960fd",
+        "bytes": 126914,
+        "description": "Owner-approved revision-2 package that produced the verified split diagnosis.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/package-envelope.json"
+      },
+      {
+        "id": "context.release-correction-r2-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/approval.json",
+        "digest": "sha256:52f1a755dc039240fcfbbb4679382504f1470758a21df41007e1d67e8b4d138b",
+        "bytes": 641,
+        "description": "Exact owner approval for the revision-2 package.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/approval.json"
+      },
+      {
+        "id": "context.release-correction-r2-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoffs/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.json",
+        "digest": "sha256:8db3fea6a6f47fba804f72d454660bafda7ab5d06691d729157e2f8f3aba66be",
+        "bytes": 7254,
+        "description": "Verified revision-2 SPLIT handoff with the bounded V11 first-use filesystem diagnosis.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoffs/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.json"
+      },
+      {
+        "id": "context.release-correction-r2-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoff-verification.json",
+        "digest": "sha256:cc0fe31e1f2b4dfb903667056b83fffb5402afc6f4f8bf4a727c4178abae5afb",
+        "bytes": 1308,
+        "description": "Complete revision-2 SPLIT handoff report.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoff-verification.json"
+      },
+      {
+        "id": "context.release-correction-r2-replan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+        "digest": "sha256:73fcd5841f739c4f353355ddba6b412d68c3b2d8233ccc371ef2de9a2477d282",
+        "bytes": 3795,
+        "description": "Trace of the retired revision-1 contract and revision-2 replacement result.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json"
+      },
+      {
+        "id": "context.release-correction-r3-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json",
+        "digest": "sha256:26bf421f81127ecfe85f31b6d044a2a3accbaca788ab378a90e2db4733a887a6",
+        "bytes": 141194,
+        "description": "Owner-approved revision-3 package that produced the package-reconstruction split.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json"
+      },
+      {
+        "id": "context.release-correction-r3-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json",
+        "digest": "sha256:615cc4bd3965a7344a53485a35c58bcada2217609760388d2a729beda4c574cc",
+        "bytes": 641,
+        "description": "Exact owner approval for the revision-3 package.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json"
+      },
+      {
+        "id": "context.release-correction-r3-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+        "digest": "sha256:89ab112ce3df0a97f64db2994fc792238955b7007a7ce0310b4af39b4340d3df",
+        "bytes": 8095,
+        "description": "Verified revision-3 SPLIT handoff identifying the package-reconstruction schema read.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json"
+      },
+      {
+        "id": "context.release-correction-r3-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoff-verification.json",
+        "digest": "sha256:93ea426aadd18f7ff5b68bc779b247b2c68ab8c476fcd969941eb3b18332e3c1",
+        "bytes": 1308,
+        "description": "Complete revision-3 SPLIT handoff report.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoff-verification.json"
+      },
+      {
+        "id": "context.release-correction-r3-replan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+        "digest": "sha256:67eac872b0d88bbade9af9afda268178f57077b0abdc4f605444ead1da6c186c",
+        "bytes": 2807,
+        "description": "Trace of the revision-2 split and revision-3 scope expansion.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json"
+      },
+      {
+        "id": "context.release-correction-r4-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/package-envelope.json",
+        "digest": "sha256:c34764e2e121af4634cb4aaaa6a46a13584a6b2999bb5650cc17f5ce944ddaa4",
+        "bytes": 156278,
+        "description": "Owner-approved final runtime-purity correction package.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/package-envelope.json"
+      },
+      {
+        "id": "context.release-correction-r4-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/approval.json",
+        "digest": "sha256:eab4c5b000fc984a662ba1870506243b6f3bdc56db01d4596bfedc5d208db26e",
+        "bytes": 641,
+        "description": "Exact owner approval for the final runtime-purity correction package.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/approval.json"
+      },
+      {
+        "id": "context.release-correction-r4-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoffs/agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba.json",
+        "digest": "sha256:5afb33ee3c7f456ea0331d7d0735a0291cd69fb5d7a4c6c6d80982177d815090",
+        "bytes": 9058,
+        "description": "Verified revision-4 PASS handoff closing the cold zero-read defect.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoffs/agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba.json"
+      },
+      {
+        "id": "context.release-correction-r4-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoff-verification.json",
+        "digest": "sha256:4679cd6145a4afa16adcd7e395a0cf7cfa7fd770cc2c0e328fcdf9189e71e06f",
+        "bytes": 1306,
+        "description": "Complete revision-4 PASS handoff report.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoff-verification.json"
+      },
+      {
+        "id": "context.release-correction-r4-replan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json",
+        "digest": "sha256:64376261a673ebc7ec29222ee90569097915879521d8ea062a36a9d156e8b34d",
+        "bytes": 2701,
+        "description": "Trace of the revision-3 split and successful revision-4 replacement.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json"
+      },
+      {
+        "id": "context.review-product",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/product-api-ide-fix-attempt-1.json",
+        "digest": "sha256:7fb4caf2142208d0735d17bc75610098e671113f1c7a1047cc29bb62ce0e2a26",
+        "bytes": 5819,
+        "description": "Exact product/API/IDE release-review FIX handoff.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/product-api-ide-fix-attempt-1.json"
+      },
+      {
+        "id": "context.review-lifecycle",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json",
+        "digest": "sha256:13e1b510607a4c23223b59a0190e3e490be3e95fc94e56dba45cd5e4bf3bdc84",
+        "bytes": 5649,
+        "description": "Exact lifecycle/correctness release-review FIX handoff.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json"
+      },
+      {
+        "id": "context.review-security",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json",
+        "digest": "sha256:605a4e7065e1c4af2b3114129e919a810e430b584e31c718c0d78fa02fa027b7",
+        "bytes": 7259,
+        "description": "Exact security/trace/authority release-review FIX handoff.",
+        "allowedWorkUnits": [
+          "fix.implementation-dogfood.r5",
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json"
+      },
+      {
+        "id": "context.review-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/handoff-verification.json",
+        "digest": "sha256:8e4f69aae43ae919b3ac71f3055ac80f9bcb30cec936629b64b6f142c3169d42",
+        "bytes": 2558,
+        "description": "Complete package-bound attempt-1 release-review routing report.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/handoff-verification.json"
+      },
+      {
+        "id": "context.review-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/run-release-review.mjs",
+        "digest": "sha256:fbce408c5009e88fa08ff33dd1a5ed5d8e9fe949afc6058fa90b5f6f01d595cd",
+        "bytes": 24102,
+        "description": "Attempt-1 release-review compiler and approval harness.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/run-release-review.mjs"
+      },
+      {
+        "id": "context.review-handoff-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review/verify-release-review-handoffs.mjs",
+        "digest": "sha256:8e910cf4d124f0611c23f4d6dfe3cc053d7a2ee826fcacca3f287cbce0459e8a",
+        "bytes": 3044,
+        "description": "Attempt-1 exact raw reviewer handoff verifier.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.verification-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/package-envelope.json",
+        "digest": "sha256:74eefd84adae4a34c5220a9e1039d98f1b1fa651e7df3a3f8cfe27a338053777",
+        "bytes": 137049,
+        "description": "Approved V12 verification implementation package.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/package-envelope.json"
+      },
+      {
+        "id": "context.verification-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/approval.json",
+        "digest": "sha256:e8b25ac1de45cee31aced60c4a811699d03b36121bb660d7e1c18a0f4c4c01a8",
+        "bytes": 635,
+        "description": "Exact V12 verification package approval.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/approval.json"
+      },
+      {
+        "id": "context.verification-handoff-a",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/verification-pass.json",
+        "digest": "sha256:d2b3ea9c077345fecc78f504a5e376207c367706b9685da4485509fc5c048137",
+        "bytes": 4356,
+        "description": "Exact raw V12 adversarial-verification handoff.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/verification-pass.json"
+      },
+      {
+        "id": "context.verification-handoff-b",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/dogfood-pass.json",
+        "digest": "sha256:1357ace5bbffef6194e17a43e12edcedd32aa29cc9967cdabd40aa21a004a4d2",
+        "bytes": 6031,
+        "description": "Exact raw V12 IDE-dogfood handoff.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/dogfood-pass.json"
+      },
+      {
+        "id": "context.verification-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+        "digest": "sha256:985aac5600d600af68be12d6d8f258ce262a1f5ee0d0490d5e85c55dc0ebb103",
+        "bytes": 1878,
+        "description": "Complete V12 verification implementation handoff report.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json"
+      },
+      {
+        "id": "context.v11-audit-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
+        "digest": "sha256:9ececde079abbfdc6a37809714047c3a26f4966e2830582e2c53abdd638d9c9d",
+        "bytes": 195,
+        "description": "Exact current Audit-B approval bytes required for release replay.",
+        "allowedWorkUnits": [
+          "fix.release-evidence.r5"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "correction.implementation-dogfood",
+        "correction.release-evidence"
+      ],
+      "allowedCapabilities": [
+        "fix.implementation-dogfood",
+        "fix.release-evidence"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "README.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoffs/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoffs/agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/dogfood-pass.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/verification-pass.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/product-api-ide-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-dogfood.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "src/canonical-json.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "src/specialist-types.ts"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-dogfood.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+      ],
+      "maxAgents": 2,
+      "maxConcurrency": 2
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.implementation-dogfood.r5",
+        "objective": "Make canonical V12 dogfood execute the exact successful revision-4 package while preserving and measuring the complete revision-1 through revision-4 replan chain.",
+        "weight": 7,
+        "module": {
+          "id": "correction.implementation-dogfood",
+          "action": "Replace the obsolete four-handoff revision-1 finalization path with an approval-bound V12 session over the revision-4 package and exact PASS handoff; independently authenticate revision 1's three PASS handoffs, revision 2 and 3 SPLIT handoffs, every replan, and the revision-4 PASS; preserve the synthetic regression and report all AC8 metrics plus replans, retired contracts, scope additions, and prevented unsafe launches without claiming host effects.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "VerifiedCorrectionRevisionChain"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "FinalImplementationPackageDogfood"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.implementation-dogfood"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.specialist-types",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.specialist-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.specialist-render",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.canonical-json",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.run-types",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.run-session",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.run-transition",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.run-inspection",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.ide-guide",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.modules-readme",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.readme",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.v12-dogfood",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-release-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-aggregate-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-dogfood-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r2-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r2-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r2-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r2-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r2-replan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r3-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r3-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r3-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r3-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r3-replan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r4-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r4-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r4-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r4-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r4-replan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.review-product",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.review-lifecycle",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.review-security",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "README.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/modules/README.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoffs/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoffs/agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/product-api-ide-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json",
+            "scripts/run-v12-dogfood.mjs",
+            "src/canonical-json.ts",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "src/specialist-types.ts"
+          ],
+          "write": [
+            "scripts/run-v12-dogfood.mjs"
+          ],
+          "conflictZones": [
+            "scripts/run-v12-dogfood.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "README.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/modules/README.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoffs/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoffs/agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/product-api-ide-fix-attempt-1.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json",
+              "scripts/run-v12-dogfood.mjs",
+              "src/canonical-json.ts",
+              "src/specialist-handoff.ts",
+              "src/specialist-render.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "src/specialist-types.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "scripts/run-v12-dogfood.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.implementation-dogfood.r5"
+        ],
+        "handoffArtifacts": [
+          "implementation-dogfood-correction-r5.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract.",
+          "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+          "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      },
+      {
+        "id": "fix.release-evidence.r5",
+        "objective": "Make the immutable R2 release-review harness verify and expose the complete partial, split, and pass correction lineage and include the release-gate wrapper in canonical format and lint coverage.",
+        "weight": 7,
+        "module": {
+          "id": "correction.release-evidence",
+          "action": "Extend candidate snapshots and primary-evidence verification across revision 1's expected retired agent, revision 2 and 3 complete SPLIT routes, revision 4 PASS, and the eventual complete revision-5 package; fail closed on any unexpected roster or outcome, keep raw bytes direct, and add scripts/run-v12-release-gate.mjs to format, format-check, and lint without changing the gate's semantics.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "VerifiedCorrectionRevisionChain"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "LineageBoundReleaseEvidenceHarness"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.release-evidence"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.specialist-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.specialist-render",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-review-r2-harness",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-review-r2-verifier",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-gate",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-release-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-aggregate-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-dogfood-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r2-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r2-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r2-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r2-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r2-replan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r3-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r3-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r3-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r3-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r3-replan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r4-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r4-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r4-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r4-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r4-replan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.review-product",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.review-lifecycle",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.review-security",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.review-verification",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.review-harness",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.review-handoff-verifier",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.verification-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.verification-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.verification-handoff-a",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.verification-handoff-b",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.verification-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          },
+          {
+            "sourceId": "context.v11-audit-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r5 contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoffs/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoffs/agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/dogfood-pass.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/verification-pass.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/verification/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/product-api-ide-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs",
+            "src/specialist-handoff.ts",
+            "src/specialist-render.ts"
+          ],
+          "write": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json"
+          ],
+          "conflictZones": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoffs/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoffs/agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/dogfood-pass.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/handoffs/verification-pass.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/verification/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/product-api-ide-fix-attempt-1.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review/verify-release-review-handoffs.mjs",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs",
+              "src/specialist-handoff.ts",
+              "src/specialist-render.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "package.json"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.release-evidence.r5"
+        ],
+        "handoffArtifacts": [
+          "release-evidence-correction-r5.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract.",
+          "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+          "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      }
+    ]
+  }
+}

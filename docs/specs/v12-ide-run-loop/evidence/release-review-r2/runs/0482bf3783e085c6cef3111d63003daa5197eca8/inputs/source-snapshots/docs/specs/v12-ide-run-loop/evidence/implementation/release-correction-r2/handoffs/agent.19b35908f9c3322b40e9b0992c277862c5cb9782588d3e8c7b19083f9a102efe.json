@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "split",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 2,
+    "digest": "sha256:d17ae81e2e75f50f687074349c590ab932022961b3f708240294ae5c72f59ddf"
+  },
+  "agent": {
+    "id": "agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe",
+    "blueprintDigest": "sha256:bbad5e70232c83f513fb2d9efb4bd9bc209b224d7ed3b1e79cec9b2bffadd869"
+  },
+  "compilationDigest": "sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672",
+  "summary": "Split: the V12 schema and evidence-order corrections are implemented, but fresh-process record still reads common.schema.json through the unchanged V11 handoff validator outside approved scope.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "runtime-purity-ordering-correction-r2.md",
+      "mediaType": "text/markdown",
+      "content": "## Authentication\n\n`verifySpecialistPackage` accepted the approved revision-2 package with no diagnostics at compilation `sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672` and package `sha256:cff1fa3d5eaa668e962b212f8128018c3e4b2721404fa457ca73c79578011fcc`. All 29 declared context sources matched their exact raw SHA-256 digests and byte counts before use.\n\nThe retired revision-1 package independently verified against approval-bound compilation `sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2` and package `sha256:0243a0cea075424c7c919a6af876b4f023f9e635234cf6ec07a0d7cb9543bf6c`. Its aggregate-resource handoff verified as `pass`, with raw digest `sha256:f74436e9e9a234cc8c41cba9a3b47ee84d8e0bff3ceba811252f008686c51677` and semantic digest `sha256:13f0cb525db17a0be40d575a119b44b8b66165be98ce3a612a6964e9500d5c7e`. The retired runtime contract also matched its declared 23,524-byte binding and `sha256:5919cdb5e05d15ffcc5ddf8a70f6b2f4b62485d5595e282bf191776be9669df6`.\n\n## Partial Correction\n\n- Added `src/specialist-run-schema-data.ts` with the exact 17,405 source bytes of the exported specialist-run schema as immutable TypeScript string data.\n- Removed `node:fs`, `node:url`, and lazy `readFileSync` schema loading from `src/specialist-run-schema.ts`; the existing strict Ajv registry now parses package-owned module data.\n- Changed accepted-evidence ordering to compare `requirementId` before `criterionId` and the remaining complete tuple.\n- Added exact schema-source parity, counterordered requirement/criterion identity, and fresh-process filesystem interception regressions.\n\n## Causal Evidence\n\nThe stale generated implementation failed the fresh-process test at `createSpecialistRunSession` with `SC9001` and an intercepted `readFileSync` of `schemas/v1alpha1/specialist-run.schema.json`. The stale comparator also produced `evidence.9-counterordered.produce` before `evidence.0-counterordered.produce`, causing the new identity-order assertion to fail. These failures establish that both regressions are causal.\n\nUsing an in-memory Node 24 hook to substitute only the three changed TypeScript modules plus the new schema-data module without writing `dist`, source parity passed and the ordering test passed. `create`, `restore`, and `inspect` reached zero intercepted filesystem reads. The same fresh-process test then reached `record` and failed with `SC9001`; its bounded trace contained exactly one read: `readFileSync` of `schemas/v1alpha1/common.schema.json` from the unchanged V11 specialist-handoff validator.\n\n## Blocking Diagnosis\n\n`recordSpecialistRunHandoff` must call the V11 `verifySpecialistHandoff` trust boundary. In a genuinely fresh process, that verifier lazily loads `common.schema.json` before the handoff can be accepted. Priming the V11 validator before interception makes the test pass but recreates the process-history dependency that this criterion explicitly forbids, so it is not valid completion evidence.\n\nThe approved revision-2 scope contains neither the V11 handoff schema validator nor its common and handoff schema data. Correcting that first-use effect requires authenticated context and write authority outside this contract. The atomic work unit therefore remains incomplete and routes `split` rather than widening scope.\n\n## Verification\n\n- Exact focused Biome format check for the five declared output files: pass.\n- `npm.cmd run typecheck`: pass.\n- `npm.cmd run build -- --noEmit`: pass; generated output was intentionally not written.\n- Source-focused tests: 4 passed, 1 failed. Schema parity, resource-boundary foundation behavior, requirement-primary ordering, and non-pass routing passed; the fresh-process purity test failed only at `record` with the bounded V11 common-schema read above.\n- Repository-wide `npm.cmd run format:check`: non-pass due only to pre-existing formatting in out-of-scope `test/specialist-run.test.mjs`; the five declared output files are clean.\n\n## Resulting Bytes\n\n- `src/specialist-run-inspection.ts`: 14,484 bytes, `sha256:83d46b99d0bd553e36566aa5551b14c945b6177122c2c73f69e41ad6367f30ac`.\n- `src/specialist-run-schema-data.ts`: 17,463 bytes, `sha256:a41ed770e2d250cde3fed83910ba0a099eb84ea1fc6f9142e91f6659a1cd0bc1`.\n- `src/specialist-run-schema.ts`: 3,180 bytes, `sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d`.\n- `test/specialist-run-foundation.test.mjs`: 9,517 bytes, `sha256:35c26dd075cfff58e33d0d1362a669f9ba87aadfaf44cf562122045b4bb38fa0`.\n- `test/specialist-run-inspection.test.mjs`: 18,933 bytes, `sha256:9b78ef93fea4bfb7929a5061f57f6ab0b338d71052ba702b76dc86edef0ed271`.\n\nAll five outputs use LF with no CR or TAB bytes. Native `apply_patch` and the first sandboxed guarded write failed before mutation; contract-authorized precondition-hash-guarded PowerShell writes then succeeded and each resulting hash was checked immediately. No network access, Git mutation, descendant launch, generated-output write, or write outside the declared scope occurred."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.runtime-purity-ordering.r2",
+      "requirementId": "evidence.runtime-purity-ordering.r2",
+      "kind": "review",
+      "duty": "produce",
+      "status": "split",
+      "artifact": "runtime-purity-ordering-correction-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The partial edits are not integration-ready because the exact fresh-process purity regression remains failing for record.",
+    "Generated dist output remains stale because it is outside this specialist's exact write scope.",
+    "The repository-wide format gate still reports an out-of-scope upstream formatting defect in test/specialist-run.test.mjs."
+  ],
+  "followUps": [
+    "Replan with authenticated context and write authority for the V11 specialist-handoff schema validator plus its common and handoff schema data, then remove its first-use filesystem reads.",
+    "Rerun the unprimed four-operation fresh-process regression, focused tests, typecheck, build, rebuilt-dist tests, and the canonical repository gate.",
+    "Resolve the out-of-scope formatting defect in test/specialist-run.test.mjs before the canonical gate."
+  ]
+}

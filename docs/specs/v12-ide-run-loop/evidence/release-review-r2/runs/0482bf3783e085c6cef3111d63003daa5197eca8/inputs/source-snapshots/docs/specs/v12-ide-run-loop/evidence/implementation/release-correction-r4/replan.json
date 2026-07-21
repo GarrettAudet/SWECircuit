@@ -1,0 +1,57 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "SpecialistContractReplan",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "fromRevision": 3,
+    "toRevision": 4
+  },
+  "checkpoint": "1a1f1f0ff79cd89224ed05145ad0d1fa82a7e125",
+  "route": "split",
+  "trigger": {
+    "agentId": "agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d",
+    "handoffPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+    "handoffBytes": 8095,
+    "handoffDigest": "sha256:89ab112ce3df0a97f64db2994fc792238955b7007a7ce0310b4af39b4340d3df",
+    "outcome": "split",
+    "cause": "All four cold operations reached common.schema.json through verifySpecialistPackage compilation reconstruction and the unchanged Specialist Compiler schema validator."
+  },
+  "retainedPartialPaths": [
+    "src/specialist-handoff-schema-data.ts",
+    "src/specialist-handoff-schema.ts",
+    "src/specialist-run-inspection.ts",
+    "src/specialist-run-schema-data.ts",
+    "src/specialist-run-schema.ts",
+    "test/specialist-run-foundation.test.mjs",
+    "test/specialist-run-inspection.test.mjs"
+  ],
+  "newlyAuthorizedPaths": [
+    "src/specialist-schema-data.ts",
+    "src/specialist-schema.ts"
+  ],
+  "replacementContract": {
+    "compilationDigest": "sha256:aa13bb1f6a8ff21658b718ccd46e6a5a26dacd8d1c9baa990b92e37161627660",
+    "packageDigest": "sha256:edaba251ee9b258474674225d38123df2772dfc42b7cd52e1d49dff8791f5065",
+    "agentId": "agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba",
+    "blueprintDigest": "sha256:60ed65c721e9140a6fa0d917ff7b98d32319b12d58644f0518eb95b7792556d3",
+    "contractPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/package/agents/agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba.md",
+    "approved": true,
+    "launched": true,
+    "handoffPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/handoffs/agent.dfba586fa1cfbbe3f1ad35b0509f48eeddba1e7f16b0c5ad6ce210d3214d59ba.json",
+    "handoffBytes": 9058,
+    "handoffDigest": "sha256:5afb33ee3c7f456ea0331d7d0735a0291cd69fb5d7a4c6c6d80982177d815090",
+    "outcome": "pass",
+    "completed": true
+  },
+  "friction": {
+    "cumulativeReplans": 3,
+    "cumulativeStaleOrInsufficientContractsRetired": 3,
+    "additionalCompilationCalls": 1,
+    "additionalPackageRenderCalls": 1,
+    "additionalPackageVerificationCalls": 1,
+    "additionalApprovalBindings": 1,
+    "additionalApprovalPrompts": 0,
+    "scopePathsAdded": 2,
+    "cachePrimingShortcutsRejected": 1
+  }
+}

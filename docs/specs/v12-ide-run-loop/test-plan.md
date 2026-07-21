@@ -2,7 +2,7 @@
 
 ## Status
 
-Release-correction revisions 1 through 10 and V11 trust-root revision 35 pass their package gates. Candidate 4 is retired after its exact gate failed five Git-aware regressions inside a metadata-free source materialization. R11 must prove an isolated disposable Git view and immutable external gate-evidence capture before Candidate 5.
+Release-correction revisions 1 through 15 pass their exact package gates, and V11 trust-root Revision 39 replays `pass`. Candidates 4 through 8 are retired with immutable evidence. Candidate 8 passed its exact canonical gate but its fresh R2 request failed closed at the 256-entry compiler ceiling; Revision 15 must remain proven before Candidate 9's one-shot gate and complete R2 review.
 
 ## Contract Tests
 
@@ -55,4 +55,9 @@ Release-correction revisions 1 through 10 and V11 trust-root revision 35 pass th
 - R9 focused committed-source gate tests: 4 of 4 `pass`; exact specialist handoff: 4,584 bytes at `sha256:f36ddf35492244b21248fe96a5363f1c7222fb206a4fe11f5d213427c37a4956`; `phaseReady: true`.
 - R10 lifecycle tests: 5 of 5 `pass`; independent full release-gate tests: 4 of 4 `pass`; exact accepted handoff: 5,595 bytes at `sha256:3e58dddde82171b5090debc1ea76a29298fe7a7e0f9a27dd39fd1f826350e543`; `phaseReady: true`.
 - Candidate 4 exact canonical receipt: `fail`; 392 of 397 tests pass, five Git-context tests fail, source and repository integrity checks pass, candidate retired.
-- R11 isolated Git context, external gate-evidence snapshot, focused regressions, Candidate 5 exact receipt, and complete three-reviewer R2 roster: pending.
+- Candidates 5, 6, and 7 exact receipts: `fail`; each candidate is retired with immutable candidate-addressed receipts and raw logs after exposing a distinct exact-source boundary defect.
+- Candidate 8 exact canonical receipt: `pass`; 2,046 files and 57,258,623 bytes retain identical before/after source identity, disposable Git and cleanup checks pass, and receipt/stdout/stderr remain candidate-addressed.
+- Candidate 8 fresh R2 compilation: `fail` closed before rendering or launch; 261 context sources and 261 read scopes exceed the unchanged 256-entry ceiling.
+- Revision 15 exact package gate: one of one final handoff `pass`; `phaseReady: true`; compilation/package `sha256:857c536099f5fd9d01b0981593bef6f2e8b40eba774db7fae21c501e3bd3e83f` / `sha256:627414164e9176f4ead047a4a857f23f81efc868643dd8aaaa55377186f162c8`.
+- Revision 15 integration verification: exact 261-to-167 regression `pass`; all 10 release-gate tests `pass`; canonical repository gate, checker mutation matrix, and standalone V11 evidence replay `pass`.
+- Candidate 9 exact receipt and complete candidate-addressed three-reviewer R2 roster: pending.

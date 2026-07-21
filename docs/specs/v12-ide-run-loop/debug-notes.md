@@ -2,7 +2,7 @@
 
 ## Status
 
-No active known product defect. Candidates 4, 5, 6, and 7 are retired with exact evidence. Revision 14's exact read-only specialist handoff and package gate pass, and V11 Revision 39 still replays exactly. Candidate 8 pre-freeze verification passes; freeze, canonical gate, and complete R2 review remain.
+No active known product defect. Candidates 4 through 8 are retired with exact evidence. Candidate 8 passed its exact canonical gate, then exposed an R2 evidence-selection scaling defect before reviewer launch. Revision 15's package-bound specialist handoff and complete gate pass; independent focused, release-gate, repository, checker, and V11 replay verification also pass. Candidate 9 freeze, its one-shot gate, and complete R2 review remain.
 
 ## Reproduction
 
@@ -563,3 +563,31 @@ The exact one-agent package binds compilation/package `sha256:250a3faad6dfebe5ba
 ### Next Route
 
 `pass` for the correction and complete pre-freeze verification. The aggregate `npm.cmd run verify` passes in 238.1 seconds with all 405 tests and release consumers. Freeze Candidate 8, execute its exact gate once, and launch R2 only after a passing receipt.
+
+## Candidate 8 R2 Context Ceiling And Revision 15
+
+### Reproduction
+
+Candidate 8 `0482bf3783e085c6cef3111d63003daa5197eca8` passed its one-shot exact canonical gate. The receipt is 2,295 bytes at `sha256:aa93e516387afc029ff21ba5d8e4f31cc0787e15ef181c38b1714acdf7c2c76e`; exact stdout/stderr are `sha256:0dc432aeeed8d6f6a3e9352800dbd6a9d5b40d20eeb69a3ed16dcfe9bdb8170c` / `sha256:2e53f9074811c48085665956206c5d73525bdba26d25c07cb805d31df9b0c948`.
+
+Fresh R2 preparation then produced an immutable request with 261 context sources and 261 authority read scopes. Compilation failed closed with two `SC4308` diagnostics because both counts exceeded 256. No package was rendered, approved, or launched.
+
+### Classification
+
+Evidence-selection scaling defect at the review compiler boundary. Candidate execution was valid; the candidate was retired because its exact R2 request was not launchable.
+
+### Confirmed Cause
+
+The collector retained every correction-root `inputs/` artifact plus each root `request.json`, `phase-metadata.json`, and `compilation-summary.json`, even though package envelopes, approvals, raw handoffs, verification reports, and replans already carried the authoritative review chain. These navigation artifacts grew linearly across fourteen corrections. The request remained below the 16 MiB byte ceiling, and the compiler's 256-entry limit was correct.
+
+### Correction And Verification
+
+Revision 15 filters only those correction-root navigation duplicates. It preserves every correction package envelope, approval, raw handoff, handoff-verification report, replan, canonical-gate artifact, and security-causal source. Candidate 8's exact failed request is reproduced in regression coverage: 94 duplicate paths are removed, 163 candidate sources plus four direct candidate/gate sources remain, and the real three-work-unit request compiles to three blueprints at 167 contexts.
+
+The exact Revision 15 package binds compilation/package `sha256:857c536099f5fd9d01b0981593bef6f2e8b40eba774db7fae21c501e3bd3e83f` / `sha256:627414164e9176f4ead047a4a857f23f81efc868643dd8aaaa55377186f162c8`. Its final 5,129-byte handoff verifies `pass` at `sha256:0e470fae36b543e2eb66b9695511fdf43ff77e1df23122bda31917de4b5c6fbb`; the interrupted first attempt remains immutable failed-attempt evidence.
+
+Main-agent verification passes the exact focused reproduction, all 10 release-gate tests, Biome, `git diff --check`, the canonical repository gate, the full checker mutation matrix, and V11 Revision 39 replay.
+
+### Next Route
+
+`split` -> `diagnose` -> `fix` -> `pass` for the correction. Candidate 8 remains retired. Freeze Candidate 9 and run its canonical gate exactly once before compiling or launching a fresh R2 package.

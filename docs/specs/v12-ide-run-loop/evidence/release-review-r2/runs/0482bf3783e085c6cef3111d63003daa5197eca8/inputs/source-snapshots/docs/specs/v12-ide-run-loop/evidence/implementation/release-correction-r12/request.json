@@ -1,0 +1,829 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 12,
+    "objective": "Retire Candidate 5 and make exact-candidate verification reproducible by unifying V11 evidence identity with committed bytes and isolating all verification runtime state from the authenticated candidate tree.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.architecture-frozen",
+        "statement": "ADR 0005 and the Specialist Run contract remain the complete implementation authority.",
+        "rationale": "Candidate 5 exposed release-environment defects, not a change to the V12 core contract."
+      },
+      {
+        "id": "assumption.candidate-five-immutable",
+        "statement": "Candidate 5 and its failed receipt and raw logs are immutable historical evidence and can never become release-authorizing evidence.",
+        "rationale": "Both corrections change source identity and require a newly frozen candidate."
+      },
+      {
+        "id": "assumption.exact-blob-source",
+        "statement": "Exact Git-blob materialization remains the canonical candidate source representation.",
+        "rationale": "Applying checkout transforms inside the release gate would weaken reviewed-byte identity."
+      },
+      {
+        "id": "assumption.external-runtime-supply",
+        "statement": "Toolchain and npm cache supply are host runtime inputs and must remain outside the candidate materialization.",
+        "rationale": "The candidate tree contains authenticated source, not mutable dependency cache or process logs."
+      },
+      {
+        "id": "assumption.v11-trust-rebuild",
+        "statement": "The integration owner will rebuild V11 as Revision 37 after the source correction lands and before Candidate 6 freezes.",
+        "rationale": "A specialist must not rewrite the approval and audit evidence that independently authorizes its own causal source changes."
+      },
+      {
+        "id": "assumption.host-edit-fallback",
+        "statement": "After native apply_patch fails before mutation, the host may use an exact precondition-hash-guarded write inside approved scope.",
+        "rationale": "The active C:/tmp worktree is read-only to the native patch helper in this desktop sandbox."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.fix.v11-source-byte-portability.r12",
+        "description": "Every active V11 context binding has one checkout-independent identity equal to the exact committed source bytes.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.v11-source-byte-portability.r12",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Prove LF and clean-filter stability, reject CRLF or other transforms, bind the attribute policy, cover all active V11 sources, and pass focused V11 verification without changing V12 core behavior.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.fix.candidate-runtime-purity.r12",
+        "description": "The complete canonical command uses external runtime cache supply and leaves the exact candidate materialization byte-identical with no undeclared paths.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.candidate-runtime-purity.r12",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Prove npm cache resolution is outside the materialization, test-owned temporary paths prune safely in every cleanup order, unrelated state is preserved, exact inspection remains strict, and focused verification passes.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/spec.md",
+        "digest": "sha256:2600336d501006cf355953122067992de3ab452c43164fcd8154b56dd1efdb1a",
+        "bytes": 5626,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/spec.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/test-plan.md",
+        "digest": "sha256:b944d08d612a50189717c86b6eaa8c4081fb66074481ecd7fd55b8c4f50f6e78",
+        "bytes": 4401,
+        "description": "Frozen Candidate 5 correction verification obligations.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/test-plan.md"
+      },
+      {
+        "id": "context.candidate-five-retirement",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-5-retirement.md",
+        "digest": "sha256:8fd8c152ae3ccc095b1b536ffa95fc3fc6b0b7ca089fdeff35e68036d7660ad6",
+        "bytes": 1424,
+        "description": "Candidate 5 retirement and required route.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-5-retirement.md"
+      },
+      {
+        "id": "context.candidate-five-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate-receipt.json",
+        "digest": "sha256:04e345f11a8438a39c90cc1b321310dee788540b593f67745680489e54a82888",
+        "bytes": 2297,
+        "description": "Exact Candidate 5 failed canonical-gate receipt.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.candidate-five-stdout",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stdout.log",
+        "digest": "sha256:a5e46b32ca009e6ace6bd121d386853b26308d27d102130232e8fe0f1d9b78a4",
+        "bytes": 31849,
+        "description": "Exact Candidate 5 canonical stdout bytes.",
+        "allowedWorkUnits": [
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stdout.log"
+      },
+      {
+        "id": "context.candidate-five-stderr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stderr.log",
+        "digest": "sha256:35285e52d38e282e91a03bce89c2f2600aac1d42279310d9f32dfdf56ee4a646",
+        "bytes": 21096,
+        "description": "Exact Candidate 5 canonical stderr bytes.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stderr.log"
+      },
+      {
+        "id": "context.previous-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/package-envelope.json",
+        "digest": "sha256:78d34233ec98a9c685ee9bb0c6b582c0b3be77b25c4deec86a279ed682a29c42",
+        "bytes": 108566,
+        "description": "Owner-approved Revision 11 package.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/package-envelope.json"
+      },
+      {
+        "id": "context.previous-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/approval.json",
+        "digest": "sha256:e1d5c5e192499f1084752f5cff60ba846394899b2d637cc7dc7f53d087b88c08",
+        "bytes": 642,
+        "description": "Exact owner approval for Revision 11.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/approval.json"
+      },
+      {
+        "id": "context.previous-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoffs/agent.fc51d7897f1fcd89e4867726e6b59af3fad4142bec43943ddaa17cfe54d9d3b2-pass-owner-fallback.json",
+        "digest": "sha256:2a5c2b5cfff8a90d78fd61deb291652303f4347254279ff3c7bae5a104694283",
+        "bytes": 5373,
+        "description": "Exact verified Revision 11 handoff.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoffs/agent.fc51d7897f1fcd89e4867726e6b59af3fad4142bec43943ddaa17cfe54d9d3b2-pass-owner-fallback.json"
+      },
+      {
+        "id": "context.previous-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoff-verification.json",
+        "digest": "sha256:c4da5dc7899ecca6dc57ad8f210b3e947e4bde8afb293dd3ce80cd761946a6e3",
+        "bytes": 1327,
+        "description": "Complete Revision 11 handoff report.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12",
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoff-verification.json"
+      },
+      {
+        "id": "context.gitattributes",
+        "kind": "repository",
+        "locator": "path:.gitattributes",
+        "digest": "sha256:33be9cf5ffcd64e0027b3e11e453d4ae9ec527c665c39afeaf30c3058b7bef37",
+        "bytes": 521,
+        "description": "Current repository normalization policy.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12"
+        ],
+        "readScope": ".gitattributes"
+      },
+      {
+        "id": "context.v11-runner",
+        "kind": "repository",
+        "locator": "path:scripts/run-v11-dogfood.mjs",
+        "digest": "sha256:7531f31271b4992de449af47d15b5c250fac47836abca6c2db665a6771875eda",
+        "bytes": 58524,
+        "description": "Current V11 source-binding and evidence verifier.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12"
+        ],
+        "readScope": "scripts/run-v11-dogfood.mjs"
+      },
+      {
+        "id": "context.v11-runner-tests",
+        "kind": "repository",
+        "locator": "path:test/v11-dogfood-runner.test.mjs",
+        "digest": "sha256:bbb524e5d5b07357b232cde1f5cca10c7c83924280c1da5c6e338b16e40f4f5d",
+        "bytes": 41879,
+        "description": "Focused V11 verifier regressions.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12"
+        ],
+        "readScope": "test/v11-dogfood-runner.test.mjs"
+      },
+      {
+        "id": "context.v11-goal",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+        "digest": "sha256:46d9e871b8eb3656d285f50ac3e9f46e9cb2311bce321ba7a63dc3254382a6f9",
+        "bytes": 101231,
+        "description": "Active V11 Revision 36 source bindings.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12"
+        ],
+        "readScope": "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json"
+      },
+      {
+        "id": "context.template-checker",
+        "kind": "repository",
+        "locator": "path:scripts/check-template.ps1",
+        "digest": "sha256:f0d14d1cf7d61f338c588d57b28415cbd045b05ac7b81fa80432373fa1bbf81e",
+        "bytes": 80766,
+        "description": "CRLF checkout source whose Git blob is LF.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12"
+        ],
+        "readScope": "scripts/check-template.ps1"
+      },
+      {
+        "id": "context.template-checker-tests",
+        "kind": "repository",
+        "locator": "path:scripts/test-check-template.ps1",
+        "digest": "sha256:1cec6a958b7eb40f1a8a60d3dc81f6c4b464c68c310e815c9339857dcca767f6",
+        "bytes": 102789,
+        "description": "Second CRLF checkout source whose Git blob is LF.",
+        "allowedWorkUnits": [
+          "fix.v11-source-byte-portability.r12"
+        ],
+        "readScope": "scripts/test-check-template.ps1"
+      },
+      {
+        "id": "context.npmrc",
+        "kind": "repository",
+        "locator": "path:.npmrc",
+        "digest": "sha256:37fc8961e7e93e7c88c1c82e9176611208af2cbee71ff0023bbf809df0d7f5ee",
+        "bytes": 23,
+        "description": "Repository-local npm cache default.",
+        "allowedWorkUnits": [
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": ".npmrc"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2",
+        "bytes": 2946,
+        "description": "Canonical verification and package scripts.",
+        "allowedWorkUnits": [
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.consumer-check",
+        "kind": "repository",
+        "locator": "path:scripts/check-packed-consumer.mjs",
+        "digest": "sha256:b99cce47eb9bcefeeca142c30451f8c1f1332c90d57072f4137f957fdf7246fe",
+        "bytes": 43243,
+        "description": "Installed-consumer check and cache/workspace ownership controls.",
+        "allowedWorkUnits": [
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "scripts/check-packed-consumer.mjs"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:271d7d03749b1eb28b9734545ddb957ae4bf551e0319226cc0282f908fbefc96",
+        "bytes": 26471,
+        "description": "Exact-candidate canonical gate wrapper.",
+        "allowedWorkUnits": [
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:test/v12-release-gate.test.mjs",
+        "digest": "sha256:36f2692c2e1244ecb2611760787b7a8544788913b1b55faa2b2c0778b2ff3284",
+        "bytes": 8328,
+        "description": "Focused exact-materialization and disposable-Git regressions.",
+        "allowedWorkUnits": [
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "test/v12-release-gate.test.mjs"
+      },
+      {
+        "id": "context.first-run-tests",
+        "kind": "repository",
+        "locator": "path:test/specialist-first-run.test.mjs",
+        "digest": "sha256:6c06d25ad585b25b1305b8a06501df18c9c861b363a9481dcd0ef4b4a0f61ac0",
+        "bytes": 8553,
+        "description": "First-run boundary tests that currently leave temporary parents.",
+        "allowedWorkUnits": [
+          "fix.candidate-runtime-purity.r12"
+        ],
+        "readScope": "test/specialist-first-run.test.mjs"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "correction.candidate-runtime-purity",
+        "correction.v11-source-byte-portability"
+      ],
+      "allowedCapabilities": [
+        "fix.candidate-runtime-purity",
+        "fix.v11-source-byte-portability"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            ".gitattributes",
+            ".npmrc",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoffs/agent.fc51d7897f1fcd89e4867726e6b59af3fad4142bec43943ddaa17cfe54d9d3b2-pass-owner-fallback.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-5-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stdout.log",
+            "package.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/check-template.ps1",
+            "scripts/run-v11-dogfood.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "scripts/test-check-template.ps1",
+            "test/specialist-first-run.test.mjs",
+            "test/v11-dogfood-runner.test.mjs",
+            "test/v12-release-gate.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            ".gitattributes",
+            "package.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/check-template.ps1",
+            "scripts/run-v11-dogfood.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "scripts/test-check-template.ps1",
+            "test/specialist-first-run.test.mjs",
+            "test/v11-dogfood-runner.test.mjs",
+            "test/v12-release-gate.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not use network access, change Git state, launch other agents, write outside the exact scope, weaken exact materialization inspection, or claim that SWECircuit core performs host effects."
+      ],
+      "maxAgents": 2,
+      "maxConcurrency": 2
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.v11-source-byte-portability.r12",
+        "objective": "Make V11 context identity exactly equal to committed Git bytes on every supported checkout and provide focused whole-context regressions.",
+        "weight": 8,
+        "module": {
+          "id": "correction.v11-source-byte-portability",
+          "action": "Remove checkout-only CRLF identity, require LF clean-filter invariance with no unsupported transforms, bind .gitattributes as causal context, normalize the two PowerShell worktree sources, and add focused regressions over every active V11 source.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "CheckoutDependentV11EvidenceBindings"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "CommittedByteStableV11EvidenceBindings"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.v11-source-byte-portability"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-five-retirement",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-five-receipt",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-five-stderr",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.previous-package",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.previous-approval",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.previous-handoff",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.previous-report",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.gitattributes",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.v11-runner",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.v11-runner-tests",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.v11-goal",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.template-checker",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.template-checker-tests",
+            "purpose": "Implement and verify fix.v11-source-byte-portability.r12 against the exact frozen source and failure evidence."
+          }
+        ],
+        "scope": {
+          "read": [
+            ".gitattributes",
+            "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoffs/agent.fc51d7897f1fcd89e4867726e6b59af3fad4142bec43943ddaa17cfe54d9d3b2-pass-owner-fallback.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-5-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stderr.log",
+            "scripts/check-template.ps1",
+            "scripts/run-v11-dogfood.mjs",
+            "scripts/test-check-template.ps1",
+            "test/v11-dogfood-runner.test.mjs"
+          ],
+          "write": [
+            ".gitattributes",
+            "scripts/check-template.ps1",
+            "scripts/run-v11-dogfood.mjs",
+            "scripts/test-check-template.ps1",
+            "test/v11-dogfood-runner.test.mjs"
+          ],
+          "conflictZones": [
+            ".gitattributes",
+            "scripts/check-template.ps1",
+            "scripts/run-v11-dogfood.mjs",
+            "scripts/test-check-template.ps1",
+            "test/v11-dogfood-runner.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".gitattributes",
+              "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoffs/agent.fc51d7897f1fcd89e4867726e6b59af3fad4142bec43943ddaa17cfe54d9d3b2-pass-owner-fallback.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-5-retirement.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stderr.log",
+              "scripts/check-template.ps1",
+              "scripts/run-v11-dogfood.mjs",
+              "scripts/test-check-template.ps1",
+              "test/v11-dogfood-runner.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              ".gitattributes",
+              "scripts/check-template.ps1",
+              "scripts/run-v11-dogfood.mjs",
+              "scripts/test-check-template.ps1",
+              "test/v11-dogfood-runner.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.v11-source-byte-portability.r12"
+        ],
+        "handoffArtifacts": [
+          "v11-source-byte-portability-r12.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source fails its exact raw digest and byte binding.",
+          "Write only the declared scope; do not change Git state, use network access, or regenerate V11 approval/audit evidence.",
+          "If native apply_patch fails before mutation, use only an exact precondition-hash-guarded write and verify resulting bytes immediately.",
+          "Run focused local verification and report every failing command truthfully.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      },
+      {
+        "id": "fix.candidate-runtime-purity.r12",
+        "objective": "Keep npm and test runtime state outside the exact candidate source tree while preserving strict before/after materialization identity.",
+        "weight": 10,
+        "module": {
+          "id": "correction.candidate-runtime-purity",
+          "action": "Supply a host-owned npm cache outside the materialization, make pack and consumer checks honor that supply, close test-owned temporary parents with bounded non-recursive cleanup, preserve unrelated state, and retain strict exact-tree inspection.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "CandidateVerificationWithRepositoryLocalRuntimeState"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "SourcePureCandidateVerification"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.candidate-runtime-purity"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-five-retirement",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-five-receipt",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-five-stdout",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-five-stderr",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.previous-package",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.previous-approval",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.previous-handoff",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.previous-report",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.npmrc",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.consumer-check",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.release-gate",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.release-gate-tests",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          },
+          {
+            "sourceId": "context.first-run-tests",
+            "purpose": "Implement and verify fix.candidate-runtime-purity.r12 against the exact frozen source and failure evidence."
+          }
+        ],
+        "scope": {
+          "read": [
+            ".npmrc",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoffs/agent.fc51d7897f1fcd89e4867726e6b59af3fad4142bec43943ddaa17cfe54d9d3b2-pass-owner-fallback.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-5-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stdout.log",
+            "package.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/specialist-first-run.test.mjs",
+            "test/v12-release-gate.test.mjs"
+          ],
+          "write": [
+            "package.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/specialist-first-run.test.mjs",
+            "test/v12-release-gate.test.mjs"
+          ],
+          "conflictZones": [
+            "package.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs",
+            "test/specialist-first-run.test.mjs",
+            "test/v12-release-gate.test.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              ".npmrc",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/handoffs/agent.fc51d7897f1fcd89e4867726e6b59af3fad4142bec43943ddaa17cfe54d9d3b2-pass-owner-fallback.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r12/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-5-retirement.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stderr.log",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/62e51278904b3036971f6fcd40577313f1168e2a/canonical-gate.stdout.log",
+              "package.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/run-v12-release-gate.mjs",
+              "test/specialist-first-run.test.mjs",
+              "test/v12-release-gate.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "package.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/run-v12-release-gate.mjs",
+              "test/specialist-first-run.test.mjs",
+              "test/v12-release-gate.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.candidate-runtime-purity.r12"
+        ],
+        "handoffArtifacts": [
+          "candidate-runtime-purity-r12.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source fails its exact raw digest and byte binding.",
+          "Write only the declared scope; do not change Git state, use network access, or weaken post-command exact-tree inspection.",
+          "Never recursively delete shared .local or cache state; cleanup must be owned, bounded, and sentinel-preserving.",
+          "If native apply_patch fails before mutation, use only an exact precondition-hash-guarded write and verify resulting bytes immediately.",
+          "Run focused local verification and report every failing command truthfully.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      }
+    ]
+  }
+}

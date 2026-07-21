@@ -1,0 +1,12 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.implementation.release-correction",
+  "goalRevision": 11,
+  "approvedBy": "repository-owner-via-main-agent",
+  "approvalBasis": "The owner authorized V12 implementation and the integration owner reviewed this exact phase contract, deterministic roster, authority, and digest pair before launch.",
+  "expectation": {
+    "compilationDigest": "sha256:f934262e856c37e1167698f07a48f38ae73427b38f6dacdeabddfd0d9ece1825",
+    "packageDigest": "sha256:2820e692dfdfdfef0000aeeeddfbce3712510e60a222f4819eef6fb7820120b7"
+  }
+}

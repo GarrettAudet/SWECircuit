@@ -2,7 +2,7 @@
 
 ## Status
 
-Candidates 1-7 are retired with immutable evidence. Candidate 3's independent review causes and Candidates 4-7's exact-gate causes are closed through contiguous correction revisions 1-14. Candidate 8 pre-freeze verification and release evidence remain pending.
+Candidates 1-8 are retired with immutable evidence. Candidate 3's independent review causes, Candidates 4-7's exact-gate causes, and Candidate 8's R2 context-ceiling cause are closed through contiguous correction revisions 1-15. Candidate 9 freeze, exact gate, and fresh complete R2 review remain.
 
 ## Reproduction
 
@@ -313,3 +313,32 @@ Add an internal injectable default parameter whose production default remains `D
 ### Regression And Release Gate
 
 Revision 14's exact specialist authenticates all ten sources, reproduces the evidence chain, confirms the two-argument production call is unchanged, and passes both focused commands. Its exact handoff and complete package gate return `pass`. Candidate 7 remains retired; only a new Candidate 8 commit may run the canonical gate, and R2 remains blocked until that receipt passes.
+
+## Candidate 8 R2 Evidence-Selection RCA
+
+### Symptom
+
+Candidate 8 passed its exact canonical gate, including source/Git identity, cleanup, all verification stages, and unchanged post-command bytes. Its freshly prepared R2 request then failed compilation with `SC4308`: 261 context sources and 261 filesystem-read scopes exceeded the closed limit of 256.
+
+### Competing Hypotheses
+
+1. The compiler ceiling was too low for legitimate evidence.
+2. The request exceeded the byte budget rather than the collection budget.
+3. Retired candidate run snapshots were recursively entering the new request.
+4. Correction navigation artifacts duplicated an already preserved authoritative evidence chain.
+
+The immutable request was 6,317,925 context bytes, below the 16 MiB ceiling. Candidate run roots were not dynamic review sources. The compiler limit remained an intentional closed security boundary. Exact path classification confirmed hypothesis 4.
+
+### Confirmed Root Cause
+
+Each correction revision contributed its primary package envelope, approval, raw handoff, verification report, and any replan, but also repeated `inputs/`, `request.json`, `phase-metadata.json`, and `compilation-summary.json`. The latter set served compilation and navigation rather than independent release proof. Fourteen revisions crossed the count ceiling despite a valid primary evidence set.
+
+### Causal Fix
+
+Revision 15 classifies navigation duplication only beneath valid correction roots and excludes exactly that set during R2 source collection. It does not widen compiler limits or remove package envelopes, approvals, raw handoffs, verification reports, replans, gate outputs, or security-causal source.
+
+### Regression And Release Gate
+
+The regression reconstructs Candidate 8's immutable 261-entry request, proves exactly 94 navigation paths are excluded, proves required primary artifacts remain, and compiles the actual three-reviewer request with 167 contexts and three blueprints. The exact Revision 15 handoff and complete package gate return `pass`; focused, complete release-gate, canonical repository, checker mutation, and V11 replay verification all pass.
+
+Candidate 8 remains retired. Only a newly frozen Candidate 9 may run the canonical gate and generate a fresh candidate-addressed R2 package.

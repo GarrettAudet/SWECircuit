@@ -584,6 +584,11 @@ const STATIC_SOURCES = [
 
 const CORRECTION_ROOT_PREFIX =
   "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction";
+const CORRECTION_NAVIGATION_FILES = Object.freeze([
+  "compilation-summary.json",
+  "phase-metadata.json",
+  "request.json",
+]);
 
 const FIXED_DYNAMIC_ROOTS = Object.freeze([
   {
@@ -761,6 +766,18 @@ function correctionRevisionFromPath(path) {
   return { revision, root: `${prefix}${token}` };
 }
 
+function isCorrectionNavigationDuplicate(path) {
+  const correction = correctionRevisionFromPath(path);
+  if (correction === null || path === correction.root) {
+    return false;
+  }
+  const relativePath = path.slice(correction.root.length + 1);
+  return (
+    relativePath.startsWith("inputs/") ||
+    CORRECTION_NAVIGATION_FILES.includes(relativePath)
+  );
+}
+
 function discoverCorrectionEvidenceSpecs(candidateTreeOrPaths) {
   const paths = Array.isArray(candidateTreeOrPaths)
     ? candidateTreeOrPaths
@@ -843,7 +860,7 @@ function collectSourceSpecs(candidateTree) {
     const paths = candidateTree.list(root.path);
     requireCondition(paths.length > 0, `Candidate tree lacks required evidence root: ${root.path}.`);
     for (const path of paths) {
-      if (path.includes("/package/")) {
+      if (path.includes("/package/") || isCorrectionNavigationDuplicate(path)) {
         continue;
       }
       if (!byPath.has(path)) {
@@ -2503,7 +2520,9 @@ export const RELEASE_REVIEW_TEST_HOOKS = Object.freeze({
   loadCandidateTree,
   candidateTreeWithOverrides,
   discoverCorrectionEvidenceSpecs,
+  isCorrectionNavigationDuplicate,
   collectSourceSpecs,
+  requestFor,
   validateGateReceipt,
   verifyEvidenceSet,
   reviewedSourceMaterialization,

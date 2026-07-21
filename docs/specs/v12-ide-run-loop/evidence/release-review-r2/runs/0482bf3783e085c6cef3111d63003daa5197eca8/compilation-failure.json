@@ -1,0 +1,34 @@
+{
+  "apiVersion": "swecircuit/release-review-failure/v1alpha1",
+  "kind": "ReleaseReviewCompilationFailure",
+  "candidateCommit": "0482bf3783e085c6cef3111d63003daa5197eca8",
+  "stage": "specialist-compilation",
+  "outcome": "split",
+  "packageRendered": false,
+  "reviewersLaunched": false,
+  "request": {
+    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/0482bf3783e085c6cef3111d63003daa5197eca8/request.json",
+    "bytes": 889037,
+    "digest": "sha256:0bd67935d891c31fa06731256f20e296693829696185f72f660a8a7cada03636"
+  },
+  "limits": {
+    "contextSources": 261,
+    "contextSourceLimit": 256,
+    "permissionScopes": 261,
+    "permissionScopeLimit": 256,
+    "contextBytes": 6317925,
+    "contextByteLimit": 16777216
+  },
+  "diagnostics": [
+    {
+      "code": "SC4308",
+      "message": "A specialist compiler value exceeds a declared count, byte, or planning-weight limit."
+    },
+    {
+      "code": "SC4308",
+      "message": "A specialist compiler value exceeds a declared count, byte, or planning-weight limit."
+    }
+  ],
+  "confirmedCause": "The R2 source collector included every non-package correction input, request, phase-metadata, and compilation-summary file in addition to authoritative package, approval, handoff, report, and replan evidence. Fourteen revisions raised both context and read-scope counts above the closed compiler limit.",
+  "route": "Preserve Candidate 8 and this prepared run as immutable evidence. Narrow only redundant correction navigation sources, retain every authoritative primary-evidence byte, add a bounded-context regression, and freeze a new candidate before preparing R2 again."
+}

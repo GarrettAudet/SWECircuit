@@ -1,0 +1,49 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 12,
+    "digest": "sha256:b697a255fbf77554e41847f958d401aa23ca5bb4035c0c4ee1e4c19a8f8ed822"
+  },
+  "agent": {
+    "id": "agent.08756f07d108e3a95f45b3e101188efc5424183131fc2397f2c3a82c3db5afad",
+    "blueprintDigest": "sha256:aef70ab0ebb59ee457af0e09473be4d859a0db512f6f5da64f0f0ff5cb4d7f67"
+  },
+  "compilationDigest": "sha256:a22663c51b5477531f8dc8a08e17841cf52d7aa837507cc672dcae5f1ca8eb48",
+  "summary": "Made V11 context verification checkout-independent by requiring LF clean-filter stability, binding the Git attribute policy, normalizing both PowerShell sources, and adding whole-context regressions.",
+  "workUnitsCompleted": [
+    "fix.v11-source-byte-portability.r12"
+  ],
+  "artifacts": [
+    {
+      "name": "v11-source-byte-portability-r12.md",
+      "mediaType": "text/markdown",
+      "content": "# V11 Source Byte Portability R12\n\n## Result\n\nV11 context identity now rejects checkout transformations and is portable between live worktrees and exact Git-blob materializations.\n\n## Changes\n\n- Removed the repository-wide PowerShell CRLF override. All text sources now inherit explicit `eol=lf`.\n- Tightened `verifyCheckoutCanonicalContext` to require `eol=lf`, identical raw and clean-filter Git object identities, no carriage returns, and no unsupported Git transforms.\n- Removed the CRLF acceptance branch.\n- Required every V11 goal to bind `path:.gitattributes` exactly once as causal context.\n- Normalized `scripts/check-template.ps1` and `scripts/test-check-template.ps1` to LF-only bytes.\n- Added LF-positive, CRLF-negative, exact attribute-policy, duplicate-policy, and complete active-context regressions.\n- The whole-context regression validates all 57 active V11 source paths plus `.gitattributes`, for 58 LF clean-filter-stable sources.\n\n## Resulting Source Identities\n\n- `.gitattributes`: 501 bytes, `sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953`\n- `scripts/check-template.ps1`: 78,609 bytes, `sha256:42ede755385f294eef928da4e2d007a7a8f7f2b4b960e5b8446f9fcc4be20f3c`\n- `scripts/run-v11-dogfood.mjs`: 58,302 bytes, `sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e`\n- `scripts/test-check-template.ps1`: 101,080 bytes, `sha256:158ddca462b52d7e0024b57743ad7eb9c6783ba1ed37ab0b858f9eaf3e9132ca`\n- `test/v11-dogfood-runner.test.mjs`: 43,787 bytes, `sha256:637f1c44d641a2752186aa5837ae11d57f97d394283e52b6801ebaf29dfb9284`\n- Every changed source contains zero carriage-return bytes.\n\n## Verification\n\n- Approved package verification: pass for compilation `sha256:a22663c51b5477531f8dc8a08e17841cf52d7aa837507cc672dcae5f1ca8eb48` and package `sha256:26bc2190b4acd7d4fe253228eabad5862d0819717b75b7b7f20e6264dfc4d4ce`.\n- Delivered context verification: 17 of 17 exact raw digest and byte bindings passed before mutation.\n- `node --check scripts/run-v11-dogfood.mjs`: pass.\n- `node --check test/v11-dogfood-runner.test.mjs`: pass.\n- `npm.cmd exec --offline -- biome check scripts/run-v11-dogfood.mjs test/v11-dogfood-runner.test.mjs`: pass.\n- `node --test test/v11-dogfood-runner.test.mjs`: 31 of 31 pass.\n- PowerShell parser validation: 2 of 2 pass.\n- `powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/check-template.ps1`: pass.\n- `git diff --check` over the declared write scope: pass.\n- No files were staged and Git state was not changed.\n\n## Failed Attempts\n\nThe native patch helper failed before mutation because its Windows sandbox refresh could not access the approved worktree. The first sandboxed precondition-guarded write then failed with `EPERM` before its first write. The same exact five-file transformation was rerun with escalation after all original SHA-256 preconditions were revalidated; every resulting byte sequence was immediately reread and verified.\n\n## Trust Boundary\n\nRevision 36 approval and audit evidence was not regenerated or represented as current. These causal source changes deliberately make that evidence stale until the integration owner commits the source correction and rebuilds the complete V11 Revision 37 trust chain."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.v11-source-byte-portability.r12",
+      "requirementId": "evidence.v11-source-byte-portability.r12",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "v11-source-byte-portability-r12.md"
+    }
+  ],
+  "assumptions": [
+    "Exact LF Git-blob bytes remain the approved canonical source representation.",
+    "The integration owner will commit the causal source correction before rebuilding V11 trust evidence."
+  ],
+  "risks": [
+    "The current V11 Revision 36 approval and audit chain is intentionally stale and must not authorize Candidate 6."
+  ],
+  "followUps": [
+    "Rebuild V11 as Revision 37 with `.gitattributes` bound as context and refreshed exact tuples for every changed source.",
+    "Regenerate Candidate A, Audit B, verification receipt, semantic handoff, launch authorization, and approvals without weakening the two-digest trust boundary.",
+    "Run `node scripts/run-v11-dogfood.mjs --check-evidence` and the exact Candidate 6 canonical release gate after the Revision 37 rebuild."
+  ]
+}

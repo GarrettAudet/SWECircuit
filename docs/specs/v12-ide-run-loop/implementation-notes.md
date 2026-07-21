@@ -143,3 +143,13 @@ The V12 product implementation is complete. Candidates 4, 5, and 6 are retired; 
 - The exact 4,930-byte raw handoff verifies `pass` at `sha256:b678fcf1c85ec59304893b428fef0b09210d5b3eac45a51b49e3075a5003b064`; semantic/content digests are `sha256:2a012d248eca4e3bf99093acd6c4398ad15ff01dae77d124e2487f541efe94a1` / `sha256:5417214c8d55afc8a451f1cb66acad1a704933c2dedc8e691a43456ad49f4b47`, and complete fan-in is ready.
 - V11 Revision 39 complete evidence replay still passes after integration, so no V11 trust rebuild is required for this correction.
 - The complete template-checker mutation matrix passes in 264.6 seconds after Revision 14 integration.
+
+## Candidate 8 And Revision 15
+
+- Candidate 8 `0482bf3783e085c6cef3111d63003daa5197eca8` passed its one-shot exact gate over 2,046 files and 57,258,623 bytes with unchanged before/after source identity. Its receipt is `sha256:aa93e516387afc029ff21ba5d8e4f31cc0787e15ef181c38b1714acdf7c2c76e`.
+- Candidate-addressed R2 preparation preserved 261 contexts and read scopes, then compilation failed closed with two `SC4308` limit diagnostics before rendering or launch. Candidate 8 is permanently retired; its request and failure evidence remain immutable.
+- Revision 15 compiled the one legal one-agent partition with projected makespan 8 and zero conflicts. Compilation/package are `sha256:857c536099f5fd9d01b0981593bef6f2e8b40eba774db7fae21c501e3bd3e83f` / `sha256:627414164e9176f4ead047a4a857f23f81efc868643dd8aaaa55377186f162c8`.
+- The collector now excludes only correction-root `inputs/`, `request.json`, `phase-metadata.json`, and `compilation-summary.json` navigation duplication. It keeps all authoritative package, approval, handoff, verification, replan, gate, and security evidence.
+- The final 5,129-byte specialist handoff verifies `pass` at `sha256:0e470fae36b543e2eb66b9695511fdf43ff77e1df23122bda31917de4b5c6fbb`; semantic/content digests are `sha256:421b9cdefb8e1da2413cafbdde01c9731ca4d7a938f9fe3eee7ace85f038b02c` / `sha256:ea0511d1d5f7c3f4a6578456ad2699ee2f5dc9e662a83dba0771f01d9198a579`, and complete fan-in is ready.
+- Independent integration-owner verification passes the exact 261-to-167 context reproduction, all 10 release-gate tests, static integrity checks, `npm.cmd run verify` in 305.2 seconds, the checker mutation matrix in 265.6 seconds, and standalone V11 Revision 39 evidence replay.
+- Candidate 9 is the next eligible source identity. Candidate 8 must not be regated and its prepared request must not be modified or reused.

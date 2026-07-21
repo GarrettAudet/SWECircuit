@@ -2,7 +2,7 @@
 
 ## Status
 
-Release review attempt 1 and Candidate 3 produced verified release-blocking `fix` routes. Candidates 4, 5, 6, and 7 are retired with exact evidence. Candidate 7's gate passed 404 of 405 tests and exposed only an isolated unit-test default; Revision 14's exact read-only specialist package verifies the causal correction `pass`, and V11 Revision 39 still replays exactly. The complete Candidate 8 pre-freeze suite passes in 238.1 seconds; its exact gate and a complete fresh R2 review remain, so V12 is not merge-ready.
+Release review attempt 1 and Candidate 3 produced verified release-blocking `fix` routes. Candidates 4 through 8 are retired with exact evidence. Candidate 8 passed its one-shot exact canonical gate, then its immutable fresh R2 request failed closed at 261 context/read entries against the 256-entry ceiling before package rendering or reviewer launch. Revision 15's exact package-bound specialist result verifies the causal correction `pass`, and independent focused, release-gate, repository, checker, and V11 replay checks pass. Candidate 9's exact gate and a complete fresh R2 review remain, so V12 is not merge-ready.
 
 ## Scope
 
@@ -80,6 +80,14 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 - Production still resolves the host toolchain with the original two-argument call. The injected test default follows the same absolute, regular-file, symlink, realpath, and outside-candidate checks; focused behavior and Biome checks pass.
 - V11 Revision 39 complete evidence replay remains `pass`; the corrected files do not invalidate its bound source package.
 
+## Candidate 8 And Correction 15
+
+- Candidate 8 `0482bf3783e085c6cef3111d63003daa5197eca8` passed its one-shot gate. Receipt/stdout/stderr are `sha256:aa93e516387afc029ff21ba5d8e4f31cc0787e15ef181c38b1714acdf7c2c76e` / `sha256:0dc432aeeed8d6f6a3e9352800dbd6a9d5b40d20eeb69a3ed16dcfe9bdb8170c` / `sha256:2e53f9074811c48085665956206c5d73525bdba26d25c07cb805d31df9b0c948`.
+- Fresh R2 preparation preserved 261 sources, but compilation returned two `SC4308` diagnostics at the unchanged 256-entry context/read ceiling. No roster was rendered, approved, or launched.
+- Revision 15 excludes only correction navigation duplication and preserves the authoritative primary chain. Its regression reduces the exact failed set by 94 paths to a 167-context request and compiles all three review work units.
+- Compilation/package are `sha256:857c536099f5fd9d01b0981593bef6f2e8b40eba774db7fae21c501e3bd3e83f` / `sha256:627414164e9176f4ead047a4a857f23f81efc868643dd8aaaa55377186f162c8`; the verified final handoff is `sha256:0e470fae36b543e2eb66b9695511fdf43ff77e1df23122bda31917de4b5c6fbb` and complete fan-in is ready.
+- Candidate 8 is permanently retired. Candidate 9 must receive a new one-shot gate and candidate-addressed R2 package.
+
 ## Outcome
 
-`fix`. Candidate 7's route is satisfied by Revision 14. Release and merge remain stopped until Candidate 8 passes its single exact canonical gate and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.
+`fix` for Candidate 8's R2 compilation route, satisfied by Revision 15 and advanced to a new-candidate gate. Release and merge remain stopped until Candidate 9 passes its single exact canonical gate and a newly compiled, approved, complete three-reviewer R2 package returns `pass`.

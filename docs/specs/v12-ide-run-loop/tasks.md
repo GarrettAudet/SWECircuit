@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: Candidates 4, 5, 6, and 7 are retired. Candidate 7's exact gate preserved source identity and passed 404 of 405 tests before exposing an environment-sensitive unit-test default inside the dependency-free materialization. Revision 14 closes that cause with a verified one-agent read-only package and focused regressions while V11 Revision 39 still replays exactly. The complete pre-freeze `npm.cmd run verify` passes in 238.1 seconds; Candidate 8 freeze, its one-shot gate, and a fresh R2 review remain.
+T006 in progress: Candidates 4 through 8 are retired. Candidate 8 passed its one-shot exact gate, then its fresh R2 request failed closed at 261 context/read entries against the compiler's 256-entry ceiling before reviewer launch. Revision 15 closes that cause with a verified one-agent package and a compiler-bound 261-to-167 context regression. Independent focused, full release-gate, canonical repository, checker mutation, and V11 replay checks pass. Candidate 9 freeze, its one-shot gate, and a fresh complete R2 review remain.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 in progress: Candidates 4, 5, 6, and 7 are retired. Candidate 7's exact gat
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Candidate 3 routed `fix`; revisions 1-14 preserve every correction and retired candidate. Revision 14 correctly selected one specialist for one atomic verification unit; Candidate 8's later R2 review will fan out across three independent domains.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Candidate 3 routed `fix`; revisions 1-15 preserve every correction and retired candidate. Revision 15 correctly selected one specialist for one atomic context-selection correction. Candidate 8's R2 stopped before launch; Candidate 9's fresh R2 will fan out across three independent domains only after its exact gate passes.
 
 ## Out Of Scope
 

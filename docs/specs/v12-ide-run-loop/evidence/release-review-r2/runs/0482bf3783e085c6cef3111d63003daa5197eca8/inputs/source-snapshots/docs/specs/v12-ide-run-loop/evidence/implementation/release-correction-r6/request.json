@@ -1,0 +1,720 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 6,
+    "objective": "Close the exact candidate-1 canonical-gate failure by restoring installed-consumer and architecture parity and making immutable gate evidence candidate-scoped before another candidate is frozen.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.architecture-frozen",
+        "statement": "ADR 0005 and the Specialist Run contract are the complete implementation authority.",
+        "rationale": "Architecture fan-in passed and no blocking decision remains."
+      },
+      {
+        "id": "assumption.host-effects-external",
+        "statement": "All runtime, persistence, Git, merge, and memory effects remain external to core.",
+        "rationale": "V12 is a pure evidence session, not the deferred universal scheduler."
+      },
+      {
+        "id": "assumption.host-edit-fallback",
+        "statement": "After native apply_patch fails before mutation, the host may perform an exact precondition-hash-guarded PowerShell write inside the approved scope.",
+        "rationale": "Foundation Revision 1 proved the temporary worktree patch helper is unavailable while bounded escalated PowerShell writes remain auditable and fail closed."
+      },
+      {
+        "id": "assumption.candidate-one-failed-closed",
+        "statement": "Candidate 989e6ea6da754ecddcf06507567647bd9d84be02 is retired after its exact canonical gate returned fail while HEAD and tracked state remained unchanged.",
+        "rationale": "The immutable receipt and raw logs bind the stale packed-consumer expectation to the exact failed candidate without authorizing review launch."
+      },
+      {
+        "id": "assumption.failed-gate-evidence-immutable",
+        "statement": "The candidate-1 receipt and raw logs remain preserved at their original paths and must not be overwritten, deleted, or reclassified as passing evidence.",
+        "rationale": "A corrected commit needs a new candidate-scoped evidence directory so each gate result retains one unambiguous identity."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.fix.consumer-contract-parity.r6",
+        "description": "Make the clean installed-consumer gate and live architecture summary agree exactly with the reviewed 64 MiB raw-session input ceiling while preserving the independent 128 MiB canonical-session safeguard.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.consumer-contract-parity.r6",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Provide exact failure authentication, source-of-truth comparison, resulting-byte bindings, syntax and format checks, and a passing clean installed-consumer gate.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.fix.candidate-gate-identity.r6",
+        "description": "Make canonical-gate evidence immutable per exact candidate and make R2 preparation resolve only the passing receipt and raw logs derived for its requested candidate.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.candidate-gate-identity.r6",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Provide immutable failure preservation, exact path-derivation parity, mismatch and overwrite rejection, syntax and format checks, and focused dry-run evidence without running a replacement canonical gate.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/spec.md",
+        "digest": "sha256:b0a3610c935cacf032e9c142d9436b6f620227667c64c5bf0e296eaf4f571ab1",
+        "bytes": 5478,
+        "description": "Frozen V12 feature specification.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/spec.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Frozen normative Specialist Run contract.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/specialist-run-contract.md"
+      },
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/adr-0005.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable Specialist Run Session decision.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/adr-0005.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/test-plan.md",
+        "digest": "sha256:ffa2102cbcf6d145d4f5b0ddbc26b9b02f86433a22b4b99b9f5cb084f605d7ec",
+        "bytes": 2506,
+        "description": "Frozen V12 verification obligations.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/test-plan.md"
+      },
+      {
+        "id": "context.constants",
+        "kind": "repository",
+        "locator": "path:src/constants.ts",
+        "digest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a",
+        "bytes": 2570,
+        "description": "Existing public kernel constants and limits.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6"
+        ],
+        "readScope": "src/constants.ts"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:package.json",
+        "digest": "sha256:f395932106ac25216ca753127f7b97b01497090a7c4115732de77784fff2c5ce",
+        "bytes": 3723,
+        "description": "Existing package scripts and export map.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "package.json"
+      },
+      {
+        "id": "context.packed-host",
+        "kind": "repository",
+        "locator": "path:scripts/fixtures/packed-consumer-host.ts",
+        "digest": "sha256:90633af96b2afaa66dfaddd66e27f2e050dfd0ac5c052f8c1e2413d21db74d00",
+        "bytes": 23434,
+        "description": "Installed-consumer TypeScript host fixture.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6"
+        ],
+        "readScope": "scripts/fixtures/packed-consumer-host.ts"
+      },
+      {
+        "id": "context.packed-check",
+        "kind": "repository",
+        "locator": "path:scripts/check-packed-consumer.mjs",
+        "digest": "sha256:6dfb5a5f25b8533d2b7c7fd736f78a8611deaf22fdc0c060e5749e96cf10ea0e",
+        "bytes": 43244,
+        "description": "Installed-package export and runtime verification.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6"
+        ],
+        "readScope": "scripts/check-packed-consumer.mjs"
+      },
+      {
+        "id": "context.run-architecture",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+        "digest": "sha256:cbfc5691b997c7aac70e04376bde109f7b8b787a61672a4e3f0c401519417157",
+        "bytes": 26018,
+        "description": "Live V12 architecture summary whose published limits must match the normative contract.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:scripts/run-v12-release-gate.mjs",
+        "digest": "sha256:70c80d5c3c51e8abc566b26c12b1649675d2fc49268367b13383d0eaf0a0a301",
+        "bytes": 6149,
+        "description": "Current candidate-bound canonical gate wrapper.",
+        "allowedWorkUnits": [
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "scripts/run-v12-release-gate.mjs"
+      },
+      {
+        "id": "context.release-review-r2-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "digest": "sha256:89ff4340757a191e8789cd1ce7ee13a9cfc9d33a2c5dc0afc144e7124ec0e955",
+        "bytes": 64128,
+        "description": "Current candidate-bound R2 release-review preparation and compilation harness.",
+        "allowedWorkUnits": [
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs"
+      },
+      {
+        "id": "context.release-review-r2-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "digest": "sha256:e30bbf7548d6481935d14db57630e4e5bdaa9aff2df56337b957d07acc83d2aa",
+        "bytes": 6984,
+        "description": "Current exact R2 reviewer handoff verifier.",
+        "allowedWorkUnits": [
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs"
+      },
+      {
+        "id": "context.release-correction-r5-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/package-envelope.json",
+        "digest": "sha256:d45f4f598722ed86079d6b079cd078ef580f8a0c8e6e708ec1d9b0018d860621",
+        "bytes": 316925,
+        "description": "Owner-approved revision-5 release-evidence and dogfood package.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/package-envelope.json"
+      },
+      {
+        "id": "context.release-correction-r5-approval",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/approval.json",
+        "digest": "sha256:80e6d469e39542d424be462f2125832595ba1962a0a2afda71714446e9d980c0",
+        "bytes": 641,
+        "description": "Exact owner approval for the revision-5 package.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/approval.json"
+      },
+      {
+        "id": "context.release-correction-r5-dogfood-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5.json",
+        "digest": "sha256:ce6cc26eee8eea92928381ee2b97da0e32397194369d09c7879f4c27e4d6d8af",
+        "bytes": 12438,
+        "description": "Exact revision-5 implementation-dogfood PASS handoff.",
+        "allowedWorkUnits": [
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5.json"
+      },
+      {
+        "id": "context.release-correction-r5-release-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73.json",
+        "digest": "sha256:6342efa7f78f9a6bbfc531836e2853f26daeac32d382682ee663b378668eaec6",
+        "bytes": 7056,
+        "description": "Exact revision-5 release-evidence PASS handoff.",
+        "allowedWorkUnits": [
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73.json"
+      },
+      {
+        "id": "context.release-correction-r5-report",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoff-verification.json",
+        "digest": "sha256:08ceb9d6851f9907a97a9752c8010bb746abbcf7ad62c3dd403175bd0c2a6855",
+        "bytes": 1999,
+        "description": "Complete revision-5 PASS handoff report.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoff-verification.json"
+      },
+      {
+        "id": "context.failed-gate-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+        "digest": "sha256:4c636e486f36c22b74f12fdd4b4470eb9056f63f64eca05058ae6923976bb15c",
+        "bytes": 1221,
+        "description": "Immutable candidate-1 canonical-gate failure receipt.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.failed-gate-stdout",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+        "digest": "sha256:afb6b266dd504cbf89d2cb55b6f9c5c6872fd5636acef8848e2105257aecef12",
+        "bytes": 295768,
+        "description": "Exact raw candidate-1 canonical-gate stdout bytes.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log"
+      },
+      {
+        "id": "context.failed-gate-stderr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+        "digest": "sha256:4381d1a9ce1c36beb8723eadfb3619288935b9d095de672c450121c23dc0dfad",
+        "bytes": 11763,
+        "description": "Exact raw candidate-1 canonical-gate stderr bytes.",
+        "allowedWorkUnits": [
+          "fix.consumer-contract-parity.r6",
+          "fix.candidate-gate-identity.r6"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "correction.candidate-gate-identity",
+        "correction.consumer-contract-parity"
+      ],
+      "allowedCapabilities": [
+        "fix.candidate-gate-identity",
+        "fix.consumer-contract-parity"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "package.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "scripts/run-v12-release-gate.mjs",
+            "src/constants.ts"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/run-v12-release-gate.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm",
+            "powershell"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not use network access, change Git state, launch descendants, write outside the exact scope, or claim that core performs host effects."
+      ],
+      "maxAgents": 2,
+      "maxConcurrency": 2
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.consumer-contract-parity.r6",
+        "objective": "Make the clean installed-consumer gate and live architecture summary agree exactly with the reviewed 64 MiB raw-session input ceiling while preserving the independent 128 MiB canonical-session safeguard.",
+        "weight": 5,
+        "module": {
+          "id": "correction.consumer-contract-parity",
+          "action": "Authenticate the exact failed gate, compare the installed package export with constants and the normative contract, correct only the stale packed-consumer expectation and live architecture limit explanation, and prove the focused installed-consumer gate passes without weakening the reviewed runtime limit.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FailedCanonicalConsumerGate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "ConsumerAndArchitectureLimitParity"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.consumer-contract-parity"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.constants",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.packed-host",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.packed-check",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.run-architecture",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r5-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r5-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r5-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.failed-gate-receipt",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.failed-gate-stdout",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.failed-gate-stderr",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "package.json",
+            "scripts/check-packed-consumer.mjs",
+            "scripts/fixtures/packed-consumer-host.ts",
+            "src/constants.ts"
+          ],
+          "write": [
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "scripts/check-packed-consumer.mjs"
+          ],
+          "conflictZones": [
+            "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+            "scripts/check-packed-consumer.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+              "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+              "package.json",
+              "scripts/check-packed-consumer.mjs",
+              "scripts/fixtures/packed-consumer-host.ts",
+              "src/constants.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+              "scripts/check-packed-consumer.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.consumer-contract-parity.r6"
+        ],
+        "handoffArtifacts": [
+          "consumer-contract-parity-correction-r6.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract.",
+          "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+          "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      },
+      {
+        "id": "fix.candidate-gate-identity.r6",
+        "objective": "Make canonical-gate evidence immutable per exact candidate and make R2 preparation resolve only the passing receipt and raw logs derived for its requested candidate.",
+        "weight": 6,
+        "module": {
+          "id": "correction.candidate-gate-identity",
+          "action": "Preserve the candidate-1 failure at its original paths, change future gate output to a candidate-addressed directory, derive the same paths from the exact candidate in R2 preparation and revalidation, reject mismatched or failing receipts, and verify no existing evidence can be overwritten or mistaken for another candidate.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "ImmutableFailedCanonicalGate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "CandidateScopedCanonicalGateEvidence"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "fix.candidate-gate-identity"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-gate",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-review-r2-harness",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-review-r2-verifier",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r5-package",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r5-approval",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r5-dogfood-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r5-release-handoff",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.release-correction-r5-report",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.failed-gate-receipt",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.failed-gate-stdout",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          },
+          {
+            "sourceId": "context.failed-gate-stderr",
+            "purpose": "Implement or verify the exact frozen V12 release-correction-r6 contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/approval.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/package-envelope.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/adr-0005.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/spec.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/specialist-run-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+            "package.json",
+            "scripts/run-v12-release-gate.mjs"
+          ],
+          "write": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "scripts/run-v12-release-gate.mjs"
+          ],
+          "conflictZones": [
+            "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+            "scripts/run-v12-release-gate.mjs"
+          ]
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/approval.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/handoffs/agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r5/package-envelope.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/adr-0005.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/spec.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/specialist-run-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r6/inputs/test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+              "package.json",
+              "scripts/run-v12-release-gate.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+              "scripts/run-v12-release-gate.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm",
+              "powershell"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.candidate-gate-identity.r6"
+        ],
+        "handoffArtifacts": [
+          "candidate-gate-identity-correction-r6.md"
+        ],
+        "stopConditions": [
+          "Stop if any declared source is unavailable or fails its exact digest and byte binding.",
+          "Write only the exact declared write scope; do not change Git state, use the network, launch descendants, or widen the public contract.",
+          "If native apply_patch fails before mutation because of the host sandbox, an exact precondition-hash-guarded PowerShell write is allowed within the declared write scope; verify the resulting file bytes immediately.",
+          "Run only local focused verification allowed by the contract and report every failing command truthfully.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON shape from the generated contract."
+        ]
+      }
+    ]
+  }
+}

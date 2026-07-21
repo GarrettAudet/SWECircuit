@@ -16,6 +16,8 @@ import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
+import { compileAgentBlueprints } from "../dist/index.js";
+import { RELEASE_REVIEW_TEST_HOOKS } from "../docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs";
 import { RELEASE_GATE_TEST_HOOKS } from "../scripts/run-v12-release-gate.mjs";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
@@ -394,6 +396,139 @@ test("R2 closes the stronger receipt and all six causal security sources", () =>
       `R2 does not both snapshot and require ${path} for security review.`,
     );
   }
+});
+
+test("R2 correction review context remains bounded with primary evidence", async () => {
+  const candidate = "0482bf3783e085c6cef3111d63003daa5197eca8";
+  const failedRequestPath = join(
+    ROOT,
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs",
+    candidate,
+    "request.json",
+  );
+  const failedRequest = JSON.parse(await readFile(failedRequestPath, "utf8"));
+  const originalContexts = failedRequest.goal.contextSources;
+  const originalAuthorityScopes = failedRequest.goal.authority.permissionCeiling.find(
+    (permission) => permission.kind === "filesystem.read",
+  ).scopes;
+  assert.equal(originalContexts.length, 261);
+  assert.equal(originalAuthorityScopes.length, 261);
+
+  const originalPathMarker = " Original candidate path: ";
+  const contextsByOriginalPath = new Map();
+  const directContexts = [];
+  for (const context of originalContexts) {
+    const marker = context.description.lastIndexOf(originalPathMarker);
+    if (marker === -1) {
+      directContexts.push(context);
+      continue;
+    }
+    const originalPath = context.description.slice(marker + originalPathMarker.length);
+    assert.equal(contextsByOriginalPath.has(originalPath), false);
+    contextsByOriginalPath.set(originalPath, context);
+  }
+  assert.equal(contextsByOriginalPath.size, 257);
+  assert.deepEqual(directContexts.map((context) => context.id).sort(), [
+    "context.candidate-manifest",
+    "context.canonical-gate-receipt",
+    "context.canonical-gate-stderr",
+    "context.canonical-gate-stdout",
+  ]);
+
+  const candidateTree = RELEASE_REVIEW_TEST_HOOKS.loadCandidateTree(candidate);
+  const selectedSources = RELEASE_REVIEW_TEST_HOOKS.collectSourceSpecs(candidateTree);
+  const selectedPaths = selectedSources.map((source) => source.path);
+  const selectedPathSet = new Set(selectedPaths);
+  const removedPaths = [...contextsByOriginalPath.keys()].filter(
+    (path) => !selectedPathSet.has(path),
+  );
+  assert.equal(removedPaths.length, 94);
+  assert.equal(selectedSources.length, 163);
+  assert.deepEqual(
+    selectedPaths,
+    [...contextsByOriginalPath.keys()]
+      .filter((path) => !RELEASE_REVIEW_TEST_HOOKS.isCorrectionNavigationDuplicate(path))
+      .sort(),
+  );
+  for (const path of removedPaths) {
+    assert.equal(RELEASE_REVIEW_TEST_HOOKS.isCorrectionNavigationDuplicate(path), true);
+    assert.match(
+      path,
+      /^docs\/specs\/v12-ide-run-loop\/evidence\/implementation\/release-correction(?:-r[1-9][0-9]*)?\/(?:inputs\/|(?:compilation-summary|phase-metadata|request)\.json$)/u,
+    );
+  }
+  assert.equal(
+    RELEASE_REVIEW_TEST_HOOKS.isCorrectionNavigationDuplicate(
+      "docs/specs/v12-ide-run-loop/inputs/request.json",
+    ),
+    false,
+  );
+
+  const correctionSpecs = RELEASE_REVIEW_TEST_HOOKS.discoverCorrectionEvidenceSpecs(candidateTree);
+  assert.equal(correctionSpecs.length, 14);
+  for (const correction of correctionSpecs) {
+    for (const path of [
+      `${correction.root}/package-envelope.json`,
+      `${correction.root}/approval.json`,
+      `${correction.root}/handoff-verification.json`,
+    ]) {
+      assert.equal(selectedPathSet.has(path), true, `missing primary evidence: ${path}`);
+    }
+    assert.equal(
+      selectedPaths.some((path) => path.startsWith(`${correction.root}/handoffs/`)),
+      true,
+      `missing raw correction handoff: ${correction.root}`,
+    );
+  }
+  const correctionReplans = candidateTree.paths.filter(
+    (path) =>
+      path.startsWith("docs/specs/v12-ide-run-loop/evidence/implementation/release-correction") &&
+      path.endsWith("/replan.json"),
+  );
+  assert.ok(correctionReplans.length > 0);
+  for (const path of correctionReplans) {
+    assert.equal(selectedPathSet.has(path), true, `missing correction replan: ${path}`);
+  }
+  for (const path of [
+    ".gitattributes",
+    ".gitignore",
+    "src/specialist-handoff-schema-data.ts",
+    "src/specialist-handoff-schema.ts",
+    "src/specialist-schema-data.ts",
+    "src/specialist-schema.ts",
+  ]) {
+    assert.equal(selectedPathSet.has(path), true, `missing security-causal source: ${path}`);
+  }
+
+  const boundedContexts = [
+    ...selectedSources.map((source) => contextsByOriginalPath.get(source.path)),
+    ...directContexts,
+  ].sort((left, right) => (left.id < right.id ? -1 : left.id > right.id ? 1 : 0));
+  assert.equal(boundedContexts.every(Boolean), true);
+  assert.equal(boundedContexts.length, 167);
+  const boundedRequest = RELEASE_REVIEW_TEST_HOOKS.requestFor(boundedContexts, candidate);
+  assert.equal(boundedRequest.goal.contextSources.length <= 256, true);
+  assert.equal(boundedRequest.goal.workUnits.length, 3);
+  for (const permission of boundedRequest.goal.authority.permissionCeiling) {
+    if (permission.kind === "filesystem.read") {
+      assert.equal(permission.scopes.length, 167);
+      assert.equal(permission.scopes.length <= 256, true);
+    }
+  }
+  for (const workUnit of boundedRequest.goal.workUnits) {
+    assert.equal(workUnit.contextUses.length <= 256, true);
+    assert.equal(workUnit.scope.read.length <= 256, true);
+    const readPermission = workUnit.permissions.find(
+      (permission) => permission.kind === "filesystem.read",
+    );
+    assert.ok(readPermission);
+    assert.equal(readPermission.scopes.length <= 256, true);
+  }
+
+  const compilation = compileAgentBlueprints(boundedRequest);
+  assert.equal(compilation.ok, true, JSON.stringify(compilation.diagnostics));
+  assert.notEqual(compilation.value, null);
+  assert.equal(compilation.value.blueprints.length, 3);
 });
 
 test("paths mode remains closed and rejects malformed candidate identities", () => {
