@@ -1,0 +1,34 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v12.ide-run-loop.review.cache-supply-hermeticity-r24",
+  "goalRevision": 1,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:0054a7b74496802027ecc9a5fd49aa18e7d17c6c7991734bd0883b4eb7ceb427",
+  "selectedCandidateId": "team.7479c6334e23c48ea3208efdb83c6eaa66650fa20954367406398952fac15ddf",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.eb36feda6d3f7bacc6cf6eba6903d4906b334c22662b62e9b98d073967ef9709"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:d487f9c2f437ad47c6567bc7fdc4e70687b1070d69aece20c8615204195872c1",
+  "compilationFileBytes": 124894,
+  "agents": [
+    {
+      "agentId": "agent.eb36feda6d3f7bacc6cf6eba6903d4906b334c22662b62e9b98d073967ef9709",
+      "blueprintDigest": "sha256:a406686baa4b4198ee99700c038b6918f70c8f4457e70430534a72874d7c0cab",
+      "contractFile": "agents/agent.eb36feda6d3f7bacc6cf6eba6903d4906b334c22662b62e9b98d073967ef9709.md",
+      "contractDigest": "sha256:b035088812f85e8ba2785aabecfd92b8f19798db4df148c7a07585e89b3d76be",
+      "contractBytes": 41844
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:047d2b8fa20b5f41f19bc5800be7fdd3769a82981ffbfeefb865f4d6dde6e45d",
+  "integrationBytes": 3966,
+  "contentDigest": "sha256:391fb07022ee2d0c15f86a6d3b44877db321a678a8e7a48945461e418847907a"
+}

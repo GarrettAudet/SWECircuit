@@ -1,0 +1,12 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.review.cache-supply-hermeticity-r24",
+  "goalRevision": 1,
+  "approvedBy": "repository-owner-via-main-agent",
+  "approvalBasis": "Standing owner authorization covers release audits; the integration owner reviewed this exact closed contract, single-reviewer roster, read-only authority, source set, and digest pair before launch.",
+  "expectation": {
+    "compilationDigest": "sha256:ee3d26e46871a93bc8b76361ccedc8f61513b80b9c42f8b2f6b4ef737a4f55a6",
+    "packageDigest": "sha256:855f52b9bc244669f9e6add34434e0c73369c1a700ca14431dd366ce5a80e0a8"
+  }
+}

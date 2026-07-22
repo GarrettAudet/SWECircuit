@@ -1,0 +1,2073 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.review.cache-supply-hermeticity-r24",
+    "revision": 1,
+    "objective": "Independently determine whether exact Revision 24 behaviorally closes Candidate 11's cache defect and Revision 23's non-causal regression finding without weakening runtime-supply, source, lifecycle-history, or cleanup guarantees.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption-release-owner-controlled",
+        "statement": "Pre-freeze verification, V11 refresh, candidate gate, R2, hosted CI, and merge remain integration-owner work.",
+        "rationale": "This reviewer provides a bounded semantic verdict only."
+      },
+      {
+        "id": "assumption.host-boundary-external",
+        "statement": "External host cache provenance and process isolation remain host duties.",
+        "rationale": "Repository code validates supplied boundaries but cannot enforce the host runtime."
+      },
+      {
+        "id": "assumption.snapshots-authoritative",
+        "statement": "Declared immutable snapshots are the only semantic review inputs.",
+        "rationale": "The reviewer must not depend on mutable live source or ignored runtime state."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.review.cache-supply-hermeticity.r24",
+        "description": "Exact Revision 24 is causal, hermetic across clean materialization, preserves every production control, and introduces no release-blocking trust or test-quality defect.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.review.cache-supply-hermeticity.r24",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Authenticate all sources, resolve every review point, compare exact pre/final bytes, assess tests and bypasses, and return a concrete pass or correction route.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Frozen repository workflow and specialist trust invariants.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md"
+      },
+      {
+        "id": "context.candidate-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json",
+        "digest": "sha256:b3a36ea43b5ac73c4568ba6c5542df4f66b29e7b3f1822a120cfdc38978721a6",
+        "bytes": 2294,
+        "description": "Exact Candidate 11 canonical gate receipt.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.candidate-retirement",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md",
+        "digest": "sha256:05bd51326f9c27127820ffbe7ee5ed172e0b60d27def4ec2850a03a033efddbb",
+        "bytes": 1701,
+        "description": "Permanent Candidate 11 retirement route.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md"
+      },
+      {
+        "id": "context.candidate-stderr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log",
+        "digest": "sha256:b56200af44effdd399efe987862a1241bdd2054970cac157087dca1e86845c24",
+        "bytes": 19354,
+        "description": "Exact Candidate 11 canonical gate stderr.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log"
+      },
+      {
+        "id": "context.candidate-stdout",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log",
+        "digest": "sha256:ae258c7856783c6e2ade4e44a94057f331b62f7075199b1df1f3aea7b403a5c2",
+        "bytes": 33978,
+        "description": "Exact Candidate 11 canonical gate stdout.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log"
+      },
+      {
+        "id": "context.final-host-cache-supply-child",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs",
+        "digest": "sha256:c1a808d50a709f04d54615cb25a6ec4cf4d0999c025035c8f1195c3ddae03abe",
+        "bytes": 1680,
+        "description": "Exact new Revision 24 fresh-process cache-supply fixture.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs"
+      },
+      {
+        "id": "context.final-lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs",
+        "digest": "sha256:b925ea0119289fbdd04fcca7180600d6dfabf8de51431f6cf2c50c712a61ef52",
+        "bytes": 57585,
+        "description": "Exact final Revision 24 bytes for test/helpers/v12-release-review-lifecycle.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs"
+      },
+      {
+        "id": "context.final-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json",
+        "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+        "bytes": 3719,
+        "description": "Exact final Revision 24 bytes for package.json.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json"
+      },
+      {
+        "id": "context.final-package-lock",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Exact final Revision 24 bytes for package-lock.json.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json"
+      },
+      {
+        "id": "context.final-release-gate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Exact final Revision 24 bytes for scripts/run-v12-release-gate.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs"
+      },
+      {
+        "id": "context.final-release-review-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs",
+        "digest": "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73",
+        "bytes": 127748,
+        "description": "Exact final Revision 24 bytes for docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs"
+      },
+      {
+        "id": "context.final-release-review-parent",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs",
+        "digest": "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
+        "bytes": 96946,
+        "description": "Exact final Revision 24 bytes for scripts/run-v12-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs"
+      },
+      {
+        "id": "context.final-release-review-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs",
+        "digest": "sha256:d85005ce8e44c7caca02eb967d4a3133d74fbf4815e1bcdd0c31e530f1bfa0e1",
+        "bytes": 49419,
+        "description": "Exact final Revision 24 bytes for test/v12-release-review.test.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs"
+      },
+      {
+        "id": "context.final-release-review-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs",
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+        "bytes": 30840,
+        "description": "Exact final Revision 24 bytes for docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs"
+      },
+      {
+        "id": "context.pre-lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs",
+        "digest": "sha256:101c53a45cdc4edca820f1a8811b668ca8a9c88c777f2785dee3c82e914f53c5",
+        "bytes": 54920,
+        "description": "Exact Candidate 11 blob for test/helpers/v12-release-review-lifecycle.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs"
+      },
+      {
+        "id": "context.pre-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json",
+        "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+        "bytes": 3719,
+        "description": "Exact Candidate 11 blob for package.json.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json"
+      },
+      {
+        "id": "context.pre-package-lock",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Exact Candidate 11 blob for package-lock.json.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json"
+      },
+      {
+        "id": "context.pre-release-gate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Exact Candidate 11 blob for scripts/run-v12-release-gate.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs"
+      },
+      {
+        "id": "context.pre-release-review-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs",
+        "digest": "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73",
+        "bytes": 127748,
+        "description": "Exact Candidate 11 blob for docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs"
+      },
+      {
+        "id": "context.pre-release-review-parent",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs",
+        "digest": "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
+        "bytes": 96946,
+        "description": "Exact Candidate 11 blob for scripts/run-v12-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs"
+      },
+      {
+        "id": "context.pre-release-review-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs",
+        "digest": "sha256:1fd87295b69e1f81c41bf1681acf23712b8dd76e65029ac821b98f45c3b2d7c3",
+        "bytes": 44155,
+        "description": "Exact Candidate 11 blob for test/v12-release-review.test.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs"
+      },
+      {
+        "id": "context.pre-release-review-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs",
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+        "bytes": 30840,
+        "description": "Exact Candidate 11 blob for docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs"
+      },
+      {
+        "id": "context.r23-attempt-history",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md",
+        "digest": "sha256:5fba06c2e46b4c15f55af74f28c0a4c15e8335cfa689e5bd521cfc94e65680df",
+        "bytes": 1601,
+        "description": "Traceable Revision 23 independent-review attempt history.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md"
+      },
+      {
+        "id": "context.r23-fix-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json",
+        "digest": "sha256:db8401027e1b81f77e2f1d4cc47d5eb69dbc37a1d65a1277101374cd30d7c1df",
+        "bytes": 11475,
+        "description": "Exact authenticated Revision 23 semantic fix handoff.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json"
+      },
+      {
+        "id": "context.r23-handoff-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json",
+        "digest": "sha256:b5e703be0f988b88d6ee0e6dc2891de81fa0a1f1b7f5a8fc0f7a3fad9c7e8b14",
+        "bytes": 1322,
+        "description": "V11 complete-package verification for the Revision 23 fix route.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json"
+      },
+      {
+        "id": "context.r23-reviewed-lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs",
+        "digest": "sha256:d3e9119b19f33d2a1e7d0c696262fd0da6d4d029724540c0f59c358eee29216f",
+        "bytes": 56123,
+        "description": "Exact lifecycle helper reviewed by Revision 23.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs"
+      },
+      {
+        "id": "context.r23-reviewed-release-review-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs",
+        "digest": "sha256:316d93374985fb7ca190ed2bb447745f15cfabc03b20a069710adb0f7b7ccac0",
+        "bytes": 45603,
+        "description": "Exact release-review tests reviewed by Revision 23.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs"
+      },
+      {
+        "id": "context.r23-to-r24-source-delta",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json",
+        "digest": "sha256:8aa019e79166ba0250325f4e50492baa43e2029c65b434953cf4c0a99274a27f",
+        "bytes": 2618,
+        "description": "Machine-readable exact Revision 23 to Revision 24 source comparison.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json"
+      },
+      {
+        "id": "context.r24-correction-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md",
+        "digest": "sha256:78aa80a1c34562b62102a2558c670fbcef52b5770b9015eab70c30319db20e21",
+        "bytes": 1705,
+        "description": "Closed Revision 24 causal correction contract.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md"
+      },
+      {
+        "id": "context.r24-fixture-sequence-diagnosis",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md",
+        "digest": "sha256:cde31b8a1e6768f19e0493a956f301295c12f5deaf4c53b1b2c99d0e617dbac1",
+        "bytes": 1406,
+        "description": "Stable diagnosis and causal correction for post-R21 evidence entering the sealed lifecycle fixture.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md"
+      },
+      {
+        "id": "context.r24-reproduction",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md",
+        "digest": "sha256:9f4aa4ebd0cf0dd244f2350aa31fdb82bbd08aabc3f2fd6da8c87a7fe41b5cab",
+        "bytes": 1802,
+        "description": "Integration-owner failure and corrected lifecycle observations.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md"
+      },
+      {
+        "id": "context.r24-test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md",
+        "digest": "sha256:70bbf82a008b95b2eda1b655e2a91e8ecfa39f440344e69c65ebdc953a238e29",
+        "bytes": 1049,
+        "description": "Closed Revision 24 verification obligations.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md"
+      },
+      {
+        "id": "context.review-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md",
+        "digest": "sha256:9c5dffed79cf2c7b07af1e2341854258ea3c6976e7ac3e89287d2bd1ed5f283f",
+        "bytes": 2504,
+        "description": "Closed independent Revision 24 review contract.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md"
+      },
+      {
+        "id": "context.source-delta",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json",
+        "digest": "sha256:8411748ec3d524ee834e35a8b5e88c61d2f231b53fc04b569480afaac5104ebf",
+        "bytes": 6776,
+        "description": "Machine-readable Candidate 11 to Revision 24 source comparison.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json"
+      },
+      {
+        "id": "context.specialist-run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Frozen IDE-neutral host and specialist execution contract.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "review.cache-supply-hermeticity"
+      ],
+      "allowedCapabilities": [
+        "review.release-evidence-security"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "git",
+            "node",
+            "powershell",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not edit files, install packages, mutate Git state, use network access, launch descendants, rerun a candidate gate, alter Candidate 11 evidence, claim release readiness, approve merge, or perform host enforcement."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "review.cache-supply-hermeticity.r24",
+        "objective": "Authenticate and independently audit exact Revision 24 against the closed review contract and search for new cache, path, cleanup, trust, evidence, or test-quality defects.",
+        "weight": 13,
+        "module": {
+          "id": "review.cache-supply-hermeticity",
+          "action": "Trace exact source deltas, release-gate cache resolution, lifecycle ownership, copy guards, cleanup, regression behavior, and immutable failure evidence before returning a verdict.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "VerifiedCandidate11FailureAndRevision23"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IndependentRevision23Verdict"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "review.release-evidence-security"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-receipt",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-retirement",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-stderr",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.candidate-stdout",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.final-host-cache-supply-child",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.final-lifecycle-helper",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.final-package",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.final-package-lock",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.final-release-gate",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.final-release-review-harness",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.final-release-review-parent",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.final-release-review-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.final-release-review-verifier",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.pre-lifecycle-helper",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.pre-package",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.pre-package-lock",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.pre-release-gate",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.pre-release-review-harness",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.pre-release-review-parent",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.pre-release-review-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.pre-release-review-verifier",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.r23-attempt-history",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.r23-fix-handoff",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.r23-handoff-verification",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.r23-reviewed-lifecycle-helper",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.r23-reviewed-release-review-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.r23-to-r24-source-delta",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.r24-correction-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.r24-fixture-sequence-diagnosis",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.r24-reproduction",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.r24-test-plan",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.review-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.source-delta",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          },
+          {
+            "sourceId": "context.specialist-run-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "powershell",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.review.cache-supply-hermeticity.r24"
+        ],
+        "handoffArtifacts": [
+          "independent-revision-23-cache-supply-review.md"
+        ],
+        "stopConditions": [
+          "Do not claim release readiness, hosted CI, merge approval, external cache provenance, or host isolation.",
+          "Remain read-only and report every defect without changing source or evidence.",
+          "Resolve every closed review point and search for new bypasses before returning pass.",
+          "Return only the exact generated SpecialistAgentHandoff JSON object.",
+          "Stop before semantic review if any declared snapshot byte count or SHA-256 binding fails.",
+          "Treat integration-owner tests and prose as evidence only, never as the semantic verdict."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:25f554a9d2783200934981e32632357507fdcf1caab3b838bc9c0a46228f782f",
+  "proposedCandidates": [],
+  "proposalEvaluations": [],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v12.ide-run-loop.review.cache-supply-hermeticity-r24",
+    "goalRevision": 1,
+    "allowedModules": [
+      "review.cache-supply-hermeticity"
+    ],
+    "allowedCapabilities": [
+      "review.release-evidence-security"
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Frozen repository workflow and specialist trust invariants.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md"
+      },
+      {
+        "id": "context.candidate-receipt",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json",
+        "digest": "sha256:b3a36ea43b5ac73c4568ba6c5542df4f66b29e7b3f1822a120cfdc38978721a6",
+        "bytes": 2294,
+        "description": "Exact Candidate 11 canonical gate receipt.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json"
+      },
+      {
+        "id": "context.candidate-retirement",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md",
+        "digest": "sha256:05bd51326f9c27127820ffbe7ee5ed172e0b60d27def4ec2850a03a033efddbb",
+        "bytes": 1701,
+        "description": "Permanent Candidate 11 retirement route.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md"
+      },
+      {
+        "id": "context.candidate-stderr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log",
+        "digest": "sha256:b56200af44effdd399efe987862a1241bdd2054970cac157087dca1e86845c24",
+        "bytes": 19354,
+        "description": "Exact Candidate 11 canonical gate stderr.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log"
+      },
+      {
+        "id": "context.candidate-stdout",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log",
+        "digest": "sha256:ae258c7856783c6e2ade4e44a94057f331b62f7075199b1df1f3aea7b403a5c2",
+        "bytes": 33978,
+        "description": "Exact Candidate 11 canonical gate stdout.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log"
+      },
+      {
+        "id": "context.final-host-cache-supply-child",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs",
+        "digest": "sha256:c1a808d50a709f04d54615cb25a6ec4cf4d0999c025035c8f1195c3ddae03abe",
+        "bytes": 1680,
+        "description": "Exact new Revision 24 fresh-process cache-supply fixture.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs"
+      },
+      {
+        "id": "context.final-lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs",
+        "digest": "sha256:b925ea0119289fbdd04fcca7180600d6dfabf8de51431f6cf2c50c712a61ef52",
+        "bytes": 57585,
+        "description": "Exact final Revision 24 bytes for test/helpers/v12-release-review-lifecycle.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs"
+      },
+      {
+        "id": "context.final-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json",
+        "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+        "bytes": 3719,
+        "description": "Exact final Revision 24 bytes for package.json.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json"
+      },
+      {
+        "id": "context.final-package-lock",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Exact final Revision 24 bytes for package-lock.json.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json"
+      },
+      {
+        "id": "context.final-release-gate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Exact final Revision 24 bytes for scripts/run-v12-release-gate.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs"
+      },
+      {
+        "id": "context.final-release-review-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs",
+        "digest": "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73",
+        "bytes": 127748,
+        "description": "Exact final Revision 24 bytes for docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs"
+      },
+      {
+        "id": "context.final-release-review-parent",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs",
+        "digest": "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
+        "bytes": 96946,
+        "description": "Exact final Revision 24 bytes for scripts/run-v12-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs"
+      },
+      {
+        "id": "context.final-release-review-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs",
+        "digest": "sha256:d85005ce8e44c7caca02eb967d4a3133d74fbf4815e1bcdd0c31e530f1bfa0e1",
+        "bytes": 49419,
+        "description": "Exact final Revision 24 bytes for test/v12-release-review.test.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs"
+      },
+      {
+        "id": "context.final-release-review-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs",
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+        "bytes": 30840,
+        "description": "Exact final Revision 24 bytes for docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs"
+      },
+      {
+        "id": "context.pre-lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs",
+        "digest": "sha256:101c53a45cdc4edca820f1a8811b668ca8a9c88c777f2785dee3c82e914f53c5",
+        "bytes": 54920,
+        "description": "Exact Candidate 11 blob for test/helpers/v12-release-review-lifecycle.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs"
+      },
+      {
+        "id": "context.pre-package",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json",
+        "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+        "bytes": 3719,
+        "description": "Exact Candidate 11 blob for package.json.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json"
+      },
+      {
+        "id": "context.pre-package-lock",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json",
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "bytes": 21014,
+        "description": "Exact Candidate 11 blob for package-lock.json.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json"
+      },
+      {
+        "id": "context.pre-release-gate",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs",
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+        "bytes": 31791,
+        "description": "Exact Candidate 11 blob for scripts/run-v12-release-gate.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs"
+      },
+      {
+        "id": "context.pre-release-review-harness",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs",
+        "digest": "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73",
+        "bytes": 127748,
+        "description": "Exact Candidate 11 blob for docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs"
+      },
+      {
+        "id": "context.pre-release-review-parent",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs",
+        "digest": "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
+        "bytes": 96946,
+        "description": "Exact Candidate 11 blob for scripts/run-v12-release-review.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs"
+      },
+      {
+        "id": "context.pre-release-review-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs",
+        "digest": "sha256:1fd87295b69e1f81c41bf1681acf23712b8dd76e65029ac821b98f45c3b2d7c3",
+        "bytes": 44155,
+        "description": "Exact Candidate 11 blob for test/v12-release-review.test.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs"
+      },
+      {
+        "id": "context.pre-release-review-verifier",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs",
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+        "bytes": 30840,
+        "description": "Exact Candidate 11 blob for docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs"
+      },
+      {
+        "id": "context.r23-attempt-history",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md",
+        "digest": "sha256:5fba06c2e46b4c15f55af74f28c0a4c15e8335cfa689e5bd521cfc94e65680df",
+        "bytes": 1601,
+        "description": "Traceable Revision 23 independent-review attempt history.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md"
+      },
+      {
+        "id": "context.r23-fix-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json",
+        "digest": "sha256:db8401027e1b81f77e2f1d4cc47d5eb69dbc37a1d65a1277101374cd30d7c1df",
+        "bytes": 11475,
+        "description": "Exact authenticated Revision 23 semantic fix handoff.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json"
+      },
+      {
+        "id": "context.r23-handoff-verification",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json",
+        "digest": "sha256:b5e703be0f988b88d6ee0e6dc2891de81fa0a1f1b7f5a8fc0f7a3fad9c7e8b14",
+        "bytes": 1322,
+        "description": "V11 complete-package verification for the Revision 23 fix route.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json"
+      },
+      {
+        "id": "context.r23-reviewed-lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs",
+        "digest": "sha256:d3e9119b19f33d2a1e7d0c696262fd0da6d4d029724540c0f59c358eee29216f",
+        "bytes": 56123,
+        "description": "Exact lifecycle helper reviewed by Revision 23.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs"
+      },
+      {
+        "id": "context.r23-reviewed-release-review-tests",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs",
+        "digest": "sha256:316d93374985fb7ca190ed2bb447745f15cfabc03b20a069710adb0f7b7ccac0",
+        "bytes": 45603,
+        "description": "Exact release-review tests reviewed by Revision 23.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs"
+      },
+      {
+        "id": "context.r23-to-r24-source-delta",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json",
+        "digest": "sha256:8aa019e79166ba0250325f4e50492baa43e2029c65b434953cf4c0a99274a27f",
+        "bytes": 2618,
+        "description": "Machine-readable exact Revision 23 to Revision 24 source comparison.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json"
+      },
+      {
+        "id": "context.r24-correction-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md",
+        "digest": "sha256:78aa80a1c34562b62102a2558c670fbcef52b5770b9015eab70c30319db20e21",
+        "bytes": 1705,
+        "description": "Closed Revision 24 causal correction contract.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md"
+      },
+      {
+        "id": "context.r24-fixture-sequence-diagnosis",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md",
+        "digest": "sha256:cde31b8a1e6768f19e0493a956f301295c12f5deaf4c53b1b2c99d0e617dbac1",
+        "bytes": 1406,
+        "description": "Stable diagnosis and causal correction for post-R21 evidence entering the sealed lifecycle fixture.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md"
+      },
+      {
+        "id": "context.r24-reproduction",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md",
+        "digest": "sha256:9f4aa4ebd0cf0dd244f2350aa31fdb82bbd08aabc3f2fd6da8c87a7fe41b5cab",
+        "bytes": 1802,
+        "description": "Integration-owner failure and corrected lifecycle observations.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md"
+      },
+      {
+        "id": "context.r24-test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md",
+        "digest": "sha256:70bbf82a008b95b2eda1b655e2a91e8ecfa39f440344e69c65ebdc953a238e29",
+        "bytes": 1049,
+        "description": "Closed Revision 24 verification obligations.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md"
+      },
+      {
+        "id": "context.review-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md",
+        "digest": "sha256:9c5dffed79cf2c7b07af1e2341854258ea3c6976e7ac3e89287d2bd1ed5f283f",
+        "bytes": 2504,
+        "description": "Closed independent Revision 24 review contract.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md"
+      },
+      {
+        "id": "context.source-delta",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json",
+        "digest": "sha256:8411748ec3d524ee834e35a8b5e88c61d2f231b53fc04b569480afaac5104ebf",
+        "bytes": 6776,
+        "description": "Machine-readable Candidate 11 to Revision 24 source comparison.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json"
+      },
+      {
+        "id": "context.specialist-run-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Frozen IDE-neutral host and specialist execution contract.",
+        "allowedWorkUnits": [
+          "review.cache-supply-hermeticity.r24"
+        ],
+        "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json",
+          "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "git",
+          "node",
+          "powershell",
+          "rg"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not edit files, install packages, mutate Git state, use network access, launch descendants, rerun a candidate gate, alter Candidate 11 evidence, claim release readiness, approve merge, or perform host enforcement."
+    ],
+    "maxAgents": 1,
+    "maxConcurrency": 1,
+    "contentDigest": "sha256:a1fb98162cc48199d1fba7c8dcb4381436531fc2f9207ae84df0106633130621"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:4492a722c0f260ee66df61891f32d7dae079538a1a7526748dc65c19bd3d92ff"
+  },
+  "serialBaseline": {
+    "id": "team.7479c6334e23c48ea3208efdb83c6eaa66650fa20954367406398952fac15ddf",
+    "partition": [
+      [
+        "review.cache-supply-hermeticity.r24"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 14,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 13,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.eb36feda6d3f7bacc6cf6eba6903d4906b334c22662b62e9b98d073967ef9709",
+        "start": 0,
+        "finish": 14
+      }
+    ],
+    "contentDigest": "sha256:fc006daeeec66dd5f5c3fcdecc3d70d46e7c4abd7c06e6b32288e7014b681288"
+  },
+  "selected": {
+    "id": "team.7479c6334e23c48ea3208efdb83c6eaa66650fa20954367406398952fac15ddf",
+    "partition": [
+      [
+        "review.cache-supply-hermeticity.r24"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 14,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 13,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.eb36feda6d3f7bacc6cf6eba6903d4906b334c22662b62e9b98d073967ef9709",
+        "start": 0,
+        "finish": 14
+      }
+    ],
+    "contentDigest": "sha256:fc006daeeec66dd5f5c3fcdecc3d70d46e7c4abd7c06e6b32288e7014b681288"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.7479c6334e23c48ea3208efdb83c6eaa66650fa20954367406398952fac15ddf",
+    "serialValue": "team.7479c6334e23c48ea3208efdb83c6eaa66650fa20954367406398952fac15ddf",
+    "serialRejectionCodes": []
+  },
+  "alternatives": [],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.eb36feda6d3f7bacc6cf6eba6903d4906b334c22662b62e9b98d073967ef9709",
+      "goalId": "v12.ide-run-loop.review.cache-supply-hermeticity-r24",
+      "goalRevision": 1,
+      "goalDigest": "sha256:25f554a9d2783200934981e32632357507fdcf1caab3b838bc9c0a46228f782f",
+      "candidateId": "team.7479c6334e23c48ea3208efdb83c6eaa66650fa20954367406398952fac15ddf",
+      "workUnitIds": [
+        "review.cache-supply-hermeticity.r24"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.cache-supply-hermeticity.r24",
+          "objective": "Authenticate and independently audit exact Revision 24 against the closed review contract and search for new cache, path, cleanup, trust, evidence, or test-quality defects."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.cache-supply-hermeticity",
+          "action": "Trace exact source deltas, release-gate cache resolution, lifecycle ownership, copy guards, cleanup, regression behavior, and immutable failure evidence before returning a verdict.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "VerifiedCandidate11FailureAndRevision23"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IndependentRevision23Verdict"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.agent-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md",
+          "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+          "bytes": 16695,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md"
+        },
+        {
+          "sourceId": "context.candidate-receipt",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json",
+          "digest": "sha256:b3a36ea43b5ac73c4568ba6c5542df4f66b29e7b3f1822a120cfdc38978721a6",
+          "bytes": 2294,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json"
+        },
+        {
+          "sourceId": "context.candidate-retirement",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md",
+          "digest": "sha256:05bd51326f9c27127820ffbe7ee5ed172e0b60d27def4ec2850a03a033efddbb",
+          "bytes": 1701,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md"
+        },
+        {
+          "sourceId": "context.candidate-stderr",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log",
+          "digest": "sha256:b56200af44effdd399efe987862a1241bdd2054970cac157087dca1e86845c24",
+          "bytes": 19354,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log"
+        },
+        {
+          "sourceId": "context.candidate-stdout",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log",
+          "digest": "sha256:ae258c7856783c6e2ade4e44a94057f331b62f7075199b1df1f3aea7b403a5c2",
+          "bytes": 33978,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log"
+        },
+        {
+          "sourceId": "context.final-host-cache-supply-child",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs",
+          "digest": "sha256:c1a808d50a709f04d54615cb25a6ec4cf4d0999c025035c8f1195c3ddae03abe",
+          "bytes": 1680,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs"
+        },
+        {
+          "sourceId": "context.final-lifecycle-helper",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs",
+          "digest": "sha256:b925ea0119289fbdd04fcca7180600d6dfabf8de51431f6cf2c50c712a61ef52",
+          "bytes": 57585,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs"
+        },
+        {
+          "sourceId": "context.final-package",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json",
+          "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+          "bytes": 3719,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json"
+        },
+        {
+          "sourceId": "context.final-package-lock",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json",
+          "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+          "bytes": 21014,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json"
+        },
+        {
+          "sourceId": "context.final-release-gate",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs",
+          "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+          "bytes": 31791,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs"
+        },
+        {
+          "sourceId": "context.final-release-review-harness",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs",
+          "digest": "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73",
+          "bytes": 127748,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs"
+        },
+        {
+          "sourceId": "context.final-release-review-parent",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs",
+          "digest": "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
+          "bytes": 96946,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs"
+        },
+        {
+          "sourceId": "context.final-release-review-tests",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs",
+          "digest": "sha256:d85005ce8e44c7caca02eb967d4a3133d74fbf4815e1bcdd0c31e530f1bfa0e1",
+          "bytes": 49419,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs"
+        },
+        {
+          "sourceId": "context.final-release-review-verifier",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs",
+          "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+          "bytes": 30840,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs"
+        },
+        {
+          "sourceId": "context.pre-lifecycle-helper",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs",
+          "digest": "sha256:101c53a45cdc4edca820f1a8811b668ca8a9c88c777f2785dee3c82e914f53c5",
+          "bytes": 54920,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs"
+        },
+        {
+          "sourceId": "context.pre-package",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json",
+          "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+          "bytes": 3719,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json"
+        },
+        {
+          "sourceId": "context.pre-package-lock",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json",
+          "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+          "bytes": 21014,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json"
+        },
+        {
+          "sourceId": "context.pre-release-gate",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs",
+          "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+          "bytes": 31791,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs"
+        },
+        {
+          "sourceId": "context.pre-release-review-harness",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs",
+          "digest": "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73",
+          "bytes": 127748,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs"
+        },
+        {
+          "sourceId": "context.pre-release-review-parent",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs",
+          "digest": "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
+          "bytes": 96946,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs"
+        },
+        {
+          "sourceId": "context.pre-release-review-tests",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs",
+          "digest": "sha256:1fd87295b69e1f81c41bf1681acf23712b8dd76e65029ac821b98f45c3b2d7c3",
+          "bytes": 44155,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs"
+        },
+        {
+          "sourceId": "context.pre-release-review-verifier",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs",
+          "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+          "bytes": 30840,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs"
+        },
+        {
+          "sourceId": "context.r23-attempt-history",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md",
+          "digest": "sha256:5fba06c2e46b4c15f55af74f28c0a4c15e8335cfa689e5bd521cfc94e65680df",
+          "bytes": 1601,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md"
+        },
+        {
+          "sourceId": "context.r23-fix-handoff",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json",
+          "digest": "sha256:db8401027e1b81f77e2f1d4cc47d5eb69dbc37a1d65a1277101374cd30d7c1df",
+          "bytes": 11475,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json"
+        },
+        {
+          "sourceId": "context.r23-handoff-verification",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json",
+          "digest": "sha256:b5e703be0f988b88d6ee0e6dc2891de81fa0a1f1b7f5a8fc0f7a3fad9c7e8b14",
+          "bytes": 1322,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json"
+        },
+        {
+          "sourceId": "context.r23-reviewed-lifecycle-helper",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs",
+          "digest": "sha256:d3e9119b19f33d2a1e7d0c696262fd0da6d4d029724540c0f59c358eee29216f",
+          "bytes": 56123,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs"
+        },
+        {
+          "sourceId": "context.r23-reviewed-release-review-tests",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs",
+          "digest": "sha256:316d93374985fb7ca190ed2bb447745f15cfabc03b20a069710adb0f7b7ccac0",
+          "bytes": 45603,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs"
+        },
+        {
+          "sourceId": "context.r23-to-r24-source-delta",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json",
+          "digest": "sha256:8aa019e79166ba0250325f4e50492baa43e2029c65b434953cf4c0a99274a27f",
+          "bytes": 2618,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json"
+        },
+        {
+          "sourceId": "context.r24-correction-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md",
+          "digest": "sha256:78aa80a1c34562b62102a2558c670fbcef52b5770b9015eab70c30319db20e21",
+          "bytes": 1705,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md"
+        },
+        {
+          "sourceId": "context.r24-fixture-sequence-diagnosis",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md",
+          "digest": "sha256:cde31b8a1e6768f19e0493a956f301295c12f5deaf4c53b1b2c99d0e617dbac1",
+          "bytes": 1406,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md"
+        },
+        {
+          "sourceId": "context.r24-reproduction",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md",
+          "digest": "sha256:9f4aa4ebd0cf0dd244f2350aa31fdb82bbd08aabc3f2fd6da8c87a7fe41b5cab",
+          "bytes": 1802,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md"
+        },
+        {
+          "sourceId": "context.r24-test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md",
+          "digest": "sha256:70bbf82a008b95b2eda1b655e2a91e8ecfa39f440344e69c65ebdc953a238e29",
+          "bytes": 1049,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md"
+        },
+        {
+          "sourceId": "context.review-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md",
+          "digest": "sha256:9c5dffed79cf2c7b07af1e2341854258ea3c6976e7ac3e89287d2bd1ed5f283f",
+          "bytes": 2504,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md"
+        },
+        {
+          "sourceId": "context.source-delta",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json",
+          "digest": "sha256:8411748ec3d524ee834e35a8b5e88c61d2f231b53fc04b569480afaac5104ebf",
+          "bytes": 6776,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json"
+        },
+        {
+          "sourceId": "context.specialist-run-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md",
+          "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+          "bytes": 17133,
+          "purposes": [
+            "Authenticate and independently audit the exact Revision 24 cache-supply correction and Candidate 11 failure evidence."
+          ],
+          "workUnitIds": [
+            "review.cache-supply-hermeticity.r24"
+          ],
+          "readScope": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "review.release-evidence-security"
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json",
+            "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/review-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/agent-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate-receipt.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stderr.log",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-canonical-gate.stdout.log",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/candidate-11-retirement.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package-lock.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-package.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-gate.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-harness.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-parent.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-verifier.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-lifecycle-helper.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package-lock.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-package.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-gate.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-harness.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-parent.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-tests.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/pre-release-review-verifier.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-attempt-history.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-fix-handoff.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-handoff-verification.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-to-r24-source-delta.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-correction-contract.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-fixture-sequence-diagnosis.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-integration-owner-reproduction.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r24-test-plan.md",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/source-delta.json",
+              "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/specialist-run-contract.md"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "git",
+              "node",
+              "powershell",
+              "rg"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not edit files, install packages, mutate Git state, use network access, launch descendants, rerun a candidate gate, alter Candidate 11 evidence, claim release readiness, approve merge, or perform host enforcement."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.review.cache-supply-hermeticity.r24",
+          "criterion": "Exact Revision 24 is causal, hermetic across clean materialization, preserves every production control, and introduces no release-blocking trust or test-quality defect.",
+          "requirementId": "evidence.review.cache-supply-hermeticity.r24",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Authenticate all sources, resolve every review point, compare exact pre/final bytes, assess tests and bypasses, and return a concrete pass or correction route.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "independent-revision-23-cache-supply-review.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not claim release readiness, hosted CI, merge approval, external cache provenance, or host isolation.",
+        "Remain read-only and report every defect without changing source or evidence.",
+        "Resolve every closed review point and search for new bypasses before returning pass.",
+        "Return only the exact generated SpecialistAgentHandoff JSON object.",
+        "Stop before semantic review if any declared snapshot byte count or SHA-256 binding fails.",
+        "Treat integration-owner tests and prose as evidence only, never as the semantic verdict."
+      ],
+      "contentDigest": "sha256:a406686baa4b4198ee99700c038b6918f70c8f4457e70430534a72874d7c0cab"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.eb36feda6d3f7bacc6cf6eba6903d4906b334c22662b62e9b98d073967ef9709"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:0054a7b74496802027ecc9a5fd49aa18e7d17c6c7991734bd0883b4eb7ceb427"
+}

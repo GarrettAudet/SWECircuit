@@ -374,3 +374,34 @@ Derive the review runtime only from authenticated candidate bytes, separate stab
 ### Regression And Closure
 
 Revision 22 removes the compatibility adapter and passes installed npm 11 directly through the copied production parent. The complete 34-test suite covers the real lifecycle, exact byte equality, receipt-last promotion, all ten negative routes, config substitution and alias rejection, and cleanup. Independent package-bound review returns `pass`, and V11 Revision 40 authenticates the final source through its complete two-package trust chain.
+
+## Candidate 11 Checkout-Relative Cache RCA
+
+### Symptom
+
+Candidate 11's exact one-shot gate preserved candidate source, disposable Git state, outer repository state, and cleanup, then completed 423 of 424 tests. The copied-production lifecycle failed before its nested gate because `.local/npm-cache` did not exist inside exact Git-blob materialization.
+
+### Competing Hypotheses
+
+1. The release gate failed to supply an external offline cache.
+2. The supplied cache was removed before the lifecycle test imported its runtime.
+3. The lifecycle helper ignored the supplied cache and read an ignored checkout-relative path.
+4. The cache copy succeeded but a later phase removed its source.
+
+The receipt proves the gate supplied an external host cache and preserved exact source. The stack failed at the helper's first cache copy, before nested phases or cleanup. The helper contained a literal `SOURCE_ROOT/.local/npm-cache` read. Hypothesis 3 is confirmed; the others are rejected.
+
+### Causal Fix
+
+The lifecycle helper now imports the canonical gate's resolved `hostNpmCache` test hook, copies that exact runtime supply into a fresh lifecycle-owned destination, requires the destination to be absent, and rejects source/destination overlap before mutation. The production gate, cache resolver, private npm configuration, and candidate materialization rules are unchanged.
+
+### Regression And Route
+
+The new fast regression proves source identity, copied bytes, and overlap rejection. The exact copied-production compile-to-verify lifecycle then passes in `1,908,536.9107 ms`, including fresh compile/approve/verify parents, three handoffs, ten negative routes, source reauthentication, and cleanup.
+
+Candidate 11 is permanently retired. Route: `diagnose` -> `fix` -> `pass` for Revision 23 verification. Only a newly committed successor may receive another one-shot canonical gate.
+
+### Revision 24 Review Closure
+
+Revision 23's production source correction was causal, but its initial regression exposed a test-only source override. Revision 24 removes that override and proves the gate-resolved external cache through a fresh process and a candidate-shaped tree with no checkout-local cache. A separate complete-lifecycle failure confirmed that the sealed Revision 21 fixture was retaining post-fixture correction history; the fix excludes only canonical correction roots from Revision 22 onward in both filesystem and Git representations.
+
+Focused causal tests, all four guard routes, and the corrected copied-production lifecycle pass. A final package-bound independent reviewer authenticated 35 sources and found no release-blocking bypass. Its exact 18,311-byte handoff verifies `pass` with `phaseReady: true` and is accepted for integration. The remaining risk is release-candidate verification, not an unresolved implementation cause.

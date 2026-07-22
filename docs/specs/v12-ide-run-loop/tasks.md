@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 in progress: accepted Revision 16 attempt 2 aligns the source-of-truth release state after the most recent reviewed source routed `pass` / `fix` / `pass` and `releaseReady: false`; independent pre-freeze verification passes. V12 remains not merge-ready pending a successor exact gate, fresh R2 review, hosted CI, and the owner merge gate.
+T006 is in progress. The latest exact candidate is immutable and retired; Revision 24's causal regression, corrected copied-production lifecycle, package-bound independent review, V11 Revision 40 replay, and a complete pre-freeze repository gate pass. V12 remains not merge-ready pending one newly frozen successor's exact gate, fresh R2 review, hosted CI, and the owner merge gate.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 in progress: accepted Revision 16 attempt 2 aligns the source-of-truth rele
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Historical review and correction outcomes remain preserved through Revision 22. The most recent committed source reviewed by R2 is retired; Revision 22 and its independent review pass, and V11 Revision 40 replay passes. A successor review may fan out across three independent domains only after its exact source-bound gate passes.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Historical outcomes remain preserved through the latest retired exact candidate and Revision 24. Revision 24 and its final independent review pass, and V11 Revision 40 replay passes. A successor review may fan out across three independent domains only after its exact source-bound gate passes.
 
 ## Out Of Scope
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. The most recent reviewed source is permanently retired: its exact canonical gate passed, its complete three-reviewer R2 fan-in routed `pass` / `fix` / `pass`, and the authenticated roster result is `releaseReady: false`. Revision 16 accepted attempt 2 and corrected active release-state language. A successor source, exact canonical gate, fresh R2 review, hosted CI, and owner merge decision remain outside this correction.
+V12 is not merge-ready. The latest exact candidate is immutable and retired after its one-shot exact gate exposed the checkout-relative lifecycle cache dependency. Revision 24's causal regression, corrected copied-production lifecycle, final package-bound independent review, V11 Revision 40 replay, and a complete pre-freeze repository gate pass. A newly frozen successor, its exact canonical gate, fresh R2 review, hosted CI, and owner merge decision remain.
 
 ## Scope
 
@@ -101,6 +101,6 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 
 ## Current Outcome
 
-The latest retired candidate's `fix` is satisfied by Revision 22. Its candidate-derived review runtime, real copied-production lifecycle, immutable source snapshots, direct npm 11 execution, and distinct private npm configuration pass exact package verification and independent package-bound review. V11 Revision 40 also passes its complete two-package trust replay.
+The latest retired candidate's `fix` is satisfied by Revision 24. The lifecycle now consumes the release-gate-resolved external cache through a fresh process, proves the candidate-local cache is absent, closes four path guards, and excludes only post-fixture correction roots from the sealed lifecycle. The corrected real lifecycle and final 35-source package-bound review pass. V11 Revision 40 also passes its complete two-package trust replay.
 
-The checker mutation matrix and complete pre-freeze repository gate pass. This is not release approval: the successor source still needs one exact committed-tree gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.
+The complete post-Revision-24 pre-freeze repository gate passes in 2,025.2 seconds. This is not release approval: the successor source still needs one exact committed-tree gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.

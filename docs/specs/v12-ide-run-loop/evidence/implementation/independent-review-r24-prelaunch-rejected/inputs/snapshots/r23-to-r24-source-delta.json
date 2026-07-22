@@ -1,0 +1,65 @@
+{
+  "apiVersion": "swecircuit/review-source-delta/v1alpha1",
+  "kind": "ReviewSourceDelta",
+  "basePhase": "independent-review-r23",
+  "targetPhase": "independent-review-r24",
+  "changedPaths": [
+    "test/helpers/v12-release-review-lifecycle.mjs",
+    "test/v12-release-review.test.mjs",
+    "test/fixtures/v12-host-cache-supply-child.mjs"
+  ],
+  "unchangedControlPaths": [
+    "scripts/run-v12-release-gate.mjs",
+    "scripts/run-v12-release-review.mjs",
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+    "package.json",
+    "package-lock.json"
+  ],
+  "pairs": [
+    {
+      "logicalPath": "test/helpers/v12-release-review-lifecycle.mjs",
+      "authorizedChange": true,
+      "changed": true,
+      "pre": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-lifecycle-helper.mjs",
+        "bytes": 56123,
+        "digest": "sha256:d3e9119b19f33d2a1e7d0c696262fd0da6d4d029724540c0f59c358eee29216f"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-lifecycle-helper.mjs",
+        "bytes": 57585,
+        "digest": "sha256:b925ea0119289fbdd04fcca7180600d6dfabf8de51431f6cf2c50c712a61ef52"
+      }
+    },
+    {
+      "logicalPath": "test/v12-release-review.test.mjs",
+      "authorizedChange": true,
+      "changed": true,
+      "pre": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/r23-reviewed-release-review-tests.mjs",
+        "bytes": 45603,
+        "digest": "sha256:316d93374985fb7ca190ed2bb447745f15cfabc03b20a069710adb0f7b7ccac0"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-release-review-tests.mjs",
+        "bytes": 49419,
+        "digest": "sha256:d85005ce8e44c7caca02eb967d4a3133d74fbf4815e1bcdd0c31e530f1bfa0e1"
+      }
+    },
+    {
+      "logicalPath": "test/fixtures/v12-host-cache-supply-child.mjs",
+      "authorizedChange": true,
+      "changed": true,
+      "pre": {
+        "absent": true,
+        "phase": "independent-review-r23"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r24/inputs/snapshots/final-host-cache-supply-child.mjs",
+        "bytes": 1680,
+        "digest": "sha256:c1a808d50a709f04d54615cb25a6ec4cf4d0999c025035c8f1195c3ddae03abe"
+      }
+    }
+  ]
+}

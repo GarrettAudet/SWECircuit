@@ -1,0 +1,13 @@
+{
+  "phase": "independent-review-r24-final",
+  "candidate": "e541393bfe9f6656177ea3bba2cf92940cf4b7b9",
+  "predecessorPhase": "independent-review-r24",
+  "predecessorIntegrationAccepted": false,
+  "correction": {
+    "from": "independent-revision-23-cache-supply-review.md",
+    "to": "independent-revision-24-cache-supply-review.md"
+  },
+  "goalId": "v12.ide-run-loop.review.cache-supply-hermeticity-r24",
+  "goalRevision": 1,
+  "runtimeInvoked": false
+}

@@ -619,3 +619,32 @@ Candidate 10 passed its one-shot exact source gate, but R2 security review prove
 Revisions 17-21 preserve `redesign`, `fix`, `diagnose`, and `block` outcomes without promotion. Revision 22 binds immutable pre-edit snapshots, runs the candidate-derived runtime in fresh child processes, uses two distinct authenticated empty npm configuration files, executes installed npm 11 directly, rehashes protected inputs, and promotes only verified staged output. Its 34 tests and independent review pass, followed by complete V11 Revision 40 replay.
 
 Route: `fix` -> `redesign` -> `fix` -> `diagnose` -> `pass` -> independent `fix` -> `pass` -> independent `fix` -> `block` -> `pass` -> independent `pass` -> `learn`. Freeze only a new successor source; never rerun the retired exact gate or R2 package.
+
+## Candidate 11 Exact Gate And Revision 23
+
+### Reproduction
+
+The sole gate for `e541393bfe9f6656177ea3bba2cf92940cf4b7b9` authenticated 2,915 files and 90,531,850 source bytes. Source, disposable Git, outer repository state, and cleanup remained exact. The suite passed 423 of 424 tests, then `isolated copied production entrypoints complete one exact compile-to-verify lifecycle` failed at `test/helpers/v12-release-review-lifecycle.mjs:1007` with `ENOENT` for candidate-local `.local/npm-cache`.
+
+- Receipt: 2,294 bytes at `sha256:b3a36ea43b5ac73c4568ba6c5542df4f66b29e7b3f1822a120cfdc38978721a6`.
+- Stdout: 33,978 bytes at `sha256:ae258c7856783c6e2ade4e44a94057f331b62f7075199b1df1f3aea7b403a5c2`.
+- Stderr: 19,354 bytes at `sha256:b56200af44effdd399efe987862a1241bdd2054970cac157087dca1e86845c24`.
+- Route: `diagnose` -> `fix`; Candidate 11 is immutable and retired.
+
+### Correction And Evidence
+
+The helper no longer reads a checkout-relative ignored directory. It consumes `RELEASE_GATE_TEST_HOOKS.hostNpmCache`, copies the resolved supply into a fresh lifecycle-owned root, and rejects a missing source, pre-existing destination, non-directory source, or overlapping roots before copy. A fast regression passes in 14.981 ms.
+
+The exact formerly failing lifecycle passes once in `1,908,536.9107 ms`; the outer test reports one pass, zero failures, and complete owned-root cleanup. No source or documentation mutation occurred during that run.
+
+### Next Route
+
+Compile an exact Revision 23 independent-review package over the failed receipt, pre-edit candidate blobs, final source, regression, and lifecycle evidence. Freeze a successor only after package-bound review, V11 replay or refresh as required, and complete pre-freeze verification.
+
+## Revision 24 Causal Regression And Independent Review
+
+The first Revision 23 review returned `fix`: its fast test passed a caller-supplied source and could not prove the production no-override call consumed the gate-resolved cache. Revision 24 removes that override and binds `npm_config_cache` before a fresh child imports the copied gate and lifecycle modules. The minimal candidate-shaped tree contains no local `.local/npm-cache`; exact sentinel bytes prove the external supply is copied. Missing, non-directory, pre-existing-destination, and overlap routes fail closed.
+
+The first full lifecycle attempt then diagnosed a sealed-fixture sequence defect: Revision 22 was excluded while later revisions remained. The bounded fixture rule now excludes canonical correction roots from Revision 22 onward in both the filesystem copy and committed Git tree while retaining revisions 1-21 and unrelated evidence. The corrected copied-production lifecycle passes in 1,853.7 seconds.
+
+The first R24 package was rejected before launch for stale Revision 23 artifact-type labels. The next package returned a verifier-valid semantic `pass` but integration rejected its stale evidence filename. The final corrected package changes only that filename, reconstructs at compilation/package `sha256:6025d006482b13d40bdfc04f6ab2d7a16628f6040ef929cbe79b18707990ff90` / `sha256:deffe7fcb085e2840f94dba081e653800adf16528f062d7208a3d5072d18c81b`, and preserves a package-valid 18,311-byte `pass` handoff at `sha256:f88c08303de25f66a61dae6f0ca6e508b0357923c9c4bbe0d45e2e82a72c6497`. Integration accepts the exact result; route: `fix` -> `diagnose` -> `pass` -> label rejection -> semantic `pass` with integration rejection -> corrected `pass` -> pre-freeze verification.

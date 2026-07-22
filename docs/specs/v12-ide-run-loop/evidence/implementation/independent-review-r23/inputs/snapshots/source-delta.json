@@ -1,0 +1,139 @@
+{
+  "apiVersion": "swecircuit/review-source-delta/v1alpha1",
+  "kind": "ReviewSourceDelta",
+  "candidateCommit": "e541393bfe9f6656177ea3bba2cf92940cf4b7b9",
+  "changedPaths": [
+    "test/helpers/v12-release-review-lifecycle.mjs",
+    "test/v12-release-review.test.mjs"
+  ],
+  "unchangedControlPaths": [
+    "scripts/run-v12-release-gate.mjs",
+    "scripts/run-v12-release-review.mjs",
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+    "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+    "package.json",
+    "package-lock.json"
+  ],
+  "pairs": [
+    {
+      "logicalPath": "test/helpers/v12-release-review-lifecycle.mjs",
+      "authorizedChange": true,
+      "changed": true,
+      "pre": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/pre-lifecycle-helper.mjs",
+        "bytes": 54920,
+        "digest": "sha256:101c53a45cdc4edca820f1a8811b668ca8a9c88c777f2785dee3c82e914f53c5"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/final-lifecycle-helper.mjs",
+        "bytes": 56123,
+        "digest": "sha256:d3e9119b19f33d2a1e7d0c696262fd0da6d4d029724540c0f59c358eee29216f"
+      }
+    },
+    {
+      "logicalPath": "test/v12-release-review.test.mjs",
+      "authorizedChange": true,
+      "changed": true,
+      "pre": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/pre-release-review-tests.mjs",
+        "bytes": 44155,
+        "digest": "sha256:1fd87295b69e1f81c41bf1681acf23712b8dd76e65029ac821b98f45c3b2d7c3"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/final-release-review-tests.mjs",
+        "bytes": 45603,
+        "digest": "sha256:316d93374985fb7ca190ed2bb447745f15cfabc03b20a069710adb0f7b7ccac0"
+      }
+    },
+    {
+      "logicalPath": "scripts/run-v12-release-gate.mjs",
+      "authorizedChange": false,
+      "changed": false,
+      "pre": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/pre-release-gate.mjs",
+        "bytes": 31791,
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/final-release-gate.mjs",
+        "bytes": 31791,
+        "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0"
+      }
+    },
+    {
+      "logicalPath": "scripts/run-v12-release-review.mjs",
+      "authorizedChange": false,
+      "changed": false,
+      "pre": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/pre-release-review-parent.mjs",
+        "bytes": 96946,
+        "digest": "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/final-release-review-parent.mjs",
+        "bytes": 96946,
+        "digest": "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1"
+      }
+    },
+    {
+      "logicalPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+      "authorizedChange": false,
+      "changed": false,
+      "pre": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/pre-release-review-harness.mjs",
+        "bytes": 127748,
+        "digest": "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/final-release-review-harness.mjs",
+        "bytes": 127748,
+        "digest": "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73"
+      }
+    },
+    {
+      "logicalPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+      "authorizedChange": false,
+      "changed": false,
+      "pre": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/pre-release-review-verifier.mjs",
+        "bytes": 30840,
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/final-release-review-verifier.mjs",
+        "bytes": 30840,
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff"
+      }
+    },
+    {
+      "logicalPath": "package.json",
+      "authorizedChange": false,
+      "changed": false,
+      "pre": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/pre-package.json",
+        "bytes": 3719,
+        "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/final-package.json",
+        "bytes": 3719,
+        "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2"
+      }
+    },
+    {
+      "logicalPath": "package-lock.json",
+      "authorizedChange": false,
+      "changed": false,
+      "pre": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/pre-package-lock.json",
+        "bytes": 21014,
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27"
+      },
+      "final": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r23/inputs/snapshots/final-package-lock.json",
+        "bytes": 21014,
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27"
+      }
+    }
+  ]
+}

@@ -2,13 +2,13 @@
 
 ## Current Focus
 
-V12 IDE Run Loop is ready for successor-source freeze on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Historical attempts and immutable evidence remain preserved. The most recent committed source passed its exact gate but is retired because R2 security review found unauthenticated repository-live build output in the review runtime. Revision 22 closes that boundary plus lifecycle, source-provenance, and npm 11 configuration defects; its exact implementation package, complete copied-production lifecycle, independent package-bound review, 335-second checker matrix, and 1,888.7-second full pre-freeze gate pass. V12 is not merge-ready pending one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate.
+V12 IDE Run Loop is ready for successor-source freeze on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Historical attempts and immutable evidence remain preserved. The latest exact candidate is retired after its exact gate exposed a checkout-relative lifecycle cache dependency. Revision 24 consumes the gate-resolved external cache, proves the clean-materialization boundary in a fresh process, repairs the sealed fixture history, passes the corrected copied-production lifecycle, and returns a final package-bound independent `pass`. The complete post-Revision-24 pre-freeze gate passes in 2,025.2 seconds. V12 is not merge-ready pending one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate.
 
 Revision 40 binds Candidate A `sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb` / `sha256:cbc9704873dd1a1d6ef986f5f2d0ec34053db1e5e26152f4663c97363cc1ac98` and Audit B `sha256:c0dacfcc63e8d042e7dae3b03d58f23d949d17cf9c283e5208525599e6f2a4ce` / `sha256:261a8696b0d92ab0f4a27f5743f95cc83db861ee4137877f03b13312d31fc63f`. The 2,255-byte external receipt, 11,539-byte binder, 12,843-byte independent semantic `pass`, 985-byte canonical authorization, and `--check-evidence` replay all pass. Durable rule: review tooling is candidate evidence, every declared source must remain retrievable, real production lifecycle proof must supplement projections, and closed package-manager configuration requires distinct private files rather than null-device aliasing or host fallback.
 
 ## Current Stage
 
-V11.1 remains the released public baseline on `main`. V12 is the active dogfood version and is not merge-ready until a successor source passes one exact canonical gate, all three independent R2 reviewers, hosted CI, and the owner merge gate. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
+V11.1 remains the released public baseline on `main`. V12 is the active dogfood version at successor freeze and is not merge-ready until the new source passes one exact canonical gate, all three independent R2 reviewers, hosted CI, and the owner merge gate. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
 
 V11 universal-runtime Round 4 failed against `d486b7f` with four REVISE verdicts, 10 high findings, and 9 medium findings. Raw evidence and correction design were committed at `6da0376`; the workflow emitted `split` rather than another broad patch cycle.
 
@@ -191,7 +191,7 @@ Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27
 
 ## Next Likely Work
 
-- The most recent committed source passed its one-shot exact canonical gate, then was permanently retired after a package-bound reviewer found unauthenticated review-runtime bytes.
-- Freeze the Revision 22-integrated source once, run its exact committed-tree canonical gate once, and preserve its source-addressed receipt and raw logs.
+- The latest exact candidate is immutable and retired after its one-shot exact gate exposed the checkout-relative lifecycle cache dependency.
+- Freeze the Revision 24-integrated source once, run its exact committed-tree canonical gate once, and preserve its source-addressed receipt and raw logs.
 - Compile, approve, and launch three fresh exact R2 reviewers only after that successor gate passes; continue only if the complete package-bound roster returns `pass`.
 - After V12 release, open a dedicated version for provider-neutral runtime demand, IDE capability inventory, deterministic model/effort assignment, and native host spawning; use the 2026-07-20 routing scan as intake.

@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and Revision 16 release-truth correction are complete, and independent pre-freeze verification passes. The most recent reviewed source is retired after its complete R2 fan-in returned `pass` / `fix` / `pass`; the authenticated roster result is `releaseReady: false`. V12 is not merge-ready; a successor exact gate, fresh independent R2 review, hosted CI, and the owner merge gate remain integration-owned.
+The V12 product implementation and Revision 24 causal correction are complete. The latest exact candidate remains immutable and retired; the corrected copied-production lifecycle, package-bound independent review, V11 Revision 40 replay, and a complete pre-freeze repository gate pass. V12 is not merge-ready; one newly frozen successor must pass its exact canonical gate, fresh independent R2 review, hosted CI, and the owner merge gate.
 
 ## Problem
 
