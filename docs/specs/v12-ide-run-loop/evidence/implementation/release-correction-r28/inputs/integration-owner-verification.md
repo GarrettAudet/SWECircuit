@@ -24,9 +24,14 @@
 
 The preceding Revision 27 aggregate gate was forecast at 46-50 minutes and completed in 45 minutes 43 seconds. Its subsequent independent package-bound review still emitted `fix`, demonstrating that elapsed-time calibration and semantic release readiness are separate controls.
 
+## Immutable Lifecycle
+
+- Checkpoint `49ed27c859a6530ccaf69fcf53e6b2f418053f15`, tree `1270625bee3bee512777fe84342ad4edd8d21f3c`.
+- Complete serialized lifecycle: `pass`, 1 of 1; runner duration 2,284,557.1611 ms, or 38 minutes 4.6 seconds.
+- The source worktree remained clean and Candidate 13 was not created or consumed.
+
 ## Remaining Gates
 
-- Commit an immutable Revision 28 checkpoint and run the complete serialized copied-production lifecycle.
 - Replay V11 with source identities bound to the checkpoint.
 - Run the full aggregate gate and obtain a fresh immutable package-bound independent `pass`.
 - Freeze Candidate 13 only after those pre-candidate gates pass.
@@ -34,4 +39,4 @@ The preceding Revision 27 aggregate gate was forecast at 46-50 minutes and compl
 
 ## Route
 
-Integration-owner result: `pass` to immutable-checkpoint lifecycle verification. Release remains blocked and Candidate 13 remains unconsumed.
+Integration-owner result: `pass` to fresh V11 source-bound evidence replay. Release remains blocked and Candidate 13 remains unconsumed.
