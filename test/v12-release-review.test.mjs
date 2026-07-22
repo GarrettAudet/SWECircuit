@@ -852,12 +852,16 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
       gitContext.before,
       "copied lifecycle mutated its enclosing candidate Git context",
     );
-    assert.equal(
+    assert.deepEqual(
       await RELEASE_GATE_TEST_HOOKS.inspectExactMaterialization(
         materialization.root,
         materialization.entries,
       ),
-      true,
+      {
+        files: materialization.source.files,
+        bytes: materialization.source.bytes,
+        digest: materialization.source.digest,
+      },
       "copied lifecycle mutated its exact candidate materialization",
     );
   } finally {

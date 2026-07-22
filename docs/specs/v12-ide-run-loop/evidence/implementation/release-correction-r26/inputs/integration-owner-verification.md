@@ -24,15 +24,13 @@ The corrected test materializes exact `HEAD` Git blobs, binds a disposable candi
 
 Focused hostile-Git and external-TypeScript regressions: `pass`, 2 of 2; runner duration 866.8715 ms.
 
-A second clean implementation checkpoint is required so the exact materialization includes this correction. Neither checkpoint is a release candidate and neither receives a canonical gate.
+Checkpoint `572edaa` bound the exact-materialization and external-TypeScript correction. The complete child lifecycle first exposed an incorrect parent assertion after completing; the corrected full gate then passed 1 of 1 in 1,875,888.6766 ms. `complete-lifecycle-verification.md` preserves the attempt distinction, source identity, proven path, and cleanup evidence. Neither checkpoint was a release candidate and neither received a canonical gate.
 
 ## Remaining Gates
 
-- Run the complete candidate-context copied-production lifecycle from the clean checkpoint.
-- Preserve its exact verification evidence.
 - Obtain a new package-bound independent semantic review over Revision 26 snapshots.
 - Complete mutable-source pre-freeze verification before creating a fresh release candidate.
 
 ## Route
 
-Integration-owner result: `pass` to clean implementation checkpoint. Release remains blocked until the remaining gates pass.
+Integration-owner result: `pass` to independent semantic review. Release remains blocked until the remaining gates pass.
