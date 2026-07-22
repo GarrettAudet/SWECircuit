@@ -764,33 +764,220 @@ test("nested fixture repository processes discard an enclosing candidate Git con
   }
 });
 
-test("materialized lifecycle consumes one declared external TypeScript entrypoint", async () => {
-  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-typescript-")));
-  const entrypoint = join(root, "tsc");
-  await writeFile(entrypoint, "external TypeScript entrypoint\n");
+test("materialized lifecycle executes and receipts one external TypeScript adapter", async () => {
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r29-typescript-")));
+  const fixtureRoot = join(root, "fixture");
+  const lifecycleRoot = join(root, "lifecycle");
+  const smokePath = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptSmokePath;
+  const smokeFile = resolve(fixtureRoot, ...smokePath.split("/"));
+  const entrypoint = join(root, "host-tsc.mjs");
+  const expectedSmoke =
+    'const lifecycleProbe: string = "swecircuit-lifecycle-typescript";\nvoid lifecycleProbe;\n';
+  await mkdir(dirname(smokeFile), { recursive: true });
+  await writeFile(smokeFile, expectedSmoke, "utf8");
+  await writeFile(
+    entrypoint,
+    [
+      'import { readFileSync } from "node:fs";',
+      'import { resolve } from "node:path";',
+      "const arguments_ = process.argv.slice(2);",
+      'if (arguments_.includes("--version")) {',
+      '  process.stdout.write("Version 7.0.2-lifecycle-test\\n");',
+      "} else {",
+      `  const smokePath = ${JSON.stringify(smokePath)};`,
+      `  const expected = ${JSON.stringify(expectedSmoke)};`,
+      "  if (!arguments_.includes(smokePath)) {",
+      '    process.stderr.write("bounded smoke input missing\\n");',
+      "    process.exitCode = 9;",
+      '  } else if (readFileSync(resolve(process.cwd(), ...smokePath.split("/")), "utf8") !== expected) {',
+      '    process.stderr.write("bounded smoke input changed\\n");',
+      "    process.exitCode = 10;",
+      "  }",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
   const supplyKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
   const environment = { ...process.env };
   for (const key of Object.keys(environment)) {
-    if (key.toLowerCase() === supplyKey.toLowerCase()) {
-      Reflect.deleteProperty(environment, key);
-    }
+    if (key.toLowerCase() === supplyKey.toLowerCase()) Reflect.deleteProperty(environment, key);
   }
   environment[supplyKey] = entrypoint;
 
   try {
-    assert.equal(
-      await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.resolveLifecycleTypeScriptEntrypoint(
-        environment,
-      ),
-      await realpath(entrypoint),
+    const supply = await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.createLifecycleTypeScriptSupply(
+      lifecycleRoot,
+      fixtureRoot,
+      environment,
     );
+    assert.equal(supply.delegatedBinding.path, await realpath(entrypoint));
+    assert.equal(supply.binding.supplied, true);
+    assert.match(supply.receipt.version, /^Version 7\.0\.2-lifecycle-test$/u);
+    assert.deepEqual(
+      supply.arguments,
+      V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.fixtureTypeScriptArguments,
+    );
+    const runner = resolve(ROOT, V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptRunnerPath);
+    const result = spawnSync(process.execPath, [runner, ...supply.arguments], {
+      cwd: fixtureRoot,
+      env: supply.environment,
+      encoding: "utf8",
+      maxBuffer: 16 * 1024 * 1024,
+      timeout: 30_000,
+      windowsHide: true,
+    });
+    assert.equal(result.signal, null);
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stderr, "");
+    const evidence = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parseLifecycleTypeScriptEvidence(
+      Buffer.from(result.stdout, "utf8"),
+      supply,
+    );
+    assert.deepEqual(evidence.receipt, supply.receipt);
+    assert.equal(evidence.sentinelCount, 1);
     await assert.rejects(
-      V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.resolveLifecycleTypeScriptEntrypoint({
-        ...environment,
-        [supplyKey.toLowerCase()]: entrypoint,
-      }),
+      V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.createLifecycleTypeScriptSupply(
+        join(root, "duplicate-lifecycle"),
+        fixtureRoot,
+        { ...environment, [supplyKey.toLowerCase()]: entrypoint },
+      ),
       /must be supplied at most once/u,
     );
+
+    await writeFile(smokeFile, "changed bounded input\n", "utf8");
+    const failedResult = spawnSync(process.execPath, [supply.binding.path, ...supply.arguments], {
+      cwd: fixtureRoot,
+      env: supply.environment,
+      encoding: "utf8",
+      maxBuffer: 16 * 1024 * 1024,
+      timeout: 30_000,
+      windowsHide: true,
+    });
+    assert.equal(failedResult.signal, null);
+    assert.equal(failedResult.status, 10, failedResult.stderr);
+    assert.equal(failedResult.stdout.includes(supply.sentinel), false);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("lifecycle TypeScript evidence parser fails closed", () => {
+  const receipt = {
+    path: "C:\\external\\lifecycle-tsc.mjs",
+    bytes: 123,
+    digest: `sha256:${"a".repeat(64)}`,
+    nlink: 1,
+    supplied: true,
+    version: "Version 7.0.2-test",
+  };
+  const sentinel = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptCompileSentinel;
+  const supply = { receipt, sentinel };
+  const bindingLine = `SWECIRCUIT_TYPESCRIPT_BINDING ${JSON.stringify(receipt)}`;
+  const parse = (text) =>
+    V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parseLifecycleTypeScriptEvidence(
+      Buffer.from(text, "utf8"),
+      supply,
+    );
+
+  assert.throws(() => parse(`${sentinel}\n`), /must contain one TypeScript receipt/u);
+  assert.throws(
+    () => parse(`${bindingLine}\n${bindingLine}\n${sentinel}\n`),
+    /must contain one TypeScript receipt/u,
+  );
+  assert.throws(
+    () => parse(`SWECIRCUIT_TYPESCRIPT_BINDING {\n${sentinel}\n`),
+    /receipt is not valid JSON/u,
+  );
+  assert.throws(
+    () =>
+      parse(
+        `SWECIRCUIT_TYPESCRIPT_BINDING ${JSON.stringify({ ...receipt, supplied: false })}\n${sentinel}\n`,
+      ),
+    /receipt changed/u,
+  );
+  assert.throws(() => parse(`${bindingLine}\n`), /must contain one compiler sentinel/u);
+  assert.throws(
+    () => parse(`${bindingLine}\n${sentinel}\n${sentinel}\n`),
+    /must contain one compiler sentinel/u,
+  );
+});
+
+test("lifecycle adapter compiles the bounded input with host TypeScript", async () => {
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r29-host-typescript-")));
+  const fixtureRoot = join(root, "fixture");
+  const lifecycleRoot = join(root, "lifecycle");
+  const smokePath = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptSmokePath;
+  const smokeFile = resolve(fixtureRoot, ...smokePath.split("/"));
+  await mkdir(dirname(smokeFile), { recursive: true });
+  await copyFile(resolve(ROOT, ...smokePath.split("/")), smokeFile);
+
+  try {
+    const supply = await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.createLifecycleTypeScriptSupply(
+      lifecycleRoot,
+      fixtureRoot,
+    );
+    assert.match(supply.receipt.version, /^Version 7\.0\.2$/u);
+    const runner = resolve(ROOT, V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptRunnerPath);
+    const result = spawnSync(process.execPath, [runner, ...supply.arguments], {
+      cwd: fixtureRoot,
+      env: supply.environment,
+      encoding: "utf8",
+      maxBuffer: 16 * 1024 * 1024,
+      timeout: 30_000,
+      windowsHide: true,
+    });
+    assert.equal(result.signal, null);
+    assert.equal(result.status, 0, result.stderr);
+    const evidence = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parseLifecycleTypeScriptEvidence(
+      Buffer.from(result.stdout, "utf8"),
+      supply,
+    );
+    assert.deepEqual(evidence.receipt, supply.receipt);
+    assert.equal(evidence.sentinelCount, 1);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("materialized lifecycle detects persistent compiler mutation after child return", async () => {
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r29-mutation-")));
+  const fixtureRoot = join(root, "fixture");
+  const lifecycleRoot = join(root, "lifecycle");
+  const smokePath = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptSmokePath;
+  await mkdir(dirname(resolve(fixtureRoot, ...smokePath.split("/"))), { recursive: true });
+  await writeFile(resolve(fixtureRoot, ...smokePath.split("/")), "bounded mutation input\n");
+
+  try {
+    const supply =
+      await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.createMutatingLifecycleTypeScriptSupply(
+        lifecycleRoot,
+        fixtureRoot,
+      );
+    const before = readFileSync(supply.binding.path);
+    const runner = resolve(ROOT, V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptRunnerPath);
+    const result = spawnSync(
+      process.execPath,
+      [runner, ...V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.fixtureTypeScriptArguments],
+      {
+        cwd: fixtureRoot,
+        env: supply.environment,
+        encoding: "utf8",
+        maxBuffer: 16 * 1024 * 1024,
+        timeout: 30_000,
+        windowsHide: true,
+      },
+    );
+    assert.equal(result.signal, null);
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /TypeScript binding changed after compilation\./u);
+    assert.notDeepEqual(readFileSync(supply.binding.path), before);
+    const evidence = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parseLifecycleTypeScriptEvidence(
+      Buffer.from(result.stdout, "utf8"),
+      supply,
+    );
+    assert.deepEqual(evidence.receipt, supply.receipt);
+    assert.equal(evidence.sentinelCount, 1);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

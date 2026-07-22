@@ -106,6 +106,25 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
     true,
     "fixture-only aggregate verify command was not observed in the raw gate log",
   );
+  assert.match(
+    lifecycle.fixture.packageException.fixtureVerify,
+    /node scripts[/\\]run-typescript\.mjs --ignoreConfig --noEmit/u,
+  );
+  const typeScriptSupply = lifecycle.fixture.typeScriptSupply;
+  assert.equal(typeScriptSupply.binding.supplied, true);
+  assert.equal(typeScriptSupply.binding.nlink, 1);
+  assert.match(typeScriptSupply.receipt.version, /^Version\s+\S+/u);
+  assert.deepEqual(lifecycle.gate.typeScript.receipt, typeScriptSupply.receipt);
+  assert.equal(lifecycle.gate.typeScript.sentinel, typeScriptSupply.sentinel);
+  assert.equal(lifecycle.gate.typeScript.sentinelCount, 1);
+  assert.equal(
+    typeScriptSupply.arguments.at(-1),
+    "test/fixtures/v12-lifecycle-typescript-smoke.ts",
+  );
+  assert.deepEqual(
+    typeScriptSupply.smokeInput,
+    PRODUCTION_IDENTITIES["test/fixtures/v12-lifecycle-typescript-smoke.ts"],
+  );
   assert.match(lifecycle.packagePair.compilationDigest, /^sha256:[0-9a-f]{64}$/u);
   assert.match(lifecycle.packagePair.packageDigest, /^sha256:[0-9a-f]{64}$/u);
 
@@ -171,12 +190,19 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
       "conflicting promoted output",
       "receipt-last interrupted promotion",
       "wrong raw handoff digest",
+      "persistent TypeScript mutation during compilation",
     ],
   );
   assert.equal(
     lifecycle.negativeRoutes.every((entry) => entry.status === "pass"),
     true,
   );
+  const mutationRoute = lifecycle.negativeRoutes.at(-1);
+  assert.equal(mutationRoute.route, "copied-production-canonical-gate");
+  assert.equal(mutationRoute.typeScript.sentinelCount, 1);
+  assert.equal(mutationRoute.typeScript.receipt.supplied, true);
+  assert.notDeepEqual(mutationRoute.compilerIdentity.before, mutationRoute.compilerIdentity.after);
+  assert.match(mutationRoute.error, /TypeScript binding changed after compilation\./u);
 
   for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
     assert.deepEqual(lifecycle.sourceFrozenBefore[path], expected);
