@@ -18,6 +18,7 @@
 - Focused TypeScript lifecycle cases: 4/4 pass in 1.6 seconds.
 - Complete release-review suite: 26/26 pass in 92.9 seconds.
 - Complete release-gate suite: 16/16 pass in 387.6 seconds outside the write-blocking sandbox.
+- Exact copied-production lifecycle: 1/1 pass in 38 minutes 16.4 seconds against commit `9bf22621cb19df25e781fa357b3a47fbb766ca57`.
 - Touched-file format and lint: pass with zero diagnostics.
 - Typecheck: pass with authenticated TypeScript 7.0.2.
 - TypeScript build: pass with authenticated TypeScript 7.0.2 outside the write-blocking sandbox.
@@ -25,4 +26,4 @@
 
 ## Remaining Gates
 
-The exact copied-production lifecycle, canonical aggregate, refreshed V11 source-bound replay, and fresh immutable package-bound independent review must run against the committed Revision 29 checkpoint. Candidate 13 remains unconsumed.
+The canonical aggregate, refreshed V11 source-bound replay, and fresh immutable package-bound independent review remain required. Candidate 13 remains unconsumed.
