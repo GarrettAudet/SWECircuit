@@ -1,7 +1,7 @@
 # Specialist Contract: agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8
 
-Compilation: `sha256:7c8e142daf69975ad6a2304842fbd8e7fa66a745504a85e3896f15622b310867`
-Blueprint: `sha256:39edd62854fe3102e8f071ceba6b1d693cac9bd1b479d250ba50bd1d1cb4d24a`
+Compilation: `sha256:ed88b5f8f1991ea49e4fc0928fbbb35673399125293062c9f143a1113625c819`
+Blueprint: `sha256:9153b7b84308253a3d8c24d471ff1f4efff653c3a9b5d21206aab40d12acd4e1`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 42,
-  "goalDigest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab",
+  "goalRevision": 43,
+  "goalDigest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "verify.release-gates"
@@ -341,8 +341,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.gitattributes",
       "kind": "repository",
       "locator": "path:.gitattributes",
-      "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
-      "bytes": 625,
+      "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
+      "bytes": 749,
       "purposes": [
         "Authenticate the exact repository source-byte normalization policy."
       ],
@@ -731,7 +731,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "On Windows, stop with FIX unless the full negative checker matrix uses a verified short-path spelling that resolves to the same authorized .local/npm-cache target.",
     "Stop with FIX if any canonical gate fails or cannot be reproduced."
   ],
-  "contentDigest": "sha256:39edd62854fe3102e8f071ceba6b1d693cac9bd1b479d250ba50bd1d1cb4d24a"
+  "contentDigest": "sha256:9153b7b84308253a3d8c24d471ff1f4efff653c3a9b5d21206aab40d12acd4e1"
 }
 ```
 
@@ -752,14 +752,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 42,
-    "digest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab"
+    "revision": 43,
+    "digest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05"
   },
   "agent": {
     "id": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
-    "blueprintDigest": "sha256:39edd62854fe3102e8f071ceba6b1d693cac9bd1b479d250ba50bd1d1cb4d24a"
+    "blueprintDigest": "sha256:9153b7b84308253a3d8c24d471ff1f4efff653c3a9b5d21206aab40d12acd4e1"
   },
-  "compilationDigest": "sha256:7c8e142daf69975ad6a2304842fbd8e7fa66a745504a85e3896f15622b310867",
+  "compilationDigest": "sha256:ed88b5f8f1991ea49e4fc0928fbbb35673399125293062c9f143a1113625c819",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "verify.release-gates"

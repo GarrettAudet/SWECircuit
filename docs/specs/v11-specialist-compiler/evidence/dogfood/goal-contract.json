@@ -2,7 +2,7 @@
   "apiVersion": "swecircuit/specialist/v1alpha1",
   "kind": "GoalContract",
   "id": "v11.specialist-compiler.release",
-  "revision": 42,
+  "revision": 43,
   "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit with an exact external verification receipt, a hardened first-run reference host, self-sufficient generated handoff contracts, publicly closed specialist schemas, deterministic artifact media and normalized evidence controls, exact candidate analysis, raw handoff and dependency fan-in verification, canonical gates, traceable integration, and owner merge gate without claiming runtime orchestration.",
   "integrationOwner": "v11.integration-owner",
   "assumptions": [
@@ -528,8 +528,8 @@
       "id": "context.gitattributes",
       "kind": "repository",
       "locator": "path:.gitattributes",
-      "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
-      "bytes": 625,
+      "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
+      "bytes": 749,
       "description": "The exact Git normalization policy that defines repository source-byte identity.",
       "allowedWorkUnits": [
         "integrate.release",

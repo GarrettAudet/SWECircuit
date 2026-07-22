@@ -5,7 +5,7 @@
     "apiVersion": "swecircuit/specialist/v1alpha1",
     "kind": "GoalContract",
     "id": "v11.specialist-compiler.release",
-    "revision": 42,
+    "revision": 43,
     "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit with an exact external verification receipt, a hardened first-run reference host, self-sufficient generated handoff contracts, publicly closed specialist schemas, deterministic artifact media and normalized evidence controls, exact candidate analysis, raw handoff and dependency fan-in verification, canonical gates, traceable integration, and owner merge gate without claiming runtime orchestration.",
     "integrationOwner": "v11.integration-owner",
     "assumptions": [
@@ -531,8 +531,8 @@
         "id": "context.gitattributes",
         "kind": "repository",
         "locator": "path:.gitattributes",
-        "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
-        "bytes": 625,
+        "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
+        "bytes": 749,
         "description": "The exact Git normalization policy that defines repository source-byte identity.",
         "allowedWorkUnits": [
           "integrate.release",
@@ -2743,7 +2743,7 @@
       }
     ]
   },
-  "goalDigest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab",
+  "goalDigest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05",
   "proposedCandidates": [
     {
       "id": "candidate.consolidated-reviews",
@@ -2822,7 +2822,7 @@
         "peakConcurrency": 2,
         "conflictPairs": 0,
         "handoffCount": 4,
-        "duplicatedContextBytes": 1374771,
+        "duplicatedContextBytes": 1375143,
         "duplicatedPermissionScopes": 99,
         "totalWorkWeight": 38,
         "totalStartupCost": 8,
@@ -2850,7 +2850,7 @@
           "finish": 41
         }
       ],
-      "contentDigest": "sha256:a2cfe719d25e74d377de7ee88b365a2830f1a7c32ab68047cc161431ca2efa53"
+      "contentDigest": "sha256:0bd14b738ef59eda79cc2433f285ddda008b582a0c0cb7f63758e8993d2386ef"
     },
     {
       "id": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
@@ -2889,7 +2889,7 @@
         "peakConcurrency": 4,
         "conflictPairs": 0,
         "handoffCount": 8,
-        "duplicatedContextBytes": 2227857,
+        "duplicatedContextBytes": 2228477,
         "duplicatedPermissionScopes": 154,
         "totalWorkWeight": 38,
         "totalStartupCost": 12,
@@ -2927,14 +2927,14 @@
           "finish": 23
         }
       ],
-      "contentDigest": "sha256:83d2b8e5a21157b3af1b95578f6fb1ee08e9988adc2d8f02954611a6d92f631d"
+      "contentDigest": "sha256:7cc66c7edc4f7e4fae41f6fbd2073915d2851f7455f80c14b07383fbc26a7b57"
     }
   ],
   "authority": {
     "apiVersion": "swecircuit/specialist/v1alpha1",
     "kind": "TaskAuthorityProjection",
     "goalId": "v11.specialist-compiler.release",
-    "goalRevision": 42,
+    "goalRevision": 43,
     "allowedModules": [
       "integrate.release",
       "review.algorithm-lifecycle",
@@ -3336,8 +3336,8 @@
         "id": "context.gitattributes",
         "kind": "repository",
         "locator": "path:.gitattributes",
-        "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
-        "bytes": 625,
+        "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
+        "bytes": 749,
         "description": "The exact Git normalization policy that defines repository source-byte identity.",
         "allowedWorkUnits": [
           "integrate.release",
@@ -3897,7 +3897,7 @@
     ],
     "maxAgents": 6,
     "maxConcurrency": 4,
-    "contentDigest": "sha256:54b9200f1ef79d74e53b873da60d571659d306965852c3f7f0731830f41b0f09"
+    "contentDigest": "sha256:1eb21efe3dc8ab06c5e90c8f7f1d3859b107ec7bc0904c0074ad5ee1aa436aba"
   },
   "search": {
     "mode": "exact",
@@ -3906,7 +3906,7 @@
     "evaluatedCandidates": 203,
     "eligibleCandidates": 52,
     "retainedAlternatives": 8,
-    "evaluationSetDigest": "sha256:fe7e41e8867815528a2e6eafd885ae8a615e90ddd7fcdf99566c6afc12bb2b50"
+    "evaluationSetDigest": "sha256:0db6b652aafcfe7aec68cdeedcff44f7ab22699fdffd5109ee6c61713904ca0f"
   },
   "serialBaseline": {
     "id": "team.3048358537136cc8c5604b2b52e5180772663dc0cc3b0798e32bf99a67ce9696",
@@ -3987,7 +3987,7 @@
       "peakConcurrency": 4,
       "conflictPairs": 0,
       "handoffCount": 8,
-      "duplicatedContextBytes": 2227857,
+      "duplicatedContextBytes": 2228477,
       "duplicatedPermissionScopes": 154,
       "totalWorkWeight": 38,
       "totalStartupCost": 12,
@@ -4025,7 +4025,7 @@
         "finish": 23
       }
     ],
-    "contentDigest": "sha256:83d2b8e5a21157b3af1b95578f6fb1ee08e9988adc2d8f02954611a6d92f631d"
+    "contentDigest": "sha256:7cc66c7edc4f7e4fae41f6fbd2073915d2851f7455f80c14b07383fbc26a7b57"
   },
   "selectionReason": {
     "kind": "serial_ineligible",
@@ -4069,7 +4069,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1957444,
+        "duplicatedContextBytes": 1957940,
         "duplicatedPermissionScopes": 130,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4102,7 +4102,7 @@
           "finish": 26
         }
       ],
-      "contentDigest": "sha256:4fb5302d30ce26fdaf0d536b667cb9ec8d58640493fdfa42fc9bf7c4bc655efa"
+      "contentDigest": "sha256:0c50c86c7619e40bd1ec4434a4e692fbe3611be8d1076e54f2348c43a8285cc0"
     },
     {
       "id": "team.45f4d849dd94a8f90a9eeb07668333991f925ccebceeda6b7370ed2d3fb7ed5e",
@@ -4136,7 +4136,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1735276,
+        "duplicatedContextBytes": 1735772,
         "duplicatedPermissionScopes": 122,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4169,7 +4169,7 @@
           "finish": 28
         }
       ],
-      "contentDigest": "sha256:0e3783fe28852133f4ff94c585c403ac11abbb22318df45445b55fe303a631bb"
+      "contentDigest": "sha256:63c7c0312315e9185154ad78b42789edfac70d4b7bbe2952f0c0a9e5d2434a3d"
     },
     {
       "id": "team.6d035e2f118ca820b9aa81136a9e5ed99af0c39c555d464f9225fcf3123b3810",
@@ -4203,7 +4203,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 2040169,
+        "duplicatedContextBytes": 2040665,
         "duplicatedPermissionScopes": 138,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4236,7 +4236,7 @@
           "finish": 28
         }
       ],
-      "contentDigest": "sha256:1e22dd6046701638876529cdfe42e420d2196268ce8ebdde5dc3a4ddf3b444c5"
+      "contentDigest": "sha256:2dbbf1b48c7f7526ce5bebfa107e76f221639c7f0d82e9cb9aeaa265077df6d9"
     },
     {
       "id": "team.97fb6fe39c2c8525d320a80d60732e6fa44acd1e7a7d4d91d5a651b378afd026",
@@ -4270,7 +4270,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 7,
-        "duplicatedContextBytes": 1728384,
+        "duplicatedContextBytes": 1728880,
         "duplicatedPermissionScopes": 119,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4303,7 +4303,7 @@
           "finish": 28
         }
       ],
-      "contentDigest": "sha256:8e35246d5fbb6303c1353356d07267c8aa46568a504f1c7f7fc49d9c53d48d6b"
+      "contentDigest": "sha256:fa38bf63adc4fe5419e9bb77c3d392d1cd677c7e3fd0bf478731a12ea43fc3c9"
     },
     {
       "id": "team.6386f37c4fbd36cfc6e9d38ddb22d90af99c42025bb13037d4bd39512d37115b",
@@ -4335,7 +4335,7 @@
         "peakConcurrency": 2,
         "conflictPairs": 0,
         "handoffCount": 4,
-        "duplicatedContextBytes": 1506157,
+        "duplicatedContextBytes": 1506529,
         "duplicatedPermissionScopes": 108,
         "totalWorkWeight": 38,
         "totalStartupCost": 8,
@@ -4363,7 +4363,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:6d3d113985d67f173204fb1728c96b033681059dd4b1722e3936a8383047553d"
+      "contentDigest": "sha256:b7b60b8603742e2f87cf6c880da9dfc31cb027f4efad0a0102144c1e7df15871"
     },
     {
       "id": "team.4040deb17ee5a9c829c00f5d44257775fd0839cbde171b6dbf78082123dda4a2",
@@ -4395,7 +4395,7 @@
         "peakConcurrency": 2,
         "conflictPairs": 0,
         "handoffCount": 4,
-        "duplicatedContextBytes": 1529262,
+        "duplicatedContextBytes": 1529634,
         "duplicatedPermissionScopes": 107,
         "totalWorkWeight": 38,
         "totalStartupCost": 8,
@@ -4423,7 +4423,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:38329cdead8e06c026f5f63ed5617d1c3623fd142efcd139da3d7701340b1c97"
+      "contentDigest": "sha256:77e0cbe2304052879af9f8ca200672410b1c848acea8fbbc062548d7bbcb645c"
     },
     {
       "id": "team.5c6e8bb4e8613ad3fa21f6e8d57ee6dc80636c372445c6656ce2ae8fac7d5b64",
@@ -4457,7 +4457,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1716950,
+        "duplicatedContextBytes": 1717446,
         "duplicatedPermissionScopes": 123,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4490,7 +4490,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:58c31377ae62fe5f0ac30cf60e1d4113e02e6c3f919f8aa3f232dd171943a1bb"
+      "contentDigest": "sha256:8ee5da60fc80b156172df06d6b0bc013eff6f8cbed6cc33d2834ab290fda6cbc"
     },
     {
       "id": "team.22cfc8a181aaa7d8f16949ba7125acebce7ceab8dc45dcd1fa93e2fe9def8827",
@@ -4524,7 +4524,7 @@
         "peakConcurrency": 3,
         "conflictPairs": 0,
         "handoffCount": 6,
-        "duplicatedContextBytes": 1998738,
+        "duplicatedContextBytes": 1999234,
         "duplicatedPermissionScopes": 140,
         "totalWorkWeight": 38,
         "totalStartupCost": 10,
@@ -4557,7 +4557,7 @@
           "finish": 31
         }
       ],
-      "contentDigest": "sha256:85d9da1af10d54c76ec0904f2215f88757b469f4171bc8a071091a07931df3cb"
+      "contentDigest": "sha256:2e6037ee488750a4fe5003983b80aea048b208b7bf210bd7c8ba10fdffa0560c"
     }
   ],
   "blueprints": [
@@ -4566,8 +4566,8 @@
       "kind": "AgentBlueprint",
       "id": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 42,
-      "goalDigest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab",
+      "goalRevision": 43,
+      "goalDigest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "review.algorithm-lifecycle"
@@ -4786,8 +4786,8 @@
           "sourceId": "context.gitattributes",
           "kind": "repository",
           "locator": "path:.gitattributes",
-          "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
-          "bytes": 625,
+          "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
+          "bytes": 749,
           "purposes": [
             "Authenticate the exact repository source-byte normalization policy."
           ],
@@ -5007,15 +5007,15 @@
         "Stop with REVISE if bounded search is represented as a global optimum.",
         "Stop with REVISE if selection can change under logical input permutation."
       ],
-      "contentDigest": "sha256:a04650eb0c759ebb924d5f06b1e5627931194cd214df831239ace2b64e0ae354"
+      "contentDigest": "sha256:20e34899c4c298e973201515f4cf2a585904bf713ed127647642d1eb437c8403"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 42,
-      "goalDigest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab",
+      "goalRevision": 43,
+      "goalDigest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "integrate.release"
@@ -5087,8 +5087,8 @@
           "sourceId": "context.gitattributes",
           "kind": "repository",
           "locator": "path:.gitattributes",
-          "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
-          "bytes": 625,
+          "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
+          "bytes": 749,
           "purposes": [
             "Authenticate the exact repository source-byte normalization policy."
           ],
@@ -5244,15 +5244,15 @@
         "Stop if any independent review returns REVISE.",
         "Stop unless the separate prelaunch audit is approval-bound, verified, and PASS before candidate launch approval."
       ],
-      "contentDigest": "sha256:6415cde9f982ff0a83f8281bdf1cfa49dab826aba043a791badfd40bd507c0c4"
+      "contentDigest": "sha256:52cd71c3e855c33c8072f6b02a4591e8b9d20c687926687dc03a66e9896167fd"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 42,
-      "goalDigest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab",
+      "goalRevision": 43,
+      "goalDigest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "review.product-api"
@@ -5485,8 +5485,8 @@
           "sourceId": "context.gitattributes",
           "kind": "repository",
           "locator": "path:.gitattributes",
-          "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
-          "bytes": 625,
+          "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
+          "bytes": 749,
           "purposes": [
             "Authenticate the exact repository source-byte normalization policy."
           ],
@@ -5882,15 +5882,15 @@
         "Stop with REVISE if a generic role can substitute for exact task demand.",
         "Stop with REVISE if the public contract requires a provider or runtime."
       ],
-      "contentDigest": "sha256:bbf05e4a7d23c483a0423c038ccae8b4e9bb1fd5b4c7f56f847504a6af30e7c6"
+      "contentDigest": "sha256:10bbc86571cac6b5641b23e1f79a41a3853a287033434352a492bb32ca869a4e"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 42,
-      "goalDigest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab",
+      "goalRevision": 43,
+      "goalDigest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "verify.release-gates"
@@ -6207,8 +6207,8 @@
           "sourceId": "context.gitattributes",
           "kind": "repository",
           "locator": "path:.gitattributes",
-          "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
-          "bytes": 625,
+          "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
+          "bytes": 749,
           "purposes": [
             "Authenticate the exact repository source-byte normalization policy."
           ],
@@ -6597,15 +6597,15 @@
         "On Windows, stop with FIX unless the full negative checker matrix uses a verified short-path spelling that resolves to the same authorized .local/npm-cache target.",
         "Stop with FIX if any canonical gate fails or cannot be reproduced."
       ],
-      "contentDigest": "sha256:39edd62854fe3102e8f071ceba6b1d693cac9bd1b479d250ba50bd1d1cb4d24a"
+      "contentDigest": "sha256:9153b7b84308253a3d8c24d471ff1f4efff653c3a9b5d21206aab40d12acd4e1"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 42,
-      "goalDigest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab",
+      "goalRevision": 43,
+      "goalDigest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "review.security-trace"
@@ -6936,8 +6936,8 @@
           "sourceId": "context.gitattributes",
           "kind": "repository",
           "locator": "path:.gitattributes",
-          "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
-          "bytes": 625,
+          "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
+          "bytes": 749,
           "purposes": [
             "Authenticate the exact repository source-byte normalization policy."
           ],
@@ -7509,15 +7509,15 @@
         "Stop with REVISE if escaped or raw malformed Unicode reaches a launchable semantic handoff.",
         "Stop with REVISE if package tampering can retain the reviewed digest."
       ],
-      "contentDigest": "sha256:172800042627e91ed3986268b690853b31eafba6d9d4c034494abb8118e515ab"
+      "contentDigest": "sha256:9e6a2c64c06edfc52a021d2515991239f982f8c4ad60c36732546d7d6276bfd9"
     },
     {
       "apiVersion": "swecircuit/specialist/v1alpha1",
       "kind": "AgentBlueprint",
       "id": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
       "goalId": "v11.specialist-compiler.release",
-      "goalRevision": 42,
-      "goalDigest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab",
+      "goalRevision": 43,
+      "goalDigest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05",
       "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
       "workUnitIds": [
         "prepare.candidate"
@@ -7888,8 +7888,8 @@
           "sourceId": "context.gitattributes",
           "kind": "repository",
           "locator": "path:.gitattributes",
-          "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
-          "bytes": 625,
+          "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
+          "bytes": 749,
           "purposes": [
             "Authenticate the exact repository source-byte normalization policy."
           ],
@@ -8497,7 +8497,7 @@
       "stopConditions": [
         "Stop if any declared source digest or byte count does not match."
       ],
-      "contentDigest": "sha256:6c88c615846667933a229c600b1f3d03ed42c05245cf3e1ed3fb65cd3a7deeff"
+      "contentDigest": "sha256:4d4b87e8f36633e4592cf73a27ba0b26a28f3347f3a1aa4aa628780896397456"
     }
   ],
   "launchWaves": [
@@ -8523,5 +8523,5 @@
       ]
     }
   ],
-  "contentDigest": "sha256:7c8e142daf69975ad6a2304842fbd8e7fa66a745504a85e3896f15622b310867"
+  "contentDigest": "sha256:ed88b5f8f1991ea49e4fc0928fbbb35673399125293062c9f143a1113625c819"
 }

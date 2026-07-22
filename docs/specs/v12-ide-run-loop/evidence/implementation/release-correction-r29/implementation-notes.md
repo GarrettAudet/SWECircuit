@@ -26,4 +26,4 @@
 
 ## Remaining Gates
 
-The canonical aggregate, refreshed V11 source-bound replay, and fresh immutable package-bound independent review remain required. Candidate 13 remains unconsumed.
+The refreshed V11 Revision 43 source-bound replay passes. The canonical aggregate and fresh immutable package-bound independent review remain required. Candidate 13 remains unconsumed.
