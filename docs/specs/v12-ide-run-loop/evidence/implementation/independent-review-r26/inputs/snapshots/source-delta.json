@@ -1,0 +1,85 @@
+{
+  "apiVersion": "swecircuit/release-correction-delta/v1alpha1",
+  "kind": "ReleaseCorrectionSourceDelta",
+  "revision": 26,
+  "reviewCheckpoint": "eeac2db54d1d89cf36f4a8186cf0ed74d0824e4f",
+  "candidate12": "6f08e0a50ec6fd7fee76254ebd07995ae6f692db",
+  "changed": [
+    {
+      "repositoryPath": "test/helpers/v12-release-review-lifecycle.mjs",
+      "before": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/pre-lifecycle-helper.mjs",
+        "bytes": 58700,
+        "digest": "sha256:c8d3e24ecc949351fa09a7e7ca4c11b333cade76db6656ce415e6a432b5c3b76"
+      },
+      "after": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/final-lifecycle-helper.mjs",
+        "bytes": 59496,
+        "digest": "sha256:687e3cabea39e35126e3172ad28fa74cd9d49c73fdbd49e29b4d5bb5978b6217"
+      }
+    },
+    {
+      "repositoryPath": "test/v12-release-review.test.mjs",
+      "before": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/pre-release-review-tests.mjs",
+        "bytes": 52008,
+        "digest": "sha256:7ee1321e79e8252ed945939aac4f18d474b3a595bb0c43afda678c4b9298cfaa"
+      },
+      "after": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/final-release-review-tests.mjs",
+        "bytes": 56064,
+        "digest": "sha256:ecd6c8e3387a85c4a029ff0915906cee6351e8479622e9abb6900885c88e28ac"
+      }
+    },
+    {
+      "repositoryPath": "test/fixtures/v12-git-environment-boundary-child.mjs",
+      "before": null,
+      "after": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/git-environment-boundary-child.mjs",
+        "bytes": 3025,
+        "digest": "sha256:7a09f14fc57188ae3352738b714dac5d184f825ab0b62607ce145ce743abb2b5"
+      }
+    },
+    {
+      "repositoryPath": "test/fixtures/v12-release-review-lifecycle-child.mjs",
+      "before": null,
+      "after": {
+        "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/release-review-lifecycle-child.mjs",
+        "bytes": 875,
+        "digest": "sha256:1427df548e23cddbbe2fe1a397b37c9191a7e0e53968b7f75354dfaa0bc2b249"
+      }
+    }
+  ],
+  "unchangedReleaseInputs": [
+    {
+      "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/final-release-gate.mjs",
+      "bytes": 31791,
+      "digest": "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0"
+    },
+    {
+      "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/final-release-review-parent.mjs",
+      "bytes": 96946,
+      "digest": "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1"
+    },
+    {
+      "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/final-release-review-harness.mjs",
+      "bytes": 127748,
+      "digest": "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73"
+    },
+    {
+      "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/final-release-review-verifier.mjs",
+      "bytes": 30840,
+      "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff"
+    },
+    {
+      "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/final-package.json",
+      "bytes": 3719,
+      "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2"
+    },
+    {
+      "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r26/inputs/snapshots/final-package-lock.json",
+      "bytes": 21014,
+      "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27"
+    }
+  ]
+}

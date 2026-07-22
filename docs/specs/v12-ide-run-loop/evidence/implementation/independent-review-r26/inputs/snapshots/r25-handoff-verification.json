@@ -1,0 +1,27 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "independent-review-r25",
+  "compilationDigest": "sha256:6f301893b1a620d9699d853e33e0e1c0716416caf87652c408d0d7766e43156d",
+  "packageDigest": "sha256:290e88b616d9836763aab1d3db3a0e56b46ff4b4af59499ef661976934b1a358",
+  "expectedAgentIds": [
+    "agent.b583878d52475a8addd39e88d84a72bd91141462a8c243b0596817c8343a25d5"
+  ],
+  "receivedAgentIds": [
+    "agent.b583878d52475a8addd39e88d84a72bd91141462a8c243b0596817c8343a25d5"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.b583878d52475a8addd39e88d84a72bd91141462a8c243b0596817c8343a25d5-fix-attempt-2.json",
+      "agentId": "agent.b583878d52475a8addd39e88d84a72bd91141462a8c243b0596817c8343a25d5",
+      "outcome": "fix",
+      "rawBytes": 11293,
+      "rawDigest": "sha256:3ec88fb6484540f36cb37292719eb4355408eb560abe041b1ddde6774727a9d3",
+      "semanticDigest": "sha256:9fb9d549ad031d33215204ab580212866ab9d0fa7bed91f5d1cc99883575c997",
+      "contentDigest": "sha256:7cef77aa61742b9cb39423f8d27c4130f1a3b7bd431b5fc8fe573b02df8e1ebd"
+    }
+  ],
+  "phaseReady": false,
+  "note": "Attempt 1 is preserved but rejected with SC4310 because evidence status fail did not match workflow outcome fix. Attempt 2 changes only that status field and verifies through V11 core. A verified non-pass outcome remains a workflow route."
+}

@@ -18,7 +18,6 @@ import { delimiter, dirname, isAbsolute, join, relative, resolve, sep } from "no
 import { fileURLToPath } from "node:url";
 
 import { RELEASE_REVIEW_TEST_HOOKS } from "../../docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs";
-import { resolveTypeScriptEntrypointBinding } from "../../scripts/run-typescript.mjs";
 import { RELEASE_GATE_TEST_HOOKS } from "../../scripts/run-v12-release-gate.mjs";
 import { RELEASE_REVIEW_PARENT_TEST_HOOKS } from "../../scripts/run-v12-release-review.mjs";
 
@@ -584,12 +583,22 @@ function gateEnvironment(cacheRoot, typeScriptEntrypoint, sourceEnvironment = pr
 }
 
 async function resolveLifecycleTypeScriptEntrypoint(sourceEnvironment = process.env) {
-  return resolveTypeScriptEntrypointBinding({
-    environment: sourceEnvironment,
-    projectRoot: SOURCE_ROOT,
-    outsidePolicy: "supplied",
-    label: "Lifecycle TypeScript entrypoint",
-  }).path;
+  const supplyKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
+  const supplies = Object.keys(sourceEnvironment).filter(
+    (key) => key.toLowerCase() === supplyKey.toLowerCase(),
+  );
+  assert.equal(
+    supplies.length <= 1,
+    true,
+    `${supplyKey} must be supplied at most once, case-insensitively`,
+  );
+  if (supplies.length === 1) {
+    return RELEASE_GATE_TEST_HOOKS.resolveHostTypeScriptEntrypoint(sourceEnvironment, SOURCE_ROOT);
+  }
+
+  const localEntrypoint = absolute(SOURCE_ROOT, "node_modules/typescript/bin/tsc");
+  assert.equal(await pathExists(localEntrypoint), true, "local TypeScript entrypoint is missing");
+  return realpath(localEntrypoint);
 }
 
 async function operationRootNames() {

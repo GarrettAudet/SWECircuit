@@ -20,11 +20,10 @@
   "files": [
     "dist",
     "schemas",
-    "docs/framework/executor-boundary.md",
-    "scripts/run-typescript.mjs"
+    "docs/framework/executor-boundary.md"
   ],
   "scripts": {
-    "build": "node scripts/run-typescript.mjs -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
     "dogfood:v9": "npm run build --silent && node scripts/run-v9-dogfood.mjs",
     "dogfood:v10": "npm run build --silent && node scripts/run-v10-dogfood.mjs --check-evidence",
     "dogfood:v11": "npm run build --silent && node scripts/run-v11-dogfood.mjs --check-evidence",
@@ -32,10 +31,10 @@
     "example:specialist": "node examples/specialist-compiler/run.mjs",
     "release-review:v12": "node scripts/run-v12-release-review.mjs",
     "test:release-review:v12": "node --test test/v12-release-review.test.mjs test/v12-release-gate.test.mjs",
-    "format": "biome format --write src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
-    "format:check": "biome format src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
-    "lint": "biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts",
-    "typecheck": "node scripts/run-typescript.mjs -p tsconfig.json --noEmit",
+    "format": "biome format --write src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
+    "format:check": "biome format src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
+    "lint": "biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build --silent && node --test test/*.test.mjs",
     "pack:check": "npm pack --dry-run --offline",
     "consumer:check": "npm run build --silent && node scripts/check-packed-consumer.mjs",

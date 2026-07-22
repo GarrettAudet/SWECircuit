@@ -10,6 +10,7 @@
       "scripts/run-v11-dogfood.mjs",
       "scripts/run-v12-dogfood.mjs",
       "scripts/run-v12-release-gate.mjs",
+      "scripts/run-typescript.mjs",
       "scripts/check-packed-consumer.mjs",
       "scripts/fixtures/packed-consumer-host.ts",
       "package.json",

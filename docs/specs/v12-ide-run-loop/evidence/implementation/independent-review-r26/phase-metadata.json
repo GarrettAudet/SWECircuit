@@ -1,0 +1,10 @@
+{
+  "phase": "independent-review-r26",
+  "reviewCheckpoint": "eeac2db54d1d89cf36f4a8186cf0ed74d0824e4f",
+  "candidate12": "6f08e0a50ec6fd7fee76254ebd07995ae6f692db",
+  "predecessorPhase": "independent-review-r25",
+  "predecessorOutcome": "fix",
+  "goalId": "v12.ide-run-loop.review.git-environment-and-exact-lifecycle-r26",
+  "goalRevision": 1,
+  "runtimeInvoked": false
+}

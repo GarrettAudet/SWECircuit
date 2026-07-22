@@ -6,55 +6,22 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
-  realpathSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { resolveTypeScriptEntrypointBinding } from "./run-typescript.mjs";
+
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
-const TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY = "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT";
-
-function isOutsideRoot(root, path) {
-  const fromRoot = relative(realpathSync(root), path);
-  return isAbsolute(fromRoot) || fromRoot === ".." || fromRoot.startsWith(`..${sep}`);
-}
-
-function plainRegularFileRealPath(path, label) {
-  const stats = lstatSync(path);
-  assert.equal(stats.isSymbolicLink(), false, `${label} must not be a symbolic link.`);
-  assert.equal(stats.isFile(), true, `${label} must be a plain regular file.`);
-  return realpathSync(path);
-}
-
-function resolveTypeScriptEntrypoint(environment) {
-  const supplies = Object.entries(environment)
-    .filter(([key]) => key.toLowerCase() === TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY.toLowerCase())
-    .map(([, value]) => value);
-  assert.ok(
-    supplies.length <= 1,
-    `${TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY} must be supplied at most once, case-insensitively.`,
-  );
-
-  const supplied = supplies.length === 1;
-  const value = supplied ? supplies[0] : join(ROOT, "node_modules", "typescript", "bin", "tsc");
-  assert.equal(typeof value, "string", "The TypeScript entrypoint must be a string.");
-  assert.notEqual(value.length, 0, "The TypeScript entrypoint must be non-empty.");
-  assert.equal(isAbsolute(value), true, "The TypeScript entrypoint must be absolute.");
-
-  const entrypoint = plainRegularFileRealPath(value, "The TypeScript entrypoint");
-  if (supplied) {
-    assert.equal(
-      isOutsideRoot(ROOT, entrypoint),
-      true,
-      "The host-supplied TypeScript entrypoint must resolve outside the candidate source.",
-    );
-  }
-  return entrypoint;
-}
-
-const TYPESCRIPT_ENTRYPOINT = resolveTypeScriptEntrypoint(process.env);
+const TYPESCRIPT_BINDING = resolveTypeScriptEntrypointBinding({
+  environment: process.env,
+  projectRoot: ROOT,
+  outsidePolicy: "supplied",
+  label: "The TypeScript entrypoint",
+});
+const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING.path;
 const npmCacheSupplies = Object.entries(process.env)
   .filter(([key]) => key.toLowerCase() === "npm_config_cache")
   .map(([, value]) => value);
@@ -86,6 +53,7 @@ const REQUIRED_PACKED_FILES = Object.freeze([
   "dist/specialist-types.d.ts",
   "docs/framework/executor-boundary.md",
   "package.json",
+  "scripts/run-typescript.mjs",
   "schemas/v1alpha1/common.schema.json",
   "schemas/v1alpha1/project.schema.json",
   "schemas/v1alpha1/run-event.schema.json",
@@ -94,7 +62,8 @@ const REQUIRED_PACKED_FILES = Object.freeze([
   "schemas/v1alpha1/specialist-run.schema.json",
 ]);
 const FORBIDDEN_PACKED_FILES = new Set([".npmrc"]);
-const FORBIDDEN_PACKED_PREFIXES = Object.freeze(["scripts/", "src/", "test/"]);
+const ALLOWED_PACKED_SCRIPTS = new Set(["scripts/run-typescript.mjs"]);
+const FORBIDDEN_PACKED_PREFIXES = Object.freeze(["src/", "test/"]);
 const RETAINED_SPECIALIST_EXPECTATION = Object.freeze({
   compilationDigest: "sha256:92881440b8d0b58de756bd706631ed4481565b20fd3cadad669637006b157659",
   packageDigest: "sha256:913c04c71beaef362e81a1859f740587e2cf0017a83585d5c6468cbda2e84a43",
@@ -1102,6 +1071,9 @@ try {
   }
   for (const path of packedFiles) {
     assert.equal(FORBIDDEN_PACKED_FILES.has(path), false, `Packed artifact contains ${path}`);
+    if (path.startsWith("scripts/")) {
+      assert.equal(ALLOWED_PACKED_SCRIPTS.has(path), true, `Packed artifact contains ${path}`);
+    }
     assert.equal(
       FORBIDDEN_PACKED_PREFIXES.some((prefix) => path.startsWith(prefix)),
       false,

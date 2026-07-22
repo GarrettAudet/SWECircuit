@@ -155,7 +155,7 @@ test("host TypeScript entrypoint supply is singular, plain, absolute, and extern
     assert.throws(() => resolveSupply({ [environmentKey]: symbolicEntrypoint }), /symbolic link/u);
     assert.throws(
       () => resolveSupply({ [environmentKey]: candidateEntrypoint }),
-      /outside the candidate materialization/u,
+      /outside the candidate/u,
     );
   } finally {
     await rm(root, { force: true, recursive: true });
@@ -163,15 +163,12 @@ test("host TypeScript entrypoint supply is singular, plain, absolute, and extern
 });
 
 test("packed consumer validates and uses the TypeScript entrypoint supply", () => {
-  assert.match(packedConsumerSource, /supplies\.length <= 1/u);
-  assert.match(packedConsumerSource, /const stats = lstatSync\(path\);/u);
-  assert.match(packedConsumerSource, /stats\.isSymbolicLink\(\)/u);
-  assert.match(packedConsumerSource, /stats\.isFile\(\)/u);
-  assert.match(packedConsumerSource, /isOutsideRoot\(ROOT, entrypoint\)/u);
+  assert.match(packedConsumerSource, /import \{ resolveTypeScriptEntrypointBinding \}/u);
   assert.match(
     packedConsumerSource,
-    /const TYPESCRIPT_ENTRYPOINT = resolveTypeScriptEntrypoint\(process\.env\);/u,
+    /const TYPESCRIPT_BINDING = resolveTypeScriptEntrypointBinding\(\{/u,
   );
+  assert.match(packedConsumerSource, /const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING\.path;/u);
 
   const compilationStart = packedConsumerSource.indexOf(
     `  run(\n    process.execPath,\n    [\n      TYPESCRIPT_ENTRYPOINT,`,
