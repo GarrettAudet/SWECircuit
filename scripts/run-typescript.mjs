@@ -166,9 +166,10 @@ export function executeTypeScript(arguments_, options = {}) {
     cwd,
     env: environment,
     stdio: options.stdio ?? "inherit",
+    encoding: options.encoding,
     windowsHide: true,
   });
-  authenticateBinding(binding, "during compilation");
+  authenticateBinding(binding, "after compilation");
   requireCondition(result.error === undefined, `TypeScript execution failed: ${result.error}`);
   return { binding, receipt, result };
 }

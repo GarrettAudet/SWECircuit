@@ -1,6 +1,16 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { link, mkdir, mkdtemp, readFile, realpath, rm, symlink, writeFile } from "node:fs/promises";
+import {
+  chmod,
+  link,
+  mkdir,
+  mkdtemp,
+  readFile,
+  realpath,
+  rm,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { delimiter, join, resolve } from "node:path";
 import test from "node:test";
@@ -14,13 +24,29 @@ import {
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const SENTINEL_SOURCE = (id) => `
-import { appendFileSync } from "node:fs";
+const { appendFileSync } = require("node:fs");
 const marker = process.env.SWECIRCUIT_TYPESCRIPT_SENTINEL;
 appendFileSync(marker, JSON.stringify({ id: ${JSON.stringify(id)}, args: process.argv.slice(2) }) + "\\n");
 if (process.argv[2] === "--version") {
   process.stdout.write("Version ${id}-1.0.0\\n");
 }
 `;
+
+async function writeSelectableCommand(directory, id, marker, runner) {
+  const command = join(directory, process.platform === "win32" ? "tsc.cmd" : "tsc");
+  const source =
+    process.platform === "win32"
+      ? `@echo off\r\n"${process.execPath}" "${runner}" "${marker}" "${id}"\r\nexit /b 91\r\n`
+      : `#!/bin/sh\n"${process.execPath}" "${runner}" "${marker}" "${id}"\nexit 91\n`;
+  await writeFile(command, source);
+  if (process.platform !== "win32") {
+    await chmod(command, 0o755);
+  }
+}
+
+async function assertMissing(path) {
+  await assert.rejects(readFile(path), { code: "ENOENT" });
+}
 
 function digest(bytes) {
   return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
@@ -50,16 +76,22 @@ test("declared TypeScript file defeats ambient and candidate-local command subst
   const externalRoot = join(root, "external");
   const ambientBin = join(root, "ambient-bin");
   const candidateBin = join(projectRoot, "node_modules", ".bin");
-  const external = join(externalRoot, "tsc.mjs");
+  const external = join(externalRoot, "tsc");
   const externalMarker = join(root, "external.log");
+  const commandMarker = join(root, "command.log");
+  const commandRunner = join(root, "command-runner.cjs");
 
   try {
     await mkdir(externalRoot, { recursive: true });
     await mkdir(ambientBin, { recursive: true });
     await mkdir(candidateBin, { recursive: true });
     await writeFile(external, SENTINEL_SOURCE("external"));
-    await writeFile(join(ambientBin, "tsc.mjs"), SENTINEL_SOURCE("ambient"));
-    await writeFile(join(candidateBin, "tsc.mjs"), SENTINEL_SOURCE("candidate"));
+    await writeFile(
+      commandRunner,
+      'require("node:fs").appendFileSync(process.argv[2], process.argv[3] + "\\n");\n',
+    );
+    await writeSelectableCommand(ambientBin, "ambient", commandMarker, commandRunner);
+    await writeSelectableCommand(candidateBin, "candidate", commandMarker, commandRunner);
 
     const environment = withoutTypeScriptSupply();
     environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = external;
@@ -77,6 +109,7 @@ test("declared TypeScript file defeats ambient and candidate-local command subst
       { id: "external", args: ["--version"] },
       { id: "external", args: ["--project", "sentinel.json"] },
     ]);
+    await assertMissing(commandMarker);
     const bytes = await readFile(external);
     assert.deepEqual(execution.receipt, {
       path: resolve(external),
@@ -96,12 +129,18 @@ test("repository-local fallback executes the exact resolved file", async () => {
   const fallback = join(root, "node_modules", "typescript", "bin", "tsc");
   const conflictingBin = join(root, "node_modules", ".bin");
   const marker = join(root, "fallback.log");
+  const commandMarker = join(root, "command.log");
+  const commandRunner = join(root, "command-runner.cjs");
 
   try {
     await mkdir(join(root, "node_modules", "typescript", "bin"), { recursive: true });
     await mkdir(conflictingBin, { recursive: true });
     await writeFile(fallback, SENTINEL_SOURCE("fallback"));
-    await writeFile(join(conflictingBin, "tsc.mjs"), SENTINEL_SOURCE("conflict"));
+    await writeFile(
+      commandRunner,
+      'require("node:fs").appendFileSync(process.argv[2], process.argv[3] + "\\n");\n',
+    );
+    await writeSelectableCommand(conflictingBin, "conflict", commandMarker, commandRunner);
     const environment = withoutTypeScriptSupply();
     environment.SWECIRCUIT_TYPESCRIPT_SENTINEL = marker;
     environment.PATH = [conflictingBin, environment.PATH ?? ""].join(delimiter);
@@ -119,6 +158,7 @@ test("repository-local fallback executes the exact resolved file", async () => {
       { id: "fallback", args: ["--version"] },
       { id: "fallback", args: ["--noEmit"] },
     ]);
+    await assertMissing(commandMarker);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -167,7 +207,7 @@ test("repository fallback canonicalizes a linked dependency ancestor", async () 
 test("execution stops when version inspection mutates the bound file", async () => {
   const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-mutation-"));
   const projectRoot = join(root, "candidate");
-  const external = join(root, "tsc.mjs");
+  const external = join(root, "tsc");
   const marker = join(root, "mutation.log");
 
   try {
@@ -195,15 +235,51 @@ test("execution stops when version inspection mutates the bound file", async () 
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test("execution detects persistent mutation during compilation", async () => {
+  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-compile-mutation-"));
+  const projectRoot = join(root, "candidate");
+  const external = join(root, "tsc");
+  const marker = join(root, "mutation.log");
+
+  try {
+    await mkdir(projectRoot);
+    await writeFile(
+      external,
+      `${SENTINEL_SOURCE("compile-mutating")}\nif (process.argv[2] !== "--version") appendFileSync(process.argv[1], "\\n// mutation\\n");\n`,
+    );
+    const environment = withoutTypeScriptSupply();
+    environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = external;
+    environment.SWECIRCUIT_TYPESCRIPT_SENTINEL = marker;
+
+    assert.throws(
+      () =>
+        executeTypeScript(["--noEmit"], {
+          cwd: projectRoot,
+          environment,
+          projectRoot,
+          stdio: "pipe",
+        }),
+      /changed after compilation/u,
+    );
+    assert.deepEqual(await sentinelCalls(marker), [
+      { id: "compile-mutating", args: ["--version"] },
+      { id: "compile-mutating", args: ["--noEmit"] },
+    ]);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("TypeScript binding rejects ambiguous, contained, and linked files", async () => {
   const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-reject-"));
   const projectRoot = join(root, "candidate");
   const externalRoot = join(root, "external");
-  const external = join(externalRoot, "tsc.mjs");
-  const candidate = join(projectRoot, "tsc.mjs");
+  const external = join(externalRoot, "tsc");
+  const candidate = join(projectRoot, "tsc");
   const finalLink = join(root, "final-link");
   const ancestorLink = join(root, "ancestor-link");
-  const hardLink = join(root, "hard-link.mjs");
+  const hardLink = join(root, "hard-link");
   const key = TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY;
   const resolveSupply = (environment, defaultEntrypoint = external) =>
     resolveTypeScriptEntrypointBinding({
@@ -233,7 +309,7 @@ test("TypeScript binding rejects ambiguous, contained, and linked files", async 
     assert.throws(() => resolveSupply({ [key]: externalRoot }), /plain regular file/u);
     assert.throws(() => resolveSupply({ [key]: finalLink }), /symbolic link or junction/u);
     assert.throws(
-      () => resolveSupply({ [key]: join(ancestorLink, "tsc.mjs") }),
+      () => resolveSupply({ [key]: join(ancestorLink, "tsc") }),
       /alias path components/u,
     );
     assert.throws(() => resolveSupply({ [key]: candidate }), /outside the candidate source/u);
@@ -259,6 +335,9 @@ test("package, release gate, and packed consumer share explicit TypeScript autho
   assert.equal(manifest.files.includes("scripts/run-typescript.mjs"), true);
   assert.match(gate, /resolveTypeScriptEntrypointBinding/u);
   assert.match(consumer, /resolveTypeScriptEntrypointBinding/u);
+  assert.match(consumer, /executeTypeScript/u);
+  assert.match(consumer, /binding: TYPESCRIPT_BINDING/u);
+  assert.doesNotMatch(consumer, /const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING\.path/u);
   assert.doesNotMatch(manifest.scripts.build, /(^|\s)tsc(\s|$)/u);
   assert.doesNotMatch(manifest.scripts.typecheck, /(^|\s)tsc(\s|$)/u);
 });

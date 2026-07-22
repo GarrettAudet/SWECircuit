@@ -31,6 +31,12 @@ The embedding host must:
 
 SWECircuit does not discover projects, resolve dependencies, load providers, schedule retries, enforce filesystem or process permissions, terminate process trees, write traces, merge branches, or update memory through this API.
 
+## Toolchain Evidence Boundary
+
+Repository release tooling binds an explicitly selected TypeScript entrypoint by canonical path, byte count, SHA-256 digest, link count, supply origin, and observed version. It reauthenticates that path before and after version inspection and compilation, and it never selects a compiler through ambient `PATH`.
+
+This is evidence about selection and stable-path execution, not an operating-system sandbox. A portable Node process cannot prevent a concurrent process with the same filesystem authority from replacing and restoring a pathname, nor does one entrypoint digest authenticate every transitive file or native executable loaded by that tool. The IDE or host must isolate the toolchain from concurrent writers and supply trusted dependency bytes. SWECircuit must not describe pre/post identity checks as atomic execution or host enforcement.
+
 ## Preflight Gate
 
 Executor code is called only after all inputs pass preflight. The boundary verifies:

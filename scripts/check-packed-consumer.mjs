@@ -12,7 +12,7 @@ import {
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { resolveTypeScriptEntrypointBinding } from "./run-typescript.mjs";
+import { executeTypeScript, resolveTypeScriptEntrypointBinding } from "./run-typescript.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const TYPESCRIPT_BINDING = resolveTypeScriptEntrypointBinding({
@@ -21,7 +21,6 @@ const TYPESCRIPT_BINDING = resolveTypeScriptEntrypointBinding({
   outsidePolicy: "supplied",
   label: "The TypeScript entrypoint",
 });
-const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING.path;
 const npmCacheSupplies = Object.entries(process.env)
   .filter(([key]) => key.toLowerCase() === "npm_config_cache")
   .map(([, value]) => value);
@@ -915,6 +914,41 @@ function runNpm(args, cwd, label) {
   return run(process.execPath, [NPM_EXEC_PATH, ...args], cwd, label);
 }
 
+function runTypeScript(args, cwd, label) {
+  let observedReceipt = null;
+  const execution = executeTypeScript(args, {
+    binding: TYPESCRIPT_BINDING,
+    cwd,
+    environment: process.env,
+    stdio: "pipe",
+    encoding: "utf8",
+    onBinding(receipt) {
+      assert.equal(observedReceipt, null, `${label} emitted more than one binding receipt.`);
+      observedReceipt = receipt;
+    },
+  });
+  assert.deepEqual(observedReceipt, execution.receipt);
+  assert.deepEqual(
+    {
+      path: execution.receipt.path,
+      bytes: execution.receipt.bytes,
+      digest: execution.receipt.digest,
+      nlink: execution.receipt.nlink,
+      supplied: execution.receipt.supplied,
+    },
+    TYPESCRIPT_BINDING,
+  );
+  if (execution.result.error !== undefined) {
+    throw new Error(`${label} could not start: ${execution.result.error.message}`);
+  }
+  if (execution.result.status !== 0) {
+    throw new Error(
+      `${label} failed with exit ${String(execution.result.status)}.\nstdout:\n${execution.result.stdout}\nstderr:\n${execution.result.stderr}`,
+    );
+  }
+  return execution.result.stdout;
+}
+
 function productionPackageRecords(rootLock, rootDependencies) {
   assert.equal(rootLock.lockfileVersion, 3);
   assert.equal(typeof rootLock.packages, "object");
@@ -1164,10 +1198,8 @@ try {
     installedManifest.exports?.["./schemas/specialist-run.schema.json"],
     "./schemas/v1alpha1/specialist-run.schema.json",
   );
-  run(
-    process.execPath,
+  runTypeScript(
     [
-      TYPESCRIPT_ENTRYPOINT,
       "--ignoreConfig",
       "--strict",
       "--module",

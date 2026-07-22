@@ -162,22 +162,26 @@ test("host TypeScript entrypoint supply is singular, plain, absolute, and extern
   }
 });
 
-test("packed consumer validates and uses the TypeScript entrypoint supply", () => {
-  assert.match(packedConsumerSource, /import \{ resolveTypeScriptEntrypointBinding \}/u);
+test("packed consumer retains and executes the complete TypeScript binding", () => {
+  assert.match(packedConsumerSource, /executeTypeScript/u);
+  assert.match(packedConsumerSource, /resolveTypeScriptEntrypointBinding/u);
   assert.match(
     packedConsumerSource,
     /const TYPESCRIPT_BINDING = resolveTypeScriptEntrypointBinding\(\{/u,
   );
-  assert.match(packedConsumerSource, /const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING\.path;/u);
-
-  const compilationStart = packedConsumerSource.indexOf(
-    `  run(\n    process.execPath,\n    [\n      TYPESCRIPT_ENTRYPOINT,`,
+  assert.doesNotMatch(
+    packedConsumerSource,
+    /const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING\.path;/u,
   );
+
+  const compilationStart = packedConsumerSource.indexOf(`  runTypeScript(\n    [`);
   const compilationEnd = packedConsumerSource.indexOf("  const typedHostOutput", compilationStart);
   assert.notEqual(compilationStart, -1);
   assert.ok(compilationEnd > compilationStart);
   const compilationSource = packedConsumerSource.slice(compilationStart, compilationEnd);
-  assert.match(compilationSource, /\[\s*TYPESCRIPT_ENTRYPOINT,\s*"--ignoreConfig"/u);
+  assert.match(compilationSource, /runTypeScript\(\s*\[\s*"--ignoreConfig"/u);
+  assert.match(packedConsumerSource, /binding: TYPESCRIPT_BINDING/u);
+  assert.match(packedConsumerSource, /assert\.deepEqual\(observedReceipt, execution\.receipt\)/u);
   assert.doesNotMatch(
     compilationSource,
     /join\(ROOT, "node_modules", "typescript", "bin", "tsc"\)/u,
