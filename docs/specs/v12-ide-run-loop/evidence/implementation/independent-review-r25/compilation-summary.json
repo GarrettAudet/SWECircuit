@@ -1,0 +1,115 @@
+{
+  "phase": "independent-review-r25",
+  "goalId": "v12.ide-run-loop.review.git-environment-hermeticity-r25",
+  "goalRevision": 1,
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:6a82e0cef253c612c0fe0976d69daaa8a613155399cfaf4e5a20eff894ac1a40"
+  },
+  "serialBaseline": {
+    "id": "team.06156f684891a1c3861e5043d7ed8967e72dd1ae5a0a151eb0cbd327ff546eb3",
+    "partition": [
+      [
+        "review.git-environment-hermeticity.r25"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 16,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 15,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.b583878d52475a8addd39e88d84a72bd91141462a8c243b0596817c8343a25d5",
+        "start": 0,
+        "finish": 16
+      }
+    ],
+    "contentDigest": "sha256:7f9fc484132b938a677182f936fbf3b44e6c30398119db091bd41b4553f087f1"
+  },
+  "selected": {
+    "id": "team.06156f684891a1c3861e5043d7ed8967e72dd1ae5a0a151eb0cbd327ff546eb3",
+    "partition": [
+      [
+        "review.git-environment-hermeticity.r25"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 16,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 15,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.b583878d52475a8addd39e88d84a72bd91141462a8c243b0596817c8343a25d5",
+        "start": 0,
+        "finish": 16
+      }
+    ],
+    "contentDigest": "sha256:7f9fc484132b938a677182f936fbf3b44e6c30398119db091bd41b4553f087f1"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.06156f684891a1c3861e5043d7ed8967e72dd1ae5a0a151eb0cbd327ff546eb3",
+    "serialValue": "team.06156f684891a1c3861e5043d7ed8967e72dd1ae5a0a151eb0cbd327ff546eb3",
+    "serialRejectionCodes": []
+  },
+  "retainedAlternatives": [],
+  "compilationDigest": "sha256:6f301893b1a620d9699d853e33e0e1c0716416caf87652c408d0d7766e43156d",
+  "packageDigest": "sha256:290e88b616d9836763aab1d3db3a0e56b46ff4b4af59499ef661976934b1a358",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.b583878d52475a8addd39e88d84a72bd91141462a8c243b0596817c8343a25d5"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.b583878d52475a8addd39e88d84a72bd91141462a8c243b0596817c8343a25d5",
+      "digest": "sha256:895e3f5b182dc649937a7c8ff40ad2230c413273c3cf20fec36463182bb32cdb",
+      "workUnitIds": [
+        "review.git-environment-hermeticity.r25"
+      ],
+      "dependencyAgentIds": [],
+      "contractFile": "agents/agent.b583878d52475a8addd39e88d84a72bd91141462a8c243b0596817c8343a25d5.md"
+    }
+  ],
+  "packageVerified": true,
+  "runtimeInvoked": false
+}

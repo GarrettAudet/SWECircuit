@@ -6,8 +6,8 @@ import {
   cp,
   mkdir,
   mkdtemp,
-  readdir,
   readFile,
+  readdir,
   realpath,
   rm,
   stat,
@@ -41,7 +41,18 @@ const PACKAGE_PATH = "package.json";
 const LOCK_PATH = "package-lock.json";
 const PROCESS_TIMEOUT_MS = 900_000;
 const MAX_OUTPUT_BYTES = 536_870_912;
-
+const REPOSITORY_SCOPED_GIT_ENVIRONMENT_KEYS = new Set([
+  "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+  "GIT_CEILING_DIRECTORIES",
+  "GIT_COMMON_DIR",
+  "GIT_DIR",
+  "GIT_INDEX_FILE",
+  "GIT_INTERNAL_SUPER_PREFIX",
+  "GIT_OBJECT_DIRECTORY",
+  "GIT_OPTIONAL_LOCKS",
+  "GIT_PREFIX",
+  "GIT_WORK_TREE",
+]);
 const FIXTURE_VERIFY_COMMAND = [
   `node --check ${GATE_PATH}`,
   `node --check ${PARENT_PATH}`,
@@ -160,8 +171,12 @@ function setEnvironmentValue(environment, key, value) {
 function fixtureRepositoryEnvironment(sourceEnvironment = process.env) {
   const environment = { ...sourceEnvironment };
   for (const key of Object.keys(environment)) {
-    if (key.toUpperCase().startsWith("GIT_")) {
-      Reflect.deleteProperty(environment, key);
+    const upper = key.toUpperCase();
+    if (
+      REPOSITORY_SCOPED_GIT_ENVIRONMENT_KEYS.has(upper) ||
+      /^GIT_CONFIG_(?:COUNT|KEY_\d+|VALUE_\d+)$/u.test(upper)
+    ) {
+      delete environment[key];
     }
   }
   setEnvironmentValue(environment, "GIT_CONFIG_NOSYSTEM", "1");
@@ -258,14 +273,9 @@ function assertCommandFailed(result, label, pattern) {
 }
 
 async function runGit(repository, arguments_, options = {}) {
-  assert.equal(
-    options.env !== null && typeof options.env === "object",
-    true,
-    "Git commands require an explicit environment",
-  );
   const result = await runProcess("git", ["-c", "core.longpaths=true", ...arguments_], {
     cwd: repository,
-    env: options.env,
+    env: options.env ?? process.env,
     timeoutMs: options.timeoutMs ?? 180_000,
   });
   return assertCommandPassed(result, `git ${arguments_.join(" ")}`);
@@ -394,8 +404,8 @@ async function applyFixtureVerifyException(fixtureRoot) {
   };
 }
 
-async function initializeFixtureGit(fixtureRoot, sourceEnvironment = process.env) {
-  const gitEnvironment = fixtureRepositoryEnvironment(sourceEnvironment);
+async function initializeFixtureGit(fixtureRoot) {
+  const gitEnvironment = fixtureRepositoryEnvironment();
   setEnvironmentValue(gitEnvironment, "GIT_AUTHOR_DATE", "2000-01-01T00:00:00Z");
   setEnvironmentValue(gitEnvironment, "GIT_COMMITTER_DATE", "2000-01-01T00:00:00Z");
   await runGit(fixtureRoot, ["init", "--initial-branch=main"], { env: gitEnvironment });
@@ -427,24 +437,16 @@ async function initializeFixtureGit(fixtureRoot, sourceEnvironment = process.env
   return { commit, gitEnvironment };
 }
 
-async function authenticateFixtureBlobs(fixtureRoot, commit, expected, gitEnvironment) {
+async function authenticateFixtureBlobs(fixtureRoot, commit, expected) {
   const rows = {};
   for (const [path, identity_] of Object.entries(expected)) {
-    const raw = (
-      await runGit(fixtureRoot, ["cat-file", "blob", `${commit}:${path}`], {
-        env: gitEnvironment,
-      })
-    ).stdout;
+    const raw = (await runGit(fixtureRoot, ["cat-file", "blob", `${commit}:${path}`])).stdout;
     const actual = { bytes: raw.byteLength, digest: digest(raw) };
     assertIdentity(actual, identity_, `fixture Git blob ${path}`);
     rows[path] = actual;
   }
   const treePaths = strictUtf8(
-    (
-      await runGit(fixtureRoot, ["ls-tree", "-r", "--name-only", commit], {
-        env: gitEnvironment,
-      })
-    ).stdout,
+    (await runGit(fixtureRoot, ["ls-tree", "-r", "--name-only", commit])).stdout,
     "fixture tree paths",
   )
     .split(/\r?\n/u)
@@ -1091,9 +1093,7 @@ async function listRegularFiles(root) {
 
 export async function runReleaseReviewProductionLifecycle() {
   const lifecycleStarted = process.hrtime.bigint();
-  const sourceStatusBefore = (
-    await runGit(SOURCE_ROOT, ["status", "--porcelain=v1", "-z"], { env: process.env })
-  ).stdout;
+  const sourceStatusBefore = (await runGit(SOURCE_ROOT, ["status", "--porcelain=v1", "-z"])).stdout;
   const sourceFrozenBefore = await authenticateFiles(SOURCE_ROOT, R22_OUTPUT_IDENTITIES);
   assertIdentity(await identity(absolute(SOURCE_ROOT, LOCK_PATH)), LOCK_IDENTITY, LOCK_PATH);
 
@@ -1104,7 +1104,7 @@ export async function runReleaseReviewProductionLifecycle() {
   const cacheRoot = join(lifecycleRoot, "npm-cache");
   let result;
   let failure;
-  const cleanup = { attempted: false, rootRemoved: false, sourceStatusUnchanged: false };
+  let cleanup = { attempted: false, rootRemoved: false, sourceStatusUnchanged: false };
 
   try {
     const setupStarted = process.hrtime.bigint();
@@ -1129,12 +1129,7 @@ export async function runReleaseReviewProductionLifecycle() {
       [PACKAGE_PATH]: fixtureException.committedIdentity,
       [LOCK_PATH]: LOCK_IDENTITY,
     };
-    const committedBlobs = await authenticateFixtureBlobs(
-      fixtureRoot,
-      commit,
-      committedExpected,
-      gitEnvironment,
-    );
+    const committedBlobs = await authenticateFixtureBlobs(fixtureRoot, commit, committedExpected);
     const setupDurationMs = Number(process.hrtime.bigint() - setupStarted) / 1_000_000;
 
     const hostTypeScriptEntrypoint = absolute(SOURCE_ROOT, "node_modules/typescript/bin/tsc");
@@ -1541,9 +1536,8 @@ export async function runReleaseReviewProductionLifecycle() {
     cleanup.attempted = true;
     await rm(lifecycleRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
     cleanup.rootRemoved = !(await pathExists(lifecycleRoot));
-    const sourceStatusAfter = (
-      await runGit(SOURCE_ROOT, ["status", "--porcelain=v1", "-z"], { env: process.env })
-    ).stdout;
+    const sourceStatusAfter = (await runGit(SOURCE_ROOT, ["status", "--porcelain=v1", "-z"]))
+      .stdout;
     cleanup.sourceStatusUnchanged = sourceStatusAfter.equals(sourceStatusBefore);
     cleanup.sourceFrozenAfter = await authenticateFiles(SOURCE_ROOT, R22_OUTPUT_IDENTITIES);
     cleanup.sourceLockAfter = await identity(absolute(SOURCE_ROOT, LOCK_PATH));
@@ -1564,13 +1558,10 @@ export async function runReleaseReviewProductionLifecycle() {
 }
 
 export const V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS = Object.freeze({
-  authenticateFixtureBlobs,
   copyHostNpmCacheSupply,
   fixtureRepositoryEnvironment,
   gateEnvironment,
   hostNpmCache: RELEASE_GATE_TEST_HOOKS.hostNpmCache,
-  initializeFixtureGit,
   isPostFixtureCorrection,
   parentEnvironment,
-  runGit,
 });

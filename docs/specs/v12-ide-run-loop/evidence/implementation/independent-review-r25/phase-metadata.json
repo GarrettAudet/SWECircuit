@@ -1,0 +1,9 @@
+{
+  "phase": "independent-review-r25",
+  "candidate": "6f08e0a50ec6fd7fee76254ebd07995ae6f692db",
+  "predecessorPhase": "independent-review-r24-final",
+  "predecessorIntegrationAccepted": true,
+  "goalId": "v12.ide-run-loop.review.git-environment-hermeticity-r25",
+  "goalRevision": 1,
+  "runtimeInvoked": false
+}

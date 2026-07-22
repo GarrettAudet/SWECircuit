@@ -10,11 +10,11 @@ import { fileURLToPath } from "node:url";
 
 import { RELEASE_REVIEW_TEST_HOOKS } from "../docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs";
 import { RELEASE_REVIEW_HANDOFF_TEST_HOOKS } from "../docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs";
-import { RELEASE_GATE_TEST_HOOKS } from "../scripts/run-v12-release-gate.mjs";
 import { RELEASE_REVIEW_PARENT_TEST_HOOKS } from "../scripts/run-v12-release-review.mjs";
 import {
   R22_OUTPUT_IDENTITIES,
   V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS,
+  runReleaseReviewProductionLifecycle,
 } from "./helpers/v12-release-review-lifecycle.mjs";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
@@ -31,12 +31,6 @@ const HARNESS_ENTRYPOINT = fileURLToPath(new URL(`../${HARNESS_PATH}`, import.me
 const VERIFIER_ENTRYPOINT = fileURLToPath(new URL(`../${VERIFIER_PATH}`, import.meta.url));
 const HOST_CACHE_PROBE_ENTRYPOINT = fileURLToPath(
   new URL("./fixtures/v12-host-cache-supply-child.mjs", import.meta.url),
-);
-const GIT_ENVIRONMENT_PROBE_ENTRYPOINT = fileURLToPath(
-  new URL("./fixtures/v12-git-environment-boundary-child.mjs", import.meta.url),
-);
-const LIFECYCLE_ENTRYPOINT = fileURLToPath(
-  new URL("./fixtures/v12-release-review-lifecycle-child.mjs", import.meta.url),
 );
 const HOST_CACHE_PROBE_SOURCE_PATHS = Object.freeze([
   "scripts/run-v12-release-gate.mjs",
@@ -700,126 +694,76 @@ test("copied production lifecycle consumes the fresh-process release-gate cache 
   }
 });
 
-test("nested fixture repository processes discard an enclosing candidate Git context", async () => {
-  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-git-env-")));
-  const hostileEnvironment = { ...process.env };
-  for (const key of Object.keys(hostileEnvironment)) {
-    if (key.toUpperCase().startsWith("GIT_")) {
-      Reflect.deleteProperty(hostileEnvironment, key);
-    }
-  }
-  Object.assign(hostileEnvironment, {
-    GIT_DIR: join(root, "outer-git"),
-    GIT_WORK_TREE: join(root, "outer-worktree"),
-    GIT_INDEX_FILE: join(root, "outer.index"),
-    git_common_dir: join(root, "outer-common"),
-    GIT_OBJECT_DIRECTORY: join(root, "outer-objects"),
-    git_alternate_object_directories: join(root, "outer-alternates"),
-    GIT_CONFIG: join(root, "hostile-config"),
-    GIT_CONFIG_PARAMETERS: "'core.worktree'='injected-worktree'",
+test("nested fixture repository processes discard an enclosing candidate Git context", () => {
+  const hostileEnvironment = {
+    PATH: process.env.PATH ?? "",
+    Git_Dir: join(ROOT, "outer-git"),
+    gIt_WoRk_TrEe: join(ROOT, "outer-worktree"),
+    GIT_INDEX_FILE: join(ROOT, "outer.index"),
+    git_common_dir: join(ROOT, "outer-common"),
+    GIT_OBJECT_DIRECTORY: join(ROOT, "outer-objects"),
+    git_alternate_object_directories: join(ROOT, "outer-alternates"),
+    GIT_CEILING_DIRECTORIES: ROOT,
+    git_optional_locks: "0",
     GIT_CONFIG_COUNT: "1",
     git_config_key_0: "core.worktree",
-    GIT_CONFIG_VALUE_0: join(root, "injected-worktree"),
-    GIT_IMPLICIT_WORK_TREE: "0",
-    git_graft_file: join(root, "hostile-grafts"),
-    GIT_NO_REPLACE_OBJECTS: "0",
-    git_replace_ref_base: "refs/replace-hostile/",
-    GIT_PREFIX: "hostile-prefix/",
-    git_shallow_file: join(root, "hostile-shallow"),
-    GIT_CEILING_DIRECTORIES: root,
-    git_internal_super_prefix: "hostile-super-prefix/",
-    GIT_OPTIONAL_LOCKS: "0",
-    git_namespace: "hostile-namespace",
-    GIT_QUARANTINE_PATH: join(root, "hostile-quarantine"),
-    GiT_FuTuRe_RePoSiToRy_RoUtEr: join(root, "future-router"),
-    Git_Config_Global: join(root, "hostile-global.gitconfig"),
+    GIT_CONFIG_VALUE_0: join(ROOT, "injected-worktree"),
+    Git_Config_Global: join(ROOT, "hostile-global.gitconfig"),
     git_config_nosystem: "0",
     Git_Terminal_Prompt: "1",
     SWECIRCUIT_ENVIRONMENT_SENTINEL: "preserved",
-  });
+  };
+  const cacheRoot = join(ROOT, "external-cache");
+  const typeScriptEntrypoint = join(ROOT, "external-tools", "tsc");
+  const environments = [
+    V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.fixtureRepositoryEnvironment(hostileEnvironment),
+    V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.gateEnvironment(
+      cacheRoot,
+      typeScriptEntrypoint,
+      hostileEnvironment,
+    ),
+    V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parentEnvironment(
+      cacheRoot,
+      ["sha256:", "a".repeat(64)].join(""),
+      join(ROOT, "external-tools", "npm-cli.js"),
+      join(ROOT, "external-tools", "git.exe"),
+      hostileEnvironment,
+    ),
+  ];
+  const forbidden = (key) => {
+    const upper = key.toUpperCase();
+    return (
+      [
+        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+        "GIT_CEILING_DIRECTORIES",
+        "GIT_COMMON_DIR",
+        "GIT_DIR",
+        "GIT_INDEX_FILE",
+        "GIT_INTERNAL_SUPER_PREFIX",
+        "GIT_OBJECT_DIRECTORY",
+        "GIT_OPTIONAL_LOCKS",
+        "GIT_PREFIX",
+        "GIT_WORK_TREE",
+      ].includes(upper) || /^GIT_CONFIG_(?:COUNT|KEY_\d+|VALUE_\d+)$/u.test(upper)
+    );
+  };
 
-  try {
-    const probe = spawnSync(process.execPath, [GIT_ENVIRONMENT_PROBE_ENTRYPOINT, root], {
-      cwd: ROOT,
-      env: hostileEnvironment,
-      encoding: "utf8",
-      maxBuffer: 16 * 1024 * 1024,
-      timeout: 180_000,
-      windowsHide: true,
-    });
-    assert.equal(probe.signal, null, "Git environment probe was terminated");
-    assert.equal(probe.status, 0, probe.stderr);
-    const evidence = JSON.parse(probe.stdout);
-    assert.match(evidence.commit, /^[0-9a-f]{40}$/u);
-    assert.equal(evidence.authenticated.rows["sample.txt"].bytes, 28);
-    assert.equal(evidence.explicitEnvironmentRequired, true);
-    const expectedGitKeys = ["GIT_CONFIG_GLOBAL", "GIT_CONFIG_NOSYSTEM", "GIT_TERMINAL_PROMPT"];
-    assert.deepEqual(evidence.gitKeys.fixture, [
-      "GIT_AUTHOR_DATE",
-      "GIT_COMMITTER_DATE",
-      ...expectedGitKeys,
-    ]);
-    assert.deepEqual(evidence.gitKeys.gate, expectedGitKeys);
-    assert.deepEqual(evidence.gitKeys.parent, expectedGitKeys);
-  } finally {
-    await rm(root, { recursive: true, force: true });
+  for (const environment of environments) {
+    assert.deepEqual(Object.keys(environment).filter(forbidden), []);
+    assert.equal(environment.GIT_CONFIG_NOSYSTEM, "1");
+    assert.equal(environment.GIT_CONFIG_GLOBAL, process.platform === "win32" ? "NUL" : "/dev/null");
+    assert.equal(environment.GIT_TERMINAL_PROMPT, "0");
+    assert.equal(environment.SWECIRCUIT_ENVIRONMENT_SENTINEL, "preserved");
   }
+  assert.equal(environments[1].npm_config_cache, cacheRoot);
+  assert.equal(environments[1].SWECIRCUIT_TYPESCRIPT_ENTRYPOINT, typeScriptEntrypoint);
+  assert.equal(environments[2].SWECIRCUIT_RELEASE_REVIEW_NPM_CACHE, cacheRoot);
 });
 
 test("isolated copied production entrypoints complete one exact compile-to-verify lifecycle", {
-  timeout: 3_900_000,
+  timeout: 3_600_000,
 }, async () => {
-  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-lifecycle-")));
-  const outputPath = join(root, "lifecycle.json");
-  const headProbe = spawnSync(
-    "git",
-    ["-c", "core.longpaths=true", "rev-parse", "--verify", "HEAD"],
-    {
-      cwd: ROOT,
-      env: process.env,
-      encoding: "utf8",
-      timeout: 30_000,
-      windowsHide: true,
-    },
-  );
-  assert.equal(headProbe.signal, null, "source HEAD probe was terminated");
-  assert.equal(headProbe.status, 0, headProbe.stderr);
-  const candidateCommit = headProbe.stdout.trim();
-  assert.match(candidateCommit, /^[0-9a-f]{40}$/u);
-
-  let gitContext;
-  let lifecycle;
-  try {
-    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(candidateCommit, ROOT);
-    const probe = spawnSync(process.execPath, [LIFECYCLE_ENTRYPOINT, outputPath], {
-      cwd: ROOT,
-      env: RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext),
-      encoding: "utf8",
-      maxBuffer: 16 * 1024 * 1024,
-      timeout: 3_600_000,
-      windowsHide: true,
-    });
-    assert.equal(probe.signal, null, "candidate-context lifecycle was terminated");
-    assert.equal(probe.status, 0, probe.stderr || probe.stdout);
-    const summary = JSON.parse(probe.stdout);
-    assert.deepEqual(summary, {
-      outcome: "pass",
-      rootRemoved: true,
-      sourceStatusUnchanged: true,
-    });
-    lifecycle = JSON.parse(readFileSync(outputPath, "utf8"));
-    assert.deepEqual(
-      RELEASE_GATE_TEST_HOOKS.inspectCandidateGitContext(gitContext),
-      gitContext.before,
-      "copied lifecycle mutated its enclosing candidate Git context",
-    );
-  } finally {
-    if (gitContext !== undefined) {
-      await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
-    }
-    await rm(root, { recursive: true, force: true });
-  }
-
+  const lifecycle = await runReleaseReviewProductionLifecycle();
   assert.equal(lifecycle.outcome, "pass");
   assert.equal(lifecycle.fixture.repositoryWasOutsideSource, true);
   assert.equal(lifecycle.fixture.packageException.onlyScriptsVerifyChanged, true);
