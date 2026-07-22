@@ -1,7 +1,7 @@
 # Specialist Contract: agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9
 
-Compilation: `sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055`
-Blueprint: `sha256:8b6f693a4162370688b647847430b06d0916daf74980898c152f05808b7ddddb`
+Compilation: `sha256:7c8e142daf69975ad6a2304842fbd8e7fa66a745504a85e3896f15622b310867`
+Blueprint: `sha256:6415cde9f982ff0a83f8281bdf1cfa49dab826aba043a791badfd40bd507c0c4`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 41,
-  "goalDigest": "sha256:473d720f288ea32e6901bfd259abc5f7b6e738c2e711ae3b6d21b3ca268d2020",
+  "goalRevision": 42,
+  "goalDigest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "integrate.release"
@@ -96,8 +96,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.gitattributes",
       "kind": "repository",
       "locator": "path:.gitattributes",
-      "digest": "sha256:d4bd3516bd21bddcf1877808dd72c76fb2ff724fa24d165a6c719618fe042953",
-      "bytes": 501,
+      "digest": "sha256:f125118db8c3313b2591ca18f56d7595ba5c9c915af15324f730c2b179a881e8",
+      "bytes": 625,
       "purposes": [
         "Authenticate the exact repository source-byte normalization policy."
       ],
@@ -253,7 +253,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop if any independent review returns REVISE.",
     "Stop unless the separate prelaunch audit is approval-bound, verified, and PASS before candidate launch approval."
   ],
-  "contentDigest": "sha256:8b6f693a4162370688b647847430b06d0916daf74980898c152f05808b7ddddb"
+  "contentDigest": "sha256:6415cde9f982ff0a83f8281bdf1cfa49dab826aba043a791badfd40bd507c0c4"
 }
 ```
 
@@ -274,14 +274,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 41,
-    "digest": "sha256:473d720f288ea32e6901bfd259abc5f7b6e738c2e711ae3b6d21b3ca268d2020"
+    "revision": 42,
+    "digest": "sha256:a6a1cb4e4b88aa3fe78c09cef9b16bd82850025c692bf4e27f12b6f3e0791aab"
   },
   "agent": {
     "id": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
-    "blueprintDigest": "sha256:8b6f693a4162370688b647847430b06d0916daf74980898c152f05808b7ddddb"
+    "blueprintDigest": "sha256:6415cde9f982ff0a83f8281bdf1cfa49dab826aba043a791badfd40bd507c0c4"
   },
-  "compilationDigest": "sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055",
+  "compilationDigest": "sha256:7c8e142daf69975ad6a2304842fbd8e7fa66a745504a85e3896f15622b310867",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "integrate.release"

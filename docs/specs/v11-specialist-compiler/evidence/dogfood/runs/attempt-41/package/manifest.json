@@ -1,0 +1,84 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v11.specialist-compiler.release",
+  "goalRevision": 41,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055",
+  "selectedCandidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730"
+      ]
+    },
+    {
+      "start": 4,
+      "agentIds": [
+        "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+        "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+        "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+        "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc"
+      ]
+    },
+    {
+      "start": 17,
+      "agentIds": [
+        "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:36c6a29dc033c5a1cf717bcc4a2574f7583df9cea3c8306d472a5a7abb45b5cd",
+  "compilationFileBytes": 319450,
+  "agents": [
+    {
+      "agentId": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
+      "blueprintDigest": "sha256:4d11b9ed9756a28edfeff6ab9458ab3bcd4663eec84f6486a1d2c493c2c968f7",
+      "contractFile": "agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+      "contractDigest": "sha256:bc974752f67ff54e78b09ac34c255cde176e5d9a18271a9215b81dab123e4b5c",
+      "contractBytes": 19438
+    },
+    {
+      "agentId": "agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9",
+      "blueprintDigest": "sha256:8b6f693a4162370688b647847430b06d0916daf74980898c152f05808b7ddddb",
+      "contractFile": "agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+      "contractDigest": "sha256:6dc692f523d55a38a431c9e5dbd952e58a87a8cd309de44dc7ad7751e64ff817",
+      "contractBytes": 11691
+    },
+    {
+      "agentId": "agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e",
+      "blueprintDigest": "sha256:d0a173d924665a4804a2839a0dd05de9b7fb2c5154bd14ce5180bb4e06a0923d",
+      "contractFile": "agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+      "contractDigest": "sha256:26e74904e55f226cd7ce336ae7fe69f506d13b2f0de69152b7d8d52e6fa04dc7",
+      "contractBytes": 24269
+    },
+    {
+      "agentId": "agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8",
+      "blueprintDigest": "sha256:053c89d8d154d302dedd80894a8fce098de7ff3eb47920879f42b990db96c41e",
+      "contractFile": "agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+      "contractDigest": "sha256:9803862464be5951742ef22690bfd8d06474a8cb8b7c2c43f5f30ea1176b1108",
+      "contractBytes": 27800
+    },
+    {
+      "agentId": "agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc",
+      "blueprintDigest": "sha256:7025d90e680b14536d52dd2ec085aadedb2ac44f74feceb3a7ee9c7afda2e25c",
+      "contractFile": "agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+      "contractDigest": "sha256:4871cd7e68b71b783c2380e4b7a83e59160411bb8c6b957d66b589dde8c68935",
+      "contractBytes": 34300
+    },
+    {
+      "agentId": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
+      "blueprintDigest": "sha256:49306eccad34408af25de30bfc3c0bf5aa2bfb3f8e8ff80ac421c31f42f8954c",
+      "contractFile": "agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+      "contractDigest": "sha256:f7a59fe4d8a644363e027389cb4533d455378e9e427d87c3c3a29ea07f997693",
+      "contractBytes": 37515
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:9d57d795e05ae86e5958c487d49314b58484e707a782d2c0f315c12cf7bcd5f8",
+  "integrationBytes": 8161,
+  "contentDigest": "sha256:502e0b2f60faaecd04f0f48da48d2479ae0038f3f83c4896df8dd5fb24915d29"
+}

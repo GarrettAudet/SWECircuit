@@ -30,13 +30,19 @@ The preceding Revision 27 aggregate gate was forecast at 46-50 minutes and compl
 - Complete serialized lifecycle: `pass`, 1 of 1; runner duration 2,284,557.1611 ms, or 38 minutes 4.6 seconds.
 - The source worktree remained clean and Candidate 13 was not created or consumed.
 
+## V11 Revision 42 Replay
+
+- All 58 repository source bindings match exact current bytes.
+- Candidate A `sha256:7c8e142daf69975ad6a2304842fbd8e7fa66a745504a85e3896f15622b310867` / `sha256:5f5c4c6b41d1911a6c1d3f3e0cd132a82bac1b3c5dc03bc074208db65d09dfb9` and Audit B `sha256:d31d6c34c2c5ee4ecb07ce4d108f50010191f7e6089209775d332cfcf013bf42` / `sha256:d9ad9befb8af509cba8e7be6ccaa0d22073d30cea760640721fe2b20823f8770` reconstruct and verify.
+- Exact binder fan-in, independent semantic Audit B, cross-package authorization, and canonical `--check-evidence` replay pass.
+- Revision 41 remains preserved in a verified 28-file archive.
+
 ## Remaining Gates
 
-- Replay V11 with source identities bound to the checkpoint.
 - Run the full aggregate gate and obtain a fresh immutable package-bound independent `pass`.
 - Freeze Candidate 13 only after those pre-candidate gates pass.
 - Run Candidate 13's canonical gate exactly once, fresh three-lane R2 review, hosted CI, milestone closeout, and owner merge.
 
 ## Route
 
-Integration-owner result: `pass` to fresh V11 source-bound evidence replay. Release remains blocked and Candidate 13 remains unconsumed.
+Integration-owner result: `pass` to aggregate verification and fresh immutable package-bound review. Release remains blocked and Candidate 13 remains unconsumed.

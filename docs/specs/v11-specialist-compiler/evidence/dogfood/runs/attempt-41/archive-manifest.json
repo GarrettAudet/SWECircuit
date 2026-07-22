@@ -1,0 +1,156 @@
+{
+    "version":  "swecircuit/dogfood-archive/v1alpha1",
+    "attempt":  41,
+    "goalRevision":  41,
+    "historicalSourceCheckpoint":  "f7bf92cb7dff782623ed7d0aabe410ff37647e23",
+    "candidate":  {
+                      "compilationDigest":  "sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055",
+                      "packageDigest":  "sha256:9eea6f0084c5705d448aba40a50d1fb42401a1a8d6be53f847751f6c55a4bde1"
+                  },
+    "prelaunchAudit":  {
+                           "compilationDigest":  "sha256:fa7f65178897bae642e165df81fdfb0484e004ab942a9217c0ed1f7baae74371",
+                           "packageDigest":  "sha256:b9e26224028a040da07780f747ba752174a8e424603c03981dd1abaffda85598"
+                       },
+    "files":  [
+                  {
+                      "path":  "approval.json",
+                      "bytes":  195,
+                      "digest":  "sha256:a457ccc9565987f059a86045d5041bb9158c92a96c3718a08cf16200af82ed37"
+                  },
+                  {
+                      "path":  "compilation.json",
+                      "bytes":  319450,
+                      "digest":  "sha256:36c6a29dc033c5a1cf717bcc4a2574f7583df9cea3c8306d472a5a7abb45b5cd"
+                  },
+                  {
+                      "path":  "goal-contract.json",
+                      "bytes":  103177,
+                      "digest":  "sha256:d93ff122cc2dbe98898aa32d93490adf3a00466100070d6d9dedd29d7bfc6778"
+                  },
+                  {
+                      "path":  "handoffs/audit-bind-block-attempt-41a.json",
+                      "bytes":  5295,
+                      "digest":  "sha256:bad7f92bb5f2ac9f2437507cfcaffa187298a174367f4758bbc52532ed58edae"
+                  },
+                  {
+                      "path":  "handoffs/audit-bind-pass-attempt-41b.json",
+                      "bytes":  6862,
+                      "digest":  "sha256:0726e1f8314fa71cdfe25c4a72f95db01a7a8e601d0234a7792f896f98abc5e1"
+                  },
+                  {
+                      "path":  "handoffs/prelaunch-audit-pass-attempt-41.json",
+                      "bytes":  7691,
+                      "digest":  "sha256:fe44783daa4071bdd56b107c53cb2015ab741e1596ae42ae410a6b3f7873e260"
+                  },
+                  {
+                      "path":  "launch-authorization.json",
+                      "bytes":  984,
+                      "digest":  "sha256:b8c744cd8f05feefcb4da77b6d29ea54e6372cbeeb2e59adc979f92c70eb8bc1"
+                  },
+                  {
+                      "path":  "package/agents/agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972.md",
+                      "bytes":  19438,
+                      "digest":  "sha256:bc974752f67ff54e78b09ac34c255cde176e5d9a18271a9215b81dab123e4b5c"
+                  },
+                  {
+                      "path":  "package/agents/agent.2b83ea5b39ffd90046090bde81027fe89cb67de8fa0ffe1374233024c19f76c9.md",
+                      "bytes":  11691,
+                      "digest":  "sha256:6dc692f523d55a38a431c9e5dbd952e58a87a8cd309de44dc7ad7751e64ff817"
+                  },
+                  {
+                      "path":  "package/agents/agent.5594b1d7ca363b54a76d653f6374169d51641bf35ecec55d69107226b666069e.md",
+                      "bytes":  24269,
+                      "digest":  "sha256:26e74904e55f226cd7ce336ae7fe69f506d13b2f0de69152b7d8d52e6fa04dc7"
+                  },
+                  {
+                      "path":  "package/agents/agent.6dad2f7ca99d372fe3e35407a04133b48c9be6feccb4891ce0add91474a619a8.md",
+                      "bytes":  27800,
+                      "digest":  "sha256:9803862464be5951742ef22690bfd8d06474a8cb8b7c2c43f5f30ea1176b1108"
+                  },
+                  {
+                      "path":  "package/agents/agent.768a06db63e32976028e97e053d9f14f7274470d09a07b6c9a3ffff4a3e8b2cc.md",
+                      "bytes":  34300,
+                      "digest":  "sha256:4871cd7e68b71b783c2380e4b7a83e59160411bb8c6b957d66b589dde8c68935"
+                  },
+                  {
+                      "path":  "package/agents/agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730.md",
+                      "bytes":  37515,
+                      "digest":  "sha256:f7a59fe4d8a644363e027389cb4533d455378e9e427d87c3c3a29ea07f997693"
+                  },
+                  {
+                      "path":  "package/compilation.json",
+                      "bytes":  319450,
+                      "digest":  "sha256:36c6a29dc033c5a1cf717bcc4a2574f7583df9cea3c8306d472a5a7abb45b5cd"
+                  },
+                  {
+                      "path":  "package/integration.md",
+                      "bytes":  8161,
+                      "digest":  "sha256:9d57d795e05ae86e5958c487d49314b58484e707a782d2c0f315c12cf7bcd5f8"
+                  },
+                  {
+                      "path":  "package/manifest.json",
+                      "bytes":  4203,
+                      "digest":  "sha256:9ba3be0eacdeee1af66e026f18d72065a9aebd32f6c673ab9f2c6195a37bde49"
+                  },
+                  {
+                      "path":  "prelaunch-audit/approval.json",
+                      "bytes":  195,
+                      "digest":  "sha256:49115e0a50a632ccb917cb673f8eb1e89b24e5993e98a746fb95c8f321bd2a73"
+                  },
+                  {
+                      "path":  "prelaunch-audit/compilation.json",
+                      "bytes":  170107,
+                      "digest":  "sha256:1f6666683d3fd2371549641ee2c44471c560b99a41d0cee3a0b3b2b52972af66"
+                  },
+                  {
+                      "path":  "prelaunch-audit/goal-contract.json",
+                      "bytes":  64545,
+                      "digest":  "sha256:5cb087aaa46a45dc2d3fb765e8969bded13d23f650d68dbe82676a9fb7879b6d"
+                  },
+                  {
+                      "path":  "prelaunch-audit/package/agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+                      "bytes":  16224,
+                      "digest":  "sha256:0551c8b5476eefcb532e8dac0e320ff4c9e31cdb84f159583610d2530038acfe"
+                  },
+                  {
+                      "path":  "prelaunch-audit/package/agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
+                      "bytes":  46700,
+                      "digest":  "sha256:2a143e0fc0002cb0e6056c15cf1137cfa2ac2ff5f26cc52716f0dc35e36085e9"
+                  },
+                  {
+                      "path":  "prelaunch-audit/package/compilation.json",
+                      "bytes":  170107,
+                      "digest":  "sha256:1f6666683d3fd2371549641ee2c44471c560b99a41d0cee3a0b3b2b52972af66"
+                  },
+                  {
+                      "path":  "prelaunch-audit/package/integration.md",
+                      "bytes":  4711,
+                      "digest":  "sha256:4b7f6b6a2379e6dc8ddbfe555dfc82a28508461a09e63b4cafc0841e52d13dbc"
+                  },
+                  {
+                      "path":  "prelaunch-audit/package/manifest.json",
+                      "bytes":  2072,
+                      "digest":  "sha256:a55c9cef665929d841cc152a8931251567b35cd6393cc4c3daf92cbd1afbd135"
+                  },
+                  {
+                      "path":  "prelaunch-audit/package-verification-receipt.json",
+                      "bytes":  2255,
+                      "digest":  "sha256:f11d31906da0cd16a2130426a18a542037ea08c675e4f5cbd36281361dadc6db"
+                  },
+                  {
+                      "path":  "prelaunch-audit/report.json",
+                      "bytes":  20361,
+                      "digest":  "sha256:e222a150ea436ea43e71e285430924f57866b89428ca4ab25f25adbd40a5f374"
+                  },
+                  {
+                      "path":  "README.md",
+                      "bytes":  865,
+                      "digest":  "sha256:5035ac3acc9638c9014066da45df2c8d5d4d668d563efba1e5761b6bc95f3f2f"
+                  },
+                  {
+                      "path":  "report.json",
+                      "bytes":  25925,
+                      "digest":  "sha256:00552eb3086d63b5edf52f74bfe8d2cbbb8128bac423a584924e44251ae4c3bb"
+                  }
+              ]
+}
