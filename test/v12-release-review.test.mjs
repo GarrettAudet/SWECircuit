@@ -13,7 +13,7 @@ import { RELEASE_REVIEW_HANDOFF_TEST_HOOKS } from "../docs/specs/v12-ide-run-loo
 import { RELEASE_GATE_TEST_HOOKS } from "../scripts/run-v12-release-gate.mjs";
 import { RELEASE_REVIEW_PARENT_TEST_HOOKS } from "../scripts/run-v12-release-review.mjs";
 import {
-  R22_OUTPUT_IDENTITIES,
+  PRODUCTION_IDENTITIES,
   V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS,
 } from "./helpers/v12-release-review-lifecycle.mjs";
 
@@ -796,6 +796,13 @@ test("materialized lifecycle consumes one declared external TypeScript entrypoin
   }
 });
 
+test("lifecycle production identities match current source bytes", () => {
+  assert.equal(Object.hasOwn(PRODUCTION_IDENTITIES, "scripts/run-typescript.mjs"), true);
+  for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
+    const bytes = readFileSync(resolve(ROOT, ...path.split("/")));
+    assert.deepEqual({ bytes: bytes.byteLength, digest: digest(bytes) }, expected, path);
+  }
+});
 test("isolated copied production entrypoints complete one exact compile-to-verify lifecycle", {
   timeout: 3_900_000,
 }, async () => {
@@ -961,7 +968,7 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
     true,
   );
 
-  for (const [path, expected] of Object.entries(R22_OUTPUT_IDENTITIES)) {
+  for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
     assert.deepEqual(lifecycle.sourceFrozenBefore[path], expected);
     assert.deepEqual(lifecycle.cleanup.sourceFrozenAfter[path], expected);
   }

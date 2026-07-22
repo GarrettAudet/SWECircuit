@@ -38,6 +38,7 @@ const GATE_PATH = "scripts/run-v12-release-gate.mjs";
 const HARNESS_PATH = `${REVIEW_ROOT}/run-release-review.mjs`;
 const VERIFIER_PATH = `${REVIEW_ROOT}/verify-release-review-handoffs.mjs`;
 const GATE_TEST_PATH = "test/v12-release-gate.test.mjs";
+const TYPESCRIPT_RUNNER_PATH = "scripts/run-typescript.mjs";
 const PACKAGE_PATH = "package.json";
 const LOCK_PATH = "package-lock.json";
 const PROCESS_TIMEOUT_MS = 900_000;
@@ -48,16 +49,17 @@ const FIXTURE_VERIFY_COMMAND = [
   `node --check ${PARENT_PATH}`,
   `node --check ${HARNESS_PATH}`,
   `node --check ${VERIFIER_PATH}`,
+  `node --check ${TYPESCRIPT_RUNNER_PATH}`,
 ].join(" && ");
 
-export const R22_OUTPUT_IDENTITIES = Object.freeze({
+export const PRODUCTION_IDENTITIES = Object.freeze({
   [PARENT_PATH]: Object.freeze({
     bytes: 96_946,
     digest: "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
   }),
   [GATE_PATH]: Object.freeze({
-    bytes: 31_791,
-    digest: "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
+    bytes: 30_623,
+    digest: "sha256:6e1e398c7d15a0b5ac3562ccb90913ecb6480f700a9e53cb1aaf076f2f704b21",
   }),
   [HARNESS_PATH]: Object.freeze({
     bytes: 127_748,
@@ -68,12 +70,16 @@ export const R22_OUTPUT_IDENTITIES = Object.freeze({
     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
   }),
   [GATE_TEST_PATH]: Object.freeze({
-    bytes: 42_125,
-    digest: "sha256:92c72bb85bbcfd6cfafefbede78ccb7cf753d232e068032367c1e0a7828d42b6",
+    bytes: 41_945,
+    digest: "sha256:bf686f62e2ef61c0ad012680321c2497b5532084eefcc759a882c6b10cf4f010",
+  }),
+  [TYPESCRIPT_RUNNER_PATH]: Object.freeze({
+    bytes: 7_033,
+    digest: "sha256:fcb20a8c6b97ba017ba75e33383edcc1469b7ca44a93809987004c863b39c873",
   }),
   [PACKAGE_PATH]: Object.freeze({
-    bytes: 3_719,
-    digest: "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
+    bytes: 3_890,
+    digest: "sha256:b83a7fc9f101cfd6bb62a7d5dad3f02116d9db59b6575731fe7b6a3d74b5d6a0",
   }),
 });
 
@@ -1104,7 +1110,7 @@ export async function runReleaseReviewProductionLifecycle() {
   const sourceStatusBefore = (
     await runGit(SOURCE_ROOT, ["status", "--porcelain=v1", "-z"], { env: process.env })
   ).stdout;
-  const sourceFrozenBefore = await authenticateFiles(SOURCE_ROOT, R22_OUTPUT_IDENTITIES);
+  const sourceFrozenBefore = await authenticateFiles(SOURCE_ROOT, PRODUCTION_IDENTITIES);
   assertIdentity(await identity(absolute(SOURCE_ROOT, LOCK_PATH)), LOCK_IDENTITY, LOCK_PATH);
 
   const lifecycleRoot = await realpath(
@@ -1126,7 +1132,7 @@ export async function runReleaseReviewProductionLifecycle() {
     assert.equal(await pathExists(absolute(fixtureRoot, RUN_ROOT)), false);
     assert.equal(await pathExists(absolute(fixtureRoot, GATE_ROOT)), false);
 
-    const copiedProduction = await authenticateFiles(fixtureRoot, R22_OUTPUT_IDENTITIES);
+    const copiedProduction = await authenticateFiles(fixtureRoot, PRODUCTION_IDENTITIES);
     assertIdentity(
       await identity(absolute(fixtureRoot, LOCK_PATH)),
       LOCK_IDENTITY,
@@ -1135,7 +1141,7 @@ export async function runReleaseReviewProductionLifecycle() {
     const fixtureException = await applyFixtureVerifyException(fixtureRoot);
     const { commit, gitEnvironment } = await initializeFixtureGit(fixtureRoot);
     const committedExpected = {
-      ...R22_OUTPUT_IDENTITIES,
+      ...PRODUCTION_IDENTITIES,
       [PACKAGE_PATH]: fixtureException.committedIdentity,
       [LOCK_PATH]: LOCK_IDENTITY,
     };
@@ -1180,7 +1186,7 @@ export async function runReleaseReviewProductionLifecycle() {
     );
     assert.match(strictUtf8(gateStdout, "canonical gate log"), /run-v12-release-review\.mjs/u);
 
-    const parentDigest = R22_OUTPUT_IDENTITIES[PARENT_PATH].digest;
+    const parentDigest = PRODUCTION_IDENTITIES[PARENT_PATH].digest;
     const environment = parentEnvironment(cacheRoot, parentDigest, npmSupply.path, gitSupply.path);
     const commandEvidence = [processEvidence("canonical-gate", gateResult)];
     const negativeRoutes = [];
@@ -1448,7 +1454,7 @@ export async function runReleaseReviewProductionLifecycle() {
     ).stdout;
     assert.equal(fixtureTrackedAfter.byteLength, 0, "lifecycle changed tracked fixture bytes");
     const fixtureProductionAfter = await authenticateFiles(fixtureRoot, {
-      ...R22_OUTPUT_IDENTITIES,
+      ...PRODUCTION_IDENTITIES,
       [PACKAGE_PATH]: fixtureException.committedIdentity,
     });
 
@@ -1554,7 +1560,7 @@ export async function runReleaseReviewProductionLifecycle() {
       await runGit(SOURCE_ROOT, ["status", "--porcelain=v1", "-z"], { env: process.env })
     ).stdout;
     cleanup.sourceStatusUnchanged = sourceStatusAfter.equals(sourceStatusBefore);
-    cleanup.sourceFrozenAfter = await authenticateFiles(SOURCE_ROOT, R22_OUTPUT_IDENTITIES);
+    cleanup.sourceFrozenAfter = await authenticateFiles(SOURCE_ROOT, PRODUCTION_IDENTITIES);
     cleanup.sourceLockAfter = await identity(absolute(SOURCE_ROOT, LOCK_PATH));
     assertIdentity(cleanup.sourceLockAfter, LOCK_IDENTITY, "source lockfile after lifecycle");
   }
