@@ -37,6 +37,7 @@ const GIT_ENVIRONMENT_PROBE_ENTRYPOINT = fileURLToPath(
 );
 const HOST_CACHE_PROBE_SOURCE_PATHS = Object.freeze([
   "scripts/run-v12-release-gate.mjs",
+  "scripts/run-typescript.mjs",
   "scripts/run-v12-release-review.mjs",
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
   "test/helpers/v12-release-review-lifecycle.mjs",
@@ -1060,7 +1061,7 @@ test("stable reconstruction is package-defining while phase authority stays sepa
   );
   assert.equal(
     packageJson.scripts["test:release-review:v12"],
-    "node --test test/v12-release-review.test.mjs test/v12-release-gate.test.mjs",
+    "node --test test/v12-release-review.test.mjs test/v12-release-gate.test.mjs && npm run test:lifecycle",
   );
   for (const command of ["format", "format:check", "lint"]) {
     for (const path of ["scripts/run-v12-release-review.mjs", HARNESS_PATH, VERIFIER_PATH]) {

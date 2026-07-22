@@ -29,6 +29,14 @@ No non-lifecycle failure appeared in the captured partial ledger. The timeout le
 - Add a fast regression that binds the scripts and proves the lifecycle test is absent from the root file and present in the lifecycle file.
 - Refresh the authenticated package identity used by the copied lifecycle.
 
+## Core Isolation Follow-Up
+
+Checkpoint `2b9f5a7` ran the new core-only phase and returned 433 passes and 2 failures in 457,860.2749 ms. The failures were exact closure drift from Revision 27:
+
+- The fresh-process cache probe copied `scripts/run-v12-release-gate.mjs` without its new `scripts/run-typescript.mjs` dependency.
+- A static release-review script assertion retained the pre-partition command.
+
+The probe source bundle and script assertion were corrected. Both focused regressions then passed, 2 of 2, in 648.9753 ms.
 ## Route
 
 Route: `diagnose -> redesign test scheduling -> verify`. Release remains blocked until core, lifecycle, full verify, and independent review pass from exact checkpoints.
