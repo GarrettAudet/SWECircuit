@@ -1,0 +1,388 @@
+diff --git a/.gitattributes b/.gitattributes
+index 87d6b95..bca531c 100644
+--- a/.gitattributes
++++ b/.gitattributes
+@@ -8,3 +8,4 @@ docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.std
+ docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log binary
+ docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stdout.log binary
+ docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stderr.log binary
++docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r27/inputs/snapshots/revision-27-source.patch binary
+diff --git a/.github/workflows/template-check.yml b/.github/workflows/template-check.yml
+index 2e87209..c0047fd 100644
+--- a/.github/workflows/template-check.yml
++++ b/.github/workflows/template-check.yml
+@@ -26,7 +26,7 @@ jobs:
+       - name: Check tracked whitespace
+         shell: pwsh
+         run: |
+-          $binaryExtensions = @(".png", ".jpg", ".jpeg", ".gif", ".pdf")
++          $binaryExtensions = @(".png", ".jpg", ".jpeg", ".gif", ".pdf", ".patch")
+           $failures = @()
+           foreach ($file in git ls-files) {
+             $extension = [System.IO.Path]::GetExtension($file).ToLowerInvariant()
+diff --git a/docs/framework/executor-boundary.md b/docs/framework/executor-boundary.md
+index ee4029c..c520188 100644
+--- a/docs/framework/executor-boundary.md
++++ b/docs/framework/executor-boundary.md
+@@ -31,6 +31,12 @@ The embedding host must:
+ 
+ SWECircuit does not discover projects, resolve dependencies, load providers, schedule retries, enforce filesystem or process permissions, terminate process trees, write traces, merge branches, or update memory through this API.
+ 
++## Toolchain Evidence Boundary
++
++Repository release tooling binds an explicitly selected TypeScript entrypoint by canonical path, byte count, SHA-256 digest, link count, supply origin, and observed version. It reauthenticates that path before and after version inspection and compilation, and it never selects a compiler through ambient `PATH`.
++
++This is evidence about selection and stable-path execution, not an operating-system sandbox. A portable Node process cannot prevent a concurrent process with the same filesystem authority from replacing and restoring a pathname, nor does one entrypoint digest authenticate every transitive file or native executable loaded by that tool. The IDE or host must isolate the toolchain from concurrent writers and supply trusted dependency bytes. SWECircuit must not describe pre/post identity checks as atomic execution or host enforcement.
++
+ ## Preflight Gate
+ 
+ Executor code is called only after all inputs pass preflight. The boundary verifies:
+diff --git a/scripts/check-packed-consumer.mjs b/scripts/check-packed-consumer.mjs
+index 3a4ad76..8ca7c07 100644
+--- a/scripts/check-packed-consumer.mjs
++++ b/scripts/check-packed-consumer.mjs
+@@ -12,7 +12,7 @@ import {
+ import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+ import { fileURLToPath } from "node:url";
+ 
+-import { resolveTypeScriptEntrypointBinding } from "./run-typescript.mjs";
++import { executeTypeScript, resolveTypeScriptEntrypointBinding } from "./run-typescript.mjs";
+ 
+ const ROOT = fileURLToPath(new URL("..", import.meta.url));
+ const TYPESCRIPT_BINDING = resolveTypeScriptEntrypointBinding({
+@@ -21,7 +21,6 @@ const TYPESCRIPT_BINDING = resolveTypeScriptEntrypointBinding({
+   outsidePolicy: "supplied",
+   label: "The TypeScript entrypoint",
+ });
+-const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING.path;
+ const npmCacheSupplies = Object.entries(process.env)
+   .filter(([key]) => key.toLowerCase() === "npm_config_cache")
+   .map(([, value]) => value);
+@@ -915,6 +914,41 @@ function runNpm(args, cwd, label) {
+   return run(process.execPath, [NPM_EXEC_PATH, ...args], cwd, label);
+ }
+ 
++function runTypeScript(args, cwd, label) {
++  let observedReceipt = null;
++  const execution = executeTypeScript(args, {
++    binding: TYPESCRIPT_BINDING,
++    cwd,
++    environment: process.env,
++    stdio: "pipe",
++    encoding: "utf8",
++    onBinding(receipt) {
++      assert.equal(observedReceipt, null, `${label} emitted more than one binding receipt.`);
++      observedReceipt = receipt;
++    },
++  });
++  assert.deepEqual(observedReceipt, execution.receipt);
++  assert.deepEqual(
++    {
++      path: execution.receipt.path,
++      bytes: execution.receipt.bytes,
++      digest: execution.receipt.digest,
++      nlink: execution.receipt.nlink,
++      supplied: execution.receipt.supplied,
++    },
++    TYPESCRIPT_BINDING,
++  );
++  if (execution.result.error !== undefined) {
++    throw new Error(`${label} could not start: ${execution.result.error.message}`);
++  }
++  if (execution.result.status !== 0) {
++    throw new Error(
++      `${label} failed with exit ${String(execution.result.status)}.\nstdout:\n${execution.result.stdout}\nstderr:\n${execution.result.stderr}`,
++    );
++  }
++  return execution.result.stdout;
++}
++
+ function productionPackageRecords(rootLock, rootDependencies) {
+   assert.equal(rootLock.lockfileVersion, 3);
+   assert.equal(typeof rootLock.packages, "object");
+@@ -1164,10 +1198,8 @@ try {
+     installedManifest.exports?.["./schemas/specialist-run.schema.json"],
+     "./schemas/v1alpha1/specialist-run.schema.json",
+   );
+-  run(
+-    process.execPath,
++  runTypeScript(
+     [
+-      TYPESCRIPT_ENTRYPOINT,
+       "--ignoreConfig",
+       "--strict",
+       "--module",
+diff --git a/scripts/run-typescript.mjs b/scripts/run-typescript.mjs
+index 60eaf67..3375671 100644
+--- a/scripts/run-typescript.mjs
++++ b/scripts/run-typescript.mjs
+@@ -166,9 +166,10 @@ export function executeTypeScript(arguments_, options = {}) {
+     cwd,
+     env: environment,
+     stdio: options.stdio ?? "inherit",
++    encoding: options.encoding,
+     windowsHide: true,
+   });
+-  authenticateBinding(binding, "during compilation");
++  authenticateBinding(binding, "after compilation");
+   requireCondition(result.error === undefined, `TypeScript execution failed: ${result.error}`);
+   return { binding, receipt, result };
+ }
+diff --git a/test/helpers/v12-release-review-lifecycle.mjs b/test/helpers/v12-release-review-lifecycle.mjs
+index c6d66f3..6128844 100644
+--- a/test/helpers/v12-release-review-lifecycle.mjs
++++ b/test/helpers/v12-release-review-lifecycle.mjs
+@@ -70,12 +70,12 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
+     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+   }),
+   [GATE_TEST_PATH]: Object.freeze({
+-    bytes: 41_945,
+-    digest: "sha256:bf686f62e2ef61c0ad012680321c2497b5532084eefcc759a882c6b10cf4f010",
++    bytes: 42_123,
++    digest: "sha256:1995a9baa4c6c5f6b1beb2b14888a9cfc05bb872dfd98995edb6104552d8b0e1",
+   }),
+   [TYPESCRIPT_RUNNER_PATH]: Object.freeze({
+-    bytes: 7_033,
+-    digest: "sha256:fcb20a8c6b97ba017ba75e33383edcc1469b7ca44a93809987004c863b39c873",
++    bytes: 7_064,
++    digest: "sha256:3390a3bdea97140e8c02ad0f917dcb62bbaf2e12921ea5fd1a2255362475c25f",
+   }),
+   [PACKAGE_PATH]: Object.freeze({
+     bytes: 4_043,
+diff --git a/test/typescript-toolchain.test.mjs b/test/typescript-toolchain.test.mjs
+index 10c4ffa..149410b 100644
+--- a/test/typescript-toolchain.test.mjs
++++ b/test/typescript-toolchain.test.mjs
+@@ -1,6 +1,16 @@
+ import assert from "node:assert/strict";
+ import { createHash } from "node:crypto";
+-import { link, mkdir, mkdtemp, readFile, realpath, rm, symlink, writeFile } from "node:fs/promises";
++import {
++  chmod,
++  link,
++  mkdir,
++  mkdtemp,
++  readFile,
++  realpath,
++  rm,
++  symlink,
++  writeFile,
++} from "node:fs/promises";
+ import { tmpdir } from "node:os";
+ import { delimiter, join, resolve } from "node:path";
+ import test from "node:test";
+@@ -14,7 +24,7 @@ import {
+ 
+ const ROOT = fileURLToPath(new URL("../", import.meta.url));
+ const SENTINEL_SOURCE = (id) => `
+-import { appendFileSync } from "node:fs";
++const { appendFileSync } = require("node:fs");
+ const marker = process.env.SWECIRCUIT_TYPESCRIPT_SENTINEL;
+ appendFileSync(marker, JSON.stringify({ id: ${JSON.stringify(id)}, args: process.argv.slice(2) }) + "\\n");
+ if (process.argv[2] === "--version") {
+@@ -22,6 +32,22 @@ if (process.argv[2] === "--version") {
+ }
+ `;
+ 
++async function writeSelectableCommand(directory, id, marker, runner) {
++  const command = join(directory, process.platform === "win32" ? "tsc.cmd" : "tsc");
++  const source =
++    process.platform === "win32"
++      ? `@echo off\r\n"${process.execPath}" "${runner}" "${marker}" "${id}"\r\nexit /b 91\r\n`
++      : `#!/bin/sh\n"${process.execPath}" "${runner}" "${marker}" "${id}"\nexit 91\n`;
++  await writeFile(command, source);
++  if (process.platform !== "win32") {
++    await chmod(command, 0o755);
++  }
++}
++
++async function assertMissing(path) {
++  await assert.rejects(readFile(path), { code: "ENOENT" });
++}
++
+ function digest(bytes) {
+   return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
+ }
+@@ -50,16 +76,22 @@ test("declared TypeScript file defeats ambient and candidate-local command subst
+   const externalRoot = join(root, "external");
+   const ambientBin = join(root, "ambient-bin");
+   const candidateBin = join(projectRoot, "node_modules", ".bin");
+-  const external = join(externalRoot, "tsc.mjs");
++  const external = join(externalRoot, "tsc");
+   const externalMarker = join(root, "external.log");
++  const commandMarker = join(root, "command.log");
++  const commandRunner = join(root, "command-runner.cjs");
+ 
+   try {
+     await mkdir(externalRoot, { recursive: true });
+     await mkdir(ambientBin, { recursive: true });
+     await mkdir(candidateBin, { recursive: true });
+     await writeFile(external, SENTINEL_SOURCE("external"));
+-    await writeFile(join(ambientBin, "tsc.mjs"), SENTINEL_SOURCE("ambient"));
+-    await writeFile(join(candidateBin, "tsc.mjs"), SENTINEL_SOURCE("candidate"));
++    await writeFile(
++      commandRunner,
++      'require("node:fs").appendFileSync(process.argv[2], process.argv[3] + "\\n");\n',
++    );
++    await writeSelectableCommand(ambientBin, "ambient", commandMarker, commandRunner);
++    await writeSelectableCommand(candidateBin, "candidate", commandMarker, commandRunner);
+ 
+     const environment = withoutTypeScriptSupply();
+     environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = external;
+@@ -77,6 +109,7 @@ test("declared TypeScript file defeats ambient and candidate-local command subst
+       { id: "external", args: ["--version"] },
+       { id: "external", args: ["--project", "sentinel.json"] },
+     ]);
++    await assertMissing(commandMarker);
+     const bytes = await readFile(external);
+     assert.deepEqual(execution.receipt, {
+       path: resolve(external),
+@@ -96,12 +129,18 @@ test("repository-local fallback executes the exact resolved file", async () => {
+   const fallback = join(root, "node_modules", "typescript", "bin", "tsc");
+   const conflictingBin = join(root, "node_modules", ".bin");
+   const marker = join(root, "fallback.log");
++  const commandMarker = join(root, "command.log");
++  const commandRunner = join(root, "command-runner.cjs");
+ 
+   try {
+     await mkdir(join(root, "node_modules", "typescript", "bin"), { recursive: true });
+     await mkdir(conflictingBin, { recursive: true });
+     await writeFile(fallback, SENTINEL_SOURCE("fallback"));
+-    await writeFile(join(conflictingBin, "tsc.mjs"), SENTINEL_SOURCE("conflict"));
++    await writeFile(
++      commandRunner,
++      'require("node:fs").appendFileSync(process.argv[2], process.argv[3] + "\\n");\n',
++    );
++    await writeSelectableCommand(conflictingBin, "conflict", commandMarker, commandRunner);
+     const environment = withoutTypeScriptSupply();
+     environment.SWECIRCUIT_TYPESCRIPT_SENTINEL = marker;
+     environment.PATH = [conflictingBin, environment.PATH ?? ""].join(delimiter);
+@@ -119,6 +158,7 @@ test("repository-local fallback executes the exact resolved file", async () => {
+       { id: "fallback", args: ["--version"] },
+       { id: "fallback", args: ["--noEmit"] },
+     ]);
++    await assertMissing(commandMarker);
+   } finally {
+     await rm(root, { recursive: true, force: true });
+   }
+@@ -167,7 +207,7 @@ test("repository fallback canonicalizes a linked dependency ancestor", async ()
+ test("execution stops when version inspection mutates the bound file", async () => {
+   const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-mutation-"));
+   const projectRoot = join(root, "candidate");
+-  const external = join(root, "tsc.mjs");
++  const external = join(root, "tsc");
+   const marker = join(root, "mutation.log");
+ 
+   try {
+@@ -195,15 +235,51 @@ test("execution stops when version inspection mutates the bound file", async ()
+     await rm(root, { recursive: true, force: true });
+   }
+ });
++
++test("execution detects persistent mutation during compilation", async () => {
++  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-compile-mutation-"));
++  const projectRoot = join(root, "candidate");
++  const external = join(root, "tsc");
++  const marker = join(root, "mutation.log");
++
++  try {
++    await mkdir(projectRoot);
++    await writeFile(
++      external,
++      `${SENTINEL_SOURCE("compile-mutating")}\nif (process.argv[2] !== "--version") appendFileSync(process.argv[1], "\\n// mutation\\n");\n`,
++    );
++    const environment = withoutTypeScriptSupply();
++    environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = external;
++    environment.SWECIRCUIT_TYPESCRIPT_SENTINEL = marker;
++
++    assert.throws(
++      () =>
++        executeTypeScript(["--noEmit"], {
++          cwd: projectRoot,
++          environment,
++          projectRoot,
++          stdio: "pipe",
++        }),
++      /changed after compilation/u,
++    );
++    assert.deepEqual(await sentinelCalls(marker), [
++      { id: "compile-mutating", args: ["--version"] },
++      { id: "compile-mutating", args: ["--noEmit"] },
++    ]);
++  } finally {
++    await rm(root, { recursive: true, force: true });
++  }
++});
++
+ test("TypeScript binding rejects ambiguous, contained, and linked files", async () => {
+   const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-reject-"));
+   const projectRoot = join(root, "candidate");
+   const externalRoot = join(root, "external");
+-  const external = join(externalRoot, "tsc.mjs");
+-  const candidate = join(projectRoot, "tsc.mjs");
++  const external = join(externalRoot, "tsc");
++  const candidate = join(projectRoot, "tsc");
+   const finalLink = join(root, "final-link");
+   const ancestorLink = join(root, "ancestor-link");
+-  const hardLink = join(root, "hard-link.mjs");
++  const hardLink = join(root, "hard-link");
+   const key = TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY;
+   const resolveSupply = (environment, defaultEntrypoint = external) =>
+     resolveTypeScriptEntrypointBinding({
+@@ -233,7 +309,7 @@ test("TypeScript binding rejects ambiguous, contained, and linked files", async
+     assert.throws(() => resolveSupply({ [key]: externalRoot }), /plain regular file/u);
+     assert.throws(() => resolveSupply({ [key]: finalLink }), /symbolic link or junction/u);
+     assert.throws(
+-      () => resolveSupply({ [key]: join(ancestorLink, "tsc.mjs") }),
++      () => resolveSupply({ [key]: join(ancestorLink, "tsc") }),
+       /alias path components/u,
+     );
+     assert.throws(() => resolveSupply({ [key]: candidate }), /outside the candidate source/u);
+@@ -259,6 +335,9 @@ test("package, release gate, and packed consumer share explicit TypeScript autho
+   assert.equal(manifest.files.includes("scripts/run-typescript.mjs"), true);
+   assert.match(gate, /resolveTypeScriptEntrypointBinding/u);
+   assert.match(consumer, /resolveTypeScriptEntrypointBinding/u);
++  assert.match(consumer, /executeTypeScript/u);
++  assert.match(consumer, /binding: TYPESCRIPT_BINDING/u);
++  assert.doesNotMatch(consumer, /const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING\.path/u);
+   assert.doesNotMatch(manifest.scripts.build, /(^|\s)tsc(\s|$)/u);
+   assert.doesNotMatch(manifest.scripts.typecheck, /(^|\s)tsc(\s|$)/u);
+ });
+diff --git a/test/v12-release-gate.test.mjs b/test/v12-release-gate.test.mjs
+index ccca986..00abb56 100644
+--- a/test/v12-release-gate.test.mjs
++++ b/test/v12-release-gate.test.mjs
+@@ -162,22 +162,26 @@ test("host TypeScript entrypoint supply is singular, plain, absolute, and extern
+   }
+ });
+ 
+-test("packed consumer validates and uses the TypeScript entrypoint supply", () => {
+-  assert.match(packedConsumerSource, /import \{ resolveTypeScriptEntrypointBinding \}/u);
++test("packed consumer retains and executes the complete TypeScript binding", () => {
++  assert.match(packedConsumerSource, /executeTypeScript/u);
++  assert.match(packedConsumerSource, /resolveTypeScriptEntrypointBinding/u);
+   assert.match(
+     packedConsumerSource,
+     /const TYPESCRIPT_BINDING = resolveTypeScriptEntrypointBinding\(\{/u,
+   );
+-  assert.match(packedConsumerSource, /const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING\.path;/u);
+-
+-  const compilationStart = packedConsumerSource.indexOf(
+-    `  run(\n    process.execPath,\n    [\n      TYPESCRIPT_ENTRYPOINT,`,
++  assert.doesNotMatch(
++    packedConsumerSource,
++    /const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING\.path;/u,
+   );
++
++  const compilationStart = packedConsumerSource.indexOf(`  runTypeScript(\n    [`);
+   const compilationEnd = packedConsumerSource.indexOf("  const typedHostOutput", compilationStart);
+   assert.notEqual(compilationStart, -1);
+   assert.ok(compilationEnd > compilationStart);
+   const compilationSource = packedConsumerSource.slice(compilationStart, compilationEnd);
+-  assert.match(compilationSource, /\[\s*TYPESCRIPT_ENTRYPOINT,\s*"--ignoreConfig"/u);
++  assert.match(compilationSource, /runTypeScript\(\s*\[\s*"--ignoreConfig"/u);
++  assert.match(packedConsumerSource, /binding: TYPESCRIPT_BINDING/u);
++  assert.match(packedConsumerSource, /assert\.deepEqual\(observedReceipt, execution\.receipt\)/u);
+   assert.doesNotMatch(
+     compilationSource,
+     /join\(ROOT, "node_modules", "typescript", "bin", "tsc"\)/u,

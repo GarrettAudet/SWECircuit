@@ -648,3 +648,18 @@ The first Revision 23 review returned `fix`: its fast test passed a caller-suppl
 The first full lifecycle attempt then diagnosed a sealed-fixture sequence defect: Revision 22 was excluded while later revisions remained. The bounded fixture rule now excludes canonical correction roots from Revision 22 onward in both the filesystem copy and committed Git tree while retaining revisions 1-21 and unrelated evidence. The corrected copied-production lifecycle passes in 1,853.7 seconds.
 
 The first R24 package was rejected before launch for stale Revision 23 artifact-type labels. The next package returned a verifier-valid semantic `pass` but integration rejected its stale evidence filename. The final corrected package changes only that filename, reconstructs at compilation/package `sha256:6025d006482b13d40bdfc04f6ab2d7a16628f6040ef929cbe79b18707990ff90` / `sha256:deffe7fcb085e2840f94dba081e653800adf16528f062d7208a3d5072d18c81b`, and preserves a package-valid 18,311-byte `pass` handoff at `sha256:f88c08303de25f66a61dae6f0ca6e508b0357923c9c4bbe0d45e2e82a72c6497`. Integration accepts the exact result; route: `fix` -> `diagnose` -> `pass` -> label rejection -> semantic `pass` with integration rejection -> corrected `pass` -> pre-freeze verification.
+## Revision 28 Aggregate Diagnosis And Independent Review
+
+### Aggregate Diagnosis
+
+The first canonical aggregate attempt returned nonzero after 1,146.3 seconds, but its tool output was truncated before the exact failing assertion could be retained. No source changed. A controlled replay then passed 436/436 core tests in 461.5 seconds and the sealed lifecycle immediately afterward in 2,401.0 seconds. A fully logged `npm.cmd run verify` passed from the same clean checkpoint in 2,459.4 seconds. The initial stop is classified as a non-reproduced execution failure; no unsupported source cause is inferred.
+
+### Independent Finding
+
+The immutable Revision 28 review package authenticated 42 sources at checkpoint `d6c3de115bf2c79725033a99df4bb3072397b1e5`. Its exact 9,384-byte handoff verifies `fix` at raw digest `sha256:5d6a6ca39024a50d3c662364417ff11ac48cf20c3f4edf4cd3bfe9ab6a62a460`.
+
+The copied-production helper replaces the fixture `verify` command with five syntax checks. `node --check scripts/run-typescript.mjs` proves only that the launcher parses; it does not resolve, inspect, or execute the supplied compiler. The lifecycle test proves that command appeared in the raw gate log but has no compiler sentinel, complete TypeScript receipt, or persistent compilation-mutation failure route. The claimed complete copied-production binding is therefore unsupported even though the packed consumer and focused production-path tests pass.
+
+### Route
+
+`diagnose -> pass -> independent fix`. Candidate 13 remains unconsumed. Revision 29 must execute a real distinguishable external compiler through the copied production launcher, assert its complete version-bearing receipt and sentinel from the canonical log, and fail closed when that compiler is persistently mutated during compilation. Repeat focused, lifecycle, aggregate, and immutable review gates before any candidate freeze.

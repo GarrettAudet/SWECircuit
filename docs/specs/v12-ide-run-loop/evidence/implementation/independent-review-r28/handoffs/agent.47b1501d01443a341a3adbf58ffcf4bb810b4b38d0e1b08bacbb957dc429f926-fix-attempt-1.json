@@ -1,0 +1,52 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.review.authenticated-typescript-release-correction-r28",
+    "revision": 1,
+    "digest": "sha256:da7ee2fc2e8a99f9ba8b8cd9d8f87c8c44303e362a608957c5c48254ae9c03f6"
+  },
+  "agent": {
+    "id": "agent.47b1501d01443a341a3adbf58ffcf4bb810b4b38d0e1b08bacbb957dc429f926",
+    "blueprintDigest": "sha256:00e8186f6005b52e10a5d6338f54a630c573f84b5ba3b2f17f8151527bcfb0df"
+  },
+  "compilationDigest": "sha256:dfe188073e32ee626ef573020213f63576596094558b493dd48a4ed5d81f3dc2",
+  "summary": "Revision 28 closes the packed-consumer binding and stable-path mutation/PATH defects, but fix remains required because the copied-production lifecycle still replaces verification with syntax-only checks and never executes or receipts the supplied TypeScript compiler.",
+  "workUnitsCompleted": [
+    "review.authenticated-typescript-release-correction.r28"
+  ],
+  "artifacts": [
+    {
+      "name": "independent-revision-28-release-correction-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Independent Revision 28 Release-Correction Review\n\n## Verdict\n\n`fix`\n\nRevision 28 correctly closes the direct packed-consumer binding loss and adds the stable-path mutation and selectable-command controls. One required correction remains open: the copied-production lifecycle still replaces the canonical verify script with syntax-only checks, so it never executes or receipts the supplied TypeScript compiler through the production launcher. The lifecycle evidence therefore cannot support its complete-TypeScript-binding claim.\n\nThis verdict does not claim release readiness, merge approval, hosted CI, actor authentication, host isolation, or Candidate 13 approval.\n\n## Authentication\n\nAll 42 declared context sources matched their exact byte counts and standard raw SHA-256 digests before semantic review. The authenticated checkpoint is commit `d6c3de115bf2c79725033a99df4bb3072397b1e5`, tree `bea0968ae4e01fda7d228a7988d3e185cb3dac6c`, with clean-before and clean-after assertions. The runtime supplied approved compilation `sha256:dfe188073e32ee626ef573020213f63576596094558b493dd48a4ed5d81f3dc2` and package `sha256:9db67c3732934b6dfce1ed4dc0fd89086e326b942377cea08a114e3a0f859203`. No candidate gate was rerun.\n\n## Blocking Finding: Copied Lifecycle Never Executes TypeScript\n\n`final-lifecycle-helper.mjs:47-53` defines `FIXTURE_VERIFY_COMMAND` as five `node --check` commands. The TypeScript leg is only `node --check scripts/run-typescript.mjs`, which parses the launcher but does not call `resolveTypeScriptEntrypointBinding`, `observeTypeScriptVersion`, or `executeTypeScript`. Lines 376-394 replace the copied fixture's real `scripts.verify` with that syntax-only command before the fixture commit. Lines 1156-1165 resolve and forward a host TypeScript pathname into the canonical gate, but the overridden verify command never consumes it for version inspection or compilation.\n\nThe focused lifecycle test does not close the gap. `final-release-review-tests.mjs:767-797` writes arbitrary non-executable text as the alleged compiler and calls only the resolver. `final-lifecycle-test.mjs:94-108` merely confirms that the fixture-only command appeared in the raw log. The lifecycle result contains no TypeScript binding receipt, compiler sentinel, or compilation-mutation negative route. The Revision 28 source delta updates the launcher's copied-production identity but makes no causal lifecycle change.\n\nConsequently, the reported lifecycle pass and the owner statement that copied production exercised authenticated entrypoints including the complete TypeScript binding are unsupported. A regression in the exact materialized process boundary could still pass this lifecycle as long as the launcher remains syntactically valid. This leaves the explicit Revision 27 correction to execute a valid distinguishable external compiler in the copied lifecycle unresolved.\n\n## Accepted Controls\n\n- `final-packed-consumer.mjs:18-23,917-949,1201-1222` retains the complete frozen binding, passes that exact object as `binding: TYPESCRIPT_BINDING`, compiles through `executeTypeScript`, and compares the version-bearing callback receipt with the returned receipt. No packed-consumer direct binding-path spawn remains.\n- `final-run-typescript.mjs:30-47,114-174` reauthenticates canonical path, file type, link count, byte count, and digest before and after version inspection and compilation, validates an observed version, and returns it in the receipt.\n- `final-typescript-toolchain-tests.mjs:35-44,73-161` creates `tsc.cmd` on Windows or executable `tsc` on POSIX and proves the exact declared or fallback file runs while PATH markers remain absent. Lines 207-319 cover persistent version and compilation mutation plus alias, containment, symlink or junction, and hard-link rejection.\n- `final-executor-boundary.md` accurately limits repository proof to stable-path entrypoint selection and assigns concurrent same-authority writers, transitive dependency bytes, native executables, process isolation, and runtime supply to the external host.\n- Package metadata routes build and typecheck through the launcher, packs the launcher and boundary document, retains TypeScript 7.0.2 in the lock, and the authenticated aggregate log shows typecheck, build, 436 core tests, package inspection, and the clean offline installed consumer passing.\n- The V11 Revision 42 Candidate A and Audit B digest pairs, 2,255-byte external receipt, 4,742-byte binder handoff, integration-ready assessment, 7,938-byte semantic pass, and 984-byte cross-package authorization are mutually consistent. `candidateLaunchApproved` remains false.\n- The opaque first aggregate stop has no retained failing assertion. With no source change, controlled core and lifecycle replays passed, followed by the fully logged `npm.cmd run verify` pass in 2,459,400 ms. No unsupported source cause is inferred.\n\n## Review-Point Resolution\n\n1. Snapshot authentication: pass, 42 of 42.\n2. Packed-consumer complete binding: pass.\n3. Stable-path pre/post authentication and version receipt: pass.\n4. Platform-selectable hostile PATH construction: pass by source; hosted matrix execution remains a later host gate.\n5. Persistent mutation and path controls: pass in focused exported-path tests; copied-lifecycle execution evidence fails.\n6. Host boundary precision: pass.\n7. Materialization, metadata, hosted configuration, installed consumer, and cleanup: preserved; copied-production TypeScript execution is incomplete.\n8. V11 Revision 42 replay: pass.\n9. Aggregate diagnosis: `diagnose -> pass`, with the lifecycle limitation above.\n10. Independent bypass search: found the missing copied-lifecycle execution route. Overall outcome: `fix`.\n\n## Required Correction\n\nMake the copied fixture's verify command invoke the production TypeScript launcher with a real distinguishable external compiler and a bounded compilation input. Assert the complete version-bearing binding receipt and compiler sentinel from the canonical gate log. Add a copied-lifecycle negative route that persistently mutates the compiler during compilation and must fail after child return. Then repeat focused verification, the exact copied lifecycle, aggregate verification, and a fresh immutable package-bound review before any Candidate 13 freeze."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.authenticated-typescript-release-correction.r28",
+      "requirementId": "evidence.review.authenticated-typescript-release-correction.r28",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "independent-revision-28-release-correction-review.md"
+    }
+  ],
+  "assumptions": [
+    "The externally supplied approved compilation/package pair is the launch authority; this review independently authenticated every declared context file by raw byte count and SHA-256.",
+    "Owner verification, lifecycle summaries, V11 reports, and aggregate receipts are supporting evidence only, not the independent verdict.",
+    "Concurrent same-authority pathname replacement, trusted transitive toolchain bytes, native executables, and process isolation remain external-host duties as stated by the authenticated boundary."
+  ],
+  "risks": [
+    "The copied-production lifecycle can pass without exercising the TypeScript version or compilation path, so it cannot detect a materialized-process regression that leaves the launcher merely syntactically valid.",
+    "Stable-path pre/post authentication does not prevent swap-and-restore by a concurrent writer with the same filesystem authority; correctness depends on the documented host isolation boundary.",
+    "Hosted Windows, Linux, and macOS matrix execution remains a later host-owned gate and was not claimed here."
+  ],
+  "followUps": [
+    "Route the copied fixture through the production launcher with a real distinguishable external compiler and assert its complete receipt and sentinel in lifecycle evidence.",
+    "Add a copied-lifecycle persistent compilation-mutation failure route.",
+    "Repeat focused, copied-lifecycle, aggregate, and immutable package-bound review gates before freezing or consuming Candidate 13."
+  ]
+}

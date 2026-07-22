@@ -1,0 +1,49 @@
+{
+  "apiVersion": "swecircuit/verification-receipt/v1alpha1",
+  "kind": "MutableSourceAggregateVerificationReceipt",
+  "checkpoint": "d6c3de115bf2c79725033a99df4bb3072397b1e5",
+  "tree": "bea0968ae4e01fda7d228a7988d3e185cb3dac6c",
+  "command": "npm.cmd run verify",
+  "exitCode": 0,
+  "durationMilliseconds": 2459400,
+  "durationPrecision": "nearest_100_milliseconds",
+  "forecastWindowMilliseconds": {
+    "minimum": 2760000,
+    "maximum": 3000000
+  },
+  "forecastOutcome": "faster_than_forecast_window",
+  "phases": [
+    "format:check",
+    "lint",
+    "typecheck",
+    "build",
+    "core tests (436/436 in 457317.2781ms)",
+    "serialized exact lifecycle (1/1 in 1965533.4025ms)",
+    "specialist example",
+    "V10 dogfood",
+    "V11 Revision 42 two-package dogfood",
+    "V12 four-operation dogfood",
+    "package dry run (148 files)",
+    "clean offline installed consumer"
+  ],
+  "result": "pass",
+  "rawConsoleOutputPreserved": true,
+  "rawConsoleOutput": {
+    "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r28/inputs/snapshots/aggregate-verification.log",
+    "bytes": 656892,
+    "digest": "sha256:3f1e230ba78a15fe9e4f77d0155861e49ee6af52c7afff833fb0f46d7b5de42a"
+  },
+  "controlledReplays": [
+    {
+      "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r28/inputs/snapshots/aggregate-core-replay.log",
+      "bytes": 63498,
+      "digest": "sha256:89cd2d8817e9f57c69607bf8e8e1c1734235609beeff4e64579cee2efd505f32"
+    },
+    {
+      "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r28/inputs/snapshots/aggregate-lifecycle-replay.log",
+      "bytes": 592,
+      "digest": "sha256:f2ff20c0142f623c2731365c388d7e79f9fe665a1d7e434b879fca2daf891022"
+    }
+  ],
+  "attestedBy": "codex.main"
+}

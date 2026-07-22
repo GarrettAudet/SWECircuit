@@ -1,0 +1,11 @@
+{
+  "phase": "independent-review-r28",
+  "reviewCheckpoint": "d6c3de115bf2c79725033a99df4bb3072397b1e5",
+  "predecessorPhase": "independent-review-r27",
+  "predecessorOutcome": "fix",
+  "goalId": "v12.ide-run-loop.review.authenticated-typescript-release-correction-r28",
+  "goalRevision": 1,
+  "runtimeInvoked": true,
+  "outcome": "fix",
+  "handoffRawDigest": "sha256:5d6a6ca39024a50d3c662364417ff11ac48cf20c3f4edf4cd3bfe9ab6a62a460"
+}
