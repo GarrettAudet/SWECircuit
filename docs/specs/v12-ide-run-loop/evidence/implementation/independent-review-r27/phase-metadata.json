@@ -1,0 +1,9 @@
+{
+  "phase": "independent-review-r27",
+  "reviewCheckpoint": "f7bf92cb7dff782623ed7d0aabe410ff37647e23",
+  "predecessorPhase": "independent-review-r26",
+  "predecessorOutcome": "fix",
+  "goalId": "v12.ide-run-loop.review.authenticated-typescript-release-correction-r27",
+  "goalRevision": 1,
+  "runtimeInvoked": true
+}

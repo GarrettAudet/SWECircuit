@@ -8,3 +8,4 @@ docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.std
 docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log binary
 docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stdout.log binary
 docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stderr.log binary
+docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r27/inputs/snapshots/revision-27-source.patch binary

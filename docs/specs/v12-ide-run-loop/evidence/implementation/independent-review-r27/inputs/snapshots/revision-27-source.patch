@@ -1,0 +1,1313 @@
+diff --git a/biome.json b/biome.json
+index c102f34..c5053e3 100644
+--- a/biome.json
++++ b/biome.json
+@@ -10,6 +10,7 @@
+       "scripts/run-v11-dogfood.mjs",
+       "scripts/run-v12-dogfood.mjs",
+       "scripts/run-v12-release-gate.mjs",
++      "scripts/run-typescript.mjs",
+       "scripts/check-packed-consumer.mjs",
+       "scripts/fixtures/packed-consumer-host.ts",
+       "package.json",
+diff --git a/package.json b/package.json
+index d06279c..8b33f85 100644
+--- a/package.json
++++ b/package.json
+@@ -20,22 +20,25 @@
+   "files": [
+     "dist",
+     "schemas",
+-    "docs/framework/executor-boundary.md"
++    "docs/framework/executor-boundary.md",
++    "scripts/run-typescript.mjs"
+   ],
+   "scripts": {
+-    "build": "tsc -p tsconfig.json",
++    "build": "node scripts/run-typescript.mjs -p tsconfig.json",
+     "dogfood:v9": "npm run build --silent && node scripts/run-v9-dogfood.mjs",
+     "dogfood:v10": "npm run build --silent && node scripts/run-v10-dogfood.mjs --check-evidence",
+     "dogfood:v11": "npm run build --silent && node scripts/run-v11-dogfood.mjs --check-evidence",
+     "dogfood:v12": "npm run build --silent && node scripts/run-v12-dogfood.mjs --check-evidence",
+     "example:specialist": "node examples/specialist-compiler/run.mjs",
+     "release-review:v12": "node scripts/run-v12-release-review.mjs",
+-    "test:release-review:v12": "node --test test/v12-release-review.test.mjs test/v12-release-gate.test.mjs",
+-    "format": "biome format --write src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
+-    "format:check": "biome format src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
+-    "lint": "biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts",
+-    "typecheck": "tsc -p tsconfig.json --noEmit",
+-    "test": "npm run build --silent && node --test test/*.test.mjs",
++    "test:release-review:v12": "node --test test/v12-release-review.test.mjs test/v12-release-gate.test.mjs && npm run test:lifecycle",
++    "format": "biome format --write src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
++    "format:check": "biome format src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json",
++    "lint": "biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts",
++    "typecheck": "node scripts/run-typescript.mjs -p tsconfig.json --noEmit",
++    "test": "npm run build --silent && npm run test:core && npm run test:lifecycle",
++    "test:core": "node --test test/*.test.mjs",
++    "test:lifecycle": "node --test test/lifecycle/*.test.mjs",
+     "pack:check": "npm pack --dry-run --offline",
+     "consumer:check": "npm run build --silent && node scripts/check-packed-consumer.mjs",
+     "verify": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run example:specialist && npm run dogfood:v10 && npm run dogfood:v11 && npm run dogfood:v12 && npm run pack:check && npm run consumer:check"
+diff --git a/scripts/check-packed-consumer.mjs b/scripts/check-packed-consumer.mjs
+index db123bd..3a4ad76 100644
+--- a/scripts/check-packed-consumer.mjs
++++ b/scripts/check-packed-consumer.mjs
+@@ -6,55 +6,22 @@ import {
+   mkdirSync,
+   mkdtempSync,
+   readFileSync,
+-  realpathSync,
+   rmSync,
+   writeFileSync,
+ } from "node:fs";
+ import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+ import { fileURLToPath } from "node:url";
+ 
+-const ROOT = fileURLToPath(new URL("..", import.meta.url));
+-const TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY = "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT";
+-
+-function isOutsideRoot(root, path) {
+-  const fromRoot = relative(realpathSync(root), path);
+-  return isAbsolute(fromRoot) || fromRoot === ".." || fromRoot.startsWith(`..${sep}`);
+-}
+-
+-function plainRegularFileRealPath(path, label) {
+-  const stats = lstatSync(path);
+-  assert.equal(stats.isSymbolicLink(), false, `${label} must not be a symbolic link.`);
+-  assert.equal(stats.isFile(), true, `${label} must be a plain regular file.`);
+-  return realpathSync(path);
+-}
+-
+-function resolveTypeScriptEntrypoint(environment) {
+-  const supplies = Object.entries(environment)
+-    .filter(([key]) => key.toLowerCase() === TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY.toLowerCase())
+-    .map(([, value]) => value);
+-  assert.ok(
+-    supplies.length <= 1,
+-    `${TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY} must be supplied at most once, case-insensitively.`,
+-  );
+-
+-  const supplied = supplies.length === 1;
+-  const value = supplied ? supplies[0] : join(ROOT, "node_modules", "typescript", "bin", "tsc");
+-  assert.equal(typeof value, "string", "The TypeScript entrypoint must be a string.");
+-  assert.notEqual(value.length, 0, "The TypeScript entrypoint must be non-empty.");
+-  assert.equal(isAbsolute(value), true, "The TypeScript entrypoint must be absolute.");
++import { resolveTypeScriptEntrypointBinding } from "./run-typescript.mjs";
+ 
+-  const entrypoint = plainRegularFileRealPath(value, "The TypeScript entrypoint");
+-  if (supplied) {
+-    assert.equal(
+-      isOutsideRoot(ROOT, entrypoint),
+-      true,
+-      "The host-supplied TypeScript entrypoint must resolve outside the candidate source.",
+-    );
+-  }
+-  return entrypoint;
+-}
+-
+-const TYPESCRIPT_ENTRYPOINT = resolveTypeScriptEntrypoint(process.env);
++const ROOT = fileURLToPath(new URL("..", import.meta.url));
++const TYPESCRIPT_BINDING = resolveTypeScriptEntrypointBinding({
++  environment: process.env,
++  projectRoot: ROOT,
++  outsidePolicy: "supplied",
++  label: "The TypeScript entrypoint",
++});
++const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING.path;
+ const npmCacheSupplies = Object.entries(process.env)
+   .filter(([key]) => key.toLowerCase() === "npm_config_cache")
+   .map(([, value]) => value);
+@@ -86,6 +53,7 @@ const REQUIRED_PACKED_FILES = Object.freeze([
+   "dist/specialist-types.d.ts",
+   "docs/framework/executor-boundary.md",
+   "package.json",
++  "scripts/run-typescript.mjs",
+   "schemas/v1alpha1/common.schema.json",
+   "schemas/v1alpha1/project.schema.json",
+   "schemas/v1alpha1/run-event.schema.json",
+@@ -94,7 +62,8 @@ const REQUIRED_PACKED_FILES = Object.freeze([
+   "schemas/v1alpha1/specialist-run.schema.json",
+ ]);
+ const FORBIDDEN_PACKED_FILES = new Set([".npmrc"]);
+-const FORBIDDEN_PACKED_PREFIXES = Object.freeze(["scripts/", "src/", "test/"]);
++const ALLOWED_PACKED_SCRIPTS = new Set(["scripts/run-typescript.mjs"]);
++const FORBIDDEN_PACKED_PREFIXES = Object.freeze(["src/", "test/"]);
+ const RETAINED_SPECIALIST_EXPECTATION = Object.freeze({
+   compilationDigest: "sha256:92881440b8d0b58de756bd706631ed4481565b20fd3cadad669637006b157659",
+   packageDigest: "sha256:913c04c71beaef362e81a1859f740587e2cf0017a83585d5c6468cbda2e84a43",
+@@ -1102,6 +1071,9 @@ try {
+   }
+   for (const path of packedFiles) {
+     assert.equal(FORBIDDEN_PACKED_FILES.has(path), false, `Packed artifact contains ${path}`);
++    if (path.startsWith("scripts/")) {
++      assert.equal(ALLOWED_PACKED_SCRIPTS.has(path), true, `Packed artifact contains ${path}`);
++    }
+     assert.equal(
+       FORBIDDEN_PACKED_PREFIXES.some((prefix) => path.startsWith(prefix)),
+       false,
+diff --git a/scripts/run-typescript.mjs b/scripts/run-typescript.mjs
+new file mode 100644
+index 0000000..60eaf67
+--- /dev/null
++++ b/scripts/run-typescript.mjs
+@@ -0,0 +1,200 @@
++import { spawnSync } from "node:child_process";
++import { createHash } from "node:crypto";
++import { lstatSync, readFileSync, realpathSync } from "node:fs";
++import { isAbsolute, join, relative, resolve, sep } from "node:path";
++import { fileURLToPath } from "node:url";
++
++const ROOT = fileURLToPath(new URL("..", import.meta.url));
++export const TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY = "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT";
++
++function requireCondition(condition, message) {
++  if (!condition) {
++    throw new Error(message);
++  }
++}
++
++function digest(bytes) {
++  return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
++}
++
++function pathIdentity(path) {
++  const identity = resolve(path);
++  return process.platform === "win32" ? identity.toLowerCase() : identity;
++}
++
++function isOutsideRoot(root, path) {
++  const fromRoot = relative(realpathSync(root), path);
++  return isAbsolute(fromRoot) || fromRoot === ".." || fromRoot.startsWith(`..${sep}`);
++}
++
++function authenticateBinding(binding, phase) {
++  const stats = lstatSync(binding.path);
++  requireCondition(!stats.isSymbolicLink(), `TypeScript binding changed ${phase}.`);
++  requireCondition(stats.isFile(), `TypeScript binding changed ${phase}.`);
++  requireCondition(
++    stats.nlink === binding.nlink && stats.nlink === 1,
++    `TypeScript binding changed ${phase}.`,
++  );
++  requireCondition(
++    pathIdentity(realpathSync(binding.path)) === pathIdentity(binding.path),
++    `TypeScript binding changed ${phase}.`,
++  );
++  const bytes = readFileSync(binding.path);
++  requireCondition(
++    bytes.byteLength === binding.bytes && digest(bytes) === binding.digest,
++    `TypeScript binding changed ${phase}.`,
++  );
++}
++export function resolveTypeScriptEntrypointBinding(options = {}) {
++  const environment = options.environment ?? process.env;
++  const projectRoot = options.projectRoot ?? ROOT;
++  const defaultEntrypoint =
++    options.defaultEntrypoint ?? join(projectRoot, "node_modules", "typescript", "bin", "tsc");
++  const outsidePolicy = options.outsidePolicy ?? "supplied";
++  const label = options.label ?? "TypeScript entrypoint";
++  requireCondition(
++    environment !== null && typeof environment === "object",
++    `${label} environment must be an object.`,
++  );
++  requireCondition(
++    outsidePolicy === "supplied" || outsidePolicy === "always" || outsidePolicy === "never",
++    `${label} outside policy is invalid.`,
++  );
++
++  const supplies = Object.entries(environment)
++    .filter(([key]) => key.toLowerCase() === TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY.toLowerCase())
++    .map(([, value]) => value);
++  requireCondition(
++    supplies.length <= 1,
++    `${TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY} must be supplied at most once, case-insensitively.`,
++  );
++
++  const supplied = supplies.length === 1;
++  const value = supplied ? supplies[0] : defaultEntrypoint;
++  requireCondition(typeof value === "string" && value.length > 0, `${label} must be non-empty.`);
++  requireCondition(isAbsolute(value), `${label} must be absolute.`);
++
++  const selectedStats = lstatSync(value);
++  requireCondition(
++    !selectedStats.isSymbolicLink(),
++    `${label} must not be a symbolic link or junction.`,
++  );
++  const canonicalPath = realpathSync(value);
++  if (supplied) {
++    requireCondition(
++      pathIdentity(value) === pathIdentity(canonicalPath),
++      `${label} must not traverse symbolic-link, junction, or alias path components.`,
++    );
++  }
++  const stats = lstatSync(canonicalPath);
++  requireCondition(
++    !stats.isSymbolicLink(),
++    `${label} target must not be a symbolic link or junction.`,
++  );
++  requireCondition(stats.isFile(), `${label} must be a plain regular file.`);
++  requireCondition(stats.nlink === 1, `${label} must have exactly one filesystem link.`);
++
++  if (outsidePolicy === "always" || (outsidePolicy === "supplied" && supplied)) {
++    requireCondition(
++      isOutsideRoot(projectRoot, canonicalPath),
++      `${label} must resolve outside the candidate source.`,
++    );
++  }
++
++  const bytes = readFileSync(canonicalPath);
++  return Object.freeze({
++    path: canonicalPath,
++    bytes: bytes.byteLength,
++    digest: digest(bytes),
++    nlink: stats.nlink,
++    supplied,
++  });
++}
++
++export function observeTypeScriptVersion(binding, options = {}) {
++  authenticateBinding(binding, "before version inspection");
++  const result = spawnSync(process.execPath, [binding.path, "--version"], {
++    cwd: options.cwd ?? ROOT,
++    env: options.environment ?? process.env,
++    encoding: "utf8",
++    windowsHide: true,
++  });
++  authenticateBinding(binding, "during version inspection");
++  requireCondition(
++    result.error === undefined,
++    `TypeScript version inspection failed: ${result.error}`,
++  );
++  requireCondition(result.signal === null, "TypeScript version inspection was terminated.");
++  requireCondition(result.status === 0, `TypeScript version inspection failed: ${result.stderr}`);
++  const version = result.stdout.trim();
++  requireCondition(
++    /^Version\s+\S+/u.test(version),
++    "TypeScript returned an invalid version string.",
++  );
++  return version;
++}
++
++export function executeTypeScript(arguments_, options = {}) {
++  requireCondition(
++    Array.isArray(arguments_) && arguments_.every((argument) => typeof argument === "string"),
++    "TypeScript arguments must be strings.",
++  );
++  const environment = options.environment ?? process.env;
++  const cwd = options.cwd ?? ROOT;
++  const binding =
++    options.binding ??
++    resolveTypeScriptEntrypointBinding({
++      environment,
++      projectRoot: options.projectRoot ?? ROOT,
++      defaultEntrypoint: options.defaultEntrypoint,
++      outsidePolicy: options.outsidePolicy,
++      label: options.label,
++    });
++  const version = observeTypeScriptVersion(binding, { cwd, environment });
++  const receipt = Object.freeze({
++    path: binding.path,
++    bytes: binding.bytes,
++    digest: binding.digest,
++    nlink: binding.nlink,
++    supplied: binding.supplied,
++    version,
++  });
++  options.onBinding?.(receipt);
++
++  authenticateBinding(binding, "before compilation");
++  const result = spawnSync(process.execPath, [binding.path, ...arguments_], {
++    cwd,
++    env: environment,
++    stdio: options.stdio ?? "inherit",
++    windowsHide: true,
++  });
++  authenticateBinding(binding, "during compilation");
++  requireCondition(result.error === undefined, `TypeScript execution failed: ${result.error}`);
++  return { binding, receipt, result };
++}
++
++function main() {
++  const execution = executeTypeScript(process.argv.slice(2), {
++    onBinding(receipt) {
++      process.stdout.write(`SWECIRCUIT_TYPESCRIPT_BINDING ${JSON.stringify(receipt)}\n`);
++    },
++  });
++  if (execution.result.signal !== null) {
++    process.stderr.write(`TypeScript was terminated by ${execution.result.signal}.\n`);
++    process.exitCode = 1;
++    return;
++  }
++  process.exitCode = execution.result.status ?? 1;
++}
++
++if (
++  typeof process.argv[1] === "string" &&
++  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
++) {
++  try {
++    main();
++  } catch (error) {
++    process.stderr.write(`${error instanceof Error ? error.message : "Unknown error"}\n`);
++    process.exitCode = 1;
++  }
++}
+diff --git a/scripts/run-v12-release-gate.mjs b/scripts/run-v12-release-gate.mjs
+index 0c64c19..3e96938 100644
+--- a/scripts/run-v12-release-gate.mjs
++++ b/scripts/run-v12-release-gate.mjs
+@@ -1,6 +1,5 @@
+ import { spawnSync } from "node:child_process";
+ import { createHash } from "node:crypto";
+-import { lstatSync, realpathSync } from "node:fs";
+ import {
+   access,
+   lstat,
+@@ -16,6 +15,11 @@ import {
+ import { delimiter, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+ import { fileURLToPath } from "node:url";
+ 
++import {
++  resolveTypeScriptEntrypointBinding,
++  TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY,
++} from "./run-typescript.mjs";
++
+ const ROOT = fileURLToPath(new URL("../", import.meta.url));
+ const EVIDENCE = join(ROOT, "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs");
+ const CANDIDATE_PATTERN = /^[0-9a-f]{40}$/;
+@@ -26,7 +30,6 @@ const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
+ const MATERIALIZATION_PARENT = join(ROOT, ".local", "v12-release-gate");
+ const GENERATED_BUILD_DIRECTORY = "dist";
+ const DEFAULT_HOST_NPM_CACHE = join(ROOT, ".local", "npm-cache");
+-const TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY = "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT";
+ const DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT = join(ROOT, "node_modules", "typescript", "bin", "tsc");
+ 
+ const COMMAND =
+@@ -56,44 +59,18 @@ function requireCondition(condition, message) {
+   }
+ }
+ 
+-function isOutsideRoot(root, path) {
+-  const fromRoot = relative(realpathSync(root), path);
+-  return isAbsolute(fromRoot) || fromRoot === ".." || fromRoot.startsWith(`..${sep}`);
+-}
+-
+-function plainRegularFileRealPath(path, label) {
+-  const stats = lstatSync(path);
+-  requireCondition(!stats.isSymbolicLink(), `${label} must not be a symbolic link.`);
+-  requireCondition(stats.isFile(), `${label} must be a plain regular file.`);
+-  return realpathSync(path);
+-}
+-
+ function resolveHostTypeScriptEntrypoint(
+   environment,
+   candidateRoot,
+   defaultEntrypoint = DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT,
+ ) {
+-  const supplies = Object.entries(environment)
+-    .filter(([key]) => key.toLowerCase() === TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY.toLowerCase())
+-    .map(([, value]) => value);
+-  requireCondition(
+-    supplies.length <= 1,
+-    `${TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY} must be supplied at most once, case-insensitively.`,
+-  );
+-
+-  const value = supplies.length === 1 ? supplies[0] : defaultEntrypoint;
+-  requireCondition(
+-    typeof value === "string" && value.length > 0,
+-    "Host TypeScript entrypoint supply must be non-empty.",
+-  );
+-  requireCondition(isAbsolute(value), "Host TypeScript entrypoint supply must be absolute.");
+-
+-  const entrypoint = plainRegularFileRealPath(value, "Host TypeScript entrypoint supply");
+-  requireCondition(
+-    isOutsideRoot(candidateRoot, entrypoint),
+-    "Host TypeScript entrypoint must resolve outside the candidate materialization.",
+-  );
+-  return entrypoint;
++  return resolveTypeScriptEntrypointBinding({
++    environment,
++    projectRoot: candidateRoot,
++    defaultEntrypoint,
++    outsidePolicy: "always",
++    label: "Host TypeScript entrypoint supply",
++  }).path;
+ }
+ 
+ function resolveHostNpmCache(environment) {
+diff --git a/test/helpers/v12-release-review-lifecycle.mjs b/test/helpers/v12-release-review-lifecycle.mjs
+index 8cfb352..c6d66f3 100644
+--- a/test/helpers/v12-release-review-lifecycle.mjs
++++ b/test/helpers/v12-release-review-lifecycle.mjs
+@@ -18,6 +18,7 @@ import { delimiter, dirname, isAbsolute, join, relative, resolve, sep } from "no
+ import { fileURLToPath } from "node:url";
+ 
+ import { RELEASE_REVIEW_TEST_HOOKS } from "../../docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs";
++import { resolveTypeScriptEntrypointBinding } from "../../scripts/run-typescript.mjs";
+ import { RELEASE_GATE_TEST_HOOKS } from "../../scripts/run-v12-release-gate.mjs";
+ import { RELEASE_REVIEW_PARENT_TEST_HOOKS } from "../../scripts/run-v12-release-review.mjs";
+ 
+@@ -37,6 +38,7 @@ const GATE_PATH = "scripts/run-v12-release-gate.mjs";
+ const HARNESS_PATH = `${REVIEW_ROOT}/run-release-review.mjs`;
+ const VERIFIER_PATH = `${REVIEW_ROOT}/verify-release-review-handoffs.mjs`;
+ const GATE_TEST_PATH = "test/v12-release-gate.test.mjs";
++const TYPESCRIPT_RUNNER_PATH = "scripts/run-typescript.mjs";
+ const PACKAGE_PATH = "package.json";
+ const LOCK_PATH = "package-lock.json";
+ const PROCESS_TIMEOUT_MS = 900_000;
+@@ -47,16 +49,17 @@ const FIXTURE_VERIFY_COMMAND = [
+   `node --check ${PARENT_PATH}`,
+   `node --check ${HARNESS_PATH}`,
+   `node --check ${VERIFIER_PATH}`,
++  `node --check ${TYPESCRIPT_RUNNER_PATH}`,
+ ].join(" && ");
+ 
+-export const R22_OUTPUT_IDENTITIES = Object.freeze({
++export const PRODUCTION_IDENTITIES = Object.freeze({
+   [PARENT_PATH]: Object.freeze({
+     bytes: 96_946,
+     digest: "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
+   }),
+   [GATE_PATH]: Object.freeze({
+-    bytes: 31_791,
+-    digest: "sha256:2888ca9ae2a19dbf2b56c4acb39e934e6c9194f9709906a4f17d1e958578e1c0",
++    bytes: 30_623,
++    digest: "sha256:6e1e398c7d15a0b5ac3562ccb90913ecb6480f700a9e53cb1aaf076f2f704b21",
+   }),
+   [HARNESS_PATH]: Object.freeze({
+     bytes: 127_748,
+@@ -67,12 +70,16 @@ export const R22_OUTPUT_IDENTITIES = Object.freeze({
+     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+   }),
+   [GATE_TEST_PATH]: Object.freeze({
+-    bytes: 42_125,
+-    digest: "sha256:92c72bb85bbcfd6cfafefbede78ccb7cf753d232e068032367c1e0a7828d42b6",
++    bytes: 41_945,
++    digest: "sha256:bf686f62e2ef61c0ad012680321c2497b5532084eefcc759a882c6b10cf4f010",
++  }),
++  [TYPESCRIPT_RUNNER_PATH]: Object.freeze({
++    bytes: 7_033,
++    digest: "sha256:fcb20a8c6b97ba017ba75e33383edcc1469b7ca44a93809987004c863b39c873",
+   }),
+   [PACKAGE_PATH]: Object.freeze({
+-    bytes: 3_719,
+-    digest: "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
++    bytes: 4_043,
++    digest: "sha256:9c8e1e3bde18439a6199f0752b7dad1e69fdf713ffac33597d5119d1c26a67fa",
+   }),
+ });
+ 
+@@ -583,22 +590,12 @@ function gateEnvironment(cacheRoot, typeScriptEntrypoint, sourceEnvironment = pr
+ }
+ 
+ async function resolveLifecycleTypeScriptEntrypoint(sourceEnvironment = process.env) {
+-  const supplyKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
+-  const supplies = Object.keys(sourceEnvironment).filter(
+-    (key) => key.toLowerCase() === supplyKey.toLowerCase(),
+-  );
+-  assert.equal(
+-    supplies.length <= 1,
+-    true,
+-    `${supplyKey} must be supplied at most once, case-insensitively`,
+-  );
+-  if (supplies.length === 1) {
+-    return RELEASE_GATE_TEST_HOOKS.resolveHostTypeScriptEntrypoint(sourceEnvironment, SOURCE_ROOT);
+-  }
+-
+-  const localEntrypoint = absolute(SOURCE_ROOT, "node_modules/typescript/bin/tsc");
+-  assert.equal(await pathExists(localEntrypoint), true, "local TypeScript entrypoint is missing");
+-  return realpath(localEntrypoint);
++  return resolveTypeScriptEntrypointBinding({
++    environment: sourceEnvironment,
++    projectRoot: SOURCE_ROOT,
++    outsidePolicy: "supplied",
++    label: "Lifecycle TypeScript entrypoint",
++  }).path;
+ }
+ 
+ async function operationRootNames() {
+@@ -1113,7 +1110,7 @@ export async function runReleaseReviewProductionLifecycle() {
+   const sourceStatusBefore = (
+     await runGit(SOURCE_ROOT, ["status", "--porcelain=v1", "-z"], { env: process.env })
+   ).stdout;
+-  const sourceFrozenBefore = await authenticateFiles(SOURCE_ROOT, R22_OUTPUT_IDENTITIES);
++  const sourceFrozenBefore = await authenticateFiles(SOURCE_ROOT, PRODUCTION_IDENTITIES);
+   assertIdentity(await identity(absolute(SOURCE_ROOT, LOCK_PATH)), LOCK_IDENTITY, LOCK_PATH);
+ 
+   const lifecycleRoot = await realpath(
+@@ -1135,7 +1132,7 @@ export async function runReleaseReviewProductionLifecycle() {
+     assert.equal(await pathExists(absolute(fixtureRoot, RUN_ROOT)), false);
+     assert.equal(await pathExists(absolute(fixtureRoot, GATE_ROOT)), false);
+ 
+-    const copiedProduction = await authenticateFiles(fixtureRoot, R22_OUTPUT_IDENTITIES);
++    const copiedProduction = await authenticateFiles(fixtureRoot, PRODUCTION_IDENTITIES);
+     assertIdentity(
+       await identity(absolute(fixtureRoot, LOCK_PATH)),
+       LOCK_IDENTITY,
+@@ -1144,7 +1141,7 @@ export async function runReleaseReviewProductionLifecycle() {
+     const fixtureException = await applyFixtureVerifyException(fixtureRoot);
+     const { commit, gitEnvironment } = await initializeFixtureGit(fixtureRoot);
+     const committedExpected = {
+-      ...R22_OUTPUT_IDENTITIES,
++      ...PRODUCTION_IDENTITIES,
+       [PACKAGE_PATH]: fixtureException.committedIdentity,
+       [LOCK_PATH]: LOCK_IDENTITY,
+     };
+@@ -1189,7 +1186,7 @@ export async function runReleaseReviewProductionLifecycle() {
+     );
+     assert.match(strictUtf8(gateStdout, "canonical gate log"), /run-v12-release-review\.mjs/u);
+ 
+-    const parentDigest = R22_OUTPUT_IDENTITIES[PARENT_PATH].digest;
++    const parentDigest = PRODUCTION_IDENTITIES[PARENT_PATH].digest;
+     const environment = parentEnvironment(cacheRoot, parentDigest, npmSupply.path, gitSupply.path);
+     const commandEvidence = [processEvidence("canonical-gate", gateResult)];
+     const negativeRoutes = [];
+@@ -1457,7 +1454,7 @@ export async function runReleaseReviewProductionLifecycle() {
+     ).stdout;
+     assert.equal(fixtureTrackedAfter.byteLength, 0, "lifecycle changed tracked fixture bytes");
+     const fixtureProductionAfter = await authenticateFiles(fixtureRoot, {
+-      ...R22_OUTPUT_IDENTITIES,
++      ...PRODUCTION_IDENTITIES,
+       [PACKAGE_PATH]: fixtureException.committedIdentity,
+     });
+ 
+@@ -1563,7 +1560,7 @@ export async function runReleaseReviewProductionLifecycle() {
+       await runGit(SOURCE_ROOT, ["status", "--porcelain=v1", "-z"], { env: process.env })
+     ).stdout;
+     cleanup.sourceStatusUnchanged = sourceStatusAfter.equals(sourceStatusBefore);
+-    cleanup.sourceFrozenAfter = await authenticateFiles(SOURCE_ROOT, R22_OUTPUT_IDENTITIES);
++    cleanup.sourceFrozenAfter = await authenticateFiles(SOURCE_ROOT, PRODUCTION_IDENTITIES);
+     cleanup.sourceLockAfter = await identity(absolute(SOURCE_ROOT, LOCK_PATH));
+     assertIdentity(cleanup.sourceLockAfter, LOCK_IDENTITY, "source lockfile after lifecycle");
+   }
+diff --git a/test/lifecycle/v12-release-review-lifecycle.test.mjs b/test/lifecycle/v12-release-review-lifecycle.test.mjs
+new file mode 100644
+index 0000000..de85904
+--- /dev/null
++++ b/test/lifecycle/v12-release-review-lifecycle.test.mjs
+@@ -0,0 +1,189 @@
++import assert from "node:assert/strict";
++import { spawnSync } from "node:child_process";
++import { readFileSync } from "node:fs";
++import { mkdtemp, realpath, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import test from "node:test";
++import { fileURLToPath } from "node:url";
++
++import { RELEASE_GATE_TEST_HOOKS } from "../../scripts/run-v12-release-gate.mjs";
++import { PRODUCTION_IDENTITIES } from "../helpers/v12-release-review-lifecycle.mjs";
++
++const ROOT = fileURLToPath(new URL("../../", import.meta.url));
++const LIFECYCLE_PATH = "test/fixtures/v12-release-review-lifecycle-child.mjs";
++
++test("isolated copied production entrypoints complete one exact compile-to-verify lifecycle", {
++  timeout: 3_900_000,
++}, async () => {
++  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-lifecycle-")));
++  const outputPath = join(root, "lifecycle.json");
++  const headProbe = spawnSync(
++    "git",
++    ["-c", "core.longpaths=true", "rev-parse", "--verify", "HEAD"],
++    {
++      cwd: ROOT,
++      env: process.env,
++      encoding: "utf8",
++      timeout: 30_000,
++      windowsHide: true,
++    },
++  );
++  assert.equal(headProbe.signal, null, "source HEAD probe was terminated");
++  assert.equal(headProbe.status, 0, headProbe.stderr);
++  const candidateCommit = headProbe.stdout.trim();
++  assert.match(candidateCommit, /^[0-9a-f]{40}$/u);
++
++  let materialization;
++  let gitContext;
++  let lifecycle;
++  try {
++    materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
++    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
++      candidateCommit,
++      materialization.root,
++    );
++    const probe = spawnSync(
++      process.execPath,
++      [join(materialization.root, LIFECYCLE_PATH), outputPath],
++      {
++        cwd: materialization.root,
++        env: RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext),
++        encoding: "utf8",
++        maxBuffer: 16 * 1024 * 1024,
++        timeout: 3_600_000,
++        windowsHide: true,
++      },
++    );
++    assert.equal(probe.signal, null, "candidate-context lifecycle was terminated");
++    assert.equal(probe.status, 0, probe.stderr || probe.stdout);
++    const summary = JSON.parse(probe.stdout);
++    assert.deepEqual(summary, {
++      outcome: "pass",
++      rootRemoved: true,
++      sourceStatusUnchanged: true,
++    });
++    lifecycle = JSON.parse(readFileSync(outputPath, "utf8"));
++    assert.deepEqual(
++      RELEASE_GATE_TEST_HOOKS.inspectCandidateGitContext(gitContext),
++      gitContext.before,
++      "copied lifecycle mutated its enclosing candidate Git context",
++    );
++    assert.deepEqual(
++      await RELEASE_GATE_TEST_HOOKS.inspectExactMaterialization(
++        materialization.root,
++        materialization.entries,
++      ),
++      {
++        files: materialization.source.files,
++        bytes: materialization.source.bytes,
++        digest: materialization.source.digest,
++      },
++      "copied lifecycle mutated its exact candidate materialization",
++    );
++  } finally {
++    if (gitContext !== undefined) {
++      await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
++    }
++    if (materialization !== undefined) {
++      await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
++    }
++    await rm(root, { recursive: true, force: true });
++  }
++
++  assert.equal(lifecycle.outcome, "pass");
++  assert.equal(lifecycle.fixture.repositoryWasOutsideSource, true);
++  assert.equal(lifecycle.fixture.packageException.onlyScriptsVerifyChanged, true);
++  assert.equal(lifecycle.fixture.hostNpmSupply.compatibilityAdapter, "absent");
++  assert.match(lifecycle.fixture.hostNpmSupply.version, /^11\./u);
++  assert.equal(lifecycle.fixture.hostNpmCacheSupply.sourceSelection, "release-gate-host-npm-cache");
++  assert.equal(lifecycle.fixture.hostNpmCacheSupply.rootsDisjoint, true);
++  assert.equal(lifecycle.fixture.postFixtureCorrectionExclusion.firstRevision, 22);
++  assert.equal(lifecycle.receipts.compatibilityAdapter, "absent");
++  assert.equal(lifecycle.receipts.installedNpmVersion, lifecycle.fixture.hostNpmSupply.version);
++  assert.equal(
++    lifecycle.gate.fixtureVerifyCommandObservedInRawLog,
++    true,
++    "fixture-only aggregate verify command was not observed in the raw gate log",
++  );
++  assert.match(lifecycle.packagePair.compilationDigest, /^sha256:[0-9a-f]{64}$/u);
++  assert.match(lifecycle.packagePair.packageDigest, /^sha256:[0-9a-f]{64}$/u);
++
++  for (const category of ["prepare", "compile", "package", "summary", "shared"]) {
++    const baseline = lifecycle.rawComparisons.compileBaseline[category];
++    const standalone = lifecycle.rawComparisons.standaloneApprove[category];
++    const verified = lifecycle.rawComparisons.verify[category];
++    assert.equal(standalone.equal, true);
++    assert.equal(verified.equal, true);
++    assert.deepEqual(standalone, baseline);
++    assert.deepEqual(verified, baseline);
++  }
++  assert.equal(lifecycle.rawComparisons.approvalBytesEqual, true);
++  assert.deepEqual(
++    lifecycle.rawComparisons.verifyPrefixApproval,
++    lifecycle.rawComparisons.standaloneApproval,
++  );
++
++  assert.equal(lifecycle.handoffs.length, 3);
++  assert.equal(lifecycle.verifier.complete, true);
++  assert.equal(lifecycle.verifier.releaseReadyInIsolatedFixtureOnly, true);
++  assert.deepEqual(lifecycle.verifier.expectedAgentIds, lifecycle.verifier.receivedAgentIds);
++  assert.equal(lifecycle.receipts.receiptLastObservedForEveryParent, true);
++  assert.equal(lifecycle.receipts.distinctRequestedAuthorityDigests.length, 3);
++  assert.equal(new Set(lifecycle.receipts.distinctRequestedAuthorityDigests).size, 3);
++  assert.equal(new Set(lifecycle.receipts.distinctInvocationDigests).size, 3);
++  assert.deepEqual(lifecycle.receipts.compile.freshChildPhases, ["prepare", "compile"]);
++  assert.equal(lifecycle.receipts.privateNpmConfigurations.length, 3);
++  assert.equal(new Set(lifecycle.receipts.distinctPrivateNpmOperationRoots).size, 3);
++  assert.equal(lifecycle.receipts.stableRuntimeExcludedInvocationPaths, true);
++  assert.equal(
++    lifecycle.receipts.privateNpmConfigurations.every(
++      (entry) =>
++        entry.pathsDistinctCaseInsensitively === true &&
++        entry.containedByExactOperationRoot === true &&
++        entry.outsideRepositoryCandidateAndCache === true &&
++        entry.hostConfigurationExcluded === true &&
++        entry.preSpawnValidation.everySpawnValidated === true &&
++        entry.preSpawnValidation.count === entry.preSpawnValidation.events.length &&
++        entry.npmInspection.userConfig.reportedPath === entry.userConfig.path &&
++        entry.npmInspection.globalConfig.reportedPath === entry.globalConfig.path,
++    ),
++    true,
++  );
++  assert.deepEqual(lifecycle.receipts.approve.freshChildPhases, ["prepare", "compile", "approve"]);
++  assert.deepEqual(lifecycle.receipts.verify.freshChildPhases, [
++    "prepare",
++    "compile",
++    "approve",
++    "verify",
++  ]);
++
++  assert.deepEqual(
++    lifecycle.negativeRoutes.map((entry) => entry.label),
++    [
++      "wrong canonical-gate digest",
++      "wrong owner compilation digest",
++      "wrong owner package digest",
++      "package file substitution",
++      "stable binding substitution",
++      "phase authority substitution",
++      "stale output",
++      "conflicting promoted output",
++      "receipt-last interrupted promotion",
++      "wrong raw handoff digest",
++    ],
++  );
++  assert.equal(
++    lifecycle.negativeRoutes.every((entry) => entry.status === "pass"),
++    true,
++  );
++
++  for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
++    assert.deepEqual(lifecycle.sourceFrozenBefore[path], expected);
++    assert.deepEqual(lifecycle.cleanup.sourceFrozenAfter[path], expected);
++  }
++  assert.equal(lifecycle.cleanup.attempted, true);
++  assert.equal(lifecycle.cleanup.rootRemoved, true);
++  assert.equal(lifecycle.cleanup.sourceStatusUnchanged, true);
++  assert.ok(lifecycle.lifecycleDurationMs > 0);
++});
+diff --git a/test/typescript-toolchain.test.mjs b/test/typescript-toolchain.test.mjs
+new file mode 100644
+index 0000000..10c4ffa
+--- /dev/null
++++ b/test/typescript-toolchain.test.mjs
+@@ -0,0 +1,264 @@
++import assert from "node:assert/strict";
++import { createHash } from "node:crypto";
++import { link, mkdir, mkdtemp, readFile, realpath, rm, symlink, writeFile } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import { delimiter, join, resolve } from "node:path";
++import test from "node:test";
++import { fileURLToPath } from "node:url";
++
++import {
++  executeTypeScript,
++  resolveTypeScriptEntrypointBinding,
++  TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY,
++} from "../scripts/run-typescript.mjs";
++
++const ROOT = fileURLToPath(new URL("../", import.meta.url));
++const SENTINEL_SOURCE = (id) => `
++import { appendFileSync } from "node:fs";
++const marker = process.env.SWECIRCUIT_TYPESCRIPT_SENTINEL;
++appendFileSync(marker, JSON.stringify({ id: ${JSON.stringify(id)}, args: process.argv.slice(2) }) + "\\n");
++if (process.argv[2] === "--version") {
++  process.stdout.write("Version ${id}-1.0.0\\n");
++}
++`;
++
++function digest(bytes) {
++  return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
++}
++
++function withoutTypeScriptSupply(environment = process.env) {
++  const result = { ...environment };
++  for (const key of Object.keys(result)) {
++    if (key.toLowerCase() === TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY.toLowerCase()) {
++      Reflect.deleteProperty(result, key);
++    }
++  }
++  return result;
++}
++
++async function sentinelCalls(path) {
++  return (await readFile(path, "utf8"))
++    .trim()
++    .split(/\r?\n/u)
++    .filter(Boolean)
++    .map((line) => JSON.parse(line));
++}
++
++test("declared TypeScript file defeats ambient and candidate-local command substitution", async () => {
++  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-external-"));
++  const projectRoot = join(root, "candidate");
++  const externalRoot = join(root, "external");
++  const ambientBin = join(root, "ambient-bin");
++  const candidateBin = join(projectRoot, "node_modules", ".bin");
++  const external = join(externalRoot, "tsc.mjs");
++  const externalMarker = join(root, "external.log");
++
++  try {
++    await mkdir(externalRoot, { recursive: true });
++    await mkdir(ambientBin, { recursive: true });
++    await mkdir(candidateBin, { recursive: true });
++    await writeFile(external, SENTINEL_SOURCE("external"));
++    await writeFile(join(ambientBin, "tsc.mjs"), SENTINEL_SOURCE("ambient"));
++    await writeFile(join(candidateBin, "tsc.mjs"), SENTINEL_SOURCE("candidate"));
++
++    const environment = withoutTypeScriptSupply();
++    environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = external;
++    environment.SWECIRCUIT_TYPESCRIPT_SENTINEL = externalMarker;
++    environment.PATH = [candidateBin, ambientBin, environment.PATH ?? ""].join(delimiter);
++    const execution = executeTypeScript(["--project", "sentinel.json"], {
++      cwd: projectRoot,
++      environment,
++      projectRoot,
++      stdio: "pipe",
++    });
++
++    assert.equal(execution.result.status, 0);
++    assert.deepEqual(await sentinelCalls(externalMarker), [
++      { id: "external", args: ["--version"] },
++      { id: "external", args: ["--project", "sentinel.json"] },
++    ]);
++    const bytes = await readFile(external);
++    assert.deepEqual(execution.receipt, {
++      path: resolve(external),
++      bytes: bytes.byteLength,
++      digest: digest(bytes),
++      nlink: 1,
++      supplied: true,
++      version: "Version external-1.0.0",
++    });
++  } finally {
++    await rm(root, { recursive: true, force: true });
++  }
++});
++
++test("repository-local fallback executes the exact resolved file", async () => {
++  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-fallback-"));
++  const fallback = join(root, "node_modules", "typescript", "bin", "tsc");
++  const conflictingBin = join(root, "node_modules", ".bin");
++  const marker = join(root, "fallback.log");
++
++  try {
++    await mkdir(join(root, "node_modules", "typescript", "bin"), { recursive: true });
++    await mkdir(conflictingBin, { recursive: true });
++    await writeFile(fallback, SENTINEL_SOURCE("fallback"));
++    await writeFile(join(conflictingBin, "tsc.mjs"), SENTINEL_SOURCE("conflict"));
++    const environment = withoutTypeScriptSupply();
++    environment.SWECIRCUIT_TYPESCRIPT_SENTINEL = marker;
++    environment.PATH = [conflictingBin, environment.PATH ?? ""].join(delimiter);
++    const execution = executeTypeScript(["--noEmit"], {
++      cwd: root,
++      environment,
++      projectRoot: root,
++      stdio: "pipe",
++    });
++
++    assert.equal(execution.result.status, 0);
++    assert.equal(execution.receipt.supplied, false);
++    assert.equal(execution.receipt.path, resolve(fallback));
++    assert.deepEqual(await sentinelCalls(marker), [
++      { id: "fallback", args: ["--version"] },
++      { id: "fallback", args: ["--noEmit"] },
++    ]);
++  } finally {
++    await rm(root, { recursive: true, force: true });
++  }
++});
++
++test("repository fallback canonicalizes a linked dependency ancestor", async () => {
++  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-linked-fallback-"));
++  const projectRoot = join(root, "candidate");
++  const dependencyRoot = join(root, "dependencies");
++  const linkedNodeModules = join(projectRoot, "node_modules");
++  const target = join(dependencyRoot, "typescript", "bin", "tsc");
++  const fallback = join(linkedNodeModules, "typescript", "bin", "tsc");
++  const marker = join(root, "fallback.log");
++
++  try {
++    await mkdir(projectRoot);
++    await mkdir(join(dependencyRoot, "typescript", "bin"), { recursive: true });
++    await writeFile(target, SENTINEL_SOURCE("linked-fallback"));
++    await symlink(
++      dependencyRoot,
++      linkedNodeModules,
++      process.platform === "win32" ? "junction" : "dir",
++    );
++    const environment = withoutTypeScriptSupply();
++    environment.SWECIRCUIT_TYPESCRIPT_SENTINEL = marker;
++    const execution = executeTypeScript(["--noEmit"], {
++      cwd: projectRoot,
++      environment,
++      projectRoot,
++      defaultEntrypoint: fallback,
++      stdio: "pipe",
++    });
++
++    assert.equal(execution.result.status, 0);
++    assert.equal(execution.receipt.supplied, false);
++    assert.equal(execution.receipt.path, await realpath(target));
++    assert.deepEqual(await sentinelCalls(marker), [
++      { id: "linked-fallback", args: ["--version"] },
++      { id: "linked-fallback", args: ["--noEmit"] },
++    ]);
++  } finally {
++    await rm(root, { recursive: true, force: true });
++  }
++});
++
++test("execution stops when version inspection mutates the bound file", async () => {
++  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-mutation-"));
++  const projectRoot = join(root, "candidate");
++  const external = join(root, "tsc.mjs");
++  const marker = join(root, "mutation.log");
++
++  try {
++    await mkdir(projectRoot);
++    await writeFile(
++      external,
++      `${SENTINEL_SOURCE("mutating")}\nif (process.argv[2] === "--version") appendFileSync(process.argv[1], "\\n// mutation\\n");\n`,
++    );
++    const environment = withoutTypeScriptSupply();
++    environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = external;
++    environment.SWECIRCUIT_TYPESCRIPT_SENTINEL = marker;
++
++    assert.throws(
++      () =>
++        executeTypeScript(["--noEmit"], {
++          cwd: projectRoot,
++          environment,
++          projectRoot,
++          stdio: "pipe",
++        }),
++      /changed during version inspection/u,
++    );
++    assert.deepEqual(await sentinelCalls(marker), [{ id: "mutating", args: ["--version"] }]);
++  } finally {
++    await rm(root, { recursive: true, force: true });
++  }
++});
++test("TypeScript binding rejects ambiguous, contained, and linked files", async () => {
++  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-reject-"));
++  const projectRoot = join(root, "candidate");
++  const externalRoot = join(root, "external");
++  const external = join(externalRoot, "tsc.mjs");
++  const candidate = join(projectRoot, "tsc.mjs");
++  const finalLink = join(root, "final-link");
++  const ancestorLink = join(root, "ancestor-link");
++  const hardLink = join(root, "hard-link.mjs");
++  const key = TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY;
++  const resolveSupply = (environment, defaultEntrypoint = external) =>
++    resolveTypeScriptEntrypointBinding({
++      environment,
++      projectRoot,
++      defaultEntrypoint,
++      outsidePolicy: "always",
++      label: "Host TypeScript entrypoint supply",
++    });
++
++  try {
++    await mkdir(projectRoot);
++    await mkdir(externalRoot);
++    await writeFile(external, SENTINEL_SOURCE("external"));
++    await writeFile(candidate, SENTINEL_SOURCE("candidate"));
++    await symlink(externalRoot, finalLink, process.platform === "win32" ? "junction" : "dir");
++    await symlink(externalRoot, ancestorLink, process.platform === "win32" ? "junction" : "dir");
++
++    assert.equal(resolveSupply({}).path, resolve(external));
++    assert.throws(
++      () => resolveSupply({ [key]: external, [key.toLowerCase()]: external }),
++      /at most once/u,
++    );
++    assert.throws(() => resolveSupply({ [key]: "" }), /non-empty/u);
++    assert.throws(() => resolveSupply({ [key]: "relative/tsc.mjs" }), /absolute/u);
++    assert.throws(() => resolveSupply({ [key]: join(root, "missing.mjs") }), { code: "ENOENT" });
++    assert.throws(() => resolveSupply({ [key]: externalRoot }), /plain regular file/u);
++    assert.throws(() => resolveSupply({ [key]: finalLink }), /symbolic link or junction/u);
++    assert.throws(
++      () => resolveSupply({ [key]: join(ancestorLink, "tsc.mjs") }),
++      /alias path components/u,
++    );
++    assert.throws(() => resolveSupply({ [key]: candidate }), /outside the candidate source/u);
++
++    await link(external, hardLink);
++    assert.throws(() => resolveSupply({ [key]: hardLink }), /exactly one filesystem link/u);
++    assert.throws(() => resolveSupply({ [key]: external }), /exactly one filesystem link/u);
++  } finally {
++    await rm(root, { recursive: true, force: true });
++  }
++});
++
++test("package, release gate, and packed consumer share explicit TypeScript authority", async () => {
++  const manifest = JSON.parse(await readFile(join(ROOT, "package.json"), "utf8"));
++  const gate = await readFile(join(ROOT, "scripts", "run-v12-release-gate.mjs"), "utf8");
++  const consumer = await readFile(join(ROOT, "scripts", "check-packed-consumer.mjs"), "utf8");
++
++  assert.equal(manifest.scripts.build, "node scripts/run-typescript.mjs -p tsconfig.json");
++  assert.equal(
++    manifest.scripts.typecheck,
++    "node scripts/run-typescript.mjs -p tsconfig.json --noEmit",
++  );
++  assert.equal(manifest.files.includes("scripts/run-typescript.mjs"), true);
++  assert.match(gate, /resolveTypeScriptEntrypointBinding/u);
++  assert.match(consumer, /resolveTypeScriptEntrypointBinding/u);
++  assert.doesNotMatch(manifest.scripts.build, /(^|\s)tsc(\s|$)/u);
++  assert.doesNotMatch(manifest.scripts.typecheck, /(^|\s)tsc(\s|$)/u);
++});
+diff --git a/test/v12-release-gate.test.mjs b/test/v12-release-gate.test.mjs
+index 5983ba5..ccca986 100644
+--- a/test/v12-release-gate.test.mjs
++++ b/test/v12-release-gate.test.mjs
+@@ -155,7 +155,7 @@ test("host TypeScript entrypoint supply is singular, plain, absolute, and extern
+     assert.throws(() => resolveSupply({ [environmentKey]: symbolicEntrypoint }), /symbolic link/u);
+     assert.throws(
+       () => resolveSupply({ [environmentKey]: candidateEntrypoint }),
+-      /outside the candidate materialization/u,
++      /outside the candidate/u,
+     );
+   } finally {
+     await rm(root, { force: true, recursive: true });
+@@ -163,15 +163,12 @@ test("host TypeScript entrypoint supply is singular, plain, absolute, and extern
+ });
+ 
+ test("packed consumer validates and uses the TypeScript entrypoint supply", () => {
+-  assert.match(packedConsumerSource, /supplies\.length <= 1/u);
+-  assert.match(packedConsumerSource, /const stats = lstatSync\(path\);/u);
+-  assert.match(packedConsumerSource, /stats\.isSymbolicLink\(\)/u);
+-  assert.match(packedConsumerSource, /stats\.isFile\(\)/u);
+-  assert.match(packedConsumerSource, /isOutsideRoot\(ROOT, entrypoint\)/u);
++  assert.match(packedConsumerSource, /import \{ resolveTypeScriptEntrypointBinding \}/u);
+   assert.match(
+     packedConsumerSource,
+-    /const TYPESCRIPT_ENTRYPOINT = resolveTypeScriptEntrypoint\(process\.env\);/u,
++    /const TYPESCRIPT_BINDING = resolveTypeScriptEntrypointBinding\(\{/u,
+   );
++  assert.match(packedConsumerSource, /const TYPESCRIPT_ENTRYPOINT = TYPESCRIPT_BINDING\.path;/u);
+ 
+   const compilationStart = packedConsumerSource.indexOf(
+     `  run(\n    process.execPath,\n    [\n      TYPESCRIPT_ENTRYPOINT,`,
+diff --git a/test/v12-release-review.test.mjs b/test/v12-release-review.test.mjs
+index 00b247f..c5d0d9d 100644
+--- a/test/v12-release-review.test.mjs
++++ b/test/v12-release-review.test.mjs
+@@ -13,7 +13,7 @@ import { RELEASE_REVIEW_HANDOFF_TEST_HOOKS } from "../docs/specs/v12-ide-run-loo
+ import { RELEASE_GATE_TEST_HOOKS } from "../scripts/run-v12-release-gate.mjs";
+ import { RELEASE_REVIEW_PARENT_TEST_HOOKS } from "../scripts/run-v12-release-review.mjs";
+ import {
+-  R22_OUTPUT_IDENTITIES,
++  PRODUCTION_IDENTITIES,
+   V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS,
+ } from "./helpers/v12-release-review-lifecycle.mjs";
+ 
+@@ -35,9 +35,9 @@ const HOST_CACHE_PROBE_ENTRYPOINT = fileURLToPath(
+ const GIT_ENVIRONMENT_PROBE_ENTRYPOINT = fileURLToPath(
+   new URL("./fixtures/v12-git-environment-boundary-child.mjs", import.meta.url),
+ );
+-const LIFECYCLE_PATH = "test/fixtures/v12-release-review-lifecycle-child.mjs";
+ const HOST_CACHE_PROBE_SOURCE_PATHS = Object.freeze([
+   "scripts/run-v12-release-gate.mjs",
++  "scripts/run-typescript.mjs",
+   "scripts/run-v12-release-review.mjs",
+   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+   "test/helpers/v12-release-review-lifecycle.mjs",
+@@ -796,179 +796,36 @@ test("materialized lifecycle consumes one declared external TypeScript entrypoin
+   }
+ });
+ 
+-test("isolated copied production entrypoints complete one exact compile-to-verify lifecycle", {
+-  timeout: 3_900_000,
+-}, async () => {
+-  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-lifecycle-")));
+-  const outputPath = join(root, "lifecycle.json");
+-  const headProbe = spawnSync(
+-    "git",
+-    ["-c", "core.longpaths=true", "rev-parse", "--verify", "HEAD"],
+-    {
+-      cwd: ROOT,
+-      env: process.env,
+-      encoding: "utf8",
+-      timeout: 30_000,
+-      windowsHide: true,
+-    },
+-  );
+-  assert.equal(headProbe.signal, null, "source HEAD probe was terminated");
+-  assert.equal(headProbe.status, 0, headProbe.stderr);
+-  const candidateCommit = headProbe.stdout.trim();
+-  assert.match(candidateCommit, /^[0-9a-f]{40}$/u);
+-
+-  let materialization;
+-  let gitContext;
+-  let lifecycle;
+-  try {
+-    materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
+-    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
+-      candidateCommit,
+-      materialization.root,
+-    );
+-    const probe = spawnSync(
+-      process.execPath,
+-      [join(materialization.root, LIFECYCLE_PATH), outputPath],
+-      {
+-        cwd: materialization.root,
+-        env: RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext),
+-        encoding: "utf8",
+-        maxBuffer: 16 * 1024 * 1024,
+-        timeout: 3_600_000,
+-        windowsHide: true,
+-      },
+-    );
+-    assert.equal(probe.signal, null, "candidate-context lifecycle was terminated");
+-    assert.equal(probe.status, 0, probe.stderr || probe.stdout);
+-    const summary = JSON.parse(probe.stdout);
+-    assert.deepEqual(summary, {
+-      outcome: "pass",
+-      rootRemoved: true,
+-      sourceStatusUnchanged: true,
+-    });
+-    lifecycle = JSON.parse(readFileSync(outputPath, "utf8"));
+-    assert.deepEqual(
+-      RELEASE_GATE_TEST_HOOKS.inspectCandidateGitContext(gitContext),
+-      gitContext.before,
+-      "copied lifecycle mutated its enclosing candidate Git context",
+-    );
+-    assert.deepEqual(
+-      await RELEASE_GATE_TEST_HOOKS.inspectExactMaterialization(
+-        materialization.root,
+-        materialization.entries,
+-      ),
+-      {
+-        files: materialization.source.files,
+-        bytes: materialization.source.bytes,
+-        digest: materialization.source.digest,
+-      },
+-      "copied lifecycle mutated its exact candidate materialization",
+-    );
+-  } finally {
+-    if (gitContext !== undefined) {
+-      await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
+-    }
+-    if (materialization !== undefined) {
+-      await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+-    }
+-    await rm(root, { recursive: true, force: true });
++test("lifecycle production identities match current source bytes", () => {
++  assert.equal(Object.hasOwn(PRODUCTION_IDENTITIES, "scripts/run-typescript.mjs"), true);
++  for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
++    const bytes = readFileSync(resolve(ROOT, ...path.split("/")));
++    assert.deepEqual({ bytes: bytes.byteLength, digest: digest(bytes) }, expected, path);
+   }
++});
+ 
+-  assert.equal(lifecycle.outcome, "pass");
+-  assert.equal(lifecycle.fixture.repositoryWasOutsideSource, true);
+-  assert.equal(lifecycle.fixture.packageException.onlyScriptsVerifyChanged, true);
+-  assert.equal(lifecycle.fixture.hostNpmSupply.compatibilityAdapter, "absent");
+-  assert.match(lifecycle.fixture.hostNpmSupply.version, /^11\./u);
+-  assert.equal(lifecycle.fixture.hostNpmCacheSupply.sourceSelection, "release-gate-host-npm-cache");
+-  assert.equal(lifecycle.fixture.hostNpmCacheSupply.rootsDisjoint, true);
+-  assert.equal(lifecycle.fixture.postFixtureCorrectionExclusion.firstRevision, 22);
+-  assert.equal(lifecycle.receipts.compatibilityAdapter, "absent");
+-  assert.equal(lifecycle.receipts.installedNpmVersion, lifecycle.fixture.hostNpmSupply.version);
+-  assert.equal(
+-    lifecycle.gate.fixtureVerifyCommandObservedInRawLog,
+-    true,
+-    "fixture-only aggregate verify command was not observed in the raw gate log",
+-  );
+-  assert.match(lifecycle.packagePair.compilationDigest, /^sha256:[0-9a-f]{64}$/u);
+-  assert.match(lifecycle.packagePair.packageDigest, /^sha256:[0-9a-f]{64}$/u);
+-
+-  for (const category of ["prepare", "compile", "package", "summary", "shared"]) {
+-    const baseline = lifecycle.rawComparisons.compileBaseline[category];
+-    const standalone = lifecycle.rawComparisons.standaloneApprove[category];
+-    const verified = lifecycle.rawComparisons.verify[category];
+-    assert.equal(standalone.equal, true);
+-    assert.equal(verified.equal, true);
+-    assert.deepEqual(standalone, baseline);
+-    assert.deepEqual(verified, baseline);
+-  }
+-  assert.equal(lifecycle.rawComparisons.approvalBytesEqual, true);
+-  assert.deepEqual(
+-    lifecycle.rawComparisons.verifyPrefixApproval,
+-    lifecycle.rawComparisons.standaloneApproval,
++test("canonical npm test schedules the exact lifecycle after the core suite", () => {
++  const manifest = JSON.parse(readFileSync(resolve(ROOT, "package.json"), "utf8"));
++  const coreSource = readFileSync(resolve(ROOT, "test/v12-release-review.test.mjs"), "utf8");
++  const lifecycleSource = readFileSync(
++    resolve(ROOT, "test/lifecycle/v12-release-review-lifecycle.test.mjs"),
++    "utf8",
+   );
+ 
+-  assert.equal(lifecycle.handoffs.length, 3);
+-  assert.equal(lifecycle.verifier.complete, true);
+-  assert.equal(lifecycle.verifier.releaseReadyInIsolatedFixtureOnly, true);
+-  assert.deepEqual(lifecycle.verifier.expectedAgentIds, lifecycle.verifier.receivedAgentIds);
+-  assert.equal(lifecycle.receipts.receiptLastObservedForEveryParent, true);
+-  assert.equal(lifecycle.receipts.distinctRequestedAuthorityDigests.length, 3);
+-  assert.equal(new Set(lifecycle.receipts.distinctRequestedAuthorityDigests).size, 3);
+-  assert.equal(new Set(lifecycle.receipts.distinctInvocationDigests).size, 3);
+-  assert.deepEqual(lifecycle.receipts.compile.freshChildPhases, ["prepare", "compile"]);
+-  assert.equal(lifecycle.receipts.privateNpmConfigurations.length, 3);
+-  assert.equal(new Set(lifecycle.receipts.distinctPrivateNpmOperationRoots).size, 3);
+-  assert.equal(lifecycle.receipts.stableRuntimeExcludedInvocationPaths, true);
+   assert.equal(
+-    lifecycle.receipts.privateNpmConfigurations.every(
+-      (entry) =>
+-        entry.pathsDistinctCaseInsensitively === true &&
+-        entry.containedByExactOperationRoot === true &&
+-        entry.outsideRepositoryCandidateAndCache === true &&
+-        entry.hostConfigurationExcluded === true &&
+-        entry.preSpawnValidation.everySpawnValidated === true &&
+-        entry.preSpawnValidation.count === entry.preSpawnValidation.events.length &&
+-        entry.npmInspection.userConfig.reportedPath === entry.userConfig.path &&
+-        entry.npmInspection.globalConfig.reportedPath === entry.globalConfig.path,
+-    ),
+-    true,
++    manifest.scripts.test,
++    "npm run build --silent && npm run test:core && npm run test:lifecycle",
+   );
+-  assert.deepEqual(lifecycle.receipts.approve.freshChildPhases, ["prepare", "compile", "approve"]);
+-  assert.deepEqual(lifecycle.receipts.verify.freshChildPhases, [
+-    "prepare",
+-    "compile",
+-    "approve",
+-    "verify",
+-  ]);
+-
+-  assert.deepEqual(
+-    lifecycle.negativeRoutes.map((entry) => entry.label),
+-    [
+-      "wrong canonical-gate digest",
+-      "wrong owner compilation digest",
+-      "wrong owner package digest",
+-      "package file substitution",
+-      "stable binding substitution",
+-      "phase authority substitution",
+-      "stale output",
+-      "conflicting promoted output",
+-      "receipt-last interrupted promotion",
+-      "wrong raw handoff digest",
+-    ],
++  assert.equal(manifest.scripts["test:core"], "node --test test/*.test.mjs");
++  assert.equal(manifest.scripts["test:lifecycle"], "node --test test/lifecycle/*.test.mjs");
++  assert.doesNotMatch(
++    coreSource,
++    /test\("isolated copied production entrypoints complete one exact compile-to-verify lifecycle"/u,
+   );
+-  assert.equal(
+-    lifecycle.negativeRoutes.every((entry) => entry.status === "pass"),
+-    true,
++  assert.match(
++    lifecycleSource,
++    /test\("isolated copied production entrypoints complete one exact compile-to-verify lifecycle"/u,
+   );
+-
+-  for (const [path, expected] of Object.entries(R22_OUTPUT_IDENTITIES)) {
+-    assert.deepEqual(lifecycle.sourceFrozenBefore[path], expected);
+-    assert.deepEqual(lifecycle.cleanup.sourceFrozenAfter[path], expected);
+-  }
+-  assert.equal(lifecycle.cleanup.attempted, true);
+-  assert.equal(lifecycle.cleanup.rootRemoved, true);
+-  assert.equal(lifecycle.cleanup.sourceStatusUnchanged, true);
+-  assert.ok(lifecycle.lifecycleDurationMs > 0);
+ });
+ test("materialized package closure rejects linked and hard-linked entries", async () => {
+   const root = await mkdtemp(join(tmpdir(), "swecircuit-r20-package-"));
+@@ -1204,7 +1061,7 @@ test("stable reconstruction is package-defining while phase authority stays sepa
+   );
+   assert.equal(
+     packageJson.scripts["test:release-review:v12"],
+-    "node --test test/v12-release-review.test.mjs test/v12-release-gate.test.mjs",
++    "node --test test/v12-release-review.test.mjs test/v12-release-gate.test.mjs && npm run test:lifecycle",
+   );
+   for (const command of ["format", "format:check", "lint"]) {
+     for (const path of ["scripts/run-v12-release-review.mjs", HARNESS_PATH, VERIFIER_PATH]) {

@@ -1,0 +1,32 @@
+{
+  "apiVersion": "swecircuit/verification-receipt/v1alpha1",
+  "kind": "MutableSourceAggregateVerificationReceipt",
+  "checkpoint": "f7bf92cb7dff782623ed7d0aabe410ff37647e23",
+  "tree": "5719ab8dc66390b5659b26f251d948291f547640",
+  "command": "npm.cmd run verify",
+  "exitCode": 0,
+  "durationMilliseconds": 2743000,
+  "durationPrecision": "nearest_second",
+  "measuredForecastWindowMilliseconds": {
+    "minimum": 2760000,
+    "maximum": 3000000
+  },
+  "phases": [
+    "format:check",
+    "lint",
+    "typecheck",
+    "build",
+    "core tests (435/435)",
+    "serialized exact lifecycle (1/1)",
+    "specialist example",
+    "V10 dogfood",
+    "V11 Revision 41 two-package dogfood",
+    "V12 four-operation dogfood",
+    "package dry run (148 files)",
+    "clean offline installed consumer"
+  ],
+  "result": "pass",
+  "rawConsoleOutputPreserved": false,
+  "rawConsoleOutputNote": "The host retained the exact command result and measured duration in the active task record but did not redirect console bytes to a repository file. This receipt is integration-owner evidence, not an independent semantic verdict.",
+  "attestedBy": "codex.main"
+}

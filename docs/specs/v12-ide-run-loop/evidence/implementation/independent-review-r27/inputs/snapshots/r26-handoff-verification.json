@@ -1,0 +1,27 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "independent-review-r26",
+  "compilationDigest": "sha256:002a7deab98a63b756e8f930cbcfd3927d64c0c262076a0ee9ccddfb29d01d45",
+  "packageDigest": "sha256:5165a7e0bf261d60e915a416c4eb0ce230a979f89dac90a95970e15afcf8cd4f",
+  "expectedAgentIds": [
+    "agent.a0779f841063f577cd855b902fd9aa3fb58b66ad7b68ae0ae83183c95b912d1b"
+  ],
+  "receivedAgentIds": [
+    "agent.a0779f841063f577cd855b902fd9aa3fb58b66ad7b68ae0ae83183c95b912d1b"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.a0779f841063f577cd855b902fd9aa3fb58b66ad7b68ae0ae83183c95b912d1b-fix-attempt-1.json",
+      "agentId": "agent.a0779f841063f577cd855b902fd9aa3fb58b66ad7b68ae0ae83183c95b912d1b",
+      "outcome": "fix",
+      "rawBytes": 10752,
+      "rawDigest": "sha256:266a17d15aacaf1b437e79489d653ebefb085cd5df5537f206c534b99338068b",
+      "semanticDigest": "sha256:2cfb6c6432060bdad297d322893256df5bb699717c6898f016bc3cac34cad33c",
+      "contentDigest": "sha256:88baf8bef0eb83ca276cdfc99eaa01f14c020b2bf29bae2609149a360c4b970a"
+    }
+  ],
+  "phaseReady": false,
+  "note": "The exact package and first raw handoff verify through V11 core. A verified fix outcome remains a workflow route and is not release approval."
+}

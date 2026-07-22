@@ -26,7 +26,7 @@ jobs:
       - name: Check tracked whitespace
         shell: pwsh
         run: |
-          $binaryExtensions = @(".png", ".jpg", ".jpeg", ".gif", ".pdf")
+          $binaryExtensions = @(".png", ".jpg", ".jpeg", ".gif", ".pdf", ".patch")
           $failures = @()
           foreach ($file in git ls-files) {
             $extension = [System.IO.Path]::GetExtension($file).ToLowerInvariant()

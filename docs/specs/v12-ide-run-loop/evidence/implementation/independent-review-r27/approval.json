@@ -1,0 +1,12 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.review.authenticated-typescript-release-correction-r27",
+  "goalRevision": 1,
+  "approvedBy": "repository-owner-via-main-agent",
+  "approvalBasis": "Standing owner authorization covers release revisions and audits; this exact request is read-only, one-unit, source-bound, and cannot claim release or merge approval.",
+  "expectation": {
+    "compilationDigest": "sha256:8af9bdab4b384419310def12a09c0ebea455e86607ebee5274312709f5e7d5ac",
+    "packageDigest": "sha256:d60aea8bbfee0d1e8b79431be5a436b20054b9ee8ca8ba44045e5847010eed75"
+  }
+}

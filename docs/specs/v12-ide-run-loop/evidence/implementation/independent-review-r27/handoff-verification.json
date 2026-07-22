@@ -1,0 +1,35 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "independent-review-r27",
+  "compilationDigest": "sha256:8af9bdab4b384419310def12a09c0ebea455e86607ebee5274312709f5e7d5ac",
+  "packageDigest": "sha256:d60aea8bbfee0d1e8b79431be5a436b20054b9ee8ca8ba44045e5847010eed75",
+  "expectedAgentIds": [
+    "agent.891676aa1baff1a9af2122a78d92f30aa47d5d9fec2f470a53f2e076f43a1a98"
+  ],
+  "receivedAgentIds": [
+    "agent.891676aa1baff1a9af2122a78d92f30aa47d5d9fec2f470a53f2e076f43a1a98"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.891676aa1baff1a9af2122a78d92f30aa47d5d9fec2f470a53f2e076f43a1a98-fix-attempt-1.json",
+      "agentId": "agent.891676aa1baff1a9af2122a78d92f30aa47d5d9fec2f470a53f2e076f43a1a98",
+      "outcome": "fix",
+      "rawBytes": 13404,
+      "rawDigest": "sha256:2a1893aaf6c5018b74a65a2b83ebf6390a93631727d68c414ad01a91e14e5f85",
+      "semanticDigest": "sha256:8f064309ffbb92d001086a1847096d35ddf2bb0339ab42a4de449505bbc7ffba",
+      "contentDigest": "sha256:4ea0ad92da3e104e40f2aa0a78f5d0ba47f31488638f4d2b8d0dc84338debb98",
+      "artifactBindings": [
+        {
+          "name": "independent-revision-27-release-correction-review.md",
+          "mediaType": "text/markdown",
+          "bytes": 10041,
+          "digest": "sha256:9377e0279e656ac55123c6bdad7e34a6b1abad9703dee3bac932a3479448c07c"
+        }
+      ]
+    }
+  ],
+  "phaseReady": false,
+  "note": "The exact package and raw handoff verify through core. A verified fix outcome is a correction route, not release approval."
+}
