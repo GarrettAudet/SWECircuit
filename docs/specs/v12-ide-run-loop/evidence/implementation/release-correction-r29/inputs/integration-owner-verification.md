@@ -31,12 +31,20 @@
 - The first semantic reviewer attempt is retained as a truthful `fix` after it disclosed undeclared reads. A later `pass` became stale when approval bytes were normalized and was not accepted; the entire downstream receipt, binder, review, and authorization chain was repeated against the LF-stable bytes.
 - Revision 42 remains preserved in a manifest-bound archive.
 
+## Aggregate Verification
+
+- Immutable checkpoint `f1d4fd0eaca89803d9779a07e790ff6b9dd266ab`, tree `26f5feac994d6edc3ee057840cbea9ba754e90b4`.
+- Canonical `npm.cmd run verify`: `pass`, exit 0 in 43 minutes 55.4 seconds.
+- Core tests pass 439/439 and the exact copied lifecycle passes 1/1 in 37 minutes 18.6 seconds.
+- V10, V11, and V12 dogfood, the 148-file package inspection, and the offline installed-consumer gate pass.
+- The exact 329,179-byte external log is bound by `sha256:f11468cc0a9a172dd340155b66f7b33831e5f5648121cf327171576f00263ff9`.
+
 ## Remaining Gates
 
-- Run the full aggregate gate and obtain a fresh immutable package-bound independent `pass`.
+- Obtain a fresh immutable package-bound independent `pass`.
 - Freeze Candidate 13 only after those pre-candidate gates pass.
 - Run Candidate 13's canonical gate exactly once, fresh three-lane R2 review, hosted CI, milestone closeout, and owner merge.
 
 ## Route
 
-Integration-owner result: `pass` to aggregate verification and fresh immutable package-bound review. Release remains blocked and Candidate 13 remains unconsumed.
+Integration-owner result: `pass` to fresh immutable package-bound review. Release remains blocked and Candidate 13 remains unconsumed.
