@@ -35,9 +35,7 @@ const HOST_CACHE_PROBE_ENTRYPOINT = fileURLToPath(
 const GIT_ENVIRONMENT_PROBE_ENTRYPOINT = fileURLToPath(
   new URL("./fixtures/v12-git-environment-boundary-child.mjs", import.meta.url),
 );
-const LIFECYCLE_ENTRYPOINT = fileURLToPath(
-  new URL("./fixtures/v12-release-review-lifecycle-child.mjs", import.meta.url),
-);
+const LIFECYCLE_PATH = "test/fixtures/v12-release-review-lifecycle-child.mjs";
 const HOST_CACHE_PROBE_SOURCE_PATHS = Object.freeze([
   "scripts/run-v12-release-gate.mjs",
   "scripts/run-v12-release-review.mjs",
@@ -766,6 +764,38 @@ test("nested fixture repository processes discard an enclosing candidate Git con
   }
 });
 
+test("materialized lifecycle consumes one declared external TypeScript entrypoint", async () => {
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-typescript-")));
+  const entrypoint = join(root, "tsc");
+  await writeFile(entrypoint, "external TypeScript entrypoint\n");
+  const supplyKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
+  const environment = { ...process.env };
+  for (const key of Object.keys(environment)) {
+    if (key.toLowerCase() === supplyKey.toLowerCase()) {
+      Reflect.deleteProperty(environment, key);
+    }
+  }
+  environment[supplyKey] = entrypoint;
+
+  try {
+    assert.equal(
+      await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.resolveLifecycleTypeScriptEntrypoint(
+        environment,
+      ),
+      await realpath(entrypoint),
+    );
+    await assert.rejects(
+      V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.resolveLifecycleTypeScriptEntrypoint({
+        ...environment,
+        [supplyKey.toLowerCase()]: entrypoint,
+      }),
+      /must be supplied at most once/u,
+    );
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("isolated copied production entrypoints complete one exact compile-to-verify lifecycle", {
   timeout: 3_900_000,
 }, async () => {
@@ -787,18 +817,27 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
   const candidateCommit = headProbe.stdout.trim();
   assert.match(candidateCommit, /^[0-9a-f]{40}$/u);
 
+  let materialization;
   let gitContext;
   let lifecycle;
   try {
-    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(candidateCommit, ROOT);
-    const probe = spawnSync(process.execPath, [LIFECYCLE_ENTRYPOINT, outputPath], {
-      cwd: ROOT,
-      env: RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext),
-      encoding: "utf8",
-      maxBuffer: 16 * 1024 * 1024,
-      timeout: 3_600_000,
-      windowsHide: true,
-    });
+    materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
+    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
+      candidateCommit,
+      materialization.root,
+    );
+    const probe = spawnSync(
+      process.execPath,
+      [join(materialization.root, LIFECYCLE_PATH), outputPath],
+      {
+        cwd: materialization.root,
+        env: RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext),
+        encoding: "utf8",
+        maxBuffer: 16 * 1024 * 1024,
+        timeout: 3_600_000,
+        windowsHide: true,
+      },
+    );
     assert.equal(probe.signal, null, "candidate-context lifecycle was terminated");
     assert.equal(probe.status, 0, probe.stderr || probe.stdout);
     const summary = JSON.parse(probe.stdout);
@@ -813,9 +852,20 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
       gitContext.before,
       "copied lifecycle mutated its enclosing candidate Git context",
     );
+    assert.equal(
+      await RELEASE_GATE_TEST_HOOKS.inspectExactMaterialization(
+        materialization.root,
+        materialization.entries,
+      ),
+      true,
+      "copied lifecycle mutated its exact candidate materialization",
+    );
   } finally {
     if (gitContext !== undefined) {
       await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
+    }
+    if (materialization !== undefined) {
+      await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
     }
     await rm(root, { recursive: true, force: true });
   }

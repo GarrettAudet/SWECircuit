@@ -582,6 +582,25 @@ function gateEnvironment(cacheRoot, typeScriptEntrypoint, sourceEnvironment = pr
   return environment;
 }
 
+async function resolveLifecycleTypeScriptEntrypoint(sourceEnvironment = process.env) {
+  const supplyKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
+  const supplies = Object.keys(sourceEnvironment).filter(
+    (key) => key.toLowerCase() === supplyKey.toLowerCase(),
+  );
+  assert.equal(
+    supplies.length <= 1,
+    true,
+    `${supplyKey} must be supplied at most once, case-insensitively`,
+  );
+  if (supplies.length === 1) {
+    return RELEASE_GATE_TEST_HOOKS.resolveHostTypeScriptEntrypoint(sourceEnvironment, SOURCE_ROOT);
+  }
+
+  const localEntrypoint = absolute(SOURCE_ROOT, "node_modules/typescript/bin/tsc");
+  assert.equal(await pathExists(localEntrypoint), true, "local TypeScript entrypoint is missing");
+  return realpath(localEntrypoint);
+}
+
 async function operationRootNames() {
   const entries = await readdir(resolve(tmpdir()), { withFileTypes: true });
   return entries
@@ -1137,8 +1156,7 @@ export async function runReleaseReviewProductionLifecycle() {
     );
     const setupDurationMs = Number(process.hrtime.bigint() - setupStarted) / 1_000_000;
 
-    const hostTypeScriptEntrypoint = absolute(SOURCE_ROOT, "node_modules/typescript/bin/tsc");
-    assert.equal(await pathExists(hostTypeScriptEntrypoint), true);
+    const hostTypeScriptEntrypoint = await resolveLifecycleTypeScriptEntrypoint();
     const gateResult = await runProcess(
       process.execPath,
       [absolute(fixtureRoot, GATE_PATH), commit],
@@ -1572,5 +1590,6 @@ export const V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS = Object.freeze({
   initializeFixtureGit,
   isPostFixtureCorrection,
   parentEnvironment,
+  resolveLifecycleTypeScriptEntrypoint,
   runGit,
 });

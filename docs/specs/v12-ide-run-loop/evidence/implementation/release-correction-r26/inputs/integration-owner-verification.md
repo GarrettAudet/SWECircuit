@@ -18,7 +18,13 @@
 
 ## Clean Checkpoint
 
-The complete lifecycle test now launches the existing lifecycle in a fresh child bound to a disposable candidate-style Git context and proves that context remains clean. Because the context authenticates `HEAD` against the worktree, this test is intentionally run only after a reviewable implementation checkpoint makes the scoped source clean. The checkpoint is not a release candidate and receives no canonical gate.
+Checkpoint `2584cc2` made the scoped source clean. The first complete-lifecycle attempt stopped before lifecycle work because the release command correctly rejected its host npm cache as contained by the live checkout used as the candidate worktree. No canonical gate ran and no release evidence was consumed.
+
+The corrected test materializes exact `HEAD` Git blobs, binds a disposable candidate Git context to that external materialization, launches the lifecycle child there, and verifies both the materialization and Git context remain exact. The lifecycle helper consumes the release gate's validated external TypeScript entrypoint when declared instead of assuming candidate-local `node_modules`; ordinary local runs retain their local fallback.
+
+Focused hostile-Git and external-TypeScript regressions: `pass`, 2 of 2; runner duration 866.8715 ms.
+
+A second clean implementation checkpoint is required so the exact materialization includes this correction. Neither checkpoint is a release candidate and neither receives a canonical gate.
 
 ## Remaining Gates
 
