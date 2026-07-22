@@ -1,7 +1,7 @@
 # Specialist Contract: agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730
 
-Compilation: `sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb`
-Blueprint: `sha256:17eceafaf875252591c709da1dfe520c1d3709b93fce9e0196aaf07f78333dc4`
+Compilation: `sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055`
+Blueprint: `sha256:49306eccad34408af25de30bfc3c0bf5aa2bfb3f8e8ff80ac421c31f42f8954c`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 40,
-  "goalDigest": "sha256:c81f82b1e59d5c173f517cd8634d6d6dd130daff6ccbdd6c87dbd5e1695456ff",
+  "goalRevision": 41,
+  "goalDigest": "sha256:473d720f288ea32e6901bfd259abc5f7b6e738c2e711ae3b6d21b3ca268d2020",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "prepare.candidate"
@@ -171,8 +171,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.consumer-check",
       "kind": "repository",
       "locator": "path:scripts/check-packed-consumer.mjs",
-      "digest": "sha256:911e617037a4b9aab715a4bbe6b7f8afb6a48ac240b42c6d76e550165835b19b",
-      "bytes": 45720,
+      "digest": "sha256:548b37682291ca3f93aedf44b15cd49fedfe3d655bcee39e73bcac797c65914c",
+      "bytes": 44564,
       "purposes": [
         "Bind this exact candidate source before independent review."
       ],
@@ -563,8 +563,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
-      "bytes": 3719,
+      "digest": "sha256:9c8e1e3bde18439a6199f0752b7dad1e69fdf713ffac33597d5119d1c26a67fa",
+      "bytes": 4043,
       "purposes": [
         "Bind this exact revision-30 source before independent review."
       ],
@@ -1004,7 +1004,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "stopConditions": [
     "Stop if any declared source digest or byte count does not match."
   ],
-  "contentDigest": "sha256:17eceafaf875252591c709da1dfe520c1d3709b93fce9e0196aaf07f78333dc4"
+  "contentDigest": "sha256:49306eccad34408af25de30bfc3c0bf5aa2bfb3f8e8ff80ac421c31f42f8954c"
 }
 ```
 
@@ -1025,14 +1025,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 40,
-    "digest": "sha256:c81f82b1e59d5c173f517cd8634d6d6dd130daff6ccbdd6c87dbd5e1695456ff"
+    "revision": 41,
+    "digest": "sha256:473d720f288ea32e6901bfd259abc5f7b6e738c2e711ae3b6d21b3ca268d2020"
   },
   "agent": {
     "id": "agent.a9685b45ac9e2935d8c1eba48731524171f963ab6e380ec93fd9a2b691387730",
-    "blueprintDigest": "sha256:17eceafaf875252591c709da1dfe520c1d3709b93fce9e0196aaf07f78333dc4"
+    "blueprintDigest": "sha256:49306eccad34408af25de30bfc3c0bf5aa2bfb3f8e8ff80ac421c31f42f8954c"
   },
-  "compilationDigest": "sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb",
+  "compilationDigest": "sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "prepare.candidate"

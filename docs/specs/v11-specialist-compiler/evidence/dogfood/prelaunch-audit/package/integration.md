@@ -1,6 +1,6 @@
 # Specialist Integration Contract
 
-Compilation: `sha256:c0dacfcc63e8d042e7dae3b03d58f23d949d17cf9c283e5208525599e6f2a4ce`
+Compilation: `sha256:fa7f65178897bae642e165df81fdfb0484e004ab942a9217c0ed1f7baae74371`
 
 The integration owner launches only the contracts bound to this compilation, preserves each raw handoff, verifies required evidence, resolves declared dependencies in order, and returns to clarification or redesign when a specialist crosses its boundary.
 
@@ -16,9 +16,9 @@ The integration owner launches only the contracts bound to this compilation, pre
 
 ```json
 {
-  "compilationDigest": "sha256:c0dacfcc63e8d042e7dae3b03d58f23d949d17cf9c283e5208525599e6f2a4ce",
+  "compilationDigest": "sha256:fa7f65178897bae642e165df81fdfb0484e004ab942a9217c0ed1f7baae74371",
   "goalId": "v11.specialist-compiler.prelaunch-audit",
-  "goalRevision": 40,
+  "goalRevision": 41,
   "assumptions": [
     {
       "id": "assumption.audit-is-trust-root",
@@ -109,11 +109,11 @@ The integration owner launches only the contracts bound to this compilation, pre
   "blueprintDigests": [
     {
       "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
-      "digest": "sha256:3bf0a8675b781299bdfbd1f20a7b5f4b5c6e04669a36dbf6a3638a80a1dac449"
+      "digest": "sha256:adbcaa1cdef2a6067ca22b0b74b4c5b9f9ea4ce3b79088285b11e591ac353067"
     },
     {
       "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
-      "digest": "sha256:d38a9fa6cca266b7c4b189749dc6ed97df87da7caaf0d67f66131a7cea3fc782"
+      "digest": "sha256:e3d6202f1ed4aaae1a06970a8b5fbe645f7386e68be9a54b120ab81af96cee4e"
     }
   ]
 }

@@ -2,7 +2,7 @@
   "apiVersion": "swecircuit/specialist/v1alpha1",
   "kind": "GoalContract",
   "id": "v11.specialist-compiler.release",
-  "revision": 40,
+  "revision": 41,
   "objective": "Complete the V11 Specialist Compiler release candidate through an independently reviewed two-phase prelaunch audit with an exact external verification receipt, a hardened first-run reference host, self-sufficient generated handoff contracts, publicly closed specialist schemas, deterministic artifact media and normalized evidence controls, exact candidate analysis, raw handoff and dependency fan-in verification, canonical gates, traceable integration, and owner merge gate without claiming runtime orchestration.",
   "integrationOwner": "v11.integration-owner",
   "assumptions": [
@@ -174,8 +174,8 @@
       "id": "context.biome",
       "kind": "repository",
       "locator": "path:biome.json",
-      "digest": "sha256:fb275f564aed63c6dc5da2bc7ff81364ec40359b964a3586946e45d2804a5d82",
-      "bytes": 814,
+      "digest": "sha256:46039f3c3c78511addc1b752193e1b795faaf4c227eae752cf32a29f3c2f866a",
+      "bytes": 850,
       "description": "Canonical formatting and lint coverage.",
       "allowedWorkUnits": [
         "verify.release-gates"
@@ -290,8 +290,8 @@
       "id": "context.consumer-check",
       "kind": "repository",
       "locator": "path:scripts/check-packed-consumer.mjs",
-      "digest": "sha256:911e617037a4b9aab715a4bbe6b7f8afb6a48ac240b42c6d76e550165835b19b",
-      "bytes": 45720,
+      "digest": "sha256:548b37682291ca3f93aedf44b15cd49fedfe3d655bcee39e73bcac797c65914c",
+      "bytes": 44564,
       "description": "Offline installed-package verification that compiles and executes the public TypeScript host, asserts its structured receipt, and verifies retained approval.",
       "allowedWorkUnits": [
         "prepare.candidate",
@@ -703,8 +703,8 @@
       "id": "context.package",
       "kind": "repository",
       "locator": "path:package.json",
-      "digest": "sha256:cdc519e0eb89402abb3031b82d72e2bd676457091e4a23ef83a17c2b0b223ac2",
-      "bytes": 3719,
+      "digest": "sha256:9c8e1e3bde18439a6199f0752b7dad1e69fdf713ffac33597d5119d1c26a67fa",
+      "bytes": 4043,
       "description": "Canonical build, test, dogfood, package, and consumer gates.",
       "allowedWorkUnits": [
         "prepare.candidate",

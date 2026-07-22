@@ -1,0 +1,26 @@
+{
+  "apiVersion": "swecircuit/evidence-retirement/v1",
+  "kind": "EvidenceRetirement",
+  "attempt": 40,
+  "date": "2026-07-21",
+  "outcome": "learn",
+  "reason": "Release hardening intentionally changed three authenticated V11 context sources after revision 40 passed. Its approvals cannot authorize revision 41.",
+  "sourceCommit": "4a3437a",
+  "candidate": {
+    "compilationDigest": "sha256:1cb6df1641d258e0403b2d5763ae1432fb998efc8a77ba638e809c5bbd864fcb",
+    "packageDigest": "sha256:cbc9704873dd1a1d6ef986f5f2d0ec34053db1e5e26152f4663c97363cc1ac98"
+  },
+  "prelaunchAudit": {
+    "compilationDigest": "sha256:c0dacfcc63e8d042e7dae3b03d58f23d949d17cf9c283e5208525599e6f2a4ce",
+    "packageDigest": "sha256:261a8696b0d92ab0f4a27f5743f95cc83db861ee4137877f03b13312d31fc63f"
+  },
+  "invalidatedContextSources": [
+    "context.biome",
+    "context.consumer-check",
+    "context.package"
+  ],
+  "preservation": {
+    "method": "git-commit",
+    "claim": "The exact revision-40 goal, packages, approvals, receipt, handoffs, authorization, and reports remain retrievable from sourceCommit. Historical attempt directories and raw handoffs were not modified."
+  }
+}

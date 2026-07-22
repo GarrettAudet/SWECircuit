@@ -20,6 +20,13 @@
 - Fast lifecycle boundary checks: `pass`, 2 of 2; runner duration 106.1986 ms.
 - Corrected complete exact lifecycle: `pass`, 1 of 1; runner duration 2,201,441.4493 ms.
 - Scoped syntax, Biome, and Git whitespace checks: `pass`.
+- Core suite after lifecycle serialization: `pass`, 435 of 435; runner duration 460,709.572 ms.
+- Serialized lifecycle at checkpoint `4a3437a`: `pass`, 1 of 1; runner duration 2,237,591.634 ms.
+- V11 Revision 41 two-package replay: `pass`; Candidate A `sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055` / `sha256:9eea6f0084c5705d448aba40a50d1fb42401a1a8d6be53f847751f6c55a4bde1`, Audit B `sha256:fa7f65178897bae642e165df81fdfb0484e004ab942a9217c0ed1f7baae74371` / `sha256:b9e26224028a040da07780f747ba752174a8e424603c03981dd1abaffda85598`.
+- Audit B binder attempt 41a: `block`, exact 5,295-byte handoff preserved after the host omitted explicit receipt delivery.
+- Audit B binder attempt 41b: `pass`, exact 6,862-byte handoff at `sha256:0726e1f8314fa71cdfe25c4a72f95db01a7a8e601d0234a7792f896f98abc5e1`; host verification and dependency fan-in are ready.
+- Audit B semantic review: `pass`, exact 7,691-byte handoff at `sha256:fe44783daa4071bdd56b107c53cb2015ab741e1596ae42ae410a6b3f7873e260`; launch authorization and complete evidence replay pass.
+- V12 dogfood: `pass`; package dry run: `pass`, 148 files; clean offline installed consumer: `pass`.
 
 ## Checkpoints And Attempts
 
@@ -29,10 +36,10 @@
 
 ## Remaining Gates
 
-- Run canonical mutable-source `npm.cmd run verify` and repository workflow checkers.
+- Replay canonical mutable-source `npm.cmd run verify` and repository workflow checkers from the Revision 41 checkpoint.
 - Obtain a new package-bound independent semantic review over exact Revision 27 snapshots.
 - Freeze a fresh candidate only after both gates pass.
 
 ## Route
 
-Integration-owner result: `pass` to mutable-source verification and independent semantic review. Release remains blocked until the remaining gates pass.
+Integration-owner result: `pass` to aggregate mutable-source verification and independent semantic review. Release remains blocked until the remaining gates pass.

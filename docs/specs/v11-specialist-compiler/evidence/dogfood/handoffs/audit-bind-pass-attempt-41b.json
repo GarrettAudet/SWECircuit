@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "v11.integration-owner",
+  "goal": {
+    "id": "v11.specialist-compiler.prelaunch-audit",
+    "revision": 41,
+    "digest": "sha256:b21cf901bd8aefad61038aa22a59a70efad5346655b014f41ba068f0e1d20d92"
+  },
+  "agent": {
+    "id": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+    "blueprintDigest": "sha256:adbcaa1cdef2a6067ca22b0b74b4c5b9f9ea4ce3b79088285b11e591ac353067"
+  },
+  "compilationDigest": "sha256:fa7f65178897bae642e165df81fdfb0484e004ab942a9217c0ed1f7baae74371",
+  "summary": "Attempt 41b passed. All ten Candidate A context sources independently matched their declared raw SHA-256 digests and byte counts. The exact 2255-byte runtime receipt matched sha256:f11d31906da0cd16a2130426a18a542037ea08c675e4f5cbd36281361dadc6db, parsed as the required closed PASS receipt, and bound the verified Candidate A and Audit B digest pairs to this binder while retaining candidateLaunchApproved false. The prior BLOCK remains preserved as attempt 41a.",
+  "workUnitsCompleted": [
+    "audit.bind-candidate"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-audit-binding.json",
+      "mediaType": "application/json",
+      "content": "{\"apiVersion\":\"swecircuit/specialist/v1alpha1\",\"kind\":\"CandidateAuditBinding\",\"attempt\":\"41b\",\"outcome\":\"pass\",\"priorAttempt\":{\"attempt\":\"41a\",\"outcome\":\"block\",\"preserved\":true,\"reason\":\"PrelaunchPackageVerificationReceipt was absent\"},\"auditB\":{\"goalId\":\"v11.specialist-compiler.prelaunch-audit\",\"goalRevision\":41,\"goalDigest\":\"sha256:b21cf901bd8aefad61038aa22a59a70efad5346655b014f41ba068f0e1d20d92\",\"compilationDigest\":\"sha256:fa7f65178897bae642e165df81fdfb0484e004ab942a9217c0ed1f7baae74371\",\"packageDigest\":\"sha256:b9e26224028a040da07780f747ba752174a8e424603c03981dd1abaffda85598\",\"verificationOutcome\":\"pass\",\"approvalOutcome\":\"pass\",\"binder\":{\"agentId\":\"agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6\",\"blueprintDigest\":\"sha256:adbcaa1cdef2a6067ca22b0b74b4c5b9f9ea4ce3b79088285b11e591ac353067\",\"contractFile\":\"agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md\",\"contractDigest\":\"sha256:0551c8b5476eefcb532e8dac0e320ff4c9e31cdb84f159583610d2530038acfe\",\"contractBytes\":16224}},\"candidateA\":{\"goalId\":\"v11.specialist-compiler.release\",\"goalRevision\":41,\"goalDigest\":\"sha256:473d720f288ea32e6901bfd259abc5f7b6e738c2e711ae3b6d21b3ca268d2020\",\"selectedCandidateId\":\"team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d\",\"selectedCandidateDigest\":\"sha256:af307f16a06d75c575f0761ed165730232e650eed9036b5b4a75457126a851e3\",\"compilationDigest\":\"sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055\",\"packageDigest\":\"sha256:9eea6f0084c5705d448aba40a50d1fb42401a1a8d6be53f847751f6c55a4bde1\",\"verificationOutcome\":\"pass\",\"candidateLaunchApproved\":false},\"runtimeReceipt\":{\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json\",\"bytes\":2255,\"rawDigest\":\"sha256:f11d31906da0cd16a2130426a18a542037ea08c675e4f5cbd36281361dadc6db\",\"encoding\":\"UTF-8\",\"apiVersion\":\"swecircuit/prelaunch-package-verification-receipt/v1alpha1\",\"kind\":\"PrelaunchPackageVerificationReceipt\",\"outcome\":\"pass\",\"verifierOperation\":\"verifySpecialistPackage\",\"authenticationStatus\":\"pass\",\"bindingStatus\":\"pass\"},\"auditApproval\":{\"path\":\"docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json\",\"digest\":\"sha256:49115e0a50a632ccb917cb673f8eb1e89b24e5993e98a746fb95c8f321bd2a73\",\"bytes\":195},\"contextAuthentications\":[{\"sourceId\":\"context.candidate-artifact.01\",\"bytes\":319450,\"rawDigest\":\"sha256:36c6a29dc033c5a1cf717bcc4a2574f7583df9cea3c8306d472a5a7abb45b5cd\",\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.02\",\"bytes\":19438,\"rawDigest\":\"sha256:bc974752f67ff54e78b09ac34c255cde176e5d9a18271a9215b81dab123e4b5c\",\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.03\",\"bytes\":11691,\"rawDigest\":\"sha256:6dc692f523d55a38a431c9e5dbd952e58a87a8cd309de44dc7ad7751e64ff817\",\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.04\",\"bytes\":24269,\"rawDigest\":\"sha256:26e74904e55f226cd7ce336ae7fe69f506d13b2f0de69152b7d8d52e6fa04dc7\",\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.05\",\"bytes\":27800,\"rawDigest\":\"sha256:9803862464be5951742ef22690bfd8d06474a8cb8b7c2c43f5f30ea1176b1108\",\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.06\",\"bytes\":34300,\"rawDigest\":\"sha256:4871cd7e68b71b783c2380e4b7a83e59160411bb8c6b957d66b589dde8c68935\",\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.07\",\"bytes\":37515,\"rawDigest\":\"sha256:f7a59fe4d8a644363e027389cb4533d455378e9e427d87c3c3a29ea07f997693\",\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.08\",\"bytes\":319450,\"rawDigest\":\"sha256:36c6a29dc033c5a1cf717bcc4a2574f7583df9cea3c8306d472a5a7abb45b5cd\",\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.09\",\"bytes\":8161,\"rawDigest\":\"sha256:9d57d795e05ae86e5958c487d49314b58484e707a782d2c0f315c12cf7bcd5f8\",\"status\":\"pass\"},{\"sourceId\":\"context.candidate-artifact.10\",\"bytes\":4203,\"rawDigest\":\"sha256:9ba3be0eacdeee1af66e026f18d72065a9aebd32f6c673ab9f2c6195a37bde49\",\"status\":\"pass\"}],\"bindingChecks\":[{\"check\":\"all-declared-context-sources-authenticated\",\"status\":\"pass\"},{\"check\":\"candidate-compilation-identity-bound\",\"status\":\"pass\"},{\"check\":\"candidate-package-verification-pass\",\"status\":\"pass\"},{\"check\":\"audit-compilation-identity-bound\",\"status\":\"pass\"},{\"check\":\"audit-package-verification-pass\",\"status\":\"pass\"},{\"check\":\"audit-approval-pass\",\"status\":\"pass\"},{\"check\":\"binder-agent-blueprint-contract-bound\",\"status\":\"pass\"},{\"check\":\"receipt-raw-bytes-authenticated\",\"status\":\"pass\"},{\"check\":\"candidate-launch-approved-remains-false\",\"status\":\"pass\"}],\"candidateApprovalOrLaunchPerformed\":false}"
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.candidate-authority-package",
+      "requirementId": "evidence.candidate-authority-binding",
+      "kind": "digest",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "candidate-audit-binding.json"
+    },
+    {
+      "criterionId": "criterion.candidate-selection",
+      "requirementId": "evidence.candidate-selection-binding",
+      "kind": "digest",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "candidate-audit-binding.json"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}
