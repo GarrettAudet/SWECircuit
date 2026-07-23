@@ -1961,6 +1961,44 @@ async function createGitContext(operationRoot, candidateRoot, checkpoint, tools,
   return { root: gitRoot, worktree: candidateRoot, environment, tools };
 }
 
+function parseGitChangedPaths(output, label) {
+  const aliases = new Set();
+  const paths = nulRecords(output, label).map((record) => {
+    const safe = safeTreePath(record);
+    requireCondition(!aliases.has(safe.alias), `${label} contains a duplicate path.`);
+    aliases.add(safe.alias);
+    return safe.path;
+  });
+  paths.sort(compareOrdinal);
+  return paths;
+}
+
+function gitTrackedStatePaths(context) {
+  const inspect = (arguments_, label) =>
+    parseGitChangedPaths(
+      gitOutput(context.tools, arguments_, {
+        cwd: context.worktree,
+        environment: context.environment,
+        label,
+      }),
+      label,
+    );
+  return {
+    combined: inspect(
+      ["diff", "--no-ext-diff", "--no-textconv", "--name-only", "-z", "HEAD", "--"],
+      "Disposable Git combined changed paths",
+    ),
+    index: inspect(
+      ["diff", "--no-ext-diff", "--no-textconv", "--name-only", "-z", "--cached", "HEAD", "--"],
+      "Disposable Git index changed paths",
+    ),
+    worktree: inspect(
+      ["diff", "--no-ext-diff", "--no-textconv", "--name-only", "-z", "--"],
+      "Disposable Git worktree changed paths",
+    ),
+  };
+}
+
 function inspectGitContext(context, checkpoint) {
   const head = strictUtf8(
     gitOutput(context.tools, ["rev-parse", "--verify", "HEAD"], {
@@ -1969,11 +2007,25 @@ function inspectGitContext(context, checkpoint) {
     }),
     "Disposable Git HEAD",
   ).trim();
-  const diff = gitResult(context.tools, ["diff", "--quiet", "HEAD", "--"], {
-    cwd: context.worktree,
-    environment: context.environment,
-  });
-  requireCondition(head === checkpoint && diff.status === 0, "Disposable Git context changed tracked candidate state.");
+  const diff = gitResult(
+    context.tools,
+    ["diff", "--no-ext-diff", "--no-textconv", "--quiet", "HEAD", "--"],
+    {
+      cwd: context.worktree,
+      environment: context.environment,
+    },
+  );
+  requireCondition(head === checkpoint, "Disposable Git context changed candidate HEAD.");
+  requireCondition(
+    diff.signal === null && (diff.status === 0 || diff.status === 1),
+    `Disposable Git tracked-state inspection failed: status=${JSON.stringify(diff.status)}, signal=${JSON.stringify(diff.signal)}, stderr=${JSON.stringify(strictUtf8(diff.stderr, "Disposable Git diff stderr").trim())}.`,
+  );
+  if (diff.status === 1) {
+    requireCondition(
+      false,
+      `Disposable Git context changed tracked candidate state: ${JSON.stringify(gitTrackedStatePaths(context))}.`,
+    );
+  }
   return { head, trackedState: "clean" };
 }
 
@@ -2686,6 +2738,7 @@ export const RELEASE_REVIEW_PARENT_TEST_HOOKS = Object.freeze({
   isAllowedOutputFile,
   parsePhaseInputs,
   parseGitBlobBatch,
+  parseGitChangedPaths,
   preflightPromotionEntriesAtRoot,
   preflightPromotionSetAtRoot,
   promotePreflightedSetAtRoot,

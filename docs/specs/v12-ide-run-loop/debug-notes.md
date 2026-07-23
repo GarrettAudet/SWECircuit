@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, batches exact Git object reads, makes timeout, process-tree termination, and invocation-owned cleanup separately attributable, and rejects committed/live production-identity mismatches before lifecycle materialization. Candidate-addressed external evidence owns later gate consumption and outcome; V12 still requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
+No active V12 product-contract defect is recorded. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, batches exact Git object reads, makes timeout, process-tree termination, and invocation-owned cleanup separately attributable, and rejects committed/live production-identity mismatches before lifecycle materialization. Its first valid committed-source lifecycle stopped after 551.0 seconds at a generic disposable-Git tracked-state assertion; diagnosis is active. Candidate-addressed external evidence owns later gate consumption and outcome; V12 still requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
 
 ## Reproduction
 
@@ -736,3 +736,27 @@ The lifecycle now hashes every production identity directly from `git show HEAD:
 ### Route
 
 `fix -> verify`. Commit the exact Revision 31 checkpoint, then run the full copied lifecycle once against that committed identity.
+
+## Revision 31 Committed Lifecycle Git-State Stop
+
+### Reproduction
+
+At committed checkpoint `602ddce2a9056e3f920fcb3e004132bde3f4f549`, run the exact copied-production lifecycle. The committed-identity preflight passes. After 551,039.5 ms, the compile parent exits nonzero with `Disposable Git context changed tracked candidate state.`; the outer test finishes in 551,139.2 ms.
+
+### Stable Evidence
+
+The source worktree remains clean. The lifecycle removes its owned current-run candidate and Git context. Inside the parent, exact candidate-source closure verification passes immediately before the Git assertion, so no content cause is inferred from the generic message. The old assertion treats a changed diff, candidate HEAD mismatch, signal, and Git command failure as the same outcome and preserves no changed path.
+
+### Competing Hypotheses And Next Experiment
+
+1. A child changed tracked worktree bytes after protected-state verification.
+2. A child changed only the disposable index.
+3. The Git diff command failed and was mislabeled as tracked drift.
+
+Add a failure-only diagnostic that distinguishes candidate HEAD, Git command outcome, combined changed paths, index paths, and worktree paths. Parse NUL-delimited paths through the existing cross-platform path validator, then reproduce only far enough to classify the stop.
+
+The diagnostic parser and complete release-review suite pass 29/29 in 94.4 seconds. The exact production parent identity is rebound before reproduction.
+
+### Route
+
+`verify -> diagnose`. Release remains stopped; the checkpoint is evidence, not approval.

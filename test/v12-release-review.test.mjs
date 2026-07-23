@@ -356,6 +356,40 @@ test("candidate blob batch parsing preserves binary bytes and fails closed", () 
   );
 });
 
+test("Git changed-path diagnostics are canonical and fail closed", () => {
+  assert.deepEqual(
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitChangedPaths(
+      Buffer.from("zeta.txt\0alpha.txt\0", "utf8"),
+      "changed paths",
+    ),
+    ["alpha.txt", "zeta.txt"],
+  );
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitChangedPaths(
+        Buffer.from("alpha.txt\0ALPHA.TXT\0", "utf8"),
+        "changed paths",
+      ),
+    /duplicate path/u,
+  );
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitChangedPaths(
+        Buffer.from("../escape.txt\0", "utf8"),
+        "changed paths",
+      ),
+    /unsafe cross-platform path/u,
+  );
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitChangedPaths(
+        Buffer.from("unterminated", "utf8"),
+        "changed paths",
+      ),
+    /not NUL terminated/u,
+  );
+});
+
 test("scoped parent timeout owns residue, kills descendants, and reports timeout first", async () => {
   const fixtureRoot = await realpath(
     await mkdtemp(join(tmpdir(), "swecircuit-timeout-regression-")),

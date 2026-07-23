@@ -78,4 +78,6 @@ Package identity verification and handoff schema verification authenticate prese
 - Revision 31 causal regressions: 2/2 `pass`; complete release-review file: 28/28 `pass` in 73.1 seconds; real-tree binary batch: 2,205 unique objects and 69,562,019 blob bytes in 817 ms.
 - The first full lifecycle invocation used committed source with uncommitted expected identities and is invalid evidence; it reported the mismatch after 2,383.9 seconds and is not a Revision 31 behavior result.
 - Committed-identity preflight ordering regression: `pass`; the exact invalid state rejects before materialization in 215.1 ms with both identities.
+- Commit `602ddce2a9056e3f920fcb3e004132bde3f4f549` valid copied lifecycle: `fail` after 551.0 seconds at a generic disposable-Git tracked-state assertion; source worktree remains clean and diagnosis is active.
+- Failure-only changed-path parser plus complete release-review suite: 29/29 `pass` in 94.4 seconds; committed path-attributing reproduction: pending.
 - Broader release-gate, valid committed-source copied lifecycle, package-bound review, aggregate, fresh successor gate, R2, hosted CI, and owner merge decision: pending.
