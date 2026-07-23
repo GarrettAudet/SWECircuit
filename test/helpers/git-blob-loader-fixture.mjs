@@ -8,21 +8,8 @@ export const BINARY_FIXTURE_BYTES = Buffer.from([0x00, 0x0a, 0x0d, 0x7f, 0x80, 0
 
 export function fixtureGitEnvironment(source = process.env) {
   const environment = { ...source };
-  const repositoryKeys = new Set([
-    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
-    "GIT_CEILING_DIRECTORIES",
-    "GIT_COMMON_DIR",
-    "GIT_DIR",
-    "GIT_INDEX_FILE",
-    "GIT_INTERNAL_SUPER_PREFIX",
-    "GIT_OBJECT_DIRECTORY",
-    "GIT_OPTIONAL_LOCKS",
-    "GIT_PREFIX",
-    "GIT_WORK_TREE",
-  ]);
   for (const key of Object.keys(environment)) {
-    const upper = key.toUpperCase();
-    if (repositoryKeys.has(upper) || /^GIT_CONFIG_(?:COUNT|KEY_\d+|VALUE_\d+)$/u.test(upper)) {
+    if (key.toUpperCase().startsWith("GIT_")) {
       delete environment[key];
     }
   }
@@ -32,11 +19,11 @@ export function fixtureGitEnvironment(source = process.env) {
   return environment;
 }
 
-function runFixtureGit(root, args, options = {}) {
-  const result = spawnSync("git", args, {
+function runFixtureProcess(command, root, args, options = {}, source = process.env) {
+  const result = spawnSync(command, args, {
     cwd: root,
     encoding: null,
-    env: fixtureGitEnvironment(),
+    env: fixtureGitEnvironment(source),
     input: options.input,
     maxBuffer: 128 * 1024 * 1024,
     windowsHide: true,
@@ -48,6 +35,21 @@ function runFixtureGit(root, args, options = {}) {
     throw new Error(Buffer.from(result.stderr ?? []).toString("utf8"));
   }
   return result;
+}
+
+function runFixtureGit(root, args, options = {}) {
+  return runFixtureProcess("git", root, args, options);
+}
+
+export function observeFixtureChildEnvironment(source = process.env) {
+  const result = runFixtureProcess(
+    process.execPath,
+    process.cwd(),
+    ["--input-type=module", "--eval", "process.stdout.write(JSON.stringify(process.env));"],
+    {},
+    source,
+  );
+  return JSON.parse(Buffer.from(result.stdout).toString("utf8"));
 }
 
 function fixtureGitOutput(root, args, options = {}) {

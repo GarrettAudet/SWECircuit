@@ -236,7 +236,7 @@ When repository text policy could transform exact raw evidence and changing that
 
 ### Nested Git Fixtures Clear Host Authority
 
-Before a nested or temporary repository invokes Git, remove inherited repository, worktree, index, object-store, prefix, lock, and dynamic command-configuration bindings case-insensitively. Reapply only the fixture's explicit closed configuration. A unique temporary directory is not isolation when environment variables can redirect Git elsewhere.
+Before a nested or temporary repository invokes Git, remove every inherited `GIT_*` key case-insensitively, then explicitly reapply only the values the bounded operation requires. Preserve unrelated runtime supply. Prove the actual delivered child environment and real repository operations under hostile known, mixed-case, and unknown future inputs. A partial denylist plus a test copied from it can share the same omission.
 
 ### Host-Injected Executor Port
 
@@ -382,4 +382,6 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V12 Revision 35 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/), [historical-outcome RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca), and [timeout RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-35-scoped-timeout-acceptance-rca) | Immutable Outcome Classes; Complete Adjacent Invariant Gate; Fallback-Aware Outcome Evidence |
 | [V12 Revision 35 independent review archive](../specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/) and [raw bindings](../specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/raw-artifact-bindings.json) | Reversible Raw Evidence Encoding |
 
-| [V12 Revision 36 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md), [Revision 37 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-36-inherited-git-context-rca), and [fixture regression](../../test/v12-release-review.test.mjs) | Nested Git Fixtures Clear Host Authority |
+| [V12 Revision 36 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md), [Revision 37 non-pass review](../specs/v12-ide-run-loop/evidence/implementation/independent-review-r37/), and [RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-36-inherited-git-context-rca) | Nested Git Fixtures Clear Host Authority |
+
+| [Revision 38 closed-environment correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r38/), [fixture helper](../../test/helpers/git-blob-loader-fixture.mjs), and [fresh-process probe](../../test/fixtures/git-blob-loader-environment-child.mjs) | Closed Child Environment; Adversarial Future-Key Probe |

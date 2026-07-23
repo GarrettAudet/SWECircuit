@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "swecircuit.external-host.specialist-launch.v1",
+  "launchedAt": "2026-07-23T12:37:19.5181681Z",
+  "sourceCommit": "148f546cba4c3c9ceecd2bbca07d47fe94878afa",
+  "sourceTree": "b5161396357505cd98e7443997248ee4a2e06e53",
+  "compilationDigest": "sha256:6bf6b7a203e71f17da856c9317bb455106f3b94762588088f3ac7a8e355aae12",
+  "packageDigest": "sha256:85713db4b1d2697acc885729042d17567c662950a39cbe9608d83f3cf973dfbb",
+  "agentId": "agent.1095666c58c94736567b639a2506890d1b21728cf2bbafbbc8b6fefa9ecf7b4c",
+  "blueprintDigest": "sha256:f21f81124bf84d8079a2948c4f24f5deac9e370d8f02911864aba55b5f301f25",
+  "externalAgentId": "019f8efa-bd5c-7d33-af04-b38d166a8f9b",
+  "externalAgentNickname": "Pascal",
+  "runtime": {
+    "selectedBy": "codex-desktop-external-host",
+    "model": "gpt-5.6-sol",
+    "reasoningEffort": "ultra",
+    "serviceTier": "priority",
+    "coreSelectedRuntime": false
+  },
+  "bindings": {
+    "runtimeSelection": {
+      "path": "runtime-selection.json",
+      "bytes": 865,
+      "rawDigest": "sha256:b47832790008e85c71e060c0e11504222fce194d873b1869a5108e2cb2189502"
+    },
+    "approval": {
+      "path": "approval.json",
+      "bytes": 701,
+      "rawDigest": "sha256:878f732788bde1067469736fb9b2f1cee402a84e80a08a3c5c14edd0966787c6"
+    },
+    "manifest": {
+      "path": "package/manifest.json",
+      "bytes": 1500,
+      "rawDigest": "sha256:8a2bad60f721f0a9a011cb692c4b8d400b4a6e83373e69d63922d959209c3d2d"
+    },
+    "agentContract": {
+      "path": "package/agents/agent.1095666c58c94736567b639a2506890d1b21728cf2bbafbbc8b6fefa9ecf7b4c.md",
+      "bytes": 42552,
+      "rawDigest": "sha256:867a5ef50093cea74117597fe2e870a588e3dce89be4dfda3e2d01dae1e7ba45"
+    }
+  },
+  "packageVerifiedBeforeLaunch": true,
+  "approvalPresentBeforeLaunch": true,
+  "candidateLaunchApproved": true,
+  "releaseApproved": false
+}

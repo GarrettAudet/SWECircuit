@@ -41,6 +41,9 @@ const HOST_CACHE_PROBE_ENTRYPOINT = fileURLToPath(
 const GIT_ENVIRONMENT_PROBE_ENTRYPOINT = fileURLToPath(
   new URL("./fixtures/v12-git-environment-boundary-child.mjs", import.meta.url),
 );
+const GIT_BLOB_FIXTURE_PROBE_ENTRYPOINT = fileURLToPath(
+  new URL("./fixtures/git-blob-loader-environment-child.mjs", import.meta.url),
+);
 const HOST_CACHE_PROBE_SOURCE_PATHS = Object.freeze([
   "scripts/run-v12-release-gate.mjs",
   "scripts/run-typescript.mjs",
@@ -417,9 +420,10 @@ test("parent and verifier harness loaders use constant-process Git blob batches"
     await rm(fixture.root, { recursive: true, force: true });
   }
 });
-test("Git blob fixtures discard inherited repository and dynamic config bindings", () => {
+test("Git blob fixtures retain only explicit closed Git configuration", () => {
   const inherited = {
     PATH: "host-path",
+    SWECIRCUIT_ENVIRONMENT_SENTINEL: "preserved",
     git_dir: "host-git-dir",
     GIT_WORK_TREE: "host-worktree",
     GIT_INDEX_FILE: "host-index",
@@ -430,6 +434,15 @@ test("Git blob fixtures discard inherited repository and dynamic config bindings
     GIT_CONFIG_COUNT: "1",
     GIT_CONFIG_KEY_0: "core.hooksPath",
     GIT_CONFIG_VALUE_0: "host-hooks",
+    GIT_CONFIG_PARAMETERS: "'core.worktree'='injected-worktree'",
+    GIT_QUARANTINE_PATH: "host-quarantine",
+    GIT_IMPLICIT_WORK_TREE: "0",
+    git_namespace: "host-namespace",
+    GIT_SHALLOW_FILE: "host-shallow",
+    git_graft_file: "host-grafts",
+    GIT_REPLACE_REF_BASE: "refs/replace-hostile/",
+    git_no_replace_objects: "0",
+    GiT_FuTuRe_RePoSiToRy_RoUtEr: "host-future-router",
     GIT_CONFIG_GLOBAL: "host-global",
     GIT_CONFIG_NOSYSTEM: "0",
     GIT_TERMINAL_PROMPT: "1",
@@ -437,23 +450,75 @@ test("Git blob fixtures discard inherited repository and dynamic config bindings
 
   const environment = fixtureGitEnvironment(inherited);
   assert.equal(environment.PATH, inherited.PATH);
-  for (const key of [
-    "git_dir",
-    "GIT_WORK_TREE",
-    "GIT_INDEX_FILE",
-    "GIT_COMMON_DIR",
-    "GIT_OBJECT_DIRECTORY",
-    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
-    "GIT_OPTIONAL_LOCKS",
-    "GIT_CONFIG_COUNT",
-    "GIT_CONFIG_KEY_0",
-    "GIT_CONFIG_VALUE_0",
-  ]) {
-    assert.equal(environment[key], undefined, key);
-  }
+  assert.equal(environment.SWECIRCUIT_ENVIRONMENT_SENTINEL, "preserved");
+  assert.deepEqual(
+    Object.keys(environment)
+      .filter((key) => key.toUpperCase().startsWith("GIT_"))
+      .sort(),
+    ["GIT_CONFIG_GLOBAL", "GIT_CONFIG_NOSYSTEM", "GIT_TERMINAL_PROMPT"],
+  );
   assert.equal(environment.GIT_CONFIG_GLOBAL, process.platform === "win32" ? "NUL" : "/dev/null");
   assert.equal(environment.GIT_CONFIG_NOSYSTEM, "1");
   assert.equal(environment.GIT_TERMINAL_PROMPT, "0");
+});
+test("Git blob fixtures execute in a fresh process under the closed Git environment", () => {
+  const hostileEnvironment = { ...process.env };
+  for (const key of Object.keys(hostileEnvironment)) {
+    if (key.toUpperCase().startsWith("GIT_")) {
+      Reflect.deleteProperty(hostileEnvironment, key);
+    }
+  }
+  Object.assign(hostileEnvironment, {
+    GIT_DIR: "host-git-dir",
+    git_work_tree: "host-worktree",
+    GIT_INDEX_FILE: "host-index",
+    GIT_COMMON_DIR: "host-common-dir",
+    GIT_OBJECT_DIRECTORY: "host-objects",
+    git_alternate_object_directories: "host-alternates",
+    GIT_CONFIG_PARAMETERS: "'core.worktree'='injected-worktree' 'core.hooksPath'='injected-hooks'",
+    GIT_CONFIG_COUNT: "1",
+    git_config_key_0: "core.hooksPath",
+    GIT_CONFIG_VALUE_0: "injected-hooks",
+    GIT_QUARANTINE_PATH: "host-quarantine",
+    GIT_IMPLICIT_WORK_TREE: "0",
+    git_namespace: "host-namespace",
+    GIT_SHALLOW_FILE: "host-shallow",
+    git_graft_file: "host-grafts",
+    GIT_REPLACE_REF_BASE: "refs/replace-hostile/",
+    git_no_replace_objects: "0",
+    GIT_PREFIX: "host-prefix/",
+    GIT_OPTIONAL_LOCKS: "0",
+    GiT_FuTuRe_RePoSiToRy_RoUtEr: "host-future-router",
+    Git_Config_Global: "host-global",
+    git_config_nosystem: "0",
+    Git_Terminal_Prompt: "1",
+    SWECIRCUIT_ENVIRONMENT_SENTINEL: "preserved",
+  });
+
+  const probe = spawnSync(process.execPath, [GIT_BLOB_FIXTURE_PROBE_ENTRYPOINT], {
+    cwd: ROOT,
+    env: hostileEnvironment,
+    encoding: "utf8",
+    maxBuffer: 16 * 1024 * 1024,
+    timeout: 180_000,
+    windowsHide: true,
+  });
+  assert.equal(probe.signal, null, "Git blob fixture environment probe was terminated");
+  assert.equal(probe.status, 0, probe.stderr);
+  const evidence = JSON.parse(probe.stdout);
+  assert.deepEqual(evidence.childGitKeys, [
+    "GIT_CONFIG_GLOBAL",
+    "GIT_CONFIG_NOSYSTEM",
+    "GIT_TERMINAL_PROMPT",
+  ]);
+  assert.equal(evidence.sentinel, "preserved");
+  assert.deepEqual(
+    evidence.revisions.map(({ files }) => files),
+    [3, 35],
+  );
+  for (const revision of evidence.revisions) {
+    assert.match(revision.commit, /^[0-9a-f]{40}$/u);
+  }
 });
 test("Git changed-path diagnostics are canonical and fail closed", () => {
   assert.deepEqual(

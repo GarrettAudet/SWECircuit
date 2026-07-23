@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 remains open until release evidence closes it. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+T006 remains open until release evidence closes it. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Revision 38 removes every inherited `GIT_*` key case-insensitively, reapplies only three explicit local controls, and passes 2/2 causal, 4/4 combined contention, 50/50 concurrent release suites, the complete mutable-source `npm.cmd run verify` (447/447 core plus copied lifecycle, dogfood, package, and offline consumer gates), the checker matrix, and strict V11 replay. This is mutable-source evidence only; a committed identity, fresh aggregate/package review, a distinct successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 remains open until release evidence closes it. Revision 44 still passes the
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 runs exact read-only reviews from source-bound packages. Revision 37 specifically proves that nested Git fixtures remain isolated when release-gate and release-review test files execute concurrently. Fresh R2 may fan out across three independent domains only after fresh aggregate/package review evidence and a different exact source-bound gate pass.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 now includes the exact Revision 37 one-specialist package review: the external IDE selected the runtime, launched one read-only specialist, preserved its raw non-pass handoff, and routed `fix` back to Revision 38. Fresh R2 may fan out across three independent domains only after Revision 38 passes a fresh aggregate/package review and a distinct exact source-bound gate.
 
 ## Out Of Scope
 

@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "swecircuit.v12.independent-review-preparation.v1",
+  "source": {
+    "commit": "148f546cba4c3c9ceecd2bbca07d47fe94878afa",
+    "tree": "b5161396357505cd98e7443997248ee4a2e06e53"
+  },
+  "predecessor": "ee297d8e11466763acc9b4c630de445eb57b00c3",
+  "aggregate": {
+    "aggregate-receipt.json": {
+      "bytes": 1227,
+      "digest": "sha256:5a7af34bea582d1b58317c06044fb057ab394892c3ca0f2a2f323ac328c2064e"
+    },
+    "npm-verify.stdout.log": {
+      "bytes": 303641,
+      "digest": "sha256:eb31a442b34803536dfbff73308a9a343b32021e0cd8eeb342bb3c8cafaf42cc"
+    },
+    "npm-verify.stderr.log": {
+      "bytes": 26319,
+      "digest": "sha256:c620ad4eb01b894d5789b5f44fd9ad8397e84e0d7b3dea11a07e64c5eee567cd"
+    }
+  },
+  "contextSources": 57,
+  "serialBaseline": {
+    "id": "team.7fb069d06b5d9b4a8fd7cf17b2d7391dbb5ae103114a6d952bdc9056940a24ca",
+    "partition": [
+      [
+        "review.release-candidate.r37"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 47,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 46,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.1095666c58c94736567b639a2506890d1b21728cf2bbafbbc8b6fefa9ecf7b4c",
+        "start": 0,
+        "finish": 47
+      }
+    ],
+    "contentDigest": "sha256:3cf3c53ebaf19e8de62ba110c1acd5bb33ffc7c8529665e9027a9840e4780f10"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:ccf08f491e395c0009d24f7fa8d38464a4970859c0b68464acf5dd20227fdbb5"
+  },
+  "selected": {
+    "id": "team.7fb069d06b5d9b4a8fd7cf17b2d7391dbb5ae103114a6d952bdc9056940a24ca",
+    "partition": [
+      [
+        "review.release-candidate.r37"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 47,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 46,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.1095666c58c94736567b639a2506890d1b21728cf2bbafbbc8b6fefa9ecf7b4c",
+        "start": 0,
+        "finish": 47
+      }
+    ],
+    "contentDigest": "sha256:3cf3c53ebaf19e8de62ba110c1acd5bb33ffc7c8529665e9027a9840e4780f10"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.7fb069d06b5d9b4a8fd7cf17b2d7391dbb5ae103114a6d952bdc9056940a24ca",
+    "serialValue": "team.7fb069d06b5d9b4a8fd7cf17b2d7391dbb5ae103114a6d952bdc9056940a24ca",
+    "serialRejectionCodes": []
+  },
+  "alternatives": [],
+  "compilationDigest": "sha256:6bf6b7a203e71f17da856c9317bb455106f3b94762588088f3ac7a8e355aae12",
+  "packageDigest": "sha256:85713db4b1d2697acc885729042d17567c662950a39cbe9608d83f3cf973dfbb",
+  "packageVerified": true,
+  "agent": {
+    "id": "agent.1095666c58c94736567b639a2506890d1b21728cf2bbafbbc8b6fefa9ecf7b4c",
+    "blueprintDigest": "sha256:f21f81124bf84d8079a2948c4f24f5deac9e370d8f02911864aba55b5f301f25",
+    "contractFile": "package/agents/agent.1095666c58c94736567b639a2506890d1b21728cf2bbafbbc8b6fefa9ecf7b4c.md"
+  },
+  "runtimeInvoked": false
+}

@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation remains complete; Revision 37 corrects one release-test isolation boundary. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+The V12 product implementation remains complete; Revision 38 corrects a release-test Git-authority boundary. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Revision 38 removes every inherited `GIT_*` key case-insensitively, reapplies only three explicit local controls, and passes 2/2 causal, 4/4 combined contention, 50/50 concurrent release suites, the complete mutable-source `npm.cmd run verify` (447/447 core plus copied lifecycle, dogfood, package, and offline consumer gates), the checker matrix, and strict V11 replay. This is mutable-source evidence only; a committed identity, fresh aggregate/package review, a distinct successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
 
 ## Baseline
 
@@ -240,9 +240,17 @@ The V12 product implementation remains complete; Revision 37 corrects one releas
 
 ## Revision 37 Git-Fixture Isolation
 
-- Preserved the exact Revision 36 receipt and raw logs under its candidate-addressed gate root.
-- Retired exact source `ee297d8e11466763acc9b4c630de445eb57b00c3` without rerunning it.
-- Added case-insensitive removal of repository-scoping Git variables and dynamic command-line configuration bindings in the Git-batch fixture.
-- Added a direct hostile-environment regression covering the shared index, repository, object, optional-lock, and dynamic-config inputs.
-- Focused causal verification passes 3/3; complete concurrent release-gate/release-review suites pass 49/49.
-- Product code and public APIs are unchanged; fresh aggregate and package-bound review evidence remain required.
+- Preserved the exact Revision 36 receipt and raw logs under its candidate-addressed gate root and retired that source without rerunning it.
+- Removed the specific repository and dynamic count/key/value bindings that caused the shared-index failure.
+- Causal verification passed 3/3, concurrent suites passed 49/49, and exact aggregate passed 446/446 plus copied lifecycle, package, and consumer gates.
+- A separately compiled reviewer authenticated 57/57 sources and returned exact verified outcome `fix` because `GIT_CONFIG_PARAMETERS` and additional inherited `GIT_*` authority remained.
+- Archived the exact aggregate, package, host runtime choice, launch receipt, 10,105-byte raw handoff, and kernel verification under `evidence/implementation/independent-review-r37/`.
+
+## Revision 38 Closed Fixture Environment
+
+- Replaced the partial denylist with removal of every inherited case-insensitive `GIT_*` key before reapplying three explicit local controls.
+- Routed fixture Git and an observable child through one spawn path.
+- Added a fresh-process regression covering command configuration, count tuples, mixed-case repository routing, object/quarantine/namespace/ref/shallow/graft/prefix/lock bindings, and an unknown future key.
+- The child observes only the closed keys and completes the real 3-file and 35-file fixture revisions.
+- Causal tests pass 2/2, combined contention tests pass 4/4, and complete concurrent suites pass 50/50.
+- Product code, public APIs, process counts, and release semantics are unchanged. Complete mutable-source verification passed in 679.3 seconds; its raw stdout/stderr and receipt are preserved under `evidence/implementation/release-correction-r38/attempts/`. A committed identity and fresh immutable aggregate/package review remain required.

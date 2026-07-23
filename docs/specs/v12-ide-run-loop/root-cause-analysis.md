@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical release attempts and their exact outcomes remain immutable. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+Historical release attempts remain immutable. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Revision 38 removes every inherited `GIT_*` key case-insensitively, reapplies only three explicit local controls, and passes 2/2 causal, 4/4 combined contention, and 50/50 concurrent release suites. Broad verification, a committed source identity, fresh aggregate/package review, a distinct successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
 
 ## Reproduction
 
@@ -641,16 +641,20 @@ Raw aggregate logs and the raw handoff are stored as canonical Base64 because tr
 
 ### Reproduction
 
-Run the exact Revision 36 gate. Node schedules the release-gate and release-review test files concurrently under the gate's disposable `GIT_DIR`, `GIT_WORK_TREE`, and `GIT_INDEX_FILE`. Both Git-batch fixtures call `git init` and `git add`; one fails on the shared `candidate.index.lock`.
+Run the exact Revision 36 gate. Parallel Git-batch fixtures inherit the gate's disposable repository, worktree, and index and contend on `candidate.index.lock`.
 
 ### Confirmed Root Cause
 
-The fixture copied the host environment and overrode only `GIT_CONFIG_GLOBAL`, `GIT_CONFIG_NOSYSTEM`, and `GIT_TERMINAL_PROMPT`. Git therefore ignored each fixture root's intended repository and reused the gate's candidate context. Parallel files turned that authority leak into deterministic index contention.
+The fixture copied the host environment and reset only three Git controls. Revision 37 removed the observed repository and count/key/value bindings, which closed the exact lock failure but not the full authority boundary.
+
+### Revision 37 Review Finding
+
+A separately compiled reviewer proved `GIT_CONFIG_PARAMETERS` and additional object, quarantine, namespace, shallow, graft, replacement, and future routing variables still reached every fixture process. The direct regression duplicated the production denylist and omitted the same channels. The exact aggregate was valid for its observed environment but insufficient for closed-boundary proof.
 
 ### Causal Fix And Route
 
-Strip every repository-scoping Git variable used by the production gate plus dynamic `GIT_CONFIG_COUNT`, `GIT_CONFIG_KEY_n`, and `GIT_CONFIG_VALUE_n` bindings before spawning fixture Git. Preserve unrelated host supply and reapply closed fixture configuration. Focused tests pass 3/3 and complete concurrent gate/review files pass 49/49. Route: `verify -> diagnose -> fix -> verify`; fresh aggregate and package-bound review evidence remain required.
+Remove every inherited `GIT_*` key case-insensitively, then explicitly reapply only the three local controls. Use one spawn path for real Git and an environment-observer child. The hostile fresh-process regression completes two real commits; causal tests pass 2/2, combined checks pass 4/4, and concurrent suites pass 50/50. Route: `review -> fix -> verify`; fresh immutable aggregate and package review remain required.
 
 ### Durable Learning
 
-Nested repositories are authority boundaries. A temporary path does not isolate Git when inherited environment variables can redirect its object store, worktree, index, or configuration.
+Security boundaries should be closed by construction. A reviewed denylist and a test copied from it can share the same omission; test the delivered child environment with hostile unknown future inputs.

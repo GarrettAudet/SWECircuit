@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "swecircuit.v12.verification-attempt.v1",
+  "sourceState": "mutable-revision-38",
+  "command": "npm.cmd run test:core",
+  "exitCode": 1,
+  "tests": {
+    "passed": 445,
+    "failed": 2,
+    "total": 447
+  },
+  "failures": [
+    "active release status avoids volatile candidate-state drift and preserves outcomes",
+    "live release routing delegates volatile state to candidate-addressed evidence"
+  ],
+  "classification": "documentation-contract-regression",
+  "cause": "Status compression removed stable literal phrases that public anti-drift tests require; no implementation assertion failed.",
+  "correction": "Restore the exact package/handoff verification, immutable outcome, and candidate-addressed external evidence phrases while retaining Revision 37 and Revision 38 facts.",
+  "stdout": {
+    "archivePath": "attempts/core-status-failure.stdout.log.b64",
+    "encoding": "base64-rfc4648",
+    "rawBytes": 92278,
+    "rawDigest": "sha256:f9f8d165defce7e262d2bb5f84ce317f9f726d51e2af94ab1371872199e579cb",
+    "archiveBytes": 123041,
+    "archiveDigest": "sha256:248a7b6e462d159ca16a81a0d7ab5ff787d3a22281213b374a9aebd93ee72b34"
+  },
+  "stderr": {
+    "rawBytes": 0,
+    "rawDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "releaseApproved": false
+}

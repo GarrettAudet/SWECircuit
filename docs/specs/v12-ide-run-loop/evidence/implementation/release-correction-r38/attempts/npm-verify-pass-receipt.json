@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "swecircuit.v12.verification-attempt.v1",
+  "sourceState": "mutable-revision-38",
+  "command": "npm.cmd run verify",
+  "exitCode": 0,
+  "durationSeconds": 679.3,
+  "gates": {
+    "core": {
+      "passed": 447,
+      "failed": 0,
+      "total": 447
+    },
+    "copiedLifecycle": "pass",
+    "v10Dogfood": "pass",
+    "v11Dogfood": "pass",
+    "v12Dogfood": "pass",
+    "packageDryRun": {
+      "outcome": "pass",
+      "files": 148
+    },
+    "offlineInstalledConsumer": "pass"
+  },
+  "stdout": {
+    "archivePath": "attempts/npm-verify-pass.stdout.log.b64",
+    "encoding": "base64-rfc4648",
+    "rawBytes": 608320,
+    "rawDigest": "sha256:869486c29185bd6621a4bc101640309af77de7e30d743bf7e8e719d465f686d1",
+    "archiveBytes": 811097,
+    "archiveDigest": "sha256:3983887d1dad248b4de8bd37dcdfa440053033e2b220e4ca92c7dde99307277a"
+  },
+  "stderr": {
+    "archivePath": "attempts/npm-verify-pass.stderr.log.b64",
+    "encoding": "base64-rfc4648",
+    "rawBytes": 50732,
+    "rawDigest": "sha256:3076a0a822e575aba7e20baeb10515d03ce267023606e3129be6e15ba64c7927",
+    "archiveBytes": 67645,
+    "archiveDigest": "sha256:0a5457064d1391e5acb79e12c38ad600d949ab66a6c45babd017cd5e65b9a37d"
+  },
+  "interpretation": "Broad mutable-source verification passed. Immutable candidate identity, fresh external aggregate, package-bound independent review, and release approval remain required.",
+  "releaseApproved": false
+}

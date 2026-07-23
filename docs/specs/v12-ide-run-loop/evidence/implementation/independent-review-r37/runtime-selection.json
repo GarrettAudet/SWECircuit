@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "swecircuit.external-host.runtime-selection.v1",
+  "selectedBy": "codex-desktop-external-host",
+  "selectedAt": "2026-07-23T12:31:00Z",
+  "sourceCommit": "148f546cba4c3c9ceecd2bbca07d47fe94878afa",
+  "compilationDigest": "sha256:6bf6b7a203e71f17da856c9317bb455106f3b94762588088f3ac7a8e355aae12",
+  "packageDigest": "sha256:85713db4b1d2697acc885729042d17567c662950a39cbe9608d83f3cf973dfbb",
+  "agentId": "agent.1095666c58c94736567b639a2506890d1b21728cf2bbafbbc8b6fefa9ecf7b4c",
+  "model": "gpt-5.6-sol",
+  "reasoningEffort": "ultra",
+  "serviceTier": "priority",
+  "selectionBasis": "A release-blocking adversarial audit over 57 authenticated sources, exact raw logs, process isolation, package trust, and host-boundary claims warrants the strongest available coding-review model and maximum supported effort.",
+  "coreSelectedRuntime": false
+}

@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 passes its complete two-phase trust replay in corrected approval order. Exact Revision 35 aggregate and package-bound review pass. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserves exact source and cleanup evidence but stops at 443/445 because concurrent Git fixtures inherit one candidate index. Revision 37 causal isolation passes 3/3 and the complete concurrent gate/review suites pass 49/49. `releaseReady: false` remains until candidate-addressed external evidence passes a fresh aggregate, package-bound review, a different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge gate.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 trust replay and Revision 35 aggregate/review pass. Revision 36 remains an exact 443/445 gate failure. Revision 37 passed a 446/446 aggregate but its 57-source package review returned verified `fix`. Revision 38 closure passes 2/2 causal, 4/4 combined contention, 50/50 concurrent suites, the complete mutable-source verifier with 447/447 core tests plus lifecycle/dogfood/package/consumer gates, the checker matrix, and strict V11 replay. `releaseReady: false` remains until a committed source, fresh aggregate/package review, a distinct successor gate, fresh R2, hosted CI, milestone closeout, and owner merge pass.
 
 ## Contract Tests
 
@@ -154,10 +154,17 @@ Package identity verification and handoff schema verification authenticate prese
 
 ## Revision 36 Exact Gate And Revision 37 Causal Gate
 
-- Exact source: `ee297d8e11466763acc9b4c630de445eb57b00c3`; tree `c55d4fc1ee1110b4a0be7df9b0cbf367fe38fdda`.
-- Source/materialization: 3,597 files, 109,159,647 bytes, `sha256:cf402052aaa882327678253763f8fe7ef55d9a5d884bbdec9cb90267e1c2789b`; before/after exact.
-- Core result: 443/445 `pass`; two fixture setup failures on one inherited candidate index; later gates did not run.
-- Receipt: 2,296 bytes, `sha256:27d7fe234f8b1201e0b0f2b8079dcfea439e6e0527822a7b11244a72927589d8`.
-- Revision 37 sanitizer regression and both formerly failing tests: 3/3 `pass`.
-- Complete concurrent release-gate/release-review suites: 49/49 `pass`.
-- Release result: `releaseReady: false`; fresh aggregate, package-bound review, different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
+- Revision 36 exact source/tree and cleanup remain valid; core stopped at 443/445 on two inherited-index fixture failures.
+- Revision 37 causal tests passed 3/3, concurrent suites passed 49/49, and exact aggregate passed 446/446 plus lifecycle, package, and consumer gates.
+- Revision 37 independent package: 57/57 sources authenticated; exact 10,105-byte handoff verified `fix`; successor freeze and release approval false.
+
+## Revision 38 Git-Environment Closure Gate
+
+- Pure closed-policy and fresh hostile-process checks: 2/2 `pass`.
+- Closure plus both formerly contended constant-process tests: 4/4 `pass`.
+- Complete authorized concurrent release-gate/release-review files: 50/50 `pass`.
+- Restricted attempt: 46/50 with four `.local` temp-root `EPERM` setup failures; not acceptance evidence.
+- Complete mutable-source `npm.cmd run verify`: 447/447 core tests, copied lifecycle, V10/V11/V12 dogfood, 148-file package inspection, and offline installed consumer `pass` in 679.3 seconds.
+- Checker mutation matrix and strict V11 two-package replay: `pass`.
+- Raw verifier stdout/stderr are preserved as canonical Base64 and bound by `evidence/implementation/release-correction-r38/attempts/npm-verify-pass-receipt.json`.
+- Pending: immutable committed identity, fresh aggregate, and fresh package-bound review.

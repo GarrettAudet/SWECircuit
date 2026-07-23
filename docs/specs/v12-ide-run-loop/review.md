@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+V12 is not merge-ready. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Revision 38 removes every inherited `GIT_*` key case-insensitively, reapplies only three explicit local controls, and passes 2/2 causal, 4/4 combined contention, 50/50 concurrent release suites, the complete mutable-source `npm.cmd run verify` (447/447 core plus copied lifecycle, dogfood, package, and offline consumer gates), the checker matrix, and strict V11 replay. This is mutable-source evidence only; a committed identity, fresh aggregate/package review, a distinct successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
 
 ## Scope
 
@@ -113,9 +113,9 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
 
 ## Current Outcome
 
-Revision 37 is `pass` at causal and concurrent release-harness verification and `pending` at broad release verification. Exact source `ee297d8e11466763acc9b4c630de445eb57b00c3` is permanently retired after its immutable gate passed 443/445 core tests and exposed inherited Git-context leakage in two parallel fixtures.
+Revision 37 is immutable and retired from release use after its exact package-bound reviewer returned `fix`. Revision 38 is `pass` at causal and concurrent release-harness verification and `pending` at broad repository verification.
 
-Candidate-addressed external evidence remains the only authority for volatile release state. `releaseReady: false` remains in force; a fresh exact aggregate and package-bound review must pass before a different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+Candidate-addressed external evidence remains the only authority for volatile release state. `releaseReady: false` remains in force; Revision 38 must pass broad gates, an immutable aggregate, and a newly compiled package-bound review before a distinct successor can receive one exact gate, fresh R2, hosted CI, milestone closeout, and owner merge.
 
 ## Revision 34 Trust-Refresh Outcome
 
@@ -133,6 +133,12 @@ The exact 11,143-byte `pass` handoff verifies against compilation/package `sha25
 
 ## Revision 36 Gate Failure And Revision 37 Correction Outcome
 
-The one-shot gate is a valid immutable `fail`: exact source, materialization, disposable Git state, and cleanup all verify. Both failed tests use the same fixture helper from parallel files, and both were redirected by inherited candidate Git variables. The bounded Revision 37 correction removes that hidden authority rather than serializing tests or retrying locks.
+The Revision 36 one-shot gate is a valid immutable `fail`: exact source, materialization, disposable Git state, and cleanup all verify. Both failed tests used the same fixture helper from parallel files and were redirected by inherited candidate Git variables.
 
-The direct hostile-environment test, both causal batch tests, and all 49 tests across the concurrent release-gate/release-review files pass. This is correction verification, not release approval. Fresh aggregate and package-bound review evidence must bind the changed helper, regression, status, and retirement record before another source is eligible for a one-shot gate.
+Revision 37 removed the variables that caused the shared-index failure without serializing tests or retrying locks. Its causal tests passed 3/3, concurrent suites passed 49/49, and exact aggregate passed 446/446 plus lifecycle, package, and consumer gates. The package-bound reviewer then proved the denylist remained bypassable through `GIT_CONFIG_PARAMETERS`, quarantine, namespace, ref, and future `GIT_*` channels. Its exact 10,105-byte handoff verifies `fix`; successor freeze and release approval remain false.
+
+## Revision 38 Closed Git-Environment Outcome
+
+Revision 38 replaces the partial denylist with a closed case-insensitive policy, reapplies only `GIT_CONFIG_GLOBAL`, `GIT_CONFIG_NOSYSTEM`, and `GIT_TERMINAL_PROMPT`, and preserves unrelated runtime supply. Git operations and an observable child share the same spawn path. A fresh hostile process observes only those keys and completes two real fixture commits.
+
+Causal closure passes 2/2, the closure plus formerly contended batch tests pass 4/4, and the complete concurrent release-gate/release-review files pass 50/50. The first broad attempt's four `EPERM` setup failures are preserved separately; the authorized identical-source rerun passed. This is correction verification, not release approval.

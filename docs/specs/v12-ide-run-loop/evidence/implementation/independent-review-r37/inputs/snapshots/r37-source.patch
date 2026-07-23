@@ -1,0 +1,876 @@
+diff --git a/docs/memory/active-context.md b/docs/memory/active-context.md
+index 0de377b940a49363bbf4825f83d1ffbf1ecf0ad3..65da8e66c5a3e30dd7146b574a74769ea4acfbe5 100644
+--- a/docs/memory/active-context.md
++++ b/docs/memory/active-context.md
+@@ -2,7 +2,7 @@
+ 
+ ## Current Focus
+ 
+-V12 IDE Run Loop Revision 36 is active on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every later aggregate gate. Its separately compiled package-bound reviewer authenticates 51/51 sources and returns a verified `pass`. Revision 36 preserves those immutable results without changing product or kernel behavior. V12 is not merge-ready until the exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge evidence pass.
++V12 IDE Run Loop Revision 37 is active on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+ 
+ Revision 41 binds Candidate A `sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055` / `sha256:9eea6f0084c5705d448aba40a50d1fb42401a1a8d6be53f847751f6c55a4bde1` and Audit B `sha256:fa7f65178897bae642e165df81fdfb0484e004ab942a9217c0ed1f7baae74371` / `sha256:b9e26224028a040da07780f747ba752174a8e424603c03981dd1abaffda85598`. The first binder correctly returned `block` because the host had generated but not explicitly delivered the external receipt; its exact 5,295-byte handoff is preserved. After the host delivered the exact 2,255-byte receipt as a declared runtime input, the 6,862-byte binder, 7,691-byte independent semantic `pass`, 984-byte canonical authorization, and `--check-evidence` replay all pass. V12 dogfood, the 148-file package dry run, and the clean offline installed-consumer gate also pass. Durable rule: review tooling is candidate evidence, every declared source must remain retrievable, runtime inputs must be explicitly delivered rather than inferred from repository presence, real production lifecycle proof must supplement projections, and closed package-manager configuration requires distinct private files rather than null-device aliasing or host fallback.
+ 
+@@ -16,9 +16,11 @@ Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` preserved
+ 
+ The immutable Revision 35 aggregate passes in 703,092 ms with clean before/after identity, 445/445 core tests, copied lifecycle, package inspection, and offline consumer verification. Its exact 1,227-byte receipt is `sha256:e99689f67208109c1470a02f742d324aa288b0fa05978337cdfe60d65f8f3917`. The package-bound review uses compilation/package `sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619` / `sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047`, authenticates 51/51 sources, and returns an exact verified 11,143-byte `pass` handoff. The repository archive is `docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/`.
+ 
++Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserves all outer identities and cleanup but stops at 443/445 core tests. Both failures trace to nested Git fixtures inheriting the gate's candidate repository variables and contending on one index lock. Revision 37 strips those bindings; focused tests pass 3/3 and the complete concurrent files pass 49/49. The exact failed receipt and logs remain under `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/`.
++
+ ## Current Stage
+ 
+-V11.1 remains the released public baseline on `main`. Revision 44 trust replay and Revision 35 aggregate/package-bound review pass but provide no V12 release approval. Candidate-addressed external evidence may advance Revision 36 through one exact successor gate, fresh R2, hosted CI, milestone closeout, and merge. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
++V11.1 remains the released public baseline on `main`. Revision 36 exact gate evidence is immutable and retired. Revision 37 causal and concurrent verification passes but provides no V12 release approval. Candidate-addressed external evidence may advance only after a fresh aggregate and package-bound review, then through one different successor gate, fresh R2, hosted CI, milestone closeout, and merge. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
+ 
+ V11 universal-runtime Round 4 failed against `d486b7f` with four REVISE verdicts, 10 high findings, and 9 medium findings. Raw evidence and correction design were committed at `6da0376`; the workflow emitted `split` rather than another broad patch cycle.
+ 
+@@ -209,4 +211,4 @@ Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27
+ 
+ - Preserve checkpoint 8f1c4f1 as exact failed lifecycle evidence; do not rerun it.
+ - Preserve corrected checkpoint 8768c25 and its exact 1,752.7-second copied-lifecycle pass; do not rerun it.
+-- Preserve the passing Revision 35 aggregate and package-bound review, execute Revision 36's exact gate once, and use only candidate-addressed external evidence/receipts to advance into fresh R2, hosted CI, milestone closeout, and owner merge.
++- Preserve Revision 36's exact failed receipt and never rerun it; pass Revision 37 fresh aggregate and package-bound review, then use only a different candidate-addressed receipt to advance into fresh R2, hosted CI, milestone closeout, and owner merge.
+diff --git a/docs/memory/failed-attempts.md b/docs/memory/failed-attempts.md
+index 6ddd6bec25fb714f076b2c59710d0ede37fa877d..b8e8728b9708ddb59f017050cab019147326375c 100644
+--- a/docs/memory/failed-attempts.md
++++ b/docs/memory/failed-attempts.md
+@@ -57,3 +57,5 @@
+ | 2026-07-23 | V12 Revision 33 aggregate and Revision 44 approval preparation | V11 dogfood carried a pre-`.gitattributes` source binding; the host then updated Candidate A and Audit B approvals as one preparation step. | The exact aggregate stopped after core and lifecycle success; independent review found Candidate A approval preceded semantic authorization. | Preserve the aggregate, retain byte-integrity attributes, refresh only the stale source, revoke Candidate A before launch, require binder plus semantic `pass`, authorize, then separately reapprove and replay. | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-44-approval-order-rca` |
+ | 2026-07-23 | V12 Revision 34 exact aggregate | Compressed active test-plan status to current release state and ran only the adjacent live-routing guard before commit. | The exact aggregate passed 444/445 core tests and rejected the missing Revision 1 incomplete-fan-in, Revisions 2/3 `split`, and later correction `pass` outcomes. | Restore all immutable outcomes and run both active-status invariants as one final post-edit gate. | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca` |
+ | 2026-07-23 | V12 Revision 35 complete release-review verification | Treated only the primary process-tree kill result as top-level termination acceptance even though a direct fallback was explicitly attempted and preserved. | The restricted IDE path returned `taskkill` access denial, accepted the fallback, removed the descendant, but failed the acceptance assertion. | Derive aggregate acceptance from primary or explicit fallback acceptance, preserve both raw routes, and independently assert descendant absence. | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/timeout-termination-diagnosis.md`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-35-scoped-timeout-acceptance-rca` |
++
++| 2026-07-23 | V12 Revision 36 exact gate | Allowed a nested Git fixture to inherit the canonical gate's repository-scoping environment and shared index. | Exact source and cleanup remained valid, but parallel release-gate/release-review files contended on `candidate.index.lock`; core stopped at 443/445. | Strip repository-scoping Git variables and dynamic command configuration before nested fixture processes; prove hostile inheritance and concurrent execution. | `docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-36-inherited-git-context-rca` |
+diff --git a/docs/memory/history-ledger.md b/docs/memory/history-ledger.md
+index e0d5131cc133019ab55dfe7f95de01cb9663f71d..39287d5dfc39b0dc1d90dc2f7e8ffcfe4cd3a100 100644
+--- a/docs/memory/history-ledger.md
++++ b/docs/memory/history-ledger.md
+@@ -88,3 +88,5 @@ Append one entry for each meaningful workflow version, feature, bug, decision cl
+ | 2026-07-23 | V12 Revision 34 historical-outcome drift and Revision 35 | verify / diagnose -> fix -> verify | `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `failed-attempts.md`; `patterns.md` | The exact aggregate passed 444/445 core tests and rejected compressed test-plan status that dropped three immutable outcome classes. Revision 35 restores them and combines both adjacent status invariants into the mandatory final 2/2 post-edit gate. Fresh aggregate and package-bound review remain. |
+ | 2026-07-23 | V12 Revision 35 timeout-evidence correction | verify / diagnose -> fix -> verify | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/timeout-termination-diagnosis.md`; `test/helpers/v12-release-review-lifecycle.mjs`; `test/v12-release-review.test.mjs` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `failed-attempts.md`; `patterns.md` | Full-file verification reproduced top-level termination rejection while the direct fallback was accepted and the descendant was gone. Revision 35 now derives acceptance from primary or explicit fallback evidence; restricted repetition passes 5/5, native repetition passes, and release-review passes 31/31. |
+ | 2026-07-23 | V12 Revision 35 immutable aggregate and package-bound review | verify / review -> pass | commit `bcb12fbee15e8a96b5088accb5a397bc0464c7cd`; `docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `patterns.md` | Clean identity remains exact through a 703,092 ms aggregate: 445/445 core tests, copied lifecycle, package inspection, and offline consumer pass. A separately compiled reviewer authenticates 51/51 sources and returns an exact kernel-verified 11,143-byte `pass` handoff. Revision 36 preserves the evidence; release approval remains false pending successor gate, fresh R2, hosted CI, milestone closeout, and owner merge. |
++
++| 2026-07-23 | V12 Revision 36 exact gate and Revision 37 Git-fixture isolation | verify / diagnose -> fix -> verify | commit `ee297d8e11466763acc9b4c630de445eb57b00c3`; `docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md`; `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-36-inherited-git-context-rca` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `failed-attempts.md`; `patterns.md` | The exact gate preserved source, Git, and cleanup identity but stopped at 443/445 because parallel nested Git fixtures inherited one candidate index. Revision 37 strips repository and dynamic config bindings; focused tests pass 3/3 and complete concurrent gate/review files pass 49/49. |
+diff --git a/docs/memory/patterns.md b/docs/memory/patterns.md
+index 2e082422fc33ac5b56e873b56ea433839011ae1d..a63e965f1806302b113b852c940ca35610fc1093 100644
+--- a/docs/memory/patterns.md
++++ b/docs/memory/patterns.md
+@@ -234,6 +234,10 @@ Freeze the complete implementation, milestone, and memory state before the final
+ 
+ When repository text policy could transform exact raw evidence and changing that policy would invalidate an approved trust chain, encode the bytes canonically and bind both identities. Record the encoded artifact digest, decoded byte count, decoded SHA-256, media type, and source provenance; verify the decode before use. This preserves exact evidence without silently treating an encoding as the original bytes.
+ 
++### Nested Git Fixtures Clear Host Authority
++
++Before a nested or temporary repository invokes Git, remove inherited repository, worktree, index, object-store, prefix, lock, and dynamic command-configuration bindings case-insensitively. Reapply only the fixture's explicit closed configuration. A unique temporary directory is not isolation when environment variables can redirect Git elsewhere.
++
+ ### Host-Injected Executor Port
+ 
+ Keep declarative manifests non-executable. Let the embedding host inject trusted code through one small typed port, bind it to one checked runtime grant, and retain host ownership of isolation, credentials, persistence, scheduling, and integration.
+@@ -377,3 +381,5 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
+ | [V12 Revision 34 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/approval-order-correction.md) and [RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-44-approval-order-rca) | Source-Bound Dogfood Refresh; Ordered Two-Phase Approval |
+ | [V12 Revision 35 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/), [historical-outcome RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca), and [timeout RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-35-scoped-timeout-acceptance-rca) | Immutable Outcome Classes; Complete Adjacent Invariant Gate; Fallback-Aware Outcome Evidence |
+ | [V12 Revision 35 independent review archive](../specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/) and [raw bindings](../specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/raw-artifact-bindings.json) | Reversible Raw Evidence Encoding |
++
++| [V12 Revision 36 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md), [Revision 37 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-36-inherited-git-context-rca), and [fixture regression](../../test/v12-release-review.test.mjs) | Nested Git Fixtures Clear Host Authority |
+diff --git a/docs/memory/retrieval-index.md b/docs/memory/retrieval-index.md
+index 3e8dc962bdb097abacce4edb818c9c7774d8534e..e82afefc6c48b98b0d7c63f0564cc60e573558f7 100644
+--- a/docs/memory/retrieval-index.md
++++ b/docs/memory/retrieval-index.md
+@@ -71,3 +71,5 @@ Use this file as a compact map to source artifacts. Keep entries short and link
+ | V12 Revision 34 V11 trust refresh | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/`; `docs/specs/v11-specialist-compiler/evidence/dogfood/runs/attempt-43/`; `docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/audit-bind-pass-attempt-44.json`; `docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-44.json`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-44-approval-order-rca` | Recovering the exact Revision 33 aggregate stop, sole stale source, archived prior chain, Revision 44 package pairs, binder and semantic pass, corrected approval order, authorization, and strict replay. | v12, revision-34, v11, source-freshness, gitattributes, audit-b, approval-order, trust-replay |
+ | V12 Revision 35 historical-outcome and timeout-evidence correction | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-35-scoped-timeout-acceptance-rca`; `test/helpers/v12-release-review-lifecycle.mjs`; `test/v12-release-review.test.mjs` | Recovering the exact Revision 34 aggregate stop, omitted outcomes, combined 2/2 anti-drift gate, primary-only timeout contradiction, fallback-aware correction, repeated platform evidence, and complete 31/31 review result. | v12, revision-35, aggregate, status, historical-outcome, timeout, fallback, process-tree, anti-drift, traceability |
+ | V12 Revision 35 immutable aggregate and independent review | `docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/`; commit `bcb12fbee15e8a96b5088accb5a397bc0464c7cd`; `docs/specs/v12-ide-run-loop/review.md#revision-35-aggregate-and-independent-review-outcome` | Recovering the clean 445-test aggregate, copied lifecycle, package and consumer gates, exact aggregate receipt/log bindings, 51-source package-bound review, raw handoff, verification, and integration assessment. | v12, revision-35, aggregate, independent-review, package-bound, raw-handoff, base64, traceability |
++
++| V12 Revision 36 gate failure and Revision 37 Git-fixture isolation | `docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md`; `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-36-inherited-git-context-rca`; `test/helpers/git-blob-loader-fixture.mjs`; `test/v12-release-review.test.mjs` | Recovering the exact 443/445 gate, shared-index lock evidence, inherited Git authority cause, bounded sanitizer correction, and 49/49 concurrent verification. | v12, revision-36, revision-37, git, fixture, environment, index-lock, concurrency, isolation |
+diff --git a/docs/milestones/v12.md b/docs/milestones/v12.md
+index e1bb0e01172569d8f9e5230845c8ae4312d1e847..abffad67d141a8797d79cf8a3f84c319072bb3cb 100644
+--- a/docs/milestones/v12.md
++++ b/docs/milestones/v12.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-The V12 source on `codex/v12-ide-run-loop` carries Revision 36 from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every later aggregate gate; its separately compiled package-bound reviewer authenticates 51/51 sources and returns a verified `pass`. Candidate-addressed external evidence remains authoritative. V12 is not merge-ready.
++The V12 source on `codex/v12-ide-run-loop` carries Revision 37 from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge. V12 is not merge-ready.
+ 
+ ## Goal
+ 
+@@ -21,7 +21,7 @@ V12 closes the practical gap between receiving a specialist package and visibly
+ 
+ ## Current Stage
+ 
+-The product implementation and release-harness corrections are integrated. Revision 35 passes exact aggregate and package-bound independent review. Revision 36 preserves those immutable results and binds their raw evidence without changing product or kernel behavior. Candidate-addressed external evidence alone may advance release state through the exact successor gate, fresh R2, hosted CI, milestone closeout, and merge.
++The product implementation remains integrated. Revision 36's exact source-bound gate exposed a test-fixture Git-isolation defect and is permanently retired. Revision 37 applies the bounded causal fix and passes focused plus complete concurrent gate/review verification. Candidate-addressed external evidence now requires a fresh aggregate and package-bound review before a different successor gate, fresh R2, hosted CI, milestone closeout, and merge.
+ 
+ ## Acceptance
+ 
+@@ -79,12 +79,14 @@ The product implementation and release-harness corrections are integrated. Revis
+ - Revision 35 correction: both active-status invariants 2/2 `pass`; restricted timeout fallback 5/5 `pass`; native timeout path `pass`; complete release-review 31/31 `pass`.
+ - Revision 35 exact aggregate at `bcb12fbee15e8a96b5088accb5a397bc0464c7cd`: clean identity before/after; 445/445 core tests, copied lifecycle, package inspection, and offline installed consumer `pass` in 703,092 ms; 1,227-byte receipt at `sha256:e99689f67208109c1470a02f742d324aa288b0fa05978337cdfe60d65f8f3917`.
+ - Revision 35 package-bound review: compilation/package `sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619` / `sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047`; 51/51 sources authenticated; exact 11,143-byte handoff `sha256:3b90e319eeb14527da11cbf82c569fab7a9267f9934ad4506f478fb891535841`; verified `pass`.
++- Revision 36 exact gate at `ee297d8e11466763acc9b4c630de445eb57b00c3`: source, materialization, Git context, and cleanup exact; core 443/445; receipt 2,296 bytes at `sha256:27d7fe234f8b1201e0b0f2b8079dcfea439e6e0527822a7b11244a72927589d8`; source retired.
++- Revision 37 fixture isolation: focused causal set 3/3 `pass`; complete concurrent release-gate/release-review suites 49/49 `pass`.
+ 
+ ## Approval Gate
+ 
+ - Source branch: codex/v12-ide-run-loop.
+ - Target branch: main.
+-- Current state: Revision 44 trust replay and Revision 35 aggregate/package-bound review pass; Revision 36 preserves the exact evidence; one successor gate, fresh R2, hosted CI, milestone closeout, and owner merge evidence remain required.
++- Current state: Revision 36 exact gate is an immutable failure; Revision 37 causal verification passes; fresh aggregate/package review, a different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge evidence remain required.
+ - Required decision: none at this stage.
+ 
+ ## Source Artifacts
+@@ -95,12 +97,12 @@ The product implementation and release-harness corrections are integrated. Revis
+ 
+ ## Residual Risks
+ 
+-The external host still owns context delivery, runtime selection, spawning, isolation, persistence, integration effects, and merge. The exact successor gate, fresh three-domain R2 review, and hosted CI can still expose a release-blocking issue. Automated model/effort assignment and IDE-native spawning are accepted post-V12 work, not V12 claims.
++The external host still owns context delivery, runtime selection, spawning, isolation, persistence, integration effects, and merge. Fresh aggregate/package review, the different successor gate, fresh three-domain R2 review, and hosted CI can still expose a release-blocking issue. Automated model/effort assignment and IDE-native spawning are accepted post-V12 work, not V12 claims.
+ 
+ ## Next Recommended Work
+ 
+-Run both focused status invariants and the complete release-review file after this final Revision 36 evidence edit, commit the exact source, execute its exact gate once, and launch three fresh source-bound R2 reviewers only from a passing candidate-addressed receipt. Then require hosted CI, milestone closeout, and owner merge evidence.
++Run final post-edit status checks, commit Revision 37, pass its fresh exact aggregate and package-bound independent review, preserve that evidence in a new source identity, then execute one different exact gate. Launch three fresh source-bound R2 reviewers only from a passing candidate-addressed receipt; require hosted CI, milestone closeout, and owner merge evidence afterward.
+ 
+ ## User-Facing Overview
+ 
+-V12 provides the portable IDE run session, exact handoff verification, dependency routing, and integration-readiness behavior. Revision 35 now passes the full 445-test aggregate and package-bound independent review. Revision 36 preserves that proof; the exact successor gate, fresh R2 review, hosted CI, milestone closeout, and owner merge still must pass before release.
++V12 provides the portable IDE run session, exact handoff verification, dependency routing, and integration-readiness behavior. Its one-shot gate caught a genuine parallel test-isolation defect before release. Revision 37 fixes that boundary and passes all 49 concurrent release-gate/review tests; fresh aggregate, package review, successor, R2, hosted CI, and merge evidence remain.
+\ No newline at end of file
+diff --git a/docs/specs/v12-ide-run-loop/debug-notes.md b/docs/specs/v12-ide-run-loop/debug-notes.md
+index 3b17dddcd0baa404ff48df86f297e0a9141ad4f6..087d815cdcde082f1042bdb680fec5c0c71d5fe3 100644
+--- a/docs/specs/v12-ide-run-loop/debug-notes.md
++++ b/docs/specs/v12-ide-run-loop/debug-notes.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-No active V12 product-contract defect is recorded. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests, the copied-production lifecycle, package inspection, and the offline installed-consumer gate. A separately compiled package-bound reviewer authenticated all 51 declared sources and returned `pass`; exact digest-bound evidence is preserved under `evidence/implementation/independent-review-r35/`. Revision 36 records that immutable result without changing product or kernel behavior. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2 review, hosted CI, milestone closeout, and owner merge evidence remain required.
++No active V12 product-contract defect is recorded. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+ 
+ ## Reproduction
+ 
+@@ -816,3 +816,9 @@ External supervisor evidence binds exact source `bcb12fbee15e8a96b5088accb5a397b
+ A separately approved package-bound reviewer authenticated all 51 declared sources twice. Compilation/package digests are `sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619` / `sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047`. Its exact 11,143-byte handoff is `sha256:3b90e319eeb14527da11cbf82c569fab7a9267f9934ad4506f478fb891535841`, verifies against both approved digests, reports no high or medium blocker, and returns `pass`.
+ 
+ Raw logs and the handoff are preserved as canonical Base64 with decoded byte counts and SHA-256 bindings under `evidence/implementation/independent-review-r35/`. Route: `verify -> review -> pass`; `releaseApproved: false` remains until the successor/R2/CI/merge chain closes.
++
++## Revision 36 Exact Gate And Revision 37 Git-Fixture Isolation
++
++Exact source `ee297d8e11466763acc9b4c630de445eb57b00c3` remained clean and byte-identical through materialization, disposable Git setup, execution, inspection, and cleanup. Its one-shot gate stopped at 443/445 core tests. The two failures were the only tests that created the shared Git-batch fixture from parallel test files; both addressed the inherited candidate index, and one reported `candidate.index.lock` already existed.
++
++The fixture environment spread `process.env` and reset only global configuration. Revision 37 removes repository-scoping Git variables and dynamic `GIT_CONFIG_*` bindings case-insensitively before every fixture process. A hostile-environment unit regression passes, both formerly failing tests pass concurrently, and the complete gate/review pair passes 49/49. Route: `verify -> diagnose -> fix -> verify`. The exact source is retired and must never be rerun.
+diff --git a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..7b1b85bde7746083238c5a799496ac3d20e236ce
+--- /dev/null
++++ b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md
+@@ -0,0 +1,30 @@
++# Candidate 15 Retirement
++
++## Identity
++
++- Commit: `ee297d8e11466763acc9b4c630de445eb57b00c3`
++- Tree: `c55d4fc1ee1110b4a0be7df9b0cbf367fe38fdda`
++- Canonical gate outcome: `fail`
++- Receipt: `inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate-receipt.json`
++
++## Stable Evidence
++
++- Candidate source: 3,597 files, 109,159,647 bytes, `sha256:cf402052aaa882327678253763f8fe7ef55d9a5d884bbdec9cb90267e1c2789b`.
++- Materialization digest, candidate Git context, source repository, and cleanup remained exact.
++- The core suite passed 443 of 445 tests.
++- Both failures were Git-batch fixture setup races on the inherited candidate `GIT_INDEX_FILE`; product and kernel assertions did not fail.
++- Receipt: 2,296 bytes, `sha256:27d7fe234f8b1201e0b0f2b8079dcfea439e6e0527822a7b11244a72927589d8`.
++- Stdout: 37,597 bytes, `sha256:76b48df2f50ebed0921d55c0a2ada36abfb30362c5c3bfacc4a478dd521a6f81`.
++- Stderr: 19,492 bytes, `sha256:00ce84e8736d7583a9716c2cc28900f92401a907f381c72e074578739408805e`.
++
++## Retirement Reason
++
++The isolated Git-batch fixture copied the host process environment, including the canonical gate's `GIT_DIR`, `GIT_WORK_TREE`, and shared `GIT_INDEX_FILE`. Node ran the release-gate and release-review test files concurrently, so both temporary fixture repositories addressed the candidate context and contended on `candidate.index.lock` instead of using their own `.git` directories.
++
++Revision 37 strips repository-scoping Git variables and dynamic `GIT_CONFIG_*` bindings before every fixture Git process while retaining only explicit closed configuration. A direct hostile-environment regression and the complete concurrent release-gate/release-review suites prove the isolation boundary.
++
++## Route
++
++Outcome: `verify -> diagnose -> fix`.
++
++Never rerun this candidate's exact gate. A different committed source identity must pass broader verification and package-bound review before another one-shot gate.
+diff --git a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate-receipt.json b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate-receipt.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..a89b0d2cc23e566e14be07e481d64049fc0de95b
+--- /dev/null
++++ b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate-receipt.json
+@@ -0,0 +1,64 @@
++{
++  "apiVersion": "swecircuit/release-gate/v1alpha1",
++  "kind": "CanonicalGateReceipt",
++  "version": "V12",
++  "candidateCommit": "ee297d8e11466763acc9b4c630de445eb57b00c3",
++  "repository": {
++    "headBefore": "ee297d8e11466763acc9b4c630de445eb57b00c3",
++    "headAfter": "ee297d8e11466763acc9b4c630de445eb57b00c3",
++    "trackedStateBefore": "clean",
++    "trackedStateAfter": "clean",
++    "inspectionError": null
++  },
++  "candidateSource": {
++    "commit": "ee297d8e11466763acc9b4c630de445eb57b00c3",
++    "tree": "c55d4fc1ee1110b4a0be7df9b0cbf367fe38fdda",
++    "files": 3597,
++    "bytes": 109159647,
++    "digest": "sha256:cf402052aaa882327678253763f8fe7ef55d9a5d884bbdec9cb90267e1c2789b"
++  },
++  "materialization": {
++    "strategy": "exact-git-blob-materialization",
++    "files": 3597,
++    "bytes": 109159647,
++    "digestBefore": "sha256:cf402052aaa882327678253763f8fe7ef55d9a5d884bbdec9cb90267e1c2789b",
++    "digestAfter": "sha256:cf402052aaa882327678253763f8fe7ef55d9a5d884bbdec9cb90267e1c2789b",
++    "inspectionError": null,
++    "cleanupError": null
++  },
++  "gitContext": {
++    "strategy": "disposable-shared-object-git-context",
++    "headBefore": "ee297d8e11466763acc9b4c630de445eb57b00c3",
++    "headAfter": "ee297d8e11466763acc9b4c630de445eb57b00c3",
++    "trackedStateBefore": "clean",
++    "trackedStateAfter": "clean",
++    "inspectionError": null,
++    "cleanupError": null
++  },
++  "command": {
++    "executable": "cmd.exe",
++    "arguments": [
++      "/d",
++      "/s",
++      "/c",
++      "npm.cmd run verify"
++    ],
++    "canonical": "npm.cmd run verify"
++  },
++  "result": "fail",
++  "exitCode": 1,
++  "signal": null,
++  "spawnError": null,
++  "stdout": {
++    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate.stdout.log",
++    "mediaType": "application/octet-stream",
++    "bytes": 37597,
++    "digest": "sha256:76b48df2f50ebed0921d55c0a2ada36abfb30362c5c3bfacc4a478dd521a6f81"
++  },
++  "stderr": {
++    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate.stderr.log",
++    "mediaType": "application/octet-stream",
++    "bytes": 19492,
++    "digest": "sha256:00ce84e8736d7583a9716c2cc28900f92401a907f381c72e074578739408805e"
++  }
++}
+diff --git a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate.stderr.log b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate.stderr.log
+new file mode 100644
+index 0000000000000000000000000000000000000000..45ed96ba88523cf64888743a52311db7689b1eca
+GIT binary patch
+literal 19492
+zcmds9*>c-RvVHHbsAf2(sc3Nlz<t8*P|Na+C%gqE$J~2cJr+n7MD$Pq2LLT=)Owit
+zhWjsk=cn8+xhHEufgnhcTH39lO^U=)OP<V=Syfqxhmk)`;?rmrR6bjFWfY!!VK}N@
+z{1W$^M$fX?#1E2MoLo(KZ5HzreleZ631{rp>;F3V@y!uq|M$QDdhGw-e8ZT}(z+*p
+z!XtMQGdJRF8gY+D5g)PeGmluDM1FA2hG8&7GXppA!=Q@W@t-lrMr;3#FW2&?qkb|L
+z@y~vYOMA@P$GI2GX_#|inDkix=*`i=@zJNl_x=9S;mPaw?>_yA-|Tx<szrRl-I!N~
+zAsRBIDoa#~c*zRY5B9g+Ub30Zv?=_{6y=Lf^>im%=~;$uUrc@AgBHB>&v}e?m*TN&
+zH(R|%({sCR&l_0YXwde$O_w{4U3YlbYuoK%-D|amcH6ZEw&yyHhF5R7-Dayhuv)mX
+zF|<XG&>o+C3}V;g%=5qW*vFVNmnB*&6f&v6g~&5<*OJE}2O`0T5l;>Rk{Cb`FS@A0
+z7IXP8B0LuJHGnMU-!JByAyGwBso&>IJ$rV&rr?_bn9nrKPLrBzfMTowDqPW`%d&|5
+z2AF*lZ!q$9^FPhV+gholk+(C3oEo_;jl69D6H2wCkyj#V6{(JjFXCf2GpDPCske=4
+z6zEU8oiUdUrat7hJsOUhgJFBnZH?Max9hp>uI&!G?!ajd>jSIqdR@2fHiiwS?Tws~
+z)oF}8?r=VAweM=`5Ike4^o^+l0US3lWZ6~#K@tNL;`Jb=z66Xa{Q;~U#ij-iq|j&s
+z*BXNdWVkGg+eU+b801zAUi+tWxJ2RFt)|_xzlLvrC{J!R>!~e7JefrS3-~2MgfGcU
+zJ`6`ZDwk%7SLu}Y*){Xr#GUk563sZf*{hDk73INI!sER^3d6ISmMZUtA#fOug?D|y
+zAgHvSWE_Q;qMD;93ZwGG9q<YHf9A(52on)|3={V8<W;3pEvb@8{YdwUUbnD>YMJJ<
+z8}(aS68*yeo!l`=Eh{;)#D|fckso7O2{Iu;Ed%4jg)A3yV78cNq$!>EV(!N{7bc52
+zg>ysvU6rXu#(416GU3bxNH=RsJWKI+&{8dF^dXhC)zr)-B)*Mpb$YGVSBRS*&bB12
+zd9y&ovMiWQ`Y@Sj6ib`gXF{rbDgw2dn%@w0#|iU;=`3N-*^e_1k$KgN!i$Wpkxg}!
+zMMV4`Ge6>oVKDM3W-W_bt7MpOcyOMK+4JYmS)Kj*t1PtYCgqB?Cy%ODWDW4$$2W*Y
+zqYEE#KOb#nf<<Pz_Sh}<s+_ph?5h4rd0<FDvV%l^`dP6}OS9L66K%K=$*WE$cQ@%4
+z1gibeE|3}6$R*tl9GP-Qh{pKnTLE0mf#70ZU(A2~6-G#!p+MAU_7`)ZO)I7kFc<SR
+zXlfOb#{V#_C?bn|8w_1^Aq@?)mR~W@Rth#_t8j0@C+$wJ`4#8{gZc+!l%+uF+uBd3
+zvpQZC`eS+Y+4g>}&8qOnNqOof<309=KS%~%ik-ftb5%bWPG%z>mrJLor9BzRTW!rL
+zjFk>u@W}`i0FTc(DR<)f0j3KAHj`slDhESjaK~Sc-@mKMNdw=zQkBD}SIr1Mb>Fv|
+z|8^Isj%n@D9;l-^K^kMs&o6k85N(KF$5RZh%cYu(D|V&{AYd(_z}T)hSW8&o{xxWT
+zD1ZjN3{lX?-QWVd1~7}cMrJX0gT-88vzQBTaJgWFB77uOWD(Nvn_%E9Rf4T5dv;w^
+z(M?sw`&JwFj<*ivGMHH@Zkh&eL2e6+?{uHM#dmZ}AQXWqnN*YTO?b(pL(G<y_t>}a
+z?xpIvpD1IqI>w5%VRwwwjRO6i4ZExDSSv|a4=q%%eJu=nU&|zBH+ORUkg%1LGSg*l
+zA?K{D857cm;X>NKt>G$oAI)%qhLs|MeyRWrm{=(;=`d&wGFw<|x7mZ6|Ly0>AIw8{
+z<tQf&AcxwAo`9*#>951^;=)h%8Em#c3j$2IKWA7w_>-T=(Ey_RuAWqrehl+exTDYG
+z*@S}J^v3c}CCvC%rfw8-4AM)L3a0Pjg7H098%6kkyO!nLlzvtaYBiPoa;MLY?pk{3
+zu8yo%V$5v65J0%e46d3+E9lF|z#U8weS{ca$Km8NVh}A(nxcn1(y@uv)kL{c16r`N
+zo9|*6i?{SsstXMq(qq{B;tPrZzFPKjJTGu2XKsK-aKD(Zff}COV2#_fWDdps(zh4G
+ztyN2s#r>*9w4bZ_Cav^L>zD=j>8;)V3PjmH-%|;UA`l(r#>J!xx3iF4w|f|(JzW;E
+z>p9<P*QM`7|6ee4Paz?hg<{D2^9q&nfUL5CQ-nEU#Z7f$1!U8oT~vwgO4-D&YeP38
+z0_kRFVwP$dg|lQ2!NRdvH7%Fic<B2j9EtpkvLISCdZ#Hyg3!R2I$Q!$gDGf@2{;Rh
+z#I*4KG(u%9qpP)OiA3&HWg&%#3R40hv<>0~hHWao7v=_cJqV$K?}_{tgk#%1=SdTe
+ztqI2qBUYA1gHd;M#X^tK7avOmYM#@^ii!3F^2)#SE68{ng+m_4RZ5INF&82XC|&x2
+zW0%+uqLizu7%MN2etMZx6qbVFY|U^5s`72jc~Bj@aT(R_A<8(^o>Pv7s0O_fF$?^E
+z%($H45Zw{=Qy`U6g*H9m%y0YHz-k*$Ny@V|<<a;AeQ-x3(FYle+qUMcyDVwgK#<-V
+zm@RS4VyR8$VbKJ^0ZlDsv+}V*`#D^T=1B<J%o2t|S5J``fc3;kCPdaMWd>NcH(+({
+zWL*QEU7N}=S)%H-0XV%iCTn3g(90E<ZDO2GqX&g~!ZA)q+xQ9)64&>GUy$STdK6bD
+zat-8#7*ph|9Xx<FM>d#*gE+NmyQ76J`3a+s)lnCgH!Ge$QG>1lEq0cE#ww{~ppG_1
+z_<fqK?=1xn`4;{X`T?e4gVG*x3;u$ZR1BdrW7e;J!ZtRN2c47z($Pc88?9j-9h9#K
+zQTBP0H+4su;TQ>!2_YycqQ>0<9^h%Gm=^GMUS@Yf)gY_cYFBK*N5FQKk0i>Ac{WDO
+zH`%}}8HRuc`>Y^MHIUI8vMDMZant$=Zcc-<m9lLp0KGM#WYxe<RiQxk_g046V<5+}
+zde&2(`f<>D5^Op(;Q4_ckKbbbB=X&f|IbW1VHvc8#Tm&J=($2fO>F8^Lt0m%3#%iM
+zgIF$&`Ioin5SuAL*uP^*%9M-pjwMMBr*^efr`~1smU^Vht}`tGwyO+~%Lf@O+mw_A
+ztV88p%4LjA;?Q!GR-^AfQ};i+UcL9`OomP*7%d!~vq0j}A`%kX!l^pelV4(VthF9N
+z;jHJ`m|9PxRrmO>eljkDC1{eaOgVt$$YMTKs}B%NN;-w{Hjjtyl*jC1*;<Mt?^Tz$
+zS^2j)t2(E3TKPvL_AZ+y1#qM@_`j2PBe5FM7BFloT*op3-d@CHLEEhr$`Dk^doj-o
+ze0?x%q^{94?rB}5yP=v~$SX^CED#Ic+CgPtFi?>6M7C85#unZMiF#ip3ICxM7Mx6?
+zUS@1I9QzYw?0ZaniFlv~*-n~>N3^QL*l8I1Nf=#ypfN619JoI466r%jIs-jK(taje
+zk8b~==t_!IYviIt)z!eg;6jP%28|zm-y%8{1}ZHelRHMY_A;d_u1@pF=)CM0DFV79
+z!mE+)3D!SIIHF-fk5IvGHVctw#SXV-CO0+;ep&dsl}6ed#Sc@4_~}JbGy`6pw*SLo
+zZc0jVlL2K-dP&pq6cG)nvDr*{h$IV&ys2SsKNaE4SqhMo18E&h&Jt8w3|oS=jZJr+
+zx=m|eE8s3%t{`p5It02>rnK{s1|M^4Vm`}YND8K1Z<-}2D_P3x$+3Sf#Yfk}Qk#<g
+zc)1?pfou-RU2K0F51qM2X`=BH)HUrZGHGIT*u8Z9gwd`fnG&_1;W8nnJGpaY3OZ@F
+zAXP)Jl`*txXS)EyolqntDDv*wg!5TJIapT{gfy~?xq()D{$+IaR9MFQD}`ER5^6>^
+z61ZbCvSdUErP)IcG6m_qtYI14ogDVtqQ3>#w7$|Nz6XmRT6(%{qpr5}#FxAZoGl!H
+zAHTv(S6Nd^%S>*`>oPHY4)hGAV4f|gMEra<aU(fp|2v=)X`(GNCqf-cRce`^-C;6w
+zCnO0hQp{o+@aXvI?o0w)oE$c5nFQ!KD+m=~1i}DD^eT=ab|DPfL6G9Mn2U*OY#Wr3
+z#<Bzo$U>>g{m5cX6V?+2@N{yRE}`mRW5F_uY=!OZJke-cJ<QlY-D&kkL-T8~H)~|Z
+zA@Cg(^{eqdCGEUDI63OSK6vx`e-6aX-VX=;qjx7V3Hb$sa57S-Spu3~*0Tp|?iJGr
+z6l0`mCKZ{iEYv$wp8Rb-Gx5T0Uj+#?GJ~E{pL?^IHb9HqqYG?_mRZl*apor~<XnhK
+zzig!O@twvU1c8BJ9T^Z1SuhwyX*<Bd1RNx;Rf^aS8e#32<B?Wh43CC<+5Yq8WBgH!
+zzOLfNlzygCED5eGWQc3;4VnQ?u?6P*qTy+b&EhnJ8z+@9)`~;VtHi@Gzi=x^j(4j`
+z+-o?U9#9izk6fndgn#jqt6C6ZUpKr(Eb~J8?j?kM_g(%n7La9CBNT@Ha(I>iRlqLC
+zJYdO~GdeEw@YyKjaqwNDT`)BGipd!nOwD0kI~ekGhj~NordBhe*v=~S0+s>0MQ#Eq
+z36wv?4jVb<KK^iYNS1zl^6Ae9?_R!t_3G2{;h&G*9(+1}|FM5~gz>m(>Djd~F|BRJ
+zNVofzwO`dD%~GXj5{eRHiE)xl<6f=yOALo44_CwJyf%tlFR3A6rCzb@n!4Tuw5(bs
+zF}z@{r4@AgEyDtuFQ;G9XDA8jzR0DumYvEA7yGQw1!oW-MhaLin@re%4_%<f{Ny_W
+z-<U^yfBDjYjkr5umzY`AfL@M$?5KqN<vxrYmQcUHb9Nf+vr}Z2o<?||;*GV$)9(b%
+zd1a=DRpb=e!t)ItTa8yu;4u{&nY0^~xBv0o<0x)UX-S222!2nc#RQ$`5-9JPKgw!8
+zQbotJK@}8K`;&`jXe7x2cK9T<<G&sq`q6Oa;}Il+x#HSq%biTeu2svh8x*3d?1pSe
+zxib)et}gKtEO^7zOo8k;Wk-foW~R%{?E6U#tes~5NRw)-JRSW@cB|09+R8RzT~Eir
+za>hko0$%%(y~L_{$s><xWN;D7<e2dvTR4!z_isPEesk2{&JdL{Zs$7EtMcYZZtWqR
+zNUG#kJ$*)l)N35b`VstGmesN+!Re>qN@$B=HZUSz;)SyS5fL^ZiyesS2?_Ncp6Bvt
+zI{%njZ8c=vLogy?UyY3LgZ5s_g+Un$y?g)Z74-M`zmHFj-hS#I9lV4l_g{ZFSq_3k
+zF&b_9yZM#TSXHO=Wd4N+!`wLLh{kAJI4cEsR6|c5!9%8KuYXA{mxwBKfTOeZbf#sT
+zP~vj+GQxwP%DIhu*DRdk=}?4b52Kr_N$8HM>7ji*wg_?ORg6a#^|^~(**AM)uw#-h
+z3u#=Zvk6h?v^B9^wKRb8Oz`+A<Byo~RY-!s_=|tR7@fu8EE?izRW900dtBW3Di|{C
+QfqVW!q*I{a-)r>s|EsOyDF6Tf
+
+literal 0
+HcmV?d00001
+
+diff --git a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate.stdout.log b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate.stdout.log
+new file mode 100644
+index 0000000000000000000000000000000000000000..2fb6750b1dc71a29c79c3cca97af4fd293f7dcf6
+GIT binary patch
+literal 37597
+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%0DJFgi&A75)=5Wye
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/docs/specs/v12-ide-run-loop/implementation-notes.md b/docs/specs/v12-ide-run-loop/implementation-notes.md
+index c0f057766f63fa5ea6a35525b4fe16fabf563fbf..9b9564e8adb87ea9b46aec7bb2955fdd7245fc3d 100644
+--- a/docs/specs/v12-ide-run-loop/implementation-notes.md
++++ b/docs/specs/v12-ide-run-loop/implementation-notes.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-The V12 product implementation and release-harness corrections are complete. Revision 44 passes the complete V11 trust replay without changing V12 runtime behavior. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests, copied-production lifecycle, package inspection, and offline installed-consumer verification. Its separately compiled package-bound reviewer authenticated 51/51 sources and returned a verified `pass`. Revision 36 preserves that evidence without changing product or kernel behavior. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires an exact successor gate, fresh R2, hosted CI, milestone closeout, and the owner merge gate.
++The V12 product implementation remains complete; Revision 37 corrects one release-test isolation boundary. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+ 
+ ## Baseline
+ 
+@@ -237,3 +237,12 @@ The V12 product implementation and release-harness corrections are complete. Rev
+ - Recorded the independently verified `pass` while keeping `releaseApproved: false`.
+ - Product code, public APIs, release-harness code, and Revision 44 trust evidence are unchanged.
+ - Revision 36 is the source for one exact successor gate; fresh R2, hosted CI, milestone closeout, and owner merge evidence remain.
++
++## Revision 37 Git-Fixture Isolation
++
++- Preserved the exact Revision 36 receipt and raw logs under its candidate-addressed gate root.
++- Retired exact source `ee297d8e11466763acc9b4c630de445eb57b00c3` without rerunning it.
++- Added case-insensitive removal of repository-scoping Git variables and dynamic command-line configuration bindings in the Git-batch fixture.
++- Added a direct hostile-environment regression covering the shared index, repository, object, optional-lock, and dynamic-config inputs.
++- Focused causal verification passes 3/3; complete concurrent release-gate/release-review suites pass 49/49.
++- Product code and public APIs are unchanged; fresh aggregate and package-bound review evidence remain required.
+diff --git a/docs/specs/v12-ide-run-loop/review.md b/docs/specs/v12-ide-run-loop/review.md
+index 8424b407ae5c57cf57fe77a68cc23d5ab7b8bf06..ae9b33e46ebf50f9c99156a14d34b26cc0fc4ba8 100644
+--- a/docs/specs/v12-ide-run-loop/review.md
++++ b/docs/specs/v12-ide-run-loop/review.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-V12 is not merge-ready. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests, copied-production lifecycle, package inspection, and offline installed-consumer verification. A separately compiled package-bound reviewer authenticated all 51 declared sources and returned a verified `pass`. Revision 36 preserves that immutable evidence without changing product or kernel behavior. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2, hosted CI, milestone closeout, and owner merge evidence remain required.
++V12 is not merge-ready. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+ 
+ ## Scope
+ 
+@@ -113,9 +113,9 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
+ 
+ ## Current Outcome
+ 
+-Revision 35 is `pass` at aggregate and package-bound independent review. Exact source `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` stays clean and identity-stable through 445/445 core tests, copied-production lifecycle, package inspection, and offline installed-consumer verification. The independent reviewer authenticates 51/51 declared sources, reports no high or medium blocker, and returns a kernel-verified `pass` handoff.
++Revision 37 is `pass` at causal and concurrent release-harness verification and `pending` at broad release verification. Exact source `ee297d8e11466763acc9b4c630de445eb57b00c3` is permanently retired after its immutable gate passed 443/445 core tests and exposed inherited Git-context leakage in two parallel fixtures.
+ 
+-Candidate-addressed external evidence remains the only authority for volatile release state. Revision 36 preserves the exact pass while `releaseReady: false` remains in force; release routing continues through one exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
++Candidate-addressed external evidence remains the only authority for volatile release state. `releaseReady: false` remains in force; a fresh exact aggregate and package-bound review must pass before a different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+ 
+ ## Revision 34 Trust-Refresh Outcome
+ 
+@@ -130,3 +130,9 @@ The exact Revision 34 aggregate receipt, historical-outcome correction, and scop
+ Exact source `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes the complete aggregate with stable identity and clean state. A separately compiled read-only reviewer authenticates all 51 declared sources twice, confirms the timeout correction and three constant-process Git blob boundaries, finds no product API change, and reports no high or medium blocker.
+ 
+ The exact 11,143-byte `pass` handoff verifies against compilation/package `sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619` / `sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047`. Integration accepts the evidence freeze only; `releaseApproved: false` remains. The exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain independent requirements.
++
++## Revision 36 Gate Failure And Revision 37 Correction Outcome
++
++The one-shot gate is a valid immutable `fail`: exact source, materialization, disposable Git state, and cleanup all verify. Both failed tests use the same fixture helper from parallel files, and both were redirected by inherited candidate Git variables. The bounded Revision 37 correction removes that hidden authority rather than serializing tests or retrying locks.
++
++The direct hostile-environment test, both causal batch tests, and all 49 tests across the concurrent release-gate/release-review files pass. This is correction verification, not release approval. Fresh aggregate and package-bound review evidence must bind the changed helper, regression, status, and retirement record before another source is eligible for a one-shot gate.
+diff --git a/docs/specs/v12-ide-run-loop/root-cause-analysis.md b/docs/specs/v12-ide-run-loop/root-cause-analysis.md
+index 3d881cd96da5ae60d4cdb517674716606ecac67c..7791aff10cad46e6a9aa4f5915935edf8808692e 100644
+--- a/docs/specs/v12-ide-run-loop/root-cause-analysis.md
++++ b/docs/specs/v12-ide-run-loop/root-cause-analysis.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-Historical release attempts and their exact outcomes remain immutable. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every later aggregate gate. Its separately compiled package-bound reviewer authenticated 51/51 sources, returned `pass`, and passed exact handoff verification against the approved compilation and package digests. Revision 36 preserves those immutable facts without changing product or kernel behavior. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2 review, hosted CI, milestone closeout, and the owner merge gate remain required.
++Historical release attempts and their exact outcomes remain immutable. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+ 
+ ## Reproduction
+ 
+@@ -636,3 +636,21 @@ Fallback-capable operations need one closed result algebra: preserve every attem
+ No new defect was found. Exact aggregate and package-bound review evidence independently confirm the Revision 35 correction while preserving clean source identity. The review authenticates all 51 declared sources, rechecks aggregate bindings, verifies the exact handoff against both approved package identities, and returns `pass`.
+ 
+ Raw aggregate logs and the raw handoff are stored as canonical Base64 because tracked text normalization would otherwise risk changing exact bytes. `raw-artifact-bindings.json` records both archive and decoded identities, while source snapshots remain recoverable from exact commit `bcb12fbee15e8a96b5088accb5a397bc0464c7cd`. This is evidence preservation, not a product correction or release approval.
++
++## Revision 36 Inherited Git Context RCA
++
++### Reproduction
++
++Run the exact Revision 36 gate. Node schedules the release-gate and release-review test files concurrently under the gate's disposable `GIT_DIR`, `GIT_WORK_TREE`, and `GIT_INDEX_FILE`. Both Git-batch fixtures call `git init` and `git add`; one fails on the shared `candidate.index.lock`.
++
++### Confirmed Root Cause
++
++The fixture copied the host environment and overrode only `GIT_CONFIG_GLOBAL`, `GIT_CONFIG_NOSYSTEM`, and `GIT_TERMINAL_PROMPT`. Git therefore ignored each fixture root's intended repository and reused the gate's candidate context. Parallel files turned that authority leak into deterministic index contention.
++
++### Causal Fix And Route
++
++Strip every repository-scoping Git variable used by the production gate plus dynamic `GIT_CONFIG_COUNT`, `GIT_CONFIG_KEY_n`, and `GIT_CONFIG_VALUE_n` bindings before spawning fixture Git. Preserve unrelated host supply and reapply closed fixture configuration. Focused tests pass 3/3 and complete concurrent gate/review files pass 49/49. Route: `verify -> diagnose -> fix -> verify`; fresh aggregate and package-bound review evidence remain required.
++
++### Durable Learning
++
++Nested repositories are authority boundaries. A temporary path does not isolate Git when inherited environment variables can redirect its object store, worktree, index, or configuration.
+diff --git a/docs/specs/v12-ide-run-loop/tasks.md b/docs/specs/v12-ide-run-loop/tasks.md
+index a59dd234f7ddf00b13e17880f9ae49fd9ad318bb..f43f89b6db28f927860db19c3210dda27ae02a7d 100644
+--- a/docs/specs/v12-ide-run-loop/tasks.md
++++ b/docs/specs/v12-ide-run-loop/tasks.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-T006 remains open until release evidence closes it. Revision 44 passes the correctly ordered V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every later aggregate gate. Its separately compiled package-bound reviewer authenticates 51/51 sources and returns a verified `pass`. Revision 36 preserves both immutable results. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2 review, hosted CI, milestone closeout, and the owner merge gate remain before T006 or V12 can close.
++T006 remains open until release evidence closes it. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+ 
+ ## Task List
+ 
+@@ -23,7 +23,7 @@ T006 remains open until release evidence closes it. Revision 44 passes the corre
+ 
+ ## Parallelization
+ 
+-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched exact read-only reviewers from source-bound packages. Revision 35 aggregate and package-bound review evidence pass. Fresh R2 review may fan out across three independent domains only after Revision 36 passes focused anti-drift checks, committed-source verification, and its exact source-bound gate.
++T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 runs exact read-only reviews from source-bound packages. Revision 37 specifically proves that nested Git fixtures remain isolated when release-gate and release-review test files execute concurrently. Fresh R2 may fan out across three independent domains only after fresh aggregate/package review evidence and a different exact source-bound gate pass.
+ 
+ ## Out Of Scope
+ 
+diff --git a/docs/specs/v12-ide-run-loop/test-plan.md b/docs/specs/v12-ide-run-loop/test-plan.md
+index 1da6cb8b4c49792bbd04951776ae0056b8063e8e..29f68934346d0357177692249e997ea9ba9810f6 100644
+--- a/docs/specs/v12-ide-run-loop/test-plan.md
++++ b/docs/specs/v12-ide-run-loop/test-plan.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 passes its complete two-phase trust replay in corrected approval order. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every aggregate gate; its separately compiled package-bound reviewer authenticates 51/51 sources and returns a verified `pass`. `releaseReady: false` remains the source-visible result until candidate-addressed external evidence passes the exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge gate.
++Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 passes its complete two-phase trust replay in corrected approval order. Exact Revision 35 aggregate and package-bound review pass. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserves exact source and cleanup evidence but stops at 443/445 because concurrent Git fixtures inherit one candidate index. Revision 37 causal isolation passes 3/3 and the complete concurrent gate/review suites pass 49/49. `releaseReady: false` remains until candidate-addressed external evidence passes a fresh aggregate, package-bound review, a different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge gate.
+ 
+ ## Contract Tests
+ 
+@@ -151,3 +151,13 @@ Package identity verification and handoff schema verification authenticate prese
+ - Exact handoff: 11,143 bytes, raw `sha256:3b90e319eeb14527da11cbf82c569fab7a9267f9934ad4506f478fb891535841`; kernel handoff verification passes; outcome `pass`.
+ - Archive: `evidence/implementation/independent-review-r35/`; Base64 artifacts decode to the exact bound raw bytes.
+ - Release result: `releaseReady: false`; successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
++
++## Revision 36 Exact Gate And Revision 37 Causal Gate
++
++- Exact source: `ee297d8e11466763acc9b4c630de445eb57b00c3`; tree `c55d4fc1ee1110b4a0be7df9b0cbf367fe38fdda`.
++- Source/materialization: 3,597 files, 109,159,647 bytes, `sha256:cf402052aaa882327678253763f8fe7ef55d9a5d884bbdec9cb90267e1c2789b`; before/after exact.
++- Core result: 443/445 `pass`; two fixture setup failures on one inherited candidate index; later gates did not run.
++- Receipt: 2,296 bytes, `sha256:27d7fe234f8b1201e0b0f2b8079dcfea439e6e0527822a7b11244a72927589d8`.
++- Revision 37 sanitizer regression and both formerly failing tests: 3/3 `pass`.
++- Complete concurrent release-gate/release-review suites: 49/49 `pass`.
++- Release result: `releaseReady: false`; fresh aggregate, package-bound review, different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
+diff --git a/test/helpers/git-blob-loader-fixture.mjs b/test/helpers/git-blob-loader-fixture.mjs
+index 82d6790df060318434bce59c3e5a13a1fd4dd6b1..3bd165b19056db1969258c00a56f990345a810bc 100644
+--- a/test/helpers/git-blob-loader-fixture.mjs
++++ b/test/helpers/git-blob-loader-fixture.mjs
+@@ -6,13 +6,30 @@ import { join } from "node:path";
+ 
+ export const BINARY_FIXTURE_BYTES = Buffer.from([0x00, 0x0a, 0x0d, 0x7f, 0x80, 0xff]);
+ 
+-function fixtureGitEnvironment() {
+-  return {
+-    ...process.env,
+-    GIT_CONFIG_GLOBAL: process.platform === "win32" ? "NUL" : "/dev/null",
+-    GIT_CONFIG_NOSYSTEM: "1",
+-    GIT_TERMINAL_PROMPT: "0",
+-  };
++export function fixtureGitEnvironment(source = process.env) {
++  const environment = { ...source };
++  const repositoryKeys = new Set([
++    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
++    "GIT_CEILING_DIRECTORIES",
++    "GIT_COMMON_DIR",
++    "GIT_DIR",
++    "GIT_INDEX_FILE",
++    "GIT_INTERNAL_SUPER_PREFIX",
++    "GIT_OBJECT_DIRECTORY",
++    "GIT_OPTIONAL_LOCKS",
++    "GIT_PREFIX",
++    "GIT_WORK_TREE",
++  ]);
++  for (const key of Object.keys(environment)) {
++    const upper = key.toUpperCase();
++    if (repositoryKeys.has(upper) || /^GIT_CONFIG_(?:COUNT|KEY_\d+|VALUE_\d+)$/u.test(upper)) {
++      delete environment[key];
++    }
++  }
++  environment.GIT_CONFIG_GLOBAL = process.platform === "win32" ? "NUL" : "/dev/null";
++  environment.GIT_CONFIG_NOSYSTEM = "1";
++  environment.GIT_TERMINAL_PROMPT = "0";
++  return environment;
+ }
+ 
+ function runFixtureGit(root, args, options = {}) {
+diff --git a/test/v12-release-review.test.mjs b/test/v12-release-review.test.mjs
+index 3a5e783740dda866e66174fff4300f3c992f565f..e66a8357f42f776da23e6e93c1d13d16927c1af7 100644
+--- a/test/v12-release-review.test.mjs
++++ b/test/v12-release-review.test.mjs
+@@ -21,6 +21,7 @@ import {
+   BINARY_FIXTURE_BYTES,
+   createGitBlobLoaderFixture,
+   createRecordedGitOutput,
++  fixtureGitEnvironment,
+ } from "./helpers/git-blob-loader-fixture.mjs";
+ const ROOT = fileURLToPath(new URL("../", import.meta.url));
+ const APPROVED_CHECKPOINT = "1b47e0ad10a5c3209fae53397892b7df3cd837be";
+@@ -416,6 +417,44 @@ test("parent and verifier harness loaders use constant-process Git blob batches"
+     await rm(fixture.root, { recursive: true, force: true });
+   }
+ });
++test("Git blob fixtures discard inherited repository and dynamic config bindings", () => {
++  const inherited = {
++    PATH: "host-path",
++    git_dir: "host-git-dir",
++    GIT_WORK_TREE: "host-worktree",
++    GIT_INDEX_FILE: "host-index",
++    GIT_COMMON_DIR: "host-common-dir",
++    GIT_OBJECT_DIRECTORY: "host-objects",
++    GIT_ALTERNATE_OBJECT_DIRECTORIES: "host-alternates",
++    GIT_OPTIONAL_LOCKS: "0",
++    GIT_CONFIG_COUNT: "1",
++    GIT_CONFIG_KEY_0: "core.hooksPath",
++    GIT_CONFIG_VALUE_0: "host-hooks",
++    GIT_CONFIG_GLOBAL: "host-global",
++    GIT_CONFIG_NOSYSTEM: "0",
++    GIT_TERMINAL_PROMPT: "1",
++  };
++
++  const environment = fixtureGitEnvironment(inherited);
++  assert.equal(environment.PATH, inherited.PATH);
++  for (const key of [
++    "git_dir",
++    "GIT_WORK_TREE",
++    "GIT_INDEX_FILE",
++    "GIT_COMMON_DIR",
++    "GIT_OBJECT_DIRECTORY",
++    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
++    "GIT_OPTIONAL_LOCKS",
++    "GIT_CONFIG_COUNT",
++    "GIT_CONFIG_KEY_0",
++    "GIT_CONFIG_VALUE_0",
++  ]) {
++    assert.equal(environment[key], undefined, key);
++  }
++  assert.equal(environment.GIT_CONFIG_GLOBAL, process.platform === "win32" ? "NUL" : "/dev/null");
++  assert.equal(environment.GIT_CONFIG_NOSYSTEM, "1");
++  assert.equal(environment.GIT_TERMINAL_PROMPT, "0");
++});
+ test("Git changed-path diagnostics are canonical and fail closed", () => {
+   assert.deepEqual(
+     RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitChangedPaths(

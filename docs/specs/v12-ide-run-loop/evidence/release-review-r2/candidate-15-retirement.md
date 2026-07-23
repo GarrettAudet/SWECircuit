@@ -21,7 +21,7 @@
 
 The isolated Git-batch fixture copied the host process environment, including the canonical gate's `GIT_DIR`, `GIT_WORK_TREE`, and shared `GIT_INDEX_FILE`. Node ran the release-gate and release-review test files concurrently, so both temporary fixture repositories addressed the candidate context and contended on `candidate.index.lock` instead of using their own `.git` directories.
 
-Revision 37 strips repository-scoping Git variables and dynamic `GIT_CONFIG_*` bindings before every fixture Git process while retaining only explicit closed configuration. A direct hostile-environment regression and the complete concurrent release-gate/release-review suites prove the isolation boundary.
+Revision 37 removed the repository and count/key/value bindings that caused this exact shared-index failure. Its direct regression and concurrent suites proved that bounded correction, but a later 57-source package review found retained `GIT_CONFIG_PARAMETERS` and other inherited `GIT_*` authority channels. Revision 38 replaces the partial denylist with a closed policy and fresh delivered-child proof. The later finding does not change this candidate's identity or original gate result.
 
 ## Route
 
