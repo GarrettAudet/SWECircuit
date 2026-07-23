@@ -325,6 +325,10 @@ A value can be security-relevant without belonging in a reconstructable package 
 
 When one security, performance, or trace invariant spans a parent, generated harness, verifier, gate, or adapter, exercise every real entry point. Shared parser tests prove the parser; they do not prove every caller adopted it. Add a causal counter that remains constant as input cardinality grows.
 
+### Fallback-Aware Outcome Evidence
+
+When an operation has a primary route and an explicit fallback, preserve both results and derive the aggregate outcome from every accepted route. Verify the intended external effect independently; an accepted termination request does not replace descendant-liveness proof.
+
 ## Source Map
 
 Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
@@ -367,3 +371,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V12 invocation-path RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-invocation-scoped-temporary-path-identity-rca), [parent](../../scripts/run-v12-release-review.mjs), [candidate harness](../specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs), and [regression](../../test/v12-release-review.test.mjs) | Separate Invocation Evidence From Stable Identity |
 | [V12 batch-coverage RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-incomplete-batch-coverage-rca), [fixture](../../test/helpers/git-blob-loader-fixture.mjs), [review tests](../../test/v12-release-review.test.mjs), and [gate tests](../../test/v12-release-gate.test.mjs) | Invariant Coverage Across Ownership Boundaries |
 | [V12 Revision 34 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/approval-order-correction.md) and [RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-44-approval-order-rca) | Source-Bound Dogfood Refresh; Ordered Two-Phase Approval |
+| [V12 Revision 35 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/), [historical-outcome RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca), and [timeout RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-35-scoped-timeout-acceptance-rca) | Immutable Outcome Classes; Complete Adjacent Invariant Gate; Fallback-Aware Outcome Evidence |

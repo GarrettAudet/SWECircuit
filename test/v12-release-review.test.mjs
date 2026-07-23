@@ -483,6 +483,17 @@ test("scoped parent timeout owns residue, kills descendants, and reports timeout
     assert.equal(result.timedOut, true);
     assert.equal(result.timeout.boundMs, 1_000);
     assert.equal(result.timeout.termination.accepted, true);
+    if (process.platform === "win32") {
+      const termination = result.timeout.termination;
+      const treeAccepted =
+        termination.tree.status === 0 &&
+        termination.tree.signal === null &&
+        termination.tree.error === null;
+      assert.equal(
+        termination.accepted,
+        treeAccepted || termination.directFallback?.accepted === true,
+      );
+    }
     assert.deepEqual(result.operationRootCleanup.leakedOperationRoots, ["swr2-owned"]);
     assert.equal(result.operationRootCleanup.noNewOperationRoots, false);
     assert.equal(result.operationRootCleanup.testOwnedTempRootRemoved, true);

@@ -259,8 +259,9 @@ async function terminateProcessTree(child) {
         }
       });
     });
-    const accepted = tree.status === 0 && tree.signal === null && tree.error === null;
-    const fallback = accepted ? null : directKillEvidence(child);
+    const treeAccepted = tree.status === 0 && tree.signal === null && tree.error === null;
+    const fallback = treeAccepted ? null : directKillEvidence(child);
+    const accepted = treeAccepted || fallback?.accepted === true;
     return {
       method: "taskkill-tree",
       pid,
@@ -277,13 +278,15 @@ async function terminateProcessTree(child) {
   } catch (error) {
     groupError = error instanceof Error ? error.message : String(error);
   }
-  const accepted = groupError === null;
+  const groupAccepted = groupError === null;
+  const fallback = groupAccepted ? null : directKillEvidence(child, "SIGKILL");
+  const accepted = groupAccepted || fallback?.accepted === true;
   return {
     method: "process-group-sigkill",
     pid,
     accepted,
     groupError,
-    directFallback: accepted ? null : directKillEvidence(child, "SIGKILL"),
+    directFallback: fallback,
     durationMs: Number(process.hrtime.bigint() - started) / 1_000_000,
   };
 }

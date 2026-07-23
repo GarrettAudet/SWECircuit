@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical release attempts and their exact outcomes remain immutable. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then correctly stopped on one stale V11 `.gitattributes` source binding. Revision 44 refreshes that sole tuple, preserves the byte-integrity rules, completes independent Audit B review in corrected approval order, and passes strict replay. This correction is not a successor release result; a fresh aggregate, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain required.
+Historical release attempts and their exact outcomes remain immutable. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` then correctly stopped at 444/445 core tests because the active test-plan status omitted three required historical outcomes. Revision 35 restores them, passes both status invariants, and corrects a release-harness timeout acceptance contradiction found by the complete review file. Restricted and native Windows paths plus all 31 release-review tests now pass. This correction is not a successor release result; a fresh aggregate, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain required.
 
 ## Reproduction
 
@@ -594,3 +594,39 @@ Independent review caught the ordering defect before Candidate A launch. Restore
 ### Durable Learning
 
 Approval files with the same shape can represent different authority transitions. Bind each transition to its own predecessor evidence and enforce the ordering as a write precondition.
+
+## Revision 34 Historical-Outcome Status RCA
+
+### Reproduction
+
+Run `npm.cmd run verify` from exact clean checkpoint `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8`. Core passes 444/445. The active-status test rejects `test-plan.md#status` because it no longer states that Revision 1 has incomplete fan-in, Revisions 2 and 3 retain `split`, and later correction phases retain their recorded `pass` routes.
+
+### Confirmed Root Cause
+
+The Revision 34 status rewrite preserved current release state but treated prior workflow outcomes as expendable summary detail. They are immutable trace facts and explicit anti-drift contract inputs. The pre-commit command selected only the adjacent live-routing test, so it did not execute the historical-outcome guard after the final edit.
+
+### Causal Fix And Route
+
+Restore all three outcome statements and make both status tests one inseparable post-edit gate. Preserve exact candidate identity and raw aggregate bindings under `evidence/implementation/release-correction-r35/`. The causal pair passes 2/2. Route: `verify -> diagnose -> fix -> verify`; Revision 34 is retired and a fresh aggregate is required.
+
+### Durable Learning
+
+Concise status prose may remove repetition, never immutable outcome classes. When adjacent invariants protect one active section, the focused gate must execute the complete invariant set.
+
+## Revision 35 Scoped Timeout Acceptance RCA
+
+### Reproduction
+
+Run the complete release-review file after the historical-outcome correction. The scoped timeout test reports `termination.accepted: false` although the timeout fired, the direct fallback reports `accepted: true`, the owned temp root is removed, and the descendant no longer exists.
+
+### Confirmed Root Cause
+
+The helper preserved both primary and fallback results but computed top-level `accepted` from only the primary operation. A restricted host can deny `taskkill` while accepting Node's direct fallback, leaving contradictory termination evidence.
+
+### Causal Fix And Route
+
+Compute top-level acceptance from primary or explicit fallback acceptance on both Windows and POSIX paths. Preserve both underlying results and keep descendant liveness as a separate hard assertion. Restricted-host repetition passes 5/5, native Windows repetition passes 5/5, and the complete release-review file passes 31/31. Route: `verify -> diagnose -> fix -> verify`; fresh aggregate evidence remains required.
+
+### Durable Learning
+
+Fallback-capable operations need one closed result algebra: preserve every attempted route, derive the aggregate outcome from all accepted routes, and verify the intended external effect independently.

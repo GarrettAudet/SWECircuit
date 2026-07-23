@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and release-harness corrections are complete. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle before V11 dogfood rejected one stale `.gitattributes` binding. Revision 44 refreshes that exact source tuple and passes the complete two-phase trust replay without changing V12 runtime behavior. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires a fresh aggregate and package-bound review, an exact successor gate, fresh R2, hosted CI, and the owner merge gate.
+The V12 product implementation and release-harness corrections are complete. Revision 44 passes the complete V11 trust replay without changing V12 runtime behavior. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` stopped at 444/445 core tests on one historical-outcome status regression; Revision 35 restores the immutable trace facts, passes both status invariants, and corrects fallback-aware timeout acceptance in the release harness. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires a fresh aggregate and package-bound review, an exact successor gate, fresh R2, hosted CI, and the owner merge gate.
 
 ## Baseline
 
@@ -218,3 +218,13 @@ The V12 product implementation and release-harness corrections are complete. Exa
 - Corrected a premature Candidate A approval before launch and enforced the three-event order: Audit B approval, semantic authorization, Candidate A approval.
 - Strict V11 `--check-evidence` replay and all 31 dedicated dogfood regressions pass.
 - Product code and public APIs are unchanged; post-edit V12 anti-drift and a fresh immutable aggregate remain.
+
+## Revision 35 Historical-Outcome And Timeout-Evidence Correction
+
+- Preserved the exact Revision 34 aggregate receipt under `evidence/implementation/release-correction-r35/`.
+- Restored Revision 1 incomplete fan-in, Revisions 2 and 3 `split`, and later correction `pass` routes in active test-plan status.
+- Expanded the mandatory final post-edit gate from one live-routing test to both adjacent status invariants; the causal pair passes 2/2.
+- Full-file verification exposed contradictory timeout evidence when the primary tree kill was denied but the direct fallback was accepted.
+- Top-level termination acceptance now includes explicit fallback acceptance while preserving primary and fallback evidence separately; descendant absence remains a hard assertion.
+- Restricted focused verification passes 5/5, native Windows verification passes, and the complete release-review file passes 31/31.
+- Product code, public APIs, and Revision 44 trust evidence are unchanged; a fresh immutable aggregate remains.

@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 remains open until release evidence closes it. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then V11 dogfood rejected one stale `.gitattributes` tuple. Revision 44 refreshes that sole binding and passes the correctly ordered two-phase trust replay. Post-edit anti-drift, a fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before T006 or V12 can close.
+T006 remains open until release evidence closes it. Revision 44 passes the correctly ordered V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` stopped at 444/445 core tests because the active test-plan status omitted three immutable historical outcomes. Revision 35 restores them, passes both status invariants, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. A fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before T006 or V12 can close.
 
 ## Task List
 

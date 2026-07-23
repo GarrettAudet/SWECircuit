@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Historical non-`pass` outcomes remain immutable. Exact Revision 33 aggregate passes 445/445 core tests and the copied-production lifecycle, then stops on one stale V11 source binding. Revision 44 passes its complete two-phase trust replay in corrected approval order. `releaseReady: false` remains the source-visible result until candidate-addressed external evidence passes a fresh aggregate, package-bound review, successor gate, R2, hosted CI, and owner merge gate.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 passes its complete two-phase trust replay in corrected approval order. Exact Revision 34 aggregate preserves 444/445 core passes and one historical-outcome status failure; Revision 35 restores those facts, passes both status invariants, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. `releaseReady: false` remains the source-visible result until candidate-addressed external evidence passes a fresh aggregate, package-bound review, successor gate, R2, hosted CI, and owner merge gate.
 
 ## Contract Tests
 
@@ -125,3 +125,15 @@ Package identity verification and handoff schema verification authenticate prese
 - Strict `node scripts/run-v11-dogfood.mjs --check-evidence`: `pass`.
 - Dedicated `test/v11-dogfood-runner.test.mjs`: 31/31 `pass`.
 - Pending: post-edit anti-drift, fresh immutable aggregate, and fresh package-bound independent review.
+
+## Revision 35 Status-Preservation Gate
+
+- Revision 34 aggregate identity: `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8`; core 444/445 `pass`; one historical-outcome status invariant `fail`; later gates did not run.
+- Restored outcomes: Revision 1 incomplete fan-in; Revisions 2 and 3 `split`; later correction phases retain recorded `pass` routes.
+- Historical-outcome status invariant: 1/1 `pass`.
+- Candidate-addressed live-routing invariant: 1/1 `pass`.
+- Combined final post-edit gate: 2/2 `pass`.
+- Restricted timeout fallback regression: 5/5 `pass`; direct fallback accepted and descendant absent.
+- Native Windows timeout route: focused test `pass`; five probes accept primary `taskkill` with no fallback and no descendant.
+- Complete release-review file after the causal correction: 31/31 `pass`.
+- Pending: fresh immutable aggregate and fresh package-bound independent review.

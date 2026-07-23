@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then V11 dogfood rejected one stale `.gitattributes` source tuple. Revision 44 archives the prior chain, refreshes only that tuple, passes separate binder and semantic Audit B review, corrects a premature but unconsumed Candidate A approval, and passes strict replay. Revision 34 still requires post-edit anti-drift, a fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
+No active V12 product-contract defect is recorded. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` then stopped at 444/445 core tests because the compressed test-plan status omitted three required historical outcomes. Revision 35 restores those outcomes, passes both status invariants 2/2, and corrects a release-harness timeout-evidence contradiction found during full-file verification. Restricted and native Windows termination paths plus the complete 31/31 release-review file now pass. A fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before release.
 
 ## Reproduction
 
@@ -796,3 +796,15 @@ The new `.gitattributes` bytes are intentional: narrow binary rules preserve exa
 Revision 44 Candidate A is `sha256:b5cf6ea32968febbb9846ddaa718f4777f3aac3d1654fa3bf999e4f382def0ff` / `sha256:e320eaf9e29aac7c7a31bd651fd09c1cdeb0d6fb8f88f7fe7450d7e9151edd4d`; Audit B is `sha256:ec7a601571d54c5138b380367b974db39663820aa0b6103406374608c3160249` / `sha256:f331b294dd1f79fb3589bc0d5e8ea3f851953296a581de2a0e38783362c4a40f`. The exact receipt, binder, semantic `pass`, authorization, and strict replay all pass.
 
 Independent review caught Candidate A approval before semantic authorization. The approval was revoked before any Candidate A launch, the non-launching receipt remained exact, and approval was reissued only after the semantic `pass` and authorization existed. Route: `verify -> diagnose -> fix -> review -> pass`; a fresh immutable aggregate remains required.
+
+## Revision 34 Aggregate Historical-Outcome Regression
+
+Exact immutable checkpoint `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` remained clean and identity-stable while 444/445 core tests passed. `active release status avoids volatile candidate-state drift and preserves outcomes` rejected `test-plan.md#status` because its Revision 34 compression omitted the explicit Revision 1 incomplete-fan-in result, Revisions 2 and 3 `split` outcomes, and later correction `pass` routes. Later aggregate gates did not run.
+
+Revision 35 restores all three facts. The final focused anti-drift gate now always runs both the historical-outcome and candidate-addressed live-routing tests after the last active-status edit. The causal pair passes 2/2. Route: `verify -> diagnose -> fix -> verify`; a fresh immutable aggregate remains required.
+
+## Revision 35 Scoped Timeout Acceptance
+
+The complete release-review file initially passed 30/31 after the status correction. The timeout regression reproduced top-level `accepted: false` while the preserved direct fallback reported `accepted: true` and the descendant was gone. Five restricted-host probes reproduced primary status 1, accepted fallback, and no descendant; a direct probe reported `ERROR: Access denied`. Five native probes returned primary status 0 with no fallback and no descendant.
+
+The helper now defines top-level acceptance as primary or explicit fallback acceptance on both platform paths while preserving each raw result. The regression derives that equation and still requires descendant absence. Restricted focused verification passes 5/5, the native focused test passes 1/1, the native probe passes 5/5, and the complete release-review file passes 31/31. Route: `verify -> diagnose -> fix -> verify`.

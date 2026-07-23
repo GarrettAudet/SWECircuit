@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then correctly stopped on one stale V11 `.gitattributes` source tuple. Revision 44 refreshes only that tuple, completes independent Audit B review in corrected approval order, and passes strict replay. A fresh exact aggregate and fresh package-bound `pass` remain mandatory before any successor freeze, R2 review, hosted CI, or owner merge decision.
+V12 is not merge-ready. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` then stopped at 444/445 core tests because active test-plan status omitted three required historical outcomes. Revision 35 restores those outcomes, passes both status invariants, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. A fresh exact aggregate and fresh package-bound `pass` remain mandatory before any successor freeze, R2 review, hosted CI, or owner merge decision.
 
 ## Scope
 
@@ -113,10 +113,14 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
 
 ## Current Outcome
 
-Revision 34 is `pass` at the V11 trust-refresh gate and `pending` at release verification. The preceding immutable aggregate preserved 445/445 core passes and a copied-production lifecycle pass before the single stale-source stop. Revision 44 now binds all 58 sources, separate Candidate A and Audit B packages, exact binder fan-in, independent semantic `pass`, corrected authorization order, and strict replay.
+Revision 35 is `pass` at focused correction verification and `pending` at release verification. The preceding immutable aggregate preserved 444/445 core passes and one historical-outcome status failure. Revision 44 trust evidence remains exact; Revision 35 restores every required prior outcome, runs both active-status invariants as one post-edit gate, and closes the fallback-aware timeout evidence contradiction with 31/31 release-review tests passing.
 
 Candidate-addressed external evidence remains the only authority for volatile release state. No successor is frozen; a fresh exact aggregate and fresh immutable package-bound independent review must pass before release routing can continue.
 
 ## Revision 34 Trust-Refresh Outcome
 
 The exact Revision 33 aggregate receipt and diagnosis are preserved under `evidence/implementation/release-correction-r34/`. Revision 44's 31-test source-freshness and authorization suite passes, and its complete evidence replay returns `pass`. No V12 runtime or public-contract code changed. Candidate-addressed external evidence must now establish a fresh immutable aggregate and package-bound independent review before any successor can be frozen.
+
+## Revision 35 Status-Preservation Outcome
+
+The exact Revision 34 aggregate receipt, historical-outcome correction, and scoped-timeout diagnosis are preserved under `evidence/implementation/release-correction-r35/`. Both active-status invariants pass after restoring the immutable historical outcomes. Restricted and native timeout paths plus the complete 31/31 release-review file pass after deriving top-level acceptance from primary or explicit fallback acceptance. Candidate-addressed external evidence must establish a fresh immutable aggregate and package-bound independent review before any successor can be frozen.
