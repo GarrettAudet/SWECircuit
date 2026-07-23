@@ -69,12 +69,12 @@ const FIXTURE_VERIFY_COMMAND = [
 
 export const PRODUCTION_IDENTITIES = Object.freeze({
   [PARENT_PATH]: Object.freeze({
-    bytes: 101_785,
-    digest: "sha256:73c6ee152c3355eb328dbdee11c3fe0c7dafd24aac25cd0b562396bd8f776b1c",
+    bytes: 102_200,
+    digest: "sha256:34865bf355e52dc27646603f45f5c5b340acc988d543dfd689a60c11ccbcf076",
   }),
   [GATE_PATH]: Object.freeze({
-    bytes: 30_623,
-    digest: "sha256:6e1e398c7d15a0b5ac3562ccb90913ecb6480f700a9e53cb1aaf076f2f704b21",
+    bytes: 31_070,
+    digest: "sha256:b1451d644b2c003ccd19cf29a3cb92a964eec01e5281afbef7c878ccb1e57025",
   }),
   [HARNESS_PATH]: Object.freeze({
     bytes: 127_748,
@@ -85,8 +85,8 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
   }),
   [GATE_TEST_PATH]: Object.freeze({
-    bytes: 42_123,
-    digest: "sha256:1995a9baa4c6c5f6b1beb2b14888a9cfc05bb872dfd98995edb6104552d8b0e1",
+    bytes: 43_488,
+    digest: "sha256:34756d001cb73a268e83db7d61cb39fc5bbc4b21971e7afef359dff30c034f64",
   }),
   [TYPESCRIPT_RUNNER_PATH]: Object.freeze({
     bytes: 7_064,

@@ -81,3 +81,13 @@ Package identity verification and handoff schema verification authenticate prese
 - Commit `602ddce2a9056e3f920fcb3e004132bde3f4f549` valid copied lifecycle: `fail` after 551.0 seconds at a generic disposable-Git tracked-state assertion; source worktree remains clean and diagnosis is active.
 - Failure-only changed-path parser plus complete release-review suite: 29/29 `pass` in 94.4 seconds; committed path-attributing reproduction: pending.
 - Broader release-gate, valid committed-source copied lifecycle, package-bound review, aggregate, fresh successor gate, R2, hosted CI, and owner merge decision: pending.
+
+## Revision 31 Long-Path Correction Gate
+
+- Confirmed reproduction: exact production diff fails with Filename too long and false combined paths when a disposable candidate worktree reaches 489 characters.
+- Counterfactual: the same worktree, index, and candidate become clean after core.longpaths=true.
+- Causal regression: full candidate materialization crosses 260 characters, the constructor records core.longpaths=true, and the exact production diff returns clean.
+- Focused result: pass in 189.8 seconds.
+- Production-identity binding: pass.
+- Complete source suites: release-review 29/29 pass in 79.3 seconds; release-gate 16/16 pass in 445.1 seconds; no new scratch context remains.
+- Pending: committed copied lifecycle, aggregate, package-bound independent review, exact successor gate, fresh R2, and hosted CI.

@@ -1943,6 +1943,7 @@ async function createGitContext(operationRoot, candidateRoot, checkpoint, tools,
   delete setup.GIT_OPTIONAL_LOCKS;
   for (const [label, arguments_] of [
     ["Git non-bare configuration", ["config", "core.bare", "false"]],
+    ["Git long-path configuration", ["config", "core.longpaths", "true"]],
     ["Git candidate ref", ["update-ref", "refs/heads/candidate", checkpoint]],
     ["Git candidate HEAD", ["symbolic-ref", "HEAD", "refs/heads/candidate"]],
     ["Git candidate index", ["read-tree", checkpoint]],
@@ -2000,6 +2001,13 @@ function gitTrackedStatePaths(context) {
 }
 
 function inspectGitContext(context, checkpoint) {
+  const longPaths = strictUtf8(
+    gitOutput(context.tools, ["config", "--bool", "--get", "core.longpaths"], {
+      cwd: context.worktree,
+      environment: context.environment,
+    }),
+    "Disposable Git long-path configuration",
+  ).trim();
   const head = strictUtf8(
     gitOutput(context.tools, ["rev-parse", "--verify", "HEAD"], {
       cwd: context.worktree,
@@ -2015,6 +2023,7 @@ function inspectGitContext(context, checkpoint) {
       environment: context.environment,
     },
   );
+  requireCondition(longPaths === "true", "Disposable Git context lacks long-path support.");
   requireCondition(head === checkpoint, "Disposable Git context changed candidate HEAD.");
   requireCondition(
     diff.signal === null && (diff.status === 0 || diff.status === 1),

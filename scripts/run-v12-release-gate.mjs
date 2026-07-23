@@ -462,6 +462,12 @@ function candidateGitEnvironment(root, worktree) {
 
 function inspectCandidateGitContext(context) {
   const options = { cwd: context.worktree, environment: context.environment };
+  const longPathsResult = runGit(["config", "--bool", "--get", "core.longpaths"], options);
+  requireGitSuccess(longPathsResult, "Candidate Git long-path configuration inspection");
+  requireCondition(
+    strictUtf8(longPathsResult.stdout, "Candidate Git long-path configuration").trim() === "true",
+    "Candidate Git context lacks long-path support.",
+  );
   const headResult = runGit(["rev-parse", "--verify", "HEAD"], options);
   requireGitSuccess(headResult, "Candidate Git HEAD inspection");
   const head = Buffer.from(headResult.stdout).toString("ascii").trim();
@@ -506,6 +512,7 @@ async function createCandidateGitContext(candidateCommit, worktree) {
     const options = { cwd: worktree, environment: setupEnvironment };
     for (const [label, args] of [
       ["Candidate Git non-bare configuration", ["config", "core.bare", "false"]],
+      ["Candidate Git long-path configuration", ["config", "core.longpaths", "true"]],
       ["Candidate Git reference binding", ["update-ref", "refs/heads/candidate", candidateCommit]],
       ["Candidate Git HEAD binding", ["symbolic-ref", "HEAD", "refs/heads/candidate"]],
       ["Candidate Git index binding", ["read-tree", candidateCommit]],

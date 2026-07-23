@@ -314,6 +314,9 @@ Replace file-count-driven subprocess loops with a native batch protocol only whe
 
 When a long-running lifecycle executes committed source but imports live expected identities, compare every committed production byte count and digest before creating scratch state or materializing the source. A late identity assertion proves only that the setup was invalid after resources were spent; an early preflight keeps the evidence attributable and the failure cheap.
 
+### Configure Git Capabilities Before Deep Inspection
+
+A disposable repository does not inherit every capability assumed by its source checkout. Configure platform-sensitive Git behavior before populating the index, assert the effective value before trusting status or diff, and reproduce the deepest real worktree in a causal regression. On Windows, a missing core.longpaths setting can turn unreadable deep paths into false tracked-state drift even when independent index and worktree diffs are clean.
 ## Source Map
 
 Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
@@ -352,3 +355,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V12 Candidate 10 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md), [Revision 22 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#candidate-10-review-runtime-and-npm-configuration-rca), and [Revision 22 evidence](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/) | Review Runtime Is Candidate Evidence; Private Configuration, Not Host Fallback |
 | [V12 Candidate 13 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#candidate-13-live-status-rca) and [exact gate evidence](../specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/e61932f2d5067559332790b370f1bf510d0064fc/) | External Evidence Owns Volatile Release State; Live Status Is Candidate-Independent |
 | [V12 Candidate 14 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-14-retirement.md), [Revision 31 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#retired-successor-lifecycle-timeout-and-attribution-rca), [preflight RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-committed-identity-preflight-rca), and [causal tests](../../test/v12-release-review.test.mjs) | Invocation-Owned Cleanup Attribution; Exact Binary Batch Framing; Identity Preflight Before Expensive Lifecycle |
+| [V12 long-path RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-disposable-git-long-path-rca), [gate constructor](../../scripts/run-v12-release-gate.mjs), [review constructor](../../scripts/run-v12-release-review.mjs), and [causal test](../../test/v12-release-gate.test.mjs) | Configure Git Capabilities Before Deep Inspection |

@@ -7,6 +7,7 @@ import {
   mkdtemp,
   readFile,
   realpath,
+  rename,
   rm,
   rmdir,
   symlink,
@@ -268,13 +269,28 @@ test("candidate Git context is disposable, exact, and usable from the materializ
   const liveGitDirectory = runGit(["rev-parse", "--path-format=absolute", "--git-dir"]);
   const liveHeadBefore = runGit(["rev-parse", "--verify", "HEAD"]);
   const materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
+  const deepRoot = await mkdtemp(
+    join(RELEASE_GATE_TEST_HOOKS.materializationParent, "long-path-context-"),
+  );
+  const nestedRoot = join(deepRoot, "x".repeat(96));
+  const worktree = join(nestedRoot, "candidate");
   let gitContext;
+  let materializationMoved = false;
 
   try {
-    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
-      candidateCommit,
-      materialization.root,
+    await mkdir(nestedRoot, { recursive: true });
+    await rename(materialization.root, worktree);
+    materializationMoved = true;
+    const maxMaterializedPathLength = materialization.entries.reduce(
+      (maximum, entry) => Math.max(maximum, join(worktree, ...entry.path.split("/")).length),
+      0,
     );
+    assert.ok(
+      maxMaterializedPathLength > 260,
+      "causal worktree did not cross the Windows long-path boundary",
+    );
+
+    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(candidateCommit, worktree);
     assert.notEqual(resolve(gitContext.root), resolve(liveGitDirectory));
     assert.equal(dirname(gitContext.root), join(ROOT, ".local", "v12-release-gate"));
     assert.deepEqual(RELEASE_GATE_TEST_HOOKS.inspectCandidateGitContext(gitContext), {
@@ -284,7 +300,7 @@ test("candidate Git context is disposable, exact, and usable from the materializ
 
     const environment = RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext);
     const childHead = spawnSync("git", ["rev-parse", "--verify", "HEAD"], {
-      cwd: materialization.root,
+      cwd: worktree,
       encoding: "utf8",
       env: environment,
       windowsHide: true,
@@ -292,10 +308,32 @@ test("candidate Git context is disposable, exact, and usable from the materializ
     assert.equal(childHead.status, 0, childHead.stderr);
     assert.equal(childHead.stdout.trim(), candidateCommit);
     assert.equal(environment.GIT_DIR, gitContext.root);
-    assert.equal(environment.GIT_WORK_TREE, materialization.root);
+    assert.equal(environment.GIT_WORK_TREE, worktree);
+
+    const longPaths = spawnSync("git", ["config", "--bool", "--get", "core.longpaths"], {
+      cwd: worktree,
+      encoding: "utf8",
+      env: environment,
+      windowsHide: true,
+    });
+    assert.equal(longPaths.status, 0, longPaths.stderr);
+    assert.equal(longPaths.stdout.trim(), "true");
+
+    const exactDiff = spawnSync(
+      "git",
+      ["diff", "--no-ext-diff", "--no-textconv", "--quiet", "HEAD", "--"],
+      {
+        cwd: worktree,
+        encoding: "utf8",
+        env: environment,
+        windowsHide: true,
+      },
+    );
+    assert.equal(exactDiff.status, 0, exactDiff.stderr);
+
     assert.equal(environment.npm_config_cache, RELEASE_GATE_TEST_HOOKS.hostNpmCache);
     assert.equal(isAbsolute(environment.npm_config_cache), true);
-    const cacheFromMaterialization = relative(materialization.root, environment.npm_config_cache);
+    const cacheFromMaterialization = relative(worktree, environment.npm_config_cache);
     assert.equal(
       cacheFromMaterialization === ".." ||
         cacheFromMaterialization.startsWith("../") ||
@@ -308,10 +346,7 @@ test("candidate Git context is disposable, exact, and usable from the materializ
       [typeScriptKey],
     );
     assert.equal(isAbsolute(environment[typeScriptKey]), true);
-    const typeScriptFromMaterialization = relative(
-      materialization.root,
-      environment[typeScriptKey],
-    );
+    const typeScriptFromMaterialization = relative(worktree, environment[typeScriptKey]);
     assert.equal(
       isAbsolute(typeScriptFromMaterialization) ||
         typeScriptFromMaterialization === ".." ||
@@ -322,13 +357,18 @@ test("candidate Git context is disposable, exact, and usable from the materializ
     assert.notEqual(resolve(environment.GIT_DIR), resolve(liveGitDirectory));
     assert.equal(runGit(["rev-parse", "--verify", "HEAD"]), liveHeadBefore);
   } finally {
-    if (gitContext !== undefined) {
-      await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
+    try {
+      if (gitContext !== undefined) {
+        await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
+      }
+    } finally {
+      await rm(deepRoot, { recursive: true, force: true });
+      if (!materializationMoved) {
+        await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+      }
     }
-    await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
   }
 });
-
 test("candidate scratch cleanup supports reverse owner order", async () => {
   const parent = RELEASE_GATE_TEST_HOOKS.materializationParent;
   await mkdir(parent, { recursive: true });

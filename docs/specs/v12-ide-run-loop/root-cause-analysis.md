@@ -482,3 +482,23 @@ Before creating a temp root, hash each production file from `git show HEAD:path`
 ### Regression And Route
 
 The scheduling regression passes, and the invalid mixed-identity invocation now rejects in 215.1 ms with the exact committed/live mismatch. Route: `fix -> verify`. A valid full lifecycle requires the correction to be committed first.
+
+## Revision 31 Disposable Git Long-Path RCA
+
+### Reproduction
+
+The committed lifecycle at 602ddce2a9056e3f920fcb3e004132bde3f4f549 stopped after 551.0 seconds at a generic disposable-Git tracked-state assertion. The diagnostic checkpoint at 101361e exposed four combined-diff paths while its independent index and worktree path sets were empty. Their repository-relative lengths were 179 to 184 characters; nested lifecycle materialization pushed their absolute paths beyond the Windows legacy path boundary.
+
+A same-context experiment relocated the exact source into a worktree with a 489-character maximum path. With core.longpaths unset, the production diff command returned status 1, emitted Filename too long warnings, and falsely listed combined changes while index and worktree diffs remained empty. Setting core.longpaths=true in that unchanged Git context made the quiet, combined, index, and worktree inspections all clean.
+
+### Confirmed Root Cause
+
+Both disposable bare-clone constructors set core.bare=false but did not enable Git for long Windows paths. Git therefore treated unreadable deep files as combined tracked-state changes. No agent, lifecycle phase, index writer, or worktree writer mutated candidate bytes.
+
+### Causal Fix
+
+Both release constructors now set core.longpaths=true before read-tree. Every context inspection asserts the setting before trusting Git state. The causal regression materializes the real candidate, moves it beneath a deliberately deep worktree, proves at least one absolute path exceeds 260 characters, and runs the exact production diff command.
+
+### Regression And Route
+
+The focused deep-worktree regression passes in 189.8 seconds, and the lifecycle production-identity binding test passes. Full release-review, release-gate, committed lifecycle, aggregate, package-bound review, successor gate, fresh R2, and hosted CI evidence remain required. Route: diagnose -> fix -> verify.

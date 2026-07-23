@@ -760,3 +760,9 @@ The diagnostic parser and complete release-review suite pass 29/29 in 94.4 secon
 ### Route
 
 `verify -> diagnose`. Release remains stopped; the checkpoint is evidence, not approval.
+
+## Revision 31 Disposable Git Long-Path Confirmation
+
+The path-attributing lifecycle at diagnostic checkpoint 101361e reproduced four false combined-diff paths with clean independent index and worktree path sets. A controlled 489-character worktree then reproduced Filename too long warnings and diff status 1 with core.longpaths unset; the same context became entirely clean after core.longpaths=true.
+
+The correction configures and verifies long-path support in both disposable Git constructors. The full-tree causal regression passes in 189.8 seconds and exact production identities are rebound. Route: diagnose -> fix -> verify. Broader release verification remains active.
