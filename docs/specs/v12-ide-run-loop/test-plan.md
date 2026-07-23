@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. The latest canonical gate evidence preserved in this source records 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement, so `releaseReady: false` remains the source-visible result. Revision 31 corrects process scaling and attribution; candidate-addressed external evidence must establish every later verification and release outcome.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Historical non-`pass` outcomes remain immutable. Exact Revision 33 aggregate passes 445/445 core tests and the copied-production lifecycle, then stops on one stale V11 source binding. Revision 44 passes its complete two-phase trust replay in corrected approval order. `releaseReady: false` remains the source-visible result until candidate-addressed external evidence passes a fresh aggregate, package-bound review, successor gate, R2, hosted CI, and owner merge gate.
 
 ## Contract Tests
 
@@ -113,3 +113,15 @@ Package identity verification and handoff schema verification authenticate prese
 - Exact Revision 32 aggregate: 444/445 core tests `pass`; one active review-status routing invariant `fail`; lifecycle and later gates did not run.
 - Revision 33 focused requirement: run `live release routing delegates volatile state to candidate-addressed evidence` after the final active-status edit.
 - Pending: fresh exact committed aggregate and fresh package-bound independent review.
+
+## Revision 34 V11 Trust Refresh Gate
+
+- Revision 33 aggregate identity: `ff0b76d3e39bc9e7583e5956fe2c89af015630c6`; core 445/445 `pass`; copied lifecycle 1/1 `pass`; V11 source freshness `fail`.
+- Context inventory: 57/58 unchanged; only `.gitattributes` refreshed.
+- Revision 44 package verification: Candidate A `pass`; Audit B `pass`; non-launching receipt `pass`.
+- Binder: exact raw handoff verifies; dependent assessment reports `integrationReady: true`.
+- Semantic Audit B: exact closed `PrelaunchAuditHandoff`, outcome `pass`; cross-package authorization binds its raw bytes.
+- Approval order: Candidate A is revoked before semantic review and reissued only after authorization.
+- Strict `node scripts/run-v11-dogfood.mjs --check-evidence`: `pass`.
+- Dedicated `test/v11-dogfood-runner.test.mjs`: 31/31 `pass`.
+- Pending: post-edit anti-drift, fresh immutable aggregate, and fresh package-bound independent review.

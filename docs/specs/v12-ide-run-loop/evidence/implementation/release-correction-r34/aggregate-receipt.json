@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "swecircuit.v12.aggregate-receipt.v1",
+  "source": {
+    "commit": "ff0b76d3e39bc9e7583e5956fe2c89af015630c6",
+    "tree": "b7bc9b67f5a00512f9518ed6ab96f5e78bd9eef0",
+    "worktreeCleanBefore": true,
+    "worktreeCleanAfter": true,
+    "identityStable": true
+  },
+  "command": "npm.cmd run verify",
+  "startedAt": "2026-07-23T09:53:48.805Z",
+  "endedAt": "2026-07-23T10:04:51.050Z",
+  "durationMilliseconds": 662245,
+  "exitCode": 1,
+  "outcome": "fail",
+  "evidence": {
+    "stdout": {
+      "path": "npm-verify.stdout.log",
+      "mediaType": "text/plain; charset=utf-8",
+      "bytes": 37880,
+      "digest": "sha256:250ecb1369cfb5724b062110f7432ae18b4d8e4ba17155a6db0d8f537e2d30bd"
+    },
+    "stderr": {
+      "path": "npm-verify.stderr.log",
+      "mediaType": "text/plain; charset=utf-8",
+      "bytes": 20717,
+      "digest": "sha256:439309f8991e2a258c7692f5d4c1b6e946a5f88ffeea8dbd8c6408e564e55fd2"
+    }
+  },
+  "summary": {
+    "testSummaries": [
+      {
+        "tests": 445,
+        "passed": 445,
+        "failed": 0
+      },
+      {
+        "tests": 1,
+        "passed": 1,
+        "failed": 0
+      }
+    ],
+    "packageDryRunPassed": false,
+    "offlineInstalledConsumerPassed": false
+  }
+}

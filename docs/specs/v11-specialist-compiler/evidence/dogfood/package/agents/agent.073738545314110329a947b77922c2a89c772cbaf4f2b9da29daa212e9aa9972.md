@@ -1,7 +1,7 @@
 # Specialist Contract: agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972
 
-Compilation: `sha256:ed88b5f8f1991ea49e4fc0928fbbb35673399125293062c9f143a1113625c819`
-Blueprint: `sha256:20e34899c4c298e973201515f4cf2a585904bf713ed127647642d1eb437c8403`
+Compilation: `sha256:b5cf6ea32968febbb9846ddaa718f4777f3aac3d1654fa3bf999e4f382def0ff`
+Blueprint: `sha256:a01185ae9a8829e1fbb51b0b60135777fae3eb4b6725981b02e3fe6f8b85f411`
 
 This is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.
 
@@ -23,8 +23,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
   "kind": "AgentBlueprint",
   "id": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
   "goalId": "v11.specialist-compiler.release",
-  "goalRevision": 43,
-  "goalDigest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05",
+  "goalRevision": 44,
+  "goalDigest": "sha256:5f7e523b9f2d07f5ee90b90c7f0bdc200c7e2a2d3f5a1c7ad45a63ca2019f289",
   "candidateId": "team.e016556b8933ef6ead3b1d321bf187cee6a286ca7ca19332dcf6505fe1d02a7d",
   "workUnitIds": [
     "review.algorithm-lifecycle"
@@ -243,8 +243,8 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
       "sourceId": "context.gitattributes",
       "kind": "repository",
       "locator": "path:.gitattributes",
-      "digest": "sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a",
-      "bytes": 749,
+      "digest": "sha256:4626d1e064ae446e63b50a072443b874a9619c012ac283d7903d03cd028b53a3",
+      "bytes": 1283,
       "purposes": [
         "Authenticate the exact repository source-byte normalization policy."
       ],
@@ -464,7 +464,7 @@ Manifest file digests use standard SHA-256 over the exact file bytes. Compilatio
     "Stop with REVISE if bounded search is represented as a global optimum.",
     "Stop with REVISE if selection can change under logical input permutation."
   ],
-  "contentDigest": "sha256:20e34899c4c298e973201515f4cf2a585904bf713ed127647642d1eb437c8403"
+  "contentDigest": "sha256:a01185ae9a8829e1fbb51b0b60135777fae3eb4b6725981b02e3fe6f8b85f411"
 }
 ```
 
@@ -485,14 +485,14 @@ Return one strict UTF-8 JSON object with exactly the shape below. Replace the su
   "destination": "v11.integration-owner",
   "goal": {
     "id": "v11.specialist-compiler.release",
-    "revision": 43,
-    "digest": "sha256:c52de7fdb6591f246b7d4a2de36f452d15eacd60d86492e900fac8d4d047be05"
+    "revision": 44,
+    "digest": "sha256:5f7e523b9f2d07f5ee90b90c7f0bdc200c7e2a2d3f5a1c7ad45a63ca2019f289"
   },
   "agent": {
     "id": "agent.073738545314110329a947b77922c2a89c772cbaf4f2b9da29daa212e9aa9972",
-    "blueprintDigest": "sha256:20e34899c4c298e973201515f4cf2a585904bf713ed127647642d1eb437c8403"
+    "blueprintDigest": "sha256:a01185ae9a8829e1fbb51b0b60135777fae3eb4b6725981b02e3fe6f8b85f411"
   },
-  "compilationDigest": "sha256:ed88b5f8f1991ea49e4fc0928fbbb35673399125293062c9f143a1113625c819",
+  "compilationDigest": "sha256:b5cf6ea32968febbb9846ddaa718f4777f3aac3d1654fa3bf999e4f382def0ff",
   "summary": "Replace with a concise result summary.",
   "workUnitsCompleted": [
     "review.algorithm-lifecycle"

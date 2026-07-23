@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. Exact Revision 31 checkpoint `4275ce9eb31e04995f4bb49c599d6d930c9685a7` passed the complete aggregate, then its immutable package-bound review returned verified `fix` for per-entry Git blob processes left in the embedded verifier harness and canonical gate. Revision 32 closed those boundaries, but its exact aggregate stopped at one live-routing documentation invariant after 444/445 core tests passed. Revision 33 corrects that source-only regression; a fresh exact aggregate and fresh package-bound `pass` remain mandatory before any successor freeze, R2 review, hosted CI, or owner merge decision.
+V12 is not merge-ready. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then correctly stopped on one stale V11 `.gitattributes` source tuple. Revision 44 refreshes only that tuple, completes independent Audit B review in corrected approval order, and passes strict replay. A fresh exact aggregate and fresh package-bound `pass` remain mandatory before any successor freeze, R2 review, hosted CI, or owner merge decision.
 
 ## Scope
 
@@ -113,6 +113,10 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
 
 ## Current Outcome
 
-Revision 33 is `pass` at focused verification and `pending` at release verification. Its post-edit anti-drift case and complete source-level release suites pass 1/1, 31/31, and 17/17. The preceding immutable aggregate preserved 444/445 core passes and one documentation-routing failure; no runtime or batching failure was reported.
+Revision 34 is `pass` at the V11 trust-refresh gate and `pending` at release verification. The preceding immutable aggregate preserved 445/445 core passes and a copied-production lifecycle pass before the single stale-source stop. Revision 44 now binds all 58 sources, separate Candidate A and Audit B packages, exact binder fan-in, independent semantic `pass`, corrected authorization order, and strict replay.
 
 Candidate-addressed external evidence remains the only authority for volatile release state. No successor is frozen; a fresh exact aggregate and fresh immutable package-bound independent review must pass before release routing can continue.
+
+## Revision 34 Trust-Refresh Outcome
+
+The exact Revision 33 aggregate receipt and diagnosis are preserved under `evidence/implementation/release-correction-r34/`. Revision 44's 31-test source-freshness and authorization suite passes, and its complete evidence replay returns `pass`. No V12 runtime or public-contract code changed. Candidate-addressed external evidence must now establish a fresh immutable aggregate and package-bound independent review before any successor can be frozen.

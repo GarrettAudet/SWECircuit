@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and Revision 29 compiler-supply correction are complete. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 hardens the release parent and lifecycle host without changing V12's provider-neutral product contract. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires an exact successor gate, fresh independent R2 review, hosted CI, and the owner merge gate.
+The V12 product implementation and release-harness corrections are complete. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle before V11 dogfood rejected one stale `.gitattributes` binding. Revision 44 refreshes that exact source tuple and passes the complete two-phase trust replay without changing V12 runtime behavior. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires a fresh aggregate and package-bound review, an exact successor gate, fresh R2, hosted CI, and the owner merge gate.
 
 ## Baseline
 
@@ -208,3 +208,13 @@ The V12 product implementation and Revision 29 compiler-supply correction are co
 - Exact Revision 32 aggregate preserved 444/445 core passes and stopped at one live-routing documentation invariant before lifecycle or later gates.
 - Revision 33 restores explicit candidate-addressed external-evidence ownership in the active review outcome; product runtime and batching code are unchanged.
 - A fresh full aggregate and immutable package-bound independent review remain before successor freeze.
+
+## Revision 34 V11 Trust Refresh
+
+- Preserved the exact Revision 33 aggregate receipt under `evidence/implementation/release-correction-r34/`.
+- Proved `.gitattributes` was the sole stale V11 source and retained its required binary byte-integrity rules.
+- Archived Revision 43 before generating Revision 44.
+- Bound Candidate A and Audit B to exact package pairs, a 2,255-byte non-launching receipt, a verified 6,366-byte binder, `integrationReady: true`, and a 10,233-byte independent semantic `pass`.
+- Corrected a premature Candidate A approval before launch and enforced the three-event order: Audit B approval, semantic authorization, Candidate A approval.
+- Strict V11 `--check-evidence` replay and all 31 dedicated dogfood regressions pass.
+- Product code and public APIs are unchanged; post-edit V12 anti-drift and a fresh immutable aggregate remain.

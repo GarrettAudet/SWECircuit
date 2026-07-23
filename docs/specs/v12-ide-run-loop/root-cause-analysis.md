@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical release attempts and their exact outcomes remain immutable. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, corrects the attribution, long-path, and stable-identity causes, and passes the exact corrected committed lifecycle at checkpoint 8768c25. This correction evidence is not a successor release result; aggregate verification, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain required.
+Historical release attempts and their exact outcomes remain immutable. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then correctly stopped on one stale V11 `.gitattributes` source binding. Revision 44 refreshes that sole tuple, preserves the byte-integrity rules, completes independent Audit B review in corrected approval order, and passes strict replay. This correction is not a successor release result; a fresh aggregate, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain required.
 
 ## Reproduction
 
@@ -562,3 +562,35 @@ Restore the delegation in the active review outcome and run the focused routing 
 ### Durable Learning
 
 Status documents are executable release inputs. Any post-verification edit to an active routing section invalidates the focused result and must trigger the anti-drift regression before candidate commit.
+
+## Revision 33 Aggregate V11 Source-Freshness RCA
+
+### Reproduction
+
+Run `npm.cmd run verify` from exact clean checkpoint `ff0b76d3e39bc9e7583e5956fe2c89af015630c6`. Core passes 445/445 and the copied-production lifecycle passes 1/1. V11 dogfood then rejects `context.gitattributes` at 749 expected bytes versus 1,283 live bytes; source identity remains stable and clean.
+
+### Confirmed Root Cause
+
+Revision 32 added narrow binary attribute rules after the last V11 source-bound refresh so raw release evidence could survive Git checkout without newline normalization. V11 correctly treats every authenticated source byte as immutable, so the legitimate control change invalidated its prior GoalContract. Reverting the attribute rules would remove the byte-preservation guarantee and is not a valid fix.
+
+### Causal Fix And Route
+
+Archive Revision 43 before mutation, advance to Revision 44, and refresh only the one changed tuple after proving the other 57 still match. Compile Candidate A and a separate Audit B, preserve the non-launching receipt, require verified binder fan-in and independent semantic `pass`, bind cross-package authorization, then separately approve Candidate A. Strict replay and 31/31 dedicated regressions pass. Route: `verify -> diagnose -> fix -> review -> pass`; Revision 33 is retired and a fresh immutable aggregate is required.
+
+## Revision 44 Approval-Order RCA
+
+### Reproduction
+
+During trust refresh, update Candidate A and Audit B approval files together before semantic Audit B executes. The receipt remains `candidateLaunchApproved: false`, but Candidate A's approval file already binds the new pair while launch authorization still binds Revision 43.
+
+### Confirmed Root Cause
+
+The host collapsed three distinct owner events into one preparation action. Audit B approval authorizes only the read-only audit package. Cross-package authorization requires the exact semantic `pass`. Candidate A approval is a later, separate event and must not exist before both.
+
+### Causal Fix And Route
+
+Independent review caught the ordering defect before Candidate A launch. Restore the exact prior approval bytes, replay the non-launching Audit B state, verify the binder and semantic review, write authorization under a precondition that Candidate A remains unapproved, then reissue Candidate A approval and run strict replay. No Candidate A contract was launched under the premature approval. Route: `review -> fix -> verify -> pass`.
+
+### Durable Learning
+
+Approval files with the same shape can represent different authority transitions. Bind each transition to its own predecessor evidence and enforce the ordering as a write precondition.

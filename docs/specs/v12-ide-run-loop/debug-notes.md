@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Revision 32 closed every Git-batch boundary, but exact aggregate `ec51c7a9dd72ce9094260e089120b089ee25ad2a` stopped after 444/445 core tests because a final status edit omitted the required external-evidence delegation. Revision 33 corrects that source-only traceability failure and passes post-edit anti-drift plus both complete source-level release suites. V12 still requires a fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
+No active V12 product-contract defect is recorded. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then V11 dogfood rejected one stale `.gitattributes` source tuple. Revision 44 archives the prior chain, refreshes only that tuple, passes separate binder and semantic Audit B review, corrects a premature but unconsumed Candidate A approval, and passes strict replay. Revision 34 still requires post-edit anti-drift, a fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
 
 ## Reproduction
 
@@ -786,3 +786,13 @@ Revision 32 applies the same strict sorted and deduplicated batch protocol at bo
 Exact immutable checkpoint `ec51c7a9dd72ce9094260e089120b089ee25ad2a` remained clean and identity-stable while 444/445 core tests passed. The aggregate stopped at `live release routing delegates volatile state to candidate-addressed evidence`; `review.md#current-outcome` no longer contained that required delegation. No runtime or batching test failed, and lifecycle, dogfood, package, and consumer gates did not run.
 
 The focused release-review suite had passed before the final status edit. Revision 33 restores the invariant and requires its focused guard after all active-status edits. Route: `verify -> diagnose -> fix`; a fresh immutable aggregate is required.
+
+## Revision 33 Aggregate V11 Source-Freshness Stop
+
+Exact immutable checkpoint `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` remained clean and identity-stable while 445/445 core tests and the copied-production lifecycle passed. V11 dogfood then rejected `context.gitattributes`: expected 749 bytes / `sha256:8d0ac86b6407f4e8fd439c964560ad76b62c8506b2d218894a938e5b9c02da3a`, received 1,283 bytes / `sha256:4626d1e064ae446e63b50a072443b874a9619c012ac283d7903d03cd028b53a3`. Later dogfood, package, and consumer gates did not run.
+
+The new `.gitattributes` bytes are intentional: narrow binary rules preserve exact Revision 31 handoffs, logs, patches, and receipts. All 58 V11 sources were checked; the other 57 remained exact. Revision 43 was archived before Revision 44 regenerated the package pair.
+
+Revision 44 Candidate A is `sha256:b5cf6ea32968febbb9846ddaa718f4777f3aac3d1654fa3bf999e4f382def0ff` / `sha256:e320eaf9e29aac7c7a31bd651fd09c1cdeb0d6fb8f88f7fe7450d7e9151edd4d`; Audit B is `sha256:ec7a601571d54c5138b380367b974db39663820aa0b6103406374608c3160249` / `sha256:f331b294dd1f79fb3589bc0d5e8ea3f851953296a581de2a0e38783362c4a40f`. The exact receipt, binder, semantic `pass`, authorization, and strict replay all pass.
+
+Independent review caught Candidate A approval before semantic authorization. The approval was revoked before any Candidate A launch, the non-launching receipt remained exact, and approval was reissued only after the semantic `pass` and authorization existed. Route: `verify -> diagnose -> fix -> review -> pass`; a fresh immutable aggregate remains required.

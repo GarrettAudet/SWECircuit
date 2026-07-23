@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 remains open until release evidence closes it. Revision 32 batches all three Git-blob ownership boundaries, but exact aggregate `ec51c7a9dd72ce9094260e089120b089ee25ad2a` stopped after 444/445 core tests because its final review-status edit omitted the required candidate-addressed external-evidence delegation. Revision 33 corrects that source-only regression. A fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before T006 or V12 can close.
+T006 remains open until release evidence closes it. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then V11 dogfood rejected one stale `.gitattributes` tuple. Revision 44 refreshes that sole binding and passes the correctly ordered two-phase trust replay. Post-edit anti-drift, a fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before T006 or V12 can close.
 
 ## Task List
 

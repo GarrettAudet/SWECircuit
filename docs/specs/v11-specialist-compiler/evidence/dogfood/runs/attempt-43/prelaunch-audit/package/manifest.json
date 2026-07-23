@@ -1,0 +1,47 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v11.specialist-compiler.prelaunch-audit",
+  "goalRevision": 43,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:ee381b407c6cce2a48171617079ef80cca7e99f1e8c5745a7d6fa80731eda998",
+  "selectedCandidateId": "team.357beba7ab91a91ad49896b7d31e2fb6c61d9277c3d50582a02bad331a809b12",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6"
+      ]
+    },
+    {
+      "start": 4,
+      "agentIds": [
+        "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:0f223486af5126ac84ce21b7c5774705dcbc2cbe969a62b836c9ea0cebddbaad",
+  "compilationFileBytes": 170107,
+  "agents": [
+    {
+      "agentId": "agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6",
+      "blueprintDigest": "sha256:6a5cc9083fa9eca9672609b8deb90c7240d56573f3c9beadd0c257d93a524a9f",
+      "contractFile": "agents/agent.9f9fd5395838da0f13e564652146ade213b2e333d8156e78186497962e5b9da6.md",
+      "contractDigest": "sha256:ba7f6fdfd362d108c8e22f9f46ebfb36986350b71cf37a4cf254ef9ed5090f9b",
+      "contractBytes": 16224
+    },
+    {
+      "agentId": "agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64",
+      "blueprintDigest": "sha256:542c897ef8800634437f53ce4fef3c211ff6954448081b77d586ca03965cfdac",
+      "contractFile": "agents/agent.cec0a4a4c0a86828188bb999c7fe0375dde4a93469ea4ebd765463c6e48bae64.md",
+      "contractDigest": "sha256:ad1e5e70a0efc3594a04771ce9c561f3a0bf59650a13dd913a3ce3d530d01f1e",
+      "contractBytes": 46700
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:fbe9238c616457c4b3bc415bc55b4af23b4c286458f0f5772cfedc72553ad4f5",
+  "integrationBytes": 4711,
+  "contentDigest": "sha256:58a70d4a0678bb513ec5c8c506af0be2bd5e23d5dbd71a0fff79d2105a3bacdc"
+}
