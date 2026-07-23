@@ -197,3 +197,12 @@ The V12 product implementation and Revision 29 compiler-supply correction are co
 - The correction changes release infrastructure only. It does not add provider, model, IDE, scheduler, execution, persistence, or merge effects to SWECircuit core.
 - The first full lifecycle attempt was invalid because committed `HEAD` supplied the executed parent while the uncommitted working tree supplied its expected identity; the mismatch surfaced only after 2,383.9 seconds.
 - The lifecycle now preflights every committed production identity before temp-root creation or materialization. Its scheduling regression passes, and the same invalid state rejects in 215.1 ms with exact committed/live identities.
+
+## Revision 32 Batch-Coverage Closure
+
+- Preserved the exact Revision 31 review package and its verified non-`pass` handoff under `evidence/implementation/independent-review-r31/`.
+- Added strict batch loading to the embedded candidate-derived harness and canonical release gate; the verifier inherits the corrected harness entry point.
+- Added `test/helpers/git-blob-loader-fixture.mjs` and causal 3-file/35-file process-count tests over all actual loaders.
+- Rebound copied-lifecycle production identities only after formatting stabilized.
+- Release-review passes 31/31, release-gate passes 17/17, and format, lint, and typecheck pass.
+- Full aggregate and a fresh immutable package-bound independent review remain before successor freeze.

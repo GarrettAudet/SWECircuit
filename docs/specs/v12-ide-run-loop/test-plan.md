@@ -100,3 +100,14 @@ Package identity verification and handoff schema verification authenticate prese
 - Focused result: 3/3 pass.
 - Complete source suites: release-review 30/30 pass in 80.3 seconds; release-gate 16/16 pass in 454.5 seconds; cleanup remains exact. Aggregate verification, package-bound independent review, an exact successor gate, fresh R2, hosted CI, and owner merge remain pending.
 - Exact corrected committed lifecycle: checkpoint 8768c25 passes 1/1 in 1,752.7 seconds with negative routes, reauthorization, and cleanup.
+
+## Revision 32 Batch Coverage Gate
+
+- Exact Revision 31 aggregate: `pass` at `4275ce9eb31e04995f4bb49c599d6d930c9685a7`; immutable package-bound review: verified `fix`.
+- Actual parent and verifier-harness loaders: 3-file and 35-file binary/duplicate fixtures `pass`; four Git calls, one batch, zero per-blob calls at each size.
+- Actual canonical materializer: the same two fixture sizes and process-count constraints `pass`.
+- Batch parser security cases execute at parent, harness, and gate boundaries.
+- Complete release-review suite: 31/31 `pass`.
+- Complete release-gate suite: 17/17 `pass`.
+- Format, lint, and typecheck: `pass`.
+- Pending: exact committed aggregate and fresh package-bound independent review.

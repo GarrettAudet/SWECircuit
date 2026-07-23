@@ -1737,11 +1737,12 @@ function collectSourceSpecs(candidateTree) {
   }
   return [...byPath.values()].sort((left, right) => compareOrdinal(left.path, right.path));
 }
-function gitOutput(args) {
+function gitOutput(args, options = {}) {
   return execFileSync(activeWorker?.binding.toolchain.git.path ?? "git", args, {
     cwd: ROOT,
     encoding: null,
     env: activeWorker ? process.env : undefined,
+    input: options.input,
     maxBuffer: 134_217_728,
   });
 }
@@ -1777,6 +1778,56 @@ function gitNulRecords(bytes, label) {
   return records;
 }
 
+function parseGitBlobBatch(objectIds, output) {
+  requireCondition(Array.isArray(objectIds) && objectIds.length > 0, "Git blob batch is empty.");
+  requireCondition(Buffer.isBuffer(output), "Git blob batch output must be raw bytes.");
+  const requested = new Set();
+  const blobs = new Map();
+  let cursor = 0;
+
+  for (const expectedObjectId of objectIds) {
+    requireCondition(
+      typeof expectedObjectId === "string" && CANDIDATE_PATTERN.test(expectedObjectId),
+      "Git blob batch contains an invalid requested object ID.",
+    );
+    requireCondition(!requested.has(expectedObjectId), "Git blob batch contains a duplicate request.");
+    requested.add(expectedObjectId);
+
+    const headerEnd = output.indexOf(10, cursor);
+    requireCondition(headerEnd >= cursor, "Git blob batch output is missing a header terminator.");
+    const headerBytes = output.subarray(cursor, headerEnd);
+    requireCondition(
+      headerBytes.every((byte) => byte <= 0x7f),
+      "Git blob batch output contains a non-ASCII header.",
+    );
+    const match = /^([0-9a-f]{40}) blob (0|[1-9][0-9]*)$/.exec(headerBytes.toString("ascii"));
+    requireCondition(match !== null, "Git blob batch output contains a malformed header.");
+    requireCondition(match[1] === expectedObjectId, "Git blob batch returned an unexpected object.");
+    const size = Number(match[2]);
+    requireCondition(Number.isSafeInteger(size), "Git blob batch returned an unsafe object size.");
+    const contentStart = headerEnd + 1;
+    const contentEnd = contentStart + size;
+    requireCondition(
+      contentEnd < output.byteLength,
+      "Git blob batch output is truncated before the object delimiter.",
+    );
+    requireCondition(output[contentEnd] === 10, "Git blob batch output has an invalid object delimiter.");
+    blobs.set(expectedObjectId, Buffer.from(output.subarray(contentStart, contentEnd)));
+    cursor = contentEnd + 1;
+  }
+
+  requireCondition(cursor === output.byteLength, "Git blob batch output contains trailing bytes.");
+  return blobs;
+}
+
+function candidateBlobBytes(objectIds, gitExecutor = gitOutput) {
+  const uniqueObjectIds = [...new Set(objectIds)].sort(compareOrdinal);
+  requireCondition(uniqueObjectIds.length > 0, "Candidate tree has no blobs.");
+  const output = gitExecutor(["cat-file", "--batch"], {
+    input: Buffer.from(`${uniqueObjectIds.join("\n")}\n`, "ascii"),
+  });
+  return parseGitBlobBatch(uniqueObjectIds, output);
+}
 function updateGateFrame(hash, bytes) {
   const value = Buffer.from(bytes);
   const size = Buffer.allocUnsafe(8);
@@ -1818,30 +1869,30 @@ function createCandidateTreeView(commit, tree, entries, sourceBinding) {
   });
 }
 
-function loadCandidateTree(candidate) {
+function loadCandidateTree(candidate, gitExecutor = gitOutput) {
   requireCondition(
     typeof candidate === "string" && CANDIDATE_PATTERN.test(candidate),
     "Candidate commit must be an exact 40-character lowercase commit ID.",
   );
-  const cached = CANDIDATE_TREE_CACHE.get(candidate);
+  const cached = gitExecutor === gitOutput ? CANDIDATE_TREE_CACHE.get(candidate) : undefined;
   if (cached !== undefined) {
     return cached;
   }
 
   const commit = Buffer.from(
-    gitOutput(["rev-parse", "--verify", `${candidate}^{commit}`]),
+    gitExecutor(["rev-parse", "--verify", `${candidate}^{commit}`]),
   )
     .toString("ascii")
     .trim();
   requireCondition(commit === candidate, "Candidate commit identity mismatch.");
 
-  const tree = Buffer.from(gitOutput(["rev-parse", "--verify", `${candidate}^{tree}`]))
+  const tree = Buffer.from(gitExecutor(["rev-parse", "--verify", `${candidate}^{tree}`]))
     .toString("ascii")
     .trim();
   requireCondition(CANDIDATE_PATTERN.test(tree), "Candidate tree identity is invalid.");
 
   const entries = gitNulRecords(
-    gitOutput(["ls-tree", "-rz", "--full-tree", candidate]),
+    gitExecutor(["ls-tree", "-rz", "--full-tree", candidate]),
     "Candidate tree listing",
   ).map((record) => {
     const tab = record.indexOf(9);
@@ -1878,10 +1929,17 @@ function loadCandidateTree(candidate) {
       objectId: match[2],
       path,
       pathBytes,
-      bytes: Buffer.from(gitOutput(["cat-file", "blob", match[2]])),
     };
   });
   entries.sort((left, right) => Buffer.compare(left.pathBytes, right.pathBytes));
+  requireCondition(entries.length > 0, "Candidate tree is empty.");
+  const blobs = candidateBlobBytes(
+    entries.map((entry) => entry.objectId),
+    gitExecutor,
+  );
+  for (const entry of entries) {
+    entry.bytes = Buffer.from(blobs.get(entry.objectId));
+  }
 
   const seen = new Set();
   const hash = createHash("sha256");
@@ -1896,7 +1954,6 @@ function loadCandidateTree(candidate) {
     updateGateFrame(hash, entry.pathBytes);
     updateGateFrame(hash, entry.bytes);
   }
-  requireCondition(entries.length > 0, "Candidate tree is empty.");
   const candidateTree = createCandidateTreeView(commit, tree, entries, {
     commit,
     tree,
@@ -1904,7 +1961,9 @@ function loadCandidateTree(candidate) {
     bytes: totalBytes,
     digest: `sha256:${hash.digest("hex")}`,
   });
-  CANDIDATE_TREE_CACHE.set(candidate, candidateTree);
+  if (gitExecutor === gitOutput) {
+    CANDIDATE_TREE_CACHE.set(candidate, candidateTree);
+  }
   return candidateTree;
 }
 
@@ -3659,12 +3718,14 @@ export const RELEASE_REVIEW_TEST_HOOKS = Object.freeze({
   assertPackageFileSet,
   HARNESS_REPOSITORY_PATH,
   VERIFIER_REPOSITORY_PATH,
+  candidateBlobBytes,
   candidateRunPaths,
   capturedGateEvidencePaths,
   gateEvidencePaths,
   externalEvidenceBinding,
   gateEvidenceBindings,
   loadCandidateTree,
+  parseGitBlobBatch,
   candidateTreeWithOverrides,
   discoverCorrectionEvidenceSpecs,
   isCorrectionNavigationDuplicate,

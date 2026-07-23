@@ -1,0 +1,2108 @@
+diff --git a/docs/memory/active-context.md b/docs/memory/active-context.md
+index c396ccb241a6b7c85253edee5bd0beb9971fd34d..26648b99b4db13553d351312c289904fa642bf8d 100644
+--- a/docs/memory/active-context.md
++++ b/docs/memory/active-context.md
+@@ -2,7 +2,7 @@
+ 
+ ## Current Focus
+ 
+-V12 IDE Run Loop Revision 30 is the candidate-independent release-status correction on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. The latest canonical gate evidence preserved in this source belongs to commit `e61932f2d5067559332790b370f1bf510d0064fc`: source, Git, and cleanup remained exact; 437 of 439 core tests passed; two live-status anti-drift checks failed; that source is retired. Revision 30 preserves the exact receipt and raw logs and moves numbered identities to history-only sections. This source intentionally does not claim whether any later candidate has been consumed; candidate-addressed external receipts are authoritative. V12 is not merge-ready without an exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge evidence.
++V12 IDE Run Loop Revision 31 remains the release-harness correction on codex/v12-ide-run-loop from released V11.1 baseline c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c. The long-path and invocation-scoped stable-identity causes are corrected. Focused tests pass 3/3, release-review passes 30/30, release-gate passes 16/16, and exact committed checkpoint 8768c25 passes the isolated copied-production lifecycle 1/1 in 1,752.7 seconds after crossing both prior production stops. Candidate-addressed external evidence/receipts remain authoritative. V12 is not merge-ready until aggregate verification, package-bound independent review, an exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge evidence pass.
+ 
+ Revision 41 binds Candidate A `sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055` / `sha256:9eea6f0084c5705d448aba40a50d1fb42401a1a8d6be53f847751f6c55a4bde1` and Audit B `sha256:fa7f65178897bae642e165df81fdfb0484e004ab942a9217c0ed1f7baae74371` / `sha256:b9e26224028a040da07780f747ba752174a8e424603c03981dd1abaffda85598`. The first binder correctly returned `block` because the host had generated but not explicitly delivered the external receipt; its exact 5,295-byte handoff is preserved. After the host delivered the exact 2,255-byte receipt as a declared runtime input, the 6,862-byte binder, 7,691-byte independent semantic `pass`, 984-byte canonical authorization, and `--check-evidence` replay all pass. V12 dogfood, the 148-file package dry run, and the clean offline installed-consumer gate also pass. Durable rule: review tooling is candidate evidence, every declared source must remain retrievable, runtime inputs must be explicitly delivered rather than inferred from repository presence, real production lifecycle proof must supplement projections, and closed package-manager configuration requires distinct private files rather than null-device aliasing or host fallback.
+ 
+@@ -12,7 +12,7 @@ Revision 43 binds Candidate A `sha256:ed88b5f8f1991ea49e4fc0928fbbb3567339912529
+ 
+ ## Current Stage
+ 
+-V11.1 remains the released public baseline on `main`. V12 source now carries Revision 30's release-state correction and the latest preserved failed receipt. Candidate-addressed external evidence is authoritative for gate consumption and outcome; source prose records requirements and immutable history rather than volatile candidate state. Release approval requires one exact successor gate, fresh three-lane R2 review, hosted CI, milestone closeout, and the owner merge gate. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
++V11.1 remains the released public baseline on main. V12 Revision 31 has passed its corrected exact committed copied lifecycle at checkpoint 8768c25. The next gates are aggregate canonical verification and package-bound independent review on the same commit lineage. Candidate-addressed external evidence/receipts alone may then advance one exact successor through its one-shot gate, fresh R2, hosted CI, milestone closeout, and merge. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
+ 
+ V11 universal-runtime Round 4 failed against `d486b7f` with four REVISE verdicts, 10 high findings, and 9 medium findings. Raw evidence and correction design were committed at `6da0376`; the workflow emitted `split` rather than another broad patch cycle.
+ 
+@@ -201,6 +201,6 @@ Revision 30 compiled and separately approved Candidate A `sha256:ced8186898ebb27
+ 
+ ## Next Likely Work
+ 
+-- Keep the latest failed canonical receipt and raw logs as immutable source-addressed evidence.
+-- Apply the release sequence in order: candidate-independent status regression, template validation, exact pre-freeze aggregate, one successor freeze, and one-shot exact gate.
+-- Use only candidate-addressed external evidence to advance into fresh R2, hosted CI, milestone closeout, and owner merge.
++- Preserve checkpoint 8f1c4f1 as exact failed lifecycle evidence; do not rerun it.
++- Preserve corrected checkpoint 8768c25 and its exact 1,752.7-second copied-lifecycle pass; do not rerun it.
++- Run aggregate canonical verification and package-bound independent review on the corrected lineage, then freeze one successor, execute its exact gate once, and use only candidate-addressed external evidence/receipts to advance into fresh R2, hosted CI, milestone closeout, and owner merge.
+diff --git a/docs/memory/history-ledger.md b/docs/memory/history-ledger.md
+index 2a148dbc30bef8fafdb218895a8001be1cb306f2..db47d1a6dad84816303d95e1b7f636e58ee8cc03 100644
+--- a/docs/memory/history-ledger.md
++++ b/docs/memory/history-ledger.md
+@@ -77,3 +77,8 @@ Append one entry for each meaningful workflow version, feature, bug, decision cl
+ | 2026-07-19 | V11.1 source-freshness refresh | dogfood / pass; publication gate | [Revision 31 evidence](../specs/v11-specialist-compiler/evidence/dogfood/); [semantic audit](../specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-31.json); [V11.1 RCA](../specs/v11.1-readme-release/root-cause-analysis.md#revision-31-dogfood-refresh); [milestone](../milestones/v11.1.md) | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `known-issues.md` | Revision 30 correctly rejected stale README/checker bindings. Revision 31 refreshed the three changed sources, preserved an initial missing-receipt `block`, passed separate Audit B review, bound cross-package authorization, separately approved Candidate A, and passed strict V11 evidence replay. |
+ | 2026-07-19 | V11.1 concise public release | merge / complete | commit `0674f3923aae629594cd27d349e118424fef8fe0`; [branch run 29682189374](https://github.com/GarrettAudet/SWECircuit/actions/runs/29682189374); [main run 29682498282](https://github.com/GarrettAudet/SWECircuit/actions/runs/29682498282); [milestone](../milestones/v11.1.md) | `active-context.md`; `history-ledger.md`; `retrieval-index.md` | The owner-approved Revision 5 candidate fast-forwarded exactly from V11 main to `0674f39`. All seven branch jobs and all seven final main jobs passed; the concise README, one deterministic GIF, capability boundary, and full trace are now the released baseline. |
+ | 2026-07-22 | V12 Candidate 13 live-status drift | verify / diagnose -> fix | commit `e61932f2d5067559332790b370f1bf510d0064fc`; `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/e61932f2d5067559332790b370f1bf510d0064fc/`; `docs/specs/v12-ide-run-loop/debug-notes.md#candidate-13-release-status-drift-and-revision-30`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#candidate-13-live-status-rca` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `patterns.md` | The one-shot gate preserved exact source, materialization, Git, and cleanup state and passed 437/439 core tests. Two anti-drift assertions rejected a live milestone that named the candidate as unconsumed. Revision 30 delegates volatile state to candidate-addressed external evidence and expands the regression beyond ordinals. |
++| 2026-07-22 | V12 successor lifecycle timeout and Revision 31 | verify / diagnose -> fix -> verify | commit `74397e30be5d185a14ecef1a838aa7767ffdf60f`; `docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-14-retirement.md`; `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#retired-successor-lifecycle-timeout-and-attribution-rca` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `known-issues.md`; `patterns.md` | The one-shot source passed 439/439 core tests, then the copied lifecycle's global-temp assertion masked the parent process outcome. Revision 31 adds strict binary batch object loading, invocation-owned temp attribution, process-tree termination, surfaced cleanup errors, 2/2 causal regressions, and 28/28 release-review tests. The source is retired; broader gates remain. |
++| 2026-07-22 | V12 Revision 31 committed-identity preflight | verify / invalid -> fix -> verify | `test/lifecycle/v12-release-review-lifecycle.test.mjs`; `test/v12-release-review.test.mjs`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-committed-identity-preflight-rca` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `known-issues.md`; `patterns.md` | A 2,383.9-second lifecycle invocation exercised committed pre-correction code while expecting uncommitted Revision 31 identities, so it is invalid evidence. The new preflight compares exact committed bytes and digests before temp creation or materialization; the same mismatch now rejects in 215.1 ms with the exact path and identities. |
++| 2026-07-22 | V12 Revision 31 disposable-Git long-path correction | diagnose -> fix -> verify | docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-disposable-git-long-path-rca; scripts/run-v12-release-gate.mjs; scripts/run-v12-release-review.mjs; test/v12-release-gate.test.mjs | active-context.md; history-ledger.md; retrieval-index.md; known-issues.md; patterns.md | Two committed lifecycle runs localized false combined Git drift to deep Windows paths. The same 489-character context failed with core.longpaths unset and became clean when enabled. The causal full-tree test, 29/29 release-review suite, and 16/16 release-gate suite pass; corrected checkpoint 8768c25 later passes the exact committed lifecycle. |
++| 2026-07-22 | V12 Revision 31 stable runtime identity correction | verify -> diagnose -> fix -> verify | commit 8f1c4f1; docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-invocation-scoped-temporary-path-identity-rca; scripts/run-v12-release-review.mjs; test/v12-release-review.test.mjs | active-context.md; history-ledger.md; retrieval-index.md; known-issues.md; patterns.md | The committed lifecycle crossed the prior long-path stop and failed at fresh approval after 1,192.8 seconds. Distinct host-owned temp roots were entering stable runtime identity. The counterfactual, 30/30 release-review tests, and 16/16 release-gate tests pass after separating stable and invocation evidence. |
++| 2026-07-22 | V12 Revision 31 corrected committed lifecycle | verify / pass | commit 8768c25; test/lifecycle/v12-release-review-lifecycle.test.mjs; docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-invocation-scoped-temporary-path-identity-rca | active-context.md; history-ledger.md; retrieval-index.md; milestone v12 | The isolated copied-production entrypoints pass 1/1 in 1,752.7 seconds, crossing both prior production stops and completing approval, verification, closed negative routes, source reauthorization, source integrity, and owned cleanup. |
+diff --git a/docs/memory/known-issues.md b/docs/memory/known-issues.md
+index 966ed7198e54c89a9e525d7451e683ee156643e8..aad66eb2cfa0d399147da3bca871e3af11431263 100644
+--- a/docs/memory/known-issues.md
++++ b/docs/memory/known-issues.md
+@@ -33,3 +33,6 @@
+ | 2026-07-20 | V12 does not automatically select a host model or reasoning effort, attach host-specific skills/tools, or spawn IDE-native subagents. | A host can execute compiled task-shaped contracts, but runtime granularity is still a manual adapter decision; R10 reproduced two stalls, one wrong-worktree delivery, and one successful manual high-effort escalation. | Keep V12's compiler and run session provider-neutral. Design the next version around portable runtime demand, a live host capability inventory, deterministic hard-gate matching, owner-visible assignment, explicit override, and a launch receipt. | `docs/research/snapshots/2026-07-20-codex-subagent-profile-routing-scan.md`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/attempt-history.md` |
+ | 2026-07-20 | IDE subagent handles can remain `running` without edits, output, or a checkpoint response. | Three R11 launches across frontier/high and balanced/high profiles stayed nonresponsive and had to be closed; no raw handoff existed. | Use a bounded liveness policy, preserve every assignment and cancellation attempt, avoid duplicate live work, and fall back to the standalone integration owner after repeated clean failures. The post-V12 Host layer must expose launched, progressing, unresponsive, cancelled, and completed states plus retry receipts. | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r11/attempt-history.md` |
+ | 2026-07-21 | V12's complete copied-production release lifecycle is intentionally expensive. | The R22 real lifecycle took 1,659,467.982 ms and the complete 34-test gate took 1,781,304.3289 ms, so repeating the release proof during ordinary correction loops materially slows delivery. | Use focused causal tests while iterating, require the full real lifecycle at package integration and exact release gates, preserve immutable outputs, and never rerun retired candidates. Optimize only in a later version that preserves the same trust boundary. | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/attempt-history.md`; `docs/specs/v12-ide-run-loop/test-plan.md` |
++| 2026-07-22 | Resolved: the V12 copied-parent harness inferred cleanup from a shared global temp diff, killed only the immediate child at timeout, authenticated candidate blobs with one Git process per tree entry, and could start an expensive lifecycle with committed/live production identities already mismatched. | A timeout could be reported as an unattributable leak, a descendant could survive, source authentication scaled with file count, and an invalid identity setup could consume the full lifecycle before rejection. | Revision 31 scopes all temp aliases to one invocation-owned namespace, terminates the process tree, reports process outcome before cleanup, parses one exact binary Git batch, surfaces production cleanup failure, and preflights committed production identities before materialization. Retain focused tests and the complete copied lifecycle in release gates. | `docs/specs/v12-ide-run-loop/root-cause-analysis.md#retired-successor-lifecycle-timeout-and-attribution-rca`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-committed-identity-preflight-rca`; `test/v12-release-review.test.mjs`; `test/helpers/v12-release-review-lifecycle.mjs`; `test/lifecycle/v12-release-review-lifecycle.test.mjs` |
++| 2026-07-22 | Resolved: V12 disposable bare Git contexts omitted Windows long-path support. | Deep lifecycle nesting made Git emit Filename too long warnings and false combined tracked-state changes even though independent index and worktree diffs were clean. | Set core.longpaths=true before read-tree in both release contexts, assert it before inspection, and retain a full-tree regression above 260 characters. | docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-disposable-git-long-path-rca; scripts/run-v12-release-gate.mjs; scripts/run-v12-release-review.mjs; test/v12-release-gate.test.mjs |
++| 2026-07-22 | Resolved: invocation-owned temporary paths entered V12 stable runtime identity. | Fresh compile and approve parents reconstructed different package digests even though candidate and stable inputs matched. | Exclude TEMP, TMP, and TMPDIR values from stable identity, retain an explicit exclusion marker, validate it in the worker, and preserve actual roots in invocation/cleanup evidence. Corrected checkpoint 8768c25 passes the exact copied lifecycle in 1,752.7 seconds. | docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-invocation-scoped-temporary-path-identity-rca; scripts/run-v12-release-review.mjs; test/v12-release-review.test.mjs |
+diff --git a/docs/memory/patterns.md b/docs/memory/patterns.md
+index dc60ef5a6c4943b26bd927b620661d3323869b9e..ba1fba28a3e4f3d94970ee649c9868821bc218ba 100644
+--- a/docs/memory/patterns.md
++++ b/docs/memory/patterns.md
+@@ -302,6 +302,24 @@ Authenticate the code that compiles, approves, executes, and verifies review evi
+ 
+ Closing a package-manager environment requires explicit private configuration, not a shared null-device alias and not deletion of a variable that restores host defaults. Create distinct empty plain files inside the bounded operation root, validate identity, containment, links, bytes, and non-aliasing before spawn, bind the policy in evidence, and remove the whole operation root afterward.
+ 
++### Invocation-Owned Cleanup Attribution
++
++Assign each process invocation a private namespace before execution. Classify timeout, signal, exit status, and expected route before interpreting residue; scan only owned state, record the complete process-tree termination result, and let the outer host remove the owned namespace. Shared global-temp diffs cannot prove ownership.
++
++### Exact Binary Batch Framing
++
++Replace file-count-driven subprocess loops with a native batch protocol only when every returned identity, type, size, byte boundary, delimiter, order, duplicate, truncation, and trailing byte is validated. Batch improves scalability; strict raw framing preserves the original trust boundary.
++
++### Identity Preflight Before Expensive Lifecycle
++
++When a long-running lifecycle executes committed source but imports live expected identities, compare every committed production byte count and digest before creating scratch state or materializing the source. A late identity assertion proves only that the setup was invalid after resources were spent; an early preflight keeps the evidence attributable and the failure cheap.
++
++### Configure Git Capabilities Before Deep Inspection
++
++A disposable repository does not inherit every capability assumed by its source checkout. Configure platform-sensitive Git behavior before populating the index, assert the effective value before trusting status or diff, and reproduce the deepest real worktree in a causal regression. On Windows, a missing core.longpaths setting can turn unreadable deep paths into false tracked-state drift even when independent index and worktree diffs are clean.
++### Separate Invocation Evidence From Stable Identity
++
++A value can be security-relevant without belonging in a reconstructable package identity. Keep candidate bytes, stable policy, and owner-reviewed inputs in stable identity; keep unique temp roots, operation roots, phase authority, process IDs, and cleanup outcomes in per-invocation receipts. Validate both layers and add a counterfactual proving that invocation changes preserve stable identity while stable-input changes do not.
+ ## Source Map
+ 
+ Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
+@@ -339,3 +357,6 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
+ | [V11.1 README release spec](../specs/v11.1-readme-release/spec.md), [accepted review](../specs/v11.1-readme-release/review.md), and [debug notes](../specs/v11.1-readme-release/debug-notes.md) | Concise Public Contract |
+ | [V12 Candidate 10 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md), [Revision 22 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#candidate-10-review-runtime-and-npm-configuration-rca), and [Revision 22 evidence](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/) | Review Runtime Is Candidate Evidence; Private Configuration, Not Host Fallback |
+ | [V12 Candidate 13 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#candidate-13-live-status-rca) and [exact gate evidence](../specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/e61932f2d5067559332790b370f1bf510d0064fc/) | External Evidence Owns Volatile Release State; Live Status Is Candidate-Independent |
++| [V12 Candidate 14 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-14-retirement.md), [Revision 31 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#retired-successor-lifecycle-timeout-and-attribution-rca), [preflight RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-committed-identity-preflight-rca), and [causal tests](../../test/v12-release-review.test.mjs) | Invocation-Owned Cleanup Attribution; Exact Binary Batch Framing; Identity Preflight Before Expensive Lifecycle |
++| [V12 long-path RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-disposable-git-long-path-rca), [gate constructor](../../scripts/run-v12-release-gate.mjs), [review constructor](../../scripts/run-v12-release-review.mjs), and [causal test](../../test/v12-release-gate.test.mjs) | Configure Git Capabilities Before Deep Inspection |
++| [V12 invocation-path RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-invocation-scoped-temporary-path-identity-rca), [parent](../../scripts/run-v12-release-review.mjs), [candidate harness](../specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs), and [regression](../../test/v12-release-review.test.mjs) | Separate Invocation Evidence From Stable Identity |
+diff --git a/docs/memory/retrieval-index.md b/docs/memory/retrieval-index.md
+index 55451c17cb5fd7e60d3591590ebd52e76393f102..8573b9105c7d12523415248f50b93e5a43944851 100644
+--- a/docs/memory/retrieval-index.md
++++ b/docs/memory/retrieval-index.md
+@@ -63,3 +63,6 @@ Use this file as a compact map to source artifacts. Keep entries short and link
+ | IDE runtime assignment direction | `docs/research/snapshots/2026-07-20-codex-subagent-profile-routing-scan.md`; `docs/research/practice-register.md`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r10/attempt-history.md` | Designing provider-neutral runtime demand, IDE capability inventory, deterministic model/effort selection, host-specific skills/tools, and native subagent spawning after V12. | ide, subagent, model, effort, runtime-demand, host-adapter, v13 |
+ | V12 candidate-derived review runtime and closed npm lifecycle | `docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r19/`; `docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r19/`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/`; `docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r20/`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r21/`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/`; `docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r22/` | Recovering the unauthenticated review-runtime defect, progressive trust-boundary corrections, real copied-production lifecycle, immutable source provenance, npm 11 private configuration, independent review, and V11 Revision 40 replay. | v12, candidate-10, r17, r18, r19, r20, r21, r22, review-runtime, provenance, npm, lifecycle, trust |
+ | V12 Candidate 13 live-status drift | `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/e61932f2d5067559332790b370f1bf510d0064fc/`; `docs/specs/v12-ide-run-loop/debug-notes.md#candidate-13-release-status-drift-and-revision-30`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#candidate-13-live-status-rca`; `test/v12-release-review.test.mjs` | Recovering the exact failed receipt and raw logs, the pre-freeze checkpoint mismatch, the source-versus-external state boundary, and the expanded anti-drift regression. | v12, candidate-13, revision-30, release-status, anti-drift, external-evidence, canonical-gate |
++| V12 Revision 31 lifecycle attribution and Git batching | `docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-14-retirement.md`; `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/`; `docs/specs/v12-ide-run-loop/debug-notes.md#retired-successor-lifecycle-attribution-and-revision-31`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#retired-successor-lifecycle-timeout-and-attribution-rca`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-committed-identity-preflight-rca`; `scripts/run-v12-release-review.mjs`; `test/helpers/v12-release-review-lifecycle.mjs`; `test/lifecycle/v12-release-review-lifecycle.test.mjs`; `test/v12-release-review.test.mjs` | Recovering the exact failed gate, proven outcome-masking defect, bounded attribution uncertainty, binary Git batch parser, invocation-owned temp namespace, process-tree timeout handling, cleanup observability, committed-identity preflight, and focused verification. | v12, revision-31, candidate-14, lifecycle, timeout, cleanup, process-tree, git-batch, attribution, preflight |
++| V12 Revision 31 disposable-Git long-path correction | docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-disposable-git-long-path-rca; docs/specs/v12-ide-run-loop/debug-notes.md#revision-31-disposable-git-long-path-confirmation; scripts/run-v12-release-gate.mjs; scripts/run-v12-release-review.mjs; test/v12-release-gate.test.mjs | Recovering the exact deep-worktree reproduction, false combined-diff diagnosis, core.longpaths counterfactual, bounded constructor fix, production identity rebinding, and complete source-suite evidence. | v12, revision-31, windows, git, long-paths, diff, materialization, release-gate |
++| V12 Revision 31 stable runtime identity correction | docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-invocation-scoped-temporary-path-identity-rca; docs/specs/v12-ide-run-loop/debug-notes.md#revision-31-invocation-scoped-runtime-identity; scripts/run-v12-release-review.mjs; docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs; test/v12-release-review.test.mjs; test/lifecycle/v12-release-review-lifecycle.test.mjs | Recovering the 8f1c4f1 approval mismatch, temp-path-only causal proof, stable/invocation boundary, worker validation, complete source-suite evidence, and the exact 8768c25 committed lifecycle pass. | v12, revision-31, runtime-identity, temp, phase, package, lifecycle, evidence-boundary |
+diff --git a/docs/milestones/v12.md b/docs/milestones/v12.md
+index 112ca26dbbf5c899431735a4159309393e649ae5..2804cff98288422a7a90cf12894960e98465baf6 100644
+--- a/docs/milestones/v12.md
++++ b/docs/milestones/v12.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-The V12 source on `codex/v12-ide-run-loop` carries Revision 30's candidate-independent release-status correction from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. The latest canonical gate evidence preserved in this milestone records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and source retirement. Candidate-addressed external evidence is authoritative for any later gate state. V12 is not merge-ready.
++The V12 source on codex/v12-ide-run-loop carries Revision 31 from released V11.1 baseline c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c. The Windows long-path and invocation-scoped stable-identity causes are corrected. Focused tests pass 3/3, release-review passes 30/30, release-gate passes 16/16, and exact committed checkpoint 8768c25 passes the isolated copied-production lifecycle 1/1 in 1,752.7 seconds. Candidate-addressed external evidence/receipts are authoritative. V12 is not merge-ready.
+ 
+ ## Goal
+ 
+@@ -21,7 +21,7 @@ V12 closes the practical gap between receiving a specialist package and visibly
+ 
+ ## Current Stage
+ 
+-The product implementation and Revision 29 causal correction are integrated. Historical source identities and outcomes remain preserved. The fresh exact-checkpoint aggregate passes at `f1454b6`; Independent Review Attempt 1's stale-log `fix` remains immutable, and Attempt 2 verifies `pass` against the distinct rerun. A later evidence commit entered the one-shot gate and failed only two anti-drift checks in this milestone's live status. Revision 30 corrects that state model; candidate-addressed external evidence alone advances the exact gate, R2, CI, and merge sequence.
++The product implementation and prior corrections are integrated. Revision 31 separates invocation-specific temp-path evidence from stable package identity and passes its exact corrected committed copied-production lifecycle. Aggregate canonical verification and package-bound independent review are the next decisive gates; an exact successor gate, fresh R2, CI, and merge remain after them. Candidate-addressed external evidence/receipts alone may advance release state.
+ 
+ ## Acceptance
+ 
+@@ -65,12 +65,17 @@ The product implementation and Revision 29 causal correction are integrated. His
+ - Revision 29 Independent Review Attempt 1: verified `fix` for stale-log relabeling; Attempt 2 compilation/package `sha256:d2e25fd584a7319fe89af77ae47ab836cb9b6998c7aa2508ce3f960176a4b271` / `sha256:e2755508c640267eaefb5e9e428a8ee73ff8fbbef142e5b9a5540cf1fecad56e`; exact handoff `sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920`; `pass`.
+ - Candidate 13 exact canonical gate at `e61932f2d5067559332790b370f1bf510d0064fc`: `fail`; exact source, materialization, Git, and cleanup checks pass; 437/439 core tests pass; receipt/stdout/stderr are `sha256:2ed3d9989f433f85c98718f3da12e98a0daf414116479aa5364eae0b8d60b114` / `sha256:b341a9904200e852063fa4fc1856c184cf763242b07da00c049fcd6544822f34` / `sha256:d7a90861417245e1f48ddfffcb12310b7402e500f726f023b548169c6487888d`; source permanently retired.
+ - Revision 30 focused verification: 2/2 causal anti-drift tests, 26/26 complete release-review tests in 94.1 seconds, and 16/16 release-gate tests in 420.8 seconds pass. A preceding restricted-host attempt failed only three owned-scratch `EPERM` operations and is not treated as a source failure.
++- Commit `74397e30be5d185a14ecef1a838aa7767ffdf60f` exact canonical gate: `fail`; source/Git/materialization and outer cleanup remain exact; 439/439 core tests pass; copied lifecycle stops at the old global-temp attribution assertion; source retired.
++- Revision 31 focused verification: 2/2 causal binary/timeout tests and 28/28 complete release-review tests pass; the real-tree batch probe authenticates 2,205 unique objects and 69,562,019 blob bytes in 817 ms.
++- Revision 31 committed-identity preflight: scheduling regression passes; an invalid committed/live mismatch rejects before materialization in 215.1 ms. The preceding 2,383.9-second mixed-identity invocation is invalid evidence.
++- Revision 31 long-path correction: causal full-tree regression pass in 189.8 seconds; complete release-review 29/29 pass in 79.3 seconds; complete release-gate 16/16 pass in 445.1 seconds; no new candidate or Git scratch context remains.
++- Revision 31 stable-runtime correction: checkpoint 8f1c4f1 fails after 1,192.8 seconds at fresh approval identity; causal policy test 3/3 passes; complete release-review 30/30 passes in 80.3 seconds; complete release-gate 16/16 passes in 454.5 seconds; corrected checkpoint 8768c25 passes the isolated copied-production lifecycle 1/1 in 1,752.7 seconds.
+ 
+ ## Approval Gate
+ 
+-- Source branch: `codex/v12-ide-run-loop`.
+-- Target branch: `main`.
+-- Current state: implementation and Revision 29 evidence pass; the latest gate evidence preserved in source is a release-status anti-drift failure; Revision 30 defines stable source language; candidate-addressed external evidence must prove an exact successor gate, fresh R2, hosted CI, and owner merge before release.
++- Source branch: codex/v12-ide-run-loop.
++- Target branch: main.
++- Current state: the long-path and stable-runtime identity corrections pass focused tests, the complete 30-test release-review and 16-test release-gate suites, and the exact committed copied lifecycle; aggregate, package-bound review, an exact successor gate, fresh R2, hosted CI, and owner merge evidence remain required.
+ - Required decision: none at this stage.
+ 
+ ## Source Artifacts
+@@ -85,8 +90,8 @@ The external host still owns context delivery, runtime selection, spawning, isol
+ 
+ ## Next Recommended Work
+ 
+-Apply the release protocol in order: preserve the failed gate, verify Revision 30, freeze one successor, run its exact gate once, and launch three fresh source-bound R2 reviewers only from a passing candidate-addressed receipt.
++Run the release protocol in order: commit the stable-runtime identity correction, pass its copied lifecycle, preserve the aggregate and package-bound independent verdict, freeze one successor, execute its exact gate once, and launch three fresh source-bound R2 reviewers only from a passing candidate-addressed receipt.
+ 
+ ## User-Facing Overview
+ 
+-V12 makes an approved specialist package usable as a portable, restartable IDE run session with exact handoff verification and dependency readiness. Revision 29 proves the real supplied-compiler path, and the latest preserved gate safely stopped on live release-status drift. Revision 30 makes source status stable; candidate-addressed external evidence must establish the exact gate, fresh R2, hosted CI, and owner merge before release.
++V12 already provides the portable IDE run session, exact handoff verification, dependency routing, and integration-readiness behavior. Its final release harness exposed and now corrects both a Windows deep-path defect and a phase-dependent runtime-identity defect; both complete source-level release suites pass. Release still requires the complete lifecycle, exact successor gate, independent R2 review, and hosted CI to pass before merge.
+diff --git a/docs/specs/v12-ide-run-loop/debug-notes.md b/docs/specs/v12-ide-run-loop/debug-notes.md
+index 2b0b09deb185667c74e7ed6c5690446fd3f7bff3..1c8d8e1ad24c14a791f51e834f2763614c81111a 100644
+--- a/docs/specs/v12-ide-run-loop/debug-notes.md
++++ b/docs/specs/v12-ide-run-loop/debug-notes.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-No active product defect is recorded. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and source retirement. Revision 30 preserves that evidence and moves numbered identities to history-only sections. Candidate-addressed external evidence owns later gate consumption and outcome; V12 requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
++No active V12 product-contract defect is recorded. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, corrects its attribution, long-path, and stable-identity causes, and passes the exact corrected committed lifecycle at checkpoint 8768c25. Candidate-addressed external evidence owns later release outcomes; V12 still requires aggregate verification, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
+ 
+ ## Reproduction
+ 
+@@ -693,4 +693,84 @@ The exact-checkpoint aggregate ran before the review-evidence commit. That later
+ 
+ ### Correction And Route
+ 
+-Revision 30 uses candidate-independent language in every live status and routing section, preserves numbered identities only in historical evidence, and requires the focused anti-drift tests plus a complete pre-freeze verification after all release-state edits. The two causal tests pass, and the complete release-review file passes 26/26 in 94.1 seconds. An unprivileged release-gate run passed 13/16 and failed only three owned-scratch `EPERM` operations; the identical command with its declared workspace write boundary passes 16/16 in 420.8 seconds. Route: `diagnose` -> `fix`; Candidate 13 is permanently retired and must never be rerun.
+\ No newline at end of file
++Revision 30 uses candidate-independent language in every live status and routing section, preserves numbered identities only in historical evidence, and requires the focused anti-drift tests plus a complete pre-freeze verification after all release-state edits. The two causal tests pass, and the complete release-review file passes 26/26 in 94.1 seconds. An unprivileged release-gate run passed 13/16 and failed only three owned-scratch `EPERM` operations; the identical command with its declared workspace write boundary passes 16/16 in 420.8 seconds. Route: `diagnose` -> `fix`; Candidate 13 is permanently retired and must never be rerun.
++
++## Retired Successor Lifecycle Attribution And Revision 31
++
++### Reproduction
++
++The one-shot canonical gate for commit `74397e30be5d185a14ecef1a838aa7767ffdf60f` authenticated 3,477 files and 105,198,478 bytes, retained the same materialization digest before and after execution, preserved the candidate Git context and source repository, and ran `npm.cmd run verify`. The core suite passed 439 of 439 tests. The copied-production lifecycle then stopped during the primary verify parent and reported one new global `swr2-*` directory.
++
++### Stable Evidence
++
++- Receipt: 2,296 bytes at `sha256:f9960ddb3cf3b15cbc03fbdb7d016b1eb520b833fb2183dcfdd67b984cc560c2`.
++- Source: `sha256:90097d36f74019e8004f3d2245d368bc4050cfa042e8a1ea2b34228586e9d1e4`.
++- Stdout: 36,810 bytes at `sha256:dfa57323ce8e81452cf51a5fe862b34e0b9019dd05eb09b90af55425f9393138`.
++- Stderr: 19,354 bytes at `sha256:0d0f997717d3a289caa495f1426091e27604f6829fd49be9af82f472e9d60758`.
++- The surviving directory held only the two initial empty private npm configuration files. The old global scan could not prove which concurrent process owned it and asserted before the caller could report timeout, signal, or status.
++
++### Diagnosis
++
++The lifecycle helper used a 900,000 ms per-parent timeout, killed only the immediate child, waited for close, and then diffed every global `swr2-*` directory. That ordering definitely masked the primary process classification. Before candidate materialization, the production parent also launched one synchronous `git cat-file` process per tree entry; this candidate had 3,477 files, making file count an avoidable process-count multiplier. The preserved evidence localizes the stop before materialization but cannot prove whether timeout, partial cleanup, or an unrelated process created the observed root.
++
++### Correction And Evidence
++
++Revision 31 retrieves unique blobs through one binary-safe `git cat-file --batch` exchange and strictly validates returned object identity, type, decimal size, byte framing, delimiter, order, duplicates, truncation, non-ASCII headers, and trailing bytes. The lifecycle helper gives each parent invocation a private `TEMP`/`TMP`/`TMPDIR`, terminates the complete process tree on timeout, records termination evidence, removes the test-owned namespace, and reports process outcome before owned-residue assertions. Production operation-root setup is inside the guarded cleanup path, and cleanup failures are no longer discarded.
++
++The focused binary and timeout regressions pass 2 of 2. The complete release-review file passes 28 of 28 in 73.1 seconds. A real-tree probe parsed 2,205 unique blobs and 69,562,019 blob bytes through the new batch protocol in 817 ms.
++
++### Route
++
++`diagnose -> fix -> verify`. The exact source is permanently retired and must never be rerun. Broader release-gate, copied-lifecycle, package-bound review, aggregate, and fresh-source gates remain required.
++
++## Revision 31 Committed-Identity Preflight
++
++### Invalid Attempt
++
++The first full copied-lifecycle invocation after the correction started from an uncommitted working tree. The lifecycle materialized committed `HEAD`, so it exercised the old 96,946-byte release parent while its final attestation expected the new 100,088-byte working-tree parent. After 2,383.9 seconds, the final assertion reported committed digest `sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1` against live expectation `sha256:e76a63d41607f978d5adedb8e69e64b75625e040ec252f5bae97895d4dff7dbb`. This mixed-identity invocation is neither a pass nor a failure of Revision 31 behavior.
++
++### Causal Fix And Evidence
++
++The lifecycle now hashes every production identity directly from `git show HEAD:path` and compares exact bytes and SHA-256 expectations before creating a lifecycle temp root or materializing source. A scheduling regression proves that this preflight precedes materialization. The same invalid state now rejects with the exact path and both identities in 215.1 ms instead of running the expensive lifecycle.
++
++### Route
++
++`fix -> verify`. Commit the exact Revision 31 checkpoint, then run the full copied lifecycle once against that committed identity.
++
++## Revision 31 Committed Lifecycle Git-State Stop
++
++### Reproduction
++
++At committed checkpoint `602ddce2a9056e3f920fcb3e004132bde3f4f549`, run the exact copied-production lifecycle. The committed-identity preflight passes. After 551,039.5 ms, the compile parent exits nonzero with `Disposable Git context changed tracked candidate state.`; the outer test finishes in 551,139.2 ms.
++
++### Stable Evidence
++
++The source worktree remains clean. The lifecycle removes its owned current-run candidate and Git context. Inside the parent, exact candidate-source closure verification passes immediately before the Git assertion, so no content cause is inferred from the generic message. The old assertion treats a changed diff, candidate HEAD mismatch, signal, and Git command failure as the same outcome and preserves no changed path.
++
++### Competing Hypotheses And Next Experiment
++
++1. A child changed tracked worktree bytes after protected-state verification.
++2. A child changed only the disposable index.
++3. The Git diff command failed and was mislabeled as tracked drift.
++
++Add a failure-only diagnostic that distinguishes candidate HEAD, Git command outcome, combined changed paths, index paths, and worktree paths. Parse NUL-delimited paths through the existing cross-platform path validator, then reproduce only far enough to classify the stop.
++
++The diagnostic parser and complete release-review suite pass 29/29 in 94.4 seconds. The exact production parent identity is rebound before reproduction.
++
++### Route
++
++`verify -> diagnose`. Release remains stopped; the checkpoint is evidence, not approval.
++
++## Revision 31 Disposable Git Long-Path Confirmation
++
++The path-attributing lifecycle at diagnostic checkpoint 101361e reproduced four false combined-diff paths with clean independent index and worktree path sets. A controlled 489-character worktree then reproduced Filename too long warnings and diff status 1 with core.longpaths unset; the same context became entirely clean after core.longpaths=true.
++
++The correction configures and verifies long-path support in both disposable Git constructors. The full-tree causal regression passes in 189.8 seconds and exact production identities are rebound. Route: diagnose -> fix -> verify. Broader release verification remains active.
++
++## Revision 31 Invocation-Scoped Runtime Identity
++
++Checkpoint 8f1c4f1 crossed the prior long-path stop and failed after 1,192.8 seconds when the fresh approval parent reconstructed a different package pair from the compile parent. Cleanup and source identity remained exact.
++
++The lifecycle host assigns each parent a unique TEMP, TMP, and TMPDIR root. The stable environment policy embedded those raw paths, so each parent received a different runtime binding, candidate manifest, request, and package identity. A direct policy comparison confirmed those three paths were the only differing fields.
++
++The correction excludes raw invocation temp paths from stable identity and validates an explicit exclusion marker in the candidate worker. Focused tests pass 3/3, release-review passes 30/30, and release-gate passes 16/16. Exact committed checkpoint 8768c25 passes the isolated copied-production lifecycle 1/1 in 1,752.7 seconds, including closed negative routes, reauthorization, and owned cleanup. Route: diagnose -> fix -> verify -> pass.
+diff --git a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-13-retirement.md b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-13-retirement.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..9bcb4d425ccc8f92adc2792ece0dfb90b2c2ec0f
+--- /dev/null
++++ b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-13-retirement.md
+@@ -0,0 +1,27 @@
++# Candidate 13 Retirement
++
++## Identity
++
++- Commit: `e61932f2d5067559332790b370f1bf510d0064fc`
++- Tree: `cb35f33f4bd579e9b2730929493c270b125b7ba4`
++- Canonical gate outcome: `fail`
++- Receipt: `inputs/canonical-gates/e61932f2d5067559332790b370f1bf510d0064fc/canonical-gate-receipt.json`
++
++## Stable Evidence
++
++- Candidate source: 3,474 files, 105,131,002 bytes, `sha256:a4c20b8ccdefdd95471b5eee8ef06dffdfc58525c3c6f51af68034b8c3451f0c`.
++- Materialization digest, candidate Git context, source repository, and cleanup remained exact.
++- Canonical verification completed 439 core tests: 437 passed and two failed.
++- Receipt: 2,296 bytes, `sha256:2ed3d9989f433f85c98718f3da12e98a0daf414116479aa5364eae0b8d60b114`.
++- Stdout: 37,356 bytes, `sha256:b341a9904200e852063fa4fc1856c184cf763242b07da00c049fcd6544822f34`.
++- Stderr: 19,548 bytes, `sha256:d7a90861417245e1f48ddfffcb12310b7402e500f726f023b548169c6487888d`.
++
++## Retirement Reason
++
++Two anti-drift tests rejected live milestone sections that named this candidate as pending or unconsumed. A frozen source cannot truthfully describe its own numbered identity that way after the one-shot gate consumes it. Revision 30 moves volatile consumption and outcome state to candidate-addressed external evidence and keeps numbered identities in immutable history.
++
++## Route
++
++Outcome: `diagnose -> fix`.
++
++Never rerun this candidate's exact gate. Any later release evidence must bind a different committed source identity.
+diff --git a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-14-retirement.md b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-14-retirement.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..19eacbe852a09ed001c2b4104da90bf335224b66
+--- /dev/null
++++ b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-14-retirement.md
+@@ -0,0 +1,28 @@
++# Candidate 14 Retirement
++
++## Identity
++
++- Commit: `74397e30be5d185a14ecef1a838aa7767ffdf60f`
++- Tree: `ec124cc7664692b9a60a0051f3dd33a2cbd1e260`
++- Canonical gate outcome: `fail`
++- Receipt: `inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/canonical-gate-receipt.json`
++
++## Stable Evidence
++
++- Candidate source: 3,477 files, 105,198,478 bytes, `sha256:90097d36f74019e8004f3d2245d368bc4050cfa042e8a1ea2b34228586e9d1e4`.
++- Materialization digest, candidate Git context, source repository, and outer cleanup remained exact.
++- The core suite passed 439 of 439 tests.
++- The copied-production lifecycle stopped during the primary verify parent after 2,960,137 ms of lifecycle execution.
++- Receipt: 2,296 bytes, `sha256:f9960ddb3cf3b15cbc03fbdb7d016b1eb520b833fb2183dcfdd67b984cc560c2`.
++- Stdout: 36,810 bytes, `sha256:dfa57323ce8e81452cf51a5fe862b34e0b9019dd05eb09b90af55425f9393138`.
++- Stderr: 19,354 bytes, `sha256:0d0f997717d3a289caa495f1426091e27604f6829fd49be9af82f472e9d60758`.
++
++## Retirement Reason
++
++The lifecycle helper diffed every global `swr2-*` directory and asserted cleanup before reporting the child process's timeout, signal, or status. The surviving two-file root localized the interruption before materialization but did not prove ownership. The production parent also launched one synchronous Git object process per tree entry, creating avoidable file-count-driven pressure. Revision 31 batches binary Git reads, scopes temp ownership per invocation, terminates the full process tree at timeout, orders process classification before cleanup assertions, and surfaces cleanup failures.
++
++## Route
++
++Outcome: `diagnose -> fix`.
++
++Never rerun this candidate's exact gate. Broader correction verification and a different committed source identity are required before another one-shot gate.
+diff --git a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/canonical-gate-receipt.json b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/canonical-gate-receipt.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..586987f796d313ba35717b57283b4979d90b8650
+--- /dev/null
++++ b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/canonical-gate-receipt.json
+@@ -0,0 +1,64 @@
++{
++  "apiVersion": "swecircuit/release-gate/v1alpha1",
++  "kind": "CanonicalGateReceipt",
++  "version": "V12",
++  "candidateCommit": "74397e30be5d185a14ecef1a838aa7767ffdf60f",
++  "repository": {
++    "headBefore": "74397e30be5d185a14ecef1a838aa7767ffdf60f",
++    "headAfter": "74397e30be5d185a14ecef1a838aa7767ffdf60f",
++    "trackedStateBefore": "clean",
++    "trackedStateAfter": "clean",
++    "inspectionError": null
++  },
++  "candidateSource": {
++    "commit": "74397e30be5d185a14ecef1a838aa7767ffdf60f",
++    "tree": "ec124cc7664692b9a60a0051f3dd33a2cbd1e260",
++    "files": 3477,
++    "bytes": 105198478,
++    "digest": "sha256:90097d36f74019e8004f3d2245d368bc4050cfa042e8a1ea2b34228586e9d1e4"
++  },
++  "materialization": {
++    "strategy": "exact-git-blob-materialization",
++    "files": 3477,
++    "bytes": 105198478,
++    "digestBefore": "sha256:90097d36f74019e8004f3d2245d368bc4050cfa042e8a1ea2b34228586e9d1e4",
++    "digestAfter": "sha256:90097d36f74019e8004f3d2245d368bc4050cfa042e8a1ea2b34228586e9d1e4",
++    "inspectionError": null,
++    "cleanupError": null
++  },
++  "gitContext": {
++    "strategy": "disposable-shared-object-git-context",
++    "headBefore": "74397e30be5d185a14ecef1a838aa7767ffdf60f",
++    "headAfter": "74397e30be5d185a14ecef1a838aa7767ffdf60f",
++    "trackedStateBefore": "clean",
++    "trackedStateAfter": "clean",
++    "inspectionError": null,
++    "cleanupError": null
++  },
++  "command": {
++    "executable": "cmd.exe",
++    "arguments": [
++      "/d",
++      "/s",
++      "/c",
++      "npm.cmd run verify"
++    ],
++    "canonical": "npm.cmd run verify"
++  },
++  "result": "fail",
++  "exitCode": 1,
++  "signal": null,
++  "spawnError": null,
++  "stdout": {
++    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/canonical-gate.stdout.log",
++    "mediaType": "application/octet-stream",
++    "bytes": 36810,
++    "digest": "sha256:dfa57323ce8e81452cf51a5fe862b34e0b9019dd05eb09b90af55425f9393138"
++  },
++  "stderr": {
++    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/canonical-gate.stderr.log",
++    "mediaType": "application/octet-stream",
++    "bytes": 19354,
++    "digest": "sha256:0d0f997717d3a289caa495f1426091e27604f6829fd49be9af82f472e9d60758"
++  }
++}
+diff --git a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/canonical-gate.stderr.log b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/canonical-gate.stderr.log
+new file mode 100644
+index 0000000000000000000000000000000000000000..6072c3e35196c87db1fb69489f1780f64340208f
+GIT binary patch
+literal 19354
+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
+Q_T;HrPJx2|tkKv10Ig!br2qf`
+
+literal 0
+HcmV?d00001
+
+diff --git a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/canonical-gate.stdout.log b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/74397e30be5d185a14ecef1a838aa7767ffdf60f/canonical-gate.stdout.log
+new file mode 100644
+index 0000000000000000000000000000000000000000..b9c53450ee785110dce1b155ce10c9f154cbb6c5
+GIT binary patch
+literal 36810
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs
+index 0927efcda8136481665a67a11b2ebf1c723404a1..f92d4dba70b5d146a4f37ad729d278e8d77fe90f 100644
+--- a/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs
++++ b/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs
+@@ -34,6 +34,8 @@ const PRIVATE_NPM_CONFIGURATION_POLICY = Object.freeze({
+   pathIdentity: "invocation-only-excluded-from-stable-runtime-binding",
+   validation: "before-every-parent-spawn-and-by-candidate-worker",
+ });
++const INVOCATION_TEMPORARY_PATH_POLICY =
++  "external-host-bound-invocation-paths-excluded-from-stable-runtime-identity";
+ const CLOSED_NPM_ENVIRONMENT_KEYS = new Set([
+   "npm_config_audit",
+   "npm_config_cache",
+@@ -738,9 +740,6 @@ function inheritedRuntimeEnvironment(environment = process.env) {
+     "LOCALAPPDATA",
+     "PROGRAMDATA",
+     "SYSTEMROOT",
+-    "TEMP",
+-    "TMP",
+-    "TMPDIR",
+     "USERPROFILE",
+     "WINDIR",
+   ];
+@@ -1343,6 +1342,8 @@ async function validateCandidateWorkerContext(
+   requireCondition(
+     process.env.GIT_CONFIG_NOSYSTEM === "1" &&
+       process.env.GIT_TERMINAL_PROMPT === "0" &&
++      binding.environmentPolicy.invocationTemporaryPaths ===
++        INVOCATION_TEMPORARY_PATH_POLICY &&
+       JSON.stringify(binding.environmentPolicy.inherited) ===
+         JSON.stringify(inheritedRuntimeEnvironment()),
+     "Candidate worker environment policy mismatch.",
+diff --git a/docs/specs/v12-ide-run-loop/implementation-notes.md b/docs/specs/v12-ide-run-loop/implementation-notes.md
+index 43aaeeda48546723f047abb80fd09a21aedd58ce..3ac1354e6e83aaae2497181b9a2656c042eb69be 100644
+--- a/docs/specs/v12-ide-run-loop/implementation-notes.md
++++ b/docs/specs/v12-ide-run-loop/implementation-notes.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-The V12 product implementation and Revision 29 compiler-supply correction are complete. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and source retirement. Revision 30 is the workflow-only correction. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires an exact successor gate, fresh independent R2 review, hosted CI, and the owner merge gate.
++The V12 product implementation and Revision 29 compiler-supply correction are complete. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 hardens the release parent and lifecycle host without changing V12's provider-neutral product contract. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires an exact successor gate, fresh independent R2 review, hosted CI, and the owner merge gate.
+ 
+ ## Baseline
+ 
+@@ -185,3 +185,15 @@ The V12 product implementation and Revision 29 compiler-supply correction are co
+ - Revision 23's independent review returned `fix` because its fast regression retained a test-only source override. Revision 24 removes the override, binds the external cache before fresh-process imports, proves the candidate-local cache is absent, validates exact sentinel bytes, and covers missing, non-directory, pre-existing-destination, and overlap failures.
+ - The first complete Revision 24 lifecycle run diagnosed a sealed-fixture sequence defect. A bounded rule now excludes canonical `release-correction-rN` roots for `N >= 22` from both copied filesystem and committed Git representations; the corrected lifecycle passes in 1,853.7 seconds.
+ - The final independent package reconstructs at `sha256:6025d006482b13d40bdfc04f6ab2d7a16628f6040ef929cbe79b18707990ff90` / `sha256:deffe7fcb085e2840f94dba081e653800adf16528f062d7208a3d5072d18c81b`. Its exact 18,311-byte handoff verifies `pass` at `sha256:f88c08303de25f66a61dae6f0ca6e508b0357923c9c4bbe0d45e2e82a72c6497`, complete fan-in is ready, and integration accepts the corrected Revision 24 artifact identity.
++
++## Revision 31 Release-Harness Hardening
++
++- Replaced per-tree-entry `git cat-file blob` spawns with one sorted, unique, binary-safe `git cat-file --batch` exchange.
++- Added strict parser coverage for identity, type, size, binary content, framing, ordering, duplicate requests, truncation, and trailing output.
++- Scoped every copied-parent temp environment to a test-owned invocation root; unrelated global temp state can no longer affect attribution.
++- Added complete process-tree termination and timeout evidence. Process outcome is checked before owned cleanup.
++- Moved production operation-root ownership into the guarded path and surfaced cleanup errors instead of discarding them.
++- Focused regressions pass 2/2; the full release-review file passes 28/28; the real current-tree batch probe completes in 817 ms for 2,205 unique objects and 69,562,019 blob bytes.
++- The correction changes release infrastructure only. It does not add provider, model, IDE, scheduler, execution, persistence, or merge effects to SWECircuit core.
++- The first full lifecycle attempt was invalid because committed `HEAD` supplied the executed parent while the uncommitted working tree supplied its expected identity; the mismatch surfaced only after 2,383.9 seconds.
++- The lifecycle now preflights every committed production identity before temp-root creation or materialization. Its scheduling regression passes, and the same invalid state rejects in 215.1 ms with exact committed/live identities.
+diff --git a/docs/specs/v12-ide-run-loop/review.md b/docs/specs/v12-ide-run-loop/review.md
+index 27408d151e31039c8e01921d35e891f88e8167fc..5e913d163b80cc1c8c565909d5b79132e2aa6f88 100644
+--- a/docs/specs/v12-ide-run-loop/review.md
++++ b/docs/specs/v12-ide-run-loop/review.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-V12 is not merge-ready. The latest canonical gate evidence preserved in this source records exact source, materialization, Git, and cleanup state; 437 of 439 passing core tests; two live-status anti-drift failures; and source retirement. Revision 30 preserves that failure and corrects candidate-independent routing text. Candidate-addressed external evidence is authoritative for any later exact gate, fresh R2 review, hosted CI, and owner merge decision.
++V12 is not merge-ready. The latest canonical gate evidence preserved in this source records exact source, materialization, Git, and outer cleanup state; 439 of 439 passing core tests; a copied-production lifecycle stop at the parent timeout/cleanup boundary; and source retirement. Revision 31 preserves that failure and corrects Git-object scaling, process-tree termination, and invocation-owned cleanup attribution. Candidate-addressed external evidence is authoritative for any later exact gate, fresh R2 review, hosted CI, and owner merge decision.
+ 
+ ## Scope
+ 
+@@ -99,10 +99,14 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
+ - Revision 16's first package-valid `pass` was rejected by integration review because live routing sections outside `## Status` remained stale. Attempt 2 corrected those sections and expanded the regression without recompilation or authority expansion.
+ - Accepted attempt 2 is bound to compilation/package `sha256:064bb4a993c3ab3410f360684a29bf603c119059eccb62d87294456ecbcfe044` / `sha256:20437ba56376d4b39f459043bac0940e8ded2e298b48de0cd16d437a95c96db6`; raw handoff `sha256:51e123c6a202a58a0ea456729b84dbb4995cff2b26b27313c66133fa035ae4b9`; `integrationAccepted: true`; `phaseReady: true`.
+ 
+-## Current Outcome
++## Retired Successor And Revision 31
++
++The one-shot gate for `74397e30be5d185a14ecef1a838aa7767ffdf60f` preserved 3,477 files, 105,198,478 bytes, source digest `sha256:90097d36f74019e8004f3d2245d368bc4050cfa042e8a1ea2b34228586e9d1e4`, exact materialization, candidate Git state, and outer cleanup. The core suite passed 439 of 439. The copied-production lifecycle then stopped during the primary verify parent, but its shared-global-temp assertion masked the process timeout/signal classification.
+ 
+-Revision 29's copied-production TypeScript correction passes focused, lifecycle, V11 Revision 43, and complete aggregate verification. Independent Attempt 1 correctly returned `fix` because an older `f1d4fd0` log was relabeled as `f1454b6` evidence. That attempt remains immutable.
++Revision 31 replaces per-file Git object processes with a strictly parsed binary batch, scopes each copied parent to one test-owned temp namespace, terminates the complete process tree at timeout, orders process classification before cleanup assertions, and surfaces production cleanup failures. The new causal regressions and all 28 release-review tests pass.
++
++## Current Outcome
+ 
+-A distinct full aggregate at exact `f1454b6008de1498e72f9cc5a36fd1234b50e028` passes in 2,623.4 seconds and is bound by its 657,576-byte raw log. Independent Attempt 2 authenticates 44 sources and returns a package-verified `pass`; its exact handoff is 11,258 bytes at `sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920`.
++Revision 31's focused evidence is `pass`, but it is not release approval. The latest gate evidence preserved in source remains a retired failure with exact core success and an attribution-defective lifecycle stop. Candidate-addressed external evidence must establish the correction's broader release-gate and copied-lifecycle results, an exact successor gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.
+ 
+-That independent pass was not release approval. The subsequent one-shot gate for `e61932f2d5067559332790b370f1bf510d0064fc` preserved exact source state but failed two live-status anti-drift checks and retired the source. This source does not claim any later candidate state; candidate-addressed external evidence must establish an exact committed-tree gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.
++The first post-correction full-lifecycle invocation is classified as invalid mixed-identity evidence: committed `HEAD` supplied the old executed parent while the working tree supplied the new expected identity. A new committed-identity preflight rejects that state before materialization; the full Revision 31 lifecycle still requires a committed checkpoint.
+diff --git a/docs/specs/v12-ide-run-loop/root-cause-analysis.md b/docs/specs/v12-ide-run-loop/root-cause-analysis.md
+index 4ba9895eabf66aa0a1e0356382d2d77f0caebce8..b872faea39b0a4d30e57fc5d20cc8b8657e112bf 100644
+--- a/docs/specs/v12-ide-run-loop/root-cause-analysis.md
++++ b/docs/specs/v12-ide-run-loop/root-cause-analysis.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-Historical release attempts and their exact outcomes remain immutable. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two candidate-ordinal drift failures, and source retirement. Revision 30 preserves that evidence and makes live release routing candidate-independent. Candidate-addressed external evidence owns later gate consumption and outcome; V12 requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
++Historical release attempts and their exact outcomes remain immutable. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, corrects the attribution, long-path, and stable-identity causes, and passes the exact corrected committed lifecycle at checkpoint 8768c25. This correction evidence is not a successor release result; aggregate verification, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain required.
+ 
+ ## Reproduction
+ 
+@@ -423,3 +423,102 @@ Use candidate-independent state language in all live status and routing sections
+ ### Regression And Route
+ 
+ The two exact failing tests are the minimum causal regression. Candidate 13 remains immutable and retired. Route: `diagnose` -> `fix`; a successor may be frozen only after both regressions and the complete pre-freeze gate pass.
++
++## Retired Successor Lifecycle Timeout And Attribution RCA
++
++### Reproduction
++
++Run the exact one-shot gate for commit `74397e30be5d185a14ecef1a838aa7767ffdf60f`. The core suite passes 439 of 439. During the copied-production lifecycle's primary verify parent, the helper reports `verify parent leaked an operation root` after 2,960,137 ms of lifecycle execution.
++
++### Stable Evidence
++
++The gate receipt proves exact source, materialization, Git state, and cleanup outside the copied lifecycle. Its source digest is `sha256:90097d36f74019e8004f3d2245d368bc4050cfa042e8a1ea2b34228586e9d1e4`; receipt/stdout/stderr are `sha256:f9960ddb3cf3b15cbc03fbdb7d016b1eb520b833fb2183dcfdd67b984cc560c2`, `sha256:dfa57323ce8e81452cf51a5fe862b34e0b9019dd05eb09b90af55425f9393138`, and `sha256:0d0f997717d3a289caa495f1426091e27604f6829fd49be9af82f472e9d60758`.
++
++The helper's 900,000 ms timeout set `timedOut`, called `child.kill()`, and waited for close. `runParent` then asserted a shared global-temp directory diff before any caller inspected `timedOut`, signal, or exit status. The observed root contained only `npm-userconfig` and `npm-globalconfig`, which localizes the interruption before candidate materialization but does not establish ownership.
++
++### Confirmed Root Causes
++
++1. **Outcome masking:** a shared global-temp assertion preceded process classification, so cleanup residue could hide timeout or signal evidence.
++2. **Unbounded process-count pressure:** candidate authentication launched one synchronous `git cat-file` process for every tree entry rather than using Git's batch protocol.
++3. **Incomplete timeout termination:** the test host killed only the immediate parent process and did not bind descendant termination or cleanup to an invocation-owned namespace.
++4. **Cleanup observability gap:** production setup began outside the guarded block and its failure-path cleanup error was silently discarded.
++
++The old evidence does not prove that the surviving root belonged to the timed-out verify parent. Revision 31 therefore fixes attribution and performance without relabeling that uncertainty as a proven production leak.
++
++### Causal Fix
++
++- Fetch sorted unique object IDs through one `git cat-file --batch` process and parse raw binary output with exact framing and identity checks.
++- Set all temp environment aliases to one invocation-owned directory, scan only that directory, and remove the outer namespace after process exit.
++- Terminate the whole child process tree at the bound and preserve timeout, PID, duration, termination method, and residue evidence.
++- Check timeout, signal, exit status, and expected negative route before asserting owned cleanup.
++- Guard production root creation and surface combined execution/cleanup failures.
++
++### Regression Coverage
++
++- Binary payloads containing NUL, LF, CR, high bytes, and zero-length blobs round-trip exactly.
++- Object substitution, non-blob type, unsafe size, truncation, extra bytes, duplicate requests, and non-ASCII headers fail closed.
++- A fake timed-out parent leaves an owned `swr2-*` root and a live descendant while an unrelated global `swr2-*` root exists. The process tree is terminated, owned residue is reported and removed, the foreign root is ignored, and timeout remains the primary error.
++- The complete release-review suite passes 28 of 28.
++- A full real-tree batch probe processes 2,205 unique objects and 69,562,019 blob bytes in 817 ms.
++
++### Durable Learning
++
++A cleanup assertion is trustworthy only when ownership is scoped before execution and process outcome is classified before residue is interpreted. For binary repository protocols, batch for scalability but parse every byte boundary as hostile input.
++
++## Revision 31 Committed-Identity Preflight RCA
++
++### Reproduction
++
++Launch the full copied-production lifecycle while Revision 31 exists only in the working tree. The lifecycle materializes committed `HEAD`, exercises the old 96,946-byte parent, and waits until final attestation to compare it with the new 100,088-byte expected identity. The mismatch was reported only after 2,383.9 seconds.
++
++### Confirmed Root Cause
++
++The lifecycle's source of execution was committed `HEAD`, but its expected production identities were imported from the live working tree. No preflight bound those two sources before expensive materialization and execution.
++
++### Causal Fix
++
++Before creating a temp root, hash each production file from `git show HEAD:path` and compare exact byte count and SHA-256 digest with the live expected identity. Fail with the exact path and both identities when they differ. Keep the preflight before candidate materialization in the canonical lifecycle test.
++
++### Regression And Route
++
++The scheduling regression passes, and the invalid mixed-identity invocation now rejects in 215.1 ms with the exact committed/live mismatch. Route: `fix -> verify`. A valid full lifecycle requires the correction to be committed first.
++
++## Revision 31 Disposable Git Long-Path RCA
++
++### Reproduction
++
++The committed lifecycle at 602ddce2a9056e3f920fcb3e004132bde3f4f549 stopped after 551.0 seconds at a generic disposable-Git tracked-state assertion. The diagnostic checkpoint at 101361e exposed four combined-diff paths while its independent index and worktree path sets were empty. Their repository-relative lengths were 179 to 184 characters; nested lifecycle materialization pushed their absolute paths beyond the Windows legacy path boundary.
++
++A same-context experiment relocated the exact source into a worktree with a 489-character maximum path. With core.longpaths unset, the production diff command returned status 1, emitted Filename too long warnings, and falsely listed combined changes while index and worktree diffs remained empty. Setting core.longpaths=true in that unchanged Git context made the quiet, combined, index, and worktree inspections all clean.
++
++### Confirmed Root Cause
++
++Both disposable bare-clone constructors set core.bare=false but did not enable Git for long Windows paths. Git therefore treated unreadable deep files as combined tracked-state changes. No agent, lifecycle phase, index writer, or worktree writer mutated candidate bytes.
++
++### Causal Fix
++
++Both release constructors now set core.longpaths=true before read-tree. Every context inspection asserts the setting before trusting Git state. The causal regression materializes the real candidate, moves it beneath a deliberately deep worktree, proves at least one absolute path exceeds 260 characters, and runs the exact production diff command.
++
++### Regression And Route
++
++The focused deep-worktree regression passes in 189.8 seconds, the lifecycle production-identity binding test passes, and corrected checkpoint 8768c25 passes the exact copied lifecycle. Aggregate verification, package-bound review, a successor gate, fresh R2, and hosted CI evidence remain required. Route: diagnose -> fix -> verify -> pass.
++
++## Revision 31 Invocation-Scoped Temporary-Path Identity RCA
++
++### Reproduction
++
++Committed checkpoint 8f1c4f1 passed the committed/live preflight, crossed the prior 551-second Git failure, and continued for 1,192.8 seconds. The fresh standalone approval parent then rejected the compile parent owner pair because its private package reconstruction had a different compilation/package identity. The source checkout remained clean, and the current-run candidate, Git context, and lifecycle root were removed.
++
++### Confirmed Root Cause
++
++Revision 31 correctly gave each fresh parent a distinct external-host-owned TEMP, TMP, and TMPDIR root. The production environment policy copied those absolute invocation paths into the stable runtime binding. That digest entered the candidate manifest and compilation request, so compile and approve built different package identities from otherwise identical candidate bytes and stable inputs.
++
++A direct counterfactual changed only the temporary root. Before correction, the two policies differed, and TEMP, TMP, and TMPDIR were the only differing inherited fields.
++
++### Causal Fix
++
++Raw invocation temporary paths are excluded from stable inherited runtime identity. The stable policy carries an explicit external-host-bound exclusion marker, and the candidate worker validates that marker plus every remaining stable inherited value. Exact temporary roots remain visible in per-invocation process, private-configuration, cleanup, and host evidence.
++
++### Regression And Route
++
++Two distinct temporary roots now produce one stable policy; changing a stable inherited value still changes it, and neither raw root survives serialization. The focused boundary tests pass 3/3, the complete release-review suite passes 30/30 in 80.3 seconds, and the complete release-gate suite passes 16/16 in 454.5 seconds. Exact committed checkpoint 8768c25 then passed the isolated copied-production lifecycle 1/1 in 1,752.7 seconds, crossing both prior production stops and completing negative routes, reauthorization, and cleanup. Route: diagnose -> fix -> verify -> pass.
+diff --git a/docs/specs/v12-ide-run-loop/test-plan.md b/docs/specs/v12-ide-run-loop/test-plan.md
+index 7a7e44462a8c9ee91260a77d06380b12010d4992..451a3c68cc25e617eafa0f6e037dc1c5eeb21a1b 100644
+--- a/docs/specs/v12-ide-run-loop/test-plan.md
++++ b/docs/specs/v12-ide-run-loop/test-plan.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. The latest canonical gate evidence preserved in this source records two release-state anti-drift failures and source retirement, so `releaseReady: false` remains the source-visible result. Revision 30 makes live status candidate-independent; candidate-addressed external evidence must establish every later verification and release outcome.
++Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. The latest canonical gate evidence preserved in this source records 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement, so `releaseReady: false` remains the source-visible result. Revision 31 corrects process scaling and attribution; candidate-addressed external evidence must establish every later verification and release outcome.
+ 
+ ## Contract Tests
+ 
+@@ -74,4 +74,29 @@ Package identity verification and handoff schema verification authenticate prese
+ - Revision 29 exact-checkpoint `npm.cmd run verify`: `pass` in 2,623.4 seconds with 439/439 core tests and the copied-production lifecycle; final package-bound review: `pass`.
+ - Commit `e61932f2d5067559332790b370f1bf510d0064fc` exact canonical receipt: `fail`; source/Git/materialization remain exact, 437/439 core tests pass, and two release-state anti-drift assertions reject live numbered-candidate text.
+ - Revision 30 causal anti-drift tests: 2/2 `pass`; complete release-review file: 26/26 `pass` in 94.1 seconds; release-gate file with declared workspace write permission: 16/16 `pass` in 420.8 seconds. The preceding restricted-host attempt passed 13/16 and failed only three owned-scratch `EPERM` operations.
+-- Successor freeze, exact gate, fresh R2 review, hosted CI, and owner merge decision: pending.
++- Commit `74397e30be5d185a14ecef1a838aa7767ffdf60f` exact canonical receipt: `fail`; source/Git/materialization and outer cleanup remain exact, 439/439 core tests pass, and the copied lifecycle stops at an attribution-defective parent timeout/cleanup assertion.
++- Revision 31 causal regressions: 2/2 `pass`; complete release-review file: 28/28 `pass` in 73.1 seconds; real-tree binary batch: 2,205 unique objects and 69,562,019 blob bytes in 817 ms.
++- The first full lifecycle invocation used committed source with uncommitted expected identities and is invalid evidence; it reported the mismatch after 2,383.9 seconds and is not a Revision 31 behavior result.
++- Committed-identity preflight ordering regression: `pass`; the exact invalid state rejects before materialization in 215.1 ms with both identities.
++- Commit `602ddce2a9056e3f920fcb3e004132bde3f4f549` valid copied lifecycle: `fail` after 551.0 seconds at a generic disposable-Git tracked-state assertion; source worktree remained clean and the later RCA confirms the Windows long-path cause.
++- Failure-only changed-path parser plus complete release-review suite: 29/29 `pass` in 94.4 seconds; diagnostic checkpoint 101361e attributes the committed stop to Windows long paths.
++- Exact corrected checkpoint 8768c25 copied lifecycle: 1/1 `pass` in 1,752.7 seconds; compile, approve, verify, closed negative routes, source reauthorization, source integrity, and owned cleanup complete.
++
++## Revision 31 Long-Path Correction Gate
++
++- Confirmed reproduction: exact production diff fails with Filename too long and false combined paths when a disposable candidate worktree reaches 489 characters.
++- Counterfactual: the same worktree, index, and candidate become clean after core.longpaths=true.
++- Causal regression: full candidate materialization crosses 260 characters, the constructor records core.longpaths=true, and the exact production diff returns clean.
++- Focused result: pass in 189.8 seconds.
++- Production-identity binding: pass.
++- Complete source suites: release-review 29/29 pass in 79.3 seconds; release-gate 16/16 pass in 445.1 seconds; no new scratch context remains.
++- Exact corrected committed lifecycle: checkpoint 8768c25 passes 1/1 in 1,752.7 seconds after crossing both prior production stops.
++
++## Revision 31 Stable Runtime Identity Gate
++
++- Reproduction: committed checkpoint 8f1c4f1 crosses the old Git stop, then fails standalone approval after 1,192.8 seconds because fresh-parent package identities differ.
++- Causal proof: changing only TEMP, TMP, and TMPDIR changes the old stable policy; those are the only differing fields.
++- Counterfactual: two distinct invocation temp roots now produce one stable policy, raw paths are absent, and changing LANG still changes stable identity.
++- Focused result: 3/3 pass.
++- Complete source suites: release-review 30/30 pass in 80.3 seconds; release-gate 16/16 pass in 454.5 seconds; cleanup remains exact. Aggregate verification, package-bound independent review, an exact successor gate, fresh R2, hosted CI, and owner merge remain pending.
++- Exact corrected committed lifecycle: checkpoint 8768c25 passes 1/1 in 1,752.7 seconds with negative routes, reauthorization, and cleanup.
+diff --git a/scripts/run-v12-release-gate.mjs b/scripts/run-v12-release-gate.mjs
+index 3e969388d51e111d4115e43b6b99495709fe6dad..f62fa95df706e655a7b175e36740431f28a5da64 100644
+--- a/scripts/run-v12-release-gate.mjs
++++ b/scripts/run-v12-release-gate.mjs
+@@ -462,6 +462,12 @@ function candidateGitEnvironment(root, worktree) {
+ 
+ function inspectCandidateGitContext(context) {
+   const options = { cwd: context.worktree, environment: context.environment };
++  const longPathsResult = runGit(["config", "--bool", "--get", "core.longpaths"], options);
++  requireGitSuccess(longPathsResult, "Candidate Git long-path configuration inspection");
++  requireCondition(
++    strictUtf8(longPathsResult.stdout, "Candidate Git long-path configuration").trim() === "true",
++    "Candidate Git context lacks long-path support.",
++  );
+   const headResult = runGit(["rev-parse", "--verify", "HEAD"], options);
+   requireGitSuccess(headResult, "Candidate Git HEAD inspection");
+   const head = Buffer.from(headResult.stdout).toString("ascii").trim();
+@@ -506,6 +512,7 @@ async function createCandidateGitContext(candidateCommit, worktree) {
+     const options = { cwd: worktree, environment: setupEnvironment };
+     for (const [label, args] of [
+       ["Candidate Git non-bare configuration", ["config", "core.bare", "false"]],
++      ["Candidate Git long-path configuration", ["config", "core.longpaths", "true"]],
+       ["Candidate Git reference binding", ["update-ref", "refs/heads/candidate", candidateCommit]],
+       ["Candidate Git HEAD binding", ["symbolic-ref", "HEAD", "refs/heads/candidate"]],
+       ["Candidate Git index binding", ["read-tree", candidateCommit]],
+diff --git a/scripts/run-v12-release-review.mjs b/scripts/run-v12-release-review.mjs
+index 3ccd7539f4c2372c2c70f87371c536107a3b4dd8..fd7c23e7c4cf3a59ed03ac8f12ba7715296baf94 100644
+--- a/scripts/run-v12-release-review.mjs
++++ b/scripts/run-v12-release-review.mjs
+@@ -65,6 +65,8 @@ const PRIVATE_NPM_CONFIGURATION_POLICY = Object.freeze({
+   pathIdentity: "invocation-only-excluded-from-stable-runtime-binding",
+   validation: "before-every-parent-spawn-and-by-candidate-worker",
+ });
++const INVOCATION_TEMPORARY_PATH_POLICY =
++  "external-host-bound-invocation-paths-excluded-from-stable-runtime-identity";
+ const PRIVATE_NPM_CONFIGURATION_STATES = new WeakMap();
+ const TOOL_NPM_CONFIGURATION = Symbol("release-review-private-npm-configuration");
+ const TOOL_NPM_INSPECTION = Symbol("release-review-private-npm-inspection");
+@@ -547,6 +549,7 @@ function run(command, arguments_, options = {}) {
+     cwd,
+     encoding: null,
+     env: options.environment,
++    input: options.input,
+     maxBuffer: options.maxBuffer ?? 268_435_456,
+     windowsHide: true,
+   });
+@@ -596,9 +599,15 @@ function inheritedEnvironment(environment) {
+ }
+ 
+ function environmentPolicy(inherited) {
++  const stableInherited = Object.fromEntries(
++    Object.entries(inherited)
++      .filter(([name]) => !["TEMP", "TMP", "TMPDIR"].includes(name))
++      .sort(([a], [b]) => compareOrdinal(a, b)),
++  );
+   return {
+     apiVersion: "swecircuit/release-review-environment/v1alpha1",
+-    inherited: Object.fromEntries(Object.entries(inherited).sort(([a], [b]) => compareOrdinal(a, b))),
++    inherited: stableInherited,
++    invocationTemporaryPaths: INVOCATION_TEMPORARY_PATH_POLICY,
+     pathPolicy: "closed-tool-directories",
+     nodeOptions: "removed",
+     nodePath: "removed",
+@@ -775,6 +784,7 @@ function gitResult(tools, arguments_, options = {}) {
+       options.environment ?? closedEnvironment(tools, tools.cache, npmConfiguration),
+     npmConfiguration,
+     label: options.label ?? `Git ${arguments_.join(" ")}`,
++    input: options.input,
+   });
+ }
+ 
+@@ -782,6 +792,60 @@ function gitOutput(tools, arguments_, options = {}) {
+   return requireRun(gitResult(tools, arguments_, options), options.label ?? "Git command").stdout;
+ }
+ 
++function parseGitBlobBatch(objectIds, output) {
++  requireCondition(Array.isArray(objectIds) && objectIds.length > 0, "Git blob batch is empty.");
++  requireCondition(Buffer.isBuffer(output), "Git blob batch output must be raw bytes.");
++  const requested = new Set();
++  const blobs = new Map();
++  let cursor = 0;
++
++  for (const expectedObjectId of objectIds) {
++    requireCondition(
++      typeof expectedObjectId === "string" && CANDIDATE_PATTERN.test(expectedObjectId),
++      "Git blob batch contains an invalid requested object ID.",
++    );
++    requireCondition(!requested.has(expectedObjectId), "Git blob batch contains a duplicate request.");
++    requested.add(expectedObjectId);
++
++    const headerEnd = output.indexOf(10, cursor);
++    requireCondition(headerEnd >= cursor, "Git blob batch output is missing a header terminator.");
++    const headerBytes = output.subarray(cursor, headerEnd);
++    requireCondition(
++      headerBytes.every((byte) => byte <= 0x7f),
++      "Git blob batch output contains a non-ASCII header.",
++    );
++    const header = headerBytes.toString("ascii");
++    const match = /^([0-9a-f]{40}) blob (0|[1-9][0-9]*)$/.exec(header);
++    requireCondition(match !== null, "Git blob batch output contains a malformed header.");
++    requireCondition(match[1] === expectedObjectId, "Git blob batch returned an unexpected object.");
++    const size = Number(match[2]);
++    requireCondition(Number.isSafeInteger(size), "Git blob batch returned an unsafe object size.");
++    const contentStart = headerEnd + 1;
++    const contentEnd = contentStart + size;
++    requireCondition(
++      contentEnd < output.byteLength,
++      "Git blob batch output is truncated before the object delimiter.",
++    );
++    requireCondition(output[contentEnd] === 10, "Git blob batch output has an invalid object delimiter.");
++    blobs.set(expectedObjectId, Buffer.from(output.subarray(contentStart, contentEnd)));
++    cursor = contentEnd + 1;
++  }
++
++  requireCondition(cursor === output.byteLength, "Git blob batch output contains trailing bytes.");
++  return blobs;
++}
++
++function candidateBlobBytes(tools, objectIds) {
++  const uniqueObjectIds = [...new Set(objectIds)].sort(compareOrdinal);
++  requireCondition(uniqueObjectIds.length > 0, "Candidate tree has no blobs.");
++  const input = Buffer.from(`${uniqueObjectIds.join("\n")}\n`, "ascii");
++  const output = gitOutput(tools, ["cat-file", "--batch"], {
++    input,
++    label: "Git candidate blob batch",
++  });
++  return parseGitBlobBatch(uniqueObjectIds, output);
++}
++
+ function candidateSource(tools, checkpoint) {
+   requireCondition(CANDIDATE_PATTERN.test(checkpoint), "Candidate must be an exact lowercase commit ID.");
+   const commit = strictUtf8(
+@@ -808,11 +872,17 @@ function candidateSource(tools, checkpoint) {
+     const safe = safeTreePath(record.subarray(tab + 1));
+     requireCondition(!aliases.has(safe.alias), `Candidate tree path alias collision: ${safe.path}.`);
+     aliases.add(safe.alias);
+-    const bytes = Buffer.from(gitOutput(tools, ["cat-file", "blob", match[2]]));
+-    return { mode: match[1], objectId: match[2], ...safe, bytes };
++    return { mode: match[1], objectId: match[2], ...safe };
+   });
+   entries.sort((left, right) => compareOrdinal(left.path, right.path));
+   requireCondition(entries.length > 0, "Candidate tree is empty.");
++  const blobs = candidateBlobBytes(
++    tools,
++    entries.map((entry) => entry.objectId),
++  );
++  for (const entry of entries) {
++    entry.bytes = Buffer.from(blobs.get(entry.objectId));
++  }
+   const hash = createHash("sha256");
+   updateFrame(hash, Buffer.from(MATERIALIZATION_DOMAIN, "utf8"));
+   let bytes = 0;
+@@ -1881,6 +1951,7 @@ async function createGitContext(operationRoot, candidateRoot, checkpoint, tools,
+   delete setup.GIT_OPTIONAL_LOCKS;
+   for (const [label, arguments_] of [
+     ["Git non-bare configuration", ["config", "core.bare", "false"]],
++    ["Git long-path configuration", ["config", "core.longpaths", "true"]],
+     ["Git candidate ref", ["update-ref", "refs/heads/candidate", checkpoint]],
+     ["Git candidate HEAD", ["symbolic-ref", "HEAD", "refs/heads/candidate"]],
+     ["Git candidate index", ["read-tree", checkpoint]],
+@@ -1899,7 +1970,52 @@ async function createGitContext(operationRoot, candidateRoot, checkpoint, tools,
+   return { root: gitRoot, worktree: candidateRoot, environment, tools };
+ }
+ 
++function parseGitChangedPaths(output, label) {
++  const aliases = new Set();
++  const paths = nulRecords(output, label).map((record) => {
++    const safe = safeTreePath(record);
++    requireCondition(!aliases.has(safe.alias), `${label} contains a duplicate path.`);
++    aliases.add(safe.alias);
++    return safe.path;
++  });
++  paths.sort(compareOrdinal);
++  return paths;
++}
++
++function gitTrackedStatePaths(context) {
++  const inspect = (arguments_, label) =>
++    parseGitChangedPaths(
++      gitOutput(context.tools, arguments_, {
++        cwd: context.worktree,
++        environment: context.environment,
++        label,
++      }),
++      label,
++    );
++  return {
++    combined: inspect(
++      ["diff", "--no-ext-diff", "--no-textconv", "--name-only", "-z", "HEAD", "--"],
++      "Disposable Git combined changed paths",
++    ),
++    index: inspect(
++      ["diff", "--no-ext-diff", "--no-textconv", "--name-only", "-z", "--cached", "HEAD", "--"],
++      "Disposable Git index changed paths",
++    ),
++    worktree: inspect(
++      ["diff", "--no-ext-diff", "--no-textconv", "--name-only", "-z", "--"],
++      "Disposable Git worktree changed paths",
++    ),
++  };
++}
++
+ function inspectGitContext(context, checkpoint) {
++  const longPaths = strictUtf8(
++    gitOutput(context.tools, ["config", "--bool", "--get", "core.longpaths"], {
++      cwd: context.worktree,
++      environment: context.environment,
++    }),
++    "Disposable Git long-path configuration",
++  ).trim();
+   const head = strictUtf8(
+     gitOutput(context.tools, ["rev-parse", "--verify", "HEAD"], {
+       cwd: context.worktree,
+@@ -1907,11 +2023,26 @@ function inspectGitContext(context, checkpoint) {
+     }),
+     "Disposable Git HEAD",
+   ).trim();
+-  const diff = gitResult(context.tools, ["diff", "--quiet", "HEAD", "--"], {
+-    cwd: context.worktree,
+-    environment: context.environment,
+-  });
+-  requireCondition(head === checkpoint && diff.status === 0, "Disposable Git context changed tracked candidate state.");
++  const diff = gitResult(
++    context.tools,
++    ["diff", "--no-ext-diff", "--no-textconv", "--quiet", "HEAD", "--"],
++    {
++      cwd: context.worktree,
++      environment: context.environment,
++    },
++  );
++  requireCondition(longPaths === "true", "Disposable Git context lacks long-path support.");
++  requireCondition(head === checkpoint, "Disposable Git context changed candidate HEAD.");
++  requireCondition(
++    diff.signal === null && (diff.status === 0 || diff.status === 1),
++    `Disposable Git tracked-state inspection failed: status=${JSON.stringify(diff.status)}, signal=${JSON.stringify(diff.signal)}, stderr=${JSON.stringify(strictUtf8(diff.stderr, "Disposable Git diff stderr").trim())}.`,
++  );
++  if (diff.status === 1) {
++    requireCondition(
++      false,
++      `Disposable Git context changed tracked candidate state: ${JSON.stringify(gitTrackedStatePaths(context))}.`,
++    );
++  }
+   return { head, trackedState: "clean" };
+ }
+ 
+@@ -2244,10 +2375,13 @@ async function execute() {
+   const parentExpectation = expectedParentDigest();
+   const cache = cachePath();
+   const paths = candidateRunPaths(candidate);
+-  const operationRoot = await realpath(await mkdtemp(join(resolve(tmpdir()), "swr2-")));
++  let operationRoot = null;
+   let operationRemoved = false;
++  let executionError = null;
+ 
+   try {
++    operationRoot = await mkdtemp(join(resolve(tmpdir()), "swr2-"));
++    operationRoot = await realpath(operationRoot);
+     requireRealpathDisjointRoots(ROOT, operationRoot);
+     validateCacheLocation(cache, [ROOT, operationRoot]);
+     const npmConfiguration = await createPrivateNpmConfiguration(operationRoot, cache);
+@@ -2578,9 +2712,22 @@ async function execute() {
+     if (routedNonPass) {
+       process.exitCode = 2;
+     }
++  } catch (error) {
++    executionError = error;
++    throw error;
+   } finally {
+-    if (!operationRemoved) {
+-      await removeOperationRoot(operationRoot).catch(() => {});
++    if (operationRoot !== null && !operationRemoved) {
++      try {
++        await removeOperationRoot(operationRoot);
++      } catch (cleanupError) {
++        if (executionError !== null) {
++          throw new AggregateError(
++            [executionError, cleanupError],
++            "Release-review execution and operation-root cleanup both failed.",
++          );
++        }
++        throw cleanupError;
++      }
+     }
+   }
+ }
+@@ -2607,6 +2754,8 @@ export const RELEASE_REVIEW_PARENT_TEST_HOOKS = Object.freeze({
+   removeOperationRoot,
+   isAllowedOutputFile,
+   parsePhaseInputs,
++  parseGitBlobBatch,
++  parseGitChangedPaths,
+   preflightPromotionEntriesAtRoot,
+   preflightPromotionSetAtRoot,
+   promotePreflightedSetAtRoot,
+diff --git a/test/helpers/v12-release-review-lifecycle.mjs b/test/helpers/v12-release-review-lifecycle.mjs
+index 00f67526787ffd4a66343b8a21d713da34f8c222..ca6b199c5ae0e55ef94454a0d745cfb41d7b278b 100644
+--- a/test/helpers/v12-release-review-lifecycle.mjs
++++ b/test/helpers/v12-release-review-lifecycle.mjs
+@@ -69,24 +69,24 @@ const FIXTURE_VERIFY_COMMAND = [
+ 
+ export const PRODUCTION_IDENTITIES = Object.freeze({
+   [PARENT_PATH]: Object.freeze({
+-    bytes: 96_946,
+-    digest: "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
++    bytes: 102_513,
++    digest: "sha256:efbf5e96314e28a20b67e7f78067798ac398fadb1b25628f9e1d02082a8bb1e7",
+   }),
+   [GATE_PATH]: Object.freeze({
+-    bytes: 30_623,
+-    digest: "sha256:6e1e398c7d15a0b5ac3562ccb90913ecb6480f700a9e53cb1aaf076f2f704b21",
++    bytes: 31_070,
++    digest: "sha256:b1451d644b2c003ccd19cf29a3cb92a964eec01e5281afbef7c878ccb1e57025",
+   }),
+   [HARNESS_PATH]: Object.freeze({
+-    bytes: 127_748,
+-    digest: "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73",
++    bytes: 127_937,
++    digest: "sha256:a56a60b6704487e29d398362f884c34ff4850baac1315d3347e74e82c4241934",
+   }),
+   [VERIFIER_PATH]: Object.freeze({
+     bytes: 30_840,
+     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+   }),
+   [GATE_TEST_PATH]: Object.freeze({
+-    bytes: 42_123,
+-    digest: "sha256:1995a9baa4c6c5f6b1beb2b14888a9cfc05bb872dfd98995edb6104552d8b0e1",
++    bytes: 43_488,
++    digest: "sha256:34756d001cb73a268e83db7d61cb39fc5bbc4b21971e7afef359dff30c034f64",
+   }),
+   [TYPESCRIPT_RUNNER_PATH]: Object.freeze({
+     bytes: 7_064,
+@@ -200,6 +200,94 @@ function fixtureRepositoryEnvironment(sourceEnvironment = process.env) {
+   return environment;
+ }
+ 
++function directKillEvidence(child, signal = undefined) {
++  try {
++    return { accepted: child.kill(signal), error: null };
++  } catch (error) {
++    return {
++      accepted: false,
++      error: error instanceof Error ? error.message : String(error),
++    };
++  }
++}
++
++async function terminateProcessTree(child) {
++  const started = process.hrtime.bigint();
++  const pid = child.pid;
++  if (!Number.isInteger(pid)) {
++    return {
++      method: "unavailable-pid",
++      pid: null,
++      accepted: false,
++      durationMs: 0,
++      error: "Child process had no integer PID.",
++    };
++  }
++
++  if (process.platform === "win32") {
++    const tree = await new Promise((resolvePromise) => {
++      let killer;
++      try {
++        killer = spawn("taskkill.exe", ["/PID", String(pid), "/T", "/F"], {
++          env: process.env,
++          stdio: "ignore",
++          windowsHide: true,
++        });
++      } catch (error) {
++        resolvePromise({
++          status: null,
++          signal: null,
++          error: error instanceof Error ? error.message : String(error),
++        });
++        return;
++      }
++      let settled = false;
++      killer.once("error", (error) => {
++        if (!settled) {
++          settled = true;
++          resolvePromise({
++            status: null,
++            signal: null,
++            error: error instanceof Error ? error.message : String(error),
++          });
++        }
++      });
++      killer.once("close", (status, signal) => {
++        if (!settled) {
++          settled = true;
++          resolvePromise({ status, signal, error: null });
++        }
++      });
++    });
++    const accepted = tree.status === 0 && tree.signal === null && tree.error === null;
++    const fallback = accepted ? null : directKillEvidence(child);
++    return {
++      method: "taskkill-tree",
++      pid,
++      accepted,
++      tree,
++      directFallback: fallback,
++      durationMs: Number(process.hrtime.bigint() - started) / 1_000_000,
++    };
++  }
++
++  let groupError = null;
++  try {
++    process.kill(-pid, "SIGKILL");
++  } catch (error) {
++    groupError = error instanceof Error ? error.message : String(error);
++  }
++  const accepted = groupError === null;
++  return {
++    method: "process-group-sigkill",
++    pid,
++    accepted,
++    groupError,
++    directFallback: accepted ? null : directKillEvidence(child, "SIGKILL"),
++    durationMs: Number(process.hrtime.bigint() - started) / 1_000_000,
++  };
++}
++
+ async function runProcess(command, arguments_, options = {}) {
+   const started = process.hrtime.bigint();
+   const timeoutMs = options.timeoutMs ?? PROCESS_TIMEOUT_MS;
+@@ -208,6 +296,7 @@ async function runProcess(command, arguments_, options = {}) {
+       cwd: options.cwd,
+       env: options.env,
+       stdio: ["ignore", "pipe", "pipe"],
++      detached: process.platform !== "win32",
+       windowsHide: true,
+     });
+     const stdout = [];
+@@ -215,11 +304,14 @@ async function runProcess(command, arguments_, options = {}) {
+     let stdoutBytes = 0;
+     let stderrBytes = 0;
+     let timedOut = false;
++    let timeoutAtMs = null;
++    let terminationPromise = Promise.resolve(null);
+     let settled = false;
+ 
+     const timer = setTimeout(() => {
+       timedOut = true;
+-      child.kill();
++      timeoutAtMs = Number(process.hrtime.bigint() - started) / 1_000_000;
++      terminationPromise = terminateProcessTree(child);
+     }, timeoutMs);
+ 
+     const collect = (chunks, kind) => (chunk) => {
+@@ -242,12 +334,13 @@ async function runProcess(command, arguments_, options = {}) {
+         rejectPromise(error);
+       }
+     });
+-    child.once("close", (status, signal) => {
++    child.once("close", async (status, signal) => {
+       if (settled) {
+         return;
+       }
+       settled = true;
+       clearTimeout(timer);
++      const termination = await terminationPromise;
+       resolvePromise({
+         command,
+         arguments: [...arguments_],
+@@ -255,6 +348,14 @@ async function runProcess(command, arguments_, options = {}) {
+         status,
+         signal,
+         timedOut,
++        timeout:
++          timedOut === true
++            ? {
++                boundMs: timeoutMs,
++                observedAtMs: timeoutAtMs,
++                termination,
++              }
++            : null,
+         durationMs: Number(process.hrtime.bigint() - started) / 1_000_000,
+         stdout: Buffer.concat(stdout),
+         stderr: Buffer.concat(stderr),
+@@ -267,10 +368,29 @@ function commandFailure(result) {
+   return strictUtf8(result.stderr, "command stderr").trim();
+ }
+ 
++function assertParentOperationRootCleanup(result, label) {
++  if (result.operationRootCleanup === undefined) {
++    return;
++  }
++  const cleanup = result.operationRootCleanup;
++  assert.equal(
++    cleanup.testOwnedTempRootRemoved,
++    true,
++    `${label} test-owned temp root was not removed: ${cleanup.cleanupError ?? "unknown failure"}`,
++  );
++  assert.equal(
++    cleanup.noNewOperationRoots,
++    true,
++    `${label} left owned operation roots: ${cleanup.leakedOperationRoots.join(", ") || "unknown"}`,
++  );
++  assert.equal(cleanup.cleanupError, null, `${label} temp cleanup failed`);
++}
++
+ function assertCommandPassed(result, label) {
+   assert.equal(result.timedOut, false, `${label} timed out`);
+   assert.equal(result.signal, null, `${label} was signaled`);
+   assert.equal(result.status, 0, `${label} failed: ${commandFailure(result)}`);
++  assertParentOperationRootCleanup(result, label);
+   return result;
+ }
+ 
+@@ -280,6 +400,7 @@ function assertCommandFailed(result, label, pattern) {
+   assert.notEqual(result.status, 0, `${label} unexpectedly passed`);
+   const stderr = commandFailure(result);
+   assert.match(stderr, pattern, `${label} failed through the wrong route: ${stderr}`);
++  assertParentOperationRootCleanup(result, label);
+   return stderr;
+ }
+ 
+@@ -848,34 +969,86 @@ async function runPersistentCompilerMutationRoute(lifecycleRoot, cacheRoot) {
+   return evidence;
+ }
+ 
+-async function operationRootNames() {
+-  const entries = await readdir(resolve(tmpdir()), { withFileTypes: true });
++async function operationRootNames(root) {
++  const entries = await readdir(root, { withFileTypes: true });
+   return entries
+     .filter((entry) => entry.isDirectory() && entry.name.startsWith("swr2-"))
+     .map((entry) => entry.name)
+     .sort();
+ }
+ 
+-async function runParent(fixtureRoot, environment, phase, commit, phaseArguments) {
+-  const before = await operationRootNames();
+-  const result = await runProcess(
+-    process.execPath,
+-    [absolute(fixtureRoot, PARENT_PATH), phase, commit, ...phaseArguments],
+-    { cwd: fixtureRoot, env: environment },
++function scopedParentEnvironment(environment, parentTempRoot) {
++  const scoped = { ...environment };
++  for (const name of ["TEMP", "TMP", "TMPDIR"]) {
++    setEnvironmentValue(scoped, name, parentTempRoot);
++  }
++  return scoped;
++}
++
++async function runScopedParentProcess(command, arguments_, options) {
++  const parentTempRoot = await realpath(
++    await mkdtemp(join(resolve(tmpdir()), "swecircuit-parent-")),
+   );
+-  const after = await operationRootNames();
++  let result;
++  let processError = null;
++  let before = [];
++  let after = [];
++  let cleanupError = null;
++  let testOwnedTempRootRemoved = false;
++
++  try {
++    before = await operationRootNames(parentTempRoot);
++    result = await runProcess(command, arguments_, {
++      cwd: options.cwd,
++      env: scopedParentEnvironment(options.environment, parentTempRoot),
++      timeoutMs: options.timeoutMs,
++    });
++    after = await operationRootNames(parentTempRoot);
++  } catch (error) {
++    processError = error;
++  } finally {
++    try {
++      await rm(parentTempRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
++      testOwnedTempRootRemoved = !(await pathExists(parentTempRoot));
++    } catch (error) {
++      cleanupError = error instanceof Error ? error.message : String(error);
++    }
++  }
++
++  if (processError !== null) {
++    if (cleanupError !== null) {
++      throw new AggregateError(
++        [processError, new Error(cleanupError)],
++        "Scoped parent process and test-owned temp cleanup both failed.",
++      );
++    }
++    throw processError;
++  }
++  assert.ok(result, "Scoped parent process completed without a result.");
+   const beforeSet = new Set(before);
+   const leaked = after.filter((name) => !beforeSet.has(name));
+-  assert.deepEqual(leaked, [], `${phase} parent leaked an operation root`);
+   result.operationRootCleanup = {
++    scope: "invocation-owned-temp",
++    ownedTempRoot: parentTempRoot,
+     checkedAfterExit: true,
+-    noNewOperationRoots: true,
++    noNewOperationRoots: leaked.length === 0,
++    leakedOperationRoots: leaked,
+     beforeCount: before.length,
+     afterCount: after.length,
++    testOwnedTempRootRemoved,
++    cleanupError,
+   };
+   return result;
+ }
+ 
++async function runParent(fixtureRoot, environment, phase, commit, phaseArguments) {
++  return runScopedParentProcess(
++    process.execPath,
++    [absolute(fixtureRoot, PARENT_PATH), phase, commit, ...phaseArguments],
++    { cwd: fixtureRoot, environment },
++  );
++}
++
+ function processEvidence(label, result) {
+   return {
+     label,
+@@ -885,6 +1058,7 @@ function processEvidence(label, result) {
+     status: result.status,
+     signal: result.signal,
+     timedOut: result.timedOut,
++    timeout: result.timeout,
+     durationMs: Number(result.durationMs.toFixed(3)),
+     stdout: { bytes: result.stdout.byteLength, digest: digest(result.stdout) },
+     stderr: { bytes: result.stderr.byteLength, digest: digest(result.stderr) },
+@@ -1867,6 +2041,7 @@ export async function runReleaseReviewProductionLifecycle() {
+ }
+ 
+ export const V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS = Object.freeze({
++  assertCommandPassed,
+   authenticateFixtureBlobs,
+   copyHostNpmCacheSupply,
+   createLifecycleTypeScriptSupply,
+@@ -1880,6 +2055,7 @@ export const V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS = Object.freeze({
+   parentEnvironment,
+   parseLifecycleTypeScriptEvidence,
+   runGit,
++  runScopedParentProcess,
+   typeScriptCompileSentinel: TYPESCRIPT_COMPILE_SENTINEL,
+   typeScriptMutationSentinel: TYPESCRIPT_MUTATION_SENTINEL,
+   typeScriptRunnerPath: TYPESCRIPT_RUNNER_PATH,
+diff --git a/test/lifecycle/v12-release-review-lifecycle.test.mjs b/test/lifecycle/v12-release-review-lifecycle.test.mjs
+index bb568e3d8af020f37ab74d5c2ce289f90b6195d6..af1673b0d3a0aa59a31d142440e3b1296388ae3d 100644
+--- a/test/lifecycle/v12-release-review-lifecycle.test.mjs
++++ b/test/lifecycle/v12-release-review-lifecycle.test.mjs
+@@ -1,5 +1,6 @@
+ import assert from "node:assert/strict";
+ import { spawnSync } from "node:child_process";
++import { createHash } from "node:crypto";
+ import { readFileSync } from "node:fs";
+ import { mkdtemp, realpath, rm } from "node:fs/promises";
+ import { tmpdir } from "node:os";
+@@ -13,11 +14,37 @@ import { PRODUCTION_IDENTITIES } from "../helpers/v12-release-review-lifecycle.m
+ const ROOT = fileURLToPath(new URL("../../", import.meta.url));
+ const LIFECYCLE_PATH = "test/fixtures/v12-release-review-lifecycle-child.mjs";
+ 
++function assertCommittedProductionIdentities(candidateCommit) {
++  for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
++    const probe = spawnSync(
++      "git",
++      ["-c", "core.longpaths=true", "show", `${candidateCommit}:${path}`],
++      {
++        cwd: ROOT,
++        env: process.env,
++        encoding: null,
++        maxBuffer: 16 * 1024 * 1024,
++        timeout: 30_000,
++        windowsHide: true,
++      },
++    );
++    assert.equal(probe.signal, null, `committed production identity probe was terminated: ${path}`);
++    assert.equal(probe.status, 0, Buffer.from(probe.stderr ?? Buffer.alloc(0)).toString("utf8"));
++    const bytes = Buffer.from(probe.stdout);
++    assert.deepEqual(
++      {
++        bytes: bytes.byteLength,
++        digest: `sha256:${createHash("sha256").update(bytes).digest("hex")}`,
++      },
++      expected,
++      `committed HEAD production identity differs from the live expectation: ${path}`,
++    );
++  }
++}
++
+ test("isolated copied production entrypoints complete one exact compile-to-verify lifecycle", {
+   timeout: 3_900_000,
+ }, async () => {
+-  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-lifecycle-")));
+-  const outputPath = join(root, "lifecycle.json");
+   const headProbe = spawnSync(
+     "git",
+     ["-c", "core.longpaths=true", "rev-parse", "--verify", "HEAD"],
+@@ -33,7 +60,10 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
+   assert.equal(headProbe.status, 0, headProbe.stderr);
+   const candidateCommit = headProbe.stdout.trim();
+   assert.match(candidateCommit, /^[0-9a-f]{40}$/u);
++  assertCommittedProductionIdentities(candidateCommit);
+ 
++  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-lifecycle-")));
++  const outputPath = join(root, "lifecycle.json");
+   let materialization;
+   let gitContext;
+   let lifecycle;
+diff --git a/test/v12-release-gate.test.mjs b/test/v12-release-gate.test.mjs
+index 00abb56032d1f0024bf6b2820656ff3269f18cf7..ec76be7163765a1126fd64370e995bc204da6eb1 100644
+--- a/test/v12-release-gate.test.mjs
++++ b/test/v12-release-gate.test.mjs
+@@ -7,6 +7,7 @@ import {
+   mkdtemp,
+   readFile,
+   realpath,
++  rename,
+   rm,
+   rmdir,
+   symlink,
+@@ -268,13 +269,28 @@ test("candidate Git context is disposable, exact, and usable from the materializ
+   const liveGitDirectory = runGit(["rev-parse", "--path-format=absolute", "--git-dir"]);
+   const liveHeadBefore = runGit(["rev-parse", "--verify", "HEAD"]);
+   const materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
++  const deepRoot = await mkdtemp(
++    join(RELEASE_GATE_TEST_HOOKS.materializationParent, "long-path-context-"),
++  );
++  const nestedRoot = join(deepRoot, "x".repeat(96));
++  const worktree = join(nestedRoot, "candidate");
+   let gitContext;
++  let materializationMoved = false;
+ 
+   try {
+-    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
+-      candidateCommit,
+-      materialization.root,
++    await mkdir(nestedRoot, { recursive: true });
++    await rename(materialization.root, worktree);
++    materializationMoved = true;
++    const maxMaterializedPathLength = materialization.entries.reduce(
++      (maximum, entry) => Math.max(maximum, join(worktree, ...entry.path.split("/")).length),
++      0,
+     );
++    assert.ok(
++      maxMaterializedPathLength > 260,
++      "causal worktree did not cross the Windows long-path boundary",
++    );
++
++    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(candidateCommit, worktree);
+     assert.notEqual(resolve(gitContext.root), resolve(liveGitDirectory));
+     assert.equal(dirname(gitContext.root), join(ROOT, ".local", "v12-release-gate"));
+     assert.deepEqual(RELEASE_GATE_TEST_HOOKS.inspectCandidateGitContext(gitContext), {
+@@ -284,7 +300,7 @@ test("candidate Git context is disposable, exact, and usable from the materializ
+ 
+     const environment = RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext);
+     const childHead = spawnSync("git", ["rev-parse", "--verify", "HEAD"], {
+-      cwd: materialization.root,
++      cwd: worktree,
+       encoding: "utf8",
+       env: environment,
+       windowsHide: true,
+@@ -292,10 +308,32 @@ test("candidate Git context is disposable, exact, and usable from the materializ
+     assert.equal(childHead.status, 0, childHead.stderr);
+     assert.equal(childHead.stdout.trim(), candidateCommit);
+     assert.equal(environment.GIT_DIR, gitContext.root);
+-    assert.equal(environment.GIT_WORK_TREE, materialization.root);
++    assert.equal(environment.GIT_WORK_TREE, worktree);
++
++    const longPaths = spawnSync("git", ["config", "--bool", "--get", "core.longpaths"], {
++      cwd: worktree,
++      encoding: "utf8",
++      env: environment,
++      windowsHide: true,
++    });
++    assert.equal(longPaths.status, 0, longPaths.stderr);
++    assert.equal(longPaths.stdout.trim(), "true");
++
++    const exactDiff = spawnSync(
++      "git",
++      ["diff", "--no-ext-diff", "--no-textconv", "--quiet", "HEAD", "--"],
++      {
++        cwd: worktree,
++        encoding: "utf8",
++        env: environment,
++        windowsHide: true,
++      },
++    );
++    assert.equal(exactDiff.status, 0, exactDiff.stderr);
++
+     assert.equal(environment.npm_config_cache, RELEASE_GATE_TEST_HOOKS.hostNpmCache);
+     assert.equal(isAbsolute(environment.npm_config_cache), true);
+-    const cacheFromMaterialization = relative(materialization.root, environment.npm_config_cache);
++    const cacheFromMaterialization = relative(worktree, environment.npm_config_cache);
+     assert.equal(
+       cacheFromMaterialization === ".." ||
+         cacheFromMaterialization.startsWith("../") ||
+@@ -308,10 +346,7 @@ test("candidate Git context is disposable, exact, and usable from the materializ
+       [typeScriptKey],
+     );
+     assert.equal(isAbsolute(environment[typeScriptKey]), true);
+-    const typeScriptFromMaterialization = relative(
+-      materialization.root,
+-      environment[typeScriptKey],
+-    );
++    const typeScriptFromMaterialization = relative(worktree, environment[typeScriptKey]);
+     assert.equal(
+       isAbsolute(typeScriptFromMaterialization) ||
+         typeScriptFromMaterialization === ".." ||
+@@ -322,13 +357,18 @@ test("candidate Git context is disposable, exact, and usable from the materializ
+     assert.notEqual(resolve(environment.GIT_DIR), resolve(liveGitDirectory));
+     assert.equal(runGit(["rev-parse", "--verify", "HEAD"]), liveHeadBefore);
+   } finally {
+-    if (gitContext !== undefined) {
+-      await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
++    try {
++      if (gitContext !== undefined) {
++        await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
++      }
++    } finally {
++      await rm(deepRoot, { recursive: true, force: true });
++      if (!materializationMoved) {
++        await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
++      }
+     }
+-    await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+   }
+ });
+-
+ test("candidate scratch cleanup supports reverse owner order", async () => {
+   const parent = RELEASE_GATE_TEST_HOOKS.materializationParent;
+   await mkdir(parent, { recursive: true });
+diff --git a/test/v12-release-review.test.mjs b/test/v12-release-review.test.mjs
+index c0e3a64b8672ac2abe5c19463ae7a9d4e5f9cead..94fbe5d25bb2c8fc1beb680b4f61fcfd5c5a4bc1 100644
+--- a/test/v12-release-review.test.mjs
++++ b/test/v12-release-review.test.mjs
+@@ -1,7 +1,7 @@
+ import assert from "node:assert/strict";
+ import { spawnSync } from "node:child_process";
+ import { createHash } from "node:crypto";
+-import { readFileSync } from "node:fs";
++import { existsSync, readFileSync } from "node:fs";
+ import { copyFile, link, mkdir, mkdtemp, realpath, rm, symlink, writeFile } from "node:fs/promises";
+ import { tmpdir } from "node:os";
+ import { dirname, join, resolve } from "node:path";
+@@ -257,6 +257,203 @@ function activeStatus(path) {
+   return activeSection(path, "Status");
+ }
+ 
++function gitBlobBatchRecord(objectId, bytes, options = {}) {
++  const content = Buffer.from(bytes);
++  const type = options.type ?? "blob";
++  const size = options.size ?? String(content.byteLength);
++  return Buffer.concat([
++    Buffer.from(`${objectId} ${type} ${size}\n`, "ascii"),
++    content,
++    Buffer.from("\n", "ascii"),
++  ]);
++}
++
++function processExists(pid) {
++  try {
++    process.kill(pid, 0);
++    return true;
++  } catch (error) {
++    if (error && typeof error === "object" && error.code === "ESRCH") {
++      return false;
++    }
++    throw error;
++  }
++}
++
++test("candidate blob batch parsing preserves binary bytes and fails closed", () => {
++  const firstObject = "1".repeat(40);
++  const secondObject = "2".repeat(40);
++  const firstBytes = Buffer.from([0x00, 0x0a, 0x0d, 0x7f, 0x80, 0xff]);
++  const secondBytes = Buffer.alloc(0);
++  const valid = Buffer.concat([
++    gitBlobBatchRecord(firstObject, firstBytes),
++    gitBlobBatchRecord(secondObject, secondBytes),
++  ]);
++  const parsed = RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
++    [firstObject, secondObject],
++    valid,
++  );
++  assert.deepEqual([...parsed.keys()], [firstObject, secondObject]);
++  assert.deepEqual(parsed.get(firstObject), firstBytes);
++  assert.deepEqual(parsed.get(secondObject), secondBytes);
++
++  assert.throws(
++    () =>
++      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
++        [firstObject],
++        gitBlobBatchRecord(secondObject, firstBytes),
++      ),
++    /unexpected object/u,
++  );
++  assert.throws(
++    () =>
++      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
++        [firstObject],
++        gitBlobBatchRecord(firstObject, firstBytes, { type: "tree" }),
++      ),
++    /malformed header/u,
++  );
++  assert.throws(
++    () =>
++      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
++        [firstObject],
++        gitBlobBatchRecord(firstObject, Buffer.alloc(0), { size: "9007199254740992" }),
++      ),
++    /unsafe object size/u,
++  );
++  assert.throws(
++    () =>
++      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
++        [firstObject],
++        gitBlobBatchRecord(firstObject, firstBytes).subarray(0, -1),
++      ),
++    /truncated before the object delimiter/u,
++  );
++  assert.throws(
++    () =>
++      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
++        [firstObject],
++        Buffer.concat([gitBlobBatchRecord(firstObject, firstBytes), Buffer.from("extra")]),
++      ),
++    /trailing bytes/u,
++  );
++  assert.throws(
++    () =>
++      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
++        [firstObject, firstObject],
++        Buffer.concat([
++          gitBlobBatchRecord(firstObject, firstBytes),
++          gitBlobBatchRecord(firstObject, firstBytes),
++        ]),
++      ),
++    /duplicate request/u,
++  );
++  const nonAsciiHeader = gitBlobBatchRecord(firstObject, firstBytes);
++  nonAsciiHeader[0] = 0xff;
++  assert.throws(
++    () => RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch([firstObject], nonAsciiHeader),
++    /non-ASCII header/u,
++  );
++});
++
++test("Git changed-path diagnostics are canonical and fail closed", () => {
++  assert.deepEqual(
++    RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitChangedPaths(
++      Buffer.from("zeta.txt\0alpha.txt\0", "utf8"),
++      "changed paths",
++    ),
++    ["alpha.txt", "zeta.txt"],
++  );
++  assert.throws(
++    () =>
++      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitChangedPaths(
++        Buffer.from("alpha.txt\0ALPHA.TXT\0", "utf8"),
++        "changed paths",
++      ),
++    /duplicate path/u,
++  );
++  assert.throws(
++    () =>
++      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitChangedPaths(
++        Buffer.from("../escape.txt\0", "utf8"),
++        "changed paths",
++      ),
++    /unsafe cross-platform path/u,
++  );
++  assert.throws(
++    () =>
++      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitChangedPaths(
++        Buffer.from("unterminated", "utf8"),
++        "changed paths",
++      ),
++    /not NUL terminated/u,
++  );
++});
++
++test("scoped parent timeout owns residue, kills descendants, and reports timeout first", async () => {
++  const fixtureRoot = await realpath(
++    await mkdtemp(join(tmpdir(), "swecircuit-timeout-regression-")),
++  );
++  const descendantPidPath = join(fixtureRoot, "descendant.pid");
++  const foreignRoot = await realpath(await mkdtemp(join(tmpdir(), "swr2-foreign-")));
++  let descendantPid = null;
++
++  const childSource = [
++    'const { mkdirSync, writeFileSync } = require("node:fs");',
++    'const { spawn } = require("node:child_process");',
++    'const { tmpdir } = require("node:os");',
++    'const { join } = require("node:path");',
++    'mkdirSync(join(tmpdir(), "swr2-owned"));',
++    'const descendant = spawn(process.execPath, ["-e", "setInterval(() => {}, 1000)"], { stdio: "ignore" });',
++    `writeFileSync(${JSON.stringify(descendantPidPath)}, String(descendant.pid));`,
++    "setInterval(() => {}, 1000);",
++  ].join("\n");
++
++  try {
++    const result = await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.runScopedParentProcess(
++      process.execPath,
++      ["-e", childSource],
++      {
++        cwd: fixtureRoot,
++        environment: process.env,
++        timeoutMs: 1_000,
++      },
++    );
++    descendantPid = Number(readFileSync(descendantPidPath, "utf8"));
++    assert.equal(result.timedOut, true);
++    assert.equal(result.timeout.boundMs, 1_000);
++    assert.equal(result.timeout.termination.accepted, true);
++    assert.deepEqual(result.operationRootCleanup.leakedOperationRoots, ["swr2-owned"]);
++    assert.equal(result.operationRootCleanup.noNewOperationRoots, false);
++    assert.equal(result.operationRootCleanup.testOwnedTempRootRemoved, true);
++    assert.equal(existsSync(foreignRoot), true);
++
++    let primaryError = null;
++    try {
++      V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.assertCommandPassed(
++        result,
++        "scoped timeout regression",
++      );
++    } catch (error) {
++      primaryError = error;
++    }
++    assert.ok(primaryError instanceof Error);
++    assert.match(primaryError.message, /scoped timeout regression timed out/u);
++    assert.doesNotMatch(primaryError.message, /operation root/u);
++
++    for (let attempt = 0; attempt < 20 && processExists(descendantPid); attempt += 1) {
++      await new Promise((resolvePromise) => setTimeout(resolvePromise, 50));
++    }
++    assert.equal(processExists(descendantPid), false, "timed-out descendant remained alive");
++  } finally {
++    if (Number.isInteger(descendantPid) && processExists(descendantPid)) {
++      process.kill(descendantPid, "SIGKILL");
++    }
++    await rm(foreignRoot, { recursive: true, force: true });
++    await rm(fixtureRoot, { recursive: true, force: true });
++  }
++});
++
+ test("release-review parent and workers preserve the candidate-runtime import boundary", () => {
+   const parentSource = readFileSync(PARENT_ENTRYPOINT, "utf8");
+   const harnessSource = readFileSync(HARNESS_ENTRYPOINT, "utf8");
+@@ -361,6 +558,38 @@ test("runtime binding is deterministic and fails closed after identity mutation"
+   );
+ });
+ 
++test("stable runtime policy excludes invocation-specific temporary paths", () => {
++  const firstRoot = join(ROOT, ".local", "parent-temp-one");
++  const secondRoot = join(ROOT, ".local", "parent-temp-two");
++  const common = { HOME: join(ROOT, ".local", "home"), LANG: "C" };
++  const policy = (root) =>
++    RELEASE_REVIEW_PARENT_TEST_HOOKS.environmentPolicy({
++      ...common,
++      TEMP: root,
++      TMP: root,
++      TMPDIR: root,
++    });
++
++  const first = policy(firstRoot);
++  const second = policy(secondRoot);
++  assert.deepEqual(first, second);
++  assert.deepEqual(first.inherited, common);
++  assert.equal(
++    first.invocationTemporaryPaths,
++    "external-host-bound-invocation-paths-excluded-from-stable-runtime-identity",
++  );
++  assert.doesNotMatch(JSON.stringify(first), /parent-temp-(?:one|two)/u);
++  assert.notDeepEqual(
++    first,
++    RELEASE_REVIEW_PARENT_TEST_HOOKS.environmentPolicy({
++      ...common,
++      LANG: "en_CA.UTF-8",
++      TEMP: secondRoot,
++      TMP: secondRoot,
++      TMPDIR: secondRoot,
++    }),
++  );
++});
+ test("closed phase grammar reconstructs prefixes from exact external inputs", () => {
+   assert.deepEqual(RELEASE_REVIEW_PARENT_TEST_HOOKS.PHASE_PREFIXES, {
+     prepare: ["prepare"],
+@@ -1013,6 +1242,17 @@ test("canonical npm test schedules the exact lifecycle after the core suite", ()
+     lifecycleSource,
+     /test\("isolated copied production entrypoints complete one exact compile-to-verify lifecycle"/u,
+   );
++  const identityPreflight = lifecycleSource.indexOf(
++    "assertCommittedProductionIdentities(candidateCommit);",
++  );
++  const expensiveMaterialization = lifecycleSource.indexOf(
++    "RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit)",
++  );
++  assert.ok(identityPreflight >= 0, "committed production identity preflight is missing");
++  assert.ok(
++    identityPreflight < expensiveMaterialization,
++    "committed production identity preflight must precede expensive materialization",
++  );
+ });
+ test("materialized package closure rejects linked and hard-linked entries", async () => {
+   const root = await mkdtemp(join(tmpdir(), "swecircuit-r20-package-"));

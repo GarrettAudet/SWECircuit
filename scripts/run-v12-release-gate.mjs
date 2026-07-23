@@ -109,6 +109,7 @@ function runGit(args, options = {}) {
     cwd: options.cwd ?? ROOT,
     encoding: null,
     env: options.environment ?? process.env,
+    input: options.input,
     maxBuffer: 128 * 1024 * 1024,
     windowsHide: true,
   });
@@ -190,20 +191,20 @@ function safeTreePath(pathBytes) {
   return { path, segments };
 }
 
-function candidateTree(candidateCommit) {
-  const commitResult = runGit(["rev-parse", "--verify", candidateCommit + "^{commit}"]);
+function candidateTree(candidateCommit, gitRunner = runGit) {
+  const commitResult = gitRunner(["rev-parse", "--verify", candidateCommit + "^{commit}"]);
   requireCondition(commitResult.status === 0, "Unable to resolve candidate commit.");
   requireCondition(
     Buffer.from(commitResult.stdout).toString("ascii").trim() === candidateCommit,
     "Candidate commit did not resolve to its exact identity.",
   );
 
-  const treeResult = runGit(["rev-parse", "--verify", candidateCommit + "^{tree}"]);
+  const treeResult = gitRunner(["rev-parse", "--verify", candidateCommit + "^{tree}"]);
   requireCondition(treeResult.status === 0, "Unable to resolve candidate tree.");
   const tree = Buffer.from(treeResult.stdout).toString("ascii").trim();
   requireCondition(CANDIDATE_PATTERN.test(tree), "Candidate tree is not a full object ID.");
 
-  const listingResult = runGit(["ls-tree", "-rz", "--full-tree", candidateCommit]);
+  const listingResult = gitRunner(["ls-tree", "-rz", "--full-tree", candidateCommit]);
   requireCondition(listingResult.status === 0, "Unable to enumerate candidate tree.");
   const entries = nulRecords(listingResult.stdout, "Candidate tree listing").map((record) => {
     const tab = record.indexOf(9);
@@ -225,10 +226,65 @@ function candidateTree(candidateCommit) {
   return { tree, entries };
 }
 
-function readGitBlob(objectId) {
-  const result = runGit(["cat-file", "blob", objectId]);
-  requireCondition(result.status === 0, "Unable to read candidate blob " + objectId + ".");
-  return Buffer.from(result.stdout);
+function parseGitBlobBatch(objectIds, output) {
+  requireCondition(Array.isArray(objectIds) && objectIds.length > 0, "Git blob batch is empty.");
+  requireCondition(Buffer.isBuffer(output), "Git blob batch output must be raw bytes.");
+  const requested = new Set();
+  const blobs = new Map();
+  let cursor = 0;
+
+  for (const expectedObjectId of objectIds) {
+    requireCondition(
+      typeof expectedObjectId === "string" && CANDIDATE_PATTERN.test(expectedObjectId),
+      "Git blob batch contains an invalid requested object ID.",
+    );
+    requireCondition(
+      !requested.has(expectedObjectId),
+      "Git blob batch contains a duplicate request.",
+    );
+    requested.add(expectedObjectId);
+
+    const headerEnd = output.indexOf(10, cursor);
+    requireCondition(headerEnd >= cursor, "Git blob batch output is missing a header terminator.");
+    const headerBytes = output.subarray(cursor, headerEnd);
+    requireCondition(
+      headerBytes.every((byte) => byte <= 0x7f),
+      "Git blob batch output contains a non-ASCII header.",
+    );
+    const match = /^([0-9a-f]{40}) blob (0|[1-9][0-9]*)$/.exec(headerBytes.toString("ascii"));
+    requireCondition(match !== null, "Git blob batch output contains a malformed header.");
+    requireCondition(
+      match[1] === expectedObjectId,
+      "Git blob batch returned an unexpected object.",
+    );
+    const size = Number(match[2]);
+    requireCondition(Number.isSafeInteger(size), "Git blob batch returned an unsafe object size.");
+    const contentStart = headerEnd + 1;
+    const contentEnd = contentStart + size;
+    requireCondition(
+      contentEnd < output.byteLength,
+      "Git blob batch output is truncated before the object delimiter.",
+    );
+    requireCondition(
+      output[contentEnd] === 10,
+      "Git blob batch output has an invalid object delimiter.",
+    );
+    blobs.set(expectedObjectId, Buffer.from(output.subarray(contentStart, contentEnd)));
+    cursor = contentEnd + 1;
+  }
+
+  requireCondition(cursor === output.byteLength, "Git blob batch output contains trailing bytes.");
+  return blobs;
+}
+
+function candidateBlobBytes(objectIds, gitRunner = runGit) {
+  const uniqueObjectIds = [...new Set(objectIds)].sort();
+  requireCondition(uniqueObjectIds.length > 0, "Candidate tree has no blobs.");
+  const result = gitRunner(["cat-file", "--batch"], {
+    input: Buffer.from(uniqueObjectIds.join("\n") + "\n", "ascii"),
+  });
+  requireCondition(result.status === 0, "Unable to read candidate blob batch.");
+  return parseGitBlobBatch(uniqueObjectIds, Buffer.from(result.stdout));
 }
 
 function updateFramed(hash, bytes) {
@@ -399,15 +455,20 @@ async function removeMaterialization(root) {
   await pruneMaterializationParents();
 }
 
-async function materializeCandidateSource(candidateCommit) {
-  const { tree, entries } = candidateTree(candidateCommit);
+async function materializeCandidateSource(candidateCommit, options = {}) {
+  const gitRunner = options.gitRunner ?? runGit;
+  const { tree, entries } = candidateTree(candidateCommit, gitRunner);
+  const blobs = candidateBlobBytes(
+    entries.map((entry) => entry.objectId),
+    gitRunner,
+  );
   await mkdir(MATERIALIZATION_PARENT, { recursive: true });
   const root = await mkdtemp(join(MATERIALIZATION_PARENT, "candidate-"));
   const hash = createMaterializationDigest();
   let bytes = 0;
   try {
     for (const entry of entries) {
-      const content = readGitBlob(entry.objectId);
+      const content = Buffer.from(blobs.get(entry.objectId));
       const target = materializedPath(root, entry);
       await mkdir(dirname(target), { recursive: true });
       await writeFile(target, content, {
@@ -883,6 +944,8 @@ async function main() {
 }
 
 export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
+  candidateBlobBytes,
+  candidateTree,
   commandEnvironment,
   createCandidateGitContext,
   inspectCandidateGitContext,
@@ -893,6 +956,7 @@ export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
   resolveHostTypeScriptEntrypoint,
   typeScriptEntrypointEnvironmentKey: TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY,
   materializeCandidateSource,
+  parseGitBlobBatch,
   pruneEmptyDirectory,
   removeCandidateGitContext,
   removeGeneratedBuildOutput,

@@ -1,0 +1,97 @@
+# Milestone: V12 IDE Run Loop
+
+## Status
+
+The V12 source on codex/v12-ide-run-loop carries Revision 31 from released V11.1 baseline c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c. The Windows long-path and invocation-scoped stable-identity causes are corrected. Focused tests pass 3/3, release-review passes 30/30, release-gate passes 16/16, and exact committed checkpoint 8768c25 passes the isolated copied-production lifecycle 1/1 in 1,752.7 seconds. Candidate-addressed external evidence/receipts are authoritative. V12 is not merge-ready.
+
+## Goal
+
+Make one approved specialist package operational through a portable, immutable IDE Run Loop that exposes launchable work, verifies raw handoffs, derives dependency readiness, and preserves visible routing and closeout evidence without owning runtime effects.
+
+## Shipped
+
+- Immutable create, restore, inspect, and record operations for one approved specialist package.
+- Dependency-eligible contract inspection, exact raw-handoff acceptance, visible non-`pass` routing, and complete-roster integration readiness.
+- Public schema, types, diagnostics, installed-consumer support, IDE kickoff, deterministic dogfood, and source-preserving run evidence.
+- Candidate-bound canonical verification and candidate-addressed independent release-review scaffolding.
+
+## Why It Matters
+
+V12 closes the practical gap between receiving a specialist package and visibly operating it from any capable IDE.
+
+## Current Stage
+
+The product implementation and prior corrections are integrated. Revision 31 separates invocation-specific temp-path evidence from stable package identity and passes its exact corrected committed copied-production lifecycle. Aggregate canonical verification and package-bound independent review are the next decisive gates; an exact successor gate, fresh R2, CI, and merge remain after them. Candidate-addressed external evidence/receipts alone may advance release state.
+
+## Acceptance
+
+- AC1-AC8 in the feature spec pass.
+- AC9 remains pending the exact successor gate, fresh R2 all-pass fan-in, hosted CI, and owner merge approval.
+- Exact dogfood compilation, package, handoffs, fan-in, and integrated verification are preserved.
+- Independent product, lifecycle, security, and API reviews pass.
+- The owner approves the exact release candidate before merge.
+
+## Verification
+
+- Implementation dogfood, exact handoffs, complete fan-in, package consumer, V11 trust-root replay, and the last complete 388-test repository gate: pass.
+- R9 committed-source regressions: 4 of 4 pass; R10 candidate-review lifecycle regressions: 5 of 5 pass; independent release-gate regressions: 4 of 4 pass.
+- R10 compilation/package and exact accepted handoff verify at `sha256:383a9ee2d20773c8608f7da195f9e7ea5212838dc7d82f0865bc1cefd38e2400` / `sha256:985a85fe77b507088cde4df3d0352c21b142fe09541cf4d5295a5869b28cf075` / `sha256:3e58dddde82171b5090debc1ea76a29298fe7a7e0f9a27dd39fd1f826350e543`.
+- Full post-R10 pre-freeze `npm.cmd run verify`: pass in 158.8 seconds.
+- Candidate 5 exact committed-tree gate: `fail`; all 399 tests pass before V11 replay rejects checkout-dependent source bindings, and exact post-command inspection rejects candidate-local runtime state.
+- Revision 12 two-specialist package and complete handoff fan-in: `pass`; focused release-gate tests 7/7 and V11/first-run tests 38/38.
+- V11 Revision 37 Candidate A, Audit B, external receipt, exact binder, semantic audit, cross-package authorization, and complete evidence replay: `pass`.
+- Candidate 6 exact gate: `fail` at the installed-consumer TypeScript path; exact evidence preserved and candidate retired.
+- Revision 13 focused 9/9 gate regressions and offline installed consumer: `pass`.
+- Revision 13 final component verification: format, lint, typecheck, 405/405 kernel tests, 9/9 release-gate regressions, installed consumer, 31/31 V11 trust tests, and the complete checker mutation matrix: `pass`.
+- V11 Revision 39 complete two-package trust replay: `pass`.
+- Aggregate pre-freeze `npm.cmd run verify`: `pass` in 235.7 seconds.
+- Candidate 7 exact gate: `fail` after 404/405 tests; source identity, isolated Git context, live state, cleanup, receipt, and raw logs preserved; candidate retired.
+- Revision 14 exact one-agent verification package and complete handoff gate: `pass`; production host-supply enforcement remains unchanged and focused regressions pass.
+- Candidate 8 pre-freeze `npm.cmd run verify`: `pass` in 238.1 seconds with all 405 tests, dogfood, package inspection, and offline installed-consumer verification.
+- Post-Revision-14 template-checker mutation matrix: `pass` in 264.6 seconds.
+- Candidate 9 exact canonical gate: `pass`; complete R2 roster: `pass` / `fix` / `pass`; authenticated `releaseReady: false`; candidate permanently retired.
+- Revision 16 compilation/package: `sha256:064bb4a993c3ab3410f360684a29bf603c119059eccb62d87294456ecbcfe044` / `sha256:20437ba56376d4b39f459043bac0940e8ded2e298b48de0cd16d437a95c96db6`; accepted attempt-2 handoff: `sha256:51e123c6a202a58a0ea456729b84dbb4995cff2b26b27313c66133fa035ae4b9`; `phaseReady: true`.
+- Post-Revision-16 `npm.cmd run verify`: `pass` in 350.4 seconds; post-Revision-16 checker mutation matrix: `pass` in 316.7 seconds.
+- Candidate 10 exact canonical gate: `pass`; R2 roster: `fix` / `pass` / `pass`; authenticated `releaseReady: false`; source permanently retired because review-runtime code was outside candidate authentication.
+- Revision 22 implementation compilation/package: `sha256:6df1f8efc8d938b61f12c2fc6ce82bb5ded3ef10d34476a1c87f8fa63fd3dc79` / `sha256:5ea6c1072e7345983dbfbbb08f688b698b6a843921e48aaac5496b135f63378c`; exact 21,143-byte handoff and complete package gate: `pass`; `phaseReady: true`.
+- Revision 22 complete release-review and release-gate suite: 34 of 34 `pass` in 1,781,304.3289 ms, including the 1,659,467.982 ms real isolated lifecycle and ten closed negative routes.
+- Revision 22 independent review compilation/package: `sha256:fd2e58b00bdba106bb708477e3254e8c49bd463cf30b6fe73cd16cf66a927503` / `sha256:517068059fbdae8641252d9273da312584f8a7960c2723d9c59f93a2fae852b2`; exact 10,972-byte handoff: `pass`; `phaseReady: true`.
+- V11 Revision 40 Candidate A, Audit B, receipt, exact binder, 12,843-byte semantic audit, canonical launch authorization, candidate approval, and `--check-evidence`: `pass`.
+- Post-Revision-22 checker mutation matrix: `pass` in 335 seconds; full pre-freeze `npm.cmd run verify`: `pass` in 1,888.7 seconds.
+- Latest retired exact gate: 423 of 424 tests `pass`; exact source/Git/cleanup checks `pass`; candidate retired on the checkout-relative cache failure.
+- Revision 24 corrected copied-production lifecycle: `pass` in 1,853.7 seconds; final independent review compilation/package `sha256:6025d006482b13d40bdfc04f6ab2d7a16628f6040ef929cbe79b18707990ff90` / `sha256:deffe7fcb085e2840f94dba081e653800adf16528f062d7208a3d5072d18c81b`; exact 18,311-byte handoff `pass`; integration accepted.
+- Post-Revision-24 complete pre-freeze `npm.cmd run verify`: `pass` in 2,025.2 seconds; checker mutation matrix: `pass` in 282.7 seconds.
+- Revision 29 exact-checkpoint `npm.cmd run verify`: `pass` in 2,623.4 seconds with 439/439 core tests, 1/1 copied lifecycle, V10/V11/V12 dogfood, 148-file package inspection, and the installed consumer.
+- Revision 29 Independent Review Attempt 1: verified `fix` for stale-log relabeling; Attempt 2 compilation/package `sha256:d2e25fd584a7319fe89af77ae47ab836cb9b6998c7aa2508ce3f960176a4b271` / `sha256:e2755508c640267eaefb5e9e428a8ee73ff8fbbef142e5b9a5540cf1fecad56e`; exact handoff `sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920`; `pass`.
+- Candidate 13 exact canonical gate at `e61932f2d5067559332790b370f1bf510d0064fc`: `fail`; exact source, materialization, Git, and cleanup checks pass; 437/439 core tests pass; receipt/stdout/stderr are `sha256:2ed3d9989f433f85c98718f3da12e98a0daf414116479aa5364eae0b8d60b114` / `sha256:b341a9904200e852063fa4fc1856c184cf763242b07da00c049fcd6544822f34` / `sha256:d7a90861417245e1f48ddfffcb12310b7402e500f726f023b548169c6487888d`; source permanently retired.
+- Revision 30 focused verification: 2/2 causal anti-drift tests, 26/26 complete release-review tests in 94.1 seconds, and 16/16 release-gate tests in 420.8 seconds pass. A preceding restricted-host attempt failed only three owned-scratch `EPERM` operations and is not treated as a source failure.
+- Commit `74397e30be5d185a14ecef1a838aa7767ffdf60f` exact canonical gate: `fail`; source/Git/materialization and outer cleanup remain exact; 439/439 core tests pass; copied lifecycle stops at the old global-temp attribution assertion; source retired.
+- Revision 31 focused verification: 2/2 causal binary/timeout tests and 28/28 complete release-review tests pass; the real-tree batch probe authenticates 2,205 unique objects and 69,562,019 blob bytes in 817 ms.
+- Revision 31 committed-identity preflight: scheduling regression passes; an invalid committed/live mismatch rejects before materialization in 215.1 ms. The preceding 2,383.9-second mixed-identity invocation is invalid evidence.
+- Revision 31 long-path correction: causal full-tree regression pass in 189.8 seconds; complete release-review 29/29 pass in 79.3 seconds; complete release-gate 16/16 pass in 445.1 seconds; no new candidate or Git scratch context remains.
+- Revision 31 stable-runtime correction: checkpoint 8f1c4f1 fails after 1,192.8 seconds at fresh approval identity; causal policy test 3/3 passes; complete release-review 30/30 passes in 80.3 seconds; complete release-gate 16/16 passes in 454.5 seconds; corrected checkpoint 8768c25 passes the isolated copied-production lifecycle 1/1 in 1,752.7 seconds.
+
+## Approval Gate
+
+- Source branch: codex/v12-ide-run-loop.
+- Target branch: main.
+- Current state: the long-path and stable-runtime identity corrections pass focused tests, the complete 30-test release-review and 16-test release-gate suites, and the exact committed copied lifecycle; aggregate, package-bound review, an exact successor gate, fresh R2, hosted CI, and owner merge evidence remain required.
+- Required decision: none at this stage.
+
+## Source Artifacts
+
+- [Feature package](../specs/v12-ide-run-loop/)
+- [Goal synthesis](../specs/v12-ide-run-loop/goal-synthesis.md)
+- [Test plan](../specs/v12-ide-run-loop/test-plan.md)
+
+## Residual Risks
+
+The external host still owns context delivery, runtime selection, spawning, isolation, persistence, integration effects, and merge. The complete copied-production release lifecycle is intentionally expensive, and a successor source may expose another release-blocking issue. Automated model/effort assignment and IDE-native spawning are accepted post-V12 work, not V12 claims.
+
+## Next Recommended Work
+
+Run the release protocol in order: commit the stable-runtime identity correction, pass its copied lifecycle, preserve the aggregate and package-bound independent verdict, freeze one successor, execute its exact gate once, and launch three fresh source-bound R2 reviewers only from a passing candidate-addressed receipt.
+
+## User-Facing Overview
+
+V12 already provides the portable IDE run session, exact handoff verification, dependency routing, and integration-readiness behavior. Its final release harness exposed and now corrects both a Windows deep-path defect and a phase-dependent runtime-identity defect; both complete source-level release suites pass. Release still requires the complete lifecycle, exact successor gate, independent R2 review, and hosted CI to pass before merge.

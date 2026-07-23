@@ -10,3 +10,8 @@ docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/
 docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stderr.log binary
 docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r27/inputs/snapshots/revision-27-source.patch binary
 docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r28/inputs/snapshots/revision-28-source.patch binary
+docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/handoffs/*.json binary
+docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/inputs/snapshots/*.log binary
+docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/inputs/snapshots/*.patch binary
+docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/inputs/snapshots/aggregate-receipt.json binary
+docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/launch-receipt.json binary

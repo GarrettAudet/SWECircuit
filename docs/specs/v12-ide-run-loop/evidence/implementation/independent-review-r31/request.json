@@ -1,0 +1,732 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.review.release-harness-correction-r31",
+    "revision": 1,
+    "objective": "Independently determine whether exact Revision 31 closes the retired Candidate 14 release-harness defects without weakening source, package, lifecycle, evidence, cleanup, or host-boundary guarantees.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.snapshots-authoritative",
+        "statement": "Declared immutable snapshots are the only semantic review inputs.",
+        "rationale": "The reviewer must not depend on mutable live source, ignored build output, or chat summaries."
+      },
+      {
+        "id": "assumption.host-boundary-external",
+        "statement": "Runtime supply, isolation, enforcement, actor authentication, hosted CI, and merge remain external host duties.",
+        "rationale": "The provider-neutral package can bind demands and evidence but cannot perform host effects."
+      },
+      {
+        "id": "assumption.predecessor-retired",
+        "statement": "Checkpoint 74397e30be5d185a14ecef1a838aa7767ffdf60f is immutable failed evidence and cannot be relaunched.",
+        "rationale": "The review compares its exact failure with a new aggregate-tested correction lineage only."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.review.release-harness-correction.r31",
+        "description": "Every Revision 31 cause is closed by production-path code and causal tests, exact aggregate evidence is checkpoint-bound, and no release-blocking bypass remains in scope.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.review.release-harness-correction.r31",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Authenticate every source, resolve every closed review point, search for bypasses, and return one exact pass or causal non-pass handoff.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/agent-contract.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Exact repository agent and release invariants.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/agent-contract.md"
+      },
+      {
+        "id": "context.specialist-compiler-contract",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/specialist-compiler-contract.md",
+        "digest": "sha256:ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9",
+        "bytes": 36886,
+        "description": "Exact specialist package, approval, and handoff trust contract.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/specialist-compiler-contract.md"
+      },
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/v12-spec.md",
+        "digest": "sha256:560d60663e144614ea9226a2cc15d2c5665772d12edf7a9756159827db632ac2",
+        "bytes": 6031,
+        "description": "V12 product intent and acceptance criteria.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/v12-spec.md"
+      },
+      {
+        "id": "context.v12-root-cause",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/v12-root-cause-analysis.md",
+        "digest": "sha256:430a64c4d26c66fc8d59324cebafacf87195e33750308f7f1fa31426c8fecf3a",
+        "bytes": 41773,
+        "description": "Current immutable release-attempt RCA and Revision 31 causes.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/v12-root-cause-analysis.md"
+      },
+      {
+        "id": "context.v12-debug",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/v12-debug-notes.md",
+        "digest": "sha256:cb4c0e9ed80f6e2ca6d2be62c51293ad7d77185bb9b438b938c7f0d955c80d96",
+        "bytes": 58257,
+        "description": "Current diagnostic chronology and route outcomes.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/v12-debug-notes.md"
+      },
+      {
+        "id": "context.v12-test-plan",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/v12-test-plan.md",
+        "digest": "sha256:ce89b8d7d1eb67133f7e980a00be047d47e9afa6ac9acf869b4c6ebe0e1b0f2c",
+        "bytes": 11216,
+        "description": "Current verification obligations and exact historical outcomes.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/v12-test-plan.md"
+      },
+      {
+        "id": "context.v12-review",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/v12-review.md",
+        "digest": "sha256:e067bc28bf6d665e3170821308b37506cfb4b71f906de168d52d4a5873ecb3d8",
+        "bytes": 13101,
+        "description": "Current integration and review state.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/v12-review.md"
+      },
+      {
+        "id": "context.v12-milestone",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/v12-milestone.md",
+        "digest": "sha256:f2be0c25cdd123b26ba963a3697810f5f74be4ab8ace9c807201caa680d3dfa3",
+        "bytes": 11555,
+        "description": "Current milestone and remaining release gates.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/v12-milestone.md"
+      },
+      {
+        "id": "context.active-context",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/active-context.md",
+        "digest": "sha256:6126636050d9c07dc25a2afebd194308c314bcf369ddc747149d3e3f5ba85030",
+        "bytes": 41282,
+        "description": "Current source-visible release state and host boundary.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/active-context.md"
+      },
+      {
+        "id": "context.candidate-14-retirement",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/candidate-14-retirement.md",
+        "digest": "sha256:cb6fa937c358dafa770992da3559d1e5f52fcf56610168e84959003069a5c0ae",
+        "bytes": 1806,
+        "description": "Exact retirement record for the source that triggered Revision 31.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/candidate-14-retirement.md"
+      },
+      {
+        "id": "context.candidate-14-gate-receipt",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/candidate-14-gate-receipt.json",
+        "digest": "sha256:f9960ddb3cf3b15cbc03fbdb7d016b1eb520b833fb2183dcfdd67b984cc560c2",
+        "bytes": 2296,
+        "description": "Exact failed Candidate 14 canonical-gate receipt.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/candidate-14-gate-receipt.json"
+      },
+      {
+        "id": "context.candidate-14-gate-stdout",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/candidate-14-gate.stdout.log",
+        "digest": "sha256:dfa57323ce8e81452cf51a5fe862b34e0b9019dd05eb09b90af55425f9393138",
+        "bytes": 36810,
+        "description": "Exact failed Candidate 14 canonical-gate stdout.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/candidate-14-gate.stdout.log"
+      },
+      {
+        "id": "context.candidate-14-gate-stderr",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/candidate-14-gate.stderr.log",
+        "digest": "sha256:0d0f997717d3a289caa495f1426091e27604f6829fd49be9af82f472e9d60758",
+        "bytes": 19354,
+        "description": "Exact failed Candidate 14 canonical-gate stderr.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/candidate-14-gate.stderr.log"
+      },
+      {
+        "id": "context.release-review-parent",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/final-release-review-parent.mjs",
+        "digest": "sha256:efbf5e96314e28a20b67e7f78067798ac398fadb1b25628f9e1d02082a8bb1e7",
+        "bytes": 102513,
+        "description": "Exact corrected external-host release-review parent.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/final-release-review-parent.mjs"
+      },
+      {
+        "id": "context.release-review-harness",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/final-release-review-harness.mjs",
+        "digest": "sha256:a56a60b6704487e29d398362f884c34ff4850baac1315d3347e74e82c4241934",
+        "bytes": 127937,
+        "description": "Exact corrected private release-review harness.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/final-release-review-harness.mjs"
+      },
+      {
+        "id": "context.release-review-verifier",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/final-release-review-verifier.mjs",
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+        "bytes": 30840,
+        "description": "Exact package-bound raw-handoff verifier.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/final-release-review-verifier.mjs"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/final-release-gate.mjs",
+        "digest": "sha256:b1451d644b2c003ccd19cf29a3cb92a964eec01e5281afbef7c878ccb1e57025",
+        "bytes": 31070,
+        "description": "Exact corrected one-shot canonical-gate implementation.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/final-release-gate.mjs"
+      },
+      {
+        "id": "context.release-review-tests",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/final-release-review-tests.mjs",
+        "digest": "sha256:199ffa609591cd7ac9cec210c20512d44b6e1948508e6e86085c77b759d7d505",
+        "bytes": 66473,
+        "description": "Exact release-review regressions and negative matrix.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/final-release-review-tests.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/final-release-gate-tests.mjs",
+        "digest": "sha256:34756d001cb73a268e83db7d61cb39fc5bbc4b21971e7afef359dff30c034f64",
+        "bytes": 43488,
+        "description": "Exact release-gate regressions and full-tree long-path test.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/final-release-gate-tests.mjs"
+      },
+      {
+        "id": "context.lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/final-lifecycle-helper.mjs",
+        "digest": "sha256:29ab3a61711c71ed78e60dfd7684053e046fedea8ca3f75e1f2bbc7b7be009a0",
+        "bytes": 76981,
+        "description": "Exact copied-production lifecycle host.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/final-lifecycle-helper.mjs"
+      },
+      {
+        "id": "context.lifecycle-test",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/final-lifecycle-test.mjs",
+        "digest": "sha256:1062e00786f4fdaaf5aa61a93a7f7f0759e09b49c55532a26c91edfcd1270fa7",
+        "bytes": 10294,
+        "description": "Exact copied-production lifecycle entrypoint.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/final-lifecycle-test.mjs"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/final-package.json",
+        "digest": "sha256:9c8e1e3bde18439a6199f0752b7dad1e69fdf713ffac33597d5119d1c26a67fa",
+        "bytes": 4043,
+        "description": "Exact canonical aggregate command and package surface.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/final-package.json"
+      },
+      {
+        "id": "context.prior-independent-pass",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/prior-r29-review-handoff.json",
+        "digest": "sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920",
+        "bytes": 11258,
+        "description": "Last accepted package-bound independent semantic pass before later candidate corrections.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/prior-r29-review-handoff.json"
+      },
+      {
+        "id": "context.prior-independent-verification",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/prior-r29-handoff-verification.json",
+        "digest": "sha256:6e1f1aa747a896c6ea7d07ce532dccdb613124c9e320482dfbc9216bb85cbeff",
+        "bytes": 541,
+        "description": "Exact verification of the prior independent handoff.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/prior-r29-handoff-verification.json"
+      },
+      {
+        "id": "context.prior-independent-assessment",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/prior-r29-integration-assessment.md",
+        "digest": "sha256:7d6b72b225beef2370b7ebde7b420a05fa606c11ae96fffb20e3810c710f2d77",
+        "bytes": 1436,
+        "description": "Integration-owner disposition of the prior independent pass.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/prior-r29-integration-assessment.md"
+      },
+      {
+        "id": "context.aggregate-receipt",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/aggregate-receipt.json",
+        "digest": "sha256:ef5bd550aa769705d3722b45d90b39ed6c4dc639ff4d1637ab54b844a22db3c0",
+        "bytes": 1673,
+        "description": "Fresh exact-checkpoint aggregate receipt.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/aggregate-receipt.json"
+      },
+      {
+        "id": "context.aggregate-stdout",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/npm-verify.stdout.log",
+        "digest": "sha256:69fc4ea4484e11fa61edf989168799abf80cc7ea654d2b0a734a3915d7559ba0",
+        "bytes": 303362,
+        "description": "Fresh exact-checkpoint aggregate stdout.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/npm-verify.stdout.log"
+      },
+      {
+        "id": "context.aggregate-stderr",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/npm-verify.stderr.log",
+        "digest": "sha256:d19f01de430cfe2d806b7444d8b3fe8b2462b1ade4643113c2b0cbadf4e0740e",
+        "bytes": 26181,
+        "description": "Fresh exact-checkpoint aggregate stderr.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/npm-verify.stderr.log"
+      },
+      {
+        "id": "context.source-delta",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/revision-31-source.patch",
+        "digest": "sha256:0345b88970f84400a96f1a40bedfc18649c5e117e304fb23f0595296dbb018cb",
+        "bytes": 147201,
+        "description": "Exact full source delta from retired Candidate 14 to the aggregate-tested checkpoint.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/revision-31-source.patch"
+      },
+      {
+        "id": "context.checkpoint",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/review-checkpoint.json",
+        "digest": "sha256:79ad9d039e81f9ea96945ca4b6f62996a411f74fd56cb1e8fbbfd747695b75c4",
+        "bytes": 413,
+        "description": "Exact commit, tree, predecessor, and aggregate binding.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/snapshots/review-checkpoint.json"
+      },
+      {
+        "id": "context.review-contract",
+        "kind": "repository",
+        "locator": "path:inputs/review-contract.md",
+        "digest": "sha256:4fa3c2680d8ffaadde8edb0f765777ea9e174c3185299544d0e1f3b56291a7c5",
+        "bytes": 3007,
+        "description": "Closed independent Revision 31 review contract.",
+        "allowedWorkUnits": [
+          "review.release-harness-correction.r31"
+        ],
+        "readScope": "inputs/review-contract.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "review.release-harness-correction"
+      ],
+      "allowedCapabilities": [
+        "review.release-evidence-security"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "inputs/snapshots/agent-contract.md",
+            "inputs/snapshots/specialist-compiler-contract.md",
+            "inputs/snapshots/v12-spec.md",
+            "inputs/snapshots/v12-root-cause-analysis.md",
+            "inputs/snapshots/v12-debug-notes.md",
+            "inputs/snapshots/v12-test-plan.md",
+            "inputs/snapshots/v12-review.md",
+            "inputs/snapshots/v12-milestone.md",
+            "inputs/snapshots/active-context.md",
+            "inputs/snapshots/candidate-14-retirement.md",
+            "inputs/snapshots/candidate-14-gate-receipt.json",
+            "inputs/snapshots/candidate-14-gate.stdout.log",
+            "inputs/snapshots/candidate-14-gate.stderr.log",
+            "inputs/snapshots/final-release-review-parent.mjs",
+            "inputs/snapshots/final-release-review-harness.mjs",
+            "inputs/snapshots/final-release-review-verifier.mjs",
+            "inputs/snapshots/final-release-gate.mjs",
+            "inputs/snapshots/final-release-review-tests.mjs",
+            "inputs/snapshots/final-release-gate-tests.mjs",
+            "inputs/snapshots/final-lifecycle-helper.mjs",
+            "inputs/snapshots/final-lifecycle-test.mjs",
+            "inputs/snapshots/final-package.json",
+            "inputs/snapshots/prior-r29-review-handoff.json",
+            "inputs/snapshots/prior-r29-handoff-verification.json",
+            "inputs/snapshots/prior-r29-integration-assessment.md",
+            "inputs/snapshots/aggregate-receipt.json",
+            "inputs/snapshots/npm-verify.stdout.log",
+            "inputs/snapshots/npm-verify.stderr.log",
+            "inputs/snapshots/revision-31-source.patch",
+            "inputs/snapshots/review-checkpoint.json",
+            "inputs/review-contract.md"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "powershell",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not edit files, install packages, use network access, mutate Git state, launch descendants, rerun the aggregate or candidate gate, alter evidence, claim release readiness, approve merge, or perform host enforcement."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "review.release-harness-correction.r31",
+        "objective": "Authenticate and independently audit exact Revision 31 against the closed review contract; reconstruct the failed predecessor, trace every correction through production and tests, validate aggregate attribution, search for bypasses, and return one bounded verdict.",
+        "weight": 34,
+        "module": {
+          "id": "review.release-harness-correction",
+          "action": "Authenticate immutable inputs; trace release-harness identity, authority, Git, process, cleanup, and verification boundaries; test the evidence logic adversarially; return one exact review handoff.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "AuthenticatedCandidate14FailureAndRevision31Evidence"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IndependentRevision31ReleaseHarnessVerdict"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "review.release-evidence-security"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.specialist-compiler-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.v12-root-cause",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.v12-debug",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.v12-test-plan",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.v12-review",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.v12-milestone",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.active-context",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.candidate-14-retirement",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.candidate-14-gate-receipt",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.candidate-14-gate-stdout",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.candidate-14-gate-stderr",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.release-review-parent",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.release-review-harness",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.release-review-verifier",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.release-gate",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.release-review-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.release-gate-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.lifecycle-helper",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.lifecycle-test",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.prior-independent-pass",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.prior-independent-verification",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.prior-independent-assessment",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.aggregate-receipt",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.aggregate-stdout",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.aggregate-stderr",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.source-delta",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.checkpoint",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          },
+          {
+            "sourceId": "context.review-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 31 release-harness correction and aggregate evidence."
+          }
+        ],
+        "scope": {
+          "read": [
+            "inputs/snapshots/agent-contract.md",
+            "inputs/snapshots/specialist-compiler-contract.md",
+            "inputs/snapshots/v12-spec.md",
+            "inputs/snapshots/v12-root-cause-analysis.md",
+            "inputs/snapshots/v12-debug-notes.md",
+            "inputs/snapshots/v12-test-plan.md",
+            "inputs/snapshots/v12-review.md",
+            "inputs/snapshots/v12-milestone.md",
+            "inputs/snapshots/active-context.md",
+            "inputs/snapshots/candidate-14-retirement.md",
+            "inputs/snapshots/candidate-14-gate-receipt.json",
+            "inputs/snapshots/candidate-14-gate.stdout.log",
+            "inputs/snapshots/candidate-14-gate.stderr.log",
+            "inputs/snapshots/final-release-review-parent.mjs",
+            "inputs/snapshots/final-release-review-harness.mjs",
+            "inputs/snapshots/final-release-review-verifier.mjs",
+            "inputs/snapshots/final-release-gate.mjs",
+            "inputs/snapshots/final-release-review-tests.mjs",
+            "inputs/snapshots/final-release-gate-tests.mjs",
+            "inputs/snapshots/final-lifecycle-helper.mjs",
+            "inputs/snapshots/final-lifecycle-test.mjs",
+            "inputs/snapshots/final-package.json",
+            "inputs/snapshots/prior-r29-review-handoff.json",
+            "inputs/snapshots/prior-r29-handoff-verification.json",
+            "inputs/snapshots/prior-r29-integration-assessment.md",
+            "inputs/snapshots/aggregate-receipt.json",
+            "inputs/snapshots/npm-verify.stdout.log",
+            "inputs/snapshots/npm-verify.stderr.log",
+            "inputs/snapshots/revision-31-source.patch",
+            "inputs/snapshots/review-checkpoint.json",
+            "inputs/review-contract.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "inputs/snapshots/agent-contract.md",
+              "inputs/snapshots/specialist-compiler-contract.md",
+              "inputs/snapshots/v12-spec.md",
+              "inputs/snapshots/v12-root-cause-analysis.md",
+              "inputs/snapshots/v12-debug-notes.md",
+              "inputs/snapshots/v12-test-plan.md",
+              "inputs/snapshots/v12-review.md",
+              "inputs/snapshots/v12-milestone.md",
+              "inputs/snapshots/active-context.md",
+              "inputs/snapshots/candidate-14-retirement.md",
+              "inputs/snapshots/candidate-14-gate-receipt.json",
+              "inputs/snapshots/candidate-14-gate.stdout.log",
+              "inputs/snapshots/candidate-14-gate.stderr.log",
+              "inputs/snapshots/final-release-review-parent.mjs",
+              "inputs/snapshots/final-release-review-harness.mjs",
+              "inputs/snapshots/final-release-review-verifier.mjs",
+              "inputs/snapshots/final-release-gate.mjs",
+              "inputs/snapshots/final-release-review-tests.mjs",
+              "inputs/snapshots/final-release-gate-tests.mjs",
+              "inputs/snapshots/final-lifecycle-helper.mjs",
+              "inputs/snapshots/final-lifecycle-test.mjs",
+              "inputs/snapshots/final-package.json",
+              "inputs/snapshots/prior-r29-review-handoff.json",
+              "inputs/snapshots/prior-r29-handoff-verification.json",
+              "inputs/snapshots/prior-r29-integration-assessment.md",
+              "inputs/snapshots/aggregate-receipt.json",
+              "inputs/snapshots/npm-verify.stdout.log",
+              "inputs/snapshots/npm-verify.stderr.log",
+              "inputs/snapshots/revision-31-source.patch",
+              "inputs/snapshots/review-checkpoint.json",
+              "inputs/review-contract.md"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "powershell",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.review.release-harness-correction.r31"
+        ],
+        "handoffArtifacts": [
+          "independent-revision-31-release-harness-review.md"
+        ],
+        "stopConditions": [
+          "Stop before semantic review if any declared snapshot byte count or digest fails.",
+          "Remain read-only and report every defect without changing source or evidence.",
+          "Resolve every closed review point and search for new bypasses before returning pass.",
+          "Treat tests, receipts, prior reviews, and integration-owner statements as evidence only.",
+          "Do not claim release readiness, hosted CI, merge approval, or host enforcement.",
+          "Return only the exact generated SpecialistAgentHandoff JSON object."
+        ]
+      }
+    ]
+  }
+}

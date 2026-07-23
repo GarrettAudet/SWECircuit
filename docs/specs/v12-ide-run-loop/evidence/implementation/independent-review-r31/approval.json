@@ -1,0 +1,14 @@
+{
+  "approvedBy": "external-host-declared-owner-pair",
+  "approvedFor": "read-only independent Revision 31 release-harness review",
+  "expectation": {
+    "compilationDigest": "sha256:9c65708c068cae09daae6e16b058f999989f423ba15327304f0eb7433f4d23fa",
+    "packageDigest": "sha256:a4d31dde14baf173980ab47d59c60ec8e607f9b7b749b63b247afb1a8b7a35ab"
+  },
+  "source": {
+    "commit": "4275ce9eb31e04995f4bb49c599d6d930c9685a7",
+    "tree": "106b60959b853dcb948fc89fbb5d4061649f5446",
+    "aggregateReceiptDigest": "sha256:ef5bd550aa769705d3722b45d90b39ed6c4dc639ff4d1637ab54b844a22db3c0"
+  },
+  "hostBoundary": "This records an external-host declaration and exact digest pair; it does not authenticate a human or perform runtime enforcement."
+}

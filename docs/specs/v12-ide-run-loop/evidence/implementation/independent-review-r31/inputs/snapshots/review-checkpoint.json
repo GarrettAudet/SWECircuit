@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "swecircuit.v12.review-checkpoint.v1",
+  "commit": "4275ce9eb31e04995f4bb49c599d6d930c9685a7",
+  "tree": "106b60959b853dcb948fc89fbb5d4061649f5446",
+  "predecessor": "74397e30be5d185a14ecef1a838aa7767ffdf60f",
+  "aggregateReceipt": {
+    "bytes": 1673,
+    "digest": "sha256:ef5bd550aa769705d3722b45d90b39ed6c4dc639ff4d1637ab54b844a22db3c0"
+  },
+  "sourceWorktreeCleanAfterAggregate": true
+}

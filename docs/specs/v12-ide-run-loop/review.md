@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. The latest canonical gate evidence preserved in this source records exact source, materialization, Git, and outer cleanup state; 439 of 439 passing core tests; a copied-production lifecycle stop at the parent timeout/cleanup boundary; and source retirement. Revision 31 preserves that failure and corrects Git-object scaling, process-tree termination, and invocation-owned cleanup attribution. Candidate-addressed external evidence is authoritative for any later exact gate, fresh R2 review, hosted CI, and owner merge decision.
+V12 is not merge-ready. Exact Revision 31 checkpoint `4275ce9eb31e04995f4bb49c599d6d930c9685a7` passed the complete aggregate, then its immutable package-bound review returned verified `fix` for per-entry Git blob processes left in the embedded verifier harness and canonical gate. Revision 32 closes those boundaries and passes focused source verification. A fresh exact aggregate and fresh package-bound `pass` remain mandatory before any successor freeze, R2 review, hosted CI, or owner merge decision.
 
 ## Scope
 
@@ -105,8 +105,14 @@ The one-shot gate for `74397e30be5d185a14ecef1a838aa7767ffdf60f` preserved 3,477
 
 Revision 31 replaces per-file Git object processes with a strictly parsed binary batch, scopes each copied parent to one test-owned temp namespace, terminates the complete process tree at timeout, orders process classification before cleanup assertions, and surfaces production cleanup failures. The new causal regressions and all 28 release-review tests pass.
 
-## Current Outcome
+## Revision 31 Pre-Aggregate Outcome
 
 Revision 31's focused evidence is `pass`, but it is not release approval. The latest gate evidence preserved in source remains a retired failure with exact core success and an attribution-defective lifecycle stop. Candidate-addressed external evidence must establish the correction's broader release-gate and copied-lifecycle results, an exact successor gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.
 
 The first post-correction full-lifecycle invocation is classified as invalid mixed-identity evidence: committed `HEAD` supplied the old executed parent while the working tree supplied the new expected identity. A new committed-identity preflight rejects that state before materialization; the full Revision 31 lifecycle still requires a committed checkpoint.
+
+## Current Outcome
+
+Revision 32 is `pass` at focused verification and `pending` at release verification. The actual parent, verifier harness, and canonical gate reconstruct 3-file and 35-file committed trees with binary bytes and duplicate objects using exactly four Git invocations, one strict batch read, and zero per-blob reads. The complete release-review and release-gate suites pass 31/31 and 17/17.
+
+No successor is frozen. A fresh exact aggregate and fresh immutable package-bound independent review must pass before release routing can continue.

@@ -22,7 +22,12 @@ import { compileAgentBlueprints } from "../dist/index.js";
 import { RELEASE_REVIEW_TEST_HOOKS } from "../docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs";
 import { RELEASE_GATE_TEST_HOOKS } from "../scripts/run-v12-release-gate.mjs";
 import { RELEASE_REVIEW_PARENT_TEST_HOOKS } from "../scripts/run-v12-release-review.mjs";
-
+import {
+  assertConstantBatchRead,
+  BINARY_FIXTURE_BYTES,
+  createGitBlobLoaderFixture,
+  createRecordedGitRunner,
+} from "./helpers/git-blob-loader-fixture.mjs";
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const RELEASE_GATE_PATH = join(ROOT, "scripts/run-v12-release-gate.mjs");
 const PACKED_CONSUMER_PATH = join(ROOT, "scripts/check-packed-consumer.mjs");
@@ -189,6 +194,31 @@ test("packed consumer retains and executes the complete TypeScript binding", () 
   );
 });
 
+test("canonical gate materialization uses a constant-process Git blob batch", async () => {
+  const fixture = await createGitBlobLoaderFixture();
+
+  try {
+    for (const revision of fixture.revisions) {
+      const calls = [];
+      const materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(
+        revision.commit,
+        { gitRunner: createRecordedGitRunner(fixture.root, calls) },
+      );
+      try {
+        assert.equal(materialization.source.files, revision.files);
+        assert.deepEqual(
+          await readFile(join(materialization.root, "binary.bin")),
+          BINARY_FIXTURE_BYTES,
+        );
+        assertConstantBatchRead(calls, revision.files);
+      } finally {
+        await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+      }
+    }
+  } finally {
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
 test("candidate materialization excludes and detects uncommitted verification inputs", async () => {
   const candidateCommit = runGit(["rev-parse", "--verify", "HEAD"]);
   const candidateTree = runGit(["rev-parse", "--verify", `${candidateCommit}^{tree}`]);

@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, corrects its attribution, long-path, and stable-identity causes, and passes the exact corrected committed lifecycle at checkpoint 8768c25. Candidate-addressed external evidence owns later release outcomes; V12 still requires aggregate verification, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
+No active V12 product-contract defect is recorded. Revision 31 passed the exact aggregate at `4275ce9eb31e04995f4bb49c599d6d930c9685a7`, but its immutable package-bound review returned verified `fix` for incomplete cross-boundary Git batching. Revision 32 closes the embedded verifier harness and canonical gate loaders and passes focused source verification. V12 still requires a fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
 
 ## Reproduction
 
@@ -774,3 +774,9 @@ Checkpoint 8f1c4f1 crossed the prior long-path stop and failed after 1,192.8 sec
 The lifecycle host assigns each parent a unique TEMP, TMP, and TMPDIR root. The stable environment policy embedded those raw paths, so each parent received a different runtime binding, candidate manifest, request, and package identity. A direct policy comparison confirmed those three paths were the only differing fields.
 
 The correction excludes raw invocation temp paths from stable identity and validates an explicit exclusion marker in the candidate worker. Focused tests pass 3/3, release-review passes 30/30, and release-gate passes 16/16. Exact committed checkpoint 8768c25 passes the isolated copied-production lifecycle 1/1 in 1,752.7 seconds, including closed negative routes, reauthorization, and owned cleanup. Route: diagnose -> fix -> verify -> pass.
+
+## Revision 31 Package-Bound Batch-Coverage Finding
+
+The exact Revision 31 aggregate passed, but the immutable reviewer found that the causal performance fix existed only in `scripts/run-v12-release-review.mjs`. The candidate-derived harness still called `git cat-file blob` inside `loadCandidateTree`, and canonical materialization did the same inside its entry loop. The verifier inherited the harness loader.
+
+Revision 32 applies the same strict sorted and deduplicated batch protocol at both remaining boundaries. A real temporary repository proves constant Git process count across 3-file and 35-file revisions, duplicate-object deduplication, and exact binary reconstruction. Release-review passes 31/31; release-gate passes 17/17. Route: `review -> fix -> verify`; fresh aggregate and independent review remain.

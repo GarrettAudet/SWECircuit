@@ -835,30 +835,30 @@ function parseGitBlobBatch(objectIds, output) {
   return blobs;
 }
 
-function candidateBlobBytes(tools, objectIds) {
+function candidateBlobBytes(tools, objectIds, gitExecutor = gitOutput) {
   const uniqueObjectIds = [...new Set(objectIds)].sort(compareOrdinal);
   requireCondition(uniqueObjectIds.length > 0, "Candidate tree has no blobs.");
   const input = Buffer.from(`${uniqueObjectIds.join("\n")}\n`, "ascii");
-  const output = gitOutput(tools, ["cat-file", "--batch"], {
+  const output = gitExecutor(tools, ["cat-file", "--batch"], {
     input,
     label: "Git candidate blob batch",
   });
   return parseGitBlobBatch(uniqueObjectIds, output);
 }
 
-function candidateSource(tools, checkpoint) {
+function candidateSource(tools, checkpoint, gitExecutor = gitOutput) {
   requireCondition(CANDIDATE_PATTERN.test(checkpoint), "Candidate must be an exact lowercase commit ID.");
   const commit = strictUtf8(
-    gitOutput(tools, ["rev-parse", "--verify", `${checkpoint}^{commit}`]),
+    gitExecutor(tools, ["rev-parse", "--verify", `${checkpoint}^{commit}`]),
     "Candidate commit",
   ).trim();
   requireCondition(commit === checkpoint, "Candidate commit identity mismatch.");
   const tree = strictUtf8(
-    gitOutput(tools, ["rev-parse", "--verify", `${checkpoint}^{tree}`]),
+    gitExecutor(tools, ["rev-parse", "--verify", `${checkpoint}^{tree}`]),
     "Candidate tree",
   ).trim();
   const records = nulRecords(
-    gitOutput(tools, ["ls-tree", "-rz", "--full-tree", checkpoint]),
+    gitExecutor(tools, ["ls-tree", "-rz", "--full-tree", checkpoint]),
     "Candidate tree listing",
   );
   const aliases = new Set();
@@ -879,6 +879,7 @@ function candidateSource(tools, checkpoint) {
   const blobs = candidateBlobBytes(
     tools,
     entries.map((entry) => entry.objectId),
+    gitExecutor,
   );
   for (const entry of entries) {
     entry.bytes = Buffer.from(blobs.get(entry.objectId));
@@ -2739,7 +2740,9 @@ export const RELEASE_REVIEW_PARENT_TEST_HOOKS = Object.freeze({
   assertOutputDelta,
   atomicPromoteBytesAtRoot,
   cachePath,
+  candidateBlobBytes,
   candidateRunPaths,
+  candidateSource,
   createPrivateNpmConfiguration,
   closedEnvironment,
   createPhaseAuthorityBinding,

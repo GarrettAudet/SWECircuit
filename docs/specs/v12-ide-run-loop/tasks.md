@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 remains open until release evidence closes it. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and source retirement. Revision 30 owns evidence preservation and candidate-independent routing text. Candidate-addressed external evidence must establish focused and complete verification, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before T006 or V12 can close.
+T006 remains open until release evidence closes it. Exact checkpoint `4275ce9eb31e04995f4bb49c599d6d930c9685a7` passed the complete aggregate with 443 of 443 core tests and the copied-production lifecycle. Its immutable package-bound Revision 31 review returned verified `fix` because the embedded review harness and canonical gate still used per-entry Git blob processes. Revision 32 batches all three ownership boundaries and passes 31/31 release-review tests plus 17/17 release-gate tests. A fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before T006 or V12 can close.
 
 ## Task List
 

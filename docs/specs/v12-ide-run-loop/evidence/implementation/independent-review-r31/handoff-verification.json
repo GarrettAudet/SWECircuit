@@ -1,0 +1,12 @@
+{
+  "file": "agent.35a191fc146b32387289383bbaf06d1c1094058edd3556b1b4dc1f01fd43c275-fix-attempt-1.json",
+  "agentId": "agent.35a191fc146b32387289383bbaf06d1c1094058edd3556b1b4dc1f01fd43c275",
+  "outcome": "fix",
+  "rawBytes": 10421,
+  "rawDigest": "sha256:975bce5edc9937a3b266e1e072dea09e607bf653f2b0f8e7bcc261bdcde95c15",
+  "semanticDigest": "sha256:07c6c463247f5b2f3d2d2b6a29287326120f58e96ff7a487a8c73f9a2c6f3957",
+  "contentDigest": "sha256:bdbefce084a60e380dd2c221fbf10cf0687229ac8281aae6d387d95c51efb607",
+  "compilationDigest": "sha256:9c65708c068cae09daae6e16b058f999989f423ba15327304f0eb7433f4d23fa",
+  "packageDigest": "sha256:a4d31dde14baf173980ab47d59c60ec8e607f9b7b749b63b247afb1a8b7a35ab",
+  "packageVerified": true
+}

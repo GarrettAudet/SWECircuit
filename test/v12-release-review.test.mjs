@@ -16,7 +16,12 @@ import {
   PRODUCTION_IDENTITIES,
   V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS,
 } from "./helpers/v12-release-review-lifecycle.mjs";
-
+import {
+  assertConstantBatchRead,
+  BINARY_FIXTURE_BYTES,
+  createGitBlobLoaderFixture,
+  createRecordedGitOutput,
+} from "./helpers/git-blob-loader-fixture.mjs";
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const APPROVED_CHECKPOINT = "1b47e0ad10a5c3209fae53397892b7df3cd837be";
 const REVIEW_ROOT = "docs/specs/v12-ide-run-loop/evidence/release-review-r2";
@@ -296,6 +301,26 @@ test("candidate blob batch parsing preserves binary bytes and fails closed", () 
   assert.deepEqual([...parsed.keys()], [firstObject, secondObject]);
   assert.deepEqual(parsed.get(firstObject), firstBytes);
   assert.deepEqual(parsed.get(secondObject), secondBytes);
+  for (const parser of [
+    RELEASE_REVIEW_TEST_HOOKS.parseGitBlobBatch,
+    RELEASE_GATE_TEST_HOOKS.parseGitBlobBatch,
+  ]) {
+    const boundaryParsed = parser([firstObject, secondObject], valid);
+    assert.deepEqual([...boundaryParsed.keys()], [firstObject, secondObject]);
+    assert.deepEqual(boundaryParsed.get(firstObject), firstBytes);
+    assert.throws(
+      () => parser([firstObject], gitBlobBatchRecord(secondObject, firstBytes)),
+      /unexpected object/u,
+    );
+    assert.throws(
+      () =>
+        parser(
+          [firstObject],
+          Buffer.concat([gitBlobBatchRecord(firstObject, firstBytes), Buffer.from("extra")]),
+        ),
+      /trailing bytes/u,
+    );
+  }
 
   assert.throws(
     () =>
@@ -356,6 +381,41 @@ test("candidate blob batch parsing preserves binary bytes and fails closed", () 
   );
 });
 
+test("parent and verifier harness loaders use constant-process Git blob batches", async () => {
+  const fixture = await createGitBlobLoaderFixture();
+  const verifierSource = readFileSync(VERIFIER_ENTRYPOINT, "utf8");
+  assert.match(verifierSource, /RELEASE_REVIEW_TEST_HOOKS\.loadCandidateTree\(candidate\)/u);
+
+  try {
+    for (const revision of fixture.revisions) {
+      const parentCalls = [];
+      const parentOutput = createRecordedGitOutput(fixture.root, parentCalls);
+      const source = RELEASE_REVIEW_PARENT_TEST_HOOKS.candidateSource(
+        {},
+        revision.commit,
+        (_tools, args, options) => parentOutput(args, options),
+      );
+      assert.equal(source.entries.length, revision.files);
+      assert.deepEqual(
+        source.entries.find((entry) => entry.path === "binary.bin").bytes,
+        BINARY_FIXTURE_BYTES,
+      );
+      assertConstantBatchRead(parentCalls, revision.files);
+
+      const harnessCalls = [];
+      const harnessOutput = createRecordedGitOutput(fixture.root, harnessCalls);
+      const candidateTree = RELEASE_REVIEW_TEST_HOOKS.loadCandidateTree(
+        revision.commit,
+        harnessOutput,
+      );
+      assert.equal(candidateTree.paths.length, revision.files);
+      assert.deepEqual(candidateTree.file("binary.bin").bytes, BINARY_FIXTURE_BYTES);
+      assertConstantBatchRead(harnessCalls, revision.files);
+    }
+  } finally {
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
 test("Git changed-path diagnostics are canonical and fail closed", () => {
   assert.deepEqual(
     RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitChangedPaths(

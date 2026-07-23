@@ -1,0 +1,35 @@
+{
+    "schemaVersion":  "swecircuit.v12.aggregate-receipt.v1",
+    "source":  {
+                   "commit":  "4275ce9eb31e04995f4bb49c599d6d930c9685a7",
+                   "tree":  "106b60959b853dcb948fc89fbb5d4061649f5446",
+                   "worktreeCleanAfter":  true
+               },
+    "command":  "npm.cmd run verify",
+    "startedAt":  "2026-07-23T07:47:00.8639202+00:00",
+    "endedAt":  "2026-07-23T08:25:33.7167730+00:00",
+    "exitCode":  0,
+    "outcome":  "pass",
+    "evidence":  {
+                     "stdout":  {
+                                    "path":  "npm-verify.stdout.log",
+                                    "mediaType":  "text/plain; charset=utf-8",
+                                    "bytes":  303362,
+                                    "digest":  "sha256:69fc4ea4484e11fa61edf989168799abf80cc7ea654d2b0a734a3915d7559ba0"
+                                },
+                     "stderr":  {
+                                    "path":  "npm-verify.stderr.log",
+                                    "mediaType":  "text/plain; charset=utf-8",
+                                    "bytes":  26181,
+                                    "digest":  "sha256:d19f01de430cfe2d806b7444d8b3fe8b2462b1ade4643113c2b0cbadf4e0740e"
+                                }
+                 },
+    "summary":  {
+                    "coreTestsPassed":  443,
+                    "coreTestsFailed":  0,
+                    "copiedLifecyclePassed":  1,
+                    "copiedLifecycleFailed":  0,
+                    "packageDryRunPassed":  true,
+                    "offlineInstalledConsumerPassed":  true
+                }
+}

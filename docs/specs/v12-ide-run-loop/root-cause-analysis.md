@@ -522,3 +522,25 @@ Raw invocation temporary paths are excluded from stable inherited runtime identi
 ### Regression And Route
 
 Two distinct temporary roots now produce one stable policy; changing a stable inherited value still changes it, and neither raw root survives serialization. The focused boundary tests pass 3/3, the complete release-review suite passes 30/30 in 80.3 seconds, and the complete release-gate suite passes 16/16 in 454.5 seconds. Exact committed checkpoint 8768c25 then passed the isolated copied-production lifecycle 1/1 in 1,752.7 seconds, crossing both prior production stops and completing negative routes, reauthorization, and cleanup. Route: diagnose -> fix -> verify -> pass.
+
+## Revision 31 Incomplete Batch-Coverage RCA
+
+### Reproduction
+
+Inspect the exact source accepted by aggregate checkpoint `4275ce9eb31e04995f4bb49c599d6d930c9685a7`. The release-review parent performs one strict `git cat-file --batch`, while the embedded candidate-derived harness and canonical release gate each call `git cat-file blob` once per tree entry. The verifier delegates candidate loading to that harness.
+
+### Confirmed Root Cause
+
+The original scalability correction was implemented and causally tested at one ownership boundary only. Parser tests proved framing and the copied lifecycle proved the parent path, but no test counted Git processes through the actual harness and gate loaders. A shared invariant was therefore mistaken for a complete system property.
+
+### Causal Fix
+
+Use sorted, deduplicated, binary-safe batch loading in all three boundaries. Preserve strict identity, type, size, framing, delimiter, order, duplicate, truncation, non-ASCII-header, and trailing-byte rejection. Allow exact test executors without populating production caches.
+
+### Regression And Route
+
+A temporary Git repository exposes revisions with 3 and 35 files, duplicate object IDs, and NUL/high-byte binary content. The actual parent, verifier harness, and canonical materializer each reconstruct both revisions with exactly four Git invocations, exactly one batch call, and zero per-blob calls. Release-review passes 31/31 and release-gate passes 17/17. Route: `review -> fix -> verify`; a fresh exact aggregate and independent package-bound `pass` remain required.
+
+### Durable Learning
+
+When an invariant spans independently executable ownership boundaries, test the invariant through every real entry point. A correct parser and one correct caller do not prove system-wide process complexity.

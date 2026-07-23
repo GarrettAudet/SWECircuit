@@ -1,0 +1,82 @@
+{
+  "phase": "independent-review-r31",
+  "goalId": "v12.ide-run-loop.review.release-harness-correction-r31",
+  "goalRevision": 1,
+  "reviewCheckpoint": "4275ce9eb31e04995f4bb49c599d6d930c9685a7",
+  "reviewTree": "106b60959b853dcb948fc89fbb5d4061649f5446",
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:7cb0950abf525d55d4b906232d4f94abb00b0c63ef2adb3d090b733d755f7800"
+  },
+  "serialBaseline": {
+    "id": "team.8e66a12c0d5ee3385a7c17fae6a3b15e1089c2e1a07feac0bc265d71d8e6c075",
+    "partition": [
+      [
+        "review.release-harness-correction.r31"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 35,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 34,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.35a191fc146b32387289383bbaf06d1c1094058edd3556b1b4dc1f01fd43c275",
+        "start": 0,
+        "finish": 35
+      }
+    ],
+    "contentDigest": "sha256:6b1e99a14bd4de869ebe982b9f47437b9928d5288cb513e4857d7357fe17bbac"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.8e66a12c0d5ee3385a7c17fae6a3b15e1089c2e1a07feac0bc265d71d8e6c075",
+    "serialValue": "team.8e66a12c0d5ee3385a7c17fae6a3b15e1089c2e1a07feac0bc265d71d8e6c075",
+    "serialRejectionCodes": []
+  },
+  "compilationDigest": "sha256:9c65708c068cae09daae6e16b058f999989f423ba15327304f0eb7433f4d23fa",
+  "packageDigest": "sha256:a4d31dde14baf173980ab47d59c60ec8e607f9b7b749b63b247afb1a8b7a35ab",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.35a191fc146b32387289383bbaf06d1c1094058edd3556b1b4dc1f01fd43c275"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.35a191fc146b32387289383bbaf06d1c1094058edd3556b1b4dc1f01fd43c275",
+      "workUnitIds": [
+        "review.release-harness-correction.r31"
+      ],
+      "blueprintDigest": "sha256:74909dec146248654bec4c554afe3e270501650bc1e9d4d046dfba13a09fd2bb",
+      "contractFile": "agents/agent.35a191fc146b32387289383bbaf06d1c1094058edd3556b1b4dc1f01fd43c275.md"
+    }
+  ],
+  "packageVerified": true,
+  "runtimeInvoked": false,
+  "contextSourceCount": 31,
+  "contextBytes": 1285773
+}

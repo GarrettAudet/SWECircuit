@@ -320,6 +320,11 @@ A disposable repository does not inherit every capability assumed by its source 
 ### Separate Invocation Evidence From Stable Identity
 
 A value can be security-relevant without belonging in a reconstructable package identity. Keep candidate bytes, stable policy, and owner-reviewed inputs in stable identity; keep unique temp roots, operation roots, phase authority, process IDs, and cleanup outcomes in per-invocation receipts. Validate both layers and add a counterfactual proving that invocation changes preserve stable identity while stable-input changes do not.
+
+### Invariant Coverage Across Ownership Boundaries
+
+When one security, performance, or trace invariant spans a parent, generated harness, verifier, gate, or adapter, exercise every real entry point. Shared parser tests prove the parser; they do not prove every caller adopted it. Add a causal counter that remains constant as input cardinality grows.
+
 ## Source Map
 
 Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
@@ -360,3 +365,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V12 Candidate 14 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-14-retirement.md), [Revision 31 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#retired-successor-lifecycle-timeout-and-attribution-rca), [preflight RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-committed-identity-preflight-rca), and [causal tests](../../test/v12-release-review.test.mjs) | Invocation-Owned Cleanup Attribution; Exact Binary Batch Framing; Identity Preflight Before Expensive Lifecycle |
 | [V12 long-path RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-disposable-git-long-path-rca), [gate constructor](../../scripts/run-v12-release-gate.mjs), [review constructor](../../scripts/run-v12-release-review.mjs), and [causal test](../../test/v12-release-gate.test.mjs) | Configure Git Capabilities Before Deep Inspection |
 | [V12 invocation-path RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-invocation-scoped-temporary-path-identity-rca), [parent](../../scripts/run-v12-release-review.mjs), [candidate harness](../specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs), and [regression](../../test/v12-release-review.test.mjs) | Separate Invocation Evidence From Stable Identity |
+| [V12 batch-coverage RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-incomplete-batch-coverage-rca), [fixture](../../test/helpers/git-blob-loader-fixture.mjs), [review tests](../../test/v12-release-review.test.mjs), and [gate tests](../../test/v12-release-gate.test.mjs) | Invariant Coverage Across Ownership Boundaries |
