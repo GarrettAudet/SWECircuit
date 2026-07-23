@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. The latest exact candidate is immutable and retired after its one-shot exact gate exposed the checkout-relative lifecycle cache dependency. Revision 24's causal regression, corrected copied-production lifecycle, final package-bound independent review, V11 Revision 40 replay, and a complete pre-freeze repository gate pass. A newly frozen successor, its exact canonical gate, fresh R2 review, hosted CI, and owner merge decision remain.
+V12 is not merge-ready. The latest canonical gate evidence preserved in this source records exact source, materialization, Git, and cleanup state; 437 of 439 passing core tests; two live-status anti-drift failures; and source retirement. Revision 30 preserves that failure and corrects candidate-independent routing text. Candidate-addressed external evidence is authoritative for any later exact gate, fresh R2 review, hosted CI, and owner merge decision.
 
 ## Scope
 
@@ -105,4 +105,4 @@ Revision 29's copied-production TypeScript correction passes focused, lifecycle,
 
 A distinct full aggregate at exact `f1454b6008de1498e72f9cc5a36fd1234b50e028` passes in 2,623.4 seconds and is bound by its 657,576-byte raw log. Independent Attempt 2 authenticates 44 sources and returns a package-verified `pass`; its exact handoff is 11,258 bytes at `sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920`.
 
-This is not release approval. Candidate 13 remains unconsumed and must pass one exact committed-tree gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.
+That independent pass was not release approval. The subsequent one-shot gate for `e61932f2d5067559332790b370f1bf510d0064fc` preserved exact source state but failed two live-status anti-drift checks and retired the source. This source does not claim any later candidate state; candidate-addressed external evidence must establish an exact committed-tree gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.

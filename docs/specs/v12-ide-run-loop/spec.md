@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and Revision 24 causal correction are complete. The latest exact candidate remains immutable and retired; the corrected copied-production lifecycle, package-bound independent review, V11 Revision 40 replay, and a complete pre-freeze repository gate pass. V12 is not merge-ready; one newly frozen successor must pass its exact canonical gate, fresh independent R2 review, hosted CI, and the owner merge gate.
+The V12 product implementation and Revision 29 compiler-supply correction are complete. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and retirement of that source; no product or public-API failure was reported. Revision 30 makes live routing candidate-independent. Source prose does not claim volatile gate consumption; release approval requires candidate-addressed external evidence for an exact successor gate, fresh independent R2 review, hosted CI, and the owner merge gate.
 
 ## Problem
 

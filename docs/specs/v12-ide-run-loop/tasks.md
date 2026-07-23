@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 is in progress. The latest exact candidate is immutable and retired; Revision 24's causal regression, corrected copied-production lifecycle, package-bound independent review, V11 Revision 40 replay, and a complete pre-freeze repository gate pass. V12 remains not merge-ready pending one newly frozen successor's exact gate, fresh R2 review, hosted CI, and the owner merge gate.
+T006 remains open until release evidence closes it. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and source retirement. Revision 30 owns evidence preservation and candidate-independent routing text. Candidate-addressed external evidence must establish focused and complete verification, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before T006 or V12 can close.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 is in progress. The latest exact candidate is immutable and retired; Revisi
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Historical outcomes remain preserved through the latest retired exact candidate and Revision 24. Revision 24 and its final independent review pass, and V11 Revision 40 replay passes. A successor review may fan out across three independent domains only after its exact source-bound gate passes.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Historical outcomes remain preserved through the latest retired source and Revision 29. A successor review may fan out across three independent domains only after focused anti-drift checks, complete pre-freeze verification, and its exact source-bound gate pass.
 
 ## Out Of Scope
 

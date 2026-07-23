@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. The latest exact candidate is retired after its gate failure, and `releaseReady: false` remains the current release result. Revision 24's causal regression, corrected copied-production lifecycle, final package-bound independent review, V11 Revision 40 replay, and a complete pre-freeze repository gate pass, but V12 is not merge-ready.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. The latest canonical gate evidence preserved in this source records two release-state anti-drift failures and source retirement, so `releaseReady: false` remains the source-visible result. Revision 30 makes live status candidate-independent; candidate-addressed external evidence must establish every later verification and release outcome.
 
 ## Contract Tests
 
@@ -71,4 +71,7 @@ Package identity verification and handoff schema verification authenticate prese
 - Revision 24 focused cache and fixture-boundary regressions: `pass`; corrected copied-production lifecycle: `pass` in 1,853.7 seconds.
 - Revision 24 final independent review compilation/package: `sha256:6025d006482b13d40bdfc04f6ab2d7a16628f6040ef929cbe79b18707990ff90` / `sha256:deffe7fcb085e2840f94dba081e653800adf16528f062d7208a3d5072d18c81b`; exact 18,311-byte handoff: `pass`; `phaseReady: true`; integration accepted.
 - Post-Revision-24 complete `npm.cmd run verify`: `pass` in 2,025.2 seconds.
+- Revision 29 exact-checkpoint `npm.cmd run verify`: `pass` in 2,623.4 seconds with 439/439 core tests and the copied-production lifecycle; final package-bound review: `pass`.
+- Commit `e61932f2d5067559332790b370f1bf510d0064fc` exact canonical receipt: `fail`; source/Git/materialization remain exact, 437/439 core tests pass, and two release-state anti-drift assertions reject live numbered-candidate text.
+- Revision 30 causal anti-drift tests: 2/2 `pass`; complete release-review file: 26/26 `pass` in 94.1 seconds; release-gate file with declared workspace write permission: 16/16 `pass` in 420.8 seconds. The preceding restricted-host attempt passed 13/16 and failed only three owned-scratch `EPERM` operations.
 - Successor freeze, exact gate, fresh R2 review, hosted CI, and owner merge decision: pending.

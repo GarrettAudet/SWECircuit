@@ -2,7 +2,7 @@
 
 ## Status
 
-No active product defect is recorded. The release workflow remains stopped because the most recent reviewed source is retired after a `pass` / `fix` / `pass` R2 fan-in and an authenticated `releaseReady: false` result. Accepted Revision 16 attempt 2 corrects active source language while preserving immutable evidence, and independent pre-freeze verification passes. V12 is not merge-ready pending a successor exact gate, fresh R2 review, hosted CI, and the owner merge gate.
+No active product defect is recorded. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and source retirement. Revision 30 preserves that evidence and moves numbered identities to history-only sections. Candidate-addressed external evidence owns later gate consumption and outcome; V12 requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
 
 ## Reproduction
 
@@ -673,3 +673,24 @@ The historical package and 7,643-byte handoff remain unchanged. A complete `npm.
 Attempt 2 authenticates 44 sources and returns an exact 11,258-byte `pass` handoff at `sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920`, verified against compilation/package `sha256:d2e25fd584a7319fe89af77ae47ab836cb9b6998c7aa2508ce3f960176a4b271` / `sha256:e2755508c640267eaefb5e9e428a8ee73ff8fbbef142e5b9a5540cf1fecad56e`.
 
 Route: independent `fix` -> exact rerun -> independent `pass`. Candidate 13 remains unconsumed; freeze it only from the committed evidence state and run its canonical gate once.
+
+## Candidate 13 Release-Status Drift And Revision 30
+
+### Reproduction
+
+The one-shot canonical gate for commit `e61932f2d5067559332790b370f1bf510d0064fc` authenticated 3,474 files and 105,131,002 bytes, materialized the same digest before and after execution, retained identical Git state, and ran `npm.cmd run verify`. The core suite returned 437 passes and two failures.
+
+### Stable Evidence
+
+- Receipt: 2,296 bytes at `sha256:2ed3d9989f433f85c98718f3da12e98a0daf414116479aa5364eae0b8d60b114`.
+- Stdout: 37,356 bytes at `sha256:b341a9904200e852063fa4fc1856c184cf763242b07da00c049fcd6544822f34`.
+- Stderr: 19,548 bytes at `sha256:d7a90861417245e1f48ddfffcb12310b7402e500f726f023b548169c6487888d`.
+- Both failures point to `docs/milestones/v12.md`: its live `Status` and `Current Stage` sections named Candidate 13 and described it as pending or unconsumed.
+
+### Confirmed Cause
+
+The exact-checkpoint aggregate ran before the review-evidence commit. That later commit changed live status text to name the next candidate but did not rerun the anti-drift regression before freeze. A frozen source cannot truthfully describe its own numbered candidate as unconsumed after the gate consumes it, so the wording was guaranteed to become stale during the one-shot run.
+
+### Correction And Route
+
+Revision 30 uses candidate-independent language in every live status and routing section, preserves numbered identities only in historical evidence, and requires the focused anti-drift tests plus a complete pre-freeze verification after all release-state edits. The two causal tests pass, and the complete release-review file passes 26/26 in 94.1 seconds. An unprivileged release-gate run passed 13/16 and failed only three owned-scratch `EPERM` operations; the identical command with its declared workspace write boundary passes 16/16 in 420.8 seconds. Route: `diagnose` -> `fix`; Candidate 13 is permanently retired and must never be rerun.

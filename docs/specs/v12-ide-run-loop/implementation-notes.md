@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and Revision 16 release-truth correction are complete. The feature-package release state in `review.md` is authoritative: the most recent reviewed source is retired after `pass` / `fix` / `pass` R2 fan-in, and `releaseReady: false`. Independent pre-freeze verification passes. V12 remains not merge-ready while a successor exact gate, fresh independent R2 review, hosted CI, and the owner merge gate remain integration-owned.
+The V12 product implementation and Revision 29 compiler-supply correction are complete. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and source retirement. Revision 30 is the workflow-only correction. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires an exact successor gate, fresh independent R2 review, hosted CI, and the owner merge gate.
 
 ## Baseline
 

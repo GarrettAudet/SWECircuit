@@ -1256,7 +1256,10 @@ test("stable reconstruction is package-defining while phase authority stays sepa
     }
   }
 });
-test("active release status avoids candidate-ordinal drift and preserves outcome distinctions", () => {
+const VOLATILE_RELEASE_STATE_PATTERN =
+  /\bCandidates?\s+\d+\b|\b(?:remains? unconsumed|freeze ready|ready to freeze|current release candidate|next release gate)\b/iu;
+
+test("active release status avoids volatile candidate-state drift and preserves outcomes", () => {
   const statusPaths = [
     "docs/specs/v12-ide-run-loop/spec.md",
     "docs/specs/v12-ide-run-loop/implementation-notes.md",
@@ -1269,7 +1272,7 @@ test("active release status avoids candidate-ordinal drift and preserves outcome
   ];
 
   for (const path of statusPaths) {
-    assert.doesNotMatch(activeStatus(path), /\bCandidates?\s+\d+\b/u, path);
+    assert.doesNotMatch(activeStatus(path), VOLATILE_RELEASE_STATE_PATTERN, path);
   }
 
   const testPlanStatus = activeStatus("docs/specs/v12-ide-run-loop/test-plan.md");
@@ -1283,9 +1286,9 @@ test("active release status avoids candidate-ordinal drift and preserves outcome
   assert.match(testPlanStatus, /releaseReady: false/u);
 });
 
-test("live release routing sections avoid consumed candidate ordinals", () => {
+test("live release routing delegates volatile state to candidate-addressed evidence", () => {
   const liveSections = [
-    ["docs/memory/active-context.md", ["Next Likely Work"]],
+    ["docs/memory/active-context.md", ["Current Focus", "Current Stage", "Next Likely Work"]],
     [
       "docs/milestones/v12.md",
       [
@@ -1296,6 +1299,7 @@ test("live release routing sections avoid consumed candidate ordinals", () => {
         "User-Facing Overview",
       ],
     ],
+    ["docs/specs/v12-ide-run-loop/review.md", ["Current Outcome"]],
     ["docs/specs/v12-ide-run-loop/tasks.md", ["Parallelization"]],
     ["docs/specs/v12-ide-run-loop/test-plan.md", ["Current Evidence"]],
   ];
@@ -1304,10 +1308,22 @@ test("live release routing sections avoid consumed candidate ordinals", () => {
     for (const heading of headings) {
       assert.doesNotMatch(
         activeSection(path, heading),
-        /\bCandidates?\s+\d+\b/u,
+        VOLATILE_RELEASE_STATE_PATTERN,
         `${path} ${heading}`,
       );
     }
+  }
+
+  for (const [path, heading] of [
+    ["docs/memory/active-context.md", "Current Stage"],
+    ["docs/milestones/v12.md", "Status"],
+    ["docs/specs/v12-ide-run-loop/review.md", "Current Outcome"],
+  ]) {
+    assert.match(
+      activeSection(path, heading),
+      /candidate-addressed external (?:evidence|receipts?)/iu,
+      `${path} ${heading}`,
+    );
   }
 });
 

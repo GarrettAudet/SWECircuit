@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical release attempts and their exact outcomes remain immutable. The most recent reviewed source is retired after its complete R2 fan-in routed `pass` / `fix` / `pass`, with `releaseReady: false`. Accepted Revision 16 attempt 2 corrects active release-state language, and independent pre-freeze verification passes. V12 remains not merge-ready pending a successor exact gate, fresh R2 review, hosted CI, and the owner merge gate.
+Historical release attempts and their exact outcomes remain immutable. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two candidate-ordinal drift failures, and source retirement. Revision 30 preserves that evidence and makes live release routing candidate-independent. Candidate-addressed external evidence owns later gate consumption and outcome; V12 requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
 
 ## Reproduction
 
@@ -405,3 +405,21 @@ Candidate 11 is permanently retired. Route: `diagnose` -> `fix` -> `pass` for Re
 Revision 23's production source correction was causal, but its initial regression exposed a test-only source override. Revision 24 removes that override and proves the gate-resolved external cache through a fresh process and a candidate-shaped tree with no checkout-local cache. A separate complete-lifecycle failure confirmed that the sealed Revision 21 fixture was retaining post-fixture correction history; the fix excludes only canonical correction roots from Revision 22 onward in both filesystem and Git representations.
 
 Focused causal tests, all four guard routes, and the corrected copied-production lifecycle pass. A final package-bound independent reviewer authenticated 35 sources and found no release-blocking bypass. Its exact 18,311-byte handoff verifies `pass` with `phaseReady: true` and is accepted for integration. The remaining risk is release-candidate verification, not an unresolved implementation cause.
+
+## Candidate 13 Live-Status RCA
+
+### Reproduction
+
+Run the exact one-shot gate for commit `e61932f2d5067559332790b370f1bf510d0064fc`. The wrapper authenticates unchanged source, materialization, Git state, and cleanup, while `test/v12-release-review.test.mjs` fails only `active release status avoids candidate-ordinal drift and preserves outcome distinctions` and `live release routing sections avoid consumed candidate ordinals`.
+
+### Confirmed Root Cause
+
+The pre-freeze aggregate authenticated `f1454b6008de1498e72f9cc5a36fd1234b50e028`. The subsequent evidence commit changed live milestone status to name Candidate 13 as unconsumed but was not followed by the focused anti-drift test. The gate then consumed that frozen identity, making its own live prose stale by construction.
+
+### Causal Fix
+
+Use candidate-independent state language in all live status and routing sections. Preserve numbered candidate identities only in immutable historical evidence. Run the focused anti-drift tests and the complete aggregate after the final release-state edit and before freezing a successor.
+
+### Regression And Route
+
+The two exact failing tests are the minimum causal regression. Candidate 13 remains immutable and retired. Route: `diagnose` -> `fix`; a successor may be frozen only after both regressions and the complete pre-freeze gate pass.
