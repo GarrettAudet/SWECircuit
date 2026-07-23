@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Revision 31 passed the exact aggregate at `4275ce9eb31e04995f4bb49c599d6d930c9685a7`, but its immutable package-bound review returned verified `fix` for incomplete cross-boundary Git batching. Revision 32 closes the embedded verifier harness and canonical gate loaders and passes focused source verification. V12 still requires a fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
+No active V12 product-contract defect is recorded. Revision 32 closed every Git-batch boundary, but exact aggregate `ec51c7a9dd72ce9094260e089120b089ee25ad2a` stopped after 444/445 core tests because a final status edit omitted the required external-evidence delegation. Revision 33 corrects that source-only traceability failure and passes post-edit anti-drift plus both complete source-level release suites. V12 still requires a fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
 
 ## Reproduction
 
@@ -780,3 +780,9 @@ The correction excludes raw invocation temp paths from stable identity and valid
 The exact Revision 31 aggregate passed, but the immutable reviewer found that the causal performance fix existed only in `scripts/run-v12-release-review.mjs`. The candidate-derived harness still called `git cat-file blob` inside `loadCandidateTree`, and canonical materialization did the same inside its entry loop. The verifier inherited the harness loader.
 
 Revision 32 applies the same strict sorted and deduplicated batch protocol at both remaining boundaries. A real temporary repository proves constant Git process count across 3-file and 35-file revisions, duplicate-object deduplication, and exact binary reconstruction. Release-review passes 31/31; release-gate passes 17/17. Route: `review -> fix -> verify`; fresh aggregate and independent review remain.
+
+## Revision 32 Aggregate Live-Routing Regression
+
+Exact immutable checkpoint `ec51c7a9dd72ce9094260e089120b089ee25ad2a` remained clean and identity-stable while 444/445 core tests passed. The aggregate stopped at `live release routing delegates volatile state to candidate-addressed evidence`; `review.md#current-outcome` no longer contained that required delegation. No runtime or batching test failed, and lifecycle, dogfood, package, and consumer gates did not run.
+
+The focused release-review suite had passed before the final status edit. Revision 33 restores the invariant and requires its focused guard after all active-status edits. Route: `verify -> diagnose -> fix`; a fresh immutable aggregate is required.

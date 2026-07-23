@@ -544,3 +544,21 @@ A temporary Git repository exposes revisions with 3 and 35 files, duplicate obje
 ### Durable Learning
 
 When an invariant spans independently executable ownership boundaries, test the invariant through every real entry point. A correct parser and one correct caller do not prove system-wide process complexity.
+
+## Revision 32 Post-Verification Status-Edit RCA
+
+### Reproduction
+
+Run `npm.cmd run verify` from exact clean checkpoint `ec51c7a9dd72ce9094260e089120b089ee25ad2a`. The core suite passes 444/445 tests, then `live release routing delegates volatile state to candidate-addressed evidence` rejects `docs/specs/v12-ide-run-loop/review.md#current-outcome`. Source commit, tree, and clean-worktree identity remain unchanged.
+
+### Confirmed Root Cause
+
+The 31-test release-review suite ran before the final Revision 32 status edit. That later edit replaced the active Current Outcome paragraph but omitted the explicit candidate-addressed external-evidence delegation enforced by the anti-drift contract. The final source therefore differed semantically from the focused source that had passed.
+
+### Causal Fix And Route
+
+Restore the delegation in the active review outcome and run the focused routing regression after the last active-status edit. Preserve the exact failed aggregate receipt and raw-log digests under `evidence/implementation/release-correction-r33/`. Route: `verify -> diagnose -> fix`; Revision 32 is retired and Revision 33 requires a fresh complete aggregate.
+
+### Durable Learning
+
+Status documents are executable release inputs. Any post-verification edit to an active routing section invalidates the focused result and must trigger the anti-drift regression before candidate commit.

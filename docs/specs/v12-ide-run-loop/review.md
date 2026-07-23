@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. Exact Revision 31 checkpoint `4275ce9eb31e04995f4bb49c599d6d930c9685a7` passed the complete aggregate, then its immutable package-bound review returned verified `fix` for per-entry Git blob processes left in the embedded verifier harness and canonical gate. Revision 32 closes those boundaries and passes focused source verification. A fresh exact aggregate and fresh package-bound `pass` remain mandatory before any successor freeze, R2 review, hosted CI, or owner merge decision.
+V12 is not merge-ready. Exact Revision 31 checkpoint `4275ce9eb31e04995f4bb49c599d6d930c9685a7` passed the complete aggregate, then its immutable package-bound review returned verified `fix` for per-entry Git blob processes left in the embedded verifier harness and canonical gate. Revision 32 closed those boundaries, but its exact aggregate stopped at one live-routing documentation invariant after 444/445 core tests passed. Revision 33 corrects that source-only regression; a fresh exact aggregate and fresh package-bound `pass` remain mandatory before any successor freeze, R2 review, hosted CI, or owner merge decision.
 
 ## Scope
 
@@ -113,6 +113,6 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
 
 ## Current Outcome
 
-Revision 32 is `pass` at focused verification and `pending` at release verification. The actual parent, verifier harness, and canonical gate reconstruct 3-file and 35-file committed trees with binary bytes and duplicate objects using exactly four Git invocations, one strict batch read, and zero per-blob reads. The complete release-review and release-gate suites pass 31/31 and 17/17.
+Revision 33 is `pass` at focused verification and `pending` at release verification. Its post-edit anti-drift case and complete source-level release suites pass 1/1, 31/31, and 17/17. The preceding immutable aggregate preserved 444/445 core passes and one documentation-routing failure; no runtime or batching failure was reported.
 
-No successor is frozen. A fresh exact aggregate and fresh immutable package-bound independent review must pass before release routing can continue.
+Candidate-addressed external evidence remains the only authority for volatile release state. No successor is frozen; a fresh exact aggregate and fresh immutable package-bound independent review must pass before release routing can continue.

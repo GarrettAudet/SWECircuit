@@ -205,4 +205,6 @@ The V12 product implementation and Revision 29 compiler-supply correction are co
 - Added `test/helpers/git-blob-loader-fixture.mjs` and causal 3-file/35-file process-count tests over all actual loaders.
 - Rebound copied-lifecycle production identities only after formatting stabilized.
 - Release-review passes 31/31, release-gate passes 17/17, and format, lint, and typecheck pass.
-- Full aggregate and a fresh immutable package-bound independent review remain before successor freeze.
+- Exact Revision 32 aggregate preserved 444/445 core passes and stopped at one live-routing documentation invariant before lifecycle or later gates.
+- Revision 33 restores explicit candidate-addressed external-evidence ownership in the active review outcome; product runtime and batching code are unchanged.
+- A fresh full aggregate and immutable package-bound independent review remain before successor freeze.

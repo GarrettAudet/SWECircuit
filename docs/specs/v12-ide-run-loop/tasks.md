@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 remains open until release evidence closes it. Exact checkpoint `4275ce9eb31e04995f4bb49c599d6d930c9685a7` passed the complete aggregate with 443 of 443 core tests and the copied-production lifecycle. Its immutable package-bound Revision 31 review returned verified `fix` because the embedded review harness and canonical gate still used per-entry Git blob processes. Revision 32 batches all three ownership boundaries and passes 31/31 release-review tests plus 17/17 release-gate tests. A fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before T006 or V12 can close.
+T006 remains open until release evidence closes it. Revision 32 batches all three Git-blob ownership boundaries, but exact aggregate `ec51c7a9dd72ce9094260e089120b089ee25ad2a` stopped after 444/445 core tests because its final review-status edit omitted the required candidate-addressed external-evidence delegation. Revision 33 corrects that source-only regression. A fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before T006 or V12 can close.
 
 ## Task List
 

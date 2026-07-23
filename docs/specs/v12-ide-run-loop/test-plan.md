@@ -110,4 +110,6 @@ Package identity verification and handoff schema verification authenticate prese
 - Complete release-review suite: 31/31 `pass`.
 - Complete release-gate suite: 17/17 `pass`.
 - Format, lint, and typecheck: `pass`.
-- Pending: exact committed aggregate and fresh package-bound independent review.
+- Exact Revision 32 aggregate: 444/445 core tests `pass`; one active review-status routing invariant `fail`; lifecycle and later gates did not run.
+- Revision 33 focused requirement: run `live release routing delegates volatile state to candidate-addressed evidence` after the final active-status edit.
+- Pending: fresh exact committed aggregate and fresh package-bound independent review.

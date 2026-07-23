@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "swecircuit.v12.aggregate-receipt.v1",
+  "source": {
+    "commit": "ec51c7a9dd72ce9094260e089120b089ee25ad2a",
+    "tree": "931c87d65f06e179b7048973718739a2ff846d2f",
+    "worktreeCleanBefore": true,
+    "worktreeCleanAfter": true,
+    "identityStable": true
+  },
+  "command": "npm.cmd run verify",
+  "startedAt": "2026-07-23T09:37:59.980Z",
+  "endedAt": "2026-07-23T09:40:07.913Z",
+  "durationMilliseconds": 127933,
+  "exitCode": 1,
+  "outcome": "fail",
+  "evidence": {
+    "stdout": {
+      "path": "npm-verify.stdout.log",
+      "mediaType": "text/plain; charset=utf-8",
+      "bytes": 36802,
+      "digest": "sha256:d45c03f5b1bc5924471b07aee8a2c084b1eb13fb43703a28d9222fdb9e287c13"
+    },
+    "stderr": {
+      "path": "npm-verify.stderr.log",
+      "mediaType": "text/plain; charset=utf-8",
+      "bytes": 19492,
+      "digest": "sha256:00ce84e8736d7583a9716c2cc28900f92401a907f381c72e074578739408805e"
+    }
+  },
+  "summary": {
+    "testSummaries": [
+      {
+        "tests": 445,
+        "passed": 444,
+        "failed": 1
+      }
+    ],
+    "packageDryRunPassed": false,
+    "offlineInstalledConsumerPassed": false
+  }
+}
