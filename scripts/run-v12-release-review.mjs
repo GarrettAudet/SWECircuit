@@ -547,6 +547,7 @@ function run(command, arguments_, options = {}) {
     cwd,
     encoding: null,
     env: options.environment,
+    input: options.input,
     maxBuffer: options.maxBuffer ?? 268_435_456,
     windowsHide: true,
   });
@@ -775,11 +776,66 @@ function gitResult(tools, arguments_, options = {}) {
       options.environment ?? closedEnvironment(tools, tools.cache, npmConfiguration),
     npmConfiguration,
     label: options.label ?? `Git ${arguments_.join(" ")}`,
+    input: options.input,
   });
 }
 
 function gitOutput(tools, arguments_, options = {}) {
   return requireRun(gitResult(tools, arguments_, options), options.label ?? "Git command").stdout;
+}
+
+function parseGitBlobBatch(objectIds, output) {
+  requireCondition(Array.isArray(objectIds) && objectIds.length > 0, "Git blob batch is empty.");
+  requireCondition(Buffer.isBuffer(output), "Git blob batch output must be raw bytes.");
+  const requested = new Set();
+  const blobs = new Map();
+  let cursor = 0;
+
+  for (const expectedObjectId of objectIds) {
+    requireCondition(
+      typeof expectedObjectId === "string" && CANDIDATE_PATTERN.test(expectedObjectId),
+      "Git blob batch contains an invalid requested object ID.",
+    );
+    requireCondition(!requested.has(expectedObjectId), "Git blob batch contains a duplicate request.");
+    requested.add(expectedObjectId);
+
+    const headerEnd = output.indexOf(10, cursor);
+    requireCondition(headerEnd >= cursor, "Git blob batch output is missing a header terminator.");
+    const headerBytes = output.subarray(cursor, headerEnd);
+    requireCondition(
+      headerBytes.every((byte) => byte <= 0x7f),
+      "Git blob batch output contains a non-ASCII header.",
+    );
+    const header = headerBytes.toString("ascii");
+    const match = /^([0-9a-f]{40}) blob (0|[1-9][0-9]*)$/.exec(header);
+    requireCondition(match !== null, "Git blob batch output contains a malformed header.");
+    requireCondition(match[1] === expectedObjectId, "Git blob batch returned an unexpected object.");
+    const size = Number(match[2]);
+    requireCondition(Number.isSafeInteger(size), "Git blob batch returned an unsafe object size.");
+    const contentStart = headerEnd + 1;
+    const contentEnd = contentStart + size;
+    requireCondition(
+      contentEnd < output.byteLength,
+      "Git blob batch output is truncated before the object delimiter.",
+    );
+    requireCondition(output[contentEnd] === 10, "Git blob batch output has an invalid object delimiter.");
+    blobs.set(expectedObjectId, Buffer.from(output.subarray(contentStart, contentEnd)));
+    cursor = contentEnd + 1;
+  }
+
+  requireCondition(cursor === output.byteLength, "Git blob batch output contains trailing bytes.");
+  return blobs;
+}
+
+function candidateBlobBytes(tools, objectIds) {
+  const uniqueObjectIds = [...new Set(objectIds)].sort(compareOrdinal);
+  requireCondition(uniqueObjectIds.length > 0, "Candidate tree has no blobs.");
+  const input = Buffer.from(`${uniqueObjectIds.join("\n")}\n`, "ascii");
+  const output = gitOutput(tools, ["cat-file", "--batch"], {
+    input,
+    label: "Git candidate blob batch",
+  });
+  return parseGitBlobBatch(uniqueObjectIds, output);
 }
 
 function candidateSource(tools, checkpoint) {
@@ -808,11 +864,17 @@ function candidateSource(tools, checkpoint) {
     const safe = safeTreePath(record.subarray(tab + 1));
     requireCondition(!aliases.has(safe.alias), `Candidate tree path alias collision: ${safe.path}.`);
     aliases.add(safe.alias);
-    const bytes = Buffer.from(gitOutput(tools, ["cat-file", "blob", match[2]]));
-    return { mode: match[1], objectId: match[2], ...safe, bytes };
+    return { mode: match[1], objectId: match[2], ...safe };
   });
   entries.sort((left, right) => compareOrdinal(left.path, right.path));
   requireCondition(entries.length > 0, "Candidate tree is empty.");
+  const blobs = candidateBlobBytes(
+    tools,
+    entries.map((entry) => entry.objectId),
+  );
+  for (const entry of entries) {
+    entry.bytes = Buffer.from(blobs.get(entry.objectId));
+  }
   const hash = createHash("sha256");
   updateFrame(hash, Buffer.from(MATERIALIZATION_DOMAIN, "utf8"));
   let bytes = 0;
@@ -2244,10 +2306,13 @@ async function execute() {
   const parentExpectation = expectedParentDigest();
   const cache = cachePath();
   const paths = candidateRunPaths(candidate);
-  const operationRoot = await realpath(await mkdtemp(join(resolve(tmpdir()), "swr2-")));
+  let operationRoot = null;
   let operationRemoved = false;
+  let executionError = null;
 
   try {
+    operationRoot = await mkdtemp(join(resolve(tmpdir()), "swr2-"));
+    operationRoot = await realpath(operationRoot);
     requireRealpathDisjointRoots(ROOT, operationRoot);
     validateCacheLocation(cache, [ROOT, operationRoot]);
     const npmConfiguration = await createPrivateNpmConfiguration(operationRoot, cache);
@@ -2578,9 +2643,22 @@ async function execute() {
     if (routedNonPass) {
       process.exitCode = 2;
     }
+  } catch (error) {
+    executionError = error;
+    throw error;
   } finally {
-    if (!operationRemoved) {
-      await removeOperationRoot(operationRoot).catch(() => {});
+    if (operationRoot !== null && !operationRemoved) {
+      try {
+        await removeOperationRoot(operationRoot);
+      } catch (cleanupError) {
+        if (executionError !== null) {
+          throw new AggregateError(
+            [executionError, cleanupError],
+            "Release-review execution and operation-root cleanup both failed.",
+          );
+        }
+        throw cleanupError;
+      }
     }
   }
 }
@@ -2607,6 +2685,7 @@ export const RELEASE_REVIEW_PARENT_TEST_HOOKS = Object.freeze({
   removeOperationRoot,
   isAllowedOutputFile,
   parsePhaseInputs,
+  parseGitBlobBatch,
   preflightPromotionEntriesAtRoot,
   preflightPromotionSetAtRoot,
   promotePreflightedSetAtRoot,

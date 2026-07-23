@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. The latest canonical gate evidence preserved in this source records two release-state anti-drift failures and source retirement, so `releaseReady: false` remains the source-visible result. Revision 30 makes live status candidate-independent; candidate-addressed external evidence must establish every later verification and release outcome.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. The latest canonical gate evidence preserved in this source records 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement, so `releaseReady: false` remains the source-visible result. Revision 31 corrects process scaling and attribution; candidate-addressed external evidence must establish every later verification and release outcome.
 
 ## Contract Tests
 
@@ -74,4 +74,8 @@ Package identity verification and handoff schema verification authenticate prese
 - Revision 29 exact-checkpoint `npm.cmd run verify`: `pass` in 2,623.4 seconds with 439/439 core tests and the copied-production lifecycle; final package-bound review: `pass`.
 - Commit `e61932f2d5067559332790b370f1bf510d0064fc` exact canonical receipt: `fail`; source/Git/materialization remain exact, 437/439 core tests pass, and two release-state anti-drift assertions reject live numbered-candidate text.
 - Revision 30 causal anti-drift tests: 2/2 `pass`; complete release-review file: 26/26 `pass` in 94.1 seconds; release-gate file with declared workspace write permission: 16/16 `pass` in 420.8 seconds. The preceding restricted-host attempt passed 13/16 and failed only three owned-scratch `EPERM` operations.
-- Successor freeze, exact gate, fresh R2 review, hosted CI, and owner merge decision: pending.
+- Commit `74397e30be5d185a14ecef1a838aa7767ffdf60f` exact canonical receipt: `fail`; source/Git/materialization and outer cleanup remain exact, 439/439 core tests pass, and the copied lifecycle stops at an attribution-defective parent timeout/cleanup assertion.
+- Revision 31 causal regressions: 2/2 `pass`; complete release-review file: 28/28 `pass` in 73.1 seconds; real-tree binary batch: 2,205 unique objects and 69,562,019 blob bytes in 817 ms.
+- The first full lifecycle invocation used committed source with uncommitted expected identities and is invalid evidence; it reported the mismatch after 2,383.9 seconds and is not a Revision 31 behavior result.
+- Committed-identity preflight ordering regression: `pass`; the exact invalid state rejects before materialization in 215.1 ms with both identities.
+- Broader release-gate, valid committed-source copied lifecycle, package-bound review, aggregate, fresh successor gate, R2, hosted CI, and owner merge decision: pending.

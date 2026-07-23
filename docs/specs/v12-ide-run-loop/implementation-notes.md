@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and Revision 29 compiler-supply correction are complete. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and source retirement. Revision 30 is the workflow-only correction. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires an exact successor gate, fresh independent R2 review, hosted CI, and the owner merge gate.
+The V12 product implementation and Revision 29 compiler-supply correction are complete. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 hardens the release parent and lifecycle host without changing V12's provider-neutral product contract. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires an exact successor gate, fresh independent R2 review, hosted CI, and the owner merge gate.
 
 ## Baseline
 
@@ -185,3 +185,15 @@ The V12 product implementation and Revision 29 compiler-supply correction are co
 - Revision 23's independent review returned `fix` because its fast regression retained a test-only source override. Revision 24 removes the override, binds the external cache before fresh-process imports, proves the candidate-local cache is absent, validates exact sentinel bytes, and covers missing, non-directory, pre-existing-destination, and overlap failures.
 - The first complete Revision 24 lifecycle run diagnosed a sealed-fixture sequence defect. A bounded rule now excludes canonical `release-correction-rN` roots for `N >= 22` from both copied filesystem and committed Git representations; the corrected lifecycle passes in 1,853.7 seconds.
 - The final independent package reconstructs at `sha256:6025d006482b13d40bdfc04f6ab2d7a16628f6040ef929cbe79b18707990ff90` / `sha256:deffe7fcb085e2840f94dba081e653800adf16528f062d7208a3d5072d18c81b`. Its exact 18,311-byte handoff verifies `pass` at `sha256:f88c08303de25f66a61dae6f0ca6e508b0357923c9c4bbe0d45e2e82a72c6497`, complete fan-in is ready, and integration accepts the corrected Revision 24 artifact identity.
+
+## Revision 31 Release-Harness Hardening
+
+- Replaced per-tree-entry `git cat-file blob` spawns with one sorted, unique, binary-safe `git cat-file --batch` exchange.
+- Added strict parser coverage for identity, type, size, binary content, framing, ordering, duplicate requests, truncation, and trailing output.
+- Scoped every copied-parent temp environment to a test-owned invocation root; unrelated global temp state can no longer affect attribution.
+- Added complete process-tree termination and timeout evidence. Process outcome is checked before owned cleanup.
+- Moved production operation-root ownership into the guarded path and surfaced cleanup errors instead of discarding them.
+- Focused regressions pass 2/2; the full release-review file passes 28/28; the real current-tree batch probe completes in 817 ms for 2,205 unique objects and 69,562,019 blob bytes.
+- The correction changes release infrastructure only. It does not add provider, model, IDE, scheduler, execution, persistence, or merge effects to SWECircuit core.
+- The first full lifecycle attempt was invalid because committed `HEAD` supplied the executed parent while the uncommitted working tree supplied its expected identity; the mismatch surfaced only after 2,383.9 seconds.
+- The lifecycle now preflights every committed production identity before temp-root creation or materialization. Its scheduling regression passes, and the same invalid state rejects in 215.1 ms with exact committed/live identities.

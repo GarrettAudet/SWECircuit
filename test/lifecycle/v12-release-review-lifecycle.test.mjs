@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { mkdtemp, realpath, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -13,11 +14,37 @@ import { PRODUCTION_IDENTITIES } from "../helpers/v12-release-review-lifecycle.m
 const ROOT = fileURLToPath(new URL("../../", import.meta.url));
 const LIFECYCLE_PATH = "test/fixtures/v12-release-review-lifecycle-child.mjs";
 
+function assertCommittedProductionIdentities(candidateCommit) {
+  for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
+    const probe = spawnSync(
+      "git",
+      ["-c", "core.longpaths=true", "show", `${candidateCommit}:${path}`],
+      {
+        cwd: ROOT,
+        env: process.env,
+        encoding: null,
+        maxBuffer: 16 * 1024 * 1024,
+        timeout: 30_000,
+        windowsHide: true,
+      },
+    );
+    assert.equal(probe.signal, null, `committed production identity probe was terminated: ${path}`);
+    assert.equal(probe.status, 0, Buffer.from(probe.stderr ?? Buffer.alloc(0)).toString("utf8"));
+    const bytes = Buffer.from(probe.stdout);
+    assert.deepEqual(
+      {
+        bytes: bytes.byteLength,
+        digest: `sha256:${createHash("sha256").update(bytes).digest("hex")}`,
+      },
+      expected,
+      `committed HEAD production identity differs from the live expectation: ${path}`,
+    );
+  }
+}
+
 test("isolated copied production entrypoints complete one exact compile-to-verify lifecycle", {
   timeout: 3_900_000,
 }, async () => {
-  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-lifecycle-")));
-  const outputPath = join(root, "lifecycle.json");
   const headProbe = spawnSync(
     "git",
     ["-c", "core.longpaths=true", "rev-parse", "--verify", "HEAD"],
@@ -33,7 +60,10 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
   assert.equal(headProbe.status, 0, headProbe.stderr);
   const candidateCommit = headProbe.stdout.trim();
   assert.match(candidateCommit, /^[0-9a-f]{40}$/u);
+  assertCommittedProductionIdentities(candidateCommit);
 
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-lifecycle-")));
+  const outputPath = join(root, "lifecycle.json");
   let materialization;
   let gitContext;
   let lifecycle;

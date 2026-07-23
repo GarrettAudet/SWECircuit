@@ -69,8 +69,8 @@ const FIXTURE_VERIFY_COMMAND = [
 
 export const PRODUCTION_IDENTITIES = Object.freeze({
   [PARENT_PATH]: Object.freeze({
-    bytes: 96_946,
-    digest: "sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1",
+    bytes: 100_088,
+    digest: "sha256:e76a63d41607f978d5adedb8e69e64b75625e040ec252f5bae97895d4dff7dbb",
   }),
   [GATE_PATH]: Object.freeze({
     bytes: 30_623,
@@ -200,6 +200,94 @@ function fixtureRepositoryEnvironment(sourceEnvironment = process.env) {
   return environment;
 }
 
+function directKillEvidence(child, signal = undefined) {
+  try {
+    return { accepted: child.kill(signal), error: null };
+  } catch (error) {
+    return {
+      accepted: false,
+      error: error instanceof Error ? error.message : String(error),
+    };
+  }
+}
+
+async function terminateProcessTree(child) {
+  const started = process.hrtime.bigint();
+  const pid = child.pid;
+  if (!Number.isInteger(pid)) {
+    return {
+      method: "unavailable-pid",
+      pid: null,
+      accepted: false,
+      durationMs: 0,
+      error: "Child process had no integer PID.",
+    };
+  }
+
+  if (process.platform === "win32") {
+    const tree = await new Promise((resolvePromise) => {
+      let killer;
+      try {
+        killer = spawn("taskkill.exe", ["/PID", String(pid), "/T", "/F"], {
+          env: process.env,
+          stdio: "ignore",
+          windowsHide: true,
+        });
+      } catch (error) {
+        resolvePromise({
+          status: null,
+          signal: null,
+          error: error instanceof Error ? error.message : String(error),
+        });
+        return;
+      }
+      let settled = false;
+      killer.once("error", (error) => {
+        if (!settled) {
+          settled = true;
+          resolvePromise({
+            status: null,
+            signal: null,
+            error: error instanceof Error ? error.message : String(error),
+          });
+        }
+      });
+      killer.once("close", (status, signal) => {
+        if (!settled) {
+          settled = true;
+          resolvePromise({ status, signal, error: null });
+        }
+      });
+    });
+    const accepted = tree.status === 0 && tree.signal === null && tree.error === null;
+    const fallback = accepted ? null : directKillEvidence(child);
+    return {
+      method: "taskkill-tree",
+      pid,
+      accepted,
+      tree,
+      directFallback: fallback,
+      durationMs: Number(process.hrtime.bigint() - started) / 1_000_000,
+    };
+  }
+
+  let groupError = null;
+  try {
+    process.kill(-pid, "SIGKILL");
+  } catch (error) {
+    groupError = error instanceof Error ? error.message : String(error);
+  }
+  const accepted = groupError === null;
+  return {
+    method: "process-group-sigkill",
+    pid,
+    accepted,
+    groupError,
+    directFallback: accepted ? null : directKillEvidence(child, "SIGKILL"),
+    durationMs: Number(process.hrtime.bigint() - started) / 1_000_000,
+  };
+}
+
 async function runProcess(command, arguments_, options = {}) {
   const started = process.hrtime.bigint();
   const timeoutMs = options.timeoutMs ?? PROCESS_TIMEOUT_MS;
@@ -208,6 +296,7 @@ async function runProcess(command, arguments_, options = {}) {
       cwd: options.cwd,
       env: options.env,
       stdio: ["ignore", "pipe", "pipe"],
+      detached: process.platform !== "win32",
       windowsHide: true,
     });
     const stdout = [];
@@ -215,11 +304,14 @@ async function runProcess(command, arguments_, options = {}) {
     let stdoutBytes = 0;
     let stderrBytes = 0;
     let timedOut = false;
+    let timeoutAtMs = null;
+    let terminationPromise = Promise.resolve(null);
     let settled = false;
 
     const timer = setTimeout(() => {
       timedOut = true;
-      child.kill();
+      timeoutAtMs = Number(process.hrtime.bigint() - started) / 1_000_000;
+      terminationPromise = terminateProcessTree(child);
     }, timeoutMs);
 
     const collect = (chunks, kind) => (chunk) => {
@@ -242,12 +334,13 @@ async function runProcess(command, arguments_, options = {}) {
         rejectPromise(error);
       }
     });
-    child.once("close", (status, signal) => {
+    child.once("close", async (status, signal) => {
       if (settled) {
         return;
       }
       settled = true;
       clearTimeout(timer);
+      const termination = await terminationPromise;
       resolvePromise({
         command,
         arguments: [...arguments_],
@@ -255,6 +348,14 @@ async function runProcess(command, arguments_, options = {}) {
         status,
         signal,
         timedOut,
+        timeout:
+          timedOut === true
+            ? {
+                boundMs: timeoutMs,
+                observedAtMs: timeoutAtMs,
+                termination,
+              }
+            : null,
         durationMs: Number(process.hrtime.bigint() - started) / 1_000_000,
         stdout: Buffer.concat(stdout),
         stderr: Buffer.concat(stderr),
@@ -267,10 +368,29 @@ function commandFailure(result) {
   return strictUtf8(result.stderr, "command stderr").trim();
 }
 
+function assertParentOperationRootCleanup(result, label) {
+  if (result.operationRootCleanup === undefined) {
+    return;
+  }
+  const cleanup = result.operationRootCleanup;
+  assert.equal(
+    cleanup.testOwnedTempRootRemoved,
+    true,
+    `${label} test-owned temp root was not removed: ${cleanup.cleanupError ?? "unknown failure"}`,
+  );
+  assert.equal(
+    cleanup.noNewOperationRoots,
+    true,
+    `${label} left owned operation roots: ${cleanup.leakedOperationRoots.join(", ") || "unknown"}`,
+  );
+  assert.equal(cleanup.cleanupError, null, `${label} temp cleanup failed`);
+}
+
 function assertCommandPassed(result, label) {
   assert.equal(result.timedOut, false, `${label} timed out`);
   assert.equal(result.signal, null, `${label} was signaled`);
   assert.equal(result.status, 0, `${label} failed: ${commandFailure(result)}`);
+  assertParentOperationRootCleanup(result, label);
   return result;
 }
 
@@ -280,6 +400,7 @@ function assertCommandFailed(result, label, pattern) {
   assert.notEqual(result.status, 0, `${label} unexpectedly passed`);
   const stderr = commandFailure(result);
   assert.match(stderr, pattern, `${label} failed through the wrong route: ${stderr}`);
+  assertParentOperationRootCleanup(result, label);
   return stderr;
 }
 
@@ -848,32 +969,84 @@ async function runPersistentCompilerMutationRoute(lifecycleRoot, cacheRoot) {
   return evidence;
 }
 
-async function operationRootNames() {
-  const entries = await readdir(resolve(tmpdir()), { withFileTypes: true });
+async function operationRootNames(root) {
+  const entries = await readdir(root, { withFileTypes: true });
   return entries
     .filter((entry) => entry.isDirectory() && entry.name.startsWith("swr2-"))
     .map((entry) => entry.name)
     .sort();
 }
 
-async function runParent(fixtureRoot, environment, phase, commit, phaseArguments) {
-  const before = await operationRootNames();
-  const result = await runProcess(
-    process.execPath,
-    [absolute(fixtureRoot, PARENT_PATH), phase, commit, ...phaseArguments],
-    { cwd: fixtureRoot, env: environment },
+function scopedParentEnvironment(environment, parentTempRoot) {
+  const scoped = { ...environment };
+  for (const name of ["TEMP", "TMP", "TMPDIR"]) {
+    setEnvironmentValue(scoped, name, parentTempRoot);
+  }
+  return scoped;
+}
+
+async function runScopedParentProcess(command, arguments_, options) {
+  const parentTempRoot = await realpath(
+    await mkdtemp(join(resolve(tmpdir()), "swecircuit-parent-")),
   );
-  const after = await operationRootNames();
+  let result;
+  let processError = null;
+  let before = [];
+  let after = [];
+  let cleanupError = null;
+  let testOwnedTempRootRemoved = false;
+
+  try {
+    before = await operationRootNames(parentTempRoot);
+    result = await runProcess(command, arguments_, {
+      cwd: options.cwd,
+      env: scopedParentEnvironment(options.environment, parentTempRoot),
+      timeoutMs: options.timeoutMs,
+    });
+    after = await operationRootNames(parentTempRoot);
+  } catch (error) {
+    processError = error;
+  } finally {
+    try {
+      await rm(parentTempRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+      testOwnedTempRootRemoved = !(await pathExists(parentTempRoot));
+    } catch (error) {
+      cleanupError = error instanceof Error ? error.message : String(error);
+    }
+  }
+
+  if (processError !== null) {
+    if (cleanupError !== null) {
+      throw new AggregateError(
+        [processError, new Error(cleanupError)],
+        "Scoped parent process and test-owned temp cleanup both failed.",
+      );
+    }
+    throw processError;
+  }
+  assert.ok(result, "Scoped parent process completed without a result.");
   const beforeSet = new Set(before);
   const leaked = after.filter((name) => !beforeSet.has(name));
-  assert.deepEqual(leaked, [], `${phase} parent leaked an operation root`);
   result.operationRootCleanup = {
+    scope: "invocation-owned-temp",
+    ownedTempRoot: parentTempRoot,
     checkedAfterExit: true,
-    noNewOperationRoots: true,
+    noNewOperationRoots: leaked.length === 0,
+    leakedOperationRoots: leaked,
     beforeCount: before.length,
     afterCount: after.length,
+    testOwnedTempRootRemoved,
+    cleanupError,
   };
   return result;
+}
+
+async function runParent(fixtureRoot, environment, phase, commit, phaseArguments) {
+  return runScopedParentProcess(
+    process.execPath,
+    [absolute(fixtureRoot, PARENT_PATH), phase, commit, ...phaseArguments],
+    { cwd: fixtureRoot, environment },
+  );
 }
 
 function processEvidence(label, result) {
@@ -885,6 +1058,7 @@ function processEvidence(label, result) {
     status: result.status,
     signal: result.signal,
     timedOut: result.timedOut,
+    timeout: result.timeout,
     durationMs: Number(result.durationMs.toFixed(3)),
     stdout: { bytes: result.stdout.byteLength, digest: digest(result.stdout) },
     stderr: { bytes: result.stderr.byteLength, digest: digest(result.stderr) },
@@ -1867,6 +2041,7 @@ export async function runReleaseReviewProductionLifecycle() {
 }
 
 export const V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS = Object.freeze({
+  assertCommandPassed,
   authenticateFixtureBlobs,
   copyHostNpmCacheSupply,
   createLifecycleTypeScriptSupply,
@@ -1880,6 +2055,7 @@ export const V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS = Object.freeze({
   parentEnvironment,
   parseLifecycleTypeScriptEvidence,
   runGit,
+  runScopedParentProcess,
   typeScriptCompileSentinel: TYPESCRIPT_COMPILE_SENTINEL,
   typeScriptMutationSentinel: TYPESCRIPT_MUTATION_SENTINEL,
   typeScriptRunnerPath: TYPESCRIPT_RUNNER_PATH,

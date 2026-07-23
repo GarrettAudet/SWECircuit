@@ -1,0 +1,565 @@
+
+> swecircuit@0.0.0 verify
+> npm run format:check && npm run lint && npm run typecheck && npm test && npm run example:specialist && npm run dogfood:v10 && npm run dogfood:v11 && npm run dogfood:v12 && npm run pack:check && npm run consumer:check
+
+
+> swecircuit@0.0.0 format:check
+> biome format src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json
+
+Checked 103 files in 153ms. No fixes applied.
+
+> swecircuit@0.0.0 lint
+> biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 51.
+Checked 89 files in 134ms. No fixes applied.
+Found 71 infos.
+
+> swecircuit@0.0.0 typecheck
+> node scripts/run-typescript.mjs -p tsconfig.json --noEmit
+
+SWECIRCUIT_TYPESCRIPT_BINDING {"path":"C:\\Users\\garre\\OneDrive\\Documents\\Portable Best Practices\\node_modules\\typescript\\bin\\tsc","bytes":44,"digest":"sha256:2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd","nlink":1,"supplied":true,"version":"Version 7.0.2"}
+
+> swecircuit@0.0.0 test
+> npm run build --silent && npm run test:core && npm run test:lifecycle
+
+SWECIRCUIT_TYPESCRIPT_BINDING {"path":"C:\\Users\\garre\\OneDrive\\Documents\\Portable Best Practices\\node_modules\\typescript\\bin\\tsc","bytes":44,"digest":"sha256:2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd","nlink":1,"supplied":true,"version":"Version 7.0.2"}
+
+> swecircuit@0.0.0 test:core
+> node --test test/*.test.mjs
+
+✔ the internal CLI exposes one fixed help surface (392.7279ms)
+✔ init, validate, and inspect human output comes from library summaries (2382.3133ms)
+✔ JSON mode writes exactly one operation result to stdout for success and failure (867.4747ms)
+✔ human failures use stderr and never print a success summary (278.0786ms)
+✔ human warning results keep success on stdout and warnings on stderr (433.0761ms)
+▶ invalid commands and option shapes deterministically emit cli.usage
+  ✔ missing command (240.5844ms)
+  ✔ unknown command (235.4674ms)
+  ✔ unknown option (214.6195ms)
+  ✔ duplicate option (231.8427ms)
+  ✔ extra positional (214.672ms)
+  ✔ inspect missing trace (215.8235ms)
+  ✔ trace on validate (216.4503ms)
+  ✔ project id on validate (238.1192ms)
+  ✔ command help (222.3882ms)
+✔ invalid commands and option shapes deterministically emit cli.usage (2285.6102ms)
+✔ unexpected operation throws become one sanitized internal failure (1.9397ms)
+✔ the CLI remains a renderer-only internal surface (0.6394ms)
+✔ the V9 dogfood circuit is measured, bounded, and semantically repeatable (7942.406ms)
+✔ the V9 dogfood harness removes its owned workspace after an injected failure (1632.1678ms)
+✔ the V9 dogfood harness cleans up when setup fails after ownership capture (4.7107ms)
+✔ the committed observation digest and caller-owned retry trace stay linked (381.1846ms)
+✔ one valid packet executes once and returns an immutable V9-compatible journal (363.5372ms)
+✔ normal class executors can implement the public port (3.9759ms)
+✔ operation success stays separate from declared work failure (3.8826ms)
+▶ every preflight rejection prevents executor invocation
+  ✔ null packet (2.1697ms)
+  ✔ null manifest (1.4846ms)
+  ✔ wrong packet kind (6.1147ms)
+  ✔ incompatible manifest kind (1.5378ms)
+  ✔ manifest declares kernel-owned output (1.4411ms)
+  ✔ executor identity mismatch (1.6215ms)
+  ✔ malformed grant (1.0909ms)
+  ✔ invalid timeout policy (1.06ms)
+✔ every preflight rejection prevents executor invocation (18.5006ms)
+▶ permission grants fail closed in every direction
+  ✔ grant misses a manifest request (1.4154ms)
+  ✔ grant adds unrequested authority (1.2835ms)
+  ✔ grant exceeds packet ceiling (1.1651ms)
+  ✔ broad request is not covered by narrow grant (1.0923ms)
+  ✔ broad grant is not covered by narrow request (1.05ms)
+✔ permission grants fail closed in every direction (7.0867ms)
+▶ throws and malformed settlements become fixed failures without raw values
+  ✔ throw (2.323ms)
+  ✔ malformed extra field (6.6693ms)
+  ✔ secret evidence (2.5359ms)
+✔ throws and malformed settlements become fixed failures without raw values (12.3798ms)
+✔ fulfillment observation detaches settlement before later mutation (3.0535ms)
+▶ return-bound input canaries fail preflight without leaking
+  ✔ run ID (1.185ms)
+  ✔ attempt ID (0.954ms)
+  ✔ correlation ID (0.9577ms)
+  ✔ packet ID (0.9801ms)
+  ✔ grant ID (1.0878ms)
+  ✔ issuer (0.9486ms)
+  ✔ executor ID (0.9721ms)
+✔ return-bound input canaries fail preflight without leaking (8.4606ms)
+▶ already-aborted and already-expired work never invokes the executor
+  ✔ caller abort (2.5555ms)
+  ✔ packet deadline (3.8718ms)
+✔ already-aborted and already-expired work never invokes the executor (6.9981ms)
+▶ acknowledged caller cancellation and timeout produce exact terminal journals
+  ✔ caller cancellation (4.0085ms)
+  ✔ deadline (3.6426ms)
+✔ acknowledged caller cancellation and timeout produce exact terminal journals (8.2978ms)
+✔ an unacknowledged abort remains non-terminal and late rejection is observed (2.3721ms)
+✔ completion observed at or after the absolute deadline cannot become success (3.8623ms)
+✔ an early deadline wake-up re-arms instead of cancelling work (2.2829ms)
+✔ settlement outside the abort acknowledgement window stays unconfirmed (2.3096ms)
+▶ hostile proxies and forged signals fail closed without escaping the API
+  ✔ revoked work packet (1.3071ms)
+  ✔ revoked options (0.5893ms)
+  ✔ live proxy traps are not invoked (1.0153ms)
+  ✔ revoked AbortSignal proxy (1.0444ms)
+  ✔ forged AbortSignal (1.063ms)
+  ✔ revoked settlement (2.2751ms)
+✔ hostile proxies and forged signals fail closed without escaping the API (8.5487ms)
+▶ snapshot depth and node ceilings reject work before executor invocation
+  ✔ huge sparse array (1.8675ms)
+  ✔ small sparse array (1.2322ms)
+  ✔ dense oversized object (223.6264ms)
+  ✔ excessive depth (2.314ms)
+✔ snapshot depth and node ceilings reject work before executor invocation (229.9499ms)
+▶ the final invocation gate catches cancellation and deadline changes
+  ✔ caller abort while the deadline timer is armed (2.9618ms)
+  ✔ deadline reached after the final gate read (2.5544ms)
+  ✔ deadline reached while the deadline timer is armed (2.2744ms)
+✔ the final invocation gate catches cancellation and deadline changes (8.538ms)
+▶ abort cause uses the first observed monotonic event
+  ✔ caller observed before deadline remains caller (3.1307ms)
+  ✔ caller first observed after deadline is deadline (2.5208ms)
+✔ abort cause uses the first observed monotonic event (6.2694ms)
+▶ direct inputs are detached, bounded, and accessor-free
+  ✔ cycle (1.0767ms)
+  ✔ accessor (1.186ms)
+  ✔ source mutation cannot change executor input (3.2005ms)
+✔ direct inputs are detached, bounded, and accessor-free (6.143ms)
+✔ initialization creates the smallest valid project with frozen bytes (375.9229ms)
+✔ an explicit project ID wins and initialization never discovers an ancestor (30.2385ms)
+✔ default project ID transformation is exact across edge cases (166.9117ms)
+✔ invalid explicit IDs fail before creating owned paths (3.4158ms)
+✔ repeated initialization reports every owned collision without changing output (33.6934ms)
+✔ manifest collisions preserve exact bytes and do not create a catalog (6.1727ms)
+✔ catalog collisions preserve existing content and do not create a manifest (5.219ms)
+✔ a linked catalog is a collision and its target is never changed (6.7198ms)
+✔ invalid and missing target roots fail without creating paths (2.4624ms)
+▶ every initialization checkpoint fails closed and rolls back owned entries
+  ✔ beforeCatalogCreate (9.3154ms)
+  ✔ afterCatalogCreate (10.2835ms)
+  ✔ beforeModulesCreate (7.3214ms)
+  ✔ afterModulesCreate (8.8279ms)
+  ✔ beforeCircuitsCreate (8.9418ms)
+  ✔ afterCircuitsCreate (11.5512ms)
+  ✔ beforeManifestOpen (14.2436ms)
+  ✔ afterManifestOpen (17.4404ms)
+  ✔ afterManifestWrite (15.7174ms)
+  ✔ afterManifestFsync (21.435ms)
+  ✔ beforeValidation (21.4363ms)
+  ✔ afterValidation (22.173ms)
+  ✔ beforeManifestClose (25.2813ms)
+✔ every initialization checkpoint fails closed and rolls back owned entries (196.7227ms)
+▶ successful creations that fail before identity capture are preserved and reported
+  ✔ afterCatalogCreateBeforeCapture (3.8987ms)
+  ✔ afterModulesCreateBeforeCapture (6.0864ms)
+  ✔ afterCircuitsCreateBeforeCapture (9.6773ms)
+  ✔ afterManifestOpenBeforeCapture (14.9311ms)
+✔ successful creations that fail before identity capture are preserved and reported (35.5142ms)
+✔ non-empty rollback targets survive with an explicit cleanup diagnostic (8.9671ms)
+✔ identity-changed rollback targets and displaced entries are preserved (12.0305ms)
+✔ two coordinated processes produce exactly one initialized project (833.6366ms)
+✔ initialization and generated-project validation stay offline and process-free (42.5084ms)
+✔ initializer source has no network, process, or adapter execution surface (0.7488ms)
+✔ runtime diagnostic definitions exactly match the normative catalog (3.0667ms)
+✔ strict JSON parsing rejects invalid UTF-8, syntax extensions, duplicate keys, and unsafe numbers (6.0894ms)
+✔ strict JSON parsing enforces artifact byte and depth ceilings before validation (138.1155ms)
+✔ dispatch fails closed with stable version and kind diagnostics (1.8968ms)
+✔ schema failures normalize permission, privacy, and stop-condition policy (304.7174ms)
+✔ diagnostics are sanitized, deduplicated, and sorted deterministically (2.0629ms)
+✔ an explicit minimal project validates without discovery or optional adapters (329.8453ms)
+✔ a complete parallel project validates module routing, ownership, joins, and ceilings (65.8137ms)
+▶ project loading rejects lexical escapes and every portable forbidden path form
+  ✔ parent (12.9108ms)
+  ✔ posix absolute (6.6848ms)
+  ✔ windows absolute (10.478ms)
+  ✔ unc (5.4983ms)
+  ✔ device (4.7593ms)
+  ✔ alternate stream (4.3685ms)
+  ✔ URI (5.5896ms)
+  ✔ backslash (4.3069ms)
+  ✔ lone high surrogate (4.7301ms)
+  ✔ lone low surrogate (8.8862ms)
+✔ project loading rejects lexical escapes and every portable forbidden path form (70.7464ms)
+✔ project loading distinguishes missing references, non-files, and safe I/O failures (14.2908ms)
+✔ contained missing-file diagnostics suppress secret-bearing artifact names (11.5106ms)
+▶ explicit project roots reject remote, device, stream, and control forms before I/O
+  ✔ file URI (0.2994ms)
+  ✔ network URI (0.1513ms)
+  ✔ slash UNC (0.1463ms)
+  ✔ backslash UNC (0.1275ms)
+  ✔ device path (0.104ms)
+  ✔ alternate stream (0.1283ms)
+  ✔ control character (0.0982ms)
+  ✔ lone high surrogate (0.111ms)
+  ✔ lone low surrogate (0.0976ms)
+✔ explicit project roots reject remote, device, stream, and control forms before I/O (2.3405ms)
+✔ project loading rejects links below the trust root (10.7253ms)
+✔ project loading rejects external links without dereferencing their target (7.0881ms)
+✔ project validation accepts a root reached through an aliased ancestor (8.186ms)
+✔ canonical containment distinguishes internal aliases from resolved escape (2.8713ms)
+✔ project references fail closed for wrong kinds and duplicate identities (68.4648ms)
+✔ reference and graph diagnostics identify undeclared outcomes, ports, and fan-in (211.2511ms)
+✔ every project and graph reference class emits reference.not-found (232.1422ms)
+✔ cycles, fan-out ownership, and permission ceilings are enforced semantically (194.5907ms)
+✔ multi-node cycles require a bound on every cyclic route (75.6856ms)
+✔ fan-out declarations and entry reachability stay structurally consistent (110.4461ms)
+✔ permission grammar covers every kind and filesystem prefix boundaries (266.7447ms)
+✔ project and circuit collection ceilings emit dedicated limit diagnostics (1494.6718ms)
+✔ the documented source-checkout example is repeatable and read-only (3006.0525ms)
+✔ the documented initialization grammar works in a temporary project (1961.1447ms)
+✔ the quick start remains a private source-checkout interface (1.0986ms)
+✔ all v1alpha1 schemas compile together in strict Ajv 2020 mode (273.3122ms)
+✔ one canonical fixture for every supported kind passes its schema (365.1144ms)
+✔ schema and fixture paths are repository-owned local files (0.554ms)
+✔ the diagnostic catalog and adversarial matrix are closed and internally consistent (10.382ms)
+✔ every concrete object boundary in all six valid fixtures rejects unknown fields (354.3412ms)
+✔ the parallel circuit fixture declares fan-out, bounded work ownership, and one fan-in policy (110.2528ms)
+✔ schema boundaries reject permission, privacy, compatibility, and terminal-state ambiguity (231.6742ms)
+✔ minimal projects and timestamp-free events remain valid (97.4505ms)
+✔ package schemas use only local package-owned references and strict known keywords (59.2616ms)
+✔ strict parser fixtures expose syntax and duplicate-key failures (9.52ms)
+✔ golden specialist selection: one-agent-optimal (197.5107ms)
+✔ golden specialist selection: genuinely-parallel (8.3803ms)
+✔ golden specialist selection: under-split (6.3459ms)
+✔ golden specialist selection: over-split (10.8633ms)
+✔ golden specialist selection: conflict-heavy (8.4372ms)
+✔ golden specialist selection: generic-role (6.5392ms)
+✔ candidate analysis exposes deterministic rejection evidence when no team is eligible (15.7649ms)
+✔ candidate analysis and compilation select the same exact team (12.361ms)
+✔ generated team and agent identifiers retain the full SHA-256 suffix (13.7351ms)
+✔ selected blueprints close exact ownership, authority, context, evidence, handoff, and digests (59.4488ms)
+✔ exact search evaluates every allowed canonical partition through the declared limit (2830.2148ms)
+✔ fixed scheduler prioritizes the longer remaining critical path (7.3793ms)
+✔ fixed scheduler breaks equal critical paths by longer duration (11.066ms)
+✔ fixed scheduler breaks remaining ties by agent ID (5.307ms)
+✔ fixed scheduler enforces maximum concurrency (8.5539ms)
+✔ fixed scheduler serializes declared conflict zones (4.8115ms)
+✔ fixed scheduler releases dependencies after the handoff cost (5.534ms)
+✔ above-limit goals use deterministic bounded structural candidates without an optimum claim (25.2578ms)
+✔ every supplied proposal remains inspectable beyond the retained-alternative window (18.2625ms)
+✔ logical array and object-key permutations produce byte-identical compiled semantics (39.396ms)
+✔ compiled values are deeply frozen and detached from mutable caller input (4.9516ms)
+✔ reviewed assumptions and nonblocking decisions are digest-bound and rendered (14.035ms)
+✔ blocking unresolved decisions reject before team construction (1.8412ms)
+✔ selection reason reports the first decisive baseline comparison (8.7178ms)
+✔ repository locators reject leading and nested dot or parent segments (4.0299ms)
+✔ repository locator paths cannot exceed their declared read scope (4.921ms)
+✔ authority, context, and evidence violations reject before a launchable roster exists (11.9808ms)
+✔ goal dependency cycles and partition-induced agent cycles are rejected (5.8345ms)
+✔ generic role and provider/runtime extensions fail closed while exact ownership stays supply-free (9.2974ms)
+✔ C1 controls fail closed before diagnostics or rendering (18.9515ms)
+✔ Unicode bidi controls fail closed before diagnostics or rendering (42.6898ms)
+✔ bounded UTF-8 measurement matches raw and JSON encoding boundaries (0.2735ms)
+✔ secret-bearing unknown property keys stop at the parent before schema validation (1.8664ms)
+✔ oversized compiler input rejects before serialization or UTF-8 buffer allocation (10.62ms)
+✔ secret-bearing input is rejected without echoing the secret (1.3311ms)
+✔ digest tampering fails verification and renderer reconstruction (12.8667ms)
+✔ renderer output is deterministic and binds paths, blueprints, bytes, and compilation (122.028ms)
+✔ package verification rejects oversized content before UTF-8 buffer allocation (69.2385ms)
+✔ trusted package verification succeeds and coordinated recomputation cannot reuse approval (37.5063ms)
+✔ rendered manifest binds every emitted contract and integration file digest (14.6643ms)
+✔ first-run specialist example is deterministic, approval-bound, and read-only (1335.4741ms)
+✔ first-run specialist example rejects a stale source approval before compilation (525.0889ms)
+✔ first-run approval parsing is bounded, strict UTF-8, and duplicate-aware (1193.0921ms)
+✔ first-run approval objects reject unknown fields at every boundary (947.116ms)
+✔ first-run source paths reject unsafe, non-scalar, and secret-bearing forms before I/O (3306.4828ms)
+✔ first-run source reads reject directories and external junction targets (474.0108ms)
+✔ first-run rejects secret-bearing approval paths without echoing them (227.423ms)
+✔ raw specialist handoffs verify exact package, blueprint, evidence, and artifact bindings (341.8489ms)
+✔ handoff verification fails closed on stale identity, incomplete evidence, malformed JSON, and secrets (106.5378ms)
+✔ handoff verification binds artifact media types and permits only normalized LF controls (84.5941ms)
+✔ fan-in is ready only for one PASS handoff from every exact transitive dependency (72.5114ms)
+✔ fan-in rejects valid handoffs from agents outside the target dependency closure (22.6183ms)
+✔ handoff byte boundaries reject proxies and accessors without invoking caller code (35.3214ms)
+✔ decoded handoff overflow is SC4402 while malformed base64 remains SC4401 (553.1421ms)
+✔ bundled specialist schemas have exact source parity (5.0925ms)
+✔ create, restore, inspect, and record perform no first-use filesystem reads (3085.5082ms)
+✔ inspection derives manifest contracts, DAG statuses, evidence, and complete-roster readiness (5810.4314ms)
+✔ inspection closes every non-pass route and marks all unsettled work session-routed (3384.6154ms)
+✔ public run constants, operations, schema export, and V11 compatibility are exact (6.5657ms)
+✔ the strict schema accepts both canonical roots and closes every nested object (17.6051ms)
+✔ schema boundaries and every workflow route remain exact (119.7253ms)
+✔ recording is monotonic, dependency-gated, replay-safe, and source-preserving (771.709ms)
+✔ every verified non-pass outcome records once and terminally routes later work (1247.5405ms)
+✔ recording applies validation and handoff diagnostic precedence without caller mutation (100.2078ms)
+✔ root, chain, diamond, fan-out, fan-in, disconnected, and complete DAGs agree with V11 (8283.0096ms)
+✔ all valid independent arrival permutations converge to one session and inspection (7244.9017ms)
+✔ fresh-process restore and inspection preserve canonical semantics without host state (518.4005ms)
+✔ restore, expectation, caller-code, and coordinated-substitution attacks fail closed (91.1275ms)
+✔ handoff attacks, transition precedence, replay, and every non-pass route are closed (837.1324ms)
+✔ the 16-agent maximum-handoff aggregate converges below conservative run safeguards (95981.6583ms)
+✔ raw handoff and run input boundaries reject one-unit excess without truncation (6923.5036ms)
+✔ the specialist schemas and every definition compile in strict Ajv 2020 mode (319.0283ms)
+✔ the specialist schema accepts its two canonical closed input kinds (116.7827ms)
+✔ the handoff schema accepts every canonical outcome and remains closed (74.966ms)
+✔ every concrete specialist input object boundary rejects provider-shaped fields (137.4805ms)
+✔ role and runtime supply cannot enter goal, request, work, or proposal contracts (85.8036ms)
+✔ repository context requires readScope and external context forbids it (94.6954ms)
+✔ permission kinds are the exact provider-neutral schema set (90.8814ms)
+✔ specialist references stay inside package-owned v1alpha1 schemas (33.1674ms)
+✔ TypeScript ESM output loads with the approved production dependencies (128.9633ms)
+✔ inspection reconstructs interleaved runs, parallel attempts, retries, outcomes, and evidence (354.2907ms)
+▶ [T12] zero-event terminators are accepted once and rejected when repeated
+  ✔ empty-file (5.4977ms)
+  ✔ single-final-lf (4.0681ms)
+  ✔ single-final-crlf (5.0248ms)
+  ✔ repeated-final-lf (4.4636ms)
+  ✔ repeated-final-crlf (4.0527ms)
+✔ [T12] zero-event terminators are accepted once and rejected when repeated (24.7085ms)
+✔ logical order accepts valid same-run backward causation and ignores timestamps (6.0389ms)
+▶ sequence, event identity, and causation diagnostics are deterministic
+  ✔ duplicate sequence (7.0201ms)
+  ✔ regressing sequence (5.0604ms)
+  ✔ duplicate event id (4.6829ms)
+  ✔ missing cause (4.3534ms)
+  ✔ forward cause (5.6118ms)
+  ✔ cross-run cause (5.1139ms)
+✔ sequence, event identity, and causation diagnostics are deterministic (33.4278ms)
+▶ [T14] every legal attempt transition is accepted
+  ✔ queued-to-running (5.1398ms)
+  ✔ queued-to-cancelled (5.2908ms)
+  ✔ running-to-input_required (4.972ms)
+  ✔ running-to-completed (5.2727ms)
+  ✔ running-to-failed (7.538ms)
+  ✔ running-to-cancelled (4.7083ms)
+  ✔ running-to-timed_out (5.1236ms)
+  ✔ input_required-to-running (7.746ms)
+  ✔ input_required-to-cancelled (7.1838ms)
+  ✔ input_required-to-timed_out (13.2985ms)
+✔ [T14] every legal attempt transition is accepted (68.1577ms)
+▶ [T04] every disallowed non-terminal transition is rejected
+  ✔ queued-to-queued (7.318ms)
+  ✔ queued-to-input_required (5.7804ms)
+  ✔ queued-to-completed (4.4775ms)
+  ✔ queued-to-failed (4.9684ms)
+  ✔ queued-to-timed_out (4.4837ms)
+  ✔ running-to-queued (9.2536ms)
+  ✔ running-to-running (11.1278ms)
+  ✔ input_required-to-queued (7.6227ms)
+  ✔ input_required-to-input_required (5.3387ms)
+  ✔ input_required-to-completed (8.4974ms)
+  ✔ input_required-to-failed (5.0865ms)
+✔ [T04] every disallowed non-terminal transition is rejected (76.2481ms)
+▶ [T05] every terminal attempt state is immutable
+  ✔ completed (6.2927ms)
+  ✔ failed (7.8354ms)
+  ✔ cancelled (14.9369ms)
+  ✔ timed_out (5.3235ms)
+✔ [T05] every terminal attempt state is immutable (35.8783ms)
+✔ heartbeat, cancellation request, and explicit timeout events are accepted in valid states (6.6012ms)
+▶ attempt transition and terminal-state violations use their dedicated diagnostics
+  ✔ new non-retry must start queued (6.0888ms)
+  ✔ queued cannot complete directly (4.3593ms)
+  ✔ terminal state is immutable (4.796ms)
+  ✔ heartbeat is state-gated (5.931ms)
+✔ attempt transition and terminal-state violations use their dedicated diagnostics (22.1008ms)
+▶ [T07] heartbeat and cancellation requests are state-gated
+  ✔ heartbeat (12.5799ms)
+  ✔ cancellation-request (7.9321ms)
+✔ [T07] heartbeat and cancellation requests are state-gated (21.6355ms)
+▶ [T10] every attempt-bearing non-state event requires an earlier attempt
+  ✔ heartbeat (7.5145ms)
+  ✔ outcome (9.0597ms)
+  ✔ evidence (8.2269ms)
+✔ [T10] every attempt-bearing non-state event requires an earlier attempt (27.5461ms)
+▶ [T09] retry lineage rejects wrong, completed, and forked predecessors
+  ✔ wrong-predecessor (5.157ms)
+  ✔ completed-parent (5.3918ms)
+  ✔ forked-successor (33.9438ms)
+✔ [T09] retry lineage rejects wrong, completed, and forked predecessors (45.378ms)
+▶ [T06/T08/T11] retry declarations and attempt identity use dedicated diagnostics
+  ✔ T06:missing-link (5.2617ms)
+  ✔ T06:not-queued (4.697ms)
+  ✔ T08:metadata-change (4.2784ms)
+  ✔ T08:duplicate-work-packet-number (5.3917ms)
+  ✔ T11:non-retry (4.4667ms)
+✔ [T06/T08/T11] retry declarations and attempt identity use dedicated diagnostics (25.4663ms)
+▶ attempt identity and retry lineage failures are distinguishable
+  ✔ retry link is required (7.2688ms)
+  ✔ retry must start queued (14.8839ms)
+  ✔ retry lineage must use an eligible predecessor (8.4121ms)
+  ✔ attempt declaration is immutable (7.7318ms)
+  ✔ non-state attempt reference must already exist (8.2473ms)
+✔ attempt identity and retry lineage failures are distinguishable (47.7835ms)
+✔ outcome and evidence records may reference a terminal attempt (5.0202ms)
+✔ [T15] a failed handoff remains explicit in state and evidence summaries (6.0814ms)
+▶ strict JSONL framing rejects BOMs, blanks, lone CR, truncation, duplicate keys, and invalid UTF-8
+  ✔ BOM (4.4294ms)
+  ✔ blank record (6.5881ms)
+  ✔ lone CR (6.4005ms)
+  ✔ internal CR before CRLF (4.1733ms)
+  ✔ truncated (4.8547ms)
+  ✔ duplicate key (4.5926ms)
+  ✔ invalid UTF-8 (3.8251ms)
+✔ strict JSONL framing rejects BOMs, blanks, lone CR, truncation, duplicate keys, and invalid UTF-8 (36.3916ms)
+▶ RunEvent dispatch and exact payload ownership fail closed
+  ✔ missing event version (4.5095ms)
+  ✔ non-string event version (4.4561ms)
+  ✔ unsupported event version (5.9951ms)
+  ✔ wrong artifact kind (7.5901ms)
+  ✔ payload smuggling (13.7701ms)
+  ✔ event metadata description (4.0523ms)
+✔ RunEvent dispatch and exact payload ownership fail closed (41.5333ms)
+✔ evidence references are grammar-checked but never dereferenced (10.2512ms)
+▶ [T13] command and test evidence identifiers enforce the 128-character boundary
+  ✔ command-at-limit (4.6147ms)
+  ✔ command-over-limit (13.3189ms)
+  ✔ test-at-limit (4.2781ms)
+  ✔ test-over-limit (5.3337ms)
+✔ [T13] command and test evidence identifiers enforce the 128-character boundary (28.4256ms)
+✔ [L02] bounded reads allocate from the verified descriptor size (0.6449ms)
+✔ trace paths reject unsafe forms, links, non-files, and detectable mutation (12.4885ms)
+✔ line, trace, event-count, and depth ceilings emit dedicated diagnostics (423.8839ms)
+✔ evidence summaries cap deterministically and report exact omissions (171.0372ms)
+✔ the normative secret detector has positive and near-miss coverage (0.356ms)
+✔ [PR03] every rendered summary string slot suppresses secrets with one warning (8.616ms)
+✔ secret-bearing trace names are suppressed on invalid-input diagnostics too (4.1442ms)
+✔ trace inspection remains offline, process-free, and adapter-free (4.8631ms)
+✔ declared TypeScript file defeats ambient and candidate-local command substitution (402.8223ms)
+✔ repository-local fallback executes the exact resolved file (384.2866ms)
+✔ repository fallback canonicalizes a linked dependency ancestor (327.4162ms)
+✔ execution stops when version inspection mutates the bound file (139.1203ms)
+✔ execution detects persistent mutation during compilation (276.2401ms)
+✔ TypeScript binding rejects ambiguous, contained, and linked files (16.094ms)
+✔ package, release gate, and packed consumer share explicit TypeScript authority (2.5887ms)
+✔ the V10 executor dogfood trace is bounded, inspectable, and repeatable (352.4785ms)
+✔ the V10 dogfood harness removes its owned workspace after an injected failure (8.8122ms)
+✔ dogfood context reads accept regular files inside the repository root (8.2235ms)
+✔ dogfood context verification rejects bytes changed by an LF clean filter (1.0747ms)
+✔ dogfood context verification accepts LF bytes unchanged by the clean filter (0.4131ms)
+✔ dogfood context verification rejects an explicit CRLF checkout before hashing bytes (0.5511ms)
+✔ dogfood context verification rejects an active custom Git filter (0.4018ms)
+✔ dogfood context verification rejects an active working-tree encoding (0.4123ms)
+✔ dogfood context verification rejects a source without an explicit eol policy (0.4818ms)
+✔ dogfood context verification rejects an active filter before hashing bytes (0.3098ms)
+✔ dogfood context verification rejects ident expansion before hashing bytes (0.3893ms)
+✔ dogfood context verification rejects the legacy crlf attribute before hashing bytes (0.4554ms)
+✔ dogfood context verification rejects a bare CR under an explicit LF checkout (0.3882ms)
+✔ dogfood context verification rejects ambiguous filter names before hashing bytes (0.3884ms)
+✔ Git attribute parsing accepts variable unique records and rejects malformed output (1.8181ms)
+✔ dogfood context reads reject an in-root junction targeting an external directory (8.6282ms)
+✔ dogfood goal and approval controls reject duplicate JSON keys (10.8997ms)
+✔ dogfood approval controls reject a parent junction instead of following it (6.1031ms)
+✔ dogfood evidence writes reject package-parent redirection before mutation (7.838ms)
+✔ dogfood context verification rejects unsupported source kinds (1.302ms)
+✔ dogfood context verification requires one exact attribute-policy binding (1.3884ms)
+✔ every active V11 source is LF clean-filter stable with the attribute policy bound (11244.7216ms)
+✔ prelaunch audit authenticates the complete candidate without self-reference (1.1461ms)
+✔ prelaunch audit forces an independent binder and compilation reviewer (156.9649ms)
+✔ launch authorization binds both packages, the verification receipt, and the exact PASS handoff (26.2418ms)
+✔ launch authorization rejects malformed, non-PASS, stale, and incomplete audit handoffs (941.4771ms)
+✔ launch authorization accepts paired supplementary Unicode in free-text handoff fields (13.5241ms)
+▶ launch authorization rejects secret-bearing and non-scalar handoff paths
+  ✔ lone high surrogate (10.8571ms)
+  ✔ lone low surrogate (9.9796ms)
+  ✔ secret (10.4334ms)
+✔ launch authorization rejects secret-bearing and non-scalar handoff paths (32.0905ms)
+✔ launch authorization rejects unbound or semantically invalid verification receipts (188.6484ms)
+✔ launch authorization rejects stale package bindings and unowned handoff paths (10.3854ms)
+✔ host TypeScript entrypoint supply is singular, plain, absolute, and external (43.9713ms)
+✔ packed consumer retains and executes the complete TypeScript binding (0.8824ms)
+✔ candidate materialization excludes and detects uncommitted verification inputs (190549.0772ms)
+✔ candidate Git context is disposable, exact, and usable from the materialization (175643.9192ms)
+✔ candidate scratch cleanup supports reverse owner order (4.2898ms)
+✔ empty-directory pruning preserves unrelated state (3.963ms)
+✔ canonical command is pinned to the authenticated materialization (0.6039ms)
+✔ R2 closes the stronger receipt and all six causal security sources (0.7634ms)
+✔ R2 correction review context remains bounded with primary evidence (72636.5733ms)
+✔ paths mode remains closed and rejects malformed candidate identities (384.1062ms)
+✔ release-review parent rejects unsafe paths and non-exact lock supply (5.9013ms)
+✔ release-review parent detects closure mutation and promotes immutable bytes (24.787ms)
+✔ release-review promotion preflights the full set and commits the receipt last (33.1651ms)
+✔ release-review parent closes environment, outputs, cleanup, and promotion order (20.3453ms)
+✔ installed npm 11 uses exact production private configs and rejects the old alias (835.9693ms)
+✔ private npm substitution routes stop before process spawn and clean up (102.186ms)
+✔ release-review parent and workers preserve the candidate-runtime import boundary (389.4017ms)
+✔ runtime binding is deterministic and fails closed after identity mutation (2.8197ms)
+✔ closed phase grammar reconstructs prefixes from exact external inputs (2.2272ms)
+✔ handoff paths reject non-scalars, controls, non-NFC text, and aliases before use (4.4631ms)
+✔ stable reconstruction and phase authority reject substitution independently (2.3285ms)
+✔ copied production lifecycle excludes correction evidence after its sealed history (0.3664ms)
+✔ copied production lifecycle consumes the fresh-process release-gate cache supply (762.998ms)
+✔ nested fixture repository processes discard an enclosing candidate Git context (1318.7953ms)
+✔ materialized lifecycle executes and receipts one external TypeScript adapter (786.4687ms)
+✔ lifecycle TypeScript evidence parser fails closed (3.3485ms)
+✔ lifecycle adapter compiles the bounded input with host TypeScript (792.8057ms)
+✔ materialized lifecycle detects persistent compiler mutation after child return (318.2589ms)
+✔ lifecycle production identities match current source bytes (4.1788ms)
+✔ canonical npm test schedules the exact lifecycle after the core suite (0.6871ms)
+✔ materialized package closure rejects linked and hard-linked entries (9.9844ms)
+✔ closed private state rejects source mutation and undeclared post-build files (47.2767ms)
+✔ explicit cache and ancestor resolver boundaries fail closed (21.7898ms)
+✔ stable reconstruction is package-defining while phase authority stays separate (3.7754ms)
+✔ active release status avoids volatile candidate-state drift and preserves outcomes (5.7445ms)
+✔ live release routing delegates volatile state to candidate-addressed evidence (6.6296ms)
+✔ candidate-addressed run roots are closed, disjoint, and preserve Candidate 3 evidence (80919.8992ms)
+✔ correction lineage requires revisions 1 through 10 and has no terminal count (1.3146ms)
+✔ working-tree-only inputs and unsafe handoff paths fail closed (0.8555ms)
+✔ post-commit gate evidence is captured outside the candidate without self-reference (0.5111ms)
+✔ reviewer snapshots and tooling identity use exact candidate Git blobs (2.2845ms)
+✔ revision 9 package and handoff verification rejects substituted bytes (418.5004ms)
+ℹ tests 439
+ℹ suites 0
+ℹ pass 439
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 443016.4691
+
+> swecircuit@0.0.0 test:lifecycle
+> node --test test/lifecycle/*.test.mjs
+
+✖ isolated copied production entrypoints complete one exact compile-to-verify lifecycle (2960137.3567ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2960247.5896
+
+✖ failing tests:
+
+test at test\lifecycle\v12-release-review-lifecycle.test.mjs:16:1
+✖ isolated copied production entrypoints complete one exact compile-to-verify lifecycle (2960137.3567ms)
+  AssertionError [ERR_ASSERTION]: node:internal/modules/run_main:107
+      triggerUncaughtException(
+      ^
+  
+  AssertionError [ERR_ASSERTION]: verify parent leaked an operation root
+  + actual - expected
+  
+  + [
+  +   'swr2-HMWCCN'
+  + ]
+  - []
+  
+      at runParent (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-nsArcx/.local/v12-release-gate/candidate-RSFaaV/test/helpers/v12-release-review-lifecycle.mjs:869:10)
+      at async runReleaseReviewProductionLifecycle (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-nsArcx/.local/v12-release-gate/candidate-RSFaaV/test/helpers/v12-release-review-lifecycle.mjs:1592:26)
+      at async file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-nsArcx/.local/v12-release-gate/candidate-RSFaaV/test/fixtures/v12-release-review-lifecycle-child.mjs:12:19 {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'swr2-HMWCCN' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+  
+  Node.js v24.14.1
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///C:/tmp/swecircuit-identity-main/.local/v12-release-gate/candidate-nsArcx/test/lifecycle/v12-release-review-lifecycle.test.mjs:59:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { copyFile, link, mkdir, mkdtemp, realpath, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -256,6 +256,169 @@ function activeSection(path, headingName) {
 function activeStatus(path) {
   return activeSection(path, "Status");
 }
+
+function gitBlobBatchRecord(objectId, bytes, options = {}) {
+  const content = Buffer.from(bytes);
+  const type = options.type ?? "blob";
+  const size = options.size ?? String(content.byteLength);
+  return Buffer.concat([
+    Buffer.from(`${objectId} ${type} ${size}\n`, "ascii"),
+    content,
+    Buffer.from("\n", "ascii"),
+  ]);
+}
+
+function processExists(pid) {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (error) {
+    if (error && typeof error === "object" && error.code === "ESRCH") {
+      return false;
+    }
+    throw error;
+  }
+}
+
+test("candidate blob batch parsing preserves binary bytes and fails closed", () => {
+  const firstObject = "1".repeat(40);
+  const secondObject = "2".repeat(40);
+  const firstBytes = Buffer.from([0x00, 0x0a, 0x0d, 0x7f, 0x80, 0xff]);
+  const secondBytes = Buffer.alloc(0);
+  const valid = Buffer.concat([
+    gitBlobBatchRecord(firstObject, firstBytes),
+    gitBlobBatchRecord(secondObject, secondBytes),
+  ]);
+  const parsed = RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
+    [firstObject, secondObject],
+    valid,
+  );
+  assert.deepEqual([...parsed.keys()], [firstObject, secondObject]);
+  assert.deepEqual(parsed.get(firstObject), firstBytes);
+  assert.deepEqual(parsed.get(secondObject), secondBytes);
+
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
+        [firstObject],
+        gitBlobBatchRecord(secondObject, firstBytes),
+      ),
+    /unexpected object/u,
+  );
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
+        [firstObject],
+        gitBlobBatchRecord(firstObject, firstBytes, { type: "tree" }),
+      ),
+    /malformed header/u,
+  );
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
+        [firstObject],
+        gitBlobBatchRecord(firstObject, Buffer.alloc(0), { size: "9007199254740992" }),
+      ),
+    /unsafe object size/u,
+  );
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
+        [firstObject],
+        gitBlobBatchRecord(firstObject, firstBytes).subarray(0, -1),
+      ),
+    /truncated before the object delimiter/u,
+  );
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
+        [firstObject],
+        Buffer.concat([gitBlobBatchRecord(firstObject, firstBytes), Buffer.from("extra")]),
+      ),
+    /trailing bytes/u,
+  );
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch(
+        [firstObject, firstObject],
+        Buffer.concat([
+          gitBlobBatchRecord(firstObject, firstBytes),
+          gitBlobBatchRecord(firstObject, firstBytes),
+        ]),
+      ),
+    /duplicate request/u,
+  );
+  const nonAsciiHeader = gitBlobBatchRecord(firstObject, firstBytes);
+  nonAsciiHeader[0] = 0xff;
+  assert.throws(
+    () => RELEASE_REVIEW_PARENT_TEST_HOOKS.parseGitBlobBatch([firstObject], nonAsciiHeader),
+    /non-ASCII header/u,
+  );
+});
+
+test("scoped parent timeout owns residue, kills descendants, and reports timeout first", async () => {
+  const fixtureRoot = await realpath(
+    await mkdtemp(join(tmpdir(), "swecircuit-timeout-regression-")),
+  );
+  const descendantPidPath = join(fixtureRoot, "descendant.pid");
+  const foreignRoot = await realpath(await mkdtemp(join(tmpdir(), "swr2-foreign-")));
+  let descendantPid = null;
+
+  const childSource = [
+    'const { mkdirSync, writeFileSync } = require("node:fs");',
+    'const { spawn } = require("node:child_process");',
+    'const { tmpdir } = require("node:os");',
+    'const { join } = require("node:path");',
+    'mkdirSync(join(tmpdir(), "swr2-owned"));',
+    'const descendant = spawn(process.execPath, ["-e", "setInterval(() => {}, 1000)"], { stdio: "ignore" });',
+    `writeFileSync(${JSON.stringify(descendantPidPath)}, String(descendant.pid));`,
+    "setInterval(() => {}, 1000);",
+  ].join("\n");
+
+  try {
+    const result = await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.runScopedParentProcess(
+      process.execPath,
+      ["-e", childSource],
+      {
+        cwd: fixtureRoot,
+        environment: process.env,
+        timeoutMs: 1_000,
+      },
+    );
+    descendantPid = Number(readFileSync(descendantPidPath, "utf8"));
+    assert.equal(result.timedOut, true);
+    assert.equal(result.timeout.boundMs, 1_000);
+    assert.equal(result.timeout.termination.accepted, true);
+    assert.deepEqual(result.operationRootCleanup.leakedOperationRoots, ["swr2-owned"]);
+    assert.equal(result.operationRootCleanup.noNewOperationRoots, false);
+    assert.equal(result.operationRootCleanup.testOwnedTempRootRemoved, true);
+    assert.equal(existsSync(foreignRoot), true);
+
+    let primaryError = null;
+    try {
+      V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.assertCommandPassed(
+        result,
+        "scoped timeout regression",
+      );
+    } catch (error) {
+      primaryError = error;
+    }
+    assert.ok(primaryError instanceof Error);
+    assert.match(primaryError.message, /scoped timeout regression timed out/u);
+    assert.doesNotMatch(primaryError.message, /operation root/u);
+
+    for (let attempt = 0; attempt < 20 && processExists(descendantPid); attempt += 1) {
+      await new Promise((resolvePromise) => setTimeout(resolvePromise, 50));
+    }
+    assert.equal(processExists(descendantPid), false, "timed-out descendant remained alive");
+  } finally {
+    if (Number.isInteger(descendantPid) && processExists(descendantPid)) {
+      process.kill(descendantPid, "SIGKILL");
+    }
+    await rm(foreignRoot, { recursive: true, force: true });
+    await rm(fixtureRoot, { recursive: true, force: true });
+  }
+});
 
 test("release-review parent and workers preserve the candidate-runtime import boundary", () => {
   const parentSource = readFileSync(PARENT_ENTRYPOINT, "utf8");
@@ -1012,6 +1175,17 @@ test("canonical npm test schedules the exact lifecycle after the core suite", ()
   assert.match(
     lifecycleSource,
     /test\("isolated copied production entrypoints complete one exact compile-to-verify lifecycle"/u,
+  );
+  const identityPreflight = lifecycleSource.indexOf(
+    "assertCommittedProductionIdentities(candidateCommit);",
+  );
+  const expensiveMaterialization = lifecycleSource.indexOf(
+    "RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit)",
+  );
+  assert.ok(identityPreflight >= 0, "committed production identity preflight is missing");
+  assert.ok(
+    identityPreflight < expensiveMaterialization,
+    "committed production identity preflight must precede expensive materialization",
   );
 });
 test("materialized package closure rejects linked and hard-linked entries", async () => {

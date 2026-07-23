@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. The latest canonical gate evidence preserved in this source records exact source, materialization, Git, and cleanup state; 437 of 439 passing core tests; two live-status anti-drift failures; and source retirement. Revision 30 preserves that failure and corrects candidate-independent routing text. Candidate-addressed external evidence is authoritative for any later exact gate, fresh R2 review, hosted CI, and owner merge decision.
+V12 is not merge-ready. The latest canonical gate evidence preserved in this source records exact source, materialization, Git, and outer cleanup state; 439 of 439 passing core tests; a copied-production lifecycle stop at the parent timeout/cleanup boundary; and source retirement. Revision 31 preserves that failure and corrects Git-object scaling, process-tree termination, and invocation-owned cleanup attribution. Candidate-addressed external evidence is authoritative for any later exact gate, fresh R2 review, hosted CI, and owner merge decision.
 
 ## Scope
 
@@ -99,10 +99,14 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 - Revision 16's first package-valid `pass` was rejected by integration review because live routing sections outside `## Status` remained stale. Attempt 2 corrected those sections and expanded the regression without recompilation or authority expansion.
 - Accepted attempt 2 is bound to compilation/package `sha256:064bb4a993c3ab3410f360684a29bf603c119059eccb62d87294456ecbcfe044` / `sha256:20437ba56376d4b39f459043bac0940e8ded2e298b48de0cd16d437a95c96db6`; raw handoff `sha256:51e123c6a202a58a0ea456729b84dbb4995cff2b26b27313c66133fa035ae4b9`; `integrationAccepted: true`; `phaseReady: true`.
 
+## Retired Successor And Revision 31
+
+The one-shot gate for `74397e30be5d185a14ecef1a838aa7767ffdf60f` preserved 3,477 files, 105,198,478 bytes, source digest `sha256:90097d36f74019e8004f3d2245d368bc4050cfa042e8a1ea2b34228586e9d1e4`, exact materialization, candidate Git state, and outer cleanup. The core suite passed 439 of 439. The copied-production lifecycle then stopped during the primary verify parent, but its shared-global-temp assertion masked the process timeout/signal classification.
+
+Revision 31 replaces per-file Git object processes with a strictly parsed binary batch, scopes each copied parent to one test-owned temp namespace, terminates the complete process tree at timeout, orders process classification before cleanup assertions, and surfaces production cleanup failures. The new causal regressions and all 28 release-review tests pass.
+
 ## Current Outcome
 
-Revision 29's copied-production TypeScript correction passes focused, lifecycle, V11 Revision 43, and complete aggregate verification. Independent Attempt 1 correctly returned `fix` because an older `f1d4fd0` log was relabeled as `f1454b6` evidence. That attempt remains immutable.
+Revision 31's focused evidence is `pass`, but it is not release approval. The latest gate evidence preserved in source remains a retired failure with exact core success and an attribution-defective lifecycle stop. Candidate-addressed external evidence must establish the correction's broader release-gate and copied-lifecycle results, an exact successor gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.
 
-A distinct full aggregate at exact `f1454b6008de1498e72f9cc5a36fd1234b50e028` passes in 2,623.4 seconds and is bound by its 657,576-byte raw log. Independent Attempt 2 authenticates 44 sources and returns a package-verified `pass`; its exact handoff is 11,258 bytes at `sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920`.
-
-That independent pass was not release approval. The subsequent one-shot gate for `e61932f2d5067559332790b370f1bf510d0064fc` preserved exact source state but failed two live-status anti-drift checks and retired the source. This source does not claim any later candidate state; candidate-addressed external evidence must establish an exact committed-tree gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.
+The first post-correction full-lifecycle invocation is classified as invalid mixed-identity evidence: committed `HEAD` supplied the old executed parent while the working tree supplied the new expected identity. A new committed-identity preflight rejects that state before materialization; the full Revision 31 lifecycle still requires a committed checkpoint.

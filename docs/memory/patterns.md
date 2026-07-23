@@ -302,6 +302,18 @@ Authenticate the code that compiles, approves, executes, and verifies review evi
 
 Closing a package-manager environment requires explicit private configuration, not a shared null-device alias and not deletion of a variable that restores host defaults. Create distinct empty plain files inside the bounded operation root, validate identity, containment, links, bytes, and non-aliasing before spawn, bind the policy in evidence, and remove the whole operation root afterward.
 
+### Invocation-Owned Cleanup Attribution
+
+Assign each process invocation a private namespace before execution. Classify timeout, signal, exit status, and expected route before interpreting residue; scan only owned state, record the complete process-tree termination result, and let the outer host remove the owned namespace. Shared global-temp diffs cannot prove ownership.
+
+### Exact Binary Batch Framing
+
+Replace file-count-driven subprocess loops with a native batch protocol only when every returned identity, type, size, byte boundary, delimiter, order, duplicate, truncation, and trailing byte is validated. Batch improves scalability; strict raw framing preserves the original trust boundary.
+
+### Identity Preflight Before Expensive Lifecycle
+
+When a long-running lifecycle executes committed source but imports live expected identities, compare every committed production byte count and digest before creating scratch state or materializing the source. A late identity assertion proves only that the setup was invalid after resources were spent; an early preflight keeps the evidence attributable and the failure cheap.
+
 ## Source Map
 
 Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
@@ -339,3 +351,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V11.1 README release spec](../specs/v11.1-readme-release/spec.md), [accepted review](../specs/v11.1-readme-release/review.md), and [debug notes](../specs/v11.1-readme-release/debug-notes.md) | Concise Public Contract |
 | [V12 Candidate 10 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-10-retirement.md), [Revision 22 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#candidate-10-review-runtime-and-npm-configuration-rca), and [Revision 22 evidence](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/) | Review Runtime Is Candidate Evidence; Private Configuration, Not Host Fallback |
 | [V12 Candidate 13 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#candidate-13-live-status-rca) and [exact gate evidence](../specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/e61932f2d5067559332790b370f1bf510d0064fc/) | External Evidence Owns Volatile Release State; Live Status Is Candidate-Independent |
+| [V12 Candidate 14 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-14-retirement.md), [Revision 31 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#retired-successor-lifecycle-timeout-and-attribution-rca), [preflight RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-committed-identity-preflight-rca), and [causal tests](../../test/v12-release-review.test.mjs) | Invocation-Owned Cleanup Attribution; Exact Binary Batch Framing; Identity Preflight Before Expensive Lifecycle |

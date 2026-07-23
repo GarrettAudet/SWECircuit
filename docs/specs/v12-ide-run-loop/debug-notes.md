@@ -2,7 +2,7 @@
 
 ## Status
 
-No active product defect is recorded. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and source retirement. Revision 30 preserves that evidence and moves numbered identities to history-only sections. Candidate-addressed external evidence owns later gate consumption and outcome; V12 requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
+No active V12 product-contract defect is recorded. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, batches exact Git object reads, makes timeout, process-tree termination, and invocation-owned cleanup separately attributable, and rejects committed/live production-identity mismatches before lifecycle materialization. Candidate-addressed external evidence owns later gate consumption and outcome; V12 still requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
 
 ## Reproduction
 
@@ -694,3 +694,45 @@ The exact-checkpoint aggregate ran before the review-evidence commit. That later
 ### Correction And Route
 
 Revision 30 uses candidate-independent language in every live status and routing section, preserves numbered identities only in historical evidence, and requires the focused anti-drift tests plus a complete pre-freeze verification after all release-state edits. The two causal tests pass, and the complete release-review file passes 26/26 in 94.1 seconds. An unprivileged release-gate run passed 13/16 and failed only three owned-scratch `EPERM` operations; the identical command with its declared workspace write boundary passes 16/16 in 420.8 seconds. Route: `diagnose` -> `fix`; Candidate 13 is permanently retired and must never be rerun.
+
+## Retired Successor Lifecycle Attribution And Revision 31
+
+### Reproduction
+
+The one-shot canonical gate for commit `74397e30be5d185a14ecef1a838aa7767ffdf60f` authenticated 3,477 files and 105,198,478 bytes, retained the same materialization digest before and after execution, preserved the candidate Git context and source repository, and ran `npm.cmd run verify`. The core suite passed 439 of 439 tests. The copied-production lifecycle then stopped during the primary verify parent and reported one new global `swr2-*` directory.
+
+### Stable Evidence
+
+- Receipt: 2,296 bytes at `sha256:f9960ddb3cf3b15cbc03fbdb7d016b1eb520b833fb2183dcfdd67b984cc560c2`.
+- Source: `sha256:90097d36f74019e8004f3d2245d368bc4050cfa042e8a1ea2b34228586e9d1e4`.
+- Stdout: 36,810 bytes at `sha256:dfa57323ce8e81452cf51a5fe862b34e0b9019dd05eb09b90af55425f9393138`.
+- Stderr: 19,354 bytes at `sha256:0d0f997717d3a289caa495f1426091e27604f6829fd49be9af82f472e9d60758`.
+- The surviving directory held only the two initial empty private npm configuration files. The old global scan could not prove which concurrent process owned it and asserted before the caller could report timeout, signal, or status.
+
+### Diagnosis
+
+The lifecycle helper used a 900,000 ms per-parent timeout, killed only the immediate child, waited for close, and then diffed every global `swr2-*` directory. That ordering definitely masked the primary process classification. Before candidate materialization, the production parent also launched one synchronous `git cat-file` process per tree entry; this candidate had 3,477 files, making file count an avoidable process-count multiplier. The preserved evidence localizes the stop before materialization but cannot prove whether timeout, partial cleanup, or an unrelated process created the observed root.
+
+### Correction And Evidence
+
+Revision 31 retrieves unique blobs through one binary-safe `git cat-file --batch` exchange and strictly validates returned object identity, type, decimal size, byte framing, delimiter, order, duplicates, truncation, non-ASCII headers, and trailing bytes. The lifecycle helper gives each parent invocation a private `TEMP`/`TMP`/`TMPDIR`, terminates the complete process tree on timeout, records termination evidence, removes the test-owned namespace, and reports process outcome before owned-residue assertions. Production operation-root setup is inside the guarded cleanup path, and cleanup failures are no longer discarded.
+
+The focused binary and timeout regressions pass 2 of 2. The complete release-review file passes 28 of 28 in 73.1 seconds. A real-tree probe parsed 2,205 unique blobs and 69,562,019 blob bytes through the new batch protocol in 817 ms.
+
+### Route
+
+`diagnose -> fix -> verify`. The exact source is permanently retired and must never be rerun. Broader release-gate, copied-lifecycle, package-bound review, aggregate, and fresh-source gates remain required.
+
+## Revision 31 Committed-Identity Preflight
+
+### Invalid Attempt
+
+The first full copied-lifecycle invocation after the correction started from an uncommitted working tree. The lifecycle materialized committed `HEAD`, so it exercised the old 96,946-byte release parent while its final attestation expected the new 100,088-byte working-tree parent. After 2,383.9 seconds, the final assertion reported committed digest `sha256:df78c40143137f505959389bb7fc6a6282603e431ccb5abd751ea1539ffac5e1` against live expectation `sha256:e76a63d41607f978d5adedb8e69e64b75625e040ec252f5bae97895d4dff7dbb`. This mixed-identity invocation is neither a pass nor a failure of Revision 31 behavior.
+
+### Causal Fix And Evidence
+
+The lifecycle now hashes every production identity directly from `git show HEAD:path` and compares exact bytes and SHA-256 expectations before creating a lifecycle temp root or materializing source. A scheduling regression proves that this preflight precedes materialization. The same invalid state now rejects with the exact path and both identities in 215.1 ms instead of running the expensive lifecycle.
+
+### Route
+
+`fix -> verify`. Commit the exact Revision 31 checkpoint, then run the full copied lifecycle once against that committed identity.

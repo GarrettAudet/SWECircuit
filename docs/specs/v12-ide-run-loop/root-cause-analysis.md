@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical release attempts and their exact outcomes remain immutable. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two candidate-ordinal drift failures, and source retirement. Revision 30 preserves that evidence and makes live release routing candidate-independent. Candidate-addressed external evidence owns later gate consumption and outcome; V12 requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
+Historical release attempts and their exact outcomes remain immutable. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, removes file-count-driven Git process fan-out, and scopes timeout and cleanup attribution to one invocation. Candidate-addressed external evidence owns later gate consumption and outcome; V12 still requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
 
 ## Reproduction
 
@@ -423,3 +423,62 @@ Use candidate-independent state language in all live status and routing sections
 ### Regression And Route
 
 The two exact failing tests are the minimum causal regression. Candidate 13 remains immutable and retired. Route: `diagnose` -> `fix`; a successor may be frozen only after both regressions and the complete pre-freeze gate pass.
+
+## Retired Successor Lifecycle Timeout And Attribution RCA
+
+### Reproduction
+
+Run the exact one-shot gate for commit `74397e30be5d185a14ecef1a838aa7767ffdf60f`. The core suite passes 439 of 439. During the copied-production lifecycle's primary verify parent, the helper reports `verify parent leaked an operation root` after 2,960,137 ms of lifecycle execution.
+
+### Stable Evidence
+
+The gate receipt proves exact source, materialization, Git state, and cleanup outside the copied lifecycle. Its source digest is `sha256:90097d36f74019e8004f3d2245d368bc4050cfa042e8a1ea2b34228586e9d1e4`; receipt/stdout/stderr are `sha256:f9960ddb3cf3b15cbc03fbdb7d016b1eb520b833fb2183dcfdd67b984cc560c2`, `sha256:dfa57323ce8e81452cf51a5fe862b34e0b9019dd05eb09b90af55425f9393138`, and `sha256:0d0f997717d3a289caa495f1426091e27604f6829fd49be9af82f472e9d60758`.
+
+The helper's 900,000 ms timeout set `timedOut`, called `child.kill()`, and waited for close. `runParent` then asserted a shared global-temp directory diff before any caller inspected `timedOut`, signal, or exit status. The observed root contained only `npm-userconfig` and `npm-globalconfig`, which localizes the interruption before candidate materialization but does not establish ownership.
+
+### Confirmed Root Causes
+
+1. **Outcome masking:** a shared global-temp assertion preceded process classification, so cleanup residue could hide timeout or signal evidence.
+2. **Unbounded process-count pressure:** candidate authentication launched one synchronous `git cat-file` process for every tree entry rather than using Git's batch protocol.
+3. **Incomplete timeout termination:** the test host killed only the immediate parent process and did not bind descendant termination or cleanup to an invocation-owned namespace.
+4. **Cleanup observability gap:** production setup began outside the guarded block and its failure-path cleanup error was silently discarded.
+
+The old evidence does not prove that the surviving root belonged to the timed-out verify parent. Revision 31 therefore fixes attribution and performance without relabeling that uncertainty as a proven production leak.
+
+### Causal Fix
+
+- Fetch sorted unique object IDs through one `git cat-file --batch` process and parse raw binary output with exact framing and identity checks.
+- Set all temp environment aliases to one invocation-owned directory, scan only that directory, and remove the outer namespace after process exit.
+- Terminate the whole child process tree at the bound and preserve timeout, PID, duration, termination method, and residue evidence.
+- Check timeout, signal, exit status, and expected negative route before asserting owned cleanup.
+- Guard production root creation and surface combined execution/cleanup failures.
+
+### Regression Coverage
+
+- Binary payloads containing NUL, LF, CR, high bytes, and zero-length blobs round-trip exactly.
+- Object substitution, non-blob type, unsafe size, truncation, extra bytes, duplicate requests, and non-ASCII headers fail closed.
+- A fake timed-out parent leaves an owned `swr2-*` root and a live descendant while an unrelated global `swr2-*` root exists. The process tree is terminated, owned residue is reported and removed, the foreign root is ignored, and timeout remains the primary error.
+- The complete release-review suite passes 28 of 28.
+- A full real-tree batch probe processes 2,205 unique objects and 69,562,019 blob bytes in 817 ms.
+
+### Durable Learning
+
+A cleanup assertion is trustworthy only when ownership is scoped before execution and process outcome is classified before residue is interpreted. For binary repository protocols, batch for scalability but parse every byte boundary as hostile input.
+
+## Revision 31 Committed-Identity Preflight RCA
+
+### Reproduction
+
+Launch the full copied-production lifecycle while Revision 31 exists only in the working tree. The lifecycle materializes committed `HEAD`, exercises the old 96,946-byte parent, and waits until final attestation to compare it with the new 100,088-byte expected identity. The mismatch was reported only after 2,383.9 seconds.
+
+### Confirmed Root Cause
+
+The lifecycle's source of execution was committed `HEAD`, but its expected production identities were imported from the live working tree. No preflight bound those two sources before expensive materialization and execution.
+
+### Causal Fix
+
+Before creating a temp root, hash each production file from `git show HEAD:path` and compare exact byte count and SHA-256 digest with the live expected identity. Fail with the exact path and both identities when they differ. Keep the preflight before candidate materialization in the canonical lifecycle test.
+
+### Regression And Route
+
+The scheduling regression passes, and the invalid mixed-identity invocation now rejects in 215.1 ms with the exact committed/live mismatch. Route: `fix -> verify`. A valid full lifecycle requires the correction to be committed first.
