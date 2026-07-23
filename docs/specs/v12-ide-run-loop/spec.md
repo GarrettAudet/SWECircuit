@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and Revision 29 compiler-supply correction are complete. The latest canonical gate evidence preserved in this source records exact source integrity, 437 of 439 passing core tests, two live-status anti-drift failures, and retirement of that source; no product or public-API failure was reported. Revision 30 makes live routing candidate-independent. Source prose does not claim volatile gate consumption; release approval requires candidate-addressed external evidence for an exact successor gate, fresh independent R2 review, hosted CI, and the owner merge gate.
+Exact Revision 39 commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f` passed its one-shot canonical gate with 447/447 core tests plus copied lifecycle, package inspection, and offline installed-consumer verification. Fresh R2 preparation authenticated the source and gate, then emitted `diagnose` before compilation because diagnostic-only `release-correction-rN` folders were misclassified as package-backed specialist revisions. Revision 39 is retired without rerun. Working Revision 40 requires all three root package markers, rejects partial marker sets, ignores diagnostic-only roots, and passes its focused checks plus the complete 50/50 concurrent release suite. Broad verification, an immutable successor commit, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
 
 ## Problem
 

@@ -234,7 +234,11 @@ function correctionPathsThrough(maxRevision, omitted = []) {
       continue;
     }
     const root = revision === 1 ? CORRECTION_ROOT : `${CORRECTION_ROOT}-r${revision}`;
-    paths.push(`${root}/approval.json`);
+    paths.push(
+      `${root}/approval.json`,
+      `${root}/handoff-verification.json`,
+      `${root}/package-envelope.json`,
+    );
   }
   return paths;
 }
@@ -1778,9 +1782,12 @@ test("correction lineage requires revisions 1 through 10 and has no terminal cou
   assert.equal(throughTen[8].root, R9_ROOT);
   assert.equal(throughTen[9].root, `${CORRECTION_ROOT}-r10`);
 
-  const throughEleven = RELEASE_REVIEW_TEST_HOOKS.discoverCorrectionEvidenceSpecs(
-    correctionPathsThrough(11),
-  );
+  const throughEleven = RELEASE_REVIEW_TEST_HOOKS.discoverCorrectionEvidenceSpecs([
+    ...correctionPathsThrough(11),
+    `${CORRECTION_ROOT}-r23/attempt-history.md`,
+    `${CORRECTION_ROOT}-r29/inputs/diagnosis.md`,
+    `${CORRECTION_ROOT}-r38/implementation-notes.md`,
+  ]);
   assert.equal(throughEleven.at(-1).goalRevision, 11);
 
   assert.throws(
@@ -1791,6 +1798,14 @@ test("correction lineage requires revisions 1 through 10 and has no terminal cou
     () =>
       RELEASE_REVIEW_TEST_HOOKS.discoverCorrectionEvidenceSpecs(correctionPathsThrough(10, [5])),
     /missing revision 5/u,
+  );
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_TEST_HOOKS.discoverCorrectionEvidenceSpecs([
+        ...correctionPathsThrough(10),
+        `${CORRECTION_ROOT}-r11/approval.json`,
+      ]),
+    /revision 11 has an incomplete package marker set/u,
   );
   assert.throws(
     () =>

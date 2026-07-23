@@ -638,6 +638,11 @@ const CORRECTION_NAVIGATION_FILES = Object.freeze([
   "phase-metadata.json",
   "request.json",
 ]);
+const CORRECTION_PACKAGE_MARKERS = Object.freeze([
+  "approval.json",
+  "handoff-verification.json",
+  "package-envelope.json",
+]);
 
 const FIXED_DYNAMIC_ROOTS = Object.freeze([
   {
@@ -1615,18 +1620,36 @@ function discoverCorrectionEvidenceSpecs(candidateTreeOrPaths) {
     ? candidateTreeOrPaths
     : candidateTreeOrPaths.paths;
   requireCondition(Array.isArray(paths), "Candidate tree paths are unavailable.");
-  const roots = new Map();
+  const discovered = new Map();
   for (const path of paths) {
     const parsed = correctionRevisionFromPath(path);
     if (parsed === null) {
       continue;
     }
-    const prior = roots.get(parsed.revision);
+    const prior = discovered.get(parsed.revision);
     requireCondition(
-      prior === undefined || prior === parsed.root,
+      prior === undefined || prior.root === parsed.root,
       `Candidate tree contains duplicate correction revision ${parsed.revision}.`,
     );
-    roots.set(parsed.revision, parsed.root);
+    const record = prior ?? { root: parsed.root, markers: new Set() };
+    if (path.startsWith(`${parsed.root}/`)) {
+      const relativePath = path.slice(parsed.root.length + 1);
+      if (CORRECTION_PACKAGE_MARKERS.includes(relativePath)) {
+        record.markers.add(relativePath);
+      }
+    }
+    discovered.set(parsed.revision, record);
+  }
+  const roots = new Map();
+  for (const [revision, record] of discovered) {
+    if (record.markers.size === 0) {
+      continue;
+    }
+    requireCondition(
+      record.markers.size === CORRECTION_PACKAGE_MARKERS.length,
+      `Correction revision ${revision} has an incomplete package marker set.`,
+    );
+    roots.set(revision, record.root);
   }
   requireCondition(roots.size > 0 && roots.has(1), "Correction revision 1 is missing.");
   const revisions = [...roots.keys()].sort((left, right) => left - right);

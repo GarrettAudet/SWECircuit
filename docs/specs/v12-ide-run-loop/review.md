@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Exact Revision 38 commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0` closes every inherited case-insensitive `GIT_*` channel. Its clean identity-stable aggregate passes 447/447 core tests, copied lifecycle, package inspection, and offline consumer verification. A separately compiled reviewer authenticated 69/69 sources and 4,404,088 bytes twice; its exact 9,592-byte handoff verifies `pass` with `integrationReady: true` and `successorFreezeApproved: true`. Working Revision 39 is an evidence-only successor; its committed one-shot gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
+V12 is not merge-ready. Exact Revision 39 commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f` passed its one-shot canonical gate with 447/447 core tests plus copied lifecycle, package inspection, and offline installed-consumer verification. Fresh R2 preparation authenticated the source and gate, then emitted `diagnose` before compilation because diagnostic-only `release-correction-rN` folders were misclassified as package-backed specialist revisions. Revision 39 is retired without rerun. Working Revision 40 requires all three root package markers, rejects partial marker sets, ignores diagnostic-only roots, and passes its focused checks plus the complete 50/50 concurrent release suite. Broad verification, an immutable successor commit, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
 
 ## Scope
 
@@ -113,9 +113,9 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
 
 ## Current Outcome
 
-Revision 37 is immutable and retired after its package-bound reviewer returned `fix`. Exact Revision 38 passes its immutable aggregate and package-bound review; the verified handoff authorizes only a distinct successor freeze.
+Exact Revision 39 passes its immutable one-shot gate, but fresh R2 preparation returns `diagnose` before package compilation. Candidate-addressed external evidence remains the only authority for volatile release state.
 
-Candidate-addressed external evidence remains the only authority for volatile release state. `releaseReady: false` remains in force; working Revision 39 must be committed and receive one exact gate before fresh R2, hosted CI, milestone closeout, and owner merge.
+Working Revision 40 is the bounded causal correction. Its focused and concurrent tests pass, while broad verification, a distinct committed source, one exact gate, fresh R2, hosted CI, milestone closeout, and owner merge remain. `releaseReady: false`.
 
 ## Revision 34 Trust-Refresh Outcome
 
@@ -144,3 +144,9 @@ Revision 38 replaces the partial denylist with a closed case-insensitive policy,
 Causal closure passes 2/2, the closure plus formerly contended batch tests pass 4/4, and the complete concurrent release-gate/release-review files pass 50/50. The first broad attempt's four `EPERM` setup failures are preserved separately; the authorized identical-source rerun passed.
 
 Exact commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0` then passes a 700,991 ms external aggregate with clean stable identity, 447/447 core tests, copied lifecycle, package inspection, and offline consumer verification. The package-bound reviewer authenticates 69/69 sources twice and returns exact verified `pass`; compilation/package are `sha256:6c671af037cabfdf9e97da3e97d141a67134e0a73e35d3b733ddd0c49c78a66b` / `sha256:6a9c34c0e1b1cd1980002924d3a64fa49f6fff2bb9f41e85ada67235f060a74c`. The 9,592-byte handoff is `sha256:db522b50d6c0e58b00ac7b4c923d8af28378c4985967960058eb2659acf70661`; `successorFreezeApproved: true`, `releaseApproved: false`.
+
+## Revision 39 Gate And Revision 40 Review
+
+Revision 39 preserves a passing canonical gate and a separate R2 `diagnose` result. The latter is not a product or API failure: lineage discovery treated any numbered correction folder as a specialist package, even when it contained only diagnosis notes.
+
+Revision 40 classifies package-backed roots through the complete envelope/approval/verification marker set and fails closed on partial sets. The exact prior tree now resolves to 22 contiguous package revisions; focused checks and all 50 concurrent release tests pass.

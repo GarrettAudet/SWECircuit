@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation remains complete; Revision 38 corrects a release-test Git-authority boundary. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Exact Revision 38 commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0` closes every inherited case-insensitive `GIT_*` channel. Its clean identity-stable aggregate passes 447/447 core tests, copied lifecycle, package inspection, and offline consumer verification. A separately compiled reviewer authenticated 69/69 sources and 4,404,088 bytes twice; its exact 9,592-byte handoff verifies `pass` with `integrationReady: true` and `successorFreezeApproved: true`. Working Revision 39 is an evidence-only successor; its committed one-shot gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
+The V12 product implementation and public API remain complete; Revision 40 changes only release-review evidence classification and its tests. Exact Revision 39 commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f` passed its one-shot canonical gate with 447/447 core tests plus copied lifecycle, package inspection, and offline installed-consumer verification. Fresh R2 preparation authenticated the source and gate, then emitted `diagnose` before compilation because diagnostic-only `release-correction-rN` folders were misclassified as package-backed specialist revisions. Revision 39 is retired without rerun. Working Revision 40 requires all three root package markers, rejects partial marker sets, ignores diagnostic-only roots, and passes its focused checks plus the complete 50/50 concurrent release suite. Broad verification, an immutable successor commit, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
 
 ## Baseline
 
@@ -256,3 +256,11 @@ The V12 product implementation remains complete; Revision 38 corrects a release-
 - Product code, public APIs, process counts, and release semantics are unchanged. Complete mutable-source verification passed in 679.3 seconds; its raw stdout/stderr and receipt are preserved under `evidence/implementation/release-correction-r38/attempts/`.
 - Exact commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0` passes the 700,991 ms immutable aggregate and a newly compiled 69-source package review. The exact 9,592-byte handoff verifies `pass` with `integrationReady: true`.
 - The compact archive is `evidence/implementation/independent-review-r38/`. Revision 39 may add only that archive and trace updates before its one-shot gate.
+
+## Revision 39 Gate And Revision 40 Lineage Correction
+
+- Revision 39 exact source, materialization, disposable Git context, outer repository, and cleanup remained stable through its passing gate.
+- Fresh R2 reached the authenticated candidate prepare child and failed closed on a false missing-Revision-30 result before package compilation.
+- Package-backed correction evidence is contiguous through Revision 22. Later numbered roots are diagnostic artifacts without package markers.
+- Revision 40 includes a root only when package envelope, approval, and handoff verification are all present; a partial set fails closed.
+- Focused lineage and identity checks pass 2/2, the exact Revision 39 tree resolves to 22 contiguous package revisions, and concurrent release suites pass 50/50.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 trust replay and Revision 35 aggregate/review pass. Revision 36 remains an exact 443/445 gate failure. Revision 37 passed a 446/446 aggregate but its 57-source package review returned verified `fix`. Revision 38 closure passes 2/2 causal, 4/4 combined contention, 50/50 concurrent suites, an exact 447/447 immutable aggregate, and a 69-source verified package review. Revision 39 is the evidence-only successor. `releaseReady: false` remains until its one-shot gate, fresh R2, hosted CI, milestone closeout, and owner merge pass.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 39 passed its exact gate and then routed `diagnose` during fresh R2 preparation. Working Revision 40 corrects package-lineage classification and passes 2/2 focused plus 50/50 concurrent release checks. `releaseReady: false` remains until broad verification, an immutable successor, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge pass.
 
 ## Contract Tests
 
@@ -81,6 +81,7 @@ Package identity verification and handoff schema verification authenticate prese
 - Commit `602ddce2a9056e3f920fcb3e004132bde3f4f549` valid copied lifecycle: `fail` after 551.0 seconds at a generic disposable-Git tracked-state assertion; source worktree remained clean and the later RCA confirms the Windows long-path cause.
 - Failure-only changed-path parser plus complete release-review suite: 29/29 `pass` in 94.4 seconds; diagnostic checkpoint 101361e attributes the committed stop to Windows long paths.
 - Exact corrected checkpoint 8768c25 copied lifecycle: 1/1 `pass` in 1,752.7 seconds; compile, approve, verify, closed negative routes, source reauthorization, source integrity, and owned cleanup complete.
+- Revision 39 exact gate: commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f`, 447/447 core, copied lifecycle, package, and offline consumer `pass`; fresh R2 preparation routes `diagnose` before compilation. Revision 40 focused lineage/identity checks pass 2/2 and concurrent release suites pass 50/50.
 
 ## Revision 31 Long-Path Correction Gate
 
@@ -170,3 +171,11 @@ Package identity verification and handoff schema verification authenticate prese
 - Exact Revision 38 aggregate: commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0`, tree `572a5dc3406ffff6453f7c11df3592d5bb971a45`, clean stable identity, 447/447 core, copied lifecycle 1/1, package and offline consumer `pass` in 700,991 ms.
 - Exact package review: 69/69 sources and 4,404,088 bytes authenticated twice; 9,592-byte handoff `sha256:db522b50d6c0e58b00ac7b4c923d8af28378c4985967960058eb2659acf70661`; verified `pass`, `integrationReady: true`.
 - Pending: commit the evidence-only Revision 39 successor and run its canonical gate exactly once.
+
+## Revision 39 Gate And Revision 40 Lineage Gate
+
+- Preserve Revision 39 receipt/stdout/stderr at its candidate-addressed canonical-gate path; never rerun that source.
+- Require complete package-envelope, approval, and handoff-verification markers before a correction root enters lineage.
+- Reject any partial marker set and ignore diagnostic-only numbered roots.
+- Require the exact prior tree to resolve to 22 contiguous package-backed revisions.
+- Require focused checks, 50/50 concurrent release tests, broad repository verification, a distinct committed source, one exact gate, fresh R2, hosted CI, closeout, and merge.

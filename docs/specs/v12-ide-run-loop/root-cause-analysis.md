@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical release attempts remain immutable. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Exact Revision 38 commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0` removes every inherited `GIT_*` key case-insensitively and reapplies only three explicit local controls. Its immutable aggregate passes 447/447 core tests plus lifecycle/package/consumer gates; a 69-source package review returns exact verified `pass` and authorizes a distinct successor freeze. Working Revision 39 still requires its one-shot gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+Historical attempts remain immutable. Exact Revision 39 commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f` passed its one-shot canonical gate with 447/447 core tests plus copied lifecycle, package inspection, and offline installed-consumer verification. Fresh R2 preparation authenticated the source and gate, then emitted `diagnose` before compilation because diagnostic-only `release-correction-rN` folders were misclassified as package-backed specialist revisions. Revision 39 is retired without rerun. Working Revision 40 requires all three root package markers, rejects partial marker sets, ignores diagnostic-only roots, and passes its focused checks plus the complete 50/50 concurrent release suite. Broad verification, an immutable successor commit, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
 
 ## Reproduction
 
@@ -658,3 +658,9 @@ Remove every inherited `GIT_*` key case-insensitively, then explicitly reapply o
 ### Durable Learning
 
 Security boundaries should be closed by construction. A reviewed denylist and a test copied from it can share the same omission; test the delivered child environment with hostile unknown future inputs.
+
+## Revision 39 False Correction-Lineage Gap
+
+Fresh R2 preparation against exact Revision 39 failed with `Correction revision sequence is not contiguous from revision 1: missing revision 30.` Complete specialist-package evidence is actually contiguous through Revision 22. Later numbered correction roots contain diagnoses and attempt notes, not packages.
+
+The scanner registered a revision from any path under a matching directory. Revision 40 instead requires the complete root-level package-envelope, approval, and handoff-verification marker set; none means diagnostic-only, some means invalid, and all means package-backed. Route: `review -> diagnose -> fix -> verify`.
