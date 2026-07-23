@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical release attempts and their exact outcomes remain immutable. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every later aggregate gate. Its separately compiled package-bound reviewer authenticated 51/51 sources, returned `pass`, and passed exact handoff verification against the approved compilation and package digests. Revision 36 preserves those immutable facts without changing product or kernel behavior. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2 review, hosted CI, milestone closeout, and the owner merge gate remain required.
+Historical release attempts and their exact outcomes remain immutable. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
 
 ## Reproduction
 
@@ -636,3 +636,21 @@ Fallback-capable operations need one closed result algebra: preserve every attem
 No new defect was found. Exact aggregate and package-bound review evidence independently confirm the Revision 35 correction while preserving clean source identity. The review authenticates all 51 declared sources, rechecks aggregate bindings, verifies the exact handoff against both approved package identities, and returns `pass`.
 
 Raw aggregate logs and the raw handoff are stored as canonical Base64 because tracked text normalization would otherwise risk changing exact bytes. `raw-artifact-bindings.json` records both archive and decoded identities, while source snapshots remain recoverable from exact commit `bcb12fbee15e8a96b5088accb5a397bc0464c7cd`. This is evidence preservation, not a product correction or release approval.
+
+## Revision 36 Inherited Git Context RCA
+
+### Reproduction
+
+Run the exact Revision 36 gate. Node schedules the release-gate and release-review test files concurrently under the gate's disposable `GIT_DIR`, `GIT_WORK_TREE`, and `GIT_INDEX_FILE`. Both Git-batch fixtures call `git init` and `git add`; one fails on the shared `candidate.index.lock`.
+
+### Confirmed Root Cause
+
+The fixture copied the host environment and overrode only `GIT_CONFIG_GLOBAL`, `GIT_CONFIG_NOSYSTEM`, and `GIT_TERMINAL_PROMPT`. Git therefore ignored each fixture root's intended repository and reused the gate's candidate context. Parallel files turned that authority leak into deterministic index contention.
+
+### Causal Fix And Route
+
+Strip every repository-scoping Git variable used by the production gate plus dynamic `GIT_CONFIG_COUNT`, `GIT_CONFIG_KEY_n`, and `GIT_CONFIG_VALUE_n` bindings before spawning fixture Git. Preserve unrelated host supply and reapply closed fixture configuration. Focused tests pass 3/3 and complete concurrent gate/review files pass 49/49. Route: `verify -> diagnose -> fix -> verify`; fresh aggregate and package-bound review evidence remain required.
+
+### Durable Learning
+
+Nested repositories are authority boundaries. A temporary path does not isolate Git when inherited environment variables can redirect its object store, worktree, index, or configuration.

@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and release-harness corrections are complete. Revision 44 passes the complete V11 trust replay without changing V12 runtime behavior. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests, copied-production lifecycle, package inspection, and offline installed-consumer verification. Its separately compiled package-bound reviewer authenticated 51/51 sources and returned a verified `pass`. Revision 36 preserves that evidence without changing product or kernel behavior. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires an exact successor gate, fresh R2, hosted CI, milestone closeout, and the owner merge gate.
+The V12 product implementation remains complete; Revision 37 corrects one release-test isolation boundary. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
 
 ## Baseline
 
@@ -237,3 +237,12 @@ The V12 product implementation and release-harness corrections are complete. Rev
 - Recorded the independently verified `pass` while keeping `releaseApproved: false`.
 - Product code, public APIs, release-harness code, and Revision 44 trust evidence are unchanged.
 - Revision 36 is the source for one exact successor gate; fresh R2, hosted CI, milestone closeout, and owner merge evidence remain.
+
+## Revision 37 Git-Fixture Isolation
+
+- Preserved the exact Revision 36 receipt and raw logs under its candidate-addressed gate root.
+- Retired exact source `ee297d8e11466763acc9b4c630de445eb57b00c3` without rerunning it.
+- Added case-insensitive removal of repository-scoping Git variables and dynamic command-line configuration bindings in the Git-batch fixture.
+- Added a direct hostile-environment regression covering the shared index, repository, object, optional-lock, and dynamic-config inputs.
+- Focused causal verification passes 3/3; complete concurrent release-gate/release-review suites pass 49/49.
+- Product code and public APIs are unchanged; fresh aggregate and package-bound review evidence remain required.

@@ -234,6 +234,10 @@ Freeze the complete implementation, milestone, and memory state before the final
 
 When repository text policy could transform exact raw evidence and changing that policy would invalidate an approved trust chain, encode the bytes canonically and bind both identities. Record the encoded artifact digest, decoded byte count, decoded SHA-256, media type, and source provenance; verify the decode before use. This preserves exact evidence without silently treating an encoding as the original bytes.
 
+### Nested Git Fixtures Clear Host Authority
+
+Before a nested or temporary repository invokes Git, remove inherited repository, worktree, index, object-store, prefix, lock, and dynamic command-configuration bindings case-insensitively. Reapply only the fixture's explicit closed configuration. A unique temporary directory is not isolation when environment variables can redirect Git elsewhere.
+
 ### Host-Injected Executor Port
 
 Keep declarative manifests non-executable. Let the embedding host inject trusted code through one small typed port, bind it to one checked runtime grant, and retain host ownership of isolation, credentials, persistence, scheduling, and integration.
@@ -377,3 +381,5 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V12 Revision 34 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/approval-order-correction.md) and [RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-44-approval-order-rca) | Source-Bound Dogfood Refresh; Ordered Two-Phase Approval |
 | [V12 Revision 35 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/), [historical-outcome RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca), and [timeout RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-35-scoped-timeout-acceptance-rca) | Immutable Outcome Classes; Complete Adjacent Invariant Gate; Fallback-Aware Outcome Evidence |
 | [V12 Revision 35 independent review archive](../specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/) and [raw bindings](../specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/raw-artifact-bindings.json) | Reversible Raw Evidence Encoding |
+
+| [V12 Revision 36 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md), [Revision 37 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-36-inherited-git-context-rca), and [fixture regression](../../test/v12-release-review.test.mjs) | Nested Git Fixtures Clear Host Authority |

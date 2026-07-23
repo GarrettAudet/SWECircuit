@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 passes its complete two-phase trust replay in corrected approval order. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every aggregate gate; its separately compiled package-bound reviewer authenticates 51/51 sources and returns a verified `pass`. `releaseReady: false` remains the source-visible result until candidate-addressed external evidence passes the exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge gate.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 passes its complete two-phase trust replay in corrected approval order. Exact Revision 35 aggregate and package-bound review pass. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserves exact source and cleanup evidence but stops at 443/445 because concurrent Git fixtures inherit one candidate index. Revision 37 causal isolation passes 3/3 and the complete concurrent gate/review suites pass 49/49. `releaseReady: false` remains until candidate-addressed external evidence passes a fresh aggregate, package-bound review, a different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge gate.
 
 ## Contract Tests
 
@@ -151,3 +151,13 @@ Package identity verification and handoff schema verification authenticate prese
 - Exact handoff: 11,143 bytes, raw `sha256:3b90e319eeb14527da11cbf82c569fab7a9267f9934ad4506f478fb891535841`; kernel handoff verification passes; outcome `pass`.
 - Archive: `evidence/implementation/independent-review-r35/`; Base64 artifacts decode to the exact bound raw bytes.
 - Release result: `releaseReady: false`; successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
+
+## Revision 36 Exact Gate And Revision 37 Causal Gate
+
+- Exact source: `ee297d8e11466763acc9b4c630de445eb57b00c3`; tree `c55d4fc1ee1110b4a0be7df9b0cbf367fe38fdda`.
+- Source/materialization: 3,597 files, 109,159,647 bytes, `sha256:cf402052aaa882327678253763f8fe7ef55d9a5d884bbdec9cb90267e1c2789b`; before/after exact.
+- Core result: 443/445 `pass`; two fixture setup failures on one inherited candidate index; later gates did not run.
+- Receipt: 2,296 bytes, `sha256:27d7fe234f8b1201e0b0f2b8079dcfea439e6e0527822a7b11244a72927589d8`.
+- Revision 37 sanitizer regression and both formerly failing tests: 3/3 `pass`.
+- Complete concurrent release-gate/release-review suites: 49/49 `pass`.
+- Release result: `releaseReady: false`; fresh aggregate, package-bound review, different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.

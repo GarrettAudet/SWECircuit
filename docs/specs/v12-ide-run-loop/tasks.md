@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 remains open until release evidence closes it. Revision 44 passes the correctly ordered V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every later aggregate gate. Its separately compiled package-bound reviewer authenticates 51/51 sources and returns a verified `pass`. Revision 36 preserves both immutable results. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2 review, hosted CI, milestone closeout, and the owner merge gate remain before T006 or V12 can close.
+T006 remains open until release evidence closes it. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 remains open until release evidence closes it. Revision 44 passes the corre
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched exact read-only reviewers from source-bound packages. Revision 35 aggregate and package-bound review evidence pass. Fresh R2 review may fan out across three independent domains only after Revision 36 passes focused anti-drift checks, committed-source verification, and its exact source-bound gate.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 runs exact read-only reviews from source-bound packages. Revision 37 specifically proves that nested Git fixtures remain isolated when release-gate and release-review test files execute concurrently. Fresh R2 may fan out across three independent domains only after fresh aggregate/package review evidence and a different exact source-bound gate pass.
 
 ## Out Of Scope
 

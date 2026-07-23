@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests, copied-production lifecycle, package inspection, and offline installed-consumer verification. A separately compiled package-bound reviewer authenticated all 51 declared sources and returned a verified `pass`. Revision 36 preserves that immutable evidence without changing product or kernel behavior. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2, hosted CI, milestone closeout, and owner merge evidence remain required.
+V12 is not merge-ready. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
 
 ## Scope
 
@@ -113,9 +113,9 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
 
 ## Current Outcome
 
-Revision 35 is `pass` at aggregate and package-bound independent review. Exact source `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` stays clean and identity-stable through 445/445 core tests, copied-production lifecycle, package inspection, and offline installed-consumer verification. The independent reviewer authenticates 51/51 declared sources, reports no high or medium blocker, and returns a kernel-verified `pass` handoff.
+Revision 37 is `pass` at causal and concurrent release-harness verification and `pending` at broad release verification. Exact source `ee297d8e11466763acc9b4c630de445eb57b00c3` is permanently retired after its immutable gate passed 443/445 core tests and exposed inherited Git-context leakage in two parallel fixtures.
 
-Candidate-addressed external evidence remains the only authority for volatile release state. Revision 36 preserves the exact pass while `releaseReady: false` remains in force; release routing continues through one exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+Candidate-addressed external evidence remains the only authority for volatile release state. `releaseReady: false` remains in force; a fresh exact aggregate and package-bound review must pass before a different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
 
 ## Revision 34 Trust-Refresh Outcome
 
@@ -130,3 +130,9 @@ The exact Revision 34 aggregate receipt, historical-outcome correction, and scop
 Exact source `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes the complete aggregate with stable identity and clean state. A separately compiled read-only reviewer authenticates all 51 declared sources twice, confirms the timeout correction and three constant-process Git blob boundaries, finds no product API change, and reports no high or medium blocker.
 
 The exact 11,143-byte `pass` handoff verifies against compilation/package `sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619` / `sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047`. Integration accepts the evidence freeze only; `releaseApproved: false` remains. The exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain independent requirements.
+
+## Revision 36 Gate Failure And Revision 37 Correction Outcome
+
+The one-shot gate is a valid immutable `fail`: exact source, materialization, disposable Git state, and cleanup all verify. Both failed tests use the same fixture helper from parallel files, and both were redirected by inherited candidate Git variables. The bounded Revision 37 correction removes that hidden authority rather than serializing tests or retrying locks.
+
+The direct hostile-environment test, both causal batch tests, and all 49 tests across the concurrent release-gate/release-review files pass. This is correction verification, not release approval. Fresh aggregate and package-bound review evidence must bind the changed helper, regression, status, and retirement record before another source is eligible for a one-shot gate.

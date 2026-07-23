@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests, the copied-production lifecycle, package inspection, and the offline installed-consumer gate. A separately compiled package-bound reviewer authenticated all 51 declared sources and returned `pass`; exact digest-bound evidence is preserved under `evidence/implementation/independent-review-r35/`. Revision 36 records that immutable result without changing product or kernel behavior. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2 review, hosted CI, milestone closeout, and owner merge evidence remain required.
+No active V12 product-contract defect is recorded. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` preserved source, materialization, disposable Git state, and cleanup but stopped at 443/445 core tests because two concurrent Git-batch fixtures inherited the same candidate `GIT_INDEX_FILE`. Revision 37 strips repository-scoping and dynamic Git configuration from every fixture process; focused causal tests pass 3/3 and the complete concurrent gate/review suites pass 49/49. Candidate-addressed external evidence requires a fresh exact aggregate and package-bound review before one different successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
 
 ## Reproduction
 
@@ -816,3 +816,9 @@ External supervisor evidence binds exact source `bcb12fbee15e8a96b5088accb5a397b
 A separately approved package-bound reviewer authenticated all 51 declared sources twice. Compilation/package digests are `sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619` / `sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047`. Its exact 11,143-byte handoff is `sha256:3b90e319eeb14527da11cbf82c569fab7a9267f9934ad4506f478fb891535841`, verifies against both approved digests, reports no high or medium blocker, and returns `pass`.
 
 Raw logs and the handoff are preserved as canonical Base64 with decoded byte counts and SHA-256 bindings under `evidence/implementation/independent-review-r35/`. Route: `verify -> review -> pass`; `releaseApproved: false` remains until the successor/R2/CI/merge chain closes.
+
+## Revision 36 Exact Gate And Revision 37 Git-Fixture Isolation
+
+Exact source `ee297d8e11466763acc9b4c630de445eb57b00c3` remained clean and byte-identical through materialization, disposable Git setup, execution, inspection, and cleanup. Its one-shot gate stopped at 443/445 core tests. The two failures were the only tests that created the shared Git-batch fixture from parallel test files; both addressed the inherited candidate index, and one reported `candidate.index.lock` already existed.
+
+The fixture environment spread `process.env` and reset only global configuration. Revision 37 removes repository-scoping Git variables and dynamic `GIT_CONFIG_*` bindings case-insensitively before every fixture process. A hostile-environment unit regression passes, both formerly failing tests pass concurrently, and the complete gate/review pair passes 49/49. Route: `verify -> diagnose -> fix -> verify`. The exact source is retired and must never be rerun.

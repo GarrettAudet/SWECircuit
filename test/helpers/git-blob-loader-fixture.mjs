@@ -6,13 +6,30 @@ import { join } from "node:path";
 
 export const BINARY_FIXTURE_BYTES = Buffer.from([0x00, 0x0a, 0x0d, 0x7f, 0x80, 0xff]);
 
-function fixtureGitEnvironment() {
-  return {
-    ...process.env,
-    GIT_CONFIG_GLOBAL: process.platform === "win32" ? "NUL" : "/dev/null",
-    GIT_CONFIG_NOSYSTEM: "1",
-    GIT_TERMINAL_PROMPT: "0",
-  };
+export function fixtureGitEnvironment(source = process.env) {
+  const environment = { ...source };
+  const repositoryKeys = new Set([
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    "GIT_CEILING_DIRECTORIES",
+    "GIT_COMMON_DIR",
+    "GIT_DIR",
+    "GIT_INDEX_FILE",
+    "GIT_INTERNAL_SUPER_PREFIX",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_OPTIONAL_LOCKS",
+    "GIT_PREFIX",
+    "GIT_WORK_TREE",
+  ]);
+  for (const key of Object.keys(environment)) {
+    const upper = key.toUpperCase();
+    if (repositoryKeys.has(upper) || /^GIT_CONFIG_(?:COUNT|KEY_\d+|VALUE_\d+)$/u.test(upper)) {
+      delete environment[key];
+    }
+  }
+  environment.GIT_CONFIG_GLOBAL = process.platform === "win32" ? "NUL" : "/dev/null";
+  environment.GIT_CONFIG_NOSYSTEM = "1";
+  environment.GIT_TERMINAL_PROMPT = "0";
+  return environment;
 }
 
 function runFixtureGit(root, args, options = {}) {

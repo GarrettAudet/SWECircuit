@@ -21,6 +21,7 @@ import {
   BINARY_FIXTURE_BYTES,
   createGitBlobLoaderFixture,
   createRecordedGitOutput,
+  fixtureGitEnvironment,
 } from "./helpers/git-blob-loader-fixture.mjs";
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const APPROVED_CHECKPOINT = "1b47e0ad10a5c3209fae53397892b7df3cd837be";
@@ -415,6 +416,44 @@ test("parent and verifier harness loaders use constant-process Git blob batches"
   } finally {
     await rm(fixture.root, { recursive: true, force: true });
   }
+});
+test("Git blob fixtures discard inherited repository and dynamic config bindings", () => {
+  const inherited = {
+    PATH: "host-path",
+    git_dir: "host-git-dir",
+    GIT_WORK_TREE: "host-worktree",
+    GIT_INDEX_FILE: "host-index",
+    GIT_COMMON_DIR: "host-common-dir",
+    GIT_OBJECT_DIRECTORY: "host-objects",
+    GIT_ALTERNATE_OBJECT_DIRECTORIES: "host-alternates",
+    GIT_OPTIONAL_LOCKS: "0",
+    GIT_CONFIG_COUNT: "1",
+    GIT_CONFIG_KEY_0: "core.hooksPath",
+    GIT_CONFIG_VALUE_0: "host-hooks",
+    GIT_CONFIG_GLOBAL: "host-global",
+    GIT_CONFIG_NOSYSTEM: "0",
+    GIT_TERMINAL_PROMPT: "1",
+  };
+
+  const environment = fixtureGitEnvironment(inherited);
+  assert.equal(environment.PATH, inherited.PATH);
+  for (const key of [
+    "git_dir",
+    "GIT_WORK_TREE",
+    "GIT_INDEX_FILE",
+    "GIT_COMMON_DIR",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    "GIT_OPTIONAL_LOCKS",
+    "GIT_CONFIG_COUNT",
+    "GIT_CONFIG_KEY_0",
+    "GIT_CONFIG_VALUE_0",
+  ]) {
+    assert.equal(environment[key], undefined, key);
+  }
+  assert.equal(environment.GIT_CONFIG_GLOBAL, process.platform === "win32" ? "NUL" : "/dev/null");
+  assert.equal(environment.GIT_CONFIG_NOSYSTEM, "1");
+  assert.equal(environment.GIT_TERMINAL_PROMPT, "0");
 });
 test("Git changed-path diagnostics are canonical and fail closed", () => {
   assert.deepEqual(
