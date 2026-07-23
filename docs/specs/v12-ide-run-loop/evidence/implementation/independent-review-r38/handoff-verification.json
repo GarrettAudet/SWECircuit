@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "swecircuit.v12.independent-review-verification.v1",
+  "source": {
+    "commit": "1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0",
+    "tree": "572a5dc3406ffff6453f7c11df3592d5bb971a45"
+  },
+  "expectation": {
+    "compilationDigest": "sha256:6c671af037cabfdf9e97da3e97d141a67134e0a73e35d3b733ddd0c49c78a66b",
+    "packageDigest": "sha256:6a9c34c0e1b1cd1980002924d3a64fa49f6fff2bb9f41e85ada67235f060a74c"
+  },
+  "handoff": {
+    "path": "handoffs/agent.61a70f9db00f0cd7fba4602c9d45ca5f5cde0b6d3f82542a360f1610ceab7186-attempt-1.json",
+    "rawBytes": 9592,
+    "rawDigest": "sha256:db522b50d6c0e58b00ac7b4c923d8af28378c4985967960058eb2659acf70661",
+    "outcome": "pass",
+    "semanticDigest": "sha256:d1f0cf58a491705c9387877f675b523b1647f16482355e1eb0142ec8c9c6c186"
+  },
+  "assessment": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "SpecialistHandoffSetAssessment",
+    "goalId": "v12.ide-run-loop.review.release-candidate-r38",
+    "goalRevision": 38,
+    "goalDigest": "sha256:b1cf1d058c6645bd7b2d6e0c4ffb3cce465368e1c714e3de6fb5bbc872632fb2",
+    "compilationDigest": "sha256:6c671af037cabfdf9e97da3e97d141a67134e0a73e35d3b733ddd0c49c78a66b",
+    "packageDigest": "sha256:6a9c34c0e1b1cd1980002924d3a64fa49f6fff2bb9f41e85ada67235f060a74c",
+    "targetAgentId": "agent.61a70f9db00f0cd7fba4602c9d45ca5f5cde0b6d3f82542a360f1610ceab7186",
+    "requiredAgentIds": [],
+    "receivedAgentIds": [],
+    "missingAgentIds": [],
+    "handoffs": [],
+    "integrationReady": true,
+    "contentDigest": "sha256:4ca15121410bd3f7ef9a49f9cfdfd0b5cbdceeb92c2f2df1685d74dd477bfef3"
+  },
+  "successorFreezeApproved": true,
+  "releaseApproved": false
+}

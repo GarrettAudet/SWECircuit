@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Revision 38 removes every inherited `GIT_*` key case-insensitively, reapplies only three explicit local controls, and passes 2/2 causal, 4/4 combined contention, 50/50 concurrent release suites, the complete mutable-source `npm.cmd run verify` (447/447 core plus copied lifecycle, dogfood, package, and offline consumer gates), the checker matrix, and strict V11 replay. This is mutable-source evidence only; a committed identity, fresh aggregate/package review, a distinct successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
+V12 is not merge-ready. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Exact Revision 38 commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0` closes every inherited case-insensitive `GIT_*` channel. Its clean identity-stable aggregate passes 447/447 core tests, copied lifecycle, package inspection, and offline consumer verification. A separately compiled reviewer authenticated 69/69 sources and 4,404,088 bytes twice; its exact 9,592-byte handoff verifies `pass` with `integrationReady: true` and `successorFreezeApproved: true`. Working Revision 39 is an evidence-only successor; its committed one-shot gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
 
 ## Scope
 
@@ -113,9 +113,9 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
 
 ## Current Outcome
 
-Revision 37 is immutable and retired from release use after its exact package-bound reviewer returned `fix`. Revision 38 is `pass` at causal and concurrent release-harness verification and `pending` at broad repository verification.
+Revision 37 is immutable and retired after its package-bound reviewer returned `fix`. Exact Revision 38 passes its immutable aggregate and package-bound review; the verified handoff authorizes only a distinct successor freeze.
 
-Candidate-addressed external evidence remains the only authority for volatile release state. `releaseReady: false` remains in force; Revision 38 must pass broad gates, an immutable aggregate, and a newly compiled package-bound review before a distinct successor can receive one exact gate, fresh R2, hosted CI, milestone closeout, and owner merge.
+Candidate-addressed external evidence remains the only authority for volatile release state. `releaseReady: false` remains in force; working Revision 39 must be committed and receive one exact gate before fresh R2, hosted CI, milestone closeout, and owner merge.
 
 ## Revision 34 Trust-Refresh Outcome
 
@@ -141,4 +141,6 @@ Revision 37 removed the variables that caused the shared-index failure without s
 
 Revision 38 replaces the partial denylist with a closed case-insensitive policy, reapplies only `GIT_CONFIG_GLOBAL`, `GIT_CONFIG_NOSYSTEM`, and `GIT_TERMINAL_PROMPT`, and preserves unrelated runtime supply. Git operations and an observable child share the same spawn path. A fresh hostile process observes only those keys and completes two real fixture commits.
 
-Causal closure passes 2/2, the closure plus formerly contended batch tests pass 4/4, and the complete concurrent release-gate/release-review files pass 50/50. The first broad attempt's four `EPERM` setup failures are preserved separately; the authorized identical-source rerun passed. This is correction verification, not release approval.
+Causal closure passes 2/2, the closure plus formerly contended batch tests pass 4/4, and the complete concurrent release-gate/release-review files pass 50/50. The first broad attempt's four `EPERM` setup failures are preserved separately; the authorized identical-source rerun passed.
+
+Exact commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0` then passes a 700,991 ms external aggregate with clean stable identity, 447/447 core tests, copied lifecycle, package inspection, and offline consumer verification. The package-bound reviewer authenticates 69/69 sources twice and returns exact verified `pass`; compilation/package are `sha256:6c671af037cabfdf9e97da3e97d141a67134e0a73e35d3b733ddd0c49c78a66b` / `sha256:6a9c34c0e1b1cd1980002924d3a64fa49f6fff2bb9f41e85ada67235f060a74c`. The 9,592-byte handoff is `sha256:db522b50d6c0e58b00ac7b4c923d8af28378c4985967960058eb2659acf70661`; `successorFreezeApproved: true`, `releaseApproved: false`.

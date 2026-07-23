@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical release attempts remain immutable. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Revision 38 removes every inherited `GIT_*` key case-insensitively, reapplies only three explicit local controls, and passes 2/2 causal, 4/4 combined contention, and 50/50 concurrent release suites. Broad verification, a committed source identity, fresh aggregate/package review, a distinct successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.
+Historical release attempts remain immutable. Revision 44 still passes the complete V11 trust replay, and exact Revision 35 aggregate/package-bound review evidence remains immutable. Exact Revision 36 gate `ee297d8e11466763acc9b4c630de445eb57b00c3` remains an immutable 443/445 failure. Exact Revision 37 `148f546cba4c3c9ceecd2bbca07d47fe94878afa` passed its aggregate with 446/446 core tests, copied lifecycle, package inspection, and offline consumer verification, but a separately compiled reviewer authenticated 57/57 sources and returned a kernel-verified `fix`: inherited `GIT_CONFIG_PARAMETERS` and other `GIT_*` authority channels still reached fixture processes. Exact Revision 38 commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0` removes every inherited `GIT_*` key case-insensitively and reapplies only three explicit local controls. Its immutable aggregate passes 447/447 core tests plus lifecycle/package/consumer gates; a 69-source package review returns exact verified `pass` and authorizes a distinct successor freeze. Working Revision 39 still requires its one-shot gate, fresh R2, hosted CI, milestone closeout, and owner merge.
 
 ## Reproduction
 
@@ -653,7 +653,7 @@ A separately compiled reviewer proved `GIT_CONFIG_PARAMETERS` and additional obj
 
 ### Causal Fix And Route
 
-Remove every inherited `GIT_*` key case-insensitively, then explicitly reapply only the three local controls. Use one spawn path for real Git and an environment-observer child. The hostile fresh-process regression completes two real commits; causal tests pass 2/2, combined checks pass 4/4, and concurrent suites pass 50/50. Route: `review -> fix -> verify`; fresh immutable aggregate and package review remain required.
+Remove every inherited `GIT_*` key case-insensitively, then explicitly reapply only the three local controls. Use one spawn path for real Git and an environment-observer child. The hostile fresh-process regression completes two real commits; causal tests pass 2/2, combined checks pass 4/4, and concurrent suites pass 50/50. Exact aggregate and 69-source package review pass. Route: `review -> fix -> verify -> review -> pass`; freeze a distinct successor for the one-shot gate.
 
 ### Durable Learning
 

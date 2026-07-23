@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "swecircuit.v12.encoded-raw-artifacts.v1",
+  "source": {
+    "commit": "1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0",
+    "tree": "572a5dc3406ffff6453f7c11df3592d5bb971a45"
+  },
+  "artifacts": [
+    {
+      "sourcePath": "inputs/aggregate/npm-verify.stdout.log",
+      "archivePath": "inputs/aggregate/npm-verify.stdout.log.b64",
+      "encoding": "base64-rfc4648",
+      "mediaType": "text/plain; charset=utf-8",
+      "rawBytes": 303719,
+      "rawDigest": "sha256:645802eda47edce27dcb6943e42c6a307e6674c5d794ba0908e0e33971482c6e",
+      "archiveBytes": 404961,
+      "archiveDigest": "sha256:5cea8d40243b7782cd5431c11eefb29e5aebedcb3ebeef3616d8f409ea910e0a"
+    },
+    {
+      "sourcePath": "inputs/aggregate/npm-verify.stderr.log",
+      "archivePath": "inputs/aggregate/npm-verify.stderr.log.b64",
+      "encoding": "base64-rfc4648",
+      "mediaType": "text/plain; charset=utf-8",
+      "rawBytes": 26319,
+      "rawDigest": "sha256:c620ad4eb01b894d5789b5f44fd9ad8397e84e0d7b3dea11a07e64c5eee567cd",
+      "archiveBytes": 35093,
+      "archiveDigest": "sha256:158dc63c01cc70019f9e85b0445a405ee1fb1521973d4780e8ebcc3a2c249002"
+    },
+    {
+      "sourcePath": "handoffs/agent.61a70f9db00f0cd7fba4602c9d45ca5f5cde0b6d3f82542a360f1610ceab7186-attempt-1.json",
+      "archivePath": "handoffs/agent.61a70f9db00f0cd7fba4602c9d45ca5f5cde0b6d3f82542a360f1610ceab7186-attempt-1.json.b64",
+      "encoding": "base64-rfc4648",
+      "mediaType": "application/json",
+      "rawBytes": 9592,
+      "rawDigest": "sha256:db522b50d6c0e58b00ac7b4c923d8af28378c4985967960058eb2659acf70661",
+      "archiveBytes": 12793,
+      "archiveDigest": "sha256:a6f9d805f87995820a0b6ce6f40484e615e7beb887a5e82fe65aef4e976118cd"
+    }
+  ]
+}

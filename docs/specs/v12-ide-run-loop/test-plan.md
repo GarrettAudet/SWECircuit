@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 trust replay and Revision 35 aggregate/review pass. Revision 36 remains an exact 443/445 gate failure. Revision 37 passed a 446/446 aggregate but its 57-source package review returned verified `fix`. Revision 38 closure passes 2/2 causal, 4/4 combined contention, 50/50 concurrent suites, the complete mutable-source verifier with 447/447 core tests plus lifecycle/dogfood/package/consumer gates, the checker matrix, and strict V11 replay. `releaseReady: false` remains until a committed source, fresh aggregate/package review, a distinct successor gate, fresh R2, hosted CI, milestone closeout, and owner merge pass.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 trust replay and Revision 35 aggregate/review pass. Revision 36 remains an exact 443/445 gate failure. Revision 37 passed a 446/446 aggregate but its 57-source package review returned verified `fix`. Revision 38 closure passes 2/2 causal, 4/4 combined contention, 50/50 concurrent suites, an exact 447/447 immutable aggregate, and a 69-source verified package review. Revision 39 is the evidence-only successor. `releaseReady: false` remains until its one-shot gate, fresh R2, hosted CI, milestone closeout, and owner merge pass.
 
 ## Contract Tests
 
@@ -167,4 +167,6 @@ Package identity verification and handoff schema verification authenticate prese
 - Complete mutable-source `npm.cmd run verify`: 447/447 core tests, copied lifecycle, V10/V11/V12 dogfood, 148-file package inspection, and offline installed consumer `pass` in 679.3 seconds.
 - Checker mutation matrix and strict V11 two-package replay: `pass`.
 - Raw verifier stdout/stderr are preserved as canonical Base64 and bound by `evidence/implementation/release-correction-r38/attempts/npm-verify-pass-receipt.json`.
-- Pending: immutable committed identity, fresh aggregate, and fresh package-bound review.
+- Exact Revision 38 aggregate: commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0`, tree `572a5dc3406ffff6453f7c11df3592d5bb971a45`, clean stable identity, 447/447 core, copied lifecycle 1/1, package and offline consumer `pass` in 700,991 ms.
+- Exact package review: 69/69 sources and 4,404,088 bytes authenticated twice; 9,592-byte handoff `sha256:db522b50d6c0e58b00ac7b4c923d8af28378c4985967960058eb2659acf70661`; verified `pass`, `integrationReady: true`.
+- Pending: commit the evidence-only Revision 39 successor and run its canonical gate exactly once.

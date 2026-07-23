@@ -1,0 +1,443 @@
+{
+  "schemaVersion": "swecircuit.v12.candidate-snapshot-manifest.v1",
+  "candidate": {
+    "commit": "1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0",
+    "tree": "572a5dc3406ffff6453f7c11df3592d5bb971a45"
+  },
+  "sources": [
+    {
+      "id": "context.agent-contract",
+      "originalPath": "AGENTS.md",
+      "snapshotPath": "inputs/snapshots/s01-agent-contract.md",
+      "bytes": 16695,
+      "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9"
+    },
+    {
+      "id": "context.compiler-contract",
+      "originalPath": "docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+      "snapshotPath": "inputs/snapshots/s02-compiler-contract.md",
+      "bytes": 36886,
+      "digest": "sha256:ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9"
+    },
+    {
+      "id": "context.v12-spec",
+      "originalPath": "docs/specs/v12-ide-run-loop/spec.md",
+      "snapshotPath": "inputs/snapshots/s03-v12-spec.md",
+      "bytes": 6031,
+      "digest": "sha256:560d60663e144614ea9226a2cc15d2c5665772d12edf7a9756159827db632ac2"
+    },
+    {
+      "id": "context.v12-adr",
+      "originalPath": "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+      "snapshotPath": "inputs/snapshots/s04-v12-adr.md",
+      "bytes": 9031,
+      "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14"
+    },
+    {
+      "id": "context.v12-architecture",
+      "originalPath": "docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+      "snapshotPath": "inputs/snapshots/s05-v12-architecture.md",
+      "bytes": 26111,
+      "digest": "sha256:861a5a5471ecf8463cd8fa9e4035acb3a5c9a16f7e0c65385ba29fa84509d3dc"
+    },
+    {
+      "id": "context.run-contract",
+      "originalPath": "docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+      "snapshotPath": "inputs/snapshots/s06-run-contract.md",
+      "bytes": 17133,
+      "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242"
+    },
+    {
+      "id": "context.test-plan",
+      "originalPath": "docs/specs/v12-ide-run-loop/test-plan.md",
+      "snapshotPath": "inputs/snapshots/s07-test-plan.md",
+      "bytes": 17586,
+      "digest": "sha256:43cc4196201169840dcedeaceac85b44a28f98b57d11ccc79bc3c8c4322d36ba"
+    },
+    {
+      "id": "context.debug-notes",
+      "originalPath": "docs/specs/v12-ide-run-loop/debug-notes.md",
+      "snapshotPath": "inputs/snapshots/s08-debug-notes.md",
+      "bytes": 66724,
+      "digest": "sha256:08c8b7b034bad04be026ce1bd925e9888b4102858652f547ce656cecb0280f59"
+    },
+    {
+      "id": "context.root-cause",
+      "originalPath": "docs/specs/v12-ide-run-loop/root-cause-analysis.md",
+      "snapshotPath": "inputs/snapshots/s09-root-cause.md",
+      "bytes": 53012,
+      "digest": "sha256:8969a1b50f098e3534caa85ec4a331eedc78abf364095139cb80d3feb2c2c93a"
+    },
+    {
+      "id": "context.implementation-notes",
+      "originalPath": "docs/specs/v12-ide-run-loop/implementation-notes.md",
+      "snapshotPath": "inputs/snapshots/s10-implementation-notes.md",
+      "bytes": 45396,
+      "digest": "sha256:9e606a51cc39d9bfeeac4a93bdd8a6fc1e84fc75b59707b64a44280b6948fd8d"
+    },
+    {
+      "id": "context.review",
+      "originalPath": "docs/specs/v12-ide-run-loop/review.md",
+      "snapshotPath": "inputs/snapshots/s11-review.md",
+      "bytes": 17878,
+      "digest": "sha256:11cd9e100f64478c6eda4156c7025d937966e45afc350467a0f4a05354b9fbd8"
+    },
+    {
+      "id": "context.tasks",
+      "originalPath": "docs/specs/v12-ide-run-loop/tasks.md",
+      "snapshotPath": "inputs/snapshots/s12-tasks.md",
+      "bytes": 3295,
+      "digest": "sha256:0ebe4ed36a356ca94cb6bd0b527508d6681ebd8e9742dff6b73cce5d61304241"
+    },
+    {
+      "id": "context.milestone",
+      "originalPath": "docs/milestones/v12.md",
+      "snapshotPath": "inputs/snapshots/s13-milestone.md",
+      "bytes": 14911,
+      "digest": "sha256:b366b2f55716661d6fce4437e7fd4bb44e0e174527daac62b33416df1e09da58"
+    },
+    {
+      "id": "context.active-context",
+      "originalPath": "docs/memory/active-context.md",
+      "snapshotPath": "inputs/snapshots/s14-active-context.md",
+      "bytes": 44754,
+      "digest": "sha256:103a2a11eb962be08746aa3c049cbe3e90851fb14475deb3a8f0fe1a8626978d"
+    },
+    {
+      "id": "context.package",
+      "originalPath": "package.json",
+      "snapshotPath": "inputs/snapshots/s15-package.json",
+      "bytes": 4043,
+      "digest": "sha256:9c8e1e3bde18439a6199f0752b7dad1e69fdf713ffac33597d5119d1c26a67fa"
+    },
+    {
+      "id": "context.attributes",
+      "originalPath": ".gitattributes",
+      "snapshotPath": "inputs/snapshots/s16-gitattributes",
+      "bytes": 1283,
+      "digest": "sha256:4626d1e064ae446e63b50a072443b874a9619c012ac283d7903d03cd028b53a3"
+    },
+    {
+      "id": "context.release-gate",
+      "originalPath": "scripts/run-v12-release-gate.mjs",
+      "snapshotPath": "inputs/snapshots/s17-release-gate.mjs",
+      "bytes": 33716,
+      "digest": "sha256:43ab705aea0000fcfbc73729bb5be91bd1bce948fd63c26e92d697ce97ca4cb6"
+    },
+    {
+      "id": "context.release-review-parent",
+      "originalPath": "scripts/run-v12-release-review.mjs",
+      "snapshotPath": "inputs/snapshots/s18-release-review-parent.mjs",
+      "bytes": 102629,
+      "digest": "sha256:433c8840bb18d377212400dbe32d3c2b479c09c1ab0bc0abf8c9752e6b8e8f62"
+    },
+    {
+      "id": "context.release-review-harness",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+      "snapshotPath": "inputs/snapshots/s19-release-review-harness.mjs",
+      "bytes": 130690,
+      "digest": "sha256:d83400e93b23a324f6cf6067af887831bae1d5ea7c2043c08c8993cd1d9eb14d"
+    },
+    {
+      "id": "context.release-review-verifier",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+      "snapshotPath": "inputs/snapshots/s20-release-review-verifier.mjs",
+      "bytes": 30840,
+      "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff"
+    },
+    {
+      "id": "context.git-loader-fixture",
+      "originalPath": "test/helpers/git-blob-loader-fixture.mjs",
+      "snapshotPath": "inputs/snapshots/s21-git-loader-fixture.mjs",
+      "bytes": 4249,
+      "digest": "sha256:3d2f38afc10104ba603f6a7e998ad4946a00b5ad3c0432b8d0004b7d6e4a69d5"
+    },
+    {
+      "id": "context.lifecycle-helper",
+      "originalPath": "test/helpers/v12-release-review-lifecycle.mjs",
+      "snapshotPath": "inputs/snapshots/s22-lifecycle-helper.mjs",
+      "bytes": 77159,
+      "digest": "sha256:b193a75b5bf9189177f7743c6d250648e3efab2cacb96bc51533cce65b327122"
+    },
+    {
+      "id": "context.release-review-tests",
+      "originalPath": "test/v12-release-review.test.mjs",
+      "snapshotPath": "inputs/snapshots/s23-release-review-tests.mjs",
+      "bytes": 73101,
+      "digest": "sha256:70fa46f78afcc443d041c1d4a606150338d130e530e1f423d11988e9f02c816e"
+    },
+    {
+      "id": "context.release-gate-tests",
+      "originalPath": "test/v12-release-gate.test.mjs",
+      "snapshotPath": "inputs/snapshots/s24-release-gate-tests.mjs",
+      "bytes": 44542,
+      "digest": "sha256:6b592419f5ffecb7aa0c13f0776d3c9ac9d0b1b688658025ebad7d30577fd490"
+    },
+    {
+      "id": "context.lifecycle-test",
+      "originalPath": "test/lifecycle/v12-release-review-lifecycle.test.mjs",
+      "snapshotPath": "inputs/snapshots/s25-lifecycle-test.mjs",
+      "bytes": 10294,
+      "digest": "sha256:1062e00786f4fdaaf5aa61a93a7f7f0759e09b49c55532a26c91edfcd1270fa7"
+    },
+    {
+      "id": "context.v11-runner",
+      "originalPath": "scripts/run-v11-dogfood.mjs",
+      "snapshotPath": "inputs/snapshots/s26-v11-runner.mjs",
+      "bytes": 58302,
+      "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e"
+    },
+    {
+      "id": "context.v11-goal",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+      "snapshotPath": "inputs/snapshots/s27-v11-goal.json",
+      "bytes": 103178,
+      "digest": "sha256:9236d40553392c5f710acf117ded9f3b4af681557f24cf2a23d389fd8b58c675"
+    },
+    {
+      "id": "context.v11-compilation",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+      "snapshotPath": "inputs/snapshots/s28-v11-compilation.json",
+      "bytes": 319458,
+      "digest": "sha256:f1585556e14c39a7717c2bbe25ab310a1fe6af3233a420313add2317662a5c44"
+    },
+    {
+      "id": "context.v11-report",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+      "snapshotPath": "inputs/snapshots/s29-v11-report.json",
+      "bytes": 25926,
+      "digest": "sha256:863b6dfa8063b27b52778fb71f1f155e541fc3ed4c21166e6dece631bd02b410"
+    },
+    {
+      "id": "context.v11-approval",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+      "snapshotPath": "inputs/snapshots/s30-v11-approval.json",
+      "bytes": 195,
+      "digest": "sha256:590606176235d6ae249c0ece8598c77654aa045307a5484ce9a8636cabf5488d"
+    },
+    {
+      "id": "context.v11-authorization",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+      "snapshotPath": "inputs/snapshots/s31-v11-authorization.json",
+      "bytes": 985,
+      "digest": "sha256:f1c82e979257bc55022b4b63a2432d262ae61d83faf089d0feac275698d9054b"
+    },
+    {
+      "id": "context.audit-goal",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/goal-contract.json",
+      "snapshotPath": "inputs/snapshots/s32-audit-goal.json",
+      "bytes": 64546,
+      "digest": "sha256:c8488458e59db01897c203102522759c6f49b0b4a7e582ea237b8854df3eb12b"
+    },
+    {
+      "id": "context.audit-compilation",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/compilation.json",
+      "snapshotPath": "inputs/snapshots/s33-audit-compilation.json",
+      "bytes": 170110,
+      "digest": "sha256:1a9ad265525a7e8db0f78dcebb8e3d412d433dc5991ee53bc083e3d8d6ebc04f"
+    },
+    {
+      "id": "context.audit-report",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/report.json",
+      "snapshotPath": "inputs/snapshots/s34-audit-report.json",
+      "bytes": 20362,
+      "digest": "sha256:f86d3a98cbf718b4c686dd8691f0b7920066d03705d47e3d72eac1b0f8d1f578"
+    },
+    {
+      "id": "context.audit-approval",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
+      "snapshotPath": "inputs/snapshots/s35-audit-approval.json",
+      "bytes": 195,
+      "digest": "sha256:07427ef7b1b16e44d4b99ac71bdbea3009e1547ebc33ddc5215b5e8a5a6be758"
+    },
+    {
+      "id": "context.audit-receipt",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+      "snapshotPath": "inputs/snapshots/s36-audit-receipt.json",
+      "bytes": 2255,
+      "digest": "sha256:72b341d8edeb06796d23bbd057041a8b18d94498efbe6aa3ffb4efe87568cc76"
+    },
+    {
+      "id": "context.audit-binder",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/audit-bind-pass-attempt-44.json",
+      "snapshotPath": "inputs/snapshots/s37-audit-binder.json",
+      "bytes": 6366,
+      "digest": "sha256:7e916637385b4aeef470fe15da8689b9476c5707109d9bd67723021315314fcc"
+    },
+    {
+      "id": "context.audit-semantic",
+      "originalPath": "docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-44.json",
+      "snapshotPath": "inputs/snapshots/s38-audit-semantic.json",
+      "bytes": 10233,
+      "digest": "sha256:3a53b4ba416dba1fb9aac2296bd2817863e61f2f913f2fb7bdb39cd4a31388fb"
+    },
+    {
+      "id": "context.prior-independent-fix",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/handoffs/agent.35a191fc146b32387289383bbaf06d1c1094058edd3556b1b4dc1f01fd43c275-fix-attempt-1.json",
+      "snapshotPath": "inputs/snapshots/s39-prior-independent-fix.json",
+      "bytes": 10421,
+      "digest": "sha256:975bce5edc9937a3b266e1e072dea09e607bf653f2b0f8e7bcc261bdcde95c15"
+    },
+    {
+      "id": "context.prior-independent-assessment",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/integration-assessment.md",
+      "snapshotPath": "inputs/snapshots/s40-prior-independent-assessment.md",
+      "bytes": 1005,
+      "digest": "sha256:55a52e533d612fa4e75d36374d6d5f1d4c83dcf419c6ecc889f55d9f4456e6a3"
+    },
+    {
+      "id": "context.r32-correction",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r32/implementation-notes.md",
+      "snapshotPath": "inputs/snapshots/s41-r32-correction.md",
+      "bytes": 2376,
+      "digest": "sha256:e3aafa729191306119bd12ec03dc005156e6dff63e2c4077b3a07402cb75bbb8"
+    },
+    {
+      "id": "context.r34-order-correction",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/approval-order-correction.md",
+      "snapshotPath": "inputs/snapshots/s42-r34-order-correction.md",
+      "bytes": 2505,
+      "digest": "sha256:c188b951428e7a6fe2e7202b6eec5bf49cf3a9072186b8d42cf2dcfab483d6a7"
+    },
+    {
+      "id": "context.r35-attempt",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/attempt-history.md",
+      "snapshotPath": "inputs/snapshots/s43-r35-attempt.md",
+      "bytes": 2375,
+      "digest": "sha256:ddfb33a54c6c313cdf7f7502b029610d45f639f6dc18519724e496e7ce763ac4"
+    },
+    {
+      "id": "context.r35-timeout",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/timeout-termination-diagnosis.md",
+      "snapshotPath": "inputs/snapshots/s44-r35-timeout.md",
+      "bytes": 1918,
+      "digest": "sha256:7a1f0304cdaef9a0ce3c7853d1ca1b3cf1e99f532fc3e63a95afa08fb15eceb0"
+    },
+    {
+      "id": "context.r35-review-completion",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/completion-receipt.json",
+      "snapshotPath": "inputs/snapshots/s45-r35-review-completion.json",
+      "bytes": 1432,
+      "digest": "sha256:3a79f21e5c16ac5b45837a8785ed3337e8a7614826c66ba1037483e45415905d"
+    },
+    {
+      "id": "context.r35-review-verification",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/handoff-verification.json",
+      "snapshotPath": "inputs/snapshots/s46-r35-review-verification.json",
+      "bytes": 1678,
+      "digest": "sha256:8632ab22b069b74d6a09a0dfc4b4b53f26e267c7d0d801f8daf7af07af62e4be"
+    },
+    {
+      "id": "context.r36-retirement",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/candidate-15-retirement.md",
+      "snapshotPath": "inputs/snapshots/s47-r36-retirement.md",
+      "bytes": 2118,
+      "digest": "sha256:2312a6360350f8427cfb8bb637f432b1a886c76ccd753b45de48ac9f3d0e19ab"
+    },
+    {
+      "id": "context.r36-gate-receipt",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate-receipt.json",
+      "snapshotPath": "inputs/snapshots/s48-r36-gate-receipt.json",
+      "bytes": 2296,
+      "digest": "sha256:27d7fe234f8b1201e0b0f2b8079dcfea439e6e0527822a7b11244a72927589d8"
+    },
+    {
+      "id": "context.r36-gate-stdout",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate.stdout.log",
+      "snapshotPath": "inputs/snapshots/s49-r36-gate-stdout.log",
+      "bytes": 37597,
+      "digest": "sha256:76b48df2f50ebed0921d55c0a2ada36abfb30362c5c3bfacc4a478dd521a6f81"
+    },
+    {
+      "id": "context.r36-gate-stderr",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/ee297d8e11466763acc9b4c630de445eb57b00c3/canonical-gate.stderr.log",
+      "snapshotPath": "inputs/snapshots/s50-r36-gate-stderr.log",
+      "bytes": 19492,
+      "digest": "sha256:00ce84e8736d7583a9716c2cc28900f92401a907f381c72e074578739408805e"
+    },
+    {
+      "id": "context.git-environment-child",
+      "originalPath": "test/fixtures/git-blob-loader-environment-child.mjs",
+      "snapshotPath": "inputs/snapshots/s51-git-environment-child.mjs",
+      "bytes": 1112,
+      "digest": "sha256:83e0b59f3ce6a19df093ff1fb3061d078f533ae21980a7d264f198a21eb49e6e"
+    },
+    {
+      "id": "context.r37-review-readme",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r37/README.md",
+      "snapshotPath": "inputs/snapshots/s52-r37-review-readme.md",
+      "bytes": 919,
+      "digest": "sha256:82f7db7c55cbd89126f31fe56ac3b33eb452f28c72e0613fc946a5668e4af43b"
+    },
+    {
+      "id": "context.r37-review-completion",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r37/completion-receipt.json",
+      "snapshotPath": "inputs/snapshots/s53-r37-review-completion.json",
+      "bytes": 1573,
+      "digest": "sha256:cc88b0fddf78230255308eff08b05d5965967f19de71497020b2ba7e7345e559"
+    },
+    {
+      "id": "context.r37-review-verification",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r37/handoff-verification.json",
+      "snapshotPath": "inputs/snapshots/s54-r37-review-verification.json",
+      "bytes": 1677,
+      "digest": "sha256:c66bad0e1f83f7c60e15ef3261f537b651a3415b2d8b02a9f428a40bb0c41942"
+    },
+    {
+      "id": "context.r37-review-bindings",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r37/raw-artifact-bindings.json",
+      "snapshotPath": "inputs/snapshots/s55-r37-review-bindings.json",
+      "bytes": 1744,
+      "digest": "sha256:90ece6a8be3688482a2872bbda4a63046ed9f8c56d603b2a9f40b9d1d14ad7ee"
+    },
+    {
+      "id": "context.r37-review-assessment",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r37/integration-assessment.md",
+      "snapshotPath": "inputs/snapshots/s56-r37-review-assessment.md",
+      "bytes": 991,
+      "digest": "sha256:0635a96f74cff0576691b63ccde0e37f41e3c6e4f4cd5b02eefa1e7622a8d9a7"
+    },
+    {
+      "id": "context.r37-review-handoff",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r37/handoffs/agent.1095666c58c94736567b639a2506890d1b21728cf2bbafbbc8b6fefa9ecf7b4c-fix-attempt-1.json.b64",
+      "snapshotPath": "inputs/snapshots/s57-r37-review-handoff.json.b64",
+      "bytes": 13477,
+      "digest": "sha256:fbbe0fa42daf0f000e2a63ec2e1f648313c1d1ecb8e31fd502ab35a3ca640f48"
+    },
+    {
+      "id": "context.r38-correction-contract",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r38/inputs/correction-contract.md",
+      "snapshotPath": "inputs/snapshots/s58-r38-correction-contract.md",
+      "bytes": 1705,
+      "digest": "sha256:d84311a830828da86c2254bb9a62c862e92e9b0a105470dc0e2b23b1a383e63b"
+    },
+    {
+      "id": "context.r38-test-plan",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r38/inputs/test-plan.md",
+      "snapshotPath": "inputs/snapshots/s59-r38-test-plan.md",
+      "bytes": 1336,
+      "digest": "sha256:de5db1ea4aa810864d6aa70b2b84afba7045ad8a9bee0ba3a893753b3638c318"
+    },
+    {
+      "id": "context.r38-attempt-history",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r38/attempt-history.md",
+      "snapshotPath": "inputs/snapshots/s60-r38-attempt-history.md",
+      "bytes": 3088,
+      "digest": "sha256:9c137ef81e751b423cea63a3168dc4c7f7e573f77208e4fa76731bc0434694fe"
+    },
+    {
+      "id": "context.r38-status-failure",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r38/attempts/core-status-failure-receipt.json",
+      "snapshotPath": "inputs/snapshots/s61-r38-status-failure.json",
+      "bytes": 1321,
+      "digest": "sha256:9a5af9299f3e239e18ed80446963676b0c632c54538d094dbd8e13a941d3a586"
+    },
+    {
+      "id": "context.r38-mutable-pass",
+      "originalPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r38/attempts/npm-verify-pass-receipt.json",
+      "snapshotPath": "inputs/snapshots/s62-r38-mutable-pass.json",
+      "bytes": 1431,
+      "digest": "sha256:7f262085ef397ca016976dec82656be93980cb2423b4061992f366d0a45c04b9"
+    }
+  ]
+}

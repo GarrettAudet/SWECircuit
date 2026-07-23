@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "swecircuit.external-host.specialist-launch.v1",
+  "launchedAt": "2026-07-23T17:20:16.100Z",
+  "sourceCommit": "1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0",
+  "sourceTree": "572a5dc3406ffff6453f7c11df3592d5bb971a45",
+  "compilationDigest": "sha256:6c671af037cabfdf9e97da3e97d141a67134e0a73e35d3b733ddd0c49c78a66b",
+  "packageDigest": "sha256:6a9c34c0e1b1cd1980002924d3a64fa49f6fff2bb9f41e85ada67235f060a74c",
+  "agentId": "agent.61a70f9db00f0cd7fba4602c9d45ca5f5cde0b6d3f82542a360f1610ceab7186",
+  "blueprintDigest": "sha256:c7785a9f27a55df61dd08c72f742cefd941c25766196301d3cb9c0d33113dc54",
+  "externalAgentId": "019f8ffd-34d7-7160-b177-fabdf98423d5",
+  "externalAgentNickname": "Dalton",
+  "runtime": {
+    "selectedBy": "codex-desktop-external-host",
+    "model": "gpt-5.6-sol",
+    "reasoningEffort": "ultra",
+    "serviceTier": "priority",
+    "coreSelectedRuntime": false
+  },
+  "bindings": {
+    "runtimeSelection": {
+      "path": "runtime-selection.json",
+      "bytes": 1675,
+      "rawDigest": "sha256:91bdf137d32ecee6d6561342a4b7049e63facb3397863ae3f80c992e7ce2bd6e"
+    },
+    "approval": {
+      "path": "approval.json",
+      "bytes": 701,
+      "rawDigest": "sha256:90072f5f726017f2415166621805168065ff0a06065d94c0a5fd429afa619ad9"
+    },
+    "manifest": {
+      "path": "package/manifest.json",
+      "bytes": 1500,
+      "rawDigest": "sha256:b494b3c8872e8313143f75e3adf53e8527a43b437c1a12c7af319a9c97e28245"
+    },
+    "agentContract": {
+      "path": "package/agents/agent.61a70f9db00f0cd7fba4602c9d45ca5f5cde0b6d3f82542a360f1610ceab7186.md",
+      "bytes": 50406,
+      "rawDigest": "sha256:7ef29ded09598e2d4f1c33188d265eba89ba2e9d76efa030feed0d42d47465b8"
+    }
+  },
+  "packageVerifiedBeforeLaunch": true,
+  "approvalPresentBeforeLaunch": true,
+  "candidateLaunchApproved": true,
+  "releaseApproved": false
+}
