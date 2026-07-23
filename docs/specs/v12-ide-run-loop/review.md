@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` then stopped at 444/445 core tests because active test-plan status omitted three required historical outcomes. Revision 35 restores those outcomes, passes both status invariants, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. A fresh exact aggregate and fresh package-bound `pass` remain mandatory before any successor freeze, R2 review, hosted CI, or owner merge decision.
+V12 is not merge-ready. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests, copied-production lifecycle, package inspection, and offline installed-consumer verification. A separately compiled package-bound reviewer authenticated all 51 declared sources and returned a verified `pass`. Revision 36 preserves that immutable evidence without changing product or kernel behavior. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2, hosted CI, milestone closeout, and owner merge evidence remain required.
 
 ## Scope
 
@@ -113,9 +113,9 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
 
 ## Current Outcome
 
-Revision 35 is `pass` at focused correction verification and `pending` at release verification. The preceding immutable aggregate preserved 444/445 core passes and one historical-outcome status failure. Revision 44 trust evidence remains exact; Revision 35 restores every required prior outcome, runs both active-status invariants as one post-edit gate, and closes the fallback-aware timeout evidence contradiction with 31/31 release-review tests passing.
+Revision 35 is `pass` at aggregate and package-bound independent review. Exact source `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` stays clean and identity-stable through 445/445 core tests, copied-production lifecycle, package inspection, and offline installed-consumer verification. The independent reviewer authenticates 51/51 declared sources, reports no high or medium blocker, and returns a kernel-verified `pass` handoff.
 
-Candidate-addressed external evidence remains the only authority for volatile release state. No successor is frozen; a fresh exact aggregate and fresh immutable package-bound independent review must pass before release routing can continue.
+Candidate-addressed external evidence remains the only authority for volatile release state. Revision 36 preserves the exact pass while `releaseReady: false` remains in force; release routing continues through one exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge.
 
 ## Revision 34 Trust-Refresh Outcome
 
@@ -123,4 +123,10 @@ The exact Revision 33 aggregate receipt and diagnosis are preserved under `evide
 
 ## Revision 35 Status-Preservation Outcome
 
-The exact Revision 34 aggregate receipt, historical-outcome correction, and scoped-timeout diagnosis are preserved under `evidence/implementation/release-correction-r35/`. Both active-status invariants pass after restoring the immutable historical outcomes. Restricted and native timeout paths plus the complete 31/31 release-review file pass after deriving top-level acceptance from primary or explicit fallback acceptance. Candidate-addressed external evidence must establish a fresh immutable aggregate and package-bound independent review before any successor can be frozen.
+The exact Revision 34 aggregate receipt, historical-outcome correction, and scoped-timeout diagnosis are preserved under `evidence/implementation/release-correction-r35/`. Both active-status invariants pass after restoring the immutable historical outcomes. Restricted and native timeout paths plus the complete 31/31 release-review file pass after deriving top-level acceptance from primary or explicit fallback acceptance. The subsequent aggregate and package-bound independent review establish the required follow-up evidence below.
+
+## Revision 35 Aggregate And Independent Review Outcome
+
+Exact source `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes the complete aggregate with stable identity and clean state. A separately compiled read-only reviewer authenticates all 51 declared sources twice, confirms the timeout correction and three constant-process Git blob boundaries, finds no product API change, and reports no high or medium blocker.
+
+The exact 11,143-byte `pass` handoff verifies against compilation/package `sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619` / `sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047`. Integration accepts the evidence freeze only; `releaseApproved: false` remains. The exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain independent requirements.

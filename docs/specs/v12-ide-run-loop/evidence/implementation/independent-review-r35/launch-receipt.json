@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "swecircuit.v12.external-specialist-launch.v1",
+  "source": {
+    "commit": "bcb12fbee15e8a96b5088accb5a397bc0464c7cd",
+    "tree": "25f27fa6583df87b834de733e3a43665341f04d9"
+  },
+  "expectation": {
+    "compilationDigest": "sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619",
+    "packageDigest": "sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047"
+  },
+  "packageVerifiedBeforeLaunch": true,
+  "approval": {
+    "path": "approval.json",
+    "bytes": 701,
+    "digest": "sha256:b286f8c62cf02dbca28cd73a63c164660bf94498c16fccd5dc77b1126b12eb06"
+  },
+  "specialist": {
+    "agentId": "agent.948197b644133c9c685ae1a996d5ce2bce7c504496b039b6220c94427ffc5f2e",
+    "blueprintDigest": "sha256:9e1b7d21f498d1511692ff893ee2fd1af0bd40fff20695c1077594e10afe0fb1",
+    "contractPath": "package/agents/agent.948197b644133c9c685ae1a996d5ce2bce7c504496b039b6220c94427ffc5f2e.md",
+    "externalHostAgentId": "019f8eb9-fad5-77f0-887d-59f718a1572a"
+  },
+  "authority": {
+    "readOnly": true,
+    "candidateWriteAuthority": false,
+    "networkAuthority": false,
+    "mergeAuthority": false
+  },
+  "status": "launched",
+  "recordedAt": "2026-07-23T11:27:33.971Z"
+}

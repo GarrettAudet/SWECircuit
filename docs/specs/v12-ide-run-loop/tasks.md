@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 remains open until release evidence closes it. Revision 44 passes the correctly ordered V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` stopped at 444/445 core tests because the active test-plan status omitted three immutable historical outcomes. Revision 35 restores them, passes both status invariants, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. A fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before T006 or V12 can close.
+T006 remains open until release evidence closes it. Revision 44 passes the correctly ordered V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every later aggregate gate. Its separately compiled package-bound reviewer authenticates 51/51 sources and returns a verified `pass`. Revision 36 preserves both immutable results. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2 review, hosted CI, milestone closeout, and the owner merge gate remain before T006 or V12 can close.
 
 ## Task List
 
@@ -23,7 +23,7 @@ T006 remains open until release evidence closes it. Revision 44 passes the corre
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched three exact read-only release reviewers in one wave. Historical outcomes remain preserved through the latest retired source and Revision 29. A successor review may fan out across three independent domains only after focused anti-drift checks, complete pre-freeze verification, and its exact source-bound gate pass.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. T006 ran adversarial verification and IDE dogfood in parallel, then launched exact read-only reviewers from source-bound packages. Revision 35 aggregate and package-bound review evidence pass. Fresh R2 review may fan out across three independent domains only after Revision 36 passes focused anti-drift checks, committed-source verification, and its exact source-bound gate.
 
 ## Out Of Scope
 

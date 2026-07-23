@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 passes its complete two-phase trust replay in corrected approval order. Exact Revision 34 aggregate preserves 444/445 core passes and one historical-outcome status failure; Revision 35 restores those facts, passes both status invariants, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. `releaseReady: false` remains the source-visible result until candidate-addressed external evidence passes a fresh aggregate, package-bound review, successor gate, R2, hosted CI, and owner merge gate.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 passes its complete two-phase trust replay in corrected approval order. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every aggregate gate; its separately compiled package-bound reviewer authenticates 51/51 sources and returns a verified `pass`. `releaseReady: false` remains the source-visible result until candidate-addressed external evidence passes the exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge gate.
 
 ## Contract Tests
 
@@ -91,6 +91,9 @@ Package identity verification and handoff schema verification authenticate prese
 - Production-identity binding: pass.
 - Complete source suites: release-review 29/29 pass in 79.3 seconds; release-gate 16/16 pass in 445.1 seconds; no new scratch context remains.
 - Exact corrected committed lifecycle: checkpoint 8768c25 passes 1/1 in 1,752.7 seconds after crossing both prior production stops.
+- Exact Revision 35 aggregate: `bcb12fbee15e8a96b5088accb5a397bc0464c7cd`; clean identity before and after; 445/445 core tests, copied lifecycle, package inspection, and offline installed consumer `pass` in 703,092 ms.
+- Aggregate receipt: 1,227 bytes at `sha256:e99689f67208109c1470a02f742d324aa288b0fa05978337cdfe60d65f8f3917`; stdout/stderr retain exact decoded byte counts and digests in `independent-review-r35/raw-artifact-bindings.json`.
+- Revision 35 package-bound review: compilation/package `sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619` / `sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047`; 51/51 sources authenticated; exact 11,143-byte handoff `sha256:3b90e319eeb14527da11cbf82c569fab7a9267f9934ad4506f478fb891535841`; verified outcome `pass`.
 
 ## Revision 31 Stable Runtime Identity Gate
 
@@ -136,4 +139,15 @@ Package identity verification and handoff schema verification authenticate prese
 - Restricted timeout fallback regression: 5/5 `pass`; direct fallback accepted and descendant absent.
 - Native Windows timeout route: focused test `pass`; five probes accept primary `taskkill` with no fallback and no descendant.
 - Complete release-review file after the causal correction: 31/31 `pass`.
-- Pending: fresh immutable aggregate and fresh package-bound independent review.
+- Follow-up: the exact aggregate and package-bound independent review pass below.
+
+## Revision 35 Immutable Aggregate And Package-Bound Review Gate
+
+- Exact source: `bcb12fbee15e8a96b5088accb5a397bc0464c7cd`.
+- Aggregate: source clean and identity-stable before/after; 445/445 core tests; copied lifecycle 1/1; package inspection and offline installed consumer `pass`; duration 703,092 ms.
+- Aggregate receipt: 1,227 bytes, `sha256:e99689f67208109c1470a02f742d324aa288b0fa05978337cdfe60d65f8f3917`.
+- Independent package: compilation/package `sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619` / `sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047`; package verification passes before launch approval.
+- Source authentication: 51/51 exact context sources verified twice.
+- Exact handoff: 11,143 bytes, raw `sha256:3b90e319eeb14527da11cbf82c569fab7a9267f9934ad4506f478fb891535841`; kernel handoff verification passes; outcome `pass`.
+- Archive: `evidence/implementation/independent-review-r35/`; Base64 artifacts decode to the exact bound raw bytes.
+- Release result: `releaseReady: false`; successor gate, fresh R2, hosted CI, milestone closeout, and owner merge remain.

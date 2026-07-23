@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "swecircuit.v12.independent-review-checkpoint.v1",
+  "candidate": {
+    "commit": "bcb12fbee15e8a96b5088accb5a397bc0464c7cd",
+    "tree": "25f27fa6583df87b834de733e3a43665341f04d9"
+  },
+  "predecessor": "a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8",
+  "aggregate": {
+    "aggregate-receipt.json": {
+      "bytes": 1227,
+      "digest": "sha256:e99689f67208109c1470a02f742d324aa288b0fa05978337cdfe60d65f8f3917"
+    },
+    "npm-verify.stdout.log": {
+      "bytes": 303537,
+      "digest": "sha256:596c2eb77cec5b594d6d3163c5bda1f2c2b6f45bfd46307c62d12236bbbd40f7"
+    },
+    "npm-verify.stderr.log": {
+      "bytes": 26319,
+      "digest": "sha256:c620ad4eb01b894d5789b5f44fd9ad8397e84e0d7b3dea11a07e64c5eee567cd"
+    }
+  }
+}

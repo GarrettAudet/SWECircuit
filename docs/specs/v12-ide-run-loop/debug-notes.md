@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` then stopped at 444/445 core tests because the compressed test-plan status omitted three required historical outcomes. Revision 35 restores those outcomes, passes both status invariants 2/2, and corrects a release-harness timeout-evidence contradiction found during full-file verification. Restricted and native Windows termination paths plus the complete 31/31 release-review file now pass. A fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before release.
+No active V12 product-contract defect is recorded. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests, the copied-production lifecycle, package inspection, and the offline installed-consumer gate. A separately compiled package-bound reviewer authenticated all 51 declared sources and returned `pass`; exact digest-bound evidence is preserved under `evidence/implementation/independent-review-r35/`. Revision 36 records that immutable result without changing product or kernel behavior. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2 review, hosted CI, milestone closeout, and owner merge evidence remain required.
 
 ## Reproduction
 
@@ -808,3 +808,11 @@ Revision 35 restores all three facts. The final focused anti-drift gate now alwa
 The complete release-review file initially passed 30/31 after the status correction. The timeout regression reproduced top-level `accepted: false` while the preserved direct fallback reported `accepted: true` and the descendant was gone. Five restricted-host probes reproduced primary status 1, accepted fallback, and no descendant; a direct probe reported `ERROR: Access denied`. Five native probes returned primary status 0 with no fallback and no descendant.
 
 The helper now defines top-level acceptance as primary or explicit fallback acceptance on both platform paths while preserving each raw result. The regression derives that equation and still requires descendant absence. Restricted focused verification passes 5/5, the native focused test passes 1/1, the native probe passes 5/5, and the complete release-review file passes 31/31. Route: `verify -> diagnose -> fix -> verify`.
+
+## Revision 35 Immutable Aggregate And Independent Review
+
+External supervisor evidence binds exact source `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` to clean before/after identity and a 703,092 ms aggregate pass. Core tests pass 445/445, the copied-production lifecycle passes 1/1, package inspection passes, and the clean offline installed-consumer gate passes. The 1,227-byte receipt is `sha256:e99689f67208109c1470a02f742d324aa288b0fa05978337cdfe60d65f8f3917`.
+
+A separately approved package-bound reviewer authenticated all 51 declared sources twice. Compilation/package digests are `sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619` / `sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047`. Its exact 11,143-byte handoff is `sha256:3b90e319eeb14527da11cbf82c569fab7a9267f9934ad4506f478fb891535841`, verifies against both approved digests, reports no high or medium blocker, and returns `pass`.
+
+Raw logs and the handoff are preserved as canonical Base64 with decoded byte counts and SHA-256 bindings under `evidence/implementation/independent-review-r35/`. Route: `verify -> review -> pass`; `releaseApproved: false` remains until the successor/R2/CI/merge chain closes.

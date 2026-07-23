@@ -1,0 +1,1112 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v12.ide-run-loop.review.release-candidate-r35",
+    "revision": 35,
+    "objective": "Independently determine whether exact Revision 35 and its immutable aggregate close the current V12 pre-freeze release blockers without weakening correctness, authority, provenance, lifecycle, traceability, packaging, or the external host boundary.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.snapshots-authoritative",
+        "statement": "Declared immutable snapshots are the only semantic review inputs.",
+        "rationale": "The reviewer must not depend on mutable live source, ignored output, or chat summaries."
+      },
+      {
+        "id": "assumption.host-boundary-external",
+        "statement": "Runtime selection, execution, isolation, enforcement, hosted CI, merge, and durable persistence remain external host duties.",
+        "rationale": "The package can bind demands and evidence but cannot perform external effects."
+      },
+      {
+        "id": "assumption.predecessor-retired",
+        "statement": "Checkpoint a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8 is immutable failed evidence and cannot be relaunched.",
+        "rationale": "The review compares its exact failure with one new aggregate-tested source identity."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.review.release-candidate.r35",
+        "description": "Every current pre-freeze cause is closed by exact candidate source and evidence, and no release-blocking bypass remains in the bounded review scope.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.review.release-candidate.r35",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Authenticate every source, resolve every closed review point, search for bypasses, and return one exact pass or causal non-pass handoff.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s01-agent-contract.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Repository agent and release invariants. Original path: AGENTS.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s01-agent-contract.md"
+      },
+      {
+        "id": "context.compiler-contract",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s02-compiler-contract.md",
+        "digest": "sha256:ab2c0f09a38e5de51f14c6af1c912bbc37f5ec8c27bd589273202741c94297b9",
+        "bytes": 36886,
+        "description": "Specialist package, approval, and handoff trust contract. Original path: docs/specs/v11-specialist-compiler/specialist-compiler-contract.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s02-compiler-contract.md"
+      },
+      {
+        "id": "context.v12-spec",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s03-v12-spec.md",
+        "digest": "sha256:560d60663e144614ea9226a2cc15d2c5665772d12edf7a9756159827db632ac2",
+        "bytes": 6031,
+        "description": "V12 acceptance contract. Original path: docs/specs/v12-ide-run-loop/spec.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s03-v12-spec.md"
+      },
+      {
+        "id": "context.v12-adr",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s04-v12-adr.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable run-session architecture decision. Original path: docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s04-v12-adr.md"
+      },
+      {
+        "id": "context.v12-architecture",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s05-v12-architecture.md",
+        "digest": "sha256:861a5a5471ecf8463cd8fa9e4035acb3a5c9a16f7e0c65385ba29fa84509d3dc",
+        "bytes": 26111,
+        "description": "Integrated V12 architecture. Original path: docs/specs/v12-ide-run-loop/v12-run-loop-architecture.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s05-v12-architecture.md"
+      },
+      {
+        "id": "context.run-contract",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s06-run-contract.md",
+        "digest": "sha256:9b3340f0c95fc33abe945b35e3d1e0520392dee5ea01c3f78f24cb65473fa242",
+        "bytes": 17133,
+        "description": "Normative Specialist Run contract. Original path: docs/specs/v12-ide-run-loop/specialist-run-contract.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s06-run-contract.md"
+      },
+      {
+        "id": "context.test-plan",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s07-test-plan.md",
+        "digest": "sha256:974ddd1af7444f9be8ddacf1797470c774a861f68cf52bc970697f9a5ae1cdd8",
+        "bytes": 14197,
+        "description": "Current verification obligations and immutable outcomes. Original path: docs/specs/v12-ide-run-loop/test-plan.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s07-test-plan.md"
+      },
+      {
+        "id": "context.debug-notes",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s08-debug-notes.md",
+        "digest": "sha256:ab03e7786a3709d5208f930e6db6f5c9ce2c243e75e2df724a8a7f41886daf04",
+        "bytes": 63176,
+        "description": "Complete diagnostic chronology. Original path: docs/specs/v12-ide-run-loop/debug-notes.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s08-debug-notes.md"
+      },
+      {
+        "id": "context.root-cause",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s09-root-cause.md",
+        "digest": "sha256:33e7194c1eac4030430d7a7b627da661b417d5630b4833b481f020eb5cf1f201",
+        "bytes": 50362,
+        "description": "Complete release-attempt root-cause record. Original path: docs/specs/v12-ide-run-loop/root-cause-analysis.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s09-root-cause.md"
+      },
+      {
+        "id": "context.implementation-notes",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s10-implementation-notes.md",
+        "digest": "sha256:1ba539833de91659eb901a12098d34cb21645656677ff4a7bfac9e526243cd15",
+        "bytes": 42249,
+        "description": "Integrated implementation evidence. Original path: docs/specs/v12-ide-run-loop/implementation-notes.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s10-implementation-notes.md"
+      },
+      {
+        "id": "context.review",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s11-review.md",
+        "digest": "sha256:04f8b2e8aaf5cd1be7ddff521b340352eb81fd96786fcbd7744d03bcbb7b1df5",
+        "bytes": 14973,
+        "description": "Current review and routing state. Original path: docs/specs/v12-ide-run-loop/review.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s11-review.md"
+      },
+      {
+        "id": "context.tasks",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s12-tasks.md",
+        "digest": "sha256:16394e2639e3f0db92279ea823ea6e4dc85bf098954a5cbdec90a136a2b0ea11",
+        "bytes": 2700,
+        "description": "Current task and gate state. Original path: docs/specs/v12-ide-run-loop/tasks.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s12-tasks.md"
+      },
+      {
+        "id": "context.milestone",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s13-milestone.md",
+        "digest": "sha256:b1ba3bd0988bbb9766267851e92535741db1a0cd8c538468c489e775712c4e04",
+        "bytes": 12714,
+        "description": "Current milestone and residual gates. Original path: docs/milestones/v12.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s13-milestone.md"
+      },
+      {
+        "id": "context.active-context",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s14-active-context.md",
+        "digest": "sha256:eb93bc46381a2c7ae047ab09315e8c1da0cf3b3946aa490a08b36a4501551304",
+        "bytes": 42575,
+        "description": "Current durable release context. Original path: docs/memory/active-context.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s14-active-context.md"
+      },
+      {
+        "id": "context.package",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s15-package.json",
+        "digest": "sha256:9c8e1e3bde18439a6199f0752b7dad1e69fdf713ffac33597d5119d1c26a67fa",
+        "bytes": 4043,
+        "description": "Canonical package scripts and public package surface. Original path: package.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s15-package.json"
+      },
+      {
+        "id": "context.attributes",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s16-gitattributes",
+        "digest": "sha256:4626d1e064ae446e63b50a072443b874a9619c012ac283d7903d03cd028b53a3",
+        "bytes": 1283,
+        "description": "Git byte-integrity policy. Original path: .gitattributes",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s16-gitattributes"
+      },
+      {
+        "id": "context.release-gate",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s17-release-gate.mjs",
+        "digest": "sha256:43ab705aea0000fcfbc73729bb5be91bd1bce948fd63c26e92d697ce97ca4cb6",
+        "bytes": 33716,
+        "description": "Candidate-addressed one-shot release gate. Original path: scripts/run-v12-release-gate.mjs",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s17-release-gate.mjs"
+      },
+      {
+        "id": "context.release-review-parent",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s18-release-review-parent.mjs",
+        "digest": "sha256:433c8840bb18d377212400dbe32d3c2b479c09c1ab0bc0abf8c9752e6b8e8f62",
+        "bytes": 102629,
+        "description": "Candidate-derived release-review parent. Original path: scripts/run-v12-release-review.mjs",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s18-release-review-parent.mjs"
+      },
+      {
+        "id": "context.release-review-harness",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s19-release-review-harness.mjs",
+        "digest": "sha256:d83400e93b23a324f6cf6067af887831bae1d5ea7c2043c08c8993cd1d9eb14d",
+        "bytes": 130690,
+        "description": "Private candidate-derived R2 harness. Original path: docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s19-release-review-harness.mjs"
+      },
+      {
+        "id": "context.release-review-verifier",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s20-release-review-verifier.mjs",
+        "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+        "bytes": 30840,
+        "description": "Package-bound raw-handoff verifier. Original path: docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s20-release-review-verifier.mjs"
+      },
+      {
+        "id": "context.git-loader-fixture",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s21-git-loader-fixture.mjs",
+        "digest": "sha256:1953b69d6819d09776d5aa990999a0ad912da994b64b19d006d3bd56096b7499",
+        "bytes": 3541,
+        "description": "Real Git batch process-count fixture. Original path: test/helpers/git-blob-loader-fixture.mjs",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s21-git-loader-fixture.mjs"
+      },
+      {
+        "id": "context.lifecycle-helper",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s22-lifecycle-helper.mjs",
+        "digest": "sha256:b193a75b5bf9189177f7743c6d250648e3efab2cacb96bc51533cce65b327122",
+        "bytes": 77159,
+        "description": "Copied-production lifecycle host and timeout handling. Original path: test/helpers/v12-release-review-lifecycle.mjs",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s22-lifecycle-helper.mjs"
+      },
+      {
+        "id": "context.release-review-tests",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s23-release-review-tests.mjs",
+        "digest": "sha256:5d26e526f40e4322242a9aa34cad778eb5758a79a7ae54ed99782b05279ed0cf",
+        "bytes": 69173,
+        "description": "Release-review regressions and negative routes. Original path: test/v12-release-review.test.mjs",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s23-release-review-tests.mjs"
+      },
+      {
+        "id": "context.release-gate-tests",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s24-release-gate-tests.mjs",
+        "digest": "sha256:6b592419f5ffecb7aa0c13f0776d3c9ac9d0b1b688658025ebad7d30577fd490",
+        "bytes": 44542,
+        "description": "Release-gate regressions. Original path: test/v12-release-gate.test.mjs",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s24-release-gate-tests.mjs"
+      },
+      {
+        "id": "context.lifecycle-test",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s25-lifecycle-test.mjs",
+        "digest": "sha256:1062e00786f4fdaaf5aa61a93a7f7f0759e09b49c55532a26c91edfcd1270fa7",
+        "bytes": 10294,
+        "description": "Copied-production lifecycle entrypoint. Original path: test/lifecycle/v12-release-review-lifecycle.test.mjs",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s25-lifecycle-test.mjs"
+      },
+      {
+        "id": "context.v11-runner",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s26-v11-runner.mjs",
+        "digest": "sha256:0b9079f93dd8efc79a1fd920d621a71520649c7b5749deef306b5dffd645a19e",
+        "bytes": 58302,
+        "description": "Strict V11 source and launch trust replay. Original path: scripts/run-v11-dogfood.mjs",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s26-v11-runner.mjs"
+      },
+      {
+        "id": "context.v11-goal",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s27-v11-goal.json",
+        "digest": "sha256:9236d40553392c5f710acf117ded9f3b4af681557f24cf2a23d389fd8b58c675",
+        "bytes": 103178,
+        "description": "Current Candidate A GoalContract. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/goal-contract.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s27-v11-goal.json"
+      },
+      {
+        "id": "context.v11-compilation",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s28-v11-compilation.json",
+        "digest": "sha256:f1585556e14c39a7717c2bbe25ab310a1fe6af3233a420313add2317662a5c44",
+        "bytes": 319458,
+        "description": "Current Candidate A compilation. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/compilation.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s28-v11-compilation.json"
+      },
+      {
+        "id": "context.v11-report",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s29-v11-report.json",
+        "digest": "sha256:863b6dfa8063b27b52778fb71f1f155e541fc3ed4c21166e6dece631bd02b410",
+        "bytes": 25926,
+        "description": "Current Candidate A package report. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/report.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s29-v11-report.json"
+      },
+      {
+        "id": "context.v11-approval",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s30-v11-approval.json",
+        "digest": "sha256:590606176235d6ae249c0ece8598c77654aa045307a5484ce9a8636cabf5488d",
+        "bytes": 195,
+        "description": "Separately issued Candidate A approval. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/approval.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s30-v11-approval.json"
+      },
+      {
+        "id": "context.v11-authorization",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s31-v11-authorization.json",
+        "digest": "sha256:f1c82e979257bc55022b4b63a2432d262ae61d83faf089d0feac275698d9054b",
+        "bytes": 985,
+        "description": "Cross-package launch authorization. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/launch-authorization.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s31-v11-authorization.json"
+      },
+      {
+        "id": "context.audit-goal",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s32-audit-goal.json",
+        "digest": "sha256:c8488458e59db01897c203102522759c6f49b0b4a7e582ea237b8854df3eb12b",
+        "bytes": 64546,
+        "description": "Audit B GoalContract. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/goal-contract.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s32-audit-goal.json"
+      },
+      {
+        "id": "context.audit-compilation",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s33-audit-compilation.json",
+        "digest": "sha256:1a9ad265525a7e8db0f78dcebb8e3d412d433dc5991ee53bc083e3d8d6ebc04f",
+        "bytes": 170110,
+        "description": "Audit B compilation. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/compilation.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s33-audit-compilation.json"
+      },
+      {
+        "id": "context.audit-report",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s34-audit-report.json",
+        "digest": "sha256:f86d3a98cbf718b4c686dd8691f0b7920066d03705d47e3d72eac1b0f8d1f578",
+        "bytes": 20362,
+        "description": "Audit B package report. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/report.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s34-audit-report.json"
+      },
+      {
+        "id": "context.audit-approval",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s35-audit-approval.json",
+        "digest": "sha256:07427ef7b1b16e44d4b99ac71bdbea3009e1547ebc33ddc5215b5e8a5a6be758",
+        "bytes": 195,
+        "description": "Audit B approval. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/approval.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s35-audit-approval.json"
+      },
+      {
+        "id": "context.audit-receipt",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s36-audit-receipt.json",
+        "digest": "sha256:72b341d8edeb06796d23bbd057041a8b18d94498efbe6aa3ffb4efe87568cc76",
+        "bytes": 2255,
+        "description": "External non-launching package receipt. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/prelaunch-audit/package-verification-receipt.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s36-audit-receipt.json"
+      },
+      {
+        "id": "context.audit-binder",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s37-audit-binder.json",
+        "digest": "sha256:7e916637385b4aeef470fe15da8689b9476c5707109d9bd67723021315314fcc",
+        "bytes": 6366,
+        "description": "Verified receipt binder handoff. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/audit-bind-pass-attempt-44.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s37-audit-binder.json"
+      },
+      {
+        "id": "context.audit-semantic",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s38-audit-semantic.json",
+        "digest": "sha256:3a53b4ba416dba1fb9aac2296bd2817863e61f2f913f2fb7bdb39cd4a31388fb",
+        "bytes": 10233,
+        "description": "Independent semantic Audit B pass. Original path: docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-44.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s38-audit-semantic.json"
+      },
+      {
+        "id": "context.prior-independent-fix",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s39-prior-independent-fix.json",
+        "digest": "sha256:975bce5edc9937a3b266e1e072dea09e607bf653f2b0f8e7bcc261bdcde95c15",
+        "bytes": 10421,
+        "description": "Prior package-bound finding that caused Revision 32. Original path: docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/handoffs/agent.35a191fc146b32387289383bbaf06d1c1094058edd3556b1b4dc1f01fd43c275-fix-attempt-1.json",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s39-prior-independent-fix.json"
+      },
+      {
+        "id": "context.prior-independent-assessment",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s40-prior-independent-assessment.md",
+        "digest": "sha256:55a52e533d612fa4e75d36374d6d5f1d4c83dcf419c6ecc889f55d9f4456e6a3",
+        "bytes": 1005,
+        "description": "Integration disposition of the prior finding. Original path: docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/integration-assessment.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s40-prior-independent-assessment.md"
+      },
+      {
+        "id": "context.r32-correction",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s41-r32-correction.md",
+        "digest": "sha256:e3aafa729191306119bd12ec03dc005156e6dff63e2c4077b3a07402cb75bbb8",
+        "bytes": 2376,
+        "description": "All-boundary Git batch correction evidence. Original path: docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r32/implementation-notes.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s41-r32-correction.md"
+      },
+      {
+        "id": "context.r34-order-correction",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s42-r34-order-correction.md",
+        "digest": "sha256:c188b951428e7a6fe2e7202b6eec5bf49cf3a9072186b8d42cf2dcfab483d6a7",
+        "bytes": 2505,
+        "description": "Corrected V11 approval ordering evidence. Original path: docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/approval-order-correction.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s42-r34-order-correction.md"
+      },
+      {
+        "id": "context.r35-attempt",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s43-r35-attempt.md",
+        "digest": "sha256:ddfb33a54c6c313cdf7f7502b029610d45f639f6dc18519724e496e7ce763ac4",
+        "bytes": 2375,
+        "description": "Revision 35 attempt history. Original path: docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/attempt-history.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s43-r35-attempt.md"
+      },
+      {
+        "id": "context.r35-timeout",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/s44-r35-timeout.md",
+        "digest": "sha256:7a1f0304cdaef9a0ce3c7853d1ca1b3cf1e99f532fc3e63a95afa08fb15eceb0",
+        "bytes": 1918,
+        "description": "Scoped timeout diagnosis and causal correction. Original path: docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/timeout-termination-diagnosis.md",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/s44-r35-timeout.md"
+      },
+      {
+        "id": "context.aggregate-receipt",
+        "kind": "repository",
+        "locator": "path:inputs/aggregate/aggregate-receipt.json",
+        "digest": "sha256:e99689f67208109c1470a02f742d324aa288b0fa05978337cdfe60d65f8f3917",
+        "bytes": 1227,
+        "description": "Exact immutable aggregate receipt.",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/aggregate/aggregate-receipt.json"
+      },
+      {
+        "id": "context.aggregate-stdout",
+        "kind": "repository",
+        "locator": "path:inputs/aggregate/npm-verify.stdout.log",
+        "digest": "sha256:596c2eb77cec5b594d6d3163c5bda1f2c2b6f45bfd46307c62d12236bbbd40f7",
+        "bytes": 303537,
+        "description": "Exact immutable aggregate stdout.",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/aggregate/npm-verify.stdout.log"
+      },
+      {
+        "id": "context.aggregate-stderr",
+        "kind": "repository",
+        "locator": "path:inputs/aggregate/npm-verify.stderr.log",
+        "digest": "sha256:c620ad4eb01b894d5789b5f44fd9ad8397e84e0d7b3dea11a07e64c5eee567cd",
+        "bytes": 26319,
+        "description": "Exact immutable aggregate stderr.",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/aggregate/npm-verify.stderr.log"
+      },
+      {
+        "id": "context.source-delta",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/r35-source.patch",
+        "digest": "sha256:0029fed16b75e9de2288c36f9ceba5675b1ec59bf4949a0dc089ac25f6256384",
+        "bytes": 57519,
+        "description": "Exact source delta from retired aggregate a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8 to bcb12fbee15e8a96b5088accb5a397bc0464c7cd.",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/r35-source.patch"
+      },
+      {
+        "id": "context.checkpoint",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/checkpoint.json",
+        "digest": "sha256:d23dbdde2babba29d21ba98cf7c82ca504e48677f92be6f4a146653fb69f8f4e",
+        "bytes": 741,
+        "description": "Exact candidate, predecessor, tree, and aggregate bindings.",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/checkpoint.json"
+      },
+      {
+        "id": "context.candidate-manifest",
+        "kind": "repository",
+        "locator": "path:inputs/snapshots/candidate-manifest.json",
+        "digest": "sha256:68d9e0cbfc1a722a519104d9312c3ab053d91511b557968455be417539625d5d",
+        "bytes": 14081,
+        "description": "Original candidate paths and exact snapshot bindings.",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/snapshots/candidate-manifest.json"
+      },
+      {
+        "id": "context.review-contract",
+        "kind": "repository",
+        "locator": "path:inputs/review-contract.md",
+        "digest": "sha256:9277412dbc50f3dd45ab8e764fd716e38147e2a2d72282d689c708cd66e12529",
+        "bytes": 1880,
+        "description": "Closed independent Revision 35 review contract.",
+        "allowedWorkUnits": [
+          "review.release-candidate.r35"
+        ],
+        "readScope": "inputs/review-contract.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "review.release-candidate"
+      ],
+      "allowedCapabilities": [
+        "review.release-evidence-security"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "inputs/snapshots/s01-agent-contract.md",
+            "inputs/snapshots/s02-compiler-contract.md",
+            "inputs/snapshots/s03-v12-spec.md",
+            "inputs/snapshots/s04-v12-adr.md",
+            "inputs/snapshots/s05-v12-architecture.md",
+            "inputs/snapshots/s06-run-contract.md",
+            "inputs/snapshots/s07-test-plan.md",
+            "inputs/snapshots/s08-debug-notes.md",
+            "inputs/snapshots/s09-root-cause.md",
+            "inputs/snapshots/s10-implementation-notes.md",
+            "inputs/snapshots/s11-review.md",
+            "inputs/snapshots/s12-tasks.md",
+            "inputs/snapshots/s13-milestone.md",
+            "inputs/snapshots/s14-active-context.md",
+            "inputs/snapshots/s15-package.json",
+            "inputs/snapshots/s16-gitattributes",
+            "inputs/snapshots/s17-release-gate.mjs",
+            "inputs/snapshots/s18-release-review-parent.mjs",
+            "inputs/snapshots/s19-release-review-harness.mjs",
+            "inputs/snapshots/s20-release-review-verifier.mjs",
+            "inputs/snapshots/s21-git-loader-fixture.mjs",
+            "inputs/snapshots/s22-lifecycle-helper.mjs",
+            "inputs/snapshots/s23-release-review-tests.mjs",
+            "inputs/snapshots/s24-release-gate-tests.mjs",
+            "inputs/snapshots/s25-lifecycle-test.mjs",
+            "inputs/snapshots/s26-v11-runner.mjs",
+            "inputs/snapshots/s27-v11-goal.json",
+            "inputs/snapshots/s28-v11-compilation.json",
+            "inputs/snapshots/s29-v11-report.json",
+            "inputs/snapshots/s30-v11-approval.json",
+            "inputs/snapshots/s31-v11-authorization.json",
+            "inputs/snapshots/s32-audit-goal.json",
+            "inputs/snapshots/s33-audit-compilation.json",
+            "inputs/snapshots/s34-audit-report.json",
+            "inputs/snapshots/s35-audit-approval.json",
+            "inputs/snapshots/s36-audit-receipt.json",
+            "inputs/snapshots/s37-audit-binder.json",
+            "inputs/snapshots/s38-audit-semantic.json",
+            "inputs/snapshots/s39-prior-independent-fix.json",
+            "inputs/snapshots/s40-prior-independent-assessment.md",
+            "inputs/snapshots/s41-r32-correction.md",
+            "inputs/snapshots/s42-r34-order-correction.md",
+            "inputs/snapshots/s43-r35-attempt.md",
+            "inputs/snapshots/s44-r35-timeout.md",
+            "inputs/aggregate/aggregate-receipt.json",
+            "inputs/aggregate/npm-verify.stdout.log",
+            "inputs/aggregate/npm-verify.stderr.log",
+            "inputs/snapshots/r35-source.patch",
+            "inputs/snapshots/checkpoint.json",
+            "inputs/snapshots/candidate-manifest.json",
+            "inputs/review-contract.md"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "powershell",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not edit files, install packages, use network access, mutate Git state, launch descendants, rerun the aggregate or candidate gate, alter evidence, claim release readiness, approve merge, or perform host enforcement."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "review.release-candidate.r35",
+        "objective": "Authenticate and independently audit exact Revision 35 and its aggregate against the closed review contract; trace every correction through production and tests, search for bypasses, and return one bounded verdict.",
+        "weight": 46,
+        "module": {
+          "id": "review.release-candidate",
+          "action": "Authenticate immutable inputs; trace source, package, approval, Git, process, cleanup, evidence, and host boundaries; search adversarially; return one exact review handoff.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "AuthenticatedRevision35CandidateEvidence"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IndependentRevision35ReleaseVerdict"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "review.release-evidence-security"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.compiler-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.v12-spec",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.v12-adr",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.v12-architecture",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.run-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.test-plan",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.debug-notes",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.root-cause",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.implementation-notes",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.review",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.tasks",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.milestone",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.active-context",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.package",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.attributes",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.release-gate",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.release-review-parent",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.release-review-harness",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.release-review-verifier",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.git-loader-fixture",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.lifecycle-helper",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.release-review-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.release-gate-tests",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.lifecycle-test",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.v11-runner",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.v11-goal",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.v11-compilation",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.v11-report",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.v11-approval",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.v11-authorization",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.audit-goal",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.audit-compilation",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.audit-report",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.audit-approval",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.audit-receipt",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.audit-binder",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.audit-semantic",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.prior-independent-fix",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.prior-independent-assessment",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.r32-correction",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.r34-order-correction",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.r35-attempt",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.r35-timeout",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.aggregate-receipt",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.aggregate-stdout",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.aggregate-stderr",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.source-delta",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.checkpoint",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.candidate-manifest",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          },
+          {
+            "sourceId": "context.review-contract",
+            "purpose": "Authenticate and independently audit the exact Revision 35 candidate and aggregate."
+          }
+        ],
+        "scope": {
+          "read": [
+            "inputs/snapshots/s01-agent-contract.md",
+            "inputs/snapshots/s02-compiler-contract.md",
+            "inputs/snapshots/s03-v12-spec.md",
+            "inputs/snapshots/s04-v12-adr.md",
+            "inputs/snapshots/s05-v12-architecture.md",
+            "inputs/snapshots/s06-run-contract.md",
+            "inputs/snapshots/s07-test-plan.md",
+            "inputs/snapshots/s08-debug-notes.md",
+            "inputs/snapshots/s09-root-cause.md",
+            "inputs/snapshots/s10-implementation-notes.md",
+            "inputs/snapshots/s11-review.md",
+            "inputs/snapshots/s12-tasks.md",
+            "inputs/snapshots/s13-milestone.md",
+            "inputs/snapshots/s14-active-context.md",
+            "inputs/snapshots/s15-package.json",
+            "inputs/snapshots/s16-gitattributes",
+            "inputs/snapshots/s17-release-gate.mjs",
+            "inputs/snapshots/s18-release-review-parent.mjs",
+            "inputs/snapshots/s19-release-review-harness.mjs",
+            "inputs/snapshots/s20-release-review-verifier.mjs",
+            "inputs/snapshots/s21-git-loader-fixture.mjs",
+            "inputs/snapshots/s22-lifecycle-helper.mjs",
+            "inputs/snapshots/s23-release-review-tests.mjs",
+            "inputs/snapshots/s24-release-gate-tests.mjs",
+            "inputs/snapshots/s25-lifecycle-test.mjs",
+            "inputs/snapshots/s26-v11-runner.mjs",
+            "inputs/snapshots/s27-v11-goal.json",
+            "inputs/snapshots/s28-v11-compilation.json",
+            "inputs/snapshots/s29-v11-report.json",
+            "inputs/snapshots/s30-v11-approval.json",
+            "inputs/snapshots/s31-v11-authorization.json",
+            "inputs/snapshots/s32-audit-goal.json",
+            "inputs/snapshots/s33-audit-compilation.json",
+            "inputs/snapshots/s34-audit-report.json",
+            "inputs/snapshots/s35-audit-approval.json",
+            "inputs/snapshots/s36-audit-receipt.json",
+            "inputs/snapshots/s37-audit-binder.json",
+            "inputs/snapshots/s38-audit-semantic.json",
+            "inputs/snapshots/s39-prior-independent-fix.json",
+            "inputs/snapshots/s40-prior-independent-assessment.md",
+            "inputs/snapshots/s41-r32-correction.md",
+            "inputs/snapshots/s42-r34-order-correction.md",
+            "inputs/snapshots/s43-r35-attempt.md",
+            "inputs/snapshots/s44-r35-timeout.md",
+            "inputs/aggregate/aggregate-receipt.json",
+            "inputs/aggregate/npm-verify.stdout.log",
+            "inputs/aggregate/npm-verify.stderr.log",
+            "inputs/snapshots/r35-source.patch",
+            "inputs/snapshots/checkpoint.json",
+            "inputs/snapshots/candidate-manifest.json",
+            "inputs/review-contract.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "inputs/snapshots/s01-agent-contract.md",
+              "inputs/snapshots/s02-compiler-contract.md",
+              "inputs/snapshots/s03-v12-spec.md",
+              "inputs/snapshots/s04-v12-adr.md",
+              "inputs/snapshots/s05-v12-architecture.md",
+              "inputs/snapshots/s06-run-contract.md",
+              "inputs/snapshots/s07-test-plan.md",
+              "inputs/snapshots/s08-debug-notes.md",
+              "inputs/snapshots/s09-root-cause.md",
+              "inputs/snapshots/s10-implementation-notes.md",
+              "inputs/snapshots/s11-review.md",
+              "inputs/snapshots/s12-tasks.md",
+              "inputs/snapshots/s13-milestone.md",
+              "inputs/snapshots/s14-active-context.md",
+              "inputs/snapshots/s15-package.json",
+              "inputs/snapshots/s16-gitattributes",
+              "inputs/snapshots/s17-release-gate.mjs",
+              "inputs/snapshots/s18-release-review-parent.mjs",
+              "inputs/snapshots/s19-release-review-harness.mjs",
+              "inputs/snapshots/s20-release-review-verifier.mjs",
+              "inputs/snapshots/s21-git-loader-fixture.mjs",
+              "inputs/snapshots/s22-lifecycle-helper.mjs",
+              "inputs/snapshots/s23-release-review-tests.mjs",
+              "inputs/snapshots/s24-release-gate-tests.mjs",
+              "inputs/snapshots/s25-lifecycle-test.mjs",
+              "inputs/snapshots/s26-v11-runner.mjs",
+              "inputs/snapshots/s27-v11-goal.json",
+              "inputs/snapshots/s28-v11-compilation.json",
+              "inputs/snapshots/s29-v11-report.json",
+              "inputs/snapshots/s30-v11-approval.json",
+              "inputs/snapshots/s31-v11-authorization.json",
+              "inputs/snapshots/s32-audit-goal.json",
+              "inputs/snapshots/s33-audit-compilation.json",
+              "inputs/snapshots/s34-audit-report.json",
+              "inputs/snapshots/s35-audit-approval.json",
+              "inputs/snapshots/s36-audit-receipt.json",
+              "inputs/snapshots/s37-audit-binder.json",
+              "inputs/snapshots/s38-audit-semantic.json",
+              "inputs/snapshots/s39-prior-independent-fix.json",
+              "inputs/snapshots/s40-prior-independent-assessment.md",
+              "inputs/snapshots/s41-r32-correction.md",
+              "inputs/snapshots/s42-r34-order-correction.md",
+              "inputs/snapshots/s43-r35-attempt.md",
+              "inputs/snapshots/s44-r35-timeout.md",
+              "inputs/aggregate/aggregate-receipt.json",
+              "inputs/aggregate/npm-verify.stdout.log",
+              "inputs/aggregate/npm-verify.stderr.log",
+              "inputs/snapshots/r35-source.patch",
+              "inputs/snapshots/checkpoint.json",
+              "inputs/snapshots/candidate-manifest.json",
+              "inputs/review-contract.md"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "powershell",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.review.release-candidate.r35"
+        ],
+        "handoffArtifacts": [
+          "independent-v12-r35-release-candidate-review.md"
+        ],
+        "stopConditions": [
+          "Stop before semantic review if any declared snapshot byte count or digest fails.",
+          "Remain read-only and report every defect without changing source or evidence.",
+          "Resolve every closed review point and search for bypasses before returning pass.",
+          "Treat tests, receipts, prior reviews, and integration-owner statements as evidence only.",
+          "Do not claim release readiness, hosted CI, merge approval, or host enforcement.",
+          "Return only the exact generated SpecialistAgentHandoff JSON object."
+        ]
+      }
+    ]
+  }
+}

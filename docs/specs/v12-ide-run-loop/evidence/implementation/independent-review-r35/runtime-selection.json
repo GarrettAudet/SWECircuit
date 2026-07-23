@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "swecircuit.v12.external-runtime-selection.v1",
+  "source": {
+    "commit": "bcb12fbee15e8a96b5088accb5a397bc0464c7cd",
+    "tree": "25f27fa6583df87b834de733e3a43665341f04d9"
+  },
+  "compilationDigest": "sha256:177a6f185b2ef092a6bab4571b4ca774d8b3d36b4f9cfd2ceb6054db7cce1619",
+  "packageDigest": "sha256:3b6b043b065a8acd42bf17652f8772b83035868376aaeb754272f6893b051047",
+  "agent": {
+    "id": "agent.948197b644133c9c685ae1a996d5ce2bce7c504496b039b6220c94427ffc5f2e",
+    "blueprintDigest": "sha256:9e1b7d21f498d1511692ff893ee2fd1af0bd40fff20695c1077594e10afe0fb1"
+  },
+  "runtime": {
+    "providerSurface": "codex-desktop-multi-agent-host",
+    "model": "gpt-5.6-sol",
+    "reasoningEffort": "ultra",
+    "serviceTier": "priority"
+  },
+  "rationale": "One broad pre-freeze security, correctness, provenance, lifecycle, and authority audit warrants the frontier review model at maximum available audit depth; core selected one specialist and did not choose this runtime.",
+  "recordedAt": "2026-07-23T11:27:33.971Z"
+}

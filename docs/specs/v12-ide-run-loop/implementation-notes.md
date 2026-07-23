@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and release-harness corrections are complete. Revision 44 passes the complete V11 trust replay without changing V12 runtime behavior. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` stopped at 444/445 core tests on one historical-outcome status regression; Revision 35 restores the immutable trace facts, passes both status invariants, and corrects fallback-aware timeout acceptance in the release harness. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires a fresh aggregate and package-bound review, an exact successor gate, fresh R2, hosted CI, and the owner merge gate.
+The V12 product implementation and release-harness corrections are complete. Revision 44 passes the complete V11 trust replay without changing V12 runtime behavior. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests, copied-production lifecycle, package inspection, and offline installed-consumer verification. Its separately compiled package-bound reviewer authenticated 51/51 sources and returned a verified `pass`. Revision 36 preserves that evidence without changing product or kernel behavior. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires an exact successor gate, fresh R2, hosted CI, milestone closeout, and the owner merge gate.
 
 ## Baseline
 
@@ -227,4 +227,13 @@ The V12 product implementation and release-harness corrections are complete. Rev
 - Full-file verification exposed contradictory timeout evidence when the primary tree kill was denied but the direct fallback was accepted.
 - Top-level termination acceptance now includes explicit fallback acceptance while preserving primary and fallback evidence separately; descendant absence remains a hard assertion.
 - Restricted focused verification passes 5/5, native Windows verification passes, and the complete release-review file passes 31/31.
-- Product code, public APIs, and Revision 44 trust evidence are unchanged; a fresh immutable aggregate remains.
+- Product code, public APIs, and Revision 44 trust evidence are unchanged; the later aggregate and review evidence are preserved below.
+
+## Revision 36 Evidence Freeze
+
+- Archived the exact Revision 35 aggregate receipt, stdout, and stderr with decoded byte/digest bindings.
+- Archived the complete approved compilation/package, runtime selection, launch receipt, raw reviewer handoff, kernel verification, and integration assessment.
+- Preserved candidate snapshots by exact Git object identity rather than duplicating transformed text.
+- Recorded the independently verified `pass` while keeping `releaseApproved: false`.
+- Product code, public APIs, release-harness code, and Revision 44 trust evidence are unchanged.
+- Revision 36 is the source for one exact successor gate; fresh R2, hosted CI, milestone closeout, and owner merge evidence remain.

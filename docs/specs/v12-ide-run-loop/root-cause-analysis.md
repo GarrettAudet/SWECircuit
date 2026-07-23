@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical release attempts and their exact outcomes remain immutable. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` then correctly stopped at 444/445 core tests because the active test-plan status omitted three required historical outcomes. Revision 35 restores them, passes both status invariants, and corrects a release-harness timeout acceptance contradiction found by the complete review file. Restricted and native Windows paths plus all 31 release-review tests now pass. This correction is not a successor release result; a fresh aggregate, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain required.
+Historical release attempts and their exact outcomes remain immutable. Revision 44 passes the complete V11 trust replay. Exact Revision 35 aggregate `bcb12fbee15e8a96b5088accb5a397bc0464c7cd` passes 445/445 core tests and every later aggregate gate. Its separately compiled package-bound reviewer authenticated 51/51 sources, returned `pass`, and passed exact handoff verification against the approved compilation and package digests. Revision 36 preserves those immutable facts without changing product or kernel behavior. Candidate-addressed external evidence authorizes one exact successor gate; fresh R2 review, hosted CI, milestone closeout, and the owner merge gate remain required.
 
 ## Reproduction
 
@@ -630,3 +630,9 @@ Compute top-level acceptance from primary or explicit fallback acceptance on bot
 ### Durable Learning
 
 Fallback-capable operations need one closed result algebra: preserve every attempted route, derive the aggregate outcome from all accepted routes, and verify the intended external effect independently.
+
+## Revision 35 Aggregate And Review Confirmation
+
+No new defect was found. Exact aggregate and package-bound review evidence independently confirm the Revision 35 correction while preserving clean source identity. The review authenticates all 51 declared sources, rechecks aggregate bindings, verifies the exact handoff against both approved package identities, and returns `pass`.
+
+Raw aggregate logs and the raw handoff are stored as canonical Base64 because tracked text normalization would otherwise risk changing exact bytes. `raw-artifact-bindings.json` records both archive and decoded identities, while source snapshots remain recoverable from exact commit `bcb12fbee15e8a96b5088accb5a397bc0464c7cd`. This is evidence preservation, not a product correction or release approval.

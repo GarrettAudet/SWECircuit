@@ -230,6 +230,10 @@ A read-only reviewer contract must name the local inspection commands or tools i
 
 Freeze the complete implementation, milestone, and memory state before the final gate. Run CI and independent review against that exact commit, then use a bounded evidence-only attestation to record the commit, run, and verdict without implying that earlier evidence covered later files.
 
+### Reversible Raw Evidence Encoding
+
+When repository text policy could transform exact raw evidence and changing that policy would invalidate an approved trust chain, encode the bytes canonically and bind both identities. Record the encoded artifact digest, decoded byte count, decoded SHA-256, media type, and source provenance; verify the decode before use. This preserves exact evidence without silently treating an encoding as the original bytes.
+
 ### Host-Injected Executor Port
 
 Keep declarative manifests non-executable. Let the embedding host inject trusted code through one small typed port, bind it to one checked runtime grant, and retain host ownership of isolation, credentials, persistence, scheduling, and integration.
@@ -372,3 +376,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V12 batch-coverage RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-incomplete-batch-coverage-rca), [fixture](../../test/helpers/git-blob-loader-fixture.mjs), [review tests](../../test/v12-release-review.test.mjs), and [gate tests](../../test/v12-release-gate.test.mjs) | Invariant Coverage Across Ownership Boundaries |
 | [V12 Revision 34 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/approval-order-correction.md) and [RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-44-approval-order-rca) | Source-Bound Dogfood Refresh; Ordered Two-Phase Approval |
 | [V12 Revision 35 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/), [historical-outcome RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca), and [timeout RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-35-scoped-timeout-acceptance-rca) | Immutable Outcome Classes; Complete Adjacent Invariant Gate; Fallback-Aware Outcome Evidence |
+| [V12 Revision 35 independent review archive](../specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/) and [raw bindings](../specs/v12-ide-run-loop/evidence/implementation/independent-review-r35/raw-artifact-bindings.json) | Reversible Raw Evidence Encoding |

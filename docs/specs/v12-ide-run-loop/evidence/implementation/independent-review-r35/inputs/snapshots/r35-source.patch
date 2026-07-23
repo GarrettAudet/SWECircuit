@@ -1,0 +1,519 @@
+diff --git a/docs/memory/active-context.md b/docs/memory/active-context.md
+index ea913308ae6ab946ac75cee9b534f0fbec864b25..9c85379452747580bd1d9cbeb88e3ba7580af84a 100644
+--- a/docs/memory/active-context.md
++++ b/docs/memory/active-context.md
+@@ -2,7 +2,7 @@
+ 
+ ## Current Focus
+ 
+-V12 IDE Run Loop Revision 34 is active on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then V11 dogfood rejected one stale `.gitattributes` source tuple. Revision 44 refreshes only that tuple, passes separate binder and semantic Audit B review, corrects a premature but unconsumed Candidate A approval, and passes strict replay plus 31/31 dedicated regressions. V12 is not merge-ready until post-edit anti-drift, a fresh exact aggregate and package-bound `pass`, one exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge evidence pass.
++V12 IDE Run Loop Revision 35 is active on `codex/v12-ide-run-loop` from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` then stopped at 444/445 core tests because the active test-plan status omitted three immutable historical outcomes. Revision 35 restores them, passes both status invariants 2/2, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. V12 is not merge-ready until a fresh exact aggregate and package-bound `pass`, one exact successor gate, fresh R2, hosted CI, milestone closeout, and owner merge evidence pass.
+ 
+ Revision 41 binds Candidate A `sha256:4394f9bbc2be8871b1b04f1b3b8202b43928251bbd8b996cc9cdeb9d5c84c055` / `sha256:9eea6f0084c5705d448aba40a50d1fb42401a1a8d6be53f847751f6c55a4bde1` and Audit B `sha256:fa7f65178897bae642e165df81fdfb0484e004ab942a9217c0ed1f7baae74371` / `sha256:b9e26224028a040da07780f747ba752174a8e424603c03981dd1abaffda85598`. The first binder correctly returned `block` because the host had generated but not explicitly delivered the external receipt; its exact 5,295-byte handoff is preserved. After the host delivered the exact 2,255-byte receipt as a declared runtime input, the 6,862-byte binder, 7,691-byte independent semantic `pass`, 984-byte canonical authorization, and `--check-evidence` replay all pass. V12 dogfood, the 148-file package dry run, and the clean offline installed-consumer gate also pass. Durable rule: review tooling is candidate evidence, every declared source must remain retrievable, runtime inputs must be explicitly delivered rather than inferred from repository presence, real production lifecycle proof must supplement projections, and closed package-manager configuration requires distinct private files rather than null-device aliasing or host fallback.
+ 
+@@ -12,9 +12,11 @@ Revision 43 binds Candidate A `sha256:ed88b5f8f1991ea49e4fc0928fbbb3567339912529
+ 
+ Revision 44 binds Candidate A `sha256:b5cf6ea32968febbb9846ddaa718f4777f3aac3d1654fa3bf999e4f382def0ff` / `sha256:e320eaf9e29aac7c7a31bd651fd09c1cdeb0d6fb8f88f7fe7450d7e9151edd4d` and Audit B `sha256:ec7a601571d54c5138b380367b974db39663820aa0b6103406374608c3160249` / `sha256:f331b294dd1f79fb3589bc0d5e8ea3f851953296a581de2a0e38783362c4a40f`. All 58 source tuples match. The 2,255-byte receipt, 6,366-byte verified binder, `integrationReady: true` assessment, 10,233-byte semantic `pass`, 985-byte authorization, separately reissued Candidate A approval, and canonical `--check-evidence` replay pass. An early Candidate A approval was revoked before launch and is preserved as process learning; Revision 43 is archived under `runs/attempt-43/`.
+ 
++Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` preserved 444/445 core passes and one historical-outcome status failure. Revision 35 restores all three omitted outcome classes and runs both active-status invariants as one final 2/2 gate. Full-file verification then exposed primary-only timeout acceptance; the fallback-aware correction passes restricted repetition 5/5, the native path, and complete release-review 31/31. The exact receipt, correction, and diagnosis are under `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/`.
++
+ ## Current Stage
+ 
+-V11.1 remains the released public baseline on `main`. Revision 44 passes the complete V11 trust replay but has no V12 release approval. The next decisive gates are post-edit anti-drift, a fresh exact aggregate, and fresh immutable package-bound review. Candidate-addressed external evidence may then advance one exact successor through its one-shot gate, fresh R2, hosted CI, milestone closeout, and merge. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
++V11.1 remains the released public baseline on `main`. Revision 44 trust replay and Revision 35 correction verification pass but provide no V12 release approval. The next decisive gates are a fresh exact aggregate and fresh immutable package-bound review. Candidate-addressed external evidence may then advance one exact successor through its one-shot gate, fresh R2, hosted CI, milestone closeout, and merge. V12 remains provider-neutral: the external IDE owns concrete model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
+ 
+ V11 universal-runtime Round 4 failed against `d486b7f` with four REVISE verdicts, 10 high findings, and 9 medium findings. Raw evidence and correction design were committed at `6da0376`; the workflow emitted `split` rather than another broad patch cycle.
+ 
+diff --git a/docs/memory/failed-attempts.md b/docs/memory/failed-attempts.md
+index 515e1369a8f3d95ef91cd88d1c76ca2cefe93e0e..6ddd6bec25fb714f076b2c59710d0ede37fa877d 100644
+--- a/docs/memory/failed-attempts.md
++++ b/docs/memory/failed-attempts.md
+@@ -55,3 +55,5 @@
+ | 2026-07-21 | V12 Revision 21 copied-production lifecycle | Bound an unavailable intermediate test input and made npm 11 succeed by deleting the global config variable from a same-path null-device environment. | All behavioral routes passed, but the package correctly returned `block`; source provenance was unreconstructable and the fixture restored host npm configuration. | Preserve every declared source as immutable bytes and close package-manager configuration with distinct private files validated inside the operation root. Never use fixture adaptation to claim production isolation. | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r21/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#candidate-10-review-runtime-and-npm-configuration-rca` |
+ | 2026-07-23 | V12 Revision 32 exact aggregate | Ran the focused release-review suite before the final active-status edit, then committed without rerunning its anti-drift guard. | The exact clean aggregate passed 444/445 core tests and stopped because `review.md#current-outcome` omitted candidate-addressed external-evidence routing. | Treat active status as executable release input; rerun the focused guard after every final status edit and before commit. | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r33/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-32-post-verification-status-edit-rca` |
+ | 2026-07-23 | V12 Revision 33 aggregate and Revision 44 approval preparation | V11 dogfood carried a pre-`.gitattributes` source binding; the host then updated Candidate A and Audit B approvals as one preparation step. | The exact aggregate stopped after core and lifecycle success; independent review found Candidate A approval preceded semantic authorization. | Preserve the aggregate, retain byte-integrity attributes, refresh only the stale source, revoke Candidate A before launch, require binder plus semantic `pass`, authorize, then separately reapprove and replay. | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-44-approval-order-rca` |
++| 2026-07-23 | V12 Revision 34 exact aggregate | Compressed active test-plan status to current release state and ran only the adjacent live-routing guard before commit. | The exact aggregate passed 444/445 core tests and rejected the missing Revision 1 incomplete-fan-in, Revisions 2/3 `split`, and later correction `pass` outcomes. | Restore all immutable outcomes and run both active-status invariants as one final post-edit gate. | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca` |
++| 2026-07-23 | V12 Revision 35 complete release-review verification | Treated only the primary process-tree kill result as top-level termination acceptance even though a direct fallback was explicitly attempted and preserved. | The restricted IDE path returned `taskkill` access denial, accepted the fallback, removed the descendant, but failed the acceptance assertion. | Derive aggregate acceptance from primary or explicit fallback acceptance, preserve both raw routes, and independently assert descendant absence. | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/timeout-termination-diagnosis.md`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-35-scoped-timeout-acceptance-rca` |
+diff --git a/docs/memory/history-ledger.md b/docs/memory/history-ledger.md
+index cab553eea477fc8644e6962d2bd8ab67a8857bb7..dffd6dde04b914e8930c3a7b030aff1b26fe11f7 100644
+--- a/docs/memory/history-ledger.md
++++ b/docs/memory/history-ledger.md
+@@ -85,3 +85,5 @@ Append one entry for each meaningful workflow version, feature, bug, decision cl
+ | 2026-07-22 | V12 Revision 32 batch-coverage correction | review / fix -> verify | `docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r32/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-incomplete-batch-coverage-rca`; `scripts/run-v12-release-gate.mjs`; `scripts/run-v12-release-review.mjs`; `test/helpers/git-blob-loader-fixture.mjs` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `known-issues.md`; `patterns.md` | Exact Revision 31 aggregate passed, but its verified independent review found per-entry Git blob processes in the verifier harness and canonical gate. Revision 32 batches all three boundaries and proves constant process count at 3 and 35 files; release-review passes 31/31 and release-gate passes 17/17. Fresh aggregate and review remain. |
+ | 2026-07-23 | V12 Revision 32 status-trace failure and Revision 33 | verify / diagnose -> fix | commit `ec51c7a9dd72ce9094260e089120b089ee25ad2a`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r33/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-32-post-verification-status-edit-rca` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `failed-attempts.md` | The exact clean aggregate passed 444/445 core tests and stopped because a final active-status edit omitted candidate-addressed external-evidence routing. Revision 33 restores the invariant and moves its focused guard after all status edits; runtime and batching code are unchanged. |
+ | 2026-07-23 | V12 Revision 33 V11 freshness stop and Revision 44 trust refresh | verify / diagnose -> fix -> review -> pass | `ff0b76d3e39bc9e7583e5956fe2c89af015630c6`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/`; `docs/specs/v11-specialist-compiler/evidence/dogfood/` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `failed-attempts.md`; `patterns.md` | The exact aggregate passed 445/445 core tests and copied lifecycle before one stale `.gitattributes` binding stopped V11 dogfood. Revision 44 refreshed only that source, archived Revision 43, verified binder fan-in and independent semantic review, corrected premature Candidate A approval before launch, and passed strict replay. Fresh V12 aggregate and package-bound review remain. |
++| 2026-07-23 | V12 Revision 34 historical-outcome drift and Revision 35 | verify / diagnose -> fix -> verify | `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `failed-attempts.md`; `patterns.md` | The exact aggregate passed 444/445 core tests and rejected compressed test-plan status that dropped three immutable outcome classes. Revision 35 restores them and combines both adjacent status invariants into the mandatory final 2/2 post-edit gate. Fresh aggregate and package-bound review remain. |
++| 2026-07-23 | V12 Revision 35 timeout-evidence correction | verify / diagnose -> fix -> verify | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/timeout-termination-diagnosis.md`; `test/helpers/v12-release-review-lifecycle.mjs`; `test/v12-release-review.test.mjs` | `active-context.md`; `history-ledger.md`; `retrieval-index.md`; `failed-attempts.md`; `patterns.md` | Full-file verification reproduced top-level termination rejection while the direct fallback was accepted and the descendant was gone. Revision 35 now derives acceptance from primary or explicit fallback evidence; restricted repetition passes 5/5, native repetition passes, and release-review passes 31/31. |
+diff --git a/docs/memory/patterns.md b/docs/memory/patterns.md
+index 3f73cdc2ec80d538a547d212985da6d51d1452a0..a5104d7f0b1c03738d751279c64433065e66e45c 100644
+--- a/docs/memory/patterns.md
++++ b/docs/memory/patterns.md
+@@ -325,6 +325,10 @@ A value can be security-relevant without belonging in a reconstructable package
+ 
+ When one security, performance, or trace invariant spans a parent, generated harness, verifier, gate, or adapter, exercise every real entry point. Shared parser tests prove the parser; they do not prove every caller adopted it. Add a causal counter that remains constant as input cardinality grows.
+ 
++### Fallback-Aware Outcome Evidence
++
++When an operation has a primary route and an explicit fallback, preserve both results and derive the aggregate outcome from every accepted route. Verify the intended external effect independently; an accepted termination request does not replace descendant-liveness proof.
++
+ ## Source Map
+ 
+ Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
+@@ -367,3 +371,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
+ | [V12 invocation-path RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-invocation-scoped-temporary-path-identity-rca), [parent](../../scripts/run-v12-release-review.mjs), [candidate harness](../specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs), and [regression](../../test/v12-release-review.test.mjs) | Separate Invocation Evidence From Stable Identity |
+ | [V12 batch-coverage RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-incomplete-batch-coverage-rca), [fixture](../../test/helpers/git-blob-loader-fixture.mjs), [review tests](../../test/v12-release-review.test.mjs), and [gate tests](../../test/v12-release-gate.test.mjs) | Invariant Coverage Across Ownership Boundaries |
+ | [V12 Revision 34 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/approval-order-correction.md) and [RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-44-approval-order-rca) | Source-Bound Dogfood Refresh; Ordered Two-Phase Approval |
++| [V12 Revision 35 correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/), [historical-outcome RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca), and [timeout RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-35-scoped-timeout-acceptance-rca) | Immutable Outcome Classes; Complete Adjacent Invariant Gate; Fallback-Aware Outcome Evidence |
+diff --git a/docs/memory/retrieval-index.md b/docs/memory/retrieval-index.md
+index 678e3b73123cd50998080da38a1d314b489456af..a87dab1028393e8a26cd7d6b7fbb40efad7a3c56 100644
+--- a/docs/memory/retrieval-index.md
++++ b/docs/memory/retrieval-index.md
+@@ -69,3 +69,4 @@ Use this file as a compact map to source artifacts. Keep entries short and link
+ | V12 Revision 32 batch-coverage closure | `docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r31/`; `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r32/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-incomplete-batch-coverage-rca`; `test/helpers/git-blob-loader-fixture.mjs`; `test/v12-release-review.test.mjs`; `test/v12-release-gate.test.mjs` | Recovering the exact verified `fix`, all-boundary batch correction, real process-count fixture, focused verification, and remaining release gates. | v12, revision-32, git-batch, process-count, verifier, release-gate, independent-review |
+ | V12 Revision 32 status-trace failure and Revision 33 | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r33/`; `docs/specs/v12-ide-run-loop/debug-notes.md#revision-32-aggregate-live-routing-regression`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-32-post-verification-status-edit-rca`; `test/v12-release-review.test.mjs` | Recovering the exact failed aggregate receipt and raw-log bindings, post-verification status edit, anti-drift invariant, and narrow successor correction. | v12, revision-33, aggregate, status, anti-drift, external-evidence, traceability |
+ | V12 Revision 34 V11 trust refresh | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r34/`; `docs/specs/v11-specialist-compiler/evidence/dogfood/runs/attempt-43/`; `docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/audit-bind-pass-attempt-44.json`; `docs/specs/v11-specialist-compiler/evidence/dogfood/handoffs/prelaunch-audit-pass-attempt-44.json`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-44-approval-order-rca` | Recovering the exact Revision 33 aggregate stop, sole stale source, archived prior chain, Revision 44 package pairs, binder and semantic pass, corrected approval order, authorization, and strict replay. | v12, revision-34, v11, source-freshness, gitattributes, audit-b, approval-order, trust-replay |
++| V12 Revision 35 historical-outcome and timeout-evidence correction | `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-34-historical-outcome-status-rca`; `docs/specs/v12-ide-run-loop/root-cause-analysis.md#revision-35-scoped-timeout-acceptance-rca`; `test/helpers/v12-release-review-lifecycle.mjs`; `test/v12-release-review.test.mjs` | Recovering the exact Revision 34 aggregate stop, omitted outcomes, combined 2/2 anti-drift gate, primary-only timeout contradiction, fallback-aware correction, repeated platform evidence, and complete 31/31 review result. | v12, revision-35, aggregate, status, historical-outcome, timeout, fallback, process-tree, anti-drift, traceability |
+diff --git a/docs/milestones/v12.md b/docs/milestones/v12.md
+index f8e5debacfd0fb0427459fcfdb8b242da8fe912a..b4863995b63993063d8eaf72790fb52e3dd1c98a 100644
+--- a/docs/milestones/v12.md
++++ b/docs/milestones/v12.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-The V12 source on `codex/v12-ide-run-loop` carries Revision 34 from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Exact Revision 33 aggregate passed 445/445 core tests and the copied-production lifecycle, then stopped on one stale V11 `.gitattributes` binding. Revision 44 refreshes that sole source, completes independent Audit B review in corrected approval order, and passes strict replay. Candidate-addressed external evidence remains authoritative. V12 is not merge-ready.
++The V12 source on `codex/v12-ide-run-loop` carries Revision 35 from released V11.1 baseline `c2f974d2288fc510cb8388fbc8e6abe9fd5d9e8c`. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate then stopped at 444/445 core tests because active test-plan status omitted three required historical outcomes. Revision 35 restores them, passes both status invariants, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. Candidate-addressed external evidence remains authoritative. V12 is not merge-ready.
+ 
+ ## Goal
+ 
+@@ -21,7 +21,7 @@ V12 closes the practical gap between receiving a specialist package and visibly
+ 
+ ## Current Stage
+ 
+-The product implementation and Git-batch correction are integrated. Revision 33 restores the single active-status invariant rejected by the preceding exact aggregate. A fresh exact aggregate and package-bound review are the next decisive gates; an exact successor gate, fresh R2, hosted CI, and merge remain after them. Candidate-addressed external evidence alone may advance release state.
++The product implementation and release-harness corrections are integrated. Revision 35 closes the historical-outcome and scoped-timeout evidence defects found by broader verification. A fresh exact aggregate and package-bound review are the next decisive gates; an exact successor gate, fresh R2, hosted CI, and merge remain after them. Candidate-addressed external evidence alone may advance release state.
+ 
+ ## Acceptance
+ 
+@@ -75,12 +75,14 @@ The product implementation and Git-batch correction are integrated. Revision 33
+ - Revision 32 focused correction: release-review 31/31 `pass`; release-gate 17/17 `pass`; format, lint, and typecheck `pass`.
+ - Revision 32 exact aggregate at `ec51c7a9dd72ce9094260e089120b089ee25ad2a`: source identity and clean state exact; 444/445 core tests `pass`; one live-routing documentation invariant `fail`; later gates did not run.
+ - Revision 33 correction: post-edit anti-drift 1/1 `pass`; complete release-review 31/31 `pass`; complete release-gate 17/17 `pass`.
++- Revision 44 V11 trust refresh: 58/58 sources exact; binder, semantic audit, authorization, separately ordered approval, 31/31 trust regressions, and strict replay `pass`.
++- Revision 35 correction: both active-status invariants 2/2 `pass`; restricted timeout fallback 5/5 `pass`; native timeout path `pass`; complete release-review 31/31 `pass`.
+ 
+ ## Approval Gate
+ 
+ - Source branch: codex/v12-ide-run-loop.
+ - Target branch: main.
+-- Current state: Revision 44 passes the complete V11 trust replay; post-edit anti-drift, a fresh exact aggregate, fresh package-bound review, one successor gate, fresh R2, hosted CI, and owner merge evidence remain required.
++- Current state: Revision 44 trust replay and Revision 35 correction verification pass; a fresh exact aggregate, fresh package-bound review, one successor gate, fresh R2, hosted CI, and owner merge evidence remain required.
+ - Required decision: none at this stage.
+ 
+ ## Source Artifacts
+@@ -95,8 +97,8 @@ The external host still owns context delivery, runtime selection, spawning, isol
+ 
+ ## Next Recommended Work
+ 
+-Run the focused anti-drift guard after this final Revision 34 status edit, commit the exact successor, pass its complete aggregate and package-bound independent review, then freeze one successor, execute its exact gate once, and launch three fresh source-bound R2 reviewers only from a passing candidate-addressed receipt.
++Run both focused status invariants and the complete release-review file after this final Revision 35 edit, commit the exact successor, pass its complete aggregate and package-bound independent review, then freeze one successor, execute its exact gate once, and launch three fresh source-bound R2 reviewers only from a passing candidate-addressed receipt.
+ 
+ ## User-Facing Overview
+ 
+-V12 already provides the portable IDE run session, exact handoff verification, dependency routing, and integration-readiness behavior. Its release harness has caught and preserved real scaling, Windows-path, runtime-identity, status-trace, and source-freshness defects. Revision 44 now passes its full trust replay; the fresh aggregate, package-bound review, exact successor gate, independent R2 review, and hosted CI must still pass before merge.
++V12 already provides the portable IDE run session, exact handoff verification, dependency routing, and integration-readiness behavior. Its release harness has caught and preserved real scaling, Windows-path, runtime-identity, status-trace, source-freshness, historical-outcome, and timeout-evidence defects. Revision 35 passes focused correction verification; the fresh aggregate, package-bound review, exact successor gate, independent R2 review, and hosted CI must still pass before merge.
+diff --git a/docs/specs/v12-ide-run-loop/debug-notes.md b/docs/specs/v12-ide-run-loop/debug-notes.md
+index 39803a19c2661bcd36fcf1a4f2685f6e2203b9bb..b991d9d15c2406d0514c9eaafac56cf8c7de0a36 100644
+--- a/docs/specs/v12-ide-run-loop/debug-notes.md
++++ b/docs/specs/v12-ide-run-loop/debug-notes.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-No active V12 product-contract defect is recorded. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then V11 dogfood rejected one stale `.gitattributes` source tuple. Revision 44 archives the prior chain, refreshes only that tuple, passes separate binder and semantic Audit B review, corrects a premature but unconsumed Candidate A approval, and passes strict replay. Revision 34 still requires post-edit anti-drift, a fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
++No active V12 product-contract defect is recorded. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` then stopped at 444/445 core tests because the compressed test-plan status omitted three required historical outcomes. Revision 35 restores those outcomes, passes both status invariants 2/2, and corrects a release-harness timeout-evidence contradiction found during full-file verification. Restricted and native Windows termination paths plus the complete 31/31 release-review file now pass. A fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before release.
+ 
+ ## Reproduction
+ 
+@@ -796,3 +796,15 @@ The new `.gitattributes` bytes are intentional: narrow binary rules preserve exa
+ Revision 44 Candidate A is `sha256:b5cf6ea32968febbb9846ddaa718f4777f3aac3d1654fa3bf999e4f382def0ff` / `sha256:e320eaf9e29aac7c7a31bd651fd09c1cdeb0d6fb8f88f7fe7450d7e9151edd4d`; Audit B is `sha256:ec7a601571d54c5138b380367b974db39663820aa0b6103406374608c3160249` / `sha256:f331b294dd1f79fb3589bc0d5e8ea3f851953296a581de2a0e38783362c4a40f`. The exact receipt, binder, semantic `pass`, authorization, and strict replay all pass.
+ 
+ Independent review caught Candidate A approval before semantic authorization. The approval was revoked before any Candidate A launch, the non-launching receipt remained exact, and approval was reissued only after the semantic `pass` and authorization existed. Route: `verify -> diagnose -> fix -> review -> pass`; a fresh immutable aggregate remains required.
++
++## Revision 34 Aggregate Historical-Outcome Regression
++
++Exact immutable checkpoint `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` remained clean and identity-stable while 444/445 core tests passed. `active release status avoids volatile candidate-state drift and preserves outcomes` rejected `test-plan.md#status` because its Revision 34 compression omitted the explicit Revision 1 incomplete-fan-in result, Revisions 2 and 3 `split` outcomes, and later correction `pass` routes. Later aggregate gates did not run.
++
++Revision 35 restores all three facts. The final focused anti-drift gate now always runs both the historical-outcome and candidate-addressed live-routing tests after the last active-status edit. The causal pair passes 2/2. Route: `verify -> diagnose -> fix -> verify`; a fresh immutable aggregate remains required.
++
++## Revision 35 Scoped Timeout Acceptance
++
++The complete release-review file initially passed 30/31 after the status correction. The timeout regression reproduced top-level `accepted: false` while the preserved direct fallback reported `accepted: true` and the descendant was gone. Five restricted-host probes reproduced primary status 1, accepted fallback, and no descendant; a direct probe reported `ERROR: Access denied`. Five native probes returned primary status 0 with no fallback and no descendant.
++
++The helper now defines top-level acceptance as primary or explicit fallback acceptance on both platform paths while preserving each raw result. The regression derives that equation and still requires descendant absence. Restricted focused verification passes 5/5, the native focused test passes 1/1, the native probe passes 5/5, and the complete release-review file passes 31/31. Route: `verify -> diagnose -> fix -> verify`.
+diff --git a/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/aggregate-receipt.json b/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/aggregate-receipt.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..d01caa034d3c1f80161cc7dc3e0656a7bddb8869
+--- /dev/null
++++ b/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/aggregate-receipt.json
+@@ -0,0 +1,41 @@
++{
++  "schemaVersion": "swecircuit.v12.aggregate-receipt.v1",
++  "source": {
++    "commit": "a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8",
++    "tree": "88bed28cf996eaa3f3d0173dffaa59932a8bd400",
++    "worktreeCleanBefore": true,
++    "worktreeCleanAfter": true,
++    "identityStable": true
++  },
++  "command": "npm.cmd run verify",
++  "startedAt": "2026-07-23T10:44:50.268Z",
++  "endedAt": "2026-07-23T10:46:56.738Z",
++  "durationMilliseconds": 126470,
++  "exitCode": 1,
++  "outcome": "fail",
++  "evidence": {
++    "stdout": {
++      "path": "npm-verify.stdout.log",
++      "mediaType": "text/plain; charset=utf-8",
++      "bytes": 37616,
++      "digest": "sha256:2aa84194b6d27df7a84a31fb403fcc8056ada55289320c922b50d43f928fff9e"
++    },
++    "stderr": {
++      "path": "npm-verify.stderr.log",
++      "mediaType": "text/plain; charset=utf-8",
++      "bytes": 19492,
++      "digest": "sha256:00ce84e8736d7583a9716c2cc28900f92401a907f381c72e074578739408805e"
++    }
++  },
++  "summary": {
++    "testSummaries": [
++      {
++        "tests": 445,
++        "passed": 444,
++        "failed": 1
++      }
++    ],
++    "packageDryRunPassed": false,
++    "offlineInstalledConsumerPassed": false
++  }
++}
+diff --git a/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/attempt-history.md b/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/attempt-history.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..f86a397f7608ca2b843e70cfd7a2646f4ca033bb
+--- /dev/null
++++ b/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/attempt-history.md
+@@ -0,0 +1,24 @@
++# Revision 35 Attempt History
++
++## Revision 34 Exact Aggregate
++
++- Candidate: `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8`.
++- Tree: `88bed28cf996eaa3f3d0173dffaa59932a8bd400`.
++- Result: 444/445 core tests passed; the aggregate stopped before lifecycle, dogfood, package, or consumer gates.
++- Failure: `active release status avoids volatile candidate-state drift and preserves outcomes` rejected `docs/specs/v12-ide-run-loop/test-plan.md#status` because its compressed Revision 34 wording omitted three required immutable historical outcomes.
++- Exact external stdout: 37,616 bytes, `sha256:2aa84194b6d27df7a84a31fb403fcc8056ada55289320c922b50d43f928fff9e`.
++- Exact external stderr: 19,492 bytes, `sha256:00ce84e8736d7583a9716c2cc28900f92401a907f381c72e074578739408805e`.
++- Exact external receipt: 1,150 bytes, `sha256:8ca188db2a1f74defe99939c4a8f0db3592d906276353e09363908ef2e8737cd`.
++- Source identity and clean-worktree state remained exact before and after the run.
++
++## Cause
++
++The final Revision 34 status rewrite retained current release state but replaced the explicit statements that Revision 1 has incomplete fan-in, Revisions 2 and 3 retain `split`, and later correction phases retain their recorded `pass` routes. The pre-commit focused command ran only the live-routing invariant, so it did not exercise the adjacent historical-outcome invariant.
++
++## Route
++
++`verify -> diagnose -> fix -> verify`. Revision 34 is retired as a release candidate. Revision 35 restores all three historical outcomes and makes both status invariants the mandatory final focused gate after every active-status edit. The causal pair passes 2/2; a fresh immutable aggregate remains required.
++
++## Pre-Commit Full-File Timeout Stop
++
++After the status pair passed 2/2, the complete release-review file passed 30/31 and reproduced contradictory timeout evidence: primary `taskkill` rejection, explicit fallback acceptance, and no surviving descendant. Restricted repetition reproduced the route five times; native Windows repetition proved the primary route five times. The causal correction derives top-level acceptance from either accepted route and retains descendant liveness as a separate assertion. Focused restricted verification passes 5/5 and the complete release-review file passes 31/31. This pre-commit source was not an immutable candidate, so the correction remains within Revision 35.
+diff --git a/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/implementation-notes.md b/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/implementation-notes.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..3198a516588efe0ef3ddb979d51e078aa8576329
+--- /dev/null
++++ b/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/implementation-notes.md
+@@ -0,0 +1,26 @@
++# Revision 35 Implementation Notes
++
++## Scope
++
++Correct one executable status-contract regression exposed by the exact Revision 34 aggregate, then correct the release-harness timeout-evidence contradiction exposed by broader pre-commit verification. Product runtime, public APIs, V11 trust evidence, and package behavior are unchanged.
++
++## Correction
++
++- Restore the three immutable historical outcomes required by `test-plan.md#status`.
++- Preserve the exact failed candidate, receipt, raw-log bindings, and route.
++- Treat both status tests as one final anti-drift gate after all active-status edits:
++  - `active release status avoids volatile candidate-state drift and preserves outcomes`.
++  - `live release routing delegates volatile state to candidate-addressed evidence`.
++- Define top-level timeout acceptance from primary or explicit fallback acceptance while preserving both route results.
++- Keep descendant absence as an independent hard assertion.
++- Require a fresh complete aggregate and package-bound independent review for the next immutable commit.
++
++## Focused Verification
++
++- Historical-outcome invariant: 1/1 `pass`.
++- Candidate-addressed live-routing invariant: 1/1 `pass`.
++- Combined final anti-drift gate: 2/2 `pass`.
++- Restricted-host timeout regression: 5/5 `pass`.
++- Native Windows timeout route: focused test and 5/5 probes `pass`.
++- Complete release-review file: 31/31 `pass`.
++- Final post-recording release-review rerun: 31/31 `pass`, including both active-status invariants.
+diff --git a/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/timeout-termination-diagnosis.md b/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/timeout-termination-diagnosis.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..6b5e47fb7a7e670362d002b54cebd071f2e17d15
+--- /dev/null
++++ b/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r35/timeout-termination-diagnosis.md
+@@ -0,0 +1,44 @@
++# Scoped Timeout Termination Diagnosis
++
++## Reproduction
++
++After the Revision 35 status correction passed its focused 2/2 gate, the complete
++release-review file passed 30/31 tests. The scoped timeout regression reported
++`termination.accepted: false` even though the timeout fired, the direct fallback
++returned `accepted: true`, the owned temp root was removed, and the descendant no
++longer existed.
++
++## Stable Evidence
++
++- Restricted IDE host, five repeated probes: `taskkill` status 1, direct fallback
++  accepted, and descendant absent after 100 ms in every run.
++- A direct restricted-host probe captured `taskkill` stderr as `ERROR: Access denied`.
++- Native Windows path, five repeated probes outside the restricted host: `taskkill`
++  status 0, no fallback, and descendant absent after 100 ms in every run.
++- Before correction, the exact focused test reproduced the false negative twice.
++
++## Confirmed Cause
++
++`terminateProcessTree` exposed the fallback result but defined top-level
++`accepted` from only the primary tree operation. A host that denied `taskkill` but
++accepted Node's direct kill therefore recorded contradictory evidence.
++
++## Causal Correction
++
++Define top-level acceptance as primary acceptance or explicit fallback acceptance
++on both Windows and POSIX paths. Preserve the primary result and fallback result
++separately. The regression derives the Windows acceptance equation from those raw
++fields and still requires the descendant to be gone.
++
++## Verification
++
++- Restricted-host focused regression: 5/5 `pass`.
++- Native Windows focused regression: 1/1 `pass`; native probe: 5/5 primary
++  `taskkill` acceptance with no fallback.
++- Complete `test/v12-release-review.test.mjs`: 31/31 `pass`.
++
++## Route
++
++`verify -> diagnose -> fix -> verify`. This is release-harness evidence
++classification, not a V12 product-contract change. A fresh immutable aggregate and
++package-bound independent review remain required.
+diff --git a/docs/specs/v12-ide-run-loop/implementation-notes.md b/docs/specs/v12-ide-run-loop/implementation-notes.md
+index 61d1dcf2eca9b11fb5879a1e1d7db72dee4254a1..e19dcbe17dc92661eda1c0867c9dfcc52f3df5c9 100644
+--- a/docs/specs/v12-ide-run-loop/implementation-notes.md
++++ b/docs/specs/v12-ide-run-loop/implementation-notes.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-The V12 product implementation and release-harness corrections are complete. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle before V11 dogfood rejected one stale `.gitattributes` binding. Revision 44 refreshes that exact source tuple and passes the complete two-phase trust replay without changing V12 runtime behavior. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires a fresh aggregate and package-bound review, an exact successor gate, fresh R2, hosted CI, and the owner merge gate.
++The V12 product implementation and release-harness corrections are complete. Revision 44 passes the complete V11 trust replay without changing V12 runtime behavior. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` stopped at 444/445 core tests on one historical-outcome status regression; Revision 35 restores the immutable trace facts, passes both status invariants, and corrects fallback-aware timeout acceptance in the release harness. Candidate-addressed external evidence, not source prose, owns later gate consumption and outcome; release approval still requires a fresh aggregate and package-bound review, an exact successor gate, fresh R2, hosted CI, and the owner merge gate.
+ 
+ ## Baseline
+ 
+@@ -218,3 +218,13 @@ The V12 product implementation and release-harness corrections are complete. Exa
+ - Corrected a premature Candidate A approval before launch and enforced the three-event order: Audit B approval, semantic authorization, Candidate A approval.
+ - Strict V11 `--check-evidence` replay and all 31 dedicated dogfood regressions pass.
+ - Product code and public APIs are unchanged; post-edit V12 anti-drift and a fresh immutable aggregate remain.
++
++## Revision 35 Historical-Outcome And Timeout-Evidence Correction
++
++- Preserved the exact Revision 34 aggregate receipt under `evidence/implementation/release-correction-r35/`.
++- Restored Revision 1 incomplete fan-in, Revisions 2 and 3 `split`, and later correction `pass` routes in active test-plan status.
++- Expanded the mandatory final post-edit gate from one live-routing test to both adjacent status invariants; the causal pair passes 2/2.
++- Full-file verification exposed contradictory timeout evidence when the primary tree kill was denied but the direct fallback was accepted.
++- Top-level termination acceptance now includes explicit fallback acceptance while preserving primary and fallback evidence separately; descendant absence remains a hard assertion.
++- Restricted focused verification passes 5/5, native Windows verification passes, and the complete release-review file passes 31/31.
++- Product code, public APIs, and Revision 44 trust evidence are unchanged; a fresh immutable aggregate remains.
+diff --git a/docs/specs/v12-ide-run-loop/review.md b/docs/specs/v12-ide-run-loop/review.md
+index 3f710e42fc1be0c3603adbffc765c808aee63e72..ca1273c725b2ce96bc553ae49a368329255acada 100644
+--- a/docs/specs/v12-ide-run-loop/review.md
++++ b/docs/specs/v12-ide-run-loop/review.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-V12 is not merge-ready. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then correctly stopped on one stale V11 `.gitattributes` source tuple. Revision 44 refreshes only that tuple, completes independent Audit B review in corrected approval order, and passes strict replay. A fresh exact aggregate and fresh package-bound `pass` remain mandatory before any successor freeze, R2 review, hosted CI, or owner merge decision.
++V12 is not merge-ready. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` then stopped at 444/445 core tests because active test-plan status omitted three required historical outcomes. Revision 35 restores those outcomes, passes both status invariants, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. A fresh exact aggregate and fresh package-bound `pass` remain mandatory before any successor freeze, R2 review, hosted CI, or owner merge decision.
+ 
+ ## Scope
+ 
+@@ -113,10 +113,14 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
+ 
+ ## Current Outcome
+ 
+-Revision 34 is `pass` at the V11 trust-refresh gate and `pending` at release verification. The preceding immutable aggregate preserved 445/445 core passes and a copied-production lifecycle pass before the single stale-source stop. Revision 44 now binds all 58 sources, separate Candidate A and Audit B packages, exact binder fan-in, independent semantic `pass`, corrected authorization order, and strict replay.
++Revision 35 is `pass` at focused correction verification and `pending` at release verification. The preceding immutable aggregate preserved 444/445 core passes and one historical-outcome status failure. Revision 44 trust evidence remains exact; Revision 35 restores every required prior outcome, runs both active-status invariants as one post-edit gate, and closes the fallback-aware timeout evidence contradiction with 31/31 release-review tests passing.
+ 
+ Candidate-addressed external evidence remains the only authority for volatile release state. No successor is frozen; a fresh exact aggregate and fresh immutable package-bound independent review must pass before release routing can continue.
+ 
+ ## Revision 34 Trust-Refresh Outcome
+ 
+ The exact Revision 33 aggregate receipt and diagnosis are preserved under `evidence/implementation/release-correction-r34/`. Revision 44's 31-test source-freshness and authorization suite passes, and its complete evidence replay returns `pass`. No V12 runtime or public-contract code changed. Candidate-addressed external evidence must now establish a fresh immutable aggregate and package-bound independent review before any successor can be frozen.
++
++## Revision 35 Status-Preservation Outcome
++
++The exact Revision 34 aggregate receipt, historical-outcome correction, and scoped-timeout diagnosis are preserved under `evidence/implementation/release-correction-r35/`. Both active-status invariants pass after restoring the immutable historical outcomes. Restricted and native timeout paths plus the complete 31/31 release-review file pass after deriving top-level acceptance from primary or explicit fallback acceptance. Candidate-addressed external evidence must establish a fresh immutable aggregate and package-bound independent review before any successor can be frozen.
+diff --git a/docs/specs/v12-ide-run-loop/root-cause-analysis.md b/docs/specs/v12-ide-run-loop/root-cause-analysis.md
+index 0158e62814e41b176b08aec3dcfa22ca6a243d58..4576bdaba8542f1b87a7e26efe6fbd1ef4500f03 100644
+--- a/docs/specs/v12-ide-run-loop/root-cause-analysis.md
++++ b/docs/specs/v12-ide-run-loop/root-cause-analysis.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-Historical release attempts and their exact outcomes remain immutable. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then correctly stopped on one stale V11 `.gitattributes` source binding. Revision 44 refreshes that sole tuple, preserves the byte-integrity rules, completes independent Audit B review in corrected approval order, and passes strict replay. This correction is not a successor release result; a fresh aggregate, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain required.
++Historical release attempts and their exact outcomes remain immutable. Revision 44 passes the complete V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` then correctly stopped at 444/445 core tests because the active test-plan status omitted three required historical outcomes. Revision 35 restores them, passes both status invariants, and corrects a release-harness timeout acceptance contradiction found by the complete review file. Restricted and native Windows paths plus all 31 release-review tests now pass. This correction is not a successor release result; a fresh aggregate, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain required.
+ 
+ ## Reproduction
+ 
+@@ -594,3 +594,39 @@ Independent review caught the ordering defect before Candidate A launch. Restore
+ ### Durable Learning
+ 
+ Approval files with the same shape can represent different authority transitions. Bind each transition to its own predecessor evidence and enforce the ordering as a write precondition.
++
++## Revision 34 Historical-Outcome Status RCA
++
++### Reproduction
++
++Run `npm.cmd run verify` from exact clean checkpoint `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8`. Core passes 444/445. The active-status test rejects `test-plan.md#status` because it no longer states that Revision 1 has incomplete fan-in, Revisions 2 and 3 retain `split`, and later correction phases retain their recorded `pass` routes.
++
++### Confirmed Root Cause
++
++The Revision 34 status rewrite preserved current release state but treated prior workflow outcomes as expendable summary detail. They are immutable trace facts and explicit anti-drift contract inputs. The pre-commit command selected only the adjacent live-routing test, so it did not execute the historical-outcome guard after the final edit.
++
++### Causal Fix And Route
++
++Restore all three outcome statements and make both status tests one inseparable post-edit gate. Preserve exact candidate identity and raw aggregate bindings under `evidence/implementation/release-correction-r35/`. The causal pair passes 2/2. Route: `verify -> diagnose -> fix -> verify`; Revision 34 is retired and a fresh aggregate is required.
++
++### Durable Learning
++
++Concise status prose may remove repetition, never immutable outcome classes. When adjacent invariants protect one active section, the focused gate must execute the complete invariant set.
++
++## Revision 35 Scoped Timeout Acceptance RCA
++
++### Reproduction
++
++Run the complete release-review file after the historical-outcome correction. The scoped timeout test reports `termination.accepted: false` although the timeout fired, the direct fallback reports `accepted: true`, the owned temp root is removed, and the descendant no longer exists.
++
++### Confirmed Root Cause
++
++The helper preserved both primary and fallback results but computed top-level `accepted` from only the primary operation. A restricted host can deny `taskkill` while accepting Node's direct fallback, leaving contradictory termination evidence.
++
++### Causal Fix And Route
++
++Compute top-level acceptance from primary or explicit fallback acceptance on both Windows and POSIX paths. Preserve both underlying results and keep descendant liveness as a separate hard assertion. Restricted-host repetition passes 5/5, native Windows repetition passes 5/5, and the complete release-review file passes 31/31. Route: `verify -> diagnose -> fix -> verify`; fresh aggregate evidence remains required.
++
++### Durable Learning
++
++Fallback-capable operations need one closed result algebra: preserve every attempted route, derive the aggregate outcome from all accepted routes, and verify the intended external effect independently.
+diff --git a/docs/specs/v12-ide-run-loop/tasks.md b/docs/specs/v12-ide-run-loop/tasks.md
+index daa6bc9179ff1ebd765fcafdfa7030f859159d08..faf4f3994986433641355a5bca58133b05a65869 100644
+--- a/docs/specs/v12-ide-run-loop/tasks.md
++++ b/docs/specs/v12-ide-run-loop/tasks.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-T006 remains open until release evidence closes it. Exact Revision 33 aggregate `ff0b76d3e39bc9e7583e5956fe2c89af015630c6` passed 445/445 core tests and the copied-production lifecycle, then V11 dogfood rejected one stale `.gitattributes` tuple. Revision 44 refreshes that sole binding and passes the correctly ordered two-phase trust replay. Post-edit anti-drift, a fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before T006 or V12 can close.
++T006 remains open until release evidence closes it. Revision 44 passes the correctly ordered V11 trust replay. Exact Revision 34 aggregate `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8` stopped at 444/445 core tests because the active test-plan status omitted three immutable historical outcomes. Revision 35 restores them, passes both status invariants, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. A fresh exact aggregate, fresh package-bound `pass`, one exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain before T006 or V12 can close.
+ 
+ ## Task List
+ 
+diff --git a/docs/specs/v12-ide-run-loop/test-plan.md b/docs/specs/v12-ide-run-loop/test-plan.md
+index d1a84420410c2a368c69da888a237a9839450899..a5a4bbee604c07acc6b4bfc531ae325e06a0b97e 100644
+--- a/docs/specs/v12-ide-run-loop/test-plan.md
++++ b/docs/specs/v12-ide-run-loop/test-plan.md
+@@ -2,7 +2,7 @@
+ 
+ ## Status
+ 
+-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Historical non-`pass` outcomes remain immutable. Exact Revision 33 aggregate passes 445/445 core tests and the copied-production lifecycle, then stops on one stale V11 source binding. Revision 44 passes its complete two-phase trust replay in corrected approval order. `releaseReady: false` remains the source-visible result until candidate-addressed external evidence passes a fresh aggregate, package-bound review, successor gate, R2, hosted CI, and owner merge gate.
++Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 44 passes its complete two-phase trust replay in corrected approval order. Exact Revision 34 aggregate preserves 444/445 core passes and one historical-outcome status failure; Revision 35 restores those facts, passes both status invariants, and passes the complete 31/31 release-review file after correcting fallback-aware timeout acceptance. `releaseReady: false` remains the source-visible result until candidate-addressed external evidence passes a fresh aggregate, package-bound review, successor gate, R2, hosted CI, and owner merge gate.
+ 
+ ## Contract Tests
+ 
+@@ -125,3 +125,15 @@ Package identity verification and handoff schema verification authenticate prese
+ - Strict `node scripts/run-v11-dogfood.mjs --check-evidence`: `pass`.
+ - Dedicated `test/v11-dogfood-runner.test.mjs`: 31/31 `pass`.
+ - Pending: post-edit anti-drift, fresh immutable aggregate, and fresh package-bound independent review.
++
++## Revision 35 Status-Preservation Gate
++
++- Revision 34 aggregate identity: `a40d0d6b636d30b3280c37fa9f5fceb2ab64baa8`; core 444/445 `pass`; one historical-outcome status invariant `fail`; later gates did not run.
++- Restored outcomes: Revision 1 incomplete fan-in; Revisions 2 and 3 `split`; later correction phases retain recorded `pass` routes.
++- Historical-outcome status invariant: 1/1 `pass`.
++- Candidate-addressed live-routing invariant: 1/1 `pass`.
++- Combined final post-edit gate: 2/2 `pass`.
++- Restricted timeout fallback regression: 5/5 `pass`; direct fallback accepted and descendant absent.
++- Native Windows timeout route: focused test `pass`; five probes accept primary `taskkill` with no fallback and no descendant.
++- Complete release-review file after the causal correction: 31/31 `pass`.
++- Pending: fresh immutable aggregate and fresh package-bound independent review.
+diff --git a/test/helpers/v12-release-review-lifecycle.mjs b/test/helpers/v12-release-review-lifecycle.mjs
+index b5947503fd0e0dc6265f9192861ef45c56c44f83..7246bb3353f7631a57543f54db3e2daa2812d12a 100644
+--- a/test/helpers/v12-release-review-lifecycle.mjs
++++ b/test/helpers/v12-release-review-lifecycle.mjs
+@@ -259,8 +259,9 @@ async function terminateProcessTree(child) {
+         }
+       });
+     });
+-    const accepted = tree.status === 0 && tree.signal === null && tree.error === null;
+-    const fallback = accepted ? null : directKillEvidence(child);
++    const treeAccepted = tree.status === 0 && tree.signal === null && tree.error === null;
++    const fallback = treeAccepted ? null : directKillEvidence(child);
++    const accepted = treeAccepted || fallback?.accepted === true;
+     return {
+       method: "taskkill-tree",
+       pid,
+@@ -277,13 +278,15 @@ async function terminateProcessTree(child) {
+   } catch (error) {
+     groupError = error instanceof Error ? error.message : String(error);
+   }
+-  const accepted = groupError === null;
++  const groupAccepted = groupError === null;
++  const fallback = groupAccepted ? null : directKillEvidence(child, "SIGKILL");
++  const accepted = groupAccepted || fallback?.accepted === true;
+   return {
+     method: "process-group-sigkill",
+     pid,
+     accepted,
+     groupError,
+-    directFallback: accepted ? null : directKillEvidence(child, "SIGKILL"),
++    directFallback: fallback,
+     durationMs: Number(process.hrtime.bigint() - started) / 1_000_000,
+   };
+ }
+diff --git a/test/v12-release-review.test.mjs b/test/v12-release-review.test.mjs
+index f3304ea1ce4de00a7b1e0137aa8d1c0272a23e90..3a5e783740dda866e66174fff4300f3c992f565f 100644
+--- a/test/v12-release-review.test.mjs
++++ b/test/v12-release-review.test.mjs
+@@ -483,6 +483,17 @@ test("scoped parent timeout owns residue, kills descendants, and reports timeout
+     assert.equal(result.timedOut, true);
+     assert.equal(result.timeout.boundMs, 1_000);
+     assert.equal(result.timeout.termination.accepted, true);
++    if (process.platform === "win32") {
++      const termination = result.timeout.termination;
++      const treeAccepted =
++        termination.tree.status === 0 &&
++        termination.tree.signal === null &&
++        termination.tree.error === null;
++      assert.equal(
++        termination.accepted,
++        treeAccepted || termination.directFallback?.accepted === true,
++      );
++    }
+     assert.deepEqual(result.operationRootCleanup.leakedOperationRoots, ["swr2-owned"]);
+     assert.equal(result.operationRootCleanup.noNewOperationRoots, false);
+     assert.equal(result.operationRootCleanup.testOwnedTempRootRemoved, true);
