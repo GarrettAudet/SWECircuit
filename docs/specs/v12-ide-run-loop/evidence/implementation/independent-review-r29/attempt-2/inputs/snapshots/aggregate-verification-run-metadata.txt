@@ -1,0 +1,10 @@
+exit=0
+elapsed_ms=2623400
+elapsed=00:43:43.4004965
+bytes=657576
+sha256=1635092c047e9a8a2fe6cb42b6a07fecf1b865fd52eab3a50d38c4f72944c399
+head_before=f1454b6008de1498e72f9cc5a36fd1234b50e028
+tree_before=8da892a7f9446ef6f84f0fe91859bff2052d67bc
+head_after=f1454b6008de1498e72f9cc5a36fd1234b50e028
+tree_after=8da892a7f9446ef6f84f0fe91859bff2052d67bc
+dirty_after_count=0

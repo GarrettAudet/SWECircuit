@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.review.copied-typescript-execution-correction-r29",
+    "revision": 1,
+    "digest": "sha256:7cf6f077ac8c671e09414b998cc6855512c180afb2ac8c477583539d603e3610"
+  },
+  "agent": {
+    "id": "agent.1af2a5d347fe3303174727dfdb41a35e4ce8e311bdf0b1ca0bb6078215fe9e45",
+    "blueprintDigest": "sha256:6e5125cedb575d3cc924f938a75b802575b40eec928c54c4f7555f4aed0b4adf"
+  },
+  "compilationDigest": "sha256:c82adbc88591fc68de85e0258935dcbd5b4044b55bff88e422fd65a1811512be",
+  "summary": "Revision 29 closes the copied-lifecycle TypeScript execution defect in source and tests, but fix remains required because the same aggregate log is bound to two incompatible checkpoint/tree pairs, leaving the exact immutable review checkpoint without trustworthy aggregate verification.",
+  "workUnitsCompleted": [
+    "review.copied-typescript-execution-correction.r29"
+  ],
+  "artifacts": [
+    {
+      "name": "independent-revision-29-release-correction-review.md",
+      "mediaType": "text/markdown",
+      "content": "# Independent Revision 29 Release-Correction Review\n\n## Verdict\n\n`fix`\n\nRevision 29's implementation closes the Revision 28 copied-production TypeScript execution defect. The release evidence does not yet close: two authenticated records bind the same 329,179-byte aggregate log to mutually exclusive commit/tree identities. Consequently, the exact immutable review checkpoint is not proven by the aggregate run.\n\nThis verdict does not claim release readiness, merge approval, hosted CI, host isolation, or Candidate 13 approval.\n\n## Authentication\n\nAll 40 declared context sources matched their exact byte counts and raw SHA-256 digests before semantic use. The authenticated aggregate log is 329,179 bytes at `sha256:f11468cc0a9a172dd340155b66f7b33831e5f5648121cf327171576f00263ff9`. The 32,307-byte source delta changes exactly `.gitattributes`, the bounded TypeScript smoke fixture, the lifecycle helper, the lifecycle test, and the release-review test. Independently computed Git blob IDs for all five final snapshots match the patch postimage IDs. No candidate or release gate was rerun.\n\n## Accepted Source Correction\n\n- The copied fixture's exact `scripts.verify` exception now invokes `node scripts/run-typescript.mjs --ignoreConfig --noEmit --pretty false --skipLibCheck test/fixtures/v12-lifecycle-typescript-smoke.ts` after the four syntax checks.\n- The production launcher is authenticated in `PRODUCTION_IDENTITIES`. It observes the supplied adapter version, emits the complete path/bytes/digest/link-count/supply/version receipt, invokes the adapter with the bounded smoke input, and reauthenticates the adapter after child return.\n- The adapter is created outside the copied candidate as one plain single-link file, is supplied through `SWECIRCUIT_TYPESCRIPT_ENTRYPOINT`, delegates by exact absolute pathname to the host TypeScript entrypoint, and emits its unique sentinel only after delegated status zero.\n- Canonical stdout bytes are bound by the canonical-gate receipt before parsing. The parser requires exactly one receipt equal to the expected complete binding and exactly one sentinel. Focused tests reject missing, duplicated, malformed, stale, or non-supplied evidence and prove delegated compile failure emits no adapter sentinel.\n- The separate copied mutation candidate leaves its adapter unchanged during version inspection, persistently rewrites itself during compilation, emits evidence of child execution, and reaches canonical gate status 2 with `TypeScript binding changed after compilation.` Its canonical stdout/stderr and receipt are byte-bound, materialization and nested Git state remain unchanged, and cleanup executes.\n- Ambient PATH is not used to select TypeScript. Stable-path checks do not claim atomic execution or transitive-toolchain authentication; those remain explicit host duties.\n\n## Blocking Evidence Defect\n\n`r29-aggregate-verification.md` and `r29-integration-owner-verification.md` identify the aggregate run as checkpoint `f1d4fd0eaca89803d9779a07e790ff6b9dd266ab`, tree `26f5feac994d6edc3ee057840cbea9ba754e90b4`. In contrast, `aggregate-verification-receipt.json` identifies that same log and duration as checkpoint `f1454b6008de1498e72f9cc5a36fd1234b50e028`, tree `8da892a7f9446ef6f84f0fe91859bff2052d67bc`; `review-checkpoint.json` repeats the latter pair.\n\nNo declared artifact proves equivalence between those commits or shows that the aggregate command was rerun at `f1454b6008de1498e72f9cc5a36fd1234b50e028`. The source delta from the Revision 28 base does not bridge the two Revision 29 checkpoints. Rebinding a retained log in a later receipt is not execution evidence. This is a concrete stale-evidence bypass: an old successful log can be relabeled as verification of a later immutable checkpoint.\n\n## Review-Point Resolution\n\n1. Snapshot authentication: pass, 40 of 40.\n2. Production launcher and real bounded TypeScript compile: pass by exact source trace and authenticated test evidence.\n3. External adapter, complete version-bearing binding, and one success-only sentinel: pass.\n4. Compile failure, malformed or duplicate evidence, and persistent post-child mutation routes: pass.\n5. Single-link candidate-external host supply, no PATH fallback, and accurate host boundary: pass.\n6. Materialization, nested Git isolation, package closure, eleven negative routes, cleanup, and non-candidate aggregate routing remain preserved; exact aggregate-to-checkpoint identity fails.\n7. V11 Revision 43: pass. The Candidate A and Audit B pairs agree across the 2,255-byte LF-stable receipt, 6,600-byte binder, 8,713-byte semantic pass, and 985-byte authorization. Historical authority-violating and normalization-stale attempts are not used.\n8. Aggregate contents: the raw log reaches 439/439 core tests, 1/1 exact lifecycle, V10/V11/V12 dogfood, 148-file package inspection, and the installed consumer. Its checkpoint binding fails.\n9. Independent bypass search: found stale aggregate-log relabeling across incompatible checkpoint identities.\n10. Overall route: `fix`.\n\n## Required Correction\n\nDo not relabel the retained log. Either rerun the complete aggregate at the exact immutable review checkpoint and bind the new raw log, or truthfully retain the `f1d4fd0eaca89803d9779a07e790ff6b9dd266ab` aggregate identity and add an owner-approved, authenticated equivalence bridge to the later review checkpoint under a revised closed contract. Regenerate the immutable review package after correcting the evidence. Candidate 13 must remain unconsumed."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.copied-typescript-execution-correction.r29",
+      "requirementId": "evidence.review.copied-typescript-execution-correction.r29",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "independent-revision-29-release-correction-review.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "A successful aggregate log can currently be relabeled as evidence for a later checkpoint without an authenticated execution or equivalence bridge.",
+    "Concurrent same-authority pathname replacement and transitive compiler trust remain external-host duties, as documented."
+  ],
+  "followUps": [
+    "Correct the aggregate checkpoint binding without rewriting historical execution identity.",
+    "Regenerate and independently review a fresh immutable package before freezing or consuming Candidate 13."
+  ]
+}

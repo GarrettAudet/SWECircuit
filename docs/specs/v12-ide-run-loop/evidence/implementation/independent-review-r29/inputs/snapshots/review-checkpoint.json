@@ -1,0 +1,9 @@
+{
+  "apiVersion": "swecircuit/review-checkpoint/v1alpha1",
+  "kind": "ImmutableReviewCheckpoint",
+  "commit": "f1454b6008de1498e72f9cc5a36fd1234b50e028",
+  "tree": "8da892a7f9446ef6f84f0fe91859bff2052d67bc",
+  "baseCommit": "d6c3de115bf2c79725033a99df4bb3072397b1e5",
+  "worktreeCleanBeforeVerification": true,
+  "worktreeCleanAfterVerification": true
+}

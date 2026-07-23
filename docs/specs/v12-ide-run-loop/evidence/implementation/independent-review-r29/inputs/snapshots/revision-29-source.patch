@@ -1,0 +1,734 @@
+diff --git a/.gitattributes b/.gitattributes
+index bca531c..750b2cd 100644
+--- a/.gitattributes
++++ b/.gitattributes
+@@ -9,3 +9,4 @@ docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.std
+ docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stdout.log binary
+ docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stderr.log binary
+ docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r27/inputs/snapshots/revision-27-source.patch binary
++docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r28/inputs/snapshots/revision-28-source.patch binary
+diff --git a/test/fixtures/v12-lifecycle-typescript-smoke.ts b/test/fixtures/v12-lifecycle-typescript-smoke.ts
+new file mode 100644
+index 0000000..7c53b62
+--- /dev/null
++++ b/test/fixtures/v12-lifecycle-typescript-smoke.ts
+@@ -0,0 +1,2 @@
++const lifecycleProbe: string = "swecircuit-lifecycle-typescript";
++void lifecycleProbe;
+diff --git a/test/helpers/v12-release-review-lifecycle.mjs b/test/helpers/v12-release-review-lifecycle.mjs
+index 6128844..00f6752 100644
+--- a/test/helpers/v12-release-review-lifecycle.mjs
++++ b/test/helpers/v12-release-review-lifecycle.mjs
+@@ -18,7 +18,11 @@ import { delimiter, dirname, isAbsolute, join, relative, resolve, sep } from "no
+ import { fileURLToPath } from "node:url";
+ 
+ import { RELEASE_REVIEW_TEST_HOOKS } from "../../docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs";
+-import { resolveTypeScriptEntrypointBinding } from "../../scripts/run-typescript.mjs";
++import {
++  observeTypeScriptVersion,
++  resolveTypeScriptEntrypointBinding,
++  TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY,
++} from "../../scripts/run-typescript.mjs";
+ import { RELEASE_GATE_TEST_HOOKS } from "../../scripts/run-v12-release-gate.mjs";
+ import { RELEASE_REVIEW_PARENT_TEST_HOOKS } from "../../scripts/run-v12-release-review.mjs";
+ 
+@@ -39,6 +43,17 @@ const HARNESS_PATH = `${REVIEW_ROOT}/run-release-review.mjs`;
+ const VERIFIER_PATH = `${REVIEW_ROOT}/verify-release-review-handoffs.mjs`;
+ const GATE_TEST_PATH = "test/v12-release-gate.test.mjs";
+ const TYPESCRIPT_RUNNER_PATH = "scripts/run-typescript.mjs";
++const TYPESCRIPT_SMOKE_PATH = "test/fixtures/v12-lifecycle-typescript-smoke.ts";
++const TYPESCRIPT_COMPILE_SENTINEL = "SWECIRCUIT_LIFECYCLE_TYPESCRIPT_COMPILE sentinel-v1";
++const TYPESCRIPT_MUTATION_SENTINEL = "SWECIRCUIT_LIFECYCLE_TYPESCRIPT_MUTATION sentinel-v1";
++const FIXTURE_TYPESCRIPT_ARGUMENTS = Object.freeze([
++  "--ignoreConfig",
++  "--noEmit",
++  "--pretty",
++  "false",
++  "--skipLibCheck",
++  TYPESCRIPT_SMOKE_PATH,
++]);
+ const PACKAGE_PATH = "package.json";
+ const LOCK_PATH = "package-lock.json";
+ const PROCESS_TIMEOUT_MS = 900_000;
+@@ -49,7 +64,7 @@ const FIXTURE_VERIFY_COMMAND = [
+   `node --check ${PARENT_PATH}`,
+   `node --check ${HARNESS_PATH}`,
+   `node --check ${VERIFIER_PATH}`,
+-  `node --check ${TYPESCRIPT_RUNNER_PATH}`,
++  `node ${TYPESCRIPT_RUNNER_PATH} ${FIXTURE_TYPESCRIPT_ARGUMENTS.join(" ")}`,
+ ].join(" && ");
+ 
+ export const PRODUCTION_IDENTITIES = Object.freeze({
+@@ -77,6 +92,10 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
+     bytes: 7_064,
+     digest: "sha256:3390a3bdea97140e8c02ad0f917dcb62bbaf2e12921ea5fd1a2255362475c25f",
+   }),
++  [TYPESCRIPT_SMOKE_PATH]: Object.freeze({
++    bytes: 87,
++    digest: "sha256:2bd37583948fb1aee98dc67f3c3cacbf4437eb9296c4b90f83bb7eacbe0332b5",
++  }),
+   [PACKAGE_PATH]: Object.freeze({
+     bytes: 4_043,
+     digest: "sha256:9c8e1e3bde18439a6199f0752b7dad1e69fdf713ffac33597d5119d1c26a67fa",
+@@ -589,13 +608,244 @@ function gateEnvironment(cacheRoot, typeScriptEntrypoint, sourceEnvironment = pr
+   return environment;
+ }
+ 
+-async function resolveLifecycleTypeScriptEntrypoint(sourceEnvironment = process.env) {
+-  return resolveTypeScriptEntrypointBinding({
++function lifecycleCompilerAdapterSource(delegatedEntrypoint) {
++  return [
++    'import { spawnSync } from "node:child_process";',
++    `const delegatedEntrypoint = ${JSON.stringify(delegatedEntrypoint)};`,
++    "const arguments_ = process.argv.slice(2);",
++    "const result = spawnSync(process.execPath, [delegatedEntrypoint, ...arguments_], {",
++    "  cwd: process.cwd(),",
++    "  env: process.env,",
++    '  stdio: "inherit",',
++    "  windowsHide: true,",
++    "});",
++    "if (result.error) {",
++    "  throw result.error;",
++    "}",
++    "if (result.signal !== null) {",
++    '  process.stderr.write("Delegated TypeScript was terminated by " + result.signal + ".\\n");',
++    "  process.exitCode = 1;",
++    "} else {",
++    '  if (result.status === 0 && !arguments_.includes("--version")) {',
++    `    process.stdout.write(${JSON.stringify(`${TYPESCRIPT_COMPILE_SENTINEL}\n`)});`,
++    "  }",
++    "  process.exitCode = result.status ?? 1;",
++    "}",
++    "",
++  ].join("\n");
++}
++
++function mutatingLifecycleCompilerSource() {
++  return [
++    'import { writeFileSync } from "node:fs";',
++    'import { fileURLToPath } from "node:url";',
++    "const arguments_ = process.argv.slice(2);",
++    'if (arguments_.includes("--version")) {',
++    '  process.stdout.write("Version 0.0.0-swecircuit-mutation\\n");',
++    "} else {",
++    "  const ownPath = fileURLToPath(import.meta.url);",
++    '  writeFileSync(ownPath, "export const swecircuitMutationPersisted = true;\\n", "utf8");',
++    `  process.stdout.write(${JSON.stringify(`${TYPESCRIPT_MUTATION_SENTINEL}\n`)});`,
++    "}",
++    "",
++  ].join("\n");
++}
++
++function environmentWithTypeScriptEntrypoint(sourceEnvironment, entrypoint) {
++  const environment = { ...sourceEnvironment };
++  setEnvironmentValue(environment, TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY, entrypoint);
++  return environment;
++}
++
++async function writeLifecycleCompiler(path, source, fixtureRoot, label) {
++  assert.equal(await pathExists(path), false, `${label} already exists`);
++  await mkdir(dirname(path), { recursive: true });
++  await writeFile(path, source, { encoding: "utf8", flag: "wx" });
++  const environment = environmentWithTypeScriptEntrypoint({}, path);
++  const binding = resolveTypeScriptEntrypointBinding({
++    environment,
++    projectRoot: fixtureRoot,
++    outsidePolicy: "always",
++    label,
++  });
++  assert.equal(binding.supplied, true);
++  return binding;
++}
++
++async function createLifecycleTypeScriptSupply(
++  lifecycleRoot,
++  fixtureRoot,
++  sourceEnvironment = process.env,
++) {
++  const delegatedBinding = resolveTypeScriptEntrypointBinding({
+     environment: sourceEnvironment,
+     projectRoot: SOURCE_ROOT,
+     outsidePolicy: "supplied",
+-    label: "Lifecycle TypeScript entrypoint",
+-  }).path;
++    label: "Delegated lifecycle TypeScript entrypoint",
++  });
++  const path = join(lifecycleRoot, "typescript-supply", "lifecycle-tsc.mjs");
++  const binding = await writeLifecycleCompiler(
++    path,
++    lifecycleCompilerAdapterSource(delegatedBinding.path),
++    fixtureRoot,
++    "Lifecycle TypeScript adapter",
++  );
++  const environment = environmentWithTypeScriptEntrypoint(sourceEnvironment, binding.path);
++  const version = observeTypeScriptVersion(binding, { cwd: fixtureRoot, environment });
++  const receipt = Object.freeze({ ...binding, version });
++  const smokeInput = await identity(absolute(fixtureRoot, TYPESCRIPT_SMOKE_PATH));
++  assertIdentity(smokeInput, PRODUCTION_IDENTITIES[TYPESCRIPT_SMOKE_PATH], TYPESCRIPT_SMOKE_PATH);
++  return Object.freeze({
++    binding,
++    delegatedBinding,
++    environment,
++    receipt,
++    smokeInput,
++    arguments: FIXTURE_TYPESCRIPT_ARGUMENTS,
++    sentinel: TYPESCRIPT_COMPILE_SENTINEL,
++  });
++}
++
++async function createMutatingLifecycleTypeScriptSupply(lifecycleRoot, fixtureRoot) {
++  const path = join(lifecycleRoot, "mutation-typescript-supply", "mutating-tsc.mjs");
++  const binding = await writeLifecycleCompiler(
++    path,
++    mutatingLifecycleCompilerSource(),
++    fixtureRoot,
++    "Mutating lifecycle TypeScript adapter",
++  );
++  const environment = environmentWithTypeScriptEntrypoint(process.env, binding.path);
++  const version = observeTypeScriptVersion(binding, { cwd: fixtureRoot, environment });
++  return Object.freeze({
++    binding,
++    environment,
++    receipt: Object.freeze({ ...binding, version }),
++    originalIdentity: Object.freeze({ bytes: binding.bytes, digest: binding.digest }),
++    sentinel: TYPESCRIPT_MUTATION_SENTINEL,
++  });
++}
++
++function parseLifecycleTypeScriptEvidence(rawLog, supply) {
++  const text = strictUtf8(rawLog, "canonical TypeScript log");
++  const prefix = "SWECIRCUIT_TYPESCRIPT_BINDING ";
++  const receiptLines = text.split("\n").filter((line) => line.startsWith(prefix));
++  assert.equal(receiptLines.length, 1, "canonical log must contain one TypeScript receipt");
++  let receipt;
++  try {
++    receipt = JSON.parse(receiptLines[0].slice(prefix.length));
++  } catch {
++    assert.fail("canonical TypeScript receipt is not valid JSON");
++  }
++  assert.deepEqual(receipt, supply.receipt, "canonical TypeScript receipt changed");
++  const sentinelCount = text.split(supply.sentinel).length - 1;
++  assert.equal(sentinelCount, 1, "canonical log must contain one compiler sentinel");
++  return Object.freeze({
++    receipt,
++    sentinel: supply.sentinel,
++    sentinelCount,
++  });
++}
++
++async function runPersistentCompilerMutationRoute(lifecycleRoot, cacheRoot) {
++  const fixtureRoot = join(lifecycleRoot, "mutation-repository");
++  let evidence;
++  try {
++    await copyFixtureRepository(fixtureRoot);
++    const copiedProduction = await authenticateFiles(fixtureRoot, PRODUCTION_IDENTITIES);
++    assertIdentity(
++      await identity(absolute(fixtureRoot, LOCK_PATH)),
++      LOCK_IDENTITY,
++      "mutation fixture lockfile",
++    );
++    const fixtureException = await applyFixtureVerifyException(fixtureRoot);
++    const { commit, gitEnvironment } = await initializeFixtureGit(fixtureRoot);
++    const committedBlobs = await authenticateFixtureBlobs(
++      fixtureRoot,
++      commit,
++      {
++        ...PRODUCTION_IDENTITIES,
++        [PACKAGE_PATH]: fixtureException.committedIdentity,
++        [LOCK_PATH]: LOCK_IDENTITY,
++      },
++      gitEnvironment,
++    );
++    const supply = await createMutatingLifecycleTypeScriptSupply(lifecycleRoot, fixtureRoot);
++    const gateResult = await runProcess(
++      process.execPath,
++      [absolute(fixtureRoot, GATE_PATH), commit],
++      {
++        cwd: fixtureRoot,
++        env: gateEnvironment(cacheRoot, supply.binding.path),
++      },
++    );
++    assert.equal(gateResult.timedOut, false, "mutation canonical gate timed out");
++    assert.equal(gateResult.signal, null, "mutation canonical gate was signaled");
++    assert.equal(gateResult.status, 2, "mutation canonical gate used the wrong failure route");
++    const gateSummary = parseCanonicalJson(gateResult.stdout, "mutation canonical gate stdout");
++    assert.equal(gateSummary.outcome, "fail");
++    assert.equal(gateSummary.candidateCommit, commit);
++    const receiptBytes = await readFile(absolute(fixtureRoot, gateSummary.receipt));
++    const receipt = parseCanonicalJson(receiptBytes, "mutation canonical gate receipt");
++    const stdout = await readFile(absolute(fixtureRoot, receipt.stdout.path));
++    const stderr = await readFile(absolute(fixtureRoot, receipt.stderr.path));
++    assert.equal(receipt.result, "fail");
++    assert.equal(Number.isInteger(receipt.exitCode), true);
++    assert.notEqual(receipt.exitCode, 0);
++    assert.equal(receipt.signal, null);
++    assert.equal(receipt.repository.headBefore, commit);
++    assert.equal(receipt.repository.headAfter, commit);
++    assert.equal(receipt.repository.trackedStateBefore, "clean");
++    assert.equal(receipt.repository.trackedStateAfter, "clean");
++    assert.equal(receipt.materialization.digestBefore, receipt.materialization.digestAfter);
++    assert.equal(receipt.materialization.inspectionError, null);
++    assert.equal(receipt.materialization.cleanupError, null);
++    assert.equal(receipt.gitContext.headBefore, commit);
++    assert.equal(receipt.gitContext.headAfter, commit);
++    assert.equal(receipt.gitContext.trackedStateBefore, "clean");
++    assert.equal(receipt.gitContext.trackedStateAfter, "clean");
++    assert.equal(receipt.stdout.bytes, stdout.byteLength);
++    assert.equal(receipt.stdout.digest, digest(stdout));
++    assert.equal(receipt.stderr.bytes, stderr.byteLength);
++    assert.equal(receipt.stderr.digest, digest(stderr));
++    const typeScript = parseLifecycleTypeScriptEvidence(stdout, supply);
++    const error = strictUtf8(stderr, "mutation canonical gate stderr");
++    assert.match(error, /TypeScript binding changed after compilation\./u);
++    const mutatedIdentity = await identity(supply.binding.path);
++    assert.notDeepEqual(mutatedIdentity, supply.originalIdentity);
++    const trackedState = (
++      await runGit(fixtureRoot, ["status", "--porcelain=v1", "--untracked-files=no"], {
++        env: gitEnvironment,
++      })
++    ).stdout;
++    assert.equal(trackedState.byteLength, 0, "mutation route changed tracked fixture bytes");
++    evidence = {
++      command: processEvidence("negative-persistent-typescript-mutation", gateResult),
++      route: {
++        label: "persistent TypeScript mutation during compilation",
++        route: "copied-production-canonical-gate",
++        status: "pass",
++        error: "TypeScript binding changed after compilation.",
++        candidateCommit: commit,
++        copiedProduction,
++        committedTreeFiles: committedBlobs.treeFiles,
++        receipt: {
++          bytes: receiptBytes.byteLength,
++          digest: digest(receiptBytes),
++        },
++        stdout: { bytes: stdout.byteLength, digest: digest(stdout) },
++        stderr: { bytes: stderr.byteLength, digest: digest(stderr) },
++        typeScript,
++        compilerIdentity: {
++          before: supply.originalIdentity,
++          after: mutatedIdentity,
++        },
++      },
++    };
++  } finally {
++    await rm(fixtureRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
++  }
++  assert.ok(evidence, "mutation route completed without evidence");
++  return evidence;
+ }
+ 
+ async function operationRootNames() {
+@@ -1153,13 +1403,13 @@ export async function runReleaseReviewProductionLifecycle() {
+     );
+     const setupDurationMs = Number(process.hrtime.bigint() - setupStarted) / 1_000_000;
+ 
+-    const hostTypeScriptEntrypoint = await resolveLifecycleTypeScriptEntrypoint();
++    const typeScriptSupply = await createLifecycleTypeScriptSupply(lifecycleRoot, fixtureRoot);
+     const gateResult = await runProcess(
+       process.execPath,
+       [absolute(fixtureRoot, GATE_PATH), commit],
+       {
+         cwd: fixtureRoot,
+-        env: gateEnvironment(cacheRoot, hostTypeScriptEntrypoint),
++        env: gateEnvironment(cacheRoot, typeScriptSupply.binding.path),
+       },
+     );
+     assertCommandPassed(gateResult, "copied production canonical gate");
+@@ -1180,16 +1430,44 @@ export async function runReleaseReviewProductionLifecycle() {
+     assert.equal(gateReceipt.stdout.digest, digest(gateStdout));
+     assert.equal(gateReceipt.stderr.bytes, gateStderr.byteLength);
+     assert.equal(gateReceipt.stderr.digest, digest(gateStderr));
+-    assert.match(
+-      strictUtf8(gateStdout, "canonical gate log"),
+-      /node --check scripts[/\\]run-v12-release-gate\.mjs/u,
++    const gateLogText = strictUtf8(gateStdout, "canonical gate log");
++    assert.match(gateLogText, /node --check scripts[/\\]run-v12-release-gate\.mjs/u);
++    assert.match(gateLogText, /run-v12-release-review\.mjs/u);
++    const fixtureVerifyCommandObservedInRawLog = gateLogText.includes(
++      `node ${TYPESCRIPT_RUNNER_PATH} ${FIXTURE_TYPESCRIPT_ARGUMENTS.join(" ")}`,
++    );
++    assert.equal(
++      fixtureVerifyCommandObservedInRawLog,
++      true,
++      "fixture TypeScript command was not observed in the canonical log",
++    );
++    const gateTypeScript = parseLifecycleTypeScriptEvidence(gateStdout, typeScriptSupply);
++    const reboundTypeScript = resolveTypeScriptEntrypointBinding({
++      environment: environmentWithTypeScriptEntrypoint({}, typeScriptSupply.binding.path),
++      projectRoot: fixtureRoot,
++      outsidePolicy: "always",
++      label: "Lifecycle TypeScript adapter after canonical gate",
++    });
++    assert.deepEqual(reboundTypeScript, typeScriptSupply.binding);
++    assertIdentity(
++      await identity(typeScriptSupply.delegatedBinding.path),
++      {
++        bytes: typeScriptSupply.delegatedBinding.bytes,
++        digest: typeScriptSupply.delegatedBinding.digest,
++      },
++      "delegated lifecycle TypeScript entrypoint",
++    );
++    assert.equal(
++      (await stat(typeScriptSupply.delegatedBinding.path)).nlink,
++      typeScriptSupply.delegatedBinding.nlink,
+     );
+-    assert.match(strictUtf8(gateStdout, "canonical gate log"), /run-v12-release-review\.mjs/u);
+ 
+     const parentDigest = PRODUCTION_IDENTITIES[PARENT_PATH].digest;
+     const environment = parentEnvironment(cacheRoot, parentDigest, npmSupply.path, gitSupply.path);
+     const commandEvidence = [processEvidence("canonical-gate", gateResult)];
+     const negativeRoutes = [];
++    const mutationEvidence = await runPersistentCompilerMutationRoute(lifecycleRoot, cacheRoot);
++    commandEvidence.push(mutationEvidence.command);
+ 
+     const wrongGateDigest = `sha256:${"d".repeat(64)}`;
+     assert.notEqual(wrongGateDigest, gateReceiptDigest);
+@@ -1439,8 +1717,9 @@ export async function runReleaseReviewProductionLifecycle() {
+       status: "pass",
+       error: wrongHandoffError,
+     });
++    negativeRoutes.push(mutationEvidence.route);
+ 
+-    assert.equal(negativeRoutes.length, 10);
++    assert.equal(negativeRoutes.length, 11);
+     assert.equal(
+       negativeRoutes.every((entry) => entry.status === "pass"),
+       true,
+@@ -1472,6 +1751,14 @@ export async function runReleaseReviewProductionLifecycle() {
+         hostNpmSupply: npmSupply,
+         hostNpmCacheSupply,
+         hostGitSupply: gitSupply,
++        typeScriptSupply: {
++          binding: typeScriptSupply.binding,
++          delegatedBinding: typeScriptSupply.delegatedBinding,
++          receipt: typeScriptSupply.receipt,
++          smokeInput: typeScriptSupply.smokeInput,
++          arguments: [...typeScriptSupply.arguments],
++          sentinel: typeScriptSupply.sentinel,
++        },
+         copiedProduction,
+         committedBlobs: committedBlobs.rows,
+         productionAfter: fixtureProductionAfter,
+@@ -1486,7 +1773,8 @@ export async function runReleaseReviewProductionLifecycle() {
+         stderr: { bytes: gateStderr.byteLength, digest: digest(gateStderr) },
+         command: gateReceipt.command.canonical,
+         fixtureVerifyCommand: FIXTURE_VERIFY_COMMAND,
+-        fixtureVerifyCommandObservedInRawLog: true,
++        fixtureVerifyCommandObservedInRawLog,
++        typeScript: gateTypeScript,
+       },
+       packagePair: pair,
+       rawComparisons: {
+@@ -1581,12 +1869,19 @@ export async function runReleaseReviewProductionLifecycle() {
+ export const V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS = Object.freeze({
+   authenticateFixtureBlobs,
+   copyHostNpmCacheSupply,
++  createLifecycleTypeScriptSupply,
++  createMutatingLifecycleTypeScriptSupply,
+   fixtureRepositoryEnvironment,
++  fixtureTypeScriptArguments: FIXTURE_TYPESCRIPT_ARGUMENTS,
+   gateEnvironment,
+   hostNpmCache: RELEASE_GATE_TEST_HOOKS.hostNpmCache,
+   initializeFixtureGit,
+   isPostFixtureCorrection,
+   parentEnvironment,
+-  resolveLifecycleTypeScriptEntrypoint,
++  parseLifecycleTypeScriptEvidence,
+   runGit,
++  typeScriptCompileSentinel: TYPESCRIPT_COMPILE_SENTINEL,
++  typeScriptMutationSentinel: TYPESCRIPT_MUTATION_SENTINEL,
++  typeScriptRunnerPath: TYPESCRIPT_RUNNER_PATH,
++  typeScriptSmokePath: TYPESCRIPT_SMOKE_PATH,
+ });
+diff --git a/test/lifecycle/v12-release-review-lifecycle.test.mjs b/test/lifecycle/v12-release-review-lifecycle.test.mjs
+index de85904..bb568e3 100644
+--- a/test/lifecycle/v12-release-review-lifecycle.test.mjs
++++ b/test/lifecycle/v12-release-review-lifecycle.test.mjs
+@@ -106,6 +106,25 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
+     true,
+     "fixture-only aggregate verify command was not observed in the raw gate log",
+   );
++  assert.match(
++    lifecycle.fixture.packageException.fixtureVerify,
++    /node scripts[/\\]run-typescript\.mjs --ignoreConfig --noEmit/u,
++  );
++  const typeScriptSupply = lifecycle.fixture.typeScriptSupply;
++  assert.equal(typeScriptSupply.binding.supplied, true);
++  assert.equal(typeScriptSupply.binding.nlink, 1);
++  assert.match(typeScriptSupply.receipt.version, /^Version\s+\S+/u);
++  assert.deepEqual(lifecycle.gate.typeScript.receipt, typeScriptSupply.receipt);
++  assert.equal(lifecycle.gate.typeScript.sentinel, typeScriptSupply.sentinel);
++  assert.equal(lifecycle.gate.typeScript.sentinelCount, 1);
++  assert.equal(
++    typeScriptSupply.arguments.at(-1),
++    "test/fixtures/v12-lifecycle-typescript-smoke.ts",
++  );
++  assert.deepEqual(
++    typeScriptSupply.smokeInput,
++    PRODUCTION_IDENTITIES["test/fixtures/v12-lifecycle-typescript-smoke.ts"],
++  );
+   assert.match(lifecycle.packagePair.compilationDigest, /^sha256:[0-9a-f]{64}$/u);
+   assert.match(lifecycle.packagePair.packageDigest, /^sha256:[0-9a-f]{64}$/u);
+ 
+@@ -171,12 +190,19 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
+       "conflicting promoted output",
+       "receipt-last interrupted promotion",
+       "wrong raw handoff digest",
++      "persistent TypeScript mutation during compilation",
+     ],
+   );
+   assert.equal(
+     lifecycle.negativeRoutes.every((entry) => entry.status === "pass"),
+     true,
+   );
++  const mutationRoute = lifecycle.negativeRoutes.at(-1);
++  assert.equal(mutationRoute.route, "copied-production-canonical-gate");
++  assert.equal(mutationRoute.typeScript.sentinelCount, 1);
++  assert.equal(mutationRoute.typeScript.receipt.supplied, true);
++  assert.notDeepEqual(mutationRoute.compilerIdentity.before, mutationRoute.compilerIdentity.after);
++  assert.match(mutationRoute.error, /TypeScript binding changed after compilation\./u);
+ 
+   for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
+     assert.deepEqual(lifecycle.sourceFrozenBefore[path], expected);
+diff --git a/test/v12-release-review.test.mjs b/test/v12-release-review.test.mjs
+index c5d0d9d..88bf6ec 100644
+--- a/test/v12-release-review.test.mjs
++++ b/test/v12-release-review.test.mjs
+@@ -764,33 +764,220 @@ test("nested fixture repository processes discard an enclosing candidate Git con
+   }
+ });
+ 
+-test("materialized lifecycle consumes one declared external TypeScript entrypoint", async () => {
+-  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r26-typescript-")));
+-  const entrypoint = join(root, "tsc");
+-  await writeFile(entrypoint, "external TypeScript entrypoint\n");
++test("materialized lifecycle executes and receipts one external TypeScript adapter", async () => {
++  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r29-typescript-")));
++  const fixtureRoot = join(root, "fixture");
++  const lifecycleRoot = join(root, "lifecycle");
++  const smokePath = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptSmokePath;
++  const smokeFile = resolve(fixtureRoot, ...smokePath.split("/"));
++  const entrypoint = join(root, "host-tsc.mjs");
++  const expectedSmoke =
++    'const lifecycleProbe: string = "swecircuit-lifecycle-typescript";\nvoid lifecycleProbe;\n';
++  await mkdir(dirname(smokeFile), { recursive: true });
++  await writeFile(smokeFile, expectedSmoke, "utf8");
++  await writeFile(
++    entrypoint,
++    [
++      'import { readFileSync } from "node:fs";',
++      'import { resolve } from "node:path";',
++      "const arguments_ = process.argv.slice(2);",
++      'if (arguments_.includes("--version")) {',
++      '  process.stdout.write("Version 7.0.2-lifecycle-test\\n");',
++      "} else {",
++      `  const smokePath = ${JSON.stringify(smokePath)};`,
++      `  const expected = ${JSON.stringify(expectedSmoke)};`,
++      "  if (!arguments_.includes(smokePath)) {",
++      '    process.stderr.write("bounded smoke input missing\\n");',
++      "    process.exitCode = 9;",
++      '  } else if (readFileSync(resolve(process.cwd(), ...smokePath.split("/")), "utf8") !== expected) {',
++      '    process.stderr.write("bounded smoke input changed\\n");',
++      "    process.exitCode = 10;",
++      "  }",
++      "}",
++      "",
++    ].join("\n"),
++    "utf8",
++  );
+   const supplyKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
+   const environment = { ...process.env };
+   for (const key of Object.keys(environment)) {
+-    if (key.toLowerCase() === supplyKey.toLowerCase()) {
+-      Reflect.deleteProperty(environment, key);
+-    }
++    if (key.toLowerCase() === supplyKey.toLowerCase()) Reflect.deleteProperty(environment, key);
+   }
+   environment[supplyKey] = entrypoint;
+ 
+   try {
+-    assert.equal(
+-      await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.resolveLifecycleTypeScriptEntrypoint(
+-        environment,
+-      ),
+-      await realpath(entrypoint),
++    const supply = await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.createLifecycleTypeScriptSupply(
++      lifecycleRoot,
++      fixtureRoot,
++      environment,
++    );
++    assert.equal(supply.delegatedBinding.path, await realpath(entrypoint));
++    assert.equal(supply.binding.supplied, true);
++    assert.match(supply.receipt.version, /^Version 7\.0\.2-lifecycle-test$/u);
++    assert.deepEqual(
++      supply.arguments,
++      V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.fixtureTypeScriptArguments,
+     );
++    const runner = resolve(ROOT, V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptRunnerPath);
++    const result = spawnSync(process.execPath, [runner, ...supply.arguments], {
++      cwd: fixtureRoot,
++      env: supply.environment,
++      encoding: "utf8",
++      maxBuffer: 16 * 1024 * 1024,
++      timeout: 30_000,
++      windowsHide: true,
++    });
++    assert.equal(result.signal, null);
++    assert.equal(result.status, 0, result.stderr);
++    assert.equal(result.stderr, "");
++    const evidence = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parseLifecycleTypeScriptEvidence(
++      Buffer.from(result.stdout, "utf8"),
++      supply,
++    );
++    assert.deepEqual(evidence.receipt, supply.receipt);
++    assert.equal(evidence.sentinelCount, 1);
+     await assert.rejects(
+-      V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.resolveLifecycleTypeScriptEntrypoint({
+-        ...environment,
+-        [supplyKey.toLowerCase()]: entrypoint,
+-      }),
++      V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.createLifecycleTypeScriptSupply(
++        join(root, "duplicate-lifecycle"),
++        fixtureRoot,
++        { ...environment, [supplyKey.toLowerCase()]: entrypoint },
++      ),
+       /must be supplied at most once/u,
+     );
++
++    await writeFile(smokeFile, "changed bounded input\n", "utf8");
++    const failedResult = spawnSync(process.execPath, [supply.binding.path, ...supply.arguments], {
++      cwd: fixtureRoot,
++      env: supply.environment,
++      encoding: "utf8",
++      maxBuffer: 16 * 1024 * 1024,
++      timeout: 30_000,
++      windowsHide: true,
++    });
++    assert.equal(failedResult.signal, null);
++    assert.equal(failedResult.status, 10, failedResult.stderr);
++    assert.equal(failedResult.stdout.includes(supply.sentinel), false);
++  } finally {
++    await rm(root, { recursive: true, force: true });
++  }
++});
++
++test("lifecycle TypeScript evidence parser fails closed", () => {
++  const receipt = {
++    path: "C:\\external\\lifecycle-tsc.mjs",
++    bytes: 123,
++    digest: `sha256:${"a".repeat(64)}`,
++    nlink: 1,
++    supplied: true,
++    version: "Version 7.0.2-test",
++  };
++  const sentinel = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptCompileSentinel;
++  const supply = { receipt, sentinel };
++  const bindingLine = `SWECIRCUIT_TYPESCRIPT_BINDING ${JSON.stringify(receipt)}`;
++  const parse = (text) =>
++    V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parseLifecycleTypeScriptEvidence(
++      Buffer.from(text, "utf8"),
++      supply,
++    );
++
++  assert.throws(() => parse(`${sentinel}\n`), /must contain one TypeScript receipt/u);
++  assert.throws(
++    () => parse(`${bindingLine}\n${bindingLine}\n${sentinel}\n`),
++    /must contain one TypeScript receipt/u,
++  );
++  assert.throws(
++    () => parse(`SWECIRCUIT_TYPESCRIPT_BINDING {\n${sentinel}\n`),
++    /receipt is not valid JSON/u,
++  );
++  assert.throws(
++    () =>
++      parse(
++        `SWECIRCUIT_TYPESCRIPT_BINDING ${JSON.stringify({ ...receipt, supplied: false })}\n${sentinel}\n`,
++      ),
++    /receipt changed/u,
++  );
++  assert.throws(() => parse(`${bindingLine}\n`), /must contain one compiler sentinel/u);
++  assert.throws(
++    () => parse(`${bindingLine}\n${sentinel}\n${sentinel}\n`),
++    /must contain one compiler sentinel/u,
++  );
++});
++
++test("lifecycle adapter compiles the bounded input with host TypeScript", async () => {
++  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r29-host-typescript-")));
++  const fixtureRoot = join(root, "fixture");
++  const lifecycleRoot = join(root, "lifecycle");
++  const smokePath = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptSmokePath;
++  const smokeFile = resolve(fixtureRoot, ...smokePath.split("/"));
++  await mkdir(dirname(smokeFile), { recursive: true });
++  await copyFile(resolve(ROOT, ...smokePath.split("/")), smokeFile);
++
++  try {
++    const supply = await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.createLifecycleTypeScriptSupply(
++      lifecycleRoot,
++      fixtureRoot,
++    );
++    assert.match(supply.receipt.version, /^Version 7\.0\.2$/u);
++    const runner = resolve(ROOT, V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptRunnerPath);
++    const result = spawnSync(process.execPath, [runner, ...supply.arguments], {
++      cwd: fixtureRoot,
++      env: supply.environment,
++      encoding: "utf8",
++      maxBuffer: 16 * 1024 * 1024,
++      timeout: 30_000,
++      windowsHide: true,
++    });
++    assert.equal(result.signal, null);
++    assert.equal(result.status, 0, result.stderr);
++    const evidence = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parseLifecycleTypeScriptEvidence(
++      Buffer.from(result.stdout, "utf8"),
++      supply,
++    );
++    assert.deepEqual(evidence.receipt, supply.receipt);
++    assert.equal(evidence.sentinelCount, 1);
++  } finally {
++    await rm(root, { recursive: true, force: true });
++  }
++});
++
++test("materialized lifecycle detects persistent compiler mutation after child return", async () => {
++  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r29-mutation-")));
++  const fixtureRoot = join(root, "fixture");
++  const lifecycleRoot = join(root, "lifecycle");
++  const smokePath = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptSmokePath;
++  await mkdir(dirname(resolve(fixtureRoot, ...smokePath.split("/"))), { recursive: true });
++  await writeFile(resolve(fixtureRoot, ...smokePath.split("/")), "bounded mutation input\n");
++
++  try {
++    const supply =
++      await V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.createMutatingLifecycleTypeScriptSupply(
++        lifecycleRoot,
++        fixtureRoot,
++      );
++    const before = readFileSync(supply.binding.path);
++    const runner = resolve(ROOT, V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.typeScriptRunnerPath);
++    const result = spawnSync(
++      process.execPath,
++      [runner, ...V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.fixtureTypeScriptArguments],
++      {
++        cwd: fixtureRoot,
++        env: supply.environment,
++        encoding: "utf8",
++        maxBuffer: 16 * 1024 * 1024,
++        timeout: 30_000,
++        windowsHide: true,
++      },
++    );
++    assert.equal(result.signal, null);
++    assert.equal(result.status, 1);
++    assert.match(result.stderr, /TypeScript binding changed after compilation\./u);
++    assert.notDeepEqual(readFileSync(supply.binding.path), before);
++    const evidence = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parseLifecycleTypeScriptEvidence(
++      Buffer.from(result.stdout, "utf8"),
++      supply,
++    );
++    assert.deepEqual(evidence.receipt, supply.receipt);
++    assert.equal(evidence.sentinelCount, 1);
+   } finally {
+     await rm(root, { recursive: true, force: true });
+   }

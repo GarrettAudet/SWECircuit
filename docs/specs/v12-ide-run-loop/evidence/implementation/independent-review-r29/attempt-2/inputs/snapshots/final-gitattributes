@@ -1,0 +1,12 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log binary
+docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log binary
+docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stdout.log binary
+docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stderr.log binary
+docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r27/inputs/snapshots/revision-27-source.patch binary
+docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r28/inputs/snapshots/revision-28-source.patch binary

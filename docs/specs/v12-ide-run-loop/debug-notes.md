@@ -663,3 +663,13 @@ The copied-production helper replaces the fixture `verify` command with five syn
 ### Route
 
 `diagnose -> pass -> independent fix`. Candidate 13 remains unconsumed. Revision 29 must execute a real distinguishable external compiler through the copied production launcher, assert its complete version-bearing receipt and sentinel from the canonical log, and fail closed when that compiler is persistently mutated during compilation. Repeat focused, lifecycle, aggregate, and immutable review gates before any candidate freeze.
+
+## Revision 29 Exact Aggregate And Independent Review
+
+Revision 29's source correction passes focused compiler cases, the complete release-review and release-gate suites, one exact copied-production lifecycle, V11 Revision 43 trust replay, and a complete aggregate. The first immutable reviewer accepted the source but returned verified `fix`: the retained 329,179-byte aggregate log belonged to `f1d4fd0`, while its generated receipt relabeled those bytes as `f1454b6`.
+
+The historical package and 7,643-byte handoff remain unchanged. A complete `npm.cmd run verify` rerun at exact `f1454b6008de1498e72f9cc5a36fd1234b50e028` passed in 2,623,400 ms and produced a distinct 657,576-byte log at `sha256:1635092c047e9a8a2fe6cb42b6a07fecf1b865fd52eab3a50d38c4f72944c399`. Before/after commit and tree identities match and the worktree remained clean.
+
+Attempt 2 authenticates 44 sources and returns an exact 11,258-byte `pass` handoff at `sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920`, verified against compilation/package `sha256:d2e25fd584a7319fe89af77ae47ab836cb9b6998c7aa2508ce3f960176a4b271` / `sha256:e2755508c640267eaefb5e9e428a8ee73ff8fbbef142e5b9a5540cf1fecad56e`.
+
+Route: independent `fix` -> exact rerun -> independent `pass`. Candidate 13 remains unconsumed; freeze it only from the committed evidence state and run its canonical gate once.

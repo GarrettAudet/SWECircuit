@@ -101,6 +101,8 @@ All three exact raw handoffs verify against the approved package. Their raw SHA-
 
 ## Current Outcome
 
-The latest retired candidate's `fix` is satisfied by Revision 24. The lifecycle now consumes the release-gate-resolved external cache through a fresh process, proves the candidate-local cache is absent, closes four path guards, and excludes only post-fixture correction roots from the sealed lifecycle. The corrected real lifecycle and final 35-source package-bound review pass. V11 Revision 40 also passes its complete two-package trust replay.
+Revision 29's copied-production TypeScript correction passes focused, lifecycle, V11 Revision 43, and complete aggregate verification. Independent Attempt 1 correctly returned `fix` because an older `f1d4fd0` log was relabeled as `f1454b6` evidence. That attempt remains immutable.
 
-The complete post-Revision-24 pre-freeze repository gate passes in 2,025.2 seconds. This is not release approval: the successor source still needs one exact committed-tree gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.
+A distinct full aggregate at exact `f1454b6008de1498e72f9cc5a36fd1234b50e028` passes in 2,623.4 seconds and is bound by its 657,576-byte raw log. Independent Attempt 2 authenticates 44 sources and returns a package-verified `pass`; its exact handoff is 11,258 bytes at `sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920`.
+
+This is not release approval. Candidate 13 remains unconsumed and must pass one exact committed-tree gate, fresh all-pass R2 fan-in, hosted CI, and owner merge review.

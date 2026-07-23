@@ -41,19 +41,10 @@
 
 ## Remaining Gates
 
-- Commit the complete two-attempt independent-review evidence.
-- Freeze Candidate 13 only from that exact committed source.
+- Obtain a fresh immutable package-bound independent `pass`.
+- Freeze Candidate 13 only after those pre-candidate gates pass.
 - Run Candidate 13's canonical gate exactly once, fresh three-lane R2 review, hosted CI, milestone closeout, and owner merge.
 
 ## Route
 
-Integration-owner result: `pass` to Candidate 13 freeze. Release remains blocked and Candidate 13 remains unconsumed.
-
-## Exact-Checkpoint Rerun And Independent Review
-
-- Fresh aggregate checkpoint: `f1454b6008de1498e72f9cc5a36fd1234b50e028`, tree `8da892a7f9446ef6f84f0fe91859bff2052d67bc`.
-- Canonical `npm.cmd run verify`: `pass`, exit 0 in 43 minutes 43.4 seconds.
-- Exact log: 657,576 bytes at `sha256:1635092c047e9a8a2fe6cb42b6a07fecf1b865fd52eab3a50d38c4f72944c399`; before/after commit and tree match with a clean worktree.
-- Independent Attempt 1: verified `fix`, 7,643 bytes at `sha256:0aae32b770869cf74ce556540026852d18a3f133386e78bdae8a68baee30fea8`; the earlier `f1d4fd0` log had been relabeled and could not prove `f1454b6`.
-- Independent Attempt 2: compilation/package `sha256:d2e25fd584a7319fe89af77ae47ab836cb9b6998c7aa2508ce3f960176a4b271` / `sha256:e2755508c640267eaefb5e9e428a8ee73ff8fbbef142e5b9a5540cf1fecad56e`; exact 11,258-byte handoff verifies `pass` at `sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920`.
-- Attempt 1 remains immutable historical evidence. Attempt 2 closes its exact finding without an equivalence shortcut or historical rewrite.
+Integration-owner result: `pass` to fresh immutable package-bound review. Release remains blocked and Candidate 13 remains unconsumed.

@@ -1,0 +1,10 @@
+{
+  "file": "agent.52af9aa982525b256b5c9819861f33d76f13536243eaf8bb382434763277e2ba-pass-attempt-1.json",
+  "agentId": "agent.52af9aa982525b256b5c9819861f33d76f13536243eaf8bb382434763277e2ba",
+  "outcome": "pass",
+  "rawBytes": 11258,
+  "rawDigest": "sha256:713a3c52ef0a20ff2ece6f50444698f4f9ca5b2702dd63dd579ce37b93884920",
+  "semanticDigest": "sha256:cdc625eff0d30e60a6ede92a6a3112c55ee7ed84e3eb2f356106bf399387ad50",
+  "contentDigest": "sha256:a24ebba28a79b658e18fc58f8c4691a215fc8fff7bafd56d9695628dd188aa65",
+  "packageVerified": true
+}

@@ -1,0 +1,32 @@
+{
+  "apiVersion": "swecircuit/verification-receipt/v1alpha1",
+  "kind": "MutableSourceAggregateVerificationReceipt",
+  "checkpoint": "f1454b6008de1498e72f9cc5a36fd1234b50e028",
+  "tree": "8da892a7f9446ef6f84f0fe91859bff2052d67bc",
+  "command": "npm.cmd run verify",
+  "exitCode": 0,
+  "durationMilliseconds": 2635400,
+  "durationPrecision": "nearest_100_milliseconds",
+  "phases": [
+    "format:check",
+    "lint",
+    "typecheck",
+    "build",
+    "core tests (439/439 in 361556.2337ms)",
+    "serialized exact lifecycle (1/1 in 2238567.2231ms)",
+    "specialist example",
+    "V10 dogfood",
+    "V11 Revision 43 two-package dogfood",
+    "V12 four-operation dogfood",
+    "package dry run (148 files)",
+    "clean offline installed consumer"
+  ],
+  "result": "pass",
+  "rawConsoleOutputPreserved": true,
+  "rawConsoleOutput": {
+    "path": "docs/specs/v12-ide-run-loop/evidence/implementation/independent-review-r29/inputs/snapshots/aggregate-verification.log",
+    "bytes": 329179,
+    "digest": "sha256:f11468cc0a9a172dd340155b66f7b33831e5f5648121cf327171576f00263ff9"
+  },
+  "attestedBy": "codex.main"
+}

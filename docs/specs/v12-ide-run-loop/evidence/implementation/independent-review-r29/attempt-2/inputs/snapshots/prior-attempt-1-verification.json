@@ -1,0 +1,13 @@
+{
+  "apiVersion": "swecircuit/handoff-verification/v1alpha1",
+  "kind": "SpecialistHandoffVerification",
+  "compilationDigest": "sha256:c82adbc88591fc68de85e0258935dcbd5b4044b55bff88e422fd65a1811512be",
+  "packageDigest": "sha256:8a76adf8d4b4d1808c985befe24ac93c8b96524fb7cc89997bebbb174ed5f1b4",
+  "agentId": "agent.1af2a5d347fe3303174727dfdb41a35e4ce8e311bdf0b1ca0bb6078215fe9e45",
+  "outcome": "fix",
+  "rawBytes": 7643,
+  "rawDigest": "sha256:0aae32b770869cf74ce556540026852d18a3f133386e78bdae8a68baee30fea8",
+  "semanticDigest": "sha256:29a994fbbebe2476cc66e0b6e9c6a0608014ebabb3eb593c0ad7563ecb6e0609",
+  "contentDigest": "sha256:53b77e9cce601695ddb7b733bee7cfc2419eeca62e0d5c340c0aa3adfab19654",
+  "packageVerified": true
+}
