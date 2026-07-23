@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical release attempts and their exact outcomes remain immutable. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, removes file-count-driven Git process fan-out, and scopes timeout and cleanup attribution to one invocation. Candidate-addressed external evidence owns later gate consumption and outcome; V12 still requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
+Historical release attempts and their exact outcomes remain immutable. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, corrects the attribution, long-path, and stable-identity causes, and passes the exact corrected committed lifecycle at checkpoint 8768c25. This correction evidence is not a successor release result; aggregate verification, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate remain required.
 
 ## Reproduction
 
@@ -501,7 +501,7 @@ Both release constructors now set core.longpaths=true before read-tree. Every co
 
 ### Regression And Route
 
-The focused deep-worktree regression passes in 189.8 seconds, and the lifecycle production-identity binding test passes. Full release-review, release-gate, committed lifecycle, aggregate, package-bound review, successor gate, fresh R2, and hosted CI evidence remain required. Route: diagnose -> fix -> verify.
+The focused deep-worktree regression passes in 189.8 seconds, the lifecycle production-identity binding test passes, and corrected checkpoint 8768c25 passes the exact copied lifecycle. Aggregate verification, package-bound review, a successor gate, fresh R2, and hosted CI evidence remain required. Route: diagnose -> fix -> verify -> pass.
 
 ## Revision 31 Invocation-Scoped Temporary-Path Identity RCA
 
@@ -521,4 +521,4 @@ Raw invocation temporary paths are excluded from stable inherited runtime identi
 
 ### Regression And Route
 
-Two distinct temporary roots now produce one stable policy; changing a stable inherited value still changes it, and neither raw root survives serialization. The focused boundary tests pass 3/3, the complete release-review suite passes 30/30 in 80.3 seconds, and the complete release-gate suite passes 16/16 in 454.5 seconds. A newly committed copied lifecycle remains required. Route: diagnose -> fix -> verify.
+Two distinct temporary roots now produce one stable policy; changing a stable inherited value still changes it, and neither raw root survives serialization. The focused boundary tests pass 3/3, the complete release-review suite passes 30/30 in 80.3 seconds, and the complete release-gate suite passes 16/16 in 454.5 seconds. Exact committed checkpoint 8768c25 then passed the isolated copied-production lifecycle 1/1 in 1,752.7 seconds, crossing both prior production stops and completing negative routes, reauthorization, and cleanup. Route: diagnose -> fix -> verify -> pass.

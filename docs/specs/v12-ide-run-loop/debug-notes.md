@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, batches exact Git object reads, makes timeout, process-tree termination, and invocation-owned cleanup separately attributable, and rejects committed/live production-identity mismatches before lifecycle materialization. Its first valid committed-source lifecycle stopped after 551.0 seconds at a generic disposable-Git tracked-state assertion; diagnosis is active. Candidate-addressed external evidence owns later gate consumption and outcome; V12 still requires an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
+No active V12 product-contract defect is recorded. The latest canonical gate evidence preserved in this source records exact source integrity, 439 of 439 passing core tests, a copied-production lifecycle stop at the parent timeout/cleanup boundary, and source retirement. Revision 31 preserves that evidence, corrects its attribution, long-path, and stable-identity causes, and passes the exact corrected committed lifecycle at checkpoint 8768c25. Candidate-addressed external evidence owns later release outcomes; V12 still requires aggregate verification, package-bound independent review, an exact successor gate, fresh R2 review, hosted CI, and the owner merge gate before release.
 
 ## Reproduction
 
@@ -773,4 +773,4 @@ Checkpoint 8f1c4f1 crossed the prior long-path stop and failed after 1,192.8 sec
 
 The lifecycle host assigns each parent a unique TEMP, TMP, and TMPDIR root. The stable environment policy embedded those raw paths, so each parent received a different runtime binding, candidate manifest, request, and package identity. A direct policy comparison confirmed those three paths were the only differing fields.
 
-The correction excludes raw invocation temp paths from stable identity and validates an explicit exclusion marker in the candidate worker. Focused tests pass 3/3, release-review passes 30/30, and release-gate passes 16/16. Route: diagnose -> fix -> verify; committed lifecycle verification remains active.
+The correction excludes raw invocation temp paths from stable identity and validates an explicit exclusion marker in the candidate worker. Focused tests pass 3/3, release-review passes 30/30, and release-gate passes 16/16. Exact committed checkpoint 8768c25 passes the isolated copied-production lifecycle 1/1 in 1,752.7 seconds, including closed negative routes, reauthorization, and owned cleanup. Route: diagnose -> fix -> verify -> pass.

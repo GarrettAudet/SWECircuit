@@ -78,9 +78,9 @@ Package identity verification and handoff schema verification authenticate prese
 - Revision 31 causal regressions: 2/2 `pass`; complete release-review file: 28/28 `pass` in 73.1 seconds; real-tree binary batch: 2,205 unique objects and 69,562,019 blob bytes in 817 ms.
 - The first full lifecycle invocation used committed source with uncommitted expected identities and is invalid evidence; it reported the mismatch after 2,383.9 seconds and is not a Revision 31 behavior result.
 - Committed-identity preflight ordering regression: `pass`; the exact invalid state rejects before materialization in 215.1 ms with both identities.
-- Commit `602ddce2a9056e3f920fcb3e004132bde3f4f549` valid copied lifecycle: `fail` after 551.0 seconds at a generic disposable-Git tracked-state assertion; source worktree remains clean and diagnosis is active.
-- Failure-only changed-path parser plus complete release-review suite: 29/29 `pass` in 94.4 seconds; committed path-attributing reproduction: pending.
-- Broader release-gate, valid committed-source copied lifecycle, package-bound review, aggregate, fresh successor gate, R2, hosted CI, and owner merge decision: pending.
+- Commit `602ddce2a9056e3f920fcb3e004132bde3f4f549` valid copied lifecycle: `fail` after 551.0 seconds at a generic disposable-Git tracked-state assertion; source worktree remained clean and the later RCA confirms the Windows long-path cause.
+- Failure-only changed-path parser plus complete release-review suite: 29/29 `pass` in 94.4 seconds; diagnostic checkpoint 101361e attributes the committed stop to Windows long paths.
+- Exact corrected checkpoint 8768c25 copied lifecycle: 1/1 `pass` in 1,752.7 seconds; compile, approve, verify, closed negative routes, source reauthorization, source integrity, and owned cleanup complete.
 
 ## Revision 31 Long-Path Correction Gate
 
@@ -90,7 +90,7 @@ Package identity verification and handoff schema verification authenticate prese
 - Focused result: pass in 189.8 seconds.
 - Production-identity binding: pass.
 - Complete source suites: release-review 29/29 pass in 79.3 seconds; release-gate 16/16 pass in 445.1 seconds; no new scratch context remains.
-- Pending: committed copied lifecycle, aggregate, package-bound independent review, exact successor gate, fresh R2, and hosted CI.
+- Exact corrected committed lifecycle: checkpoint 8768c25 passes 1/1 in 1,752.7 seconds after crossing both prior production stops.
 
 ## Revision 31 Stable Runtime Identity Gate
 
@@ -98,5 +98,5 @@ Package identity verification and handoff schema verification authenticate prese
 - Causal proof: changing only TEMP, TMP, and TMPDIR changes the old stable policy; those are the only differing fields.
 - Counterfactual: two distinct invocation temp roots now produce one stable policy, raw paths are absent, and changing LANG still changes stable identity.
 - Focused result: 3/3 pass.
-- Complete source suites: release-review 30/30 pass in 80.3 seconds; release-gate 16/16 pass in 454.5 seconds; cleanup remains exact.
-- Pending: newly committed copied lifecycle, aggregate, package-bound independent review, exact successor gate, fresh R2, and hosted CI.
+- Complete source suites: release-review 30/30 pass in 80.3 seconds; release-gate 16/16 pass in 454.5 seconds; cleanup remains exact. Aggregate verification, package-bound independent review, an exact successor gate, fresh R2, hosted CI, and owner merge remain pending.
+- Exact corrected committed lifecycle: checkpoint 8768c25 passes 1/1 in 1,752.7 seconds with negative routes, reauthorization, and cleanup.
