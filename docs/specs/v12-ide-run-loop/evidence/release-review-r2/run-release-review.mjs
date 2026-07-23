@@ -34,6 +34,8 @@ const PRIVATE_NPM_CONFIGURATION_POLICY = Object.freeze({
   pathIdentity: "invocation-only-excluded-from-stable-runtime-binding",
   validation: "before-every-parent-spawn-and-by-candidate-worker",
 });
+const INVOCATION_TEMPORARY_PATH_POLICY =
+  "external-host-bound-invocation-paths-excluded-from-stable-runtime-identity";
 const CLOSED_NPM_ENVIRONMENT_KEYS = new Set([
   "npm_config_audit",
   "npm_config_cache",
@@ -738,9 +740,6 @@ function inheritedRuntimeEnvironment(environment = process.env) {
     "LOCALAPPDATA",
     "PROGRAMDATA",
     "SYSTEMROOT",
-    "TEMP",
-    "TMP",
-    "TMPDIR",
     "USERPROFILE",
     "WINDIR",
   ];
@@ -1343,6 +1342,8 @@ async function validateCandidateWorkerContext(
   requireCondition(
     process.env.GIT_CONFIG_NOSYSTEM === "1" &&
       process.env.GIT_TERMINAL_PROMPT === "0" &&
+      binding.environmentPolicy.invocationTemporaryPaths ===
+        INVOCATION_TEMPORARY_PATH_POLICY &&
       JSON.stringify(binding.environmentPolicy.inherited) ===
         JSON.stringify(inheritedRuntimeEnvironment()),
     "Candidate worker environment policy mismatch.",

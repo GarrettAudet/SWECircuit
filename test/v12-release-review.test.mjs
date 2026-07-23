@@ -558,6 +558,38 @@ test("runtime binding is deterministic and fails closed after identity mutation"
   );
 });
 
+test("stable runtime policy excludes invocation-specific temporary paths", () => {
+  const firstRoot = join(ROOT, ".local", "parent-temp-one");
+  const secondRoot = join(ROOT, ".local", "parent-temp-two");
+  const common = { HOME: join(ROOT, ".local", "home"), LANG: "C" };
+  const policy = (root) =>
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.environmentPolicy({
+      ...common,
+      TEMP: root,
+      TMP: root,
+      TMPDIR: root,
+    });
+
+  const first = policy(firstRoot);
+  const second = policy(secondRoot);
+  assert.deepEqual(first, second);
+  assert.deepEqual(first.inherited, common);
+  assert.equal(
+    first.invocationTemporaryPaths,
+    "external-host-bound-invocation-paths-excluded-from-stable-runtime-identity",
+  );
+  assert.doesNotMatch(JSON.stringify(first), /parent-temp-(?:one|two)/u);
+  assert.notDeepEqual(
+    first,
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.environmentPolicy({
+      ...common,
+      LANG: "en_CA.UTF-8",
+      TEMP: secondRoot,
+      TMP: secondRoot,
+      TMPDIR: secondRoot,
+    }),
+  );
+});
 test("closed phase grammar reconstructs prefixes from exact external inputs", () => {
   assert.deepEqual(RELEASE_REVIEW_PARENT_TEST_HOOKS.PHASE_PREFIXES, {
     prepare: ["prepare"],

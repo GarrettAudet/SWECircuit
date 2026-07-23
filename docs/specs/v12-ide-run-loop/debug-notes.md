@@ -766,3 +766,11 @@ The diagnostic parser and complete release-review suite pass 29/29 in 94.4 secon
 The path-attributing lifecycle at diagnostic checkpoint 101361e reproduced four false combined-diff paths with clean independent index and worktree path sets. A controlled 489-character worktree then reproduced Filename too long warnings and diff status 1 with core.longpaths unset; the same context became entirely clean after core.longpaths=true.
 
 The correction configures and verifies long-path support in both disposable Git constructors. The full-tree causal regression passes in 189.8 seconds and exact production identities are rebound. Route: diagnose -> fix -> verify. Broader release verification remains active.
+
+## Revision 31 Invocation-Scoped Runtime Identity
+
+Checkpoint 8f1c4f1 crossed the prior long-path stop and failed after 1,192.8 seconds when the fresh approval parent reconstructed a different package pair from the compile parent. Cleanup and source identity remained exact.
+
+The lifecycle host assigns each parent a unique TEMP, TMP, and TMPDIR root. The stable environment policy embedded those raw paths, so each parent received a different runtime binding, candidate manifest, request, and package identity. A direct policy comparison confirmed those three paths were the only differing fields.
+
+The correction excludes raw invocation temp paths from stable identity and validates an explicit exclusion marker in the candidate worker. Focused tests pass 3/3, release-review passes 30/30, and release-gate passes 16/16. Route: diagnose -> fix -> verify; committed lifecycle verification remains active.

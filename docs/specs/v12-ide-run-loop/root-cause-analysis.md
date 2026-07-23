@@ -502,3 +502,23 @@ Both release constructors now set core.longpaths=true before read-tree. Every co
 ### Regression And Route
 
 The focused deep-worktree regression passes in 189.8 seconds, and the lifecycle production-identity binding test passes. Full release-review, release-gate, committed lifecycle, aggregate, package-bound review, successor gate, fresh R2, and hosted CI evidence remain required. Route: diagnose -> fix -> verify.
+
+## Revision 31 Invocation-Scoped Temporary-Path Identity RCA
+
+### Reproduction
+
+Committed checkpoint 8f1c4f1 passed the committed/live preflight, crossed the prior 551-second Git failure, and continued for 1,192.8 seconds. The fresh standalone approval parent then rejected the compile parent owner pair because its private package reconstruction had a different compilation/package identity. The source checkout remained clean, and the current-run candidate, Git context, and lifecycle root were removed.
+
+### Confirmed Root Cause
+
+Revision 31 correctly gave each fresh parent a distinct external-host-owned TEMP, TMP, and TMPDIR root. The production environment policy copied those absolute invocation paths into the stable runtime binding. That digest entered the candidate manifest and compilation request, so compile and approve built different package identities from otherwise identical candidate bytes and stable inputs.
+
+A direct counterfactual changed only the temporary root. Before correction, the two policies differed, and TEMP, TMP, and TMPDIR were the only differing inherited fields.
+
+### Causal Fix
+
+Raw invocation temporary paths are excluded from stable inherited runtime identity. The stable policy carries an explicit external-host-bound exclusion marker, and the candidate worker validates that marker plus every remaining stable inherited value. Exact temporary roots remain visible in per-invocation process, private-configuration, cleanup, and host evidence.
+
+### Regression And Route
+
+Two distinct temporary roots now produce one stable policy; changing a stable inherited value still changes it, and neither raw root survives serialization. The focused boundary tests pass 3/3, the complete release-review suite passes 30/30 in 80.3 seconds, and the complete release-gate suite passes 16/16 in 454.5 seconds. A newly committed copied lifecycle remains required. Route: diagnose -> fix -> verify.

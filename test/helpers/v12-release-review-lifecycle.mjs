@@ -69,16 +69,16 @@ const FIXTURE_VERIFY_COMMAND = [
 
 export const PRODUCTION_IDENTITIES = Object.freeze({
   [PARENT_PATH]: Object.freeze({
-    bytes: 102_200,
-    digest: "sha256:34865bf355e52dc27646603f45f5c5b340acc988d543dfd689a60c11ccbcf076",
+    bytes: 102_513,
+    digest: "sha256:efbf5e96314e28a20b67e7f78067798ac398fadb1b25628f9e1d02082a8bb1e7",
   }),
   [GATE_PATH]: Object.freeze({
     bytes: 31_070,
     digest: "sha256:b1451d644b2c003ccd19cf29a3cb92a964eec01e5281afbef7c878ccb1e57025",
   }),
   [HARNESS_PATH]: Object.freeze({
-    bytes: 127_748,
-    digest: "sha256:b1314ea536bb367096decde5b28fad24e352d1a00fd383be0b4bf8d5545bcd73",
+    bytes: 127_937,
+    digest: "sha256:a56a60b6704487e29d398362f884c34ff4850baac1315d3347e74e82c4241934",
   }),
   [VERIFIER_PATH]: Object.freeze({
     bytes: 30_840,

@@ -91,3 +91,12 @@ Package identity verification and handoff schema verification authenticate prese
 - Production-identity binding: pass.
 - Complete source suites: release-review 29/29 pass in 79.3 seconds; release-gate 16/16 pass in 445.1 seconds; no new scratch context remains.
 - Pending: committed copied lifecycle, aggregate, package-bound independent review, exact successor gate, fresh R2, and hosted CI.
+
+## Revision 31 Stable Runtime Identity Gate
+
+- Reproduction: committed checkpoint 8f1c4f1 crosses the old Git stop, then fails standalone approval after 1,192.8 seconds because fresh-parent package identities differ.
+- Causal proof: changing only TEMP, TMP, and TMPDIR changes the old stable policy; those are the only differing fields.
+- Counterfactual: two distinct invocation temp roots now produce one stable policy, raw paths are absent, and changing LANG still changes stable identity.
+- Focused result: 3/3 pass.
+- Complete source suites: release-review 30/30 pass in 80.3 seconds; release-gate 16/16 pass in 454.5 seconds; cleanup remains exact.
+- Pending: newly committed copied lifecycle, aggregate, package-bound independent review, exact successor gate, fresh R2, and hosted CI.

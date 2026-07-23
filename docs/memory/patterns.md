@@ -317,6 +317,9 @@ When a long-running lifecycle executes committed source but imports live expecte
 ### Configure Git Capabilities Before Deep Inspection
 
 A disposable repository does not inherit every capability assumed by its source checkout. Configure platform-sensitive Git behavior before populating the index, assert the effective value before trusting status or diff, and reproduce the deepest real worktree in a causal regression. On Windows, a missing core.longpaths setting can turn unreadable deep paths into false tracked-state drift even when independent index and worktree diffs are clean.
+### Separate Invocation Evidence From Stable Identity
+
+A value can be security-relevant without belonging in a reconstructable package identity. Keep candidate bytes, stable policy, and owner-reviewed inputs in stable identity; keep unique temp roots, operation roots, phase authority, process IDs, and cleanup outcomes in per-invocation receipts. Validate both layers and add a counterfactual proving that invocation changes preserve stable identity while stable-input changes do not.
 ## Source Map
 
 Each named pattern maps to the strongest existing source artifact. Patterns sharing the same provenance are grouped.
@@ -356,3 +359,4 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [V12 Candidate 13 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#candidate-13-live-status-rca) and [exact gate evidence](../specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/e61932f2d5067559332790b370f1bf510d0064fc/) | External Evidence Owns Volatile Release State; Live Status Is Candidate-Independent |
 | [V12 Candidate 14 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-14-retirement.md), [Revision 31 RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#retired-successor-lifecycle-timeout-and-attribution-rca), [preflight RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-committed-identity-preflight-rca), and [causal tests](../../test/v12-release-review.test.mjs) | Invocation-Owned Cleanup Attribution; Exact Binary Batch Framing; Identity Preflight Before Expensive Lifecycle |
 | [V12 long-path RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-disposable-git-long-path-rca), [gate constructor](../../scripts/run-v12-release-gate.mjs), [review constructor](../../scripts/run-v12-release-review.mjs), and [causal test](../../test/v12-release-gate.test.mjs) | Configure Git Capabilities Before Deep Inspection |
+| [V12 invocation-path RCA](../specs/v12-ide-run-loop/root-cause-analysis.md#revision-31-invocation-scoped-temporary-path-identity-rca), [parent](../../scripts/run-v12-release-review.mjs), [candidate harness](../specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs), and [regression](../../test/v12-release-review.test.mjs) | Separate Invocation Evidence From Stable Identity |

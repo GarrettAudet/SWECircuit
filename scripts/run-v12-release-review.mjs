@@ -65,6 +65,8 @@ const PRIVATE_NPM_CONFIGURATION_POLICY = Object.freeze({
   pathIdentity: "invocation-only-excluded-from-stable-runtime-binding",
   validation: "before-every-parent-spawn-and-by-candidate-worker",
 });
+const INVOCATION_TEMPORARY_PATH_POLICY =
+  "external-host-bound-invocation-paths-excluded-from-stable-runtime-identity";
 const PRIVATE_NPM_CONFIGURATION_STATES = new WeakMap();
 const TOOL_NPM_CONFIGURATION = Symbol("release-review-private-npm-configuration");
 const TOOL_NPM_INSPECTION = Symbol("release-review-private-npm-inspection");
@@ -597,9 +599,15 @@ function inheritedEnvironment(environment) {
 }
 
 function environmentPolicy(inherited) {
+  const stableInherited = Object.fromEntries(
+    Object.entries(inherited)
+      .filter(([name]) => !["TEMP", "TMP", "TMPDIR"].includes(name))
+      .sort(([a], [b]) => compareOrdinal(a, b)),
+  );
   return {
     apiVersion: "swecircuit/release-review-environment/v1alpha1",
-    inherited: Object.fromEntries(Object.entries(inherited).sort(([a], [b]) => compareOrdinal(a, b))),
+    inherited: stableInherited,
+    invocationTemporaryPaths: INVOCATION_TEMPORARY_PATH_POLICY,
     pathPolicy: "closed-tool-directories",
     nodeOptions: "removed",
     nodePath: "removed",
