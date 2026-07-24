@@ -1200,8 +1200,9 @@ async function createPrivateRuntime(root) {
   return { root: runtimeRoot, home, temp, appData, localAppData, userConfig, globalConfig };
 }
 
-async function createCandidateGitContext(candidateCommit, worktree) {
-  const sourceResult = runGit(["rev-parse", "--path-format=absolute", "--git-common-dir"]);
+async function createCandidateGitContext(candidateCommit, worktree, options = {}) {
+  const sourceGitRunner = options.sourceGitRunner ?? runGit;
+  const sourceResult = sourceGitRunner(["rev-parse", "--path-format=absolute", "--git-common-dir"]);
   requireGitSuccess(sourceResult, "Source Git common-directory inspection");
   const source = strictUtf8(sourceResult.stdout, "Source Git common directory").trim();
   requireCondition(isAbsolute(source), "Source Git common directory is not absolute.");

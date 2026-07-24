@@ -24,12 +24,14 @@ import { RELEASE_REVIEW_TEST_HOOKS } from "../docs/specs/v12-ide-run-loop/eviden
 import { RELEASE_GATE_TEST_HOOKS } from "../scripts/run-v12-release-gate.mjs";
 import { RELEASE_REVIEW_PARENT_TEST_HOOKS } from "../scripts/run-v12-release-review.mjs";
 import {
+  fixtureGitEnvironment,
   assertConstantBatchRead,
   BINARY_FIXTURE_BYTES,
   createGitBlobLoaderFixture,
   createRecordedGitRunner,
 } from "./helpers/git-blob-loader-fixture.mjs";
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
+const RUN_TYPESCRIPT_PATH = join(ROOT, "scripts/run-typescript.mjs");
 const RELEASE_GATE_PATH = join(ROOT, "scripts/run-v12-release-gate.mjs");
 const PACKED_CONSUMER_PATH = join(ROOT, "scripts/check-packed-consumer.mjs");
 const REVIEW_HARNESS_PATH = join(
@@ -38,28 +40,51 @@ const REVIEW_HARNESS_PATH = join(
 );
 const RELEASE_REVIEW_LIFECYCLE_PATH = join(ROOT, "test/helpers/v12-release-review-lifecycle.mjs");
 const releaseReviewLifecycleSource = await readFile(RELEASE_REVIEW_LIFECYCLE_PATH, "utf8");
+const runTypeScriptSource = await readFile(RUN_TYPESCRIPT_PATH);
 const RELEASE_REVIEW_PARENT_PATH = join(ROOT, "scripts/run-v12-release-review.mjs");
 const releaseGateSource = await readFile(RELEASE_GATE_PATH, "utf8");
 const packedConsumerSource = await readFile(PACKED_CONSUMER_PATH, "utf8");
 const reviewHarnessSource = await readFile(REVIEW_HARNESS_PATH, "utf8");
 const releaseReviewParentSource = await readFile(RELEASE_REVIEW_PARENT_PATH, "utf8");
 
-function runGit(args) {
-  const result = spawnSync("git", args, {
-    cwd: ROOT,
+function runFixtureNode(root, args) {
+  return spawnSync(process.execPath, args, {
+    cwd: root,
     encoding: "utf8",
+    env: fixtureGitEnvironment(),
     maxBuffer: 128 * 1024 * 1024,
+    windowsHide: true,
   });
-  assert.equal(result.status, 0, result.stderr);
-  return result.stdout.trim();
 }
 
-function runNode(args) {
-  return spawnSync(process.execPath, args, {
-    cwd: ROOT,
-    encoding: "utf8",
-    maxBuffer: 128 * 1024 * 1024,
-  });
+function gitOutput(gitRunner, args) {
+  return Buffer.from(gitRunner(args).stdout).toString("utf8").trim();
+}
+
+async function createReleaseGatePathFixture() {
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-gate-paths-")));
+  const scripts = join(root, "scripts");
+  const gitRunner = createRecordedGitRunner(root, []);
+  await mkdir(scripts);
+  await Promise.all([
+    writeFile(join(root, ".gitattributes"), await readFile(join(ROOT, ".gitattributes"))),
+    writeFile(join(root, ".gitignore"), await readFile(join(ROOT, ".gitignore"))),
+    writeFile(join(scripts, "run-typescript.mjs"), runTypeScriptSource),
+    writeFile(join(scripts, "run-v12-release-gate.mjs"), releaseGateSource),
+  ]);
+  gitRunner(["init", "--quiet"]);
+  gitRunner(["add", "--all"]);
+  gitRunner([
+    "-c",
+    "user.name=SWECircuit Tests",
+    "-c",
+    "user.email=tests@swecircuit.invalid",
+    "commit",
+    "--quiet",
+    "-m",
+    "release gate path fixture",
+  ]);
+  return { root, gatePath: join(scripts, "run-v12-release-gate.mjs") };
 }
 
 function escapedPattern(value) {
@@ -317,9 +342,18 @@ test("canonical gate materialization uses a constant-process Git blob batch", as
   }
 });
 test("candidate materialization excludes and detects uncommitted verification inputs", async () => {
-  const candidateCommit = runGit(["rev-parse", "--verify", "HEAD"]);
-  const candidateTree = runGit(["rev-parse", "--verify", `${candidateCommit}^{tree}`]);
-  const materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
+  const fixture = await createGitBlobLoaderFixture();
+  const gitRunner = createRecordedGitRunner(fixture.root, []);
+  const candidateCommit = fixture.revisions.at(-1).commit;
+  const candidateTree = gitOutput(gitRunner, [
+    "rev-parse",
+    "--verify",
+    `${candidateCommit}^{tree}`,
+  ]);
+  const materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(
+    candidateCommit,
+    { gitRunner },
+  );
 
   try {
     assert.equal(materialization.source.commit, candidateCommit);
@@ -327,11 +361,7 @@ test("candidate materialization excludes and detects uncommitted verification in
     assert.ok(materialization.source.files > 0);
     assert.ok(materialization.source.bytes > 0);
 
-    const injectedPath = join(
-      materialization.root,
-      "test",
-      "untracked-release-gate-injection.test.mjs",
-    );
+    const injectedPath = join(materialization.root, "untracked-release-gate-injection.test.mjs");
     await writeFile(injectedPath, 'throw new Error("untracked input executed");\n', "utf8");
     await assert.rejects(
       RELEASE_GATE_TEST_HOOKS.inspectExactMaterialization(
@@ -348,16 +378,16 @@ test("candidate materialization excludes and detects uncommitted verification in
     );
     assert.equal(exact.digest, materialization.source.digest);
 
-    const packagePath = join(materialization.root, "package.json");
-    const packageBytes = await readFile(packagePath);
-    await writeFile(packagePath, Buffer.concat([packageBytes, Buffer.from("\n")]));
+    const alphaPath = join(materialization.root, "alpha.txt");
+    const alphaBytes = await readFile(alphaPath);
+    await writeFile(alphaPath, Buffer.concat([alphaBytes, Buffer.from("\n")]));
     const changed = await RELEASE_GATE_TEST_HOOKS.inspectMaterialization(
       materialization.root,
       materialization.entries,
     );
     assert.notEqual(changed.digest, materialization.source.digest);
 
-    await writeFile(packagePath, packageBytes);
+    await writeFile(alphaPath, alphaBytes);
     const restored = await RELEASE_GATE_TEST_HOOKS.inspectExactMaterialization(
       materialization.root,
       materialization.entries,
@@ -387,7 +417,11 @@ test("candidate materialization excludes and detects uncommitted verification in
     );
     await rmdir(undeclared);
   } finally {
-    await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+    try {
+      await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+    } finally {
+      await rm(fixture.root, { recursive: true, force: true });
+    }
   }
 });
 
@@ -482,10 +516,32 @@ test("runtime ancestor package supply is detected before candidate execution", a
 });
 
 test("candidate Git context is disposable, exact, and usable from the materialization", async () => {
-  const candidateCommit = runGit(["rev-parse", "--verify", "HEAD"]);
-  const liveGitDirectory = runGit(["rev-parse", "--path-format=absolute", "--git-dir"]);
-  const liveHeadBefore = runGit(["rev-parse", "--verify", "HEAD"]);
-  const materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
+  const fixture = await createGitBlobLoaderFixture();
+  const gitRunner = createRecordedGitRunner(fixture.root, []);
+  const longPathFile = `long-path-${"y".repeat(80)}.txt`;
+  await writeFile(join(fixture.root, longPathFile), "long path fixture\n", "utf8");
+  gitRunner(["add", "--all"]);
+  gitRunner([
+    "-c",
+    "user.name=SWECircuit Tests",
+    "-c",
+    "user.email=tests@swecircuit.invalid",
+    "commit",
+    "--quiet",
+    "-m",
+    "long path fixture",
+  ]);
+  const candidateCommit = gitOutput(gitRunner, ["rev-parse", "--verify", "HEAD"]);
+  const sourceGitDirectory = gitOutput(gitRunner, [
+    "rev-parse",
+    "--path-format=absolute",
+    "--git-dir",
+  ]);
+  const sourceHeadBefore = gitOutput(gitRunner, ["rev-parse", "--verify", "HEAD"]);
+  const materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(
+    candidateCommit,
+    { gitRunner },
+  );
   const deepRoot = await mkdtemp(
     join(RELEASE_GATE_TEST_HOOKS.materializationParent, "long-path-context-"),
   );
@@ -507,8 +563,12 @@ test("candidate Git context is disposable, exact, and usable from the materializ
       "causal worktree did not cross the Windows long-path boundary",
     );
 
-    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(candidateCommit, worktree);
-    assert.notEqual(resolve(gitContext.root), resolve(liveGitDirectory));
+    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
+      candidateCommit,
+      worktree,
+      { sourceGitRunner: gitRunner },
+    );
+    assert.notEqual(resolve(gitContext.root), resolve(sourceGitDirectory));
     assert.equal(dirname(gitContext.root), RELEASE_GATE_TEST_HOOKS.materializationParent);
     const scratchFromRepository = relative(ROOT, RELEASE_GATE_TEST_HOOKS.materializationParent);
     assert.equal(
@@ -577,24 +637,30 @@ test("candidate Git context is disposable, exact, and usable from the materializ
       false,
       "candidate compiler must not exist before exact-lock installation",
     );
-    assert.notEqual(resolve(environment.GIT_DIR), resolve(liveGitDirectory));
-    assert.equal(runGit(["rev-parse", "--verify", "HEAD"]), liveHeadBefore);
+    assert.notEqual(resolve(environment.GIT_DIR), resolve(sourceGitDirectory));
+    assert.equal(gitOutput(gitRunner, ["rev-parse", "--verify", "HEAD"]), sourceHeadBefore);
   } finally {
     try {
       if (gitContext !== undefined) {
         await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
       }
     } finally {
-      await rm(deepRoot, { recursive: true, force: true });
-      if (!materializationMoved) {
-        await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+      try {
+        await rm(deepRoot, { recursive: true, force: true });
+        if (!materializationMoved) {
+          await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+        }
+      } finally {
+        await rm(fixture.root, { recursive: true, force: true });
       }
     }
   }
 });
 
 test("canonical gate closes hostile host environment and binds effective authority", async () => {
-  const candidateCommit = runGit(["rev-parse", "--verify", "HEAD"]);
+  const fixture = await createGitBlobLoaderFixture();
+  const gitRunner = createRecordedGitRunner(fixture.root, []);
+  const candidateCommit = fixture.revisions.at(-1).commit;
   const hostileMarker = "swecircuit-hostile-environment-canary";
   const hostile = {
     CUSTOM_RELEASE_SECRET: hostileMarker,
@@ -612,10 +678,13 @@ test("canonical gate closes hostile host environment and binds effective authori
 
   try {
     Object.assign(process.env, hostile);
-    materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
+    materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit, {
+      gitRunner,
+    });
     gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
       candidateCommit,
       materialization.root,
+      { sourceGitRunner: gitRunner },
     );
     const environment = RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext);
 
@@ -666,11 +735,15 @@ test("canonical gate closes hostile host environment and binds effective authori
         process.env[key] = value;
       }
     }
-    if (gitContext !== undefined) {
-      await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
-    }
-    if (materialization !== undefined) {
-      await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+    try {
+      if (gitContext !== undefined) {
+        await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
+      }
+      if (materialization !== undefined) {
+        await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+      }
+    } finally {
+      await rm(fixture.root, { recursive: true, force: true });
     }
   }
 });
@@ -963,23 +1036,29 @@ test("R2 correction review context remains bounded with primary evidence", async
   assert.equal(compilation.value.blueprints.length, 3);
 });
 
-test("paths mode remains closed and rejects malformed candidate identities", () => {
+test("paths mode remains closed and rejects malformed candidate identities", async () => {
   const candidate = "0123456789abcdef0123456789abcdef01234567";
-  const valid = runNode([RELEASE_GATE_PATH, "paths", candidate]);
-  assert.equal(valid.status, 0, valid.stderr);
-  assert.deepEqual(JSON.parse(valid.stdout), {
-    candidateCommit: candidate,
-    receipt: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/${candidate}/canonical-gate-receipt.json`,
-    stdout: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/${candidate}/canonical-gate.stdout.log`,
-    stderr: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/${candidate}/canonical-gate.stderr.log`,
-  });
+  const fixture = await createReleaseGatePathFixture();
 
-  const malformed = runNode([RELEASE_GATE_PATH, "paths", "A".repeat(40)]);
-  assert.equal(malformed.status, 1);
-  assert.equal(
-    malformed.stderr,
-    "Usage: node scripts/run-v12-release-gate.mjs [paths] <exact-40-character-candidate-commit>\n",
-  );
+  try {
+    const valid = runFixtureNode(fixture.root, [fixture.gatePath, "paths", candidate]);
+    assert.equal(valid.status, 0, valid.stderr);
+    assert.deepEqual(JSON.parse(valid.stdout), {
+      candidateCommit: candidate,
+      receipt: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/${candidate}/canonical-gate-receipt.json`,
+      stdout: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/${candidate}/canonical-gate.stdout.log`,
+      stderr: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/${candidate}/canonical-gate.stderr.log`,
+    });
+
+    const malformed = runFixtureNode(fixture.root, [fixture.gatePath, "paths", "A".repeat(40)]);
+    assert.equal(malformed.status, 1);
+    assert.equal(
+      malformed.stderr,
+      "Usage: node scripts/run-v12-release-gate.mjs [paths] <exact-40-character-candidate-commit>\n",
+    );
+  } finally {
+    await rm(fixture.root, { recursive: true, force: true });
+  }
 });
 
 test("release-review parent rejects unsafe paths and non-exact lock supply", async () => {
