@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 remains open until release evidence closes it. Exact Revision 39 commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f` passed its one-shot canonical gate with 447/447 core tests plus copied lifecycle, package inspection, and offline installed-consumer verification. Fresh R2 preparation authenticated the source and gate, then emitted `diagnose` before compilation because diagnostic-only `release-correction-rN` folders were misclassified as package-backed specialist revisions. Revision 39 is retired without rerun. Working Revision 40 requires all three root package markers, rejects partial marker sets, ignores diagnostic-only roots, and passes its focused checks plus the complete 50/50 concurrent release suite. Broad verification, an immutable successor commit, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
+T006 remains open until release evidence closes it. Exact Revision 40 commit `129b299d0626e370aab8819703f2a9bcc96ab6cc` passed its one-shot gate and fresh R2 returned two `pass` outcomes plus one security `fix`. Revision 40 is retired without rerun. Working Revision 41 closes execution authority and transitive source coverage and passes 53/53 release-specific checks. Frozen verification, one exact gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
 
 ## Task List
 
@@ -31,3 +31,16 @@ T003 ran three read-only architecture analyses in parallel and one dependent syn
 - Automatic subagent launch from core.
 - Universal scheduling, retries, cancellation, or crash recovery.
 - Automatic Git merge or memory mutation.
+
+## Revision 41 Release Hardening
+
+- [x] Preserve Revision 40 gate and fresh-R2 raw evidence.
+- [x] Confirm ambient execution authority and incomplete review-source coverage.
+- [x] Close gate environment, toolchain, npm configuration, and dependency identity.
+- [x] Validate receipt v1alpha2 in the independent-review consumer.
+- [x] Add the six omitted transitive sources and causal regressions.
+- [x] Pass all 53 release-specific tests.
+- [ ] Freeze one exact Revision 41 commit and run the complete verifier.
+- [ ] Invoke the Revision 41 canonical gate exactly once.
+- [ ] Complete fresh three-domain R2 review.
+- [ ] Pass hosted CI, close the milestone, and merge to `main`.

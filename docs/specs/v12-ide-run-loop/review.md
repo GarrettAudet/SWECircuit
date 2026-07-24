@@ -2,7 +2,7 @@
 
 ## Status
 
-V12 is not merge-ready. Exact Revision 39 commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f` passed its one-shot canonical gate with 447/447 core tests plus copied lifecycle, package inspection, and offline installed-consumer verification. Fresh R2 preparation authenticated the source and gate, then emitted `diagnose` before compilation because diagnostic-only `release-correction-rN` folders were misclassified as package-backed specialist revisions. Revision 39 is retired without rerun. Working Revision 40 requires all three root package markers, rejects partial marker sets, ignores diagnostic-only roots, and passes its focused checks plus the complete 50/50 concurrent release suite. Broad verification, an immutable successor commit, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
+V12 is not merge-ready. Exact Revision 40 passed its one-shot gate, but fresh independent R2 review returned a verified security `fix` alongside two domain passes. Revision 41 closes both findings and passes all 53 release-specific tests. Frozen verification, one exact gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
 
 ## Scope
 
@@ -150,3 +150,9 @@ Exact commit `1f2e89e30a46c1584cb7b979fc4c8a63326f7ff0` then passes a 700,991 ms
 Revision 39 preserves a passing canonical gate and a separate R2 `diagnose` result. The latter is not a product or API failure: lineage discovery treated any numbered correction folder as a specialist package, even when it contained only diagnosis notes.
 
 Revision 40 classifies package-backed roots through the complete envelope/approval/verification marker set and fails closed on partial sets. The exact prior tree now resolves to 22 contiguous package revisions; focused checks and all 50 concurrent release tests pass.
+
+## Revision 40 Independent Review And Revision 41 Correction
+
+Revision 40's product and lifecycle reviewers independently passed. The security reviewer returned one verified `fix` containing a high-severity ambient-authority finding and a medium-severity six-source coverage finding. Closed parent verification authenticated all raw handoffs and correctly routed the candidate instead of treating two passes as release approval.
+
+Revision 41 applies the smallest causal correction to release infrastructure only. Public product APIs, schemas, specialist compilation, and IDE Run Loop behavior are unchanged. All 53 release-specific tests pass. The review remains non-terminal until the exact frozen commit passes the full verifier, one-shot gate, fresh R2, and hosted CI.

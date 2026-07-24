@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.verification",
+    "revision": 1,
+    "digest": "sha256:6c5ae1648b5607731fa81fa1f5dc4c1df5ccb745b298ba85e6c120ddc2961ff9"
+  },
+  "agent": {
+    "id": "agent.f75d83eb3fbe6107c40045c9b85efc0bfe85aa99bbc07851e5c8f2a9b4b6456f",
+    "blueprintDigest": "sha256:fb82dbe4b27bc72be8b80c1afb95f34c00a2e44b17e65520a39ebf53c5c4fe2a"
+  },
+  "compilationDigest": "sha256:b719fd06f811091968c14ed8ff531ed5cd9df22d90d050e76c355dd542a1aed6",
+  "summary": "Materialized and verified the deterministic V12 four-operation IDE dogfood journey within the exact four-file authority.",
+  "workUnitsCompleted": [
+    "dogfood.ide-run-loop"
+  ],
+  "artifacts": [
+    {
+      "name": "ide-run-loop-dogfood.md",
+      "mediaType": "text/markdown",
+      "content": "# IDE Run Loop Dogfood\n\n## Result\n\n`dogfood.ide-run-loop` passed. The authorized docs and deterministic fixture host now expose package approval, all four pure run-session operations, manifest-resolved dependency eligibility, exact raw-handoff fan-in, terminal routing, replay, and a separate integration-owner closeout.\n\n## Authorized Outputs\n\n- `docs/ide/specialist-agent-kickoff.md`: 22016 bytes, `sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c`.\n- `docs/modules/README.md`: 2744 bytes, `sha256:8293e0fd966ddf2eba089d8bfef2f328489851a789eacd251bbb9d96e58c49e5`.\n- `docs/modules/specialist-run-session.md`: 4054 bytes, `sha256:c02c4df590ee37de4c7b82aef4d9995d23d5c5b7b46b49966a01fcfaa48f217b`.\n- `scripts/run-v12-dogfood.mjs`: 17905 bytes, `sha256:61bab56f5dbba096b4cb87d07ce34dd09a561f08575243f2cc8d4c786ea7ce39`.\n\nBefore editing, all 14 declared context items passed their exact SHA-256 and byte bindings. On resume, all 12 untouched declared sources still matched those bindings; the two declared sources that are also authorized outputs and both new outputs matched the post-edit bindings above. `package.json`, the V12 schema, and every declared production source remained byte-identical.\n\n## Replay Evidence\n\n- External fixture approval was independently pinned to compilation `sha256:da35488617408938ddfb63b181768037841276a0e3cd2ba40b04444d97155a37` and package `sha256:0d201fc9b733a725a5fd3578607b0fc95eca203409c89dc22d4591e2059e5b07`; package verification passed.\n- Exact search compared a one-agent serial baseline with a selected three-agent two-root/fan-in partition and two handoffs.\n- Calls covered create 2, restore 1, inspect 6, and record 7. Two independent contracts were initially eligible; premature fan-in failed closed with `SC4404`.\n- Three accepted pass handoffs preserved exact raw bindings: 993 bytes / `sha256:b0b1921f1e13869a1759e240df2b3d4c550ec48339bdc1825f2522a6f739c58a`, 986 bytes / `sha256:83912128ee44eaaad53cf8ae747446c93067ea85ab3f46af67464add9c777d11`, and 1000 bytes / `sha256:b8fd8d674c9d88a71af2cad46eba71b590f2bcfc06bb4fbcf8b67dfb7b359901`.\n- A 60478-byte raw session restored to `sha256:184efef68545b2ec9f04a9915d6b0288c7df6110217ff60aeb5bca016f026116`; inspection identity remained stable and byte-identical handoff replay was idempotent.\n- The alternate valid `fix` handoff produced stage `routed`, no eligible contracts, `integrationReady: false`, next actor `integration_owner`, and `SC4405` for a later settlement.\n- The complete pass path reached specialist fan-in closure, then emitted a separate integration-owner closeout that leaves independent review, milestone, merge, and memory outside core.\n- Two complete journey executions produced byte-identical reports.\n\n## Host Boundary\n\nThe fixture host performed external two-digest verification, exact README context authentication, in-memory preservation of raw handoff bytes, and caller-owned session serialization and restore. Core performed no I/O or runtime effect. Approval freshness, actor authentication, runtime supply, launch, permission enforcement, isolation, duplicate-live-work prevention, durable persistence, integration, full repository verification, independent review, milestone, merge, and memory remain external responsibilities.\n\n## Focused Verification\n\n- `node --check scripts/run-v12-dogfood.mjs`: pass.\n- `node scripts/run-v12-dogfood.mjs --check-evidence`: pass.\n- Biome check through `--stdin-file-path`: pass, with output exactly matching the 17905 authorized script bytes.\n- Strict UTF-8/no-BOM, required-marker, placeholder, and unsafe-control checks across all four outputs: pass.\n\nFailed commands were preserved truthfully: an initial PowerShell existence probe had an empty-pipe parser error; native `apply_patch` and the first non-escalated guarded write failed before mutation on the `C:\\tmp` sandbox; one fallback wrapper had a JavaScript parse error before shell execution; four direct Biome path checks processed zero files because the new path was ignored, after which the strict stdin comparison passed; and one resumed marker-check command had a PowerShell variable-colon parser error before its corrected rerun passed.\n\nThe canonical `npm.cmd run verify` gate and independent review were not run because they exceed this specialist's focused read/write authority. They remain integration-owner closeout work."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.dogfood.ide-run-loop",
+      "requirementId": "evidence.ide-dogfood",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "ide-run-loop-dogfood.md"
+    }
+  ],
+  "assumptions": [
+    "Focused replay used the pre-existing local dist/index.js; rebuilding dist was outside the declared write scope."
+  ],
+  "risks": [
+    "The canonical repository gate and independent review remain unexecuted integration-owner stages."
+  ],
+  "followUps": [
+    "The integration owner should run canonical repository verification, independent review, milestone, merge, and memory stages."
+  ]
+}

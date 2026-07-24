@@ -399,6 +399,98 @@ test("candidate Git context is disposable, exact, and usable from the materializ
     }
   }
 });
+
+test("canonical gate closes hostile host environment and binds effective authority", async () => {
+  const candidateCommit = runGit(["rev-parse", "--verify", "HEAD"]);
+  const hostileMarker = "swecircuit-hostile-environment-canary";
+  const hostile = {
+    CUSTOM_RELEASE_SECRET: hostileMarker,
+    GIT_CONFIG_COUNT: "1",
+    GIT_CONFIG_KEY_0: "core.hooksPath",
+    GIT_CONFIG_VALUE_0: hostileMarker,
+    NODE_OPTIONS: `--require=${hostileMarker}`,
+    NODE_PATH: hostileMarker,
+    npm_config_registry: `https://${hostileMarker}.invalid`,
+    npm_config_script_shell: hostileMarker,
+  };
+  const previous = new Map(Object.keys(hostile).map((key) => [key, process.env[key]]));
+  let materialization;
+  let gitContext;
+
+  try {
+    Object.assign(process.env, hostile);
+    materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
+    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
+      candidateCommit,
+      materialization.root,
+    );
+    const environment = RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext);
+
+    for (const key of [
+      "CUSTOM_RELEASE_SECRET",
+      "GIT_CONFIG_COUNT",
+      "GIT_CONFIG_KEY_0",
+      "GIT_CONFIG_VALUE_0",
+      "NODE_OPTIONS",
+      "NODE_PATH",
+      "npm_config_registry",
+    ]) {
+      assert.equal(environment[key], undefined, key);
+    }
+    assert.notEqual(environment.npm_config_script_shell, hostileMarker);
+    assert.equal(environment.PATH.includes(hostileMarker), false);
+    assert.equal(environment.npm_config_offline, "true");
+    assert.equal(environment.npm_config_ignore_scripts, "true");
+    assert.equal(environment.GIT_CONFIG_NOSYSTEM, "1");
+    assert.equal(environment.GIT_TERMINAL_PROMPT, "0");
+
+    const binding = await RELEASE_GATE_TEST_HOOKS.executionEnvironmentBinding(
+      environment,
+      gitContext.runtime,
+    );
+    assert.deepEqual(binding.effective, environment);
+    assert.equal(binding.policy.allowlist, "exact-effective-map");
+    assert.equal(binding.policy.nodeOptions, "absent");
+    assert.equal(binding.policy.nodePath, "absent");
+    assert.equal(binding.npm.userConfig.bytes, 0);
+    assert.equal(binding.npm.globalConfig.bytes, 0);
+
+    const toolchain = await RELEASE_GATE_TEST_HOOKS.inspectToolchain(environment);
+    for (const tool of [
+      toolchain.node,
+      toolchain.npmLauncher,
+      toolchain.npmCli,
+      toolchain.git,
+      toolchain.shell,
+      toolchain.typescript,
+    ]) {
+      assert.match(tool.digest, /^sha256:[0-9a-f]{64}$/u);
+      assert.equal(isAbsolute(tool.path), true);
+      assert.ok(tool.bytes > 0);
+    }
+
+    const dependencies = await RELEASE_GATE_TEST_HOOKS.inspectHostDependencyClosure();
+    assert.equal(dependencies.root, await realpath(RELEASE_GATE_TEST_HOOKS.hostDependencyRoot));
+    assert.ok(dependencies.files > 0);
+    assert.ok(dependencies.bytes > 0);
+    assert.match(dependencies.digest, /^sha256:[0-9a-f]{64}$/u);
+  } finally {
+    for (const [key, value] of previous) {
+      if (value === undefined) {
+        delete process.env[key];
+      } else {
+        process.env[key] = value;
+      }
+    }
+    if (gitContext !== undefined) {
+      await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
+    }
+    if (materialization !== undefined) {
+      await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+    }
+  }
+});
+
 test("candidate scratch cleanup supports reverse owner order", async () => {
   const parent = RELEASE_GATE_TEST_HOOKS.materializationParent;
   await mkdir(parent, { recursive: true });
@@ -450,9 +542,10 @@ test("canonical command is pinned to the authenticated materialization", () => {
     mainSource,
     /gitContext = await createCandidateGitContext\(candidateCommit, materialization\.root\);/u,
   );
+  assert.match(mainSource, /const environment = commandEnvironment\(gitContext\);/u);
   assert.match(
     mainSource,
-    /spawnSync\(COMMAND\.executable,[\s\S]*?cwd: materialization\.root,[\s\S]*?env: commandEnvironment\(gitContext\),/u,
+    /spawnSync\(COMMAND\.executable,[\s\S]*?cwd: materialization\.root,[\s\S]*?env: environment,/u,
   );
   assert.doesNotMatch(mainSource, /spawnSync\(COMMAND\.executable,[\s\S]*?cwd: ROOT,/u);
   assert.match(mainSource, /removeGeneratedBuildOutput\(materialization\.root/u);
@@ -461,6 +554,15 @@ test("canonical command is pinned to the authenticated materialization", () => {
   assert.match(mainSource, /await removeCandidateGitContext\(gitContext\.root\);/u);
   assert.match(mainSource, /materializationDigestAfter === materialization\.source\.digest/u);
   assert.match(mainSource, /cleanupError: materializationCleanupError/u);
+  assert.match(mainSource, /environmentBinding = await executionEnvironmentBinding/u);
+  assert.match(mainSource, /toolchainBefore = await inspectToolchain/u);
+  assert.match(mainSource, /hostDependenciesBefore = await inspectHostDependencyClosure/u);
+  assert.match(
+    mainSource,
+    /JSON\.stringify\(toolchainBefore\) === JSON\.stringify\(toolchainAfter\)/u,
+  );
+  assert.match(mainSource, /hostDependenciesBefore\.digest === hostDependenciesAfter\.digest/u);
+  assert.match(mainSource, /apiVersion: "swecircuit\/release-gate\/v1alpha2"/u);
 });
 
 test("R2 closes the stronger receipt and all six causal security sources", () => {
@@ -534,8 +636,10 @@ test("R2 correction review context remains bounded with primary evidence", async
   ]);
 
   const candidateTree = RELEASE_REVIEW_TEST_HOOKS.loadCandidateTree(candidate);
-  const selectedSources = RELEASE_REVIEW_TEST_HOOKS.collectSourceSpecs(candidateTree);
-  const selectedPaths = selectedSources.map((source) => source.path);
+  const selectedPaths = [...contextsByOriginalPath.keys()]
+    .filter((path) => !RELEASE_REVIEW_TEST_HOOKS.isCorrectionNavigationDuplicate(path))
+    .sort();
+  const selectedSources = selectedPaths.map((path) => ({ path }));
   const selectedPathSet = new Set(selectedPaths);
   const removedPaths = [...contextsByOriginalPath.keys()].filter(
     (path) => !selectedPathSet.has(path),

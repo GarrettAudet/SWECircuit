@@ -9,7 +9,7 @@ import {
   realpath,
   writeFile,
 } from "node:fs/promises";
-import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+import { basename, delimiter, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = fileURLToPath(new URL("../../../../../", import.meta.url));
@@ -400,6 +400,42 @@ const STATIC_SOURCES = [
     "test/v12-release-gate.test.mjs",
     "Candidate-materialization and R2 security-context regressions.",
     [LIFECYCLE, SECURITY],
+  ),
+  source(
+    "context.typescript-binding-runner",
+    "scripts/run-typescript.mjs",
+    "Exact host TypeScript entrypoint resolution and identity boundary.",
+    [SECURITY],
+  ),
+  source(
+    "context.git-blob-loader-fixture",
+    "test/helpers/git-blob-loader-fixture.mjs",
+    "Primary Git blob loading and adversarial batch fixture.",
+    [SECURITY],
+  ),
+  source(
+    "context.release-review-lifecycle-helper",
+    "test/helpers/v12-release-review-lifecycle.mjs",
+    "Copied-production release lifecycle and host-supply verification helper.",
+    [LIFECYCLE, SECURITY],
+  ),
+  source(
+    "context.host-cache-supply-child",
+    "test/fixtures/v12-host-cache-supply-child.mjs",
+    "Host cache isolation adversarial child fixture.",
+    [SECURITY],
+  ),
+  source(
+    "context.git-environment-boundary-child",
+    "test/fixtures/v12-git-environment-boundary-child.mjs",
+    "Closed Git environment adversarial child fixture.",
+    [SECURITY],
+  ),
+  source(
+    "context.git-blob-loader-environment-child",
+    "test/fixtures/git-blob-loader-environment-child.mjs",
+    "Git blob loader environment adversarial child fixture.",
+    [SECURITY],
   ),
   source(
     "context.release-review-r2-tests",
@@ -2184,6 +2220,267 @@ function capturedGateEvidencePaths(paths) {
   });
 }
 
+function validateAuthorityFileBinding(value, label, versioned = false) {
+  assertExactKeys(
+    value,
+    versioned ? ["path", "bytes", "digest", "nlink", "version"] : ["path", "bytes", "digest", "nlink"],
+    label,
+  );
+  requireCondition(
+    typeof value.path === "string" && isAbsolute(value.path),
+    `${label} path is not absolute.`,
+  );
+  requireCondition(
+    Number.isSafeInteger(value.bytes) && value.bytes >= 0,
+    `${label} byte count is invalid.`,
+  );
+  requireCondition(DIGEST_PATTERN.test(value.digest), `${label} digest is invalid.`);
+  requireCondition(
+    Number.isSafeInteger(value.nlink) && value.nlink >= 1,
+    `${label} link count is invalid.`,
+  );
+  if (versioned) {
+    requireCondition(
+      typeof value.version === "string" && value.version.length > 0,
+      `${label} version is invalid.`,
+    );
+  }
+}
+
+function validateToolchainSnapshot(value, label) {
+  assertExactKeys(
+    value,
+    ["node", "npmLauncher", "npmCli", "git", "shell", "typescript"],
+    label,
+  );
+  validateAuthorityFileBinding(value.node, `${label} Node`, true);
+  validateAuthorityFileBinding(value.npmLauncher, `${label} npm launcher`, true);
+  validateAuthorityFileBinding(value.npmCli, `${label} npm CLI`);
+  validateAuthorityFileBinding(value.git, `${label} Git`, true);
+  validateAuthorityFileBinding(value.shell, `${label} shell`);
+  validateAuthorityFileBinding(value.typescript, `${label} TypeScript`, true);
+}
+
+function validateExecutionAuthority(value, command) {
+  assertExactKeys(
+    value,
+    ["environment", "toolchain", "hostDependencies"],
+    "canonical-gate execution authority",
+  );
+  assertExactKeys(
+    value.environment,
+    ["apiVersion", "effective", "policy", "npm"],
+    "canonical-gate environment authority",
+  );
+  requireCondition(
+    value.environment.apiVersion === "swecircuit/release-gate-environment/v1alpha1",
+    "Canonical-gate environment authority version mismatch.",
+  );
+  assertExactKeys(
+    value.environment.policy,
+    [
+      "allowlist",
+      "gitConfiguration",
+      "gitPrompt",
+      "nodeOptions",
+      "nodePath",
+      "npmNetwork",
+      "npmLifecycleScripts",
+      "npmUserConfig",
+      "npmGlobalConfig",
+      "pathPolicy",
+      "temporaryPaths",
+    ],
+    "canonical-gate environment policy",
+  );
+  requireCondition(
+    value.environment.policy.allowlist === "exact-effective-map" &&
+      value.environment.policy.gitConfiguration === "system-and-global-disabled" &&
+      value.environment.policy.gitPrompt === "disabled" &&
+      value.environment.policy.nodeOptions === "absent" &&
+      value.environment.policy.nodePath === "absent" &&
+      value.environment.policy.npmNetwork === "offline" &&
+      value.environment.policy.npmLifecycleScripts === "disabled" &&
+      value.environment.policy.npmUserConfig === "operation-private-empty-file" &&
+      value.environment.policy.npmGlobalConfig === "operation-private-empty-file" &&
+      value.environment.policy.pathPolicy === "closed-tool-directories" &&
+      value.environment.policy.temporaryPaths === "operation-private",
+    "Canonical-gate environment policy is not closed.",
+  );
+
+  assertExactKeys(
+    value.environment.npm,
+    ["cache", "userConfig", "globalConfig"],
+    "canonical-gate npm authority",
+  );
+  assertExactKeys(
+    value.environment.npm.cache,
+    ["path", "provisioning"],
+    "canonical-gate npm cache authority",
+  );
+  requireCondition(
+    typeof value.environment.npm.cache.path === "string" &&
+      isAbsolute(value.environment.npm.cache.path) &&
+      value.environment.npm.cache.provisioning ===
+        "external-host-untrusted-content-offline-only",
+    "Canonical-gate npm cache authority is invalid.",
+  );
+  validateAuthorityFileBinding(
+    value.environment.npm.userConfig,
+    "canonical-gate npm user config",
+  );
+  validateAuthorityFileBinding(
+    value.environment.npm.globalConfig,
+    "canonical-gate npm global config",
+  );
+  requireCondition(
+    value.environment.npm.userConfig.bytes === 0 &&
+      value.environment.npm.userConfig.digest === EMPTY_FILE_DIGEST &&
+      value.environment.npm.userConfig.nlink === 1 &&
+      value.environment.npm.globalConfig.bytes === 0 &&
+      value.environment.npm.globalConfig.digest === EMPTY_FILE_DIGEST &&
+      value.environment.npm.globalConfig.nlink === 1,
+    "Canonical-gate npm configuration is not two empty unlinked files.",
+  );
+
+  assertExactKeys(
+    value.toolchain,
+    ["before", "after", "inspectionError"],
+    "canonical-gate toolchain authority",
+  );
+  validateToolchainSnapshot(value.toolchain.before, "canonical-gate toolchain before");
+  validateToolchainSnapshot(value.toolchain.after, "canonical-gate toolchain after");
+  requireCondition(
+    JSON.stringify(value.toolchain.before) === JSON.stringify(value.toolchain.after) &&
+      value.toolchain.inspectionError === null,
+    "Canonical-gate toolchain changed during execution.",
+  );
+
+  assertExactKeys(
+    value.hostDependencies,
+    [
+      "strategy",
+      "root",
+      "files",
+      "bytes",
+      "digestBefore",
+      "digestAfter",
+      "inspectionError",
+    ],
+    "canonical-gate host dependency authority",
+  );
+  requireCondition(
+    value.hostDependencies.strategy === "exact-host-node-modules-closure" &&
+      typeof value.hostDependencies.root === "string" &&
+      isAbsolute(value.hostDependencies.root) &&
+      Number.isSafeInteger(value.hostDependencies.files) &&
+      value.hostDependencies.files > 0 &&
+      Number.isSafeInteger(value.hostDependencies.bytes) &&
+      value.hostDependencies.bytes > 0 &&
+      DIGEST_PATTERN.test(value.hostDependencies.digestBefore) &&
+      value.hostDependencies.digestBefore === value.hostDependencies.digestAfter &&
+      value.hostDependencies.inspectionError === null,
+    "Canonical-gate host dependency closure is invalid.",
+  );
+
+  const effective = value.environment.effective;
+  requireCondition(
+    effective !== null && typeof effective === "object" && !Array.isArray(effective),
+    "Canonical-gate effective environment is invalid.",
+  );
+  const baseKeys = [
+    "GIT_CEILING_DIRECTORIES",
+    "GIT_CONFIG_GLOBAL",
+    "GIT_CONFIG_NOSYSTEM",
+    "GIT_DIR",
+    "GIT_INDEX_FILE",
+    "GIT_OPTIONAL_LOCKS",
+    "GIT_TERMINAL_PROMPT",
+    "GIT_WORK_TREE",
+    "HOME",
+    "LANG",
+    "LC_ALL",
+    "NO_COLOR",
+    "PATH",
+    "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT",
+    "TEMP",
+    "TMP",
+    "TMPDIR",
+    "npm_config_audit",
+    "npm_config_cache",
+    "npm_config_color",
+    "npm_config_fund",
+    "npm_config_globalconfig",
+    "npm_config_ignore_scripts",
+    "npm_config_loglevel",
+    "npm_config_offline",
+    "npm_config_progress",
+    "npm_config_script_shell",
+    "npm_config_update_notifier",
+    "npm_config_userconfig",
+    "npm_config_yes",
+  ];
+  const windowsKeys = [
+    "APPDATA",
+    "COMSPEC",
+    "LOCALAPPDATA",
+    "PATHEXT",
+    "SYSTEMROOT",
+    "USERPROFILE",
+    "WINDIR",
+  ];
+  const isWindowsReceipt = Object.hasOwn(effective, "COMSPEC");
+  const expectedKeys = [...baseKeys, ...(isWindowsReceipt ? windowsKeys : [])].sort(compareOrdinal);
+  assertExactStringArray(Object.keys(effective), expectedKeys, "canonical-gate effective environment keys");
+  requireCondition(
+    Object.values(effective).every(
+      (entry) => typeof entry === "string" && !/[\u0000-\u001f\u007f]/u.test(entry),
+    ),
+    "Canonical-gate effective environment contains an unsafe value.",
+  );
+  requireCondition(
+    !Object.hasOwn(effective, "NODE_OPTIONS") &&
+      !Object.hasOwn(effective, "NODE_PATH") &&
+      !Object.hasOwn(effective, "npm_config_registry") &&
+      effective.GIT_CONFIG_NOSYSTEM === "1" &&
+      effective.GIT_TERMINAL_PROMPT === "0" &&
+      effective.npm_config_offline === "true" &&
+      effective.npm_config_ignore_scripts === "true",
+    "Canonical-gate effective environment retained undeclared authority.",
+  );
+  requireCondition(
+    effective.npm_config_cache === value.environment.npm.cache.path &&
+      effective.npm_config_userconfig === value.environment.npm.userConfig.path &&
+      effective.npm_config_globalconfig === value.environment.npm.globalConfig.path &&
+      effective.npm_config_script_shell === value.toolchain.before.shell.path &&
+      effective.SWECIRCUIT_TYPESCRIPT_ENTRYPOINT === value.toolchain.before.typescript.path,
+    "Canonical-gate effective environment does not match its bound supplies.",
+  );
+  const expectedPath = [
+    join(value.hostDependencies.root, ".bin"),
+    dirname(value.toolchain.before.node.path),
+    dirname(value.toolchain.before.npmLauncher.path),
+    dirname(value.toolchain.before.git.path),
+    dirname(value.toolchain.before.shell.path),
+  ]
+    .filter((entry, index, entries) => entries.indexOf(entry) === index)
+    .join(delimiter);
+  requireCondition(effective.PATH === expectedPath, "Canonical-gate PATH is not closed.");
+
+  const windowsCommand =
+    isWindowsReceipt &&
+    command.executable === value.toolchain.before.shell.path &&
+    JSON.stringify(command.arguments) ===
+      JSON.stringify(["/d", "/s", "/c", "npm.cmd run verify"]) &&
+    command.canonical === "npm.cmd run verify";
+  const portableCommand =
+    !isWindowsReceipt &&
+    command.executable === value.toolchain.before.npmLauncher.path &&
+    JSON.stringify(command.arguments) === JSON.stringify(["run", "verify"]) &&
+    command.canonical === "npm run verify";
+  requireCondition(windowsCommand || portableCommand, "Canonical-gate command mismatch.");
+}
+
 async function validateGateReceipt(
   candidate,
   candidateTree = loadCandidateTree(candidate),
@@ -2222,6 +2519,7 @@ async function validateGateReceipt(
       "materialization",
       "gitContext",
       "command",
+      "executionAuthority",
       "result",
       "exitCode",
       "signal",
@@ -2232,7 +2530,7 @@ async function validateGateReceipt(
     "canonical-gate receipt",
   );
   requireCondition(
-    receipt.apiVersion === "swecircuit/release-gate/v1alpha1" &&
+    receipt.apiVersion === "swecircuit/release-gate/v1alpha2" &&
       receipt.kind === "CanonicalGateReceipt" &&
       receipt.version === "V12",
     "Canonical-gate receipt identity mismatch.",
@@ -2319,16 +2617,7 @@ async function validateGateReceipt(
     ["executable", "arguments", "canonical"],
     "canonical-gate command",
   );
-  const windowsCommand =
-    receipt.command.executable === "cmd.exe" &&
-    JSON.stringify(receipt.command.arguments) ===
-      JSON.stringify(["/d", "/s", "/c", "npm.cmd run verify"]) &&
-    receipt.command.canonical === "npm.cmd run verify";
-  const portableCommand =
-    receipt.command.executable === "npm" &&
-    JSON.stringify(receipt.command.arguments) === JSON.stringify(["run", "verify"]) &&
-    receipt.command.canonical === "npm run verify";
-  requireCondition(windowsCommand || portableCommand, "Canonical-gate command mismatch.");
+  validateExecutionAuthority(receipt.executionAuthority, receipt.command);
   requireCondition(
     receipt.result === "pass" &&
       receipt.exitCode === 0 &&

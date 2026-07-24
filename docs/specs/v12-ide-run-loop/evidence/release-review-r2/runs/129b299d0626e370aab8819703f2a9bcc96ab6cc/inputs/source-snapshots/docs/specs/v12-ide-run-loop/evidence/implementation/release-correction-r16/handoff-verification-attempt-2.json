@@ -1,0 +1,30 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "release-correction-r16",
+  "attempt": 2,
+  "integrationAccepted": true,
+  "compilationDigest": "sha256:064bb4a993c3ab3410f360684a29bf603c119059eccb62d87294456ecbcfe044",
+  "packageDigest": "sha256:20437ba56376d4b39f459043bac0940e8ded2e298b48de0cd16d437a95c96db6",
+  "expectedAgentIds": [
+    "agent.0b01c5e065cbfb2779dbeb056582a13d964c7581cc473700a52de7d77954b826"
+  ],
+  "receivedAgentIds": [
+    "agent.0b01c5e065cbfb2779dbeb056582a13d964c7581cc473700a52de7d77954b826"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.0b01c5e065cbfb2779dbeb056582a13d964c7581cc473700a52de7d77954b826-pass-attempt-2.json",
+      "agentId": "agent.0b01c5e065cbfb2779dbeb056582a13d964c7581cc473700a52de7d77954b826",
+      "outcome": "pass",
+      "rawBytes": 6520,
+      "rawDigest": "sha256:51e123c6a202a58a0ea456729b84dbb4995cff2b26b27313c66133fa035ae4b9",
+      "semanticDigest": "sha256:b1c6d143aeeaa81476b0e765c6488201a5cba01e176534d0e360798a2c232afa",
+      "contentDigest": "sha256:12bf6729e9c9b9171718cd02f821996852148931ce2c42584d2f4f0743d3b012"
+    }
+  ],
+  "phaseReady": true,
+  "supersedesForIntegration": "handoff-verification.json",
+  "note": "Attempt 1 remains immutable and package-valid but was rejected by integration review as incomplete. Attempt 2 is the accepted external complete-package gate; a verified non-pass would remain a workflow route."
+}

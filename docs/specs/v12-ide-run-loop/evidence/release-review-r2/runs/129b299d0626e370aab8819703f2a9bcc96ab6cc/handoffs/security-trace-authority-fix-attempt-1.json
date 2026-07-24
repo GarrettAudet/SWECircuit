@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:c3eb6b75df32a261803b1fbb7d14ca4d2a99539f971ba7abdc5830286606f6e4"
+  },
+  "agent": {
+    "id": "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+    "blueprintDigest": "sha256:9b6d2007793e7cbb536623fdbaf672a32afef754a0767b6bef50ca249fe00980"
+  },
+  "compilationDigest": "sha256:2180101082e8c7e967eba9b21b2e4434ff6753c2d7d61df09430cd53bc0e9c78",
+  "summary": "Fix required: one high-severity canonical-gate authority defect and one medium-severity source-preservation gap prevent release readiness.",
+  "workUnitsCompleted": [
+    "review.r2.security-trace-authority"
+  ],
+  "artifacts": [
+    {
+      "name": "security-trace-authority-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Findings\n\n1. **Severity: high - The canonical gate inherits unbound host environment authority.**\n\n   Snapshot: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/scripts/run-v12-release-gate.mjs` (original: `scripts/run-v12-release-gate.mjs`). Lines 122-143 construct the Git environment by copying `process.env` and removing only a bounded subset of Git variables. Lines 597-623 derive the canonical command environment from that inherited state, and line 816 supplies it to `npm.cmd run verify`. Security-causal variables including `NODE_OPTIONS`, `NODE_PATH`, undeclared Git configuration channels, npm configuration, and other mutable host inputs therefore remain capable of changing the execution.\n\n   Primary receipt evidence: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate/canonical-gate-receipt.json` (original: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/129b299d0626e370aab8819703f2a9bcc96ab6cc/canonical-gate-receipt.json`). The receipt assembled at lines 876-920 of the gate source binds the candidate, materialization, Git context, command, result, and logs, but does not bind the effective environment policy or exact Node, npm, Git, TypeScript, and cache authority. The passing receipt proves the observed execution but does not authenticate every input capable of affecting it.\n\n2. **Severity: medium - The review context omits six transitive security-causal sources.**\n\n   Direct reinspection of `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/candidate.json` confirms that `scripts/check-packed-consumer.mjs` is individually bound at lines 4745-4748 and is not omitted.\n\n   The same manifest and its source-snapshot tree contain no individual binding or primary snapshot for the remaining six sources. The authenticated snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/scripts/run-v12-release-gate.mjs` (original: `scripts/run-v12-release-gate.mjs`) imports omitted original source `scripts/run-typescript.mjs` at line 21. Authenticated snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/test/v12-release-gate.test.mjs` (original: `test/v12-release-gate.test.mjs`) imports omitted originals `test/helpers/git-blob-loader-fixture.mjs` at line 30 and `test/helpers/v12-release-review-lifecycle.mjs` at line 38. Authenticated snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/test/v12-release-review.test.mjs` (original: `test/v12-release-review.test.mjs`) invokes omitted originals `test/fixtures/v12-host-cache-supply-child.mjs`, `test/fixtures/v12-git-environment-boundary-child.mjs`, and `test/fixtures/git-blob-loader-environment-child.mjs` at lines 39-45.\n\n   The aggregate candidate-tree digest preserves whole-tree identity, but it does not provide source-level primary evidence within this specialist's closed authority. Consequently, the implementation behind TypeScript supply, Git-environment, host-cache, lifecycle, and Git-blob-loader security claims cannot be independently reviewed from the approved package.\n\n# Authentication And Review Evidence\n\nAll 212 declared immutable context sources authenticated against their declared byte counts and SHA-256 values before semantic review; no mismatch was found. Owned candidate source bindings were checked against commit `129b299d0626e370aab8819703f2a9bcc96ab6cc`, tree `a6509e433f2d76be051f8dfa536aebe00aee8464`, declared Git object identities, and exact snapshot bytes without mismatch.\n\nThe canonical receipt binds a passing `npm.cmd run verify` execution for the exact candidate. Its authenticated stdout records 447 passing core tests, the copied lifecycle test, and successful package and consumer checks. The approval binds compilation digest `sha256:2180101082e8c7e967eba9b21b2e4434ff6753c2d7d61df09430cd53bc0e9c78` and package digest `sha256:8f76e09e89345951dff4ed6c48f926e50bcfba3da240409cd278a0003e4ca805` to the reviewed candidate and runtime identities.\n\nThe exact V11 Audit-B evidence chain is internally coherent: candidate and audit digest pairs, package-verification receipt, raw semantic handoff, and cross-package launch authorization agree on paths, byte counts, raw SHA-256 values, and pass outcomes. The 22 package-backed correction revisions likewise preserve their package, approval, report, and raw-handoff bindings; historical non-ready outcomes remain represented as non-ready rather than being promoted to passes.\n\nNo additional finding was identified in the owned run-loop core. Schema loading is bundled and effect-free at the public boundary; raw handoff bytes and digests are preserved and verified; goal, agent, blueprint, package, dependency, control-character, and secret boundaries are enforced; and aggregate 16-agent, 1 MiB-per-handoff resource tests exercise ordering convergence and derived session and inspection ceilings.\n\n# Verdict\n\nOutcome: `fix`. The domain is not release-ready until the canonical gate closes and receipts its effective execution authority and the independent review package supplies authenticated primary snapshots for the six remaining transitive security-causal sources."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.security-trace-authority",
+      "requirementId": "evidence.r2.security-trace-authority-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "security-trace-authority-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "A hostile or accidental inherited host variable can alter canonical-gate behavior without changing the candidate identity or recorded receipt authority.",
+    "The omitted transitive sources prevent independent semantic validation of security-critical toolchain, Git-environment, host-cache, lifecycle, and blob-loading claims."
+  ],
+  "followUps": [
+    "Replace canonical-gate environment inheritance with a closed allowlist, remove undeclared Node, Git, and npm authority, and bind the exact environment policy, toolchain, and cache supply into the gate receipt.",
+    "Add hostile-environment regression coverage against the actual canonical-gate commandEnvironment path.",
+    "Add exact Git-blob-derived byte, SHA-256, and primary-snapshot bindings for the six remaining transitive security-causal sources, then recompile and reapprove the specialist package.",
+    "Rerun the exact one-shot canonical gate and a fresh independent release review after both corrections."
+  ]
+}

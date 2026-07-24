@@ -387,3 +387,11 @@ Each named pattern maps to the strongest existing source artifact. Patterns shar
 | [Revision 38 closed-environment correction](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r38/), [fixture helper](../../test/helpers/git-blob-loader-fixture.mjs), and [fresh-process probe](../../test/fixtures/git-blob-loader-environment-child.mjs) | Closed Child Environment; Adversarial Future-Key Probe |
 
 | [Revision 39 retirement](../specs/v12-ide-run-loop/evidence/release-review-r2/candidate-16-retirement.md), [Revision 40 RCA](../specs/v12-ide-run-loop/evidence/implementation/release-correction-r40/root-cause-analysis.md), and [causal tests](../../test/v12-release-review.test.mjs) | Complete Package Marker Contract; Diagnostic Artifacts Do Not Claim Package State; Commit Before Copied-Lifecycle Identity |
+
+### Close Execution Authority As Data
+
+Do not infer release execution authority from a command label or candidate source. Construct an exact environment, bind private configuration and executable supplies, authenticate dependency bytes before and after execution, and require a separate consumer to validate the receipt.
+
+### Review The Causal Dependency Cone
+
+Independent review context must include the helpers and adversarial fixtures that can change the conclusion, not only direct product files. Keep exact-once source ownership tests, and test historical compaction separately so expanding current coverage does not invalidate or weaken preserved evidence.

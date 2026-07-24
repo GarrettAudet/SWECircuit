@@ -2,7 +2,7 @@
 
 ## Status
 
-Historical attempts remain immutable. Exact Revision 39 commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f` passed its one-shot canonical gate with 447/447 core tests plus copied lifecycle, package inspection, and offline installed-consumer verification. Fresh R2 preparation authenticated the source and gate, then emitted `diagnose` before compilation because diagnostic-only `release-correction-rN` folders were misclassified as package-backed specialist revisions. Revision 39 is retired without rerun. Working Revision 40 requires all three root package markers, rejects partial marker sets, ignores diagnostic-only roots, and passes its focused checks plus the complete 50/50 concurrent release suite. Broad verification, an immutable successor commit, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
+Historical attempts remain immutable. Exact Revision 40 commit `129b299d0626e370aab8819703f2a9bcc96ab6cc` passed its one-shot gate and fresh R2 then returned two domain passes plus one security fix. Revision 40 is retired without rerun. Revision 41 closes the ambient execution-authority and incomplete review-source root causes and passes 53/53 release-specific checks. Frozen verification and the remaining release gates remain; `releaseReady: false`.
 
 ## Reproduction
 
@@ -664,3 +664,29 @@ Security boundaries should be closed by construction. A reviewed denylist and a 
 Fresh R2 preparation against exact Revision 39 failed with `Correction revision sequence is not contiguous from revision 1: missing revision 30.` Complete specialist-package evidence is actually contiguous through Revision 22. Later numbered correction roots contain diagnoses and attempt notes, not packages.
 
 The scanner registered a revision from any path under a matching directory. Revision 40 instead requires the complete root-level package-envelope, approval, and handoff-verification marker set; none means diagnostic-only, some means invalid, and all means package-backed. Route: `review -> diagnose -> fix -> verify`.
+
+## Revision 40 Ambient Execution Authority And Review-Coverage RCA
+
+### Reproduction
+
+Revision 40's exact one-shot gate passed, but the independently compiled R2 security reviewer returned `fix`. The verified handoff identified two distinct defects: undeclared host authority could influence the canonical command, and six transitive security-causal files were absent from the review package.
+
+### Hypotheses
+
+1. The findings were only documentation gaps.
+2. The gate command was sufficiently bound by its candidate source and stdout/stderr receipt.
+3. Ambient execution supply and incomplete review context were real trust-boundary defects.
+
+The first two hypotheses are rejected. Candidate source identity does not identify the executable environment or dependency bytes, and a reviewer cannot evaluate files it was never given.
+
+### Confirmed Root Causes
+
+The gate copied broad `process.env`, allowed Node/npm/Git configuration channels that were not represented in its receipt, and recorded a command label rather than the full execution authority. The R2 source list covered direct release files but not the complete helper/fixture dependency cone.
+
+### Causal Fix
+
+Revision 41 replaces inherited environment state with an exact allowlist, private operation-owned paths, offline npm policy, disabled lifecycle scripts, system/global Git configuration exclusion, and exact absolute tool paths. It records the effective map, private npm files, tool identities and versions, and complete host dependency closure before and after execution. The R2 consumer requires receipt v1alpha2 and validates every binding. The six omitted files are now first-class, exactly-once review sources.
+
+### Regression
+
+The hostile-host regression injects Node, npm, Git, and secret canaries and proves none survive. Source coverage proves every omitted file appears once with the intended domain ownership. Consumer source guards require v1alpha2 execution authority. Historical context deduplication remains separately tested. The complete release-specific result is 53/53 `pass`.

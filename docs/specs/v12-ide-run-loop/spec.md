@@ -2,7 +2,7 @@
 
 ## Status
 
-Exact Revision 39 commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f` passed its one-shot canonical gate with 447/447 core tests plus copied lifecycle, package inspection, and offline installed-consumer verification. Fresh R2 preparation authenticated the source and gate, then emitted `diagnose` before compilation because diagnostic-only `release-correction-rN` folders were misclassified as package-backed specialist revisions. Revision 39 is retired without rerun. Working Revision 40 requires all three root package markers, rejects partial marker sets, ignores diagnostic-only roots, and passes its focused checks plus the complete 50/50 concurrent release suite. Broad verification, an immutable successor commit, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
+Exact Revision 40 commit `129b299d0626e370aab8819703f2a9bcc96ab6cc` passed its one-shot canonical gate and fresh R2 then returned product/API/IDE `pass`, lifecycle/correctness `pass`, and security/trace/authority `fix`. Revision 40 is retired without rerun. Working Revision 41 binds closed execution authority into the gate receipt, validates it independently, includes six omitted transitive review sources, and passes 53/53 release-specific checks. Frozen verification and the remaining release gates remain; `releaseReady: false`.
 
 ## Problem
 

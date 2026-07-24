@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 18,
+    "digest": "sha256:d61decb70b1196e1310d18d1e0d930456b6f001b34ae8c8316f50c2a67024dd4"
+  },
+  "agent": {
+    "id": "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264",
+    "blueprintDigest": "sha256:afed29d3600ff495c391ef3753a01e07a39d6c006ccd2a84bd515c3d59dc4f81"
+  },
+  "compilationDigest": "sha256:bc3ae4a8e7acbb24f2eb3d628413390c4e9b71da0b3e8030e8117a7935af4755",
+  "summary": "Completed and verified the six-file Revision 18 parent/child release-review trust boundary. The exact combined focused test command passed 24/24 in 336.2 seconds.",
+  "workUnitsCompleted": [
+    "fix.parent-bootstrap-trust.r18"
+  ],
+  "artifacts": [
+    {
+      "name": "parent-bootstrap-trust-correction-r18.md",
+      "mediaType": "text/markdown",
+      "content": "# Revision 18 Parent-Bootstrap Trust Correction\n\n## Identity\n\n- Compilation: `sha256:bc3ae4a8e7acbb24f2eb3d628413390c4e9b71da0b3e8030e8117a7935af4755`\n- Package: `sha256:e56b776d8b6e291016183151aa8cae0395e054ded227e778f0066139c795954a`\n- Outcome: `pass`\n\n## Exact Source Scope\n\n- `scripts/run-v12-release-review.mjs` (new)\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs`\n- `package.json`\n- `test/v12-release-gate.test.mjs`\n- `test/v12-release-review.test.mjs`\n\nFinal Git inspection showed exactly five modified approved files and the new approved parent entrypoint. Pre-existing untracked correction, candidate-retirement, canonical-gate, and candidate-run evidence remained outside this specialist's edits.\n\n## Implemented Boundary\n\nThe built-in-only parent binds the exact candidate Git blobs for the parent, harness, and verifier; materializes the complete candidate tree outside repository ancestry; rejects unsafe paths and aliases; validates registry and SRI lock supply; performs offline `npm ci` with lifecycle scripts disabled; builds through candidate-private TypeScript; binds source, dependency, toolchain, environment, and generated closures into one deterministic runtime digest; launches one fresh candidate child per phase; verifies protected closures before and after execution; validates mode-specific outputs; stages bytes privately; performs bounded cleanup; promotes immutable bytes atomically per file; and records a parent execution receipt.\n\nThe harness has built-in-only static imports and validates the parent context, invocation token, candidate tooling, toolchain, environment, source, dependency, and generated closures before dynamically importing candidate-private `dist/index.js`.\n\nThe verifier has built-in-only static imports. It validates the parent context and candidate tooling before dynamically importing the authenticated candidate-private harness, which completes runtime validation before exposing specialist verification functions.\n\nThe direct `runtimeBindingDigest` is propagated and compared through the runtime-binding context, candidate manifest, phase metadata, compilation summary, approval, child output, and final handoff-verification report.\n\n`package.json` exposes `release-review:v12` and includes the parent, harness, and verifier in format and lint commands. The two approved test files add bounded adversarial coverage for direct worker invocation, import boundaries, runtime-digest substitution, unsafe paths, lock substitution, hardlinks, escaping links, closure mutation, output boundaries, closed environments, cleanup ordering, and immutable promotion.\n\n## Verification\n\n- `node --check` passed for the parent, harness, verifier, and both focused test files.\n- `npm.cmd run format:check` passed.\n- `npm.cmd run lint` passed with informational diagnostics and no errors.\n- `npm.cmd run typecheck` passed.\n- `npm.cmd run build` passed in the write-capable host after the restricted sandbox initially denied generated `dist` writes.\n- Final `git diff --check` passed.\n- Exact combined command `node --test test/v12-release-review.test.mjs test/v12-release-gate.test.mjs` passed: 24 tests, 24 passed, 0 failed, 0 cancelled, 0 skipped, duration 336.2 seconds.\n\n## Timeout Diagnosis\n\nThe previous specialist-host run was terminated by its arbitrary 300-second cap and produced no completed result. Integration independently established that no `.local/v12-release-gate` scratch remained, the review file passed 11/11 in 70.4 seconds, every gate case passed independently, the three heavy legacy gate cases took 126.9, 125.9, and 73.8 seconds, and the complete gate file passed 13/13 in 325.8 seconds.\n\nAttempt 3 directly confirmed the diagnosis: the exact combined command completed successfully in 336.2 seconds, below its eight-minute process cap. The earlier timeout was cumulative serial materialization cost, not a retained process or product defect.\n\n## Deliberately Deferred\n\nNo candidate R2 phase or full repository gate was run. Fresh candidate R2 execution, full offline release verification, hosted CI, release readiness, and merge remain integration-owner responsibilities.\n\n## Residual Host Boundary\n\nThe implementation does not claim protection from hostile same-user processes, compromised executables or operating systems, untrusted cache provisioning, or an IDE that bypasses the parent entrypoint. Those controls remain external-host responsibilities."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.parent-bootstrap-trust.r18",
+      "requirementId": "evidence.fix.parent-bootstrap-trust.r18",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "parent-bootstrap-trust-correction-r18.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The focused gate suite performs expensive serial Git materializations and requires a host timeout comfortably above six minutes.",
+    "Hostile-process isolation, executable trust, cache provisioning, and external permission enforcement remain outside the repository parent boundary."
+  ],
+  "followUps": [
+    "The integration owner should freeze the successor candidate and run the full repository and offline release verification.",
+    "The integration owner should run the fresh candidate R2 phases and preserve their parent execution receipts before making any release or merge decision."
+  ]
+}

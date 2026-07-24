@@ -1,5 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
+import { existsSync, lstatSync, realpathSync } from "node:fs";
 import {
   access,
   lstat,
@@ -8,6 +9,8 @@ import {
   open,
   readdir,
   readFile,
+  readlink,
+  realpath,
   rm,
   rmdir,
   writeFile,
@@ -24,6 +27,7 @@ const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const EVIDENCE = join(ROOT, "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs");
 const CANDIDATE_PATTERN = /^[0-9a-f]{40}$/;
 const MATERIALIZATION_DIGEST_DOMAIN = "swecircuit/release-gate/materialization/v1alpha1";
+const HOST_DEPENDENCY_DIGEST_DOMAIN = "swecircuit/release-gate/host-dependencies/v1alpha1";
 const GIT_CONTEXT_STRATEGY = "disposable-shared-object-git-context";
 
 const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
@@ -31,16 +35,83 @@ const MATERIALIZATION_PARENT = join(ROOT, ".local", "v12-release-gate");
 const GENERATED_BUILD_DIRECTORY = "dist";
 const DEFAULT_HOST_NPM_CACHE = join(ROOT, ".local", "npm-cache");
 const DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT = join(ROOT, "node_modules", "typescript", "bin", "tsc");
+const HOST_DEPENDENCY_ROOT = join(ROOT, "node_modules");
+
+function optionalEnvironmentValue(name, environment = process.env) {
+  const matches = Object.entries(environment).filter(
+    ([key]) => key.toLowerCase() === name.toLowerCase(),
+  );
+  requireCondition(
+    matches.every(([, value]) => typeof value === "string") &&
+      new Set(matches.map(([, value]) => value)).size <= 1,
+    `${name} has ambiguous case-insensitive values.`,
+  );
+  return matches.length > 0 ? matches[0][1] : null;
+}
+
+function plainResolvedFile(path, label) {
+  requireCondition(typeof path === "string" && path.length > 0, `${label} path is missing.`);
+  const resolved = realpathSync(path);
+  const stats = lstatSync(resolved);
+  requireCondition(
+    stats.isFile() && !stats.isSymbolicLink(),
+    `${label} must resolve to a plain regular file.`,
+  );
+  return resolved;
+}
+
+function resolveHostExecutable(names, label) {
+  const pathValue = optionalEnvironmentValue("PATH");
+  requireCondition(pathValue !== null, `${label} cannot be resolved without PATH.`);
+  for (const rawDirectory of pathValue.split(delimiter)) {
+    const directory = rawDirectory.trim().replace(/^"(.*)"$/u, "$1");
+    if (directory.length === 0) {
+      continue;
+    }
+    for (const name of names) {
+      const candidate = resolve(directory, name);
+      if (existsSync(candidate)) {
+        return plainResolvedFile(candidate, label);
+      }
+    }
+  }
+  throw new Error(`${label} was not found on PATH.`);
+}
+
+const HOST_NODE_PATH = plainResolvedFile(process.execPath, "Host Node executable");
+const HOST_GIT_PATH = resolveHostExecutable(
+  process.platform === "win32" ? ["git.exe"] : ["git"],
+  "Host Git executable",
+);
+const HOST_NPM_PATH = resolveHostExecutable(
+  process.platform === "win32" ? ["npm.cmd"] : ["npm"],
+  "Host npm executable",
+);
+const HOST_NPM_CLI_PATH =
+  process.platform === "win32"
+    ? plainResolvedFile(
+        join(dirname(HOST_NODE_PATH), "node_modules", "npm", "bin", "npm-cli.js"),
+        "Host npm CLI",
+      )
+    : HOST_NPM_PATH;
+const HOST_SHELL_PATH =
+  process.platform === "win32"
+    ? plainResolvedFile(
+        optionalEnvironmentValue("COMSPEC") ??
+          join(optionalEnvironmentValue("SYSTEMROOT") ?? "C:\\Windows", "System32", "cmd.exe"),
+        "Host command shell",
+      )
+    : plainResolvedFile("/bin/sh", "Host command shell");
 
 const COMMAND =
   process.platform === "win32"
     ? Object.freeze({
-        executable: "cmd.exe",
+        executable: HOST_SHELL_PATH,
         arguments: Object.freeze(["/d", "/s", "/c", "npm.cmd run verify"]),
         canonical: "npm.cmd run verify",
       })
     : Object.freeze({
-        executable: "npm",
+        executable: HOST_NPM_PATH,
         arguments: Object.freeze(["run", "verify"]),
         canonical: "npm run verify",
       });
@@ -105,10 +176,10 @@ function candidateEvidencePaths(candidateCommit) {
 }
 
 function runGit(args, options = {}) {
-  const result = spawnSync("git", args, {
+  const result = spawnSync(HOST_GIT_PATH, args, {
     cwd: options.cwd ?? ROOT,
     encoding: null,
-    env: options.environment ?? process.env,
+    env: options.environment ?? sanitizedGitEnvironment(),
     input: options.input,
     maxBuffer: 128 * 1024 * 1024,
     windowsHide: true,
@@ -119,26 +190,43 @@ function runGit(args, options = {}) {
   return result;
 }
 
-function sanitizedGitEnvironment() {
-  const environment = { ...process.env };
-  const repositoryKeys = new Set([
-    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
-    "GIT_CEILING_DIRECTORIES",
-    "GIT_COMMON_DIR",
-    "GIT_DIR",
-    "GIT_INDEX_FILE",
-    "GIT_INTERNAL_SUPER_PREFIX",
-    "GIT_OBJECT_DIRECTORY",
-    "GIT_OPTIONAL_LOCKS",
-    "GIT_PREFIX",
-    "GIT_WORK_TREE",
-  ]);
-  for (const key of Object.keys(environment)) {
-    const upper = key.toUpperCase();
-    if (repositoryKeys.has(upper) || /^GIT_CONFIG_(?:COUNT|KEY_\d+|VALUE_\d+)$/u.test(upper)) {
-      delete environment[key];
-    }
+function closedPath() {
+  return [
+    join(ROOT, "node_modules", ".bin"),
+    dirname(HOST_NODE_PATH),
+    dirname(HOST_NPM_PATH),
+    dirname(HOST_GIT_PATH),
+    dirname(HOST_SHELL_PATH),
+  ]
+    .filter((value, index, values) => values.indexOf(value) === index)
+    .join(delimiter);
+}
+
+function closedBaseEnvironment() {
+  const environment = {
+    HOME: MATERIALIZATION_PARENT,
+    LANG: "C",
+    LC_ALL: "C",
+    NO_COLOR: "1",
+    PATH: closedPath(),
+    TEMP: MATERIALIZATION_PARENT,
+    TMP: MATERIALIZATION_PARENT,
+    TMPDIR: MATERIALIZATION_PARENT,
+  };
+  if (process.platform === "win32") {
+    environment.APPDATA = MATERIALIZATION_PARENT;
+    environment.COMSPEC = HOST_SHELL_PATH;
+    environment.LOCALAPPDATA = MATERIALIZATION_PARENT;
+    environment.PATHEXT = ".COM;.EXE;.BAT;.CMD";
+    environment.SYSTEMROOT = optionalEnvironmentValue("SYSTEMROOT") ?? "C:\\Windows";
+    environment.USERPROFILE = MATERIALIZATION_PARENT;
+    environment.WINDIR = optionalEnvironmentValue("WINDIR") ?? environment.SYSTEMROOT;
   }
+  return environment;
+}
+
+function sanitizedGitEnvironment() {
+  const environment = closedBaseEnvironment();
   environment.GIT_CONFIG_NOSYSTEM = "1";
   environment.GIT_CONFIG_GLOBAL = process.platform === "win32" ? "NUL" : "/dev/null";
   environment.GIT_TERMINAL_PROMPT = "0";
@@ -309,6 +397,71 @@ function updateMaterializationDigest(hash, entry, bytes) {
 
 function finishMaterializationDigest(hash) {
   return "sha256:" + hash.digest("hex");
+}
+
+async function inspectHostDependencyClosure(root = HOST_DEPENDENCY_ROOT) {
+  const rootReal = await realpath(root);
+  const rootStats = await lstat(rootReal);
+  requireCondition(
+    rootStats.isDirectory() && !rootStats.isSymbolicLink(),
+    "Host dependency root must be a plain directory.",
+  );
+
+  const entries = [];
+  async function visit(directory, logicalDirectory) {
+    for (const child of await readdir(directory, { withFileTypes: true })) {
+      const logicalPath = logicalDirectory ? `${logicalDirectory}/${child.name}` : child.name;
+      const path = join(directory, child.name);
+      const stats = await lstat(path);
+      if (stats.isDirectory() && !stats.isSymbolicLink()) {
+        await visit(path, logicalPath);
+      } else if (stats.isFile() && !stats.isSymbolicLink()) {
+        entries.push({ kind: "file", logicalPath, path, link: null });
+      } else if (stats.isSymbolicLink()) {
+        const target = await realpath(path);
+        const targetStats = await lstat(target);
+        requireCondition(
+          targetStats.isFile(),
+          `Host dependency link is not a file: ${logicalPath}.`,
+        );
+        requireCondition(
+          target === rootReal || target.startsWith(`${rootReal}${sep}`),
+          `Host dependency link escapes the closure: ${logicalPath}.`,
+        );
+        entries.push({
+          kind: "symlink",
+          logicalPath,
+          path: target,
+          link: await readlink(path),
+        });
+      } else {
+        throw new Error(`Host dependency closure contains a non-regular entry: ${logicalPath}.`);
+      }
+    }
+  }
+  await visit(rootReal, "");
+  entries.sort((left, right) =>
+    Buffer.compare(Buffer.from(left.logicalPath, "utf8"), Buffer.from(right.logicalPath, "utf8")),
+  );
+
+  const hash = createHash("sha256");
+  updateFramed(hash, Buffer.from(HOST_DEPENDENCY_DIGEST_DOMAIN, "utf8"));
+  let bytes = 0;
+  for (const entry of entries) {
+    const content = await readFile(entry.path);
+    const link = entry.link === null ? Buffer.alloc(0) : Buffer.from(entry.link, "utf8");
+    bytes += content.byteLength + link.byteLength;
+    updateFramed(hash, Buffer.from(entry.kind, "ascii"));
+    updateFramed(hash, Buffer.from(entry.logicalPath, "utf8"));
+    updateFramed(hash, link);
+    updateFramed(hash, content);
+  }
+  return {
+    root: rootReal,
+    files: entries.length,
+    bytes,
+    digest: `sha256:${hash.digest("hex")}`,
+  };
 }
 
 function materializedPath(root, entry) {
@@ -552,6 +705,27 @@ async function removeCandidateGitContext(root) {
   await pruneMaterializationParents();
 }
 
+async function createPrivateRuntime(root) {
+  const runtimeRoot = join(root, "host-runtime");
+  const home = join(runtimeRoot, "home");
+  const temp = join(runtimeRoot, "temp");
+  const appData = join(runtimeRoot, "appdata");
+  const localAppData = join(runtimeRoot, "localappdata");
+  await Promise.all([
+    mkdir(home, { recursive: true }),
+    mkdir(temp, { recursive: true }),
+    mkdir(appData, { recursive: true }),
+    mkdir(localAppData, { recursive: true }),
+  ]);
+  const userConfig = join(runtimeRoot, "npm-userconfig");
+  const globalConfig = join(runtimeRoot, "npm-globalconfig");
+  await Promise.all([
+    writeFile(userConfig, Buffer.alloc(0), { flag: "wx" }),
+    writeFile(globalConfig, Buffer.alloc(0), { flag: "wx" }),
+  ]);
+  return { root: runtimeRoot, home, temp, appData, localAppData, userConfig, globalConfig };
+}
+
 async function createCandidateGitContext(candidateCommit, worktree) {
   const sourceResult = runGit(["rev-parse", "--path-format=absolute", "--git-common-dir"]);
   requireGitSuccess(sourceResult, "Source Git common-directory inspection");
@@ -581,7 +755,8 @@ async function createCandidateGitContext(candidateCommit, worktree) {
       requireGitSuccess(runGit(args, options), label);
     }
 
-    const context = { root, worktree, environment };
+    const runtime = await createPrivateRuntime(root);
+    const context = { root, worktree, environment, runtime };
     const before = inspectCandidateGitContext(context);
     requireCondition(
       before.head === candidateCommit && before.trackedState === "clean",
@@ -594,11 +769,43 @@ async function createCandidateGitContext(candidateCommit, worktree) {
   }
 }
 
+function validatePrivateRuntime(gitContext) {
+  const runtime = gitContext.runtime;
+  requireCondition(
+    runtime.root.startsWith(`${resolve(gitContext.root)}${sep}`),
+    "Private runtime escapes the candidate Git context.",
+  );
+  for (const path of [runtime.home, runtime.temp, runtime.appData, runtime.localAppData]) {
+    const stats = lstatSync(path);
+    requireCondition(
+      stats.isDirectory() && !stats.isSymbolicLink(),
+      "Private runtime directory is not plain.",
+    );
+  }
+  for (const path of [runtime.userConfig, runtime.globalConfig]) {
+    const stats = lstatSync(path);
+    requireCondition(
+      stats.isFile() && !stats.isSymbolicLink() && stats.nlink === 1 && stats.size === 0,
+      "Private npm configuration is not one empty unlinked file.",
+    );
+  }
+}
+
 function commandEnvironment(gitContext) {
+  validatePrivateRuntime(gitContext);
   const environment = { ...gitContext.environment };
-  const pathKey = Object.keys(environment).find((key) => key.toLowerCase() === "path") ?? "PATH";
-  environment[pathKey] =
-    join(ROOT, "node_modules", ".bin") + delimiter + (environment[pathKey] ?? "");
+  const runtime = gitContext.runtime;
+  environment.HOME = runtime.home;
+  environment.PATH = closedPath();
+  environment.TEMP = runtime.temp;
+  environment.TMP = runtime.temp;
+  environment.TMPDIR = runtime.temp;
+  if (process.platform === "win32") {
+    environment.APPDATA = runtime.appData;
+    environment.LOCALAPPDATA = runtime.localAppData;
+    environment.USERPROFILE = runtime.home;
+  }
+
   const cacheFromWorktree = relative(resolve(gitContext.worktree), HOST_NPM_CACHE);
   requireCondition(
     isAbsolute(cacheFromWorktree) ||
@@ -606,21 +813,144 @@ function commandEnvironment(gitContext) {
       cacheFromWorktree.startsWith(`..${sep}`),
     "Host-owned npm cache must remain outside the candidate materialization.",
   );
-  for (const key of Object.keys(environment)) {
-    if (key.toLowerCase() === "npm_config_cache") {
-      delete environment[key];
-    }
-  }
-  environment.npm_config_cache = HOST_NPM_CACHE;
+  Object.assign(environment, {
+    npm_config_audit: "false",
+    npm_config_cache: HOST_NPM_CACHE,
+    npm_config_color: "false",
+    npm_config_fund: "false",
+    npm_config_globalconfig: runtime.globalConfig,
+    npm_config_ignore_scripts: "true",
+    npm_config_loglevel: "notice",
+    npm_config_offline: "true",
+    npm_config_progress: "false",
+    npm_config_script_shell: HOST_SHELL_PATH,
+    npm_config_update_notifier: "false",
+    npm_config_userconfig: runtime.userConfig,
+    npm_config_yes: "true",
+  });
 
-  const typeScriptEntrypoint = resolveHostTypeScriptEntrypoint(environment, gitContext.worktree);
-  for (const key of Object.keys(environment)) {
-    if (key.toLowerCase() === TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY.toLowerCase()) {
-      delete environment[key];
-    }
-  }
-  environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = typeScriptEntrypoint;
-  return environment;
+  environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = resolveHostTypeScriptEntrypoint(
+    environment,
+    gitContext.worktree,
+  );
+  return Object.fromEntries(
+    Object.entries(environment).sort(([left], [right]) =>
+      Buffer.compare(Buffer.from(left, "utf8"), Buffer.from(right, "utf8")),
+    ),
+  );
+}
+
+async function authorityFileBinding(path, label) {
+  const resolved = await realpath(path);
+  const stats = await lstat(resolved);
+  requireCondition(
+    stats.isFile() && !stats.isSymbolicLink(),
+    `${label} must be a plain regular file.`,
+  );
+  const bytes = await readFile(resolved);
+  return {
+    path: resolved,
+    bytes: bytes.byteLength,
+    digest: digest(bytes),
+    nlink: stats.nlink,
+  };
+}
+
+function requireToolVersion(result, label) {
+  requireCondition(
+    result.status === 0 && result.signal === null && !result.error,
+    `${label} version inspection failed.`,
+  );
+  return strictUtf8(result.stdout, `${label} version stdout`).trim();
+}
+
+async function inspectToolchain(environment) {
+  const typeScriptPath = environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY];
+  const npmVersionResult =
+    process.platform === "win32"
+      ? spawnSync(HOST_SHELL_PATH, ["/d", "/s", "/c", "npm.cmd --version"], {
+          encoding: null,
+          env: environment,
+          windowsHide: true,
+        })
+      : spawnSync(HOST_NPM_PATH, ["--version"], {
+          encoding: null,
+          env: environment,
+          windowsHide: true,
+        });
+  const gitVersionResult = spawnSync(HOST_GIT_PATH, ["--version"], {
+    encoding: null,
+    env: environment,
+    windowsHide: true,
+  });
+  const typeScriptVersionResult = spawnSync(HOST_NODE_PATH, [typeScriptPath, "--version"], {
+    encoding: null,
+    env: environment,
+    windowsHide: true,
+  });
+  return {
+    node: {
+      ...(await authorityFileBinding(HOST_NODE_PATH, "Host Node executable")),
+      version: process.version,
+    },
+    npmLauncher: {
+      ...(await authorityFileBinding(HOST_NPM_PATH, "Host npm launcher")),
+      version: requireToolVersion(npmVersionResult, "Host npm"),
+    },
+    npmCli: await authorityFileBinding(HOST_NPM_CLI_PATH, "Host npm CLI"),
+    git: {
+      ...(await authorityFileBinding(HOST_GIT_PATH, "Host Git executable")),
+      version: requireToolVersion(gitVersionResult, "Host Git"),
+    },
+    shell: await authorityFileBinding(HOST_SHELL_PATH, "Host command shell"),
+    typescript: {
+      ...(await authorityFileBinding(typeScriptPath, "Host TypeScript entrypoint")),
+      version: requireToolVersion(typeScriptVersionResult, "Host TypeScript"),
+    },
+  };
+}
+
+async function executionEnvironmentBinding(environment, runtime) {
+  const userConfig = await authorityFileBinding(runtime.userConfig, "Private npm user config");
+  const globalConfig = await authorityFileBinding(
+    runtime.globalConfig,
+    "Private npm global config",
+  );
+  requireCondition(
+    userConfig.bytes === 0 && globalConfig.bytes === 0,
+    "Private npm configuration must remain empty.",
+  );
+  const cacheReal = await realpath(HOST_NPM_CACHE);
+  const cacheStats = await lstat(cacheReal);
+  requireCondition(
+    cacheStats.isDirectory() && !cacheStats.isSymbolicLink(),
+    "Host npm cache must be a plain directory.",
+  );
+  return {
+    apiVersion: "swecircuit/release-gate-environment/v1alpha1",
+    effective: environment,
+    policy: {
+      allowlist: "exact-effective-map",
+      gitConfiguration: "system-and-global-disabled",
+      gitPrompt: "disabled",
+      nodeOptions: "absent",
+      nodePath: "absent",
+      npmNetwork: "offline",
+      npmLifecycleScripts: "disabled",
+      npmUserConfig: "operation-private-empty-file",
+      npmGlobalConfig: "operation-private-empty-file",
+      pathPolicy: "closed-tool-directories",
+      temporaryPaths: "operation-private",
+    },
+    npm: {
+      cache: {
+        path: cacheReal,
+        provisioning: "external-host-untrusted-content-offline-only",
+      },
+      userConfig,
+      globalConfig,
+    },
+  };
 }
 
 function inspectEvidenceAttributes(path) {
@@ -793,6 +1123,13 @@ async function main() {
     throw error;
   }
   let gateResult;
+  let environmentBinding = null;
+  let toolchainBefore = null;
+  let toolchainAfter = null;
+  let toolchainInspectionError = null;
+  let hostDependenciesBefore = null;
+  let hostDependenciesAfter = null;
+  let hostDependencyInspectionError = null;
   let materializationDigestAfter = null;
   let materializationInspectionError = null;
   let materializationCleanupError = null;
@@ -800,6 +1137,11 @@ async function main() {
   let gitContextInspectionError = null;
   let gitContextCleanupError = null;
   try {
+    const environment = commandEnvironment(gitContext);
+    environmentBinding = await executionEnvironmentBinding(environment, gitContext.runtime);
+    toolchainBefore = await inspectToolchain(environment);
+    hostDependenciesBefore = await inspectHostDependencyClosure();
+
     const stdoutHandle = await open(outputs.stdout, "wx");
     let stderrHandle;
     try {
@@ -813,7 +1155,7 @@ async function main() {
       gateResult = spawnSync(COMMAND.executable, [...COMMAND.arguments], {
         cwd: materialization.root,
         encoding: null,
-        env: commandEnvironment(gitContext),
+        env: environment,
         stdio: ["ignore", stdoutHandle.fd, stderrHandle.fd],
         windowsHide: true,
       });
@@ -821,6 +1163,16 @@ async function main() {
       await Promise.all([stdoutHandle.close(), stderrHandle.close()]);
     }
 
+    try {
+      toolchainAfter = await inspectToolchain(environment);
+    } catch (error) {
+      toolchainInspectionError = normalizedError(error);
+    }
+    try {
+      hostDependenciesAfter = await inspectHostDependencyClosure();
+    } catch (error) {
+      hostDependencyInspectionError = normalizedError(error);
+    }
     try {
       await removeGeneratedBuildOutput(materialization.root, materialization.entries);
       materializationDigestAfter = (
@@ -871,10 +1223,21 @@ async function main() {
     gitContextAfter.head === candidateCommit &&
     gitContextAfter.trackedState === "clean" &&
     gitContextInspectionError === null &&
-    gitContextCleanupError === null;
+    gitContextCleanupError === null &&
+    environmentBinding !== null &&
+    toolchainBefore !== null &&
+    JSON.stringify(toolchainBefore) === JSON.stringify(toolchainAfter) &&
+    toolchainInspectionError === null &&
+    hostDependenciesBefore !== null &&
+    hostDependenciesAfter !== null &&
+    hostDependenciesBefore.root === hostDependenciesAfter.root &&
+    hostDependenciesBefore.files === hostDependenciesAfter.files &&
+    hostDependenciesBefore.bytes === hostDependenciesAfter.bytes &&
+    hostDependenciesBefore.digest === hostDependenciesAfter.digest &&
+    hostDependencyInspectionError === null;
 
   const receipt = {
-    apiVersion: "swecircuit/release-gate/v1alpha1",
+    apiVersion: "swecircuit/release-gate/v1alpha2",
     kind: "CanonicalGateReceipt",
     version: "V12",
     candidateCommit,
@@ -909,6 +1272,23 @@ async function main() {
       arguments: [...COMMAND.arguments],
       canonical: COMMAND.canonical,
     },
+    executionAuthority: {
+      environment: environmentBinding,
+      toolchain: {
+        before: toolchainBefore,
+        after: toolchainAfter,
+        inspectionError: toolchainInspectionError,
+      },
+      hostDependencies: {
+        strategy: "exact-host-node-modules-closure",
+        root: hostDependenciesBefore?.root ?? null,
+        files: hostDependenciesBefore?.files ?? null,
+        bytes: hostDependenciesBefore?.bytes ?? null,
+        digestBefore: hostDependenciesBefore?.digest ?? null,
+        digestAfter: hostDependenciesAfter?.digest ?? null,
+        inspectionError: hostDependencyInspectionError,
+      },
+    },
     result: passed ? "pass" : "fail",
     exitCode: Number.isInteger(gateResult.status) ? gateResult.status : null,
     signal: typeof gateResult.signal === "string" ? gateResult.signal : null,
@@ -931,6 +1311,7 @@ async function main() {
         candidateSource: receipt.candidateSource,
         materialization: receipt.materialization,
         gitContext: receipt.gitContext,
+        executionAuthority: receipt.executionAuthority,
         stdout: receipt.stdout,
         stderr: receipt.stderr,
       },
@@ -951,7 +1332,16 @@ export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
   inspectCandidateGitContext,
   inspectExactMaterialization,
   inspectMaterialization,
+  executionEnvironmentBinding,
+  hostDependencyRoot: HOST_DEPENDENCY_ROOT,
+  hostGitPath: HOST_GIT_PATH,
+  hostNodePath: HOST_NODE_PATH,
   hostNpmCache: HOST_NPM_CACHE,
+  hostNpmCliPath: HOST_NPM_CLI_PATH,
+  hostNpmPath: HOST_NPM_PATH,
+  hostShellPath: HOST_SHELL_PATH,
+  inspectHostDependencyClosure,
+  inspectToolchain,
   materializationParent: MATERIALIZATION_PARENT,
   resolveHostTypeScriptEntrypoint,
   typeScriptEntrypointEnvironmentKey: TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY,

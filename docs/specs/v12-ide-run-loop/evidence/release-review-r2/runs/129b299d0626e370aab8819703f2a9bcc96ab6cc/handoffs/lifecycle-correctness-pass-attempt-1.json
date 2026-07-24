@@ -1,0 +1,40 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:c3eb6b75df32a261803b1fbb7d14ca4d2a99539f971ba7abdc5830286606f6e4"
+  },
+  "agent": {
+    "id": "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87",
+    "blueprintDigest": "sha256:60d9e1b564d05a3aad2ba1ffb4204fd649a63abdbcb05d7fd749cdd85c2a7230"
+  },
+  "compilationDigest": "sha256:2180101082e8c7e967eba9b21b2e4434ff6753c2d7d61df09430cd53bc0e9c78",
+  "summary": "Lifecycle/correctness review passes. All 191 declared immutable sources authenticated, both prior lifecycle blockers are closed, and the exact candidate gate proves deterministic recovery, canonical ordering, aggregate limits, dependency eligibility, complete fan-in, routing, and immutability.",
+  "workUnitsCompleted": [
+    "review.r2.lifecycle-correctness"
+  ],
+  "artifacts": [
+    {
+      "name": "lifecycle-correctness-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "## Findings\n\nNo High, Medium, or Low lifecycle/correctness findings. The owned domain is release-ready for this exact candidate.\n\n## Authentication\n\nThe assigned 287,437-byte contract matched both its package manifest and package-envelope binding at `sha256:b9816484ce3d09d13d377f90e344deeeb926f93447e0c2928046ac9a06a9ce05`. Before semantic review, all 191 declared context sources matched their exact byte counts and raw SHA-256 digests; no mismatch was found.\n\nThe canonical receipt snapshot at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/canonical-gate/canonical-gate-receipt.json` binds original path `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/129b299d0626e370aab8819703f2a9bcc96ab6cc/canonical-gate-receipt.json`, candidate commit `129b299d0626e370aab8819703f2a9bcc96ab6cc`, tree `a6509e433f2d76be051f8dfa536aebe00aee8464`, 3,667 files, 112,962,724 bytes, and source digest `sha256:31ddcfd608b58c2e17bc46f2d443709a53d1a5d9c10c85e4cfc16dff54b9fcff`. Its exact stdout is 303,723 bytes at `sha256:99dbdbf1ed68fb10bbcf0fdea22ff33f0749c665bf8a7864cd30e3d611836573`; stderr is 26,531 bytes at `sha256:f361d55c369c310ffcefd5d8b9647d16431fe035a505b7419e697ab6cb50733d`.\n\n## Prior Findings\n\nThe prior raw lifecycle review at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json`, original `docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/lifecycle-correctness-fix-attempt-1.json`, reported incorrect evidence ordering and a missing 16-agent resource proof. Both are closed:\n\n- Canonical accepted evidence now orders by the V11 requirement identity first at snapshot `.../inputs/source-snapshots/src/specialist-run-inspection.ts:108` and `:113`, original `src/specialist-run-inspection.ts:108` and `:113`. The counterordered regression proves the result at snapshot `.../inputs/source-snapshots/test/specialist-run-inspection.test.mjs:377` through `:392`, original `test/specialist-run-inspection.test.mjs:377` through `:392`.\n- The real 16-agent workload records sixteen exact 1 MiB handoffs with maximum canonical base64 expansion in forward and reverse arrival orders, restores and reinspects the result, and derives strict session and inspection ceilings at snapshot `.../inputs/source-snapshots/test/specialist-run.test.mjs:948` through `:1071`, original `test/specialist-run.test.mjs:948` through `:1071`. Exact raw at-limit and one-unit-over behavior follows at original `test/specialist-run.test.mjs:1075` onward.\n\n## Lifecycle Audit\n\nCreate and restore reverify the complete package, exact expectation, canonical accepted rows, decoded raw bytes, dependency closure, session digest, and reconstructed semantics. The raw preparse bound is enforced at snapshot `.../inputs/source-snapshots/src/specialist-run-session.ts:75` and `:86`; accepted handoffs are reverified from canonical base64 at `:302` through `:367`; semantic reconstruction equality is required at `:453`; raw restoration begins at `:506`. Original path: `src/specialist-run-session.ts` at the same lines.\n\nRecord preserves normative precedence: exact replay is idempotent, conflicting settlement rejects, a prior non-pass route rejects new settlement, transitive dependencies must already be accepted pass, and only then is a bounded canonical successor built. Evidence is at snapshot `.../inputs/source-snapshots/src/specialist-run-transition.ts:184` through `:219`, original `src/specialist-run-transition.ts:184` through `:219`.\n\nInspection derives eligibility only from transitive pass prerequisites, resolves contract bytes through the verified manifest, routes every non-pass outcome, and declares integration ready only when the complete selected roster is accepted pass. Evidence is at snapshot `.../inputs/source-snapshots/src/specialist-run-inspection.ts:306` through `:380`, original `src/specialist-run-inspection.ts:306` through `:380`.\n\nRevision 40's lineage correction classifies package-backed correction roots only when all three direct package markers exist, ignores marker-free diagnostic roots, rejects partial sets, and still requires contiguous package revisions. Evidence is at snapshot `.../inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:1618` through `:1665`, original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:1618` through `:1665`; its regression is at snapshot `.../inputs/source-snapshots/test/v12-release-review.test.mjs:1774` through `:1817`, original `test/v12-release-review.test.mjs:1774` through `:1817`.\n\n## Exact Gate Evidence\n\nThe authenticated stdout records 447 of 447 core tests passing with zero failures at lines 510-517, the copied-production lifecycle passing at lines 523-530, and offline installed-consumer package verification passing at line 1429. Relevant lifecycle cases explicitly pass at lines 277-292, including first-use effect freedom, complete-roster readiness, every non-pass route, DAG differential checks, independent-arrival convergence, fresh-process recovery, the 16-agent maximum-handoff aggregate, and one-unit-over rejection.\n\nNo fresh test suite was launched because this review contract is read-only and treats the authenticated raw gate logs as primary execution evidence. No file edit, Git mutation, network access, repair, or descendant agent launch occurred.\n\n## Outcome\n\n`pass`. The exact candidate closes the owned lifecycle/correctness domain. This scoped pass does not replace the remaining independent reviewer fan-in, hosted CI, milestone closeout, or owner merge decision."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.lifecycle-correctness",
+      "requirementId": "evidence.r2.lifecycle-correctness-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "lifecycle-correctness-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}

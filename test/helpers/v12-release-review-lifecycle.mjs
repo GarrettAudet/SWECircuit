@@ -73,20 +73,20 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
     digest: "sha256:433c8840bb18d377212400dbe32d3c2b479c09c1ab0bc0abf8c9752e6b8e8f62",
   }),
   [GATE_PATH]: Object.freeze({
-    bytes: 33_716,
-    digest: "sha256:43ab705aea0000fcfbc73729bb5be91bd1bce948fd63c26e92d697ce97ca4cb6",
+    bytes: 47_517,
+    digest: "sha256:017de18c97697f18956fa3195d3ecc70dcdce4e881d419a9efca5df0cef6be4c",
   }),
   [HARNESS_PATH]: Object.freeze({
-    bytes: 131_486,
-    digest: "sha256:d825750635a9f33e21819de60210627c8560a2a29872ea55b02c04aa836d80b0",
+    bytes: 141_650,
+    digest: "sha256:c290abcd9ce48491bf92fc3495d179f5ed734d506eaeb71ee42502afcc04567f",
   }),
   [VERIFIER_PATH]: Object.freeze({
     bytes: 30_840,
     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
   }),
   [GATE_TEST_PATH]: Object.freeze({
-    bytes: 44_542,
-    digest: "sha256:6b592419f5ffecb7aa0c13f0776d3c9ac9d0b1b688658025ebad7d30577fd490",
+    bytes: 48_604,
+    digest: "sha256:5daff1366e453c9cc28985d3ecd65793708127e88ffb53d7413ca600721511e2",
   }),
   [TYPESCRIPT_RUNNER_PATH]: Object.freeze({
     bytes: 7_064,

@@ -1,0 +1,47 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 12,
+    "digest": "sha256:b697a255fbf77554e41847f958d401aa23ca5bb4035c0c4ee1e4c19a8f8ed822"
+  },
+  "agent": {
+    "id": "agent.5e3d0971d9dfb8df24441208aade1de4518d137dd6c90c77b28de04c3b2ae3c6",
+    "blueprintDigest": "sha256:fc9e263283ea524dbe0f33cbca2e9b45ab0c29d734b980d91537fa10280535c5"
+  },
+  "compilationDigest": "sha256:a22663c51b5477531f8dc8a08e17841cf52d7aa837507cc672dcae5f1ca8eb48",
+  "summary": "Implemented source-pure candidate verification using an external host-owned npm cache, bounded temporary cleanup, validated build-output removal, and unchanged strict exact-tree inspection.",
+  "workUnitsCompleted": [
+    "fix.candidate-runtime-purity.r12"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-runtime-purity-r12.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Runtime Purity R12\n\n## Result\n\nPass. The approved package and all 18 delivered context bindings were verified before implementation. Compilation `sha256:a22663c51b5477531f8dc8a08e17841cf52d7aa837507cc672dcae5f1ca8eb48` and package `sha256:26bc2190b4acd7d4fe253228eabad5862d0819717b75b7b7f20e6264dfc4d4ce` matched approval.\n\n## Changes\n\n- `package.json`: removed the repository-local cache override from `pack:check` and retained offline execution.\n- `scripts/check-packed-consumer.mjs`: resolves and validates `npm_config_cache` supplied through npm instead of assuming `.local/npm-cache` beneath the candidate source.\n- `scripts/run-v12-release-gate.mjs`: supplies the host-configured warm npm cache outside the candidate materialization and rejects any cache resolving inside the candidate worktree.\n- `scripts/run-v12-release-gate.mjs`: validates generated `dist` recursively as a plain regular tree, removes only that bounded direct child, then runs the unchanged strict exact-tree inspection.\n- `scripts/run-v12-release-gate.mjs`: prunes `.local/v12-release-gate` and `.local` only with non-recursive empty-directory removal. Shared or unrelated contents remain untouched.\n- `test/specialist-first-run.test.mjs`: removes its owned temporary leaf and prunes only empty cache parents.\n- `test/v12-release-gate.test.mjs`: covers generated-output cleanup, undeclared-directory rejection, external cache routing, both scratch-owner cleanup orders, and sentinel preservation.\n\n## Verification\n\n- Package verification: pass.\n- Context verification: 18 of 18 exact byte counts and raw SHA-256 digests pass.\n- Final release-gate suite: 7 of 7 pass.\n- Final affected cache/Git-context tests: 2 of 2 pass.\n- First-run cleanup suite: 7 of 7 pass.\n- `npm.cmd run pack:check` with the external host cache: pass.\n- `npm.cmd run consumer:check` with the external host cache: pass, including offline installation and installed-package verification.\n- Targeted Biome format check: pass.\n- Targeted Biome lint: exit 0 with 14 pre-existing informational style notices and no errors.\n- Node syntax checks for all four JavaScript files: pass.\n- `git diff --check` over the five-file write scope: pass.\n- Scratch audit: no `.local/v12-release-gate` residue and no owned packed-consumer workspace remains.\n\n## Final File Bindings\n\n- `package.json`: `sha256:63534d6bbc8b840de35cda3ad75f01f2da69f3798fdd85b9352506d13dba9368`\n- `scripts/check-packed-consumer.mjs`: `sha256:cf8010b081be0c1b64ffac4bce8de6219076fb011fdf5928106fa0c12bcd525a`\n- `scripts/run-v12-release-gate.mjs`: `sha256:5f69e29be75ad68b16a249b9bf58b3800c867a254d618aa6156151d2b84001d7`\n- `test/specialist-first-run.test.mjs`: `sha256:7b62d8f1b6b7d64e183b308e6a2b55ea64a3a142f480a4fedc2f674b541c681b`\n- `test/v12-release-gate.test.mjs`: `sha256:a41a4ceca55c78de46557e4248e1b066849c94c7caf9e33a62b2fd4f78a69314`\n\n## Failed Attempts Preserved\n\n- Native `apply_patch` and the first sandboxed digest-guarded write failed before mutation because the Windows sandbox could not write the `C:\\tmp` worktree. The authorized digest-guarded fallback was used and every resulting file was re-read immediately.\n- The first combined focused run passed 13 of 14 tests; one Windows teardown used `fs.rm` on an empty directory and returned `ERR_FS_EISDIR`. It was replaced with bounded non-recursive `rmdir`, after which the complete release-gate suite passed 7 of 7.\n- A deliberate fresh empty-cache probe passed packing but failed offline consumer installation with `ENOTCACHED`. This confirmed that a new gate-owned cache was not a valid supply. Routing was corrected to the host-configured cache populated during dependency installation, and both final package checks passed.\n\n## Scope\n\nOnly the five declared write-scope files were edited. Git state, network access, strict materialization inspection, and unrelated specialist changes were not modified."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.candidate-runtime-purity.r12",
+      "requirementId": "evidence.candidate-runtime-purity.r12",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "candidate-runtime-purity-r12.md"
+    }
+  ],
+  "assumptions": [
+    "The host performs dependency installation before offline release verification, populating its configured npm cache; the repository `.npmrc` provides `.local/npm-cache` as the default host cache."
+  ],
+  "risks": [
+    "Offline consumer verification fails closed when the host cache is not populated; this dependency is now explicit external runtime supply rather than hidden candidate state."
+  ],
+  "followUps": [
+    "The integration owner must verify this raw handoff against the approved digest pair and assess it with the other Revision 12 specialist handoff.",
+    "After integration and commit, run the complete Candidate 6 canonical gate to prove the full command leaves its exact Git-blob materialization byte-identical."
+  ]
+}

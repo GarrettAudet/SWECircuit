@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 14,
+    "digest": "sha256:397b7e2763120543f705b12cf135db7ce69e200e62c35dc2a72762751bc6c896"
+  },
+  "agent": {
+    "id": "agent.09923d8b81ad68e16348138fa636ace06654fb86f630020e0ac862d2d81f6df5",
+    "blueprintDigest": "sha256:4b963a6676895dad6a2c694ba4a3b3cf25c5c68de40cf53dc91c87db95b2e37b"
+  },
+  "compilationDigest": "sha256:250a3faad6dfebe5baad3f541187cc7b30e4a3a11bf5638edb9a41a669fef861",
+  "summary": "PASS: all ten declared context files authenticated exactly. Candidate 7's isolated failure maps to its missing candidate-local development default. Revision 14 supplies an external test default while preserving the production call and fail-closed path validation. Both focused commands passed and all authenticated files remained unchanged.",
+  "workUnitsCompleted": [
+    "verify.candidate-isolation-test.r14"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-isolation-test-r14.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate 7 Isolation-Test Correction Verification\n\n## Authentication\n\nAll ten declared context files matched their required raw SHA-256 digests and byte counts before inspection. They were rehashed after command execution and remained byte-identical. Candidate 7's receipt and raw logs therefore remain immutable failed evidence.\n\n## Failure Correspondence\n\nThe authenticated Candidate 7 receipt records a failed canonical `npm.cmd run verify` invocation with exact source and post-command digests preserved, clean disposable Git state, clean live repository state, and successful cleanup. Its stdout records 405 tests, 404 passes, and one failure: `host TypeScript entrypoint supply is singular, plain, absolute, and external`. The failure is `ENOENT` from `lstat` of candidate-local `node_modules/typescript/bin/tsc`, reached through `resolveHostTypeScriptEntrypoint` when the unit test supplied an empty synthetic environment. This exactly matches the frozen diagnosis and retirement record. Candidate 7 was not rerun.\n\n## Corrected Paths\n\n`scripts/run-v12-release-gate.mjs` now permits the internal resolver seam to receive `defaultEntrypoint`, while retaining `DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT` as the default when the third argument is omitted. The production `commandEnvironment` call still invokes `resolveHostTypeScriptEntrypoint(environment, gitContext.worktree)` with two arguments, removes every case-insensitive supply key, and writes one normalized `SWECIRCUIT_TYPESCRIPT_ENTRYPOINT` value.\n\nBoth explicit environment supply and injected default follow the same checks: non-empty string, absolute path, `lstat` rejection of symbolic links, plain regular-file enforcement, canonical `realpath`, and rejection when the canonical path is not outside the candidate materialization.\n\n`test/v12-release-gate.test.mjs` creates a temporary external plain file and passes it as the resolver's test default. It proves successful canonical external resolution and rejects relative, symbolic, and candidate-contained injected defaults. The same test also retains explicit-supply coverage for duplicate case-insensitive keys, empty values, relative paths, missing paths, directories, symbolic links, and candidate-contained files.\n\n## Focused Commands\n\n`node --test --test-name-pattern=\"host TypeScript entrypoint supply\" test\\v12-release-gate.test.mjs` exited 0 with 1 test passed, 0 failed, in 103.4889 ms overall.\n\n`npm.cmd exec -- biome check scripts/run-v12-release-gate.mjs test/v12-release-gate.test.mjs` exited 0, checked both files, and applied no fixes. It reported 14 informational `useTemplate` suggestions unrelated to the correction.\n\n## Result\n\nThe exact Candidate 7 defect is causally closed without changing production host-supply behavior, weakening containment, expanding authority, mutating evidence, or creating candidate-local dependencies. This focused PASS is not release approval."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.verify.candidate-isolation-test.r14",
+      "requirementId": "evidence.candidate-isolation-test.r14",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "candidate-isolation-test-r14.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This focused verification does not replace the integration owner's complete suite, successor one-shot canonical gate, or three-reviewer R2 release decision."
+  ],
+  "followUps": [
+    "Keep Candidate 7 permanently retired and preserve its receipt and raw logs unchanged.",
+    "Rebuild source-bound V11 trust, complete full pre-freeze verification, freeze a successor commit, run its one-shot canonical gate, and complete the three-reviewer R2 release review."
+  ]
+}

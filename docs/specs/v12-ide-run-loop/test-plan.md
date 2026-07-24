@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`. Revision 39 passed its exact gate and then routed `diagnose` during fresh R2 preparation. Working Revision 40 corrects package-lineage classification and passes 2/2 focused plus 50/50 concurrent release checks. `releaseReady: false` remains until broad verification, an immutable successor, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge pass.
+Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`; non-`pass` outcomes remain explicit. Revision 40 passed its exact gate and fresh R2 routed `fix` after two domain passes. Working Revision 41 passes 53/53 release-specific checks for closed execution authority and complete review-source coverage. `releaseReady: false` remains until frozen verification, one exact gate, fresh R2, hosted CI, milestone closeout, and owner merge pass.
 
 ## Contract Tests
 
@@ -179,3 +179,16 @@ Package identity verification and handoff schema verification authenticate prese
 - Reject any partial marker set and ignore diagnostic-only numbered roots.
 - Require the exact prior tree to resolve to 22 contiguous package-backed revisions.
 - Require focused checks, 50/50 concurrent release tests, broad repository verification, a distinct committed source, one exact gate, fresh R2, hosted CI, closeout, and merge.
+
+## Revision 41 Authority And Review-Coverage Gate
+
+- Hostile Node, npm, Git, shell, and secret environment inputs are excluded.
+- The effective environment is exact, sorted, and receipt-bound.
+- Private npm user/global configuration is empty, unlinked, and operation-owned.
+- Node, npm launcher/CLI, Git, shell, and TypeScript identities are stable before and after execution.
+- The complete host `node_modules` closure is stable before and after execution.
+- R2 requires receipt v1alpha2 and rejects missing or altered execution authority.
+- All six transitive security-causal sources appear exactly once with explicit reviewer ownership.
+- Historical R2 context deduplication remains valid independently of current-source expansion.
+- Complete release-specific suites: 53/53 `pass`.
+- Pending: frozen-commit `npm.cmd run verify`, one-shot canonical gate, fresh three-domain R2, hosted CI, milestone closeout, and merge.

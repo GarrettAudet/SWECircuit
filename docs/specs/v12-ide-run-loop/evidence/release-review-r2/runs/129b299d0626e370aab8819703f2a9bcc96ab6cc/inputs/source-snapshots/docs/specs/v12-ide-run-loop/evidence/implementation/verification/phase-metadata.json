@@ -1,0 +1,7 @@
+{
+  "phase": "verification",
+  "checkpoint": "c457f192278fc15fe1543cbc72b957b36b907aaf",
+  "goalId": "v12.ide-run-loop.implementation.verification",
+  "goalRevision": 1,
+  "runtimeInvoked": false
+}

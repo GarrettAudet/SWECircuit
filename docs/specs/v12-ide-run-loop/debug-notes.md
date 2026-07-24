@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. The active defect is release-review lineage classification. Exact Revision 39 commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f` passed its one-shot canonical gate with 447/447 core tests plus copied lifecycle, package inspection, and offline installed-consumer verification. Fresh R2 preparation authenticated the source and gate, then emitted `diagnose` before compilation because diagnostic-only `release-correction-rN` folders were misclassified as package-backed specialist revisions. Revision 39 is retired without rerun. Working Revision 40 requires all three root package markers, rejects partial marker sets, ignores diagnostic-only roots, and passes its focused checks plus the complete 50/50 concurrent release suite. Broad verification, an immutable successor commit, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
+No active V12 product-contract defect is recorded. The active defects are release-gate execution-authority closure and R2 transitive review-source coverage. Exact Revision 40 commit `129b299d0626e370aab8819703f2a9bcc96ab6cc` passed its one-shot gate, then fresh R2 returned two independent `pass` outcomes and one security `fix`. Revision 40 is retired without rerun. Revision 41 closes the effective environment and exact tool/dependency supply, validates that authority in the consumer, includes all six omitted sources, and passes 53/53 release-specific tests. Frozen verification and later release gates remain; `releaseReady: false`.
 
 ## Reproduction
 
@@ -835,3 +835,24 @@ The first probe result was rejected for one extra JSON brace after a successfull
 - R2 host preflight required an explicit parent digest, external offline cache, unlinked Git entrypoint with its complete Windows runtime, local checkout normalization, and long-path support.
 - Once host bindings were complete, the candidate child failed on the false missing-Revision-30 lineage result before any R2 output promotion.
 - Package markers, not directory names, are the causal evidence boundary. Revision 40 focused checks and concurrent suites pass.
+
+## Revision 40 Security Review And Revision 41 Authority Closure
+
+### Reproduction
+
+Exact Revision 40 passed its one-shot canonical gate. Fresh R2 prepared 218 contexts, selected an exact three-agent partition with projected makespan 9 against serial 25, compiled and approved the package, and verified all three raw handoffs. Product/API/IDE and lifecycle/correctness returned `pass`; security/trace/authority returned `fix`.
+
+### Stable Evidence
+
+- Gate receipt: `sha256:e3d4aa0cda0621438d90192efe0e44d60fa907278e8d5d97d8ce0ca91b3dec9b`.
+- R2 compilation/package: `sha256:2180101082e8c7e967eba9b21b2e4434ff6753c2d7d61df09430cd53bc0e9c78` / `sha256:8f76e09e89345951dff4ed6c48f926e50bcfba3da240409cd278a0003e4ca805`.
+- Security handoff: 7,952 bytes at `sha256:3ed04c792fbaec88821a0d1bd5bc9ee058685fc3f4fa720f48d45fac058620ae`.
+- Closed parent verification routed the candidate and kept `releaseReady: false`.
+
+### Confirmed Cause
+
+The gate inherited broad host environment authority and did not receipt-bind the exact Node, npm, Git, shell, TypeScript, and `node_modules` closure it executed. Separately, the R2 source catalog omitted six transitive helpers and adversarial fixtures that could affect the security conclusion.
+
+### Correction
+
+Revision 41 constructs a closed effective environment, uses private empty npm configuration, binds exact tool files and the complete host dependency closure before and after execution, emits receipt v1alpha2, and makes R2 reject any authority mismatch. The source catalog now includes all six omitted files with explicit security ownership. Hostile-environment, source-coverage, consumer-validation, historical-context, and identity regressions pass; the complete release-specific suite passes 53/53.

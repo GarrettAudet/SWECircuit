@@ -1,0 +1,12 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.implementation.release-correction",
+  "goalRevision": 19,
+  "approvedBy": "repository-owner-via-main-agent",
+  "approvalBasis": "The owner authorized all required V12 revisions and audits; the integration owner reviewed this exact Revision 19 contract, serial roster, six-file authority, explicit external inputs, cumulative reconstruction design, and compilation/package digest pair before launch.",
+  "expectation": {
+    "compilationDigest": "sha256:f4834982911064d5a3c5f9fa1d2c350376da8bead9d7a036ec639a7b9a52beca",
+    "packageDigest": "sha256:1cdedbda0fd297f0e06c8bf58f162a7bccd099bc84e4c1935af8cb1ff433042b"
+  }
+}

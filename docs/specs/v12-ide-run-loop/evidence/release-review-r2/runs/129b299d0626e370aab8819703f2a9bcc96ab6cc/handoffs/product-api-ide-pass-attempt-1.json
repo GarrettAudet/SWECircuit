@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:c3eb6b75df32a261803b1fbb7d14ca4d2a99539f971ba7abdc5830286606f6e4"
+  },
+  "agent": {
+    "id": "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+    "blueprintDigest": "sha256:7e55358826b0d5e3d947e987b7d1129a025eee41faaf68d3c945d064d0cdad93"
+  },
+  "compilationDigest": "sha256:2180101082e8c7e967eba9b21b2e4434ff6753c2d7d61df09430cd53bc0e9c78",
+  "summary": "Pass: no Product/API/IDE release blocker was found for exact Revision 40 candidate 129b299d0626e370aab8819703f2a9bcc96ab6cc.",
+  "workUnitsCompleted": [
+    "review.r2.product-api-ide"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-ide-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Product/API/IDE Release Review R2\n\n## Findings\n\nNo High, Medium, or Low severity findings. The owned Product/API/IDE domain is release-ready for exact candidate `129b299d0626e370aab8819703f2a9bcc96ab6cc`.\n\n## Authentication\n\nAll 180 immutable `contextUses` matched their declared exact byte counts and raw SHA-256 digests before semantic review. Approval-bound package verification also passed against compilation `sha256:2180101082e8c7e967eba9b21b2e4434ff6753c2d7d61df09430cd53bc0e9c78` and package `sha256:8f76e09e89345951dff4ed6c48f926e50bcfba3da240409cd278a0003e4ca805`.\n\nThe exact canonical receipt binds candidate `129b299d0626e370aab8819703f2a9bcc96ab6cc`, clean before/after state, identical source digests before and after materialization, and exit code 0 with result `pass`: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/canonical-gate/canonical-gate-receipt.json:5-49`; original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/129b299d0626e370aab8819703f2a9bcc96ab6cc/canonical-gate-receipt.json`.\n\n## AC1-AC6 And Public Surface\n\nThe normative contract exposes exactly four pure operations with stable `OperationResult` behavior and an external expectation on every call: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/docs/specs/v12-ide-run-loop/specialist-run-contract.md:44-63`; original `docs/specs/v12-ide-run-loop/specialist-run-contract.md`.\n\nThe root API exports all four operations and the closed run-session types: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/src/index.ts:56-74`; original `src/index.ts`. The package publishes the run schema subpath: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/package.json:18`; original `package.json`. The schema guide accurately documents source preservation, operation names, installed resolution, complete-roster readiness, and the external host boundary: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/schemas/v1alpha1/README.md:142-164`; original `schemas/v1alpha1/README.md`.\n\nThe installed-consumer gate resolves and strictly compiles the exported schema, exercises create, inspect, record, restore, and integration readiness, and compiles and runs a public TypeScript host: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/scripts/check-packed-consumer.mjs:175-185,766-889,1197-1277`; original `scripts/check-packed-consumer.mjs`; snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/scripts/fixtures/packed-consumer-host.ts:566-623`; original `scripts/fixtures/packed-consumer-host.ts`.\n\n## AC7 IDE Journey\n\nThe kickoff provides a one-message quick path, focused clarification gate, reviewed GoalContract, deterministic roster presentation, approval-bound render and verification, manifest-resolved fan-out, exact raw fan-in, restart, terminal routing, and separate integration closeout. It explicitly supports Codex, Claude Code, Cursor, Copilot, CI, and local hosts without provider policy in core: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/docs/ide/specialist-agent-kickoff.md:37-41,54-293,335-337`; original `docs/ide/specialist-agent-kickoff.md`.\n\n## AC8 Dogfood\n\nThe prior R1 dogfood blocker is closed. The current harness authenticates the approval, package envelope, verification report, exact raw handoffs, and replan chain for the implementation package; restores and reinspects the accepted revision; preserves an immutable integration snapshot; and reports every required friction measure, including questions, approvals, core calls, contract lookups, rejected transitions, session size, reverification cost, resume equality, persistence, and adapter translation: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/scripts/run-v12-dogfood.mjs:1058-1289`; original `scripts/run-v12-dogfood.mjs`.\n\nThe exact canonical stdout records `implementationPackageDogfood`, its complete friction report, deterministic replay, and the successful offline installed-package gate: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/canonical-gate/canonical-gate.stdout.log:719-1429`; original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/129b299d0626e370aab8819703f2a9bcc96ab6cc/canonical-gate.stdout.log`.\n\n## AC9 And Release Truth\n\nThe exact gate reports 447 tests, 447 passes, zero failures, followed by successful package inspection and installed-consumer verification: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/canonical-gate/canonical-gate.stdout.log:510-513,1425-1429`; original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/129b299d0626e370aab8819703f2a9bcc96ab6cc/canonical-gate.stdout.log`.\n\nPublic status remains accurate: V12 is in release review, core performs no host effects, and the IDECircuit product identity versus retained SWECircuit package/schema identity is stated explicitly: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/source-snapshots/README.md:21-22,44-48`; original `README.md`. Candidate source correctly leaves `releaseReady: false` and delegates volatile post-freeze status to candidate-addressed external evidence: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/129b299d0626e370aab8819703f2a9bcc96ab6cc/inputs/pre-integration-review.md:114-118`; original `docs/specs/v12-ide-run-loop/review.md`.\n\n## Verdict\n\n`pass`. Corrected V12 presents one accurate, inspectable, IDE-neutral path from an externally approved package through dependency-eligible specialist work and exact raw handoffs to verified specialist fan-in and a separately governed integration-owner handoff. This verdict is limited to the owned Product/API/IDE domain and does not claim overall release completion before sibling review fan-in and external closeout."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.product-api-ide",
+      "requirementId": "evidence.r2.product-api-ide-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "product-api-ide-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": [
+    "Verify and integrate the sibling lifecycle and security R2 handoffs, then keep overall releaseReady false until hosted CI, milestone closeout, owner approval, merge, and memory stages complete."
+  ]
+}

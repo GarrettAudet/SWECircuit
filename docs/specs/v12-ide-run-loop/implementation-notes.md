@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and public API remain complete; Revision 40 changes only release-review evidence classification and its tests. Exact Revision 39 commit `a9ee60d31cf302c91f6600ac977d0b62cb153f3f` passed its one-shot canonical gate with 447/447 core tests plus copied lifecycle, package inspection, and offline installed-consumer verification. Fresh R2 preparation authenticated the source and gate, then emitted `diagnose` before compilation because diagnostic-only `release-correction-rN` folders were misclassified as package-backed specialist revisions. Revision 39 is retired without rerun. Working Revision 40 requires all three root package markers, rejects partial marker sets, ignores diagnostic-only roots, and passes its focused checks plus the complete 50/50 concurrent release suite. Broad verification, an immutable successor commit, one exact canonical gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
+The V12 product implementation and public API remain complete; Revision 41 changes only release proof and its tests. Revision 40 passed its one-shot gate, then fresh R2 returned two domain passes and one security fix. Revision 41 closes the effective execution environment, binds exact tools and dependencies before and after the gate, validates that receipt independently, includes six transitive security sources, and passes 53/53 release-specific tests. Frozen verification and the remaining release gates remain; `releaseReady: false`.
 
 ## Baseline
 
@@ -264,3 +264,11 @@ The V12 product implementation and public API remain complete; Revision 40 chang
 - Package-backed correction evidence is contiguous through Revision 22. Later numbered roots are diagnostic artifacts without package markers.
 - Revision 40 includes a root only when package envelope, approval, and handoff verification are all present; a partial set fails closed.
 - Focused lineage and identity checks pass 2/2, the exact Revision 39 tree resolves to 22 contiguous package revisions, and concurrent release suites pass 50/50.
+
+## Revision 41 Closed Release Authority
+
+The canonical gate now constructs its effective environment rather than copying the IDE host environment. It resolves absolute plain-file tool entrypoints once, runs with private HOME/TEMP/npm configuration, disables npm network and lifecycle scripts, disables system/global Git configuration, and binds every effective key.
+
+Before and after the command, the gate authenticates Node, npm launcher and CLI, Git, command shell, TypeScript, and the complete host `node_modules` closure. Receipt v1alpha2 preserves those values. The R2 harness independently validates the closed schema, stable identities, exact PATH, private npm files, and command binding.
+
+The review catalog now exposes `scripts/run-typescript.mjs`, both release/Git helpers, and all three adversarial child fixtures to the security reviewer. Current-source coverage and historical context compaction are tested separately so source expansion cannot silently weaken either contract.

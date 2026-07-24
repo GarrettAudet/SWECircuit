@@ -51,6 +51,32 @@ const HOST_CACHE_PROBE_SOURCE_PATHS = Object.freeze([
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
   "test/helpers/v12-release-review-lifecycle.mjs",
 ]);
+const REQUIRED_SECURITY_REVIEW_SOURCES = Object.freeze([
+  {
+    path: "scripts/run-typescript.mjs",
+    allowedWorkUnits: ["review.r2.security-trace-authority"],
+  },
+  {
+    path: "test/helpers/git-blob-loader-fixture.mjs",
+    allowedWorkUnits: ["review.r2.security-trace-authority"],
+  },
+  {
+    path: "test/helpers/v12-release-review-lifecycle.mjs",
+    allowedWorkUnits: ["review.r2.lifecycle-correctness", "review.r2.security-trace-authority"],
+  },
+  {
+    path: "test/fixtures/v12-host-cache-supply-child.mjs",
+    allowedWorkUnits: ["review.r2.security-trace-authority"],
+  },
+  {
+    path: "test/fixtures/v12-git-environment-boundary-child.mjs",
+    allowedWorkUnits: ["review.r2.security-trace-authority"],
+  },
+  {
+    path: "test/fixtures/git-blob-loader-environment-child.mjs",
+    allowedWorkUnits: ["review.r2.security-trace-authority"],
+  },
+]);
 
 function staticImportSpecifiers(source) {
   return [...source.matchAll(/^\s*import(?:\s+[\s\S]*?\s+from\s+|\s*)["']([^"']+)["'];/gmu)].map(
@@ -1860,6 +1886,52 @@ test("working-tree-only inputs and unsafe handoff paths fail closed", () => {
   ]) {
     assert.throws(() => RELEASE_REVIEW_HANDOFF_TEST_HOOKS.safeHandoffPath(unsafe, runPaths));
   }
+});
+
+test("review package covers every transitive release-security source exactly once", () => {
+  const revision = spawnSync("git", ["rev-parse", "--verify", "HEAD^{commit}"], {
+    cwd: ROOT,
+    encoding: "utf8",
+    windowsHide: true,
+  });
+  assert.equal(revision.signal, null, revision.stderr);
+  assert.equal(revision.status, 0, revision.stderr);
+  const candidate = revision.stdout.trim();
+  assert.match(candidate, /^[0-9a-f]{40}$/u);
+
+  const sources = RELEASE_REVIEW_TEST_HOOKS.collectSourceSpecs(
+    RELEASE_REVIEW_TEST_HOOKS.loadCandidateTree(candidate),
+  );
+  for (const expected of REQUIRED_SECURITY_REVIEW_SOURCES) {
+    const matches = sources.filter((entry) => entry.path === expected.path);
+    assert.equal(matches.length, 1, `${expected.path} must appear exactly once`);
+    assert.deepEqual(
+      matches[0].allowedWorkUnits,
+      expected.allowedWorkUnits,
+      `${expected.path} review ownership`,
+    );
+  }
+});
+
+test("release-review receipt consumer requires bound v1alpha2 execution authority", () => {
+  const validator = RELEASE_REVIEW_TEST_HOOKS.validateGateReceipt.toString();
+  assert.match(validator, /receipt\.apiVersion === "swecircuit\/release-gate\/v1alpha2"/u);
+  assert.match(validator, /"executionAuthority"/u);
+  assert.match(
+    validator,
+    /validateExecutionAuthority\(receipt\.executionAuthority, receipt\.command\)/u,
+  );
+
+  const harness = readFileSync(HARNESS_ENTRYPOINT, "utf8");
+  assert.match(harness, /value\.environment\.policy\.nodeOptions === "absent"/u);
+  assert.match(harness, /value\.environment\.policy\.nodePath === "absent"/u);
+  assert.match(harness, /value\.environment\.policy\.npmNetwork === "offline"/u);
+  assert.match(
+    harness,
+    /JSON\.stringify\(value\.toolchain\.before\) === JSON\.stringify\(value\.toolchain\.after\)/u,
+  );
+  assert.match(harness, /value\.hostDependencies\.strategy === "exact-host-node-modules-closure"/u);
+  assert.match(harness, /assertExactStringArray\(Object\.keys\(effective\), expectedKeys/u);
 });
 
 test("post-commit gate evidence is captured outside the candidate without self-reference", () => {
