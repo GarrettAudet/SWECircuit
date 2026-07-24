@@ -10,4 +10,4 @@ The review-parent environment now strips both gate-only supply keys. The existin
 
 ## Current Result
 
-The release-review suite passes 35/35. Revision 45 awaits exact committed lifecycle verification.
+The release-review suite passed 35/35. Exact Revision 45 still reproduced the ancestor fallback because gate-owned private temp storage remained beneath repository `.local`; environment isolation alone was insufficient. No candidate-addressed canonical gate was consumed. Revision 45 is retired in favor of Revision 46.

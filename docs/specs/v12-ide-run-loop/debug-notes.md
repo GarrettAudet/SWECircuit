@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Exact Revision 44 commit `ce6ac4bd2f967283460cf2e75bdccd908a16822e` proved the explicit dependency supply and closure, then failed a later expected digest-mismatch route because the release-review parent inherited gate-only dependency authority and rejected it first. Revision 45 strips both host dependency and TypeScript gate keys before review-parent launch while preserving the gate path that needs them. Release-review tests pass 35/35 and gate tests remain 18/18. Frozen verification and later release gates remain; `releaseReady: false`.
+No active V12 product-contract defect is recorded. Exact Revision 45 commit `13723ce555413aaf2af3039290867880cf94fe13` stripped both gate-only environment keys but still failed the same fallback-package guard. The nested lifecycle root was created from a private `TEMP` beneath repository `.local`, leaving source `node_modules` in its ancestor chain. Revision 46 moves the owned scratch base under canonical external temp storage and rejects any source-contained resolution. Gate tests pass 18/18 and review tests pass 35/35. Frozen verification and later release gates remain; `releaseReady: false`.
 
 ## Reproduction
 

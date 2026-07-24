@@ -15,6 +15,7 @@ import {
   rmdir,
   writeFile,
 } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { delimiter, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -31,7 +32,15 @@ const HOST_DEPENDENCY_DIGEST_DOMAIN = "swecircuit/release-gate/host-dependencies
 const GIT_CONTEXT_STRATEGY = "disposable-shared-object-git-context";
 
 const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
-const MATERIALIZATION_PARENT = join(ROOT, ".local", "v12-release-gate");
+const MATERIALIZATION_BASE = join(realpathSync(tmpdir()), "swecircuit-v12-release-gate");
+const MATERIALIZATION_PARENT = join(MATERIALIZATION_BASE, "work");
+const MATERIALIZATION_FROM_ROOT = relative(resolve(ROOT), resolve(MATERIALIZATION_PARENT));
+requireCondition(
+  isAbsolute(MATERIALIZATION_FROM_ROOT) ||
+    MATERIALIZATION_FROM_ROOT === ".." ||
+    MATERIALIZATION_FROM_ROOT.startsWith(`..${sep}`),
+  "Release-gate scratch root must remain outside the source repository.",
+);
 const GENERATED_BUILD_DIRECTORY = "dist";
 const DEFAULT_HOST_NPM_CACHE = join(ROOT, ".local", "npm-cache");
 const DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT = join(ROOT, "node_modules", "typescript", "bin", "tsc");

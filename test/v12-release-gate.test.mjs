@@ -322,7 +322,16 @@ test("candidate Git context is disposable, exact, and usable from the materializ
 
     gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(candidateCommit, worktree);
     assert.notEqual(resolve(gitContext.root), resolve(liveGitDirectory));
-    assert.equal(dirname(gitContext.root), join(ROOT, ".local", "v12-release-gate"));
+    assert.equal(dirname(gitContext.root), RELEASE_GATE_TEST_HOOKS.materializationParent);
+    const scratchFromRepository = relative(ROOT, RELEASE_GATE_TEST_HOOKS.materializationParent);
+    assert.equal(
+      isAbsolute(scratchFromRepository) ||
+        scratchFromRepository === ".." ||
+        scratchFromRepository.startsWith("../") ||
+        scratchFromRepository.startsWith("..\\"),
+      true,
+      "release-gate scratch must remain outside repository ancestry",
+    );
     assert.deepEqual(RELEASE_GATE_TEST_HOOKS.inspectCandidateGitContext(gitContext), {
       head: candidateCommit,
       trackedState: "clean",
