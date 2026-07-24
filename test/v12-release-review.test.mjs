@@ -1087,6 +1087,22 @@ test("copied production lifecycle consumes the fresh-process release-gate cache 
   const externalCache = join(root, "external-host-cache");
   const sentinel = Buffer.from("external host cache sentinel\n", "utf8");
   try {
+    const dependencyKey = RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey;
+    const typeScriptKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
+    const isolatedParentEnvironment = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parentEnvironment(
+      externalCache,
+      `sha256:${"0".repeat(64)}`,
+      RELEASE_GATE_TEST_HOOKS.hostNpmCliPath,
+      RELEASE_GATE_TEST_HOOKS.hostGitPath,
+      {
+        ...process.env,
+        [dependencyKey]: "gate-only-dependency-supply",
+        [typeScriptKey]: "gate-only-typescript-supply",
+      },
+    );
+    assert.equal(isolatedParentEnvironment[dependencyKey], undefined);
+    assert.equal(isolatedParentEnvironment[typeScriptKey], undefined);
+
     await materializeHostCacheProbeSource(sourceRoot);
     await mkdir(externalCache);
     await writeFile(join(externalCache, "sentinel.txt"), sentinel);

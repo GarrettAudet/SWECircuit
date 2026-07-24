@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Exact Revision 43 commit `c3cd70bddf9279bfd5ca87b1da5e909a486b3fac` authenticated and executed, then the copied canonical gate failed while resolving candidate-local `node_modules`. The TypeScript supply was already external and exact; the paired host dependency closure still derived from copied `ROOT`. Revision 44 resolves a singular host dependency root at startup, requires it outside the candidate materialization, injects only its canonical path, and keeps complete before/after closure binding. Focused release suites pass 53/53. Frozen verification and later release gates remain; `releaseReady: false`.
+No active V12 product-contract defect is recorded. Exact Revision 44 commit `ce6ac4bd2f967283460cf2e75bdccd908a16822e` proved the explicit dependency supply and closure, then failed a later expected digest-mismatch route because the release-review parent inherited gate-only dependency authority and rejected it first. Revision 45 strips both host dependency and TypeScript gate keys before review-parent launch while preserving the gate path that needs them. Release-review tests pass 35/35 and gate tests remain 18/18. Frozen verification and later release gates remain; `releaseReady: false`.
 
 ## Reproduction
 

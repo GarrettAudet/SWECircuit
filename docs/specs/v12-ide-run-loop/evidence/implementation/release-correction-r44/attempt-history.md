@@ -14,4 +14,4 @@ Release-gate tests pass 18/18. Release-review consumer tests pass 35/35 after th
 
 ## Current Result
 
-Revision 44 awaits exact committed lifecycle verification.
+Exact Revision 44 passed copied gate supply and receipt checks, then a later negative review route rejected leaked gate-only dependency authority before the expected digest mismatch. No candidate-addressed canonical gate was consumed. Revision 44 is retired in favor of Revision 45.

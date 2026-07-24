@@ -714,6 +714,8 @@ function parentEnvironment(
   const environment = fixtureRepositoryEnvironment(sourceEnvironment);
   setEnvironmentValue(environment, "SWECIRCUIT_RELEASE_REVIEW_WORKER_CONTEXT", null);
   setEnvironmentValue(environment, "SWECIRCUIT_RELEASE_REVIEW_WORKER_TOKEN", null);
+  setEnvironmentValue(environment, RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey, null);
+  setEnvironmentValue(environment, TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY, null);
   setEnvironmentValue(environment, "SWECIRCUIT_RELEASE_REVIEW_PARENT_DIGEST", parentDigest);
   setEnvironmentValue(environment, "SWECIRCUIT_RELEASE_REVIEW_NPM_CACHE", cacheRoot);
   setEnvironmentValue(environment, "npm_execpath", npmCliPath);
