@@ -161,6 +161,7 @@ function resolveHostNpmCache(environment) {
 }
 
 const HOST_NPM_CACHE = resolveHostNpmCache(process.env);
+const HOST_TYPESCRIPT_ENTRYPOINT = resolveHostTypeScriptEntrypoint(process.env, ROOT);
 
 function candidateEvidencePaths(candidateCommit) {
   requireCondition(
@@ -829,10 +830,7 @@ function commandEnvironment(gitContext) {
     npm_config_yes: "true",
   });
 
-  environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = resolveHostTypeScriptEntrypoint(
-    environment,
-    gitContext.worktree,
-  );
+  environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = HOST_TYPESCRIPT_ENTRYPOINT;
   return Object.fromEntries(
     Object.entries(environment).sort(([left], [right]) =>
       Buffer.compare(Buffer.from(left, "utf8"), Buffer.from(right, "utf8")),

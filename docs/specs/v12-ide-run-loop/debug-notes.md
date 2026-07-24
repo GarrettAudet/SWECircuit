@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. The active defects are release-gate execution-authority closure and R2 transitive review-source coverage. Exact Revision 40 commit `129b299d0626e370aab8819703f2a9bcc96ab6cc` passed its one-shot gate, then fresh R2 returned two independent `pass` outcomes and one security `fix`. Revision 40 is retired without rerun. Revision 41 closes the effective environment and exact tool/dependency supply, validates that authority in the consumer, includes all six omitted sources, and passes 53/53 release-specific tests. Frozen verification and later release gates remain; `releaseReady: false`.
+No active V12 product-contract defect is recorded. Exact Revision 41 commit `da989f38c85431fa967352417d8222f50a72263d` failed the committed-source verifier in the copied-production lifecycle before its canonical gate was invoked. Stable evidence was `ENOENT` for candidate-local `node_modules/typescript/bin/tsc`. The reviewed external TypeScript supply was available at process startup but was dropped when the gate constructed its closed child environment. Revision 41 is retired. Revision 42 binds that exact supply at startup and injects only its resolved path; focused release-gate regressions pass 18/18. Frozen verification and later release gates remain; `releaseReady: false`.
 
 ## Reproduction
 
