@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Exact Revision 41 commit `da989f38c85431fa967352417d8222f50a72263d` failed the committed-source verifier in the copied-production lifecycle before its canonical gate was invoked. Stable evidence was `ENOENT` for candidate-local `node_modules/typescript/bin/tsc`. The reviewed external TypeScript supply was available at process startup but was dropped when the gate constructed its closed child environment. Revision 41 is retired. Revision 42 binds that exact supply at startup and injects only its resolved path; focused release-gate regressions pass 18/18. Frozen verification and later release gates remain; `releaseReady: false`.
+No active V12 product-contract defect is recorded. Revision 41 failed because the copied canonical gate dropped its reviewed external TypeScript supply. Revision 42 corrected that behavior, but exact commit `a093e475f662868b938c9b33078c7f86ede5d34c` failed before lifecycle execution because the production identity pin retained the old 47,517-byte count beside the new gate digest; actual bytes were 47,552. No Revision 42 canonical gate was invoked. Revision 43 corrects only that exact tuple. Frozen verification and later release gates remain; `releaseReady: false`.
 
 ## Reproduction
 

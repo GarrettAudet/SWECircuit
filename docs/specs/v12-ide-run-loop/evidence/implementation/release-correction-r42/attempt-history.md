@@ -14,4 +14,4 @@ The host TypeScript entrypoint is now resolved once at startup and passed as one
 
 ## Current Result
 
-Syntax passes and the focused release-gate suite passes 18/18. Revision 42 is not release-ready until the exact committed lifecycle and subsequent gates pass.
+Syntax and the focused release-gate suite passed. Exact Revision 42 failed its lifecycle identity preflight because the corrected digest retained the stale gate byte count. No canonical gate was invoked; Revision 42 is retired in favor of the one-field Revision 43 correction.
