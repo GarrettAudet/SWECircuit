@@ -322,7 +322,7 @@ test("TypeScript binding rejects ambiguous, contained, and linked files", async 
   }
 });
 
-test("package, release gate, and packed consumer share explicit TypeScript authority", async () => {
+test("package, release gate, and packed consumer bind explicit TypeScript authority", async () => {
   const manifest = JSON.parse(await readFile(join(ROOT, "package.json"), "utf8"));
   const gate = await readFile(join(ROOT, "scripts", "run-v12-release-gate.mjs"), "utf8");
   const consumer = await readFile(join(ROOT, "scripts", "check-packed-consumer.mjs"), "utf8");
@@ -333,7 +333,10 @@ test("package, release gate, and packed consumer share explicit TypeScript autho
     "node scripts/run-typescript.mjs -p tsconfig.json --noEmit",
   );
   assert.equal(manifest.files.includes("scripts/run-typescript.mjs"), true);
-  assert.match(gate, /resolveTypeScriptEntrypointBinding/u);
+  assert.match(gate, /isContainedPath\(candidateDependencyRoot, typeScriptPath\)/u);
+  assert.match(gate, /Candidate TypeScript entrypoint/u);
+  assert.match(gate, /typeScriptEntrypoint: candidateDependencies\?\.typeScriptEntrypoint/u);
+  assert.doesNotMatch(gate, /resolveTypeScriptEntrypointBinding/u);
   assert.match(consumer, /resolveTypeScriptEntrypointBinding/u);
   assert.match(consumer, /executeTypeScript/u);
   assert.match(consumer, /binding: TYPESCRIPT_BINDING/u);
