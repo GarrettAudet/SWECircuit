@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/release-correction-evidence/v1alpha1",
+  "kind": "CandidateDependencyProbe",
+  "revision": 49,
+  "sourceCandidate": "5efa889e5db5906108d44d51d58bc0817ebd9c7a",
+  "result": "pass",
+  "installation": {
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null
+  },
+  "lock": {
+    "path": "package-lock.json",
+    "bytes": 21014,
+    "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+    "lockfileVersion": 3,
+    "packages": 38,
+    "platform": "win32",
+    "architecture": "x64",
+    "libc": null,
+    "inventoryDigest": "sha256:e24c2e0152ce41d0fce94d350a60fb7dc2233bc1e3beb3c25f8c92c481f57c5f"
+  },
+  "closure": {
+    "files": 1224,
+    "directories": 108,
+    "links": 0,
+    "bytes": 116054782,
+    "digest": "sha256:8117d3f148ec061becf0c31127ca54da8ff62dea40244088df35a36e699f4e50"
+  },
+  "directDependencies": [
+    {
+      "name": "ajv",
+      "path": "ajv/dist/ajv.js"
+    },
+    {
+      "name": "jsonc-parser",
+      "path": "jsonc-parser/lib/umd/main.js"
+    }
+  ],
+  "realTypecheck": "pass",
+  "freshEsmImports": "pass",
+  "closureUnchanged": true,
+  "cleanup": "pass"
+}

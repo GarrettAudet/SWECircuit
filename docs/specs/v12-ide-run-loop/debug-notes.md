@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Exact Revision 46 commit `dbe690e74746b8a72202f8fa6146b056cf305813` externalized scratch and reached R2 compilation, where receipt validation isolated `npmScriptShell`. Effective authority used `C:\WINDOWS\system32\cmd.exe`; asynchronous file binding canonicalized the same file as `C:\Windows\System32\cmd.exe`. Revision 47 uses native canonical realpaths at startup and asserts exact equality without weakening validation. The release suite passes 53/53 and the complete direct copied lifecycle passes with cleanup and unchanged source. Frozen verification and later release gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revisions 48-49 introduced candidate-private dependency authority and real-project lifecycle proof. Dogfooding retired Revision 50; independent reviews retired Revisions 51-52 after portability, cleanup, publication, and command-authority defects. Revision 53 retains an exact registry/SRI lock and offline candidate-private install, binds install logs and the private closure, binds nested npm command-to-target authority, preserves aggregate cleanup evidence, passes the release contract suite 61/61, and passes the exact-lock typecheck, ESM, and cleanup probe. No Revision 53 gate has been consumed. Exact committed lifecycle, full verification, one successor gate, fresh R2, hosted CI, milestone closeout, and merge remain; `releaseReady: false`. Scope is frozen to release blockers through `2026-07-25 00:03 MDT`.
 
 ## Reproduction
 

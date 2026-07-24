@@ -2,7 +2,7 @@
 
 ## Status
 
-Package identity verification and handoff schema verification authenticate preserved artifacts; neither alone establishes workflow success, phase readiness, or release readiness. Revision 1 has incomplete fan-in. Revisions 2 and 3 retain `split` workflow outcomes. Later correction phases retain their recorded `pass` routes where preserved evidence reports `pass`; non-`pass` outcomes remain explicit. Revision 40 passed its exact gate and fresh R2 routed `fix` after two domain passes. Working Revision 41 passes 53/53 release-specific checks for closed execution authority and complete review-source coverage. `releaseReady: false` remains until frozen verification, one exact gate, fresh R2, hosted CI, milestone closeout, and owner merge pass.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revisions 48-49 introduced candidate-private dependency authority and real-project lifecycle proof. Dogfooding retired Revision 50; independent reviews retired Revisions 51-52 after portability, cleanup, publication, and command-authority defects. Revision 53 retains an exact registry/SRI lock and offline candidate-private install, binds install logs and the private closure, binds nested npm command-to-target authority, preserves aggregate cleanup evidence, passes the release contract suite 61/61, and passes the exact-lock typecheck, ESM, and cleanup probe. No Revision 53 gate has been consumed. Exact committed lifecycle, full verification, one successor gate, fresh R2, hosted CI, milestone closeout, and merge remain; `releaseReady: false`. Scope is frozen to release blockers through `2026-07-25 00:03 MDT`.
 
 ## Contract Tests
 

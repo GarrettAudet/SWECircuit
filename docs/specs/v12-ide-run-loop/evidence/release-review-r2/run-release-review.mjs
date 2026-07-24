@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
+import { lstatSync, readFileSync, readlinkSync, realpathSync } from "node:fs";
 import {
   lstat,
   mkdir,
@@ -72,6 +73,7 @@ const WINDOWS_RESERVED = /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\..*)?$/iu;
 const FORBIDDEN_PATH_TEXT =
   /[\u0000-\u001f\u007f-\u009f\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/u;
 const MATERIALIZATION_DIGEST_DOMAIN = "swecircuit/release-gate/materialization/v1alpha1";
+const CANDIDATE_LOCK_DIGEST_DOMAIN = "swecircuit/release-gate/candidate-lock/v1alpha1";
 const GIT_CONTEXT_STRATEGY = "disposable-shared-object-git-context";
 const REQUIRED_SECURITY_CAUSAL_SOURCES = Object.freeze([
   ".gitattributes",
@@ -2247,6 +2249,49 @@ function validateAuthorityFileBinding(value, label, versioned = false) {
   }
 }
 
+function validateNpmLauncherBinding(value, label) {
+  assertExactKeys(
+    value,
+    [
+      "path",
+      "bytes",
+      "digest",
+      "nlink",
+      "commandPath",
+      "commandType",
+      "commandLink",
+      "version",
+    ],
+    label,
+  );
+  validateAuthorityFileBinding(
+    {
+      path: value.path,
+      bytes: value.bytes,
+      digest: value.digest,
+      nlink: value.nlink,
+      version: value.version,
+    },
+    label,
+    true,
+  );
+  requireCondition(isAbsolute(value.commandPath), `${label} command path is not absolute.`);
+  const commandStats = lstatSync(value.commandPath);
+  const commandType = commandStats.isSymbolicLink() ? "symbolic-link" : "regular-file";
+  const commandLink = commandStats.isSymbolicLink() ? readlinkSync(value.commandPath) : null;
+  const targetPath = realpathSync.native(value.commandPath);
+  const targetBytes = readFileSync(targetPath);
+  requireCondition(
+    (commandStats.isFile() || commandStats.isSymbolicLink()) &&
+      value.commandType === commandType &&
+      value.commandLink === commandLink &&
+      value.path === targetPath &&
+      value.bytes === targetBytes.byteLength &&
+      value.digest === digest(targetBytes),
+    `${label} command-to-target binding changed.`,
+  );
+}
+
 function validateToolchainSnapshot(value, label) {
   assertExactKeys(
     value,
@@ -2254,18 +2299,421 @@ function validateToolchainSnapshot(value, label) {
     label,
   );
   validateAuthorityFileBinding(value.node, `${label} Node`, true);
-  validateAuthorityFileBinding(value.npmLauncher, `${label} npm launcher`, true);
+  validateNpmLauncherBinding(value.npmLauncher, `${label} npm launcher`);
   validateAuthorityFileBinding(value.npmCli, `${label} npm CLI`);
   validateAuthorityFileBinding(value.git, `${label} Git`, true);
   validateAuthorityFileBinding(value.shell, `${label} shell`);
   validateAuthorityFileBinding(value.typescript, `${label} TypeScript`, true);
 }
 
-function validateExecutionAuthority(value, command) {
+function validateInlineBytesBinding(value, label) {
   assertExactKeys(
     value,
-    ["environment", "toolchain", "hostDependencies"],
+    ["mediaType", "encoding", "bytes", "digest", "data"],
+    label,
+  );
+  requireCondition(
+    value.mediaType === "application/octet-stream" && value.encoding === "base64",
+    `${label} encoding is invalid.`,
+  );
+  requireCondition(
+    Number.isSafeInteger(value.bytes) && value.bytes >= 0 && DIGEST_PATTERN.test(value.digest),
+    `${label} identity is invalid.`,
+  );
+  requireCondition(
+    typeof value.data === "string" &&
+      /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/u.test(value.data),
+    `${label} data is not canonical base64.`,
+  );
+  const bytes = Buffer.from(value.data, "base64");
+  requireCondition(
+    bytes.toString("base64") === value.data &&
+      bytes.byteLength === value.bytes &&
+      digest(bytes) === value.digest,
+    `${label} raw-byte binding mismatch.`,
+  );
+}
+
+function detectReleaseReviewLibc(platform = process.platform, report = null) {
+  if (platform !== "linux") {
+    return null;
+  }
+  const runtimeReport = report ?? process.report?.getReport?.();
+  const glibcVersion = runtimeReport?.header?.glibcVersionRuntime;
+  if (typeof glibcVersion === "string" && glibcVersion.length > 0) {
+    return "glibc";
+  }
+  if (
+    Array.isArray(runtimeReport?.sharedObjects) &&
+    runtimeReport.sharedObjects.some((path) => /(?:^|[/\\])(?:ld-)?musl|libc\.musl/iu.test(path))
+  ) {
+    return "musl";
+  }
+  throw new Error("Unable to determine the release-review Linux runtime libc.");
+}
+
+function releaseReviewRuntimeIdentity(
+  platform = process.platform,
+  architecture = process.arch,
+  report = null,
+) {
+  return Object.freeze({
+    platform,
+    architecture,
+    libc: detectReleaseReviewLibc(platform, report),
+  });
+}
+
+function packageAppliesForReceipt(entry, platform, architecture, libc) {
+  const matches = (rules, value) => {
+    if (!Array.isArray(rules) || rules.length === 0) {
+      return true;
+    }
+    const denied = rules.filter((item) => item.startsWith("!")).map((item) => item.slice(1));
+    if (denied.includes(value)) {
+      return false;
+    }
+    const allowed = rules.filter((item) => !item.startsWith("!"));
+    return allowed.length === 0 || allowed.includes(value);
+  };
+  return (
+    matches(entry.os, platform) &&
+    matches(entry.cpu, architecture) &&
+    matches(entry.libc, libc)
+  );
+}
+
+function expectedCandidateLockReceipt(candidateTree, platform, architecture, libc) {
+  const lockFile = candidateTree.file("package-lock.json");
+  const lock = JSON.parse(decodeUtf8(lockFile.bytes, "candidate package-lock.json"));
+  requireCondition(
+    Number.isInteger(lock.lockfileVersion) && lock.lockfileVersion >= 2 && lock.packages,
+    "Candidate lockfile lacks a supported packages inventory.",
+  );
+  const packages = [];
+  for (const [path, entry] of Object.entries(lock.packages)) {
+    if (path === "") {
+      continue;
+    }
+    requireCondition(
+      path.startsWith("node_modules/") &&
+        entry &&
+        typeof entry === "object" &&
+        entry.link !== true &&
+        typeof entry.version === "string" &&
+        typeof entry.resolved === "string" &&
+        typeof entry.integrity === "string",
+      `Candidate lock package is invalid: ${path}.`,
+    );
+    const resolvedUrl = new URL(entry.resolved);
+    requireCondition(
+      resolvedUrl.protocol === "https:" &&
+        resolvedUrl.hostname === "registry.npmjs.org" &&
+        resolvedUrl.pathname.endsWith(".tgz") &&
+        /^sha(?:256|384|512)-[A-Za-z0-9+/]+={0,2}$/u.test(entry.integrity),
+      `Candidate lock package authority is invalid: ${path}.`,
+    );
+    packages.push({
+      path,
+      version: entry.version,
+      resolved: entry.resolved,
+      integrity: entry.integrity,
+      optional: entry.optional === true,
+      applies: packageAppliesForReceipt(entry, platform, architecture, libc),
+    });
+  }
+  packages.sort((left, right) => compareUtf8Ordinal(left.path, right.path));
+  const hash = createHash("sha256");
+  updateGateFrame(hash, Buffer.from(CANDIDATE_LOCK_DIGEST_DOMAIN, "utf8"));
+  for (const entry of packages) {
+    updateGateFrame(hash, Buffer.from(JSON.stringify(entry), "utf8"));
+  }
+  return {
+    path: "package-lock.json",
+    bytes: lockFile.bytes.byteLength,
+    digest: digest(lockFile.bytes),
+    lockfileVersion: lock.lockfileVersion,
+    packages: packages.length,
+    platform,
+    architecture,
+    libc,
+    inventoryDigest: `sha256:${hash.digest("hex")}`,
+  };
+}
+
+function validateDependencyClosure(value, label) {
+  assertExactKeys(
+    value,
+    ["files", "directories", "links", "bytes", "digest"],
+    label,
+  );
+  requireCondition(
+    Number.isSafeInteger(value.files) &&
+      value.files > 0 &&
+      Number.isSafeInteger(value.directories) &&
+      value.directories > 0 &&
+      Number.isSafeInteger(value.links) &&
+      value.links >= 0 &&
+      Number.isSafeInteger(value.bytes) &&
+      value.bytes > 0 &&
+      DIGEST_PATTERN.test(value.digest),
+    `${label} is invalid.`,
+  );
+}
+
+function runtimeAncestorSupplyPaths(root) {
+  const paths = [];
+  let current = dirname(resolve(root));
+  for (;;) {
+    paths.push(join(current, "node_modules"));
+    const parent = dirname(current);
+    if (parent === current) {
+      break;
+    }
+    current = parent;
+  }
+  return paths;
+}
+
+function validateRuntimeAncestorSnapshot(value, expectedPaths, label) {
+  assertExactKeys(value, ["checkedPaths", "absent", "found"], label);
+  assertExactStringArray(value.checkedPaths, expectedPaths, `${label} checked paths`);
+  requireCondition(
+    value.absent === true && value.found === null,
+    `${label} retained fallback package supply.`,
+  );
+}
+
+function validateCandidateDependencies(value, candidateTree, environment, toolchain, runtime) {
+  assertExactKeys(
+    value,
+    [
+      "strategy",
+      "ready",
+      "setupError",
+      "root",
+      "path",
+      "initialState",
+      "packageManifest",
+      "lock",
+      "command",
+      "result",
+      "stdout",
+      "stderr",
+      "directDependenciesContained",
+      "directDependencies",
+      "typeScriptEntrypoint",
+      "ancestorSupply",
+      "closure",
+      "cleanup",
+    ],
+    "canonical-gate candidate dependency authority",
+  );
+  const expectedDependencyRoot = join(environment.effective.GIT_WORK_TREE, "node_modules");
+  const expectedTypeScriptEntrypoint = join(
+    expectedDependencyRoot,
+    "typescript",
+    "bin",
+    "tsc",
+  );
+  requireCondition(
+    value.strategy === "candidate-private-exact-lock-offline-npm-ci" &&
+      value.ready === true &&
+      value.setupError === null &&
+      value.root === expectedDependencyRoot &&
+      value.path === "node_modules" &&
+      value.initialState === "absent" &&
+      value.directDependenciesContained === true &&
+      value.typeScriptEntrypoint === expectedTypeScriptEntrypoint &&
+      toolchain.before.typescript.path === expectedTypeScriptEntrypoint &&
+      toolchain.after.typescript.path === expectedTypeScriptEntrypoint,
+    "Canonical-gate candidate dependency policy is invalid.",
+  );
+
+  const manifest = candidateTree.file("package.json");
+  const manifestValue = JSON.parse(decodeUtf8(manifest.bytes, "candidate package.json"));
+  assertExactKeys(
+    value.packageManifest,
+    ["path", "bytes", "digest"],
+    "canonical-gate package manifest binding",
+  );
+  requireCondition(
+    value.packageManifest.path === "package.json" &&
+      value.packageManifest.bytes === manifest.bytes.byteLength &&
+      value.packageManifest.digest === digest(manifest.bytes),
+    "Canonical-gate package manifest binding mismatch.",
+  );
+  assertExactKeys(
+    value.lock,
+    [
+      "path",
+      "bytes",
+      "digest",
+      "lockfileVersion",
+      "packages",
+      "platform",
+      "architecture",
+      "libc",
+      "inventoryDigest",
+    ],
+    "canonical-gate candidate lock binding",
+  );
+  requireCondition(
+    JSON.stringify(value.lock) ===
+      JSON.stringify(
+        expectedCandidateLockReceipt(
+          candidateTree,
+          runtime.platform,
+          runtime.architecture,
+          runtime.libc,
+        ),
+      ),
+    "Canonical-gate candidate lock binding does not match the independent review runtime.",
+  );
+  const lockValue = JSON.parse(
+    decodeUtf8(candidateTree.file("package-lock.json").bytes, "candidate package-lock.json"),
+  );
+  const expectedTypeScriptVersion = lockValue.packages?.["node_modules/typescript"]?.version;
+  requireCondition(
+    typeof expectedTypeScriptVersion === "string" &&
+      toolchain.before.typescript.version === `Version ${expectedTypeScriptVersion}` &&
+      toolchain.after.typescript.version === `Version ${expectedTypeScriptVersion}`,
+    "Canonical-gate TypeScript version does not match the exact candidate lock.",
+  );
+
+  assertExactKeys(
+    value.command,
+    ["executable", "arguments", "canonical"],
+    "canonical-gate dependency install command",
+  );
+  const installArguments = [
+    "ci",
+    "--offline",
+    "--ignore-scripts",
+    "--no-audit",
+    "--no-fund",
+    "--cache",
+    environment.npm.cache.path,
+  ];
+  const authenticatedInstallCommand =
+    value.command.executable === toolchain.before.node.path &&
+    JSON.stringify(value.command.arguments) ===
+      JSON.stringify([toolchain.before.npmCli.path, ...installArguments]);
+  requireCondition(
+    authenticatedInstallCommand &&
+      value.command.canonical ===
+        "npm ci --offline --ignore-scripts --no-audit --no-fund",
+    "Canonical-gate dependency install command mismatch.",
+  );
+  assertExactKeys(
+    value.result,
+    ["attempted", "exitCode", "signal", "spawnError"],
+    "canonical-gate dependency install result",
+  );
+  requireCondition(
+    value.result.attempted === true &&
+      value.result.exitCode === 0 &&
+      value.result.signal === null &&
+      value.result.spawnError === null,
+    "Canonical-gate dependency installation did not pass.",
+  );
+  validateInlineBytesBinding(value.stdout, "canonical-gate dependency install stdout");
+  validateInlineBytesBinding(value.stderr, "canonical-gate dependency install stderr");
+  requireCondition(
+    Array.isArray(value.directDependencies) &&
+      value.directDependencies.length ===
+        Object.keys(manifestValue.dependencies ?? {}).length,
+    "Canonical-gate direct dependency evidence is incomplete.",
+  );
+  const directDependencyNames = [];
+  for (const entry of value.directDependencies) {
+    assertExactKeys(entry, ["name", "path"], "canonical-gate direct dependency");
+    requireCondition(
+      typeof entry.name === "string" &&
+        typeof entry.path === "string" &&
+        entry.path.length > 0 &&
+        !isAbsolute(entry.path) &&
+        entry.path !== ".." &&
+        !entry.path.startsWith("../") &&
+        !entry.path.includes("\\"),
+      "Canonical-gate direct dependency path is invalid.",
+    );
+    directDependencyNames.push(entry.name);
+  }
+  requireCondition(
+    JSON.stringify(directDependencyNames) ===
+      JSON.stringify(Object.keys(manifestValue.dependencies ?? {}).sort(compareOrdinal)),
+    "Canonical-gate direct dependency names mismatch.",
+  );
+
+  assertExactKeys(
+    value.ancestorSupply,
+    ["before", "after", "inspectionError"],
+    "canonical-gate ancestor package supply",
+  );
+  const expectedAncestorPaths = runtimeAncestorSupplyPaths(environment.effective.GIT_WORK_TREE);
+  validateRuntimeAncestorSnapshot(
+    value.ancestorSupply.before,
+    expectedAncestorPaths,
+    "canonical-gate ancestor package supply before",
+  );
+  validateRuntimeAncestorSnapshot(
+    value.ancestorSupply.after,
+    expectedAncestorPaths,
+    "canonical-gate ancestor package supply after",
+  );
+  requireCondition(
+    value.ancestorSupply.inspectionError === null,
+    "Canonical-gate ancestor package supply inspection failed.",
+  );
+
+  assertExactKeys(
+    value.closure,
+    ["before", "after", "inspectionError"],
+    "canonical-gate candidate dependency closure",
+  );
+  validateDependencyClosure(
+    value.closure.before,
+    "canonical-gate candidate dependency closure before",
+  );
+  validateDependencyClosure(
+    value.closure.after,
+    "canonical-gate candidate dependency closure after",
+  );
+  requireCondition(
+    JSON.stringify(value.closure.before) === JSON.stringify(value.closure.after) &&
+      value.closure.inspectionError === null,
+    "Canonical-gate candidate dependency closure changed.",
+  );
+  assertExactKeys(
+    value.cleanup,
+    ["attempted", "removed", "absentAfter", "error"],
+    "canonical-gate candidate dependency cleanup",
+  );
+  requireCondition(
+    value.cleanup.attempted === true &&
+      value.cleanup.removed === true &&
+      value.cleanup.absentAfter === true &&
+      value.cleanup.error === null,
+    "Canonical-gate candidate dependency cleanup failed.",
+  );
+}
+
+function validateExecutionAuthority(value, command, candidateTree) {
+  assertExactKeys(
+    value,
+    ["environment", "runtime", "toolchain", "candidateDependencies"],
     "canonical-gate execution authority",
+  );
+  const independentRuntime = releaseReviewRuntimeIdentity();
+  assertExactKeys(
+    value.runtime,
+    ["platform", "architecture", "libc"],
+    "canonical-gate runtime authority",
+  );
+  requireCondition(
+    JSON.stringify(value.runtime) === JSON.stringify(independentRuntime),
+    "Canonical-gate runtime differs from the independent same-host review runtime.",
   );
   assertExactKeys(
     value.environment,
@@ -2350,37 +2798,17 @@ function validateExecutionAuthority(value, command) {
   );
   validateToolchainSnapshot(value.toolchain.before, "canonical-gate toolchain before");
   validateToolchainSnapshot(value.toolchain.after, "canonical-gate toolchain after");
+  validateCandidateDependencies(
+    value.candidateDependencies,
+    candidateTree,
+    value.environment,
+    value.toolchain,
+    independentRuntime,
+  );
   requireCondition(
     JSON.stringify(value.toolchain.before) === JSON.stringify(value.toolchain.after) &&
       value.toolchain.inspectionError === null,
     "Canonical-gate toolchain changed during execution.",
-  );
-
-  assertExactKeys(
-    value.hostDependencies,
-    [
-      "strategy",
-      "root",
-      "files",
-      "bytes",
-      "digestBefore",
-      "digestAfter",
-      "inspectionError",
-    ],
-    "canonical-gate host dependency authority",
-  );
-  requireCondition(
-    value.hostDependencies.strategy === "exact-host-node-modules-closure" &&
-      typeof value.hostDependencies.root === "string" &&
-      isAbsolute(value.hostDependencies.root) &&
-      Number.isSafeInteger(value.hostDependencies.files) &&
-      value.hostDependencies.files > 0 &&
-      Number.isSafeInteger(value.hostDependencies.bytes) &&
-      value.hostDependencies.bytes > 0 &&
-      DIGEST_PATTERN.test(value.hostDependencies.digestBefore) &&
-      value.hostDependencies.digestBefore === value.hostDependencies.digestAfter &&
-      value.hostDependencies.inspectionError === null,
-    "Canonical-gate host dependency closure is invalid.",
   );
 
   const effective = value.environment.effective;
@@ -2402,8 +2830,6 @@ function validateExecutionAuthority(value, command) {
     "LC_ALL",
     "NO_COLOR",
     "PATH",
-    "SWECIRCUIT_HOST_DEPENDENCY_ROOT",
-    "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT",
     "TEMP",
     "TMP",
     "TMPDIR",
@@ -2455,10 +2881,6 @@ function validateExecutionAuthority(value, command) {
     npmGlobalConfig:
       effective.npm_config_globalconfig === value.environment.npm.globalConfig.path,
     npmScriptShell: effective.npm_config_script_shell === value.toolchain.before.shell.path,
-    hostDependencyRoot:
-      effective.SWECIRCUIT_HOST_DEPENDENCY_ROOT === value.hostDependencies.root,
-    typeScriptEntrypoint:
-      effective.SWECIRCUIT_TYPESCRIPT_ENTRYPOINT === value.toolchain.before.typescript.path,
   };
   const mismatchedSupplies = Object.entries(boundSupplyChecks)
     .filter(([, matches]) => !matches)
@@ -2468,9 +2890,9 @@ function validateExecutionAuthority(value, command) {
     `Canonical-gate effective environment does not match its bound supplies: ${mismatchedSupplies.join(", ")}.`,
   );
   const expectedPath = [
-    join(value.hostDependencies.root, ".bin"),
+    join(effective.GIT_WORK_TREE, "node_modules", ".bin"),
+    dirname(value.toolchain.before.npmLauncher.commandPath),
     dirname(value.toolchain.before.node.path),
-    dirname(value.toolchain.before.npmLauncher.path),
     dirname(value.toolchain.before.git.path),
     dirname(value.toolchain.before.shell.path),
   ]
@@ -2478,18 +2900,12 @@ function validateExecutionAuthority(value, command) {
     .join(delimiter);
   requireCondition(effective.PATH === expectedPath, "Canonical-gate PATH is not closed.");
 
-  const windowsCommand =
-    isWindowsReceipt &&
-    command.executable === value.toolchain.before.shell.path &&
+  const authenticatedCommand =
+    command.executable === value.toolchain.before.node.path &&
     JSON.stringify(command.arguments) ===
-      JSON.stringify(["/d", "/s", "/c", "npm.cmd run verify"]) &&
-    command.canonical === "npm.cmd run verify";
-  const portableCommand =
-    !isWindowsReceipt &&
-    command.executable === value.toolchain.before.npmLauncher.path &&
-    JSON.stringify(command.arguments) === JSON.stringify(["run", "verify"]) &&
-    command.canonical === "npm run verify";
-  requireCondition(windowsCommand || portableCommand, "Canonical-gate command mismatch.");
+      JSON.stringify([value.toolchain.before.npmCli.path, "run", "verify"]) &&
+    command.canonical === "node npm-cli.js run verify";
+  requireCondition(authenticatedCommand, "Canonical-gate command mismatch.");
 }
 
 async function validateGateReceipt(
@@ -2531,6 +2947,7 @@ async function validateGateReceipt(
       "gitContext",
       "command",
       "executionAuthority",
+      "operationError",
       "result",
       "exitCode",
       "signal",
@@ -2541,7 +2958,7 @@ async function validateGateReceipt(
     "canonical-gate receipt",
   );
   requireCondition(
-    receipt.apiVersion === "swecircuit/release-gate/v1alpha2" &&
+    receipt.apiVersion === "swecircuit/release-gate/v1alpha4" &&
       receipt.kind === "CanonicalGateReceipt" &&
       receipt.version === "V12",
     "Canonical-gate receipt identity mismatch.",
@@ -2628,9 +3045,10 @@ async function validateGateReceipt(
     ["executable", "arguments", "canonical"],
     "canonical-gate command",
   );
-  validateExecutionAuthority(receipt.executionAuthority, receipt.command);
+  validateExecutionAuthority(receipt.executionAuthority, receipt.command, candidateTree);
   requireCondition(
-    receipt.result === "pass" &&
+    receipt.operationError === null &&
+      receipt.result === "pass" &&
       receipt.exitCode === 0 &&
       receipt.signal === null &&
       receipt.spawnError === null,
@@ -4036,6 +4454,8 @@ export const RELEASE_REVIEW_TEST_HOOKS = Object.freeze({
   EMPTY_FILE_DIGEST,
   PRIVATE_NPM_CONFIGURATION_POLICY,
   REVIEW_ROOT,
+  detectReleaseReviewLibc,
+  releaseReviewRuntimeIdentity,
   PARENT_REPOSITORY_PATH,
   assertOwnerPackageExpectation,
   assertPackageFileSet,

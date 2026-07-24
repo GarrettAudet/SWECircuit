@@ -2,7 +2,7 @@
 
 ## Status
 
-The V12 product implementation and public API remain complete; Revision 41 changes only release proof and its tests. Revision 40 passed its one-shot gate, then fresh R2 returned two domain passes and one security fix. Revision 41 closes the effective execution environment, binds exact tools and dependencies before and after the gate, validates that receipt independently, includes six transitive security sources, and passes 53/53 release-specific tests. Frozen verification and the remaining release gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revisions 48-49 introduced candidate-private dependency authority and real-project lifecycle proof. Dogfooding retired Revision 50; independent reviews retired Revisions 51-52 after portability, cleanup, publication, and command-authority defects. Revision 53 retains an exact registry/SRI lock and offline candidate-private install, binds install logs and the private closure, binds nested npm command-to-target authority, preserves aggregate cleanup evidence, passes the release contract suite 61/61, and passes the exact-lock typecheck, ESM, and cleanup probe. No Revision 53 gate has been consumed. Exact committed lifecycle, full verification, one successor gate, fresh R2, hosted CI, milestone closeout, and merge remain; `releaseReady: false`. Scope is frozen to release blockers through `2026-07-25 00:03 MDT`.
 
 ## Baseline
 

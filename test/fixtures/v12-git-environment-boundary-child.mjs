@@ -34,10 +34,9 @@ await assert.rejects(
 );
 
 const cacheRoot = join(root, "cache");
-const typeScriptEntrypoint = join(root, "tools", "tsc");
 const gateEnvironment = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.gateEnvironment(
   cacheRoot,
-  typeScriptEntrypoint,
+  process.env,
 );
 const parentEnvironment = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parentEnvironment(
   cacheRoot,
@@ -67,7 +66,7 @@ for (const environment of [gateEnvironment, parentEnvironment]) {
 }
 
 assert.equal(gateEnvironment.npm_config_cache, cacheRoot);
-assert.equal(gateEnvironment.SWECIRCUIT_TYPESCRIPT_ENTRYPOINT, typeScriptEntrypoint);
+assert.equal(gateEnvironment.SWECIRCUIT_TYPESCRIPT_ENTRYPOINT, undefined);
 assert.equal(parentEnvironment.SWECIRCUIT_RELEASE_REVIEW_NPM_CACHE, cacheRoot);
 
 process.stdout.write(

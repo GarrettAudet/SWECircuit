@@ -125,7 +125,12 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
   assert.equal(lifecycle.fixture.repositoryWasOutsideSource, true);
   assert.equal(lifecycle.fixture.packageException.onlyScriptsVerifyChanged, true);
   assert.equal(lifecycle.fixture.hostNpmSupply.compatibilityAdapter, "absent");
-  assert.match(lifecycle.fixture.hostNpmSupply.version, /^11\./u);
+  assert.equal(
+    V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.isSupportedNpmVersion(
+      lifecycle.fixture.hostNpmSupply.version,
+    ),
+    true,
+  );
   assert.equal(lifecycle.fixture.hostNpmCacheSupply.sourceSelection, "release-gate-host-npm-cache");
   assert.equal(lifecycle.fixture.hostNpmCacheSupply.rootsDisjoint, true);
   assert.equal(lifecycle.fixture.postFixtureCorrectionExclusion.firstRevision, 22);
@@ -138,23 +143,25 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
   );
   assert.match(
     lifecycle.fixture.packageException.fixtureVerify,
-    /node scripts[/\\]run-typescript\.mjs --ignoreConfig --noEmit/u,
+    /node scripts[/\\]run-typescript\.mjs -p tsconfig\.json --noEmit/u,
   );
-  const typeScriptSupply = lifecycle.fixture.typeScriptSupply;
-  assert.equal(typeScriptSupply.binding.supplied, true);
-  assert.equal(typeScriptSupply.binding.nlink, 1);
-  assert.match(typeScriptSupply.receipt.version, /^Version\s+\S+/u);
-  assert.deepEqual(lifecycle.gate.typeScript.receipt, typeScriptSupply.receipt);
-  assert.equal(lifecycle.gate.typeScript.sentinel, typeScriptSupply.sentinel);
-  assert.equal(lifecycle.gate.typeScript.sentinelCount, 1);
+  assert.match(
+    lifecycle.fixture.packageException.fixtureVerify,
+    /await import\('ajv'\); await import\('jsonc-parser'\)/u,
+  );
+  assert.equal(lifecycle.gate.typeScript.candidatePrivate, true);
+  assert.equal(lifecycle.gate.typeScript.receipt.supplied, false);
+  assert.match(
+    lifecycle.gate.typeScript.receipt.path,
+    /node_modules[/\\]typescript[/\\]bin[/\\]tsc$/u,
+  );
+  assert.match(lifecycle.gate.typeScript.receipt.version, /^Version\s+\S+/u);
+  assert.equal(lifecycle.gate.runtimeDependencies.sentinelCount, 1);
   assert.equal(
-    typeScriptSupply.arguments.at(-1),
-    "test/fixtures/v12-lifecycle-typescript-smoke.ts",
+    lifecycle.gate.runtimeDependencies.sentinel,
+    "SWECIRCUIT_LIFECYCLE_RUNTIME_IMPORTS sentinel-v1",
   );
-  assert.deepEqual(
-    typeScriptSupply.smokeInput,
-    PRODUCTION_IDENTITIES["test/fixtures/v12-lifecycle-typescript-smoke.ts"],
-  );
+
   assert.match(lifecycle.packagePair.compilationDigest, /^sha256:[0-9a-f]{64}$/u);
   assert.match(lifecycle.packagePair.packageDigest, /^sha256:[0-9a-f]{64}$/u);
 
@@ -220,19 +227,31 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
       "conflicting promoted output",
       "receipt-last interrupted promotion",
       "wrong raw handoff digest",
-      "persistent TypeScript mutation during compilation",
+      "pre-spawn lock rejection emits immutable receipt",
+      "failed exact-lock install emits immutable receipt",
     ],
   );
   assert.equal(
     lifecycle.negativeRoutes.every((entry) => entry.status === "pass"),
     true,
   );
-  const mutationRoute = lifecycle.negativeRoutes.at(-1);
-  assert.equal(mutationRoute.route, "copied-production-canonical-gate");
-  assert.equal(mutationRoute.typeScript.sentinelCount, 1);
-  assert.equal(mutationRoute.typeScript.receipt.supplied, true);
-  assert.notDeepEqual(mutationRoute.compilerIdentity.before, mutationRoute.compilerIdentity.after);
-  assert.match(mutationRoute.error, /TypeScript binding changed after compilation\./u);
+  const setupFailureRoute = lifecycle.negativeRoutes.at(-2);
+  assert.equal(setupFailureRoute.route, "copied-production-canonical-gate");
+  assert.equal(setupFailureRoute.cleanup.attempted, true);
+  assert.equal(setupFailureRoute.cleanup.removed, false);
+  assert.equal(setupFailureRoute.cleanup.absentAfter, true);
+  assert.equal(setupFailureRoute.cleanup.error, null);
+  assert.match(setupFailureRoute.error, /^SyntaxError:/u);
+  assert.match(setupFailureRoute.malformedLock.digest, /^sha256:[0-9a-f]{64}$/u);
+
+  const installFailureRoute = lifecycle.negativeRoutes.at(-1);
+  assert.equal(installFailureRoute.route, "copied-production-canonical-gate");
+  assert.equal(installFailureRoute.cleanup.attempted, true);
+  assert.equal(installFailureRoute.cleanup.absentAfter, true);
+  assert.equal(installFailureRoute.cleanup.error, null);
+  assert.match(installFailureRoute.installStderr.digest, /^sha256:[0-9a-f]{64}$/u);
+  assert.ok(installFailureRoute.installStderr.bytes > 0);
+  assert.match(installFailureRoute.error, /Candidate dependency installation failed/u);
 
   for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
     assert.deepEqual(lifecycle.sourceFrozenBefore[path], expected);

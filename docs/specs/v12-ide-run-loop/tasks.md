@@ -2,7 +2,7 @@
 
 ## Status
 
-T006 remains open until release evidence closes it. Exact Revision 40 commit `129b299d0626e370aab8819703f2a9bcc96ab6cc` passed its one-shot gate and fresh R2 returned two `pass` outcomes plus one security `fix`. Revision 40 is retired without rerun. Working Revision 41 closes execution authority and transitive source coverage and passes 53/53 release-specific checks. Frozen verification, one exact gate, fresh R2, hosted CI, milestone closeout, and owner merge remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revisions 48-49 introduced candidate-private dependency authority and real-project lifecycle proof. Dogfooding retired Revision 50; independent reviews retired Revisions 51-52 after portability, cleanup, publication, and command-authority defects. Revision 53 retains an exact registry/SRI lock and offline candidate-private install, binds install logs and the private closure, binds nested npm command-to-target authority, preserves aggregate cleanup evidence, passes the release contract suite 61/61, and passes the exact-lock typecheck, ESM, and cleanup probe. No Revision 53 gate has been consumed. Exact committed lifecycle, full verification, one successor gate, fresh R2, hosted CI, milestone closeout, and merge remain; `releaseReady: false`. Scope is frozen to release blockers through `2026-07-25 00:03 MDT`.
 
 ## Task List
 

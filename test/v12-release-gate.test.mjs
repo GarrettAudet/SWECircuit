@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { randomBytes } from "node:crypto";
 import {
   access,
   link,
@@ -14,7 +15,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, isAbsolute, join, relative, resolve } from "node:path";
+import { delimiter, dirname, isAbsolute, join, relative, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
@@ -98,74 +99,170 @@ async function cleanupPrivateNpmFixture(fixture) {
   await rm(fixture.cacheRoot, { recursive: true, force: true });
 }
 
-test("host TypeScript entrypoint supply is singular, plain, absolute, and external", async () => {
-  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-entrypoint-"));
-  const candidateRoot = join(root, "candidate");
-  const hostRoot = join(root, "host");
-  const hostEntrypoint = join(hostRoot, "tsc.mjs");
-  const candidateEntrypoint = join(candidateRoot, "tsc.mjs");
-  const symbolicEntrypoint = join(root, "typescript-link");
-  const environmentKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
-  const resolveSupply = (environment, defaultEntrypoint = hostEntrypoint) =>
-    RELEASE_GATE_TEST_HOOKS.resolveHostTypeScriptEntrypoint(
-      environment,
-      candidateRoot,
-      defaultEntrypoint,
-    );
+test("candidate lock applicability distinguishes glibc and musl", () => {
+  const glibcPackage = { os: ["linux"], cpu: ["x64"], libc: ["glibc"] };
+  const muslPackage = { os: ["linux"], cpu: ["x64"], libc: ["musl"] };
+  assert.equal(RELEASE_GATE_TEST_HOOKS.packageApplies(glibcPackage, "linux", "x64", "glibc"), true);
+  assert.equal(RELEASE_GATE_TEST_HOOKS.packageApplies(glibcPackage, "linux", "x64", "musl"), false);
+  assert.equal(RELEASE_GATE_TEST_HOOKS.packageApplies(muslPackage, "linux", "x64", "musl"), true);
+  assert.equal(RELEASE_GATE_TEST_HOOKS.packageApplies(muslPackage, "linux", "x64", "glibc"), false);
+  assert.equal(RELEASE_GATE_TEST_HOOKS.packageApplies(glibcPackage, "win32", "x64", null), false);
 
-  try {
-    await mkdir(candidateRoot);
-    await mkdir(hostRoot);
-    await writeFile(hostEntrypoint, "export {};\n", "utf8");
-    await writeFile(candidateEntrypoint, "export {};\n", "utf8");
-    await symlink(
-      process.platform === "win32" ? hostRoot : hostEntrypoint,
-      symbolicEntrypoint,
-      process.platform === "win32" ? "junction" : "file",
-    );
+  assert.equal(
+    RELEASE_GATE_TEST_HOOKS.detectRuntimeLibc("linux", {
+      header: { glibcVersionRuntime: "2.39" },
+      sharedObjects: [],
+    }),
+    "glibc",
+  );
+  assert.equal(
+    RELEASE_GATE_TEST_HOOKS.detectRuntimeLibc("linux", {
+      header: {},
+      sharedObjects: ["/lib/ld-musl-x86_64.so.1"],
+    }),
+    "musl",
+  );
+  assert.equal(RELEASE_GATE_TEST_HOOKS.detectRuntimeLibc("win32"), null);
+  assert.deepEqual(
+    RELEASE_GATE_TEST_HOOKS.runtimeIdentity("linux", "arm64", {
+      header: { glibcVersionRuntime: "2.39" },
+      sharedObjects: [],
+    }),
+    { platform: "linux", architecture: "arm64", libc: "glibc" },
+  );
+  assert.throws(
+    () =>
+      RELEASE_GATE_TEST_HOOKS.detectRuntimeLibc("linux", {
+        header: {},
+        sharedObjects: [],
+      }),
+    /Unable to determine/u,
+  );
+});
 
-    const defaultEntrypoint = resolveSupply({});
-    assert.equal(defaultEntrypoint, await realpath(hostEntrypoint));
-    assert.equal(isAbsolute(defaultEntrypoint), true);
-    const defaultFromCandidate = relative(candidateRoot, defaultEntrypoint);
-    assert.equal(
-      isAbsolute(defaultFromCandidate) ||
-        defaultFromCandidate === ".." ||
-        defaultFromCandidate.startsWith("../") ||
-        defaultFromCandidate.startsWith("..\\"),
-      true,
-    );
+test("candidate dependency and canonical commands use one authenticated npm CLI", async () => {
+  const install = RELEASE_GATE_TEST_HOOKS.candidateDependencyInstallCommand();
+  assert.equal(install.executable, RELEASE_GATE_TEST_HOOKS.hostNodePath);
+  assert.deepEqual(install.arguments, [
+    RELEASE_GATE_TEST_HOOKS.hostNpmCliPath,
+    "ci",
+    "--offline",
+    "--ignore-scripts",
+    "--no-audit",
+    "--no-fund",
+    "--cache",
+    RELEASE_GATE_TEST_HOOKS.hostNpmCache,
+  ]);
 
-    assert.throws(() => resolveSupply({}, "relative/tsc.mjs"), /absolute/u);
-    assert.throws(() => resolveSupply({}, symbolicEntrypoint), /symbolic link/u);
-    assert.throws(() => resolveSupply({}, candidateEntrypoint), /outside/u);
-
-    assert.equal(
-      resolveSupply({ [environmentKey.toLowerCase()]: hostEntrypoint }),
-      await realpath(hostEntrypoint),
-    );
-    assert.throws(
-      () =>
-        resolveSupply({
-          [environmentKey]: hostEntrypoint,
-          [environmentKey.toLowerCase()]: hostEntrypoint,
-        }),
-      /at most once/u,
-    );
-    assert.throws(() => resolveSupply({ [environmentKey]: "" }), /non-empty/u);
-    assert.throws(() => resolveSupply({ [environmentKey]: "relative/tsc.mjs" }), /absolute/u);
-    assert.throws(() => resolveSupply({ [environmentKey]: join(hostRoot, "missing.mjs") }), {
-      code: "ENOENT",
-    });
-    assert.throws(() => resolveSupply({ [environmentKey]: hostRoot }), /plain regular file/u);
-    assert.throws(() => resolveSupply({ [environmentKey]: symbolicEntrypoint }), /symbolic link/u);
-    assert.throws(
-      () => resolveSupply({ [environmentKey]: candidateEntrypoint }),
-      /outside the candidate/u,
-    );
-  } finally {
-    await rm(root, { force: true, recursive: true });
+  const expectedNpmCli =
+    process.platform === "win32"
+      ? await realpath(
+          join(
+            dirname(RELEASE_GATE_TEST_HOOKS.hostNpmCommandPath),
+            "node_modules",
+            "npm",
+            "bin",
+            "npm-cli.js",
+          ),
+        )
+      : RELEASE_GATE_TEST_HOOKS.hostNpmPath;
+  assert.equal(RELEASE_GATE_TEST_HOOKS.hostNpmCliPath, expectedNpmCli);
+  assert.equal(
+    await realpath(RELEASE_GATE_TEST_HOOKS.hostNpmCommandPath),
+    RELEASE_GATE_TEST_HOOKS.hostNpmPath,
+  );
+  const closedEntries = RELEASE_GATE_TEST_HOOKS.closedPath().split(delimiter);
+  const npmCommandDirectory = dirname(RELEASE_GATE_TEST_HOOKS.hostNpmCommandPath);
+  const nodeDirectory = dirname(RELEASE_GATE_TEST_HOOKS.hostNodePath);
+  assert.ok(closedEntries.includes(npmCommandDirectory));
+  assert.ok(closedEntries.includes(nodeDirectory));
+  if (npmCommandDirectory !== nodeDirectory) {
+    assert.ok(closedEntries.indexOf(npmCommandDirectory) < closedEntries.indexOf(nodeDirectory));
   }
+  assert.deepEqual(RELEASE_GATE_TEST_HOOKS.canonicalCommand, {
+    executable: RELEASE_GATE_TEST_HOOKS.hostNodePath,
+    arguments: [RELEASE_GATE_TEST_HOOKS.hostNpmCliPath, "run", "verify"],
+    canonical: "node npm-cli.js run verify",
+  });
+});
+
+test("canonical evidence slot is atomically owned, published, and retry-safe", async () => {
+  const candidate = randomBytes(20).toString("hex");
+  const outputs = RELEASE_GATE_TEST_HOOKS.candidateEvidencePaths(candidate);
+  const root = dirname(outputs.receipt);
+  const pending = RELEASE_GATE_TEST_HOOKS.candidateReceiptPendingPath(outputs);
+  const receipt = Buffer.from('{"result":"pass"}\n', "utf8");
+  assert.equal(await pathExists(root), false);
+  try {
+    await RELEASE_GATE_TEST_HOOKS.reserveCandidateEvidenceSlot(outputs);
+    assert.equal(await pathExists(outputs.stdout), true);
+    assert.equal(await pathExists(outputs.stderr), true);
+    assert.equal(await pathExists(outputs.receipt), false);
+    await assert.rejects(
+      RELEASE_GATE_TEST_HOOKS.reserveCandidateEvidenceSlot(outputs),
+      /evidence slot already exists/u,
+    );
+    await RELEASE_GATE_TEST_HOOKS.publishCandidateReceipt(outputs, receipt);
+    assert.deepEqual(await readFile(outputs.receipt), receipt);
+    assert.equal(await pathExists(pending), false);
+    await assert.rejects(
+      RELEASE_GATE_TEST_HOOKS.publishCandidateReceipt(
+        outputs,
+        Buffer.from('{"result":"substituted"}\n', "utf8"),
+      ),
+      /EEXIST/u,
+    );
+    assert.deepEqual(await readFile(outputs.receipt), receipt);
+    assert.equal(await pathExists(pending), false);
+  } finally {
+    await RELEASE_GATE_TEST_HOOKS.removeCandidateEvidenceSlot(outputs);
+  }
+  assert.equal(await pathExists(root), false);
+});
+
+test("aggregate preparation failures retain every nested cause", () => {
+  const rendered = RELEASE_GATE_TEST_HOOKS.renderError(
+    new AggregateError(
+      [
+        new Error("runtime libc unsupported"),
+        new AggregateError(
+          [new Error("evidence cleanup failed"), new Error("Git cleanup failed")],
+          "owned cleanup failed",
+        ),
+      ],
+      "preparation failed",
+    ),
+  );
+  for (const message of [
+    "AggregateError: preparation failed",
+    "Error: runtime libc unsupported",
+    "AggregateError: owned cleanup failed",
+    "Error: evidence cleanup failed",
+    "Error: Git cleanup failed",
+  ]) {
+    assert.match(rendered, new RegExp(escapedPattern(message), "u"));
+  }
+});
+
+test("failed preparation removes every owned resource", async () => {
+  const candidate = randomBytes(20).toString("hex");
+  const outputs = RELEASE_GATE_TEST_HOOKS.candidateEvidencePaths(candidate);
+  await RELEASE_GATE_TEST_HOOKS.reserveCandidateEvidenceSlot(outputs);
+  await mkdir(RELEASE_GATE_TEST_HOOKS.materializationParent, { recursive: true });
+  const materialization = {
+    root: await mkdtemp(join(RELEASE_GATE_TEST_HOOKS.materializationParent, "candidate-")),
+  };
+  const gitContext = {
+    root: await mkdtemp(join(RELEASE_GATE_TEST_HOOKS.materializationParent, "git-")),
+  };
+  await RELEASE_GATE_TEST_HOOKS.cleanupFailedCandidatePreparation(
+    outputs,
+    materialization,
+    gitContext,
+  );
+  assert.equal(await pathExists(dirname(outputs.receipt)), false);
+  assert.equal(await pathExists(materialization.root), false);
+  assert.equal(await pathExists(gitContext.root), false);
 });
 
 test("packed consumer retains and executes the complete TypeScript binding", () => {
@@ -294,6 +391,96 @@ test("candidate materialization excludes and detects uncommitted verification in
   }
 });
 
+test("candidate lock and private dependency closure reject substitution", async () => {
+  const lockBytes = await readFile(join(ROOT, "package-lock.json"));
+  const lockSupply = RELEASE_GATE_TEST_HOOKS.validateCandidateLockSupply(lockBytes);
+  assert.equal(lockSupply.receipt.path, "package-lock.json");
+  assert.equal(lockSupply.receipt.bytes, lockBytes.byteLength);
+  assert.ok(lockSupply.receipt.packages > 0);
+  assert.equal(
+    lockSupply.receipt.libc,
+    process.platform === "linux" ? RELEASE_GATE_TEST_HOOKS.detectRuntimeLibc() : null,
+  );
+  assert.match(lockSupply.receipt.inventoryDigest, /^sha256:[0-9a-f]{64}$/u);
+
+  const lock = JSON.parse(lockBytes.toString("utf8"));
+  const packagePath = Object.keys(lock.packages).find((path) => path !== "");
+  assert.ok(packagePath);
+  const linked = structuredClone(lock);
+  linked.packages[packagePath].link = true;
+  assert.throws(
+    () =>
+      RELEASE_GATE_TEST_HOOKS.validateCandidateLockSupply(
+        Buffer.from(JSON.stringify(linked), "utf8"),
+      ),
+    /Locked package is linked/u,
+  );
+  const local = structuredClone(lock);
+  local.packages[packagePath].resolved = "file:../substitution";
+  assert.throws(
+    () =>
+      RELEASE_GATE_TEST_HOOKS.validateCandidateLockSupply(
+        Buffer.from(JSON.stringify(local), "utf8"),
+      ),
+    /non-registry supply/u,
+  );
+
+  const root = await mkdtemp(join(tmpdir(), "swecircuit-candidate-dependencies-"));
+  const dependencyRoot = join(root, "node_modules");
+  const packageRoot = join(dependencyRoot, "example");
+  const entries = [{ path: "package.json", segments: ["package.json"] }];
+  try {
+    await mkdir(packageRoot, { recursive: true });
+    await writeFile(join(root, "package.json"), "{}\n", "utf8");
+    const source = join(packageRoot, "index.js");
+    await writeFile(source, "export {};\n", "utf8");
+    const before = await RELEASE_GATE_TEST_HOOKS.inspectCandidateDependencyClosure(dependencyRoot);
+    assert.ok(before.files > 0);
+    assert.ok(before.directories > 0);
+    assert.match(before.digest, /^sha256:[0-9a-f]{64}$/u);
+    await writeFile(source, "changed\n", "utf8");
+    const after = await RELEASE_GATE_TEST_HOOKS.inspectCandidateDependencyClosure(dependencyRoot);
+    assert.notEqual(after.digest, before.digest);
+    const alias = join(packageRoot, "hard-link.js");
+    await link(source, alias);
+    await assert.rejects(
+      RELEASE_GATE_TEST_HOOKS.inspectCandidateDependencyClosure(dependencyRoot),
+      /hard-linked file/u,
+    );
+    await rm(alias);
+    assert.equal(await RELEASE_GATE_TEST_HOOKS.removeCandidateDependencies(root, entries), true);
+    assert.equal(await pathExists(dependencyRoot), false);
+  } finally {
+    await rm(root, { force: true, recursive: true });
+  }
+});
+
+test("runtime ancestor package supply is detected before candidate execution", async () => {
+  const root = await mkdtemp(join(tmpdir(), "swecircuit-ancestor-supply-"));
+  const candidate = join(root, "work", "candidate");
+  const hostileSupply = join(root, "node_modules");
+  try {
+    await mkdir(candidate, { recursive: true });
+    let inspection = await RELEASE_GATE_TEST_HOOKS.inspectRuntimeAncestorSupply(candidate);
+    assert.equal(inspection.absent, true);
+    assert.equal(inspection.found, null);
+    assert.deepEqual(
+      inspection.checkedPaths,
+      RELEASE_GATE_TEST_HOOKS.runtimeAncestorSupplyPaths(candidate),
+    );
+
+    await mkdir(hostileSupply);
+    inspection = await RELEASE_GATE_TEST_HOOKS.inspectRuntimeAncestorSupply(candidate);
+    assert.equal(inspection.absent, false);
+    assert.deepEqual(inspection.found, {
+      path: hostileSupply,
+      kind: "directory",
+    });
+  } finally {
+    await rm(root, { force: true, recursive: true });
+  }
+});
+
 test("candidate Git context is disposable, exact, and usable from the materialization", async () => {
   const candidateCommit = runGit(["rev-parse", "--verify", "HEAD"]);
   const liveGitDirectory = runGit(["rev-parse", "--path-format=absolute", "--git-dir"]);
@@ -370,6 +557,7 @@ test("candidate Git context is disposable, exact, and usable from the materializ
     );
     assert.equal(exactDiff.status, 0, exactDiff.stderr);
 
+    assert.equal(environment.PATH.split(delimiter)[0], join(worktree, "node_modules", ".bin"));
     assert.equal(environment.npm_config_cache, RELEASE_GATE_TEST_HOOKS.hostNpmCache);
     assert.equal(isAbsolute(environment.npm_config_cache), true);
     const cacheFromMaterialization = relative(worktree, environment.npm_config_cache);
@@ -382,16 +570,12 @@ test("candidate Git context is disposable, exact, and usable from the materializ
     const typeScriptKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
     assert.deepEqual(
       Object.keys(environment).filter((key) => key.toLowerCase() === typeScriptKey.toLowerCase()),
-      [typeScriptKey],
+      [],
     );
-    assert.equal(isAbsolute(environment[typeScriptKey]), true);
-    const typeScriptFromMaterialization = relative(worktree, environment[typeScriptKey]);
     assert.equal(
-      isAbsolute(typeScriptFromMaterialization) ||
-        typeScriptFromMaterialization === ".." ||
-        typeScriptFromMaterialization.startsWith("../") ||
-        typeScriptFromMaterialization.startsWith("..\\"),
-      true,
+      await pathExists(resolve(worktree, "node_modules", "typescript", "bin", "tsc")),
+      false,
+      "candidate compiler must not exist before exact-lock installation",
     );
     assert.notEqual(resolve(environment.GIT_DIR), resolve(liveGitDirectory));
     assert.equal(runGit(["rev-parse", "--verify", "HEAD"]), liveHeadBefore);
@@ -452,9 +636,10 @@ test("canonical gate closes hostile host environment and binds effective authori
     assert.equal(environment.npm_config_ignore_scripts, "true");
     assert.equal(environment.GIT_CONFIG_NOSYSTEM, "1");
     assert.equal(environment.GIT_TERMINAL_PROMPT, "0");
+    assert.equal(Object.hasOwn(environment, "SWECIRCUIT_HOST_DEPENDENCY_ROOT"), false);
     assert.equal(
-      environment[RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey],
-      RELEASE_GATE_TEST_HOOKS.hostDependencyRoot,
+      environment[RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey],
+      undefined,
     );
 
     const binding = await RELEASE_GATE_TEST_HOOKS.executionEnvironmentBinding(
@@ -468,26 +653,11 @@ test("canonical gate closes hostile host environment and binds effective authori
     assert.equal(binding.npm.userConfig.bytes, 0);
     assert.equal(binding.npm.globalConfig.bytes, 0);
 
-    const toolchain = await RELEASE_GATE_TEST_HOOKS.inspectToolchain(environment);
-    assert.equal(environment.npm_config_script_shell, toolchain.shell.path);
-    for (const tool of [
-      toolchain.node,
-      toolchain.npmLauncher,
-      toolchain.npmCli,
-      toolchain.git,
-      toolchain.shell,
-      toolchain.typescript,
-    ]) {
-      assert.match(tool.digest, /^sha256:[0-9a-f]{64}$/u);
-      assert.equal(isAbsolute(tool.path), true);
-      assert.ok(tool.bytes > 0);
-    }
-
-    const dependencies = await RELEASE_GATE_TEST_HOOKS.inspectHostDependencyClosure();
-    assert.equal(dependencies.root, await realpath(RELEASE_GATE_TEST_HOOKS.hostDependencyRoot));
-    assert.ok(dependencies.files > 0);
-    assert.ok(dependencies.bytes > 0);
-    assert.match(dependencies.digest, /^sha256:[0-9a-f]{64}$/u);
+    assert.equal(
+      await pathExists(join(materialization.root, "node_modules", "typescript", "bin", "tsc")),
+      false,
+      "candidate compiler must not exist before exact-lock installation",
+    );
   } finally {
     for (const [key, value] of previous) {
       if (value === undefined) {
@@ -550,11 +720,30 @@ test("canonical command is pinned to the authenticated materialization", () => {
   const mainSource = releaseGateSource.slice(releaseGateSource.indexOf("async function main()"));
   assert.match(
     mainSource,
-    /const materialization = await materializeCandidateSource\(candidateCommit\);/u,
+    /materialization = await materializeCandidateSource\(candidateCommit\);/u,
   );
   assert.match(
     mainSource,
     /gitContext = await createCandidateGitContext\(candidateCommit, materialization\.root\);/u,
+  );
+  assert.ok(
+    mainSource.indexOf("await reserveCandidateEvidenceSlot(outputs)") <
+      mainSource.indexOf("materialization = await materializeCandidateSource(candidateCommit)"),
+  );
+  assert.match(
+    mainSource,
+    /await cleanupFailedCandidatePreparation\(outputs, materialization, gitContext\);/u,
+  );
+  assert.match(
+    mainSource,
+    /try \{[\s\S]*?runtime = runtimeIdentity\(\);[\s\S]*?\} catch \(error\) \{/u,
+  );
+  assert.match(mainSource, /await publishCandidateReceipt\(/u);
+  assert.match(mainSource, /renderError\(error\)/u);
+  assert.doesNotMatch(mainSource, /writeFile\(outputs\.receipt/u);
+  assert.doesNotMatch(
+    mainSource,
+    /Promise\.all\(\[\s*writeFile\(outputs\.stdout[\s\S]*?writeFile\(outputs\.stderr/u,
   );
   assert.match(mainSource, /const environment = commandEnvironment\(gitContext\);/u);
   assert.match(
@@ -570,13 +759,29 @@ test("canonical command is pinned to the authenticated materialization", () => {
   assert.match(mainSource, /cleanupError: materializationCleanupError/u);
   assert.match(mainSource, /environmentBinding = await executionEnvironmentBinding/u);
   assert.match(mainSource, /toolchainBefore = await inspectToolchain/u);
-  assert.match(mainSource, /hostDependenciesBefore = await inspectHostDependencyClosure/u);
+  assert.match(mainSource, /candidateDependencies\.ready/u);
+  assert.match(mainSource, /inspectRuntimeAncestorSupply\(materialization\.root\)/u);
+  assert.match(mainSource, /const stdoutHandle = await open\(outputs\.stdout, "r\+"\);/u);
+  assert.match(mainSource, /candidateDependencies = await installCandidateDependencies/u);
+  assert.match(
+    mainSource,
+    /JSON\.stringify\(candidateDependencies\.closure\) ===[\s\S]*?JSON\.stringify\(candidateDependenciesAfter\)/u,
+  );
+  assert.match(mainSource, /candidateDependencyRemoved/u);
+  assert.match(mainSource, /candidateDependencyAbsentAfter === true/u);
   assert.match(
     mainSource,
     /JSON\.stringify\(toolchainBefore\) === JSON\.stringify\(toolchainAfter\)/u,
   );
-  assert.match(mainSource, /hostDependenciesBefore\.digest === hostDependenciesAfter\.digest/u);
-  assert.match(mainSource, /apiVersion: "swecircuit\/release-gate\/v1alpha2"/u);
+  assert.match(mainSource, /candidateDependencyCleanupAttempted/u);
+  assert.match(mainSource, /ancestorSupplyPreserved/u);
+  assert.match(mainSource, /candidateDependencies\.lock\.platform === runtime\.platform/u);
+  assert.match(mainSource, /executionAuthority: \{\s*environment: environmentBinding,\s*runtime,/u);
+  assert.match(mainSource, /let operationError = null;/u);
+  assert.match(mainSource, /operationError = normalizedError\(error\);/u);
+  assert.match(mainSource, /operationError === null/u);
+  assert.match(mainSource, /operationError,\s*result: passed \? "pass" : "fail"/u);
+  assert.match(mainSource, /apiVersion: "swecircuit\/release-gate\/v1alpha4"/u);
 });
 
 test("R2 closes the stronger receipt and all six causal security sources", () => {
@@ -593,6 +798,17 @@ test("R2 closes the stronger receipt and all six causal security sources", () =>
     /receipt\.materialization\.digestAfter === expectedCandidateSource\.digest/u,
   );
   assert.match(reviewHarnessSource, /receipt\.gitContext\.strategy ===/u);
+  assert.match(reviewHarnessSource, /validateCandidateDependencies\([\s\S]*?candidateTree/u);
+  assert.match(reviewHarnessSource, /candidate-private-exact-lock-offline-npm-ci/u);
+  assert.match(reviewHarnessSource, /const authenticatedInstallCommand =/u);
+  assert.doesNotMatch(reviewHarnessSource, /portableInstallCommand/u);
+  assert.match(reviewHarnessSource, /npmLauncher\.commandPath/u);
+  assert.match(reviewHarnessSource, /realpathSync\.native\(value\.commandPath\)/u);
+  assert.match(
+    reviewHarnessSource,
+    /command\.executable === value\.toolchain\.before\.node\.path/u,
+  );
+  assert.match(reviewHarnessSource, /value\.toolchain\.before\.npmCli\.path, "run", "verify"/u);
   assert.match(reviewHarnessSource, /for \(const path of REQUIRED_SECURITY_CAUSAL_SOURCES\)/u);
 
   const requiredCausalSecuritySources = [
@@ -1094,7 +1310,7 @@ test("release-review parent closes environment, outputs, cleanup, and promotion 
   assert.doesNotMatch(reviewHarnessSource, /npm_config_userconfig === .*NUL/u);
 });
 
-test("installed npm 11 uses exact production private configs and rejects the old alias", async () => {
+test("installed npm 10 or newer uses exact production private configs and rejects the old alias", async () => {
   const fixture = await createPrivateNpmFixture();
   const candidateRoot = join(fixture.operationRoot, "candidate");
   await mkdir(candidateRoot);
@@ -1118,7 +1334,9 @@ test("installed npm 11 uses exact production private configs and rejects the old
       );
     const version = runNpm(["--version"], "focused npm version");
     assert.equal(version.status, 0, version.stderr.toString("utf8"));
-    assert.match(version.stdout.toString("utf8").trim(), /^11\./u);
+    const npmVersion = version.stdout.toString("utf8").trim();
+    const npmMajor = Number.parseInt(npmVersion.split(".")[0], 10);
+    assert.equal(Number.isSafeInteger(npmMajor) && npmMajor >= 10, true, npmVersion);
     const userConfig = runNpm(["config", "get", "userconfig"], "focused npm userconfig");
     const globalConfig = runNpm(["config", "get", "globalconfig"], "focused npm globalconfig");
     assert.equal(userConfig.stdout.toString("utf8").trim(), fixture.configuration.userConfig.path);

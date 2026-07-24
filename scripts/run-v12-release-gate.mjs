@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { existsSync, lstatSync, realpathSync } from "node:fs";
 import {
   access,
+  link,
   lstat,
   mkdir,
   mkdtemp,
@@ -15,20 +16,20 @@ import {
   rmdir,
   writeFile,
 } from "node:fs/promises";
+import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { delimiter, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import {
-  resolveTypeScriptEntrypointBinding,
-  TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY,
-} from "./run-typescript.mjs";
+import { TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY } from "./run-typescript.mjs";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const EVIDENCE = join(ROOT, "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs");
 const CANDIDATE_PATTERN = /^[0-9a-f]{40}$/;
 const MATERIALIZATION_DIGEST_DOMAIN = "swecircuit/release-gate/materialization/v1alpha1";
-const HOST_DEPENDENCY_DIGEST_DOMAIN = "swecircuit/release-gate/host-dependencies/v1alpha1";
+const CANDIDATE_LOCK_DIGEST_DOMAIN = "swecircuit/release-gate/candidate-lock/v1alpha1";
+const CANDIDATE_DEPENDENCY_DIGEST_DOMAIN =
+  "swecircuit/release-gate/candidate-dependencies/v1alpha1";
 const GIT_CONTEXT_STRATEGY = "disposable-shared-object-git-context";
 
 const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
@@ -42,10 +43,8 @@ requireCondition(
   "Release-gate scratch root must remain outside the source repository.",
 );
 const GENERATED_BUILD_DIRECTORY = "dist";
+const CANDIDATE_DEPENDENCY_DIRECTORY = "node_modules";
 const DEFAULT_HOST_NPM_CACHE = join(ROOT, ".local", "npm-cache");
-const DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT = join(ROOT, "node_modules", "typescript", "bin", "tsc");
-const HOST_DEPENDENCY_ROOT_ENVIRONMENT_KEY = "SWECIRCUIT_HOST_DEPENDENCY_ROOT";
-const DEFAULT_HOST_DEPENDENCY_ROOT = join(ROOT, "node_modules");
 
 function optionalEnvironmentValue(name, environment = process.env) {
   const matches = Object.entries(environment).filter(
@@ -88,19 +87,42 @@ function resolveHostExecutable(names, label) {
   throw new Error(`${label} was not found on PATH.`);
 }
 
+function resolveHostCommandSupply(names, label) {
+  const pathValue = optionalEnvironmentValue("PATH");
+  requireCondition(pathValue !== null, `${label} cannot be resolved without PATH.`);
+  for (const rawDirectory of pathValue.split(delimiter)) {
+    const directory = rawDirectory.trim().replace(/^"(.*)"$/u, "$1");
+    if (directory.length === 0) {
+      continue;
+    }
+    for (const name of names) {
+      const commandPath = resolve(directory, name);
+      if (existsSync(commandPath)) {
+        return Object.freeze({
+          commandPath,
+          targetPath: plainResolvedFile(commandPath, label),
+        });
+      }
+    }
+  }
+  throw new Error(`${label} was not found on PATH.`);
+}
+
 const HOST_NODE_PATH = plainResolvedFile(process.execPath, "Host Node executable");
 const HOST_GIT_PATH = resolveHostExecutable(
   process.platform === "win32" ? ["git.exe"] : ["git"],
   "Host Git executable",
 );
-const HOST_NPM_PATH = resolveHostExecutable(
+const HOST_NPM_SUPPLY = resolveHostCommandSupply(
   process.platform === "win32" ? ["npm.cmd"] : ["npm"],
   "Host npm executable",
 );
+const HOST_NPM_COMMAND_PATH = HOST_NPM_SUPPLY.commandPath;
+const HOST_NPM_PATH = HOST_NPM_SUPPLY.targetPath;
 const HOST_NPM_CLI_PATH =
   process.platform === "win32"
     ? plainResolvedFile(
-        join(dirname(HOST_NODE_PATH), "node_modules", "npm", "bin", "npm-cli.js"),
+        join(dirname(HOST_NPM_COMMAND_PATH), "node_modules", "npm", "bin", "npm-cli.js"),
         "Host npm CLI",
       )
     : HOST_NPM_PATH;
@@ -113,18 +135,22 @@ const HOST_SHELL_PATH =
       )
     : plainResolvedFile("/bin/sh", "Host command shell");
 
-const COMMAND =
-  process.platform === "win32"
-    ? Object.freeze({
-        executable: HOST_SHELL_PATH,
-        arguments: Object.freeze(["/d", "/s", "/c", "npm.cmd run verify"]),
-        canonical: "npm.cmd run verify",
-      })
-    : Object.freeze({
-        executable: HOST_NPM_PATH,
-        arguments: Object.freeze(["run", "verify"]),
-        canonical: "npm run verify",
-      });
+const CANDIDATE_DEPENDENCY_INSTALL_ARGUMENTS = Object.freeze([
+  "ci",
+  "--offline",
+  "--ignore-scripts",
+  "--no-audit",
+  "--no-fund",
+  "--cache",
+]);
+const CANDIDATE_DEPENDENCY_INSTALL_COMMAND =
+  "npm ci --offline --ignore-scripts --no-audit --no-fund";
+
+const COMMAND = Object.freeze({
+  executable: HOST_NODE_PATH,
+  arguments: Object.freeze([HOST_NPM_CLI_PATH, "run", "verify"]),
+  canonical: "node npm-cli.js run verify",
+});
 
 function digest(bytes) {
   return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
@@ -138,20 +164,6 @@ function requireCondition(condition, message) {
   if (!condition) {
     throw new Error(message);
   }
-}
-
-function resolveHostTypeScriptEntrypoint(
-  environment,
-  candidateRoot,
-  defaultEntrypoint = DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT,
-) {
-  return resolveTypeScriptEntrypointBinding({
-    environment,
-    projectRoot: candidateRoot,
-    defaultEntrypoint,
-    outsidePolicy: "always",
-    label: "Host TypeScript entrypoint supply",
-  }).path;
 }
 
 function resolveHostNpmCache(environment) {
@@ -170,29 +182,16 @@ function resolveHostNpmCache(environment) {
   return [...resolved][0];
 }
 
-function resolveHostDependencyRoot(
-  environment,
-  candidateRoot = ROOT,
-  defaultRoot = DEFAULT_HOST_DEPENDENCY_ROOT,
-) {
-  const supplied = optionalEnvironmentValue(HOST_DEPENDENCY_ROOT_ENVIRONMENT_KEY, environment);
-  const requested = supplied ?? defaultRoot;
-  requireCondition(
-    typeof requested === "string" && requested.length > 0,
-    "Host dependency root supply must be non-empty.",
-  );
-  const resolved = realpathSync.native(resolve(candidateRoot, requested));
-  const stats = lstatSync(resolved);
-  requireCondition(
-    stats.isDirectory() && !stats.isSymbolicLink(),
-    "Host dependency root must resolve to a plain directory.",
-  );
-  return resolved;
-}
-
 const HOST_NPM_CACHE = resolveHostNpmCache(process.env);
-const HOST_DEPENDENCY_ROOT = resolveHostDependencyRoot(process.env);
-const HOST_TYPESCRIPT_ENTRYPOINT = resolveHostTypeScriptEntrypoint(process.env, ROOT);
+
+function candidateDependencyInstallCommand() {
+  const arguments_ = [...CANDIDATE_DEPENDENCY_INSTALL_ARGUMENTS, HOST_NPM_CACHE];
+  return {
+    executable: HOST_NODE_PATH,
+    arguments: [HOST_NPM_CLI_PATH, ...arguments_],
+    canonical: CANDIDATE_DEPENDENCY_INSTALL_COMMAND,
+  };
+}
 
 function candidateEvidencePaths(candidateCommit) {
   requireCondition(
@@ -205,6 +204,66 @@ function candidateEvidencePaths(candidateCommit) {
     stdout: join(root, "canonical-gate.stdout.log"),
     stderr: join(root, "canonical-gate.stderr.log"),
   });
+}
+
+function candidateEvidenceRoot(outputs) {
+  const root = dirname(outputs.receipt);
+  requireCondition(
+    dirname(root) === CANDIDATE_EVIDENCE_ROOT,
+    "Candidate evidence root escapes the canonical evidence directory.",
+  );
+  return root;
+}
+
+async function removeCandidateEvidenceSlot(outputs) {
+  const root = candidateEvidenceRoot(outputs);
+  await rm(root, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+}
+
+async function reserveCandidateEvidenceSlot(outputs) {
+  const root = candidateEvidenceRoot(outputs);
+  await mkdir(CANDIDATE_EVIDENCE_ROOT, { recursive: true });
+  try {
+    await mkdir(root);
+  } catch (error) {
+    if (error && typeof error === "object" && error.code === "EEXIST") {
+      throw new Error(
+        `Immutable release-gate evidence slot already exists: ${repositoryPath(root)}.`,
+      );
+    }
+    throw error;
+  }
+  try {
+    await writeFile(outputs.stdout, Buffer.alloc(0), { flag: "wx" });
+    await writeFile(outputs.stderr, Buffer.alloc(0), { flag: "wx" });
+  } catch (error) {
+    await removeCandidateEvidenceSlot(outputs);
+    throw error;
+  }
+  return root;
+}
+
+function candidateReceiptPendingPath(outputs) {
+  return join(candidateEvidenceRoot(outputs), ".canonical-gate-receipt.pending");
+}
+
+async function publishCandidateReceipt(outputs, bytes) {
+  requireCondition(Buffer.isBuffer(bytes), "Candidate receipt publication requires exact bytes.");
+  const pending = candidateReceiptPendingPath(outputs);
+  let handle;
+  try {
+    handle = await open(pending, "wx");
+    await handle.writeFile(bytes);
+    await handle.sync();
+    await handle.close();
+    handle = undefined;
+    await link(pending, outputs.receipt);
+  } finally {
+    if (handle !== undefined) {
+      await handle.close();
+    }
+    await rm(pending, { force: true });
+  }
 }
 
 function runGit(args, options = {}) {
@@ -222,14 +281,15 @@ function runGit(args, options = {}) {
   return result;
 }
 
-function closedPath() {
+function closedPath(candidateRoot = null) {
   return [
-    join(HOST_DEPENDENCY_ROOT, ".bin"),
+    candidateRoot === null ? null : join(candidateRoot, CANDIDATE_DEPENDENCY_DIRECTORY, ".bin"),
+    dirname(HOST_NPM_COMMAND_PATH),
     dirname(HOST_NODE_PATH),
-    dirname(HOST_NPM_PATH),
     dirname(HOST_GIT_PATH),
     dirname(HOST_SHELL_PATH),
   ]
+    .filter((value) => value !== null)
     .filter((value, index, values) => values.indexOf(value) === index)
     .join(delimiter);
 }
@@ -431,69 +491,451 @@ function finishMaterializationDigest(hash) {
   return "sha256:" + hash.digest("hex");
 }
 
-async function inspectHostDependencyClosure(root = HOST_DEPENDENCY_ROOT) {
+function isContainedPath(root, path) {
+  const fromRoot = relative(resolve(root), resolve(path));
+  return (
+    fromRoot === "" ||
+    (!isAbsolute(fromRoot) && fromRoot !== ".." && !fromRoot.startsWith(`..${sep}`))
+  );
+}
+
+function detectRuntimeLibc(platform = process.platform, report = null) {
+  if (platform !== "linux") {
+    return null;
+  }
+  const runtimeReport = report ?? process.report?.getReport?.();
+  const glibcVersion = runtimeReport?.header?.glibcVersionRuntime;
+  if (typeof glibcVersion === "string" && glibcVersion.length > 0) {
+    return "glibc";
+  }
+  if (
+    Array.isArray(runtimeReport?.sharedObjects) &&
+    runtimeReport.sharedObjects.some((path) => /(?:^|[/\\])(?:ld-)?musl|libc\.musl/iu.test(path))
+  ) {
+    return "musl";
+  }
+  throw new Error("Unable to determine the Linux runtime libc.");
+}
+
+function runtimeIdentity(platform = process.platform, architecture = process.arch, report = null) {
+  return Object.freeze({
+    platform,
+    architecture,
+    libc: detectRuntimeLibc(platform, report),
+  });
+}
+
+function packageApplies(
+  entry,
+  platform = process.platform,
+  architecture = process.arch,
+  libc = detectRuntimeLibc(platform),
+) {
+  const matches = (rules, value) => {
+    if (!Array.isArray(rules) || rules.length === 0) {
+      return true;
+    }
+    const denied = rules.filter((item) => item.startsWith("!")).map((item) => item.slice(1));
+    if (denied.includes(value)) {
+      return false;
+    }
+    const allowed = rules.filter((item) => !item.startsWith("!"));
+    return allowed.length === 0 || allowed.includes(value);
+  };
+  return (
+    matches(entry.os, platform) && matches(entry.cpu, architecture) && matches(entry.libc, libc)
+  );
+}
+
+function runtimeAncestorSupplyPaths(root) {
+  const paths = [];
+  let current = dirname(resolve(root));
+  for (;;) {
+    paths.push(join(current, CANDIDATE_DEPENDENCY_DIRECTORY));
+    const parent = dirname(current);
+    if (parent === current) {
+      break;
+    }
+    current = parent;
+  }
+  return paths;
+}
+
+async function inspectRuntimeAncestorSupply(root) {
+  const candidateRoot = await realpath(root);
+  const checkedPaths = runtimeAncestorSupplyPaths(candidateRoot);
+  for (const path of checkedPaths) {
+    try {
+      const stats = await lstat(path);
+      return {
+        checkedPaths,
+        absent: false,
+        found: {
+          path,
+          kind: stats.isDirectory()
+            ? "directory"
+            : stats.isSymbolicLink()
+              ? "symbolic-link"
+              : "entry",
+        },
+      };
+    } catch (error) {
+      if (!error || typeof error !== "object" || error.code !== "ENOENT") {
+        throw error;
+      }
+    }
+  }
+  return { checkedPaths, absent: true, found: null };
+}
+
+function candidateDependencyRoot(root, entries) {
+  requireCondition(
+    !entries.some(
+      (entry) =>
+        entry.path === CANDIDATE_DEPENDENCY_DIRECTORY ||
+        entry.path.startsWith(`${CANDIDATE_DEPENDENCY_DIRECTORY}/`),
+    ),
+    `Candidate source unexpectedly owns ${CANDIDATE_DEPENDENCY_DIRECTORY}.`,
+  );
+  const dependencyRoot = resolve(root, CANDIDATE_DEPENDENCY_DIRECTORY);
+  requireCondition(
+    dirname(dependencyRoot) === resolve(root),
+    "Candidate dependency root escapes the materialization.",
+  );
+  return dependencyRoot;
+}
+
+function candidateFileBinding(path, bytes) {
+  return {
+    path,
+    bytes: bytes.byteLength,
+    digest: digest(bytes),
+  };
+}
+
+function inlineBytesBinding(bytes) {
+  const value = Buffer.from(bytes);
+  return {
+    mediaType: "application/octet-stream",
+    encoding: "base64",
+    bytes: value.byteLength,
+    digest: digest(value),
+    data: value.toString("base64"),
+  };
+}
+
+function validateCandidateLockSupply(lockBytes, runtime = runtimeIdentity()) {
+  const lock = JSON.parse(strictUtf8(lockBytes, "package-lock.json"));
+  requireCondition(
+    Number.isInteger(lock.lockfileVersion) && lock.lockfileVersion >= 2 && lock.packages,
+    "Exact candidate lockfile lacks a supported packages inventory.",
+  );
+  const { platform, architecture, libc } = runtime;
+  const packages = [];
+  for (const [path, entry] of Object.entries(lock.packages)) {
+    if (path === "") {
+      continue;
+    }
+    requireCondition(
+      path.startsWith(`${CANDIDATE_DEPENDENCY_DIRECTORY}/`),
+      `Locked package path is not registry-owned: ${path}.`,
+    );
+    safeTreePath(Buffer.from(path, "utf8"));
+    requireCondition(
+      entry && typeof entry === "object" && entry.link !== true,
+      `Locked package is linked: ${path}.`,
+    );
+    requireCondition(
+      typeof entry.resolved === "string",
+      `Locked package lacks registry URL: ${path}.`,
+    );
+    const resolvedUrl = new URL(entry.resolved);
+    requireCondition(
+      resolvedUrl.protocol === "https:" &&
+        resolvedUrl.hostname === "registry.npmjs.org" &&
+        resolvedUrl.pathname.endsWith(".tgz"),
+      `Locked package uses non-registry supply: ${path}.`,
+    );
+    requireCondition(
+      typeof entry.integrity === "string" &&
+        /^sha(?:256|384|512)-[A-Za-z0-9+/]+={0,2}$/u.test(entry.integrity),
+      `Locked package lacks valid SRI: ${path}.`,
+    );
+    requireCondition(
+      typeof entry.version === "string" && entry.version.length > 0,
+      `Locked package lacks version: ${path}.`,
+    );
+    packages.push({
+      path,
+      version: entry.version,
+      resolved: entry.resolved,
+      integrity: entry.integrity,
+      optional: entry.optional === true,
+      applies: packageApplies(entry, platform, architecture, libc),
+    });
+  }
+  packages.sort((left, right) =>
+    Buffer.compare(Buffer.from(left.path, "utf8"), Buffer.from(right.path, "utf8")),
+  );
+  requireCondition(packages.length > 0, "Exact candidate lockfile has no package supply.");
+  const hash = createHash("sha256");
+  updateFramed(hash, Buffer.from(CANDIDATE_LOCK_DIGEST_DOMAIN, "utf8"));
+  for (const entry of packages) {
+    updateFramed(hash, Buffer.from(JSON.stringify(entry), "utf8"));
+  }
+  return {
+    receipt: {
+      path: "package-lock.json",
+      bytes: lockBytes.byteLength,
+      digest: digest(lockBytes),
+      lockfileVersion: lock.lockfileVersion,
+      packages: packages.length,
+      platform,
+      architecture,
+      libc,
+      inventoryDigest: `sha256:${hash.digest("hex")}`,
+    },
+    entries: packages,
+  };
+}
+
+async function inspectCandidateDependencyClosure(root) {
   const rootReal = await realpath(root);
   const rootStats = await lstat(rootReal);
   requireCondition(
     rootStats.isDirectory() && !rootStats.isSymbolicLink(),
-    "Host dependency root must be a plain directory.",
+    "Candidate dependency root must be a plain directory.",
   );
 
-  const entries = [];
+  const records = [];
+  let files = 0;
+  let directories = 0;
+  let links = 0;
+  let bytes = 0;
   async function visit(directory, logicalDirectory) {
-    for (const child of await readdir(directory, { withFileTypes: true })) {
+    const children = await readdir(directory, { withFileTypes: true });
+    children.sort((left, right) =>
+      Buffer.compare(Buffer.from(left.name, "utf8"), Buffer.from(right.name, "utf8")),
+    );
+    for (const child of children) {
       const logicalPath = logicalDirectory ? `${logicalDirectory}/${child.name}` : child.name;
       const path = join(directory, child.name);
       const stats = await lstat(path);
-      if (stats.isDirectory() && !stats.isSymbolicLink()) {
-        await visit(path, logicalPath);
-      } else if (stats.isFile() && !stats.isSymbolicLink()) {
-        entries.push({ kind: "file", logicalPath, path, link: null });
-      } else if (stats.isSymbolicLink()) {
-        const target = await realpath(path);
-        const targetStats = await lstat(target);
+      if (stats.isSymbolicLink()) {
+        const targetReal = await realpath(path);
         requireCondition(
-          targetStats.isFile(),
-          `Host dependency link is not a file: ${logicalPath}.`,
+          isContainedPath(rootReal, targetReal),
+          `Candidate dependency link escapes its root: ${logicalPath}.`,
         );
-        requireCondition(
-          target === rootReal || target.startsWith(`${rootReal}${sep}`),
-          `Host dependency link escapes the closure: ${logicalPath}.`,
-        );
-        entries.push({
-          kind: "symlink",
-          logicalPath,
-          path: target,
-          link: await readlink(path),
+        records.push({
+          kind: "link",
+          path: logicalPath,
+          target: (await readlink(path)).replaceAll("\\", "/"),
         });
+        links += 1;
+      } else if (stats.isDirectory()) {
+        const directoryReal = await realpath(path);
+        requireCondition(
+          isContainedPath(rootReal, directoryReal),
+          `Candidate dependency directory escapes its root: ${logicalPath}.`,
+        );
+        records.push({ kind: "directory", path: logicalPath });
+        directories += 1;
+        await visit(path, logicalPath);
       } else {
-        throw new Error(`Host dependency closure contains a non-regular entry: ${logicalPath}.`);
+        requireCondition(
+          stats.isFile() && stats.nlink === 1,
+          `Candidate dependency closure contains a non-regular or hard-linked file: ${logicalPath}.`,
+        );
+        const fileReal = await realpath(path);
+        requireCondition(
+          isContainedPath(rootReal, fileReal),
+          `Candidate dependency file escapes its root: ${logicalPath}.`,
+        );
+        const content = await readFile(path);
+        records.push({
+          kind: "file",
+          path: logicalPath,
+          bytes: content.byteLength,
+          digest: digest(content),
+        });
+        files += 1;
+        bytes += content.byteLength;
       }
     }
   }
   await visit(rootReal, "");
-  entries.sort((left, right) =>
-    Buffer.compare(Buffer.from(left.logicalPath, "utf8"), Buffer.from(right.logicalPath, "utf8")),
-  );
-
   const hash = createHash("sha256");
-  updateFramed(hash, Buffer.from(HOST_DEPENDENCY_DIGEST_DOMAIN, "utf8"));
-  let bytes = 0;
-  for (const entry of entries) {
-    const content = await readFile(entry.path);
-    const link = entry.link === null ? Buffer.alloc(0) : Buffer.from(entry.link, "utf8");
-    bytes += content.byteLength + link.byteLength;
-    updateFramed(hash, Buffer.from(entry.kind, "ascii"));
-    updateFramed(hash, Buffer.from(entry.logicalPath, "utf8"));
-    updateFramed(hash, link);
-    updateFramed(hash, content);
+  updateFramed(hash, Buffer.from(CANDIDATE_DEPENDENCY_DIGEST_DOMAIN, "utf8"));
+  for (const record of records) {
+    updateFramed(hash, Buffer.from(JSON.stringify(record), "utf8"));
   }
   return {
-    root: rootReal,
-    files: entries.length,
+    files,
+    directories,
+    links,
     bytes,
     digest: `sha256:${hash.digest("hex")}`,
   };
+}
+
+async function validateInstalledCandidateDependencies(root, lockSupply, packageBytes) {
+  const packageJson = JSON.parse(strictUtf8(packageBytes, "package.json"));
+  for (const entry of lockSupply.entries) {
+    const packageRoot = resolve(root, ...entry.path.split("/"));
+    if (!entry.optional || entry.applies) {
+      const manifest = JSON.parse(await readFile(join(packageRoot, "package.json"), "utf8"));
+      requireCondition(
+        manifest.version === entry.version,
+        `Installed candidate package version mismatch: ${entry.path}.`,
+      );
+    }
+  }
+  const dependencyRoot = join(root, CANDIDATE_DEPENDENCY_DIRECTORY);
+  const privateRequire = createRequire(join(root, "package.json"));
+  const directDependencies = [];
+  for (const dependency of Object.keys(packageJson.dependencies ?? {}).sort()) {
+    const resolvedDependency = await realpath(privateRequire.resolve(dependency));
+    requireCondition(
+      isContainedPath(dependencyRoot, resolvedDependency),
+      `Bare dependency resolved outside candidate-private node_modules: ${dependency}.`,
+    );
+    directDependencies.push({
+      name: dependency,
+      path: relative(dependencyRoot, resolvedDependency).replaceAll("\\", "/"),
+    });
+  }
+  const expectedTypeScript = await realpath(join(dependencyRoot, "typescript", "bin", "tsc"));
+  requireCondition(
+    isContainedPath(dependencyRoot, expectedTypeScript),
+    "TypeScript does not resolve from candidate-private exact-lock dependencies.",
+  );
+  return { directDependencies, typeScriptEntrypoint: expectedTypeScript };
+}
+
+async function installCandidateDependencies(
+  root,
+  entries,
+  environment,
+  runtime = runtimeIdentity(),
+) {
+  const dependencyRoot = candidateDependencyRoot(root, entries);
+  requireCondition(
+    !(await pathExists(dependencyRoot)),
+    "Candidate dependency supply appeared before exact-lock installation.",
+  );
+  const packageBytes = await readFile(join(root, "package.json"));
+  const lockBytes = await readFile(join(root, "package-lock.json"));
+  const lockSupply = validateCandidateLockSupply(lockBytes, runtime);
+  const ancestorSupplyBefore = await inspectRuntimeAncestorSupply(root);
+  const command = candidateDependencyInstallCommand();
+  const common = {
+    strategy: "candidate-private-exact-lock-offline-npm-ci",
+    root: dependencyRoot,
+    path: CANDIDATE_DEPENDENCY_DIRECTORY,
+    initialState: "absent",
+    packageManifest: candidateFileBinding("package.json", packageBytes),
+    lock: lockSupply.receipt,
+    command,
+    ancestorSupplyBefore,
+  };
+  if (!ancestorSupplyBefore.absent) {
+    return {
+      ...common,
+      ready: false,
+      setupError: `Candidate runtime ancestor contains fallback package supply: ${ancestorSupplyBefore.found.path}.`,
+      result: { attempted: false, exitCode: null, signal: null, spawnError: null },
+      stdout: inlineBytesBinding(Buffer.alloc(0)),
+      stderr: inlineBytesBinding(Buffer.alloc(0)),
+      directDependenciesContained: false,
+      directDependencies: [],
+      typeScriptEntrypoint: null,
+      closure: null,
+    };
+  }
+
+  const result = spawnSync(command.executable, [...command.arguments], {
+    cwd: root,
+    encoding: null,
+    env: environment,
+    maxBuffer: 128 * 1024 * 1024,
+    windowsHide: true,
+  });
+  const spawnError = normalizedError(result.error);
+  const installationPassed = result.status === 0 && result.signal === null && spawnError === null;
+  const evidence = {
+    ...common,
+    result: {
+      attempted: true,
+      exitCode: Number.isInteger(result.status) ? result.status : null,
+      signal: typeof result.signal === "string" ? result.signal : null,
+      spawnError,
+    },
+    stdout: inlineBytesBinding(result.stdout ?? Buffer.alloc(0)),
+    stderr: inlineBytesBinding(result.stderr ?? Buffer.alloc(0)),
+  };
+  if (!installationPassed) {
+    const detail =
+      Buffer.from(result.stderr ?? Buffer.alloc(0))
+        .toString("utf8")
+        .trim() ||
+      spawnError ||
+      "unknown failure";
+    return {
+      ...evidence,
+      ready: false,
+      setupError: `Candidate dependency installation failed: ${detail}`,
+      directDependenciesContained: false,
+      directDependencies: [],
+      typeScriptEntrypoint: null,
+      closure: null,
+    };
+  }
+
+  try {
+    const installed = await validateInstalledCandidateDependencies(root, lockSupply, packageBytes);
+    const dependencyRootReal = await realpath(dependencyRoot);
+    const closure = await inspectCandidateDependencyClosure(dependencyRootReal);
+    requireCondition(closure.files > 0, "Candidate dependency closure is empty.");
+    return {
+      ...evidence,
+      ready: true,
+      setupError: null,
+      root: dependencyRootReal,
+      directDependenciesContained: true,
+      directDependencies: installed.directDependencies,
+      typeScriptEntrypoint: installed.typeScriptEntrypoint,
+      closure,
+    };
+  } catch (error) {
+    return {
+      ...evidence,
+      ready: false,
+      setupError: normalizedError(error),
+      directDependenciesContained: false,
+      directDependencies: [],
+      typeScriptEntrypoint: null,
+      closure: null,
+    };
+  }
+}
+
+async function removeCandidateDependencies(root, entries) {
+  const dependencyRoot = candidateDependencyRoot(root, entries);
+  try {
+    const stats = await lstat(dependencyRoot);
+    requireCondition(
+      stats.isDirectory() && !stats.isSymbolicLink(),
+      "Candidate dependency root is not a plain directory.",
+    );
+  } catch (error) {
+    if (error && typeof error === "object" && error.code === "ENOENT") {
+      return false;
+    }
+    throw error;
+  }
+  await rm(dependencyRoot, { recursive: true, force: false, maxRetries: 3, retryDelay: 100 });
+  return true;
 }
 
 function materializedPath(root, entry) {
@@ -828,7 +1270,7 @@ function commandEnvironment(gitContext) {
   const environment = { ...gitContext.environment };
   const runtime = gitContext.runtime;
   environment.HOME = runtime.home;
-  environment.PATH = closedPath();
+  environment.PATH = closedPath(gitContext.worktree);
   environment.TEMP = runtime.temp;
   environment.TMP = runtime.temp;
   environment.TMPDIR = runtime.temp;
@@ -845,15 +1287,7 @@ function commandEnvironment(gitContext) {
       cacheFromWorktree.startsWith(`..${sep}`),
     "Host-owned npm cache must remain outside the candidate materialization.",
   );
-  const dependenciesFromWorktree = relative(resolve(gitContext.worktree), HOST_DEPENDENCY_ROOT);
-  requireCondition(
-    isAbsolute(dependenciesFromWorktree) ||
-      dependenciesFromWorktree === ".." ||
-      dependenciesFromWorktree.startsWith(`..${sep}`),
-    "Host-owned dependency root must remain outside the candidate materialization.",
-  );
   Object.assign(environment, {
-    [HOST_DEPENDENCY_ROOT_ENVIRONMENT_KEY]: HOST_DEPENDENCY_ROOT,
     npm_config_audit: "false",
     npm_config_cache: HOST_NPM_CACHE,
     npm_config_color: "false",
@@ -869,7 +1303,6 @@ function commandEnvironment(gitContext) {
     npm_config_yes: "true",
   });
 
-  environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY] = HOST_TYPESCRIPT_ENTRYPOINT;
   return Object.fromEntries(
     Object.entries(environment).sort(([left], [right]) =>
       Buffer.compare(Buffer.from(left, "utf8"), Buffer.from(right, "utf8")),
@@ -893,6 +1326,24 @@ async function authorityFileBinding(path, label) {
   };
 }
 
+async function commandAuthorityFileBinding(commandPath, label) {
+  const commandStats = await lstat(commandPath);
+  requireCondition(
+    commandStats.isFile() || commandStats.isSymbolicLink(),
+    `${label} command must be a regular file or symbolic link.`,
+  );
+  const commandType = commandStats.isSymbolicLink() ? "symbolic-link" : "regular-file";
+  const commandLink = commandStats.isSymbolicLink() ? await readlink(commandPath) : null;
+  const target = await authorityFileBinding(commandPath, label);
+  requireCondition(target.path === HOST_NPM_PATH, `${label} target changed.`);
+  return {
+    ...target,
+    commandPath,
+    commandType,
+    commandLink,
+  };
+}
+
 function requireToolVersion(result, label) {
   requireCondition(
     result.status === 0 && result.signal === null && !result.error,
@@ -902,19 +1353,19 @@ function requireToolVersion(result, label) {
 }
 
 async function inspectToolchain(environment) {
-  const typeScriptPath = environment[TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY];
-  const npmVersionResult =
-    process.platform === "win32"
-      ? spawnSync(HOST_SHELL_PATH, ["/d", "/s", "/c", "npm.cmd --version"], {
-          encoding: null,
-          env: environment,
-          windowsHide: true,
-        })
-      : spawnSync(HOST_NPM_PATH, ["--version"], {
-          encoding: null,
-          env: environment,
-          windowsHide: true,
-        });
+  const typeScriptPath = await realpath(
+    join(environment.GIT_WORK_TREE, CANDIDATE_DEPENDENCY_DIRECTORY, "typescript", "bin", "tsc"),
+  );
+  const candidateDependencyRoot = join(environment.GIT_WORK_TREE, CANDIDATE_DEPENDENCY_DIRECTORY);
+  requireCondition(
+    isContainedPath(candidateDependencyRoot, typeScriptPath),
+    "TypeScript toolchain escaped candidate-private dependencies.",
+  );
+  const npmVersionResult = spawnSync(HOST_NODE_PATH, [HOST_NPM_CLI_PATH, "--version"], {
+    encoding: null,
+    env: environment,
+    windowsHide: true,
+  });
   const gitVersionResult = spawnSync(HOST_GIT_PATH, ["--version"], {
     encoding: null,
     env: environment,
@@ -931,7 +1382,7 @@ async function inspectToolchain(environment) {
       version: process.version,
     },
     npmLauncher: {
-      ...(await authorityFileBinding(HOST_NPM_PATH, "Host npm launcher")),
+      ...(await commandAuthorityFileBinding(HOST_NPM_COMMAND_PATH, "Host npm launcher")),
       version: requireToolVersion(npmVersionResult, "Host npm"),
     },
     npmCli: await authorityFileBinding(HOST_NPM_CLI_PATH, "Host npm CLI"),
@@ -941,8 +1392,8 @@ async function inspectToolchain(environment) {
     },
     shell: await authorityFileBinding(HOST_SHELL_PATH, "Host command shell"),
     typescript: {
-      ...(await authorityFileBinding(typeScriptPath, "Host TypeScript entrypoint")),
-      version: requireToolVersion(typeScriptVersionResult, "Host TypeScript"),
+      ...(await authorityFileBinding(typeScriptPath, "Candidate TypeScript entrypoint")),
+      version: requireToolVersion(typeScriptVersionResult, "Candidate TypeScript"),
     },
   };
 }
@@ -1106,6 +1557,59 @@ function normalizedError(error) {
   return text.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
 }
 
+function renderError(error) {
+  if (
+    !(error instanceof AggregateError) &&
+    !(error instanceof Error && error.cause !== undefined)
+  ) {
+    const message = error instanceof Error ? error.message : String(error ?? "Unknown error");
+    return message.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+  }
+  const lines = [];
+  const seen = new Set();
+  const visit = (value, locator) => {
+    if (value && typeof value === "object") {
+      if (seen.has(value)) {
+        lines.push(`${locator}: [circular error]`);
+        return;
+      }
+      seen.add(value);
+    }
+    lines.push(`${locator}: ${normalizedError(value) ?? "Unknown error"}`);
+    if (value instanceof AggregateError) {
+      [...value.errors].forEach((nested, index) => {
+        visit(nested, `${locator}.errors[${index}]`);
+      });
+    }
+    if (value instanceof Error && value.cause !== undefined) {
+      visit(value.cause, `${locator}.cause`);
+    }
+  };
+  visit(error, "error");
+  return lines.join("\n");
+}
+
+async function cleanupFailedCandidatePreparation(outputs, materialization, gitContext) {
+  const operations = [() => removeCandidateEvidenceSlot(outputs)];
+  if (materialization !== undefined) {
+    operations.push(() => removeMaterialization(materialization.root));
+  }
+  if (gitContext !== undefined) {
+    operations.push(() => removeCandidateGitContext(gitContext.root));
+  }
+  const failures = [];
+  for (const operation of operations) {
+    try {
+      await operation();
+    } catch (error) {
+      failures.push(error);
+    }
+  }
+  if (failures.length > 0) {
+    throw new AggregateError(failures, "Candidate preparation cleanup failed.");
+  }
+}
+
 async function main() {
   const pathOnly = process.argv[2] === "paths";
   const candidateCommit = pathOnly ? process.argv[3] : process.argv[2];
@@ -1143,72 +1647,128 @@ async function main() {
     "Refusing to run the candidate gate with tracked repository changes.",
   );
 
-  await mkdir(dirname(outputs.receipt), { recursive: true });
-  for (const path of Object.values(outputs)) {
-    requireCondition(
-      !(await pathExists(path)),
-      `Immutable release-gate evidence already exists: ${repositoryPath(path)}.`,
-    );
-  }
-
-  const materialization = await materializeCandidateSource(candidateCommit);
+  await reserveCandidateEvidenceSlot(outputs);
+  let materialization;
   let gitContext;
+  let runtime;
   try {
+    materialization = await materializeCandidateSource(candidateCommit);
     gitContext = await createCandidateGitContext(candidateCommit, materialization.root);
+    runtime = runtimeIdentity();
   } catch (error) {
-    await removeMaterialization(materialization.root);
+    try {
+      await cleanupFailedCandidatePreparation(outputs, materialization, gitContext);
+    } catch (cleanupError) {
+      throw new AggregateError(
+        [error, cleanupError],
+        "Candidate preparation and owned-resource cleanup failed.",
+      );
+    }
     throw error;
   }
-  let gateResult;
+
+  let gateResult = {
+    status: null,
+    signal: null,
+    error: new Error("Canonical verification command did not execute."),
+  };
   let environmentBinding = null;
   let toolchainBefore = null;
   let toolchainAfter = null;
   let toolchainInspectionError = null;
-  let hostDependenciesBefore = null;
-  let hostDependenciesAfter = null;
-  let hostDependencyInspectionError = null;
+  let candidateDependencies = null;
+  let candidateDependenciesAfter = null;
+  let candidateDependencyInspectionError = null;
+  let candidateDependencyCleanupAttempted = false;
+  let candidateDependencyRemoved = false;
+  let candidateDependencyAbsentAfter = null;
+  let candidateDependencyCleanupError = null;
+  let candidateAncestorSupplyAfter = null;
+  let candidateAncestorSupplyInspectionError = null;
   let materializationDigestAfter = null;
   let materializationInspectionError = null;
   let materializationCleanupError = null;
   let gitContextAfter = { head: null, trackedState: "unavailable" };
   let gitContextInspectionError = null;
   let gitContextCleanupError = null;
+  let operationError = null;
   try {
-    const environment = commandEnvironment(gitContext);
-    environmentBinding = await executionEnvironmentBinding(environment, gitContext.runtime);
-    toolchainBefore = await inspectToolchain(environment);
-    hostDependenciesBefore = await inspectHostDependencyClosure();
-
-    const stdoutHandle = await open(outputs.stdout, "wx");
-    let stderrHandle;
     try {
-      stderrHandle = await open(outputs.stderr, "wx");
+      const environment = commandEnvironment(gitContext);
+      environmentBinding = await executionEnvironmentBinding(environment, gitContext.runtime);
+      candidateDependencies = await installCandidateDependencies(
+        materialization.root,
+        materialization.entries,
+        environment,
+        runtime,
+      );
+
+      if (candidateDependencies.ready) {
+        toolchainBefore = await inspectToolchain(environment);
+        const stdoutHandle = await open(outputs.stdout, "r+");
+        let stderrHandle;
+        try {
+          stderrHandle = await open(outputs.stderr, "r+");
+        } catch (error) {
+          await stdoutHandle.close();
+          throw error;
+        }
+        try {
+          gateResult = spawnSync(COMMAND.executable, [...COMMAND.arguments], {
+            cwd: materialization.root,
+            encoding: null,
+            env: environment,
+            stdio: ["ignore", stdoutHandle.fd, stderrHandle.fd],
+            windowsHide: true,
+          });
+        } finally {
+          await Promise.all([stdoutHandle.close(), stderrHandle.close()]);
+        }
+        try {
+          toolchainAfter = await inspectToolchain(environment);
+        } catch (error) {
+          toolchainInspectionError = normalizedError(error);
+        }
+      } else {
+        gateResult = {
+          status: null,
+          signal: null,
+          error: new Error(candidateDependencies.setupError),
+        };
+      }
     } catch (error) {
-      await stdoutHandle.close();
-      throw error;
+      operationError = normalizedError(error);
+      gateResult = {
+        status: null,
+        signal: null,
+        error: error instanceof Error ? error : new Error(String(error)),
+      };
     }
 
     try {
-      gateResult = spawnSync(COMMAND.executable, [...COMMAND.arguments], {
-        cwd: materialization.root,
-        encoding: null,
-        env: environment,
-        stdio: ["ignore", stdoutHandle.fd, stderrHandle.fd],
-        windowsHide: true,
-      });
-    } finally {
-      await Promise.all([stdoutHandle.close(), stderrHandle.close()]);
-    }
-
-    try {
-      toolchainAfter = await inspectToolchain(environment);
+      const dependencyRoot = candidateDependencyRoot(materialization.root, materialization.entries);
+      if (await pathExists(dependencyRoot)) {
+        candidateDependenciesAfter = await inspectCandidateDependencyClosure(dependencyRoot);
+      }
     } catch (error) {
-      toolchainInspectionError = normalizedError(error);
+      candidateDependencyInspectionError = normalizedError(error);
     }
     try {
-      hostDependenciesAfter = await inspectHostDependencyClosure();
+      candidateDependencyCleanupAttempted = true;
+      candidateDependencyRemoved = await removeCandidateDependencies(
+        materialization.root,
+        materialization.entries,
+      );
+      candidateDependencyAbsentAfter = !(await pathExists(
+        candidateDependencyRoot(materialization.root, materialization.entries),
+      ));
     } catch (error) {
-      hostDependencyInspectionError = normalizedError(error);
+      candidateDependencyCleanupError = normalizedError(error);
+    }
+    try {
+      candidateAncestorSupplyAfter = await inspectRuntimeAncestorSupply(materialization.root);
+    } catch (error) {
+      candidateAncestorSupplyInspectionError = normalizedError(error);
     }
     try {
       await removeGeneratedBuildOutput(materialization.root, materialization.entries);
@@ -1245,10 +1805,17 @@ async function main() {
   }
 
   const spawnError = normalizedError(gateResult.error);
+  const ancestorSupplyPreserved =
+    candidateDependencies?.ancestorSupplyBefore?.absent === true &&
+    candidateAncestorSupplyAfter?.absent === true &&
+    JSON.stringify(candidateDependencies.ancestorSupplyBefore.checkedPaths) ===
+      JSON.stringify(candidateAncestorSupplyAfter.checkedPaths) &&
+    candidateAncestorSupplyInspectionError === null;
   const passed =
     gateResult.status === 0 &&
     gateResult.signal === null &&
     spawnError === null &&
+    operationError === null &&
     repositoryInspectionError === null &&
     after.head === candidateCommit &&
     after.trackedState === "clean" &&
@@ -1265,79 +1832,120 @@ async function main() {
     toolchainBefore !== null &&
     JSON.stringify(toolchainBefore) === JSON.stringify(toolchainAfter) &&
     toolchainInspectionError === null &&
-    hostDependenciesBefore !== null &&
-    hostDependenciesAfter !== null &&
-    hostDependenciesBefore.root === hostDependenciesAfter.root &&
-    hostDependenciesBefore.files === hostDependenciesAfter.files &&
-    hostDependenciesBefore.bytes === hostDependenciesAfter.bytes &&
-    hostDependenciesBefore.digest === hostDependenciesAfter.digest &&
-    hostDependencyInspectionError === null;
+    candidateDependencies?.ready === true &&
+    candidateDependencies.setupError === null &&
+    candidateDependencies.lock.platform === runtime.platform &&
+    candidateDependencies.lock.architecture === runtime.architecture &&
+    candidateDependencies.lock.libc === runtime.libc &&
+    candidateDependenciesAfter !== null &&
+    JSON.stringify(candidateDependencies.closure) === JSON.stringify(candidateDependenciesAfter) &&
+    candidateDependencyInspectionError === null &&
+    candidateDependencyCleanupAttempted &&
+    candidateDependencyRemoved &&
+    candidateDependencyAbsentAfter === true &&
+    candidateDependencyCleanupError === null &&
+    ancestorSupplyPreserved;
 
-  const receipt = {
-    apiVersion: "swecircuit/release-gate/v1alpha2",
-    kind: "CanonicalGateReceipt",
-    version: "V12",
-    candidateCommit,
-    repository: {
-      headBefore: before.head,
-      headAfter: after.head,
-      trackedStateBefore: before.trackedState,
-      trackedStateAfter: after.trackedState,
-      inspectionError: repositoryInspectionError,
-    },
-    candidateSource: materialization.source,
-    materialization: {
-      strategy: "exact-git-blob-materialization",
-      files: materialization.source.files,
-      bytes: materialization.source.bytes,
-      digestBefore: materialization.source.digest,
-      digestAfter: materializationDigestAfter,
-      inspectionError: materializationInspectionError,
-      cleanupError: materializationCleanupError,
-    },
-    gitContext: {
-      strategy: GIT_CONTEXT_STRATEGY,
-      headBefore: gitContext.before.head,
-      headAfter: gitContextAfter.head,
-      trackedStateBefore: gitContext.before.trackedState,
-      trackedStateAfter: gitContextAfter.trackedState,
-      inspectionError: gitContextInspectionError,
-      cleanupError: gitContextCleanupError,
-    },
-    command: {
-      executable: COMMAND.executable,
-      arguments: [...COMMAND.arguments],
-      canonical: COMMAND.canonical,
-    },
-    executionAuthority: {
-      environment: environmentBinding,
-      toolchain: {
-        before: toolchainBefore,
-        after: toolchainAfter,
-        inspectionError: toolchainInspectionError,
+  let receipt;
+  try {
+    receipt = {
+      apiVersion: "swecircuit/release-gate/v1alpha4",
+      kind: "CanonicalGateReceipt",
+      version: "V12",
+      candidateCommit,
+      repository: {
+        headBefore: before.head,
+        headAfter: after.head,
+        trackedStateBefore: before.trackedState,
+        trackedStateAfter: after.trackedState,
+        inspectionError: repositoryInspectionError,
       },
-      hostDependencies: {
-        strategy: "exact-host-node-modules-closure",
-        root: hostDependenciesBefore?.root ?? null,
-        files: hostDependenciesBefore?.files ?? null,
-        bytes: hostDependenciesBefore?.bytes ?? null,
-        digestBefore: hostDependenciesBefore?.digest ?? null,
-        digestAfter: hostDependenciesAfter?.digest ?? null,
-        inspectionError: hostDependencyInspectionError,
+      candidateSource: materialization.source,
+      materialization: {
+        strategy: "exact-git-blob-materialization",
+        files: materialization.source.files,
+        bytes: materialization.source.bytes,
+        digestBefore: materialization.source.digest,
+        digestAfter: materializationDigestAfter,
+        inspectionError: materializationInspectionError,
+        cleanupError: materializationCleanupError,
       },
-    },
-    result: passed ? "pass" : "fail",
-    exitCode: Number.isInteger(gateResult.status) ? gateResult.status : null,
-    signal: typeof gateResult.signal === "string" ? gateResult.signal : null,
-    spawnError,
-    stdout: await fileBinding(outputs.stdout),
-    stderr: await fileBinding(outputs.stderr),
-  };
+      gitContext: {
+        strategy: GIT_CONTEXT_STRATEGY,
+        headBefore: gitContext.before.head,
+        headAfter: gitContextAfter.head,
+        trackedStateBefore: gitContext.before.trackedState,
+        trackedStateAfter: gitContextAfter.trackedState,
+        inspectionError: gitContextInspectionError,
+        cleanupError: gitContextCleanupError,
+      },
+      command: {
+        executable: COMMAND.executable,
+        arguments: [...COMMAND.arguments],
+        canonical: COMMAND.canonical,
+      },
+      executionAuthority: {
+        environment: environmentBinding,
+        runtime,
+        toolchain: {
+          before: toolchainBefore,
+          after: toolchainAfter,
+          inspectionError: toolchainInspectionError,
+        },
+        candidateDependencies: {
+          strategy: candidateDependencies?.strategy ?? null,
+          ready: candidateDependencies?.ready ?? false,
+          setupError:
+            candidateDependencies === null
+              ? "Candidate dependency setup unavailable."
+              : candidateDependencies.setupError,
+          root: candidateDependencies?.root ?? null,
+          path: candidateDependencies?.path ?? null,
+          initialState: candidateDependencies?.initialState ?? null,
+          packageManifest: candidateDependencies?.packageManifest ?? null,
+          lock: candidateDependencies?.lock ?? null,
+          command: candidateDependencies?.command ?? null,
+          result: candidateDependencies?.result ?? null,
+          stdout: candidateDependencies?.stdout ?? null,
+          stderr: candidateDependencies?.stderr ?? null,
+          directDependenciesContained: candidateDependencies?.directDependenciesContained ?? false,
+          directDependencies: candidateDependencies?.directDependencies ?? [],
+          typeScriptEntrypoint: candidateDependencies?.typeScriptEntrypoint ?? null,
+          ancestorSupply: {
+            before: candidateDependencies?.ancestorSupplyBefore ?? null,
+            after: candidateAncestorSupplyAfter,
+            inspectionError: candidateAncestorSupplyInspectionError,
+          },
+          closure: {
+            before: candidateDependencies?.closure ?? null,
+            after: candidateDependenciesAfter,
+            inspectionError: candidateDependencyInspectionError,
+          },
+          cleanup: {
+            attempted: candidateDependencyCleanupAttempted,
+            removed: candidateDependencyRemoved,
+            absentAfter: candidateDependencyAbsentAfter,
+            error: candidateDependencyCleanupError,
+          },
+        },
+      },
+      operationError,
+      result: passed ? "pass" : "fail",
+      exitCode: Number.isInteger(gateResult.status) ? gateResult.status : null,
+      signal: typeof gateResult.signal === "string" ? gateResult.signal : null,
+      spawnError,
+      stdout: await fileBinding(outputs.stdout),
+      stderr: await fileBinding(outputs.stderr),
+    };
 
-  await writeFile(outputs.receipt, `${JSON.stringify(receipt, null, 2)}\n`, {
-    encoding: "utf8",
-    flag: "wx",
-  });
+    await publishCandidateReceipt(
+      outputs,
+      Buffer.from(`${JSON.stringify(receipt, null, 2)}\n`, "utf8"),
+    );
+  } catch (error) {
+    await removeCandidateEvidenceSlot(outputs);
+    throw error;
+  }
   process.stdout.write(
     `${JSON.stringify(
       {
@@ -1363,33 +1971,48 @@ async function main() {
 
 export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
   candidateBlobBytes,
+  candidateDependencyInstallCommand,
+  candidateEvidencePaths,
+  candidateReceiptPendingPath,
   candidateTree,
+  canonicalCommand: COMMAND,
+  cleanupFailedCandidatePreparation,
+  closedPath,
   commandEnvironment,
   createCandidateGitContext,
-  inspectCandidateGitContext,
-  inspectExactMaterialization,
-  inspectMaterialization,
+  detectRuntimeLibc,
   executionEnvironmentBinding,
-  hostDependencyRoot: HOST_DEPENDENCY_ROOT,
-  hostDependencyRootEnvironmentKey: HOST_DEPENDENCY_ROOT_ENVIRONMENT_KEY,
   hostGitPath: HOST_GIT_PATH,
   hostNodePath: HOST_NODE_PATH,
   hostNpmCache: HOST_NPM_CACHE,
   hostNpmCliPath: HOST_NPM_CLI_PATH,
+  hostNpmCommandPath: HOST_NPM_COMMAND_PATH,
   hostNpmPath: HOST_NPM_PATH,
   hostShellPath: HOST_SHELL_PATH,
-  inspectHostDependencyClosure,
+  inspectCandidateDependencyClosure,
+  inspectCandidateGitContext,
+  inspectExactMaterialization,
+  inspectMaterialization,
+  inspectRuntimeAncestorSupply,
   inspectToolchain,
+  installCandidateDependencies,
   materializationParent: MATERIALIZATION_PARENT,
-  resolveHostDependencyRoot,
-  resolveHostTypeScriptEntrypoint,
-  typeScriptEntrypointEnvironmentKey: TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY,
   materializeCandidateSource,
+  packageApplies,
   parseGitBlobBatch,
+  publishCandidateReceipt,
   pruneEmptyDirectory,
+  removeCandidateEvidenceSlot,
   removeCandidateGitContext,
+  removeCandidateDependencies,
   removeGeneratedBuildOutput,
   removeMaterialization,
+  renderError,
+  reserveCandidateEvidenceSlot,
+  runtimeAncestorSupplyPaths,
+  runtimeIdentity,
+  typeScriptEntrypointEnvironmentKey: TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY,
+  validateCandidateLockSupply,
 });
 
 if (
@@ -1397,7 +2020,7 @@ if (
   resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 ) {
   main().catch((error) => {
-    process.stderr.write(`${error instanceof Error ? error.message : "Unknown error"}\n`);
+    process.stderr.write(`${renderError(error)}\n`);
     process.exitCode = 1;
   });
 }

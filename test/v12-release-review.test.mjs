@@ -99,23 +99,17 @@ function unboundWorkerEnvironment() {
 
 function environmentWithNpmCache(cache) {
   const environment = unboundWorkerEnvironment();
-  const dependencyKey = RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey;
-  const typeScriptKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
+  const forbidden = new Set([
+    "npm_config_cache",
+    "swecircuit_host_dependency_root",
+    "swecircuit_typescript_entrypoint",
+  ]);
   for (const key of Object.keys(environment)) {
-    if (
-      key.toLowerCase() === "npm_config_cache" ||
-      key.toLowerCase() === dependencyKey.toLowerCase() ||
-      key.toLowerCase() === typeScriptKey.toLowerCase()
-    ) {
+    if (forbidden.has(key.toLowerCase())) {
       delete environment[key];
     }
   }
   environment.npm_config_cache = cache;
-  environment[dependencyKey] = RELEASE_GATE_TEST_HOOKS.hostDependencyRoot;
-  environment[typeScriptKey] = RELEASE_GATE_TEST_HOOKS.resolveHostTypeScriptEntrypoint(
-    process.env,
-    ROOT,
-  );
   return environment;
 }
 
@@ -1087,7 +1081,6 @@ test("copied production lifecycle consumes the fresh-process release-gate cache 
   const externalCache = join(root, "external-host-cache");
   const sentinel = Buffer.from("external host cache sentinel\n", "utf8");
   try {
-    const dependencyKey = RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey;
     const typeScriptKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
     const isolatedParentEnvironment = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parentEnvironment(
       externalCache,
@@ -1096,13 +1089,14 @@ test("copied production lifecycle consumes the fresh-process release-gate cache 
       RELEASE_GATE_TEST_HOOKS.hostGitPath,
       {
         ...process.env,
-        [dependencyKey]: "gate-only-dependency-supply",
-        [typeScriptKey]: "gate-only-typescript-supply",
+        SWECIRCUIT_HOST_DEPENDENCY_ROOT: "legacy-gate-only-dependency-supply",
+        [typeScriptKey]: "legacy-gate-only-typescript-supply",
       },
     );
-    assert.equal(isolatedParentEnvironment[dependencyKey], undefined);
+    assert.equal(isolatedParentEnvironment.SWECIRCUIT_HOST_DEPENDENCY_ROOT, undefined);
     assert.equal(isolatedParentEnvironment[typeScriptKey], undefined);
 
+    await materializeHostCacheProbeSource(sourceRoot);
     await materializeHostCacheProbeSource(sourceRoot);
     await mkdir(externalCache);
     await writeFile(join(externalCache, "sentinel.txt"), sentinel);
@@ -1115,10 +1109,6 @@ test("copied production lifecycle consumes the fresh-process release-gate cache 
     const canonicalExternalCache = await realpath(externalCache);
     assert.equal(result.configuredSource, canonicalExternalCache);
     assert.equal(result.gateSource, externalCache);
-    assert.equal(
-      result.dependencySource,
-      await realpath(RELEASE_GATE_TEST_HOOKS.hostDependencyRoot),
-    );
     assert.equal(result.evidence.source, canonicalExternalCache);
     assert.equal(result.evidence.sourceSelection, "release-gate-host-npm-cache");
     assert.equal(result.evidence.rootsDisjoint, true);
@@ -1365,6 +1355,64 @@ test("lifecycle TypeScript evidence parser fails closed", () => {
   assert.throws(
     () => parse(`${bindingLine}\n${sentinel}\n${sentinel}\n`),
     /must contain one compiler sentinel/u,
+  );
+});
+
+test("release runtime and npm compatibility policies are portable and closed", () => {
+  assert.deepEqual(
+    RELEASE_REVIEW_TEST_HOOKS.releaseReviewRuntimeIdentity("linux", "x64", {
+      header: {},
+      sharedObjects: ["/lib/ld-musl-x86_64.so.1"],
+    }),
+    { platform: "linux", architecture: "x64", libc: "musl" },
+  );
+  assert.equal(
+    RELEASE_REVIEW_TEST_HOOKS.detectReleaseReviewLibc("linux", {
+      header: { glibcVersionRuntime: "2.39" },
+      sharedObjects: [],
+    }),
+    "glibc",
+  );
+  const supported = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.isSupportedNpmVersion;
+  assert.equal(supported("10.9.8"), true);
+  assert.equal(supported("11.11.0"), true);
+  assert.equal(supported("12.0.0-beta.1"), true);
+  assert.equal(supported("9.9.4"), false);
+  assert.equal(supported("not-semver"), false);
+});
+
+test("candidate TypeScript log uses canonical compact JSON and private binding", () => {
+  const path = "C:\\candidate\\node_modules\\typescript\\bin\\tsc";
+  const expected = {
+    path,
+    bytes: 44,
+    digest: `sha256:${"1".repeat(64)}`,
+    nlink: 1,
+    version: "Version 7.0.2",
+  };
+  const receipt = { ...expected, supplied: false };
+  const gateReceipt = {
+    executionAuthority: {
+      toolchain: { before: { typescript: expected } },
+      candidateDependencies: { typeScriptEntrypoint: path },
+    },
+  };
+  const prefix = "SWECIRCUIT_TYPESCRIPT_BINDING ";
+  const evidence = V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parseCandidateTypeScriptEvidence(
+    Buffer.from(`${prefix}${JSON.stringify(receipt)}\n`, "utf8"),
+    gateReceipt,
+  );
+  assert.equal(evidence.candidatePrivate, true);
+  assert.deepEqual(evidence.receipt, receipt);
+
+  const noncanonical = JSON.stringify(receipt).replace('{"path"', '{ "path"');
+  assert.throws(
+    () =>
+      V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.parseCandidateTypeScriptEvidence(
+        Buffer.from(`${prefix}${noncanonical}\n`, "utf8"),
+        gateReceipt,
+      ),
+    /canonical inline JSON/u,
   );
 });
 
@@ -1752,13 +1800,10 @@ test("active release status avoids volatile candidate-state drift and preserves 
   }
 
   const testPlanStatus = activeStatus("docs/specs/v12-ide-run-loop/test-plan.md");
-  assert.match(testPlanStatus, /Package identity verification and handoff schema verification/u);
-  assert.match(testPlanStatus, /Revision 1 has incomplete fan-in/u);
-  assert.match(testPlanStatus, /Revisions 2 and 3 retain \x60split\x60 workflow outcomes/u);
-  assert.match(
-    testPlanStatus,
-    /Later correction phases retain their recorded \x60pass\x60 routes/u,
-  );
+  assert.match(testPlanStatus, /Package and handoff verification authenticate artifacts/u);
+  assert.match(testPlanStatus, /canonical gate failed.*permanently retired/u);
+  assert.match(testPlanStatus, /exact registry\/SRI lock.*offline/u);
+  assert.match(testPlanStatus, /binds install logs and the private closure/u);
   assert.match(testPlanStatus, /releaseReady: false/u);
 });
 
@@ -1944,24 +1989,48 @@ test("review package covers every transitive release-security source exactly onc
   }
 });
 
-test("release-review receipt consumer requires bound v1alpha2 execution authority", () => {
+test("release-review receipt consumer requires bound v1alpha4 execution authority", () => {
   const validator = RELEASE_REVIEW_TEST_HOOKS.validateGateReceipt.toString();
-  assert.match(validator, /receipt\.apiVersion === "swecircuit\/release-gate\/v1alpha2"/u);
+  assert.match(validator, /receipt\.apiVersion === "swecircuit\/release-gate\/v1alpha4"/u);
   assert.match(validator, /"executionAuthority"/u);
   assert.match(
     validator,
-    /validateExecutionAuthority\(receipt\.executionAuthority, receipt\.command\)/u,
+    /validateExecutionAuthority\(receipt\.executionAuthority, receipt\.command, candidateTree\)/u,
   );
 
   const harness = readFileSync(HARNESS_ENTRYPOINT, "utf8");
   assert.match(harness, /value\.environment\.policy\.nodeOptions === "absent"/u);
+  assert.match(harness, /const independentRuntime = releaseReviewRuntimeIdentity\(\);/u);
+  assert.match(
+    harness,
+    /expectedCandidateLockReceipt\(\s*candidateTree,\s*runtime\.platform,\s*runtime\.architecture,\s*runtime\.libc,/u,
+  );
+  assert.doesNotMatch(
+    harness,
+    /expectedCandidateLockReceipt\(\s*candidateTree,\s*value\.lock\.platform/u,
+  );
   assert.match(harness, /value\.environment\.policy\.nodePath === "absent"/u);
   assert.match(harness, /value\.environment\.policy\.npmNetwork === "offline"/u);
   assert.match(
     harness,
     /JSON\.stringify\(value\.toolchain\.before\) === JSON\.stringify\(value\.toolchain\.after\)/u,
   );
-  assert.match(harness, /value\.hostDependencies\.strategy === "exact-host-node-modules-closure"/u);
+  assert.match(harness, /value\.typeScriptEntrypoint === expectedTypeScriptEntrypoint/u);
+  assert.match(harness, /value\.ancestorSupply\.before/u);
+  assert.match(harness, /runtime\.libc/u);
+  assert.match(harness, /candidate-private-exact-lock-offline-npm-ci/u);
+  assert.match(
+    harness,
+    /Canonical-gate runtime differs from the independent same-host review runtime/u,
+  );
+  assert.match(harness, /expectedCandidateLockReceipt/u);
+  assert.match(harness, /validateInlineBytesBinding/u);
+  assert.match(harness, /value\.result\.attempted === true/u);
+  assert.match(harness, /authenticatedInstallCommand/u);
+  assert.match(harness, /npmLauncher\.commandPath/u);
+  assert.match(harness, /realpathSync\.native\(value\.commandPath\)/u);
+  assert.match(harness, /receipt\.operationError === null/u);
+  assert.match(harness, /value\.cleanup\.absentAfter === true/u);
   assert.match(harness, /assertExactStringArray\(Object\.keys\(effective\), expectedKeys/u);
 });
 

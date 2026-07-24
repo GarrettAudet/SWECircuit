@@ -1,0 +1,25 @@
+
+> swecircuit@0.0.0 verify
+> npm run format:check && npm run lint && npm run typecheck && npm test && npm run example:specialist && npm run dogfood:v10 && npm run dogfood:v11 && npm run dogfood:v12 && npm run pack:check && npm run consumer:check
+
+
+> swecircuit@0.0.0 format:check
+> biome format src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json
+
+Checked 105 files in 139ms. No fixes applied.
+
+> swecircuit@0.0.0 lint
+> biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 51.
+Checked 91 files in 126ms. No fixes applied.
+Found 71 infos.
+
+> swecircuit@0.0.0 typecheck
+> node scripts/run-typescript.mjs -p tsconfig.json --noEmit
+
+SWECIRCUIT_TYPESCRIPT_BINDING {"path":"C:\\Users\\garre\\OneDrive\\Documents\\Portable Best Practices\\node_modules\\typescript\\bin\\tsc","bytes":44,"digest":"sha256:2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd","nlink":1,"supplied":true,"version":"Version 7.0.2"}
+error TS2688: Cannot find type definition file for 'node'.
+  The file is in the program because:
+    Entry point of type library 'node' specified in compilerOptions

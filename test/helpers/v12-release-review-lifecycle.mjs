@@ -54,6 +54,15 @@ const FIXTURE_TYPESCRIPT_ARGUMENTS = Object.freeze([
   "--skipLibCheck",
   TYPESCRIPT_SMOKE_PATH,
 ]);
+const CANDIDATE_TYPESCRIPT_ARGUMENTS = Object.freeze([
+  "-p",
+  "tsconfig.json",
+  "--noEmit",
+  "--pretty",
+  "false",
+]);
+const FIXTURE_RUNTIME_SENTINEL = "SWECIRCUIT_LIFECYCLE_RUNTIME_IMPORTS sentinel-v1";
+const FIXTURE_RUNTIME_COMMAND = `node --input-type=module -e "await import('ajv'); await import('jsonc-parser'); process.stdout.write('${FIXTURE_RUNTIME_SENTINEL}\\n')"`;
 const PACKAGE_PATH = "package.json";
 const LOCK_PATH = "package-lock.json";
 const PROCESS_TIMEOUT_MS = 900_000;
@@ -64,7 +73,8 @@ const FIXTURE_VERIFY_COMMAND = [
   `node --check ${PARENT_PATH}`,
   `node --check ${HARNESS_PATH}`,
   `node --check ${VERIFIER_PATH}`,
-  `node ${TYPESCRIPT_RUNNER_PATH} ${FIXTURE_TYPESCRIPT_ARGUMENTS.join(" ")}`,
+  `node ${TYPESCRIPT_RUNNER_PATH} ${CANDIDATE_TYPESCRIPT_ARGUMENTS.join(" ")}`,
+  FIXTURE_RUNTIME_COMMAND,
 ].join(" && ");
 
 export const PRODUCTION_IDENTITIES = Object.freeze({
@@ -73,20 +83,20 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
     digest: "sha256:433c8840bb18d377212400dbe32d3c2b479c09c1ab0bc0abf8c9752e6b8e8f62",
   }),
   [GATE_PATH]: Object.freeze({
-    bytes: 49_363,
-    digest: "sha256:d71db86bcb7bad1f8e87781900fb31218151aa6d39bbd5f92fcd1a6857880eaa",
+    bytes: 70_076,
+    digest: "sha256:9d6660570dd8c5cbac995ccdb2b7634fedc58b45fd673b750ed6a8fad76fff17",
   }),
   [HARNESS_PATH]: Object.freeze({
-    bytes: 142_106,
-    digest: "sha256:8b746945c2fad80ff6102bad0858e32406670e9b692f75907ec7f5070e2732c6",
+    bytes: 155_506,
+    digest: "sha256:72d0f1908bad80c541a95d1b4ea7a48d5cb0be5650d2fa8525eed7a18959b86a",
   }),
   [VERIFIER_PATH]: Object.freeze({
     bytes: 30_840,
     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
   }),
   [GATE_TEST_PATH]: Object.freeze({
-    bytes: 49_228,
-    digest: "sha256:7d2e9235f5054fe91d5883c24d0331557f5a7f6e5b758f19bca99d7b40981da7",
+    bytes: 58_496,
+    digest: "sha256:f540feb83b3440baaa812ca17ce2934d0b7509dcdd8257e0a290f4c7b4a7bc9a",
   }),
   [TYPESCRIPT_RUNNER_PATH]: Object.freeze({
     bytes: 7_064,
@@ -144,6 +154,17 @@ function strictUtf8(bytes, label) {
 function parseCanonicalJson(bytes, label) {
   const value = JSON.parse(strictUtf8(bytes, label));
   assert.deepEqual(Buffer.from(bytes), canonicalJson(value), `${label} must be canonical JSON`);
+  return value;
+}
+
+function parseCanonicalInlineJson(text, label) {
+  let value;
+  try {
+    value = JSON.parse(text);
+  } catch {
+    assert.fail(`${label} is not valid JSON`);
+  }
+  assert.equal(text, JSON.stringify(value), `${label} must be canonical inline JSON`);
   return value;
 }
 
@@ -681,25 +702,31 @@ async function resolveHostGitSupply(lifecycleRoot) {
     copiedClosure,
   };
 }
+function isSupportedNpmVersion(value) {
+  const match = /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:[-+][0-9A-Za-z.-]+)?$/u.exec(value);
+  return match !== null && Number(match[1]) >= 10;
+}
+
 async function resolveHostNpmSupply() {
-  const hostNpmCli = await realpath(
-    join(dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js"),
-  );
-  const hostManifest = JSON.parse(
-    await readFile(join(dirname(process.execPath), "node_modules", "npm", "package.json"), "utf8"),
-  );
+  const hostNpmCli = await realpath(RELEASE_GATE_TEST_HOOKS.hostNpmCliPath);
+  const hostNpmRoot = dirname(dirname(hostNpmCli));
+  const hostManifest = JSON.parse(await readFile(join(hostNpmRoot, "package.json"), "utf8"));
   const stats = await stat(hostNpmCli);
   assert.equal(
     stats.isFile() && stats.nlink === 1,
     true,
     "installed npm CLI must be one plain file",
   );
-  assert.match(hostManifest.version, /^11\./u, "focused lifecycle requires installed npm 11");
+  assert.equal(
+    isSupportedNpmVersion(hostManifest.version),
+    true,
+    "focused lifecycle requires authenticated npm 10 or newer",
+  );
   return {
     path: hostNpmCli,
     identity: await identity(hostNpmCli),
     version: hostManifest.version,
-    selection: "installed npm CLI passed unchanged to the copied production parent",
+    selection: "gate-resolved installed npm CLI passed unchanged to the copied production parent",
     compatibilityAdapter: "absent",
   };
 }
@@ -714,7 +741,7 @@ function parentEnvironment(
   const environment = fixtureRepositoryEnvironment(sourceEnvironment);
   setEnvironmentValue(environment, "SWECIRCUIT_RELEASE_REVIEW_WORKER_CONTEXT", null);
   setEnvironmentValue(environment, "SWECIRCUIT_RELEASE_REVIEW_WORKER_TOKEN", null);
-  setEnvironmentValue(environment, RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey, null);
+  setEnvironmentValue(environment, "SWECIRCUIT_HOST_DEPENDENCY_ROOT", null);
   setEnvironmentValue(environment, TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY, null);
   setEnvironmentValue(environment, "SWECIRCUIT_RELEASE_REVIEW_PARENT_DIGEST", parentDigest);
   setEnvironmentValue(environment, "SWECIRCUIT_RELEASE_REVIEW_NPM_CACHE", cacheRoot);
@@ -727,15 +754,11 @@ function parentEnvironment(
   return environment;
 }
 
-function gateEnvironment(cacheRoot, typeScriptEntrypoint, sourceEnvironment = process.env) {
+function gateEnvironment(cacheRoot, sourceEnvironment = process.env) {
   const environment = fixtureRepositoryEnvironment(sourceEnvironment);
   setEnvironmentValue(environment, "npm_config_cache", cacheRoot);
-  setEnvironmentValue(
-    environment,
-    RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey,
-    RELEASE_GATE_TEST_HOOKS.hostDependencyRoot,
-  );
-  setEnvironmentValue(environment, "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT", typeScriptEntrypoint);
+  setEnvironmentValue(environment, "SWECIRCUIT_HOST_DEPENDENCY_ROOT", null);
+  setEnvironmentValue(environment, TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY, null);
   return environment;
 }
 
@@ -877,16 +900,51 @@ function parseLifecycleTypeScriptEvidence(rawLog, supply) {
   });
 }
 
-async function runPersistentCompilerMutationRoute(lifecycleRoot, cacheRoot) {
-  const fixtureRoot = join(lifecycleRoot, "mutation-repository");
+function parseCandidateTypeScriptEvidence(rawLog, gateReceipt) {
+  const text = strictUtf8(rawLog, "candidate TypeScript log");
+  const prefix = "SWECIRCUIT_TYPESCRIPT_BINDING ";
+  const receiptLines = text.split("\n").filter((line) => line.startsWith(prefix));
+  assert.equal(
+    receiptLines.length,
+    1,
+    "canonical log must contain one candidate TypeScript receipt",
+  );
+  const receipt = parseCanonicalInlineJson(
+    receiptLines[0].slice(prefix.length),
+    "candidate TypeScript receipt",
+  );
+  const expected = gateReceipt.executionAuthority.toolchain.before.typescript;
+  assert.deepEqual(
+    {
+      path: receipt.path,
+      bytes: receipt.bytes,
+      digest: receipt.digest,
+      nlink: receipt.nlink,
+      version: receipt.version,
+    },
+    expected,
+    "candidate TypeScript receipt differs from gate authority",
+  );
+  assert.equal(receipt.supplied, false);
+  assert.equal(
+    receipt.path,
+    gateReceipt.executionAuthority.candidateDependencies.typeScriptEntrypoint,
+  );
+  return Object.freeze({ receipt, candidatePrivate: true });
+}
+
+async function runDependencyInstallFailureRoute(lifecycleRoot) {
+  const fixtureRoot = join(lifecycleRoot, "install-failure-repository");
+  const cacheRoot = join(lifecycleRoot, "empty-install-cache");
   let evidence;
   try {
     await copyFixtureRepository(fixtureRoot);
+    await mkdir(cacheRoot);
     const copiedProduction = await authenticateFiles(fixtureRoot, PRODUCTION_IDENTITIES);
     assertIdentity(
       await identity(absolute(fixtureRoot, LOCK_PATH)),
       LOCK_IDENTITY,
-      "mutation fixture lockfile",
+      "install-failure fixture lockfile",
     );
     const fixtureException = await applyFixtureVerifyException(fixtureRoot);
     const { commit, gitEnvironment } = await initializeFixtureGit(fixtureRoot);
@@ -900,33 +958,46 @@ async function runPersistentCompilerMutationRoute(lifecycleRoot, cacheRoot) {
       },
       gitEnvironment,
     );
-    const supply = await createMutatingLifecycleTypeScriptSupply(lifecycleRoot, fixtureRoot);
     const gateResult = await runProcess(
       process.execPath,
       [absolute(fixtureRoot, GATE_PATH), commit],
       {
         cwd: fixtureRoot,
-        env: gateEnvironment(cacheRoot, supply.binding.path),
+        env: gateEnvironment(cacheRoot),
       },
     );
-    assert.equal(gateResult.timedOut, false, "mutation canonical gate timed out");
-    assert.equal(gateResult.signal, null, "mutation canonical gate was signaled");
-    assert.equal(gateResult.status, 2, "mutation canonical gate used the wrong failure route");
-    const gateSummary = parseCanonicalJson(gateResult.stdout, "mutation canonical gate stdout");
+    assert.equal(gateResult.timedOut, false, "install-failure canonical gate timed out");
+    assert.equal(gateResult.signal, null, "install-failure canonical gate was signaled");
+    assert.equal(gateResult.status, 2, "install-failure canonical gate used the wrong route");
+    const gateSummary = parseCanonicalJson(
+      gateResult.stdout,
+      "install-failure canonical gate stdout",
+    );
     assert.equal(gateSummary.outcome, "fail");
     assert.equal(gateSummary.candidateCommit, commit);
     const receiptBytes = await readFile(absolute(fixtureRoot, gateSummary.receipt));
-    const receipt = parseCanonicalJson(receiptBytes, "mutation canonical gate receipt");
+    const receipt = parseCanonicalJson(receiptBytes, "install-failure canonical gate receipt");
     const stdout = await readFile(absolute(fixtureRoot, receipt.stdout.path));
     const stderr = await readFile(absolute(fixtureRoot, receipt.stderr.path));
+    const dependencies = receipt.executionAuthority.candidateDependencies;
+    assert.equal(receipt.apiVersion, "swecircuit/release-gate/v1alpha4");
     assert.equal(receipt.result, "fail");
-    assert.equal(Number.isInteger(receipt.exitCode), true);
-    assert.notEqual(receipt.exitCode, 0);
+    assert.equal(receipt.exitCode, null);
     assert.equal(receipt.signal, null);
-    assert.equal(receipt.repository.headBefore, commit);
-    assert.equal(receipt.repository.headAfter, commit);
-    assert.equal(receipt.repository.trackedStateBefore, "clean");
-    assert.equal(receipt.repository.trackedStateAfter, "clean");
+    assert.match(receipt.spawnError, /Candidate dependency installation failed/u);
+    assert.equal(dependencies.ready, false);
+    assert.match(dependencies.setupError, /Candidate dependency installation failed/u);
+    assert.equal(dependencies.result.attempted, true);
+    assert.notEqual(dependencies.result.exitCode, 0);
+    assert.equal(dependencies.result.signal, null);
+    assert.equal(dependencies.result.spawnError, null);
+    assert.equal(dependencies.stderr.bytes > 0, true);
+    const installStderr = Buffer.from(dependencies.stderr.data, "base64");
+    assert.equal(installStderr.byteLength, dependencies.stderr.bytes);
+    assert.equal(digest(installStderr), dependencies.stderr.digest);
+    assert.equal(dependencies.cleanup.attempted, true);
+    assert.equal(dependencies.cleanup.absentAfter, true);
+    assert.equal(dependencies.cleanup.error, null);
     assert.equal(receipt.materialization.digestBefore, receipt.materialization.digestAfter);
     assert.equal(receipt.materialization.inspectionError, null);
     assert.equal(receipt.materialization.cleanupError, null);
@@ -934,28 +1005,23 @@ async function runPersistentCompilerMutationRoute(lifecycleRoot, cacheRoot) {
     assert.equal(receipt.gitContext.headAfter, commit);
     assert.equal(receipt.gitContext.trackedStateBefore, "clean");
     assert.equal(receipt.gitContext.trackedStateAfter, "clean");
-    assert.equal(receipt.stdout.bytes, stdout.byteLength);
+    assert.equal(stdout.byteLength, 0);
+    assert.equal(stderr.byteLength, 0);
     assert.equal(receipt.stdout.digest, digest(stdout));
-    assert.equal(receipt.stderr.bytes, stderr.byteLength);
     assert.equal(receipt.stderr.digest, digest(stderr));
-    const typeScript = parseLifecycleTypeScriptEvidence(stdout, supply);
-    const error = strictUtf8(stderr, "mutation canonical gate stderr");
-    assert.match(error, /TypeScript binding changed after compilation\./u);
-    const mutatedIdentity = await identity(supply.binding.path);
-    assert.notDeepEqual(mutatedIdentity, supply.originalIdentity);
     const trackedState = (
       await runGit(fixtureRoot, ["status", "--porcelain=v1", "--untracked-files=no"], {
         env: gitEnvironment,
       })
     ).stdout;
-    assert.equal(trackedState.byteLength, 0, "mutation route changed tracked fixture bytes");
+    assert.equal(trackedState.byteLength, 0, "install-failure route changed tracked bytes");
     evidence = {
-      command: processEvidence("negative-persistent-typescript-mutation", gateResult),
+      command: processEvidence("negative-dependency-install-failure", gateResult),
       route: {
-        label: "persistent TypeScript mutation during compilation",
+        label: "failed exact-lock install emits immutable receipt",
         route: "copied-production-canonical-gate",
         status: "pass",
-        error: "TypeScript binding changed after compilation.",
+        error: dependencies.setupError,
         candidateCommit: commit,
         copiedProduction,
         committedTreeFiles: committedBlobs.treeFiles,
@@ -963,19 +1029,118 @@ async function runPersistentCompilerMutationRoute(lifecycleRoot, cacheRoot) {
           bytes: receiptBytes.byteLength,
           digest: digest(receiptBytes),
         },
-        stdout: { bytes: stdout.byteLength, digest: digest(stdout) },
-        stderr: { bytes: stderr.byteLength, digest: digest(stderr) },
-        typeScript,
-        compilerIdentity: {
-          before: supply.originalIdentity,
-          after: mutatedIdentity,
+        installStderr: {
+          bytes: installStderr.byteLength,
+          digest: digest(installStderr),
         },
+        cleanup: dependencies.cleanup,
       },
     };
   } finally {
     await rm(fixtureRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   }
-  assert.ok(evidence, "mutation route completed without evidence");
+  assert.ok(evidence, "install-failure route completed without evidence");
+  return evidence;
+}
+
+async function runDependencySetupFailureRoute(lifecycleRoot) {
+  const fixtureRoot = join(lifecycleRoot, "setup-failure-repository");
+  const cacheRoot = join(lifecycleRoot, "setup-failure-cache");
+  let evidence;
+  try {
+    await copyFixtureRepository(fixtureRoot);
+    await mkdir(cacheRoot);
+    const copiedProduction = await authenticateFiles(fixtureRoot, PRODUCTION_IDENTITIES);
+    const fixtureException = await applyFixtureVerifyException(fixtureRoot);
+    const lockPath = absolute(fixtureRoot, LOCK_PATH);
+    const malformedLock = Buffer.from('{"lockfileVersion":3,"packages":\n', "utf8");
+    await writeFile(lockPath, malformedLock);
+    const malformedLockIdentity = await identity(lockPath);
+    const { commit, gitEnvironment } = await initializeFixtureGit(fixtureRoot);
+    const committedBlobs = await authenticateFixtureBlobs(
+      fixtureRoot,
+      commit,
+      {
+        ...PRODUCTION_IDENTITIES,
+        [PACKAGE_PATH]: fixtureException.committedIdentity,
+        [LOCK_PATH]: malformedLockIdentity,
+      },
+      gitEnvironment,
+    );
+    const gateResult = await runProcess(
+      process.execPath,
+      [absolute(fixtureRoot, GATE_PATH), commit],
+      {
+        cwd: fixtureRoot,
+        env: gateEnvironment(cacheRoot),
+      },
+    );
+    assert.equal(gateResult.timedOut, false, "setup-failure canonical gate timed out");
+    assert.equal(gateResult.signal, null, "setup-failure canonical gate was signaled");
+    assert.equal(gateResult.status, 2, "setup-failure canonical gate used the wrong route");
+    const gateSummary = parseCanonicalJson(
+      gateResult.stdout,
+      "setup-failure canonical gate stdout",
+    );
+    assert.equal(gateSummary.outcome, "fail");
+    assert.equal(gateSummary.candidateCommit, commit);
+    const receiptBytes = await readFile(absolute(fixtureRoot, gateSummary.receipt));
+    const receipt = parseCanonicalJson(receiptBytes, "setup-failure canonical gate receipt");
+    const stdout = await readFile(absolute(fixtureRoot, receipt.stdout.path));
+    const stderr = await readFile(absolute(fixtureRoot, receipt.stderr.path));
+    const dependencies = receipt.executionAuthority.candidateDependencies;
+    assert.equal(receipt.apiVersion, "swecircuit/release-gate/v1alpha4");
+    assert.equal(receipt.result, "fail");
+    assert.equal(receipt.exitCode, null);
+    assert.equal(receipt.signal, null);
+    assert.match(receipt.operationError, /^SyntaxError:/u);
+    assert.equal(receipt.spawnError, receipt.operationError);
+    assert.equal(dependencies.strategy, null);
+    assert.equal(dependencies.ready, false);
+    assert.equal(dependencies.result, null);
+    assert.equal(dependencies.cleanup.attempted, true);
+    assert.equal(dependencies.cleanup.removed, false);
+    assert.equal(dependencies.cleanup.absentAfter, true);
+    assert.equal(dependencies.cleanup.error, null);
+    assert.equal(receipt.materialization.digestBefore, receipt.materialization.digestAfter);
+    assert.equal(receipt.materialization.inspectionError, null);
+    assert.equal(receipt.materialization.cleanupError, null);
+    assert.equal(receipt.gitContext.headBefore, commit);
+    assert.equal(receipt.gitContext.headAfter, commit);
+    assert.equal(receipt.gitContext.trackedStateBefore, "clean");
+    assert.equal(receipt.gitContext.trackedStateAfter, "clean");
+    assert.equal(stdout.byteLength, 0);
+    assert.equal(stderr.byteLength, 0);
+    assert.equal(receipt.stdout.digest, digest(stdout));
+    assert.equal(receipt.stderr.digest, digest(stderr));
+    const trackedState = (
+      await runGit(fixtureRoot, ["status", "--porcelain=v1", "--untracked-files=no"], {
+        env: gitEnvironment,
+      })
+    ).stdout;
+    assert.equal(trackedState.byteLength, 0, "setup-failure route changed tracked bytes");
+    evidence = {
+      command: processEvidence("negative-dependency-setup-failure", gateResult),
+      route: {
+        label: "pre-spawn lock rejection emits immutable receipt",
+        route: "copied-production-canonical-gate",
+        status: "pass",
+        error: receipt.operationError,
+        candidateCommit: commit,
+        copiedProduction,
+        committedTreeFiles: committedBlobs.treeFiles,
+        malformedLock: malformedLockIdentity,
+        receipt: {
+          bytes: receiptBytes.byteLength,
+          digest: digest(receiptBytes),
+        },
+        cleanup: dependencies.cleanup,
+      },
+    };
+  } finally {
+    await rm(fixtureRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+  }
+  assert.ok(evidence, "setup-failure route completed without evidence");
   return evidence;
 }
 
@@ -1158,7 +1323,7 @@ async function parseParentReceipt(fixtureRoot, parentResult, expectedPhase) {
   assert.equal(npmConfiguration.outsideRepositoryCandidateAndCache, true);
   assert.equal(npmConfiguration.hostConfigurationExcluded, true);
   assert.equal(npmConfiguration.npmInspection.hostConfigurationExcluded, true);
-  assert.match(npmConfiguration.npmInspection.version, /^11\./u);
+  assert.equal(isSupportedNpmVersion(npmConfiguration.npmInspection.version), true);
   assert.equal(
     npmConfiguration.npmInspection.userConfig.reportedPath,
     npmConfiguration.userConfig.path,
@@ -1587,13 +1752,12 @@ export async function runReleaseReviewProductionLifecycle() {
     );
     const setupDurationMs = Number(process.hrtime.bigint() - setupStarted) / 1_000_000;
 
-    const typeScriptSupply = await createLifecycleTypeScriptSupply(lifecycleRoot, fixtureRoot);
     const gateResult = await runProcess(
       process.execPath,
       [absolute(fixtureRoot, GATE_PATH), commit],
       {
         cwd: fixtureRoot,
-        env: gateEnvironment(cacheRoot, typeScriptSupply.binding.path),
+        env: gateEnvironment(cacheRoot),
       },
     );
     assertCommandPassed(gateResult, "copied production canonical gate");
@@ -1605,11 +1769,46 @@ export async function runReleaseReviewProductionLifecycle() {
     const gateReceiptDigest = digest(gateReceiptBytes);
     const gateStdout = await readFile(absolute(fixtureRoot, gateReceipt.stdout.path));
     const gateStderr = await readFile(absolute(fixtureRoot, gateReceipt.stderr.path));
+    assert.equal(gateReceipt.operationError, null);
     assert.equal(gateReceipt.result, "pass");
+    assert.equal(gateReceipt.command.canonical, "node npm-cli.js run verify");
     assert.equal(
-      gateReceipt.command.canonical,
-      process.platform === "win32" ? "npm.cmd run verify" : "npm run verify",
+      gateReceipt.command.executable,
+      gateReceipt.executionAuthority.toolchain.before.node.path,
     );
+    assert.deepEqual(gateReceipt.command.arguments, [
+      gateReceipt.executionAuthority.toolchain.before.npmCli.path,
+      "run",
+      "verify",
+    ]);
+    assert.equal(
+      gateReceipt.executionAuthority.candidateDependencies.strategy,
+      "candidate-private-exact-lock-offline-npm-ci",
+    );
+    assert.equal(gateReceipt.executionAuthority.candidateDependencies.ready, true);
+    assert.equal(gateReceipt.executionAuthority.candidateDependencies.setupError, null);
+    assert.equal(gateReceipt.executionAuthority.candidateDependencies.result.attempted, true);
+    assert.equal(gateReceipt.executionAuthority.candidateDependencies.initialState, "absent");
+    assert.equal(
+      gateReceipt.executionAuthority.candidateDependencies.typeScriptEntrypoint,
+      gateReceipt.executionAuthority.toolchain.before.typescript.path,
+    );
+    assert.equal(
+      gateReceipt.executionAuthority.candidateDependencies.ancestorSupply.before.absent,
+      true,
+    );
+    assert.equal(
+      gateReceipt.executionAuthority.candidateDependencies.ancestorSupply.after.absent,
+      true,
+    );
+    assert.deepEqual(
+      gateReceipt.executionAuthority.candidateDependencies.closure.before,
+      gateReceipt.executionAuthority.candidateDependencies.closure.after,
+    );
+    assert.equal(gateReceipt.executionAuthority.candidateDependencies.cleanup.attempted, true);
+    assert.equal(gateReceipt.executionAuthority.candidateDependencies.cleanup.removed, true);
+    assert.equal(gateReceipt.executionAuthority.candidateDependencies.cleanup.absentAfter, true);
+    assert.equal(gateReceipt.executionAuthority.candidateDependencies.cleanup.error, null);
     assert.equal(gateReceipt.stdout.bytes, gateStdout.byteLength);
     assert.equal(gateReceipt.stdout.digest, digest(gateStdout));
     assert.equal(gateReceipt.stderr.bytes, gateStderr.byteLength);
@@ -1618,40 +1817,26 @@ export async function runReleaseReviewProductionLifecycle() {
     assert.match(gateLogText, /node --check scripts[/\\]run-v12-release-gate\.mjs/u);
     assert.match(gateLogText, /run-v12-release-review\.mjs/u);
     const fixtureVerifyCommandObservedInRawLog = gateLogText.includes(
-      `node ${TYPESCRIPT_RUNNER_PATH} ${FIXTURE_TYPESCRIPT_ARGUMENTS.join(" ")}`,
+      `node ${TYPESCRIPT_RUNNER_PATH} ${CANDIDATE_TYPESCRIPT_ARGUMENTS.join(" ")}`,
     );
     assert.equal(
       fixtureVerifyCommandObservedInRawLog,
       true,
       "fixture TypeScript command was not observed in the canonical log",
     );
-    const gateTypeScript = parseLifecycleTypeScriptEvidence(gateStdout, typeScriptSupply);
-    const reboundTypeScript = resolveTypeScriptEntrypointBinding({
-      environment: environmentWithTypeScriptEntrypoint({}, typeScriptSupply.binding.path),
-      projectRoot: fixtureRoot,
-      outsidePolicy: "always",
-      label: "Lifecycle TypeScript adapter after canonical gate",
-    });
-    assert.deepEqual(reboundTypeScript, typeScriptSupply.binding);
-    assertIdentity(
-      await identity(typeScriptSupply.delegatedBinding.path),
-      {
-        bytes: typeScriptSupply.delegatedBinding.bytes,
-        digest: typeScriptSupply.delegatedBinding.digest,
-      },
-      "delegated lifecycle TypeScript entrypoint",
-    );
-    assert.equal(
-      (await stat(typeScriptSupply.delegatedBinding.path)).nlink,
-      typeScriptSupply.delegatedBinding.nlink,
-    );
+    const gateTypeScript = parseCandidateTypeScriptEvidence(gateStdout, gateReceipt);
+    const runtimeSentinelCount = gateLogText
+      .split("\n")
+      .filter((line) => line === FIXTURE_RUNTIME_SENTINEL).length;
+    assert.equal(runtimeSentinelCount, 1, "candidate runtime imports did not execute exactly once");
 
     const parentDigest = PRODUCTION_IDENTITIES[PARENT_PATH].digest;
     const environment = parentEnvironment(cacheRoot, parentDigest, npmSupply.path, gitSupply.path);
     const commandEvidence = [processEvidence("canonical-gate", gateResult)];
     const negativeRoutes = [];
-    const mutationEvidence = await runPersistentCompilerMutationRoute(lifecycleRoot, cacheRoot);
-    commandEvidence.push(mutationEvidence.command);
+    const setupFailureEvidence = await runDependencySetupFailureRoute(lifecycleRoot);
+    const installFailureEvidence = await runDependencyInstallFailureRoute(lifecycleRoot);
+    commandEvidence.push(setupFailureEvidence.command, installFailureEvidence.command);
 
     const wrongGateDigest = `sha256:${"d".repeat(64)}`;
     assert.notEqual(wrongGateDigest, gateReceiptDigest);
@@ -1845,7 +2030,7 @@ export async function runReleaseReviewProductionLifecycle() {
     assert.equal(
       npmConfigurationEvidence.every(
         (entry) =>
-          /^11\./u.test(entry.npmInspection.version) &&
+          isSupportedNpmVersion(entry.npmInspection.version) &&
           entry.hostConfigurationExcluded === true &&
           entry.preSpawnValidation.everySpawnValidated === true,
       ),
@@ -1901,9 +2086,9 @@ export async function runReleaseReviewProductionLifecycle() {
       status: "pass",
       error: wrongHandoffError,
     });
-    negativeRoutes.push(mutationEvidence.route);
+    negativeRoutes.push(setupFailureEvidence.route, installFailureEvidence.route);
 
-    assert.equal(negativeRoutes.length, 11);
+    assert.equal(negativeRoutes.length, 12);
     assert.equal(
       negativeRoutes.every((entry) => entry.status === "pass"),
       true,
@@ -1935,14 +2120,6 @@ export async function runReleaseReviewProductionLifecycle() {
         hostNpmSupply: npmSupply,
         hostNpmCacheSupply,
         hostGitSupply: gitSupply,
-        typeScriptSupply: {
-          binding: typeScriptSupply.binding,
-          delegatedBinding: typeScriptSupply.delegatedBinding,
-          receipt: typeScriptSupply.receipt,
-          smokeInput: typeScriptSupply.smokeInput,
-          arguments: [...typeScriptSupply.arguments],
-          sentinel: typeScriptSupply.sentinel,
-        },
         copiedProduction,
         committedBlobs: committedBlobs.rows,
         productionAfter: fixtureProductionAfter,
@@ -1959,6 +2136,10 @@ export async function runReleaseReviewProductionLifecycle() {
         fixtureVerifyCommand: FIXTURE_VERIFY_COMMAND,
         fixtureVerifyCommandObservedInRawLog,
         typeScript: gateTypeScript,
+        runtimeDependencies: {
+          sentinel: FIXTURE_RUNTIME_SENTINEL,
+          sentinelCount: runtimeSentinelCount,
+        },
       },
       packagePair: pair,
       rawComparisons: {
@@ -2062,8 +2243,12 @@ export const V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS = Object.freeze({
   hostNpmCache: RELEASE_GATE_TEST_HOOKS.hostNpmCache,
   initializeFixtureGit,
   isPostFixtureCorrection,
+  isSupportedNpmVersion,
   parentEnvironment,
+  parseCandidateTypeScriptEvidence,
   parseLifecycleTypeScriptEvidence,
+  runDependencyInstallFailureRoute,
+  runDependencySetupFailureRoute,
   runGit,
   runScopedParentProcess,
   typeScriptCompileSentinel: TYPESCRIPT_COMPILE_SENTINEL,
