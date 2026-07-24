@@ -9,10 +9,17 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 import { RELEASE_GATE_TEST_HOOKS } from "../../scripts/run-v12-release-gate.mjs";
-import { PRODUCTION_IDENTITIES } from "../helpers/v12-release-review-lifecycle.mjs";
+import {
+  PRODUCTION_IDENTITIES,
+  V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS,
+} from "../helpers/v12-release-review-lifecycle.mjs";
 
 const ROOT = fileURLToPath(new URL("../../", import.meta.url));
 const LIFECYCLE_PATH = "test/fixtures/v12-release-review-lifecycle-child.mjs";
+
+test("lifecycle test hooks are bound before isolated execution", () => {
+  assert.equal(typeof V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.isSupportedNpmVersion, "function");
+});
 
 function assertCommittedProductionIdentities(candidateCommit) {
   for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
