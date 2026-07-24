@@ -10,4 +10,4 @@ The release gate now derives an owned external scratch base from canonical host 
 
 ## Current Result
 
-Focused gate and review suites pass 53/53. Revision 46 awaits exact committed lifecycle verification.
+Focused gate and review suites passed 53/53. Exact Revision 46 externalized scratch and reached the R2 compile worker, which rejected only the non-canonical Windows `npmScriptShell` path binding. No candidate-addressed canonical gate was consumed. Revision 46 is retired in favor of Revision 47.

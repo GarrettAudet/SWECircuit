@@ -2449,14 +2449,23 @@ function validateExecutionAuthority(value, command) {
       effective.npm_config_ignore_scripts === "true",
     "Canonical-gate effective environment retained undeclared authority.",
   );
-  requireCondition(
-    effective.npm_config_cache === value.environment.npm.cache.path &&
-      effective.npm_config_userconfig === value.environment.npm.userConfig.path &&
-      effective.npm_config_globalconfig === value.environment.npm.globalConfig.path &&
-      effective.npm_config_script_shell === value.toolchain.before.shell.path &&
-      effective.SWECIRCUIT_HOST_DEPENDENCY_ROOT === value.hostDependencies.root &&
+  const boundSupplyChecks = {
+    npmCache: effective.npm_config_cache === value.environment.npm.cache.path,
+    npmUserConfig: effective.npm_config_userconfig === value.environment.npm.userConfig.path,
+    npmGlobalConfig:
+      effective.npm_config_globalconfig === value.environment.npm.globalConfig.path,
+    npmScriptShell: effective.npm_config_script_shell === value.toolchain.before.shell.path,
+    hostDependencyRoot:
+      effective.SWECIRCUIT_HOST_DEPENDENCY_ROOT === value.hostDependencies.root,
+    typeScriptEntrypoint:
       effective.SWECIRCUIT_TYPESCRIPT_ENTRYPOINT === value.toolchain.before.typescript.path,
-    "Canonical-gate effective environment does not match its bound supplies.",
+  };
+  const mismatchedSupplies = Object.entries(boundSupplyChecks)
+    .filter(([, matches]) => !matches)
+    .map(([name]) => name);
+  requireCondition(
+    mismatchedSupplies.length === 0,
+    `Canonical-gate effective environment does not match its bound supplies: ${mismatchedSupplies.join(", ")}.`,
   );
   const expectedPath = [
     join(value.hostDependencies.root, ".bin"),

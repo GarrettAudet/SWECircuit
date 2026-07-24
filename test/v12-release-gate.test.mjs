@@ -469,6 +469,7 @@ test("canonical gate closes hostile host environment and binds effective authori
     assert.equal(binding.npm.globalConfig.bytes, 0);
 
     const toolchain = await RELEASE_GATE_TEST_HOOKS.inspectToolchain(environment);
+    assert.equal(environment.npm_config_script_shell, toolchain.shell.path);
     for (const tool of [
       toolchain.node,
       toolchain.npmLauncher,

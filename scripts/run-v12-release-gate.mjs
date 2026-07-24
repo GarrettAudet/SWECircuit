@@ -32,7 +32,7 @@ const HOST_DEPENDENCY_DIGEST_DOMAIN = "swecircuit/release-gate/host-dependencies
 const GIT_CONTEXT_STRATEGY = "disposable-shared-object-git-context";
 
 const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
-const MATERIALIZATION_BASE = join(realpathSync(tmpdir()), "swecircuit-v12-release-gate");
+const MATERIALIZATION_BASE = join(realpathSync.native(tmpdir()), "swecircuit-v12-release-gate");
 const MATERIALIZATION_PARENT = join(MATERIALIZATION_BASE, "work");
 const MATERIALIZATION_FROM_ROOT = relative(resolve(ROOT), resolve(MATERIALIZATION_PARENT));
 requireCondition(
@@ -61,7 +61,7 @@ function optionalEnvironmentValue(name, environment = process.env) {
 
 function plainResolvedFile(path, label) {
   requireCondition(typeof path === "string" && path.length > 0, `${label} path is missing.`);
-  const resolved = realpathSync(path);
+  const resolved = realpathSync.native(path);
   const stats = lstatSync(resolved);
   requireCondition(
     stats.isFile() && !stats.isSymbolicLink(),
@@ -181,7 +181,7 @@ function resolveHostDependencyRoot(
     typeof requested === "string" && requested.length > 0,
     "Host dependency root supply must be non-empty.",
   );
-  const resolved = realpathSync(resolve(candidateRoot, requested));
+  const resolved = realpathSync.native(resolve(candidateRoot, requested));
   const stats = lstatSync(resolved);
   requireCondition(
     stats.isDirectory() && !stats.isSymbolicLink(),

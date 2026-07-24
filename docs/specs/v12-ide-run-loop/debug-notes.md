@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Exact Revision 45 commit `13723ce555413aaf2af3039290867880cf94fe13` stripped both gate-only environment keys but still failed the same fallback-package guard. The nested lifecycle root was created from a private `TEMP` beneath repository `.local`, leaving source `node_modules` in its ancestor chain. Revision 46 moves the owned scratch base under canonical external temp storage and rejects any source-contained resolution. Gate tests pass 18/18 and review tests pass 35/35. Frozen verification and later release gates remain; `releaseReady: false`.
+No active V12 product-contract defect is recorded. Exact Revision 46 commit `dbe690e74746b8a72202f8fa6146b056cf305813` externalized scratch and reached R2 compilation, where receipt validation isolated `npmScriptShell`. Effective authority used `C:\WINDOWS\system32\cmd.exe`; asynchronous file binding canonicalized the same file as `C:\Windows\System32\cmd.exe`. Revision 47 uses native canonical realpaths at startup and asserts exact equality without weakening validation. The release suite passes 53/53 and the complete direct copied lifecycle passes with cleanup and unchanged source. Frozen verification and later release gates remain; `releaseReady: false`.
 
 ## Reproduction
 
