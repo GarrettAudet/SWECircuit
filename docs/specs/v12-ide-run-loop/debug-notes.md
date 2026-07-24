@@ -2,7 +2,7 @@
 
 ## Status
 
-No active V12 product-contract defect is recorded. Revision 41 failed because the copied canonical gate dropped its reviewed external TypeScript supply. Revision 42 corrected that behavior, but exact commit `a093e475f662868b938c9b33078c7f86ede5d34c` failed before lifecycle execution because the production identity pin retained the old 47,517-byte count beside the new gate digest; actual bytes were 47,552. No Revision 42 canonical gate was invoked. Revision 43 corrects only that exact tuple. Frozen verification and later release gates remain; `releaseReady: false`.
+No active V12 product-contract defect is recorded. Exact Revision 43 commit `c3cd70bddf9279bfd5ca87b1da5e909a486b3fac` authenticated and executed, then the copied canonical gate failed while resolving candidate-local `node_modules`. The TypeScript supply was already external and exact; the paired host dependency closure still derived from copied `ROOT`. Revision 44 resolves a singular host dependency root at startup, requires it outside the candidate materialization, injects only its canonical path, and keeps complete before/after closure binding. Focused release suites pass 53/53. Frozen verification and later release gates remain; `releaseReady: false`.
 
 ## Reproduction
 

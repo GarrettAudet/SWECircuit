@@ -99,12 +99,23 @@ function unboundWorkerEnvironment() {
 
 function environmentWithNpmCache(cache) {
   const environment = unboundWorkerEnvironment();
+  const dependencyKey = RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey;
+  const typeScriptKey = RELEASE_GATE_TEST_HOOKS.typeScriptEntrypointEnvironmentKey;
   for (const key of Object.keys(environment)) {
-    if (key.toLowerCase() === "npm_config_cache") {
+    if (
+      key.toLowerCase() === "npm_config_cache" ||
+      key.toLowerCase() === dependencyKey.toLowerCase() ||
+      key.toLowerCase() === typeScriptKey.toLowerCase()
+    ) {
       delete environment[key];
     }
   }
   environment.npm_config_cache = cache;
+  environment[dependencyKey] = RELEASE_GATE_TEST_HOOKS.hostDependencyRoot;
+  environment[typeScriptKey] = RELEASE_GATE_TEST_HOOKS.resolveHostTypeScriptEntrypoint(
+    process.env,
+    ROOT,
+  );
   return environment;
 }
 
@@ -1088,6 +1099,10 @@ test("copied production lifecycle consumes the fresh-process release-gate cache 
     const canonicalExternalCache = await realpath(externalCache);
     assert.equal(result.configuredSource, canonicalExternalCache);
     assert.equal(result.gateSource, externalCache);
+    assert.equal(
+      result.dependencySource,
+      await realpath(RELEASE_GATE_TEST_HOOKS.hostDependencyRoot),
+    );
     assert.equal(result.evidence.source, canonicalExternalCache);
     assert.equal(result.evidence.sourceSelection, "release-gate-host-npm-cache");
     assert.equal(result.evidence.rootsDisjoint, true);

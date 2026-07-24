@@ -10,4 +10,4 @@ The integration owner corrected the expected gate source length from 47,517 to 4
 
 ## Current Result
 
-Revision 43 awaits exact committed lifecycle verification.
+Exact Revision 43 passed identity authentication, then its isolated copied gate failed because host dependency closure still resolved copied candidate-local `node_modules`. No candidate-addressed canonical gate was consumed. Revision 43 is retired in favor of Revision 44.

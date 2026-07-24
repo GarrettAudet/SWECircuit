@@ -35,7 +35,8 @@ const MATERIALIZATION_PARENT = join(ROOT, ".local", "v12-release-gate");
 const GENERATED_BUILD_DIRECTORY = "dist";
 const DEFAULT_HOST_NPM_CACHE = join(ROOT, ".local", "npm-cache");
 const DEFAULT_HOST_TYPESCRIPT_ENTRYPOINT = join(ROOT, "node_modules", "typescript", "bin", "tsc");
-const HOST_DEPENDENCY_ROOT = join(ROOT, "node_modules");
+const HOST_DEPENDENCY_ROOT_ENVIRONMENT_KEY = "SWECIRCUIT_HOST_DEPENDENCY_ROOT";
+const DEFAULT_HOST_DEPENDENCY_ROOT = join(ROOT, "node_modules");
 
 function optionalEnvironmentValue(name, environment = process.env) {
   const matches = Object.entries(environment).filter(
@@ -160,7 +161,28 @@ function resolveHostNpmCache(environment) {
   return [...resolved][0];
 }
 
+function resolveHostDependencyRoot(
+  environment,
+  candidateRoot = ROOT,
+  defaultRoot = DEFAULT_HOST_DEPENDENCY_ROOT,
+) {
+  const supplied = optionalEnvironmentValue(HOST_DEPENDENCY_ROOT_ENVIRONMENT_KEY, environment);
+  const requested = supplied ?? defaultRoot;
+  requireCondition(
+    typeof requested === "string" && requested.length > 0,
+    "Host dependency root supply must be non-empty.",
+  );
+  const resolved = realpathSync(resolve(candidateRoot, requested));
+  const stats = lstatSync(resolved);
+  requireCondition(
+    stats.isDirectory() && !stats.isSymbolicLink(),
+    "Host dependency root must resolve to a plain directory.",
+  );
+  return resolved;
+}
+
 const HOST_NPM_CACHE = resolveHostNpmCache(process.env);
+const HOST_DEPENDENCY_ROOT = resolveHostDependencyRoot(process.env);
 const HOST_TYPESCRIPT_ENTRYPOINT = resolveHostTypeScriptEntrypoint(process.env, ROOT);
 
 function candidateEvidencePaths(candidateCommit) {
@@ -193,7 +215,7 @@ function runGit(args, options = {}) {
 
 function closedPath() {
   return [
-    join(ROOT, "node_modules", ".bin"),
+    join(HOST_DEPENDENCY_ROOT, ".bin"),
     dirname(HOST_NODE_PATH),
     dirname(HOST_NPM_PATH),
     dirname(HOST_GIT_PATH),
@@ -814,7 +836,15 @@ function commandEnvironment(gitContext) {
       cacheFromWorktree.startsWith(`..${sep}`),
     "Host-owned npm cache must remain outside the candidate materialization.",
   );
+  const dependenciesFromWorktree = relative(resolve(gitContext.worktree), HOST_DEPENDENCY_ROOT);
+  requireCondition(
+    isAbsolute(dependenciesFromWorktree) ||
+      dependenciesFromWorktree === ".." ||
+      dependenciesFromWorktree.startsWith(`..${sep}`),
+    "Host-owned dependency root must remain outside the candidate materialization.",
+  );
   Object.assign(environment, {
+    [HOST_DEPENDENCY_ROOT_ENVIRONMENT_KEY]: HOST_DEPENDENCY_ROOT,
     npm_config_audit: "false",
     npm_config_cache: HOST_NPM_CACHE,
     npm_config_color: "false",
@@ -1332,6 +1362,7 @@ export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
   inspectMaterialization,
   executionEnvironmentBinding,
   hostDependencyRoot: HOST_DEPENDENCY_ROOT,
+  hostDependencyRootEnvironmentKey: HOST_DEPENDENCY_ROOT_ENVIRONMENT_KEY,
   hostGitPath: HOST_GIT_PATH,
   hostNodePath: HOST_NODE_PATH,
   hostNpmCache: HOST_NPM_CACHE,
@@ -1341,6 +1372,7 @@ export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
   inspectHostDependencyClosure,
   inspectToolchain,
   materializationParent: MATERIALIZATION_PARENT,
+  resolveHostDependencyRoot,
   resolveHostTypeScriptEntrypoint,
   typeScriptEntrypointEnvironmentKey: TYPESCRIPT_ENTRYPOINT_ENVIRONMENT_KEY,
   materializeCandidateSource,

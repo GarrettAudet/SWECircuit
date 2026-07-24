@@ -73,20 +73,20 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
     digest: "sha256:433c8840bb18d377212400dbe32d3c2b479c09c1ab0bc0abf8c9752e6b8e8f62",
   }),
   [GATE_PATH]: Object.freeze({
-    bytes: 47_552,
-    digest: "sha256:5f8820b9ec79252aa519346246f3dd3d436e206208d9bfefe66a612cbaf22f61",
+    bytes: 48_898,
+    digest: "sha256:42258d5a4edd5e0da9051c8bd7625490d812bff8fe99a13432330632a53e171a",
   }),
   [HARNESS_PATH]: Object.freeze({
-    bytes: 141_650,
-    digest: "sha256:c290abcd9ce48491bf92fc3495d179f5ed734d506eaeb71ee42502afcc04567f",
+    bytes: 141_772,
+    digest: "sha256:00e9cf14edeace0cc50b935f6350fd158572ac22f0615bba1899e35e6caa2952",
   }),
   [VERIFIER_PATH]: Object.freeze({
     bytes: 30_840,
     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
   }),
   [GATE_TEST_PATH]: Object.freeze({
-    bytes: 48_604,
-    digest: "sha256:5daff1366e453c9cc28985d3ecd65793708127e88ffb53d7413ca600721511e2",
+    bytes: 48_756,
+    digest: "sha256:3be11efa2a9015ab49587fe0c317508620cb18fa9bb690602a011b11f7cc7b48",
   }),
   [TYPESCRIPT_RUNNER_PATH]: Object.freeze({
     bytes: 7_064,
@@ -728,6 +728,11 @@ function parentEnvironment(
 function gateEnvironment(cacheRoot, typeScriptEntrypoint, sourceEnvironment = process.env) {
   const environment = fixtureRepositoryEnvironment(sourceEnvironment);
   setEnvironmentValue(environment, "npm_config_cache", cacheRoot);
+  setEnvironmentValue(
+    environment,
+    RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey,
+    RELEASE_GATE_TEST_HOOKS.hostDependencyRoot,
+  );
   setEnvironmentValue(environment, "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT", typeScriptEntrypoint);
   return environment;
 }

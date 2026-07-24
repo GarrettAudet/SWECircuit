@@ -443,6 +443,10 @@ test("canonical gate closes hostile host environment and binds effective authori
     assert.equal(environment.npm_config_ignore_scripts, "true");
     assert.equal(environment.GIT_CONFIG_NOSYSTEM, "1");
     assert.equal(environment.GIT_TERMINAL_PROMPT, "0");
+    assert.equal(
+      environment[RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey],
+      RELEASE_GATE_TEST_HOOKS.hostDependencyRoot,
+    );
 
     const binding = await RELEASE_GATE_TEST_HOOKS.executionEnvironmentBinding(
       environment,

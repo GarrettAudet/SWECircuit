@@ -2402,6 +2402,7 @@ function validateExecutionAuthority(value, command) {
     "LC_ALL",
     "NO_COLOR",
     "PATH",
+    "SWECIRCUIT_HOST_DEPENDENCY_ROOT",
     "SWECIRCUIT_TYPESCRIPT_ENTRYPOINT",
     "TEMP",
     "TMP",
@@ -2453,6 +2454,7 @@ function validateExecutionAuthority(value, command) {
       effective.npm_config_userconfig === value.environment.npm.userConfig.path &&
       effective.npm_config_globalconfig === value.environment.npm.globalConfig.path &&
       effective.npm_config_script_shell === value.toolchain.before.shell.path &&
+      effective.SWECIRCUIT_HOST_DEPENDENCY_ROOT === value.hostDependencies.root &&
       effective.SWECIRCUIT_TYPESCRIPT_ENTRYPOINT === value.toolchain.before.typescript.path,
     "Canonical-gate effective environment does not match its bound supplies.",
   );

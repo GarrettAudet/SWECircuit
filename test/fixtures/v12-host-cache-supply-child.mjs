@@ -27,6 +27,11 @@ assert.equal(
 
 const gate = await import(pathToFileURL(gatePath).href);
 const lifecycle = await import(pathToFileURL(lifecyclePath).href);
+const dependencyEnvironmentKey = gate.RELEASE_GATE_TEST_HOOKS.hostDependencyRootEnvironmentKey;
+assert.equal(
+  resolve(gate.RELEASE_GATE_TEST_HOOKS.hostDependencyRoot),
+  resolve(process.env[dependencyEnvironmentKey]),
+);
 assert.equal(
   resolve(gate.RELEASE_GATE_TEST_HOOKS.hostNpmCache),
   resolve(process.env.npm_config_cache),
@@ -45,6 +50,7 @@ process.stdout.write(
   `${JSON.stringify({
     configuredSource,
     gateSource: gate.RELEASE_GATE_TEST_HOOKS.hostNpmCache,
+    dependencySource: await realpath(gate.RELEASE_GATE_TEST_HOOKS.hostDependencyRoot),
     evidence,
     checkoutLocalCacheAbsent: true,
     sentinel: (await readFile(resolve(destination, "sentinel.txt"))).toString("base64"),
