@@ -1505,6 +1505,84 @@ test("materialized lifecycle detects persistent compiler mutation after child re
   }
 });
 
+test("R61 rehearsal stdout remains exact under the authenticated LF policy", () => {
+  const attributes = readFileSync(resolve(ROOT, ".gitattributes"));
+  assert.equal(attributes.byteLength, 1_283);
+  assert.equal(
+    createHash("sha256").update(attributes).digest("hex"),
+    "4626d1e064ae446e63b50a072443b874a9619c012ac283d7903d03cd028b53a3",
+  );
+
+  const stdout = readFileSync(
+    resolve(
+      ROOT,
+      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r62/inputs/r61-exact-candidate-rehearsal/r61-lifecycle-test.stdout.txt",
+    ),
+  );
+  assert.equal(stdout.byteLength, 2_244);
+  assert.equal(stdout.includes(13), false);
+  assert.equal(
+    createHash("sha256").update(stdout).digest("hex"),
+    "2b7149346d0d201d32d9ec2d9f7beff3f217d4853892dd660bcf951665d5820b",
+  );
+});
+
+test("R62 dogfood failure envelopes preserve the exact raw streams", () => {
+  const cases = [
+    {
+      stream: "stdout",
+      storedBytes: 815,
+      storedBytesLabel: "815",
+      storedSha256: "sha256:ab1e1bcd6c3950dc268d0898a0c03b7fe0ddece3a048a2fae4f1ae1f964ea2b1",
+      rawBytes: 398,
+      rawBytesLabel: "398",
+      rawSha256: "sha256:5a5e240cf1ef1b4fde59b4087370a2fbe1ecb934b493b42275b788c4c4e65ced",
+    },
+    {
+      stream: "stderr",
+      storedBytes: 1_920,
+      storedBytesLabel: "1,920",
+      storedSha256: "sha256:bf82664b99c9a6aa04bf0c4cced70656de660ed1ad95b4384f6901fa3b7756c0",
+      rawBytes: 1_226,
+      rawBytesLabel: "1,226",
+      rawSha256: "sha256:deea0a908941d55e4e9d4a5dd18896881b4c205732434c1f1a0761ed5e10469c",
+    },
+  ];
+  const manifest = readFileSync(
+    resolve(
+      ROOT,
+      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r63/inputs/r62-v11-dogfood/manifest.md",
+    ),
+    "utf8",
+  );
+
+  for (const expected of cases) {
+    const filename = `r62-dogfood-v11.${expected.stream}.base64.json`;
+    const stored = readFileSync(
+      resolve(
+        ROOT,
+        `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r63/inputs/r62-v11-dogfood/${filename}`,
+      ),
+    );
+    assert.equal(stored.byteLength, expected.storedBytes);
+    assert.equal(digest(stored), expected.storedSha256);
+    const manifestRow = `| \`${filename}\` | ${expected.storedBytesLabel} | \`${expected.storedSha256}\` | ${expected.rawBytesLabel} | \`${expected.rawSha256}\` |`;
+    assert.equal(manifest.split(manifestRow).length - 1, 1);
+
+    const envelope = JSON.parse(stored.toString("utf8"));
+    assert.equal(envelope.kind, "swecircuit.raw-evidence.v1");
+    assert.equal(envelope.candidateCommit, "d02b2bc590e04ec9496d9d04b7500e94adda9c04");
+    assert.equal(envelope.command, "npm.cmd run dogfood:v11");
+    assert.equal(envelope.stream, expected.stream);
+    assert.equal(envelope.encoding, "base64");
+    assert.equal(envelope.rawBytes, expected.rawBytes);
+    assert.equal(envelope.rawSha256, expected.rawSha256);
+    const raw = Buffer.from(envelope.data, "base64");
+    assert.equal(raw.byteLength, expected.rawBytes);
+    assert.equal(raw.toString("base64"), envelope.data);
+    assert.equal(digest(raw), expected.rawSha256);
+  }
+});
 test("the positive copied gate alone receives the extended lifecycle timeout", () => {
   const source = readFileSync(
     resolve(ROOT, "test/helpers/v12-release-review-lifecycle.mjs"),

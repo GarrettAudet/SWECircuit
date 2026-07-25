@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-V12 IDE Run Loop Revision 62 is active on `codex/v12-ide-run-loop`. Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5` passed exact committed verification and all seven hosted jobs, then its non-consuming exact-candidate rehearsal exposed an insufficient 15-minute nested-gate test bound. Its one-shot gate was never invoked and the source is retired. Revision 62 scopes a 30-minute bound to the positive copied gate only; the exact regression, 66 focused release tests, broad pre-freeze verification, and independent review pass. `releaseReady: false`.
+V12 IDE Run Loop Revision 63 is active on `codex/v12-ide-run-loop`. Revision 62 commit `d02b2bc590e04ec9496d9d04b7500e94adda9c04` passed the corrected copied lifecycle, then failed the complete verifier and all seven hosted jobs because its R62-only binary attribute changed V11's authenticated `.gitattributes` identity. Its one-shot gate was never invoked and the source is retired. Revision 63 removes only that attribute, preserves the exact R61 evidence blob, and passes strict V11 dogfood, 68 focused release tests, 465 core tests, complete pre-freeze verification, the checker matrix, and independent review. `releaseReady: false`.
 
 ## Current Stage
 
-Candidate-addressed external evidence preserves Revision 60's consumed gate failure and Revision 61's unconsumed rehearsal failure. Revision 62 has passed scoped, broad pre-freeze, and independent review gates; exact source freeze, copied lifecycle, full verifier, exact-candidate rehearsal, hosted matrix, canonical gate, and fresh R2 remain. The main agent is integration owner. External IDE hosts still own model and effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
+Candidate-addressed external evidence preserves Revision 60's consumed gate failure, Revision 61's unconsumed rehearsal failure, and Revision 62's exact V11 identity failure. Revision 63 has passed focused, broad pre-freeze, checker, and independent review gates; exact source freeze, copied lifecycle, full verifier, exact-candidate rehearsal, hosted matrix, canonical gate, and fresh R2 remain. The main agent is integration owner. External IDE hosts still own model and effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
 
 ## Important Current Constraints
 
@@ -163,8 +163,7 @@ Candidate-addressed external evidence preserves Revision 60's consumed gate fail
 
 ## Next Likely Work
 
-- Freeze and commit the exact Revision 62 source.
-- Require exact lifecycle, full verification, non-consuming exact-candidate rehearsal, and all seven hosted jobs to pass against the frozen Revision 62 source.
+- Freeze and commit the exact Revision 63 source, then require lifecycle, full verification, non-consuming exact-candidate rehearsal, and all seven hosted jobs to pass.
 - Invoke one canonical gate exactly once for that commit.
 - On `pass`, run fresh three-domain R2, close milestone and memory, and merge to `main`.
-- Never rerun Revision 60's consumed gate; never release or invoke Revision 61.
+- Never rerun Revision 60's consumed gate; never release or invoke Revision 61 or Revision 62.

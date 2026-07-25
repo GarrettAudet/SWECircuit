@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5` passed exact committed verification and all seven hosted jobs, but its non-consuming exact-candidate rehearsal reported a nested canonical-gate timeout at the old 15-minute test bound; its one-shot gate was never invoked and the source is retired. Revision 62 applies a 30-minute bound only to that positive copied gate while preserving every ordinary 15-minute child bound; the exact hook and 66 focused release tests, broad pre-freeze verification, and independent review pass. No release approval exists until the exact source is frozen and passes exact lifecycle, full verification, exact-candidate rehearsal, hosted CI, one canonical gate, fresh R2, milestone closeout, and owner merge; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5` passed exact committed verification and all seven hosted jobs, but its non-consuming exact-candidate rehearsal reported a nested canonical-gate timeout at the old 15-minute test bound; its one-shot gate was never invoked and the source is retired. Revision 62 commit `d02b2bc590e04ec9496d9d04b7500e94adda9c04` passed its exact copied lifecycle, but its full verifier and all seven hosted jobs failed after an R62-only binary attribute changed V11's authenticated `.gitattributes` identity; its one-shot gate was never invoked and the source is retired. Revision 63 removes only that attribute, preserves the R61 evidence bytes, and passes strict V11 dogfood, 68 focused release tests, 465 core tests, complete pre-freeze verification, the checker matrix, and independent review. No release approval exists until the exact source is frozen and passes lifecycle, full verification, exact-candidate rehearsal, hosted CI, one canonical gate, fresh R2, milestone closeout, and owner merge; `releaseReady: false`.
 
 ## Reproduction
 
@@ -693,3 +693,11 @@ Revision 41 replaces inherited environment state with an exact allowlist, privat
 ### Regression
 
 The hostile-host regression injects Node, npm, Git, and secret canaries and proves none survive. Source coverage proves every omitted file appears once with the intended domain ownership. Consumer source guards require v1alpha2 execution authority. Historical context deduplication remains separately tested. The complete release-specific result is 53/53 `pass`.
+
+## Revision 63 Attribute Policy Correction
+
+The R62-only binary rule changed a V11-authenticated repository source even though the raw R61
+stdout was already LF-only under the repository's `eol=lf` policy. Removing that one rule restores
+exact V11 identity without changing the evidence blob. Strict V11 dogfood, the 68-test V12 release pair, 465-test core suite, complete pre-freeze
+verification, checker matrix, and independent review pass; exact immutable, hosted, canonical, and
+fresh R2 gates remain.
