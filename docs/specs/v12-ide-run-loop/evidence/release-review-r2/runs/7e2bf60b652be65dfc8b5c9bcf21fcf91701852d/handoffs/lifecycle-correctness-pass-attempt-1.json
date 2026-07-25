@@ -1,0 +1,40 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:5c1929ff38f4965e98764680bfe696ddb95e96c3d746a95a2833221844af49ee"
+  },
+  "agent": {
+    "id": "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87",
+    "blueprintDigest": "sha256:b65ecab39de9500ac5f215dc49b26789cd15f49c539c17b7e7df7a8b49ed6c25"
+  },
+  "compilationDigest": "sha256:b95b58cac6c313cc268fbf706014a14b33aefc81f5aad4315123cc62c8ecda07",
+  "summary": "Pass. No lifecycle or correctness release blocker was found in candidate 7e2bf60b652be65dfc8b5c9bcf21fcf91701852d.",
+  "workUnitsCompleted": [
+    "review.r2.lifecycle-correctness"
+  ],
+  "artifacts": [
+    {
+      "name": "lifecycle-correctness-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Lifecycle Correctness Release Review R2\n\n## Findings\n\nNone. The reviewed lifecycle/correctness domain is release-ready.\n\n## Authentication\n\nAll 196 declared immutable context sources matched their contract-bound raw SHA-256 digests and byte counts before substantive review. The package compilation, integration, and three agent contract files also matched every manifest-listed raw digest and byte count. The approved compilation/package binding was `sha256:b95b58cac6c313cc268fbf706014a14b33aefc81f5aad4315123cc62c8ecda07` / `sha256:44ad34ef9cd4c733eece02f71c7653d823e5282ac8884b188c28249c86e77e04`.\n\nThe candidate-bound canonical receipt, stdout, and stderr matched their declared bindings at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/7e2bf60b652be65dfc8b5c9bcf21fcf91701852d/inputs/canonical-gate/`.\n\n## Lifecycle Review\n\nCreate and restore reverify the complete package, exact roster, goal, candidate, compilation, package, accepted raw handoffs, transitive dependency closure, canonical ordering, digests, aggregate bounds, and detached reconstruction. Evidence: snapshot `inputs/source-snapshots/src/specialist-run-session.ts:230`, `:317`, `:400`, `:481`, and `:521`; original `src/specialist-run-session.ts`.\n\nRecord preserves exact replay, rejects conflicting settlement, terminally closes a routed session, requires every transitive dependency to have accepted `pass`, sorts independent arrivals by agent identity, recomputes the session digest, and returns a detached frozen successor. Evidence: snapshot `inputs/source-snapshots/src/specialist-run-transition.ts:106` and `:151`; original `src/specialist-run-transition.ts`.\n\nInspection derives every selected blueprint status, manifest-resolved eligible contract, pass-only dependency eligibility, accepted evidence, terminal route, exact complete-roster fan-in, specialist outcome, integration readiness, and external next actor. Evidence: snapshot `inputs/source-snapshots/src/specialist-run-inspection.ts:185`, `:277`, `:306`, `:309`, and `:360`; original `src/specialist-run-inspection.ts`.\n\nThe R1 canonical-ordering defect is closed. Evidence ordering now uses `requirementId` as the primary identity before the remaining tuple at snapshot `inputs/source-snapshots/src/specialist-run-inspection.ts:108` (original `src/specialist-run-inspection.ts`), with counterordered requirement/criterion coverage at snapshot `inputs/source-snapshots/test/specialist-run-inspection.test.mjs:54` and assertions at `:388` and `:392` (original `test/specialist-run-inspection.test.mjs`).\n\nThe R1 aggregate-proof gap is closed. Snapshot `inputs/source-snapshots/test/specialist-run-limits.test.mjs:23` (original `test/specialist-run-limits.test.mjs`) constructs a verified 16-agent package, verifies sixteen exact 1,048,576-byte handoffs with 1,398,104-character canonical base64, records independent forward and reverse orders, restores, inspects, proves convergence, and derives constituent ceilings below both aggregate safeguards. Snapshot `inputs/source-snapshots/test/specialist-run-boundaries.test.mjs:21` (original `test/specialist-run-boundaries.test.mjs`) proves reachable raw limits and one-byte-over rejection without truncation.\n\nDAG and routing coverage includes root, chain, diamond, fan-out, fan-in, disconnected, complete graph, independent-arrival convergence, fresh-process restoration, coordinated substitution, exact replay, conflicting handoffs, and every non-pass outcome. Primary tests are snapshots of `test/specialist-run.test.mjs`, `test/specialist-run-transition.test.mjs`, and `test/specialist-run-inspection.test.mjs` under the candidate run input root.\n\nImmutability and effect purity are preserved by bounded snapshot reconstruction and deep freezing. The fresh-process regression at snapshot `inputs/source-snapshots/test/specialist-run-foundation.test.mjs:259` (original `test/specialist-run-foundation.test.mjs`) covers create, restore, inspect, and record with first-use filesystem reads denied.\n\n## Gate Evidence\n\nThe exact candidate canonical receipt records `result: pass`, exit code 0, stable candidate commit and tree identity, clean Git state before and after, identical source digests before and after materialization, and successful cleanup. Raw stdout reports 470 of 470 tests passed, including the corrected canonical-ordering and maximum aggregate tests, followed by 2 of 2 isolated copied-production lifecycle tests. The packed-consumer gate also passed run restore, fan-in, and approval-bound package verification.\n\nThe dogfood evidence exercises all four public operations, exact raw handoff preservation, dependency routing, replay, restoration equality, complete fan-in, and a separate external integration-owner closeout without attributing host effects to core.\n\n## Outcome\n\n`pass`. Canonical ordering, deterministic recovery, aggregate resource proof, dependency eligibility, exact fan-in, routing, replay, and immutability are supported by the authenticated implementation, adversarial tests, dogfood evidence, and exact-candidate canonical gate."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.lifecycle-correctness",
+      "requirementId": "evidence.r2.lifecycle-correctness-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "lifecycle-correctness-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}

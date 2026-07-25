@@ -922,3 +922,23 @@ from the shorter R66 root.
 
 The one-shot gate remained unused. Route:
 `hosted verify -> diagnose -> fix -> Revision 67`.
+
+## Revision 67 Fresh-R2 Authority Finding
+
+### Reproduction And Evidence
+
+Revision 67 passed local, hosted, rehearsal, and one-shot canonical gates. Fresh R2 still emitted
+a verified security `fix`: worker authority did not bind the complete effective environment, and
+the parent that constructs that authority was absent from semantic reviewer context. Product and
+lifecycle reviewers passed; the parent fan-in remained complete but not release-ready.
+
+### Confirmed Cause And Route
+
+Selected negative checks are not equivalent to a complete authority identity. The initial R68
+correction also reached the shared verifier validator only after candidate reads/import, which
+an independent pre-freeze review caught. R68 now validates a complete domain-separated
+environment binding before those operations and exercises both production worker validators in
+fresh hostile processes. The fixture imports each production module and invokes its exported
+validator directly; the committed copied lifecycle remains the end-to-end CLI-entrypoint proof.
+
+`canonical pass -> fresh review -> fix -> diagnose -> Revision 68`.

@@ -1,0 +1,16 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.release-review-r2",
+  "goalRevision": 1,
+  "candidateCommit": "7e2bf60b652be65dfc8b5c9bcf21fcf91701852d",
+  "runtimeBindingDigest": "sha256:b13e4592613a572038fe48a15e289b7fc7c6c1103b2899e62bd6914cb65ee95d",
+  "stableReconstructionDigest": "sha256:7f99e85b1e05242c6509aa887f833137fd1e8224eaeb1811ebd92b259c9123e7",
+  "phaseAuthorityDigest": "sha256:1c92612d92509eadcda66a9c23eef23cbe5ec7b4ce41831e422890ed5dfcc7bd",
+  "approvedBy": "external-host-declared-owner-pair",
+  "approvalBasis": "The external host declared this exact compilation/package pair; the candidate reconstructed and compared the complete package envelope and every package file before recording the declaration.",
+  "expectation": {
+    "compilationDigest": "sha256:b95b58cac6c313cc268fbf706014a14b33aefc81f5aad4315123cc62c8ecda07",
+    "packageDigest": "sha256:44ad34ef9cd4c733eece02f71c7653d823e5282ac8884b188c28249c86e77e04"
+  }
+}

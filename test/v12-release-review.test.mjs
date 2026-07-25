@@ -44,6 +44,9 @@ const GIT_ENVIRONMENT_PROBE_ENTRYPOINT = fileURLToPath(
 const GIT_BLOB_FIXTURE_PROBE_ENTRYPOINT = fileURLToPath(
   new URL("./fixtures/git-blob-loader-environment-child.mjs", import.meta.url),
 );
+const WORKER_ENVIRONMENT_PROBE_ENTRYPOINT = fileURLToPath(
+  new URL("./fixtures/v12-worker-environment-boundary-child.mjs", import.meta.url),
+);
 const HOST_CACHE_PROBE_SOURCE_PATHS = Object.freeze([
   "scripts/run-v12-release-gate.mjs",
   "scripts/run-typescript.mjs",
@@ -52,6 +55,10 @@ const HOST_CACHE_PROBE_SOURCE_PATHS = Object.freeze([
   "test/helpers/v12-release-review-lifecycle.mjs",
 ]);
 const REQUIRED_SECURITY_REVIEW_SOURCES = Object.freeze([
+  {
+    path: "scripts/run-v12-release-review.mjs",
+    allowedWorkUnits: ["review.r2.security-trace-authority"],
+  },
   {
     path: "scripts/run-typescript.mjs",
     allowedWorkUnits: ["review.r2.security-trace-authority"],
@@ -78,6 +85,10 @@ const REQUIRED_SECURITY_REVIEW_SOURCES = Object.freeze([
   },
   {
     path: "test/fixtures/v12-git-environment-boundary-child.mjs",
+    allowedWorkUnits: ["review.r2.security-trace-authority"],
+  },
+  {
+    path: "test/fixtures/v12-worker-environment-boundary-child.mjs",
     allowedWorkUnits: ["review.r2.security-trace-authority"],
   },
   {
@@ -807,7 +818,226 @@ test("stable runtime policy excludes invocation-specific temporary paths", () =>
       TMPDIR: secondRoot,
     }),
   );
+
+  const hostIdentity = {
+    ...common,
+    LOGONSERVER: "\\\\private-controller",
+    SYSTEMDRIVE: "C:",
+    USERDOMAIN: "private-domain",
+    USERNAME: "private-user",
+  };
+  const windowsInherited = RELEASE_REVIEW_PARENT_TEST_HOOKS.inheritedEnvironment(
+    hostIdentity,
+    "win32",
+  );
+  const posixInherited = RELEASE_REVIEW_PARENT_TEST_HOOKS.inheritedEnvironment(
+    hostIdentity,
+    "linux",
+  );
+  for (const key of ["LOGONSERVER", "SYSTEMDRIVE", "USERDOMAIN", "USERNAME"]) {
+    assert.equal(windowsInherited[key], hostIdentity[key]);
+    assert.equal(posixInherited[key], undefined);
+  }
+  const windowsPolicy = RELEASE_REVIEW_PARENT_TEST_HOOKS.environmentPolicy(windowsInherited);
+  assert.deepEqual(windowsPolicy.inherited, common);
+  assert.doesNotMatch(JSON.stringify(windowsPolicy), /private-(?:controller|domain|user)/u);
 });
+test("worker effective environment binds every key and rejects ambient authority", () => {
+  const closed = {
+    PATH: "C:/trusted/node;C:/trusted/git",
+    GIT_CONFIG_NOSYSTEM: "1",
+    GIT_TERMINAL_PROMPT: "0",
+    npm_config_offline: "true",
+    SWECIRCUIT_RELEASE_REVIEW_WORKER_CONTEXT: "C:/private/worker-context.json",
+    SWECIRCUIT_RELEASE_REVIEW_WORKER_TOKEN: "a".repeat(64),
+  };
+  const parentBinding = RELEASE_REVIEW_PARENT_TEST_HOOKS.effectiveEnvironmentBinding(closed);
+  const workerBinding = RELEASE_REVIEW_TEST_HOOKS.effectiveEnvironmentBinding(closed);
+  const verifierBinding = RELEASE_REVIEW_HANDOFF_TEST_HOOKS.effectiveEnvironmentBinding(closed);
+  assert.deepEqual(workerBinding, parentBinding);
+  assert.deepEqual(verifierBinding, parentBinding);
+  assert.equal(
+    parentBinding.contentDigest,
+    domainDigest(
+      "swecircuit/release-review-effective-environment/v1alpha1",
+      Object.fromEntries(Object.entries(parentBinding).filter(([key]) => key !== "contentDigest")),
+    ),
+  );
+  assert.deepEqual(
+    RELEASE_REVIEW_TEST_HOOKS.validateEffectiveWorkerEnvironment(parentBinding, closed),
+    parentBinding,
+  );
+  assert.deepEqual(
+    RELEASE_REVIEW_HANDOFF_TEST_HOOKS.validateEffectiveWorkerEnvironment(parentBinding, closed),
+    parentBinding,
+  );
+
+  for (const [name, value] of [
+    ["SWECIRCUIT_UNDECLARED_AUTHORITY", "injected"],
+    ["GIT_CONFIG_PARAMETERS", "'core.worktree'='hostile'"],
+    ["GIT_OBJECT_DIRECTORY", "C:/hostile/objects"],
+    ["HTTPS_PROXY", "https://hostile.invalid"],
+    ["NODE_OPTIONS", "--no-warnings"],
+  ]) {
+    assert.throws(
+      () =>
+        RELEASE_REVIEW_TEST_HOOKS.validateEffectiveWorkerEnvironment(parentBinding, {
+          ...closed,
+          [name]: value,
+        }),
+      /effective environment mismatch/u,
+      name,
+    );
+    assert.throws(
+      () =>
+        RELEASE_REVIEW_HANDOFF_TEST_HOOKS.validateEffectiveWorkerEnvironment(parentBinding, {
+          ...closed,
+          [name]: value,
+        }),
+      /effective environment mismatch/u,
+      `verifier ${name}`,
+    );
+  }
+
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_PARENT_TEST_HOOKS.effectiveEnvironmentBinding({
+        PATH: "first",
+        Path: "second",
+      }),
+    /case-insensitive duplicate/u,
+  );
+  const parentSource = readFileSync(PARENT_ENTRYPOINT, "utf8");
+  assert.match(parentSource, /effectiveEnvironment: worker\.effectiveEnvironment/u);
+  assert.match(
+    parentSource,
+    /effectiveEnvironmentDigest: worker\.effectiveEnvironment\.contentDigest/u,
+  );
+});
+
+test("fresh worker processes reject every undeclared environment authority", () => {
+  const closed = {
+    PATH: process.env.PATH ?? "",
+    SWECIRCUIT_RELEASE_REVIEW_WORKER_CONTEXT: join(ROOT, ".local", "worker-context.json"),
+    SWECIRCUIT_RELEASE_REVIEW_WORKER_TOKEN: "b".repeat(64),
+  };
+  if (process.platform === "win32") {
+    for (const canonicalName of [
+      "HOMEDRIVE",
+      "HOMEPATH",
+      "LOGONSERVER",
+      "SYSTEMDRIVE",
+      "SYSTEMROOT",
+      "TEMP",
+      "USERDOMAIN",
+      "USERNAME",
+      "USERPROFILE",
+      "WINDIR",
+    ]) {
+      const entry = Object.entries(process.env).find(
+        ([name]) => name.toLowerCase() === canonicalName.toLowerCase(),
+      );
+      if (entry && typeof entry[1] === "string") {
+        closed[canonicalName] = entry[1];
+      }
+    }
+  }
+  const binding = RELEASE_REVIEW_PARENT_TEST_HOOKS.effectiveEnvironmentBinding(closed);
+  const encodedBinding = Buffer.from(JSON.stringify(binding), "utf8").toString("base64url");
+  const hostileEntries = [
+    ["SWECIRCUIT_UNDECLARED_AUTHORITY", "injected"],
+    ["GIT_CONFIG_PARAMETERS", "'core.worktree'='hostile'"],
+    ["GIT_OBJECT_DIRECTORY", "C:/hostile/objects"],
+    ["HTTPS_PROXY", "https://hostile.invalid"],
+    ["NODE_OPTIONS", "--no-warnings"],
+  ];
+
+  for (const target of ["harness", "verifier"]) {
+    const accepted = spawnSync(
+      process.execPath,
+      [WORKER_ENVIRONMENT_PROBE_ENTRYPOINT, target, encodedBinding],
+      {
+        cwd: ROOT,
+        env: closed,
+        encoding: "utf8",
+        timeout: 10_000,
+        windowsHide: true,
+      },
+    );
+    assert.equal(accepted.signal, null, `${target} probe was terminated`);
+    assert.equal(accepted.status, 0, accepted.stderr);
+    assert.equal(JSON.parse(accepted.stdout).contentDigest, binding.contentDigest);
+
+    for (const [name, value] of hostileEntries) {
+      const rejected = spawnSync(
+        process.execPath,
+        [WORKER_ENVIRONMENT_PROBE_ENTRYPOINT, target, encodedBinding],
+        {
+          cwd: ROOT,
+          env: { ...closed, [name]: value },
+          encoding: "utf8",
+          timeout: 10_000,
+          windowsHide: true,
+        },
+      );
+      assert.equal(rejected.signal, null, `${target} ${name} probe was terminated`);
+      assert.equal(rejected.status, 1, rejected.stderr);
+      assert.match(rejected.stderr, /effective environment mismatch/u);
+      assert.equal(rejected.stdout, "");
+    }
+  }
+});
+
+test("verifier validates complete environment before candidate reads or imports", () => {
+  const source = readFileSync(VERIFIER_ENTRYPOINT, "utf8");
+  const bootstrap = source.indexOf("async function bootstrapCandidateVerifier()");
+  const contextValidation = source.indexOf(
+    "const effectiveEnvironment = validateEffectiveWorkerEnvironment(",
+    bootstrap,
+  );
+  const stableValidation = source.indexOf(
+    "validateVerifierStableReconstruction(",
+    contextValidation,
+  );
+  const materializationRead = source.indexOf(
+    "await realpath(context.materializationRoot)",
+    contextValidation,
+  );
+  const bindingRead = source.indexOf(
+    "await readFile(context.runtimeBindingPath)",
+    contextValidation,
+  );
+  const runtimePolicy = source.indexOf(
+    "binding.environmentPolicy.workerEffectiveEnvironment",
+    bindingRead,
+  );
+  const toolingRead = source.indexOf(
+    "for (const [name, tooling] of Object.entries(binding.tooling))",
+    bindingRead,
+  );
+  const dynamicImport = source.indexOf("const harnessModule = await import(", bindingRead);
+
+  assert.match(source, /"tokenDigest",\s+"effectiveEnvironment",/u);
+  for (const [label, index] of [
+    ["bootstrap", bootstrap],
+    ["context validation", contextValidation],
+    ["stable validation", stableValidation],
+    ["materialization read", materializationRead],
+    ["binding read", bindingRead],
+    ["runtime policy", runtimePolicy],
+    ["tooling read", toolingRead],
+    ["dynamic import", dynamicImport],
+  ]) {
+    assert.notEqual(index, -1, `missing verifier ${label}`);
+  }
+  assert.ok(contextValidation < stableValidation);
+  assert.ok(contextValidation < materializationRead);
+  assert.ok(contextValidation < bindingRead);
+  assert.ok(bindingRead < runtimePolicy);
+  assert.ok(runtimePolicy < toolingRead);
+  assert.ok(runtimePolicy < dynamicImport);
+});
+
 test("closed phase grammar reconstructs prefixes from exact external inputs", () => {
   assert.deepEqual(RELEASE_REVIEW_PARENT_TEST_HOOKS.PHASE_PREFIXES, {
     prepare: ["prepare"],

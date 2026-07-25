@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:5c1929ff38f4965e98764680bfe696ddb95e96c3d746a95a2833221844af49ee"
+  },
+  "agent": {
+    "id": "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+    "blueprintDigest": "sha256:2c306f71cd3a82ec7d130e12c2cc0e2f105f4f1bd67c3069a955c2dad345dd52"
+  },
+  "compilationDigest": "sha256:b95b58cac6c313cc268fbf706014a14b33aefc81f5aad4315123cc62c8ecda07",
+  "summary": "FIX: candidate 7e2bf60b652be65dfc8b5c9bcf21fcf91701852d is not release-ready in the security, trace, and authority domain because the R2 worker does not verify a closed effective environment and the authority-bearing parent source is absent from reviewer context.",
+  "workUnitsCompleted": [
+    "review.r2.security-trace-authority"
+  ],
+  "artifacts": [
+    {
+      "name": "security-trace-authority-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Findings\n\n1. Severity: high. The R2 candidate worker does not fail closed on its effective process environment. In the exact snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/7e2bf60b652be65dfc8b5c9bcf21fcf91701852d/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:1384`, corresponding to original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs:1384`, validation rejects only `NODE_OPTIONS`, `NODE_PATH`, and undeclared `npm_config_*` keys. Lines 1397-1404 check two Git values and compare only a selected inherited-environment projection. Arbitrary additional keys such as `GIT_CONFIG_PARAMETERS`, `GIT_OBJECT_DIRECTORY`, `GIT_ALTERNATE_OBJECT_DIRECTORIES`, proxy settings, credentials, or future runtime controls remain accepted. The same file passes `process.env` to authority-relevant Git operations at lines 1814-1828. The exact `inputs/runtime-binding.json` records `environmentPolicy.inherited` but no complete effective map, so the preserved evidence cannot prove that undeclared authority was absent. Required correction: construct and bind the complete effective worker environment, validate its exact case-insensitive key/value set before candidate operations, reject undeclared Git and runtime controls, and add hostile-environment regressions for worker phases rather than only the canonical gate.\n\n2. Severity: medium. The authority-bearing parent implementation is not available to this independent reviewer. Exact candidate manifest `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/7e2bf60b652be65dfc8b5c9bcf21fcf91701852d/inputs/candidate.json` binds `/reviewTooling/parent` to original `scripts/run-v12-release-review.mjs`, 104087 bytes, `sha256:8a051a1cdb0b08dd61271569ffef7f460ef964ef7501c236c7b570e52613688e`, but that path has no row in `/reviewedSources` and no declared context source in this approved specialist package. That parent creates the runtime binding, supplies the worker environment and private configuration, binds phase inputs, and launches the authenticated workers. A digest identifies its bytes but does not permit semantic review of those authority decisions. Required correction: add the exact candidate Git blob as an immutable security-owned source snapshot and context binding, then recompile, rerender, verify, reapprove, and repeat the independent review.\n\n# Authentication And Positive Evidence\n\nAll 222 declared context sources matched their exact byte counts and raw SHA-256 bindings before semantic use. The package compilation and manifest carry the approved compilation digest, the assigned blueprint carries the approved blueprint digest, and every manifest-listed payload file matched its raw byte and digest binding. The exact canonical-gate receipt and raw streams bind candidate `7e2bf60b652be65dfc8b5c9bcf21fcf91701852d`, exact source digest `sha256:caee48e597d2579a0065c2d7d90c538dc3c063432005f42170699a32815e0e60`, clean materialization and Git state, exit code zero, and result `pass`.\n\nThe V11 Candidate-A approval, Audit-B approval, external package-verification receipt, semantic `PrelaunchAuditHandoff`, and launch authorization matched their exact raw byte, digest, outcome, and compilation/package bindings. The receipt retains `candidateLaunchApproved: false`, while the distinct semantic audit handoff is exact `pass`. The 24 primary evidence sets and contiguous correction lineage through Revision 22 were internally consistent; the terminal Revision 22 package and raw handoff are complete and `pass`.\n\nThe V12 core correction is otherwise supported: schema validation uses bundled module data rather than filesystem loading; sessions preserve and reverify exact raw handoffs; package, compilation, goal, blueprint, and expectation bindings fail closed; unsafe controls and lone surrogates are rejected; and the 16-agent maximum-handoff aggregate proof is present. Core continues to describe launch, persistence, isolation, integration, release, and memory effects as external-host responsibilities.\n\nNo file was edited, Git state was not changed, no network was accessed, no candidate, Git, Node, or npm descendant was launched, and no finding was repaired.\n\n# Verdict\n\nOutcome: `fix`. The exact security, trace, and authority domain is not release-ready until effective worker authority is completely bound and validated and the parent implementation is included in immutable reviewer context."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.security-trace-authority",
+      "requirementId": "evidence.r2.security-trace-authority-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "security-trace-authority-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Undeclared ambient environment values can influence authority-relevant worker and Git behavior without appearing in the stable runtime binding.",
+    "The omitted parent source prevents independent semantic review of the component that supplies worker authority and constructs the preserved runtime evidence."
+  ],
+  "followUps": [
+    "Bind and enforce an exact case-insensitive effective environment for every R2 worker phase, with hostile arbitrary-key and Git-authority regressions.",
+    "Add the exact `scripts/run-v12-release-review.mjs` candidate blob to security reviewer snapshots and context, then generate and approve a replacement R2 package for independent review."
+  ]
+}

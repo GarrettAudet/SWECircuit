@@ -1,0 +1,47 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "block",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 15,
+    "digest": "sha256:02f029571c9666185dc15250a85beb77b090f9a34dec69a818a059f26ef97a5d"
+  },
+  "agent": {
+    "id": "agent.329aa25af5f3634c36532f84e7521e3945a46dd0686e41345c2110d11f7aea48",
+    "blueprintDigest": "sha256:fefa3e7beecc2fdb107caaf44b9a2adf3b51e1e64a06b76bf1ee5469360ecd81"
+  },
+  "compilationDigest": "sha256:857c536099f5fd9d01b0981593bef6f2e8b40eba774db7fae21c501e3bd3e83f",
+  "summary": "BLOCK: the bounded R2 selector and regression were implemented, and the final-byte focused regression passed, but the host liveness boundary interrupted the complete focused suite before a result was captured. The required final no-fix Biome command and post-command byte verification were not completed.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "r2-correction-context-bound-r15.md",
+      "mediaType": "text/markdown",
+      "content": "# Revision 15 R2 Context-Bound Correction\n\n## Authentication\n\nAll thirteen declared context bindings matched their exact raw SHA-256 digests and byte counts before work began.\n\n## Implemented Work\n\nOnly the two authorized files were edited: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs` and `test/v12-release-gate.test.mjs`.\n\nThe R2 collector now classifies and excludes only correction-root navigation duplicates: files under `inputs/`, plus root-level `request.json`, `phase-metadata.json`, and `compilation-summary.json`. Existing rendered `package/` exclusion remains unchanged. Package envelopes, approvals, raw handoffs, handoff-verification reports, replans, security-causal sources, gate evidence, and non-navigation evidence remain selected.\n\nThe regression reproduces Candidate 8's immutable 261-context and 261-authority-scope request. It proves that exactly 94 correction navigation duplicates are excluded, leaving 163 candidate sources plus four direct gate and manifest contexts, for 167 total contexts. It constructs the current three-reviewer request under the unchanged 256-count limits and proves `compileAgentBlueprints` succeeds with three blueprints.\n\n## Completed Verification\n\n`node --test --test-name-pattern=\"R2 correction review context\" test\\\\v12-release-gate.test.mjs` passed against the normalized source bytes: 1 test passed, 0 failed, in 69.4 seconds.\n\nA preparatory `npm.cmd exec -- biome check --write` was limited to the two authorized files and reported one file fixed.\n\n## Liveness Interruption\n\n`node --test test\\\\v12-release-gate.test.mjs` was launched but did not return a completion result before the host liveness boundary. The final wait was reported as `aborted by user after 2.3s` for unified execution cell 27. No pass or failure may be inferred from the absence of earlier failure output.\n\nThe required final `npm.cmd exec -- biome check docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs test/v12-release-gate.test.mjs` command was not run. Final post-command context hashes and Git-state verification were therefore not captured.\n\n## Outcome\n\n`block`. The causal implementation and compile-bound regression are present, but the complete contract verification sequence did not finish."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.r2-correction-context-bound.r15",
+      "requirementId": "evidence.r2-correction-context-bound.r15",
+      "kind": "test",
+      "duty": "produce",
+      "status": "fail",
+      "artifact": "r2-correction-context-bound-r15.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The complete V12 release-gate test file has no captured terminal outcome.",
+    "Formatter and linter conformance has not been proven by the required final no-fix command.",
+    "Final context-byte and Git-state verification was not completed after normalization."
+  ],
+  "followUps": [
+    "Confirm no interrupted test process remains active before resuming.",
+    "Run the complete focused release-gate test file from the current bytes.",
+    "Run the required final no-fix Biome command.",
+    "Reauthenticate all unchanged context bindings, hash both authorized outputs, and verify that no unauthorized file or Git state changed."
+  ]
+}

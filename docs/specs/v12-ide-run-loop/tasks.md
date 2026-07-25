@@ -2,7 +2,15 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 commit `33dbd5c9829446b51b04d589fc963f8b7095d442` passed exact copied lifecycle, the complete verifier, the non-consuming exact-candidate rehearsal, and independent exact-evidence review, then hosted run `30166591953` failed both Ubuntu jobs on one shared synthetic long-path assertion while five jobs passed. Its one-shot gate was never invoked and the source is permanently retired. Revision 67 composes bounded fixture segments; its causal test, 29/29 release-gate suite, 73/73 focused pair, and complete broad pre-freeze verification pass. Independent final-delta review passes. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness
+alone. Revision 67 commit `7e2bf60b652be65dfc8b5c9bcf21fcf91701852d` passed exact
+copied lifecycle, complete verification, non-consuming rehearsal, all seven hosted jobs, and its
+one-shot canonical gate. Fresh source-bound R2 then returned product/API/IDE `pass`,
+lifecycle/correctness `pass`, and security/trace/authority `fix`. Revision 67 is permanently
+retired and its consumed gate is never rerun. Revision 68 binds the complete effective worker
+environment, closes verifier pre-import validation, and includes the authority-bearing parent in
+security context. Focused causal checks pass; exact-candidate and release gates remain, so
+`releaseReady: false`.
 
 ## Task List
 
@@ -136,10 +144,21 @@ T003 ran three read-only architecture analyses in parallel and one dependent syn
 - [x] Preserve the exact R66 local passes, hosted matrix, failed Ubuntu logs, and unused one-shot.
 - [x] Confirm both Ubuntu versions fail the same causal fixture assertion.
 - [x] Compose bounded fixture segments and add a deterministic short Linux projection.
-- [x] Pass the targeted fixture and 29/29 release-gate suite.
-- [x] Pass the complete focused pair and broad pre-freeze verification.
-- [x] Obtain independent final-delta review and clear every finding.
-- [ ] Freeze and commit the exact Revision 67 source.
-- [ ] Pass exact lifecycle, complete verifier, non-consuming rehearsal, and all seven hosted jobs.
-- [ ] Consume one canonical gate and complete fresh three-domain R2.
+- [x] Pass the targeted fixture, complete focused pair, and broad pre-freeze verification.
+- [x] Freeze exact commit `7e2bf60b652be65dfc8b5c9bcf21fcf91701852d`.
+- [x] Pass exact lifecycle, complete verifier, rehearsal, and all seven hosted jobs.
+- [x] Consume one canonical gate and complete fresh three-domain R2.
+- [x] Preserve the verified security `fix` and permanently retire Revision 67.
+
+## Revision 68 Release Correction
+
+- [x] Preserve R67's exact local, hosted, canonical, and fresh R2 outcomes.
+- [x] Confirm complete-environment and omitted-parent root causes.
+- [x] Bind and validate every worker environment key/value identity.
+- [x] Close verifier validation before candidate reads and imports.
+- [x] Add hostile fresh-process harness and verifier regressions.
+- [x] Add parent and causal fixture to security reviewer context.
+- [ ] Clear independent final-delta re-review and freeze exact Revision 68.
+- [ ] Pass committed focused, broad, copied-lifecycle, rehearsal, and hosted gates.
+- [ ] Consume one R68 canonical gate and complete fresh three-domain R2.
 - [ ] Close memory and the milestone, then merge to `main`.

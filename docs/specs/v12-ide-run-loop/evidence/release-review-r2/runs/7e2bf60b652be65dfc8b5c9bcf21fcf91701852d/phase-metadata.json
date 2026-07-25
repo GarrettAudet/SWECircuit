@@ -1,0 +1,105 @@
+{
+  "phase": "release-review-r2",
+  "checkpoint": "7e2bf60b652be65dfc8b5c9bcf21fcf91701852d",
+  "runRoot": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/7e2bf60b652be65dfc8b5c9bcf21fcf91701852d",
+  "runtimeBindingDigest": "sha256:b13e4592613a572038fe48a15e289b7fc7c6c1103b2899e62bd6914cb65ee95d",
+  "stableReconstructionDigest": "sha256:7f99e85b1e05242c6509aa887f833137fd1e8224eaeb1811ebd92b259c9123e7",
+  "runtimeBinding": {
+    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/7e2bf60b652be65dfc8b5c9bcf21fcf91701852d/inputs/runtime-binding.json",
+    "bytes": 5548,
+    "digest": "sha256:11ef15bdac39c548b3e7c90458c78dd277bef99806a9512f608e48c1838a3de9"
+  },
+  "goalId": "v12.ide-run-loop.release-review-r2",
+  "goalRevision": 1,
+  "reviewTooling": {
+    "candidateCommit": "7e2bf60b652be65dfc8b5c9bcf21fcf91701852d",
+    "parent": {
+      "path": "scripts/run-v12-release-review.mjs",
+      "mediaType": "text/javascript",
+      "mode": "100644",
+      "objectId": "5a7399d078a565187e7cafdc7c6b53b5c0974fe5",
+      "bytes": 104087,
+      "digest": "sha256:8a051a1cdb0b08dd61271569ffef7f460ef964ef7501c236c7b570e52613688e"
+    },
+    "harness": {
+      "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+      "mediaType": "text/javascript",
+      "mode": "100644",
+      "objectId": "8fcf9224f5ea17d1c77e9c3c1cf685dce3e512fc",
+      "bytes": 155952,
+      "digest": "sha256:dc8fa635cb309f6e3b9ee7421a672bec987ee855e016390a0521c7dfa4aa5212"
+    },
+    "verifier": {
+      "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+      "mediaType": "text/javascript",
+      "mode": "100644",
+      "objectId": "58bc626cc81a8bf88d0b60d7490c7660528bbf38",
+      "bytes": 30840,
+      "digest": "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff"
+    }
+  },
+  "canonicalGateReceipt": {
+    "originalPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/7e2bf60b652be65dfc8b5c9bcf21fcf91701852d/canonical-gate-receipt.json",
+    "snapshotPath": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/7e2bf60b652be65dfc8b5c9bcf21fcf91701852d/inputs/canonical-gate/canonical-gate-receipt.json",
+    "mediaType": "application/json",
+    "bytes": 14108,
+    "digest": "sha256:c3b9ce5e0fd84df8e5c7695f987d82542307b32896515f68f63dcfb5a55c6f04"
+  },
+  "sourceSnapshots": 223,
+  "primaryEvidenceSets": [
+    "release-correction-r1",
+    "release-correction-r2",
+    "release-correction-r3",
+    "release-correction-r4",
+    "release-correction-r5",
+    "release-correction-r6",
+    "release-correction-r7",
+    "release-correction-r8",
+    "release-correction-r9",
+    "release-correction-r10",
+    "release-correction-r11",
+    "release-correction-r12",
+    "release-correction-r13",
+    "release-correction-r14",
+    "release-correction-r15",
+    "release-correction-r16",
+    "release-correction-r17",
+    "release-correction-r18",
+    "release-correction-r19",
+    "release-correction-r20",
+    "release-correction-r21",
+    "release-correction-r22",
+    "implementation-verification",
+    "release-review-r1"
+  ],
+  "correctionRevisions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22
+  ],
+  "correctionReplans": [
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/replan.json",
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/replan.json",
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r4/replan.json"
+  ],
+  "runtimeInvoked": false
+}

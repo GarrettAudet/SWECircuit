@@ -49,6 +49,8 @@ const CLOSED_NPM_ENVIRONMENT_KEYS = new Set([
   "npm_config_userconfig",
 ]);
 const RUNTIME_BINDING_DOMAIN = "swecircuit/release-review-runtime/v1alpha1";
+const EFFECTIVE_ENVIRONMENT_DOMAIN =
+  "swecircuit/release-review-effective-environment/v1alpha1";
 const CLOSURE_DOMAIN = "swecircuit/release-review-closure/v1alpha1";
 const STABLE_RECONSTRUCTION_DOMAIN =
   "swecircuit/release-review-stable-reconstruction/v1alpha1";
@@ -398,6 +400,12 @@ const STATIC_SOURCES = [
     ALL_REVIEWS,
   ),
   source(
+    "context.release-review-parent",
+    PARENT_REPOSITORY_PATH,
+    "Authority-bearing release-review parent, environment constructor, and worker launcher.",
+    [SECURITY],
+  ),
+  source(
     "context.release-gate-tests",
     "test/v12-release-gate.test.mjs",
     "Candidate-materialization and R2 security-context regressions.",
@@ -443,6 +451,12 @@ const STATIC_SOURCES = [
     "context.git-environment-boundary-child",
     "test/fixtures/v12-git-environment-boundary-child.mjs",
     "Closed Git environment adversarial child fixture.",
+    [SECURITY],
+  ),
+  source(
+    "context.worker-environment-boundary-child",
+    "test/fixtures/v12-worker-environment-boundary-child.mjs",
+    "Fresh-process complete worker-environment authority probe.",
     [SECURITY],
   ),
   source(
@@ -765,6 +779,82 @@ function runtimeDomainDigest(domain, value) {
   updateRuntimeFrame(hash, Buffer.from(domain, "utf8"));
   updateRuntimeFrame(hash, Buffer.from(JSON.stringify(value), "utf8"));
   return `sha256:${hash.digest("hex")}`;
+}
+
+function effectiveEnvironmentBinding(environment) {
+  requireCondition(
+    environment && typeof environment === "object" && !Array.isArray(environment),
+    "Effective worker environment must be an object.",
+  );
+  const aliases = new Set();
+  const entries = Object.entries(environment).map(([name, value]) => {
+    requireCondition(
+      /^[A-Za-z_][A-Za-z0-9_]*$/u.test(name) && typeof value === "string",
+      `Effective worker environment entry is invalid: ${String(name)}.`,
+    );
+    const alias = name.toLowerCase();
+    requireCondition(
+      !aliases.has(alias),
+      `Effective worker environment contains a case-insensitive duplicate: ${name}.`,
+    );
+    aliases.add(alias);
+    requireCondition(!value.includes("\0"), `Effective worker environment value contains NUL: ${name}.`);
+    for (let index = 0; index < value.length; index += 1) {
+      const codeUnit = value.charCodeAt(index);
+      if (codeUnit >= 0xd800 && codeUnit <= 0xdbff) {
+        const next = value.charCodeAt(index + 1);
+        requireCondition(
+          next >= 0xdc00 && next <= 0xdfff,
+          `Effective worker environment value contains a lone surrogate: ${name}.`,
+        );
+        index += 1;
+      } else {
+        requireCondition(
+          codeUnit < 0xdc00 || codeUnit > 0xdfff,
+          `Effective worker environment value contains a lone surrogate: ${name}.`,
+        );
+      }
+    }
+    const bytes = Buffer.from(value, "utf8");
+    return {
+      name: name.toUpperCase(),
+      valueBytes: bytes.byteLength,
+      valueDigest: digest(bytes),
+    };
+  });
+  entries.sort((left, right) => compareUtf8Ordinal(left.name, right.name));
+  const identity = {
+    apiVersion: "swecircuit/release-review-effective-environment/v1alpha1",
+    kind: "ReleaseReviewEffectiveEnvironmentBinding",
+    keyIdentity: "ascii-case-insensitive-uppercase",
+    valueIdentity: "raw-utf8-sha256",
+    entries,
+  };
+  return {
+    ...identity,
+    contentDigest: runtimeDomainDigest(EFFECTIVE_ENVIRONMENT_DOMAIN, identity),
+  };
+}
+
+function validateEffectiveWorkerEnvironment(expected, environment = process.env) {
+  assertExactKeys(
+    expected,
+    [
+      "apiVersion",
+      "kind",
+      "keyIdentity",
+      "valueIdentity",
+      "entries",
+      "contentDigest",
+    ],
+    "effective worker environment binding",
+  );
+  const actual = effectiveEnvironmentBinding(environment);
+  requireCondition(
+    JSON.stringify(actual) === JSON.stringify(expected),
+    "Candidate worker effective environment mismatch.",
+  );
+  return actual;
 }
 
 function isContainedPath(root, target) {
@@ -1277,6 +1367,7 @@ async function validateCandidateWorkerContext(
       "phaseAuthorityDigest",
       "invocationDigest",
       "tokenDigest",
+      "effectiveEnvironment",
     ],
     "parent worker context",
   );
@@ -1298,6 +1389,9 @@ async function validateCandidateWorkerContext(
       DIGEST_PATTERN.test(context.invocationDigest) &&
       context.tokenDigest === digest(Buffer.from(token, "utf8")),
     "Parent worker context identity mismatch.",
+  );
+  const effectiveEnvironment = validateEffectiveWorkerEnvironment(
+    context.effectiveEnvironment,
   );
   validateStableReconstruction(
     context.stableReconstruction,
@@ -1399,6 +1493,8 @@ async function validateCandidateWorkerContext(
       process.env.GIT_TERMINAL_PROMPT === "0" &&
       binding.environmentPolicy.invocationTemporaryPaths ===
         INVOCATION_TEMPORARY_PATH_POLICY &&
+      binding.environmentPolicy.workerEffectiveEnvironment ===
+        "complete-case-insensitive-key-and-value-digest" &&
       JSON.stringify(binding.environmentPolicy.inherited) ===
         JSON.stringify(inheritedRuntimeEnvironment()),
     "Candidate worker environment policy mismatch.",
@@ -1408,7 +1504,7 @@ async function validateCandidateWorkerContext(
     context.stableReconstruction,
     context.phaseAuthority,
   );
-  activeWorker = { context, binding, npmConfiguration };
+  activeWorker = { context, binding, npmConfiguration, effectiveEnvironment };
   const candidateTree = loadCandidateTree(expectedCandidate);
   requireCondition(
     JSON.stringify(candidateTree.source) === JSON.stringify(binding.candidateSource),
@@ -1435,7 +1531,7 @@ async function validateCandidateWorkerContext(
     "Generated runtime closure does not match runtime binding.",
   );
   await requireNoRuntimeAncestorSupply(ROOT);
-  return { context, binding };
+  return { context, binding, effectiveEnvironment };
 }
 
 async function initializeCandidateWorker(
@@ -4483,6 +4579,7 @@ export const RELEASE_REVIEW_TEST_HOOKS = Object.freeze({
   parseGitBlobBatch,
   candidateTreeWithOverrides,
   discoverCorrectionEvidenceSpecs,
+  effectiveEnvironmentBinding,
   isCorrectionNavigationDuplicate,
   collectSourceSpecs,
   requestFor,
@@ -4502,6 +4599,7 @@ export const RELEASE_REVIEW_TEST_HOOKS = Object.freeze({
   scalarPathText,
   validateApprovedInputs,
   validateCompiledInputs,
+  validateEffectiveWorkerEnvironment,
   validatePhaseAuthority,
   validateStableReconstruction,
   validateWorkerPrivateNpmConfiguration,

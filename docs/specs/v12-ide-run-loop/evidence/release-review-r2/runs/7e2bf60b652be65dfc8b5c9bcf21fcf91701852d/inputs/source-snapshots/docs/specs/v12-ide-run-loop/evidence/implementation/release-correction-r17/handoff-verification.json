@@ -1,0 +1,27 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "release-correction-r17",
+  "compilationDigest": "sha256:472d6cfe1bef797bd17926d008f6a00b47f1640c5dcc37d0739c17113f710b5d",
+  "packageDigest": "sha256:432b9adc96c26cfc7b01053f55324a3ac86037e4e4f6a3d1e4db462141ee6712",
+  "expectedAgentIds": [
+    "agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05"
+  ],
+  "receivedAgentIds": [
+    "agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05-redesign-attempt-1.json",
+      "agentId": "agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05",
+      "outcome": "redesign",
+      "rawBytes": 3206,
+      "rawDigest": "sha256:79227fedf63534c9a71eabd6679c0b08fdcdb6bc94a49965d76c60975a996cb5",
+      "semanticDigest": "sha256:f67ef80bd18ef15e1840acab4e2c27da60d23305e4d4bb9f4297470bc8205432",
+      "contentDigest": "sha256:fc29447828862b6f2853e41e50226bb3a5513033a774947c979e8bc676b64294"
+    }
+  ],
+  "phaseReady": false,
+  "note": "The exact package-bound handoff verifies and routes redesign. No source files were edited or integrated; Revision 18 must widen the trust boundary before implementation."
+}

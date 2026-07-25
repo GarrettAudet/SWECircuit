@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ReleaseReviewHandoffVerification",
+  "compilationDigest": "sha256:cd70618e14b23dfae4538c41b6709791238684192b5c000f4e577f0edd6b5fd3",
+  "packageDigest": "sha256:7a809141af324cdea7028fb07ee6ca6cb79daccfbdf319e2fd8b2c1346a007ee",
+  "expectedAgentIds": [
+    "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+    "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+    "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34"
+  ],
+  "receivedAgentIds": [
+    "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+    "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+    "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "product-api-ide-fix-attempt-1.json",
+      "agentId": "agent.30201e58e8e1ff0a39a7ce80868e2a9ed86703849286b41ef59dcf22c875ed04",
+      "outcome": "fix",
+      "rawBytes": 5819,
+      "rawDigest": "sha256:7fb4caf2142208d0735d17bc75610098e671113f1c7a1047cc29bb62ce0e2a26",
+      "semanticDigest": "sha256:82a84ecf0a9481285e3ebbc929e6fb5783b8f619fb2212cdac3d38fba1d4390c",
+      "contentDigest": "sha256:d24177aace44d0ba914539535e515498e71bde34573277821a9a8e2297493f8e"
+    },
+    {
+      "file": "lifecycle-correctness-fix-attempt-1.json",
+      "agentId": "agent.05a41e9299905b099d84cec047f01dea6bd6662f418e8d0280b8c5463d7968bd",
+      "outcome": "fix",
+      "rawBytes": 5649,
+      "rawDigest": "sha256:13e1b510607a4c23223b59a0190e3e490be3e95fc94e56dba45cd5e4bf3bdc84",
+      "semanticDigest": "sha256:404ebae89f56a2b044c9260f6a1f0d73b738cade25983521e40cea8b4ea3755a",
+      "contentDigest": "sha256:a8174987211013b729835996c22851dd0597cb73d479a765af75a19500b474fe"
+    },
+    {
+      "file": "security-trace-authority-fix-attempt-1.json",
+      "agentId": "agent.b4e5d94b2bdecdbf284add38ccaef6584491d69d9cb535668dd36a69a014af34",
+      "outcome": "fix",
+      "rawBytes": 7259,
+      "rawDigest": "sha256:605a4e7065e1c4af2b3114129e919a810e430b584e31c718c0d78fa02fa027b7",
+      "semanticDigest": "sha256:776b761a9182f7288544d0294628527beeea97e046a9cbc1663615b5f3f5d8cf",
+      "contentDigest": "sha256:c50ebc45a0645a0441c54cdff161dafa85d96f536ac16ed2feaaa00eb15b2bb9"
+    }
+  ],
+  "releaseReady": false,
+  "note": "Every raw reviewer handoff is verified against the owner-approved package. A verified non-pass outcome remains a workflow route and cannot authorize release."
+}

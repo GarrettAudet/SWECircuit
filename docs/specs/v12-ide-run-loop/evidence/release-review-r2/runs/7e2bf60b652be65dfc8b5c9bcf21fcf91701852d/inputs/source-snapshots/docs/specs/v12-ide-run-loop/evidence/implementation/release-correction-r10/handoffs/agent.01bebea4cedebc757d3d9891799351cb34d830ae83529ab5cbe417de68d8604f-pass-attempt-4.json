@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 10,
+    "digest": "sha256:379e1b825343fdd4500a23b38f107c53256ae1031383b182f2b21795cabed8d7"
+  },
+  "agent": {
+    "id": "agent.01bebea4cedebc757d3d9891799351cb34d830ae83529ab5cbe417de68d8604f",
+    "blueprintDigest": "sha256:1a13f8154a516a19881955976e4613d3a532718c661dd98fb582c5cac91e6831"
+  },
+  "compilationDigest": "sha256:383a9ee2d20773c8608f7da195f9e7ea5212838dc7d82f0865bc1cefd38e2400",
+  "summary": "Completed the R10 lifecycle correction: every generated R2 artifact is candidate-addressed, reviewer inputs and tooling are authenticated against exact candidate Git blobs, correction lineage is discovered through revision 10 without a terminal ceiling, package and handoff substitutions fail closed, and focused verification passed.",
+  "workUnitsCompleted": [
+    "fix.release-review-lifecycle.r10"
+  ],
+  "artifacts": [
+    {
+      "name": "release-review-lifecycle-correction-r10.md",
+      "mediaType": "text/markdown",
+      "content": "# Release Review Lifecycle Correction R10\n\n## Outcome\n\nPass.\n\n## Authentication\n\n- Authenticated all 14 declared context items from checkpoint `1b47e0ad10a5c3209fae53397892b7df3cd837be` against their exact SHA-256 digests and byte counts before use.\n- Authenticated the original 77,356-byte R2 harness at `sha256:5759c3dcbda018c2ef4dd9cf0f6e317b88ba6e214766a707230659a9d9d2a9f1` before reviewing the untrusted partial working-tree edit.\n- Preserved the host-owned blocked R10 handoff evidence without reading or modifying it.\n\n## Corrections\n\n- Candidate-addressed every generated R2 path under `release-review-r2/runs/<candidate>/`, allowing disjoint immutable runs for successive candidate identities while leaving legacy Candidate 3 evidence untouched.\n- Added exact candidate-tree loading from Git commit, tree, mode, object ID, path, and blob bytes; reviewer snapshots now carry candidate object identity and exact blob byte bindings.\n- Authenticated both the executing harness and handoff verifier against their exact candidate Git blobs.\n- Replaced the fixed revision-1-through-8 correction roster with fail-closed discovery requiring a contiguous sequence through revision 10 while accepting later revisions without a hardcoded terminal count.\n- Reverified every discovered correction package and raw handoff against its candidate-tree approval and report, including revision 9 and revision 10 lineage.\n- Bound the handoff verifier to the candidate run root, exact candidate manifest bytes recorded in the approved compilation, closed approval, exact package, unique agent roster, and safe relative handoff paths.\n- Added focused lifecycle and adversarial coverage for disjoint candidate roots, Candidate 3 preservation, missing and malformed revisions, revision 11 extensibility, working-tree-only inputs, unsafe handoff paths, exact Git-blob snapshots, tooling substitution, and revision-9 package and handoff substitution.\n\n## Verification\n\n- `node --check` passed for all three authorized files.\n- Focused Biome formatting passed for all three files; both evidence scripts were verified byte-identical to stdin formatting.\n- Focused Biome lint passed for all three files with no errors or remaining diagnostics.\n- `node --test test/v12-release-review.test.mjs` passed 5 of 5 tests in 84.7 seconds.\n- Three non-writing release-gate regressions passed: canonical-command isolation, six-source security closure, and malformed candidate path rejection.\n- Scoped `git diff --check` passed.\n- The full canonical release gate was not run, as required.\n\n## Failed Attempt\n\nA combined release-gate and release-review test invocation passed eight tests but the existing candidate-materialization test received `EPERM` while creating `.local/v12-release-gate`. That temporary path is outside this specialist's exact write authority, so the command was not escalated. The unchanged release-gate implementation remains authenticated by the approved checkpoint, and all R10-owned regressions passed independently.\n\n## Resulting Bindings\n\n- `run-release-review.mjs`: 82,656 bytes, `sha256:8eed0f4b9f5e0a97e5816fb3e36eb671c2c88f07269d4baeed59dab6bc95345e`.\n- `verify-release-review-handoffs.mjs`: 11,990 bytes, `sha256:9daa5bc7fde24a8d70d7e68cb8faed7327f9ae4f0b3ed180f00cb8facb48d9ae`.\n- `test/v12-release-review.test.mjs`: 8,390 bytes, `sha256:473646bfdbf8a84781cd9dd0bf95d3d05341117882721fb2a85b9b3330ad7dba`.\n\n## Scope Integrity\n\nOnly the three declared write paths changed. Git state, network resources, legacy evidence, and the host-owned blocked R10 handoff were not modified."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.release-review-lifecycle.r10",
+      "requirementId": "evidence.release-review-lifecycle.r10",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "release-review-lifecycle-correction-r10.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The existing write-performing candidate-materialization subtest could not complete under this specialist's exact filesystem authority; the unchanged gate implementation was authenticated from the approved checkpoint and all R10-owned tests passed."
+  ],
+  "followUps": [
+    "Preserve this exact raw handoff, verify it against the approved R10 package and digest pair, then run integration and candidate-bound release verification."
+  ]
+}

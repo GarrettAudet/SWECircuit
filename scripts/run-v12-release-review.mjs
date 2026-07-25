@@ -40,6 +40,8 @@ const GATE_EVIDENCE_ROOT = `${REVIEW_ROOT}/inputs/canonical-gates`;
 const CANDIDATE_PATTERN = /^[0-9a-f]{40}$/;
 const DIGEST_PATTERN = /^sha256:[0-9a-f]{64}$/;
 const RUNTIME_BINDING_DOMAIN = "swecircuit/release-review-runtime/v1alpha1";
+const EFFECTIVE_ENVIRONMENT_DOMAIN =
+  "swecircuit/release-review-effective-environment/v1alpha1";
 const CLOSURE_DOMAIN = "swecircuit/release-review-closure/v1alpha1";
 const MATERIALIZATION_DOMAIN = "swecircuit/release-gate/materialization/v1alpha1";
 const INVOCATION_DOMAIN = "swecircuit/release-review-invocation/v1alpha1";
@@ -70,6 +72,18 @@ const INVOCATION_TEMPORARY_PATH_POLICY =
 const PRIVATE_NPM_CONFIGURATION_STATES = new WeakMap();
 const TOOL_NPM_CONFIGURATION = Symbol("release-review-private-npm-configuration");
 const TOOL_NPM_INSPECTION = Symbol("release-review-private-npm-inspection");
+const WINDOWS_CHILD_ENVIRONMENT_KEYS = Object.freeze([
+  "LOGONSERVER",
+  "SYSTEMDRIVE",
+  "USERDOMAIN",
+  "USERNAME",
+]);
+const STABLE_ENVIRONMENT_EXCLUSIONS = new Set([
+  "TEMP",
+  "TMP",
+  "TMPDIR",
+  ...WINDOWS_CHILD_ENVIRONMENT_KEYS,
+]);
 const CLOSED_NPM_ENVIRONMENT_KEYS = new Set([
   "npm_config_audit",
   "npm_config_cache",
@@ -123,6 +137,61 @@ function domainDigest(domain, value) {
   updateFrame(hash, Buffer.from(domain, "utf8"));
   updateFrame(hash, Buffer.from(JSON.stringify(value), "utf8"));
   return `sha256:${hash.digest("hex")}`;
+}
+
+function effectiveEnvironmentBinding(environment) {
+  requireCondition(
+    environment && typeof environment === "object" && !Array.isArray(environment),
+    "Effective worker environment must be an object.",
+  );
+  const aliases = new Set();
+  const entries = Object.entries(environment).map(([name, value]) => {
+    requireCondition(
+      /^[A-Za-z_][A-Za-z0-9_]*$/u.test(name) && typeof value === "string",
+      `Effective worker environment entry is invalid: ${String(name)}.`,
+    );
+    const alias = name.toLowerCase();
+    requireCondition(
+      !aliases.has(alias),
+      `Effective worker environment contains a case-insensitive duplicate: ${name}.`,
+    );
+    aliases.add(alias);
+    requireCondition(!value.includes("\0"), `Effective worker environment value contains NUL: ${name}.`);
+    for (let index = 0; index < value.length; index += 1) {
+      const codeUnit = value.charCodeAt(index);
+      if (codeUnit >= 0xd800 && codeUnit <= 0xdbff) {
+        const next = value.charCodeAt(index + 1);
+        requireCondition(
+          next >= 0xdc00 && next <= 0xdfff,
+          `Effective worker environment value contains a lone surrogate: ${name}.`,
+        );
+        index += 1;
+      } else {
+        requireCondition(
+          codeUnit < 0xdc00 || codeUnit > 0xdfff,
+          `Effective worker environment value contains a lone surrogate: ${name}.`,
+        );
+      }
+    }
+    const bytes = Buffer.from(value, "utf8");
+    return {
+      name: name.toUpperCase(),
+      valueBytes: bytes.byteLength,
+      valueDigest: digest(bytes),
+    };
+  });
+  entries.sort((left, right) => compareOrdinal(left.name, right.name));
+  const identity = {
+    apiVersion: "swecircuit/release-review-effective-environment/v1alpha1",
+    kind: "ReleaseReviewEffectiveEnvironmentBinding",
+    keyIdentity: "ascii-case-insensitive-uppercase",
+    valueIdentity: "raw-utf8-sha256",
+    entries,
+  };
+  return {
+    ...identity,
+    contentDigest: domainDigest(EFFECTIVE_ENVIRONMENT_DOMAIN, identity),
+  };
 }
 
 function strictUtf8(bytes, label) {
@@ -568,7 +637,7 @@ function requireRun(result, label) {
   return result;
 }
 
-function inheritedEnvironment(environment) {
+function inheritedEnvironment(environment, platform = process.platform) {
   const allowed = [
     "APPDATA",
     "COMSPEC",
@@ -586,6 +655,9 @@ function inheritedEnvironment(environment) {
     "USERPROFILE",
     "WINDIR",
   ];
+  if (platform === "win32") {
+    allowed.push(...WINDOWS_CHILD_ENVIRONMENT_KEYS);
+  }
   const output = {};
   for (const canonicalName of allowed) {
     const matches = Object.entries(environment).filter(
@@ -602,13 +674,14 @@ function inheritedEnvironment(environment) {
 function environmentPolicy(inherited) {
   const stableInherited = Object.fromEntries(
     Object.entries(inherited)
-      .filter(([name]) => !["TEMP", "TMP", "TMPDIR"].includes(name))
+      .filter(([name]) => !STABLE_ENVIRONMENT_EXCLUSIONS.has(name))
       .sort(([a], [b]) => compareOrdinal(a, b)),
   );
   return {
     apiVersion: "swecircuit/release-review-environment/v1alpha1",
     inherited: stableInherited,
     invocationTemporaryPaths: INVOCATION_TEMPORARY_PATH_POLICY,
+    workerEffectiveEnvironment: "complete-case-insensitive-key-and-value-digest",
     pathPolicy: "closed-tool-directories",
     nodeOptions: "removed",
     nodePath: "removed",
@@ -2123,8 +2196,16 @@ async function writeWorkerContext({
   role,
   stableReconstruction,
   phaseAuthority,
+  workerBaseEnvironment,
 }) {
   const token = randomBytes(32).toString("hex");
+  const path = join(operationRoot, `worker-context-${phaseIndex}-${phase}.json`);
+  const environment = {
+    ...workerBaseEnvironment,
+    [WORKER_CONTEXT_ENV]: path,
+    [WORKER_TOKEN_ENV]: token,
+  };
+  const effectiveEnvironment = effectiveEnvironmentBinding(environment);
   const context = {
     apiVersion: "swecircuit/release-review-worker/v1alpha1",
     kind: "ReleaseReviewWorkerContext",
@@ -2143,10 +2224,10 @@ async function writeWorkerContext({
     phaseAuthorityDigest: phaseAuthority.digest,
     invocationDigest: invocation,
     tokenDigest: digest(Buffer.from(token, "utf8")),
+    effectiveEnvironment,
   };
-  const path = join(operationRoot, `worker-context-${phaseIndex}-${phase}.json`);
   await writeFile(path, canonicalJson(context), { flag: "wx" });
-  return { path, token, context };
+  return { path, token, context, environment, effectiveEnvironment };
 }
 async function verifyProtectedState({
   candidateRoot,
@@ -2552,12 +2633,9 @@ async function execute() {
         role,
         stableReconstruction,
         phaseAuthority,
+        workerBaseEnvironment: gitContext.environment,
       });
-      const childEnvironment = {
-        ...gitContext.environment,
-        [WORKER_CONTEXT_ENV]: worker.path,
-        [WORKER_TOKEN_ENV]: worker.token,
-      };
+      const childEnvironment = worker.environment;
       const entrypoint = resolve(
         candidateRoot,
         ...(role === "verifier" ? VERIFIER_REPOSITORY_PATH : HARNESS_REPOSITORY_PATH).split("/"),
@@ -2636,9 +2714,11 @@ async function execute() {
           stableReconstructionDigest: stableReconstruction.digest,
           phaseAuthorityDigest: phaseAuthority.digest,
           invocationDigest: invocation,
+          effectiveEnvironmentDigest: worker.effectiveEnvironment.contentDigest,
         }),
         entrypoint: role === "verifier" ? tooling.verifier : tooling.harness,
         freshProcess: true,
+        effectiveEnvironment: worker.effectiveEnvironment,
         exitCode: childResult.status,
         signal: childResult.signal,
         stdout: { bytes: childResult.stdout.byteLength, digest: digest(childResult.stdout) },
@@ -2790,10 +2870,12 @@ export const RELEASE_REVIEW_PARENT_TEST_HOOKS = Object.freeze({
   createStableReconstructionBinding,
   detectRuntimeLibc,
   declaredExternalInputPaths,
+  effectiveEnvironmentBinding,
   environmentPolicy,
   expectedParentDigest,
   inspectClosedPrivateState,
   inspectClosure,
+  inheritedEnvironment,
   privateNpmConfigurationEvidence,
   removeOperationRoot,
   isAllowedOutputFile,

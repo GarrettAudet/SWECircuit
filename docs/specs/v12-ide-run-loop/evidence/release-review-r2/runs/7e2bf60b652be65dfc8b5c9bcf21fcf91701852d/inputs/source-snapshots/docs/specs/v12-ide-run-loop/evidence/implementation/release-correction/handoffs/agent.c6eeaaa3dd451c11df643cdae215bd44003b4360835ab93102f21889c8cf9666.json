@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 1,
+    "digest": "sha256:1bea0e225945a75a3afad84d628ef7b761d4985840c15c3d82a667e55bdd8388"
+  },
+  "agent": {
+    "id": "agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666",
+    "blueprintDigest": "sha256:a13b55a1f1516a9442639b821472fe16a6918850d4e0063ef84cb0df9aca27a1"
+  },
+  "compilationDigest": "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+  "summary": "Updated canonical V12 dogfood to authenticate the approved release-correction package, wait for four exact raw handoffs, and finalize a source-preserving implementation journey while retaining the deterministic synthetic regression.",
+  "workUnitsCompleted": [
+    "fix.implementation-dogfood"
+  ],
+  "artifacts": [
+    {
+      "name": "implementation-dogfood-correction.md",
+      "mediaType": "text/markdown",
+      "content": "# Implementation Dogfood Correction\n\n## Result\n\n`scripts/run-v12-dogfood.mjs` now preserves the existing synthetic API regression and adds an approval-bound final journey over the exact release-correction implementation package.\n\nThe final journey authenticates every rendered package file, resolves contracts from the verified manifest, requires one exact `pass` handoff for every manifest agent, records those raw bytes through the four public V12 operations, serializes and restores the complete session, reinspects canonical equality, preserves an immutable base64 integration snapshot, and reports every required AC8 friction metric without claiming repository or runtime effects for core.\n\n## Authentication\n\n- All 21 declared context sources matched their exact byte counts and raw SHA-256 digests before use.\n- The owner-approved compilation `sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2` and package `sha256:0243a0cea075424c7c919a6af876b4f023f9e635234cf6ec07a0d7cb9543bf6c` passed `verifySpecialistPackage` and exact-byte verification across all seven package files before editing.\n- The authorized script changed from 17905 bytes / `sha256:61bab56f5dbba096b4cb87d07ce34dd09a561f08575243f2cc8d4c786ea7ce39` to 37040 bytes / `sha256:6464f99f641de32e13ed5cb009452fc9a9343a4b3c7431ac633bcb65ebbbb94d`.\n- Resulting bytes contain no BOM, CR, or TAB.\n\n## Finalization Contract\n\nRun `node scripts/run-v12-dogfood.mjs --check-evidence` only after preserving these exact normalized-LF UTF-8 handoffs:\n\n- `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json`\n- `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.454a957a304f11a629d1b8ce92a698e5e6d7ede7cf992880a458c6fd9e458e50.json`\n- `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe.json`\n- `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.c6eeaaa3dd451c11df643cdae215bd44003b4360835ab93102f21889c8cf9666.json`\n\nNo handoff was fabricated. With the files currently absent, `--check-evidence` returns structured status `waiting_for_exact_raw_handoffs`, lists all four paths, and exits with status 2 before creating the implementation session.\n\n## Friction Evidence\n\nA successful final journey reports blocking questions, approval prompts, all create/restore/inspect/record calls, manual contract lookups, rejected transitions, serialized session bytes and digest, deterministic reverification units, resume equality, persistence steps, and adapter-only translation. It also embeds the exact source-preserving session snapshot and keeps integration, canonical verification, review, merge, and memory external.\n\n## Focused Verification\n\n- `node --check scripts/run-v12-dogfood.mjs`: pass.\n- `node scripts/run-v12-dogfood.mjs --synthetic-only`: pass; two synthetic runs remained byte-identical, including `SC4404` and `SC4405` regressions.\n- Biome check through `--stdin-file-path`: pass with output exactly matching the authorized script bytes.\n- Structured finalization-gate probe: pass; the underlying command exited 2 as designed, reported four missing exact handoffs, and retained a passing synthetic replay.\n\nThe full implementation-package journey and canonical repository gate were not run to completion because the exact correction handoffs cannot exist until this wave closes.\n\n## Failed Attempts\n\nThe first source-authentication command used an unavailable PowerShell `Convert.ToHexString` API; the byte counts remained correct and the corrected `BitConverter` rerun authenticated all sources. One Windows wildcard `rg` invocation failed before its corrected directory-scoped rerun. Native `apply_patch` failed before mutation because the host sandbox could not initialize. The first fallback wrapper had a JavaScript parse error before shell execution, and the first non-escalated guarded PowerShell write was denied before mutation. The owner-authorized elevated fallback then matched the exact precondition hash, wrote only the declared script, and immediately verified the resulting bytes. A direct Biome path check processed zero ignored files; the required stdin exact-byte check passed.\n\n## Boundary\n\nOnly `scripts/run-v12-dogfood.mjs` was edited. No Git state changed, no network was used, no descendant agent was launched, and no runtime or provider layer was added."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.implementation-dogfood",
+      "requirementId": "evidence.implementation-dogfood",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "implementation-dogfood-correction.md"
+    }
+  ],
+  "assumptions": [
+    "Focused replay used the pre-existing local dist/index.js because rebuilding generated output was outside the exact write scope."
+  ],
+  "risks": [
+    "Implementation-package dogfood remains intentionally gated until all four exact correction handoffs exist and verify as pass outcomes.",
+    "Canonical repository verification and independent release review remain integration-owner stages."
+  ],
+  "followUps": [
+    "Preserve all four raw handoff JSON objects at the finalization-contract paths using normalized LF bytes.",
+    "Run node scripts/run-v12-dogfood.mjs --check-evidence, then run the canonical repository gate and independent review on the integrated correction candidate."
+  ]
+}

@@ -81,20 +81,20 @@ const FIXTURE_VERIFY_COMMAND = [
 
 export const PRODUCTION_IDENTITIES = Object.freeze({
   [PARENT_PATH]: Object.freeze({
-    bytes: 104_087,
-    digest: "sha256:8a051a1cdb0b08dd61271569ffef7f460ef964ef7501c236c7b570e52613688e",
+    bytes: 107_060,
+    digest: "sha256:0fbcfbe206f5d732bbc3c19e573d79f7b94cfe03e03bc31fda9d691b7872ffee",
   }),
   [GATE_PATH]: Object.freeze({
     bytes: 70_472,
     digest: "sha256:66f8b49e81486d54ce7b0d55d09927ce17be84b78b30705f1103077009f6f7c3",
   }),
   [HARNESS_PATH]: Object.freeze({
-    bytes: 155_952,
-    digest: "sha256:dc8fa635cb309f6e3b9ee7421a672bec987ee855e016390a0521c7dfa4aa5212",
+    bytes: 159_360,
+    digest: "sha256:70963a394ee7395a0f62f6081d4cb852ab52a91cef23b92d2b57edb7355e9ae8",
   }),
   [VERIFIER_PATH]: Object.freeze({
-    bytes: 30_840,
-    digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
+    bytes: 34_263,
+    digest: "sha256:3a1181f907346c09fb09d5b68fb12f86746775bf606238766daef84a22b6b9e8",
   }),
   [GATE_TEST_PATH]: Object.freeze({
     bytes: 81_690,

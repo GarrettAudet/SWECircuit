@@ -325,3 +325,17 @@ components, reaches exactly 160 characters, and keeps the tracked fixture above 
 Production code and runtime behavior do not change.
 
 The hosted-evidence regression, complete 73-test focused pair, and all broad pre-freeze gates pass. Independent final-delta review found two pre-freeze issues; both were corrected, and follow-up returned no findings. Revision 67 is ready for source freeze.
+
+## Revision 68 Complete Worker-Authority Binding
+
+Revision 68 preserves Revision 67's consumed canonical pass and verified R2 non-pass as immutable
+candidate-addressed evidence. The release parent now binds every effective worker environment
+key and value by case-insensitive key identity, raw UTF-8 byte count and digest, and a
+domain-separated aggregate digest. Harness and verifier reconstruct the same identity before
+candidate operations.
+
+The verifier performs a built-in-only validation immediately after worker-context identity,
+checks the runtime policy before candidate tooling, and repeats validation through the
+authenticated harness initializer before using generated runtime exports. A fresh-process probe
+covers arbitrary, Git, and proxy injection for both worker roles. The parent implementation and
+causal fixture are security-owned immutable reviewer sources.

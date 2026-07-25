@@ -1,0 +1,38 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ImplementationPhaseHandoffVerification",
+  "phase": "release-correction-r5",
+  "compilationDigest": "sha256:fd9c21ca81ddcef94bc1da50faf721238145a9807eae7860a34583c8512c9ff5",
+  "packageDigest": "sha256:c29570501b69f2b791d32890b48bb74d90091e649513d5915c636e1141518717",
+  "expectedAgentIds": [
+    "agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5",
+    "agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73"
+  ],
+  "receivedAgentIds": [
+    "agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5",
+    "agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5.json",
+      "agentId": "agent.be9fff8fdc4fa4e2d916f2df8a8464e0393e4de6db799f6bd325450643ab5bc5",
+      "outcome": "pass",
+      "rawBytes": 12438,
+      "rawDigest": "sha256:ce6cc26eee8eea92928381ee2b97da0e32397194369d09c7879f4c27e4d6d8af",
+      "semanticDigest": "sha256:584ddbbe26dfe688e67524ecbfdba437ea521a54ccc74c700c655191751eed58",
+      "contentDigest": "sha256:7578b5ab84aceed1307c30dcd5a544a891bf17f1e3764f68dc21a51a5c6f3b77"
+    },
+    {
+      "file": "agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73.json",
+      "agentId": "agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73",
+      "outcome": "pass",
+      "rawBytes": 7056,
+      "rawDigest": "sha256:6342efa7f78f9a6bbfc531836e2853f26daeac32d382682ee663b378668eaec6",
+      "semanticDigest": "sha256:a36644a9294eedce7e8d0d28ff329aaedff08f05fce29dd47889f10919c238c3",
+      "contentDigest": "sha256:3e988e939a872050c5761c1573eafd210868bed91902d52d09dddfb2515d9b2a"
+    }
+  ],
+  "phaseReady": true,
+  "note": "This is an external complete-package gate. Each raw handoff was verified by V11 core; a verified non-pass outcome remains a workflow route."
+}

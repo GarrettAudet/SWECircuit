@@ -10,6 +10,8 @@ const HARNESS_REPOSITORY_PATH =
 const WORKER_CONTEXT_ENV = "SWECIRCUIT_RELEASE_REVIEW_WORKER_CONTEXT";
 const WORKER_TOKEN_ENV = "SWECIRCUIT_RELEASE_REVIEW_WORKER_TOKEN";
 const RUNTIME_BINDING_DOMAIN = "swecircuit/release-review-runtime/v1alpha1";
+const EFFECTIVE_ENVIRONMENT_DOMAIN =
+  "swecircuit/release-review-effective-environment/v1alpha1";
 const STABLE_RECONSTRUCTION_DOMAIN =
   "swecircuit/release-review-stable-reconstruction/v1alpha1";
 const PHASE_AUTHORITY_DOMAIN = "swecircuit/release-review-phase-authority/v1alpha1";
@@ -91,6 +93,89 @@ function runtimeDomainDigest(domain, value) {
   updateRuntimeFrame(hash, Buffer.from(domain, "utf8"));
   updateRuntimeFrame(hash, Buffer.from(JSON.stringify(value), "utf8"));
   return `sha256:${hash.digest("hex")}`;
+}
+
+function compareUtf8Ordinal(left, right) {
+  return Buffer.compare(Buffer.from(left, "utf8"), Buffer.from(right, "utf8"));
+}
+
+function effectiveEnvironmentBinding(environment) {
+  requireCondition(
+    environment && typeof environment === "object" && !Array.isArray(environment),
+    "Effective worker environment must be an object.",
+  );
+  const aliases = new Set();
+  const entries = Object.entries(environment).map(([name, value]) => {
+    requireCondition(
+      /^[A-Za-z_][A-Za-z0-9_]*$/u.test(name) && typeof value === "string",
+      `Effective worker environment entry is invalid: ${String(name)}.`,
+    );
+    const alias = name.toLowerCase();
+    requireCondition(
+      !aliases.has(alias),
+      `Effective worker environment contains a case-insensitive duplicate: ${name}.`,
+    );
+    aliases.add(alias);
+    requireCondition(
+      !value.includes("\0"),
+      `Effective worker environment value contains NUL: ${name}.`,
+    );
+    for (let index = 0; index < value.length; index += 1) {
+      const codeUnit = value.charCodeAt(index);
+      if (codeUnit >= 0xd800 && codeUnit <= 0xdbff) {
+        const next = value.charCodeAt(index + 1);
+        requireCondition(
+          next >= 0xdc00 && next <= 0xdfff,
+          `Effective worker environment value contains a lone surrogate: ${name}.`,
+        );
+        index += 1;
+      } else {
+        requireCondition(
+          codeUnit < 0xdc00 || codeUnit > 0xdfff,
+          `Effective worker environment value contains a lone surrogate: ${name}.`,
+        );
+      }
+    }
+    const bytes = Buffer.from(value, "utf8");
+    return {
+      name: name.toUpperCase(),
+      valueBytes: bytes.byteLength,
+      valueDigest: digest(bytes),
+    };
+  });
+  entries.sort((left, right) => compareUtf8Ordinal(left.name, right.name));
+  const identity = {
+    apiVersion: "swecircuit/release-review-effective-environment/v1alpha1",
+    kind: "ReleaseReviewEffectiveEnvironmentBinding",
+    keyIdentity: "ascii-case-insensitive-uppercase",
+    valueIdentity: "raw-utf8-sha256",
+    entries,
+  };
+  return {
+    ...identity,
+    contentDigest: runtimeDomainDigest(EFFECTIVE_ENVIRONMENT_DOMAIN, identity),
+  };
+}
+
+function validateEffectiveWorkerEnvironment(expected, environment = process.env) {
+  assertExactKeys(
+    expected,
+    [
+      "apiVersion",
+      "kind",
+      "keyIdentity",
+      "valueIdentity",
+      "entries",
+      "contentDigest",
+    ],
+    "effective worker environment binding",
+  );
+  const actual = effectiveEnvironmentBinding(environment);
+  requireCondition(
+    JSON.stringify(actual) === JSON.stringify(expected),
+    "Candidate worker effective environment mismatch.",
+  );
+  return actual;
 }
 
 function isContainedPath(root, target) {
@@ -335,6 +420,7 @@ async function bootstrapCandidateVerifier() {
       "phaseAuthorityDigest",
       "invocationDigest",
       "tokenDigest",
+      "effectiveEnvironment",
     ],
     "parent verifier context",
   );
@@ -352,6 +438,9 @@ async function bootstrapCandidateVerifier() {
       /^sha256:[0-9a-f]{64}$/u.test(context.invocationDigest) &&
       context.tokenDigest === digest(Buffer.from(token, "utf8")),
     "Parent verifier context identity mismatch.",
+  );
+  const effectiveEnvironment = validateEffectiveWorkerEnvironment(
+    context.effectiveEnvironment,
   );
   validateVerifierStableReconstruction(
     context.stableReconstruction,
@@ -393,6 +482,9 @@ async function bootstrapCandidateVerifier() {
       binding.runtimeBindingDigest === context.runtimeBindingDigest &&
       binding.externalDeclarations.stableReconstructionDigest ===
         context.stableReconstructionDigest &&
+      binding.environmentPolicy &&
+      binding.environmentPolicy.workerEffectiveEnvironment ===
+        "complete-case-insensitive-key-and-value-digest" &&
       binding.runtimeBindingDigest ===
         runtimeDomainDigest(RUNTIME_BINDING_DOMAIN, identity),
     "Verifier runtime-binding identity mismatch.",
@@ -441,6 +533,11 @@ async function bootstrapCandidateVerifier() {
     );
   requireCondition(
     initialized.binding.runtimeBindingDigest === binding.runtimeBindingDigest &&
+      initialized.effectiveEnvironment &&
+      initialized.effectiveEnvironment.contentDigest ===
+        effectiveEnvironment.contentDigest &&
+      JSON.stringify(initialized.effectiveEnvironment) ===
+        JSON.stringify(effectiveEnvironment) &&
       initialized.specialistRuntime,
     "Authenticated harness returned a different verifier runtime.",
   );
@@ -455,6 +552,7 @@ async function bootstrapCandidateVerifier() {
     stableReconstructionDigest: context.stableReconstructionDigest,
     phaseAuthority: context.phaseAuthority,
     phaseAuthorityDigest: context.phaseAuthorityDigest,
+    effectiveEnvironment,
   };
 }
 
@@ -856,10 +954,12 @@ async function main() {
 
 export const RELEASE_REVIEW_HANDOFF_TEST_HOOKS = Object.freeze({
   decodeCanonicalJson,
+  effectiveEnvironmentBinding,
   expectedPackageAgentIds,
   safeAuthorityHandoffPath,
   safeHandoffPath,
   scalarPathText,
+  validateEffectiveWorkerEnvironment,
   validateVerifierPhaseAuthority,
   validateVerifierStableReconstruction,
 });
