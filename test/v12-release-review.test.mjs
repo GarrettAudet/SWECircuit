@@ -65,6 +65,10 @@ const REQUIRED_SECURITY_REVIEW_SOURCES = Object.freeze([
     allowedWorkUnits: ["review.r2.lifecycle-correctness", "review.r2.security-trace-authority"],
   },
   {
+    path: "test/lifecycle/v12-release-review-lifecycle.test.mjs",
+    allowedWorkUnits: ["review.r2.lifecycle-correctness", "review.r2.security-trace-authority"],
+  },
+  {
     path: "test/fixtures/v12-enclosing-candidate-git-probe.mjs",
     allowedWorkUnits: ["review.r2.lifecycle-correctness", "review.r2.security-trace-authority"],
   },
@@ -1499,6 +1503,20 @@ test("materialized lifecycle detects persistent compiler mutation after child re
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+});
+
+test("the positive copied gate alone receives the extended lifecycle timeout", () => {
+  const source = readFileSync(
+    resolve(ROOT, "test/helpers/v12-release-review-lifecycle.mjs"),
+    "utf8",
+  );
+  assert.equal(V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.processTimeoutMs, 900_000);
+  assert.equal(V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.canonicalGateTimeoutMs, 1_800_000);
+  assert.equal(source.match(/timeoutMs: CANONICAL_GATE_TIMEOUT_MS/gu)?.length, 1);
+  assert.match(
+    source,
+    /const gateResult = await runProcess\([\s\S]{0,500}timeoutMs: CANONICAL_GATE_TIMEOUT_MS,[\s\S]{0,200}assertCommandPassed\(gateResult, "copied production canonical gate"\);/u,
+  );
 });
 
 test("lifecycle production identities match current source bytes", () => {

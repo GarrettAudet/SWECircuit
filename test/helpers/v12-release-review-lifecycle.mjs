@@ -67,6 +67,7 @@ const FIXTURE_RUNTIME_COMMAND = `node --input-type=module -e "await import('ajv'
 const PACKAGE_PATH = "package.json";
 const LOCK_PATH = "package-lock.json";
 const PROCESS_TIMEOUT_MS = 900_000;
+const CANONICAL_GATE_TIMEOUT_MS = 1_800_000;
 const MAX_OUTPUT_BYTES = 536_870_912;
 
 const FIXTURE_VERIFY_COMMAND = [
@@ -88,8 +89,8 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
     digest: "sha256:dc5b6cdea7f212196c6aa88da586fe44be20758b3619986e586445f71cbb6970",
   }),
   [HARNESS_PATH]: Object.freeze({
-    bytes: 155_719,
-    digest: "sha256:0d7236c2741e49b3894921556c556eb0d3c05ee509ecf0f38aa90c5e96c53425",
+    bytes: 155_952,
+    digest: "sha256:dc8fa635cb309f6e3b9ee7421a672bec987ee855e016390a0521c7dfa4aa5212",
   }),
   [VERIFIER_PATH]: Object.freeze({
     bytes: 30_840,
@@ -1764,6 +1765,7 @@ export async function runReleaseReviewProductionLifecycle() {
       {
         cwd: fixtureRoot,
         env: gateEnvironment(cacheRoot),
+        timeoutMs: CANONICAL_GATE_TIMEOUT_MS,
       },
     );
     assertCommandPassed(gateResult, "copied production canonical gate");
@@ -2240,6 +2242,8 @@ export async function runReleaseReviewProductionLifecycle() {
 export const V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS = Object.freeze({
   assertCommandPassed,
   authenticateFixtureBlobs,
+  canonicalGateTimeoutMs: CANONICAL_GATE_TIMEOUT_MS,
+  processTimeoutMs: PROCESS_TIMEOUT_MS,
   copyHostNpmCacheSupply,
   createLifecycleTypeScriptSupply,
   createMutatingLifecycleTypeScriptSupply,

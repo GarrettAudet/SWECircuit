@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 60 commit `d7f95dff6dc098dfcd38f64de4e21edfe4b587c3` passed local and hosted verification, then its one-shot canonical gate failed after 461 core tests because the copied lifecycle discarded the enclosing candidate Git authority; the consumed source is permanently retired. Revision 61 closes that cause, binds a fresh-process regression into lifecycle and security review, and passes focused, broad pre-freeze, checker, dogfood, package, consumer, and independent final-delta gates. No release approval exists until one immutable successor passes exact lifecycle, full verification, hosted CI, one canonical gate, fresh R2, milestone closeout, and owner merge; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5` passed exact committed verification and all seven hosted jobs, but its non-consuming exact-candidate rehearsal reported a nested canonical-gate timeout at the old 15-minute test bound; its one-shot gate was never invoked and the source is retired. Revision 62 applies a 30-minute bound only to that positive copied gate while preserving every ordinary 15-minute child bound; the exact hook and 66 focused release tests, broad pre-freeze verification, and independent review pass. No release approval exists until the exact source is frozen and passes exact lifecycle, full verification, exact-candidate rehearsal, hosted CI, one canonical gate, fresh R2, milestone closeout, and owner merge; `releaseReady: false`.
 
 ## Contract Tests
 
@@ -45,10 +45,9 @@ Package and handoff verification authenticate artifacts; they do not establish r
 ## Current Evidence
 
 - Revision 60 commit `d7f95dff6dc098dfcd38f64de4e21edfe4b587c3`: exact local verification and all seven hosted jobs `pass`; one-shot canonical receipt `fail` after 461 core tests; source retired and never rerun.
-- Revision 61 causal runtime regression: 1/1 `pass`; release pair: 65/65 `pass`; complete pre-closure core: 462/462 `pass`.
-- Revision 61 format, lint, typecheck, build, template checker, complete checker mutation matrix, V10/V11/V12 dogfood, package inspection, and installed consumer: `pass`.
-- Post-closure live identities and lifecycle scheduling: 2/2 `pass`; independent final-delta review: `pass`.
-- Exact committed lifecycle, full verifier, exact-candidate topology, hosted matrix, canonical gate, fresh R2, and merge remain independent gates; `releaseReady: false`.
+- Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5`: exact lifecycle, full verifier, and all seven hosted jobs `pass`; non-consuming exact-candidate rehearsal lifecycle 1/2 `pass` and stops at the 900,000 ms copied-gate bound; one-shot gate unused and source retired.
+- Revision 62 timeout-hook regression: 1/1 `pass`; focused release pair: 66/66 `pass`.
+- Revision 62 broad pre-freeze and independent review gates pass. Exact committed lifecycle, full verifier, non-consuming exact-candidate rehearsal, hosted matrix, canonical gate, fresh R2, and merge remain independent gates; `releaseReady: false`.
 
 ## Revision 31 Long-Path Correction Gate
 

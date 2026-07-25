@@ -1,0 +1,54 @@
+
+> swecircuit@0.0.0 test:lifecycle
+> node --test test/lifecycle/*.test.mjs
+
+✔ lifecycle test hooks are bound before isolated execution (0.7554ms)
+✖ isolated copied production entrypoints complete one exact compile-to-verify lifecycle (950166.1132ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 950278.3678
+
+✖ failing tests:
+
+test at test\lifecycle\v12-release-review-lifecycle.test.mjs:62:1
+✖ isolated copied production entrypoints complete one exact compile-to-verify lifecycle (950166.1132ms)
+  AssertionError [ERR_ASSERTION]: node:internal/modules/run_main:107
+      triggerUncaughtException(
+      ^
+  
+  AssertionError [ERR_ASSERTION]: copied production canonical gate timed out
+  
+  true !== false
+  
+      at assertCommandPassed (file:///C:/Users/garre/AppData/Local/Temp/swecircuit-v12-release-gate/work/git-EcpWjz/host-runtime/temp/swecircuit-v12-release-gate/work/candidate-feZ0Rn/test/helpers/v12-release-review-lifecycle.mjs:419:10)
+      at runReleaseReviewProductionLifecycle (file:///C:/Users/garre/AppData/Local/Temp/swecircuit-v12-release-gate/work/git-EcpWjz/host-runtime/temp/swecircuit-v12-release-gate/work/candidate-feZ0Rn/test/helpers/v12-release-review-lifecycle.mjs:1769:5)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async file:///C:/Users/garre/AppData/Local/Temp/swecircuit-v12-release-gate/work/git-EcpWjz/host-runtime/temp/swecircuit-v12-release-gate/work/candidate-feZ0Rn/test/fixtures/v12-release-review-lifecycle-child.mjs:12:19 {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+  
+  Node.js v24.14.1
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///C:/Users/garre/AppData/Local/Temp/swecircuit-v12-release-gate/work/candidate-pHE1L0/test/lifecycle/v12-release-review-lifecycle.test.mjs:99:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

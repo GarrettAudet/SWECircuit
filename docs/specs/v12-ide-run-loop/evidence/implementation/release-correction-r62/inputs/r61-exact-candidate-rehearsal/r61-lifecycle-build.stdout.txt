@@ -1,0 +1,1 @@
+SWECIRCUIT_TYPESCRIPT_BINDING {"path":"C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\candidate-pHE1L0\\node_modules\\typescript\\bin\\tsc","bytes":44,"digest":"sha256:2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd","nlink":1,"supplied":false,"version":"Version 7.0.2"}

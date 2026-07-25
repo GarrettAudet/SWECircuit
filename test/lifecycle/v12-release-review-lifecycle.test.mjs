@@ -20,6 +20,8 @@ const ENCLOSING_GIT_ENVIRONMENT = Object.freeze({ ...process.env });
 
 test("lifecycle test hooks are bound before isolated execution", () => {
   assert.equal(typeof V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.isSupportedNpmVersion, "function");
+  assert.equal(V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.processTimeoutMs, 900_000);
+  assert.equal(V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.canonicalGateTimeoutMs, 1_800_000);
 });
 
 function runEnclosingGit(args, options = {}) {

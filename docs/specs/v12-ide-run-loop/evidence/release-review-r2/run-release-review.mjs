@@ -428,6 +428,12 @@ const STATIC_SOURCES = [
     [LIFECYCLE, SECURITY],
   ),
   source(
+    "context.release-review-lifecycle-test",
+    "test/lifecycle/v12-release-review-lifecycle.test.mjs",
+    "Outer exact-candidate lifecycle, Git-authority, timeout, and cleanup contract.",
+    [LIFECYCLE, SECURITY],
+  ),
+  source(
     "context.host-cache-supply-child",
     "test/fixtures/v12-host-cache-supply-child.mjs",
     "Host cache isolation adversarial child fixture.",

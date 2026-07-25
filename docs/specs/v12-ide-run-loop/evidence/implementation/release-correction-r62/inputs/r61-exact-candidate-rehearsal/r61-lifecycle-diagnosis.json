@@ -1,0 +1,18 @@
+{
+  "candidateCommit": "f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5",
+  "materialization": {
+    "commit": "f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5",
+    "tree": "53f7fbcd28515cf3defd353ca1a341db51deb5e9",
+    "files": 4052,
+    "bytes": 127881924,
+    "digest": "sha256:4986ab9e81f82f69a3bd1ba906e31074678d2b63a687bb2e29125ba69bddea42"
+  },
+  "build": {
+    "status": 0,
+    "signal": null
+  },
+  "lifecycle": {
+    "status": 1,
+    "signal": null
+  }
+}
