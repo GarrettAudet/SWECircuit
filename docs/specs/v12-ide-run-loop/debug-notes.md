@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revisions 48-49 introduced candidate-private dependency authority and real-project lifecycle proof. Dogfooding and independent review retired Revisions 50-52. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revisions 53-54 were retired before canonical gating after isolated verification exposed narrow host-contract defects. Revision 55 passed the exact lifecycle and full verifier, then its sole canonical gate at `7c0135c9604893f6baa933d123cd026323ee2912` returned `fail` after four release self-tests assumed filesystem-discoverable Git metadata. Revision 55 is permanently retired. Revision 56 passed exact lifecycle and full verification, then its sole canonical gate at `6dfb99f86a88837ad94c2e73a422c0f6ba2d8c1f` returned `fail`: exact source, materialization, execution authority, dependency closure, and cleanup passed; 457/458 core tests passed, while one Windows long-path self-test made the child-process working directory 260 characters under nested private `TEMP`. Revision 56 is permanently retired. Revision 57 commit `e0859510132a5caf3a2393a5b203b07efef3d420` passed its exact copied lifecycle and full local verifier, then candidate-addressed external evidence from hosted run `30136535813` failed all seven jobs because Windows checkout lacked long-path bootstrap and depth-one checkouts omitted the approved historical checkpoint. Revision 57 is permanently retired without consuming its one-shot gate. Revision 58 declares long paths before Windows checkout, fetches complete history, retains read-only workflow permissions, and documents the prerequisite. Its focused regression, complete 63-test release contract, 460-test core suite, checker matrix, template checker, format, lint, and typecheck pass. Independent Attempt 3 review passes with no findings. Exact freeze and commit, committed lifecycle, full verifier, hosted CI, one successor gate, fresh R2, milestone closeout, and merge remain; `releaseReady: false`. Scope is frozen to release blockers through `2026-07-25 00:03 MDT`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 58 commit `da74ef518638ad6b32ff4a767b057f44c82e6bd6` is permanently retired. Its exact copied lifecycle passed 2/2, but its exact full verifier and hosted run `30139492037` failed because changed top-level documentation invalidated approved V11 context identities and the hosted whitespace check rejected preserved raw `.log` evidence. Its one-shot gate was not invoked. Revision 59 restores the approved documentation bytes, keeps the Windows prerequisite in `WINDOWS.md`, authenticates the entire hosted workflow and fail-closed whitespace step, and passes 63/63 release tests, 460/460 core tests, V10/V11/V12 dogfood, both checkers, format, lint, typecheck, package inspection, and clean consumer verification. Independent Attempts 1 through 4 returned `fix` and were corrected; Attempt 5 passed with no blocking findings. Source freeze and commit are pending. Exact freeze and commit, committed lifecycle, full verifier, hosted CI, one successor gate, fresh R2, milestone closeout, and merge remain; `releaseReady: false`. Scope is frozen to release blockers through `2026-07-25 00:03 MDT`.
 
 ## Reproduction
 
@@ -59,6 +59,7 @@ Host edit-capability mismatch: `block`, then revise the reviewed execution autho
 ### Next Action
 
 Compile Foundation Revision 2 with the same source and write ceiling plus explicit permission for a precondition-hash-guarded PowerShell fallback only after native `apply_patch` fails before mutation.
+
 ## Foundation Revision 2 Integration
 
 ### Reproduction
@@ -79,6 +80,7 @@ Cross-phase ownership omission: `fix` the downstream public-integration contract
 ### Next Action
 
 Add the normative diagnostic catalog to the public-integration source and write scope, retain the failing test as a required downstream gate, and continue only after independent Foundation review finds no in-scope defect.
+
 ## Foundation Boundary Classification
 
 ### Reproduction
@@ -274,6 +276,7 @@ The first two review requests failed closed with `SC4304`. A review artifact is 
 ### Route
 
 `fix`. Preserve attempt 1 unchanged, compile disjoint correction work, dogfood that exact correction package through V12, freeze a new candidate, and repeat all three release reviews.
+
 ## Release Correction Revisions 1-5
 
 ### Route
@@ -306,6 +309,7 @@ Run V11 evidence replay after revision-5 changes to `src/constants.ts`, composed
 ### Integration Finding
 
 The R2 harness named revision 32's semantic handoff directly. Integration replaced that attempt-specific source with the exact path bound by the current launch authorization. The candidate-bound R2 reviewers must evaluate this post-specialist correction before acceptance.
+
 ## Candidate Canonical Gate Attempt 1
 
 ### Reproduction
@@ -445,6 +449,7 @@ R9 moved canonical verification into an exact committed-tree materialization and
 Two inherited-runtime attempts stalled without handoffs. A fresh attempt failed closed after the host delivered the wrong checkout and then emitted a schema-invalid `block` handoff. The exact rejected 2,592 bytes remain preserved. A fourth attempt retained the same approved specialist contract, received the exact worktree/checkpoint, and used a manually selected `gpt-5.6-sol` plus `high` reasoning profile. Its 5,595-byte `pass` handoff verifies against the R10 package and the focused 5-test lifecycle suite passes.
 
 This is host liveness and runtime-supply evidence, not V12 model-routing behavior. The full attempt trace is `evidence/implementation/release-correction-r10/attempt-history.md`.
+
 ## Candidate 4 Exact Gate
 
 ### Reproduction
@@ -518,6 +523,7 @@ Retire Candidate 5. Revision 12 must require byte-stable V11 context sources, bi
 - Syntax, `git diff --check`, the offline installed consumer, and all 9 focused release-gate tests pass.
 - V11 Revision 38 rebuilt all 58 source bindings. Candidate A, Audit B, the 2,255-byte external receipt, 10,443-byte binder, 5,827-byte independent semantic `pass`, 984-byte authorization, 31/31 focused tests, and complete evidence replay all verify.
 - Route: `pass` for correction integration and V11 trust replay. Freeze Candidate 7; do not reuse Candidate 6.
+
 ## Revision 13 Pre-Freeze Formatting Drift
 
 ### Reproduction
@@ -537,6 +543,7 @@ Formatting changed the V11-bound consumer source, so Revision 38 could no longer
 ### Route
 
 `fix` -> `learn` -> `pass`. The aggregate pre-freeze gate passes in 235.7 seconds. Freeze Candidate 7 next; do not reuse Candidate 6 or represent Revision 38 as the current source identity.
+
 ## Candidate 7 Exact Gate And Revision 14
 
 ### Reproduction
@@ -648,6 +655,7 @@ The first Revision 23 review returned `fix`: its fast test passed a caller-suppl
 The first full lifecycle attempt then diagnosed a sealed-fixture sequence defect: Revision 22 was excluded while later revisions remained. The bounded fixture rule now excludes canonical correction roots from Revision 22 onward in both the filesystem copy and committed Git tree while retaining revisions 1-21 and unrelated evidence. The corrected copied-production lifecycle passes in 1,853.7 seconds.
 
 The first R24 package was rejected before launch for stale Revision 23 artifact-type labels. The next package returned a verifier-valid semantic `pass` but integration rejected its stale evidence filename. The final corrected package changes only that filename, reconstructs at compilation/package `sha256:6025d006482b13d40bdfc04f6ab2d7a16628f6040ef929cbe79b18707990ff90` / `sha256:deffe7fcb085e2840f94dba081e653800adf16528f062d7208a3d5072d18c81b`, and preserves a package-valid 18,311-byte `pass` handoff at `sha256:f88c08303de25f66a61dae6f0ca6e508b0357923c9c4bbe0d45e2e82a72c6497`. Integration accepts the exact result; route: `fix` -> `diagnose` -> `pass` -> label rejection -> semantic `pass` with integration rejection -> corrected `pass` -> pre-freeze verification.
+
 ## Revision 28 Aggregate Diagnosis And Independent Review
 
 ### Aggregate Diagnosis

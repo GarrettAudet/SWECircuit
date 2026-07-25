@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { randomBytes } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import {
   access,
   link,
@@ -129,6 +129,26 @@ async function cleanupPrivateNpmFixture(fixture) {
 }
 
 function assertHostedWorkflowContract(source) {
+  const workflowPreamble = [
+    "name: SWECircuit Checks",
+    "",
+    "on:",
+    "  pull_request:",
+    "  push:",
+    "    branches:",
+    "      - main",
+    '      - "codex/**"',
+    "",
+    "permissions:",
+    "  contents: read",
+    "",
+    "jobs:",
+  ].join("\n");
+  const templateCheckJob = source.match(
+    /^  template-check:\n[\s\S]*?(?=^  kernel-toolchain:)/mu,
+  )?.[0];
+  const templateCheckJobLevelKeys =
+    templateCheckJob?.match(/^    [A-Za-z][A-Za-z0-9_-]*:/gmu)?.map((line) => line.trim()) ?? [];
   const checkoutContract = [
     "      - name: Enable Git long paths",
     "        if: runner.os == 'Windows'",
@@ -146,7 +166,76 @@ function assertHostedWorkflowContract(source) {
   const permissionBlock = source
     .match(/^permissions:\n(?:^[ \t]+[^\n]*(?:\n|$))*/mu)?.[0]
     .trimEnd();
+  const whitespaceContract = [
+    "      - name: Check tracked whitespace",
+    "        shell: pwsh",
+    "        run: |",
+    "          Remove-Item Env:GIT_INDEX_FILE -ErrorAction SilentlyContinue",
+    "          Remove-Item Env:GIT_DIR -ErrorAction SilentlyContinue",
+    "          Remove-Item Env:GIT_WORK_TREE -ErrorAction SilentlyContinue",
+    "          Remove-Item Env:GIT_COMMON_DIR -ErrorAction SilentlyContinue",
+    "          $trackedFiles = @(git -C . ls-files --cached)",
+    "          if ($LASTEXITCODE -ne 0) {",
+    '            Write-Error "Unable to enumerate tracked files."',
+    "            exit 1",
+    "          }",
+    "          if ($trackedFiles.Count -eq 0) {",
+    '            Write-Error "Tracked-file enumeration returned no files."',
+    "            exit 1",
+    "          }",
+    '          $whitespaceExemptExtensions = @(".png", ".jpg", ".jpeg", ".gif", ".pdf", ".patch", ".log")',
+    "          $failures = @()",
+    "          foreach ($file in $trackedFiles) {",
+    "            $extension = [System.IO.Path]::GetExtension($file).ToLowerInvariant()",
+    "            if ($whitespaceExemptExtensions -contains $extension) { continue }",
+    "            if (-not (Test-Path -LiteralPath $file -PathType Leaf)) {",
+    '              $failures += "${file}: tracked path is missing or is not a regular file"',
+    "              continue",
+    "            }",
+    "            $lineNumber = 0",
+    "            foreach ($line in Get-Content -LiteralPath $file) {",
+    "              $lineNumber += 1",
+    '              if ($line -match "[ \\t]+$") {',
+    '                $failures += "${file}:${lineNumber}: trailing whitespace"',
+    "              }",
+    "            }",
+    "          }",
+    "          if ($failures.Count -gt 0) {",
+    "            $failures | ForEach-Object { Write-Error $_ }",
+    "            exit 1",
+    "          }",
+  ].join("\n");
+  const whitespaceStepReferences = source.match(/- name: Check tracked whitespace/gu) ?? [];
+  const protectedWhitespaceCount = source.split(whitespaceContract).length - 1;
+  const templateCheckJobContract = [
+    "  template-check:",
+    "    name: Template Check",
+    "    runs-on: windows-latest",
+    "    steps:",
+    checkoutContract,
+    "",
+    "      - name: Run SWECircuit checker",
+    "        shell: pwsh",
+    "        run: .\\scripts\\check-template.ps1",
+    "",
+    "      - name: Run checker regression tests",
+    "        shell: pwsh",
+    "        run: .\\scripts\\test-check-template.ps1",
+    "",
+    whitespaceContract,
+    "",
+  ].join("\n");
 
+  assert.ok(
+    source.startsWith(`${workflowPreamble}\n`),
+    "hosted CI must preserve the enabled top-level workflow contract",
+  );
+  assert.ok(templateCheckJob, "hosted CI must declare one template-check job");
+  assert.deepEqual(
+    templateCheckJobLevelKeys,
+    ["name:", "runs-on:", "steps:"],
+    "template-check must remain enabled and expose only its closed job-level keys",
+  );
   assert.equal(
     protectedCheckoutCount,
     checkoutReferences.length,
@@ -162,6 +251,28 @@ function assertHostedWorkflowContract(source) {
     permissionBlock,
     "permissions:\n  contents: read",
     "hosted CI must grant only top-level contents read authority",
+  );
+  assert.equal(
+    whitespaceStepReferences.length,
+    1,
+    "hosted CI must declare exactly one tracked-whitespace step",
+  );
+  assert.equal(
+    protectedWhitespaceCount,
+    1,
+    "hosted CI must preserve the complete closed tracked-whitespace step",
+  );
+  assert.equal(
+    templateCheckJob,
+    templateCheckJobContract,
+    "template-check job must preserve its complete blocking contract",
+  );
+  const workflowBytes = Buffer.from(source, "utf8");
+  assert.equal(workflowBytes.byteLength, 3_143, "complete hosted workflow byte length must match");
+  assert.equal(
+    `sha256:${createHash("sha256").update(workflowBytes).digest("hex")}`,
+    "sha256:9509732b0eb21bbec0e4a4f013c213b6b5083345e01573c4e22b5a1bb04a28cc",
+    "complete hosted workflow digest must match",
   );
 }
 
@@ -187,7 +298,7 @@ test("hosted CI contract rejects unprotected checkout and write authority", () =
   );
   assert.throws(
     () => assertHostedWorkflowContract(writeAuthority),
-    /grant only top-level contents read/u,
+    /enabled top-level workflow contract/u,
   );
 
   const jobOverride = `${ciWorkflowSource}
@@ -197,6 +308,90 @@ test("hosted CI contract rejects unprotected checkout and write authority", () =
   assert.throws(
     () => assertHostedWorkflowContract(jobOverride),
     /one top-level permissions declaration/u,
+  );
+
+  const disabledTemplateJob = ciWorkflowSource.replace(
+    "    runs-on: windows-latest\n    steps:",
+    "    runs-on: windows-latest\n    if: ${{ false }}\n    steps:",
+  );
+  assert.throws(() => assertHostedWorkflowContract(disabledTemplateJob), /remain enabled/u);
+
+  const poisonedEnumeration = ciWorkflowSource.replace(
+    "          $trackedFiles = @(git -C . ls-files --cached)",
+    '          $env:GIT_INDEX_FILE = "missing-index"\n          $trackedFiles = @(git -C . ls-files --cached)',
+  );
+  assert.throws(
+    () => assertHostedWorkflowContract(poisonedEnumeration),
+    /closed tracked-whitespace step/u,
+  );
+
+  const emptyEnumerationAccepted = ciWorkflowSource.replace(
+    '            Write-Error "Tracked-file enumeration returned no files."\n            exit 1',
+    '            Write-Output "Tracked-file enumeration returned no files."',
+  );
+  assert.throws(
+    () => assertHostedWorkflowContract(emptyEnumerationAccepted),
+    /closed tracked-whitespace step/u,
+  );
+
+  const missingTrackedFileSkipped = ciWorkflowSource.replace(
+    '              $failures += "${file}: tracked path is missing or is not a regular file"\n              continue',
+    "              continue",
+  );
+  assert.throws(
+    () => assertHostedWorkflowContract(missingTrackedFileSkipped),
+    /closed tracked-whitespace step/u,
+  );
+
+  const nonBlockingWhitespace = ciWorkflowSource.replace(
+    "            exit 1\n          }\n  kernel-toolchain:",
+    "            exit 1\n          }\n        continue-on-error: true\n  kernel-toolchain:",
+  );
+  assert.throws(
+    () => assertHostedWorkflowContract(nonBlockingWhitespace),
+    /complete blocking contract/u,
+  );
+
+  const disabledKernelJob = ciWorkflowSource.replace(
+    "    runs-on: ${{ matrix.os }}\n    strategy:",
+    "    runs-on: ${{ matrix.os }}\n    if: ${{ false }}\n    strategy:",
+  );
+  assert.throws(
+    () => assertHostedWorkflowContract(disabledKernelJob),
+    /complete hosted workflow byte length/u,
+  );
+
+  const nonBlockingKernel = ciWorkflowSource.replace(
+    "      - name: Verify kernel\n        run: npm run verify",
+    "      - name: Verify kernel\n        continue-on-error: true\n        run: npm run verify",
+  );
+  assert.throws(
+    () => assertHostedWorkflowContract(nonBlockingKernel),
+    /complete hosted workflow byte length/u,
+  );
+
+  const rewrittenEvidence = ciWorkflowSource.replace('".log")', '".txt")');
+  assert.throws(
+    () => assertHostedWorkflowContract(rewrittenEvidence),
+    /closed tracked-whitespace step/u,
+  );
+
+  const widenedEvidence = ciWorkflowSource.replace(
+    "          $failures = @()",
+    '          $whitespaceExemptExtensions += ".md"\n          $failures = @()',
+  );
+  assert.throws(
+    () => assertHostedWorkflowContract(widenedEvidence),
+    /closed tracked-whitespace step/u,
+  );
+
+  const bypassedSource = ciWorkflowSource.replace(
+    "            if ($whitespaceExemptExtensions -contains $extension) { continue }",
+    '            if ($extension -eq ".md") { continue }\n            if ($whitespaceExemptExtensions -contains $extension) { continue }',
+  );
+  assert.throws(
+    () => assertHostedWorkflowContract(bypassedSource),
+    /closed tracked-whitespace step/u,
   );
 });
 

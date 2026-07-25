@@ -36,12 +36,28 @@ jobs:
       - name: Check tracked whitespace
         shell: pwsh
         run: |
-          $binaryExtensions = @(".png", ".jpg", ".jpeg", ".gif", ".pdf", ".patch")
+          Remove-Item Env:GIT_INDEX_FILE -ErrorAction SilentlyContinue
+          Remove-Item Env:GIT_DIR -ErrorAction SilentlyContinue
+          Remove-Item Env:GIT_WORK_TREE -ErrorAction SilentlyContinue
+          Remove-Item Env:GIT_COMMON_DIR -ErrorAction SilentlyContinue
+          $trackedFiles = @(git -C . ls-files --cached)
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Unable to enumerate tracked files."
+            exit 1
+          }
+          if ($trackedFiles.Count -eq 0) {
+            Write-Error "Tracked-file enumeration returned no files."
+            exit 1
+          }
+          $whitespaceExemptExtensions = @(".png", ".jpg", ".jpeg", ".gif", ".pdf", ".patch", ".log")
           $failures = @()
-          foreach ($file in git ls-files) {
+          foreach ($file in $trackedFiles) {
             $extension = [System.IO.Path]::GetExtension($file).ToLowerInvariant()
-            if ($binaryExtensions -contains $extension) { continue }
-            if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { continue }
+            if ($whitespaceExemptExtensions -contains $extension) { continue }
+            if (-not (Test-Path -LiteralPath $file -PathType Leaf)) {
+              $failures += "${file}: tracked path is missing or is not a regular file"
+              continue
+            }
             $lineNumber = 0
             foreach ($line in Get-Content -LiteralPath $file) {
               $lineNumber += 1

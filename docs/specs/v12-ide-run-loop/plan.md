@@ -2,19 +2,19 @@
 
 ## Status
 
-The product implementation is complete. Revision 58 is the active release correction and is in pre-freeze verification.
+The product implementation is complete. Revision 58 is retired, and Revision 59 is the active release correction in pre-freeze rereview.
 
 ## Steps
 
-1. Preserve Revision 57's local pass and hosted-CI retirement evidence.
-2. Verify Revision 58's Windows checkout and full-history correction with focused and broad local gates.
-3. Obtain independent read-only review, freeze exact source identities, and commit once.
+1. Preserve Revision 58's exact lifecycle pass, exact full-verifier failure, hosted-CI failure, and unconsumed gate evidence.
+2. Restore the approved V11 documentation identities and close the hosted raw-evidence whitespace policy with positive and adversarial tests.
+3. Obtain independent read-only rereview, freeze exact source identities, and commit once.
 4. Run the exact copied lifecycle, full verifier, and hosted matrix against the frozen commit.
 5. Consume one canonical gate, run fresh three-domain R2, close memory and the milestone, then merge only on complete all-pass evidence.
 
 ## Architecture Approach
 
-Keep the accepted four-operation `SpecialistRunSession` contract unchanged. Revision 58 changes release-environment supply only: hosted jobs declare complete Git history, Windows long-path checkout support, read-only permissions, and the existing tracked npm-cache contract.
+Keep the accepted four-operation `SpecialistRunSession` contract unchanged. Revision 59 changes release evidence and hosted validation only: R58's full-history and Windows checkout bootstrap remain, V11-approved mutable documentation returns to its exact bytes, raw `.log` and `.patch` artifacts remain source-preserving, and the complete tracked-whitespace step is regression-bound.
 
 ## Dependencies
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revisions 48-49 introduced candidate-private dependency authority and real-project lifecycle proof. Dogfooding and independent review retired Revisions 50-52. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revisions 53-54 were retired before canonical gating after isolated verification exposed narrow host-contract defects. Revision 55 passed the exact lifecycle and full verifier, then its sole canonical gate at `7c0135c9604893f6baa933d123cd026323ee2912` returned `fail` after four release self-tests assumed filesystem-discoverable Git metadata. Revision 55 is permanently retired. Revision 56 passed exact lifecycle and full verification, then its sole canonical gate at `6dfb99f86a88837ad94c2e73a422c0f6ba2d8c1f` returned `fail`: exact source, materialization, execution authority, dependency closure, and cleanup passed; 457/458 core tests passed, while one Windows long-path self-test made the child-process working directory 260 characters under nested private `TEMP`. Revision 56 is permanently retired. Revision 57 commit `e0859510132a5caf3a2393a5b203b07efef3d420` passed its exact copied lifecycle and full local verifier, then candidate-addressed external evidence from hosted run `30136535813` failed all seven jobs because Windows checkout lacked long-path bootstrap and depth-one checkouts omitted the approved historical checkpoint. Revision 57 is permanently retired without consuming its one-shot gate. Revision 58 declares long paths before Windows checkout, fetches complete history, retains read-only workflow permissions, and documents the prerequisite. Its focused regression, complete 63-test release contract, 460-test core suite, checker matrix, template checker, format, lint, and typecheck pass. Independent Attempt 3 review passes with no findings. Exact freeze and commit, committed lifecycle, full verifier, hosted CI, one successor gate, fresh R2, milestone closeout, and merge remain; `releaseReady: false`. Scope is frozen to release blockers through `2026-07-25 00:03 MDT`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 58 commit `da74ef518638ad6b32ff4a767b057f44c82e6bd6` is permanently retired. Its exact copied lifecycle passed 2/2, but its exact full verifier and hosted run `30139492037` failed because changed top-level documentation invalidated approved V11 context identities and the hosted whitespace check rejected preserved raw `.log` evidence. Its one-shot gate was not invoked. Revision 59 restores the approved documentation bytes, keeps the Windows prerequisite in `WINDOWS.md`, authenticates the entire hosted workflow and fail-closed whitespace step, and passes 63/63 release tests, 460/460 core tests, V10/V11/V12 dogfood, both checkers, format, lint, typecheck, package inspection, and clean consumer verification. Independent Attempts 1 through 4 returned `fix` and were corrected; Attempt 5 passed with no blocking findings. Source freeze and commit are pending. Exact freeze and commit, committed lifecycle, full verifier, hosted CI, one successor gate, fresh R2, milestone closeout, and merge remain; `releaseReady: false`. Scope is frozen to release blockers through `2026-07-25 00:03 MDT`.
 
 ## Reproduction
 
@@ -103,6 +103,7 @@ The replacement candidate must pass focused causal tests, the complete canonical
 ## Correction Confirmation
 
 The correction chain preserved each non-success route instead of repeatedly patching: revision 1 exposed stale scope, revisions 2 and 3 returned `split` with progressively narrower cold-read evidence, revision 4 closed the composed filesystem-read chain, and revision 5 rebound real dogfood and primary release evidence. Both revision-5 handoffs verify `pass`, the integrated suite passes 388 of 388 tests, and V11 revision 33 independently re-authenticates the final bound sources. The remaining uncertainty is deliberately externalized to the candidate-bound canonical receipt and three independent R2 reviewers.
+
 ## Candidate Canonical Gate Attempt 1
 
 ### Reproduction
@@ -204,6 +205,7 @@ Four release-gate tests and five release-review lifecycle tests cover uncommitte
 ### Durable Learning
 
 A clean live worktree is not the same proof as executing committed source. Release evidence must bind the exact Git tree, and repeated immutable attempts need candidate-addressed roots plus data-driven lineage rather than a globally fixed output path or revision count.
+
 ## Candidate 4 Git Context And Evidence-Class RCA
 
 ### Reproduction
@@ -287,6 +289,7 @@ All 9 release-gate tests pass, covering local default, canonical normalized supp
 The exact Revision 13 handoff verifies `pass`, and V11 Revision 39 independently rebuilds and approves the final formatted consumer source through its complete two-package trust chain. Candidate 6 remains retired. Candidate 7 must prove the corrected runtime supply from its own committed materialization before R2 review.
 
 Runtime dependencies required to verify exact source must be explicit host inputs. A dependency-free candidate should never be made impure merely to satisfy the verifier that authenticates it.
+
 ## Candidate 7 Isolation-Test Default RCA
 
 ### Symptom

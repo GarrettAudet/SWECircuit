@@ -26,14 +26,6 @@ goal | clarify | spec | architecture_review | task_plan | implement | verify | r
 
 For repository or workflow changes, also update the relevant milestone, history ledger, retrieval index, and feature package.
 
-## Windows Checkout
-
-Versioned release evidence includes paths longer than the legacy Windows limit. Before cloning on Windows, run:
-
-```powershell
-git config --global core.longpaths true
-```
-
 ## Validation
 
 The required local check is:
