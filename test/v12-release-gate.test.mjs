@@ -31,6 +31,8 @@ import {
   createRecordedGitRunner,
 } from "./helpers/git-blob-loader-fixture.mjs";
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
+const CI_WORKFLOW_PATH = join(ROOT, ".github/workflows/template-check.yml");
+const NPM_CONFIG_PATH = join(ROOT, ".npmrc");
 const RUN_TYPESCRIPT_PATH = join(ROOT, "scripts/run-typescript.mjs");
 const RELEASE_GATE_PATH = join(ROOT, "scripts/run-v12-release-gate.mjs");
 const PACKED_CONSUMER_PATH = join(ROOT, "scripts/check-packed-consumer.mjs");
@@ -39,6 +41,8 @@ const REVIEW_HARNESS_PATH = join(
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
 );
 const RELEASE_REVIEW_LIFECYCLE_PATH = join(ROOT, "test/helpers/v12-release-review-lifecycle.mjs");
+const ciWorkflowSource = (await readFile(CI_WORKFLOW_PATH, "utf8")).replaceAll("\r\n", "\n");
+const npmConfigSource = await readFile(NPM_CONFIG_PATH, "utf8");
 const releaseReviewLifecycleSource = await readFile(RELEASE_REVIEW_LIFECYCLE_PATH, "utf8");
 const runTypeScriptSource = await readFile(RUN_TYPESCRIPT_PATH);
 const RELEASE_REVIEW_PARENT_PATH = join(ROOT, "scripts/run-v12-release-review.mjs");
@@ -123,6 +127,78 @@ async function cleanupPrivateNpmFixture(fixture) {
   await RELEASE_REVIEW_PARENT_TEST_HOOKS.removeOperationRoot(fixture.operationRoot);
   await rm(fixture.cacheRoot, { recursive: true, force: true });
 }
+
+function assertHostedWorkflowContract(source) {
+  const checkoutContract = [
+    "      - name: Enable Git long paths",
+    "        if: runner.os == 'Windows'",
+    "        shell: pwsh",
+    "        run: git config --global core.longpaths true",
+    "",
+    "      - name: Check out repository",
+    "        uses: actions/checkout@v7",
+    "        with:",
+    "          fetch-depth: 0",
+  ].join("\n");
+  const checkoutReferences = source.match(/actions\/checkout@/gu) ?? [];
+  const protectedCheckoutCount = source.split(checkoutContract).length - 1;
+  const permissionReferences = source.match(/\bpermissions\b/gu) ?? [];
+  const permissionBlock = source
+    .match(/^permissions:\n(?:^[ \t]+[^\n]*(?:\n|$))*/mu)?.[0]
+    .trimEnd();
+
+  assert.equal(
+    protectedCheckoutCount,
+    checkoutReferences.length,
+    "every checkout must have the Windows long-path and full-history contract",
+  );
+  assert.equal(checkoutReferences.length, 2, "hosted CI must declare exactly two checkout steps");
+  assert.equal(
+    permissionReferences.length,
+    1,
+    "hosted CI must use one top-level permissions declaration with no job override",
+  );
+  assert.equal(
+    permissionBlock,
+    "permissions:\n  contents: read",
+    "hosted CI must grant only top-level contents read authority",
+  );
+}
+
+test("hosted CI supplies complete Git history and a repository-local npm cache", () => {
+  assertHostedWorkflowContract(ciWorkflowSource);
+  assert.equal(npmConfigSource.trim(), "cache=.local/npm-cache");
+});
+
+test("hosted CI contract rejects unprotected checkout and write authority", () => {
+  const unprotectedCheckout = `${ciWorkflowSource}
+  shadow-job:
+    steps:
+      - uses: "actions/checkout@v7" # checkout
+`;
+  assert.throws(
+    () => assertHostedWorkflowContract(unprotectedCheckout),
+    /every checkout must have/u,
+  );
+
+  const writeAuthority = ciWorkflowSource.replace(
+    "  contents: read",
+    '  contents: read\n  issues: "write" # grant',
+  );
+  assert.throws(
+    () => assertHostedWorkflowContract(writeAuthority),
+    /grant only top-level contents read/u,
+  );
+
+  const jobOverride = `${ciWorkflowSource}
+  shadow-job:
+    permissions: { issues: "write" }
+`;
+  assert.throws(
+    () => assertHostedWorkflowContract(jobOverride),
+    /one top-level permissions declaration/u,
+  );
+});
 
 test("candidate lock applicability distinguishes glibc and musl", () => {
   const glibcPackage = { os: ["linux"], cpu: ["x64"], libc: ["glibc"] };

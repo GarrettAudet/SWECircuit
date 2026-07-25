@@ -25,6 +25,8 @@ An external IDE host dispatches agents, enforces permissions, executes tools, in
 
 Requires Node.js 22.14 or newer.
 
+On Windows, enable Git long paths before cloning: `git config --global core.longpaths true`.
+
 ```powershell
 npm ci
 npm run build

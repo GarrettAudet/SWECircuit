@@ -2,25 +2,26 @@
 
 ## Status
 
-Architecture accepted; implementation compilation is next.
+The product implementation is complete. Revision 58 is the active release correction and is in pre-freeze verification.
 
 ## Steps
 
-1. Compile and run independent product, lifecycle, and authority architecture analyses through V11.1.
-2. Verify their raw handoffs, assess dependency fan-in, and freeze one V12 ADR and contract.
-3. Recompile implementation work from the accepted design into disjoint code, schema, docs, and verification units.
-4. Integrate through one owner, run focused and canonical verification, and obtain independent final review.
-5. Dogfood the completed V12 loop, update memory and the milestone, publish a version branch, and merge only after owner approval.
+1. Preserve Revision 57's local pass and hosted-CI retirement evidence.
+2. Verify Revision 58's Windows checkout and full-history correction with focused and broad local gates.
+3. Obtain independent read-only review, freeze exact source identities, and commit once.
+4. Run the exact copied lifecycle, full verifier, and hosted matrix against the frozen commit.
+5. Consume one canonical gate, run fresh three-domain R2, close memory and the milestone, then merge only on complete all-pass evidence.
 
 ## Architecture Approach
 
-Implement the accepted four-operation `SpecialistRunSession` contract in `specialist-run-contract.md`. The session embeds the verified package and exact accepted handoffs, derives dependency eligibility and routing, and performs no scheduling or runtime effect.
+Keep the accepted four-operation `SpecialistRunSession` contract unchanged. Revision 58 changes release-environment supply only: hosted jobs declare complete Git history, Windows long-path checkout support, read-only permissions, and the existing tracked npm-cache contract.
 
 ## Dependencies
 
-- V11.1 is the exact baseline and compiler used for dogfooding.
-- The Round-4 correction design is mandatory input for any runtime-adjacent behavior.
-- Architecture fan-in passed and is bound by `integration-verification.json`.
+- V11.1 remains the exact baseline and compiler used for dogfooding.
+- Approved checkpoint `1b47e0ad10a5c3209fae53397892b7df3cd837be` must be available to historical proof tests.
+- The tracked `.npmrc` provides the repository-local offline npm-cache supply.
+- Architecture fan-in remains bound by `integration-verification.json`.
 
 ## Rollback
 
