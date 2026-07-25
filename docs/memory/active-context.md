@@ -2,13 +2,13 @@
 
 ## Current Focus
 
-V12 IDE Run Loop Revision 56 is active on `codex/v12-ide-run-loop`. Revision 55 commit `7c0135c9604893f6baa933d123cd026323ee2912` passed its exact lifecycle and full verifier, then its sole canonical gate returned `fail` after 454/458 core tests because four release self-tests assumed filesystem-discoverable Git metadata inside an exact blob materialization. Its exact receipt and logs are preserved, and Revision 55 is permanently retired. Revision 56 gives those repository-sensitive tests private conventional Git fixtures and a narrow source-runner injection seam while leaving production Git sanitization unchanged. The four causal tests, complete 24-test gate file, 61-test release contract, 458-test core suite, template and quality gates, and independent review pass; `releaseReady: false`.
+V12 IDE Run Loop Revision 57 is active on `codex/v12-ide-run-loop`. Revision 56 commit `6dfb99f86a88837ad94c2e73a422c0f6ba2d8c1f` passed its exact copied lifecycle and full verifier, then its sole canonical gate returned `fail` after 457/458 core tests because one Windows long-path self-test made the child-process working directory 260 characters under nested private `TEMP`. Its exact receipt and logs are preserved, and Revision 56 is permanently retired. Revision 57 moves the test's length pressure into two bounded committed path components while leaving production release-gate code unchanged. The nested-private-`TEMP` regression, four causal tests, complete 24-test gate file, 61-test release contract, complete 458-test core suite, status invariants, template and quality gates, and independent review pass; `releaseReady: false`.
 
 The deadline remains a merged release or one explicit evidence-backed blocker by `2026-07-25 00:03 MDT`.
 
 ## Current Stage
 
-Candidate-addressed external evidence preserves Revision 55's exact failure. Revision 56 emitted `pass` from pre-freeze verification and independent review; its exact source identities are frozen for commit. The main agent remains integration owner. External IDE hosts still own model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
+Candidate-addressed external evidence preserves Revision 56's exact failure. Revision 57 emitted `pass` from complete pre-freeze verification and independent review; exact source freeze and commit remain. The main agent remains integration owner. External IDE hosts still own model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
 
 ## Important Current Constraints
 
@@ -165,8 +165,7 @@ Candidate-addressed external evidence preserves Revision 55's exact failure. Rev
 
 ## Next Likely Work
 
-- Complete independent and broad pre-freeze verification.
-- Freeze and commit Revision 56, then run the exact copied lifecycle and full verifier.
-- Consume one distinct canonical gate only for the exact Revision 56 commit.
+- Freeze and commit Revision 57, then run the exact copied lifecycle and full verifier.
+- Consume one distinct canonical gate only for the exact Revision 57 commit.
 - On `pass`, run fresh three-domain R2, hosted CI, milestone and memory closeout, then merge to `main`.
-- Never rerun or overwrite Revision 55's candidate-addressed gate evidence.
+- Never rerun or overwrite Revision 56's candidate-addressed gate evidence.

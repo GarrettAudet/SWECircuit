@@ -518,8 +518,15 @@ test("runtime ancestor package supply is detected before candidate execution", a
 test("candidate Git context is disposable, exact, and usable from the materialization", async () => {
   const fixture = await createGitBlobLoaderFixture();
   const gitRunner = createRecordedGitRunner(fixture.root, []);
-  const longPathFile = `long-path-${"y".repeat(80)}.txt`;
-  await writeFile(join(fixture.root, longPathFile), "long path fixture\n", "utf8");
+  const longPathDirectory = `long-path-${"y".repeat(45)}`;
+  const longPathLeaf = `leaf-${"z".repeat(45)}.txt`;
+  const longPathEntry = `${longPathDirectory}/${longPathLeaf}`;
+  await mkdir(join(fixture.root, longPathDirectory));
+  await writeFile(
+    join(fixture.root, longPathDirectory, longPathLeaf),
+    "long path fixture\n",
+    "utf8",
+  );
   gitRunner(["add", "--all"]);
   gitRunner([
     "-c",
@@ -545,7 +552,12 @@ test("candidate Git context is disposable, exact, and usable from the materializ
   const deepRoot = await mkdtemp(
     join(RELEASE_GATE_TEST_HOOKS.materializationParent, "long-path-context-"),
   );
-  const nestedRoot = join(deepRoot, "x".repeat(96));
+  const targetWorktreePathLength = 160;
+  const nestedSegmentLength = Math.min(
+    96,
+    Math.max(1, targetWorktreePathLength - deepRoot.length - "candidate".length - 2),
+  );
+  const nestedRoot = join(deepRoot, "x".repeat(nestedSegmentLength));
   const worktree = join(nestedRoot, "candidate");
   let gitContext;
   let materializationMoved = false;
@@ -554,13 +566,18 @@ test("candidate Git context is disposable, exact, and usable from the materializ
     await mkdir(nestedRoot, { recursive: true });
     await rename(materialization.root, worktree);
     materializationMoved = true;
-    const maxMaterializedPathLength = materialization.entries.reduce(
-      (maximum, entry) => Math.max(maximum, join(worktree, ...entry.path.split("/")).length),
-      0,
+    assert.equal(
+      materialization.entries.some((entry) => entry.path === longPathEntry),
+      true,
+      "causal long-path entry is missing from the exact materialization",
     );
+    if (process.platform === "win32") {
+      assert.ok(worktree.length < 260, "causal worktree exceeds the Windows process boundary");
+    }
+    const longMaterializedPathLength = join(worktree, ...longPathEntry.split("/")).length;
     assert.ok(
-      maxMaterializedPathLength > 260,
-      "causal worktree did not cross the Windows long-path boundary",
+      longMaterializedPathLength > 260,
+      "causal tracked entry did not cross the Windows long-path boundary",
     );
 
     gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
