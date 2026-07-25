@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5` passed exact committed verification and all seven hosted jobs, but its non-consuming exact-candidate rehearsal reported a nested canonical-gate timeout at the old 15-minute test bound; its one-shot gate was never invoked and the source is retired. Revision 62 commit `d02b2bc590e04ec9496d9d04b7500e94adda9c04` passed its exact copied lifecycle, but its full verifier and all seven hosted jobs failed after an R62-only binary attribute changed V11's authenticated `.gitattributes` identity; its one-shot gate was never invoked and the source is retired. Revision 63 removes only that attribute, preserves the R61 evidence bytes, and passes strict V11 dogfood, 68 focused release tests, 465 core tests, complete pre-freeze verification, the checker matrix, and independent review. No release approval exists until the exact source is frozen and passes lifecycle, full verification, exact-candidate rehearsal, hosted CI, one canonical gate, fresh R2, milestone closeout, and owner merge; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5` passed exact committed verification and all seven hosted jobs, but its non-consuming exact-candidate rehearsal reported a nested canonical-gate timeout at the old 15-minute test bound; its one-shot gate was never invoked and the source is retired. Revision 62 commit `d02b2bc590e04ec9496d9d04b7500e94adda9c04` passed its exact copied lifecycle, but its full verifier and all seven hosted jobs failed after an R62-only binary attribute changed V11's authenticated `.gitattributes` identity; its one-shot gate was never invoked and the source is retired. Revision 63 commit `7f45e75792caff01db638538004077b61643ea37` passed its exact copied lifecycle, full verifier, and six hosted kernel jobs, but hosted run `30156840253` failed at `Check tracked whitespace` because the exact R61 stdout stream was stored as non-exempt `.txt`; its one-shot gate was never invoked and the source is retired. Revision 64 preserves those 2,244 bytes and their digest under the established tracked `.log` representation, with no runtime or audit-policy change. Its 69-test focused boundary, strict V11 replay, template checker, complete checker matrix, equivalent tracked-whitespace scan of 4,083 files, and complete 612.2-second verifier pass. Independent final-delta review also passes with a 4,084-file replay. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Reproduction
 
@@ -701,3 +701,15 @@ stdout was already LF-only under the repository's `eol=lf` policy. Removing that
 exact V11 identity without changing the evidence blob. Strict V11 dogfood, the 68-test V12 release pair, 465-test core suite, complete pre-freeze
 verification, checker matrix, and independent review pass; exact immutable, hosted, canonical, and
 fresh R2 gates remain.
+
+## Revision 64 Hosted Verification Correction
+
+Revision 63 is not releasable even though exact local verification and all six hosted kernel jobs
+pass. Hosted run `30156840253` fails the independent tracked-whitespace step because immutable R61
+stdout evidence has seven intentional trailing-space lines under `.txt`. The established policy
+already exempts `.log` as the raw-output representation.
+
+The causal correction moves the exact 2,244-byte blob to `.log`, adds one exact ignore exception so
+it remains tracked, updates its manifest, and proves its bytes, digest, line form, path, policy, and
+tracking state. It does not change the blob, the hosted scanner, `.gitattributes`, runtime behavior,
+or V11-approved source identities.

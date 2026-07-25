@@ -8,6 +8,7 @@ Thumbs.db
 
 # Logs and local runtime output
 *.log
+!docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r62/inputs/r61-exact-candidate-rehearsal/r61-lifecycle-test.stdout.log
 !docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stdout.log
 !docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gate.stderr.log
 !docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/*/canonical-gate.stdout.log

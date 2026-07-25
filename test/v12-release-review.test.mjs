@@ -1505,7 +1505,9 @@ test("materialized lifecycle detects persistent compiler mutation after child re
   }
 });
 
-test("R61 rehearsal stdout remains exact under the authenticated LF policy", () => {
+test("R61 rehearsal stdout remains exact under the authenticated LF and hosted-log policies", () => {
+  const evidencePath =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r62/inputs/r61-exact-candidate-rehearsal/r61-lifecycle-test.stdout.log";
   const attributes = readFileSync(resolve(ROOT, ".gitattributes"));
   assert.equal(attributes.byteLength, 1_283);
   assert.equal(
@@ -1513,18 +1515,42 @@ test("R61 rehearsal stdout remains exact under the authenticated LF policy", () 
     "4626d1e064ae446e63b50a072443b874a9619c012ac283d7903d03cd028b53a3",
   );
 
-  const stdout = readFileSync(
-    resolve(
-      ROOT,
-      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r62/inputs/r61-exact-candidate-rehearsal/r61-lifecycle-test.stdout.txt",
-    ),
-  );
+  const stdout = readFileSync(resolve(ROOT, evidencePath));
   assert.equal(stdout.byteLength, 2_244);
   assert.equal(stdout.includes(13), false);
+  assert.equal(
+    stdout
+      .toString("utf8")
+      .split("\n")
+      .filter((line) => /[ \t]+$/u.test(line)).length,
+    7,
+  );
   assert.equal(
     createHash("sha256").update(stdout).digest("hex"),
     "2b7149346d0d201d32d9ec2d9f7beff3f217d4853892dd660bcf951665d5820b",
   );
+
+  const ignoreLines = readFileSync(resolve(ROOT, ".gitignore"), "utf8").split(/\r?\n/u);
+  assert.equal(ignoreLines.includes(`!${evidencePath}`), true);
+  const workflow = readFileSync(resolve(ROOT, ".github/workflows/template-check.yml"), "utf8");
+  assert.match(workflow, /\$whitespaceExemptExtensions = @\([^)]*"\.log"[^)]*\)/u);
+  assert.equal(
+    existsSync(
+      resolve(
+        ROOT,
+        "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r62/inputs/r61-exact-candidate-rehearsal/r61-lifecycle-test.stdout.txt",
+      ),
+    ),
+    false,
+  );
+  const tracked = spawnSync(
+    "git",
+    ["-c", "core.longpaths=true", "-C", ROOT, "ls-files", "--error-unmatch", "--", evidencePath],
+    { encoding: "utf8", windowsHide: true },
+  );
+  assert.equal(tracked.signal, null);
+  assert.equal(tracked.status, 0, tracked.stderr);
+  assert.equal(tracked.stdout.trim().replaceAll("\\", "/"), evidencePath);
 });
 
 test("R62 dogfood failure envelopes preserve the exact raw streams", () => {
@@ -1583,6 +1609,43 @@ test("R62 dogfood failure envelopes preserve the exact raw streams", () => {
     assert.equal(digest(raw), expected.rawSha256);
   }
 });
+
+test("R63 hosted evidence binds the exact failed policy step", () => {
+  const evidenceRoot =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r64/inputs/r63-hosted-run";
+  const stored = readFileSync(resolve(ROOT, evidenceRoot, "run.json"));
+  assert.equal(stored.byteLength, 1_172);
+  assert.equal(
+    digest(stored),
+    "sha256:46e9d03e11fb309bd04d524353fc335daed8818effc6aa45073ba3d5f4b17643",
+  );
+  const manifest = readFileSync(resolve(ROOT, evidenceRoot, "manifest.md"), "utf8");
+  assert.equal(
+    manifest.split(
+      "| `run.json` | 1,172 | `46e9d03e11fb309bd04d524353fc335daed8818effc6aa45073ba3d5f4b17643` |",
+    ).length - 1,
+    1,
+  );
+
+  const record = JSON.parse(stored.toString("utf8"));
+  assert.equal(record.schemaVersion, "swecircuit.hosted-run-evidence.v1");
+  assert.equal(record.repository, "GarrettAudet/SWECircuit");
+  assert.equal(record.runId, 30_156_840_253);
+  assert.equal(record.headSha, "7f45e75792caff01db638538004077b61643ea37");
+  assert.equal(record.status, "completed");
+  assert.equal(record.conclusion, "failure");
+  assert.equal(record.jobs.length, 7);
+  assert.equal(record.jobs.filter((job) => job.conclusion === "success").length, 6);
+  const templateCheck = record.jobs.find((job) => job.name === "Template Check");
+  assert.deepEqual(templateCheck, {
+    id: 89_676_034_054,
+    name: "Template Check",
+    status: "completed",
+    conclusion: "failure",
+    failedSteps: ["Check tracked whitespace"],
+  });
+});
+
 test("the positive copied gate alone receives the extended lifecycle timeout", () => {
   const source = readFileSync(
     resolve(ROOT, "test/helpers/v12-release-review-lifecycle.mjs"),

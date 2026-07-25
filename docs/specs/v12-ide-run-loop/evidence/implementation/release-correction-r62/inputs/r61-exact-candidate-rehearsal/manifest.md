@@ -9,7 +9,7 @@
 | `r61-lifecycle-diagnose.mjs` | 3,244 | `98407435de84cf48666d58fbbd347354654ab1ea84a283b7e478039885ec8506` |
 | `r61-lifecycle-diagnosis.json` | 453 | `f88f6a096136328efc313078fbb30679f8d30751f4a41a641d3ab856a219dca0` |
 | `r61-lifecycle-test.stderr.txt` | 0 | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
-| `r61-lifecycle-test.stdout.txt` | 2,244 | `2b7149346d0d201d32d9ec2d9f7beff3f217d4853892dd660bcf951665d5820b` |
+| `r61-lifecycle-test.stdout.log` | 2,244 | `2b7149346d0d201d32d9ec2d9f7beff3f217d4853892dd660bcf951665d5820b` |
 
 ## Interpretation Boundary
 

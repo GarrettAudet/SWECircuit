@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5` passed exact committed verification and all seven hosted jobs, but its non-consuming exact-candidate rehearsal reported a nested canonical-gate timeout at the old 15-minute test bound; its one-shot gate was never invoked and the source is retired. Revision 62 commit `d02b2bc590e04ec9496d9d04b7500e94adda9c04` passed its exact copied lifecycle, but its full verifier and all seven hosted jobs failed after an R62-only binary attribute changed V11's authenticated `.gitattributes` identity; its one-shot gate was never invoked and the source is retired. Revision 63 removes only that attribute, preserves the R61 evidence bytes, and passes strict V11 dogfood, 68 focused release tests, 465 core tests, complete pre-freeze verification, the checker matrix, and independent review. No release approval exists until the exact source is frozen and passes lifecycle, full verification, exact-candidate rehearsal, hosted CI, one canonical gate, fresh R2, milestone closeout, and owner merge; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5` passed exact committed verification and all seven hosted jobs, but its non-consuming exact-candidate rehearsal reported a nested canonical-gate timeout at the old 15-minute test bound; its one-shot gate was never invoked and the source is retired. Revision 62 commit `d02b2bc590e04ec9496d9d04b7500e94adda9c04` passed its exact copied lifecycle, but its full verifier and all seven hosted jobs failed after an R62-only binary attribute changed V11's authenticated `.gitattributes` identity; its one-shot gate was never invoked and the source is retired. Revision 63 commit `7f45e75792caff01db638538004077b61643ea37` passed its exact copied lifecycle, full verifier, and six hosted kernel jobs, but hosted run `30156840253` failed at `Check tracked whitespace` because the exact R61 stdout stream was stored as non-exempt `.txt`; its one-shot gate was never invoked and the source is retired. Revision 64 preserves those 2,244 bytes and their digest under the established tracked `.log` representation, with no runtime or audit-policy change. Its 69-test focused boundary, strict V11 replay, template checker, complete checker matrix, equivalent tracked-whitespace scan of 4,083 files, and complete 612.2-second verifier pass. Independent final-delta review also passes with a 4,084-file replay. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Baseline
 
@@ -282,3 +282,16 @@ strict V11 dogfood and all seven hosted jobs because a temporary raw-evidence bi
 changed V11's authenticated `.gitattributes` bytes. Revision 63 removes only that attribute,
 keeps the LF-only R61 evidence blob exact, leaves all V11-approved source bytes unchanged, and
 adds V12 regressions for both identities and the preserved R62 failure envelopes.
+
+## Revision 64 Hosted-Log Correction
+
+Revision 63 passed exact copied lifecycle and full verification, then hosted run `30156840253`
+passed all six kernel jobs and failed only tracked whitespace. The exact R61 stdout blob retained
+seven intentional trailing-space lines under `.txt`, while the hosted contract exempts immutable
+raw logs under `.log`.
+
+Revision 64 changes only the evidence representation and its references: the same 2,244 bytes and
+SHA-256 now live at `.log`, one exact `.gitignore` exception keeps the artifact tracked in copied
+repositories, and V12 regression coverage binds the bytes, path, policy, and tracking state. The
+workflow scanner, `.gitattributes`, V11-approved sources, runtime code, schemas, and public API are
+unchanged.
