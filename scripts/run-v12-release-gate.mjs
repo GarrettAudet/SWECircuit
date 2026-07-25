@@ -33,9 +33,15 @@ const CANDIDATE_DEPENDENCY_DIGEST_DOMAIN =
 const GIT_CONTEXT_STRATEGY = "disposable-shared-object-git-context";
 
 const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
-// Exact lifecycle validation nests this namespace, so keep Windows install paths bounded.
-const MATERIALIZATION_BASE = join(realpathSync.native(tmpdir()), "swc-v12-g");
-const MATERIALIZATION_PARENT = join(MATERIALIZATION_BASE, "work");
+// Exact release verification nests this layout, so keep private Windows paths bounded.
+const SCRATCH_LAYOUT = Object.freeze({
+  namespace: "swg",
+  parent: "w",
+  runtime: "r",
+  temp: "t",
+});
+const MATERIALIZATION_BASE = join(realpathSync.native(tmpdir()), SCRATCH_LAYOUT.namespace);
+const MATERIALIZATION_PARENT = join(MATERIALIZATION_BASE, SCRATCH_LAYOUT.parent);
 const MATERIALIZATION_FROM_ROOT = relative(resolve(ROOT), resolve(MATERIALIZATION_PARENT));
 requireCondition(
   isAbsolute(MATERIALIZATION_FROM_ROOT) ||
@@ -1181,9 +1187,9 @@ async function removeCandidateGitContext(root) {
 }
 
 async function createPrivateRuntime(root) {
-  const runtimeRoot = join(root, "host-runtime");
+  const runtimeRoot = join(root, SCRATCH_LAYOUT.runtime);
   const home = join(runtimeRoot, "home");
-  const temp = join(runtimeRoot, "temp");
+  const temp = join(runtimeRoot, SCRATCH_LAYOUT.temp);
   const appData = join(runtimeRoot, "appdata");
   const localAppData = join(runtimeRoot, "localappdata");
   await Promise.all([
@@ -1999,6 +2005,7 @@ export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
   inspectToolchain,
   installCandidateDependencies,
   materializationBase: MATERIALIZATION_BASE,
+  materializationLayout: SCRATCH_LAYOUT,
   materializationParent: MATERIALIZATION_PARENT,
   materializeCandidateSource,
   packageApplies,

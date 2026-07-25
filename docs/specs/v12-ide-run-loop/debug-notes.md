@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 preserves the exact failure and hosted evidence, shortens only the nested private scratch namespace, reduces the causal locked dependency path from 293 to 239 characters, passes 71/71 focused release tests, passes every broad non-lifecycle gate, and passes independent final-delta review with no findings. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 commit `e1b2c38b3c794fc3d4d8a967a20305885baa8662` passed exact copied lifecycle and the complete verifier, then failed its non-consuming exact-candidate rehearsal when the path regression exposed a 283-character leaf with four scratch namespaces. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 compacts the complete private layout; 72/72 focused tests and every broad pre-freeze gate pass. Independent review found no additional source defect and keeps release blocked on the immutable exact-candidate rehearsal. Exact freeze, copied lifecycle, complete verifier, rehearsal, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Reproduction
 
@@ -901,3 +901,13 @@ permanently retired and its one-shot gate remains unused.
 The exact R64 replay ran `node npm-cli.js run verify` over 4,085 materialized files. Core passed 466/466, then the copied lifecycle failed after 1,836,726.2587 ms with `copied production canonical gate timed out`. The full replay exited 1 after 1,898,645 ms. During the timeout window, the nested `npm ci` remained CPU-bound at a 207-character candidate root with no `node_modules`.
 
 The same package and lock completed offline with scripts disabled at a short path in 2,442.5591 ms. The causal dependency leaf projects to 293 characters under R64 and 239 under the R65 namespace. Route: `verify -> diagnose -> fix -> verify`.
+
+## Revision 65 Exact Rehearsal Failure And Revision 66
+
+Revision 65 passed exact copied lifecycle and complete verification, then its non-consuming
+exact-candidate rehearsal failed after 65,164 ms. Core reached 467/468 before the path-budget
+regression rejected a 283-character dependency leaf containing four `swc-v12-g` namespaces.
+
+The rehearsal did not reach the copied lifecycle, so no R65 nested install timeout is claimed.
+The failure instead exposed a regression-model omission: the enclosing candidate adds one complete
+scratch level. Route: `verify -> diagnose -> redesign -> Revision 66`.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 preserves the exact failure and hosted evidence, shortens only the nested private scratch namespace, reduces the causal locked dependency path from 293 to 239 characters, passes 71/71 focused release tests, passes every broad non-lifecycle gate, and passes independent final-delta review with no findings. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 commit `e1b2c38b3c794fc3d4d8a967a20305885baa8662` passed exact copied lifecycle and the complete verifier, then failed its non-consuming exact-candidate rehearsal when the path regression exposed a 283-character leaf with four scratch namespaces. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 compacts the complete private layout; 72/72 focused tests and every broad pre-freeze gate pass. Independent review found no additional source defect and keeps release blocked on the immutable exact-candidate rehearsal. Exact freeze, copied lifecycle, complete verifier, rehearsal, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Task List
 
@@ -112,7 +112,21 @@ T003 ran three read-only architecture analyses in parallel and one dependent syn
 - [x] Pass 71 focused release tests.
 - [x] Pass broad non-lifecycle verification.
 - [x] Pass independent final-delta review with no findings.
-- [ ] Freeze and commit the exact Revision 65 source.
+- [x] Freeze and commit the exact Revision 65 source.
+- [x] Pass exact lifecycle and the complete verifier.
+- [x] Preserve the failed non-consuming rehearsal and permanently retire Revision 65.
+- [x] Confirm the Revision 65 one-shot canonical gate was never invoked.
+
+## Revision 66 Release Correction
+
+- [x] Preserve Revision 65's exact source, standalone passes, failed rehearsal, and unused one-shot disposition.
+- [x] Correct the regression from three to four modeled namespace occurrences.
+- [x] Compact the full private scratch layout and retain 24 characters of fixed-budget headroom.
+- [x] Pass the targeted regression and 29/29 release-gate suite.
+- [x] Pass the complete focused pair and broad pre-freeze verification.
+- [x] Complete independent final-delta source review with no additional source defect.
+- [ ] Clear the review's immutable exact-candidate rehearsal condition.
+- [ ] Freeze and commit the exact Revision 66 source.
 - [ ] Pass exact lifecycle, complete verifier, non-consuming rehearsal, and all seven hosted jobs.
 - [ ] Consume one canonical gate and complete fresh three-domain R2.
 - [ ] Close memory and the milestone, then merge to `main`.

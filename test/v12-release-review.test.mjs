@@ -1697,6 +1697,50 @@ test("R64 evidence binds the hosted pass and exact-candidate timeout diagnosis",
     assert.equal(digest(raw), binding.digest);
   }
 });
+test("R65 evidence binds the exact four-level path-budget failure", () => {
+  const evidencePath =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r66/inputs/r65-exact-candidate-rehearsal/diagnosis.json";
+  const diagnosisBytes = readFileSync(resolve(ROOT, evidencePath));
+  assert.equal(diagnosisBytes.byteLength, 78_766);
+  assert.equal(
+    digest(diagnosisBytes),
+    "sha256:767a69df20dc30145b57928fc6c93a78d3390cdb775434cec4161bf1d4f0f8b3",
+  );
+
+  const diagnosis = JSON.parse(diagnosisBytes.toString("utf8"));
+  assert.equal(diagnosis.schemaVersion, "swecircuit.r65-rehearsal-diagnosis.v1");
+  assert.equal(diagnosis.candidate.commit, "e1b2c38b3c794fc3d4d8a967a20305885baa8662");
+  assert.equal(diagnosis.candidate.tree, "1c9cec27c6f4ef3270c810bbe01a850251296cc3");
+  assert.equal(diagnosis.standalone.copiedLifecycle.outcome, "pass");
+  assert.equal(diagnosis.standalone.completeVerifier.outcome, "pass");
+  assert.equal(diagnosis.rehearsal.status, 1);
+  assert.equal(diagnosis.rehearsal.signal, null);
+  assert.equal(
+    diagnosis.rehearsal.failureTest,
+    "release gate scratch namespace preserves nested Windows install headroom",
+  );
+  assert.equal(diagnosis.rehearsal.projectedPathLength, 283);
+  assert.equal(diagnosis.rehearsal.namespaceOccurrences, 4);
+  assert.equal(diagnosis.rehearsal.core.pass, 467);
+  assert.equal(diagnosis.rehearsal.core.fail, 1);
+  assert.equal(diagnosis.diagnosis.priorTopLevelModelNamespaceOccurrences, 3);
+  assert.equal(diagnosis.diagnosis.exactRehearsalNamespaceOccurrences, 4);
+  assert.equal(diagnosis.diagnosis.revision66ProjectedLeafLength, 205);
+  assert.equal(diagnosis.diagnosis.reduction, 78);
+  assert.equal(diagnosis.diagnosis.fixedWindowsTempRootBudget, 64);
+  assert.equal(diagnosis.diagnosis.fixedRevision66LeafLength, 236);
+  assert.equal(diagnosis.diagnosis.fixedRevision66Headroom, 24);
+  assert.equal(diagnosis.disposition.revision65Retired, true);
+  assert.equal(diagnosis.disposition.oneShotGateInvoked, false);
+
+  for (const stream of ["stdout", "stderr"]) {
+    const binding = diagnosis.rehearsal[stream];
+    const raw = Buffer.from(binding.content, "base64");
+    assert.equal(raw.byteLength, binding.bytes);
+    assert.equal(raw.toString("base64"), binding.content);
+    assert.equal(digest(raw), binding.digest);
+  }
+});
 test("the positive copied gate alone receives the extended lifecycle timeout", () => {
   const source = readFileSync(
     resolve(ROOT, "test/helpers/v12-release-review-lifecycle.mjs"),

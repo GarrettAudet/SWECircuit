@@ -15,7 +15,16 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { basename, delimiter, dirname, isAbsolute, join, relative, resolve } from "node:path";
+import {
+  basename,
+  delimiter,
+  dirname,
+  isAbsolute,
+  join,
+  relative,
+  resolve,
+  win32,
+} from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
@@ -813,10 +822,16 @@ test("runtime ancestor package supply is detected before candidate execution", a
 });
 
 test("release gate scratch namespace preserves nested Windows install headroom", async () => {
-  const namespace = basename(RELEASE_GATE_TEST_HOOKS.materializationBase);
-  assert.equal(namespace, "swc-v12-g");
+  const layout = RELEASE_GATE_TEST_HOOKS.materializationLayout;
+  assert.deepEqual(layout, {
+    namespace: "swg",
+    parent: "w",
+    runtime: "r",
+    temp: "t",
+  });
+  assert.equal(basename(RELEASE_GATE_TEST_HOOKS.materializationBase), layout.namespace);
 
-  const lockedDependencyPath = join(
+  const lockedDependencySegments = [
     "node_modules",
     "typescript",
     "vendor",
@@ -824,23 +839,64 @@ test("release gate scratch namespace preserves nested Windows install headroom",
     "lib",
     "common",
     "sharedArrayCancellation.d.ts",
-  );
+  ];
+  const lockedDependencyPath = join(...lockedDependencySegments);
   await access(join(ROOT, lockedDependencyPath));
 
-  const projectedCandidate = (scratchNamespace) => {
-    let nested = join(dirname(RELEASE_GATE_TEST_HOOKS.materializationBase), scratchNamespace);
+  const projectedCurrentCandidate = () => {
+    let nested = join(dirname(RELEASE_GATE_TEST_HOOKS.materializationBase), layout.namespace);
     for (let depth = 0; depth < 2; depth += 1) {
-      nested = join(nested, "work", "git-XXXXXX", "host-runtime", "temp", scratchNamespace);
+      nested = join(
+        nested,
+        layout.parent,
+        "git-XXXXXX",
+        layout.runtime,
+        layout.temp,
+        layout.namespace,
+      );
     }
-    return join(nested, "work", "candidate-XXXXXX");
+    return join(nested, layout.parent, "candidate-XXXXXX");
   };
 
-  const correctedLeaf = join(projectedCandidate(namespace), lockedDependencyPath);
-  const priorLeaf = join(projectedCandidate("swecircuit-v12-release-gate"), lockedDependencyPath);
-  assert.equal(priorLeaf.length - correctedLeaf.length, 54);
   if (process.platform === "win32") {
-    assert.ok(correctedLeaf.length < 260, `nested install path lacks headroom: ${correctedLeaf}`);
+    const currentLeaf = join(projectedCurrentCandidate(), lockedDependencyPath);
+    assert.ok(currentLeaf.length < 260, `nested install path lacks headroom: ${currentLeaf}`);
   }
+
+  const projectedFourLevelLeaf = (candidateLayout) => {
+    const windowsTempRoot = `C:\\${"t".repeat(61)}`;
+    assert.equal(windowsTempRoot.length, 64);
+    let nested = win32.join(windowsTempRoot, candidateLayout.namespace);
+    for (let depth = 0; depth < 3; depth += 1) {
+      nested = win32.join(
+        nested,
+        candidateLayout.parent,
+        "git-XXXXXX",
+        candidateLayout.runtime,
+        candidateLayout.temp,
+        candidateLayout.namespace,
+      );
+    }
+    return win32.join(
+      nested,
+      candidateLayout.parent,
+      "candidate-XXXXXX",
+      ...lockedDependencySegments,
+    );
+  };
+
+  const priorLeaf = projectedFourLevelLeaf({
+    namespace: "swc-v12-g",
+    parent: "work",
+    runtime: "host-runtime",
+    temp: "temp",
+  });
+  const correctedLeaf = projectedFourLevelLeaf(layout);
+  assert.equal(priorLeaf.length - correctedLeaf.length, 78);
+  assert.ok(
+    260 - correctedLeaf.length >= 24,
+    `fixed Windows path budget is ${correctedLeaf.length}`,
+  );
 });
 
 test("candidate Git context is disposable, exact, and usable from the materialization", async () => {

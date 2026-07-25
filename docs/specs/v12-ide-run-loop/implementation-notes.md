@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 preserves the exact failure and hosted evidence, shortens only the nested private scratch namespace, reduces the causal locked dependency path from 293 to 239 characters, passes 71/71 focused release tests, passes every broad non-lifecycle gate, and passes independent final-delta review with no findings. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 commit `e1b2c38b3c794fc3d4d8a967a20305885baa8662` passed exact copied lifecycle and the complete verifier, then failed its non-consuming exact-candidate rehearsal when the path regression exposed a 283-character leaf with four scratch namespaces. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 compacts the complete private layout; 72/72 focused tests and every broad pre-freeze gate pass. Independent review found no additional source defect and keeps release blocked on the immutable exact-candidate rehearsal. Exact freeze, copied lifecycle, complete verifier, rehearsal, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Baseline
 
@@ -301,3 +301,14 @@ unchanged.
 Revision 64's exact rehearsal exposed a Windows-only nested install topology that standalone and hosted checks did not reproduce. The internal release-gate scratch namespace appeared three times, producing a 207-character candidate root and a 293-character lock-supplied TypeScript leaf. The install remained CPU-bound until the copied gate's 30-minute timeout.
 
 Revision 65 changes only that internal namespace to `swc-v12-g`. The same topology projects to a 153-character candidate root and 239-character causal leaf. Test-only hooks expose the exact base; the focused regression requires the namespace, the locked leaf, the 54-character reduction, and Windows legacy-path headroom.
+
+## Revision 66 Complete Private Scratch Layout
+
+Revision 65 reduced only the scratch namespace. Its top-level regression modeled three namespace
+occurrences, while the exact-candidate rehearsal introduced a fourth and produced a 283-character
+dependency leaf.
+
+Revision 66 uses `swg/w/.../r/t` for the complete private layout. Candidate and Git randomness,
+containment, authority, environment closure, and cleanup are unchanged. The observed four-level
+projection falls to 205 characters. A platform-independent Windows model with a 64-character temp
+root projects 236 characters, preserving 24 characters of headroom.
