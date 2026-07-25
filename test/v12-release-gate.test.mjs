@@ -761,7 +761,7 @@ test("candidate lock and private dependency closure reject substitution", async 
 });
 
 test("runtime ancestor package supply is detected before candidate execution", async () => {
-  const root = await mkdtemp(join(tmpdir(), "swecircuit-ancestor-supply-"));
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-ancestor-supply-")));
   const candidate = join(root, "work", "candidate");
   const hostileSupply = join(root, "node_modules");
   try {
@@ -908,9 +908,13 @@ test("candidate Git context is disposable, exact, and usable from the materializ
     assert.equal(environment.PATH.split(delimiter)[0], join(worktree, "node_modules", ".bin"));
     assert.equal(environment.npm_config_cache, RELEASE_GATE_TEST_HOOKS.hostNpmCache);
     assert.equal(isAbsolute(environment.npm_config_cache), true);
-    const cacheFromMaterialization = relative(worktree, environment.npm_config_cache);
+    const cacheFromMaterialization = relative(
+      await realpath(worktree),
+      await realpath(environment.npm_config_cache),
+    );
     assert.equal(
-      cacheFromMaterialization === ".." ||
+      isAbsolute(cacheFromMaterialization) ||
+        cacheFromMaterialization === ".." ||
         cacheFromMaterialization.startsWith("../") ||
         cacheFromMaterialization.startsWith("..\\"),
       true,
@@ -1397,6 +1401,24 @@ test("release-review parent rejects unsafe paths and non-exact lock supply", asy
   const lockBytes = await readFile(join(ROOT, "package-lock.json"));
   const validated = RELEASE_REVIEW_PARENT_TEST_HOOKS.validateLockSupply(lockBytes);
   assert.ok(validated.packages > 0);
+  const glibcSupply = RELEASE_REVIEW_PARENT_TEST_HOOKS.validateLockSupply(lockBytes, {
+    platform: "linux",
+    architecture: "x64",
+    libc: "glibc",
+  });
+  const muslSupply = RELEASE_REVIEW_PARENT_TEST_HOOKS.validateLockSupply(lockBytes, {
+    platform: "linux",
+    architecture: "x64",
+    libc: "musl",
+  });
+  const applies = (supply, packagePath) =>
+    supply.entries.find((entry) => entry.path === packagePath)?.applies;
+  const glibcBiome = "node_modules/@biomejs/cli-linux-x64";
+  const muslBiome = "node_modules/@biomejs/cli-linux-x64-musl";
+  assert.equal(applies(glibcSupply, glibcBiome), true);
+  assert.equal(applies(glibcSupply, muslBiome), false);
+  assert.equal(applies(muslSupply, glibcBiome), false);
+  assert.equal(applies(muslSupply, muslBiome), true);
   const lock = JSON.parse(lockBytes.toString("utf8"));
   const packagePath = Object.keys(lock.packages).find((path) => path !== "");
   assert.ok(packagePath);
@@ -1675,6 +1697,48 @@ test("release-review parent closes environment, outputs, cleanup, and promotion 
   assert.doesNotMatch(releaseReviewLifecycleSource, /npm-cli-adapter|delete environment\[key\]/u);
   assert.doesNotMatch(releaseReviewParentSource, /npm_config_userconfig = nullDevice/u);
   assert.doesNotMatch(reviewHarnessSource, /npm_config_userconfig === .*NUL/u);
+});
+
+test("operation-root cleanup canonicalizes aliases and rejects unowned roots", async () => {
+  assert.notEqual(
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.pathAlias("/tmp", "linux"),
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.pathAlias("/TMP", "linux"),
+  );
+  assert.notEqual(
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.pathAlias("/var", "darwin"),
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.pathAlias("/VAR", "darwin"),
+  );
+  assert.equal(
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.pathAlias("C:\\Temp", "win32"),
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.pathAlias("c:\\temp", "win32"),
+  );
+  const temporaryRoot = await realpath(resolve(tmpdir()));
+  const owned = await mkdtemp(join(resolve(tmpdir()), "swr2-"));
+  await RELEASE_REVIEW_PARENT_TEST_HOOKS.removeOperationRoot(owned);
+  assert.equal(await pathExists(owned), false);
+
+  const wrongPrefix = await mkdtemp(join(temporaryRoot, "swecircuit-unowned-"));
+  const nestedParent = await mkdtemp(join(temporaryRoot, "swecircuit-cleanup-parent-"));
+  const nested = await mkdtemp(join(nestedParent, "swr2-"));
+  const linkedTarget = await mkdtemp(join(temporaryRoot, "swecircuit-cleanup-target-"));
+  const linkedRoot = await mkdtemp(join(temporaryRoot, "swr2-link-"));
+  await rm(linkedRoot, { recursive: true, force: true });
+  await symlink(linkedTarget, linkedRoot, process.platform === "win32" ? "junction" : "dir");
+
+  try {
+    for (const root of [wrongPrefix, nested, linkedRoot]) {
+      await assert.rejects(
+        RELEASE_REVIEW_PARENT_TEST_HOOKS.removeOperationRoot(root),
+        /unexpected operation root/u,
+      );
+      assert.equal(await pathExists(root), true);
+    }
+  } finally {
+    await rm(wrongPrefix, { recursive: true, force: true });
+    await rm(nestedParent, { recursive: true, force: true });
+    await rm(linkedRoot, { recursive: true, force: true });
+    await rm(linkedTarget, { recursive: true, force: true });
+  }
 });
 
 test("installed npm 10 or newer uses exact production private configs and rejects the old alias", async () => {

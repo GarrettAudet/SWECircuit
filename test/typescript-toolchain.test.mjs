@@ -71,7 +71,7 @@ async function sentinelCalls(path) {
 }
 
 test("declared TypeScript file defeats ambient and candidate-local command substitution", async () => {
-  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-external-"));
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-typescript-external-")));
   const projectRoot = join(root, "candidate");
   const externalRoot = join(root, "external");
   const ambientBin = join(root, "ambient-bin");
@@ -125,7 +125,7 @@ test("declared TypeScript file defeats ambient and candidate-local command subst
 });
 
 test("repository-local fallback executes the exact resolved file", async () => {
-  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-fallback-"));
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-typescript-fallback-")));
   const fallback = join(root, "node_modules", "typescript", "bin", "tsc");
   const conflictingBin = join(root, "node_modules", ".bin");
   const marker = join(root, "fallback.log");
@@ -165,7 +165,9 @@ test("repository-local fallback executes the exact resolved file", async () => {
 });
 
 test("repository fallback canonicalizes a linked dependency ancestor", async () => {
-  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-linked-fallback-"));
+  const root = await realpath(
+    await mkdtemp(join(tmpdir(), "swecircuit-typescript-linked-fallback-")),
+  );
   const projectRoot = join(root, "candidate");
   const dependencyRoot = join(root, "dependencies");
   const linkedNodeModules = join(projectRoot, "node_modules");
@@ -205,7 +207,7 @@ test("repository fallback canonicalizes a linked dependency ancestor", async () 
 });
 
 test("execution stops when version inspection mutates the bound file", async () => {
-  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-mutation-"));
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-typescript-mutation-")));
   const projectRoot = join(root, "candidate");
   const external = join(root, "tsc");
   const marker = join(root, "mutation.log");
@@ -237,7 +239,9 @@ test("execution stops when version inspection mutates the bound file", async () 
 });
 
 test("execution detects persistent mutation during compilation", async () => {
-  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-compile-mutation-"));
+  const root = await realpath(
+    await mkdtemp(join(tmpdir(), "swecircuit-typescript-compile-mutation-")),
+  );
   const projectRoot = join(root, "candidate");
   const external = join(root, "tsc");
   const marker = join(root, "mutation.log");
@@ -272,7 +276,7 @@ test("execution detects persistent mutation during compilation", async () => {
 });
 
 test("TypeScript binding rejects ambiguous, contained, and linked files", async () => {
-  const root = await mkdtemp(join(tmpdir(), "swecircuit-typescript-reject-"));
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-typescript-reject-")));
   const projectRoot = join(root, "candidate");
   const externalRoot = join(root, "external");
   const external = join(externalRoot, "tsc");

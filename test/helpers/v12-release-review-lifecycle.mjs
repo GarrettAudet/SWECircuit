@@ -14,7 +14,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { delimiter, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+import { basename, delimiter, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { RELEASE_REVIEW_TEST_HOOKS } from "../../docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs";
@@ -79,8 +79,8 @@ const FIXTURE_VERIFY_COMMAND = [
 
 export const PRODUCTION_IDENTITIES = Object.freeze({
   [PARENT_PATH]: Object.freeze({
-    bytes: 102_629,
-    digest: "sha256:433c8840bb18d377212400dbe32d3c2b479c09c1ab0bc0abf8c9752e6b8e8f62",
+    bytes: 104_087,
+    digest: "sha256:8a051a1cdb0b08dd61271569ffef7f460ef964ef7501c236c7b570e52613688e",
   }),
   [GATE_PATH]: Object.freeze({
     bytes: 70_160,
@@ -95,8 +95,8 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
   }),
   [GATE_TEST_PATH]: Object.freeze({
-    bytes: 71_784,
-    digest: "sha256:0a6f63b26427226d94661d8dad589fa446b139220d82e5adec37ec07eb51e334",
+    bytes: 74_562,
+    digest: "sha256:83b2fa6945f75d2740a63097b9f2be1acbe5c22a952670f6f17b2da229c23ce4",
   }),
   [TYPESCRIPT_RUNNER_PATH]: Object.freeze({
     bytes: 7_064,
@@ -511,19 +511,20 @@ async function copyHostNpmCacheSupply(destination) {
     "lifecycle-owned npm cache destination already exists",
   );
   const resolvedSource = await realpath(source);
+  const resolvedDestination = join(await realpath(dirname(destination)), basename(destination));
   const sourceStats = await stat(resolvedSource);
   assert.equal(sourceStats.isDirectory(), true, "release-gate host npm cache is not a directory");
   assert.equal(
-    rootsAreDisjoint(resolvedSource, destination),
+    rootsAreDisjoint(resolvedSource, resolvedDestination),
     true,
     "release-gate host npm cache overlaps the lifecycle-owned copy",
   );
-  await cp(resolvedSource, destination, { recursive: true });
-  assert.equal((await stat(destination)).isDirectory(), true);
+  await cp(resolvedSource, resolvedDestination, { recursive: true });
+  assert.equal((await stat(resolvedDestination)).isDirectory(), true);
   return Object.freeze({
     source: resolvedSource,
     sourceSelection: "release-gate-host-npm-cache",
-    destination,
+    destination: resolvedDestination,
     rootsDisjoint: true,
   });
 }

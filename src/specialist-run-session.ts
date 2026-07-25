@@ -72,6 +72,20 @@ function rawSha256Digest(bytes: Uint8Array): string {
   return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
 }
 
+function trimOuterJsonWhitespace(bytes: Uint8Array): Uint8Array {
+  const isWhitespace = (value: number): boolean =>
+    value === 0x20 || value === 0x09 || value === 0x0a || value === 0x0d;
+  let start = 0;
+  let end = bytes.byteLength;
+  while (start < end && isWhitespace(bytes[start] as number)) {
+    start += 1;
+  }
+  while (end > start && isWhitespace(bytes[end - 1] as number)) {
+    end -= 1;
+  }
+  return bytes.subarray(start, end);
+}
+
 function snapshotSessionBytes(value: unknown): RawSessionSnapshot {
   try {
     if (
@@ -86,8 +100,9 @@ function snapshotSessionBytes(value: unknown): RawSessionSnapshot {
     if (typed.byteLength > SPECIALIST_RUN_LIMITS.rawSessionInputBytes) {
       return Object.freeze({ bytes: null, limitExceeded: true });
     }
+    const snapshot = new Uint8Array(typed);
     return Object.freeze({
-      bytes: new Uint8Array(typed),
+      bytes: trimOuterJsonWhitespace(snapshot),
       limitExceeded: false,
     });
   } catch {

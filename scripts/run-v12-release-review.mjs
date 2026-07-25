@@ -189,8 +189,9 @@ function isContainedPath(root, target) {
   const fromRoot = relative(resolve(root), resolve(target));
   return fromRoot === "" || (!isAbsolute(fromRoot) && fromRoot !== ".." && !fromRoot.startsWith(`..${sep}`));
 }
-function pathAlias(path) {
-  return resolve(path).normalize("NFC").toLowerCase();
+function pathAlias(path, platform = process.platform) {
+  const normalized = resolve(path).normalize("NFC");
+  return platform === "win32" ? normalized.toLowerCase() : normalized;
 }
 
 function fileSystemIdentity(stats) {
@@ -1071,7 +1072,38 @@ async function inspectClosure(root, options = {}) {
   };
 }
 
-function packageApplies(entry) {
+function detectRuntimeLibc(platform = process.platform, report = null) {
+  if (platform !== "linux") {
+    return null;
+  }
+  const runtimeReport = report ?? process.report?.getReport?.();
+  const glibcVersion = runtimeReport?.header?.glibcVersionRuntime;
+  if (typeof glibcVersion === "string" && glibcVersion.length > 0) {
+    return "glibc";
+  }
+  if (
+    Array.isArray(runtimeReport?.sharedObjects) &&
+    runtimeReport.sharedObjects.some((path) => /(?:^|[/\\])(?:ld-)?musl|libc\.musl/iu.test(path))
+  ) {
+    return "musl";
+  }
+  throw new Error("Unable to determine the Linux runtime libc.");
+}
+
+function packageRuntimeIdentity(platform = process.platform, architecture = process.arch, report = null) {
+  return Object.freeze({
+    platform,
+    architecture,
+    libc: detectRuntimeLibc(platform, report),
+  });
+}
+
+function packageApplies(
+  entry,
+  platform = process.platform,
+  architecture = process.arch,
+  libc = detectRuntimeLibc(platform),
+) {
   const matches = (rules, value) => {
     if (!Array.isArray(rules) || rules.length === 0) {
       return true;
@@ -1083,15 +1115,18 @@ function packageApplies(entry) {
     const allowed = rules.filter((item) => !item.startsWith("!"));
     return allowed.length === 0 || allowed.includes(value);
   };
-  return matches(entry.os, process.platform) && matches(entry.cpu, process.arch);
+  return (
+    matches(entry.os, platform) && matches(entry.cpu, architecture) && matches(entry.libc, libc)
+  );
 }
 
-function validateLockSupply(lockBytes) {
+function validateLockSupply(lockBytes, runtime = packageRuntimeIdentity()) {
   const lock = JSON.parse(strictUtf8(lockBytes, "package-lock.json"));
   requireCondition(
     Number.isInteger(lock.lockfileVersion) && lock.lockfileVersion >= 2 && lock.packages,
     "Exact lockfile lacks a supported packages inventory.",
   );
+  const { platform, architecture, libc } = runtime;
   const packages = [];
   for (const [path, entry] of Object.entries(lock.packages)) {
     if (path === "") {
@@ -1117,7 +1152,7 @@ function validateLockSupply(lockBytes) {
       resolved: entry.resolved,
       integrity: entry.integrity,
       optional: entry.optional === true,
-      applies: packageApplies(entry),
+      applies: packageApplies(entry, platform, architecture, libc),
     });
   }
   packages.sort((left, right) => compareOrdinal(left.path, right.path));
@@ -2350,13 +2385,18 @@ async function atomicPromoteBytesAtRoot(repositoryRoot, logicalPath, bytes) {
 }
 
 async function removeOperationRoot(operationRoot) {
-  const parent = resolve(tmpdir());
+  const canonicalRoot = await realpath(operationRoot);
+  const parent = await realpath(resolve(tmpdir()));
+  const stats = await lstat(operationRoot);
   requireCondition(
-    dirname(operationRoot) === parent && basename(operationRoot).startsWith("swr2-"),
+    stats.isDirectory() &&
+      !stats.isSymbolicLink() &&
+      pathAlias(dirname(canonicalRoot)) === pathAlias(parent) &&
+      basename(canonicalRoot).startsWith("swr2-"),
     "Refusing to remove an unexpected operation root.",
   );
-  await rm(operationRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
-  requireCondition(!(await pathExists(operationRoot)), "Operation root cleanup failed.");
+  await rm(canonicalRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+  requireCondition(!(await pathExists(canonicalRoot)), "Operation root cleanup failed.");
 }
 
 function receiptPath(paths, requestedMode, invocation) {
@@ -2748,6 +2788,7 @@ export const RELEASE_REVIEW_PARENT_TEST_HOOKS = Object.freeze({
   createPhaseAuthorityBinding,
   createRuntimeBinding,
   createStableReconstructionBinding,
+  detectRuntimeLibc,
   declaredExternalInputPaths,
   environmentPolicy,
   expectedParentDigest,
@@ -2759,10 +2800,13 @@ export const RELEASE_REVIEW_PARENT_TEST_HOOKS = Object.freeze({
   parsePhaseInputs,
   parseGitBlobBatch,
   parseGitChangedPaths,
+  packageApplies,
+  pathAlias,
   preflightPromotionEntriesAtRoot,
   preflightPromotionSetAtRoot,
   promotePreflightedSetAtRoot,
   resolveNpmCli,
+  packageRuntimeIdentity,
   runWithPrivateNpmConfiguration: run,
   requireDisjointRoots,
   requireNoAncestorNodeModules,

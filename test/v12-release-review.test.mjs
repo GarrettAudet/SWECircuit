@@ -1076,7 +1076,7 @@ test("copied production lifecycle excludes correction evidence after its sealed 
 });
 
 test("copied production lifecycle consumes the fresh-process release-gate cache supply", async () => {
-  const root = await mkdtemp(join(tmpdir(), "swecircuit-host-cache-copy-"));
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-host-cache-copy-")));
   const sourceRoot = join(root, "isolated-candidate");
   const externalCache = join(root, "external-host-cache");
   const sentinel = Buffer.from("external host cache sentinel\n", "utf8");
@@ -1148,6 +1148,7 @@ test("copied production lifecycle consumes the fresh-process release-gate cache 
       assert.equal(probe.status, 1, probe.stderr);
       assert.match(probe.stderr, failure.message);
     }
+    assert.equal(existsSync(join(externalCache, "nested-copy")), false);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -1641,7 +1642,7 @@ test("closed private state rejects source mutation and undeclared post-build fil
 });
 
 test("explicit cache and ancestor resolver boundaries fail closed", async () => {
-  const root = await mkdtemp(join(tmpdir(), "swecircuit-r19-resolver-"));
+  const root = await realpath(await mkdtemp(join(tmpdir(), "swecircuit-r19-resolver-")));
   const candidateRoot = join(root, "candidate");
   const cache = join(root, "cache");
   try {
