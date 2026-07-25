@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5` passed exact committed verification and all seven hosted jobs, but its non-consuming exact-candidate rehearsal reported a nested canonical-gate timeout at the old 15-minute test bound; its one-shot gate was never invoked and the source is retired. Revision 62 commit `d02b2bc590e04ec9496d9d04b7500e94adda9c04` passed its exact copied lifecycle, but its full verifier and all seven hosted jobs failed after an R62-only binary attribute changed V11's authenticated `.gitattributes` identity; its one-shot gate was never invoked and the source is retired. Revision 63 commit `7f45e75792caff01db638538004077b61643ea37` passed its exact copied lifecycle, full verifier, and six hosted kernel jobs, but hosted run `30156840253` failed at `Check tracked whitespace` because the exact R61 stdout stream was stored as non-exempt `.txt`; its one-shot gate was never invoked and the source is retired. Revision 64 preserves those 2,244 bytes and their digest under the established tracked `.log` representation, with no runtime or audit-policy change. Its 69-test focused boundary, strict V11 replay, template checker, complete checker matrix, equivalent tracked-whitespace scan of 4,083 files, and complete 612.2-second verifier pass. Independent final-delta review also passes with a 4,084-file replay. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 preserves the exact failure and hosted evidence, shortens only the nested private scratch namespace, reduces the causal locked dependency path from 293 to 239 characters, passes 71/71 focused release tests, passes every broad non-lifecycle gate, and passes independent final-delta review with no findings. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Contract Tests
 
@@ -44,12 +44,14 @@ Package and handoff verification authenticate artifacts; they do not establish r
 
 ## Current Evidence
 
-- Revision 60 commit `d7f95dff6dc098dfcd38f64de4e21edfe4b587c3`: exact local verification and all seven hosted jobs `pass`; one-shot canonical receipt `fail` after 461 core tests; source retired and never rerun.
-- Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5`: exact lifecycle, full verifier, and all seven hosted jobs `pass`; non-consuming exact-candidate rehearsal lifecycle 1/2 `pass` and stops at the 900,000 ms copied-gate bound; one-shot gate unused and source retired.
-- Revision 62 commit `d02b2bc590e04ec9496d9d04b7500e94adda9c04`: exact copied lifecycle 2/2 `pass`; full verifier and hosted run `30154983964` `fail` at V11 attribute identity; one-shot unused and source retired.
-- Revision 63 commit `7f45e75792caff01db638538004077b61643ea37`: exact lifecycle and full verifier `pass`; hosted six-kernel matrix `pass`; tracked-whitespace step `fail`; one-shot unused and source retired.
-- Revision 64 preserves the exact R61 bytes under tracked `.log`; focused release boundary 69/69 `pass`.
-- Revision 64 broad and independent final-delta verification pass; exact-candidate, hosted, canonical, fresh R2, and merge checks remain independent gates; `releaseReady: false`.
+- Revision 60: exact local and hosted checks passed; its one-shot canonical gate failed and the source is permanently retired.
+- Revision 61: exact local and hosted checks passed; its old-bound rehearsal failed and the source is retired with its one-shot unused.
+- Revision 62: exact copied lifecycle passed; full and hosted V11 identity checks failed; one-shot unused and source retired.
+- Revision 63: exact local and six hosted kernel checks passed; hosted whitespace failed; one-shot unused and source retired.
+- Revision 64: exact copied lifecycle, complete verification, and all seven hosted jobs passed; the non-consuming exact-candidate rehearsal failed at the 30-minute copied-gate bound; one-shot unused and source retired.
+- Revision 65: exact evidence decoding and path-headroom regression pass; focused release boundary 71/71 and every broad non-lifecycle gate `pass`.
+- Independent final-delta review: `pass` with no findings.
+- Exact-candidate, hosted, canonical, fresh R2, and merge checks remain independent gates; `releaseReady: false`.
 
 ## Revision 31 Long-Path Correction Gate
 
@@ -183,3 +185,11 @@ Package and handoff verification authenticate artifacts; they do not establish r
 - Independent Attempt 4: `fix`; kernel-job bypass corrected through whole-workflow identity.
 - Independent Attempt 5: `pass` with no blocking findings.
 - Pending: exact freeze and commit, copied lifecycle, full verifier, hosted matrix, one-shot gate, fresh three-domain R2, closeout, and merge.
+
+## Revision 65 Release Correction
+
+- Exact hosted and rehearsal evidence decoding: `pass`.
+- Nested scratch path-headroom regression: `pass`.
+- Focused release-gate and release-review suites: 71 pass, 0 fail.
+- Broad non-lifecycle and independent final-delta checks: `pass`.
+- Exact-candidate, hosted, canonical, fresh R2, and merge checks remain separate gates.

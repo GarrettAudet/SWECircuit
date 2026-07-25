@@ -2,11 +2,11 @@
 
 ## Current Focus
 
-V12 IDE Run Loop Revision 64 is active on `codex/v12-ide-run-loop`. Revision 63 commit `7f45e75792caff01db638538004077b61643ea37` passed exact copied lifecycle and full verification plus six hosted kernel jobs, but hosted run `30156840253` failed its tracked-whitespace step because immutable R61 stdout evidence used non-exempt `.txt`. Its one-shot gate was never invoked and the source is retired. Revision 64 preserves the exact 2,244-byte blob under the established tracked `.log` representation. Focused tests 69/69, strict V11 replay, template checking, checker mutation matrix, equivalent 4,083-file whitespace scanning, complete verification, and independent final-delta review with a 4,084-file replay pass. `releaseReady: false`.
+V12 IDE Run Loop Revision 65 is active on `codex/v12-ide-run-loop`. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle, complete verification, and all seven hosted jobs, then failed the non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 preserves the exact streams and hosted record, reduces the causal locked dependency path from 293 to 239 characters through a short private scratch namespace, passes 71/71 focused release tests, every broad non-lifecycle gate, and independent final-delta review with no findings. `releaseReady: false`.
 
 ## Current Stage
 
-Candidate-addressed external evidence preserves Revision 60's consumed gate failure and the unconsumed failures of Revisions 61 through 63. Revision 64 is in `review -> freeze`: independent Attempt 1's sole stale-state finding is integrated, and final-delta review passes with no blocking or material findings. Exact source freeze, copied lifecycle, full verifier, exact-candidate rehearsal, hosted matrix, canonical gate, and fresh R2 remain. The main agent is integration owner. External IDE hosts still own model and effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
+Candidate-addressed external evidence preserves the retired R64 outcome. Revision 65 is in `diagnose -> fix -> verify`. The exact R64 replay and short-path counterfactual confirm recursive Windows scratch-path expansion as the cause. The smallest source correction and causal regression are integrated; broad non-lifecycle verification and independent final-delta review pass. Exact freeze, copied lifecycle, complete verifier, non-consuming rehearsal, hosted matrix, canonical gate, and fresh R2 remain. The main agent is integration owner. External IDE hosts still own model and effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
 
 ## Important Current Constraints
 
@@ -163,7 +163,7 @@ Candidate-addressed external evidence preserves Revision 60's consumed gate fail
 
 ## Next Likely Work
 
-- Assemble and commit the exact Revision 64 freeze.
-- Require lifecycle, full verification, non-consuming rehearsal, and all seven hosted jobs to pass.
-- Invoke one canonical gate exactly once; on `pass`, run fresh three-domain R2, close milestone and memory, and merge to `main`.
-- Never rerun Revision 60's consumed gate; never release or invoke Revisions 61 through 63.
+- Freeze the exact Revision 65 source identity.
+- Freeze one exact Revision 65 commit and require copied lifecycle, complete verification, non-consuming rehearsal, and all seven hosted jobs.
+- Invoke its canonical gate exactly once; on `pass`, run fresh three-domain R2, close milestone and memory, and merge to `main`.
+- Never invoke or release Revisions 60 through 64.

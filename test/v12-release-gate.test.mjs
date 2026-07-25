@@ -15,7 +15,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { delimiter, dirname, isAbsolute, join, relative, resolve } from "node:path";
+import { basename, delimiter, dirname, isAbsolute, join, relative, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
@@ -809,6 +809,37 @@ test("runtime ancestor package supply is detected before candidate execution", a
     });
   } finally {
     await rm(root, { force: true, recursive: true });
+  }
+});
+
+test("release gate scratch namespace preserves nested Windows install headroom", async () => {
+  const namespace = basename(RELEASE_GATE_TEST_HOOKS.materializationBase);
+  assert.equal(namespace, "swc-v12-g");
+
+  const lockedDependencyPath = join(
+    "node_modules",
+    "typescript",
+    "vendor",
+    "vscode-jsonrpc",
+    "lib",
+    "common",
+    "sharedArrayCancellation.d.ts",
+  );
+  await access(join(ROOT, lockedDependencyPath));
+
+  const projectedCandidate = (scratchNamespace) => {
+    let nested = join(dirname(RELEASE_GATE_TEST_HOOKS.materializationBase), scratchNamespace);
+    for (let depth = 0; depth < 2; depth += 1) {
+      nested = join(nested, "work", "git-XXXXXX", "host-runtime", "temp", scratchNamespace);
+    }
+    return join(nested, "work", "candidate-XXXXXX");
+  };
+
+  const correctedLeaf = join(projectedCandidate(namespace), lockedDependencyPath);
+  const priorLeaf = join(projectedCandidate("swecircuit-v12-release-gate"), lockedDependencyPath);
+  assert.equal(priorLeaf.length - correctedLeaf.length, 54);
+  if (process.platform === "win32") {
+    assert.ok(correctedLeaf.length < 260, `nested install path lacks headroom: ${correctedLeaf}`);
   }
 });
 

@@ -1646,6 +1646,57 @@ test("R63 hosted evidence binds the exact failed policy step", () => {
   });
 });
 
+test("R64 evidence binds the hosted pass and exact-candidate timeout diagnosis", () => {
+  const evidenceRoot =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r65/inputs";
+  const hostedBytes = readFileSync(resolve(ROOT, evidenceRoot, "r64-hosted-run/run.json"));
+  assert.equal(hostedBytes.byteLength, 1_269);
+  assert.equal(
+    digest(hostedBytes),
+    "sha256:8bed43a44edbd288a6d3c674c0b77f021ca9f70ad950eb73337f80691513b2fb",
+  );
+  const hosted = JSON.parse(hostedBytes.toString("utf8"));
+  assert.equal(hosted.schemaVersion, "swecircuit.hosted-run-evidence.v1");
+  assert.equal(hosted.runId, 30_159_538_275);
+  assert.equal(hosted.headSha, "7d30a276d547cd501d93e6a698c84fff111bd8a4");
+  assert.equal(hosted.treeSha, "741eb3b94bb313b63c61ea2bbcbc6da5c8a3242c");
+  assert.equal(hosted.conclusion, "success");
+  assert.equal(hosted.jobs.length, 7);
+  assert.equal(
+    hosted.jobs.every((job) => job.conclusion === "success"),
+    true,
+  );
+
+  const diagnosisBytes = readFileSync(
+    resolve(ROOT, evidenceRoot, "r64-exact-candidate-rehearsal/diagnosis.json"),
+  );
+  assert.equal(diagnosisBytes.byteLength, 81_954);
+  assert.equal(
+    digest(diagnosisBytes),
+    "sha256:0aff6f98237be490ecdd0b50d92094d7ab84aabbd6c8844be7959b59d117b450",
+  );
+  const diagnosis = JSON.parse(diagnosisBytes.toString("utf8"));
+  assert.equal(diagnosis.candidate.commit, "7d30a276d547cd501d93e6a698c84fff111bd8a4");
+  assert.equal(diagnosis.diagnosticReplay.status, 1);
+  assert.equal(diagnosis.diagnosticReplay.signal, null);
+  assert.equal(diagnosis.diagnosticReplay.failure, "copied production canonical gate timed out");
+  assert.equal(diagnosis.pathDiagnosis.nestedCandidateRootLength, 207);
+  assert.equal(diagnosis.pathDiagnosis.projectedNestedLeafLength, 293);
+  assert.equal(diagnosis.pathDiagnosis.correctedNestedCandidateRootLength, 153);
+  assert.equal(diagnosis.pathDiagnosis.correctedProjectedLeafLength, 239);
+  assert.equal(diagnosis.pathDiagnosis.reductionBytes, 54);
+  assert.equal(diagnosis.pathDiagnosis.shortPathCounterfactual.outcome, "pass");
+  assert.equal(diagnosis.disposition.revision64Retired, true);
+  assert.equal(diagnosis.disposition.oneShotGateInvoked, false);
+
+  for (const stream of ["stdout", "stderr"]) {
+    const binding = diagnosis.diagnosticReplay[stream];
+    const raw = Buffer.from(binding.content, "base64");
+    assert.equal(raw.byteLength, binding.bytes);
+    assert.equal(raw.toString("base64"), binding.content);
+    assert.equal(digest(raw), binding.digest);
+  }
+});
 test("the positive copied gate alone receives the extended lifecycle timeout", () => {
   const source = readFileSync(
     resolve(ROOT, "test/helpers/v12-release-review-lifecycle.mjs"),

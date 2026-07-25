@@ -33,7 +33,8 @@ const CANDIDATE_DEPENDENCY_DIGEST_DOMAIN =
 const GIT_CONTEXT_STRATEGY = "disposable-shared-object-git-context";
 
 const CANDIDATE_EVIDENCE_ROOT = join(EVIDENCE, "canonical-gates");
-const MATERIALIZATION_BASE = join(realpathSync.native(tmpdir()), "swecircuit-v12-release-gate");
+// Exact lifecycle validation nests this namespace, so keep Windows install paths bounded.
+const MATERIALIZATION_BASE = join(realpathSync.native(tmpdir()), "swc-v12-g");
 const MATERIALIZATION_PARENT = join(MATERIALIZATION_BASE, "work");
 const MATERIALIZATION_FROM_ROOT = relative(resolve(ROOT), resolve(MATERIALIZATION_PARENT));
 requireCondition(
@@ -1997,6 +1998,7 @@ export const RELEASE_GATE_TEST_HOOKS = Object.freeze({
   inspectRuntimeAncestorSupply,
   inspectToolchain,
   installCandidateDependencies,
+  materializationBase: MATERIALIZATION_BASE,
   materializationParent: MATERIALIZATION_PARENT,
   materializeCandidateSource,
   packageApplies,

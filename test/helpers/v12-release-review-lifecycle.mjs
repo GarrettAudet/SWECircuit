@@ -85,8 +85,8 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
     digest: "sha256:8a051a1cdb0b08dd61271569ffef7f460ef964ef7501c236c7b570e52613688e",
   }),
   [GATE_PATH]: Object.freeze({
-    bytes: 70_160,
-    digest: "sha256:dc5b6cdea7f212196c6aa88da586fe44be20758b3619986e586445f71cbb6970",
+    bytes: 70_278,
+    digest: "sha256:9971b22de750720c6b3c6d150a611edbdf6f3f10a515d02121d5571ae4a573d5",
   }),
   [HARNESS_PATH]: Object.freeze({
     bytes: 155_952,
@@ -97,8 +97,8 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
   }),
   [GATE_TEST_PATH]: Object.freeze({
-    bytes: 78_317,
-    digest: "sha256:bb6a7d3a74b8617bd58a8bdd6f8e1bd7cf6b32041a6e6d37415aab5533571671",
+    bytes: 79_510,
+    digest: "sha256:a5efe9d04f007e6545aa211b10b5c2e67371dec362bac7cd7b043038c9e47f86",
   }),
   [ENCLOSING_CANDIDATE_GIT_PROBE_PATH]: Object.freeze({
     bytes: 3_327,

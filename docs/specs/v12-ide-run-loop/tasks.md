@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Revision 47's canonical gate failed and is permanently retired. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 61 commit `f0fec5cf01907f463ea1f129f2c7a1f8b8029ce5` passed exact committed verification and all seven hosted jobs, but its non-consuming exact-candidate rehearsal reported a nested canonical-gate timeout at the old 15-minute test bound; its one-shot gate was never invoked and the source is retired. Revision 62 commit `d02b2bc590e04ec9496d9d04b7500e94adda9c04` passed its exact copied lifecycle, but its full verifier and all seven hosted jobs failed after an R62-only binary attribute changed V11's authenticated `.gitattributes` identity; its one-shot gate was never invoked and the source is retired. Revision 63 commit `7f45e75792caff01db638538004077b61643ea37` passed its exact copied lifecycle, full verifier, and six hosted kernel jobs, but hosted run `30156840253` failed at `Check tracked whitespace` because the exact R61 stdout stream was stored as non-exempt `.txt`; its one-shot gate was never invoked and the source is retired. Revision 64 preserves those 2,244 bytes and their digest under the established tracked `.log` representation, with no runtime or audit-policy change. Its 69-test focused boundary, strict V11 replay, template checker, complete checker matrix, equivalent tracked-whitespace scan of 4,083 files, and complete 612.2-second verifier pass. Independent final-delta review also passes with a 4,084-file replay. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 preserves the exact failure and hosted evidence, shortens only the nested private scratch namespace, reduces the causal locked dependency path from 293 to 239 characters, passes 71/71 focused release tests, passes every broad non-lifecycle gate, and passes independent final-delta review with no findings. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Task List
 
@@ -98,7 +98,21 @@ T003 ran three read-only architecture analyses in parallel and one dependent syn
 - [x] Pass 69 focused release tests.
 - [x] Pass strict V11 replay, template checker, checker matrix, equivalent 4,083-file hosted-policy scan, and complete pre-freeze verifier.
 - [x] Complete independent final-delta re-review after integrating Attempt 1's release-state finding.
-- [ ] Freeze and commit the exact Revision 64 source.
-- [ ] Pass exact lifecycle, full verifier, non-consuming exact-candidate rehearsal, and all seven hosted jobs.
+- [x] Freeze and commit exact Revision 64 source `7d30a276d547cd501d93e6a698c84fff111bd8a4`.
+- [x] Pass exact lifecycle, complete verifier, and all seven hosted jobs.
+- [x] Preserve the failed non-consuming rehearsal and permanently retire Revision 64.
+- [x] Confirm the one-shot canonical gate was never invoked.
+
+## Revision 65 Release Correction
+
+- [x] Preserve Revision 64's exact standalone passes, hosted seven-job pass, failed rehearsal, and unused one-shot disposition.
+- [x] Reproduce the copied canonical-gate timeout with exact source-preserving streams.
+- [x] Confirm the nested Windows path cause with a bounded short-path counterfactual.
+- [x] Implement the short private scratch namespace and causal regression.
+- [x] Pass 71 focused release tests.
+- [x] Pass broad non-lifecycle verification.
+- [x] Pass independent final-delta review with no findings.
+- [ ] Freeze and commit the exact Revision 65 source.
+- [ ] Pass exact lifecycle, complete verifier, non-consuming rehearsal, and all seven hosted jobs.
 - [ ] Consume one canonical gate and complete fresh three-domain R2.
 - [ ] Close memory and the milestone, then merge to `main`.
