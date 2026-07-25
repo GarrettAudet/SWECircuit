@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 commit `e1b2c38b3c794fc3d4d8a967a20305885baa8662` passed exact copied lifecycle and the complete verifier, then failed its non-consuming exact-candidate rehearsal when the path regression exposed a 283-character leaf with four scratch namespaces. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 compacts the complete private layout; 72/72 focused tests and every broad pre-freeze gate pass. Independent review found no additional source defect and keeps release blocked on the immutable exact-candidate rehearsal. Exact freeze, copied lifecycle, complete verifier, rehearsal, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 commit `33dbd5c9829446b51b04d589fc963f8b7095d442` passed exact copied lifecycle, the complete verifier, the non-consuming exact-candidate rehearsal, and independent exact-evidence review, then hosted run `30166591953` failed both Ubuntu jobs on one shared synthetic long-path assertion while five jobs passed. Its one-shot gate was never invoked and the source is permanently retired. Revision 67 composes bounded fixture segments; its causal test, 29/29 release-gate suite, 73/73 focused pair, and complete broad pre-freeze verification pass. Independent final-delta review passes. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Reproduction
 
@@ -911,3 +911,14 @@ regression rejected a 283-character dependency leaf containing four `swc-v12-g` 
 The rehearsal did not reach the copied lifecycle, so no R65 nested install timeout is claimed.
 The failure instead exposed a regression-model omission: the enclosing candidate adds one complete
 scratch level. Route: `verify -> diagnose -> redesign -> Revision 66`.
+
+## Revision 66 Hosted Failure And Revision 67
+
+Revision 66 passed exact copied lifecycle, complete verification, the fourth-level exact-candidate
+rehearsal, and independent follow-up. Hosted run `30166591953` passed Template Check plus both
+Windows and both macOS jobs. Ubuntu Node 22 and 24 each failed the same existing Git-context test
+because its single 96-character synthetic directory no longer crossed the 260-character boundary
+from the shorter R66 root.
+
+The one-shot gate remained unused. Route:
+`hosted verify -> diagnose -> fix -> Revision 67`.

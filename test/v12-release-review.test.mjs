@@ -1741,6 +1741,79 @@ test("R65 evidence binds the exact four-level path-budget failure", () => {
     assert.equal(digest(raw), binding.digest);
   }
 });
+test("R66 hosted evidence binds the exact matrix and shared Ubuntu failure", () => {
+  const evidenceRoot =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r67/inputs/r66-hosted-run";
+  const bindings = [
+    {
+      name: "run.json",
+      bytes: 12_873,
+      digest: "sha256:bd4476ed830faa515b04a29c3ee16a9be97dbf4b50a7936ccf980a227a7aba93",
+    },
+    {
+      name: "jobs.json",
+      bytes: 16_514,
+      digest: "sha256:ba549f18648ac4b2e02d1bdbdcc20bb5c681c62485772b630b16a10ab7f63da1",
+    },
+    {
+      name: "ubuntu-node22.log",
+      bytes: 222_082,
+      digest: "sha256:e1c7d6f74a9111f27184f8ad11530c8e386039bf88bb0ac2f30ca2933f5c9633",
+    },
+    {
+      name: "ubuntu-node24.log",
+      bytes: 102_760,
+      digest: "sha256:38b83750d3f7e9a2f598a2bc9ebe42b744b2678b7566dfe076d067f13b551b5b",
+    },
+  ];
+  const evidence = new Map();
+  for (const binding of bindings) {
+    const raw = readFileSync(resolve(ROOT, evidenceRoot, binding.name));
+    assert.equal(raw.byteLength, binding.bytes);
+    assert.equal(digest(raw), binding.digest);
+    evidence.set(binding.name, raw);
+  }
+
+  const run = JSON.parse(evidence.get("run.json").toString("utf8"));
+  assert.equal(run.id, 30_166_591_953);
+  assert.equal(run.head_sha, "33dbd5c9829446b51b04d589fc963f8b7095d442");
+  assert.equal(run.status, "completed");
+  assert.equal(run.conclusion, "failure");
+  assert.equal(run.run_attempt, 1);
+
+  const jobsEnvelope = JSON.parse(evidence.get("jobs.json").toString("utf8"));
+  assert.equal(jobsEnvelope.total_count, 7);
+  const jobs = new Map(jobsEnvelope.jobs.map((job) => [job.name, job]));
+  for (const name of [
+    "Template Check",
+    "Kernel (Node 22 / windows-latest)",
+    "Kernel (Node 24 / windows-latest)",
+    "Kernel (Node 22 / macos-latest)",
+    "Kernel (Node 24 / macos-latest)",
+  ]) {
+    assert.equal(jobs.get(name).conclusion, "success");
+  }
+  for (const name of ["Kernel (Node 22 / ubuntu-latest)", "Kernel (Node 24 / ubuntu-latest)"]) {
+    const job = jobs.get(name);
+    assert.equal(job.conclusion, "failure");
+    assert.deepEqual(
+      job.steps.filter((step) => step.conclusion === "failure").map((step) => step.name),
+      ["Verify kernel"],
+    );
+  }
+
+  const failingTest =
+    "candidate Git context is disposable, exact, and usable from the materialization";
+  const failingAssertion = "causal tracked entry did not cross the Windows long-path boundary";
+  for (const name of ["ubuntu-node22.log", "ubuntu-node24.log"]) {
+    const log = evidence.get(name).toString("utf8");
+    assert.match(log, new RegExp(failingTest, "u"));
+    assert.match(log, new RegExp(failingAssertion, "u"));
+  }
+  const node22Log = evidence.get("ubuntu-node22.log").toString("utf8");
+  assert.match(node22Log, /# pass 468/u);
+  assert.match(node22Log, /# fail 1/u);
+});
 test("the positive copied gate alone receives the extended lifecycle timeout", () => {
   const source = readFileSync(
     resolve(ROOT, "test/helpers/v12-release-review-lifecycle.mjs"),

@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 commit `e1b2c38b3c794fc3d4d8a967a20305885baa8662` passed exact copied lifecycle and the complete verifier, then failed its non-consuming exact-candidate rehearsal when the path regression exposed a 283-character leaf with four scratch namespaces. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 compacts the complete private layout; 72/72 focused tests and every broad pre-freeze gate pass. Independent review found no additional source defect and keeps release blocked on the immutable exact-candidate rehearsal. Exact freeze, copied lifecycle, complete verifier, rehearsal, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 commit `33dbd5c9829446b51b04d589fc963f8b7095d442` passed exact copied lifecycle, the complete verifier, the non-consuming exact-candidate rehearsal, and independent exact-evidence review, then hosted run `30166591953` failed both Ubuntu jobs on one shared synthetic long-path assertion while five jobs passed. Its one-shot gate was never invoked and the source is permanently retired. Revision 67 composes bounded fixture segments; its causal test, 29/29 release-gate suite, 73/73 focused pair, and complete broad pre-freeze verification pass. Independent final-delta review passes. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Scope
 
@@ -167,9 +167,16 @@ of the R64 timeout inference; the remaining exact and hosted gates cover those r
 
 Revision 65 is permanently retired with its one-shot gate unused. Revision 66 preserves the exact
 failure streams, models the complete four-level topology, and changes only private scratch labels.
-The targeted regression, complete 72-test focused pair, and every broad pre-freeze gate pass.
-Independent final-delta review found no additional source defect and identifies the immutable
-exact-candidate rehearsal as the remaining release-blocking condition. The fixed 64-character
-temp-root budget has 24 characters of headroom; future added nesting must update the regression,
-and compact private labels reduce diagnostics readability. Immutable, hosted, canonical, and
-fresh R2 gates remain; `releaseReady: false`.
+Its focused, broad, exact copied lifecycle, complete verifier, exact-candidate rehearsal, and
+independent evidence review pass. Hosted run `30166591953` passed five jobs and failed both Ubuntu
+jobs on the same synthetic long-path fixture assertion. The one-shot gate remained unused and
+Revision 66 is permanently retired.
+
+## Revision 67 Current Review Outcome
+
+Revision 67 changes only the causal test constructor and authenticated test identities. It
+preserves the exact R66 workflow, job, and failed Ubuntu logs, requires a deterministic short
+Linux projection to use multiple bounded components, and passes the targeted fixture, complete
+29-test release-gate suite, 73-test focused pair, and every broad pre-freeze gate. Independent
+final-delta review found two pre-freeze issues; both were cleared, and follow-up returned no
+findings. Immutable, hosted, canonical, and fresh R2 gates remain; `releaseReady: false`.

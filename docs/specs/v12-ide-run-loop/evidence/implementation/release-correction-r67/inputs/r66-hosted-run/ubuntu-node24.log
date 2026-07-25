@@ -1,0 +1,1158 @@
+﻿2026-07-25T16:55:33.4441408Z Current runner version: '2.336.0'
+2026-07-25T16:55:33.4472146Z ##[group]Runner Image Provisioner
+2026-07-25T16:55:33.4473376Z Hosted Compute Agent
+2026-07-25T16:55:33.4474125Z Version: 20260707.563
+2026-07-25T16:55:33.4474943Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+2026-07-25T16:55:33.4475794Z Build Date: 2026-07-07T19:33:50Z
+2026-07-25T16:55:33.4476593Z Worker ID: {71ea439e-6692-4420-9e54-c6b0567e5f78}
+2026-07-25T16:55:33.4477517Z Azure Region: centralus
+2026-07-25T16:55:33.4478257Z ##[endgroup]
+2026-07-25T16:55:33.4480052Z ##[group]Operating System
+2026-07-25T16:55:33.4480812Z Ubuntu
+2026-07-25T16:55:33.4481441Z 24.04.4
+2026-07-25T16:55:33.4482157Z LTS
+2026-07-25T16:55:33.4482979Z ##[endgroup]
+2026-07-25T16:55:33.4483612Z ##[group]Runner Image
+2026-07-25T16:55:33.4484401Z Image: ubuntu-24.04
+2026-07-25T16:55:33.4485075Z Version: 20260720.247.2
+2026-07-25T16:55:33.4486681Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260720.247/images/ubuntu/Ubuntu2404-Readme.md
+2026-07-25T16:55:33.4488515Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260720.247
+2026-07-25T16:55:33.4489760Z ##[endgroup]
+2026-07-25T16:55:33.4491155Z ##[group]GITHUB_TOKEN Permissions
+2026-07-25T16:55:33.4494691Z Contents: read
+2026-07-25T16:55:33.4495471Z Metadata: read
+2026-07-25T16:55:33.4496207Z ##[endgroup]
+2026-07-25T16:55:33.4498707Z Secret source: Actions
+2026-07-25T16:55:33.4500433Z Prepare workflow directory
+2026-07-25T16:55:33.4908145Z Prepare all required actions
+2026-07-25T16:55:33.4960564Z Getting action download info
+2026-07-25T16:55:33.7470610Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-07-25T16:55:34.2067345Z Download action repository 'actions/setup-node@v6' (SHA:249970729cb0ef3589644e2896645e5dc5ba9c38)
+2026-07-25T16:55:34.9106425Z Complete job name: Kernel (Node 24 / ubuntu-latest)
+2026-07-25T16:55:35.0165352Z ##[group]Run actions/checkout@v7
+2026-07-25T16:55:35.0166335Z with:
+2026-07-25T16:55:35.0166871Z   fetch-depth: 0
+2026-07-25T16:55:35.0167437Z   repository: GarrettAudet/SWECircuit
+2026-07-25T16:55:35.0172589Z   token: ***
+2026-07-25T16:55:35.0173272Z   ssh-strict: true
+2026-07-25T16:55:35.0173787Z   ssh-user: git
+2026-07-25T16:55:35.0174306Z   persist-credentials: true
+2026-07-25T16:55:35.0174880Z   clean: true
+2026-07-25T16:55:35.0175402Z   sparse-checkout-cone-mode: true
+2026-07-25T16:55:35.0176001Z   fetch-tags: false
+2026-07-25T16:55:35.0176507Z   show-progress: true
+2026-07-25T16:55:35.0177013Z   lfs: false
+2026-07-25T16:55:35.0177514Z   submodules: false
+2026-07-25T16:55:35.0178046Z   set-safe-directory: true
+2026-07-25T16:55:35.0178630Z   allow-unsafe-pr-checkout: false
+2026-07-25T16:55:35.0179544Z ##[endgroup]
+2026-07-25T16:55:35.1453539Z Syncing repository: GarrettAudet/SWECircuit
+2026-07-25T16:55:35.1457030Z ##[group]Getting Git version info
+2026-07-25T16:55:35.1458557Z Working directory is '/home/runner/work/SWECircuit/SWECircuit'
+2026-07-25T16:55:35.1460135Z [command]/usr/bin/git version
+2026-07-25T16:55:35.1496539Z git version 2.54.0
+2026-07-25T16:55:35.1524987Z ##[endgroup]
+2026-07-25T16:55:35.1541594Z Temporarily overriding HOME='/home/runner/work/_temp/7e9858cb-08ec-4b2b-86b6-8ee1f610fcce' before making global git config changes
+2026-07-25T16:55:35.1555876Z Adding repository directory to the temporary git global config as a safe directory
+2026-07-25T16:55:35.1559333Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/SWECircuit/SWECircuit
+2026-07-25T16:55:35.1606862Z Deleting the contents of '/home/runner/work/SWECircuit/SWECircuit'
+2026-07-25T16:55:35.1611566Z ##[group]Determining repository object format
+2026-07-25T16:55:35.1614210Z ##[endgroup]
+2026-07-25T16:55:35.1615688Z ##[group]Initializing the repository
+2026-07-25T16:55:35.1620652Z [command]/usr/bin/git init /home/runner/work/SWECircuit/SWECircuit
+2026-07-25T16:55:35.1714621Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-07-25T16:55:35.1716945Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-07-25T16:55:35.1723382Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-07-25T16:55:35.1725923Z hint: call:
+2026-07-25T16:55:35.1727239Z hint:
+2026-07-25T16:55:35.1728335Z hint: 	git config --global init.defaultBranch <name>
+2026-07-25T16:55:35.1729567Z hint:
+2026-07-25T16:55:35.1730644Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-07-25T16:55:35.1732394Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-07-25T16:55:35.1734001Z hint:
+2026-07-25T16:55:35.1734779Z hint: 	git branch -m <name>
+2026-07-25T16:55:35.1735661Z hint:
+2026-07-25T16:55:35.1736827Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-07-25T16:55:35.1738845Z Initialized empty Git repository in /home/runner/work/SWECircuit/SWECircuit/.git/
+2026-07-25T16:55:35.1742144Z [command]/usr/bin/git remote add origin https://github.com/GarrettAudet/SWECircuit
+2026-07-25T16:55:35.1790379Z ##[endgroup]
+2026-07-25T16:55:35.1791843Z ##[group]Disabling automatic garbage collection
+2026-07-25T16:55:35.1796035Z [command]/usr/bin/git config --local gc.auto 0
+2026-07-25T16:55:35.1841426Z ##[endgroup]
+2026-07-25T16:55:35.1843108Z ##[group]Setting up auth
+2026-07-25T16:55:35.1844681Z Removing SSH command configuration
+2026-07-25T16:55:35.1848675Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-07-25T16:55:35.1900517Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-07-25T16:55:35.2316264Z Removing HTTP extra header
+2026-07-25T16:55:35.2317420Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-07-25T16:55:35.2369871Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-07-25T16:55:35.2672611Z Removing includeIf entries pointing to credentials config files
+2026-07-25T16:55:35.2679353Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-07-25T16:55:35.2725665Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-07-25T16:55:35.3029972Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-d45135a3-99cf-4fa1-8a6c-bfaad28bb0aa.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-07-25T16:55:35.3084812Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/SWECircuit/SWECircuit/.git.path /home/runner/work/_temp/git-credentials-d45135a3-99cf-4fa1-8a6c-bfaad28bb0aa.config
+2026-07-25T16:55:35.3131708Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/SWECircuit/SWECircuit/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-d45135a3-99cf-4fa1-8a6c-bfaad28bb0aa.config
+2026-07-25T16:55:35.3219920Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-d45135a3-99cf-4fa1-8a6c-bfaad28bb0aa.config
+2026-07-25T16:55:35.3245029Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-d45135a3-99cf-4fa1-8a6c-bfaad28bb0aa.config
+2026-07-25T16:55:35.3292133Z ##[endgroup]
+2026-07-25T16:55:35.3293806Z ##[group]Fetching the repository
+2026-07-25T16:55:35.3300857Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-07-25T16:55:37.1332499Z From https://github.com/GarrettAudet/SWECircuit
+2026-07-25T16:55:37.1336735Z  * [new branch]      codex/swecircuit-identity-main -> origin/codex/swecircuit-identity-main
+2026-07-25T16:55:37.1338214Z  * [new branch]      codex/v10-executor-adapter -> origin/codex/v10-executor-adapter
+2026-07-25T16:55:37.1339631Z  * [new branch]      codex/v11-orchestration-planner -> origin/codex/v11-orchestration-planner
+2026-07-25T16:55:37.1341074Z  * [new branch]      codex/v11.1-readme-release -> origin/codex/v11.1-readme-release
+2026-07-25T16:55:37.1342213Z  * [new branch]      codex/v12-ide-run-loop  -> origin/codex/v12-ide-run-loop
+2026-07-25T16:55:37.1343840Z  * [new branch]      codex/v5-modular-orchestration-framework -> origin/codex/v5-modular-orchestration-framework
+2026-07-25T16:55:37.1345296Z  * [new branch]      codex/v6-module-rail-catalog -> origin/codex/v6-module-rail-catalog
+2026-07-25T16:55:37.1346449Z  * [new branch]      codex/v7-readme-demo-polish -> origin/codex/v7-readme-demo-polish
+2026-07-25T16:55:37.1347680Z  * [new branch]      codex/v8-readme-visual-clarity -> origin/codex/v8-readme-visual-clarity
+2026-07-25T16:55:37.1348898Z  * [new branch]      codex/v8.1-baseline-integrity -> origin/codex/v8.1-baseline-integrity
+2026-07-25T16:55:37.1349904Z  * [new branch]      codex/v9-devrail-kernel -> origin/codex/v9-devrail-kernel
+2026-07-25T16:55:37.1350484Z  * [new branch]      main                    -> origin/main
+2026-07-25T16:55:37.1384807Z [command]/usr/bin/git branch --list --remote origin/codex/v12-ide-run-loop
+2026-07-25T16:55:37.1427486Z   origin/codex/v12-ide-run-loop
+2026-07-25T16:55:37.1438996Z [command]/usr/bin/git rev-parse refs/remotes/origin/codex/v12-ide-run-loop
+2026-07-25T16:55:37.1476344Z 33dbd5c9829446b51b04d589fc963f8b7095d442
+2026-07-25T16:55:37.1484764Z ##[endgroup]
+2026-07-25T16:55:37.1485396Z ##[group]Determining the checkout info
+2026-07-25T16:55:37.1486035Z ##[endgroup]
+2026-07-25T16:55:37.1487948Z [command]/usr/bin/git sparse-checkout disable
+2026-07-25T16:55:37.1553155Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-07-25T16:55:37.1598169Z ##[group]Checking out the ref
+2026-07-25T16:55:37.1603895Z [command]/usr/bin/git checkout --progress --force -B codex/v12-ide-run-loop refs/remotes/origin/codex/v12-ide-run-loop
+2026-07-25T16:55:37.6386103Z Switched to a new branch 'codex/v12-ide-run-loop'
+2026-07-25T16:55:37.6387459Z branch 'codex/v12-ide-run-loop' set up to track 'origin/codex/v12-ide-run-loop'.
+2026-07-25T16:55:37.6437240Z ##[endgroup]
+2026-07-25T16:55:37.6503422Z [command]/usr/bin/git log -1 --format=%H
+2026-07-25T16:55:37.6544006Z 33dbd5c9829446b51b04d589fc963f8b7095d442
+2026-07-25T16:55:37.6849013Z ##[group]Run actions/setup-node@v6
+2026-07-25T16:55:37.6849411Z with:
+2026-07-25T16:55:37.6849651Z   node-version: 24
+2026-07-25T16:55:37.6849921Z   check-latest: false
+2026-07-25T16:55:37.6853310Z   token: ***
+2026-07-25T16:55:37.6853574Z   package-manager-cache: true
+2026-07-25T16:55:37.6853877Z ##[endgroup]
+2026-07-25T16:55:37.8524750Z Found in cache @ /opt/hostedtoolcache/node/24.18.0/x64
+2026-07-25T16:55:37.8528546Z ##[group]Environment details
+2026-07-25T16:55:38.2896725Z node: v24.18.0
+2026-07-25T16:55:38.3004579Z npm: 11.16.0
+2026-07-25T16:55:38.3005759Z yarn: 1.22.22
+2026-07-25T16:55:38.3008062Z ##[endgroup]
+2026-07-25T16:55:38.3105139Z ##[group]Run npm ci --ignore-scripts --no-audit --no-fund
+2026-07-25T16:55:38.3105712Z [36;1mnpm ci --ignore-scripts --no-audit --no-fund[0m
+2026-07-25T16:55:38.3176277Z shell: /usr/bin/bash -e {0}
+2026-07-25T16:55:38.3176647Z ##[endgroup]
+2026-07-25T16:55:40.2645742Z 
+2026-07-25T16:55:40.2655720Z added 12 packages in 2s
+2026-07-25T16:55:40.3214110Z ##[group]Run npm run verify
+2026-07-25T16:55:40.3214477Z [36;1mnpm run verify[0m
+2026-07-25T16:55:40.3271001Z shell: /usr/bin/bash -e {0}
+2026-07-25T16:55:40.3271318Z ##[endgroup]
+2026-07-25T16:55:40.4484477Z 
+2026-07-25T16:55:40.4485009Z > swecircuit@0.0.0 verify
+2026-07-25T16:55:40.4486524Z > npm run format:check && npm run lint && npm run typecheck && npm test && npm run example:specialist && npm run dogfood:v10 && npm run dogfood:v11 && npm run dogfood:v12 && npm run pack:check && npm run consumer:check
+2026-07-25T16:55:40.4487298Z 
+2026-07-25T16:55:40.5660293Z 
+2026-07-25T16:55:40.5661690Z > swecircuit@0.0.0 format:check
+2026-07-25T16:55:40.5666930Z > biome format src test schemas examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts package.json tsconfig.json biome.json
+2026-07-25T16:55:40.5670799Z 
+2026-07-25T16:55:40.7879524Z Checked 109 files in 171ms. No fixes applied.
+2026-07-25T16:55:40.9227322Z 
+2026-07-25T16:55:40.9228097Z > swecircuit@0.0.0 lint
+2026-07-25T16:55:40.9232375Z > biome lint src test examples/specialist-compiler scripts/run-v9-dogfood.mjs scripts/run-v10-dogfood.mjs scripts/run-v11-dogfood.mjs scripts/run-v12-dogfood.mjs scripts/run-v12-release-gate.mjs scripts/run-v12-release-review.mjs scripts/run-typescript.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs scripts/check-packed-consumer.mjs scripts/fixtures/packed-consumer-host.ts
+2026-07-25T16:55:40.9236315Z 
+2026-07-25T16:55:41.3054064Z scripts/run-v12-dogfood.mjs:34:11 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3055022Z 
+2026-07-25T16:55:41.3071683Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3072914Z   
+2026-07-25T16:55:41.3073657Z     32 │   {
+2026-07-25T16:55:41.3074342Z     33 │     revision: 1,
+2026-07-25T16:55:41.3075407Z   > 34 │     root: RELEASE_CORRECTION_BASE + "/release-correction",
+2026-07-25T16:55:41.3076552Z        │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3081382Z     35 │     expectation: {
+2026-07-25T16:55:41.3083126Z     36 │       compilationDigest: "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+2026-07-25T16:55:41.3084316Z   
+2026-07-25T16:55:41.3084936Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3085802Z   
+2026-07-25T16:55:41.3086460Z       32   32 │     {
+2026-07-25T16:55:41.3103692Z       33   33 │       revision: 1,
+2026-07-25T16:55:41.3104995Z       34      │ - ····root:·RELEASE_CORRECTION_BASE·+·"/release-correction",
+2026-07-25T16:55:41.3105866Z            34 │ + ····root:·`${RELEASE_CORRECTION_BASE}/release-correction`,
+2026-07-25T16:55:41.3106537Z       35   35 │       expectation: {
+2026-07-25T16:55:41.3107464Z       36   36 │         compilationDigest: "sha256:45fa97ffb1fdb7f95ae33203e9f727c0f66c27a1b2fa344f06a9569b165ae4c2",
+2026-07-25T16:55:41.3108365Z   
+2026-07-25T16:55:41.3108592Z 
+2026-07-25T16:55:41.3109711Z scripts/run-v12-dogfood.mjs:75:11 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3110482Z 
+2026-07-25T16:55:41.3110942Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3111585Z   
+2026-07-25T16:55:41.3111961Z     73 │   {
+2026-07-25T16:55:41.3112464Z     74 │     revision: 2,
+2026-07-25T16:55:41.3113464Z   > 75 │     root: RELEASE_CORRECTION_BASE + "/release-correction-r2",
+2026-07-25T16:55:41.3114351Z        │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3115486Z     76 │     expectation: {
+2026-07-25T16:55:41.3116676Z     77 │       compilationDigest: "sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672",
+2026-07-25T16:55:41.3117592Z   
+2026-07-25T16:55:41.3118002Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3118486Z   
+2026-07-25T16:55:41.3118942Z       73   73 │     {
+2026-07-25T16:55:41.3119476Z       74   74 │       revision: 2,
+2026-07-25T16:55:41.3120410Z       75      │ - ····root:·RELEASE_CORRECTION_BASE·+·"/release-correction-r2",
+2026-07-25T16:55:41.3121565Z            75 │ + ····root:·`${RELEASE_CORRECTION_BASE}/release-correction-r2`,
+2026-07-25T16:55:41.3122655Z       76   76 │       expectation: {
+2026-07-25T16:55:41.3124151Z       77   77 │         compilationDigest: "sha256:ce22dcd5bc7b96d7399fa792ab9ab35c0b10af9a0a4c437fd3d184dfe3eec672",
+2026-07-25T16:55:41.3125143Z   
+2026-07-25T16:55:41.3125334Z 
+2026-07-25T16:55:41.3126357Z scripts/run-v12-dogfood.mjs:104:11 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3127113Z 
+2026-07-25T16:55:41.3127517Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3128159Z   
+2026-07-25T16:55:41.3128530Z     102 │   {
+2026-07-25T16:55:41.3128963Z     103 │     revision: 3,
+2026-07-25T16:55:41.3129769Z   > 104 │     root: RELEASE_CORRECTION_BASE + "/release-correction-r3",
+2026-07-25T16:55:41.3130694Z         │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3131339Z     105 │     expectation: {
+2026-07-25T16:55:41.3132509Z     106 │       compilationDigest: "sha256:ded9a26906a9a00a5f0b12dc3420e909a91e70ef9a3ee03905ac1676efb40638",
+2026-07-25T16:55:41.3133593Z   
+2026-07-25T16:55:41.3134003Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3134470Z   
+2026-07-25T16:55:41.3134843Z      102  102 │     {
+2026-07-25T16:55:41.3135338Z      103  103 │       revision: 3,
+2026-07-25T16:55:41.3136230Z      104      │ - ····root:·RELEASE_CORRECTION_BASE·+·"/release-correction-r3",
+2026-07-25T16:55:41.3137318Z           104 │ + ····root:·`${RELEASE_CORRECTION_BASE}/release-correction-r3`,
+2026-07-25T16:55:41.3138110Z      105  105 │       expectation: {
+2026-07-25T16:55:41.3139396Z      106  106 │         compilationDigest: "sha256:ded9a26906a9a00a5f0b12dc3420e909a91e70ef9a3ee03905ac1676efb40638",
+2026-07-25T16:55:41.3140331Z   
+2026-07-25T16:55:41.3140499Z 
+2026-07-25T16:55:41.3141814Z scripts/run-v12-dogfood.mjs:133:11 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3142298Z 
+2026-07-25T16:55:41.3142573Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3143424Z   
+2026-07-25T16:55:41.3143839Z     131 │   {
+2026-07-25T16:55:41.3144287Z     132 │     revision: 4,
+2026-07-25T16:55:41.3145266Z   > 133 │     root: RELEASE_CORRECTION_BASE + "/release-correction-r4",
+2026-07-25T16:55:41.3146513Z         │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3147177Z     134 │     expectation: {
+2026-07-25T16:55:41.3148882Z     135 │       compilationDigest: "sha256:aa13bb1f6a8ff21658b718ccd46e6a5a26dacd8d1c9baa990b92e37161627660",
+2026-07-25T16:55:41.3149973Z   
+2026-07-25T16:55:41.3150407Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3150899Z   
+2026-07-25T16:55:41.3159594Z      131  131 │     {
+2026-07-25T16:55:41.3160127Z      132  132 │       revision: 4,
+2026-07-25T16:55:41.3161387Z      133      │ - ····root:·RELEASE_CORRECTION_BASE·+·"/release-correction-r4",
+2026-07-25T16:55:41.3162490Z           133 │ + ····root:·`${RELEASE_CORRECTION_BASE}/release-correction-r4`,
+2026-07-25T16:55:41.3163457Z      134  134 │       expectation: {
+2026-07-25T16:55:41.3165399Z      135  135 │         compilationDigest: "sha256:aa13bb1f6a8ff21658b718ccd46e6a5a26dacd8d1c9baa990b92e37161627660",
+2026-07-25T16:55:41.3166423Z   
+2026-07-25T16:55:41.3166603Z 
+2026-07-25T16:55:41.3169145Z scripts/run-v12-dogfood.mjs:167:13 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3170335Z 
+2026-07-25T16:55:41.3170745Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3171357Z   
+2026-07-25T16:55:41.3171800Z     165 │     route: "redesign",
+2026-07-25T16:55:41.3172321Z     166 │     binding: {
+2026-07-25T16:55:41.3173419Z   > 167 │       path: RELEASE_CORRECTION_BASE + "/release-correction-r2/replan.json",
+2026-07-25T16:55:41.3174449Z         │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3175104Z     168 │       bytes: 3795,
+2026-07-25T16:55:41.3177230Z     169 │       digest: "sha256:73fcd5841f739c4f353355ddba6b412d68c3b2d8233ccc371ef2de9a2477d282",
+2026-07-25T16:55:41.3178370Z   
+2026-07-25T16:55:41.3178794Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3179292Z   
+2026-07-25T16:55:41.3187826Z      165  165 │       route: "redesign",
+2026-07-25T16:55:41.3188448Z      166  166 │       binding: {
+2026-07-25T16:55:41.3189914Z      167      │ - ······path:·RELEASE_CORRECTION_BASE·+·"/release-correction-r2/replan.json",
+2026-07-25T16:55:41.3191241Z           167 │ + ······path:·`${RELEASE_CORRECTION_BASE}/release-correction-r2/replan.json`,
+2026-07-25T16:55:41.3192115Z      168  168 │         bytes: 3795,
+2026-07-25T16:55:41.3193604Z      169  169 │         digest: "sha256:73fcd5841f739c4f353355ddba6b412d68c3b2d8233ccc371ef2de9a2477d282",
+2026-07-25T16:55:41.3194486Z   
+2026-07-25T16:55:41.3194667Z 
+2026-07-25T16:55:41.3197457Z scripts/run-v12-dogfood.mjs:177:13 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3198203Z 
+2026-07-25T16:55:41.3198637Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3199255Z   
+2026-07-25T16:55:41.3199651Z     175 │     route: "split",
+2026-07-25T16:55:41.3200143Z     176 │     binding: {
+2026-07-25T16:55:41.3201424Z   > 177 │       path: RELEASE_CORRECTION_BASE + "/release-correction-r3/replan.json",
+2026-07-25T16:55:41.3202484Z         │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3203310Z     178 │       bytes: 2807,
+2026-07-25T16:55:41.3204839Z     179 │       digest: "sha256:67eac872b0d88bbade9af9afda268178f57077b0abdc4f605444ead1da6c186c",
+2026-07-25T16:55:41.3205710Z   
+2026-07-25T16:55:41.3206129Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3206616Z   
+2026-07-25T16:55:41.3215966Z      175  175 │       route: "split",
+2026-07-25T16:55:41.3216569Z      176  176 │       binding: {
+2026-07-25T16:55:41.3218006Z      177      │ - ······path:·RELEASE_CORRECTION_BASE·+·"/release-correction-r3/replan.json",
+2026-07-25T16:55:41.3219347Z           177 │ + ······path:·`${RELEASE_CORRECTION_BASE}/release-correction-r3/replan.json`,
+2026-07-25T16:55:41.3220235Z      178  178 │         bytes: 2807,
+2026-07-25T16:55:41.3221651Z      179  179 │         digest: "sha256:67eac872b0d88bbade9af9afda268178f57077b0abdc4f605444ead1da6c186c",
+2026-07-25T16:55:41.3222545Z   
+2026-07-25T16:55:41.3222926Z 
+2026-07-25T16:55:41.3225716Z scripts/run-v12-dogfood.mjs:187:13 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3226482Z 
+2026-07-25T16:55:41.3226879Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3227482Z   
+2026-07-25T16:55:41.3227881Z     185 │     route: "split",
+2026-07-25T16:55:41.3228368Z     186 │     binding: {
+2026-07-25T16:55:41.3229442Z   > 187 │       path: RELEASE_CORRECTION_BASE + "/release-correction-r4/replan.json",
+2026-07-25T16:55:41.3230555Z         │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3231225Z     188 │       bytes: 2701,
+2026-07-25T16:55:41.3232876Z     189 │       digest: "sha256:64376261a673ebc7ec29222ee90569097915879521d8ea062a36a9d156e8b34d",
+2026-07-25T16:55:41.3233733Z   
+2026-07-25T16:55:41.3234148Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3234629Z   
+2026-07-25T16:55:41.3244049Z      185  185 │       route: "split",
+2026-07-25T16:55:41.3245030Z      186  186 │       binding: {
+2026-07-25T16:55:41.3246043Z      187      │ - ······path:·RELEASE_CORRECTION_BASE·+·"/release-correction-r4/replan.json",
+2026-07-25T16:55:41.3247376Z           187 │ + ······path:·`${RELEASE_CORRECTION_BASE}/release-correction-r4/replan.json`,
+2026-07-25T16:55:41.3248249Z      188  188 │         bytes: 2701,
+2026-07-25T16:55:41.3249351Z      189  189 │         digest: "sha256:64376261a673ebc7ec29222ee90569097915879521d8ea062a36a9d156e8b34d",
+2026-07-25T16:55:41.3250223Z   
+2026-07-25T16:55:41.3250401Z 
+2026-07-25T16:55:41.3253465Z scripts/run-v12-dogfood.mjs:200:10 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3254480Z 
+2026-07-25T16:55:41.3254892Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3255507Z   
+2026-07-25T16:55:41.3255987Z     199 │ function rawDigest(bytes) {
+2026-07-25T16:55:41.3256875Z   > 200 │   return "sha256:" + createHash("sha256").update(bytes).digest("hex");
+2026-07-25T16:55:41.3258114Z         │          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3258661Z     201 │ }
+2026-07-25T16:55:41.3258917Z     202 │ 
+2026-07-25T16:55:41.3259136Z   
+2026-07-25T16:55:41.3259417Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3259736Z   
+2026-07-25T16:55:41.3268443Z      198  198 │   
+2026-07-25T16:55:41.3269024Z      199  199 │   function rawDigest(bytes) {
+2026-07-25T16:55:41.3270500Z      200      │ - ··return·"sha256:"·+·createHash("sha256").update(bytes).digest("hex");
+2026-07-25T16:55:41.3271713Z           200 │ + ··return·`sha256:${createHash("sha256").update(bytes).digest("hex")}`;
+2026-07-25T16:55:41.3272437Z      201  201 │   }
+2026-07-25T16:55:41.3273015Z      202  202 │   
+2026-07-25T16:55:41.3273248Z   
+2026-07-25T16:55:41.3273374Z 
+2026-07-25T16:55:41.3276023Z scripts/run-v12-dogfood.mjs:204:33 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3276483Z 
+2026-07-25T16:55:41.3276748Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3277263Z   
+2026-07-25T16:55:41.3277876Z     203 │ function expectOk(label, result) {
+2026-07-25T16:55:41.3279582Z   > 204 │   assert.equal(result.ok, true, label + ": " + JSON.stringify(result.diagnostics));
+2026-07-25T16:55:41.3280690Z         │                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3281832Z     205 │   assert.notEqual(result.value, null, label + ": missing value");
+2026-07-25T16:55:41.3282621Z     206 │   return result.value;
+2026-07-25T16:55:41.3283119Z   
+2026-07-25T16:55:41.3283412Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3283716Z   
+2026-07-25T16:55:41.3292311Z      202  202 │   
+2026-07-25T16:55:41.3293043Z      203  203 │   function expectOk(label, result) {
+2026-07-25T16:55:41.3294950Z      204      │ - ··assert.equal(result.ok,·true,·label·+·":·"·+·JSON.stringify(result.diagnostics));
+2026-07-25T16:55:41.3296438Z           204 │ + ··assert.equal(result.ok,·true,·`${label}:·${JSON.stringify(result.diagnostics)}`);
+2026-07-25T16:55:41.3297709Z      205  205 │     assert.notEqual(result.value, null, label + ": missing value");
+2026-07-25T16:55:41.3298509Z      206  206 │     return result.value;
+2026-07-25T16:55:41.3298810Z   
+2026-07-25T16:55:41.3298925Z 
+2026-07-25T16:55:41.3301452Z scripts/run-v12-dogfood.mjs:205:39 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3301895Z 
+2026-07-25T16:55:41.3302139Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3302602Z   
+2026-07-25T16:55:41.3303657Z     203 │ function expectOk(label, result) {
+2026-07-25T16:55:41.3305439Z     204 │   assert.equal(result.ok, true, label + ": " + JSON.stringify(result.diagnostics));
+2026-07-25T16:55:41.3306570Z   > 205 │   assert.notEqual(result.value, null, label + ": missing value");
+2026-07-25T16:55:41.3307485Z         │                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3308526Z     206 │   return result.value;
+2026-07-25T16:55:41.3308855Z     207 │ }
+2026-07-25T16:55:41.3309075Z   
+2026-07-25T16:55:41.3309343Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3309639Z   
+2026-07-25T16:55:41.3318734Z      203  203 │   function expectOk(label, result) {
+2026-07-25T16:55:41.3320463Z      204  204 │     assert.equal(result.ok, true, label + ": " + JSON.stringify(result.diagnostics));
+2026-07-25T16:55:41.3321846Z      205      │ - ··assert.notEqual(result.value,·null,·label·+·":·missing·value");
+2026-07-25T16:55:41.3323212Z           205 │ + ··assert.notEqual(result.value,·null,·`${label}:·missing·value`);
+2026-07-25T16:55:41.3324423Z      206  206 │     return result.value;
+2026-07-25T16:55:41.3324993Z      207  207 │   }
+2026-07-25T16:55:41.3325351Z   
+2026-07-25T16:55:41.3325530Z 
+2026-07-25T16:55:41.3327632Z scripts/run-v12-dogfood.mjs:210:34 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3328397Z 
+2026-07-25T16:55:41.3328822Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3329450Z   
+2026-07-25T16:55:41.3330120Z     209 │ function expectDiagnostic(label, result, code) {
+2026-07-25T16:55:41.3331371Z   > 210 │   assert.equal(result.ok, false, label + ": expected " + code);
+2026-07-25T16:55:41.3332358Z         │                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3333962Z     211 │   assert.equal(result.value, null, label + ": failure returned a value");
+2026-07-25T16:55:41.3334764Z     212 │   assert.ok(
+2026-07-25T16:55:41.3335158Z   
+2026-07-25T16:55:41.3335595Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3336102Z   
+2026-07-25T16:55:41.3345207Z      208  208 │   
+2026-07-25T16:55:41.3346005Z      209  209 │   function expectDiagnostic(label, result, code) {
+2026-07-25T16:55:41.3347400Z      210      │ - ··assert.equal(result.ok,·false,·label·+·":·expected·"·+·code);
+2026-07-25T16:55:41.3348559Z           210 │ + ··assert.equal(result.ok,·false,·`${label}:·expected·${code}`);
+2026-07-25T16:55:41.3349939Z      211  211 │     assert.equal(result.value, null, label + ": failure returned a value");
+2026-07-25T16:55:41.3350821Z      212  212 │     assert.ok(
+2026-07-25T16:55:41.3351247Z   
+2026-07-25T16:55:41.3351436Z 
+2026-07-25T16:55:41.3354464Z scripts/run-v12-dogfood.mjs:211:36 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3355222Z 
+2026-07-25T16:55:41.3355624Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3356247Z   
+2026-07-25T16:55:41.3356868Z     209 │ function expectDiagnostic(label, result, code) {
+2026-07-25T16:55:41.3358038Z     210 │   assert.equal(result.ok, false, label + ": expected " + code);
+2026-07-25T16:55:41.3359353Z   > 211 │   assert.equal(result.value, null, label + ": failure returned a value");
+2026-07-25T16:55:41.3360383Z         │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3361017Z     212 │   assert.ok(
+2026-07-25T16:55:41.3362256Z     213 │     result.diagnostics.some((diagnostic) => diagnostic.code === code),
+2026-07-25T16:55:41.3363196Z   
+2026-07-25T16:55:41.3363621Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3364102Z   
+2026-07-25T16:55:41.3404027Z      209  209 │   function expectDiagnostic(label, result, code) {
+2026-07-25T16:55:41.3414298Z      210  210 │     assert.equal(result.ok, false, label + ": expected " + code);
+2026-07-25T16:55:41.3415828Z      211      │ - ··assert.equal(result.value,·null,·label·+·":·failure·returned·a·value");
+2026-07-25T16:55:41.3417310Z           211 │ + ··assert.equal(result.value,·null,·`${label}:·failure·returned·a·value`);
+2026-07-25T16:55:41.3418718Z      212  212 │     assert.ok(
+2026-07-25T16:55:41.3419795Z      213  213 │       result.diagnostics.some((diagnostic) => diagnostic.code === code),
+2026-07-25T16:55:41.3420710Z   
+2026-07-25T16:55:41.3421068Z 
+2026-07-25T16:55:41.3422265Z scripts/run-v12-dogfood.mjs:214:5 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3423379Z 
+2026-07-25T16:55:41.3423943Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3424749Z   
+2026-07-25T16:55:41.3425312Z     212 │   assert.ok(
+2026-07-25T16:55:41.3426306Z     213 │     result.diagnostics.some((diagnostic) => diagnostic.code === code),
+2026-07-25T16:55:41.3427618Z   > 214 │     label + ": missing " + code + ": " + JSON.stringify(result.diagnostics),
+2026-07-25T16:55:41.3428770Z         │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3429561Z     215 │   );
+2026-07-25T16:55:41.3430198Z     216 │   return code;
+2026-07-25T16:55:41.3430780Z   
+2026-07-25T16:55:41.3431375Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3432046Z   
+2026-07-25T16:55:41.3432670Z      212  212 │     assert.ok(
+2026-07-25T16:55:41.3433983Z      213  213 │       result.diagnostics.some((diagnostic) => diagnostic.code === code),
+2026-07-25T16:55:41.3435565Z      214      │ - ····label·+·":·missing·"·+·code·+·":·"·+·JSON.stringify(result.diagnostics),
+2026-07-25T16:55:41.3437036Z           214 │ + ····`${label}:·missing·${code}:·${JSON.stringify(result.diagnostics)}`,
+2026-07-25T16:55:41.3438012Z      215  215 │     );
+2026-07-25T16:55:41.3438703Z      216  216 │     return code;
+2026-07-25T16:55:41.3439308Z   
+2026-07-25T16:55:41.3439663Z 
+2026-07-25T16:55:41.3440836Z scripts/run-v12-dogfood.mjs:221:9 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3441768Z 
+2026-07-25T16:55:41.3442321Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3443270Z   
+2026-07-25T16:55:41.3443880Z     219 │ function buildGoal() {
+2026-07-25T16:55:41.3444823Z     220 │   const acceptanceCriteria = WORK_UNIT_IDS.map((id) => ({
+2026-07-25T16:55:41.3445750Z   > 221 │     id: "criterion." + id,
+2026-07-25T16:55:41.3446504Z         │         ^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3447448Z     222 │     description: "Complete " + id + ".",
+2026-07-25T16:55:41.3448293Z     223 │     evidenceRequirements: [
+2026-07-25T16:55:41.3448918Z   
+2026-07-25T16:55:41.3449475Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3450109Z   
+2026-07-25T16:55:41.3450747Z      219  219 │   function buildGoal() {
+2026-07-25T16:55:41.3451793Z      220  220 │     const acceptanceCriteria = WORK_UNIT_IDS.map((id) => ({
+2026-07-25T16:55:41.3452989Z      221      │ - ····id:·"criterion."·+·id,
+2026-07-25T16:55:41.3453913Z           221 │ + ····id:·`criterion.${id}`,
+2026-07-25T16:55:41.3454835Z      222  222 │       description: "Complete " + id + ".",
+2026-07-25T16:55:41.3455794Z      223  223 │       evidenceRequirements: [
+2026-07-25T16:55:41.3456483Z   
+2026-07-25T16:55:41.3456830Z 
+2026-07-25T16:55:41.3457997Z scripts/run-v12-dogfood.mjs:222:18 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3458927Z 
+2026-07-25T16:55:41.3459498Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3460594Z   
+2026-07-25T16:55:41.3461462Z     220 │   const acceptanceCriteria = WORK_UNIT_IDS.map((id) => ({
+2026-07-25T16:55:41.3462438Z     221 │     id: "criterion." + id,
+2026-07-25T16:55:41.3463477Z   > 222 │     description: "Complete " + id + ".",
+2026-07-25T16:55:41.3464381Z         │                  ^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3465223Z     223 │     evidenceRequirements: [
+2026-07-25T16:55:41.3465943Z     224 │       {
+2026-07-25T16:55:41.3466465Z   
+2026-07-25T16:55:41.3467051Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3467686Z   
+2026-07-25T16:55:41.3468536Z      220  220 │     const acceptanceCriteria = WORK_UNIT_IDS.map((id) => ({
+2026-07-25T16:55:41.3469743Z      221  221 │       id: "criterion." + id,
+2026-07-25T16:55:41.3470692Z      222      │ - ····description:·"Complete·"·+·id·+·".",
+2026-07-25T16:55:41.3471658Z           222 │ + ····description:·`Complete·${id}.`,
+2026-07-25T16:55:41.3472568Z      223  223 │       evidenceRequirements: [
+2026-07-25T16:55:41.3473490Z      224  224 │         {
+2026-07-25T16:55:41.3474042Z   
+2026-07-25T16:55:41.3474387Z 
+2026-07-25T16:55:41.3475583Z scripts/run-v12-dogfood.mjs:225:13 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3476489Z 
+2026-07-25T16:55:41.3477032Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3477819Z   
+2026-07-25T16:55:41.3478452Z     223 │     evidenceRequirements: [
+2026-07-25T16:55:41.3479133Z     224 │       {
+2026-07-25T16:55:41.3479794Z   > 225 │         id: "evidence." + id,
+2026-07-25T16:55:41.3480565Z         │             ^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3481347Z     226 │         kind: "review",
+2026-07-25T16:55:41.3482094Z     227 │         duty: "produce",
+2026-07-25T16:55:41.3482867Z   
+2026-07-25T16:55:41.3483468Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3484125Z   
+2026-07-25T16:55:41.3484809Z      223  223 │       evidenceRequirements: [
+2026-07-25T16:55:41.3485675Z      224  224 │         {
+2026-07-25T16:55:41.3486497Z      225      │ - ········id:·"evidence."·+·id,
+2026-07-25T16:55:41.3487387Z           225 │ + ········id:·`evidence.${id}`,
+2026-07-25T16:55:41.3488230Z      226  226 │           kind: "review",
+2026-07-25T16:55:41.3489052Z      227  227 │           duty: "produce",
+2026-07-25T16:55:41.3489708Z   
+2026-07-25T16:55:41.3490072Z 
+2026-07-25T16:55:41.3491231Z scripts/run-v12-dogfood.mjs:228:22 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3492169Z 
+2026-07-25T16:55:41.3493041Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3493868Z   
+2026-07-25T16:55:41.3494475Z     226 │         kind: "review",
+2026-07-25T16:55:41.3495203Z     227 │         duty: "produce",
+2026-07-25T16:55:41.3496080Z   > 228 │         description: "Produce " + id + " evidence.",
+2026-07-25T16:55:41.3497069Z         │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3497988Z     229 │         independentFromProducer: false,
+2026-07-25T16:55:41.3498780Z     230 │       },
+2026-07-25T16:55:41.3499306Z   
+2026-07-25T16:55:41.3499871Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3500511Z   
+2026-07-25T16:55:41.3501168Z      226  226 │           kind: "review",
+2026-07-25T16:55:41.3501975Z      227  227 │           duty: "produce",
+2026-07-25T16:55:41.3503125Z      228      │ - ········description:·"Produce·"·+·id·+·"·evidence.",
+2026-07-25T16:55:41.3504203Z           228 │ + ········description:·`Produce·${id}·evidence.`,
+2026-07-25T16:55:41.3505183Z      229  229 │           independentFromProducer: false,
+2026-07-25T16:55:41.3505989Z      230  230 │         },
+2026-07-25T16:55:41.3506541Z   
+2026-07-25T16:55:41.3506896Z 
+2026-07-25T16:55:41.3508039Z scripts/run-v12-dogfood.mjs:235:16 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3508975Z 
+2026-07-25T16:55:41.3509573Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3510380Z   
+2026-07-25T16:55:41.3511449Z     233 │   const workUnit = (id, dependencies, weight) => ({
+2026-07-25T16:55:41.3512302Z     234 │     id,
+2026-07-25T16:55:41.3513213Z   > 235 │     objective: "Complete " + id + ".",
+2026-07-25T16:55:41.3514467Z         │                ^^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3515102Z     236 │     weight,
+2026-07-25T16:55:41.3515567Z     237 │     module: {
+2026-07-25T16:55:41.3515953Z   
+2026-07-25T16:55:41.3516370Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3516938Z   
+2026-07-25T16:55:41.3519871Z      233  233 │     const workUnit = (id, dependencies, weight) => ({
+2026-07-25T16:55:41.3520989Z      234  234 │       id,
+2026-07-25T16:55:41.3521670Z      235      │ - ····objective:·"Complete·"·+·id·+·".",
+2026-07-25T16:55:41.3522460Z           235 │ + ····objective:·`Complete·${id}.`,
+2026-07-25T16:55:41.3543599Z      236  236 │       weight,
+2026-07-25T16:55:41.3553623Z      237  237 │       module: {
+2026-07-25T16:55:41.3554081Z   
+2026-07-25T16:55:41.3554280Z 
+2026-07-25T16:55:41.3555290Z scripts/run-v12-dogfood.mjs:238:11 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3556039Z 
+2026-07-25T16:55:41.3556431Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3557045Z   
+2026-07-25T16:55:41.3557433Z     236 │     weight,
+2026-07-25T16:55:41.3557887Z     237 │     module: {
+2026-07-25T16:55:41.3558412Z   > 238 │       id: "dogfood." + id,
+2026-07-25T16:55:41.3558998Z         │           ^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3559630Z     239 │       action: "Perform " + id + ".",
+2026-07-25T16:55:41.3560538Z     240 │       inputPorts: [{ name: "input", artifactType: "DogfoodInput" }],
+2026-07-25T16:55:41.3561162Z   
+2026-07-25T16:55:41.3561527Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3561954Z   
+2026-07-25T16:55:41.3562318Z      236  236 │       weight,
+2026-07-25T16:55:41.3562952Z      237  237 │       module: {
+2026-07-25T16:55:41.3563530Z      238      │ - ······id:·"dogfood."·+·id,
+2026-07-25T16:55:41.3564195Z           238 │ + ······id:·`dogfood.${id}`,
+2026-07-25T16:55:41.3564913Z      239  239 │         action: "Perform " + id + ".",
+2026-07-25T16:55:41.3565900Z      240  240 │         inputPorts: [{ name: "input", artifactType: "DogfoodInput" }],
+2026-07-25T16:55:41.3566591Z   
+2026-07-25T16:55:41.3566756Z 
+2026-07-25T16:55:41.3567722Z scripts/run-v12-dogfood.mjs:239:15 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-07-25T16:55:41.3568443Z 
+2026-07-25T16:55:41.3568831Z   i Template literals are preferred over string concatenation.
+2026-07-25T16:55:41.3569471Z   
+2026-07-25T16:55:41.3569851Z     237 │     module: {
+2026-07-25T16:55:41.3570363Z     238 │       id: "dogfood." + id,
+2026-07-25T16:55:41.3570992Z   > 239 │       action: "Perform " + id + ".",
+2026-07-25T16:55:41.3571650Z         │               ^^^^^^^^^^^^^^^^^^^^^
+2026-07-25T16:55:41.3572528Z     240 │       inputPorts: [{ name: "input", artifactType: "DogfoodInput" }],
+2026-07-25T16:55:41.3573817Z     241 │       outputPorts: [{ name: "output", artifactType: "DogfoodOutput" }],
+2026-07-25T16:55:41.3574505Z   
+2026-07-25T16:55:41.3574915Z   i Unsafe fix: Use a template literal.
+2026-07-25T16:55:41.3575391Z   
+2026-07-25T16:55:41.3575826Z      237  237 │       module: {
+2026-07-25T16:55:41.3576407Z      238  238 │         id: "dogfood." + id,
+2026-07-25T16:55:41.3577147Z      239      │ - ······action:·"Perform·"·+·id·+·".",
+2026-07-25T16:55:41.3577884Z           239 │ + ······action:·`Perform·${id}.`,
+2026-07-25T16:55:41.3584628Z      240  240 │         inputPorts: [{ name: "input", artifactType: "DogfoodInput" }],
+2026-07-25T16:55:41.3596160Z The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+2026-07-25T16:55:41.3597042Z Diagnostics not shown: 60.
+2026-07-25T16:55:41.3597592Z Checked 95 files in 331ms. No fixes applied.
+2026-07-25T16:55:41.3598094Z Found 9 warnings.
+2026-07-25T16:55:41.3598434Z Found 71 infos.
+2026-07-25T16:55:41.3604257Z      241  241 │         outputPorts: [{ name: "output", artifactType: "DogfoodOutput" }],
+2026-07-25T16:55:41.3605004Z   
+2026-07-25T16:55:41.3605183Z 
+2026-07-25T16:55:41.5015817Z 
+2026-07-25T16:55:41.5016382Z > swecircuit@0.0.0 typecheck
+2026-07-25T16:55:41.5016973Z > node scripts/run-typescript.mjs -p tsconfig.json --noEmit
+2026-07-25T16:55:41.5017297Z 
+2026-07-25T16:55:41.6876082Z SWECIRCUIT_TYPESCRIPT_BINDING {"path":"/home/runner/work/SWECircuit/SWECircuit/node_modules/typescript/bin/tsc","bytes":44,"digest":"sha256:2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd","nlink":1,"supplied":false,"version":"Version 7.0.2"}
+2026-07-25T16:55:42.2801014Z 
+2026-07-25T16:55:42.2802327Z > swecircuit@0.0.0 test
+2026-07-25T16:55:42.2803515Z > npm run build --silent && npm run test:core && npm run test:lifecycle
+2026-07-25T16:55:42.2804074Z 
+2026-07-25T16:55:42.4884911Z SWECIRCUIT_TYPESCRIPT_BINDING {"path":"/home/runner/work/SWECircuit/SWECircuit/node_modules/typescript/bin/tsc","bytes":44,"digest":"sha256:2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd","nlink":1,"supplied":false,"version":"Version 7.0.2"}
+2026-07-25T16:55:42.9826820Z 
+2026-07-25T16:55:42.9827548Z > swecircuit@0.0.0 test:core
+2026-07-25T16:55:42.9828160Z > node --test test/*.test.mjs
+2026-07-25T16:55:42.9828463Z 
+2026-07-25T16:55:47.0759113Z ✔ the internal CLI exposes one fixed help surface (142.319329ms)
+2026-07-25T16:55:47.0776081Z ✔ init, validate, and inspect human output comes from library summaries (1316.052316ms)
+2026-07-25T16:55:47.0804956Z ✔ JSON mode writes exactly one operation result to stdout for success and failure (580.332814ms)
+2026-07-25T16:55:47.0831810Z ✔ human failures use stderr and never print a success summary (146.102272ms)
+2026-07-25T16:55:47.0871384Z ✔ human warning results keep success on stdout and warnings on stderr (424.78894ms)
+2026-07-25T16:55:47.0872999Z ▶ invalid commands and option shapes deterministically emit cli.usage
+2026-07-25T16:55:47.0873942Z   ✔ missing command (155.570549ms)
+2026-07-25T16:55:47.0874646Z   ✔ unknown command (112.640501ms)
+2026-07-25T16:55:47.0875261Z   ✔ unknown option (123.102253ms)
+2026-07-25T16:55:47.0876465Z   ✔ duplicate option (135.072908ms)
+2026-07-25T16:55:47.0877104Z   ✔ extra positional (119.760928ms)
+2026-07-25T16:55:47.0877752Z   ✔ inspect missing trace (130.929177ms)
+2026-07-25T16:55:47.0878410Z   ✔ trace on validate (131.033898ms)
+2026-07-25T16:55:47.0879055Z   ✔ project id on validate (126.867248ms)
+2026-07-25T16:55:47.0879700Z   ✔ command help (121.413597ms)
+2026-07-25T16:55:47.0880794Z ✔ invalid commands and option shapes deterministically emit cli.usage (1287.7158ms)
+2026-07-25T16:55:47.0882253Z ✔ unexpected operation throws become one sanitized internal failure (2.578326ms)
+2026-07-25T16:55:47.0883616Z ✔ the CLI remains a renderer-only internal surface (1.236324ms)
+2026-07-25T16:55:51.3465028Z ✔ the V9 dogfood circuit is measured, bounded, and semantically repeatable (6054.214707ms)
+2026-07-25T16:55:51.3495431Z ✔ the V9 dogfood harness removes its owned workspace after an injected failure (1741.742254ms)
+2026-07-25T16:55:51.3534414Z ✔ the V9 dogfood harness cleans up when setup fails after ownership capture (0.94502ms)
+2026-07-25T16:55:51.3553935Z ✔ the committed observation digest and caller-owned retry trace stay linked (428.17465ms)
+2026-07-25T16:55:51.3676098Z ✔ one valid packet executes once and returns an immutable V9-compatible journal (297.758641ms)
+2026-07-25T16:55:51.3699421Z ✔ normal class executors can implement the public port (3.770619ms)
+2026-07-25T16:55:51.3746093Z ✔ operation success stays separate from declared work failure (5.148658ms)
+2026-07-25T16:55:51.3779472Z ▶ every preflight rejection prevents executor invocation
+2026-07-25T16:55:51.3780694Z   ✔ null packet (1.583633ms)
+2026-07-25T16:55:51.3781429Z   ✔ null manifest (2.570798ms)
+2026-07-25T16:55:51.3782165Z   ✔ wrong packet kind (4.850434ms)
+2026-07-25T16:55:51.3783169Z   ✔ incompatible manifest kind (3.178776ms)
+2026-07-25T16:55:51.3784121Z   ✔ manifest declares kernel-owned output (1.172416ms)
+2026-07-25T16:55:51.3785050Z   ✔ executor identity mismatch (1.034982ms)
+2026-07-25T16:55:51.3785819Z   ✔ malformed grant (0.864986ms)
+2026-07-25T16:55:51.3786527Z   ✔ invalid timeout policy (0.673765ms)
+2026-07-25T16:55:51.3787564Z ✔ every preflight rejection prevents executor invocation (17.610132ms)
+2026-07-25T16:55:51.3788689Z ▶ permission grants fail closed in every direction
+2026-07-25T16:55:51.3789588Z   ✔ grant misses a manifest request (1.087037ms)
+2026-07-25T16:55:51.3790386Z   ✔ grant adds unrequested authority (0.603711ms)
+2026-07-25T16:55:51.3791233Z   ✔ grant exceeds packet ceiling (0.698695ms)
+2026-07-25T16:55:51.3792171Z   ✔ broad request is not covered by narrow grant (0.831371ms)
+2026-07-25T16:55:51.3793350Z   ✔ broad grant is not covered by narrow request (0.76932ms)
+2026-07-25T16:55:51.3794391Z ✔ permission grants fail closed in every direction (5.14976ms)
+2026-07-25T16:55:51.3795697Z ▶ throws and malformed settlements become fixed failures without raw values
+2026-07-25T16:55:51.3796688Z   ✔ throw (2.390635ms)
+2026-07-25T16:55:51.3797367Z   ✔ malformed extra field (4.188758ms)
+2026-07-25T16:55:51.3798053Z   ✔ secret evidence (6.702889ms)
+2026-07-25T16:55:51.3799152Z ✔ throws and malformed settlements become fixed failures without raw values (14.038182ms)
+2026-07-25T16:55:51.3800554Z ✔ fulfillment observation detaches settlement before later mutation (2.684793ms)
+2026-07-25T16:55:51.3810381Z ▶ return-bound input canaries fail preflight without leaking
+2026-07-25T16:55:51.3811265Z   ✔ run ID (0.992844ms)
+2026-07-25T16:55:51.3811910Z   ✔ attempt ID (0.711076ms)
+2026-07-25T16:55:51.3812633Z   ✔ correlation ID (0.749739ms)
+2026-07-25T16:55:51.3829223Z   ✔ packet ID (0.732191ms)
+2026-07-25T16:55:51.3829964Z   ✔ grant ID (0.983809ms)
+2026-07-25T16:55:51.3830624Z   ✔ issuer (0.765053ms)
+2026-07-25T16:55:51.3831253Z   ✔ executor ID (1.404533ms)
+2026-07-25T16:55:51.3832315Z ✔ return-bound input canaries fail preflight without leaking (7.457781ms)
+2026-07-25T16:55:51.3833791Z ▶ already-aborted and already-expired work never invokes the executor
+2026-07-25T16:55:51.3834798Z   ✔ caller abort (3.169552ms)
+2026-07-25T16:55:51.3835469Z   ✔ packet deadline (4.457445ms)
+2026-07-25T16:55:51.3836537Z ✔ already-aborted and already-expired work never invokes the executor (8.221363ms)
+2026-07-25T16:55:51.3837944Z ▶ acknowledged caller cancellation and timeout produce exact terminal journals
+2026-07-25T16:55:51.3839051Z   ✔ caller cancellation (3.567218ms)
+2026-07-25T16:55:51.3839749Z   ✔ deadline (2.441057ms)
+2026-07-25T16:55:51.3840919Z ✔ acknowledged caller cancellation and timeout produce exact terminal journals (6.556176ms)
+2026-07-25T16:55:51.3875652Z ✔ an unacknowledged abort remains non-terminal and late rejection is observed (2.288931ms)
+2026-07-25T16:55:51.3877421Z ✔ completion observed at or after the absolute deadline cannot become success (1.923025ms)
+2026-07-25T16:55:51.3878908Z ✔ an early deadline wake-up re-arms instead of cancelling work (1.91382ms)
+2026-07-25T16:55:51.3880823Z ✔ settlement outside the abort acknowledgement window stays unconfirmed (1.860213ms)
+2026-07-25T16:55:51.3882333Z ▶ hostile proxies and forged signals fail closed without escaping the API
+2026-07-25T16:55:51.3883570Z   ✔ revoked work packet (0.94106ms)
+2026-07-25T16:55:51.3884347Z   ✔ revoked options (0.44901ms)
+2026-07-25T16:55:51.3885170Z   ✔ live proxy traps are not invoked (0.932236ms)
+2026-07-25T16:55:51.3885969Z   ✔ revoked AbortSignal proxy (0.870234ms)
+2026-07-25T16:55:51.3886722Z   ✔ forged AbortSignal (0.870866ms)
+2026-07-25T16:55:51.3887527Z   ✔ revoked settlement (1.718062ms)
+2026-07-25T16:55:51.3888674Z ✔ hostile proxies and forged signals fail closed without escaping the API (8.728356ms)
+2026-07-25T16:55:51.3890473Z ▶ snapshot depth and node ceilings reject work before executor invocation
+2026-07-25T16:55:51.3891489Z   ✔ huge sparse array (1.961338ms)
+2026-07-25T16:55:51.3892217Z   ✔ small sparse array (0.983318ms)
+2026-07-25T16:55:51.3893207Z   ✔ dense oversized object (205.483064ms)
+2026-07-25T16:55:51.3894044Z   ✔ excessive depth (1.466704ms)
+2026-07-25T16:55:51.3895257Z ✔ snapshot depth and node ceilings reject work before executor invocation (210.713345ms)
+2026-07-25T16:55:51.3896621Z ▶ the final invocation gate catches cancellation and deadline changes
+2026-07-25T16:55:51.3897706Z   ✔ caller abort while the deadline timer is armed (2.987996ms)
+2026-07-25T16:55:51.3898727Z   ✔ deadline reached after the final gate read (2.798037ms)
+2026-07-25T16:55:51.3899804Z   ✔ deadline reached while the deadline timer is armed (1.95657ms)
+2026-07-25T16:55:51.3901131Z ✔ the final invocation gate catches cancellation and deadline changes (8.365146ms)
+2026-07-25T16:55:51.3902346Z ▶ abort cause uses the first observed monotonic event
+2026-07-25T16:55:51.3903648Z   ✔ caller observed before deadline remains caller (2.554362ms)
+2026-07-25T16:55:51.3904774Z   ✔ caller first observed after deadline is deadline (2.140359ms)
+2026-07-25T16:55:51.3905988Z ✔ abort cause uses the first observed monotonic event (5.14944ms)
+2026-07-25T16:55:51.3907145Z ▶ direct inputs are detached, bounded, and accessor-free
+2026-07-25T16:55:51.3907966Z   ✔ cycle (0.7996ms)
+2026-07-25T16:55:51.3908577Z   ✔ accessor (2.567193ms)
+2026-07-25T16:55:51.3909340Z   ✔ source mutation cannot change executor input (2.241483ms)
+2026-07-25T16:55:51.3910415Z ✔ direct inputs are detached, bounded, and accessor-free (6.093434ms)
+2026-07-25T16:55:51.3911622Z ✔ initialization creates the smallest valid project with frozen bytes (268.383046ms)
+2026-07-25T16:55:51.3913198Z ✔ an explicit project ID wins and initialization never discovers an ancestor (6.507958ms)
+2026-07-25T16:55:51.3914506Z ✔ default project ID transformation is exact across edge cases (31.367561ms)
+2026-07-25T16:55:51.3915676Z ✔ invalid explicit IDs fail before creating owned paths (2.275955ms)
+2026-07-25T16:55:51.3916913Z ✔ repeated initialization reports every owned collision without changing output (5.182525ms)
+2026-07-25T16:55:51.3918283Z ✔ manifest collisions preserve exact bytes and do not create a catalog (1.195518ms)
+2026-07-25T16:55:51.3919610Z ✔ catalog collisions preserve existing content and do not create a manifest (1.247821ms)
+2026-07-25T16:55:51.3920927Z ✔ a linked catalog is a collision and its target is never changed (1.135554ms)
+2026-07-25T16:55:51.3922129Z ✔ invalid and missing target roots fail without creating paths (0.843479ms)
+2026-07-25T16:55:51.3923545Z ▶ every initialization checkpoint fails closed and rolls back owned entries
+2026-07-25T16:55:51.3924554Z   ✔ beforeCatalogCreate (1.56887ms)
+2026-07-25T16:55:51.3925291Z   ✔ afterCatalogCreate (1.047192ms)
+2026-07-25T16:55:51.3926042Z   ✔ beforeModulesCreate (0.961334ms)
+2026-07-25T16:55:51.3926846Z   ✔ afterModulesCreate (0.874885ms)
+2026-07-25T16:55:51.3927621Z   ✔ beforeCircuitsCreate (0.892301ms)
+2026-07-25T16:55:51.3928386Z   ✔ afterCircuitsCreate (1.143956ms)
+2026-07-25T16:55:51.3929124Z   ✔ beforeManifestOpen (1.636862ms)
+2026-07-25T16:55:51.3929875Z   ✔ afterManifestOpen (1.820897ms)
+2026-07-25T16:55:51.3930963Z   ✔ afterManifestWrite (1.974816ms)
+2026-07-25T16:55:51.3931802Z   ✔ afterManifestFsync (2.747859ms)
+2026-07-25T16:55:51.3932553Z   ✔ beforeValidation (2.60083ms)
+2026-07-25T16:55:51.3933547Z   ✔ afterValidation (2.662001ms)
+2026-07-25T16:55:51.3934194Z   ✔ beforeManifestClose (2.825885ms)
+2026-07-25T16:55:51.3935321Z ✔ every initialization checkpoint fails closed and rolls back owned entries (24.787816ms)
+2026-07-25T16:55:51.3936720Z ▶ successful creations that fail before identity capture are preserved and reported
+2026-07-25T16:55:51.3937797Z   ✔ afterCatalogCreateBeforeCapture (0.932791ms)
+2026-07-25T16:55:51.3938649Z   ✔ afterModulesCreateBeforeCapture (0.719533ms)
+2026-07-25T16:55:51.3939923Z   ✔ afterCircuitsCreateBeforeCapture (0.96507ms)
+2026-07-25T16:55:51.3940850Z   ✔ afterManifestOpenBeforeCapture (1.214932ms)
+2026-07-25T16:55:51.3942350Z ✔ successful creations that fail before identity capture are preserved and reported (4.52483ms)
+2026-07-25T16:55:51.3944256Z ✔ non-empty rollback targets survive with an explicit cleanup diagnostic (1.191978ms)
+2026-07-25T16:55:51.3945788Z ✔ identity-changed rollback targets and displaced entries are preserved (1.226099ms)
+2026-07-25T16:55:51.3947441Z ✔ two coordinated processes produce exactly one initialized project (563.420557ms)
+2026-07-25T16:55:51.3949051Z ✔ initialization and generated-project validation stay offline and process-free (10.621344ms)
+2026-07-25T16:55:51.3950687Z ✔ initializer source has no network, process, or adapter execution surface (0.510411ms)
+2026-07-25T16:55:51.3952154Z ✔ runtime diagnostic definitions exactly match the normative catalog (3.087155ms)
+2026-07-25T16:55:51.3954036Z ✔ strict JSON parsing rejects invalid UTF-8, syntax extensions, duplicate keys, and unsafe numbers (5.570249ms)
+2026-07-25T16:55:51.3955767Z ✔ strict JSON parsing enforces artifact byte and depth ceilings before validation (175.880988ms)
+2026-07-25T16:55:51.3957249Z ✔ dispatch fails closed with stable version and kind diagnostics (1.34103ms)
+2026-07-25T16:55:51.3958647Z ✔ schema failures normalize permission, privacy, and stop-condition policy (251.215749ms)
+2026-07-25T16:55:51.3960298Z ✔ diagnostics are sanitized, deduplicated, and sorted deterministically (1.54213ms)
+2026-07-25T16:55:51.3961822Z ✔ an explicit minimal project validates without discovery or optional adapters (289.323835ms)
+2026-07-25T16:55:51.3963624Z ✔ a complete parallel project validates module routing, ownership, joins, and ceilings (39.271821ms)
+2026-07-25T16:55:51.3965332Z ▶ project loading rejects lexical escapes and every portable forbidden path form
+2026-07-25T16:55:51.3966449Z   ✔ parent (3.214165ms)
+2026-07-25T16:55:51.3967078Z   ✔ posix absolute (1.222945ms)
+2026-07-25T16:55:51.3967898Z   ✔ windows absolute (1.563452ms)
+2026-07-25T16:55:51.3968467Z   ✔ unc (1.105149ms)
+2026-07-25T16:55:51.3968974Z   ✔ device (3.584287ms)
+2026-07-25T16:55:51.3969569Z   ✔ alternate stream (1.279138ms)
+2026-07-25T16:55:51.3970158Z   ✔ URI (1.297285ms)
+2026-07-25T16:55:51.3970730Z   ✔ backslash (1.03222ms)
+2026-07-25T16:55:51.3971514Z   ✔ lone high surrogate (1.96412ms)
+2026-07-25T16:55:51.3972206Z   ✔ lone low surrogate (0.962555ms)
+2026-07-25T16:55:51.3974263Z ✔ project loading rejects lexical escapes and every portable forbidden path form (20.005352ms)
+2026-07-25T16:55:51.3975857Z ✔ project loading distinguishes missing references, non-files, and safe I/O failures (3.347303ms)
+2026-07-25T16:55:51.3977287Z ✔ contained missing-file diagnostics suppress secret-bearing artifact names (1.070577ms)
+2026-07-25T16:55:51.3978626Z ▶ explicit project roots reject remote, device, stream, and control forms before I/O
+2026-07-25T16:55:51.3979462Z   ✔ file URI (0.333738ms)
+2026-07-25T16:55:51.3980045Z   ✔ network URI (0.192627ms)
+2026-07-25T16:55:51.3980615Z   ✔ slash UNC (0.151075ms)
+2026-07-25T16:55:51.3981209Z   ✔ backslash UNC (0.097035ms)
+2026-07-25T16:55:51.3981762Z   ✔ device path (0.095783ms)
+2026-07-25T16:55:51.3982391Z   ✔ alternate stream (0.104275ms)
+2026-07-25T16:55:51.3983477Z   ✔ control character (0.09439ms)
+2026-07-25T16:55:51.3984611Z   ✔ lone high surrogate (0.103224ms)
+2026-07-25T16:55:51.3985310Z   ✔ lone low surrogate (0.085137ms)
+2026-07-25T16:55:51.3986495Z ✔ explicit project roots reject remote, device, stream, and control forms before I/O (2.450135ms)
+2026-07-25T16:55:51.3987766Z ✔ project loading rejects links below the trust root (1.415151ms)
+2026-07-25T16:55:51.3989045Z ✔ project loading rejects external links without dereferencing their target (1.413038ms)
+2026-07-25T16:55:51.3990424Z ✔ project validation accepts a root reached through an aliased ancestor (1.15347ms)
+2026-07-25T16:55:51.3991824Z ✔ canonical containment distinguishes internal aliases from resolved escape (0.367718ms)
+2026-07-25T16:55:51.3993619Z ✔ project references fail closed for wrong kinds and duplicate identities (12.990688ms)
+2026-07-25T16:55:51.3995007Z ✔ reference and graph diagnostics identify undeclared outcomes, ports, and fan-in (34.08165ms)
+2026-07-25T16:55:51.3996364Z ✔ every project and graph reference class emits reference.not-found (29.205406ms)
+2026-07-25T16:55:51.3997803Z ✔ cycles, fan-out ownership, and permission ceilings are enforced semantically (31.099916ms)
+2026-07-25T16:55:51.3999131Z ✔ multi-node cycles require a bound on every cyclic route (12.302822ms)
+2026-07-25T16:55:51.4000394Z ✔ fan-out declarations and entry reachability stay structurally consistent (10.91078ms)
+2026-07-25T16:55:51.4001826Z ✔ permission grammar covers every kind and filesystem prefix boundaries (34.509958ms)
+2026-07-25T16:55:51.4003540Z ✔ project and circuit collection ceilings emit dedicated limit diagnostics (1386.333765ms)
+2026-07-25T16:55:51.4005050Z ✔ the documented source-checkout example is repeatable and read-only (1464.099633ms)
+2026-07-25T16:55:51.4006461Z ✔ the documented initialization grammar works in a temporary project (1585.504894ms)
+2026-07-25T16:55:51.4007771Z ✔ the quick start remains a private source-checkout interface (0.941875ms)
+2026-07-25T16:55:51.4009045Z ✔ all v1alpha1 schemas compile together in strict Ajv 2020 mode (244.31165ms)
+2026-07-25T16:55:51.4010456Z ✔ one canonical fixture for every supported kind passes its schema (218.766415ms)
+2026-07-25T16:55:51.4011773Z ✔ schema and fixture paths are repository-owned local files (1.209624ms)
+2026-07-25T16:55:51.4013460Z ✔ the diagnostic catalog and adversarial matrix are closed and internally consistent (8.825956ms)
+2026-07-25T16:55:51.4015053Z ✔ every concrete object boundary in all six valid fixtures rejects unknown fields (306.801937ms)
+2026-07-25T16:55:51.4016759Z ✔ the parallel circuit fixture declares fan-out, bounded work ownership, and one fan-in policy (85.598157ms)
+2026-07-25T16:55:51.4018623Z ✔ schema boundaries reject permission, privacy, compatibility, and terminal-state ambiguity (115.993157ms)
+2026-07-25T16:55:51.4020190Z ✔ minimal projects and timestamp-free events remain valid (77.781827ms)
+2026-07-25T16:55:51.4021758Z ✔ package schemas use only local package-owned references and strict known keywords (42.369192ms)
+2026-07-25T16:55:51.4023429Z ✔ strict parser fixtures expose syntax and duplicate-key failures (4.577758ms)
+2026-07-25T16:55:52.2100557Z ✔ golden specialist selection: one-agent-optimal (182.039048ms)
+2026-07-25T16:55:52.2133322Z ✔ golden specialist selection: genuinely-parallel (5.63141ms)
+2026-07-25T16:55:52.2180618Z ✔ golden specialist selection: under-split (9.316277ms)
+2026-07-25T16:55:52.2185512Z ✔ golden specialist selection: over-split (6.636866ms)
+2026-07-25T16:55:52.2221825Z ✔ golden specialist selection: conflict-heavy (5.240216ms)
+2026-07-25T16:55:52.2240210Z ✔ golden specialist selection: generic-role (6.115773ms)
+2026-07-25T16:55:52.2241820Z ✔ candidate analysis exposes deterministic rejection evidence when no team is eligible (10.511109ms)
+2026-07-25T16:55:52.2243662Z ✔ candidate analysis and compilation select the same exact team (5.949735ms)
+2026-07-25T16:55:52.2245072Z ✔ generated team and agent identifiers retain the full SHA-256 suffix (4.839319ms)
+2026-07-25T16:55:52.2247336Z ✔ selected blueprints close exact ownership, authority, context, evidence, handoff, and digests (18.185588ms)
+2026-07-25T16:55:52.2249071Z ✔ exact search evaluates every allowed canonical partition through the declared limit (1976.798672ms)
+2026-07-25T16:55:52.2250511Z ✔ fixed scheduler prioritizes the longer remaining critical path (5.131039ms)
+2026-07-25T16:55:52.2251820Z ✔ fixed scheduler breaks equal critical paths by longer duration (7.315053ms)
+2026-07-25T16:55:52.2253147Z ✔ fixed scheduler breaks remaining ties by agent ID (3.248861ms)
+2026-07-25T16:55:52.2314413Z ✔ fixed scheduler enforces maximum concurrency (10.866941ms)
+2026-07-25T16:55:52.2368424Z ✔ fixed scheduler serializes declared conflict zones (6.541985ms)
+2026-07-25T16:55:52.2374561Z ✔ fixed scheduler releases dependencies after the handoff cost (5.567196ms)
+2026-07-25T16:55:52.2376838Z ✔ above-limit goals use deterministic bounded structural candidates without an optimum claim (25.651883ms)
+2026-07-25T16:55:52.2378551Z ✔ every supplied proposal remains inspectable beyond the retained-alternative window (23.029841ms)
+2026-07-25T16:55:52.2380040Z ✔ logical array and object-key permutations produce byte-identical compiled semantics (52.31163ms)
+2026-07-25T16:55:52.2381445Z ✔ compiled values are deeply frozen and detached from mutable caller input (5.99056ms)
+2026-07-25T16:55:52.2455260Z ✔ reviewed assumptions and nonblocking decisions are digest-bound and rendered (11.763793ms)
+2026-07-25T16:55:52.2456869Z ✔ blocking unresolved decisions reject before team construction (1.393306ms)
+2026-07-25T16:55:52.2484366Z ✔ selection reason reports the first decisive baseline comparison (8.783553ms)
+2026-07-25T16:55:52.2516741Z ✔ repository locators reject leading and nested dot or parent segments (5.00947ms)
+2026-07-25T16:55:52.2544248Z ✔ repository locator paths cannot exceed their declared read scope (4.061926ms)
+2026-07-25T16:55:52.2594979Z ✔ authority, context, and evidence violations reject before a launchable roster exists (10.108287ms)
+2026-07-25T16:55:52.2645939Z ✔ goal dependency cycles and partition-induced agent cycles are rejected (5.335635ms)
+2026-07-25T16:55:52.2665013Z ✔ generic role and provider/runtime extensions fail closed while exact ownership stays supply-free (7.420307ms)
+2026-07-25T16:55:52.2694602Z ✔ C1 controls fail closed before diagnostics or rendering (13.135244ms)
+2026-07-25T16:55:52.2715434Z ✔ Unicode bidi controls fail closed before diagnostics or rendering (45.232474ms)
+2026-07-25T16:55:52.2755210Z ✔ bounded UTF-8 measurement matches raw and JSON encoding boundaries (3.597323ms)
+2026-07-25T16:55:52.2756700Z ✔ secret-bearing unknown property keys stop at the parent before schema validation (4.878325ms)
+2026-07-25T16:55:52.2784181Z ✔ oversized compiler input rejects before serialization or UTF-8 buffer allocation (15.872264ms)
+2026-07-25T16:55:52.2787840Z ✔ secret-bearing input is rejected without echoing the secret (1.142886ms)
+2026-07-25T16:55:52.2789080Z ✔ digest tampering fails verification and renderer reconstruction (11.654163ms)
+2026-07-25T16:55:52.2790492Z ✔ renderer output is deterministic and binds paths, blueprints, bytes, and compilation (130.714624ms)
+2026-07-25T16:55:52.2791925Z ✔ package verification rejects oversized content before UTF-8 buffer allocation (124.360055ms)
+2026-07-25T16:55:52.2850026Z ✔ trusted package verification succeeds and coordinated recomputation cannot reuse approval (52.303309ms)
+2026-07-25T16:55:52.2852471Z ✔ rendered manifest binds every emitted contract and integration file digest (16.448795ms)
+2026-07-25T16:55:55.2444946Z ✔ first-run specialist example is deterministic, approval-bound, and read-only (975.933501ms)
+2026-07-25T16:55:55.2474072Z ✔ first-run specialist example rejects a stale source approval before compilation (170.474698ms)
+2026-07-25T16:55:55.2503809Z ✔ first-run approval parsing is bounded, strict UTF-8, and duplicate-aware (563.91943ms)
+2026-07-25T16:55:55.2544089Z ✔ first-run approval objects reject unknown fields at every boundary (475.55578ms)
+2026-07-25T16:55:55.2588728Z ✔ first-run source paths reject unsafe, non-scalar, and secret-bearing forms before I/O (2213.427253ms)
+2026-07-25T16:55:55.2590441Z ✔ first-run source reads reject directories and external junction targets (356.011846ms)
+2026-07-25T16:55:55.2637934Z ✔ first-run rejects secret-bearing approval paths without echoing them (175.061309ms)
+2026-07-25T16:55:55.2639642Z ✔ raw specialist handoffs verify exact package, blueprint, evidence, and artifact bindings (335.343354ms)
+2026-07-25T16:55:55.2641595Z ✔ handoff verification fails closed on stale identity, incomplete evidence, malformed JSON, and secrets (127.656841ms)
+2026-07-25T16:55:55.2643476Z ✔ handoff verification binds artifact media types and permits only normalized LF controls (86.130604ms)
+2026-07-25T16:55:55.2645667Z ✔ fan-in is ready only for one PASS handoff from every exact transitive dependency (66.932153ms)
+2026-07-25T16:55:55.2647144Z ✔ fan-in rejects valid handoffs from agents outside the target dependency closure (34.091074ms)
+2026-07-25T16:55:55.2648674Z ✔ handoff byte boundaries reject proxies and accessors without invoking caller code (48.941116ms)
+2026-07-25T16:55:55.2650163Z ✔ raw handoff and run input boundaries reject one-unit excess without truncation (1472.531253ms)
+2026-07-25T16:55:55.3683376Z ✔ decoded handoff overflow is SC4402 while malformed base64 remains SC4401 (522.355301ms)
+2026-07-25T16:55:55.3704169Z ✔ bundled specialist schemas have exact source parity (5.046213ms)
+2026-07-25T16:55:55.3717691Z ✔ create, restore, inspect, and record perform no first-use filesystem reads (2362.383922ms)
+2026-07-25T16:56:01.6860556Z ✔ inspection derives manifest contracts, DAG statuses, evidence, and complete-roster readiness (4764.497721ms)
+2026-07-25T16:56:01.6866848Z ✔ inspection closes every non-pass route and marks all unsettled work session-routed (2793.050545ms)
+2026-07-25T16:56:50.1551204Z ✔ the 16-agent maximum-handoff aggregate converges below conservative run safeguards (54733.847274ms)
+2026-07-25T16:56:50.2162118Z ✔ public run constants, operations, schema export, and V11 compatibility are exact (3.04145ms)
+2026-07-25T16:56:50.2163895Z ✔ the strict schema accepts both canonical roots and closes every nested object (10.551975ms)
+2026-07-25T16:56:50.2165047Z ✔ schema boundaries and every workflow route remain exact (82.713672ms)
+2026-07-25T16:56:50.2166279Z ✔ recording is monotonic, dependency-gated, replay-safe, and source-preserving (671.360654ms)
+2026-07-25T16:56:50.2167644Z ✔ every verified non-pass outcome records once and terminally routes later work (976.521944ms)
+2026-07-25T16:56:50.2169100Z ✔ recording applies validation and handoff diagnostic precedence without caller mutation (86.019519ms)
+2026-07-25T16:56:50.2170595Z ✔ root, chain, diamond, fan-out, fan-in, disconnected, and complete DAGs agree with V11 (6737.350798ms)
+2026-07-25T16:56:50.2172061Z ✔ all valid independent arrival permutations converge to one session and inspection (7259.534211ms)
+2026-07-25T16:56:50.2173708Z ✔ fresh-process restore and inspection preserve canonical semantics without host state (606.383168ms)
+2026-07-25T16:56:50.2175186Z ✔ restore, expectation, caller-code, and coordinated-substitution attacks fail closed (101.616813ms)
+2026-07-25T16:56:50.2176629Z ✔ handoff attacks, transition precedence, replay, and every non-pass route are closed (1067.485632ms)
+2026-07-25T16:56:50.2178001Z ✔ the specialist schemas and every definition compile in strict Ajv 2020 mode (233.632456ms)
+2026-07-25T16:56:50.2179229Z ✔ the specialist schema accepts its two canonical closed input kinds (100.332735ms)
+2026-07-25T16:56:50.2180408Z ✔ the handoff schema accepts every canonical outcome and remains closed (63.135978ms)
+2026-07-25T16:56:50.2181682Z ✔ every concrete specialist input object boundary rejects provider-shaped fields (78.131806ms)
+2026-07-25T16:56:50.2183124Z ✔ role and runtime supply cannot enter goal, request, work, or proposal contracts (65.486785ms)
+2026-07-25T16:56:50.2184341Z ✔ repository context requires readScope and external context forbids it (60.486781ms)
+2026-07-25T16:56:50.2185847Z ✔ permission kinds are the exact provider-neutral schema set (51.387941ms)
+2026-07-25T16:56:50.2186843Z ✔ specialist references stay inside package-owned v1alpha1 schemas (33.376462ms)
+2026-07-25T16:56:50.2187925Z ✔ TypeScript ESM output loads with the approved production dependencies (64.25727ms)
+2026-07-25T16:56:50.2189422Z ✔ inspection reconstructs interleaved runs, parallel attempts, retries, outcomes, and evidence (256.014769ms)
+2026-07-25T16:56:50.2190698Z ▶ [T12] zero-event terminators are accepted once and rejected when repeated
+2026-07-25T16:56:50.2191407Z   ✔ empty-file (1.34521ms)
+2026-07-25T16:56:50.2191914Z   ✔ single-final-lf (1.047581ms)
+2026-07-25T16:56:50.2192936Z   ✔ single-final-crlf (0.801028ms)
+2026-07-25T16:56:50.2193460Z   ✔ repeated-final-lf (1.308134ms)
+2026-07-25T16:56:50.2193954Z   ✔ repeated-final-crlf (0.822912ms)
+2026-07-25T16:56:50.2194891Z ✔ [T12] zero-event terminators are accepted once and rejected when repeated (6.729755ms)
+2026-07-25T16:56:50.2196072Z ✔ logical order accepts valid same-run backward causation and ignores timestamps (1.562988ms)
+2026-07-25T16:56:50.2197242Z ▶ sequence, event identity, and causation diagnostics are deterministic
+2026-07-25T16:56:50.2197984Z   ✔ duplicate sequence (2.895419ms)
+2026-07-25T16:56:50.2198531Z   ✔ regressing sequence (1.533113ms)
+2026-07-25T16:56:50.2199080Z   ✔ duplicate event id (1.169314ms)
+2026-07-25T16:56:50.2199592Z   ✔ missing cause (0.864775ms)
+2026-07-25T16:56:50.2200080Z   ✔ forward cause (1.109344ms)
+2026-07-25T16:56:50.2200568Z   ✔ cross-run cause (1.05379ms)
+2026-07-25T16:56:50.2201458Z ✔ sequence, event identity, and causation diagnostics are deterministic (9.707098ms)
+2026-07-25T16:56:50.2202395Z ▶ [T14] every legal attempt transition is accepted
+2026-07-25T16:56:50.2203199Z   ✔ queued-to-running (1.392451ms)
+2026-07-25T16:56:50.2203728Z   ✔ queued-to-cancelled (0.989964ms)
+2026-07-25T16:56:50.2204252Z   ✔ running-to-input_required (1.092538ms)
+2026-07-25T16:56:50.2204784Z   ✔ running-to-completed (1.45103ms)
+2026-07-25T16:56:50.2205280Z   ✔ running-to-failed (2.196164ms)
+2026-07-25T16:56:50.2205782Z   ✔ running-to-cancelled (2.16741ms)
+2026-07-25T16:56:50.2206292Z   ✔ running-to-timed_out (1.15331ms)
+2026-07-25T16:56:50.2206811Z   ✔ input_required-to-running (1.075012ms)
+2026-07-25T16:56:50.2207368Z   ✔ input_required-to-cancelled (0.958216ms)
+2026-07-25T16:56:50.2207977Z   ✔ input_required-to-timed_out (1.041712ms)
+2026-07-25T16:56:50.2208771Z ✔ [T14] every legal attempt transition is accepted (15.449782ms)
+2026-07-25T16:56:50.2209636Z ▶ [T04] every disallowed non-terminal transition is rejected
+2026-07-25T16:56:50.2210261Z   ✔ queued-to-queued (1.334514ms)
+2026-07-25T16:56:50.2210814Z   ✔ queued-to-input_required (0.907229ms)
+2026-07-25T16:56:50.2211439Z   ✔ queued-to-completed (0.842541ms)
+2026-07-25T16:56:50.2211931Z   ✔ queued-to-failed (0.793117ms)
+2026-07-25T16:56:50.2212394Z   ✔ queued-to-timed_out (1.032068ms)
+2026-07-25T16:56:50.2213649Z   ✔ running-to-queued (0.920378ms)
+2026-07-25T16:56:50.2214196Z   ✔ running-to-running (0.900569ms)
+2026-07-25T16:56:50.2214788Z   ✔ input_required-to-queued (0.955892ms)
+2026-07-25T16:56:50.2215405Z   ✔ input_required-to-input_required (1.011577ms)
+2026-07-25T16:56:50.2216054Z   ✔ input_required-to-completed (1.096144ms)
+2026-07-25T16:56:50.2216662Z   ✔ input_required-to-failed (1.13957ms)
+2026-07-25T16:56:50.2217566Z ✔ [T04] every disallowed non-terminal transition is rejected (12.311017ms)
+2026-07-25T16:56:50.2218435Z ▶ [T05] every terminal attempt state is immutable
+2026-07-25T16:56:50.2218993Z   ✔ completed (1.094061ms)
+2026-07-25T16:56:50.2219399Z   ✔ failed (1.012057ms)
+2026-07-25T16:56:50.2219810Z   ✔ cancelled (1.004857ms)
+2026-07-25T16:56:50.2220234Z   ✔ timed_out (0.957735ms)
+2026-07-25T16:56:50.2220912Z ✔ [T05] every terminal attempt state is immutable (4.744419ms)
+2026-07-25T16:56:50.2222109Z ✔ heartbeat, cancellation request, and explicit timeout events are accepted in valid states (2.011095ms)
+2026-07-25T16:56:50.2223683Z ▶ attempt transition and terminal-state violations use their dedicated diagnostics
+2026-07-25T16:56:50.2225031Z   ✔ new non-retry must start queued (0.839817ms)
+2026-07-25T16:56:50.2225775Z   ✔ queued cannot complete directly (0.776692ms)
+2026-07-25T16:56:50.2226423Z   ✔ terminal state is immutable (0.881821ms)
+2026-07-25T16:56:50.2227018Z   ✔ heartbeat is state-gated (0.797293ms)
+2026-07-25T16:56:50.2228076Z ✔ attempt transition and terminal-state violations use their dedicated diagnostics (3.869749ms)
+2026-07-25T16:56:50.2229186Z ▶ [T07] heartbeat and cancellation requests are state-gated
+2026-07-25T16:56:50.2229810Z   ✔ heartbeat (0.851485ms)
+2026-07-25T16:56:50.2230316Z   ✔ cancellation-request (0.962763ms)
+2026-07-25T16:56:50.2231451Z ✔ [T07] heartbeat and cancellation requests are state-gated (2.702999ms)
+2026-07-25T16:56:50.2232490Z ▶ [T10] every attempt-bearing non-state event requires an earlier attempt
+2026-07-25T16:56:50.2233456Z   ✔ heartbeat (0.8548ms)
+2026-07-25T16:56:50.2233875Z   ✔ outcome (0.772606ms)
+2026-07-25T16:56:50.2234291Z   ✔ evidence (0.969042ms)
+2026-07-25T16:56:50.2235200Z ✔ [T10] every attempt-bearing non-state event requires an earlier attempt (3.201951ms)
+2026-07-25T16:56:50.2236203Z ▶ [T09] retry lineage rejects wrong, completed, and forked predecessors
+2026-07-25T16:56:50.2236881Z   ✔ wrong-predecessor (1.346021ms)
+2026-07-25T16:56:50.2237369Z   ✔ completed-parent (0.961901ms)
+2026-07-25T16:56:50.2237824Z   ✔ forked-successor (1.180511ms)
+2026-07-25T16:56:50.2238645Z ✔ [T09] retry lineage rejects wrong, completed, and forked predecessors (4.940134ms)
+2026-07-25T16:56:50.2239786Z ▶ [T06/T08/T11] retry declarations and attempt identity use dedicated diagnostics
+2026-07-25T16:56:50.2240579Z   ✔ T06:missing-link (1.062613ms)
+2026-07-25T16:56:50.2241108Z   ✔ T06:not-queued (0.938757ms)
+2026-07-25T16:56:50.2241672Z   ✔ T08:metadata-change (0.8881ms)
+2026-07-25T16:56:50.2242302Z   ✔ T08:duplicate-work-packet-number (0.803633ms)
+2026-07-25T16:56:50.2243096Z   ✔ T11:non-retry (0.798865ms)
+2026-07-25T16:56:50.2244099Z ✔ [T06/T08/T11] retry declarations and attempt identity use dedicated diagnostics (5.490765ms)
+2026-07-25T16:56:50.2245245Z ▶ attempt identity and retry lineage failures are distinguishable
+2026-07-25T16:56:50.2246008Z   ✔ retry link is required (1.084857ms)
+2026-07-25T16:56:50.2246568Z   ✔ retry must start queued (2.423887ms)
+2026-07-25T16:56:50.2247302Z   ✔ retry lineage must use an eligible predecessor (1.058588ms)
+2026-07-25T16:56:50.2248077Z   ✔ attempt declaration is immutable (0.789751ms)
+2026-07-25T16:56:50.2248849Z   ✔ non-state attempt reference must already exist (0.739546ms)
+2026-07-25T16:56:50.2249922Z ✔ attempt identity and retry lineage failures are distinguishable (6.984259ms)
+2026-07-25T16:56:50.2251014Z ✔ outcome and evidence records may reference a terminal attempt (1.415966ms)
+2026-07-25T16:56:50.2252200Z ✔ [T15] a failed handoff remains explicit in state and evidence summaries (1.209405ms)
+2026-07-25T16:56:50.2253725Z ▶ strict JSONL framing rejects BOMs, blanks, lone CR, truncation, duplicate keys, and invalid UTF-8
+2026-07-25T16:56:50.2254558Z   ✔ BOM (0.777503ms)
+2026-07-25T16:56:50.2255011Z   ✔ blank record (0.640957ms)
+2026-07-25T16:56:50.2255464Z   ✔ lone CR (0.586344ms)
+2026-07-25T16:56:50.2255986Z   ✔ internal CR before CRLF (0.57656ms)
+2026-07-25T16:56:50.2256513Z   ✔ truncated (0.815591ms)
+2026-07-25T16:56:50.2257016Z   ✔ duplicate key (0.848951ms)
+2026-07-25T16:56:50.2257519Z   ✔ invalid UTF-8 (0.64944ms)
+2026-07-25T16:56:50.2258665Z ✔ strict JSONL framing rejects BOMs, blanks, lone CR, truncation, duplicate keys, and invalid UTF-8 (5.894555ms)
+2026-07-25T16:56:50.2259794Z ▶ RunEvent dispatch and exact payload ownership fail closed
+2026-07-25T16:56:50.2260462Z   ✔ missing event version (0.91434ms)
+2026-07-25T16:56:50.2260996Z   ✔ non-string event version (0.753007ms)
+2026-07-25T16:56:50.2261625Z   ✔ unsupported event version (0.726426ms)
+2026-07-25T16:56:50.2262057Z   ✔ wrong artifact kind (0.754248ms)
+2026-07-25T16:56:50.2262391Z   ✔ payload smuggling (1.993548ms)
+2026-07-25T16:56:50.2262934Z   ✔ event metadata description (0.898015ms)
+2026-07-25T16:56:50.2263994Z ✔ RunEvent dispatch and exact payload ownership fail closed (6.765279ms)
+2026-07-25T16:56:50.2264830Z ✔ evidence references are grammar-checked but never dereferenced (2.798913ms)
+2026-07-25T16:56:50.2266045Z ▶ [T13] command and test evidence identifiers enforce the 128-character boundary
+2026-07-25T16:56:50.2266767Z   ✔ command-at-limit (1.178588ms)
+2026-07-25T16:56:50.2267235Z   ✔ command-over-limit (1.536849ms)
+2026-07-25T16:56:50.2267679Z   ✔ test-at-limit (0.80181ms)
+2026-07-25T16:56:50.2268121Z   ✔ test-over-limit (1.434995ms)
+2026-07-25T16:56:50.2269000Z ✔ [T13] command and test evidence identifiers enforce the 128-character boundary (5.730798ms)
+2026-07-25T16:56:50.2270336Z ✔ [L02] bounded reads allocate from the verified descriptor size (0.419863ms)
+2026-07-25T16:56:50.2271366Z ✔ trace paths reject unsafe forms, links, non-files, and detectable mutation (2.14716ms)
+2026-07-25T16:56:50.2272503Z ✔ line, trace, event-count, and depth ceilings emit dedicated diagnostics (227.559363ms)
+2026-07-25T16:56:50.2273805Z ✔ evidence summaries cap deterministically and report exact omissions (134.530867ms)
+2026-07-25T16:56:50.2274848Z ✔ the normative secret detector has positive and near-miss coverage (0.325081ms)
+2026-07-25T16:56:50.2275933Z ✔ [PR03] every rendered summary string slot suppresses secrets with one warning (2.353372ms)
+2026-07-25T16:56:50.2277080Z ✔ secret-bearing trace names are suppressed on invalid-input diagnostics too (0.895891ms)
+2026-07-25T16:56:50.2278230Z ✔ trace inspection remains offline, process-free, and adapter-free (1.228163ms)
+2026-07-25T16:56:50.2279448Z ✔ declared TypeScript file defeats ambient and candidate-local command substitution (101.363159ms)
+2026-07-25T16:56:50.2280585Z ✔ repository-local fallback executes the exact resolved file (68.934568ms)
+2026-07-25T16:56:50.2281654Z ✔ repository fallback canonicalizes a linked dependency ancestor (66.487315ms)
+2026-07-25T16:56:50.2282888Z ✔ execution stops when version inspection mutates the bound file (36.188797ms)
+2026-07-25T16:56:50.2283881Z ✔ execution detects persistent mutation during compilation (65.17836ms)
+2026-07-25T16:56:50.2284911Z ✔ TypeScript binding rejects ambiguous, contained, and linked files (3.801867ms)
+2026-07-25T16:56:50.2286069Z ✔ package, release gate, and packed consumer bind explicit TypeScript authority (2.088021ms)
+2026-07-25T16:56:50.2287248Z ✔ the V10 executor dogfood trace is bounded, inspectable, and repeatable (283.774036ms)
+2026-07-25T16:56:50.2288413Z ✔ the V10 dogfood harness removes its owned workspace after an injected failure (14.906202ms)
+2026-07-25T16:56:50.2289528Z ✔ dogfood context reads accept regular files inside the repository root (3.925363ms)
+2026-07-25T16:56:50.2290776Z ✔ dogfood context verification rejects bytes changed by an LF clean filter (0.777603ms)
+2026-07-25T16:56:50.2292098Z ✔ dogfood context verification accepts LF bytes unchanged by the clean filter (0.360364ms)
+2026-07-25T16:56:50.2293592Z ✔ dogfood context verification rejects an explicit CRLF checkout before hashing bytes (0.35082ms)
+2026-07-25T16:56:50.2294839Z ✔ dogfood context verification rejects an active custom Git filter (0.327975ms)
+2026-07-25T16:56:50.2295917Z ✔ dogfood context verification rejects an active working-tree encoding (0.299752ms)
+2026-07-25T16:56:50.2297093Z ✔ dogfood context verification rejects a source without an explicit eol policy (0.465753ms)
+2026-07-25T16:56:50.2298342Z ✔ dogfood context verification rejects an active filter before hashing bytes (0.235105ms)
+2026-07-25T16:56:50.2299613Z ✔ dogfood context verification rejects ident expansion before hashing bytes (1.068892ms)
+2026-07-25T16:56:50.2300919Z ✔ dogfood context verification rejects the legacy crlf attribute before hashing bytes (0.391972ms)
+2026-07-25T16:56:50.2301939Z ✔ dogfood context verification rejects a bare CR under an explicit LF checkout (0.299713ms)
+2026-07-25T16:56:50.2302942Z ✔ dogfood context verification rejects ambiguous filter names before hashing bytes (0.530039ms)
+2026-07-25T16:56:50.2304526Z ✔ Git attribute parsing accepts variable unique records and rejects malformed output (1.551011ms)
+2026-07-25T16:56:50.2305811Z ✔ dogfood context reads reject an in-root junction targeting an external directory (2.896321ms)
+2026-07-25T16:56:50.2306923Z ✔ dogfood goal and approval controls reject duplicate JSON keys (3.908808ms)
+2026-07-25T16:56:50.2308101Z ✔ dogfood approval controls reject a parent junction instead of following it (1.168092ms)
+2026-07-25T16:56:50.2309348Z ✔ dogfood evidence writes reject package-parent redirection before mutation (1.700826ms)
+2026-07-25T16:56:50.2310458Z ✔ dogfood context verification rejects unsupported source kinds (0.588178ms)
+2026-07-25T16:56:50.2312008Z ✔ dogfood context verification requires one exact attribute-policy binding (0.428587ms)
+2026-07-25T16:56:50.2313458Z ✔ every active V11 source is LF clean-filter stable with the attribute policy bound (793.074323ms)
+2026-07-25T16:56:50.2314706Z ✔ prelaunch audit authenticates the complete candidate without self-reference (1.012248ms)
+2026-07-25T16:56:50.2315968Z ✔ prelaunch audit forces an independent binder and compilation reviewer (135.266498ms)
+2026-07-25T16:56:50.2317404Z ✔ launch authorization binds both packages, the verification receipt, and the exact PASS handoff (9.132155ms)
+2026-07-25T16:56:50.2318893Z ✔ launch authorization rejects malformed, non-PASS, stale, and incomplete audit handoffs (164.092279ms)
+2026-07-25T16:56:50.2320308Z ✔ launch authorization accepts paired supplementary Unicode in free-text handoff fields (2.435235ms)
+2026-07-25T16:56:50.2321522Z ▶ launch authorization rejects secret-bearing and non-scalar handoff paths
+2026-07-25T16:56:50.2322321Z   ✔ lone high surrogate (1.626945ms)
+2026-07-25T16:56:50.2323079Z   ✔ lone low surrogate (2.29938ms)
+2026-07-25T16:56:50.2323554Z   ✔ secret (1.848079ms)
+2026-07-25T16:56:50.2324439Z ✔ launch authorization rejects secret-bearing and non-scalar handoff paths (6.403843ms)
+2026-07-25T16:56:50.2325833Z ✔ launch authorization rejects unbound or semantically invalid verification receipts (32.882418ms)
+2026-07-25T16:56:50.2327218Z ✔ launch authorization rejects stale package bindings and unowned handoff paths (2.280441ms)
+2026-07-25T16:56:50.2328472Z ✔ hosted CI supplies complete Git history and a repository-local npm cache (2.903391ms)
+2026-07-25T16:56:50.2329687Z ✔ hosted CI contract rejects unprotected checkout and write authority (4.629566ms)
+2026-07-25T16:56:50.2330800Z ✔ candidate lock applicability distinguishes glibc and musl (0.646025ms)
+2026-07-25T16:56:50.2331932Z ✔ candidate dependency and canonical commands use one authenticated npm CLI (9.62543ms)
+2026-07-25T16:56:50.2333390Z ✔ canonical evidence slot is atomically owned, published, and retry-safe (9.441056ms)
+2026-07-25T16:56:50.2334531Z ✔ aggregate preparation failures retain every nested cause (0.664803ms)
+2026-07-25T16:56:50.2335506Z ✔ failed preparation removes every owned resource (8.362282ms)
+2026-07-25T16:56:50.2336598Z ✔ packed consumer retains and executes the complete TypeScript binding (0.819897ms)
+2026-07-25T16:56:50.2337871Z ✔ canonical gate materialization uses a constant-process Git blob batch (125.978944ms)
+2026-07-25T16:56:50.2339160Z ✔ candidate materialization excludes and detects uncommitted verification inputs (141.909508ms)
+2026-07-25T16:56:50.2340302Z ✔ candidate lock and private dependency closure reject substitution (17.747399ms)
+2026-07-25T16:56:50.2341376Z ✔ runtime ancestor package supply is detected before candidate execution (2.473583ms)
+2026-07-25T16:56:50.2342584Z ✔ release gate scratch namespace preserves nested Windows install headroom (1.225329ms)
+2026-07-25T16:56:50.2344130Z ✖ candidate Git context is disposable, exact, and usable from the materialization (130.077633ms)
+2026-07-25T16:56:50.2345498Z ✔ copied lifecycle preserves enclosing candidate Git authority (305.978447ms)
+2026-07-25T16:56:50.2346622Z ✔ canonical gate closes hostile host environment and binds effective authority (143.135222ms)
+2026-07-25T16:56:50.2347606Z ✔ candidate scratch cleanup supports reverse owner order (2.396751ms)
+2026-07-25T16:56:50.2348745Z ✔ empty-directory pruning preserves unrelated state (2.010654ms)
+2026-07-25T16:56:50.2349728Z ✔ canonical command is pinned to the authenticated materialization (0.83498ms)
+2026-07-25T16:56:50.2350736Z ✔ R2 closes the stronger receipt and all six causal security sources (1.042984ms)
+2026-07-25T16:56:50.2351790Z ✔ R2 correction review context remains bounded with primary evidence (670.647476ms)
+2026-07-25T16:56:50.2353019Z ✔ paths mode remains closed and rejects malformed candidate identities (163.421511ms)
+2026-07-25T16:56:50.2354074Z ✔ release-review parent rejects unsafe paths and non-exact lock supply (13.984625ms)
+2026-07-25T16:56:50.2355428Z ✔ release-review parent detects closure mutation and promotes immutable bytes (19.382216ms)
+2026-07-25T16:56:50.2356741Z ✔ release-review promotion preflights the full set and commits the receipt last (27.530428ms)
+2026-07-25T16:56:50.2358070Z ✔ release-review parent closes environment, outputs, cleanup, and promotion order (10.187685ms)
+2026-07-25T16:56:50.2359359Z ✔ operation-root cleanup canonicalizes aliases and rejects unowned roots (3.017434ms)
+2026-07-25T16:56:50.2360739Z ✔ installed npm 10 or newer uses exact production private configs and rejects the old alias (444.300203ms)
+2026-07-25T16:56:50.2362028Z ✔ private npm substitution routes stop before process spawn and clean up (36.450525ms)
+2026-07-25T16:56:50.2363327Z ✔ candidate blob batch parsing preserves binary bytes and fails closed (4.107248ms)
+2026-07-25T16:56:50.2364559Z ✔ parent and verifier harness loaders use constant-process Git blob batches (172.973323ms)
+2026-07-25T16:56:50.2365780Z ✔ Git blob fixtures retain only explicit closed Git configuration (0.723662ms)
+2026-07-25T16:56:50.2367067Z ✔ Git blob fixtures execute in a fresh process under the closed Git environment (170.494927ms)
+2026-07-25T16:56:50.2368177Z ✔ Git changed-path diagnostics are canonical and fail closed (0.743773ms)
+2026-07-25T16:56:50.2369339Z ✔ scoped parent timeout owns residue, kills descendants, and reports timeout first (1016.613978ms)
+2026-07-25T16:56:50.2370625Z ✔ release-review parent and workers preserve the candidate-runtime import boundary (125.722022ms)
+2026-07-25T16:56:50.2371859Z ✔ runtime binding is deterministic and fails closed after identity mutation (1.650541ms)
+2026-07-25T16:56:50.2373146Z ✔ stable runtime policy excludes invocation-specific temporary paths (0.783843ms)
+2026-07-25T16:56:50.2374276Z ✔ closed phase grammar reconstructs prefixes from exact external inputs (1.573184ms)
+2026-07-25T16:56:50.2375499Z ✔ handoff paths reject non-scalars, controls, non-NFC text, and aliases before use (3.732163ms)
+2026-07-25T16:56:50.2376742Z ✔ stable reconstruction and phase authority reject substitution independently (1.715779ms)
+2026-07-25T16:56:50.2378024Z ✔ copied production lifecycle excludes correction evidence after its sealed history (0.281215ms)
+2026-07-25T16:56:50.2379416Z ✔ copied production lifecycle consumes the fresh-process release-gate cache supply (404.729477ms)
+2026-07-25T16:56:50.2380767Z ✔ nested fixture repository processes discard an enclosing candidate Git context (163.024753ms)
+2026-07-25T16:56:50.2382084Z ✔ materialized lifecycle executes and receipts one external TypeScript adapter (436.839233ms)
+2026-07-25T16:56:50.2383269Z ✔ lifecycle TypeScript evidence parser fails closed (2.985136ms)
+2026-07-25T16:56:50.2384329Z ✔ release runtime and npm compatibility policies are portable and closed (0.611843ms)
+2026-07-25T16:56:50.2385550Z ✔ candidate TypeScript log uses canonical compact JSON and private binding (0.888391ms)
+2026-07-25T16:56:50.2386688Z ✔ lifecycle adapter compiles the bounded input with host TypeScript (450.282575ms)
+2026-07-25T16:56:50.2387912Z ✔ materialized lifecycle detects persistent compiler mutation after child return (204.954562ms)
+2026-07-25T16:56:50.2389269Z ✔ R61 rehearsal stdout remains exact under the authenticated LF and hosted-log policies (7.387169ms)
+2026-07-25T16:56:50.2390501Z ✔ R62 dogfood failure envelopes preserve the exact raw streams (3.105387ms)
+2026-07-25T16:56:50.2391752Z ✔ R63 hosted evidence binds the exact failed policy step (0.422347ms)
+2026-07-25T16:56:50.2393000Z ✔ R64 evidence binds the hosted pass and exact-candidate timeout diagnosis (1.554786ms)
+2026-07-25T16:56:50.2394066Z ✔ R65 evidence binds the exact four-level path-budget failure (0.736963ms)
+2026-07-25T16:56:50.2395170Z ✔ the positive copied gate alone receives the extended lifecycle timeout (0.657412ms)
+2026-07-25T16:56:50.2395951Z ✔ lifecycle production identities match current source bytes (1.246932ms)
+2026-07-25T16:56:50.2396663Z ✔ canonical npm test schedules the exact lifecycle after the core suite (0.718975ms)
+2026-07-25T16:56:50.2397551Z ✔ materialized package closure rejects linked and hard-linked entries (8.452246ms)
+2026-07-25T16:56:50.2398290Z ✔ closed private state rejects source mutation and undeclared post-build files (25.778133ms)
+2026-07-25T16:56:50.2398964Z ✔ explicit cache and ancestor resolver boundaries fail closed (6.837619ms)
+2026-07-25T16:56:50.2399689Z ✔ stable reconstruction is package-defining while phase authority stays separate (2.568005ms)
+2026-07-25T16:56:50.2400906Z ✔ active release status avoids volatile candidate-state drift and preserves outcomes (1.365601ms)
+2026-07-25T16:56:50.2402131Z ✔ live release routing delegates volatile state to candidate-addressed evidence (1.028863ms)
+2026-07-25T16:56:50.2403682Z ✔ candidate-addressed run roots are closed, disjoint, and preserve Candidate 3 evidence (428.13126ms)
+2026-07-25T16:56:50.2405053Z ✔ correction lineage requires revisions 1 through 10 and has no terminal count (1.998627ms)
+2026-07-25T16:56:50.2406253Z ✔ working-tree-only inputs and unsafe handoff paths fail closed (0.686216ms)
+2026-07-25T16:56:50.2407457Z ✔ review package covers every transitive release-security source exactly once (937.075557ms)
+2026-07-25T16:56:50.2408703Z ✔ release-review receipt consumer requires bound v1alpha4 execution authority (1.519974ms)
+2026-07-25T16:56:50.2410045Z ✔ post-commit gate evidence is captured outside the candidate without self-reference (0.510801ms)
+2026-07-25T16:56:50.2411202Z ✔ reviewer snapshots and tooling identity use exact candidate Git blobs (0.803693ms)
+2026-07-25T16:56:50.2412466Z ✔ revision 9 package and handoff verification rejects substituted bytes (417.728501ms)
+2026-07-25T16:56:50.2413429Z ℹ tests 469
+2026-07-25T16:56:50.2413762Z ℹ suites 0
+2026-07-25T16:56:50.2414081Z ℹ pass 468
+2026-07-25T16:56:50.2414381Z ℹ fail 1
+2026-07-25T16:56:50.2414710Z ℹ cancelled 0
+2026-07-25T16:56:50.2415062Z ℹ skipped 0
+2026-07-25T16:56:50.2415624Z ℹ todo 0
+2026-07-25T16:56:50.2416001Z ℹ duration_ms 67195.294375
+2026-07-25T16:56:50.2416272Z 
+2026-07-25T16:56:50.2416456Z ✖ failing tests:
+2026-07-25T16:56:50.2416632Z 
+2026-07-25T16:56:50.2416925Z test at test/v12-release-gate.test.mjs:902:1
+2026-07-25T16:56:50.2417981Z ✖ candidate Git context is disposable, exact, and usable from the materialization (130.077633ms)
+2026-07-25T16:56:50.2419421Z   AssertionError [ERR_ASSERTION]: causal tracked entry did not cross the Windows long-path boundary
+2026-07-25T16:56:50.2420844Z       at TestContext.<anonymous> (file:///home/runner/work/SWECircuit/SWECircuit/test/v12-release-gate.test.mjs:962:12)
+2026-07-25T16:56:50.2421926Z       at async Test.run (node:internal/test_runner/test:1332:7)
+2026-07-25T16:56:50.2423066Z       at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+2026-07-25T16:56:50.2423810Z     generatedMessage: false,
+2026-07-25T16:56:50.2424240Z     code: 'ERR_ASSERTION',
+2026-07-25T16:56:50.2424596Z     actual: false,
+2026-07-25T16:56:50.2424934Z     expected: true,
+2026-07-25T16:56:50.2425664Z     operator: '==',
+2026-07-25T16:56:50.2425996Z     diff: 'simple'
+2026-07-25T16:56:50.2426319Z   }
+2026-07-25T16:56:50.2573155Z ##[error]Process completed with exit code 1.
+2026-07-25T16:56:50.2708577Z Post job cleanup.
+2026-07-25T16:56:50.3574029Z [command]/usr/bin/git version
+2026-07-25T16:56:50.3620572Z git version 2.54.0
+2026-07-25T16:56:50.3656411Z Temporarily overriding HOME='/home/runner/work/_temp/c223d38e-9b71-41f1-ae8a-48529732364f' before making global git config changes
+2026-07-25T16:56:50.3657863Z Adding repository directory to the temporary git global config as a safe directory
+2026-07-25T16:56:50.3670561Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/SWECircuit/SWECircuit
+2026-07-25T16:56:50.3709512Z Removing SSH command configuration
+2026-07-25T16:56:50.3716886Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-07-25T16:56:50.3767666Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-07-25T16:56:50.4041496Z Removing HTTP extra header
+2026-07-25T16:56:50.4049359Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-07-25T16:56:50.4089191Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-07-25T16:56:50.4369023Z Removing includeIf entries pointing to credentials config files
+2026-07-25T16:56:50.4388860Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-07-25T16:56:50.4415861Z includeif.gitdir:/home/runner/work/SWECircuit/SWECircuit/.git.path
+2026-07-25T16:56:50.4416696Z includeif.gitdir:/home/runner/work/SWECircuit/SWECircuit/.git/worktrees/*.path
+2026-07-25T16:56:50.4417381Z includeif.gitdir:/github/workspace/.git.path
+2026-07-25T16:56:50.4417977Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-07-25T16:56:50.4426139Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/SWECircuit/SWECircuit/.git.path
+2026-07-25T16:56:50.4456348Z /home/runner/work/_temp/git-credentials-d45135a3-99cf-4fa1-8a6c-bfaad28bb0aa.config
+2026-07-25T16:56:50.4469272Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/SWECircuit/SWECircuit/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-d45135a3\-99cf\-4fa1\-8a6c\-bfaad28bb0aa\.config
+2026-07-25T16:56:50.4520804Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/SWECircuit/SWECircuit/.git/worktrees/*.path
+2026-07-25T16:56:50.4558271Z /home/runner/work/_temp/git-credentials-d45135a3-99cf-4fa1-8a6c-bfaad28bb0aa.config
+2026-07-25T16:56:50.4568967Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/SWECircuit/SWECircuit/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-d45135a3\-99cf\-4fa1\-8a6c\-bfaad28bb0aa\.config
+2026-07-25T16:56:50.4619213Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-07-25T16:56:50.4649365Z /github/runner_temp/git-credentials-d45135a3-99cf-4fa1-8a6c-bfaad28bb0aa.config
+2026-07-25T16:56:50.4670413Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-d45135a3\-99cf\-4fa1\-8a6c\-bfaad28bb0aa\.config
+2026-07-25T16:56:50.4701271Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-07-25T16:56:50.4729845Z /github/runner_temp/git-credentials-d45135a3-99cf-4fa1-8a6c-bfaad28bb0aa.config
+2026-07-25T16:56:50.4739957Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-d45135a3\-99cf\-4fa1\-8a6c\-bfaad28bb0aa\.config
+2026-07-25T16:56:50.4779572Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-07-25T16:56:50.5028463Z Removing credentials config '/home/runner/work/_temp/git-credentials-d45135a3-99cf-4fa1-8a6c-bfaad28bb0aa.config'
+2026-07-25T16:56:50.5195298Z Cleaning up orphan processes

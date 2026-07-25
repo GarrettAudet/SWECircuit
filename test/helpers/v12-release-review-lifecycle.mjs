@@ -97,8 +97,8 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
   }),
   [GATE_TEST_PATH]: Object.freeze({
-    bytes: 80_654,
-    digest: "sha256:d721c40b40e06e46327c4e3712146a5dc92dc9e41044430d1a2cfd147ede4669",
+    bytes: 81_690,
+    digest: "sha256:d487a5f75087a9879637288df49747e6c392cd0cd3b987c1292754867ed5b972",
   }),
   [ENCLOSING_CANDIDATE_GIT_PROBE_PATH]: Object.freeze({
     bytes: 3_327,

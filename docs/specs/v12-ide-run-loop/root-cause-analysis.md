@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 commit `e1b2c38b3c794fc3d4d8a967a20305885baa8662` passed exact copied lifecycle and the complete verifier, then failed its non-consuming exact-candidate rehearsal when the path regression exposed a 283-character leaf with four scratch namespaces. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 compacts the complete private layout; 72/72 focused tests and every broad pre-freeze gate pass. Independent review found no additional source defect and keeps release blocked on the immutable exact-candidate rehearsal. Exact freeze, copied lifecycle, complete verifier, rehearsal, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 commit `33dbd5c9829446b51b04d589fc963f8b7095d442` passed exact copied lifecycle, the complete verifier, the non-consuming exact-candidate rehearsal, and independent exact-evidence review, then hosted run `30166591953` failed both Ubuntu jobs on one shared synthetic long-path assertion while five jobs passed. Its one-shot gate was never invoked and the source is permanently retired. Revision 67 composes bounded fixture segments; its causal test, 29/29 release-gate suite, 73/73 focused pair, and complete broad pre-freeze verification pass. Independent final-delta review passes. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Reproduction
 
@@ -730,3 +730,13 @@ R66 shortens the complete private layout rather than only its namespace. The fix
 Windows temp-root model falls from 314 to 236 characters, a 78-character reduction with 24
 characters of headroom. The observed rehearsal topology projects at 205 characters. No public or
 runtime contract changes.
+
+## Revision 67 Short Linux Fixture RCA
+
+The hosted logs prove a shared test-construction failure, not a runtime failure. The fixture
+targeted a 160-character worktree but allowed only one added directory of at most 96 characters.
+R66 shortened the private scratch root enough that Ubuntu needed more than one component.
+
+Revision 67 builds multiple bounded components until the target is reached. A platform-independent
+POSIX regression exercises the exact short-root condition, requires multiple components, reaches
+160 characters, and proves the tracked entry remains above 260 characters.

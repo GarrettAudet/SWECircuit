@@ -21,6 +21,7 @@ import {
   dirname,
   isAbsolute,
   join,
+  posix,
   relative,
   resolve,
   win32,
@@ -937,16 +938,39 @@ test("candidate Git context is disposable, exact, and usable from the materializ
     join(RELEASE_GATE_TEST_HOOKS.materializationParent, "long-path-context-"),
   );
   const targetWorktreePathLength = 160;
-  const nestedSegmentLength = Math.min(
-    96,
-    Math.max(1, targetWorktreePathLength - deepRoot.length - "candidate".length - 2),
+  const projectWorktree = (root, joinPath) => {
+    const segments = [];
+    let projected = joinPath(root, "candidate");
+    while (projected.length < targetWorktreePathLength) {
+      const segmentLength = Math.min(
+        96,
+        Math.max(1, targetWorktreePathLength - projected.length - 1),
+      );
+      segments.push("x".repeat(segmentLength));
+      projected = joinPath(root, ...segments, "candidate");
+    }
+    return { projected, segments };
+  };
+  const shortLinuxProjection = projectWorktree("/tmp/swg/w/long-path-context-XXXXXX", posix.join);
+  assert.equal(shortLinuxProjection.projected.length, targetWorktreePathLength);
+  assert.ok(
+    shortLinuxProjection.segments.length > 1,
+    "short Linux roots must exercise bounded multi-segment nesting",
   );
-  const nestedRoot = join(deepRoot, "x".repeat(nestedSegmentLength));
-  const worktree = join(nestedRoot, "candidate");
+  assert.ok(
+    posix.join(shortLinuxProjection.projected, ...longPathEntry.split("/")).length > 260,
+    "short Linux projection did not cross the Windows long-path boundary",
+  );
+
+  const worktreeProjection = projectWorktree(deepRoot, join);
+  const nestedRoot = join(deepRoot, ...worktreeProjection.segments);
+  const worktree = worktreeProjection.projected;
   let gitContext;
   let materializationMoved = false;
 
   try {
+    assert.ok(worktree.length >= targetWorktreePathLength);
+    assert.ok(worktreeProjection.segments.every((segment) => segment.length <= 96));
     await mkdir(nestedRoot, { recursive: true });
     await rename(materialization.root, worktree);
     materializationMoved = true;

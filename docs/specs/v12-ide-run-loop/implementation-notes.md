@@ -2,7 +2,7 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 commit `e1b2c38b3c794fc3d4d8a967a20305885baa8662` passed exact copied lifecycle and the complete verifier, then failed its non-consuming exact-candidate rehearsal when the path regression exposed a 283-character leaf with four scratch namespaces. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 compacts the complete private layout; 72/72 focused tests and every broad pre-freeze gate pass. Independent review found no additional source defect and keeps release blocked on the immutable exact-candidate rehearsal. Exact freeze, copied lifecycle, complete verifier, rehearsal, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 commit `33dbd5c9829446b51b04d589fc963f8b7095d442` passed exact copied lifecycle, the complete verifier, the non-consuming exact-candidate rehearsal, and independent exact-evidence review, then hosted run `30166591953` failed both Ubuntu jobs on one shared synthetic long-path assertion while five jobs passed. Its one-shot gate was never invoked and the source is permanently retired. Revision 67 composes bounded fixture segments; its causal test, 29/29 release-gate suite, 73/73 focused pair, and complete broad pre-freeze verification pass. Independent final-delta review passes. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
 
 ## Baseline
 
@@ -312,3 +312,16 @@ Revision 66 uses `swg/w/.../r/t` for the complete private layout. Candidate and 
 containment, authority, environment closure, and cleanup are unchanged. The observed four-level
 projection falls to 205 characters. A platform-independent Windows model with a 64-character temp
 root projects 236 characters, preserving 24 characters of headroom.
+
+## Revision 67 Bounded Multi-Segment Fixture
+
+Revision 66 shortened the production scratch root and exposed an assumption in a pre-existing
+test: one synthetic directory capped at 96 characters was no longer enough to make a short Ubuntu
+worktree reach its 160-character target.
+
+Revision 67 composes as many bounded components as needed. Every component remains at most 96
+characters. A deterministic POSIX projection uses the hosted-style short root, requires multiple
+components, reaches exactly 160 characters, and keeps the tracked fixture above 260 characters.
+Production code and runtime behavior do not change.
+
+The hosted-evidence regression, complete 73-test focused pair, and all broad pre-freeze gates pass. Independent final-delta review found two pre-freeze issues; both were corrected, and follow-up returned no findings. Revision 67 is ready for source freeze.
