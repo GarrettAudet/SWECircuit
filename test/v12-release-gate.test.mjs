@@ -41,9 +41,14 @@ const REVIEW_HARNESS_PATH = join(
   "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
 );
 const RELEASE_REVIEW_LIFECYCLE_PATH = join(ROOT, "test/helpers/v12-release-review-lifecycle.mjs");
+const ENCLOSING_CANDIDATE_PROBE_PATH = join(
+  ROOT,
+  "test/fixtures/v12-enclosing-candidate-git-probe.mjs",
+);
 const ciWorkflowSource = (await readFile(CI_WORKFLOW_PATH, "utf8")).replaceAll("\r\n", "\n");
 const npmConfigSource = await readFile(NPM_CONFIG_PATH, "utf8");
 const releaseReviewLifecycleSource = await readFile(RELEASE_REVIEW_LIFECYCLE_PATH, "utf8");
+const enclosingCandidateProbeSource = await readFile(ENCLOSING_CANDIDATE_PROBE_PATH);
 const runTypeScriptSource = await readFile(RUN_TYPESCRIPT_PATH);
 const RELEASE_REVIEW_PARENT_PATH = join(ROOT, "scripts/run-v12-release-review.mjs");
 const releaseGateSource = await readFile(RELEASE_GATE_PATH, "utf8");
@@ -89,6 +94,27 @@ async function createReleaseGatePathFixture() {
     "release gate path fixture",
   ]);
   return { root, gatePath: join(scripts, "run-v12-release-gate.mjs") };
+}
+
+async function createEnclosingCandidateGitFixture() {
+  const fixture = await createReleaseGatePathFixture();
+  const probeRelativePath = "test/fixtures/v12-enclosing-candidate-git-probe.mjs";
+  const probePath = resolve(fixture.root, ...probeRelativePath.split("/"));
+  const gitRunner = createRecordedGitRunner(fixture.root, []);
+  await mkdir(dirname(probePath), { recursive: true });
+  await writeFile(probePath, enclosingCandidateProbeSource);
+  gitRunner(["add", "--all"]);
+  gitRunner([
+    "-c",
+    "user.name=SWECircuit Tests",
+    "-c",
+    "user.email=tests@swecircuit.invalid",
+    "commit",
+    "--quiet",
+    "-m",
+    "enclosing candidate Git probe",
+  ]);
+  return { ...fixture, probeRelativePath };
 }
 
 function escapedPattern(value) {
@@ -940,6 +966,79 @@ test("candidate Git context is disposable, exact, and usable from the materializ
       try {
         await rm(deepRoot, { recursive: true, force: true });
         if (!materializationMoved) {
+          await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
+        }
+      } finally {
+        await rm(fixture.root, { recursive: true, force: true });
+      }
+    }
+  }
+});
+
+test("copied lifecycle preserves enclosing candidate Git authority", async () => {
+  const fixture = await createEnclosingCandidateGitFixture();
+  const gitRunner = createRecordedGitRunner(fixture.root, []);
+  const candidateCommit = gitOutput(gitRunner, ["rev-parse", "--verify", "HEAD"]);
+  const sourceHeadBefore = gitOutput(gitRunner, ["rev-parse", "--verify", "HEAD"]);
+  let materialization;
+  let gitContext;
+
+  try {
+    materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit, {
+      gitRunner,
+    });
+    gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
+      candidateCommit,
+      materialization.root,
+      { sourceGitRunner: gitRunner },
+    );
+    assert.equal(await pathExists(join(materialization.root, ".git")), false);
+    const sourceBefore = await RELEASE_GATE_TEST_HOOKS.inspectExactMaterialization(
+      materialization.root,
+      materialization.entries,
+    );
+    const contextBefore = RELEASE_GATE_TEST_HOOKS.inspectCandidateGitContext(gitContext);
+    const probe = spawnSync(
+      process.execPath,
+      [resolve(materialization.root, ...fixture.probeRelativePath.split("/"))],
+      {
+        cwd: materialization.root,
+        env: RELEASE_GATE_TEST_HOOKS.commandEnvironment(gitContext),
+        encoding: "utf8",
+        maxBuffer: 128 * 1024 * 1024,
+        timeout: 180_000,
+        windowsHide: true,
+      },
+    );
+    assert.equal(probe.signal, null, "enclosing candidate Git probe was terminated");
+    assert.equal(probe.status, 0, probe.stderr || probe.stdout);
+    const summary = JSON.parse(probe.stdout);
+    assert.equal(summary.outcome, "pass");
+    assert.equal(summary.candidateCommit, candidateCommit);
+    assert.match(summary.defaultFailure, /Unable to resolve candidate commit/u);
+    assert.deepEqual(summary.nestedSource, sourceBefore);
+    assert.deepEqual(summary.nestedContext, contextBefore);
+    assert.deepEqual(summary.cleanup, {
+      gitContextRemoved: true,
+      materializationRemoved: true,
+    });
+    assert.deepEqual(
+      await RELEASE_GATE_TEST_HOOKS.inspectExactMaterialization(
+        materialization.root,
+        materialization.entries,
+      ),
+      sourceBefore,
+    );
+    assert.deepEqual(RELEASE_GATE_TEST_HOOKS.inspectCandidateGitContext(gitContext), contextBefore);
+    assert.equal(gitOutput(gitRunner, ["rev-parse", "--verify", "HEAD"]), sourceHeadBefore);
+  } finally {
+    try {
+      if (gitContext !== undefined) {
+        await RELEASE_GATE_TEST_HOOKS.removeCandidateGitContext(gitContext.root);
+      }
+    } finally {
+      try {
+        if (materialization !== undefined) {
           await RELEASE_GATE_TEST_HOOKS.removeMaterialization(materialization.root);
         }
       } finally {

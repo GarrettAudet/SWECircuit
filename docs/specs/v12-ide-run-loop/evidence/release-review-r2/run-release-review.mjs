@@ -404,6 +404,12 @@ const STATIC_SOURCES = [
     [LIFECYCLE, SECURITY],
   ),
   source(
+    "context.enclosing-candidate-git-probe",
+    "test/fixtures/v12-enclosing-candidate-git-probe.mjs",
+    "Blob-only nested-candidate Git authority and cleanup probe.",
+    [LIFECYCLE, SECURITY],
+  ),
+  source(
     "context.typescript-binding-runner",
     "scripts/run-typescript.mjs",
     "Exact host TypeScript entrypoint resolution and identity boundary.",

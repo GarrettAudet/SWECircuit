@@ -65,6 +65,10 @@ const REQUIRED_SECURITY_REVIEW_SOURCES = Object.freeze([
     allowedWorkUnits: ["review.r2.lifecycle-correctness", "review.r2.security-trace-authority"],
   },
   {
+    path: "test/fixtures/v12-enclosing-candidate-git-probe.mjs",
+    allowedWorkUnits: ["review.r2.lifecycle-correctness", "review.r2.security-trace-authority"],
+  },
+  {
     path: "test/fixtures/v12-host-cache-supply-child.mjs",
     allowedWorkUnits: ["review.r2.security-trace-authority"],
   },
@@ -1531,13 +1535,26 @@ test("canonical npm test schedules the exact lifecycle after the core suite", ()
     "assertCommittedProductionIdentities(candidateCommit);",
   );
   const expensiveMaterialization = lifecycleSource.indexOf(
-    "RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit)",
+    "RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit,",
   );
   assert.ok(identityPreflight >= 0, "committed production identity preflight is missing");
   assert.ok(
     identityPreflight < expensiveMaterialization,
     "committed production identity preflight must precede expensive materialization",
   );
+  assert.match(
+    lifecycleSource,
+    /materializeCandidateSource\(candidateCommit,\s*\{\s*gitRunner: runEnclosingGit,\s*\}\)/u,
+  );
+  assert.match(
+    lifecycleSource,
+    /createCandidateGitContext\(\s*candidateCommit,\s*materialization\.root,\s*\{\s*sourceGitRunner: runEnclosingGit\s*\},\s*\)/u,
+  );
+  assert.match(
+    lifecycleSource,
+    /const ENCLOSING_GIT_ENVIRONMENT = Object\.freeze\(\{ \.\.\.process\.env \}\);/u,
+  );
+  assert.match(lifecycleSource, /spawnSync\(\s*RELEASE_GATE_TEST_HOOKS\.hostGitPath,/u);
 });
 test("materialized package closure rejects linked and hard-linked entries", async () => {
   const root = await mkdtemp(join(tmpdir(), "swecircuit-r20-package-"));

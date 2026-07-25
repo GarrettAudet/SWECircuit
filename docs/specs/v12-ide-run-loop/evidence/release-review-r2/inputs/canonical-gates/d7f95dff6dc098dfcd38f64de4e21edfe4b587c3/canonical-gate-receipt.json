@@ -1,0 +1,360 @@
+{
+  "apiVersion": "swecircuit/release-gate/v1alpha4",
+  "kind": "CanonicalGateReceipt",
+  "version": "V12",
+  "candidateCommit": "d7f95dff6dc098dfcd38f64de4e21edfe4b587c3",
+  "repository": {
+    "headBefore": "d7f95dff6dc098dfcd38f64de4e21edfe4b587c3",
+    "headAfter": "d7f95dff6dc098dfcd38f64de4e21edfe4b587c3",
+    "trackedStateBefore": "clean",
+    "trackedStateAfter": "clean",
+    "inspectionError": null
+  },
+  "candidateSource": {
+    "commit": "d7f95dff6dc098dfcd38f64de4e21edfe4b587c3",
+    "tree": "7760fb85b1d5d9ddb2b302669e162d7c2a53c41d",
+    "files": 4041,
+    "bytes": 127796320,
+    "digest": "sha256:eeece9450dc8bdf6a3e9f977cf5c82487410be23c46cefb5289d4a6cacf8cf27"
+  },
+  "materialization": {
+    "strategy": "exact-git-blob-materialization",
+    "files": 4041,
+    "bytes": 127796320,
+    "digestBefore": "sha256:eeece9450dc8bdf6a3e9f977cf5c82487410be23c46cefb5289d4a6cacf8cf27",
+    "digestAfter": "sha256:eeece9450dc8bdf6a3e9f977cf5c82487410be23c46cefb5289d4a6cacf8cf27",
+    "inspectionError": null,
+    "cleanupError": null
+  },
+  "gitContext": {
+    "strategy": "disposable-shared-object-git-context",
+    "headBefore": "d7f95dff6dc098dfcd38f64de4e21edfe4b587c3",
+    "headAfter": "d7f95dff6dc098dfcd38f64de4e21edfe4b587c3",
+    "trackedStateBefore": "clean",
+    "trackedStateAfter": "clean",
+    "inspectionError": null,
+    "cleanupError": null
+  },
+  "command": {
+    "executable": "C:\\Program Files\\nodejs\\node.exe",
+    "arguments": [
+      "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+      "run",
+      "verify"
+    ],
+    "canonical": "node npm-cli.js run verify"
+  },
+  "executionAuthority": {
+    "environment": {
+      "apiVersion": "swecircuit/release-gate-environment/v1alpha1",
+      "effective": {
+        "APPDATA": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\appdata",
+        "COMSPEC": "C:\\Windows\\System32\\cmd.exe",
+        "GIT_CEILING_DIRECTORIES": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work",
+        "GIT_CONFIG_GLOBAL": "NUL",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "GIT_DIR": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT",
+        "GIT_INDEX_FILE": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\candidate.index",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "GIT_TERMINAL_PROMPT": "0",
+        "GIT_WORK_TREE": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\candidate-xhn7RZ",
+        "HOME": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\home",
+        "LANG": "C",
+        "LC_ALL": "C",
+        "LOCALAPPDATA": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\localappdata",
+        "NO_COLOR": "1",
+        "PATH": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\candidate-xhn7RZ\\node_modules\\.bin;C:\\Program Files\\nodejs;C:\\Program Files\\Git\\cmd;C:\\Windows\\System32",
+        "PATHEXT": ".COM;.EXE;.BAT;.CMD",
+        "SYSTEMROOT": "C:\\WINDOWS",
+        "TEMP": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\temp",
+        "TMP": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\temp",
+        "TMPDIR": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\temp",
+        "USERPROFILE": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\home",
+        "WINDIR": "C:\\WINDOWS",
+        "npm_config_audit": "false",
+        "npm_config_cache": "C:\\tmp\\swecircuit-identity-main\\.local\\npm-cache",
+        "npm_config_color": "false",
+        "npm_config_fund": "false",
+        "npm_config_globalconfig": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\npm-globalconfig",
+        "npm_config_ignore_scripts": "true",
+        "npm_config_loglevel": "notice",
+        "npm_config_offline": "true",
+        "npm_config_progress": "false",
+        "npm_config_script_shell": "C:\\Windows\\System32\\cmd.exe",
+        "npm_config_update_notifier": "false",
+        "npm_config_userconfig": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\npm-userconfig",
+        "npm_config_yes": "true"
+      },
+      "policy": {
+        "allowlist": "exact-effective-map",
+        "gitConfiguration": "system-and-global-disabled",
+        "gitPrompt": "disabled",
+        "nodeOptions": "absent",
+        "nodePath": "absent",
+        "npmNetwork": "offline",
+        "npmLifecycleScripts": "disabled",
+        "npmUserConfig": "operation-private-empty-file",
+        "npmGlobalConfig": "operation-private-empty-file",
+        "pathPolicy": "closed-tool-directories",
+        "temporaryPaths": "operation-private"
+      },
+      "npm": {
+        "cache": {
+          "path": "C:\\tmp\\swecircuit-identity-main\\.local\\npm-cache",
+          "provisioning": "external-host-untrusted-content-offline-only"
+        },
+        "userConfig": {
+          "path": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\npm-userconfig",
+          "bytes": 0,
+          "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "nlink": 1
+        },
+        "globalConfig": {
+          "path": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\git-wSpKiT\\host-runtime\\npm-globalconfig",
+          "bytes": 0,
+          "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "nlink": 1
+        }
+      }
+    },
+    "runtime": {
+      "platform": "win32",
+      "architecture": "x64",
+      "libc": null
+    },
+    "toolchain": {
+      "before": {
+        "node": {
+          "path": "C:\\Program Files\\nodejs\\node.exe",
+          "bytes": 91426304,
+          "digest": "sha256:58e74bf02fc5bbacc41dcb8bef089961cd5bddd37830b87784e4fc624d145d1f",
+          "nlink": 1,
+          "version": "v24.14.1"
+        },
+        "npmLauncher": {
+          "path": "C:\\Program Files\\nodejs\\npm.cmd",
+          "bytes": 538,
+          "digest": "sha256:21b46c69ad6e2f231f02a9e120f4ba6c8e75fef5a45637103002eab99f888ab8",
+          "nlink": 1,
+          "commandPath": "C:\\Program Files\\nodejs\\npm.cmd",
+          "commandType": "regular-file",
+          "commandLink": null,
+          "version": "11.11.0"
+        },
+        "npmCli": {
+          "path": "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+          "bytes": 56,
+          "digest": "sha256:3ce7cba6f5128dd5f54c98b6a5036b0f850496878cc2e21044b675fe3c594e3e",
+          "nlink": 1
+        },
+        "git": {
+          "path": "C:\\Program Files\\Git\\cmd\\git.exe",
+          "bytes": 46464,
+          "digest": "sha256:37c5725818d602e951ba2563b870d62763322956b73373da4c33a0b566a80bc9",
+          "nlink": 2,
+          "version": "git version 2.53.0.windows.2"
+        },
+        "shell": {
+          "path": "C:\\Windows\\System32\\cmd.exe",
+          "bytes": 344064,
+          "digest": "sha256:65ec268add3973b6dca64222985da47caeaee44a340b0ec1466782914fd743d9",
+          "nlink": 2
+        },
+        "typescript": {
+          "path": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\candidate-xhn7RZ\\node_modules\\typescript\\bin\\tsc",
+          "bytes": 44,
+          "digest": "sha256:2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd",
+          "nlink": 1,
+          "version": "Version 7.0.2"
+        }
+      },
+      "after": {
+        "node": {
+          "path": "C:\\Program Files\\nodejs\\node.exe",
+          "bytes": 91426304,
+          "digest": "sha256:58e74bf02fc5bbacc41dcb8bef089961cd5bddd37830b87784e4fc624d145d1f",
+          "nlink": 1,
+          "version": "v24.14.1"
+        },
+        "npmLauncher": {
+          "path": "C:\\Program Files\\nodejs\\npm.cmd",
+          "bytes": 538,
+          "digest": "sha256:21b46c69ad6e2f231f02a9e120f4ba6c8e75fef5a45637103002eab99f888ab8",
+          "nlink": 1,
+          "commandPath": "C:\\Program Files\\nodejs\\npm.cmd",
+          "commandType": "regular-file",
+          "commandLink": null,
+          "version": "11.11.0"
+        },
+        "npmCli": {
+          "path": "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+          "bytes": 56,
+          "digest": "sha256:3ce7cba6f5128dd5f54c98b6a5036b0f850496878cc2e21044b675fe3c594e3e",
+          "nlink": 1
+        },
+        "git": {
+          "path": "C:\\Program Files\\Git\\cmd\\git.exe",
+          "bytes": 46464,
+          "digest": "sha256:37c5725818d602e951ba2563b870d62763322956b73373da4c33a0b566a80bc9",
+          "nlink": 2,
+          "version": "git version 2.53.0.windows.2"
+        },
+        "shell": {
+          "path": "C:\\Windows\\System32\\cmd.exe",
+          "bytes": 344064,
+          "digest": "sha256:65ec268add3973b6dca64222985da47caeaee44a340b0ec1466782914fd743d9",
+          "nlink": 2
+        },
+        "typescript": {
+          "path": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\candidate-xhn7RZ\\node_modules\\typescript\\bin\\tsc",
+          "bytes": 44,
+          "digest": "sha256:2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd",
+          "nlink": 1,
+          "version": "Version 7.0.2"
+        }
+      },
+      "inspectionError": null
+    },
+    "candidateDependencies": {
+      "strategy": "candidate-private-exact-lock-offline-npm-ci",
+      "ready": true,
+      "setupError": null,
+      "root": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\candidate-xhn7RZ\\node_modules",
+      "path": "node_modules",
+      "initialState": "absent",
+      "packageManifest": {
+        "path": "package.json",
+        "bytes": 4043,
+        "digest": "sha256:9c8e1e3bde18439a6199f0752b7dad1e69fdf713ffac33597d5119d1c26a67fa"
+      },
+      "lock": {
+        "path": "package-lock.json",
+        "bytes": 21014,
+        "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27",
+        "lockfileVersion": 3,
+        "packages": 38,
+        "platform": "win32",
+        "architecture": "x64",
+        "libc": null,
+        "inventoryDigest": "sha256:e24c2e0152ce41d0fce94d350a60fb7dc2233bc1e3beb3c25f8c92c481f57c5f"
+      },
+      "command": {
+        "executable": "C:\\Program Files\\nodejs\\node.exe",
+        "arguments": [
+          "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+          "ci",
+          "--offline",
+          "--ignore-scripts",
+          "--no-audit",
+          "--no-fund",
+          "--cache",
+          "C:\\tmp\\swecircuit-identity-main\\.local\\npm-cache"
+        ],
+        "canonical": "npm ci --offline --ignore-scripts --no-audit --no-fund"
+      },
+      "result": {
+        "attempted": true,
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null
+      },
+      "stdout": {
+        "mediaType": "application/octet-stream",
+        "encoding": "base64",
+        "bytes": 25,
+        "digest": "sha256:32f4f5de096f8b94c2c3260417f7fc9b1d4106774c57ac17b64336afb09ce6a8",
+        "data": "CmFkZGVkIDEyIHBhY2thZ2VzIGluIDJzCg=="
+      },
+      "stderr": {
+        "mediaType": "application/octet-stream",
+        "encoding": "base64",
+        "bytes": 0,
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "data": ""
+      },
+      "directDependenciesContained": true,
+      "directDependencies": [
+        {
+          "name": "ajv",
+          "path": "ajv/dist/ajv.js"
+        },
+        {
+          "name": "jsonc-parser",
+          "path": "jsonc-parser/lib/umd/main.js"
+        }
+      ],
+      "typeScriptEntrypoint": "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\candidate-xhn7RZ\\node_modules\\typescript\\bin\\tsc",
+      "ancestorSupply": {
+        "before": {
+          "checkedPaths": [
+            "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\node_modules",
+            "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\node_modules",
+            "C:\\Users\\garre\\AppData\\Local\\Temp\\node_modules",
+            "C:\\Users\\garre\\AppData\\Local\\node_modules",
+            "C:\\Users\\garre\\AppData\\node_modules",
+            "C:\\Users\\garre\\node_modules",
+            "C:\\Users\\node_modules",
+            "C:\\node_modules"
+          ],
+          "absent": true,
+          "found": null
+        },
+        "after": {
+          "checkedPaths": [
+            "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\work\\node_modules",
+            "C:\\Users\\garre\\AppData\\Local\\Temp\\swecircuit-v12-release-gate\\node_modules",
+            "C:\\Users\\garre\\AppData\\Local\\Temp\\node_modules",
+            "C:\\Users\\garre\\AppData\\Local\\node_modules",
+            "C:\\Users\\garre\\AppData\\node_modules",
+            "C:\\Users\\garre\\node_modules",
+            "C:\\Users\\node_modules",
+            "C:\\node_modules"
+          ],
+          "absent": true,
+          "found": null
+        },
+        "inspectionError": null
+      },
+      "closure": {
+        "before": {
+          "files": 1224,
+          "directories": 108,
+          "links": 0,
+          "bytes": 116054782,
+          "digest": "sha256:8117d3f148ec061becf0c31127ca54da8ff62dea40244088df35a36e699f4e50"
+        },
+        "after": {
+          "files": 1224,
+          "directories": 108,
+          "links": 0,
+          "bytes": 116054782,
+          "digest": "sha256:8117d3f148ec061becf0c31127ca54da8ff62dea40244088df35a36e699f4e50"
+        },
+        "inspectionError": null
+      },
+      "cleanup": {
+        "attempted": true,
+        "removed": true,
+        "absentAfter": true,
+        "error": null
+      }
+    }
+  },
+  "operationError": null,
+  "result": "fail",
+  "exitCode": 1,
+  "signal": null,
+  "spawnError": null,
+  "stdout": {
+    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/d7f95dff6dc098dfcd38f64de4e21edfe4b587c3/canonical-gate.stdout.log",
+    "mediaType": "application/octet-stream",
+    "bytes": 38167,
+    "digest": "sha256:391ef7f732dea8d13fd3425646deacee3a87dd761a3d9b4e46ddc2a6cb88a1d2"
+  },
+  "stderr": {
+    "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/d7f95dff6dc098dfcd38f64de4e21edfe4b587c3/canonical-gate.stderr.log",
+    "mediaType": "application/octet-stream",
+    "bytes": 19096,
+    "digest": "sha256:4d597e3a9f43acbe878966423f4251d762b2537d21f5f6cfcc9b0e93417de929"
+  }
+}

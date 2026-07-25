@@ -16,25 +16,35 @@ import {
 
 const ROOT = fileURLToPath(new URL("../../", import.meta.url));
 const LIFECYCLE_PATH = "test/fixtures/v12-release-review-lifecycle-child.mjs";
+const ENCLOSING_GIT_ENVIRONMENT = Object.freeze({ ...process.env });
 
 test("lifecycle test hooks are bound before isolated execution", () => {
   assert.equal(typeof V12_RELEASE_REVIEW_LIFECYCLE_TEST_HOOKS.isSupportedNpmVersion, "function");
 });
 
+function runEnclosingGit(args, options = {}) {
+  const result = spawnSync(
+    RELEASE_GATE_TEST_HOOKS.hostGitPath,
+    ["-c", "core.longpaths=true", ...args],
+    {
+      cwd: ROOT,
+      env: ENCLOSING_GIT_ENVIRONMENT,
+      encoding: null,
+      input: options.input,
+      maxBuffer: 128 * 1024 * 1024,
+      timeout: 180_000,
+      windowsHide: true,
+    },
+  );
+  if (result.error) {
+    throw result.error;
+  }
+  return result;
+}
+
 function assertCommittedProductionIdentities(candidateCommit) {
   for (const [path, expected] of Object.entries(PRODUCTION_IDENTITIES)) {
-    const probe = spawnSync(
-      "git",
-      ["-c", "core.longpaths=true", "show", `${candidateCommit}:${path}`],
-      {
-        cwd: ROOT,
-        env: process.env,
-        encoding: null,
-        maxBuffer: 16 * 1024 * 1024,
-        timeout: 30_000,
-        windowsHide: true,
-      },
-    );
+    const probe = runEnclosingGit(["show", `${candidateCommit}:${path}`]);
     assert.equal(probe.signal, null, `committed production identity probe was terminated: ${path}`);
     assert.equal(probe.status, 0, Buffer.from(probe.stderr ?? Buffer.alloc(0)).toString("utf8"));
     const bytes = Buffer.from(probe.stdout);
@@ -52,20 +62,10 @@ function assertCommittedProductionIdentities(candidateCommit) {
 test("isolated copied production entrypoints complete one exact compile-to-verify lifecycle", {
   timeout: 3_900_000,
 }, async () => {
-  const headProbe = spawnSync(
-    "git",
-    ["-c", "core.longpaths=true", "rev-parse", "--verify", "HEAD"],
-    {
-      cwd: ROOT,
-      env: process.env,
-      encoding: "utf8",
-      timeout: 30_000,
-      windowsHide: true,
-    },
-  );
+  const headProbe = runEnclosingGit(["rev-parse", "--verify", "HEAD"]);
   assert.equal(headProbe.signal, null, "source HEAD probe was terminated");
-  assert.equal(headProbe.status, 0, headProbe.stderr);
-  const candidateCommit = headProbe.stdout.trim();
+  assert.equal(headProbe.status, 0, Buffer.from(headProbe.stderr ?? []).toString("utf8"));
+  const candidateCommit = Buffer.from(headProbe.stdout).toString("ascii").trim();
   assert.match(candidateCommit, /^[0-9a-f]{40}$/u);
   assertCommittedProductionIdentities(candidateCommit);
 
@@ -75,10 +75,13 @@ test("isolated copied production entrypoints complete one exact compile-to-verif
   let gitContext;
   let lifecycle;
   try {
-    materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit);
+    materialization = await RELEASE_GATE_TEST_HOOKS.materializeCandidateSource(candidateCommit, {
+      gitRunner: runEnclosingGit,
+    });
     gitContext = await RELEASE_GATE_TEST_HOOKS.createCandidateGitContext(
       candidateCommit,
       materialization.root,
+      { sourceGitRunner: runEnclosingGit },
     );
     const probe = spawnSync(
       process.execPath,

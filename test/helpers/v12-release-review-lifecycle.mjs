@@ -42,6 +42,7 @@ const GATE_PATH = "scripts/run-v12-release-gate.mjs";
 const HARNESS_PATH = `${REVIEW_ROOT}/run-release-review.mjs`;
 const VERIFIER_PATH = `${REVIEW_ROOT}/verify-release-review-handoffs.mjs`;
 const GATE_TEST_PATH = "test/v12-release-gate.test.mjs";
+const ENCLOSING_CANDIDATE_GIT_PROBE_PATH = "test/fixtures/v12-enclosing-candidate-git-probe.mjs";
 const TYPESCRIPT_RUNNER_PATH = "scripts/run-typescript.mjs";
 const TYPESCRIPT_SMOKE_PATH = "test/fixtures/v12-lifecycle-typescript-smoke.ts";
 const TYPESCRIPT_COMPILE_SENTINEL = "SWECIRCUIT_LIFECYCLE_TYPESCRIPT_COMPILE sentinel-v1";
@@ -87,16 +88,20 @@ export const PRODUCTION_IDENTITIES = Object.freeze({
     digest: "sha256:dc5b6cdea7f212196c6aa88da586fe44be20758b3619986e586445f71cbb6970",
   }),
   [HARNESS_PATH]: Object.freeze({
-    bytes: 155_506,
-    digest: "sha256:72d0f1908bad80c541a95d1b4ea7a48d5cb0be5650d2fa8525eed7a18959b86a",
+    bytes: 155_719,
+    digest: "sha256:0d7236c2741e49b3894921556c556eb0d3c05ee509ecf0f38aa90c5e96c53425",
   }),
   [VERIFIER_PATH]: Object.freeze({
     bytes: 30_840,
     digest: "sha256:ee5698570b9122255256f6020ea2415a75af06113b44f4048cb0c70fcc7082ff",
   }),
   [GATE_TEST_PATH]: Object.freeze({
-    bytes: 74_562,
-    digest: "sha256:83b2fa6945f75d2740a63097b9f2be1acbe5c22a952670f6f17b2da229c23ce4",
+    bytes: 78_317,
+    digest: "sha256:bb6a7d3a74b8617bd58a8bdd6f8e1bd7cf6b32041a6e6d37415aab5533571671",
+  }),
+  [ENCLOSING_CANDIDATE_GIT_PROBE_PATH]: Object.freeze({
+    bytes: 3_327,
+    digest: "sha256:b0faba2306dfc00dec70d33e62f8173364d853a2b1a00beecea144dc6baea40d",
   }),
   [TYPESCRIPT_RUNNER_PATH]: Object.freeze({
     bytes: 7_064,

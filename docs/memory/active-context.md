@@ -2,13 +2,11 @@
 
 ## Current Focus
 
-V12 IDE Run Loop Revision 59 is active on `codex/v12-ide-run-loop`. Revision 58 commit `da74ef518638ad6b32ff4a767b057f44c82e6bd6` passed its exact copied lifecycle, then failed its exact full verifier and hosted run `30139492037`; it is permanently retired without consuming its one-shot gate. Revision 59 restores the approved V11 README and contributor identities, preserves the Windows clone prerequisite in `WINDOWS.md`, and closes the hosted raw-evidence whitespace contract. Focused and broad pre-freeze verification pass. Independent Attempts 1 through 4 returned `fix` and were corrected; Attempt 5 passed with no blocking findings. Source freeze and commit are pending. `releaseReady: false`.
-
-The deadline remains a merged release or one explicit evidence-backed blocker by `2026-07-25 00:03 MDT`.
+V12 IDE Run Loop Revision 61 is active on `codex/v12-ide-run-loop`. Revision 60 commit `d7f95dff6dc098dfcd38f64de4e21edfe4b587c3` passed exact local and hosted verification, then its one-shot canonical gate exposed a nested lifecycle Git-authority defect; the consumed source is permanently retired. Revision 61 closes that cause with an authenticated enclosing runner, a blob-only runtime regression, and complete review-source identity. Focused, broad pre-freeze, and independent final-delta gates pass. `releaseReady: false`.
 
 ## Current Stage
 
-Candidate-addressed external evidence preserves Revision 58's exact lifecycle pass, exact full-verifier failure, hosted failure, and unconsumed gate. Revision 59 emitted `pass` from focused and broad pre-freeze verification; source freeze and commit are the current gate after independent Attempt 5 passed. The main agent remains integration owner. External IDE hosts still own model/effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
+Candidate-addressed external evidence preserves Revision 60's immutable gate failure and Revision 61's correction package. Source-freeze eligibility is established; the immutable commit, exact lifecycle, full verifier, exact-candidate topology preflight, hosted matrix, canonical gate, and fresh R2 remain. The main agent is integration owner. External IDE hosts still own model and effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
 
 ## Important Current Constraints
 
@@ -165,9 +163,8 @@ Candidate-addressed external evidence preserves Revision 58's exact lifecycle pa
 
 ## Next Likely Work
 
-- Preserve independent Attempt 5 pass and freeze the exact corrected Revision 59 diff.
-- Freeze and commit exact Revision 59 source.
-- Push the frozen commit and require the exact copied lifecycle, full verifier, and hosted matrix to pass.
-- Consume one distinct canonical gate only for the exact Revision 59 commit.
-- On `pass`, run fresh three-domain R2, close milestone and memory, then merge to `main`.
-- Never invoke Revision 58's unconsumed gate or overwrite its candidate-addressed evidence.
+- Freeze and commit the exact Revision 61 source.
+- Push the immutable commit and require exact lifecycle, full verification, exact-candidate topology, and the hosted matrix to pass.
+- Invoke one canonical gate exactly once for that commit.
+- On `pass`, run fresh three-domain R2, close milestone and memory, and merge to `main`.
+- Never rerun Revision 60's consumed gate or overwrite its candidate-addressed evidence.
