@@ -2,7 +2,17 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 commit `33dbd5c9829446b51b04d589fc963f8b7095d442` passed exact copied lifecycle, the complete verifier, the non-consuming exact-candidate rehearsal, and independent exact-evidence review, then hosted run `30166591953` failed both Ubuntu jobs on one shared synthetic long-path assertion while five jobs passed. Its one-shot gate was never invoked and the source is permanently retired. Revision 67 composes bounded fixture segments; its causal test, 29/29 release-gate suite, 73/73 focused pair, and complete broad pre-freeze verification pass. Independent final-delta review passes. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness
+alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
+53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
+install logs and the private closure. Revision 60's canonical gate failed and is permanently
+retired. Revision 68 commit `78f8c99645bb7c505e7e95682c6ab69a13915891` passed exact local
+qualification, non-consuming rehearsal, Template Check, and Windows Node 22/24, but is
+permanently retired. On 2026-07-24 the owner narrowed v0.1 support to Windows; macOS and Linux are
+unsupported and no longer release gates. Revision 69 aligns the support contract and hosted
+workflow while retaining the bounded compatibility correction as best effort. Exact Windows
+qualification, independent review, copied lifecycle, complete verifier, rehearsal, canonical
+gate, fresh R2, milestone, and merge remain; `releaseReady: false`.
 
 ## Reproduction
 
@@ -740,3 +750,17 @@ R66 shortened the private scratch root enough that Ubuntu needed more than one c
 Revision 67 builds multiple bounded components until the target is reached. A platform-independent
 POSIX regression exercises the exact short-root condition, requires multiple components, reaches
 160 characters, and proves the tracked entry remains above 260 characters.
+
+## Revision 69 Darwin Environment RCA
+
+R68 hosted run `30177481312` isolates one shared macOS-only effective-environment mismatch across
+Node 22 and 24 while Template Check, Windows Node 22/24, and Ubuntu Node 22/24 pass. The accepted
+fresh-process baseline fails before hostile-key cases, so this is a platform process-boundary
+defect rather than arbitrary CI leakage or candidate-wide corruption.
+
+The high-confidence cause is Darwin's `__CF_USER_TEXT_ENCODING` process value surviving the
+minimal child environment without appearing in the expected binding. R69 admits only that named
+Darwin key, binds its exact value in the complete worker digest, and excludes its user-specific raw
+value from stable identity. ADR 0006 later made Windows the only v0.1 release host. macOS
+confirmation is therefore deferred compatibility work; any future mismatch returns to diagnosis
+rather than broadening the allowlist.

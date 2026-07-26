@@ -78,11 +78,13 @@ const WINDOWS_CHILD_ENVIRONMENT_KEYS = Object.freeze([
   "USERDOMAIN",
   "USERNAME",
 ]);
+const DARWIN_CHILD_ENVIRONMENT_KEYS = Object.freeze(["__CF_USER_TEXT_ENCODING"]);
 const STABLE_ENVIRONMENT_EXCLUSIONS = new Set([
   "TEMP",
   "TMP",
   "TMPDIR",
   ...WINDOWS_CHILD_ENVIRONMENT_KEYS,
+  ...DARWIN_CHILD_ENVIRONMENT_KEYS,
 ]);
 const CLOSED_NPM_ENVIRONMENT_KEYS = new Set([
   "npm_config_audit",
@@ -657,6 +659,9 @@ function inheritedEnvironment(environment, platform = process.platform) {
   ];
   if (platform === "win32") {
     allowed.push(...WINDOWS_CHILD_ENVIRONMENT_KEYS);
+  }
+  if (platform === "darwin") {
+    allowed.push(...DARWIN_CHILD_ENVIRONMENT_KEYS);
   }
   const output = {};
   for (const canonicalName of allowed) {

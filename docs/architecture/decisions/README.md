@@ -11,5 +11,6 @@ Long-lived public or cross-module decisions belong here. Each ADR records contex
 | [0003](0003-portable-orchestration-control-plane.md) | Deferred | Preserved universal runtime-control-plane design and four failed review rounds; no longer the V11 implementation target. |
 | [0004](0004-specialist-compiler-first.md) | Proposed | V11 ships the pure Specialist Compiler first: exact task-shaped team construction, deterministic optimization, and digest-bound IDE packages.
 | [0005](0005-immutable-specialist-run-session.md) | Accepted | V12 adds a source-preserving immutable run session with pure create, restore, inspect, and record operations over one approved V11 package. |
+| [0006](0006-windows-first-release-support.md) | Accepted | The v0.1 release supports Windows only; IDE and provider neutrality do not imply operating-system support. |
 
 Feature plans preserve implementation detail. The decision log in `docs/memory/decisions.md` provides the fast retrieval path back to accepted ADRs.

@@ -3,14 +3,16 @@
 ## Status
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
-alone. Revision 67 commit `7e2bf60b652be65dfc8b5c9bcf21fcf91701852d` passed exact
-copied lifecycle, complete verification, non-consuming rehearsal, all seven hosted jobs, and its
-one-shot canonical gate. Fresh source-bound R2 then returned product/API/IDE `pass`,
-lifecycle/correctness `pass`, and security/trace/authority `fix`. Revision 67 is permanently
-retired and its consumed gate is never rerun. Revision 68 binds the complete effective worker
-environment, closes verifier pre-import validation, and includes the authority-bearing parent in
-security context. Focused causal checks pass; exact-candidate and release gates remain, so
-`releaseReady: false`.
+alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
+53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
+install logs and the private closure. Revision 60's canonical gate failed and is permanently
+retired. Revision 68 commit `78f8c99645bb7c505e7e95682c6ab69a13915891` passed exact local
+qualification, non-consuming rehearsal, Template Check, and Windows Node 22/24, but is
+permanently retired. On 2026-07-24 the owner narrowed v0.1 support to Windows; macOS and Linux are
+unsupported and no longer release gates. Revision 69 aligns the support contract and hosted
+workflow while retaining the bounded compatibility correction as best effort. Exact Windows
+qualification, independent review, copied lifecycle, complete verifier, rehearsal, canonical
+gate, fresh R2, milestone, and merge remain; `releaseReady: false`.
 
 ## Task List
 
@@ -158,7 +160,22 @@ T003 ran three read-only architecture analyses in parallel and one dependent syn
 - [x] Close verifier validation before candidate reads and imports.
 - [x] Add hostile fresh-process harness and verifier regressions.
 - [x] Add parent and causal fixture to security reviewer context.
-- [ ] Clear independent final-delta re-review and freeze exact Revision 68.
-- [ ] Pass committed focused, broad, copied-lifecycle, rehearsal, and hosted gates.
-- [ ] Consume one R68 canonical gate and complete fresh three-domain R2.
+- [x] Clear independent final-delta review and freeze exact Revision 68.
+- [x] Pass focused, broad, copied-lifecycle, complete local, and non-consuming rehearsal gates.
+- [x] Preserve the five-pass/two-macOS-fail hosted run and permanently retire Revision 68.
+- [x] Confirm the Revision 68 one-shot canonical gate was never invoked.
+
+## Revision 69 Release Correction
+
+- [x] Preserve R68's exact local passes, final hosted matrix, failed macOS logs, and unused gate.
+- [x] Bound the shared macOS failure to the fresh worker-environment boundary.
+- [x] Bind Darwin's declared process value per invocation without adding it to stable identity.
+- [x] Prove Darwin inclusion, Windows/Linux exclusion, stable identity, and invocation identity.
+- [x] Byte-bind the R68 hosted evidence and preserve the independent correction-review history.
+- [x] Pass focused, template, format, lint, typecheck, build, release-review, and core gates.
+- [x] Clear the Windows-first independent rereview after correcting all trace-policy findings.
+- [ ] Freeze and commit one exact Revision 69 source.
+- [ ] Pass exact copied lifecycle, complete verifier, non-consuming rehearsal, and the three-job
+  hosted Windows matrix.
+- [ ] Consume one Revision 69 canonical gate and complete fresh three-domain R2.
 - [ ] Close memory and the milestone, then merge to `main`.

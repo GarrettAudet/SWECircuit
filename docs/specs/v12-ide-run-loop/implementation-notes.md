@@ -2,7 +2,17 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 commit `33dbd5c9829446b51b04d589fc963f8b7095d442` passed exact copied lifecycle, the complete verifier, the non-consuming exact-candidate rehearsal, and independent exact-evidence review, then hosted run `30166591953` failed both Ubuntu jobs on one shared synthetic long-path assertion while five jobs passed. Its one-shot gate was never invoked and the source is permanently retired. Revision 67 composes bounded fixture segments; its causal test, 29/29 release-gate suite, 73/73 focused pair, and complete broad pre-freeze verification pass. Independent final-delta review passes. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness
+alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
+53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
+install logs and the private closure. Revision 60's canonical gate failed and is permanently
+retired. Revision 68 commit `78f8c99645bb7c505e7e95682c6ab69a13915891` passed exact local
+qualification, non-consuming rehearsal, Template Check, and Windows Node 22/24, but is
+permanently retired. On 2026-07-24 the owner narrowed v0.1 support to Windows; macOS and Linux are
+unsupported and no longer release gates. Revision 69 aligns the support contract and hosted
+workflow while retaining the bounded compatibility correction as best effort. Exact Windows
+qualification, independent review, copied lifecycle, complete verifier, rehearsal, canonical
+gate, fresh R2, milestone, and merge remain; `releaseReady: false`.
 
 ## Baseline
 
@@ -324,7 +334,11 @@ characters. A deterministic POSIX projection uses the hosted-style short root, r
 components, reaches exactly 160 characters, and keeps the tracked fixture above 260 characters.
 Production code and runtime behavior do not change.
 
-The hosted-evidence regression, complete 73-test focused pair, and all broad pre-freeze gates pass. Independent final-delta review found two pre-freeze issues; both were corrected, and follow-up returned no findings. Revision 67 is ready for source freeze.
+The hosted-evidence regression, complete 73-test focused pair, and all broad pre-freeze gates
+passed. Exact commit `7e2bf60b652be65dfc8b5c9bcf21fcf91701852d` then passed copied
+lifecycle, complete verification, non-consuming rehearsal, all seven hosted jobs, and its one-shot
+canonical gate. Fresh R2 returned `pass` / `pass` / `fix`; Revision 67 is permanently retired into
+Revision 68.
 
 ## Revision 68 Complete Worker-Authority Binding
 
@@ -339,3 +353,14 @@ checks the runtime policy before candidate tooling, and repeats validation throu
 authenticated harness initializer before using generated runtime exports. A fresh-process probe
 covers arbitrary, Git, and proxy injection for both worker roles. The parent implementation and
 causal fixture are security-owned immutable reviewer sources.
+
+## Revision 69 Darwin Worker Environment
+
+Revision 68 passed complete local qualification and non-consuming rehearsal, then hosted run
+`30177481312` failed only macOS Node 22 and 24. Both jobs failed the same accepted fresh-process
+probe because its observed environment did not match the parent's complete binding.
+
+Revision 69 recognizes `__CF_USER_TEXT_ENCODING` only on Darwin, inherits and binds its exact
+per-invocation value, and excludes only that host-specific raw value from stable package identity.
+Windows and Linux do not inherit the key. Different raw values preserve stable identity while
+changing the complete invocation digest, and every undeclared key remains rejected.

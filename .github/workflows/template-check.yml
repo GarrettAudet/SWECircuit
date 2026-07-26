@@ -71,15 +71,11 @@ jobs:
             exit 1
           }
   kernel-toolchain:
-    name: Kernel (Node ${{ matrix.node }} / ${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
+    name: Kernel (Node ${{ matrix.node }} / windows-latest)
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-          - macos-latest
         node:
           - 22
           - 24

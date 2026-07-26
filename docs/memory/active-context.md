@@ -2,11 +2,24 @@
 
 ## Current Focus
 
-V12 IDE Run Loop Revision 67 is active on `codex/v12-ide-run-loop`. Revision 66 commit `33dbd5c9829446b51b04d589fc963f8b7095d442` passed exact copied lifecycle in 594.5 seconds, the complete verifier in 683.1 seconds, the non-consuming exact-candidate rehearsal in 715.5 seconds, and independent exact-evidence review. Hosted run `30166591953` then passed five jobs and failed both Ubuntu jobs on one shared synthetic long-path fixture assertion. Its one-shot gate was never invoked and the source is permanently retired. Revision 67 composes bounded fixture segments; its causal test, 29/29 release-gate suite, 73/73 focused pair, and complete broad pre-freeze verification pass. Independent final-delta review passes after two findings were corrected and cleared. `releaseReady: false`.
+V12 IDE Run Loop Revision 69 is active on `codex/v12-ide-run-loop`. Revision 68 commit
+`78f8c99645bb7c505e7e95682c6ab69a13915891` passed exact local qualification, rehearsal,
+Template Check, and Windows Node 22/24, but is permanently retired. On 2026-07-24 the owner
+narrowed v0.1 support to Windows; macOS and Linux are unsupported and no longer release gates.
+Revision 69 aligns the support contract and hosted workflow while retaining the bounded Darwin
+correction as best effort. `releaseReady: false`.
 
 ## Current Stage
 
-Candidate-addressed external evidence preserves the retired R64 through R66 outcomes. Revision 67 is in `hosted verify -> diagnose -> fix -> verify`. Exact R66 local verification proved the private layout correction; both Ubuntu jobs then proved the existing one-component fixture under-modeled short Linux roots. The bounded multi-segment fixture, 73/73 focused verification, and complete broad pre-freeze matrix pass. Exact freeze, copied lifecycle, complete verifier, non-consuming rehearsal, hosted matrix, canonical gate, and fresh R2 remain. The main agent is integration owner. External IDE hosts still own model and effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects, and merge.
+Candidate-addressed external evidence preserves the retired Revision 68 outcome. Revision 69 is in
+`clarify -> redesign -> verify`: ADR 0006 records the Windows-only owner decision; the hosted
+workflow now requires Template Check plus Windows Node 22/24; and 3/3 focused policy, 49/49
+release-review, 476/476 core, static, workflow, and independent pre-freeze checks pass. Exact
+source freeze, copied lifecycle, complete verifier, non-consuming rehearsal, three-job hosted
+Windows matrix, canonical gate, and fresh R2 remain. The main agent is integration owner. External IDE
+hosts still
+own model and effort selection, skills, tools, spawning, isolation, execution, persistence,
+integration effects, and merge.
 
 ## Important Current Constraints
 
@@ -163,7 +176,8 @@ Candidate-addressed external evidence preserves the retired R64 through R66 outc
 
 ## Next Likely Work
 
-- Freeze one exact Revision 67 commit and require copied lifecycle, complete verification,
-  non-consuming rehearsal, and all seven hosted jobs.
-- Invoke its canonical gate exactly once; on `pass`, run fresh three-domain R2, close milestone and memory, and merge to `main`.
-- Never invoke or release Revisions 60 through 66.
+- Freeze one exact Revision 69 commit and require copied lifecycle, complete verification,
+  non-consuming rehearsal, Template Check, and Windows Node 22/24.
+- Invoke its canonical gate exactly once only after those checks pass; then run fresh three-domain
+  R2, close milestone and memory, and merge to `main`.
+- Never invoke or release Revisions 60 through 68.

@@ -23,7 +23,8 @@ An external IDE host dispatches agents, enforces permissions, executes tools, in
 
 ## Start Here
 
-Requires Node.js 22.14 or newer.
+The v0.1 release supports Windows with Node.js 22.14 or newer; CI qualifies Node 22 and 24.
+IDECircuit remains IDE- and provider-agnostic. macOS and Linux are not supported release hosts.
 
 ```powershell
 npm ci

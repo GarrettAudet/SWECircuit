@@ -2,7 +2,17 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds install logs and the private closure. Revision 60's canonical gate failed and is permanently retired. Revision 64 commit `7d30a276d547cd501d93e6a698c84fff111bd8a4` passed exact copied lifecycle in 526.6 seconds, complete verification in 630.6 seconds, and all seven hosted jobs in run `30159538275`, then failed its non-consuming exact-candidate rehearsal at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 66 commit `33dbd5c9829446b51b04d589fc963f8b7095d442` passed exact copied lifecycle, the complete verifier, the non-consuming exact-candidate rehearsal, and independent exact-evidence review, then hosted run `30166591953` failed both Ubuntu jobs on one shared synthetic long-path assertion while five jobs passed. Its one-shot gate was never invoked and the source is permanently retired. Revision 67 composes bounded fixture segments; its causal test, 29/29 release-gate suite, 73/73 focused pair, and complete broad pre-freeze verification pass. Independent final-delta review passes. Exact-candidate, hosted, canonical, fresh R2, milestone closeout, and owner merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts; they do not establish release readiness
+alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
+53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
+install logs and the private closure. Revision 60's canonical gate failed and is permanently
+retired. Revision 68 commit `78f8c99645bb7c505e7e95682c6ab69a13915891` passed exact local
+qualification, non-consuming rehearsal, Template Check, and Windows Node 22/24, but is
+permanently retired. On 2026-07-24 the owner narrowed v0.1 support to Windows; macOS and Linux are
+unsupported and no longer release gates. Revision 69 aligns the support contract and hosted
+workflow while retaining the bounded compatibility correction as best effort. Exact Windows
+qualification, independent review, copied lifecycle, complete verifier, rehearsal, canonical
+gate, fresh R2, milestone, and merge remain; `releaseReady: false`.
 
 ## Scope
 
@@ -113,7 +123,14 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
 
 ## Current Outcome
 
-Candidate-addressed external evidence records that Revision 64 passed exact copied lifecycle, complete verification, and all seven hosted jobs before its non-consuming rehearsal failed at the copied canonical gate's 30-minute bound. Its one-shot gate was never invoked and the source is permanently retired. Revision 65 preserves the exact streams and hosted record, reduces the causal locked dependency path from 293 to 239 characters, passes 71/71 focused release tests, and passes every broad non-lifecycle gate, and passes independent final-delta review with no findings. Exact-candidate, hosted, canonical, fresh R2, closeout, and merge gates remain. `releaseReady: false`.
+Candidate-addressed external evidence retires Revision 68 after its exact local passes and hosted
+matrix. ADR 0006 records the owner's Windows-only v0.1 support decision; macOS and Linux remain
+unsupported historical evidence rather than release gates. Revision 69 aligns public support and
+CI, retains the bounded Darwin compatibility correction as best effort, and preserves rejection
+of undeclared environment authority. Focused Windows policy tests, static checks, the workflow
+checker, 49/49 release-review tests, and 476/476 core tests pass. Independent rereview, exact
+immutable lifecycle, complete verification, rehearsal, hosted Windows, canonical, fresh R2,
+closeout, and merge gates remain. `releaseReady: false`.
 
 ## Revision 34 Trust-Refresh Outcome
 
@@ -174,9 +191,9 @@ Revision 66 is permanently retired.
 
 ## Revision 67 Current Review Outcome
 
-Revision 67 changes only the causal test constructor and authenticated test identities. It
-preserves the exact R66 workflow, job, and failed Ubuntu logs, requires a deterministic short
-Linux projection to use multiple bounded components, and passes the targeted fixture, complete
-29-test release-gate suite, 73-test focused pair, and every broad pre-freeze gate. Independent
-final-delta review found two pre-freeze issues; both were cleared, and follow-up returned no
-findings. Immutable, hosted, canonical, and fresh R2 gates remain; `releaseReady: false`.
+Revision 67 changed only the causal test constructor and authenticated test identities. Exact
+commit `7e2bf60b652be65dfc8b5c9bcf21fcf91701852d` passed copied lifecycle, complete
+verification, non-consuming rehearsal, all seven hosted jobs, and its one-shot canonical gate.
+Fresh R2 returned product/API/IDE `pass`, lifecycle/correctness `pass`, and
+security/trace/authority `fix`. Revision 67 is permanently retired into Revision 68, and its
+consumed gate is never rerun. `releaseReady: false`.

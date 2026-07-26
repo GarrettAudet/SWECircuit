@@ -825,6 +825,7 @@ test("stable runtime policy excludes invocation-specific temporary paths", () =>
     SYSTEMDRIVE: "C:",
     USERDOMAIN: "private-domain",
     USERNAME: "private-user",
+    __CF_USER_TEXT_ENCODING: "0x1F5:0x0:0x0",
   };
   const windowsInherited = RELEASE_REVIEW_PARENT_TEST_HOOKS.inheritedEnvironment(
     hostIdentity,
@@ -834,13 +835,36 @@ test("stable runtime policy excludes invocation-specific temporary paths", () =>
     hostIdentity,
     "linux",
   );
+  const darwinInherited = RELEASE_REVIEW_PARENT_TEST_HOOKS.inheritedEnvironment(
+    hostIdentity,
+    "darwin",
+  );
   for (const key of ["LOGONSERVER", "SYSTEMDRIVE", "USERDOMAIN", "USERNAME"]) {
     assert.equal(windowsInherited[key], hostIdentity[key]);
     assert.equal(posixInherited[key], undefined);
+    assert.equal(darwinInherited[key], undefined);
   }
+  assert.equal(darwinInherited.__CF_USER_TEXT_ENCODING, hostIdentity.__CF_USER_TEXT_ENCODING);
+  assert.equal(windowsInherited.__CF_USER_TEXT_ENCODING, undefined);
+  assert.equal(posixInherited.__CF_USER_TEXT_ENCODING, undefined);
   const windowsPolicy = RELEASE_REVIEW_PARENT_TEST_HOOKS.environmentPolicy(windowsInherited);
+  const darwinPolicy = RELEASE_REVIEW_PARENT_TEST_HOOKS.environmentPolicy(darwinInherited);
+  const alternateDarwinInherited = {
+    ...darwinInherited,
+    __CF_USER_TEXT_ENCODING: "0x1F6:0x0:0x0",
+  };
   assert.deepEqual(windowsPolicy.inherited, common);
+  assert.deepEqual(darwinPolicy.inherited, common);
+  assert.deepEqual(
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.environmentPolicy(alternateDarwinInherited),
+    darwinPolicy,
+  );
+  assert.notDeepEqual(
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.effectiveEnvironmentBinding(alternateDarwinInherited),
+    RELEASE_REVIEW_PARENT_TEST_HOOKS.effectiveEnvironmentBinding(darwinInherited),
+  );
   assert.doesNotMatch(JSON.stringify(windowsPolicy), /private-(?:controller|domain|user)/u);
+  assert.doesNotMatch(JSON.stringify(darwinPolicy), /0x1F5:0x0:0x0/u);
 });
 test("worker effective environment binds every key and rejects ambient authority", () => {
   const closed = {
@@ -940,6 +964,14 @@ test("fresh worker processes reject every undeclared environment authority", () 
       if (entry && typeof entry[1] === "string") {
         closed[canonicalName] = entry[1];
       }
+    }
+  }
+  if (process.platform === "darwin") {
+    const entry = Object.entries(process.env).find(
+      ([name]) => name.toLowerCase() === "__cf_user_text_encoding",
+    );
+    if (entry && typeof entry[1] === "string") {
+      closed.__CF_USER_TEXT_ENCODING = entry[1];
     }
   }
   const binding = RELEASE_REVIEW_PARENT_TEST_HOOKS.effectiveEnvironmentBinding(closed);
@@ -2044,6 +2076,139 @@ test("R66 hosted evidence binds the exact matrix and shared Ubuntu failure", () 
   assert.match(node22Log, /# pass 468/u);
   assert.match(node22Log, /# fail 1/u);
 });
+test("R68 hosted evidence binds the exact matrix and shared macOS failure", () => {
+  const evidenceRoot =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r69/inputs/r68-hosted-run";
+  const hostedLogs = [
+    {
+      name: "macos-node22.log.base64.json",
+      storedBytes: 303_999,
+      storedDigest: "sha256:1f4d0dd8859b79279384763a9bb8da2a1b97c0db064c0cb134eb79df473916a0",
+      rawBytes: 227_765,
+      rawDigest: "sha256:aea2df15cf4d2ffdf80f46c0902287bbfb782168d5f72e1736d019a0d3ec8072",
+      jobId: "89728561136",
+    },
+    {
+      name: "macos-node24.log.base64.json",
+      storedBytes: 143_195,
+      storedDigest: "sha256:00f34601e9937ce6ad0bd54ef4a04c722cd4a2d678fddce520f75ff0ee819307",
+      rawBytes: 107_163,
+      rawDigest: "sha256:42029bc7a783f589b1d34e15508866105649f00edab35a021fc87f74a8df859f",
+      jobId: "89728561188",
+    },
+  ];
+  const bindings = [
+    {
+      name: "run.json",
+      bytes: 12_855,
+      digest: "sha256:6ef085edbc20285bd341764cd75fc7642b120025f92d6f93689921265e0944df",
+    },
+    {
+      name: "jobs.json",
+      bytes: 16_514,
+      digest: "sha256:4133d67caf709e4036caa6f20dd26083bb89077b1e6531af00097fe282fa467c",
+    },
+    ...hostedLogs.map((log) => ({
+      name: log.name,
+      bytes: log.storedBytes,
+      digest: log.storedDigest,
+    })),
+  ];
+  const evidence = new Map();
+  for (const binding of bindings) {
+    const raw = readFileSync(resolve(ROOT, evidenceRoot, binding.name));
+    assert.equal(raw.byteLength, binding.bytes);
+    assert.equal(digest(raw), binding.digest);
+    evidence.set(binding.name, raw);
+  }
+
+  const run = JSON.parse(evidence.get("run.json").toString("utf8"));
+  assert.equal(run.id, 30_177_481_312);
+  assert.equal(run.head_sha, "78f8c99645bb7c505e7e95682c6ab69a13915891");
+  assert.equal(run.status, "completed");
+  assert.equal(run.conclusion, "failure");
+  assert.equal(run.run_attempt, 1);
+
+  const jobsEnvelope = JSON.parse(evidence.get("jobs.json").toString("utf8"));
+  assert.equal(jobsEnvelope.total_count, 7);
+  const jobs = new Map(jobsEnvelope.jobs.map((job) => [job.name, job]));
+  for (const name of [
+    "Template Check",
+    "Kernel (Node 22 / windows-latest)",
+    "Kernel (Node 24 / windows-latest)",
+    "Kernel (Node 22 / ubuntu-latest)",
+    "Kernel (Node 24 / ubuntu-latest)",
+  ]) {
+    assert.equal(jobs.get(name).conclusion, "success");
+  }
+  for (const name of ["Kernel (Node 22 / macos-latest)", "Kernel (Node 24 / macos-latest)"]) {
+    const job = jobs.get(name);
+    assert.equal(job.conclusion, "failure");
+    assert.deepEqual(
+      job.steps.filter((step) => step.conclusion === "failure").map((step) => step.name),
+      ["Verify kernel"],
+    );
+  }
+
+  const failingTest = "fresh worker processes reject every undeclared environment authority";
+  const failingAssertion = "Candidate worker effective environment mismatch.";
+  for (const expected of hostedLogs) {
+    const path = `${evidenceRoot}/${expected.name}`;
+    const stored = evidence.get(expected.name);
+    const envelope = JSON.parse(stored.toString("utf8"));
+    assert.deepEqual(Object.keys(envelope), [
+      "kind",
+      "candidateCommit",
+      "command",
+      "stream",
+      "encoding",
+      "rawBytes",
+      "rawSha256",
+      "data",
+    ]);
+    assert.equal(envelope.kind, "swecircuit.raw-evidence.v1");
+    assert.equal(envelope.candidateCommit, "78f8c99645bb7c505e7e95682c6ab69a13915891");
+    assert.equal(envelope.command, `GitHub Actions run 30177481312 job ${expected.jobId}`);
+    assert.equal(envelope.stream, "job-log");
+    assert.equal(envelope.encoding, "base64");
+    assert.equal(envelope.rawBytes, expected.rawBytes);
+    assert.equal(envelope.rawSha256, expected.rawDigest);
+
+    const raw = Buffer.from(envelope.data, "base64");
+    assert.equal(raw.byteLength, expected.rawBytes);
+    assert.equal(raw.toString("base64"), envelope.data);
+    assert.equal(digest(raw), expected.rawDigest);
+    assert.equal(raw.includes(13), false);
+    const log = raw.toString("utf8");
+    assert.match(log, new RegExp(failingTest, "u"));
+    assert.match(log, new RegExp(failingAssertion, "u"));
+    assert.match(log, /tests 473/u);
+    assert.match(log, /pass 472/u);
+    assert.match(log, /fail 1/u);
+    assert.equal(
+      existsSync(resolve(ROOT, evidenceRoot, expected.name.replace(".base64.json", ""))),
+      false,
+    );
+
+    const tracked = spawnSync(
+      "git",
+      ["-c", "core.longpaths=true", "-C", ROOT, "ls-files", "--error-unmatch", "--", path],
+      { encoding: "utf8", windowsHide: true },
+    );
+    assert.equal(tracked.signal, null);
+    assert.equal(tracked.status, 0, tracked.stderr);
+    assert.equal(tracked.stdout.trim().replaceAll("\\", "/"), path);
+
+    const indexed = spawnSync(
+      "git",
+      ["-c", "core.longpaths=true", "-C", ROOT, "show", `:${path}`],
+      { encoding: null, windowsHide: true },
+    );
+    assert.equal(indexed.signal, null);
+    assert.equal(indexed.status, 0, indexed.stderr.toString("utf8"));
+    assert.deepEqual(indexed.stdout, stored);
+  }
+});
 test("the positive copied gate alone receives the extended lifecycle timeout", () => {
   const source = readFileSync(
     resolve(ROOT, "test/helpers/v12-release-review-lifecycle.mjs"),
@@ -2361,6 +2526,7 @@ const VOLATILE_RELEASE_STATE_PATTERN =
 test("active release status avoids volatile candidate-state drift and preserves outcomes", () => {
   const statusPaths = [
     "docs/specs/v12-ide-run-loop/spec.md",
+    "docs/specs/v12-ide-run-loop/plan.md",
     "docs/specs/v12-ide-run-loop/implementation-notes.md",
     "docs/specs/v12-ide-run-loop/test-plan.md",
     "docs/specs/v12-ide-run-loop/review.md",
@@ -2376,15 +2542,16 @@ test("active release status avoids volatile candidate-state drift and preserves 
 
   const testPlanStatus = activeStatus("docs/specs/v12-ide-run-loop/test-plan.md");
   assert.match(testPlanStatus, /Package and handoff verification authenticate artifacts/u);
-  assert.match(testPlanStatus, /canonical gate failed.*permanently retired/u);
-  assert.match(testPlanStatus, /exact registry\/SRI lock.*offline/u);
-  assert.match(testPlanStatus, /binds install logs and the private closure/u);
+  assert.match(testPlanStatus, /canonical gate failed[\s\S]*?permanently retired/u);
+  assert.match(testPlanStatus, /exact registry\/SRI lock[\s\S]*?offline/u);
+  assert.match(testPlanStatus, /binds\s+install logs and the private closure/u);
   assert.match(testPlanStatus, /releaseReady: false/u);
 });
 
 test("live release routing delegates volatile state to candidate-addressed evidence", () => {
   const liveSections = [
     ["docs/memory/active-context.md", ["Current Focus", "Current Stage", "Next Likely Work"]],
+    ["docs/specs/v12-ide-run-loop/plan.md", ["Status"]],
     [
       "docs/milestones/v12.md",
       [
@@ -2412,6 +2579,7 @@ test("live release routing delegates volatile state to candidate-addressed evide
 
   for (const [path, heading] of [
     ["docs/memory/active-context.md", "Current Stage"],
+    ["docs/specs/v12-ide-run-loop/plan.md", "Status"],
     ["docs/milestones/v12.md", "Status"],
     ["docs/specs/v12-ide-run-loop/review.md", "Current Outcome"],
   ]) {
@@ -2420,6 +2588,42 @@ test("live release routing delegates volatile state to candidate-addressed evide
       /candidate-addressed external (?:evidence|receipts?)/iu,
       `${path} ${heading}`,
     );
+  }
+});
+
+test("live release policy requires only the supported Windows hosted matrix", () => {
+  const policy = [
+    activeSection("docs/memory/active-context.md", "Current Stage"),
+    activeSection("docs/specs/v12-ide-run-loop/plan.md", "Status"),
+    activeSection("docs/milestones/v12.md", "Current Stage"),
+    activeSection(
+      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r69/platform-scope-decision.md",
+      "Release Gate",
+    ),
+  ].join("\n");
+  assert.match(policy, /Windows-only/u);
+  assert.match(policy, /Template Check/u);
+  assert.match(policy, /Windows Node 22\/24|Windows with Node 22[\s\S]*Windows with Node 24/u);
+
+  const activeGateSections = [
+    ["docs/memory/active-context.md", "Next Likely Work"],
+    ["docs/milestones/v12.md", "Residual Risks"],
+    ["docs/milestones/v12.md", "Next Recommended Work"],
+    [
+      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r69/test-plan.md",
+      "Stop Conditions",
+    ],
+    [
+      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r69/correction-contract.md",
+      "Completion Evidence",
+    ],
+    ["docs/specs/v12-ide-run-loop/root-cause-analysis.md", "Revision 69 Darwin Environment RCA"],
+    ["docs/specs/v12-ide-run-loop/debug-notes.md", "Revision 68 Hosted Failure And Revision 69"],
+  ];
+  const unsupportedGatePattern =
+    /all seven hosted jobs|hosted macOS[\s\S]{0,120}(?:confirmation|success)|prove the Darwin correction on both hosted macOS|confirmation requires both macOS jobs/iu;
+  for (const [path, heading] of activeGateSections) {
+    assert.doesNotMatch(activeSection(path, heading), unsupportedGatePattern, `${path} ${heading}`);
   }
 });
 

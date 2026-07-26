@@ -2,19 +2,32 @@
 
 ## Status
 
-The product implementation is complete. Revision 58 is retired, and Revision 59 is the active release correction in pre-freeze rereview.
+The product implementation is complete. Candidate-addressed external evidence is authoritative
+for exact-candidate state. Revision 68 is retired after exact local qualification; its Windows
+jobs passed and its macOS failures triggered an owner support-scope review. ADR 0006 now makes
+v0.1 Windows-only. Revision 69 aligns CI, support documentation, and release evidence with that
+decision. `releaseReady: false`.
 
 ## Steps
 
-1. Preserve Revision 58's exact lifecycle pass, exact full-verifier failure, hosted-CI failure, and unconsumed gate evidence.
-2. Restore the approved V11 documentation identities and close the hosted raw-evidence whitespace policy with positive and adversarial tests.
-3. Obtain independent read-only rereview, freeze exact source identities, and commit once.
-4. Run the exact copied lifecycle, full verifier, and hosted matrix against the frozen commit.
-5. Consume one canonical gate, run fresh three-domain R2, close memory and the milestone, then merge only on complete all-pass evidence.
+1. Preserve Revision 68's exact local passes, final hosted matrix, failed macOS logs, and unused
+   one-shot gate.
+2. Record the owner's Windows-only support decision, align public support claims, and constrain
+   hosted release qualification to Template Check plus Windows Node 22/24.
+3. Obtain independent read-only review, synchronize trace artifacts, freeze exact source, and
+   commit once.
+4. Run exact copied lifecycle, complete verification, non-consuming rehearsal, and the three-job
+   hosted Windows matrix against that frozen commit.
+5. Consume one canonical gate, run fresh three-domain R2, close memory and the milestone, then
+   merge only on complete all-pass evidence.
 
 ## Architecture Approach
 
-Keep the accepted four-operation `SpecialistRunSession` contract unchanged. Revision 59 changes release evidence and hosted validation only: R58's full-history and Windows checkout bootstrap remain, V11-approved mutable documentation returns to its exact bytes, raw `.log` and `.patch` artifacts remain source-preserving, and the complete tracked-whitespace step is regression-bound.
+Keep the accepted four-operation `SpecialistRunSession` contract unchanged. Revision 69 changes
+only release-review process authority and its evidence: the parent admits
+`__CF_USER_TEXT_ENCODING` only on Darwin, includes the exact raw value in the complete invocation
+binding, excludes the host-specific value from stable package identity, and rejects every
+undeclared environment key as before.
 
 ## Dependencies
 

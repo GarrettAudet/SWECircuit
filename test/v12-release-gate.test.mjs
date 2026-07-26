@@ -42,6 +42,8 @@ import {
 } from "./helpers/git-blob-loader-fixture.mjs";
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const CI_WORKFLOW_PATH = join(ROOT, ".github/workflows/template-check.yml");
+const README_PATH = join(ROOT, "README.md");
+const SUPPORT_PATH = join(ROOT, "SUPPORT.md");
 const NPM_CONFIG_PATH = join(ROOT, ".npmrc");
 const RUN_TYPESCRIPT_PATH = join(ROOT, "scripts/run-typescript.mjs");
 const RELEASE_GATE_PATH = join(ROOT, "scripts/run-v12-release-gate.mjs");
@@ -56,6 +58,8 @@ const ENCLOSING_CANDIDATE_PROBE_PATH = join(
   "test/fixtures/v12-enclosing-candidate-git-probe.mjs",
 );
 const ciWorkflowSource = (await readFile(CI_WORKFLOW_PATH, "utf8")).replaceAll("\r\n", "\n");
+const readmeSource = await readFile(README_PATH, "utf8");
+const supportSource = await readFile(SUPPORT_PATH, "utf8");
 const npmConfigSource = await readFile(NPM_CONFIG_PATH, "utf8");
 const releaseReviewLifecycleSource = await readFile(RELEASE_REVIEW_LIFECYCLE_PATH, "utf8");
 const enclosingCandidateProbeSource = await readFile(ENCLOSING_CANDIDATE_PROBE_PATH);
@@ -303,11 +307,21 @@ function assertHostedWorkflowContract(source) {
     templateCheckJobContract,
     "template-check job must preserve its complete blocking contract",
   );
+  assert.match(
+    source,
+    /name: Kernel \(Node \$\{\{ matrix\.node \}\} \/ windows-latest\)\n    runs-on: windows-latest/u,
+    "kernel qualification must run only on the supported Windows host",
+  );
+  assert.doesNotMatch(
+    source,
+    /(?:ubuntu|macos)-latest|\$\{\{ matrix\.os \}\}/u,
+    "unsupported operating systems must not remain release gates",
+  );
   const workflowBytes = Buffer.from(source, "utf8");
-  assert.equal(workflowBytes.byteLength, 3_143, "complete hosted workflow byte length must match");
+  assert.equal(workflowBytes.byteLength, 3_049, "complete hosted workflow byte length must match");
   assert.equal(
     `sha256:${createHash("sha256").update(workflowBytes).digest("hex")}`,
-    "sha256:9509732b0eb21bbec0e4a4f013c213b6b5083345e01573c4e22b5a1bb04a28cc",
+    "sha256:50921ed62a290cde2c9147af6f131bc0e345ac23438e4cc68a8f430105012d8d",
     "complete hosted workflow digest must match",
   );
 }
@@ -315,6 +329,15 @@ function assertHostedWorkflowContract(source) {
 test("hosted CI supplies complete Git history and a repository-local npm cache", () => {
   assertHostedWorkflowContract(ciWorkflowSource);
   assert.equal(npmConfigSource.trim(), "cache=.local/npm-cache");
+});
+
+test("public support is Windows-only without weakening IDE and provider neutrality", () => {
+  assert.match(readmeSource, /v0\.1 release supports Windows/u);
+  assert.match(readmeSource, /IDE- and provider-agnostic/u);
+  assert.match(supportSource, /v0\.1 release supports Windows only/u);
+  assert.match(supportSource, /macOS and Linux are not release gates/u);
+  assert.match(supportSource, /IDE and provider neutrality remain core\s+product\s+contracts/u);
+  assertHostedWorkflowContract(ciWorkflowSource);
 });
 
 test("hosted CI contract rejects unprotected checkout and write authority", () => {
@@ -389,8 +412,8 @@ test("hosted CI contract rejects unprotected checkout and write authority", () =
   );
 
   const disabledKernelJob = ciWorkflowSource.replace(
-    "    runs-on: ${{ matrix.os }}\n    strategy:",
-    "    runs-on: ${{ matrix.os }}\n    if: ${{ false }}\n    strategy:",
+    "    runs-on: windows-latest\n    strategy:",
+    "    runs-on: windows-latest\n    if: ${{ false }}\n    strategy:",
   );
   assert.throws(
     () => assertHostedWorkflowContract(disabledKernelJob),
