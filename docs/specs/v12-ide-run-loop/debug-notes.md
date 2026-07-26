@@ -1025,3 +1025,33 @@ Inspect the fresh R2 package for exact Revision 70 commit
 uses bounded aliases, closes explicit-path and collision negatives, and passes three-attempt
 independent review. The mutable aggregate correctly stops at copied lifecycle while Git HEAD still
 names R70; the post-freeze immutable gate must evaluate committed R71 bytes.
+
+## Revision 71 Hosted Probe Failure And Revision 72
+
+### Reproduction
+
+Run the exact three-job hosted Windows matrix for Revision 71 commit
+`841b38a1430ec9b7845dcb11e1104ecbf7f1d75d`.
+
+### Evidence
+
+- Hosted run: `30203059470`.
+- Node 22 job `89796267518`: 479/480 core tests pass.
+- Node 24 job `89796267520`: 479/480 core tests pass.
+- Both fail only `reviewer snapshot aliases remain byte-readable through ordinary Windows
+  PowerShell paths`.
+- Both logs report `Get-FileHash` unavailable in the child Windows PowerShell host.
+- Path existence and item reads complete before the unavailable hash command; no alias collision,
+  missing-path result, byte mismatch, or product test fails.
+- The protected R71 canonical gate was never invoked.
+
+### Confirmed Cause And Route
+
+The regression coupled path readability to module autoload for `Get-FileHash`. GitHub launches the
+kernel command from `pwsh`; its explicitly spawned Windows PowerShell child does not expose that
+command in this environment. The test therefore measured host module availability in addition to
+the intended path and byte contract.
+
+`hosted verify -> diagnose -> fix -> Revision 72`. Revision 72 keeps the exact alias design and
+hashes the opened file stream through .NET SHA-256, which is independent of PowerShell module
+autoload.

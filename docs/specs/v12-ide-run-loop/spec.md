@@ -3,16 +3,19 @@
 ## Status
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
-alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
-verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
-gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
-of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
-consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
-bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
-content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
-V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
-Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
+alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 70
+is permanently retired after its consumed canonical gate and fresh R2 `pass` / `pass` / `block`
+roster exposed 48 ordinary-Windows-path failures. Revision 71 commit
+`841b38a1430ec9b7845dcb11e1104ecbf7f1d75d` preserved the exact identities under bounded
+full-SHA-256 aliases and passed immutable local qualification. Hosted run `30203059470` then had
+both kernels pass 479/480 core tests and fail only because the probe depended on unavailable
+`Get-FileHash` supply. Its canonical gate remained unused, and Revision 71 is permanently retired.
+
+Revision 72 retains the aliases and replaces that module dependency with a fail-closed .NET stream
+SHA-256 probe. Two independent reviews exposed and drove correction of stale loop-state and active
+status drift before freeze. Candidate-addressed external evidence determines the live gate. Release
+requires exact freeze, immutable qualification, hosted Windows, canonical, fresh R2, milestone,
+and merge evidence. ADR 0006 keeps v0.1 Windows-only; `releaseReady: false`.
 
 ## Problem
 

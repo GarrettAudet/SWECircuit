@@ -3,17 +3,21 @@
 ## Status
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
-alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 53's
-exact registry/SRI lock and offline candidate-private install remain preserved; its evidence binds
-install logs and the private closure. Revision 70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
-verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
-gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
-of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
-consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
-bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
-content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
-V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
-Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
+alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
+53's exact registry/SRI lock and offline candidate-private install remain preserved; its evidence
+binds install logs and the private closure. Revision 70 is permanently retired after its consumed
+canonical gate and fresh R2 `pass` / `pass` / `block` roster exposed 48 ordinary-Windows-path
+failures. Revision 71 commit `841b38a1430ec9b7845dcb11e1104ecbf7f1d75d` preserved the exact
+identities under bounded full-SHA-256 aliases and passed immutable local qualification. Hosted run
+`30203059470` then had both kernels pass 479/480 core tests and fail only because the probe depended
+on unavailable `Get-FileHash` supply. Its canonical gate remained unused, and Revision 71 is
+permanently retired.
+
+Revision 72 retains the aliases and replaces that module dependency with a fail-closed .NET stream
+SHA-256 probe. Two independent reviews exposed and drove correction of stale loop-state and active
+status drift before freeze. Candidate-addressed external evidence determines the live gate. Release
+requires exact freeze, immutable qualification, hosted Windows, canonical, fresh R2, milestone,
+and merge evidence. ADR 0006 keeps v0.1 Windows-only; `releaseReady: false`.
 
 ## Contract Tests
 
@@ -234,18 +238,17 @@ Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: 
 - Independent final-delta review: pass after two findings were corrected and cleared.
 - Exact-candidate, hosted, canonical, fresh R2, and merge checks remain.
 
-## Revision 71 Release Correction
+## Revision 72 Release Correction
 
-- Exact R70 source, hosted, canonical, compilation, package, and handoff evidence: preserved.
-- Preserved R70 candidate-manifest identity: pass.
-- Exact R70 source roster: 225/225 rows match.
-- Ordinary Windows PowerShell source authentication: 225/225 pass.
-- Explicit path overflow and collision negatives: pass.
-- Focused freeze-equivalent tests: 5/5 pass.
-- Complete release-review suite: 53/53 pass.
-- Complete release-gate suite: 30/30 pass.
-- Complete core suite: 480/480 pass.
-- Template checker, checker regression matrix, format, lint, typecheck, and build: pass.
-- V11 and V12 dogfood: pass.
-- Independent read-only review Attempt 3: pass with no findings.
+- Exact R71 run, jobs, and both raw hosted kernel logs: preserved and authenticated.
+- R71 one-shot canonical gate: unused; candidate permanently retired.
+- Module-independent .NET stream SHA-256 path probe: implemented.
+- Per-row hash state, terminating PowerShell errors, exact stdout, and empty stderr: required.
+- Forced second-row hash failure after an identical first row: must exit nonzero.
+- Independent review Attempt 1: `block`; corrected reusable hash state and non-terminating errors.
+- Independent review Attempt 2: `block`; corrected remaining active-status drift and evidence
+  authority wording.
+- Independent review Attempt 3: `pass`; no findings remain in the exact mutable correction delta.
+- Complete mutable qualification: pass, including 482/482 core tests, checker matrix, build, V11
+  specialist dogfood, and deterministic V12 run-loop dogfood.
 - Exact freeze, immutable qualification, hosted Windows, canonical, fresh R2, and merge remain.

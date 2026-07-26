@@ -2,24 +2,25 @@
 
 ## Current Focus
 
-V12 IDE Run Loop Revision 70 is active on `codex/v12-ide-run-loop`. Revision 69 commit
-`c6b35f057049382cb68cfbd71a96604b6fbfd325` passed its exact copied lifecycle, then the complete
-verifier rejected the changed README against V11's approved context binding. Its canonical gate
-was never invoked and the source is retired. ADR 0006 keeps v0.1 Windows-only; macOS and Linux are
-unsupported and no longer release gates. Revision 70 restores the approved concise README while
-keeping platform support explicit in the linked support contract. `releaseReady: false`.
+V12 IDE Run Loop Revision 72 is active on `codex/v12-ide-run-loop`. Revision 70 is permanently
+retired with its one-shot canonical gate consumed. Revision 71 commit
+`841b38a1430ec9b7845dcb11e1104ecbf7f1d75d` passed immutable local qualification. Hosted run
+`30203059470` then had both kernels pass 479/480 core tests and fail only because its PowerShell
+path probe depended on unavailable `Get-FileHash`; its canonical gate remained unused and the
+candidate is retired. Revision 72 preserves the bounded aliases and replaces that module dependency
+with a fail-closed .NET stream SHA-256 probe. Two independent reviews exposed stale loop-state and
+status drift before freeze; both findings are corrected in the mutable source. ADR 0006 keeps v0.1
+Windows-only; macOS and Linux are unsupported and are not release gates. `releaseReady: false`.
 
 ## Current Stage
 
-Candidate-addressed external evidence preserves Revision 69's 2/2 copied-lifecycle pass and exact
-verifier failure. Revision 70 is in `verify -> review -> source freeze`: the README again matches
-its 3,843-byte approved binding, `SUPPORT.md` remains Windows-only, V11/V12 dogfood and 477/477
-core tests pass, and independent review closes one policy-coverage finding before returning
-`pass`. Exact source freeze, copied lifecycle, complete verifier, non-consuming rehearsal,
-three-job hosted Windows matrix, canonical gate, and fresh R2 remain. The main agent is
-integration owner. External IDE hosts still
-own model and effort selection, skills, tools, spawning, isolation, execution, persistence,
-integration effects, and merge.
+Revision 72's correction is implemented and locally verified. Candidate-addressed external
+evidence is authoritative for promotion from follow-up review into source freeze; active source
+prose does not claim a volatile gate result. Release requires exact freeze, copied lifecycle,
+complete verifier, non-consuming rehearsal, the three-job hosted Windows matrix, canonical gate,
+and fresh R2 evidence. The main agent is integration owner. External IDE hosts still own model and
+effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects,
+and merge.
 
 ## Important Current Constraints
 

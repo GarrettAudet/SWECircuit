@@ -2,11 +2,12 @@
 
 ## Current Outcome
 
-The corrected source passes the complete mutable-source gate set. Independent review Attempts 1
-and 2 emitted `fix`; Attempt 3 passed after both bounded corrections. Post-review status-delta
-Attempt 4 emitted `fix`, then passed with no findings after exact historical assertions were added.
-`releaseReady: false`; immutable qualification, hosted CI, canonical gate, fresh R2, closeout, and
-merge remain.
+Revision 71 passed the complete mutable-source gate set, independent review, exact copied
+lifecycle, complete immutable verification, and a disposable exact-candidate rehearsal. Hosted run
+`30203059470` then failed both Windows kernel jobs at the same module-dependent PowerShell hash
+probe while Template Check passed. The protected R71 canonical gate was never invoked. Revision 71
+is permanently retired and Revision 72 supersedes it.
+`releaseReady: false`.
 
 ## Completed Evidence
 
@@ -29,8 +30,13 @@ merge remain.
 - Changed production identities match their final formatted bytes.
 - Freeze-equivalent code and lifecycle-helper bytes use normalized LF.
 - Independent read-only review Attempts 3 and 4: final outcome `pass` with no findings.
+- Exact R71 commit `841b38a1430ec9b7845dcb11e1104ecbf7f1d75d`, tree
+  `4f0d242099983e1dda06a103ab9d5ab07dc6e5a9`.
+- Hosted Node 22 and Node 24 each passed 479/480 core tests and failed only
+  `reviewer snapshot aliases remain byte-readable through ordinary Windows PowerShell paths`
+  because `Get-FileHash` was unavailable in the child host.
 
-## Pending
+## Supersession
 
-- Exact R71 freeze and immutable/hosted qualification.
-- One-shot R71 canonical gate, fresh all-pass R2, closeout, and merge.
+Revision 72 retains the approved alias implementation and replaces only the regression's
+module-autoload-dependent hashing operation with a .NET SHA-256 stream read.

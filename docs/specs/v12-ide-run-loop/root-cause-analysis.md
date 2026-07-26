@@ -814,3 +814,25 @@ The test authenticates the preserved 305,897-byte R70 candidate manifest, deep-c
 source identity rows, reconstructs every source below a representative 72-character checkout root,
 and has ordinary Windows PowerShell verify existence, byte count, and SHA-256. Separate negatives
 force explicit-path overflow and duplicate-alias rejection.
+
+## Revision 72 PowerShell Hash-Probe RCA
+
+### Confirmed Cause
+
+The R71 Windows regression used `Get-FileHash` after `Test-Path` and `Get-Item`. In hosted run
+`30203059470`, both Windows Node versions passed 479/480 core tests and failed only that regression
+because the explicitly spawned Windows PowerShell host could not resolve `Get-FileHash`. The
+regression therefore depended on PowerShell module availability outside the path-readability
+contract it was meant to prove.
+
+This is a test-harness portability defect. It is not evidence of an unreadable alias, changed
+candidate byte, Node-version difference, product regression, or canonical-gate failure. The R71
+canonical gate remained unconsumed.
+
+### Causal Fix
+
+Keep the same ordinary Windows PowerShell process, `Test-Path`, `Get-Item`, expected byte count, and
+expected SHA-256 digest. Replace only `Get-FileHash` with a module-independent
+`System.IO.File::OpenRead` plus `System.Security.Cryptography.SHA256` stream computation. Hosted
+Windows Node 22 and 24 must both pass the exact regression before Revision 72 may consume its
+one-shot gate.

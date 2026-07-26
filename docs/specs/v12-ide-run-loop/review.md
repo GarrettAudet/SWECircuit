@@ -3,16 +3,19 @@
 ## Status
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
-alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
-verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
-gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
-of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
-consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
-bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
-content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
-V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
-Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
+alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision 70
+is permanently retired after its consumed canonical gate and fresh R2 `pass` / `pass` / `block`
+roster exposed 48 ordinary-Windows-path failures. Revision 71 commit
+`841b38a1430ec9b7845dcb11e1104ecbf7f1d75d` preserved the exact identities under bounded
+full-SHA-256 aliases and passed immutable local qualification. Hosted run `30203059470` then had
+both kernels pass 479/480 core tests and fail only because the probe depended on unavailable
+`Get-FileHash` supply. Its canonical gate remained unused, and Revision 71 is permanently retired.
+
+Revision 72 retains the aliases and replaces that module dependency with a fail-closed .NET stream
+SHA-256 probe. Two independent reviews exposed and drove correction of stale loop-state and active
+status drift before freeze. Candidate-addressed external evidence determines the live gate. Release
+requires exact freeze, immutable qualification, hosted Windows, canonical, fresh R2, milestone,
+and merge evidence. ADR 0006 keeps v0.1 Windows-only; `releaseReady: false`.
 
 ## Scope
 
@@ -197,18 +200,27 @@ Fresh R2 returned product/API/IDE `pass`, lifecycle/correctness `pass`, and
 security/trace/authority `fix`. Revision 67 is permanently retired into Revision 68, and its
 consumed gate is never rerun. `releaseReady: false`.
 
-## Revision 71 Current Review Outcome
+## Revision 72 Current Review Outcome
 
 Revision 70 is permanently retired after its complete verified R2 roster returned product/API/IDE
 `pass`, lifecycle/correctness `pass`, and security/trace authority `block` on the Windows source
 path surface. Its one-shot canonical gate is consumed and must never be rerun.
 
-Revision 71 applies only the bounded source-materialization correction. Independent review Attempt
-1 required an exact preserved-roster binding plus explicit-path and collision negatives. Attempt 2
-caught one mixed CRLF line that would have changed identity at Git freeze. Both were corrected.
-Attempt 3 independently reproduced freeze-equivalent 5/5 and release-review 53/53 with no findings
-and returned `pass`.
+Revision 71 applied the bounded source-materialization correction and passed complete mutable,
+independent, immutable, and rehearsal qualification. Hosted run `30203059470` then passed Template
+Check while both Windows kernels passed 479/480 core tests and failed only because their child
+Windows PowerShell could not resolve `Get-FileHash`. Its protected canonical gate was never
+invoked. Revision 71 is permanently retired.
 
-Mutable qualification passes: release-gate 30/30, core 480/480, checker, static, and V11/V12
-dogfood. Exact source freeze, immutable qualification, hosted Windows, one-shot canonical, fresh
-all-pass R2, milestone, memory, and merge remain. `releaseReady: false`.
+Revision 72 replaces only that module-dependent hash call with .NET stream SHA-256 and preserves
+the exact R71 hosted evidence. Independent review Attempt 1 verified those bindings but returned
+`block`: a non-terminating hash error could reuse prior loop state when adjacent files share bytes.
+The mutable correction terminates on every PowerShell error, resets per-row state, requires empty
+`stderr`, and forces that exact negative case.
+
+Attempt 2 cleared the fail-open probe and returned `block` on remaining active-status drift and
+missing evidence-authority wording. Those trace surfaces were reconciled. Attempt 3 then returned
+`pass` with no findings. Complete mutable qualification also passed, including 482/482 core tests,
+the checker matrix, build, V11 specialist dogfood, and deterministic V12 run-loop dogfood. Exact
+source freeze, immutable qualification, hosted Windows, one-shot canonical, fresh all-pass R2,
+milestone, memory, and merge remain. `releaseReady: false`.

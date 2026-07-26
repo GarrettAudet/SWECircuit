@@ -2618,21 +2618,29 @@ test("active release status avoids volatile candidate-state drift and preserves 
     assert.doesNotMatch(activeStatus(path), VOLATILE_RELEASE_STATE_PATTERN, path);
   }
 
-  const testPlanStatus = activeStatus("docs/specs/v12-ide-run-loop/test-plan.md");
-  assert.match(testPlanStatus, /Package and handoff verification authenticate artifacts/u);
-  assert.match(
-    testPlanStatus,
-    /Revision\s+70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed[\s\S]*?one-shot canonical\s+gate/u,
-  );
-  assert.match(testPlanStatus, /Fresh R2 then verified `pass` \/ `pass` \/ `block`/u);
-  assert.match(testPlanStatus, /could not address 48\s+of 224 declared context items/u);
-  assert.match(
-    testPlanStatus,
-    /Revision 70 is permanently retired[\s\S]*?canonical gate is\s+consumed/u,
-  );
+  const currentStatuses = [
+    "docs/specs/v12-ide-run-loop/spec.md",
+    "docs/specs/v12-ide-run-loop/review.md",
+    "docs/specs/v12-ide-run-loop/test-plan.md",
+  ].map((path) => [path, activeStatus(path)]);
+  for (const [path, status] of currentStatuses) {
+    assert.match(status, /Package and handoff verification authenticate artifacts/u, path);
+    assert.match(status, /Candidate-addressed external evidence is authoritative/u, path);
+    assert.match(status, /Revision 71 commit\s+`841b38a1430ec9b7845dcb11e1104ecbf7f1d75d`/u, path);
+    assert.match(status, /Hosted run\s+`30203059470`/u, path);
+    assert.match(status, /both kernels pass 479\/480 core tests/u, path);
+    assert.match(status, /unavailable\s+`Get-FileHash` supply/u, path);
+    assert.match(status, /canonical gate remained unused/u, path);
+    assert.match(status, /Revision 71 is\s+permanently retired/u, path);
+    assert.match(status, /Revision 72 retains the aliases/u, path);
+    assert.match(status, /fail-closed \.NET stream\s+SHA-256 probe/u, path);
+    assert.match(status, /Candidate-addressed external evidence determines the live gate/u, path);
+    assert.match(status, /releaseReady: false/u, path);
+  }
+
+  const testPlanStatus = currentStatuses[2][1];
   assert.match(testPlanStatus, /exact registry\/SRI lock[\s\S]*?offline/u);
   assert.match(testPlanStatus, /binds\s+install logs and the private closure/u);
-  assert.match(testPlanStatus, /releaseReady: false/u);
 });
 
 test("live release routing delegates volatile state to candidate-addressed evidence", () => {
@@ -2672,7 +2680,7 @@ test("live release routing delegates volatile state to candidate-addressed evide
   ]) {
     assert.match(
       activeSection(path, heading),
-      /candidate-addressed external (?:evidence|receipts?)/iu,
+      /candidate-addressed external\s+(?:evidence|receipts?)/iu,
       `${path} ${heading}`,
     );
   }
@@ -3081,6 +3089,55 @@ test("reviewer snapshot paths reject explicit overflow and collisions before wri
     /Reviewer snapshot alias collision/u,
   );
 });
+
+function windowsPowerShellExecutable() {
+  const systemRoot = process.env.SYSTEMROOT ?? process.env.SystemRoot;
+  assert.equal(typeof systemRoot, "string");
+  const powershell = join(systemRoot, "System32", "WindowsPowerShell", "v1.0", "powershell.exe");
+  assert.equal(existsSync(powershell), true);
+  return powershell;
+}
+
+function buildWindowsSnapshotProbeScript({ forceHashFailureAtIndex = null } = {}) {
+  assert.ok(
+    forceHashFailureAtIndex === null ||
+      (Number.isInteger(forceHashFailureAtIndex) && forceHashFailureAtIndex >= 0),
+  );
+  const computeHash =
+    forceHashFailureAtIndex === null
+      ? "      $hashBytes = $algorithm.ComputeHash($stream)"
+      : `      if ($index -eq ${forceHashFailureAtIndex}) { $hashBytes = $algorithm.ComputeHash([byte[]]$null) } else { $hashBytes = $algorithm.ComputeHash($stream) }`;
+  return [
+    "$ErrorActionPreference = 'Stop'",
+    "$InputPath = $env:SWECIRCUIT_PATH_PROBE_INPUT",
+    "if ([string]::IsNullOrWhiteSpace($InputPath)) { exit 3 }",
+    "$parsed = Get-Content -LiteralPath $InputPath -Raw | ConvertFrom-Json",
+    "$rows = @($parsed | ForEach-Object { $_ })",
+    "$failures = @()",
+    "for ($index = 0; $index -lt $rows.Count; $index++) {",
+    "  $row = $rows[$index]",
+    "  $item = $null",
+    "  $stream = $null",
+    "  $algorithm = $null",
+    "  $hashBytes = $null",
+    "  $hash = $null",
+    '  if (-not (Test-Path -LiteralPath $row.path -PathType Leaf)) { $failures += "missing:$($row.path)"; continue }',
+    "  $item = Get-Item -LiteralPath $row.path",
+    "  $stream = [System.IO.File]::OpenRead([string]$row.path)",
+    "  try {",
+    "    $algorithm = [System.Security.Cryptography.SHA256]::Create()",
+    "    try {",
+    computeHash,
+    "    } finally { $algorithm.Dispose() }",
+    "  } finally { $stream.Dispose() }",
+    "  $hash = \"sha256:$(([System.BitConverter]::ToString($hashBytes)).Replace('-', '').ToLowerInvariant())\"",
+    '  if ($item.Length -ne [long]$row.bytes -or $hash -ne [string]$row.digest) { $failures += "mismatch:$($row.path)" }',
+    "}",
+    "if ($failures.Count -gt 0) { [Console]::Error.Write(($failures | ConvertTo-Json -Compress)); exit 2 }",
+    "[Console]::Out.Write($rows.Count)",
+  ].join("\n");
+}
+
 test("reviewer snapshot aliases remain byte-readable through ordinary Windows PowerShell paths", {
   skip: process.platform !== "win32",
 }, async () => {
@@ -3119,25 +3176,10 @@ test("reviewer snapshot aliases remain byte-readable through ordinary Windows Po
 
     const probeInput = join(temporaryRoot, "paths.json");
     await writeFile(probeInput, Buffer.from(JSON.stringify(probeRows), "utf8"));
-    const systemRoot = process.env.SYSTEMROOT ?? process.env.SystemRoot;
-    assert.equal(typeof systemRoot, "string");
-    const powershell = join(systemRoot, "System32", "WindowsPowerShell", "v1.0", "powershell.exe");
-    assert.equal(existsSync(powershell), true);
-    const script = [
-      "$InputPath = $env:SWECIRCUIT_PATH_PROBE_INPUT",
-      "if ([string]::IsNullOrWhiteSpace($InputPath)) { exit 3 }",
-      "$parsed = Get-Content -LiteralPath $InputPath -Raw | ConvertFrom-Json",
-      "$rows = @($parsed | ForEach-Object { $_ })",
-      "$failures = @()",
-      "foreach ($row in $rows) {",
-      '  if (-not (Test-Path -LiteralPath $row.path -PathType Leaf)) { $failures += "missing:$($row.path)"; continue }',
-      "  $item = Get-Item -LiteralPath $row.path",
-      '  $hash = "sha256:$((Get-FileHash -Algorithm SHA256 -LiteralPath $row.path).Hash.ToLowerInvariant())"',
-      '  if ($item.Length -ne [long]$row.bytes -or $hash -ne [string]$row.digest) { $failures += "mismatch:$($row.path)" }',
-      "}",
-      "if ($failures.Count -gt 0) { [Console]::Error.Write(($failures | ConvertTo-Json -Compress)); exit 2 }",
-      "[Console]::Out.Write($rows.Count)",
-    ].join("\n");
+    const powershell = windowsPowerShellExecutable();
+    const script = buildWindowsSnapshotProbeScript();
+    assert.equal(script.includes("Get-FileHash"), false);
+    assert.match(script, /System\.Security\.Cryptography\.SHA256/u);
     const result = spawnSync(
       powershell,
       ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", script],
@@ -3149,10 +3191,176 @@ test("reviewer snapshot aliases remain byte-readable through ordinary Windows Po
     );
     assert.equal(result.error, undefined);
     assert.equal(result.status, 0, result.stderr);
-    assert.equal(Number.parseInt(result.stdout, 10), sources.length);
+    assert.equal(result.stderr, "");
+    assert.equal(result.stdout, String(sources.length));
   } finally {
     await rm(temporaryRoot, { recursive: true, force: true });
   }
+});
+
+test("reviewer snapshot PowerShell probe fails closed on hash errors", {
+  skip: process.platform !== "win32",
+}, async () => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "swr2-path-failure-"));
+  try {
+    const content = Buffer.from("identical reviewer source\n", "utf8");
+    const firstPath = join(temporaryRoot, "first.txt");
+    const secondPath = join(temporaryRoot, "second.txt");
+    await writeFile(firstPath, content);
+    await writeFile(secondPath, content);
+    const rows = [firstPath, secondPath].map((path) => ({
+      path,
+      bytes: content.byteLength,
+      digest: digest(content),
+    }));
+    const probeInput = join(temporaryRoot, "paths.json");
+    await writeFile(probeInput, Buffer.from(JSON.stringify(rows), "utf8"));
+    const result = spawnSync(
+      windowsPowerShellExecutable(),
+      [
+        "-NoProfile",
+        "-NonInteractive",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        buildWindowsSnapshotProbeScript({ forceHashFailureAtIndex: 1 }),
+      ],
+      {
+        encoding: "utf8",
+        env: { ...process.env, SWECIRCUIT_PATH_PROBE_INPUT: probeInput },
+        windowsHide: true,
+      },
+    );
+    assert.equal(result.error, undefined);
+    assert.notEqual(result.status, 0);
+    assert.equal(result.stdout, "");
+    assert.notEqual(result.stderr, "");
+  } finally {
+    await rm(temporaryRoot, { recursive: true, force: true });
+  }
+});
+
+test("R71 hosted evidence binds the exact module failure and unconsumed gate", () => {
+  const evidenceRoot =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r72/inputs/r71-hosted";
+  const hostedLogs = [
+    {
+      name: "node22.log.base64.json",
+      storedBytes: 629_560,
+      storedDigest: "sha256:96153615cfbd4258d6a918ad60df51ca2065548a4e82f07a6ed7a7ef29564eba",
+      rawBytes: 471_910,
+      rawDigest: "sha256:077c61f8364f94502e87c2fe9d0d2a11a4388c60d0758a33e710d4e9e2475e83",
+      jobId: "89796267518",
+    },
+    {
+      name: "node24.log.base64.json",
+      storedBytes: 458_220,
+      storedDigest: "sha256:7f9e19070f4a06cd9354b55a1b77d3462aca9d98e90528575691e57c58ba7fb5",
+      rawBytes: 343_406,
+      rawDigest: "sha256:e4f788eac8ac0404311ba2b98bbb0efacfc5d48e354bdd307835494b1d9851ef",
+      jobId: "89796267520",
+    },
+  ];
+  const bindings = [
+    {
+      name: "run.json",
+      bytes: 14_210,
+      digest: "sha256:802cd4044c900b110aa469f22e3ebde5976010cf35cbc5ffc23214cbc205135c",
+    },
+    {
+      name: "jobs.json",
+      bytes: 10_010,
+      digest: "sha256:9604ff154bee3c5be5e1066afe290964d7e4cf3d400680d5701e3bd1f4928f76",
+    },
+    ...hostedLogs.map((log) => ({
+      name: log.name,
+      bytes: log.storedBytes,
+      digest: log.storedDigest,
+    })),
+  ];
+  const evidence = new Map();
+  for (const binding of bindings) {
+    const bytes = readFileSync(resolve(ROOT, evidenceRoot, binding.name));
+    assert.equal(bytes.byteLength, binding.bytes);
+    assert.equal(digest(bytes), binding.digest);
+    evidence.set(binding.name, bytes);
+  }
+
+  const run = JSON.parse(evidence.get("run.json").toString("utf8"));
+  assert.equal(run.id, 30_203_059_470);
+  assert.equal(run.run_number, 116);
+  assert.equal(run.head_sha, "841b38a1430ec9b7845dcb11e1104ecbf7f1d75d");
+  assert.equal(run.status, "completed");
+  assert.equal(run.conclusion, "failure");
+  assert.equal(run.run_attempt, 1);
+
+  const jobsEnvelope = JSON.parse(evidence.get("jobs.json").toString("utf8"));
+  assert.equal(jobsEnvelope.total_count, 3);
+  const jobs = new Map(jobsEnvelope.jobs.map((job) => [job.name, job]));
+  assert.deepEqual([...jobs.keys()].sort(), [
+    "Kernel (Node 22 / windows-latest)",
+    "Kernel (Node 24 / windows-latest)",
+    "Template Check",
+  ]);
+  assert.equal(jobs.get("Template Check").conclusion, "success");
+  for (const name of ["Kernel (Node 22 / windows-latest)", "Kernel (Node 24 / windows-latest)"]) {
+    const job = jobs.get(name);
+    assert.equal(job.conclusion, "failure");
+    assert.deepEqual(job.labels, ["windows-latest"]);
+    assert.deepEqual(
+      job.steps.filter((step) => step.conclusion === "failure").map((step) => step.name),
+      ["Verify kernel"],
+    );
+  }
+
+  const failingTest =
+    "reviewer snapshot aliases remain byte-readable through ordinary Windows PowerShell paths";
+  for (const expected of hostedLogs) {
+    const envelope = JSON.parse(evidence.get(expected.name).toString("utf8"));
+    assert.deepEqual(Object.keys(envelope), [
+      "kind",
+      "candidateCommit",
+      "command",
+      "stream",
+      "encoding",
+      "rawBytes",
+      "rawSha256",
+      "data",
+    ]);
+    assert.equal(envelope.kind, "swecircuit.raw-evidence.v1");
+    assert.equal(envelope.candidateCommit, "841b38a1430ec9b7845dcb11e1104ecbf7f1d75d");
+    assert.equal(envelope.command, `GitHub Actions run 30203059470 job ${expected.jobId}`);
+    assert.equal(envelope.stream, "job-log");
+    assert.equal(envelope.encoding, "base64");
+    assert.equal(envelope.rawBytes, expected.rawBytes);
+    assert.equal(envelope.rawSha256, expected.rawDigest);
+
+    const raw = Buffer.from(envelope.data, "base64");
+    assert.equal(raw.byteLength, expected.rawBytes);
+    assert.equal(raw.toString("base64"), envelope.data);
+    assert.equal(digest(raw), expected.rawDigest);
+    const log = raw.toString("utf8");
+    assert.match(log, new RegExp(failingTest, "u"));
+    assert.match(log, /Get-FileHash : The term 'Get-FileHash' is not recognized/u);
+    assert.match(log, /tests 480/u);
+    assert.match(log, /pass 479/u);
+    assert.match(log, /fail 1/u);
+    assert.equal(
+      existsSync(resolve(ROOT, evidenceRoot, expected.name.replace(".base64.json", ""))),
+      false,
+    );
+  }
+
+  assert.equal(
+    existsSync(
+      resolve(ROOT, REVIEW_ROOT, "inputs/canonical-gates/841b38a1430ec9b7845dcb11e1104ecbf7f1d75d"),
+    ),
+    false,
+  );
+  assert.equal(
+    existsSync(resolve(ROOT, REVIEW_ROOT, "runs/841b38a1430ec9b7845dcb11e1104ecbf7f1d75d")),
+    false,
+  );
 });
 
 test("revision 9 package and handoff verification rejects substituted bytes", async () => {
