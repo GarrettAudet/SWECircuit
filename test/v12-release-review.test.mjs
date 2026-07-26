@@ -2209,6 +2209,83 @@ test("R68 hosted evidence binds the exact matrix and shared macOS failure", () =
     assert.deepEqual(indexed.stdout, stored);
   }
 });
+test("R69 verifier evidence preserves the exact trust-binding failure", () => {
+  const evidenceRoot =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r70/inputs/r69-full-verify";
+  const path = `${evidenceRoot}/r69-full-verify.log.base64.json`;
+  const stored = readFileSync(resolve(ROOT, path));
+  assert.equal(stored.byteLength, 158_476);
+  assert.equal(
+    digest(stored),
+    "sha256:6a304a5b651be67fc3d98baafc591a816bbcfe1653697d3ce0e8f8d6eefd1239",
+  );
+
+  const envelope = JSON.parse(stored.toString("utf8"));
+  assert.deepEqual(Object.keys(envelope), [
+    "kind",
+    "candidateCommit",
+    "command",
+    "stream",
+    "encoding",
+    "rawBytes",
+    "rawSha256",
+    "data",
+  ]);
+  assert.equal(envelope.kind, "swecircuit.raw-evidence.v1");
+  assert.equal(envelope.candidateCommit, "c6b35f057049382cb68cfbd71a96604b6fbfd325");
+  assert.equal(envelope.command, "npm.cmd run verify");
+  assert.equal(envelope.stream, "combined");
+  assert.equal(envelope.encoding, "base64");
+  assert.equal(envelope.rawBytes, 118_642);
+  assert.equal(
+    envelope.rawSha256,
+    "sha256:0aca2570769d06061679db8f0d3fd4438e27472f2292cebbb1037f87fad3a252",
+  );
+
+  const raw = Buffer.from(envelope.data, "base64");
+  assert.equal(raw.byteLength, envelope.rawBytes);
+  assert.equal(raw.toString("base64"), envelope.data);
+  assert.equal(digest(raw), envelope.rawSha256);
+  assert.deepEqual(raw.subarray(0, 2), Buffer.from([0xff, 0xfe]));
+  const log = raw.subarray(2).toString("utf16le");
+  assert.match(log, /tests 476[\s\S]*pass 476[\s\S]*fail 0/u);
+  assert.match(log, /tests 2[\s\S]*pass 2[\s\S]*fail 0/u);
+  assert.match(log, /V11 dogfood: context mismatch for context\.readme \(README\.md\)/u);
+  assert.match(
+    log,
+    /expected\s+3843\/sha256:d37b90c342a1a46a2b9c374ae660c998d2c63d047267fc72c865b68d0bb3a9fc,\s+received\s+3998\/sha256:659423200b3c2745e782e22e956f724cbbac8607b7db5109beeffb71599c3e3e/u,
+  );
+
+  const manifest = readFileSync(resolve(ROOT, evidenceRoot, "manifest.md"), "utf8");
+  assert.match(manifest, /158,476 stored bytes/u);
+  assert.match(manifest, new RegExp(envelope.rawSha256, "u"));
+  assert.equal(
+    existsSync(
+      resolve(
+        ROOT,
+        "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/c6b35f057049382cb68cfbd71a96604b6fbfd325",
+      ),
+    ),
+    false,
+  );
+
+  const tracked = spawnSync(
+    "git",
+    ["-c", "core.longpaths=true", "-C", ROOT, "ls-files", "--error-unmatch", "--", path],
+    { encoding: "utf8", windowsHide: true },
+  );
+  assert.equal(tracked.signal, null);
+  assert.equal(tracked.status, 0, tracked.stderr);
+  assert.equal(tracked.stdout.trim().replaceAll("\\", "/"), path);
+
+  const indexed = spawnSync("git", ["-c", "core.longpaths=true", "-C", ROOT, "show", `:${path}`], {
+    encoding: null,
+    windowsHide: true,
+  });
+  assert.equal(indexed.signal, null);
+  assert.equal(indexed.status, 0, indexed.stderr.toString("utf8"));
+  assert.deepEqual(indexed.stdout, stored);
+});
 test("the positive copied gate alone receives the extended lifecycle timeout", () => {
   const source = readFileSync(
     resolve(ROOT, "test/helpers/v12-release-review-lifecycle.mjs"),
@@ -2605,10 +2682,29 @@ test("live release policy requires only the supported Windows hosted matrix", ()
   assert.match(policy, /Template Check/u);
   assert.match(policy, /Windows Node 22\/24|Windows with Node 22[\s\S]*Windows with Node 24/u);
 
+  const r70PolicySections = [
+    [
+      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r70/correction-contract.md",
+      "Goal",
+    ],
+    [
+      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r70/correction-contract.md",
+      "Completion Evidence",
+    ],
+    [
+      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r70/test-plan.md",
+      "Qualification Ladder",
+    ],
+    [
+      "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r70/test-plan.md",
+      "Stop Conditions",
+    ],
+  ];
   const activeGateSections = [
     ["docs/memory/active-context.md", "Next Likely Work"],
     ["docs/milestones/v12.md", "Residual Risks"],
     ["docs/milestones/v12.md", "Next Recommended Work"],
+    ...r70PolicySections,
     [
       "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r69/test-plan.md",
       "Stop Conditions",
@@ -2625,6 +2721,14 @@ test("live release policy requires only the supported Windows hosted matrix", ()
   for (const [path, heading] of activeGateSections) {
     assert.doesNotMatch(activeSection(path, heading), unsupportedGatePattern, `${path} ${heading}`);
   }
+
+  const r70Policy = r70PolicySections
+    .map(([path, heading]) => activeSection(path, heading))
+    .join("\n");
+  assert.match(r70Policy, /Windows-only/u);
+  assert.match(r70Policy, /IDE\/provider neutrality/u);
+  assert.match(r70Policy, /Template Check/u);
+  assert.match(r70Policy, /Windows Node 22\/24|Windows Node 22 and 24/u);
 });
 
 test("candidate-addressed run roots are closed, disjoint, and preserve Candidate 3 evidence", () => {

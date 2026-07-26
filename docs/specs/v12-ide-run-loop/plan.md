@@ -3,21 +3,21 @@
 ## Status
 
 The product implementation is complete. Candidate-addressed external evidence is authoritative
-for exact-candidate state. Revision 68 is retired after exact local qualification; its Windows
-jobs passed and its macOS failures triggered an owner support-scope review. ADR 0006 now makes
-v0.1 Windows-only. Revision 69 aligns CI, support documentation, and release evidence with that
-decision. `releaseReady: false`.
+for exact-candidate state. ADR 0006 makes v0.1 Windows-only. Revision 69 passed its copied
+lifecycle, then the complete verifier rejected the README bytes against the preserved V11 trust
+binding; it is retired with its canonical gate unused. Revision 70 restores the approved README,
+keeps Windows scope in the linked support contract, and refreshes the affected executable
+identity. V11 and V12 dogfood pass; `releaseReady: false`.
 
 ## Steps
 
-1. Preserve Revision 68's exact local passes, final hosted matrix, failed macOS logs, and unused
-   one-shot gate.
-2. Record the owner's Windows-only support decision, align public support claims, and constrain
-   hosted release qualification to Template Check plus Windows Node 22/24.
-3. Obtain independent read-only review, synchronize trace artifacts, freeze exact source, and
-   commit once.
-4. Run exact copied lifecycle, complete verification, non-consuming rehearsal, and the three-job
-   hosted Windows matrix against that frozen commit.
+1. Preserve Revision 69's exact copied-lifecycle pass, complete-verifier failure, and unused
+   canonical gate.
+2. Restore the approved concise README context, keep Windows support in `SUPPORT.md`, and refresh
+   the affected public-support and lifecycle identity checks.
+3. Run focused and complete mutable-source qualification plus independent read-only review.
+4. Freeze one exact Revision 70 source and run copied lifecycle, complete verification,
+   non-consuming rehearsal, and the three-job hosted Windows matrix.
 5. Consume one canonical gate, run fresh three-domain R2, close memory and the milestone, then
    merge only on complete all-pass evidence.
 

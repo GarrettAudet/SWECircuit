@@ -6,13 +6,14 @@ Package and handoff verification authenticate artifacts; they do not establish r
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
 install logs and the private closure. Revision 60's canonical gate failed and is permanently
-retired. Revision 68 commit `78f8c99645bb7c505e7e95682c6ab69a13915891` passed exact local
-qualification, non-consuming rehearsal, Template Check, and Windows Node 22/24, but is
-permanently retired. On 2026-07-24 the owner narrowed v0.1 support to Windows; macOS and Linux are
-unsupported and no longer release gates. Revision 69 aligns the support contract and hosted
-workflow while retaining the bounded compatibility correction as best effort. Exact Windows
-qualification, independent review, copied lifecycle, complete verifier, rehearsal, canonical
-gate, fresh R2, milestone, and merge remain; `releaseReady: false`.
+retired. Revision 68 is retired after exact local and partial hosted evidence. Revision 69 commit
+`c6b35f057049382cb68cfbd71a96604b6fbfd325` passed its 2/2 copied lifecycle, then its complete
+verifier rejected a stale README trust binding after 476/476 core and 2/2 lifecycle tests; its
+canonical gate was never invoked and the source is permanently retired. ADR 0006 keeps v0.1
+Windows-only. Revision 70 restores the approved concise README bytes, keeps platform scope in the
+linked support contract, refreshes the public-support regression identity, and passes V11/V12
+dogfood. Complete qualification, independent review, immutable lifecycle, rehearsal, hosted
+Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
 
 ## Contract Tests
 
@@ -60,8 +61,12 @@ gate, fresh R2, milestone, and merge remain; `releaseReady: false`.
 - Revision 63: exact local and six hosted kernel checks passed; hosted whitespace failed; one-shot unused and source retired.
 - Revision 64: exact copied lifecycle, complete verification, and all seven hosted jobs passed; the non-consuming exact-candidate rehearsal failed at the 30-minute copied-gate bound; one-shot unused and source retired.
 - Revision 65: exact evidence decoding and path-headroom regression pass; focused release boundary 71/71 and every broad non-lifecycle gate `pass`.
-- Independent final-delta review: `pass` with no findings.
-- Exact-candidate, hosted, canonical, fresh R2, and merge checks remain independent gates; `releaseReady: false`.
+- Revision 68: exact local and partial hosted evidence is preserved; the source is retired.
+- Revision 69: exact copied lifecycle passes 2/2; the complete verifier rejects the stale README
+  binding after 476/476 core and 2/2 lifecycle tests; canonical gate unused and source retired.
+- Revision 70: restored README identity plus V11 and V12 dogfood pass.
+- Focused, broad, independent, exact-candidate, hosted, canonical, fresh R2, and merge checks
+  remain independent gates; `releaseReady: false`.
 
 ## Revision 31 Long-Path Correction Gate
 

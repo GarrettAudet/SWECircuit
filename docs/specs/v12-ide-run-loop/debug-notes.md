@@ -6,13 +6,14 @@ Package and handoff verification authenticate artifacts; they do not establish r
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
 install logs and the private closure. Revision 60's canonical gate failed and is permanently
-retired. Revision 68 commit `78f8c99645bb7c505e7e95682c6ab69a13915891` passed exact local
-qualification, non-consuming rehearsal, Template Check, and Windows Node 22/24, but is
-permanently retired. On 2026-07-24 the owner narrowed v0.1 support to Windows; macOS and Linux are
-unsupported and no longer release gates. Revision 69 aligns the support contract and hosted
-workflow while retaining the bounded compatibility correction as best effort. Exact Windows
-qualification, independent review, copied lifecycle, complete verifier, rehearsal, canonical
-gate, fresh R2, milestone, and merge remain; `releaseReady: false`.
+retired. Revision 68 is retired after exact local and partial hosted evidence. Revision 69 commit
+`c6b35f057049382cb68cfbd71a96604b6fbfd325` passed its 2/2 copied lifecycle, then its complete
+verifier rejected a stale README trust binding after 476/476 core and 2/2 lifecycle tests; its
+canonical gate was never invoked and the source is permanently retired. ADR 0006 keeps v0.1
+Windows-only. Revision 70 restores the approved concise README bytes, keeps platform scope in the
+linked support contract, refreshes the public-support regression identity, and passes V11/V12
+dogfood. Complete qualification, independent review, immutable lifecycle, rehearsal, hosted
+Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
 
 ## Reproduction
 
@@ -967,3 +968,27 @@ rejection. ADR 0006 supersedes macOS confirmation for v0.1; it is deferred compa
 unless a later decision expands supported release hosts.
 
 `hosted verify -> diagnose -> fix -> Revision 69`.
+
+## Revision 69 Full-Verifier Failure And Revision 70
+
+### Reproduction
+
+Run `npm.cmd run verify` at exact commit
+`c6b35f057049382cb68cfbd71a96604b6fbfd325`.
+
+### Evidence
+
+- Copied lifecycle: 2/2 pass in 1,312,931.8692 ms.
+- Complete verifier: 476/476 core and 2/2 lifecycle pass before V11 dogfood stops.
+- Expected README: 3,843 bytes,
+  `sha256:d37b90c342a1a46a2b9c374ae660c998d2c63d047267fc72c865b68d0bb3a9fc`.
+- Received README: 3,998 bytes,
+  `sha256:659423200b3c2745e782e22e956f724cbbac8607b7db5109beeffb71599c3e3e`.
+- Exact combined verifier stream:
+  `evidence/implementation/release-correction-r70/inputs/r69-full-verify/`.
+- Revision 69 canonical gate: not invoked.
+
+### Outcome
+
+`fix`. Revision 69 is permanently retired. Revision 70 restores the approved README bytes,
+retains Windows-only scope in linked `SUPPORT.md`, and refreshes the affected regression identity.

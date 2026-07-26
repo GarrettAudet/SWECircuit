@@ -174,8 +174,18 @@ T003 ran three read-only architecture analyses in parallel and one dependent syn
 - [x] Byte-bind the R68 hosted evidence and preserve the independent correction-review history.
 - [x] Pass focused, template, format, lint, typecheck, build, release-review, and core gates.
 - [x] Clear the Windows-first independent rereview after correcting all trace-policy findings.
-- [ ] Freeze and commit one exact Revision 69 source.
-- [ ] Pass exact copied lifecycle, complete verifier, non-consuming rehearsal, and the three-job
-  hosted Windows matrix.
-- [ ] Consume one Revision 69 canonical gate and complete fresh three-domain R2.
+- [x] Freeze Revision 69 at `c6b35f057049382cb68cfbd71a96604b6fbfd325`.
+- [x] Pass its 2/2 copied lifecycle, preserve the complete-verifier failure, and retire the source.
+- [x] Keep the Revision 69 canonical gate uninvoked.
+
+## Revision 70 Release Correction
+
+- [x] Preserve the exact R69 verifier stream and unused-gate disposition.
+- [x] Restore the approved 3,843-byte README binding while retaining linked Windows support.
+- [x] Refresh the public-support regression and copied-lifecycle gate-test identity.
+- [x] Pass V11 and V12 dogfood against the restored context.
+- [x] Pass focused and complete mutable-source qualification plus independent review.
+- [ ] Freeze one exact Revision 70 source.
+- [ ] Pass copied lifecycle, complete verifier, non-consuming rehearsal, and hosted Windows.
+- [ ] Consume one Revision 70 canonical gate and complete fresh three-domain R2.
 - [ ] Close memory and the milestone, then merge to `main`.

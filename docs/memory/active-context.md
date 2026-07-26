@@ -2,22 +2,22 @@
 
 ## Current Focus
 
-V12 IDE Run Loop Revision 69 is active on `codex/v12-ide-run-loop`. Revision 68 commit
-`78f8c99645bb7c505e7e95682c6ab69a13915891` passed exact local qualification, rehearsal,
-Template Check, and Windows Node 22/24, but is permanently retired. On 2026-07-24 the owner
-narrowed v0.1 support to Windows; macOS and Linux are unsupported and no longer release gates.
-Revision 69 aligns the support contract and hosted workflow while retaining the bounded Darwin
-correction as best effort. `releaseReady: false`.
+V12 IDE Run Loop Revision 70 is active on `codex/v12-ide-run-loop`. Revision 69 commit
+`c6b35f057049382cb68cfbd71a96604b6fbfd325` passed its exact copied lifecycle, then the complete
+verifier rejected the changed README against V11's approved context binding. Its canonical gate
+was never invoked and the source is retired. ADR 0006 keeps v0.1 Windows-only; macOS and Linux are
+unsupported and no longer release gates. Revision 70 restores the approved concise README while
+keeping platform support explicit in the linked support contract. `releaseReady: false`.
 
 ## Current Stage
 
-Candidate-addressed external evidence preserves the retired Revision 68 outcome. Revision 69 is in
-`clarify -> redesign -> verify`: ADR 0006 records the Windows-only owner decision; the hosted
-workflow now requires Template Check plus Windows Node 22/24; and 3/3 focused policy, 49/49
-release-review, 476/476 core, static, workflow, and independent pre-freeze checks pass. Exact
-source freeze, copied lifecycle, complete verifier, non-consuming rehearsal, three-job hosted
-Windows matrix, canonical gate, and fresh R2 remain. The main agent is integration owner. External IDE
-hosts still
+Candidate-addressed external evidence preserves Revision 69's 2/2 copied-lifecycle pass and exact
+verifier failure. Revision 70 is in `verify -> review -> source freeze`: the README again matches
+its 3,843-byte approved binding, `SUPPORT.md` remains Windows-only, V11/V12 dogfood and 477/477
+core tests pass, and independent review closes one policy-coverage finding before returning
+`pass`. Exact source freeze, copied lifecycle, complete verifier, non-consuming rehearsal,
+three-job hosted Windows matrix, canonical gate, and fresh R2 remain. The main agent is
+integration owner. External IDE hosts still
 own model and effort selection, skills, tools, spawning, isolation, execution, persistence,
 integration effects, and merge.
 
@@ -176,8 +176,9 @@ integration effects, and merge.
 
 ## Next Likely Work
 
-- Freeze one exact Revision 69 commit and require copied lifecycle, complete verification,
+- Freeze the independently approved Revision 70 source as one exact commit.
+- Require copied lifecycle, complete verification,
   non-consuming rehearsal, Template Check, and Windows Node 22/24.
 - Invoke its canonical gate exactly once only after those checks pass; then run fresh three-domain
   R2, close milestone and memory, and merge to `main`.
-- Never invoke or release Revisions 60 through 68.
+- Never invoke or release Revisions 60 through 69.

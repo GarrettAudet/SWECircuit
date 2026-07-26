@@ -332,8 +332,11 @@ test("hosted CI supplies complete Git history and a repository-local npm cache",
 });
 
 test("public support is Windows-only without weakening IDE and provider neutrality", () => {
-  assert.match(readmeSource, /v0\.1 release supports Windows/u);
-  assert.match(readmeSource, /IDE- and provider-agnostic/u);
+  assert.match(readmeSource, /\[Support\]\(SUPPORT\.md\)/u);
+  assert.match(
+    readmeSource,
+    /external IDE host selects providers, models, effort, skills, and tools/u,
+  );
   assert.match(supportSource, /v0\.1 release supports Windows only/u);
   assert.match(supportSource, /macOS and Linux are not release gates/u);
   assert.match(supportSource, /IDE and provider neutrality remain core\s+product\s+contracts/u);

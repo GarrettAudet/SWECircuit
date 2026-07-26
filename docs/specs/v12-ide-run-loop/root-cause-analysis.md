@@ -6,13 +6,14 @@ Package and handoff verification authenticate artifacts; they do not establish r
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
 53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
 install logs and the private closure. Revision 60's canonical gate failed and is permanently
-retired. Revision 68 commit `78f8c99645bb7c505e7e95682c6ab69a13915891` passed exact local
-qualification, non-consuming rehearsal, Template Check, and Windows Node 22/24, but is
-permanently retired. On 2026-07-24 the owner narrowed v0.1 support to Windows; macOS and Linux are
-unsupported and no longer release gates. Revision 69 aligns the support contract and hosted
-workflow while retaining the bounded compatibility correction as best effort. Exact Windows
-qualification, independent review, copied lifecycle, complete verifier, rehearsal, canonical
-gate, fresh R2, milestone, and merge remain; `releaseReady: false`.
+retired. Revision 68 is retired after exact local and partial hosted evidence. Revision 69 commit
+`c6b35f057049382cb68cfbd71a96604b6fbfd325` passed its 2/2 copied lifecycle, then its complete
+verifier rejected a stale README trust binding after 476/476 core and 2/2 lifecycle tests; its
+canonical gate was never invoked and the source is permanently retired. ADR 0006 keeps v0.1
+Windows-only. Revision 70 restores the approved concise README bytes, keeps platform scope in the
+linked support contract, refreshes the public-support regression identity, and passes V11/V12
+dogfood. Complete qualification, independent review, immutable lifecycle, rehearsal, hosted
+Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
 
 ## Reproduction
 
@@ -764,3 +765,29 @@ Darwin key, binds its exact value in the complete worker digest, and excludes it
 value from stable identity. ADR 0006 later made Windows the only v0.1 release host. macOS
 confirmation is therefore deferred compatibility work; any future mismatch returns to diagnosis
 rather than broadening the allowlist.
+
+## Revision 70 README Trust-Binding RCA
+
+### Confirmed Cause
+
+The Windows support decision was correctly recorded in ADR 0006 and `SUPPORT.md`, but the same
+statement was also inserted into `README.md`. README is an approval-bound V11/V12 dogfood context
+source. The Windows-first pre-freeze subset did not replay V11/V12 dogfood after that edit, so the
+immutable full verifier was the first gate to compare the changed bytes with the preserved trust
+root.
+
+### Hypotheses
+
+| Hypothesis | Test | Result |
+| --- | --- | --- |
+| V11 evidence was internally corrupt | Restore its declared README bytes and rerun V11 dogfood | Rejected; V11 passes |
+| Windows support must be duplicated inline in README | Verify the README links `SUPPORT.md` and the support contract closes platform scope | Rejected |
+| The complete trust package must be regenerated | Restore the already approved concise context and rerun V11/V12 dogfood | Rejected as unnecessary |
+| A stale context binding caused the stop | Compare expected and received README byte identities | Confirmed |
+
+### Causal Fix
+
+Restore the exact 3,843-byte README, keep the Windows-only contract in linked `SUPPORT.md`, verify
+provider-neutral host selection from the README, and rebind the changed public-support test in the
+copied-lifecycle identity map. Add V11 and V12 dogfood to the mutable qualification whenever a
+future change touches an approval-bound context source.
