@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 18,
+    "digest": "sha256:d61decb70b1196e1310d18d1e0d930456b6f001b34ae8c8316f50c2a67024dd4"
+  },
+  "agent": {
+    "id": "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264",
+    "blueprintDigest": "sha256:afed29d3600ff495c391ef3753a01e07a39d6c006ccd2a84bd515c3d59dc4f81"
+  },
+  "compilationDigest": "sha256:bc3ae4a8e7acbb24f2eb3d628413390c4e9b71da0b3e8030e8117a7935af4755",
+  "summary": "Fix required: liveness termination interrupted Revision 18 after partial parent and harness implementation but before the verifier boundary, tests, package wiring, and required verification were completed.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "parent-bootstrap-trust-correction-r18.md",
+      "mediaType": "text/markdown",
+      "content": "# Revision 18 Interrupted Implementation\n\n## Authentication\n\nAll 23 declared context sources matched their exact byte counts and SHA-256 bindings before editing. The approved agent, blueprint, compilation, and package expectations were preserved.\n\n## Current Changed Files\n\n- `scripts/run-v12-release-review.mjs`: new, 53,269 bytes, `sha256:17ddfab810e7656a93c492dec28f0cf67f5177ca16c72ffb1b1c7becea614876`.\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`: 102,809 bytes, `sha256:0cac08227b050cc6eaf7dd2705bbed01662fe374411b1e0366f7caca8c4efcd1`; tracked diff is 504 insertions and 15 deletions.\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs`: 12,293 bytes, `sha256:ba910e3326c64cfbbddf588de54c68fabf269492b4f540e6adc8f6e9a2be4552`; tracked diff is 12 insertions and 9 deletions.\n\n`git diff --check` passed for the tracked files. No package, test, dependency, lockfile, compiler, schema, evidence, or Git-state changes were made by this specialist outside the approved scope.\n\n## Implemented So Far\n\nThe new parent contains built-in-only candidate materialization, cross-platform path rejection, offline exact-lock installation, private TypeScript build, dependency and generated-closure hashing, runtime-binding construction, fresh-child execution scaffolding, protected-state reinspection, private staging, cleanup, and exclusive per-file promotion logic.\n\nThe harness no longer statically imports repository-live `dist/index.js`. It now contains deferred candidate-runtime loading, parent-context validation, direct runtime-binding checks, absolute bound Git execution, private closure verification, parent tooling authentication, and direct `runtimeBindingDigest` propagation into preparation, compilation, approval, and path outputs.\n\n## Stable Incomplete State\n\nThe verifier's unsafe static imports were removed, but its pre-import parent-context bootstrap was not completed. It currently has unset runtime and harness bindings, so it is not runnable and must not be integrated. Direct runtime-digest propagation into verifier checks and the final handoff report also remains unfinished.\n\n`package.json`, `test/v12-release-review.test.mjs`, and `test/v12-release-gate.test.mjs` remain unchanged. The frozen adversarial tests, package command and format/lint wiring, focused tests, offline installation proof, template checker, format, lint, typecheck, build, full tests, and final diff inspection remain outstanding.\n\n## Route\n\nOutcome is `fix`. Resume from this exact diff, complete the verifier bootstrap before any candidate import, finish direct runtime identity reconstruction across prior phase artifacts, add the frozen adversarial coverage and package wiring, then run every Revision 18 command. Do not preserve or integrate the current partial implementation as passing evidence."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.parent-bootstrap-trust.r18",
+      "requirementId": "evidence.fix.parent-bootstrap-trust.r18",
+      "kind": "test",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "parent-bootstrap-trust-correction-r18.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The partially edited verifier is not runnable because authenticated harness and specialist-runtime initialization remain unfinished.",
+    "The parent and harness implementation has not received the frozen adversarial tests or complete repository verification.",
+    "Integrating the current diff would leave the release-review trust correction incomplete."
+  ],
+  "followUps": [
+    "Complete the verifier's built-in-only pre-import authentication and candidate-private runtime initialization.",
+    "Propagate and compare runtimeBindingDigest through phase metadata, compilation summary, approval, and final handoff verification.",
+    "Add all frozen path, supply, mutation, fresh-child, staging, promotion, cleanup, and non-pass routing tests.",
+    "Wire the parent command into package format and lint surfaces.",
+    "Run the focused tests, combined release tests, offline exact-lock proof, template checker, format, lint, typecheck, build, and git diff checks before returning a pass."
+  ]
+}

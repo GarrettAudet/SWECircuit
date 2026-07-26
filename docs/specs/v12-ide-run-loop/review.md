@@ -4,15 +4,14 @@
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
-install logs and the private closure. Revision 60's canonical gate failed and is permanently
-retired. Revision 68 is retired after exact local and partial hosted evidence. Revision 69 commit
-`c6b35f057049382cb68cfbd71a96604b6fbfd325` passed its 2/2 copied lifecycle, then its complete
-verifier rejected a stale README trust binding after 476/476 core and 2/2 lifecycle tests; its
-canonical gate was never invoked and the source is permanently retired. ADR 0006 keeps v0.1
-Windows-only. Revision 70 restores the approved concise README bytes, keeps platform scope in the
-linked support contract, refreshes the public-support regression identity, and passes V11/V12
-dogfood. Complete qualification, independent review, immutable lifecycle, rehearsal, hosted
+70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
+verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
+gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
+of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
+consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
+bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
+content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
+V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
 Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
 
 ## Scope
@@ -197,3 +196,19 @@ verification, non-consuming rehearsal, all seven hosted jobs, and its one-shot c
 Fresh R2 returned product/API/IDE `pass`, lifecycle/correctness `pass`, and
 security/trace/authority `fix`. Revision 67 is permanently retired into Revision 68, and its
 consumed gate is never rerun. `releaseReady: false`.
+
+## Revision 71 Current Review Outcome
+
+Revision 70 is permanently retired after its complete verified R2 roster returned product/API/IDE
+`pass`, lifecycle/correctness `pass`, and security/trace authority `block` on the Windows source
+path surface. Its one-shot canonical gate is consumed and must never be rerun.
+
+Revision 71 applies only the bounded source-materialization correction. Independent review Attempt
+1 required an exact preserved-roster binding plus explicit-path and collision negatives. Attempt 2
+caught one mixed CRLF line that would have changed identity at Git freeze. Both were corrected.
+Attempt 3 independently reproduced freeze-equivalent 5/5 and release-review 53/53 with no findings
+and returned `pass`.
+
+Mutable qualification passes: release-gate 30/30, core 480/480, checker, static, and V11/V12
+dogfood. Exact source freeze, immutable qualification, hosted Windows, one-shot canonical, fresh
+all-pass R2, milestone, memory, and merge remain. `releaseReady: false`.

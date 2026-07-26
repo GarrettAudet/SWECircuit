@@ -1418,7 +1418,7 @@ function candidateRunPaths(checkpoint) {
     root,
     inputs,
     runtimeBinding: `${inputs}/runtime-binding.json`,
-    snapshotRoot: `${inputs}/source-snapshots`,
+    snapshotRoot: `${inputs}/s`,
     gateEvidenceRoot: `${inputs}/canonical-gate`,
     gateReceiptSnapshot: `${inputs}/canonical-gate/canonical-gate-receipt.json`,
     gateStdoutSnapshot: `${inputs}/canonical-gate/canonical-gate.stdout.log`,

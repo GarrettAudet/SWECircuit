@@ -4,15 +4,14 @@
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
-install logs and the private closure. Revision 60's canonical gate failed and is permanently
-retired. Revision 68 is retired after exact local and partial hosted evidence. Revision 69 commit
-`c6b35f057049382cb68cfbd71a96604b6fbfd325` passed its 2/2 copied lifecycle, then its complete
-verifier rejected a stale README trust binding after 476/476 core and 2/2 lifecycle tests; its
-canonical gate was never invoked and the source is permanently retired. ADR 0006 keeps v0.1
-Windows-only. Revision 70 restores the approved concise README bytes, keeps platform scope in the
-linked support contract, refreshes the public-support regression identity, and passes V11/V12
-dogfood. Complete qualification, independent review, immutable lifecycle, rehearsal, hosted
+70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
+verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
+gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
+of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
+consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
+bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
+content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
+V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
 Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
 
 ## Reproduction
@@ -992,3 +991,37 @@ Run `npm.cmd run verify` at exact commit
 
 `fix`. Revision 69 is permanently retired. Revision 70 restores the approved README bytes,
 retains Windows-only scope in linked `SUPPORT.md`, and refreshes the affected regression identity.
+
+## Revision 70 R2 Path Failure And Revision 71
+
+### Reproduction
+
+Inspect the fresh R2 package for exact Revision 70 commit
+`606fc3585f19f4714e0e75c2387561ca03b8282c` through ordinary Windows PowerShell.
+
+### Evidence
+
+- Verified R2 outcomes: product/API/IDE `pass`, lifecycle/correctness `pass`, security/trace
+  authority `block`.
+- Security authentication: 176 of 224 declared context items readable; 48 reported absent.
+- Node file surface: all 224 declared paths readable with exact bytes.
+- Windows PowerShell: the same 48 paths fail; every one exceeds 259 characters, with a 336-character
+  maximum; no shorter path fails.
+- Exact R70-derived R71 regression: 225/225 collected sources pass PowerShell existence, byte-count,
+  and SHA-256 verification beneath a representative checkout root.
+
+### Hypotheses
+
+| Hypothesis | Test | Result |
+| --- | --- | --- |
+| R2 failed to write 48 files | Read every declared path through Node and compare bytes | Rejected |
+| Primary evidence was corrupted | Authenticate every readable byte/digest pair | Rejected |
+| Long mirrored paths exceeded ordinary Windows reach | Partition failures at 260 characters | Confirmed |
+| Short deterministic aliases weaken trace identity | Verify manifest original path, Git object, bytes, and digest | Rejected |
+
+### Outcome
+
+`fix`. Revision 70 is permanently retired and its canonical gate remains consumed. Revision 71
+uses bounded aliases, closes explicit-path and collision negatives, and passes three-attempt
+independent review. The mutable aggregate correctly stops at copied lifecycle while Git HEAD still
+names R70; the post-freeze immutable gate must evaluate committed R71 bytes.

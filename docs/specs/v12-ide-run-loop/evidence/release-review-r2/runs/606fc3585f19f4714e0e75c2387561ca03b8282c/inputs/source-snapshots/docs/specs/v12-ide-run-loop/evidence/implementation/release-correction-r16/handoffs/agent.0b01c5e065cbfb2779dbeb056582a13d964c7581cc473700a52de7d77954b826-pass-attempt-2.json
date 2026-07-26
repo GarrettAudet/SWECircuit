@@ -1,0 +1,50 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 16,
+    "digest": "sha256:291184ae9e9deb4204c09e624e856e006db649dd172d7dbf887786cfe25d9d12"
+  },
+  "agent": {
+    "id": "agent.0b01c5e065cbfb2779dbeb056582a13d964c7581cc473700a52de7d77954b826",
+    "blueprintDigest": "sha256:add8b8ff671f7c797e02852666586350e5c3d85accab384dca87f4777ea14d1a"
+  },
+  "compilationDigest": "sha256:064bb4a993c3ab3410f360684a29bf603c119059eccb62d87294456ecbcfe044",
+  "summary": "Attempt 2 reconciled every named live route to Candidate 9's consumed `pass` / `fix` / `pass` evidence and ordinal-free successor gates, added general section-level anti-drift regression coverage, and passed every frozen Revision 16 check. V12 remains not merge-ready.",
+  "workUnitsCompleted": [
+    "fix.release-truth.r16"
+  ],
+  "artifacts": [
+    {
+      "name": "release-truth-correction-r16.md",
+      "mediaType": "text/markdown",
+      "content": "# Revision 16 Release-Truth Correction: Attempt 2\n\n## Integration History\n\nIntegration rejected the first package-valid handoff as incomplete because mutable live routing passages still predicted consumed candidate ordinals. That exact handoff remains preserved as failed integration attempt 1. No evidence file was changed.\n\n## Attempt 2 Correction\n\nThe named live passages now record Candidate 9 commit `447dd4cc5ef0dfa8894d54fdc79a1c15aaaedb84` in past tense: exact canonical gate `pass`, complete R2 roster `pass` / `fix` / `pass`, authenticated `releaseReady: false`, and permanent retirement. Current and future instructions use only an ordinal-free successor source.\n\nA general `activeSection` extractor now checks both existing Status sections and these live routing sections:\n\n- `docs/memory/active-context.md`: Next Likely Work.\n- `docs/milestones/v12.md`: Current Stage, Approval Gate, Residual Risks, Next Recommended Work, User-Facing Overview.\n- `docs/specs/v12-ide-run-loop/tasks.md`: Parallelization.\n- `docs/specs/v12-ide-run-loop/test-plan.md`: Current Evidence.\n\nEvery covered section rejects `Candidate N` and `Candidates N` language. Existing Status and package/workflow outcome assertions remain intact.\n\n## Changed Files\n\n- `docs/memory/active-context.md`\n- `docs/milestones/v12.md`\n- `docs/specs/v12-ide-run-loop/debug-notes.md`\n- `docs/specs/v12-ide-run-loop/implementation-notes.md`\n- `docs/specs/v12-ide-run-loop/review.md`\n- `docs/specs/v12-ide-run-loop/root-cause-analysis.md`\n- `docs/specs/v12-ide-run-loop/spec.md`\n- `docs/specs/v12-ide-run-loop/tasks.md`\n- `docs/specs/v12-ide-run-loop/test-plan.md`\n- `test/v12-release-review.test.mjs`\n\nThe complete cumulative Revision 16 diff is confined to the original ten-file write scope: 104 insertions and 32 deletions. Immutable evidence has no diff.\n\n## Commands And Results\n\n- Targeted stale-route `rg` search before editing: identified every named stale route.\n- Native `apply_patch`: failed before mutation because the Windows sandbox helper could not refresh.\n- `Get-FileHash -Algorithm SHA256` over the nine attempt-2 targets: captured exact preconditions.\n- Contract-authorized SHA-256-guarded writes: pass for all nine attempt-2 files, with immediate byte verification.\n- `node --check test\\v12-release-review.test.mjs`: pass.\n- Targeted stale-route `rg` search after editing: six matches inspected. Four are contemporaneous historical next-step records in dated debug sections, one is a historical Revision 14 transition in the RCA, and one is a historical Revision 15 evidence description. None is in a covered live routing section or represents the current route.\n- Targeted active-document ordinal search: only historical milestone verification entries remain; no covered live section contains an ordinal.\n- Initial targeted `npm.cmd exec --offline biome -- format test\\v12-release-review.test.mjs`: reported one array-layout correction; no files were rewritten.\n- Targeted `npm.cmd exec --offline biome -- lint test\\v12-release-review.test.mjs`: pass.\n- Hash-guarded formatter correction: pass with immediate byte verification.\n- Final `node --test test/v12-release-review.test.mjs`: pass, 8/8 tests.\n- Final `powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\check-template.ps1`: pass.\n- Final `npm.cmd run format:check`: pass, 95 files checked, no fixes applied.\n- Final `npm.cmd run lint`: exit 0, 81 files checked; 71 existing informational diagnostics outside this correction remain.\n- Final `git diff --check`: pass.\n- Complete diff inspection across all ten files: pass for scope and semantic accuracy.\n- `git diff --name-only -- docs\\specs\\v12-ide-run-loop\\evidence`: empty; immutable evidence unchanged.\n- `verifySpecialistPackage` against the owner-approved pair: pass for compilation `sha256:064bb4a993c3ab3410f360684a29bf603c119059eccb62d87294456ecbcfe044` and package `sha256:20437ba56376d4b39f459043bac0940e8ded2e298b48de0cd16d437a95c96db6`.\n\n## Boundaries\n\nNo runtime code, schema, package metadata, immutable evidence, Git state, candidate gate, R2 preparation, hosted CI, merge, memory closeout, or release-readiness claim was performed."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.release-truth.r16",
+      "requirementId": "evidence.fix.release-truth.r16",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "release-truth-correction-r16.md"
+    }
+  ],
+  "assumptions": [
+    "The first handoff remains preserved by the integration owner as failed integration attempt 1; this specialist did not rewrite or persist it into immutable evidence.",
+    "Historical next-step instructions inside dated correction narratives remain source evidence and are not active routing sections.",
+    "`review.md` remains the authoritative feature-package release-state source."
+  ],
+  "risks": [
+    "Repository lint exits successfully but continues to report 71 informational diagnostics in untouched files.",
+    "A successor source may expose another release-blocking issue; this correction does not establish successor or release evidence."
+  ],
+  "followUps": [
+    "The integration owner must verify and assess this attempt-2 handoff before integrating it.",
+    "Successor-source freeze, exact gate, fresh R2 review, hosted CI, and owner merge decisions remain separately owned."
+  ]
+}

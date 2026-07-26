@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:a70553a6f4c2f00f243ca5eabeaf848d0988b4670279af555374312d498d60b3"
+  },
+  "agent": {
+    "id": "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+    "blueprintDigest": "sha256:35d1d57e016483e114a474f438c2267ea887d543af964f6adbdb10e879afe1c2"
+  },
+  "compilationDigest": "sha256:eb3e7fd1341c45966f95a9a440685193b24206f9155de50e96aa4596e0b41998",
+  "summary": "pass: no product, public API, schema-publication, installed-consumer, IDE-guidance, dogfood, or release-stage finding blocks candidate 606fc3585f19f4714e0e75c2387561ca03b8282c in this review domain.",
+  "workUnitsCompleted": [
+    "review.r2.product-api-ide"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-ide-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Product/API/IDE Release Review R2\n\n## Findings\n\nNo findings at High, Medium, or Low severity.\n\n## Authentication\n\nAll 180 declared immutable context items matched their contract-bound raw SHA-256 digests and byte counts before review.\n\n## Product And Release Truth\n\nThe public README accurately describes V12 as an immutable, restartable run session that exposes dependency-eligible work without performing host effects. Original `README.md:44`; snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/README.md:44`.\n\nThe feature spec marks AC1-AC8 complete and leaves AC9 open for the exact candidate's independent review fan-in. Original `docs/specs/v12-ide-run-loop/spec.md:56`, `:62`, `:63`, and `:64`; snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/docs/specs/v12-ide-run-loop/spec.md` at the same lines. Its pre-freeze `releaseReady: false` statement is consistent with candidate-addressed external evidence being authoritative during the still-running R2 stage.\n\nThe exact external gate receipt binds candidate `606fc3585f19f4714e0e75c2387561ca03b8282c` and records `result: pass`. Original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/606fc3585f19f4714e0e75c2387561ca03b8282c/canonical-gate-receipt.json`; snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/canonical-gate/canonical-gate-receipt.json:5` and `:344`.\n\n## Public API And Schema\n\nThe root export exposes create, restore, inspect, and record plus the closed V12 types and constants. Original `src/index.ts:54`; snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/src/index.ts:54`.\n\nThe package publishes `./schemas/specialist-run.schema.json`, and the schema guide describes the same four-operation, provider-neutral, effect-free contract. Original `package.json:18` and `schemas/v1alpha1/README.md`; snapshots `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/package.json:18` and `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/schemas/v1alpha1/README.md`.\n\n## IDE Path\n\nThe kickoff presents one IDE-neutral path from reviewed goal and deterministic roster through external two-digest approval, manifest-resolved contracts, the four-operation session loop, exact raw handoff recording, verified fan-in, and separate integration-owner closeout. Original `docs/ide/specialist-agent-kickoff.md:225`; snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/docs/ide/specialist-agent-kickoff.md:225`. It consistently distinguishes dependency eligibility from launch authorization and assigns runtime, persistence, integration, merge, and memory effects to the external host.\n\n## Dogfood And Consumer Evidence\n\nThe canonical dogfood retains the synthetic regression while separately authenticating the implementation correction package chain, executing the exact successful package through create, inspect, record, and restore, preserving an immutable integration snapshot, replaying byte-identically, and reporting every required AC8 friction category. Original `scripts/run-v12-dogfood.mjs:1048`, `:1216`, and `:1329`; snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/scripts/run-v12-dogfood.mjs` at the same lines.\n\nThe packed-consumer gate requires the run schema in the artifact, performs a clean offline install, imports the public TypeScript surface, verifies an approval-bound package and handoff, records and restores a session, and reaches complete fan-in. Original `scripts/check-packed-consumer.mjs:61`, `:1175`, `:1198`, and `:1280`; snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/scripts/check-packed-consumer.mjs` at the same lines. The exact gate log records 477 core passes, 2 lifecycle passes, passing V11/V12 dogfood, schema inclusion in the tarball, and the installed-package compatibility pass. Original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/606fc3585f19f4714e0e75c2387561ca03b8282c/canonical-gate.stdout.log`; snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/canonical-gate/canonical-gate.stdout.log:541`, `:557`, `:589`, and `:1461`.\n\n## Verdict\n\nOutcome: `pass`. This domain is release-ready for the exact candidate. Overall AC9 and release approval still require complete all-pass R2 fan-in and the separately governed milestone and merge gates."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.product-api-ide",
+      "requirementId": "evidence.r2.product-api-ide-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "product-api-ide-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This pass covers only the declared Product/API/IDE domain; overall release readiness still depends on the remaining exact R2 reviewers and complete verified fan-in.",
+    "The read-only review relied on authenticated candidate-addressed gate receipts and raw logs rather than rerunning the canonical gate."
+  ],
+  "followUps": [
+    "Verify and assess the complete exact R2 handoff set before setting overall releaseReady true.",
+    "Update the V12 milestone and proceed to the owner merge gate only after complete all-pass R2 fan-in."
+  ]
+}

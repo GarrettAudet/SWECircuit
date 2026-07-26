@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "block",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:a70553a6f4c2f00f243ca5eabeaf848d0988b4670279af555374312d498d60b3"
+  },
+  "agent": {
+    "id": "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+    "blueprintDigest": "sha256:52a49774429ef164d4fc15f354957cd14b99e9560cd051998ffc614218d551d2"
+  },
+  "compilationDigest": "sha256:eb3e7fd1341c45966f95a9a440685193b24206f9155de50e96aa4596e0b41998",
+  "summary": "BLOCK: immutable-source authentication failed before substantive review. Of 224 declared context items, 176 matched their byte-count and SHA-256 bindings and 48 were absent at their exact declared snapshot paths.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "security-trace-authority-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Security / Trace Authority R2 Release Review\n\n## Findings\n\n### CRITICAL: Declared immutable source delivery is incomplete\n\nThe mandatory authentication gate failed before substantive review. Exactly 176 of 224 declared context items were present and matched their declared raw byte counts and SHA-256 digests. The remaining 48 items were absent at their exact declared snapshot paths; no byte or digest mismatch was observed among the present items. The contract requires every immutable source to authenticate before use, so release readiness cannot be established and the review stops with `block`.\n\nThe missing set contains raw specialist handoffs, verification records, an independent architecture audit, and the prior Security / Trace Authority handoff. Candidate-manifest metadata and Git object identifiers cannot substitute for the absent primary bytes.\n\nBounded exact evidence from the absent set:\n\n1. `context.review-r1-security-handoff`\n   Snapshot: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json`\n   Original: `docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json`\n   Expected: 7259 bytes, `sha256:605a4e7065e1c4af2b3114129e919a810e430b584e31c718c0d78fa02fa027b7`\n   Observed: absent.\n\n2. `context.snapshot.abfe71337aa5517815c799eb`\n   Snapshot: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/handoffs/agent.8f24670b544882730a1763ac030531997dba8400a9cc3c767eceeb1f7a96212d-pass-attempt-1.json`\n   Original: `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/handoffs/agent.8f24670b544882730a1763ac030531997dba8400a9cc3c767eceeb1f7a96212d-pass-attempt-1.json`\n   Expected: 21143 bytes, `sha256:0bfac8263bd0d209baf33f7cbfd29fc68482a52eef187f77fcf7ce66ebf28988`\n   Observed: absent.\n\n3. `context.snapshot.d06b06a835d14f5777de4f4a`\n   Snapshot: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r21/handoffs/agent.cde961f7cd173b3f274a6ea75f4190aea5a7642200c5bf39c2ba642d72573127-block-attempt-2.json`\n   Original: `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r21/handoffs/agent.cde961f7cd173b3f274a6ea75f4190aea5a7642200c5bf39c2ba642d72573127-block-attempt-2.json`\n   Expected: 14865 bytes, `sha256:0224243c4325b298fb04d6af870f14d70e2b0fa95a5549906e809d5b386155c9`\n   Observed: absent.\n\n4. `context.snapshot.b9ba1665b359feba6928d537`\n   Snapshot: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/handoffs/agent.be88f5743003390c1f1d826c32c6e40a54612c5b1f10296b9aad502a8a990880-pass-attempt-1.json`\n   Original: `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r20/handoffs/agent.be88f5743003390c1f1d826c32c6e40a54612c5b1f10296b9aad502a8a990880-pass-attempt-1.json`\n   Expected: 10353 bytes, `sha256:2d00b74b48e3057d370334a60162c4bad4c8c45959f60dca1672f2db03e5c13c`\n   Observed: absent.\n\n5. `context.snapshot.de76f9026f76c3a76b85dcbe`\n   Snapshot: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/handoff-verification-attempt-2.json`\n   Original: `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r18/handoff-verification-attempt-2.json`\n   Expected: 1331 bytes, `sha256:206888304ca4db572b567c33f58447dd904de597afd5714978d9d129d88a4d14`\n   Observed: absent.\n\n6. `context.snapshot.5b1c85c24f4fdc92966f1a12`\n   Snapshot: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md`\n   Original: `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r17/independent-architecture-audit.md`\n   Expected: 2096 bytes, `sha256:82725d4372ca647223a6163bf71bab638d9543b90fcab53c68e5009ab342ea49`\n   Observed: absent.\n\n7. `context.snapshot.f95b4ffb0487e1637121c98e`\n   Snapshot: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r16/handoff-verification-attempt-2.json`\n   Original: `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r16/handoff-verification-attempt-2.json`\n   Expected: 1497 bytes, `sha256:64e2b86a290900be5364f5ae060d78f9daee898b1e003a64b4a636531621212b`\n   Observed: absent.\n\n8. `context.snapshot.a200b096a556a58901826acd`\n   Snapshot: `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json`\n   Original: `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction/handoffs/agent.072719a6c18f37975076f10e2c80244ac9d749f6f8d7a0545957d0fe68f20664.json`\n   Expected: 5693 bytes, `sha256:3510b98137b0cd8746d5440f4254bcfed8c493f714a57539a705eb12012c12fd`\n   Observed: absent.\n\n## Review Boundary\n\nNo substantive security, authority, freshness, effect-boundary, or release-readiness conclusions were drawn after the failed authentication gate. No files or Git state were changed, no network was accessed, no descendants were launched, and no repair was attempted."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.security-trace-authority",
+      "requirementId": "evidence.r2.security-trace-authority-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "block",
+      "artifact": "security-trace-authority-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Absent raw handoffs and verification records prevent independent validation of source preservation, authority closure, approval freshness, and correction-lineage traceability.",
+    "Using candidate-manifest summaries or Git object identifiers in place of the declared raw snapshot bytes would violate the contract's primary-evidence and authentication requirements."
+  ],
+  "followUps": [
+    "Deliver a regenerated immutable review package for the same candidate containing all 224 declared context items at their exact locator paths and bindings.",
+    "Run a fresh independent Security / Trace Authority R2 review only after the complete source bundle authenticates."
+  ]
+}

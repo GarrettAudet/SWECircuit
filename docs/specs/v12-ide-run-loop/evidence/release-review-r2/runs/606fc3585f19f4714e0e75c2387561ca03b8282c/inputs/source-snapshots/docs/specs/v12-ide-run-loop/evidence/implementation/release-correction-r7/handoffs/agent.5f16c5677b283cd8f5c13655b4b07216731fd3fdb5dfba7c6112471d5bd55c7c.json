@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 7,
+    "digest": "sha256:4513970fcccbc4be4173c848fd72bf4b76a4ee52ccc4ae739105d2ffcc30248b"
+  },
+  "agent": {
+    "id": "agent.5f16c5677b283cd8f5c13655b4b07216731fd3fdb5dfba7c6112471d5bd55c7c",
+    "blueprintDigest": "sha256:374f0c75a2a31a2d0fb7aa2462c8e30573b1bd64a91909a9daf0191d95b3e5cd"
+  },
+  "compilationDigest": "sha256:e7f6a2d27f613ea1a898b781584039dff8704d88a940965814d45b04a5537920",
+  "summary": "Added narrow canonical-log ignore exceptions and fail-closed Git ignore checks to the release-gate wrapper and R2 harness; all focused checks passed and candidate-1 evidence remained byte-identical.",
+  "workUnitsCompleted": [
+    "fix.candidate-evidence-retention.r7"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-evidence-retention-correction-r7.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Evidence Retention Correction R7\n\n## Outcome\n\nPass.\n\n## Authentication\n\n- Authenticated all 17 declared context files against their exact byte counts and raw SHA-256 digests before use; none were missing or mismatched.\n- Candidate-1 receipt remained 1221 bytes at `sha256:4c636e486f36c22b74f12fdd4b4470eb9056f63f64eca05058ae6923976bb15c`.\n- Candidate-1 stdout remained 295768 bytes at `sha256:afb6b266dd504cbf89d2cb55b6f9c5c6872fd5636acef8848e2105257aecef12`.\n- Candidate-1 stderr remained 11763 bytes at `sha256:4381d1a9ce1c36beb8723eadfb3619288935b9d095de672c450121c23dc0dfad`.\n\n## Correction\n\n- Preserved the repository-wide `*.log` rule and added four narrow exceptions covering only the legacy canonical stdout/stderr paths and one candidate-addressed directory level beneath `canonical-gates`.\n- `scripts/run-v12-release-gate.mjs` now runs `git check-ignore --quiet --no-index` for its receipt, stdout, and stderr paths before path reporting, repository inspection, directory creation, or evidence writes.\n- `run-release-review.mjs` applies the same fail-closed check before reading candidate gate evidence. Its shared receipt validator covers R2 preparation and compile/approval revalidation, while paths mode provides focused parity testing.\n\n## Verification\n\n- Before adding the ignore exceptions, both scripts rejected the synthetic candidate in paths mode with exit code 1 because canonical stdout was still ignored. This proved fail-closed behavior before any evidence mutation.\n- After correction, `git check-ignore --no-index` returned exit code 1 for both legacy canonical logs and both synthetic candidate-addressed canonical logs, proving they are not ignored.\n- The same check returned exit code 0 for unrelated root, R2-input, and candidate-directory log paths, proving the general log-ignore policy remains active.\n- Scoped `git status --short --untracked-files=all` exposed the legacy receipt, stdout, and stderr as `??`, confirming that Git can retain them.\n- Wrapper and R2 paths modes returned exit code 0 and byte-equivalent candidate, receipt, stdout, and stderr path JSON for candidate `0123456789abcdef0123456789abcdef01234567`.\n- Both scripts rejected a malformed candidate with exit code 1.\n- `node --check` passed for both modified scripts.\n- Focused Biome format and lint passed for the release-gate wrapper. The R2 helper and call sites matched Biome formatter output, and the complete R2 source was byte-identical to Biome stdin lint output.\n- Final `git diff --check` passed.\n- No canonical gate was run. No network, index, branch, commit, merge, generated package, evidence, or out-of-scope file mutation occurred.\n\n## Resulting Bindings\n\n- `.gitignore`: 732 bytes, `sha256:790a8c26a42342f3b5143df2e56b9c43145c2faa5758f443b63cb52b85d9b8a8`.\n- `scripts/run-v12-release-gate.mjs`: 7631 bytes, `sha256:0d10ab5d7717ab0324b47c2002c2dc4e5718126bdcea496354fb38e0e198f5d9`.\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`: 67218 bytes, `sha256:bc5e60649a73ec49244e84143f8174ec9dd11844afb031abb3c4abab9177ea2f`.\n\n## Failed Attempts\n\n- Native `apply_patch` failed before mutation because the Windows sandbox helper could not refresh.\n- The first hash-guarded fallback stopped before mutation because the host PowerShell lacked `Convert.ToHexString`; the compatible hash routine was then used.\n- The sandboxed fallback write was denied before mutation. The contract-authorized escalated fallback subsequently verified exact preconditions, wrote only declared files, and immediately rebound every result.\n- An initial formatter check found a release-helper line-wrap difference, which was corrected through another precondition-hash-guarded write.\n- Whole-file R2 formatter comparison exposed pre-existing unrelated formatting differences, so verification was bounded to formatter equality for changed regions plus whole-file lint identity. One initial call-count assertion was indentation-sensitive; the corrected exact call-count check passed."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.candidate-evidence-retention.r7",
+      "requirementId": "evidence.candidate-evidence-retention.r7",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "candidate-evidence-retention-correction-r7.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Candidate-path derivation and ignore-policy enforcement remain duplicated between two standalone scripts; exact paths-mode parity is the regression guard."
+  ],
+  "followUps": [
+    "After integration and candidate freeze, run the candidate-bound canonical gate once and invoke R2 preparation and revalidation with that same commit."
+  ]
+}

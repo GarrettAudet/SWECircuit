@@ -55,6 +55,9 @@ const CLOSURE_DOMAIN = "swecircuit/release-review-closure/v1alpha1";
 const STABLE_RECONSTRUCTION_DOMAIN =
   "swecircuit/release-review-stable-reconstruction/v1alpha1";
 const PHASE_AUTHORITY_DOMAIN = "swecircuit/release-review-phase-authority/v1alpha1";
+const SOURCE_SNAPSHOT_ALIAS_DOMAIN =
+  "swecircuit/release-review-source-snapshot-alias/v1alpha1";
+const MAX_REVIEWER_SNAPSHOT_PATH_LENGTH = 180;
 const PHASE_PREFIXES = Object.freeze({
   prepare: Object.freeze(["prepare"]),
   compile: Object.freeze(["prepare", "compile"]),
@@ -1612,7 +1615,7 @@ function candidateRunPaths(candidate) {
   return Object.freeze({
     root,
     inputs,
-    snapshotRoot: `${inputs}/source-snapshots`,
+    snapshotRoot: `${inputs}/s`,
     gateEvidenceRoot: `${inputs}/canonical-gate`,
     gateReceiptSnapshot: `${inputs}/canonical-gate/canonical-gate-receipt.json`,
     gateStdoutSnapshot: `${inputs}/canonical-gate/canonical-gate.stdout.log`,
@@ -1659,9 +1662,20 @@ function absolute(path) {
 }
 
 function snapshotPath(entry, paths) {
-  return entry.snapshotPath === null
-    ? `${paths.snapshotRoot}/${entry.path}`
-    : `${paths.inputs}/${entry.snapshotPath}`;
+  const target =
+    entry.snapshotPath === null
+      ? `${paths.snapshotRoot}/${digest(
+          Buffer.from(
+            JSON.stringify([SOURCE_SNAPSHOT_ALIAS_DOMAIN, entry.id, entry.path]),
+            "utf8",
+          ),
+        ).slice("sha256:".length)}`
+      : `${paths.inputs}/${entry.snapshotPath}`;
+  requireCondition(
+    target.length <= MAX_REVIEWER_SNAPSHOT_PATH_LENGTH,
+    `Reviewer snapshot path exceeds the portable Windows budget: ${target}.`,
+  );
+  return target;
 }
 
 function assertExactKeys(value, expected, label) {
@@ -3599,13 +3613,21 @@ function reviewedSourceMaterialization(entry, candidateTree, paths) {
 }
 
 async function materializeSnapshots(sources, candidateTree, paths) {
-  const rows = [];
-  for (const entry of sources) {
-    const materialization = reviewedSourceMaterialization(entry, candidateTree, paths);
-    await writeImmutable(materialization.row.snapshotPath, materialization.bytes);
-    rows.push(materialization.row);
+  const materializations = sources.map((entry) =>
+    reviewedSourceMaterialization(entry, candidateTree, paths),
+  );
+  const targets = new Set();
+  for (const materialization of materializations) {
+    requireCondition(
+      !targets.has(materialization.row.snapshotPath),
+      `Reviewer snapshot alias collision: ${materialization.row.snapshotPath}.`,
+    );
+    targets.add(materialization.row.snapshotPath);
   }
-  return rows;
+  for (const materialization of materializations) {
+    await writeImmutable(materialization.row.snapshotPath, materialization.bytes);
+  }
+  return materializations.map((materialization) => materialization.row);
 }
 function contextSource(row) {
   return {
@@ -4584,6 +4606,7 @@ export const RELEASE_REVIEW_TEST_HOOKS = Object.freeze({
   collectSourceSpecs,
   requestFor,
   validateGateReceipt,
+  materializeSnapshots,
   verifyEvidenceSet,
   reviewedSourceMaterialization,
   authenticateToolBytes,

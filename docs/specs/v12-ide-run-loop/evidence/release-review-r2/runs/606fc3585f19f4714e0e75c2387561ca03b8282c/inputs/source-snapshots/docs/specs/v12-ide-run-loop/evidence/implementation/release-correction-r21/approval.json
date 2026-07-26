@@ -1,0 +1,12 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v12.ide-run-loop.implementation.release-correction",
+  "goalRevision": 21,
+  "approvedBy": "external-host-owner-declaration-via-integration-owner",
+  "approvalBasis": "The owner authorized release-completion corrections; the integration owner reviewed this exact test-only contract, single-specialist roster, authority, and digest pair before launch.",
+  "expectation": {
+    "compilationDigest": "sha256:aac7f8e5f78c540bc1d3cf3286fc7f7ae834d446dce903382bf49636f260f407",
+    "packageDigest": "sha256:15fac9863537be07151719617e0c1f7777974d8072a92562b6f97694d7d66929"
+  }
+}

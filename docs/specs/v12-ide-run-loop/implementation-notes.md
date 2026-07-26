@@ -4,15 +4,14 @@
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
-install logs and the private closure. Revision 60's canonical gate failed and is permanently
-retired. Revision 68 is retired after exact local and partial hosted evidence. Revision 69 commit
-`c6b35f057049382cb68cfbd71a96604b6fbfd325` passed its 2/2 copied lifecycle, then its complete
-verifier rejected a stale README trust binding after 476/476 core and 2/2 lifecycle tests; its
-canonical gate was never invoked and the source is permanently retired. ADR 0006 keeps v0.1
-Windows-only. Revision 70 restores the approved concise README bytes, keeps platform scope in the
-linked support contract, refreshes the public-support regression identity, and passes V11/V12
-dogfood. Complete qualification, independent review, immutable lifecycle, rehearsal, hosted
+70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
+verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
+gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
+of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
+consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
+bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
+content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
+V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
 Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
 
 ## Baseline
@@ -379,3 +378,23 @@ R70 restores the approved concise README. `SUPPORT.md`, already linked from the 
 the authoritative Windows-only platform contract. The public-support regression now verifies the
 link, host-selected provider surface, Windows-only support prose, and three-job hosted workflow.
 Its changed gate-test bytes are rebound in the copied lifecycle. V11 and V12 dogfood pass.
+
+## Revision 71 Windows-Safe Review Sources
+
+Revision 70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle,
+complete verification, exact-candidate rehearsal, the hosted Windows matrix, and its one-shot
+canonical gate. Fresh R2 then authenticated a complete three-reviewer roster with `pass` / `pass`
+/ `block`. The security reviewer stopped before substantive review because ordinary Windows paths
+reported 48 declared source snapshots absent.
+
+Node authenticated every underlying file and byte binding. The same 48 absolute paths were longer
+than 259 characters, ordinary Windows PowerShell could address only the shorter set, and no shorter
+path failed. Revision 71 materializes implicit sources as `inputs/s/{sha256}` aliases over a
+canonical domain/context-ID/original-path tuple. The manifest retains each original path, Git mode,
+object ID, byte count, and digest. Both implicit and explicit paths share a 180-character cap, and
+collisions are rejected before writes.
+
+The exact preserved R70 manifest binds 225/225 collected source rows. Ordinary Windows PowerShell
+authenticates all 225 materialized files by existence, byte count, and SHA-256. Focused 5/5,
+release-review 53/53, release-gate 30/30, core 480/480, checker, static, V11/V12 dogfood, and
+independent Attempt 3 review pass. Product APIs and external host responsibilities are unchanged.

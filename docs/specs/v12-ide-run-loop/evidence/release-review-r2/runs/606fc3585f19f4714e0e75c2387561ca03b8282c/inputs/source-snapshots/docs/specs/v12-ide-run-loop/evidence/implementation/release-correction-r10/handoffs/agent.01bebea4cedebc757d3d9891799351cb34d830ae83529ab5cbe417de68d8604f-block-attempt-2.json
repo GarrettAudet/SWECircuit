@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "block",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 10,
+    "digest": "sha256:379e1b825343fdd4500a23b38f107c53256ae1031383b182f2b21795cabed8d7"
+  },
+  "agent": {
+    "id": "agent.01bebea4cedebc757d3d9891799351cb34d830ae83529ab5cbe417de68d8604f",
+    "blueprintDigest": "sha256:1a13f8154a516a19881955976e4613d3a532718c661dd98fb582c5cac91e6831"
+  },
+  "compilationDigest": "sha256:383a9ee2d20773c8608f7da195f9e7ea5212838dc7d82f0865bc1cefd38e2400",
+  "summary": "Stopped before reading source content or mutating files because the delivered repository context failed its required byte-count and SHA-256 bindings.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "release-review-lifecycle-correction-r10.md",
+      "mediaType": "text/markdown",
+      "content": "# Release Review Lifecycle Correction R10\n\n## Outcome\n\nBlocked during mandatory context verification. No implementation, Git-state change, or file mutation occurred.\n\n## Verification Evidence\n\nThirteen declared context files were unavailable at their exact repository locators: ADR-0005, Candidate 3 retirement evidence, all four release-correction-r9 artifacts, the release-gate script and test, both R2 review scripts, and all three release-correction-r10 input documents.\n\n`package.json` was present but failed both bindings. Expected 2,946 bytes and SHA-256 `43414ace7e294a9a173ee78ab33baa5791959921f5da2a1c7b3b69d081938df2`; received 2,549 bytes and SHA-256 `52acc84e561245f27afe26af16c000ce5d1e121b5649c4e70c2d03ec140c7be7`.\n\nThe contract requires an immediate stop when any declared source is missing or mismatched, so no source content was used and no focused verification commands were run."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.release-review-lifecycle.r10",
+      "requirementId": "evidence.release-review-lifecycle.r10",
+      "kind": "review",
+      "duty": "produce",
+      "status": "fail",
+      "artifact": "release-review-lifecycle-correction-r10.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The active worktree appears not to contain the exact approved candidate context; proceeding would violate the source-binding and candidate-identity requirements."
+  ],
+  "followUps": [
+    "Re-deliver or activate the exact approved candidate worktree containing every declared source at its bound byte count and SHA-256 digest, then rerun this specialist contract."
+  ]
+}

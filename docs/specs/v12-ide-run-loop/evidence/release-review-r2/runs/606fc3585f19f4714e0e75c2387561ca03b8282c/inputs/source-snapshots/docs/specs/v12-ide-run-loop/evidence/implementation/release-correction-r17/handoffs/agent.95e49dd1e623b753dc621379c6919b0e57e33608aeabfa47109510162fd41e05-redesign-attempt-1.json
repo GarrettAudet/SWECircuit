@@ -1,0 +1,50 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "redesign",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 17,
+    "digest": "sha256:a77be22bde0d9bea66faf6c986162bd055d0a99529a9e3e895d7ee316e6275e3"
+  },
+  "agent": {
+    "id": "agent.95e49dd1e623b753dc621379c6919b0e57e33608aeabfa47109510162fd41e05",
+    "blueprintDigest": "sha256:0807536309f43ba647b4511242b89c544c89e2b995ac046ff94ed786668043a3"
+  },
+  "compilationDigest": "sha256:472d6cfe1bef797bd17926d008f6a00b47f1640c5dcc37d0739c17113f710b5d",
+  "summary": "Redesign required: the four-file Revision 17 scope cannot establish an independently trusted candidate-runtime chain. No files were edited.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "candidate-runtime-trust-correction-r17.md",
+      "mediaType": "text/markdown",
+      "content": "# Revision 17 Redesign Route\n\nAll 19 declared context sources authenticated against their exact byte counts and SHA-256 digests before implementation began. No repository files, evidence, package metadata, or Git state were modified.\n\nThe approved four-file scope cannot close the release-review trust chain. The live harness and verifier remain circular self-authentication roots; repository-local materialization permits ancestor dependency resolution; copying installed package directories does not prove lockfile SRI integrity; and fresh-child execution plus staged-output verification requires a separately trusted host bootstrap outside the candidate-controlled runtime.\n\nRevision 17 must therefore be retired with outcome `redesign` and replaced by a wider, independently reviewed contract."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.candidate-runtime-trust.r17",
+      "requirementId": "evidence.fix.candidate-runtime-trust.r17",
+      "kind": "test",
+      "duty": "produce",
+      "status": "redesign",
+      "artifact": "candidate-runtime-trust-correction-r17.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "Continuing within the approved scope would create release evidence whose trust root remains candidate-controlled or repository-live.",
+    "Repository-local runtime construction can resolve dependencies through ancestor node_modules.",
+    "Copied installed package bytes alone do not establish correspondence with lockfile integrity metadata."
+  ],
+  "followUps": [
+    "Replan around a candidate-authenticated parent bootstrap outside the candidate-controlled runtime.",
+    "Materialize the complete candidate outside repository ancestry.",
+    "Install exact locked dependencies with npm ci --offline --ignore-scripts from an explicitly bound cache.",
+    "Execute candidate tooling in a fresh child process using only the private dependency supply.",
+    "Hash source, dependency, and generated closures before and after execution, then verify bounded cleanup.",
+    "Stage outputs privately and promote them only after parent-side verification.",
+    "Bind a direct runtimeBindingDigest into every release manifest, approval, package, handoff-verification report, and related evidence."
+  ]
+}

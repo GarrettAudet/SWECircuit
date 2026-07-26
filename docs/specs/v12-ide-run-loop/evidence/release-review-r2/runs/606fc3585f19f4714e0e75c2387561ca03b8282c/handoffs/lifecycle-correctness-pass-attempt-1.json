@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:a70553a6f4c2f00f243ca5eabeaf848d0988b4670279af555374312d498d60b3"
+  },
+  "agent": {
+    "id": "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87",
+    "blueprintDigest": "sha256:1ed57420b295ffbf21cfe693a515624e39ab1e7dde31a55fbcb1ec5107fb526a"
+  },
+  "compilationDigest": "sha256:eb3e7fd1341c45966f95a9a440685193b24206f9155de50e96aa4596e0b41998",
+  "summary": "No lifecycle or correctness findings remain. Candidate 606fc3585f19f4714e0e75c2387561ca03b8282c is release-ready within the declared R2 lifecycle/correctness domain.",
+  "workUnitsCompleted": [
+    "review.r2.lifecycle-correctness"
+  ],
+  "artifacts": [
+    {
+      "name": "lifecycle-correctness-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Lifecycle / Correctness R2 Release Review\n\n## Findings\n\nNone. Candidate `606fc3585f19f4714e0e75c2387561ca03b8282c` is release-ready within the declared lifecycle/correctness domain.\n\n## Authentication\n\nAll 196 declared immutable context sources matched their exact contract-bound byte counts and raw SHA-256 digests before substantive review. The authenticated candidate manifest at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/candidate.json` binds this review to candidate commit `606fc3585f19f4714e0e75c2387561ca03b8282c`. No file was edited, Git state changed, network accessed, descendant launched, or finding repaired. Tests were not rerun; authenticated raw gate receipts and logs were reviewed as primary execution evidence.\n\n## Correctness Evidence\n\n- Create and restore reverify the exact package and external expectation, enforce complete roster identity, canonical accepted-row ordering, base64 identity, transitive pass prerequisites, source reconstruction, aggregate bounds, and deep detachment at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/src/specialist-run-session.ts:317` through `:547` (original `src/specialist-run-session.ts`).\n- Record preserves the required precedence for exact replay, conflicting settlement, terminal routing, transitive dependency eligibility, canonical insertion, and unchanged-state rejection at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/src/specialist-run-transition.ts:151` through `:228` (original `src/specialist-run-transition.ts`).\n- Inspection derives manifest-resolved contracts, canonical statuses, accepted evidence, exact routes, complete-roster fan-in, and closed next actions at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/src/specialist-run-inspection.ts:277` through `:409` (original `src/specialist-run-inspection.ts`). The corrected evidence comparator uses `requirementId` as the primary identity at lines `108` through `119`; the counterordered regression is at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/test/specialist-run-inspection.test.mjs:376` through `:393` (original `test/specialist-run-inspection.test.mjs`).\n- Exact replay, conflicting settlement, every non-pass route, terminal late-settlement rejection, pass-only dependency eligibility, and complete fan-in are exercised at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/test/specialist-run.test.mjs:520` through `:680` (original `test/specialist-run.test.mjs`). Independent topological arrival convergence and fresh-process restore equality are covered at lines `229` through `376`.\n- The exact raw handoff and raw session boundaries, including at-limit acceptance and one-unit-over rejection, are covered at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/test/specialist-run-boundaries.test.mjs:21` through `:83` (original `test/specialist-run-boundaries.test.mjs`).\n- The aggregate proof constructs 16 agents, verifies and records 16 maximum-size handoffs, restores and reinspects the completed session, proves arrival convergence, and derives conservative session and inspection ceilings at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/test/specialist-run-limits.test.mjs:23` through `:139` (original `test/specialist-run-limits.test.mjs`).\n- The implementation-package dogfood authenticates the correction package lineage, preserves exact raw handoffs, uses all four public operations, restores an immutable integration snapshot, and records friction without claiming host effects at snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/source-snapshots/scripts/run-v12-dogfood.mjs:1048` through `:1268` (original `scripts/run-v12-dogfood.mjs`).\n\n## Canonical Gate\n\nThe authenticated receipt at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/606fc3585f19f4714e0e75c2387561ca03b8282c/inputs/canonical-gate/canonical-gate-receipt.json` (original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/606fc3585f19f4714e0e75c2387561ca03b8282c/canonical-gate-receipt.json`) binds a clean, stable exact-candidate materialization and reports `pass`, exit code 0. Its authenticated stdout records the raw/session boundary pass at line 276, aggregate 16-agent maximum-handoff pass at line 282, 477 of 477 core tests passing at lines 541 through 548, 2 of 2 isolated copied-production lifecycle tests passing at lines 550 through 562, V12 dogfood, dry-run package inspection, and installed-consumer run restore/fan-in verification.\n\n## Outcome\n\n`pass`. The four-operation lifecycle, deterministic recovery, canonical evidence ordering, aggregate resource proof, dependency eligibility, exact fan-in, terminal routing, and immutable source-preserving behavior are release-ready for this review domain."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.lifecycle-correctness",
+      "requirementId": "evidence.r2.lifecycle-correctness-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "lifecycle-correctness-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This scoped pass does not establish the outcomes of the product/API/IDE or security/trace/authority R2 domains, owner approval, merge, or release closeout."
+  ],
+  "followUps": [
+    "Aggregate this exact scoped handoff with the remaining R2 reviewer handoffs without inferring overall release readiness from this domain alone."
+  ]
+}

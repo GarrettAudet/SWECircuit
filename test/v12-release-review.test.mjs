@@ -25,6 +25,7 @@ import {
 } from "./helpers/git-blob-loader-fixture.mjs";
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const APPROVED_CHECKPOINT = "1b47e0ad10a5c3209fae53397892b7df3cd837be";
+const PATH_SURFACE_CHECKPOINT = "606fc3585f19f4714e0e75c2387561ca03b8282c";
 const REVIEW_ROOT = "docs/specs/v12-ide-run-loop/evidence/release-review-r2";
 const CORRECTION_ROOT = "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction";
 const HARNESS_PATH = `${REVIEW_ROOT}/run-release-review.mjs`;
@@ -2619,7 +2620,16 @@ test("active release status avoids volatile candidate-state drift and preserves 
 
   const testPlanStatus = activeStatus("docs/specs/v12-ide-run-loop/test-plan.md");
   assert.match(testPlanStatus, /Package and handoff verification authenticate artifacts/u);
-  assert.match(testPlanStatus, /canonical gate failed[\s\S]*?permanently retired/u);
+  assert.match(
+    testPlanStatus,
+    /Revision\s+70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed[\s\S]*?one-shot canonical\s+gate/u,
+  );
+  assert.match(testPlanStatus, /Fresh R2 then verified `pass` \/ `pass` \/ `block`/u);
+  assert.match(testPlanStatus, /could not address 48\s+of 224 declared context items/u);
+  assert.match(
+    testPlanStatus,
+    /Revision 70 is permanently retired[\s\S]*?canonical gate is\s+consumed/u,
+  );
   assert.match(testPlanStatus, /exact registry\/SRI lock[\s\S]*?offline/u);
   assert.match(testPlanStatus, /binds\s+install logs and the private closure/u);
   assert.match(testPlanStatus, /releaseReady: false/u);
@@ -3000,10 +3010,149 @@ test("reviewer snapshots and tooling identity use exact candidate Git blobs", ()
     runPaths,
   );
   assert.ok(materialization.bytes.equals(packageBytes));
-  assert.equal(materialization.row.snapshotPath, `${runPaths.snapshotRoot}/package.json`);
+  assert.equal(
+    materialization.row.snapshotPath,
+    `${runPaths.snapshotRoot}/9362a47a48ccca01e12b04d8ae1b787f16a2557d85aaffbf45b84f005eb63b0c`,
+  );
+  assert.ok(materialization.row.snapshotPath.length <= 180);
   assert.equal(materialization.row.bytes, packageBytes.byteLength);
   assert.equal(materialization.row.digest, digest(packageBytes));
   assert.equal(materialization.row.candidateObjectId, candidateTree.file("package.json").objectId);
+});
+
+test("R70 path regression binds the exact preserved reviewed-source roster", () => {
+  const candidateTree = RELEASE_REVIEW_TEST_HOOKS.loadCandidateTree(PATH_SURFACE_CHECKPOINT);
+  const runPaths = RELEASE_REVIEW_TEST_HOOKS.candidateRunPaths("d".repeat(40));
+  const sources = RELEASE_REVIEW_TEST_HOOKS.collectSourceSpecs(candidateTree);
+  const manifestPath = `${REVIEW_ROOT}/runs/${PATH_SURFACE_CHECKPOINT}/inputs/candidate.json`;
+  const manifestBytes = readFileSync(resolve(ROOT, ...manifestPath.split("/")));
+  assert.equal(manifestBytes.byteLength, 305_897);
+  assert.equal(
+    digest(manifestBytes),
+    "sha256:28ef7cb5e60c2448ba19e18cd63c783fefb145c96934891852ff44ebf72d880e",
+  );
+  const manifest = JSON.parse(manifestBytes.toString("utf8"));
+  assert.equal(manifest.candidateCommit, PATH_SURFACE_CHECKPOINT);
+  assert.equal(manifest.reviewedSources.length, 225);
+  assert.equal(sources.length, 225);
+  const sourceIdentity = (row) => ({
+    contextId: row.contextId,
+    originalPath: row.originalPath,
+    candidateMode: row.candidateMode,
+    candidateObjectId: row.candidateObjectId,
+    description: row.description,
+    allowedWorkUnits: row.allowedWorkUnits,
+    bytes: row.bytes,
+    digest: row.digest,
+  });
+  const collected = sources.map((source) =>
+    sourceIdentity(
+      RELEASE_REVIEW_TEST_HOOKS.reviewedSourceMaterialization(source, candidateTree, runPaths).row,
+    ),
+  );
+  assert.deepEqual(collected, manifest.reviewedSources.map(sourceIdentity));
+});
+
+test("reviewer snapshot paths reject explicit overflow and collisions before writes", async () => {
+  const candidateTree = RELEASE_REVIEW_TEST_HOOKS.loadCandidateTree(APPROVED_CHECKPOINT);
+  const runPaths = RELEASE_REVIEW_TEST_HOOKS.candidateRunPaths("e".repeat(40));
+  const source = {
+    id: "context.package",
+    path: "package.json",
+    description: "Candidate package metadata.",
+    allowedWorkUnits: ["review.r2.product-api-ide"],
+    snapshotPath: null,
+  };
+  assert.throws(
+    () =>
+      RELEASE_REVIEW_TEST_HOOKS.reviewedSourceMaterialization(
+        { ...source, snapshotPath: "x".repeat(181) },
+        candidateTree,
+        runPaths,
+      ),
+    /Reviewer snapshot path exceeds the portable Windows budget/u,
+  );
+  await assert.rejects(
+    RELEASE_REVIEW_TEST_HOOKS.materializeSnapshots(
+      [source, { ...source }],
+      candidateTree,
+      runPaths,
+    ),
+    /Reviewer snapshot alias collision/u,
+  );
+});
+test("reviewer snapshot aliases remain byte-readable through ordinary Windows PowerShell paths", {
+  skip: process.platform !== "win32",
+}, async () => {
+  const candidateTree = RELEASE_REVIEW_TEST_HOOKS.loadCandidateTree(PATH_SURFACE_CHECKPOINT);
+  const runPaths = RELEASE_REVIEW_TEST_HOOKS.candidateRunPaths("d".repeat(40));
+  const sources = RELEASE_REVIEW_TEST_HOOKS.collectSourceSpecs(candidateTree);
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "swr2-path-"));
+  const targetRootLength = 72;
+  const paddingLength = Math.max(1, targetRootLength - temporaryRoot.length - 1);
+  const repositoryRoot = join(temporaryRoot, "r".repeat(paddingLength));
+  try {
+    await mkdir(repositoryRoot, { recursive: true });
+    const probeRows = [];
+    const logicalPaths = new Set();
+    for (const source of sources) {
+      const materialization = RELEASE_REVIEW_TEST_HOOKS.reviewedSourceMaterialization(
+        source,
+        candidateTree,
+        runPaths,
+      );
+      assert.equal(logicalPaths.has(materialization.row.snapshotPath), false);
+      logicalPaths.add(materialization.row.snapshotPath);
+      const target = resolve(repositoryRoot, ...materialization.row.snapshotPath.split("/"));
+      assert.ok(
+        target.length < 260,
+        `reviewer snapshot lacks legacy Windows path headroom: ${target}`,
+      );
+      await mkdir(dirname(target), { recursive: true });
+      await writeFile(target, materialization.bytes);
+      probeRows.push({
+        path: target,
+        bytes: materialization.row.bytes,
+        digest: materialization.row.digest,
+      });
+    }
+
+    const probeInput = join(temporaryRoot, "paths.json");
+    await writeFile(probeInput, Buffer.from(JSON.stringify(probeRows), "utf8"));
+    const systemRoot = process.env.SYSTEMROOT ?? process.env.SystemRoot;
+    assert.equal(typeof systemRoot, "string");
+    const powershell = join(systemRoot, "System32", "WindowsPowerShell", "v1.0", "powershell.exe");
+    assert.equal(existsSync(powershell), true);
+    const script = [
+      "$InputPath = $env:SWECIRCUIT_PATH_PROBE_INPUT",
+      "if ([string]::IsNullOrWhiteSpace($InputPath)) { exit 3 }",
+      "$parsed = Get-Content -LiteralPath $InputPath -Raw | ConvertFrom-Json",
+      "$rows = @($parsed | ForEach-Object { $_ })",
+      "$failures = @()",
+      "foreach ($row in $rows) {",
+      '  if (-not (Test-Path -LiteralPath $row.path -PathType Leaf)) { $failures += "missing:$($row.path)"; continue }',
+      "  $item = Get-Item -LiteralPath $row.path",
+      '  $hash = "sha256:$((Get-FileHash -Algorithm SHA256 -LiteralPath $row.path).Hash.ToLowerInvariant())"',
+      '  if ($item.Length -ne [long]$row.bytes -or $hash -ne [string]$row.digest) { $failures += "mismatch:$($row.path)" }',
+      "}",
+      "if ($failures.Count -gt 0) { [Console]::Error.Write(($failures | ConvertTo-Json -Compress)); exit 2 }",
+      "[Console]::Out.Write($rows.Count)",
+    ].join("\n");
+    const result = spawnSync(
+      powershell,
+      ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", script],
+      {
+        encoding: "utf8",
+        env: { ...process.env, SWECIRCUIT_PATH_PROBE_INPUT: probeInput },
+        windowsHide: true,
+      },
+    );
+    assert.equal(result.error, undefined);
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(Number.parseInt(result.stdout, 10), sources.length);
+  } finally {
+    await rm(temporaryRoot, { recursive: true, force: true });
+  }
 });
 
 test("revision 9 package and handoff verification rejects substituted bytes", async () => {

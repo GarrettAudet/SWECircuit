@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 19,
+    "digest": "sha256:fb4947a71f4969c3ec54e3c70d2764a93d68dfd5ed43013c3ba2cbff6f575385"
+  },
+  "agent": {
+    "id": "agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012",
+    "blueprintDigest": "sha256:7bf0a41867de47422a1fa329d509abeda50a50955a5ecfb74aed92d496cde2f1"
+  },
+  "compilationDigest": "sha256:f4834982911064d5a3c5f9fa1d2c350376da8bead9d7a036ec639a7b9a52beca",
+  "summary": "Revision 19 implemented and verified cumulative private reconstruction, explicit external inputs, closed pre-execution inventories, realpath and resolver confinement, exact owner package equality, receipt-last preflighted promotion, and adversarial behavioral coverage. The exact combined focused suite passed 29 of 29 tests, and the final read-only audit confirmed the six authorized implementation files.",
+  "workUnitsCompleted": [
+    "fix.closed-reconstruction-trust.r19"
+  ],
+  "artifacts": [
+    {
+      "name": "closed-reconstruction-trust-correction-r19.md",
+      "mediaType": "text/markdown",
+      "content": "# Revision 19 Closed Reconstruction Trust Correction\n\n## Approved identity\n\n- Compilation: `sha256:f4834982911064d5a3c5f9fa1d2c350376da8bead9d7a036ec639a7b9a52beca`\n- Package: `sha256:1cdedbda0fd297f0e06c8bf58f162a7bccd099bc84e4c1935af8cb1ff433042b`\n- Agent: `agent.d9f6ad5475ca9a33fefde0d78c584c6df37bf7f56f053365f4841c5566f9b012`\n- Blueprint: `sha256:7bf0a41867de47422a1fa329d509abeda50a50955a5ecfb74aed92d496cde2f1`\n\nAll 22 declared context sources were authenticated against their declared byte counts and SHA-256 digests before editing. The specialist package was verified against the approved compilation and package identities.\n\n## Implemented behavior\n\n- Cumulative private reconstruction for every phase.\n- Explicit cache, parent digest, gate receipt, owner digest pair, and handoff inputs.\n- Closed phase-specific pre-execution inventories.\n- Realpath, resolver, ancestor `node_modules`, link, case-alias, and hardlink confinement.\n- Exact owner compilation and package equality checks.\n- Complete materialized-package reconstruction and comparison.\n- Full-set promotion preflight, immutable exact-file promotion, deterministic retry handling, and receipt-last commit semantics.\n- Behavioral adversarial tests for input substitution, source mutation, undeclared files, resolver escape, absent cache, path aliasing, promotion interruption, conflicts, links, and hardlinks.\n\n## Focused verification\n\nCommand:\n\n`node --test test/v12-release-review.test.mjs test/v12-release-gate.test.mjs`\n\nResult:\n\n- Tests: 29\n- Passed: 29\n- Failed: 0\n- Cancelled: 0\n- Skipped: 0\n- Duration: 317247.3829 ms\n- Process exit code: 0\n\nNo source files were changed during this bounded retry.\n\n## Final six-file audit\n\nGit reported exactly five tracked implementation modifications. The only untracked source path under `scripts/` was the sixth authorized file. Existing untracked release evidence remained outside the implementation delta and was not modified.\n\n- `scripts/run-v12-release-review.mjs`: 76900 bytes; `sha256:69d9888dd7d8584b5da1efe532f91ccf9e69d18d5b088055271c14e3d390664c`\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`: 117689 bytes; `sha256:6a2b0e28509b01255967b50a437eec9b761dab4cff6b18cd7644a51ff46420bc`\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs`: 27087 bytes; `sha256:dcd0fef854738bc163ac8c0c6213de8a63479d3edc8fc4ca22be2dc9f1d9f39b`\n- `test/v12-release-review.test.mjs`: 31450 bytes; `sha256:10db954205fe53999baad30c401c8cdf3f659104b3f2c6ac3323ac83f6cb33fd`\n- `test/v12-release-gate.test.mjs`: 33280 bytes; `sha256:31f323f50669a6cb0799c4b9bd32d71652dee14540ae91857cfde8c7ab1774cf`\n- `package.json`: 3609 bytes; `sha256:15124893f7d12f21b75681ef7b8744509860d3490c378014e9d5f63b0bb01d54`\n\n## Deliberately deferred\n\nNo candidate release gate, R2 phase, V11 approval refresh, hosted CI, merge, dependency or lockfile change, compiler or schema change, evidence mutation, or Git mutation was performed.\n\n## External-host boundary\n\nThe external host must independently pin and authenticate the parent runner, provision and trust the declared cache, trust the operating system and Node/npm/Git executables, isolate hostile same-user processes, preserve exact artifact and handoff bytes, commit the successor without changing the audited files, and perform separately authorized successor release verification."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.closed-reconstruction-trust.r19",
+      "requirementId": "evidence.fix.closed-reconstruction-trust.r19",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "closed-reconstruction-trust-correction-r19.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The parent runner, operating system, Node/npm/Git executables, and explicit npm cache remain external trust inputs.",
+    "Protection against a malicious parent, hostile same-user mutation, compromised host executables, and unverified cache provenance remains outside this specialist implementation.",
+    "The untracked parent runner must be committed by the integration owner without changing its audited bytes.",
+    "Successor release-gate and R2 authorization remain deliberately unexecuted."
+  ],
+  "followUps": [
+    "The integration owner should independently verify this handoff against the approved package and preserve its exact raw UTF-8 bytes.",
+    "After preserving the audited six-file identities, the integration owner may commit the successor and separately authorize its candidate release gate and fresh R2 review."
+  ]
+}

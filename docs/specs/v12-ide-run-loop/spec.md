@@ -4,15 +4,14 @@
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
-install logs and the private closure. Revision 60's canonical gate failed and is permanently
-retired. Revision 68 is retired after exact local and partial hosted evidence. Revision 69 commit
-`c6b35f057049382cb68cfbd71a96604b6fbfd325` passed its 2/2 copied lifecycle, then its complete
-verifier rejected a stale README trust binding after 476/476 core and 2/2 lifecycle tests; its
-canonical gate was never invoked and the source is permanently retired. ADR 0006 keeps v0.1
-Windows-only. Revision 70 restores the approved concise README bytes, keeps platform scope in the
-linked support contract, refreshes the public-support regression identity, and passes V11/V12
-dogfood. Complete qualification, independent review, immutable lifecycle, rehearsal, hosted
+70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
+verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
+gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
+of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
+consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
+bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
+content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
+V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
 Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
 
 ## Problem

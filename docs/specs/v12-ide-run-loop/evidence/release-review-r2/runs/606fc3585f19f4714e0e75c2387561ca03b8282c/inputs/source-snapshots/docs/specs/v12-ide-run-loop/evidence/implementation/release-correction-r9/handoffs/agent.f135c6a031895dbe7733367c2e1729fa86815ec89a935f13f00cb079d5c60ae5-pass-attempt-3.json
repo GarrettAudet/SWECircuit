@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 9,
+    "digest": "sha256:20e576ae7355d0d211e821d54cb92384ff955d4fb04f6c2e514db70df0cf2cf1"
+  },
+  "agent": {
+    "id": "agent.f135c6a031895dbe7733367c2e1729fa86815ec89a935f13f00cb079d5c60ae5",
+    "blueprintDigest": "sha256:2f8c267ce00799d1224eb91b4071fd7f834411cedc4845cacc09a727b4c17c34"
+  },
+  "compilationDigest": "sha256:ca0488cd362c3757183da85238001ff1e14e9dee702bf58af27347684a4cdc6d",
+  "summary": "Closed R9 by narrowly suppressing the deliberate unsafe-control regex diagnostic and binding the exact six Candidate 3 causal security sources into immutable R2 snapshots and fail-closed regression coverage; every required focused check passed.",
+  "workUnitsCompleted": [
+    "fix.release-proof-closure.r9"
+  ],
+  "artifacts": [
+    {
+      "name": "release-proof-closure-correction-r9.md",
+      "mediaType": "text/markdown",
+      "content": "# Release Proof Closure Correction R9 - Attempt 3\n\n## Outcome\n\nPass.\n\n## Authentication\n\n- Re-authenticated checkpoint `64d9310` before editing.\n- Authenticated the exact 23116-byte specialist contract at `sha256:ae6258786d9ba9366410035b3c89f9d45f921ac1a500e3287d1649f1c0b2fb4e`.\n- Verified the exact R9 package through `verifySpecialistPackage` against compilation `sha256:ca0488cd362c3757183da85238001ff1e14e9dee702bf58af27347684a4cdc6d` and package `sha256:f9e337812c8ee4ef85431894855279c5a113ccfb0c0a9b4402b4e5137d519400`.\n- Preserved the 4052-byte attempt-2 handoff unchanged at `sha256:b5745977bcd30a5da8ca02395bc28ab22ae252566282f5dd4f9a62b0ffdbb932`.\n\n## Corrections\n\n- Added one narrowly justified Biome suppression immediately before the deliberate unsafe-control rejection regex. Path validation and runtime behavior are unchanged.\n- Replaced the prior schema-only invariant with `REQUIRED_SECURITY_CAUSAL_SOURCES`, containing exactly `.gitattributes`, `.gitignore`, `src/specialist-handoff-schema-data.ts`, `src/specialist-handoff-schema.ts`, `src/specialist-schema-data.ts`, and `src/specialist-schema.ts`.\n- Added `.gitattributes` and `.gitignore` as immutable SECURITY reviewer snapshots. The four schema implementation files remain SECURITY snapshots, and both schema JSON files remain additional context.\n- Updated the fail-closed runtime coverage gate and focused regression to require every exact causal source. The test title now describes causal security sources truthfully.\n\n## Verification\n\n- `node --check` passed for all three authorized files.\n- Focused Biome formatting passed for all three files; the R2 harness was byte-identical through stdin formatting.\n- Focused Biome lint passed for all three files. The release wrapper reported 14 non-blocking style infos and zero errors.\n- Focused Node suite passed 4 of 4 tests in 86.4 seconds: candidate materialization and tamper detection, canonical-command isolation, exact six-source R2 closure, and malformed-candidate fail-closed behavior.\n- Scoped `git diff --check` passed.\n- The temporary materialization was removed; `.local/v12-release-gate` does not remain.\n\n## Resulting Bindings\n\n- `scripts/run-v12-release-gate.mjs`: 20319 bytes, `sha256:4358570c4375eb6ed5da902bd83220cfd042051cb96c4171734ea067dcfab4b6`.\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`: 77356 bytes, `sha256:5759c3dcbda018c2ef4dd9cf0f6e317b88ba6e214766a707230659a9d9d2a9f1`.\n- `test/v12-release-gate.test.mjs`: 6070 bytes, `sha256:ff86bdfd6986498bd1944bdfedd15fd862beca1c90dd58c208b7ba0b2e92ff2a`.\n\n## Failed Attempt\n\nNative `apply_patch` failed before mutation because the Windows sandbox helper could not refresh. The contract-authorized precondition-hash-guarded PowerShell fallback changed only the three declared write paths and rebound each result immediately.\n\n## Scope Integrity\n\nNo Git state, evidence file, package file, network resource, descendant, or out-of-scope file was changed."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.release-proof-closure.r9",
+      "requirementId": "evidence.release-proof-closure.r9",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "release-proof-closure-correction-r9.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": [
+    "Preserve and verify this exact raw pass handoff before integration and candidate-bound canonical verification."
+  ]
+}

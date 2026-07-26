@@ -4,15 +4,13 @@
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
-install logs and the private closure. Revision 60's canonical gate failed and is permanently
-retired. Revision 68 commit `78f8c99645bb7c505e7e95682c6ab69a13915891` passed exact local
-qualification, non-consuming rehearsal, Template Check, and Windows Node 22/24, but is
-permanently retired. On 2026-07-24 the owner narrowed v0.1 support to Windows; macOS and Linux are
-unsupported and no longer release gates. Revision 69 aligns the support contract and hosted
-workflow while retaining the bounded compatibility correction as best effort. Exact Windows
-qualification, independent review, copied lifecycle, complete verifier, rehearsal, canonical
-gate, fresh R2, milestone, and merge remain; `releaseReady: false`.
+70 passed exact local, hosted Windows, and one-shot canonical gates, then fresh R2 verified `pass`
+/ `pass` / `block` because 48 immutable sources exceeded ordinary Windows path reach. Revision 70
+is permanently retired and its gate is consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71
+uses bounded full-SHA-256 source aliases while preserving original paths and exact Git/content
+bindings. Its exact R70 causal regression, complete mutable qualification, V11/V12 dogfood, and
+independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted Windows, canonical,
+fresh R2, milestone, and merge remain; `releaseReady: false`.
 
 ## Task List
 
@@ -185,7 +183,22 @@ T003 ran three read-only architecture analyses in parallel and one dependent syn
 - [x] Refresh the public-support regression and copied-lifecycle gate-test identity.
 - [x] Pass V11 and V12 dogfood against the restored context.
 - [x] Pass focused and complete mutable-source qualification plus independent review.
-- [ ] Freeze one exact Revision 70 source.
+- [x] Freeze exact Revision 70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c`.
+- [x] Pass copied lifecycle, complete verifier, non-consuming rehearsal, and hosted Windows.
+- [x] Consume its one-shot canonical gate and preserve verified R2 `pass` / `pass` / `block`.
+- [x] Permanently retire Revision 70 without regating its consumed source.
+
+## Revision 71 Release Correction
+
+- [x] Preserve R70's exact source, hosted, canonical, compilation, package, and handoff evidence.
+- [x] Confirm the 48 failures are ordinary Windows path reachability, not missing bytes.
+- [x] Replace mirrored sources with bounded domain-separated full-SHA-256 aliases.
+- [x] Preserve original paths and exact Git mode, object ID, byte count, and digest in the manifest.
+- [x] Bind the exact 225-row R70 roster and ordinary Windows PowerShell authentication.
+- [x] Add explicit-path overflow and pre-write collision regressions.
+- [x] Pass static, checker, 30/30 release-gate, 53/53 release-review, and 480/480 core gates.
+- [x] Pass V11/V12 dogfood and independent review Attempt 3 with no findings.
+- [ ] Freeze one exact Revision 71 source.
 - [ ] Pass copied lifecycle, complete verifier, non-consuming rehearsal, and hosted Windows.
-- [ ] Consume one Revision 70 canonical gate and complete fresh three-domain R2.
+- [ ] Consume one Revision 71 canonical gate and complete fresh all-pass three-domain R2.
 - [ ] Close memory and the milestone, then merge to `main`.

@@ -4,15 +4,14 @@
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-53 retained an exact registry/SRI lock and offline candidate-private install; its evidence binds
-install logs and the private closure. Revision 60's canonical gate failed and is permanently
-retired. Revision 68 is retired after exact local and partial hosted evidence. Revision 69 commit
-`c6b35f057049382cb68cfbd71a96604b6fbfd325` passed its 2/2 copied lifecycle, then its complete
-verifier rejected a stale README trust binding after 476/476 core and 2/2 lifecycle tests; its
-canonical gate was never invoked and the source is permanently retired. ADR 0006 keeps v0.1
-Windows-only. Revision 70 restores the approved concise README bytes, keeps platform scope in the
-linked support contract, refreshes the public-support regression identity, and passes V11/V12
-dogfood. Complete qualification, independent review, immutable lifecycle, rehearsal, hosted
+70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
+verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
+gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
+of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
+consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
+bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
+content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
+V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
 Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
 
 ## Reproduction
@@ -791,3 +790,27 @@ Restore the exact 3,843-byte README, keep the Windows-only contract in linked `S
 provider-neutral host selection from the README, and rebind the changed public-support test in the
 copied-lifecycle identity map. Add V11 and V12 dogfood to the mutable qualification whenever a
 future change touches an approval-bound context source.
+
+## Revision 71 Windows Snapshot-Path RCA
+
+### Confirmed Cause
+
+The R2 materializer mirrored each original repository path below a long candidate-addressed run
+prefix. All primary bytes existed, but 48 absolute paths exceeded 259 characters and were
+unaddressable through ordinary Windows PowerShell and IDE file surfaces. The security reviewer
+correctly blocked before substantive review. This was a context-delivery defect, not missing or
+corrupted evidence.
+
+### Causal Fix
+
+Materialize implicit reviewer sources under a compact full-SHA-256 alias derived from a canonical,
+domain-separated context-ID/original-path tuple. Preserve the readable original path and exact Git
+mode, object ID, byte count, and digest in the candidate manifest. Apply one 180-character logical
+cap to both implicit and explicit paths, and preflight all collisions before immutable writes.
+
+### Regression
+
+The test authenticates the preserved 305,897-byte R70 candidate manifest, deep-compares all 225
+source identity rows, reconstructs every source below a representative 72-character checkout root,
+and has ordinary Windows PowerShell verify existence, byte count, and SHA-256. Separate negatives
+force explicit-path overflow and duplicate-alias rejection.
