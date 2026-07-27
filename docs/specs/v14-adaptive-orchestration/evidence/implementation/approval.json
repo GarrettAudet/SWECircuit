@@ -1,0 +1,11 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "approvedBy": "repository-owner-via-standing-release-authorization",
+  "decision": "approve",
+  "basis": "The owner directed Codex to continue toward the full orchestration goal. The integration owner reviewed the exact disjoint vertical-slice roster.",
+  "expectation": {
+    "compilationDigest": "sha256:ef1a9ec09a789eed249090a49800d10c9670dfbbfb9703e5691fa24996bed614",
+    "packageDigest": "sha256:d0a501942fef1a5b3b82add368ed01e967c7639cd9c204bac62db1f94089276f"
+  }
+}

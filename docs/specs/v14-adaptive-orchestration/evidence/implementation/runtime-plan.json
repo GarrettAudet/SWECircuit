@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/runtime-plan/v0alpha0-bootstrap",
+  "kind": "BootstrapRuntimePlan",
+  "provenance": "manual_bootstrap_before_v14_router",
+  "status": "approved",
+  "expectation": {
+    "compilationDigest": "sha256:ef1a9ec09a789eed249090a49800d10c9670dfbbfb9703e5691fa24996bed614",
+    "packageDigest": "sha256:d0a501942fef1a5b3b82add368ed01e967c7639cd9c204bac62db1f94089276f"
+  },
+  "policy": {
+    "objective": "Choose the least costly available model and effort that can satisfy each closed work-unit contract accurately.",
+    "hiddenFallback": "forbidden",
+    "overrideVisibility": "required",
+    "manualSelectionReason": "The V14 router being implemented cannot select its own bootstrap team."
+  },
+  "assignments": [
+    {
+      "agentId": "agent.40a1f03c545884055177cf4a6326f71f064dbbed0a4bcf90f6299ebb21242547",
+      "workUnitId": "implement.runtime-routing",
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "rationale": "The public deterministic compiler, strict schemas, global vector search, and security boundaries have high semantic complexity and blast radius."
+    },
+    {
+      "agentId": "agent.73bec6d8f92dc546631e028dfe3d1f26c5dc5f37ff16200a77f024652265d8dd",
+      "workUnitId": "implement.codex-adapter",
+      "model": "gpt-5.6-luna",
+      "reasoningEffort": "medium",
+      "rationale": "The work is a bounded documentation and configuration surface with explicit source contracts and no kernel code."
+    },
+    {
+      "agentId": "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c",
+      "workUnitId": "test.runtime-routing",
+      "model": "gpt-5.6-terra",
+      "reasoningEffort": "high",
+      "rationale": "Independent adversarial test design needs strong reasoning, but its disjoint fixture and test scope does not require the frontier compiler model."
+    },
+    {
+      "agentId": "agent.a744a1750e4790c43bf5b1e5a700ea3bdf89964af1db7e29bf23483354b928fa",
+      "workUnitId": "review.vertical-slice",
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "rationale": "The dependent release review spans correctness, compatibility, security, host truthfulness, and all producer outputs."
+    }
+  ]
+}

@@ -1,0 +1,2979 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v14.adaptive-orchestration.vertical-slice",
+    "revision": 1,
+    "objective": "Implement and independently verify the deterministic runtime-routing kernel plus the Windows Codex Desktop reference adapter from the V14 Revision 2 contract.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.additive-api",
+        "statement": "V14 APIs are additive and V11/V12 behavior remains unchanged.",
+        "rationale": "The vertical slice must not destabilize the released baseline."
+      },
+      {
+        "id": "assumption.bootstrap-routing",
+        "statement": "This first implementation wave uses a recorded manual bootstrap runtime plan because the router it implements is not yet executable.",
+        "rationale": "The resulting router must choose later waves deterministically and replace manual selection."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.adapter",
+        "description": "A Windows Codex Desktop adapter can translate approved assignments into visible native agent launches without hidden fallback.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.adapter.produce",
+            "kind": "artifact",
+            "duty": "produce",
+            "description": "Produce the reference adapter contract, inventory, policy, and IDE guide.",
+            "independentFromProducer": false
+          },
+          {
+            "id": "evidence.slice.review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independently review the complete integrated vertical slice.",
+            "independentFromProducer": true
+          }
+        ]
+      },
+      {
+        "id": "criterion.routing",
+        "description": "The kernel deterministically derives demand, filters profile/effort rows, and selects a globally feasible least-cost assignment vector.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.routing.produce",
+            "kind": "artifact",
+            "duty": "produce",
+            "description": "Produce the closed runtime-routing implementation and schema.",
+            "independentFromProducer": false
+          },
+          {
+            "id": "evidence.routing.verify",
+            "kind": "test",
+            "duty": "verify",
+            "description": "Independently verify deterministic selection, hard gates, bounded search, and overrides.",
+            "independentFromProducer": true
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.agents",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Repository agent contract and host responsibilities.",
+        "allowedWorkUnits": [
+          "implement.codex-adapter",
+          "review.vertical-slice"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.canonical-json",
+        "kind": "repository",
+        "locator": "path:src/canonical-json.ts",
+        "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+        "bytes": 7405,
+        "description": "Canonical JSON and digest helpers.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ],
+        "readScope": "src/canonical-json.ts"
+      },
+      {
+        "id": "context.constants",
+        "kind": "repository",
+        "locator": "path:src/constants.ts",
+        "digest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a",
+        "bytes": 2570,
+        "description": "Current version and limit constants.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "src/constants.ts"
+      },
+      {
+        "id": "context.diagnostics",
+        "kind": "repository",
+        "locator": "path:src/diagnostics.ts",
+        "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+        "bytes": 25190,
+        "description": "Current diagnostic definitions and stable code conventions.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "src/diagnostics.ts"
+      },
+      {
+        "id": "context.host-scan",
+        "kind": "repository",
+        "locator": "path:docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+        "digest": "sha256:867b77b3920f0936e458a41ce693712da65495deaa45665f26e461a4c15050f0",
+        "bytes": 6636,
+        "description": "Current cross-host capability evidence.",
+        "allowedWorkUnits": [
+          "implement.codex-adapter",
+          "review.vertical-slice"
+        ],
+        "readScope": "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md"
+      },
+      {
+        "id": "context.ide-kickoff",
+        "kind": "repository",
+        "locator": "path:docs/ide/specialist-agent-kickoff.md",
+        "digest": "sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c",
+        "bytes": 22016,
+        "description": "Current Codex-visible specialist workflow.",
+        "allowedWorkUnits": [
+          "implement.codex-adapter",
+          "review.vertical-slice"
+        ],
+        "readScope": "docs/ide/specialist-agent-kickoff.md"
+      },
+      {
+        "id": "context.index",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Current public export surface.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.run-fixture",
+        "kind": "repository",
+        "locator": "path:test/helpers/specialist-run-fixture.mjs",
+        "digest": "sha256:2bad9cd515d3c170588799f3eaf4db65b1c257dc8eca58982200653eb3dd1d87",
+        "bytes": 9645,
+        "description": "Existing complete V11/V12 fixture construction pattern.",
+        "allowedWorkUnits": [
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "test/helpers/specialist-run-fixture.mjs"
+      },
+      {
+        "id": "context.schema-data-pattern",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema-data.ts",
+        "digest": "sha256:a41ed770e2d250cde3fed83910ba0a099eb84ea1fc6f9142e91f6659a1cd0bc1",
+        "bytes": 17463,
+        "description": "Generated schema source pattern.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ],
+        "readScope": "src/specialist-run-schema-data.ts"
+      },
+      {
+        "id": "context.schema-pattern",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d",
+        "bytes": 3180,
+        "description": "Strict Ajv closed-schema registry pattern.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.specialist-compiler",
+        "kind": "repository",
+        "locator": "path:src/specialist-compiler.ts",
+        "digest": "sha256:2a39a85745de2124464744c9635144e4e878cbea2f2b584ded25adb946798da7",
+        "bytes": 69522,
+        "description": "Canonical compiler, validation, search, and digest implementation patterns.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ],
+        "readScope": "src/specialist-compiler.ts"
+      },
+      {
+        "id": "context.specialist-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-types.ts",
+        "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+        "bytes": 16047,
+        "description": "Existing specialist public types consumed by runtime routing.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "src/specialist-types.ts"
+      },
+      {
+        "id": "context.test-pattern",
+        "kind": "repository",
+        "locator": "path:test/specialist-compiler.test.mjs",
+        "digest": "sha256:2847895078aa56d9e051f0b399b2e923cce3edc647c2d471c76034fd12159200",
+        "bytes": 62973,
+        "description": "Existing compiler determinism and adversarial test patterns.",
+        "allowedWorkUnits": [
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "test/specialist-compiler.test.mjs"
+      },
+      {
+        "id": "context.v14-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+        "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+        "bytes": 39536,
+        "description": "Normative V14 Revision 2 contract.",
+        "allowedWorkUnits": [
+          "implement.codex-adapter",
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+      },
+      {
+        "id": "context.v14-r1",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+        "digest": "sha256:41df682065baa9ed9f3bba30d5947fcc6a8329664adb905e480d998f2ebfcd02",
+        "bytes": 3384,
+        "description": "Integrated architecture-review findings that Revision 2 must preserve.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md"
+      },
+      {
+        "id": "context.v14-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+        "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+        "bytes": 7229,
+        "description": "V14 product specification and acceptance criteria.",
+        "allowedWorkUnits": [
+          "implement.codex-adapter",
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "implement.codex-adapter",
+        "implement.runtime-routing",
+        "review.vertical-slice",
+        "test.runtime-routing"
+      ],
+      "allowedCapabilities": [
+        "design.codex-host-adapter",
+        "implement.deterministic-typescript-compiler",
+        "review.orchestration-vertical-slice",
+        "verify.runtime-routing-contract"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "AGENTS.md",
+            "adapters/codex-desktop/README.md",
+            "adapters/codex-desktop/inventory.example.json",
+            "adapters/codex-desktop/policy.example.json",
+            "docs/ide/codex-adaptive-run.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "schemas/v1alpha1/runtime-routing.schema.json",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/runtime-routing-schema-data.ts",
+            "src/runtime-routing-schema.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts",
+            "src/specialist-compiler.ts",
+            "src/specialist-run-schema-data.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-types.ts",
+            "test/helpers/runtime-routing-fixture.mjs",
+            "test/helpers/specialist-run-fixture.mjs",
+            "test/runtime-routing-schema.test.mjs",
+            "test/runtime-routing.test.mjs",
+            "test/specialist-compiler.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "adapters/codex-desktop/README.md",
+            "adapters/codex-desktop/inventory.example.json",
+            "adapters/codex-desktop/policy.example.json",
+            "docs/ide/codex-adaptive-run.md",
+            "schemas/v1alpha1/runtime-routing.schema.json",
+            "src/runtime-routing-schema-data.ts",
+            "src/runtime-routing-schema.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts",
+            "test/helpers/runtime-routing-fixture.mjs",
+            "test/runtime-routing-schema.test.mjs",
+            "test/runtime-routing.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm.cmd",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not access the network, secrets, external services, or undeclared repository paths.",
+        "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory."
+      ],
+      "maxAgents": 4,
+      "maxConcurrency": 3
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "implement.codex-adapter",
+        "objective": "Define the first usable Windows Codex Desktop adapter surface, examples, and visible host workflow for approved assignments.",
+        "weight": 5,
+        "module": {
+          "id": "implement.codex-adapter",
+          "action": "Provide a small truthful adapter contract and examples for current model/effort inventory, native spawn translation, explicit unavailable bindings, status visibility, exact result capture, and no hidden fallback.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "codex-adapter-evidence.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "design.codex-host-adapter"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agents",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.host-scan",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.ide-kickoff",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          }
+        ],
+        "scope": {
+          "read": [
+            "AGENTS.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md"
+          ],
+          "write": [
+            "adapters/codex-desktop/README.md",
+            "adapters/codex-desktop/inventory.example.json",
+            "adapters/codex-desktop/policy.example.json",
+            "docs/ide/codex-adaptive-run.md"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "adapters/codex-desktop/README.md",
+              "adapters/codex-desktop/inventory.example.json",
+              "adapters/codex-desktop/policy.example.json",
+              "docs/ide/codex-adaptive-run.md"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.adapter.produce"
+        ],
+        "handoffArtifacts": [
+          "codex-adapter-evidence.md"
+        ],
+        "stopConditions": [
+          "Do not install dependencies, access the network, mutate Git, merge, or update memory.",
+          "Do not modify files outside the declared write scope.",
+          "Return a non-pass outcome when required verification cannot be completed.",
+          "Stop if the normative V14 contract conflicts with the existing V11 or V12 public boundary."
+        ]
+      },
+      {
+        "id": "implement.runtime-routing",
+        "objective": "Implement the closed provider-neutral runtime-routing types, strict schema, validation, demand derivation, row filtering, vector search, override, and verification operations.",
+        "weight": 10,
+        "module": {
+          "id": "implement.runtime-routing",
+          "action": "Follow existing canonical JSON, snapshot, Ajv, diagnostics, limit, and OperationResult patterns; preserve V11/V12 APIs; implement only the routing portion of the normative V14 contract.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "runtime-routing-implementation.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "implement.deterministic-typescript-compiler"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.canonical-json",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.constants",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.diagnostics",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.schema-data-pattern",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.schema-pattern",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.specialist-compiler",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.specialist-types",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-r1",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/specialist-compiler.ts",
+            "src/specialist-run-schema-data.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-types.ts"
+          ],
+          "write": [
+            "schemas/v1alpha1/runtime-routing.schema.json",
+            "src/runtime-routing-schema-data.ts",
+            "src/runtime-routing-schema.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "src/canonical-json.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/specialist-compiler.ts",
+              "src/specialist-run-schema-data.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-types.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "schemas/v1alpha1/runtime-routing.schema.json",
+              "src/runtime-routing-schema-data.ts",
+              "src/runtime-routing-schema.ts",
+              "src/runtime-routing-types.ts",
+              "src/runtime-routing.ts"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.routing.produce"
+        ],
+        "handoffArtifacts": [
+          "runtime-routing-implementation.md"
+        ],
+        "stopConditions": [
+          "Do not install dependencies, access the network, mutate Git, merge, or update memory.",
+          "Do not modify files outside the declared write scope.",
+          "Return a non-pass outcome when required verification cannot be completed.",
+          "Stop if the normative V14 contract conflicts with the existing V11 or V12 public boundary."
+        ]
+      },
+      {
+        "id": "review.vertical-slice",
+        "objective": "Independently review the integrated routing kernel, tests, and Codex adapter after all producer outputs are available.",
+        "weight": 4,
+        "module": {
+          "id": "review.vertical-slice",
+          "action": "Inspect exact source, run focused verification, and report material API, determinism, security, adapter-truth, or usability defects without editing producer outputs.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "vertical-slice-review.md"
+            }
+          ]
+        },
+        "dependencies": [
+          "implement.codex-adapter",
+          "implement.runtime-routing",
+          "test.runtime-routing"
+        ],
+        "requiredCapabilities": [
+          "review.orchestration-vertical-slice"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agents",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.canonical-json",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.constants",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.diagnostics",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.host-scan",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.ide-kickoff",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.run-fixture",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.schema-data-pattern",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.schema-pattern",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.specialist-compiler",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.specialist-types",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.test-pattern",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-r1",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          }
+        ],
+        "scope": {
+          "read": [
+            "AGENTS.md",
+            "adapters/codex-desktop/README.md",
+            "adapters/codex-desktop/inventory.example.json",
+            "adapters/codex-desktop/policy.example.json",
+            "docs/ide/codex-adaptive-run.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "schemas/v1alpha1/runtime-routing.schema.json",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/runtime-routing-schema-data.ts",
+            "src/runtime-routing-schema.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts",
+            "src/specialist-compiler.ts",
+            "src/specialist-run-schema-data.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-types.ts",
+            "test/helpers/runtime-routing-fixture.mjs",
+            "test/helpers/specialist-run-fixture.mjs",
+            "test/runtime-routing-schema.test.mjs",
+            "test/runtime-routing.test.mjs",
+            "test/specialist-compiler.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "adapters/codex-desktop/README.md",
+              "adapters/codex-desktop/inventory.example.json",
+              "adapters/codex-desktop/policy.example.json",
+              "docs/ide/codex-adaptive-run.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "schemas/v1alpha1/runtime-routing.schema.json",
+              "src/canonical-json.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/runtime-routing-schema-data.ts",
+              "src/runtime-routing-schema.ts",
+              "src/runtime-routing-types.ts",
+              "src/runtime-routing.ts",
+              "src/specialist-compiler.ts",
+              "src/specialist-run-schema-data.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-types.ts",
+              "test/helpers/runtime-routing-fixture.mjs",
+              "test/helpers/specialist-run-fixture.mjs",
+              "test/runtime-routing-schema.test.mjs",
+              "test/runtime-routing.test.mjs",
+              "test/specialist-compiler.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.slice.review"
+        ],
+        "handoffArtifacts": [
+          "vertical-slice-review.md"
+        ],
+        "stopConditions": [
+          "Do not install dependencies, access the network, mutate Git, merge, or update memory.",
+          "Do not modify files outside the declared write scope.",
+          "Return a non-pass outcome when required verification cannot be completed.",
+          "Stop if the normative V14 contract conflicts with the existing V11 or V12 public boundary."
+        ]
+      },
+      {
+        "id": "test.runtime-routing",
+        "objective": "Create independent executable fixtures and tests for the V14 runtime-routing contract before seeing the producer implementation.",
+        "weight": 8,
+        "module": {
+          "id": "test.runtime-routing",
+          "action": "Test demand coverage, every hard gate, full-vector independence, exact and bounded search claims, comparator order, determinism under permutations, overrides, malformed inputs, limits, and packed public usability assumptions.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "runtime-routing-test-evidence.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "verify.runtime-routing-contract"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.constants",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.diagnostics",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.run-fixture",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.specialist-types",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.test-pattern",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-r1",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Implement or verify the exact V14 executable vertical slice."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/specialist-types.ts",
+            "test/helpers/specialist-run-fixture.mjs",
+            "test/specialist-compiler.test.mjs"
+          ],
+          "write": [
+            "test/helpers/runtime-routing-fixture.mjs",
+            "test/runtime-routing-schema.test.mjs",
+            "test/runtime-routing.test.mjs"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/specialist-types.ts",
+              "test/helpers/specialist-run-fixture.mjs",
+              "test/specialist-compiler.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "test/helpers/runtime-routing-fixture.mjs",
+              "test/runtime-routing-schema.test.mjs",
+              "test/runtime-routing.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.routing.verify"
+        ],
+        "handoffArtifacts": [
+          "runtime-routing-test-evidence.md"
+        ],
+        "stopConditions": [
+          "Do not install dependencies, access the network, mutate Git, merge, or update memory.",
+          "Do not modify files outside the declared write scope.",
+          "Return a non-pass outcome when required verification cannot be completed.",
+          "Stop if the normative V14 contract conflicts with the existing V11 or V12 public boundary."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:3d6f58596ed4a07b75469a13e4ef0c8088f85ac51b7d02fda27cd026b8155c9a",
+  "proposedCandidates": [
+    {
+      "id": "candidate.v14.three-producers-one-reviewer",
+      "groups": [
+        [
+          "implement.codex-adapter"
+        ],
+        [
+          "implement.runtime-routing"
+        ],
+        [
+          "review.vertical-slice"
+        ],
+        [
+          "test.runtime-routing"
+        ]
+      ]
+    }
+  ],
+  "proposalEvaluations": [
+    {
+      "id": "team.43ca2714bb81573a11b7ed5e7b3d63c128bae774b17bb174483986576bebee67",
+      "partition": [
+        [
+          "implement.codex-adapter"
+        ],
+        [
+          "implement.runtime-routing"
+        ],
+        [
+          "review.vertical-slice"
+        ],
+        [
+          "test.runtime-routing"
+        ]
+      ],
+      "origins": [
+        "exact_search",
+        "proposed"
+      ],
+      "proposalIds": [
+        "candidate.v14.three-producers-one-reviewer"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 4,
+        "projectedMakespan": 17,
+        "peakConcurrency": 3,
+        "conflictPairs": 3,
+        "handoffCount": 3,
+        "duplicatedContextBytes": 461106,
+        "duplicatedPermissionScopes": 31,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 4,
+        "totalHandoffCost": 3
+      },
+      "schedule": [
+        {
+          "agentId": "agent.40a1f03c545884055177cf4a6326f71f064dbbed0a4bcf90f6299ebb21242547",
+          "start": 0,
+          "finish": 11
+        },
+        {
+          "agentId": "agent.73bec6d8f92dc546631e028dfe3d1f26c5dc5f37ff16200a77f024652265d8dd",
+          "start": 0,
+          "finish": 6
+        },
+        {
+          "agentId": "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.a744a1750e4790c43bf5b1e5a700ea3bdf89964af1db7e29bf23483354b928fa",
+          "start": 12,
+          "finish": 17
+        }
+      ],
+      "contentDigest": "sha256:d0b0e9b5d1522b63f8f80789ea86e3046837c473714860b9f826fb76673017ad"
+    }
+  ],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v14.adaptive-orchestration.vertical-slice",
+    "goalRevision": 1,
+    "allowedModules": [
+      "implement.codex-adapter",
+      "implement.runtime-routing",
+      "review.vertical-slice",
+      "test.runtime-routing"
+    ],
+    "allowedCapabilities": [
+      "design.codex-host-adapter",
+      "implement.deterministic-typescript-compiler",
+      "review.orchestration-vertical-slice",
+      "verify.runtime-routing-contract"
+    ],
+    "contextSources": [
+      {
+        "id": "context.agents",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "description": "Repository agent contract and host responsibilities.",
+        "allowedWorkUnits": [
+          "implement.codex-adapter",
+          "review.vertical-slice"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.canonical-json",
+        "kind": "repository",
+        "locator": "path:src/canonical-json.ts",
+        "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+        "bytes": 7405,
+        "description": "Canonical JSON and digest helpers.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ],
+        "readScope": "src/canonical-json.ts"
+      },
+      {
+        "id": "context.constants",
+        "kind": "repository",
+        "locator": "path:src/constants.ts",
+        "digest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a",
+        "bytes": 2570,
+        "description": "Current version and limit constants.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "src/constants.ts"
+      },
+      {
+        "id": "context.diagnostics",
+        "kind": "repository",
+        "locator": "path:src/diagnostics.ts",
+        "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+        "bytes": 25190,
+        "description": "Current diagnostic definitions and stable code conventions.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "src/diagnostics.ts"
+      },
+      {
+        "id": "context.host-scan",
+        "kind": "repository",
+        "locator": "path:docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+        "digest": "sha256:867b77b3920f0936e458a41ce693712da65495deaa45665f26e461a4c15050f0",
+        "bytes": 6636,
+        "description": "Current cross-host capability evidence.",
+        "allowedWorkUnits": [
+          "implement.codex-adapter",
+          "review.vertical-slice"
+        ],
+        "readScope": "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md"
+      },
+      {
+        "id": "context.ide-kickoff",
+        "kind": "repository",
+        "locator": "path:docs/ide/specialist-agent-kickoff.md",
+        "digest": "sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c",
+        "bytes": 22016,
+        "description": "Current Codex-visible specialist workflow.",
+        "allowedWorkUnits": [
+          "implement.codex-adapter",
+          "review.vertical-slice"
+        ],
+        "readScope": "docs/ide/specialist-agent-kickoff.md"
+      },
+      {
+        "id": "context.index",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Current public export surface.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.run-fixture",
+        "kind": "repository",
+        "locator": "path:test/helpers/specialist-run-fixture.mjs",
+        "digest": "sha256:2bad9cd515d3c170588799f3eaf4db65b1c257dc8eca58982200653eb3dd1d87",
+        "bytes": 9645,
+        "description": "Existing complete V11/V12 fixture construction pattern.",
+        "allowedWorkUnits": [
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "test/helpers/specialist-run-fixture.mjs"
+      },
+      {
+        "id": "context.schema-data-pattern",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema-data.ts",
+        "digest": "sha256:a41ed770e2d250cde3fed83910ba0a099eb84ea1fc6f9142e91f6659a1cd0bc1",
+        "bytes": 17463,
+        "description": "Generated schema source pattern.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ],
+        "readScope": "src/specialist-run-schema-data.ts"
+      },
+      {
+        "id": "context.schema-pattern",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d",
+        "bytes": 3180,
+        "description": "Strict Ajv closed-schema registry pattern.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.specialist-compiler",
+        "kind": "repository",
+        "locator": "path:src/specialist-compiler.ts",
+        "digest": "sha256:2a39a85745de2124464744c9635144e4e878cbea2f2b584ded25adb946798da7",
+        "bytes": 69522,
+        "description": "Canonical compiler, validation, search, and digest implementation patterns.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ],
+        "readScope": "src/specialist-compiler.ts"
+      },
+      {
+        "id": "context.specialist-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-types.ts",
+        "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+        "bytes": 16047,
+        "description": "Existing specialist public types consumed by runtime routing.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "src/specialist-types.ts"
+      },
+      {
+        "id": "context.test-pattern",
+        "kind": "repository",
+        "locator": "path:test/specialist-compiler.test.mjs",
+        "digest": "sha256:2847895078aa56d9e051f0b399b2e923cce3edc647c2d471c76034fd12159200",
+        "bytes": 62973,
+        "description": "Existing compiler determinism and adversarial test patterns.",
+        "allowedWorkUnits": [
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "test/specialist-compiler.test.mjs"
+      },
+      {
+        "id": "context.v14-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+        "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+        "bytes": 39536,
+        "description": "Normative V14 Revision 2 contract.",
+        "allowedWorkUnits": [
+          "implement.codex-adapter",
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+      },
+      {
+        "id": "context.v14-r1",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+        "digest": "sha256:41df682065baa9ed9f3bba30d5947fcc6a8329664adb905e480d998f2ebfcd02",
+        "bytes": 3384,
+        "description": "Integrated architecture-review findings that Revision 2 must preserve.",
+        "allowedWorkUnits": [
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md"
+      },
+      {
+        "id": "context.v14-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+        "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+        "bytes": 7229,
+        "description": "V14 product specification and acceptance criteria.",
+        "allowedWorkUnits": [
+          "implement.codex-adapter",
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "AGENTS.md",
+          "adapters/codex-desktop/README.md",
+          "adapters/codex-desktop/inventory.example.json",
+          "adapters/codex-desktop/policy.example.json",
+          "docs/ide/codex-adaptive-run.md",
+          "docs/ide/specialist-agent-kickoff.md",
+          "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+          "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+          "docs/specs/v14-adaptive-orchestration/spec.md",
+          "schemas/v1alpha1/runtime-routing.schema.json",
+          "src/canonical-json.ts",
+          "src/constants.ts",
+          "src/diagnostics.ts",
+          "src/index.ts",
+          "src/runtime-routing-schema-data.ts",
+          "src/runtime-routing-schema.ts",
+          "src/runtime-routing-types.ts",
+          "src/runtime-routing.ts",
+          "src/specialist-compiler.ts",
+          "src/specialist-run-schema-data.ts",
+          "src/specialist-run-schema.ts",
+          "src/specialist-types.ts",
+          "test/helpers/runtime-routing-fixture.mjs",
+          "test/helpers/specialist-run-fixture.mjs",
+          "test/runtime-routing-schema.test.mjs",
+          "test/runtime-routing.test.mjs",
+          "test/specialist-compiler.test.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "adapters/codex-desktop/README.md",
+          "adapters/codex-desktop/inventory.example.json",
+          "adapters/codex-desktop/policy.example.json",
+          "docs/ide/codex-adaptive-run.md",
+          "schemas/v1alpha1/runtime-routing.schema.json",
+          "src/runtime-routing-schema-data.ts",
+          "src/runtime-routing-schema.ts",
+          "src/runtime-routing-types.ts",
+          "src/runtime-routing.ts",
+          "test/helpers/runtime-routing-fixture.mjs",
+          "test/runtime-routing-schema.test.mjs",
+          "test/runtime-routing.test.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not access the network, secrets, external services, or undeclared repository paths.",
+      "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory."
+    ],
+    "maxAgents": 4,
+    "maxConcurrency": 3,
+    "contentDigest": "sha256:5e1825b982dfba08b9dabe25be213866c90a344bf359ea60dae9d2ae951431c8"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 4,
+    "evaluatedCandidates": 15,
+    "eligibleCandidates": 7,
+    "retainedAlternatives": 8,
+    "evaluationSetDigest": "sha256:41ab97a9ef8463569aee75e610033dab8ccff7de38983de79c1e54e140edce2f"
+  },
+  "serialBaseline": {
+    "id": "team.4b3f33a37ebe1438934dd0fcd522ed7f4a3d930fbc69dda26e22e6096f403091",
+    "partition": [
+      [
+        "implement.codex-adapter",
+        "implement.runtime-routing",
+        "review.vertical-slice",
+        "test.runtime-routing"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": false,
+    "rejectionCodes": [
+      "evidence_independence"
+    ],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 28,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 27,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.3f31b3b226dc979d064ecc382222f4198875676ba524658df94688414ce75132",
+        "start": 0,
+        "finish": 28
+      }
+    ],
+    "contentDigest": "sha256:977c7dcf16c9547353662d6efb75f0bf23cd8606cfc7ccb0e5bdb9fc90ba166b"
+  },
+  "selected": {
+    "id": "team.43ca2714bb81573a11b7ed5e7b3d63c128bae774b17bb174483986576bebee67",
+    "partition": [
+      [
+        "implement.codex-adapter"
+      ],
+      [
+        "implement.runtime-routing"
+      ],
+      [
+        "review.vertical-slice"
+      ],
+      [
+        "test.runtime-routing"
+      ]
+    ],
+    "origins": [
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.v14.three-producers-one-reviewer"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 4,
+      "projectedMakespan": 17,
+      "peakConcurrency": 3,
+      "conflictPairs": 3,
+      "handoffCount": 3,
+      "duplicatedContextBytes": 461106,
+      "duplicatedPermissionScopes": 31,
+      "totalWorkWeight": 27,
+      "totalStartupCost": 4,
+      "totalHandoffCost": 3
+    },
+    "schedule": [
+      {
+        "agentId": "agent.40a1f03c545884055177cf4a6326f71f064dbbed0a4bcf90f6299ebb21242547",
+        "start": 0,
+        "finish": 11
+      },
+      {
+        "agentId": "agent.73bec6d8f92dc546631e028dfe3d1f26c5dc5f37ff16200a77f024652265d8dd",
+        "start": 0,
+        "finish": 6
+      },
+      {
+        "agentId": "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c",
+        "start": 0,
+        "finish": 9
+      },
+      {
+        "agentId": "agent.a744a1750e4790c43bf5b1e5a700ea3bdf89964af1db7e29bf23483354b928fa",
+        "start": 12,
+        "finish": 17
+      }
+    ],
+    "contentDigest": "sha256:d0b0e9b5d1522b63f8f80789ea86e3046837c473714860b9f826fb76673017ad"
+  },
+  "selectionReason": {
+    "kind": "serial_ineligible",
+    "decisiveField": "evidence_independence",
+    "selectedValue": "eligible",
+    "serialValue": "ineligible",
+    "serialRejectionCodes": [
+      "evidence_independence"
+    ]
+  },
+  "alternatives": [
+    {
+      "id": "team.9c0aba28089a3e3b8fc345bec85709ef922c5ea7f79deb0044fcf97c636c95cc",
+      "partition": [
+        [
+          "implement.codex-adapter",
+          "test.runtime-routing"
+        ],
+        [
+          "implement.runtime-routing"
+        ],
+        [
+          "review.vertical-slice"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 3,
+        "projectedMakespan": 20,
+        "peakConcurrency": 2,
+        "conflictPairs": 2,
+        "handoffCount": 2,
+        "duplicatedContextBytes": 414341,
+        "duplicatedPermissionScopes": 29,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 3,
+        "totalHandoffCost": 2
+      },
+      "schedule": [
+        {
+          "agentId": "agent.40a1f03c545884055177cf4a6326f71f064dbbed0a4bcf90f6299ebb21242547",
+          "start": 0,
+          "finish": 11
+        },
+        {
+          "agentId": "agent.f7d30f0170162a89c4aafbba4fb4a78f38d1813f5341fd4fd494ec7898c881ed",
+          "start": 0,
+          "finish": 14
+        },
+        {
+          "agentId": "agent.a744a1750e4790c43bf5b1e5a700ea3bdf89964af1db7e29bf23483354b928fa",
+          "start": 15,
+          "finish": 20
+        }
+      ],
+      "contentDigest": "sha256:2d61cf1c8d050c9530afe0dce96e474636c7e601f38394e1ca15851e36584aed"
+    },
+    {
+      "id": "team.905b9618dc05a61d3efe53abd61615ac6f3cc1d9ef946b123700b0a0d0836562",
+      "partition": [
+        [
+          "implement.codex-adapter",
+          "implement.runtime-routing"
+        ],
+        [
+          "review.vertical-slice"
+        ],
+        [
+          "test.runtime-routing"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 3,
+        "projectedMakespan": 22,
+        "peakConcurrency": 2,
+        "conflictPairs": 2,
+        "handoffCount": 2,
+        "duplicatedContextBytes": 414341,
+        "duplicatedPermissionScopes": 29,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 3,
+        "totalHandoffCost": 2
+      },
+      "schedule": [
+        {
+          "agentId": "agent.202521877c622310d4e46a1f94c223c50390e67d0213ef2982d686a9101ac3e9",
+          "start": 0,
+          "finish": 16
+        },
+        {
+          "agentId": "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.a744a1750e4790c43bf5b1e5a700ea3bdf89964af1db7e29bf23483354b928fa",
+          "start": 17,
+          "finish": 22
+        }
+      ],
+      "contentDigest": "sha256:caf6e87d3f0f41f3701be52705d336d139b18382bdea407aa56d22ebfd97c9bb"
+    },
+    {
+      "id": "team.f0c6b060505bfd5ac495f17a5b4004a714cbe5a159c534a82f65561ec75ffad6",
+      "partition": [
+        [
+          "implement.codex-adapter"
+        ],
+        [
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ],
+        [
+          "test.runtime-routing"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 3,
+        "projectedMakespan": 25,
+        "peakConcurrency": 2,
+        "conflictPairs": 2,
+        "handoffCount": 2,
+        "duplicatedContextBytes": 264133,
+        "duplicatedPermissionScopes": 17,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 3,
+        "totalHandoffCost": 2
+      },
+      "schedule": [
+        {
+          "agentId": "agent.73bec6d8f92dc546631e028dfe3d1f26c5dc5f37ff16200a77f024652265d8dd",
+          "start": 0,
+          "finish": 6
+        },
+        {
+          "agentId": "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.e36287f978111940d35fff52ea30c7dc8034e11bd77d6678f88fe31aa6a95b71",
+          "start": 10,
+          "finish": 25
+        }
+      ],
+      "contentDigest": "sha256:b7784b660b317fafcd57eb4176250a54857d171b0611b488c77d40c0ec7a1d7d"
+    },
+    {
+      "id": "team.6dc2851295f1193d162a5c79c6da9875cf1c8ab1709530107d9c68c1cd36eece",
+      "partition": [
+        [
+          "implement.codex-adapter"
+        ],
+        [
+          "implement.runtime-routing"
+        ],
+        [
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 3,
+        "projectedMakespan": 25,
+        "peakConcurrency": 2,
+        "conflictPairs": 2,
+        "handoffCount": 2,
+        "duplicatedContextBytes": 289085,
+        "duplicatedPermissionScopes": 19,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 3,
+        "totalHandoffCost": 2
+      },
+      "schedule": [
+        {
+          "agentId": "agent.40a1f03c545884055177cf4a6326f71f064dbbed0a4bcf90f6299ebb21242547",
+          "start": 0,
+          "finish": 11
+        },
+        {
+          "agentId": "agent.73bec6d8f92dc546631e028dfe3d1f26c5dc5f37ff16200a77f024652265d8dd",
+          "start": 0,
+          "finish": 6
+        },
+        {
+          "agentId": "agent.8b7ec3079e1b822fb6aca3daca899343d391ce8580b996e42415a59315c039e8",
+          "start": 12,
+          "finish": 25
+        }
+      ],
+      "contentDigest": "sha256:38b49296dd1a5f120d0012e2962fd137cd55da8b90d15c391733feed7dea05c1"
+    },
+    {
+      "id": "team.97f4c6198173b6a0d83779750e29e64eb7a6afa6c7806bcf4b378c4b311f4689",
+      "partition": [
+        [
+          "implement.codex-adapter",
+          "test.runtime-routing"
+        ],
+        [
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 30,
+        "peakConcurrency": 1,
+        "conflictPairs": 1,
+        "handoffCount": 1,
+        "duplicatedContextBytes": 217368,
+        "duplicatedPermissionScopes": 15,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 1
+      },
+      "schedule": [
+        {
+          "agentId": "agent.f7d30f0170162a89c4aafbba4fb4a78f38d1813f5341fd4fd494ec7898c881ed",
+          "start": 0,
+          "finish": 14
+        },
+        {
+          "agentId": "agent.e36287f978111940d35fff52ea30c7dc8034e11bd77d6678f88fe31aa6a95b71",
+          "start": 15,
+          "finish": 30
+        }
+      ],
+      "contentDigest": "sha256:0d3451b87f68251ab4d780669084056ef44efc297b746c2c57d0a66071dc2364"
+    },
+    {
+      "id": "team.39722af9e5dfbe56757be04abc0928944a002e014d900fee2d33e0d8e3d15c0b",
+      "partition": [
+        [
+          "implement.codex-adapter",
+          "implement.runtime-routing"
+        ],
+        [
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 30,
+        "peakConcurrency": 1,
+        "conflictPairs": 1,
+        "handoffCount": 1,
+        "duplicatedContextBytes": 242320,
+        "duplicatedPermissionScopes": 17,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 1
+      },
+      "schedule": [
+        {
+          "agentId": "agent.202521877c622310d4e46a1f94c223c50390e67d0213ef2982d686a9101ac3e9",
+          "start": 0,
+          "finish": 16
+        },
+        {
+          "agentId": "agent.8b7ec3079e1b822fb6aca3daca899343d391ce8580b996e42415a59315c039e8",
+          "start": 17,
+          "finish": 30
+        }
+      ],
+      "contentDigest": "sha256:e340ce9122296b22e780816cc0bea2ef6414816cb078a40d82533a8d1b4b06d5"
+    },
+    {
+      "id": "team.4b3f33a37ebe1438934dd0fcd522ed7f4a3d930fbc69dda26e22e6096f403091",
+      "partition": [
+        [
+          "implement.codex-adapter",
+          "implement.runtime-routing",
+          "review.vertical-slice",
+          "test.runtime-routing"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": false,
+      "rejectionCodes": [
+        "evidence_independence"
+      ],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 28,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.3f31b3b226dc979d064ecc382222f4198875676ba524658df94688414ce75132",
+          "start": 0,
+          "finish": 28
+        }
+      ],
+      "contentDigest": "sha256:977c7dcf16c9547353662d6efb75f0bf23cd8606cfc7ccb0e5bdb9fc90ba166b"
+    },
+    {
+      "id": "team.df54ce0c22feb453e0b7a4236e46ae4ead764c0c03bc8f0f56b94ad38106ec78",
+      "partition": [
+        [
+          "implement.codex-adapter",
+          "implement.runtime-routing",
+          "review.vertical-slice"
+        ],
+        [
+          "test.runtime-routing"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": false,
+      "rejectionCodes": [
+        "evidence_independence"
+      ],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 30,
+        "peakConcurrency": 1,
+        "conflictPairs": 1,
+        "handoffCount": 1,
+        "duplicatedContextBytes": 172021,
+        "duplicatedPermissionScopes": 12,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 1
+      },
+      "schedule": [
+        {
+          "agentId": "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.8f42667ee2ad849f907bb98c723cd0f10129a8626ca3600780c934ec75fa76a2",
+          "start": 10,
+          "finish": 30
+        }
+      ],
+      "contentDigest": "sha256:6b6a750df48ad7d30fb84e6595d6359f83bf37bd0d5d52d9267e509958be5dc2"
+    }
+  ],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.40a1f03c545884055177cf4a6326f71f064dbbed0a4bcf90f6299ebb21242547",
+      "goalId": "v14.adaptive-orchestration.vertical-slice",
+      "goalRevision": 1,
+      "goalDigest": "sha256:3d6f58596ed4a07b75469a13e4ef0c8088f85ac51b7d02fda27cd026b8155c9a",
+      "candidateId": "team.43ca2714bb81573a11b7ed5e7b3d63c128bae774b17bb174483986576bebee67",
+      "workUnitIds": [
+        "implement.runtime-routing"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "implement.runtime-routing",
+          "objective": "Implement the closed provider-neutral runtime-routing types, strict schema, validation, demand derivation, row filtering, vector search, override, and verification operations."
+        }
+      ],
+      "modules": [
+        {
+          "id": "implement.runtime-routing",
+          "action": "Follow existing canonical JSON, snapshot, Ajv, diagnostics, limit, and OperationResult patterns; preserve V11/V12 APIs; implement only the routing portion of the normative V14 contract.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "runtime-routing-implementation.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.canonical-json",
+          "kind": "repository",
+          "locator": "path:src/canonical-json.ts",
+          "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+          "bytes": 7405,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "src/canonical-json.ts"
+        },
+        {
+          "sourceId": "context.constants",
+          "kind": "repository",
+          "locator": "path:src/constants.ts",
+          "digest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a",
+          "bytes": 2570,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "src/constants.ts"
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "kind": "repository",
+          "locator": "path:src/diagnostics.ts",
+          "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+          "bytes": 25190,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "src/diagnostics.ts"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+          "bytes": 5447,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.schema-data-pattern",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-schema-data.ts",
+          "digest": "sha256:a41ed770e2d250cde3fed83910ba0a099eb84ea1fc6f9142e91f6659a1cd0bc1",
+          "bytes": 17463,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "src/specialist-run-schema-data.ts"
+        },
+        {
+          "sourceId": "context.schema-pattern",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-schema.ts",
+          "digest": "sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d",
+          "bytes": 3180,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "src/specialist-run-schema.ts"
+        },
+        {
+          "sourceId": "context.specialist-compiler",
+          "kind": "repository",
+          "locator": "path:src/specialist-compiler.ts",
+          "digest": "sha256:2a39a85745de2124464744c9635144e4e878cbea2f2b584ded25adb946798da7",
+          "bytes": 69522,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "src/specialist-compiler.ts"
+        },
+        {
+          "sourceId": "context.specialist-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-types.ts",
+          "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+          "bytes": 16047,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "src/specialist-types.ts"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+          "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+          "bytes": 39536,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+        },
+        {
+          "sourceId": "context.v14-r1",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+          "digest": "sha256:41df682065baa9ed9f3bba30d5947fcc6a8329664adb905e480d998f2ebfcd02",
+          "bytes": 3384,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.runtime-routing"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "implement.deterministic-typescript-compiler"
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/specialist-compiler.ts",
+            "src/specialist-run-schema-data.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-types.ts"
+          ],
+          "write": [
+            "schemas/v1alpha1/runtime-routing.schema.json",
+            "src/runtime-routing-schema-data.ts",
+            "src/runtime-routing-schema.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "src/canonical-json.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/specialist-compiler.ts",
+              "src/specialist-run-schema-data.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-types.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "schemas/v1alpha1/runtime-routing.schema.json",
+              "src/runtime-routing-schema-data.ts",
+              "src/runtime-routing-schema.ts",
+              "src/runtime-routing-types.ts",
+              "src/runtime-routing.ts"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access the network, secrets, external services, or undeclared repository paths.",
+          "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.routing",
+          "criterion": "The kernel deterministically derives demand, filters profile/effort rows, and selects a globally feasible least-cost assignment vector.",
+          "requirementId": "evidence.routing.produce",
+          "kind": "artifact",
+          "duty": "produce",
+          "description": "Produce the closed runtime-routing implementation and schema.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "runtime-routing-implementation.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not install dependencies, access the network, mutate Git, merge, or update memory.",
+        "Do not modify files outside the declared write scope.",
+        "Return a non-pass outcome when required verification cannot be completed.",
+        "Stop if the normative V14 contract conflicts with the existing V11 or V12 public boundary."
+      ],
+      "contentDigest": "sha256:b63e68eb472da944096425062eda7ad7e65c9a5983a53be74de5d7ea6626e487"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.73bec6d8f92dc546631e028dfe3d1f26c5dc5f37ff16200a77f024652265d8dd",
+      "goalId": "v14.adaptive-orchestration.vertical-slice",
+      "goalRevision": 1,
+      "goalDigest": "sha256:3d6f58596ed4a07b75469a13e4ef0c8088f85ac51b7d02fda27cd026b8155c9a",
+      "candidateId": "team.43ca2714bb81573a11b7ed5e7b3d63c128bae774b17bb174483986576bebee67",
+      "workUnitIds": [
+        "implement.codex-adapter"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "implement.codex-adapter",
+          "objective": "Define the first usable Windows Codex Desktop adapter surface, examples, and visible host workflow for approved assignments."
+        }
+      ],
+      "modules": [
+        {
+          "id": "implement.codex-adapter",
+          "action": "Provide a small truthful adapter contract and examples for current model/effort inventory, native spawn translation, explicit unavailable bindings, status visibility, exact result capture, and no hidden fallback.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "codex-adapter-evidence.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.agents",
+          "kind": "repository",
+          "locator": "path:AGENTS.md",
+          "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+          "bytes": 16695,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.codex-adapter"
+          ],
+          "readScope": "AGENTS.md"
+        },
+        {
+          "sourceId": "context.host-scan",
+          "kind": "repository",
+          "locator": "path:docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+          "digest": "sha256:867b77b3920f0936e458a41ce693712da65495deaa45665f26e461a4c15050f0",
+          "bytes": 6636,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.codex-adapter"
+          ],
+          "readScope": "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md"
+        },
+        {
+          "sourceId": "context.ide-kickoff",
+          "kind": "repository",
+          "locator": "path:docs/ide/specialist-agent-kickoff.md",
+          "digest": "sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c",
+          "bytes": 22016,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.codex-adapter"
+          ],
+          "readScope": "docs/ide/specialist-agent-kickoff.md"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+          "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+          "bytes": 39536,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.codex-adapter"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "implement.codex-adapter"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "design.codex-host-adapter"
+        ],
+        "scope": {
+          "read": [
+            "AGENTS.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md"
+          ],
+          "write": [
+            "adapters/codex-desktop/README.md",
+            "adapters/codex-desktop/inventory.example.json",
+            "adapters/codex-desktop/policy.example.json",
+            "docs/ide/codex-adaptive-run.md"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "adapters/codex-desktop/README.md",
+              "adapters/codex-desktop/inventory.example.json",
+              "adapters/codex-desktop/policy.example.json",
+              "docs/ide/codex-adaptive-run.md"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access the network, secrets, external services, or undeclared repository paths.",
+          "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.adapter",
+          "criterion": "A Windows Codex Desktop adapter can translate approved assignments into visible native agent launches without hidden fallback.",
+          "requirementId": "evidence.adapter.produce",
+          "kind": "artifact",
+          "duty": "produce",
+          "description": "Produce the reference adapter contract, inventory, policy, and IDE guide.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "codex-adapter-evidence.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not install dependencies, access the network, mutate Git, merge, or update memory.",
+        "Do not modify files outside the declared write scope.",
+        "Return a non-pass outcome when required verification cannot be completed.",
+        "Stop if the normative V14 contract conflicts with the existing V11 or V12 public boundary."
+      ],
+      "contentDigest": "sha256:53a863154b733ff2118aaf5e87282c064d8a5335f865f78953729c4b65a5db8c"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c",
+      "goalId": "v14.adaptive-orchestration.vertical-slice",
+      "goalRevision": 1,
+      "goalDigest": "sha256:3d6f58596ed4a07b75469a13e4ef0c8088f85ac51b7d02fda27cd026b8155c9a",
+      "candidateId": "team.43ca2714bb81573a11b7ed5e7b3d63c128bae774b17bb174483986576bebee67",
+      "workUnitIds": [
+        "test.runtime-routing"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "test.runtime-routing",
+          "objective": "Create independent executable fixtures and tests for the V14 runtime-routing contract before seeing the producer implementation."
+        }
+      ],
+      "modules": [
+        {
+          "id": "test.runtime-routing",
+          "action": "Test demand coverage, every hard gate, full-vector independence, exact and bounded search claims, comparator order, determinism under permutations, overrides, malformed inputs, limits, and packed public usability assumptions.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "runtime-routing-test-evidence.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.constants",
+          "kind": "repository",
+          "locator": "path:src/constants.ts",
+          "digest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a",
+          "bytes": 2570,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "test.runtime-routing"
+          ],
+          "readScope": "src/constants.ts"
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "kind": "repository",
+          "locator": "path:src/diagnostics.ts",
+          "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+          "bytes": 25190,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "test.runtime-routing"
+          ],
+          "readScope": "src/diagnostics.ts"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+          "bytes": 5447,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "test.runtime-routing"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.run-fixture",
+          "kind": "repository",
+          "locator": "path:test/helpers/specialist-run-fixture.mjs",
+          "digest": "sha256:2bad9cd515d3c170588799f3eaf4db65b1c257dc8eca58982200653eb3dd1d87",
+          "bytes": 9645,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "test.runtime-routing"
+          ],
+          "readScope": "test/helpers/specialist-run-fixture.mjs"
+        },
+        {
+          "sourceId": "context.specialist-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-types.ts",
+          "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+          "bytes": 16047,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "test.runtime-routing"
+          ],
+          "readScope": "src/specialist-types.ts"
+        },
+        {
+          "sourceId": "context.test-pattern",
+          "kind": "repository",
+          "locator": "path:test/specialist-compiler.test.mjs",
+          "digest": "sha256:2847895078aa56d9e051f0b399b2e923cce3edc647c2d471c76034fd12159200",
+          "bytes": 62973,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "test.runtime-routing"
+          ],
+          "readScope": "test/specialist-compiler.test.mjs"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+          "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+          "bytes": 39536,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "test.runtime-routing"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+        },
+        {
+          "sourceId": "context.v14-r1",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+          "digest": "sha256:41df682065baa9ed9f3bba30d5947fcc6a8329664adb905e480d998f2ebfcd02",
+          "bytes": 3384,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "test.runtime-routing"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "test.runtime-routing"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "verify.runtime-routing-contract"
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/specialist-types.ts",
+            "test/helpers/specialist-run-fixture.mjs",
+            "test/specialist-compiler.test.mjs"
+          ],
+          "write": [
+            "test/helpers/runtime-routing-fixture.mjs",
+            "test/runtime-routing-schema.test.mjs",
+            "test/runtime-routing.test.mjs"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/specialist-types.ts",
+              "test/helpers/specialist-run-fixture.mjs",
+              "test/specialist-compiler.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "test/helpers/runtime-routing-fixture.mjs",
+              "test/runtime-routing-schema.test.mjs",
+              "test/runtime-routing.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access the network, secrets, external services, or undeclared repository paths.",
+          "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.routing",
+          "criterion": "The kernel deterministically derives demand, filters profile/effort rows, and selects a globally feasible least-cost assignment vector.",
+          "requirementId": "evidence.routing.verify",
+          "kind": "test",
+          "duty": "verify",
+          "description": "Independently verify deterministic selection, hard gates, bounded search, and overrides.",
+          "independentFromProducer": true
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "runtime-routing-test-evidence.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not install dependencies, access the network, mutate Git, merge, or update memory.",
+        "Do not modify files outside the declared write scope.",
+        "Return a non-pass outcome when required verification cannot be completed.",
+        "Stop if the normative V14 contract conflicts with the existing V11 or V12 public boundary."
+      ],
+      "contentDigest": "sha256:3f96a365a04460cb754034e9f30e8ab80f8b814a163c9444003d366da9125149"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.a744a1750e4790c43bf5b1e5a700ea3bdf89964af1db7e29bf23483354b928fa",
+      "goalId": "v14.adaptive-orchestration.vertical-slice",
+      "goalRevision": 1,
+      "goalDigest": "sha256:3d6f58596ed4a07b75469a13e4ef0c8088f85ac51b7d02fda27cd026b8155c9a",
+      "candidateId": "team.43ca2714bb81573a11b7ed5e7b3d63c128bae774b17bb174483986576bebee67",
+      "workUnitIds": [
+        "review.vertical-slice"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.vertical-slice",
+          "objective": "Independently review the integrated routing kernel, tests, and Codex adapter after all producer outputs are available."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.vertical-slice",
+          "action": "Inspect exact source, run focused verification, and report material API, determinism, security, adapter-truth, or usability defects without editing producer outputs.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "vertical-slice-review.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [
+        "agent.40a1f03c545884055177cf4a6326f71f064dbbed0a4bcf90f6299ebb21242547",
+        "agent.73bec6d8f92dc546631e028dfe3d1f26c5dc5f37ff16200a77f024652265d8dd",
+        "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c"
+      ],
+      "contextUses": [
+        {
+          "sourceId": "context.agents",
+          "kind": "repository",
+          "locator": "path:AGENTS.md",
+          "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+          "bytes": 16695,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "AGENTS.md"
+        },
+        {
+          "sourceId": "context.canonical-json",
+          "kind": "repository",
+          "locator": "path:src/canonical-json.ts",
+          "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+          "bytes": 7405,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "src/canonical-json.ts"
+        },
+        {
+          "sourceId": "context.constants",
+          "kind": "repository",
+          "locator": "path:src/constants.ts",
+          "digest": "sha256:2fded9c023b41dc58ad7b8471d9b3f7dbc5b4566c6fecbb6008829c1c5000b6a",
+          "bytes": 2570,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "src/constants.ts"
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "kind": "repository",
+          "locator": "path:src/diagnostics.ts",
+          "digest": "sha256:3d27fe071994a2a87a59ecadc52a788a6aaf85737b46371f5622bf10c50aede6",
+          "bytes": 25190,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "src/diagnostics.ts"
+        },
+        {
+          "sourceId": "context.host-scan",
+          "kind": "repository",
+          "locator": "path:docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+          "digest": "sha256:867b77b3920f0936e458a41ce693712da65495deaa45665f26e461a4c15050f0",
+          "bytes": 6636,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md"
+        },
+        {
+          "sourceId": "context.ide-kickoff",
+          "kind": "repository",
+          "locator": "path:docs/ide/specialist-agent-kickoff.md",
+          "digest": "sha256:9c321b526902503f845d96e9b20291f41c03a04d5df0098af33388815c03402c",
+          "bytes": 22016,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "docs/ide/specialist-agent-kickoff.md"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+          "bytes": 5447,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.run-fixture",
+          "kind": "repository",
+          "locator": "path:test/helpers/specialist-run-fixture.mjs",
+          "digest": "sha256:2bad9cd515d3c170588799f3eaf4db65b1c257dc8eca58982200653eb3dd1d87",
+          "bytes": 9645,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "test/helpers/specialist-run-fixture.mjs"
+        },
+        {
+          "sourceId": "context.schema-data-pattern",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-schema-data.ts",
+          "digest": "sha256:a41ed770e2d250cde3fed83910ba0a099eb84ea1fc6f9142e91f6659a1cd0bc1",
+          "bytes": 17463,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "src/specialist-run-schema-data.ts"
+        },
+        {
+          "sourceId": "context.schema-pattern",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-schema.ts",
+          "digest": "sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d",
+          "bytes": 3180,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "src/specialist-run-schema.ts"
+        },
+        {
+          "sourceId": "context.specialist-compiler",
+          "kind": "repository",
+          "locator": "path:src/specialist-compiler.ts",
+          "digest": "sha256:2a39a85745de2124464744c9635144e4e878cbea2f2b584ded25adb946798da7",
+          "bytes": 69522,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "src/specialist-compiler.ts"
+        },
+        {
+          "sourceId": "context.specialist-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-types.ts",
+          "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+          "bytes": 16047,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "src/specialist-types.ts"
+        },
+        {
+          "sourceId": "context.test-pattern",
+          "kind": "repository",
+          "locator": "path:test/specialist-compiler.test.mjs",
+          "digest": "sha256:2847895078aa56d9e051f0b399b2e923cce3edc647c2d471c76034fd12159200",
+          "bytes": 62973,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "test/specialist-compiler.test.mjs"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+          "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+          "bytes": 39536,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+        },
+        {
+          "sourceId": "context.v14-r1",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+          "digest": "sha256:41df682065baa9ed9f3bba30d5947fcc6a8329664adb905e480d998f2ebfcd02",
+          "bytes": 3384,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Implement or verify the exact V14 executable vertical slice."
+          ],
+          "workUnitIds": [
+            "review.vertical-slice"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "review.orchestration-vertical-slice"
+        ],
+        "scope": {
+          "read": [
+            "AGENTS.md",
+            "adapters/codex-desktop/README.md",
+            "adapters/codex-desktop/inventory.example.json",
+            "adapters/codex-desktop/policy.example.json",
+            "docs/ide/codex-adaptive-run.md",
+            "docs/ide/specialist-agent-kickoff.md",
+            "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "schemas/v1alpha1/runtime-routing.schema.json",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/runtime-routing-schema-data.ts",
+            "src/runtime-routing-schema.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts",
+            "src/specialist-compiler.ts",
+            "src/specialist-run-schema-data.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-types.ts",
+            "test/helpers/runtime-routing-fixture.mjs",
+            "test/helpers/specialist-run-fixture.mjs",
+            "test/runtime-routing-schema.test.mjs",
+            "test/runtime-routing.test.mjs",
+            "test/specialist-compiler.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "adapters/codex-desktop/README.md",
+              "adapters/codex-desktop/inventory.example.json",
+              "adapters/codex-desktop/policy.example.json",
+              "docs/ide/codex-adaptive-run.md",
+              "docs/ide/specialist-agent-kickoff.md",
+              "docs/research/snapshots/2026-07-27-adaptive-orchestration-host-scan.md",
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/r1-review-summary.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "schemas/v1alpha1/runtime-routing.schema.json",
+              "src/canonical-json.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/runtime-routing-schema-data.ts",
+              "src/runtime-routing-schema.ts",
+              "src/runtime-routing-types.ts",
+              "src/runtime-routing.ts",
+              "src/specialist-compiler.ts",
+              "src/specialist-run-schema-data.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-types.ts",
+              "test/helpers/runtime-routing-fixture.mjs",
+              "test/helpers/specialist-run-fixture.mjs",
+              "test/runtime-routing-schema.test.mjs",
+              "test/runtime-routing.test.mjs",
+              "test/specialist-compiler.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access the network, secrets, external services, or undeclared repository paths.",
+          "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.adapter",
+          "criterion": "A Windows Codex Desktop adapter can translate approved assignments into visible native agent launches without hidden fallback.",
+          "requirementId": "evidence.slice.review",
+          "kind": "review",
+          "duty": "review",
+          "description": "Independently review the complete integrated vertical slice.",
+          "independentFromProducer": true
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "vertical-slice-review.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not install dependencies, access the network, mutate Git, merge, or update memory.",
+        "Do not modify files outside the declared write scope.",
+        "Return a non-pass outcome when required verification cannot be completed.",
+        "Stop if the normative V14 contract conflicts with the existing V11 or V12 public boundary."
+      ],
+      "contentDigest": "sha256:ef2ce676a6596499a53255163c4aa02a4c273af8696e6bce3f1a1dd87c22b3f8"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.40a1f03c545884055177cf4a6326f71f064dbbed0a4bcf90f6299ebb21242547",
+        "agent.73bec6d8f92dc546631e028dfe3d1f26c5dc5f37ff16200a77f024652265d8dd",
+        "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c"
+      ]
+    },
+    {
+      "start": 12,
+      "agentIds": [
+        "agent.a744a1750e4790c43bf5b1e5a700ea3bdf89964af1db7e29bf23483354b928fa"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:ef1a9ec09a789eed249090a49800d10c9670dfbbfb9703e5691fa24996bed614"
+}
