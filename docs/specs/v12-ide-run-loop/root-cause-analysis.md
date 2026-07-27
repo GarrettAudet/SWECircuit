@@ -4,15 +4,12 @@
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
-verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
-gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
-of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
-consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
-bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
-content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
-V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
-Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
+73 is active after R72's only protected invocation was externally terminated without a receipt.
+The exact-R72 replay is preserved and rejected as qualification. A dedicated candidate-neutral
+transport fixture passes. Independent review attempts 1 through 3 returned `block`; all replay,
+authentication, routing, source-preservation, semantic-continuity, index-tracking, and
+stale-description findings are corrected. Attempt 4 returned `pass` with no unresolved finding.
+R73 has not frozen and its protected gate has not been invoked; `releaseReady: false`.
 
 ## Reproduction
 
@@ -836,3 +833,38 @@ expected SHA-256 digest. Replace only `Get-FileHash` with a module-independent
 `System.IO.File::OpenRead` plus `System.Security.Cryptography.SHA256` stream computation. Hosted
 Windows Node 22 and 24 must both pass the exact regression before Revision 72 may consume its
 one-shot gate.
+
+## Revision 73 External Host-Termination RCA
+
+### Confirmed Cause
+
+R72 passed exact local, rehearsal, and hosted qualification. Its real one-shot invocation then
+returned decimal `1073807364`, hexadecimal `0x40010004`, after about 539.5 seconds. Microsoft's
+NTSTATUS table names that status `DBG_TERMINATE_PROCESS`. Exact stdout reaches 482/482 core pass
+and copied-lifecycle entry; no receipt exists.
+
+The candidate did not emit a semantic test failure. The long-running gate process was owned by an
+open IDE tool call and the external host terminated it. A missing receipt remains fail-closed, and
+the partial attempt permanently consumes R72 eligibility.
+
+### Causal Fix
+
+Preserve the exact R72 slot and never rerun it. For R73, have one short-lived external Windows
+command start a hidden background gate process with externally redirected streams and a persisted
+launch record. The shell exits immediately; the integration owner polls the one process and
+candidate slot without invoking again.
+
+This changes external-host execution supply only. It does not add an effect to core, change the
+canonical command, weaken receipt verification, or treat a rehearsal as release evidence.
+
+An exact-R72 clone replay mechanically passed but violated the commit-level one-shot rule. It is
+preserved as invalid qualification and cannot prove the correction. The valid proof is a dedicated
+candidate-neutral fixture that cross-binds one nonce, PID, process start time, source digests,
+launcher exit, timestamped polls, post-exit heartbeat, receipt, and completion.
+
+The fixture's first runner captured launcher standard handles, which kept the supervising call
+open until worker completion. Replacing inherited pipes with dedicated launcher stdout and stderr
+file handles while the worker owns separate redirected stream files is the smallest causal
+correction. The corrected fixture passes without receiving a candidate commit or invoking a
+canonical command. Independent review attempts 1 through 3 remain preserved `block` outcomes; all
+findings are corrected, and Attempt 4 returned `pass` with no unresolved finding. R73 may freeze.

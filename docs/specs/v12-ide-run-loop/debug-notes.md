@@ -4,15 +4,13 @@
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
-verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
-gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
-of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
-consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
-bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
-content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
-V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
-Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
+73 is active after R72's only protected invocation was externally terminated without a receipt.
+The exact-R72 replay is preserved and rejected as qualification. A dedicated candidate-neutral
+transport fixture passes. Independent review attempts 1 through 3 returned `block` on replay,
+authentication, stale routing, source preservation, semantic continuity, index tracking, and one
+stale stream-capture description. All findings are corrected; Attempt 4 returned `pass` with no
+unresolved finding. R73 has not frozen and its protected gate has not been invoked;
+`releaseReady: false`.
 
 ## Reproduction
 
@@ -1055,3 +1053,68 @@ the intended path and byte contract.
 `hosted verify -> diagnose -> fix -> Revision 72`. Revision 72 keeps the exact alias design and
 hashes the opened file stream through .NET SHA-256, which is independent of PowerShell module
 autoload.
+
+## Revision 72 External Canonical Termination And Revision 73
+
+### Reproduction
+
+Invoke the protected gate once for exact candidate
+`5bc547eab6b22b862e798ad72df0d35aaa64771f` after local, rehearsal, and hosted qualification.
+
+### Evidence
+
+- R72 copied lifecycle and complete immutable verifier: pass.
+- Disposable exact-candidate rehearsal: pass.
+- Hosted run `30207051835`: exactly three successful Windows jobs.
+- Both hosted kernels: 482/482 core tests pass.
+- Real protected invocation count: one.
+- External exit: decimal `1073807364`, hexadecimal `0x40010004`,
+  `DBG_TERMINATE_PROCESS`.
+- Exact canonical stdout: 38,625 bytes,
+  `sha256:14a24014ee8158675a9ab0a1d0c1cf16684030e2850f1f0240a7b9a98714c9e4`.
+- Exact canonical stderr: 19,096 bytes,
+  `sha256:4d597e3a9f43acbe878966423f4251d762b2537d21f5f6cfcc9b0e93417de929`.
+- Stdout reaches 482/482 core pass and copied-lifecycle entry.
+- Receipt: absent.
+- Matching process after interruption: absent.
+- Owned `C:\tmp\swg` scratch root after interruption: absent.
+
+### Confirmed Cause And Route
+
+Windows names `0x40010004` `DBG_TERMINATE_PROCESS`. The open IDE shell-tool call owned the
+long-running process and the external host terminated it. No product, probe, core, or hosted test
+failed, but no pass receipt exists.
+
+`canonical -> block -> retire -> Revision 73`.
+
+R72 must never be rerun. R73 preserves the slot and launches its eventual gate once through a
+short-lived external Windows background host, then polls without reinvocation.
+
+An attempted exact-R72 clone replay mechanically passed but violated the commit-level one-shot
+rule. It is preserved under `inputs/r72-invalid-replay/` with
+`releaseQualificationValid: false` and is not transport or release qualification.
+
+The first candidate-neutral fixture attempt captured launcher standard handles. Those handles
+kept the supervising call open until worker completion, so the attempt could not prove the
+launcher boundary. The corrected runner replaces inherited pipes with dedicated launcher stdout
+and stderr file handles while the worker owns separate redirected stream files.
+
+Dedicated probe `5ab49c21-83e2-48d7-98a1-f065d69e47b2` passes. Its launcher exited
+after about 507 ms with no receipt. A post-exit heartbeat, 20 receipt-free polls, one final poll,
+and the later pass receipt all bind the same nonce, PID, process start time, request digest,
+launch digest, and exact launcher and worker streams. No candidate commit or canonical command
+entered the fixture.
+
+Independent review attempt 1 returned `block` on the invalid replay, weak evidence
+cross-bindings, and stale active routing. Attempt 2 returned `block` on launcher stream
+preservation, invalid-proof wording, incomplete semantic evidence-graph checks, and ignored proof
+files. Attempt 3 returned `block` on one stale test-plan description of the corrected stream
+capture. All findings are corrected; Attempt 4 returned `pass` with no unresolved finding and
+routes R73 through `verify -> freeze`. R73 remains unfrozen and uninvoked.
+
+The final mutable sweep initially ran the core suite concurrently with V11 and V12 dogfood. Both
+dogfood commands rebuild shared `dist/`, so `initialization.test.mjs` imported a partially replaced
+module and the invalid sweep stopped at 454/455 tests. A clean sequential build followed by the
+core suite passed 487/487; sequential V11 and V12 dogfood also passed. This was operator-caused
+shared-output interference, not a source failure. Qualification commands that mutate `dist/` must
+run serially; only read-only or isolated gates may run in parallel.

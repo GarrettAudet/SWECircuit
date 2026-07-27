@@ -1,0 +1,10 @@
+{
+    "kind":  "swecircuit.raw-evidence.v1",
+    "candidateCommit":  "5bc547eab6b22b862e798ad72df0d35aaa64771f",
+    "command":  "detached Windows host process 14396",
+    "stream":  "launcher-stderr",
+    "encoding":  "base64",
+    "rawBytes":  0,
+    "rawSha256":  "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "data":  ""
+}

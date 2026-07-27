@@ -2,25 +2,31 @@
 
 ## Current Focus
 
-V12 IDE Run Loop Revision 72 is active on `codex/v12-ide-run-loop`. Revision 70 is permanently
-retired with its one-shot canonical gate consumed. Revision 71 commit
-`841b38a1430ec9b7845dcb11e1104ecbf7f1d75d` passed immutable local qualification. Hosted run
-`30203059470` then had both kernels pass 479/480 core tests and fail only because its PowerShell
-path probe depended on unavailable `Get-FileHash`; its canonical gate remained unused and the
-candidate is retired. Revision 72 preserves the bounded aliases and replaces that module dependency
-with a fail-closed .NET stream SHA-256 probe. Two independent reviews exposed stale loop-state and
-status drift before freeze; both findings are corrected in the mutable source. ADR 0006 keeps v0.1
-Windows-only; macOS and Linux are unsupported and are not release gates. `releaseReady: false`.
+V12 IDE Run Loop Revision 73 is active on `codex/v12-ide-run-loop`. Revision 72 commit
+`5bc547eab6b22b862e798ad72df0d35aaa64771f` passed mutable, immutable, disposable rehearsal, and
+hosted qualification. Hosted run `30207051835` had exactly three successful Windows jobs, with
+both kernels passing 482/482 core tests. Its real canonical gate was invoked once and externally
+terminated with `0x40010004` `DBG_TERMINATE_PROCESS` after core pass and copied-lifecycle entry.
+No receipt was published, so Revision 72 is permanently retired. Revision 73 preserves that exact
+evidence. An accidental exact-R72 replay is preserved and rejected as release qualification. A
+dedicated candidate-neutral transport fixture now passes. R73 changes only trace, status, test,
+and evidence bindings. ADR 0006 keeps v0.1 Windows-only; macOS and Linux are unsupported and are
+not release gates. `releaseReady: false`.
 
 ## Current Stage
 
-Revision 72's correction is implemented and locally verified. Candidate-addressed external
-evidence is authoritative for promotion from follow-up review into source freeze; active source
-prose does not claim a volatile gate result. Release requires exact freeze, copied lifecycle,
-complete verifier, non-consuming rehearsal, the three-job hosted Windows matrix, canonical gate,
-and fresh R2 evidence. The main agent is integration owner. External IDE hosts still own model and
-effort selection, skills, tools, spawning, isolation, execution, persistence, integration effects,
-and merge.
+Revision 73 is in `verify -> freeze`. Independent review attempts 1 through 3 returned `block`;
+fresh Attempt 4 returned `pass` with no unresolved finding.
+Dedicated probe `5ab49c21-83e2-48d7-98a1-f065d69e47b2` cross-binds one nonce, PID,
+process start time, launch digest, launcher exit, timestamped polls, post-exit heartbeat, receipt,
+completion, and exact launcher and worker streams without receiving a candidate commit. All
+prior findings are corrected; focused and broad mutable checks plus fresh independent review pass.
+Candidate-addressed external evidence is authoritative. R73 has not frozen and its protected gate
+has not been invoked. Exact freeze, copied lifecycle, complete verification, non-consuming
+rehearsal, the three-job hosted Windows matrix, one canonical gate, and fresh R2 remain. The main
+agent is
+integration owner. External IDE hosts still own model and effort selection, skills, tools,
+spawning, isolation, execution, persistence, integration effects, and merge.
 
 ## Important Current Constraints
 
@@ -177,9 +183,10 @@ and merge.
 
 ## Next Likely Work
 
-- Freeze the independently approved Revision 70 source as one exact commit.
-- Require copied lifecycle, complete verification,
-  non-consuming rehearsal, Template Check, and Windows Node 22/24.
-- Invoke its canonical gate exactly once only after those checks pass; then run fresh three-domain
-  R2, close milestone and memory, and merge to `main`.
-- Never invoke or release Revisions 60 through 69.
+- Freeze one exact R73 commit after the passing Attempt 4 review, then require copied lifecycle,
+  verification, non-consuming rehearsal, Template Check, and Windows Node 22/24.
+- After all prior exact-candidate gates pass, launch the R73 canonical gate once through the
+  reviewed background-host contract and poll without reinvocation.
+- Require one exact pass receipt and fresh three-domain R2 all-pass fan-in, then close milestone
+  and memory, merge to `main`, and verify merged `main`.
+- Never invoke or release Revisions 60 through 72.

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { copyFile, link, mkdir, mkdtemp, realpath, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -38,6 +38,9 @@ const HARNESS_ENTRYPOINT = fileURLToPath(new URL(`../${HARNESS_PATH}`, import.me
 const VERIFIER_ENTRYPOINT = fileURLToPath(new URL(`../${VERIFIER_PATH}`, import.meta.url));
 const HOST_CACHE_PROBE_ENTRYPOINT = fileURLToPath(
   new URL("./fixtures/v12-host-cache-supply-child.mjs", import.meta.url),
+);
+const BACKGROUND_HOST_PROBE_ENTRYPOINT = fileURLToPath(
+  new URL("./fixtures/run-v12-background-host-probe.mjs", import.meta.url),
 );
 const GIT_ENVIRONMENT_PROBE_ENTRYPOINT = fileURLToPath(
   new URL("./fixtures/v12-git-environment-boundary-child.mjs", import.meta.url),
@@ -2600,6 +2603,8 @@ test("stable reconstruction is package-defining while phase authority stays sepa
 });
 const VOLATILE_RELEASE_STATE_PATTERN =
   /\bCandidates?\s+\d+\b|\b(?:remains? unconsumed|freeze ready|ready to freeze|current release candidate|next release gate)\b/iu;
+const RETIRED_FUTURE_ACTION_PATTERN =
+  /(?:(?<!never )\b(?:freeze|invoke|consume|launch)\b[^.\n]{0,120}\b(?:R|Revision\s+)(?:70|71|72)\b|\b(?:R|Revision\s+)(?:70|71|72)\b[^.\n]{0,120}(?<!never )\b(?:freeze|invoke|consume|launch)\b)/iu;
 
 test("active release status avoids volatile candidate-state drift and preserves outcomes", () => {
   const statusPaths = [
@@ -2615,7 +2620,10 @@ test("active release status avoids volatile candidate-state drift and preserves 
   ];
 
   for (const path of statusPaths) {
-    assert.doesNotMatch(activeStatus(path), VOLATILE_RELEASE_STATE_PATTERN, path);
+    const status = activeStatus(path);
+    assert.doesNotMatch(status, VOLATILE_RELEASE_STATE_PATTERN, path);
+    assert.doesNotMatch(status, RETIRED_FUTURE_ACTION_PATTERN, path);
+    assert.match(status, /Revision 73|R73/u, path);
   }
 
   const currentStatuses = [
@@ -2632,9 +2640,25 @@ test("active release status avoids volatile candidate-state drift and preserves 
     assert.match(status, /unavailable\s+`Get-FileHash` supply/u, path);
     assert.match(status, /canonical gate remained unused/u, path);
     assert.match(status, /Revision 71 is\s+permanently retired/u, path);
-    assert.match(status, /Revision 72 retains the aliases/u, path);
-    assert.match(status, /fail-closed \.NET stream\s+SHA-256 probe/u, path);
-    assert.match(status, /Candidate-addressed external evidence determines the live gate/u, path);
+    assert.match(status, /Revision 72 commit\s+`5bc547eab6b22b862e798ad72df0d35aaa64771f`/u, path);
+    assert.match(status, /hosted run\s+`30207051835`/iu, path);
+    assert.match(status, /exactly three passing jobs/u, path);
+    assert.match(status, /both kernels passed 482\/482 core tests/u, path);
+    assert.match(status, /`0x40010004`\s+`DBG_TERMINATE_PROCESS`/u, path);
+    assert.match(status, /no receipt was\s+published/u, path);
+    assert.match(status, /Revision 72 is permanently retired/u, path);
+    assert.match(status, /Revision 73 is active/u, path);
+    assert.match(status, /exact-R72 replay[\s\S]*?`releaseQualificationValid: false`/u, path);
+    assert.match(status, /dedicated candidate-neutral fixture/u, path);
+    assert.match(
+      status,
+      /nonce, PID, process start time, launcher exit, timestamped polls, post-exit heartbeat,[\s\S]*?pass\s+receipt/u,
+      path,
+    );
+    assert.match(status, /Independent review attempt 1 returned `block`/u, path);
+    assert.match(status, /R73 has not frozen/u, path);
+    assert.match(status, /protected gate has not been invoked/u, path);
+    assert.match(status, /Candidate-addressed external evidence determines\s+the live gate/u, path);
     assert.match(status, /releaseReady: false/u, path);
   }
 
@@ -2664,11 +2688,10 @@ test("live release routing delegates volatile state to candidate-addressed evide
 
   for (const [path, headings] of liveSections) {
     for (const heading of headings) {
-      assert.doesNotMatch(
-        activeSection(path, heading),
-        VOLATILE_RELEASE_STATE_PATTERN,
-        `${path} ${heading}`,
-      );
+      const section = activeSection(path, heading);
+      assert.doesNotMatch(section, VOLATILE_RELEASE_STATE_PATTERN, `${path} ${heading}`);
+      assert.doesNotMatch(section, RETIRED_FUTURE_ACTION_PATTERN, `${path} ${heading}`);
+      assert.match(section, /Revision 73|R73/u, `${path} ${heading}`);
     }
   }
 
@@ -2686,9 +2709,20 @@ test("live release routing delegates volatile state to candidate-addressed evide
   }
 });
 
+test("retired release revisions have no unchecked work", () => {
+  for (const revision of [70, 71, 72]) {
+    const section = activeSection(
+      "docs/specs/v12-ide-run-loop/tasks.md",
+      `Revision ${revision} Release Correction`,
+    );
+    assert.doesNotMatch(section, /- \[ \]/u, `Revision ${revision}`);
+  }
+});
+
 test("live release policy requires only the supported Windows hosted matrix", () => {
   const policy = [
     activeSection("docs/memory/active-context.md", "Current Stage"),
+    activeSection("docs/memory/active-context.md", "Next Likely Work"),
     activeSection("docs/specs/v12-ide-run-loop/plan.md", "Status"),
     activeSection("docs/milestones/v12.md", "Current Stage"),
     activeSection(
@@ -3317,6 +3351,7 @@ test("R71 hosted evidence binds the exact module failure and unconsumed gate", (
     "reviewer snapshot aliases remain byte-readable through ordinary Windows PowerShell paths";
   for (const expected of hostedLogs) {
     const envelope = JSON.parse(evidence.get(expected.name).toString("utf8"));
+
     assert.deepEqual(Object.keys(envelope), [
       "kind",
       "candidateCommit",
@@ -3361,6 +3396,737 @@ test("R71 hosted evidence binds the exact module failure and unconsumed gate", (
     existsSync(resolve(ROOT, REVIEW_ROOT, "runs/841b38a1430ec9b7845dcb11e1104ecbf7f1d75d")),
     false,
   );
+});
+
+test("R72 hosted pass and interrupted canonical attempt bind exact bytes and retire the slot", () => {
+  const correctionRoot =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r73";
+  const hostedRoot = `${correctionRoot}/inputs/r72-hosted`;
+  const bindings = [
+    {
+      name: "run.json",
+      bytes: 12_877,
+      digest: "sha256:a901ec730a02075a56f71317233291a1e408c698dc44ebea9c82b376a0c67cb1",
+    },
+    {
+      name: "jobs.json",
+      bytes: 7_006,
+      digest: "sha256:43daa6358586085d6b0dce1f3fcc0ea242ba161663ba39936e619ea4addd7410",
+    },
+    {
+      name: "template-check.log.base64.json",
+      bytes: 59_471,
+      digest: "sha256:ae7f685eef24633accd8cd4d9cc6e1dc63f49b8cff0876c7de6cc8e3eaf223b9",
+    },
+    {
+      name: "node22.log.base64.json",
+      bytes: 720_400,
+      digest: "sha256:672bdfb39f9ae78801a36508fee47943c78aeb46c18bed05e70960adf8f4e0e8",
+    },
+    {
+      name: "node24.log.base64.json",
+      bytes: 551_444,
+      digest: "sha256:37440756608a5d6ade8e89ddf095ada0ad583a58f8d4cc7df6dea8e3866af982",
+    },
+  ];
+  const evidence = new Map();
+  for (const binding of bindings) {
+    const bytes = readFileSync(resolve(ROOT, hostedRoot, binding.name));
+    assert.equal(bytes.byteLength, binding.bytes);
+    assert.equal(digest(bytes), binding.digest);
+    evidence.set(binding.name, bytes);
+  }
+
+  const run = JSON.parse(evidence.get("run.json").toString("utf8"));
+  assert.equal(run.id, 30_207_051_835);
+  assert.equal(run.head_sha, "5bc547eab6b22b862e798ad72df0d35aaa64771f");
+  assert.equal(run.status, "completed");
+  assert.equal(run.conclusion, "success");
+  assert.equal(run.run_attempt, 1);
+
+  const jobsEnvelope = JSON.parse(evidence.get("jobs.json").toString("utf8"));
+  assert.equal(jobsEnvelope.total_count, 3);
+  const jobs = new Map(jobsEnvelope.jobs.map((job) => [job.name, job]));
+  const expectedJobs = [
+    {
+      name: "Template Check",
+      id: 89_806_841_221,
+      verificationSteps: ["Run SWECircuit checker", "Run checker regression tests"],
+    },
+    {
+      name: "Kernel (Node 22 / windows-latest)",
+      id: 89_806_841_233,
+      verificationSteps: ["Verify kernel"],
+    },
+    {
+      name: "Kernel (Node 24 / windows-latest)",
+      id: 89_806_841_240,
+      verificationSteps: ["Verify kernel"],
+    },
+  ];
+  assert.deepEqual([...jobs.keys()].sort(), expectedJobs.map((job) => job.name).sort());
+  for (const expected of expectedJobs) {
+    const job = jobs.get(expected.name);
+    assert.equal(job.id, expected.id, expected.name);
+    assert.equal(job.run_id, run.id, expected.name);
+    assert.equal(job.head_sha, run.head_sha, expected.name);
+    assert.equal(job.status, "completed", expected.name);
+    assert.equal(job.conclusion, "success", expected.name);
+    assert.deepEqual(job.labels, ["windows-latest"], expected.name);
+    for (const step of job.steps) {
+      assert.equal(step.status, "completed", `${expected.name}: ${step.name}`);
+      assert.equal(step.conclusion, "success", `${expected.name}: ${step.name}`);
+    }
+    for (const stepName of expected.verificationSteps) {
+      const step = job.steps.find((candidate) => candidate.name === stepName);
+      assert.notEqual(step, undefined, `${expected.name}: ${stepName}`);
+      assert.equal(step.status, "completed", `${expected.name}: ${stepName}`);
+      assert.equal(step.conclusion, "success", `${expected.name}: ${stepName}`);
+    }
+  }
+
+  const hostedLogs = [
+    {
+      name: "template-check.log.base64.json",
+      rawBytes: 44_344,
+      rawDigest: "sha256:1d5a802a29cbe44dc41d1cfbf7bbd4ce23a82530851d841b4fb389e8f91ba12e",
+      jobName: "Template Check",
+      jobId: 89_806_841_221,
+      required: /Template check passed\./u,
+    },
+    {
+      name: "node22.log.base64.json",
+      rawBytes: 540_042,
+      rawDigest: "sha256:a0f783ebd8fc0dc0477a0efaa8180a95dab80e133f2c539abcfbe917b5e3fa0d",
+      jobName: "Kernel (Node 22 / windows-latest)",
+      jobId: 89_806_841_233,
+      required: /# tests 482[\s\S]*?# pass 482[\s\S]*?# fail 0/u,
+    },
+    {
+      name: "node24.log.base64.json",
+      rawBytes: 413_324,
+      rawDigest: "sha256:a3c898f3736661fa95547c65374092f29304486c5c709de3136f81251529bc33",
+      jobName: "Kernel (Node 24 / windows-latest)",
+      jobId: 89_806_841_240,
+      required: /tests 482[\s\S]*?pass 482[\s\S]*?fail 0/u,
+    },
+  ];
+  for (const expected of hostedLogs) {
+    const envelope = JSON.parse(evidence.get(expected.name).toString("utf8"));
+    assert.deepEqual(Object.keys(envelope), [
+      "kind",
+      "candidateCommit",
+      "command",
+      "stream",
+      "encoding",
+      "rawBytes",
+      "rawSha256",
+      "data",
+    ]);
+    assert.equal(envelope.kind, "swecircuit.raw-evidence.v1");
+    assert.equal(envelope.candidateCommit, "5bc547eab6b22b862e798ad72df0d35aaa64771f");
+    const job = jobs.get(expected.jobName);
+    assert.equal(job.id, expected.jobId);
+    assert.equal(job.run_id, run.id);
+    assert.equal(envelope.command, `GitHub Actions run ${run.id} job ${job.id}`);
+    assert.equal(envelope.stream, "job-log");
+    assert.equal(envelope.encoding, "base64");
+    assert.equal(envelope.rawBytes, expected.rawBytes);
+    assert.equal(envelope.rawSha256, expected.rawDigest);
+    const raw = Buffer.from(envelope.data, "base64");
+    assert.equal(raw.byteLength, expected.rawBytes);
+    assert.equal(raw.toString("base64"), envelope.data);
+    assert.equal(digest(raw), expected.rawDigest);
+    assert.match(raw.toString("utf8"), expected.required);
+  }
+
+  const candidateCommit = "5bc547eab6b22b862e798ad72df0d35aaa64771f";
+  const gateRoot = resolve(ROOT, REVIEW_ROOT, "inputs/canonical-gates", candidateCommit);
+  const stdout = readFileSync(resolve(gateRoot, "canonical-gate.stdout.log"));
+  const stderr = readFileSync(resolve(gateRoot, "canonical-gate.stderr.log"));
+  assert.equal(stdout.byteLength, 38_625);
+  assert.equal(
+    digest(stdout),
+    "sha256:14a24014ee8158675a9ab0a1d0c1cf16684030e2850f1f0240a7b9a98714c9e4",
+  );
+  assert.equal(stderr.byteLength, 19_096);
+  assert.equal(
+    digest(stderr),
+    "sha256:4d597e3a9f43acbe878966423f4251d762b2537d21f5f6cfcc9b0e93417de929",
+  );
+  const stdoutText = stdout.toString("utf8");
+  assert.match(stdoutText, /tests 482/u);
+  assert.match(stdoutText, /pass 482/u);
+  assert.match(stdoutText, /fail 0/u);
+  assert.match(stdoutText, /> swecircuit@0\.0\.0 test:lifecycle/u);
+  assert.match(stdoutText, /lifecycle test hooks are bound before isolated execution/u);
+  assert.doesNotMatch(stdoutText, /isolated copied production entrypoints complete/u);
+  assert.deepEqual(readdirSync(gateRoot).sort(), [
+    "canonical-gate.stderr.log",
+    "canonical-gate.stdout.log",
+  ]);
+  assert.equal(existsSync(resolve(ROOT, REVIEW_ROOT, "runs", candidateCommit)), false);
+
+  const invocationPath = resolve(
+    correctionRoot,
+    "inputs/r72-canonical-interruption/invocation.json",
+  );
+  const invocationBytes = readFileSync(invocationPath);
+  assert.equal(invocationBytes.byteLength, 1_646);
+  assert.equal(
+    digest(invocationBytes),
+    "sha256:ab37edb3fbd5dbc7a1508ba9629232e72eaf389c582647679e4873779aa20f47",
+  );
+  const invocation = JSON.parse(invocationBytes.toString("utf8"));
+  assert.equal(invocation.kind, "swecircuit.canonical-interruption.v1");
+  assert.equal(invocation.candidateCommit, candidateCommit);
+  assert.equal(invocation.candidateTree, "e7352a65cd57ad26b56d13562cf41448b7287388");
+  assert.equal(invocation.command, `node scripts/run-v12-release-gate.mjs ${candidateCommit}`);
+  assert.equal(invocation.attemptCount, 1);
+  assert.equal(invocation.observedDurationMilliseconds, 539_500);
+  assert.equal(invocation.processExit.decimal, 1_073_807_364);
+  assert.equal(invocation.processExit.hexadecimal, "0x40010004");
+  assert.equal(invocation.processExit.name, "DBG_TERMINATE_PROCESS");
+  assert.equal(invocation.result.receiptPublished, false);
+  assert.equal(invocation.result.wrapperOutputObserved, false);
+  assert.equal(invocation.result.candidateRetired, true);
+  assert.equal(invocation.observations.coreTests, 482);
+  assert.equal(invocation.observations.corePasses, 482);
+  assert.equal(invocation.observations.coreFailures, 0);
+  assert.equal(invocation.observations.lifecycleStarted, true);
+  assert.equal(invocation.observations.matchingProcessesAfter, 0);
+  assert.equal(invocation.observations.ownedScratchPresentAfter, false);
+  assert.equal(
+    invocation.observations.trackedRepositoryStateAfter,
+    "clean-except-owned-candidate-slot",
+  );
+  assert.deepEqual(invocation.candidateEvidence, {
+    stdout: {
+      path: `${REVIEW_ROOT}/inputs/canonical-gates/${candidateCommit}/canonical-gate.stdout.log`,
+      bytes: 38_625,
+      digest: "sha256:14a24014ee8158675a9ab0a1d0c1cf16684030e2850f1f0240a7b9a98714c9e4",
+    },
+    stderr: {
+      path: `${REVIEW_ROOT}/inputs/canonical-gates/${candidateCommit}/canonical-gate.stderr.log`,
+      bytes: 19_096,
+      digest: "sha256:4d597e3a9f43acbe878966423f4251d762b2537d21f5f6cfcc9b0e93417de929",
+    },
+  });
+  assert.equal(invocation.route, "canonical -> block -> retire -> revision-73");
+});
+
+test("R72 diagnostic replay remains preserved but is invalid as release qualification", () => {
+  const correctionRoot =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r73";
+  const proofRoot = `${correctionRoot}/inputs/r72-invalid-replay`;
+  const candidateCommit = "5bc547eab6b22b862e798ad72df0d35aaa64771f";
+  const candidateTree = "e7352a65cd57ad26b56d13562cf41448b7287388";
+  const sourceDigest = "sha256:bd4a623b4114dd84182f640340d3e0a62c1babdd42cb4bd7f898bd00707b9827";
+  const bindings = [
+    {
+      name: "classification.json",
+      bytes: 308,
+      digest: "sha256:5fd7a4db02817af8f5620e2763651580ac91de767e802b0d112543adcbfb7810",
+    },
+    {
+      name: "launch.json.base64.json",
+      bytes: 1_432,
+      digest: "sha256:b5da7039fc27599516ea4b458eba7dfcc24f2cb00ff8d9ef71cc341f6cd6e9dc",
+    },
+    {
+      name: "canonical-gate-receipt.json",
+      bytes: 14_195,
+      digest: "sha256:459480c108e49c493c9d49b4e1026edbec55eef7166d2b9e8ea5721fda1a2562",
+    },
+    {
+      name: "canonical-gate.stdout.log.base64.json",
+      bytes: 409_505,
+      digest: "sha256:0592cd90b15abc55d612a6bf8f2dbc1f047267f18ee981804488224bfdc6e3c6",
+    },
+    {
+      name: "canonical-gate.stderr.log.base64.json",
+      bytes: 34_972,
+      digest: "sha256:e7d55ba8e61f0292ca745e4a093d0d009cd534f0a7dffe35d061fdff5a8f68fd",
+    },
+    {
+      name: "launcher.stdout.log.base64.json",
+      bytes: 18_660,
+      digest: "sha256:c7435f9dbece6ff87309c35839accb3240a39af3c1bd3bc720bf49abf3e17ad0",
+    },
+    {
+      name: "launcher.stderr.log.base64.json",
+      bytes: 360,
+      digest: "sha256:24326bab916a183f2d9e1a11cf27ef0aaf9f987c36594e9b34107d03bb608a9b",
+    },
+    {
+      name: "transport-observation.json",
+      bytes: 1_305,
+      digest: "sha256:03068a97bc5bdf1d4f3d2c003c230c282575fea7fbe11652b92d051f2e4e8285",
+    },
+  ];
+  const evidence = new Map();
+  for (const binding of bindings) {
+    const bytes = readFileSync(resolve(ROOT, proofRoot, binding.name));
+    assert.equal(bytes.byteLength, binding.bytes, binding.name);
+    assert.equal(digest(bytes), binding.digest, binding.name);
+    evidence.set(binding.name, bytes);
+  }
+
+  const observation = JSON.parse(evidence.get("transport-observation.json").toString("utf8"));
+  assert.equal(observation.kind, "swecircuit.background-launch-observation.v1");
+  assert.equal(observation.candidateCommit, candidateCommit);
+  assert.equal(observation.candidateTree, candidateTree);
+  assert.equal(observation.launch.processId, 14_396);
+  assert.equal(observation.launch.hidden, true);
+  assert.equal(observation.launch.waitRequested, false);
+  assert.equal(observation.launch.launchingShellReportedWallDurationMilliseconds, 4_400);
+  assert.equal(observation.launch.launchingShellExitedBeforeGate, true);
+  assert.equal(observation.postShellPoll.processRunning, true);
+  assert.equal(observation.postShellPoll.receiptPresent, false);
+  assert.equal(observation.finalPoll.processRunning, false);
+  assert.equal(observation.finalPoll.receiptPresent, true);
+  assert.equal(observation.outcome, "pass");
+
+  const rawBindings = [
+    {
+      name: "launch.json.base64.json",
+      command: "detached Windows host process 14396",
+      stream: "launch-record",
+      rawBytes: 822,
+      rawDigest: "sha256:6a39b3464be72dd853b4e515424f95889a136a459eb428d586449d31b6f7cff8",
+    },
+    {
+      name: "canonical-gate.stdout.log.base64.json",
+      command: `node scripts/run-v12-release-gate.mjs ${candidateCommit}`,
+      stream: "canonical-stdout",
+      rawBytes: 306_820,
+      rawDigest: "sha256:972f7e96057721d544d3c1b11a3840553e62616621804339d6a78dd0131ff639",
+    },
+    {
+      name: "canonical-gate.stderr.log.base64.json",
+      command: `node scripts/run-v12-release-gate.mjs ${candidateCommit}`,
+      stream: "canonical-stderr",
+      rawBytes: 25_923,
+      rawDigest: "sha256:916ed20ef7b4f5bb27887bbfdf6eb2c7182eaf5313ead05a8acc4a98e7f7c791",
+    },
+    {
+      name: "launcher.stdout.log.base64.json",
+      command: "detached Windows host process 14396",
+      stream: "launcher-stdout",
+      rawBytes: 13_722,
+      rawDigest: "sha256:af8a8f76960894bddaf38669374f9a5757bbf13f946305477ac4f95b41b09d77",
+    },
+    {
+      name: "launcher.stderr.log.base64.json",
+      command: "detached Windows host process 14396",
+      stream: "launcher-stderr",
+      rawBytes: 0,
+      rawDigest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    },
+  ];
+  const rawEvidence = new Map();
+  for (const expected of rawBindings) {
+    const envelope = JSON.parse(evidence.get(expected.name).toString("utf8"));
+    assert.deepEqual(Object.keys(envelope), [
+      "kind",
+      "candidateCommit",
+      "command",
+      "stream",
+      "encoding",
+      "rawBytes",
+      "rawSha256",
+      "data",
+    ]);
+    assert.equal(envelope.kind, "swecircuit.raw-evidence.v1");
+    assert.equal(envelope.candidateCommit, candidateCommit);
+    assert.equal(envelope.command, expected.command);
+    assert.equal(envelope.stream, expected.stream);
+    assert.equal(envelope.encoding, "base64");
+    assert.equal(envelope.rawBytes, expected.rawBytes);
+    assert.equal(envelope.rawSha256, expected.rawDigest);
+    const raw = Buffer.from(envelope.data, "base64");
+    assert.equal(raw.byteLength, expected.rawBytes);
+    assert.equal(raw.toString("base64"), envelope.data);
+    assert.equal(digest(raw), expected.rawDigest);
+    rawEvidence.set(expected.name, raw);
+  }
+
+  const launch = JSON.parse(rawEvidence.get("launch.json.base64.json").toString("utf8"));
+  assert.equal(launch.kind, "swecircuit.background-launch-probe.v1");
+  assert.equal(launch.candidateCommit, candidateCommit);
+  assert.equal(launch.processId, 14_396);
+  assert.equal(launch.executable, "C:\\Program Files\\nodejs\\node.exe");
+  assert.deepEqual(launch.arguments, ["scripts\\run-v12-release-gate.mjs", candidateCommit]);
+  assert.match(launch.workingDirectory, /swecircuit-r72-background-probe-5bc547e$/u);
+
+  const canonicalStdout = rawEvidence.get("canonical-gate.stdout.log.base64.json").toString("utf8");
+  assert.match(canonicalStdout, /tests 482/u);
+  assert.match(canonicalStdout, /pass 482/u);
+  assert.match(canonicalStdout, /fail 0/u);
+  assert.match(canonicalStdout, /isolated copied production entrypoints complete/u);
+
+  const launcherSummary = JSON.parse(
+    rawEvidence.get("launcher.stdout.log.base64.json").toString("utf8"),
+  );
+  assert.equal(launcherSummary.outcome, "pass");
+  assert.equal(launcherSummary.candidateCommit, candidateCommit);
+  assert.equal(launcherSummary.candidateSource.tree, candidateTree);
+  assert.equal(launcherSummary.candidateSource.digest, sourceDigest);
+
+  const receipt = JSON.parse(evidence.get("canonical-gate-receipt.json").toString("utf8"));
+  assert.equal(receipt.apiVersion, "swecircuit/release-gate/v1alpha4");
+  assert.equal(receipt.kind, "CanonicalGateReceipt");
+  assert.equal(receipt.version, "V12");
+  assert.equal(receipt.candidateCommit, candidateCommit);
+  assert.equal(receipt.result, "pass");
+  assert.equal(receipt.exitCode, 0);
+  assert.equal(receipt.signal, null);
+  assert.equal(receipt.spawnError, null);
+  assert.equal(receipt.operationError, null);
+  assert.equal(receipt.repository.headBefore, candidateCommit);
+  assert.equal(receipt.repository.headAfter, candidateCommit);
+  assert.equal(receipt.repository.trackedStateBefore, "clean");
+  assert.equal(receipt.repository.trackedStateAfter, "clean");
+  assert.equal(receipt.candidateSource.tree, candidateTree);
+  assert.equal(receipt.candidateSource.files, 4_658);
+  assert.equal(receipt.candidateSource.bytes, 160_485_628);
+  assert.equal(receipt.candidateSource.digest, sourceDigest);
+  assert.equal(receipt.materialization.digestBefore, sourceDigest);
+  assert.equal(receipt.materialization.digestAfter, sourceDigest);
+  assert.equal(receipt.stdout.bytes, 306_820);
+  assert.equal(
+    receipt.stdout.digest,
+    "sha256:972f7e96057721d544d3c1b11a3840553e62616621804339d6a78dd0131ff639",
+  );
+  assert.equal(receipt.stderr.bytes, 25_923);
+  assert.equal(
+    receipt.stderr.digest,
+    "sha256:916ed20ef7b4f5bb27887bbfdf6eb2c7182eaf5313ead05a8acc4a98e7f7c791",
+  );
+
+  const classification = JSON.parse(
+    readFileSync(resolve(proofRoot, "classification.json"), "utf8"),
+  );
+  assert.equal(classification.kind, "swecircuit.invalid-candidate-replay.v1");
+  assert.equal(classification.candidateCommit, candidateCommit);
+  assert.equal(classification.mechanicalOutcome, "pass");
+  assert.equal(classification.releaseQualificationValid, false);
+  assert.equal(classification.violation, "commit-level-one-shot-replay");
+  assert.equal(classification.route, "learn -> reject-as-qualification");
+});
+
+test("dedicated transport fixture proves process continuity without a candidate replay", async () => {
+  const workspace = await mkdtemp(join(tmpdir(), "swecircuit-v12-transport-live-"));
+  const probeId = "00000000-0000-4000-8000-000000000073";
+  try {
+    const result = spawnSync(
+      process.execPath,
+      [
+        BACKGROUND_HOST_PROBE_ENTRYPOINT,
+        "--output-dir",
+        workspace,
+        "--delay-ms",
+        "1500",
+        "--probe-id",
+        probeId,
+      ],
+      {
+        cwd: ROOT,
+        encoding: "utf8",
+        windowsHide: true,
+        timeout: 30_000,
+      },
+    );
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.signal, null);
+    assert.equal(result.error, undefined);
+    const summary = JSON.parse(result.stdout);
+    assert.equal(summary.outcome, "pass");
+    assert.equal(summary.probeId, probeId);
+
+    const request = JSON.parse(readFileSync(resolve(workspace, "request.json"), "utf8"));
+    const launch = JSON.parse(readFileSync(resolve(workspace, "launch.json"), "utf8"));
+    const launcherExit = JSON.parse(readFileSync(resolve(workspace, "launcher-exit.json"), "utf8"));
+    const heartbeat = JSON.parse(readFileSync(resolve(workspace, "heartbeat.json"), "utf8"));
+    const polls = JSON.parse(readFileSync(resolve(workspace, "polls.json"), "utf8"));
+    const receipt = JSON.parse(readFileSync(resolve(workspace, "receipt.json"), "utf8"));
+    const completion = JSON.parse(readFileSync(resolve(workspace, "completion.json"), "utf8"));
+    const launcherStdout = readFileSync(resolve(workspace, "launcher.stdout.log"));
+    const launcherStderr = readFileSync(resolve(workspace, "launcher.stderr.log"));
+    const workerStdout = readFileSync(resolve(workspace, "worker.stdout.log"));
+    const workerStderr = readFileSync(resolve(workspace, "worker.stderr.log"));
+    assert.equal(request.probeId, probeId);
+    assert.equal(Object.hasOwn(request, "candidateCommit"), false);
+    assert.equal(launch.probeId, probeId);
+    assert.equal(launch.waitRequested, false);
+    assert.equal(launcherExit.receiptPresentAtExit, false);
+    assert.equal(launcherExit.probeId, probeId);
+    assert.equal(launcherExit.requestDigest, launch.requestDigest);
+    assert.equal(
+      launcherExit.launchDigest,
+      digest(readFileSync(resolve(workspace, "launch.json"))),
+    );
+    assert.equal(launcherExit.processId, launch.processId);
+    assert.equal(launcherExit.processStartTimeUtc, launch.processStartTimeUtc);
+    assert.equal(launcherExit.stdout.bytes, launcherStdout.byteLength);
+    assert.equal(launcherExit.stdout.digest, digest(launcherStdout));
+    assert.equal(launcherExit.stderr.bytes, launcherStderr.byteLength);
+    assert.equal(launcherExit.stderr.digest, digest(launcherStderr));
+    assert.equal(launcherStderr.byteLength, 0);
+    const launcherSummary = JSON.parse(launcherStdout.toString("utf8").trim());
+    assert.equal(launcherSummary.probeId, probeId);
+    assert.equal(launcherSummary.processId, launch.processId);
+    assert.equal(launcherSummary.processStartTimeUtc, launch.processStartTimeUtc);
+    assert.equal(heartbeat.probeId, probeId);
+    assert.equal(heartbeat.processId, launch.processId);
+    assert.equal(heartbeat.processStartTimeUtc, launch.processStartTimeUtc);
+    assert.equal(heartbeat.requestDigest, launch.requestDigest);
+    assert.equal(heartbeat.launchDigest, digest(readFileSync(resolve(workspace, "launch.json"))));
+    assert.ok(
+      polls.polls.some((poll) => poll.afterLauncherExit === true && poll.receiptPresent === false),
+    );
+    const finalPoll = polls.polls.at(-1);
+    assert.equal(finalPoll.receiptPresent, true);
+    assert.equal(finalPoll.heartbeatSequence, heartbeat.sequence);
+    assert.equal(
+      finalPoll.heartbeatDigest,
+      digest(readFileSync(resolve(workspace, "heartbeat.json"))),
+    );
+    assert.equal(receipt.probeId, probeId);
+    assert.equal(receipt.processId, launch.processId);
+    assert.equal(receipt.processStartTimeUtc, launch.processStartTimeUtc);
+    assert.equal(receipt.result, "pass");
+    assert.equal(completion.outcome, "pass");
+    assert.equal(completion.postExitHeartbeatObserved, true);
+    assert.equal(completion.processRunningAfterReceipt, false);
+    assert.equal(completion.workerStdout.bytes, workerStdout.byteLength);
+    assert.equal(completion.workerStdout.digest, digest(workerStdout));
+    assert.equal(completion.workerStderr.bytes, workerStderr.byteLength);
+    assert.equal(completion.workerStderr.digest, digest(workerStderr));
+
+    for (const path of [
+      BACKGROUND_HOST_PROBE_ENTRYPOINT,
+      fileURLToPath(new URL("./fixtures/v12-background-host-probe-launcher.ps1", import.meta.url)),
+      fileURLToPath(new URL("./fixtures/v12-background-host-probe-worker.mjs", import.meta.url)),
+    ]) {
+      const source = readFileSync(path, "utf8");
+      assert.doesNotMatch(source, /run-v12-release-gate|canonical-gate|candidateCommit/u, path);
+    }
+  } finally {
+    await rm(workspace, { recursive: true, force: true });
+  }
+});
+
+test("preserved transport fixture cross-binds launch, exit, polls, and receipt", () => {
+  const proofRoot =
+    "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r73/inputs/transport-fixture-proof";
+  const bindings = [
+    [
+      "completion.json",
+      1_016,
+      "sha256:9660c84fc2a1dd1fcc875fd739d1b1590e41a1d3d08791de4780fa54379e4e57",
+    ],
+    [
+      "heartbeat.json",
+      533,
+      "sha256:c225e477c422e5d088e87604d446bd7464f9dd0c70b96b77eaed57dbaf525bb2",
+    ],
+    [
+      "launch.json",
+      2_228,
+      "sha256:193448485a9fb000fb6feef2b2f298d5e8f0440c9a0b62ad70dbd3e5aa9c6266",
+    ],
+    [
+      "launcher.stderr.log",
+      0,
+      "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ],
+    [
+      "launcher.stdout.log",
+      122,
+      "sha256:d602b7e1ee5fdee56f375837adc4b5bcc144f59cd90cfdeb9aa741fb13f2a14c",
+    ],
+    [
+      "launcher-exit.json",
+      1_328,
+      "sha256:12bc8db9c6e6e2e33d9da7271311e66330f865a17eb6e9985f0868d1aae7f233",
+    ],
+    [
+      "polls.json",
+      11_660,
+      "sha256:b60b75d0b5b4ce497ad05f3ce3928c8648c2d93d801480d0f1477212f9ead736",
+    ],
+    [
+      "receipt.json",
+      621,
+      "sha256:4857f0bd5fb65d14e154126f94f29341cc87cb204908457335b06a650e45c613",
+    ],
+    [
+      "request.json",
+      1_976,
+      "sha256:f30abc8d6a33f93a97cf27bb1ae6d3741c61c202ed8f7f8f44c195611f244aff",
+    ],
+    [
+      "worker.stderr.log",
+      0,
+      "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ],
+    [
+      "worker.stdout.log",
+      0,
+      "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ],
+  ];
+  const tracked = spawnSync(
+    "git",
+    ["-c", "core.longpaths=true", "ls-files", "--", `${proofRoot}/*`],
+    {
+      cwd: ROOT,
+      encoding: "utf8",
+      windowsHide: true,
+    },
+  );
+  assert.equal(tracked.status, 0, tracked.stderr);
+  assert.deepEqual(
+    tracked.stdout.trim().split(/\r?\n/u).filter(Boolean),
+    bindings.map(([name]) => `${proofRoot}/${name}`).sort(),
+  );
+  const evidence = new Map();
+  for (const [name, bytes, expectedDigest] of bindings) {
+    const raw = readFileSync(resolve(ROOT, proofRoot, name));
+    assert.equal(raw.byteLength, bytes, name);
+    assert.equal(digest(raw), expectedDigest, name);
+    evidence.set(name, raw);
+  }
+
+  const request = JSON.parse(evidence.get("request.json").toString("utf8"));
+  const launch = JSON.parse(evidence.get("launch.json").toString("utf8"));
+  const launcherExit = JSON.parse(evidence.get("launcher-exit.json").toString("utf8"));
+  const heartbeat = JSON.parse(evidence.get("heartbeat.json").toString("utf8"));
+  const polls = JSON.parse(evidence.get("polls.json").toString("utf8"));
+  const receipt = JSON.parse(evidence.get("receipt.json").toString("utf8"));
+  const completion = JSON.parse(evidence.get("completion.json").toString("utf8"));
+  const probeId = "5ab49c21-83e2-48d7-98a1-f065d69e47b2";
+  const processId = 16_232;
+  const processStartTimeUtc = "2026-07-27T04:08:53.9003888Z";
+  assert.equal(request.kind, "swecircuit.transport-probe-request.v1");
+  assert.equal(request.probeId, probeId);
+  assert.equal(request.delayMilliseconds, 4_000);
+  assert.equal(Object.hasOwn(request, "candidateCommit"), false);
+  for (const [name, path] of [
+    ["runner", BACKGROUND_HOST_PROBE_ENTRYPOINT],
+    [
+      "launcher",
+      fileURLToPath(new URL("./fixtures/v12-background-host-probe-launcher.ps1", import.meta.url)),
+    ],
+    [
+      "worker",
+      fileURLToPath(new URL("./fixtures/v12-background-host-probe-worker.mjs", import.meta.url)),
+    ],
+  ]) {
+    const source = readFileSync(path);
+    assert.equal(request.source[name].bytes, source.byteLength, name);
+    assert.equal(request.source[name].digest, digest(source), name);
+  }
+
+  assert.equal(launch.kind, "swecircuit.transport-probe-launch.v1");
+  assert.equal(launch.probeId, probeId);
+  assert.equal(launch.processId, processId);
+  assert.equal(launch.processStartTimeUtc, processStartTimeUtc);
+  assert.equal(launch.hidden, true);
+  assert.equal(launch.waitRequested, false);
+  assert.equal(launch.requestDigest, digest(evidence.get("request.json")));
+  assert.deepEqual(launch.source, request.source);
+  assert.doesNotMatch(JSON.stringify(launch.command), /run-v12-release-gate|canonical-gate/u);
+
+  assert.equal(launcherExit.kind, "swecircuit.transport-probe-launcher-exit.v1");
+  assert.equal(launcherExit.probeId, probeId);
+  assert.equal(launcherExit.requestDigest, launch.requestDigest);
+  assert.equal(launcherExit.launchDigest, digest(evidence.get("launch.json")));
+  assert.equal(launcherExit.processId, processId);
+  assert.equal(launcherExit.processStartTimeUtc, processStartTimeUtc);
+  assert.equal(launcherExit.status, 0);
+  assert.equal(launcherExit.signal, null);
+  assert.equal(launcherExit.error, null);
+  assert.equal(launcherExit.receiptPresentAtExit, false);
+  assert.ok(Date.parse(launcherExit.exitedAtUtc) < Date.parse(receipt.completedAtUtc));
+  assert.equal(launcherExit.stdout.bytes, evidence.get("launcher.stdout.log").byteLength);
+  assert.equal(launcherExit.stdout.digest, digest(evidence.get("launcher.stdout.log")));
+  assert.equal(launcherExit.stderr.bytes, evidence.get("launcher.stderr.log").byteLength);
+  assert.equal(launcherExit.stderr.digest, digest(evidence.get("launcher.stderr.log")));
+  assert.equal(evidence.get("launcher.stderr.log").byteLength, 0);
+  const launcherSummary = JSON.parse(evidence.get("launcher.stdout.log").toString("utf8").trim());
+  assert.equal(launcherSummary.probeId, probeId);
+  assert.equal(launcherSummary.processId, processId);
+  assert.equal(launcherSummary.processStartTimeUtc, processStartTimeUtc);
+
+  assert.equal(heartbeat.kind, "swecircuit.transport-probe-heartbeat.v1");
+  assert.equal(heartbeat.probeId, probeId);
+  assert.equal(heartbeat.processId, processId);
+  assert.equal(heartbeat.processStartTimeUtc, processStartTimeUtc);
+  assert.equal(heartbeat.requestDigest, launch.requestDigest);
+  assert.equal(heartbeat.launchDigest, digest(evidence.get("launch.json")));
+  assert.equal(heartbeat.workerDigest, request.source.worker.digest);
+
+  assert.equal(polls.kind, "swecircuit.transport-probe-polls.v1");
+  assert.equal(polls.probeId, probeId);
+  assert.equal(polls.requestDigest, launch.requestDigest);
+  assert.equal(polls.launchDigest, digest(evidence.get("launch.json")));
+  assert.equal(polls.polls.length, 21);
+  for (const [index, poll] of polls.polls.entries()) {
+    assert.equal(poll.probeId, probeId);
+    assert.equal(poll.processId, processId);
+    assert.equal(poll.processStartTimeUtc, processStartTimeUtc);
+    assert.equal(poll.heartbeatSequence, index + 1);
+    assert.equal(
+      poll.afterLauncherExit,
+      Date.parse(poll.heartbeatObservedAtUtc) > Date.parse(launcherExit.exitedAtUtc),
+    );
+    assert.ok(Date.parse(poll.polledAtUtc) >= Date.parse(poll.heartbeatObservedAtUtc));
+    assert.equal(poll.receiptPresent, index === polls.polls.length - 1);
+  }
+  assert.equal(
+    polls.polls.slice(0, -1).every((poll) => poll.receiptPresent === false),
+    true,
+  );
+  const finalPoll = polls.polls.at(-1);
+  assert.equal(finalPoll.afterLauncherExit, true);
+  assert.equal(finalPoll.receiptPresent, true);
+  assert.equal(finalPoll.heartbeatSequence, heartbeat.sequence);
+  assert.equal(finalPoll.heartbeatBytes, evidence.get("heartbeat.json").byteLength);
+  assert.equal(finalPoll.heartbeatDigest, digest(evidence.get("heartbeat.json")));
+  assert.equal(finalPoll.heartbeatObservedAtUtc, heartbeat.observedAtUtc);
+
+  assert.equal(receipt.kind, "swecircuit.transport-probe-receipt.v1");
+  assert.equal(receipt.probeId, probeId);
+  assert.equal(receipt.processId, processId);
+  assert.equal(receipt.processStartTimeUtc, processStartTimeUtc);
+  assert.equal(receipt.requestDigest, launch.requestDigest);
+  assert.equal(receipt.launchDigest, digest(evidence.get("launch.json")));
+  assert.equal(receipt.workerDigest, request.source.worker.digest);
+  assert.equal(receipt.heartbeatCount, heartbeat.sequence);
+  assert.ok(Date.parse(receipt.completedAtUtc) >= Date.parse(receipt.startedAtUtc));
+  assert.equal(receipt.result, "pass");
+  assert.equal(receipt.exitCode, 0);
+
+  assert.equal(completion.kind, "swecircuit.transport-probe-completion.v1");
+  assert.equal(completion.probeId, probeId);
+  assert.equal(completion.outcome, "pass");
+  assert.equal(completion.processId, processId);
+  assert.equal(completion.processStartTimeUtc, processStartTimeUtc);
+  assert.equal(completion.requestDigest, launch.requestDigest);
+  assert.equal(completion.launchDigest, digest(evidence.get("launch.json")));
+  assert.equal(completion.launcherExitDigest, digest(evidence.get("launcher-exit.json")));
+  assert.equal(completion.pollsDigest, digest(evidence.get("polls.json")));
+  assert.equal(completion.receiptDigest, digest(evidence.get("receipt.json")));
+  assert.equal(completion.postExitHeartbeatObserved, true);
+  assert.equal(completion.processRunningAfterReceipt, false);
+  assert.equal(completion.workerStdout.bytes, evidence.get("worker.stdout.log").byteLength);
+  assert.equal(completion.workerStdout.digest, digest(evidence.get("worker.stdout.log")));
+  assert.equal(completion.workerStderr.bytes, evidence.get("worker.stderr.log").byteLength);
+  assert.equal(completion.workerStderr.digest, digest(evidence.get("worker.stderr.log")));
+  assert.equal(evidence.get("worker.stdout.log").byteLength, 0);
+  assert.equal(evidence.get("worker.stderr.log").byteLength, 0);
 });
 
 test("revision 9 package and handoff verification rejects substituted bytes", async () => {

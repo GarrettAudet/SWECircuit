@@ -4,15 +4,14 @@
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-70 commit `606fc3585f19f4714e0e75c2387561ca03b8282c` passed copied lifecycle, the complete
-verifier, exact-candidate rehearsal, the three-job hosted Windows matrix, and its one-shot canonical
-gate. Fresh R2 then verified `pass` / `pass` / `block`: ordinary Windows paths could not address 48
-of 224 declared context items. Revision 70 is permanently retired and its canonical gate is
-consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71 replaces mirrored source paths with
-bounded, domain-separated full-SHA-256 aliases while preserving original paths and exact Git and
-content bindings. Its exact R70 roster and PowerShell regression, complete mutable qualification,
-V11/V12 dogfood, and independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted
-Windows, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
+73 is the only live revision. Revisions 70 through 72 are permanently retired; R72's protected
+invocation was externally terminated and produced no receipt. The accidental exact-R72 replay is
+preserved and rejected as qualification. A dedicated candidate-neutral Windows fixture proves the
+background launch-and-poll transport. Independent review attempts 1 through 3 returned `block`;
+all replay, evidence-authentication, stale-routing, stream-preservation, semantic-continuity,
+index-tracking, and stale-description findings are corrected. Attempt 4 returned `pass` with no
+unresolved finding. R73 has not frozen and its protected gate has not been invoked. Exact
+immutable, hosted, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
 
 ## Baseline
 
@@ -398,3 +397,19 @@ The exact preserved R70 manifest binds 225/225 collected source rows. Ordinary W
 authenticates all 225 materialized files by existence, byte count, and SHA-256. Focused 5/5,
 release-review 53/53, release-gate 30/30, core 480/480, checker, static, V11/V12 dogfood, and
 independent Attempt 3 review pass. Product APIs and external host responsibilities are unchanged.
+
+## Revisions 72-73 Release Transport
+
+Revision 72 replaced the host-dependent hash probe, passed all local and hosted pre-canonical
+gates, and then lost its only protected invocation to external
+`0x40010004` `DBG_TERMINATE_PROCESS` termination. Its exact slot remains receipt-free and
+permanently retired.
+
+R73 preserves and authenticates that evidence. An exact-R72 clone replay mechanically passed but
+violated the commit-level one-shot rule and is retained only as invalid qualification. The valid
+transport proof is a dedicated candidate-neutral fixture. After rejecting a first inherited-pipe
+attempt, the corrected fixture captures launcher output through dedicated file handles, gives the
+worker separate redirected streams, and cross-binds launcher exit, timestamped polls, post-exit
+heartbeat, and receipt to one process identity. Independent review attempts 1 through 3 remain
+preserved `block` outcomes. Attempt 4 independently confirms all findings are corrected and
+returns `pass` with no unresolved finding.

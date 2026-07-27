@@ -11,11 +11,26 @@ full-SHA-256 aliases and passed immutable local qualification. Hosted run `30203
 both kernels pass 479/480 core tests and fail only because the probe depended on unavailable
 `Get-FileHash` supply. Its canonical gate remained unused, and Revision 71 is permanently retired.
 
-Revision 72 retains the aliases and replaces that module dependency with a fail-closed .NET stream
-SHA-256 probe. Two independent reviews exposed and drove correction of stale loop-state and active
-status drift before freeze. Candidate-addressed external evidence determines the live gate. Release
-requires exact freeze, immutable qualification, hosted Windows, canonical, fresh R2, milestone,
-and merge evidence. ADR 0006 keeps v0.1 Windows-only; `releaseReady: false`.
+Revision 72 commit `5bc547eab6b22b862e798ad72df0d35aaa64771f` then passed mutable,
+immutable, disposable-rehearsal, and hosted Windows qualification; hosted run `30207051835` had
+exactly three passing jobs and both kernels passed 482/482 core tests. Its protected gate was
+invoked exactly once. The external IDE host terminated it with `0x40010004`
+`DBG_TERMINATE_PROCESS` after 482/482 core pass and before lifecycle completion, so no receipt was
+published. Revision 72 is permanently retired.
+
+Revision 73 is active and preserves those exact bytes. The accidental exact-R72 replay is
+preserved with `releaseQualificationValid: false`; it is not transport or release qualification.
+A dedicated candidate-neutral fixture proves the launch-and-poll transport by cross-binding one
+nonce, PID, process start time, launcher exit, timestamped polls, post-exit heartbeat, and one pass
+receipt. Independent review attempt 1 returned `block` on the replay, evidence authentication, and
+stale routing. Attempt 2 returned `block` on stream preservation, semantic continuity,
+invalid-proof wording, and ignored proof files. Attempt 3 returned `block` on one stale sentence
+describing the corrected stream capture. All findings are corrected, and Attempt 4 returned `pass`
+with no unresolved finding. Candidate-addressed external evidence determines the live gate.
+R73 has not frozen and its protected gate has not been invoked. Release still requires exact freeze,
+immutable qualification, hosted Windows, canonical, fresh R2, milestone, and merge evidence. ADR
+0006 keeps v0.1 Windows-only;
+`releaseReady: false`.
 
 ## Problem
 

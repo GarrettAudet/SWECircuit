@@ -1,0 +1,22 @@
+{
+  "kind": "swecircuit.transport-probe-completion.v1",
+  "probeId": "5ab49c21-83e2-48d7-98a1-f065d69e47b2",
+  "outcome": "pass",
+  "processId": 16232,
+  "processStartTimeUtc": "2026-07-27T04:08:53.9003888Z",
+  "requestDigest": "sha256:f30abc8d6a33f93a97cf27bb1ae6d3741c61c202ed8f7f8f44c195611f244aff",
+  "launchDigest": "sha256:193448485a9fb000fb6feef2b2f298d5e8f0440c9a0b62ad70dbd3e5aa9c6266",
+  "launcherExitDigest": "sha256:12bc8db9c6e6e2e33d9da7271311e66330f865a17eb6e9985f0868d1aae7f233",
+  "pollsDigest": "sha256:b60b75d0b5b4ce497ad05f3ce3928c8648c2d93d801480d0f1477212f9ead736",
+  "receiptDigest": "sha256:4857f0bd5fb65d14e154126f94f29341cc87cb204908457335b06a650e45c613",
+  "postExitHeartbeatObserved": true,
+  "processRunningAfterReceipt": false,
+  "workerStdout": {
+    "bytes": 0,
+    "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "workerStderr": {
+    "bytes": 0,
+    "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -3,36 +3,37 @@
 ## Status
 
 The product implementation is complete. Candidate-addressed external evidence is authoritative
-for exact-candidate state. ADR 0006 makes v0.1 Windows-only. Revision 70 passed copied lifecycle,
-the complete verifier, exact-candidate rehearsal, hosted Windows CI, and its one-shot canonical
-gate, then fresh R2 blocked because 48 immutable sources exceeded ordinary Windows path reach.
-Revision 70 is permanently retired and its gate is consumed. Revision 71 uses bounded,
-domain-separated source aliases while preserving original paths and exact Git/content bindings.
-Its exact R70 causal regression, complete mutable qualification, V11/V12 dogfood, and independent
-review pass; `releaseReady: false`.
+for exact-candidate state. ADR 0006 makes v0.1 Windows-only. Revisions 70 through 72 are
+permanently retired. R72 passed all pre-canonical gates, then its only protected invocation was
+externally terminated with no receipt. Revision 73 preserves that evidence, rejects an accidental
+exact-R72 replay as qualification, and proves the corrected host transport through a
+candidate-neutral fixture. Independent review attempts 1 through 3 returned `block`; all evidence,
+routing, authentication, stream-preservation, and stale-description findings are corrected.
+Attempt 4 returned `pass` with no unresolved finding. R73 has not frozen and its protected gate has
+not been invoked; `releaseReady: false`.
 
 ## Steps
 
-1. Preserve Revision 70's exact source, hosted, canonical, compilation, package, and verified R2
-   evidence; permanently retire its consumed gate.
-2. Replace mirrored reviewer-source paths with bounded full-SHA-256 aliases while preserving every
-   original path and exact Git/content binding.
-3. Bind the exact 225-row R70 roster, ordinary Windows PowerShell readability, path overflow, and
-   collision behavior in regression tests; run broad qualification and independent review.
-4. Freeze one exact Revision 71 source and run copied lifecycle, complete verification,
-   non-consuming rehearsal, and the three-job hosted Windows matrix.
-5. Consume one canonical gate, run fresh three-domain R2, close memory and the milestone, then
-   merge only on complete all-pass evidence.
+1. Preserve and authenticate R72's exact hosted pass, interrupted one-shot slot, raw streams, and
+   absent receipt; permanently reject retry or relabeling.
+2. Preserve the accidental exact-R72 replay as invalid qualification and prove transport through
+   the dedicated candidate-neutral Windows fixture.
+3. Reconcile every active R73 route, add fail-closed regressions, pass complete mutable gates, and
+   obtain a fresh independent all-clear review.
+4. Freeze one exact R73 source and run copied lifecycle, complete verification, non-consuming
+   rehearsal, and the three-job hosted Windows matrix.
+5. Launch one background R73 canonical process, poll without reinvocation, require its exact pass
+   receipt, run fresh three-domain R2, close memory and the milestone, then merge and verify `main`.
 
 ## Architecture Approach
 
-Keep the accepted four-operation `SpecialistRunSession` contract unchanged. Revision 71 changes
-only release-review source materialization. Each implicit source receives a full SHA-256 alias over
+Keep the accepted four-operation `SpecialistRunSession` contract unchanged. The accepted source
+materialization gives each implicit source a full SHA-256 alias over
 a canonical domain/context-ID/original-path tuple. The candidate manifest retains the readable
 original path plus exact Git mode, object ID, byte count, and digest. Both alias and explicit paths
-share one 180-character logical cap, and all collisions are rejected before any immutable write.
+share one 180-character logical cap, and collisions are rejected before any immutable write.
 The parent mirrors only the compact `inputs/s` root. Runtime supply and every external host effect
-remain outside core.
+remain outside core. R73 changes release trace and qualification evidence only.
 
 ## Dependencies
 

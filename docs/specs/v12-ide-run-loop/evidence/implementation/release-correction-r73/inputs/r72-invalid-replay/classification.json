@@ -1,0 +1,9 @@
+{
+  "kind": "swecircuit.invalid-candidate-replay.v1",
+  "candidateCommit": "5bc547eab6b22b862e798ad72df0d35aaa64771f",
+  "mechanicalOutcome": "pass",
+  "releaseQualificationValid": false,
+  "violation": "commit-level-one-shot-replay",
+  "route": "learn -> reject-as-qualification",
+  "releaseReady": false
+}

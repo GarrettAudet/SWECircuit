@@ -1,0 +1,41 @@
+{
+  "kind": "swecircuit.canonical-interruption.v1",
+  "candidateCommit": "5bc547eab6b22b862e798ad72df0d35aaa64771f",
+  "candidateTree": "e7352a65cd57ad26b56d13562cf41448b7287388",
+  "command": "node scripts/run-v12-release-gate.mjs 5bc547eab6b22b862e798ad72df0d35aaa64771f",
+  "attemptCount": 1,
+  "observedDurationMilliseconds": 539500,
+  "processExit": {
+    "decimal": 1073807364,
+    "hexadecimal": "0x40010004",
+    "name": "DBG_TERMINATE_PROCESS",
+    "source": "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55"
+  },
+  "result": {
+    "receiptPublished": false,
+    "wrapperOutputObserved": false,
+    "candidateRetired": true
+  },
+  "candidateEvidence": {
+    "stdout": {
+      "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/5bc547eab6b22b862e798ad72df0d35aaa64771f/canonical-gate.stdout.log",
+      "bytes": 38625,
+      "digest": "sha256:14a24014ee8158675a9ab0a1d0c1cf16684030e2850f1f0240a7b9a98714c9e4"
+    },
+    "stderr": {
+      "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/5bc547eab6b22b862e798ad72df0d35aaa64771f/canonical-gate.stderr.log",
+      "bytes": 19096,
+      "digest": "sha256:4d597e3a9f43acbe878966423f4251d762b2537d21f5f6cfcc9b0e93417de929"
+    }
+  },
+  "observations": {
+    "coreTests": 482,
+    "corePasses": 482,
+    "coreFailures": 0,
+    "lifecycleStarted": true,
+    "matchingProcessesAfter": 0,
+    "ownedScratchPresentAfter": false,
+    "trackedRepositoryStateAfter": "clean-except-owned-candidate-slot"
+  },
+  "route": "canonical -> block -> retire -> revision-73"
+}

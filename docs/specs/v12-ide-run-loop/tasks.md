@@ -4,13 +4,12 @@
 
 Package and handoff verification authenticate artifacts; they do not establish release readiness
 alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-70 passed exact local, hosted Windows, and one-shot canonical gates, then fresh R2 verified `pass`
-/ `pass` / `block` because 48 immutable sources exceeded ordinary Windows path reach. Revision 70
-is permanently retired and its gate is consumed. ADR 0006 keeps v0.1 Windows-only. Revision 71
-uses bounded full-SHA-256 source aliases while preserving original paths and exact Git/content
-bindings. Its exact R70 causal regression, complete mutable qualification, V11/V12 dogfood, and
-independent review pass. Exact freeze, immutable lifecycle, rehearsal, hosted Windows, canonical,
-fresh R2, milestone, and merge remain; `releaseReady: false`.
+73 is active; Revisions 70 through 72 are permanently retired. R73 preserves the R72 host
+interruption, rejects its accidental exact replay as qualification, and proves transport through a
+candidate-neutral fixture. Independent review attempts 1 through 3 returned `block`; Attempt 4
+returned `pass` after all recorded findings were corrected. R73 has not frozen and its protected gate has
+not been invoked.
+`releaseReady: false`.
 
 ## Task List
 
@@ -31,7 +30,12 @@ fresh R2, milestone, and merge remain; `releaseReady: false`.
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze the shared session foundation, then ran transition and inspection in parallel with disjoint write scopes. Release corrections preserve one integration owner while read-only diagnosis, portability review, and final-delta review run as bounded specialists. After the immutable source passes its canonical gate, fresh R2 fans out concurrently across product/API/IDE, lifecycle/correctness, and security/trace authority before one verified fan-in.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze
+the shared session foundation, then ran transition and inspection in parallel with disjoint write
+scopes. R73 preserves one integration owner while read-only diagnosis and final-delta review run
+as bounded specialists. After the exact R73 canonical gate passes, fresh R2 fans out concurrently
+across product/API/IDE, lifecycle/correctness, and security/trace authority before one verified
+fan-in.
 
 ## Out Of Scope
 
@@ -198,7 +202,32 @@ T003 ran three read-only architecture analyses in parallel and one dependent syn
 - [x] Add explicit-path overflow and pre-write collision regressions.
 - [x] Pass static, checker, 30/30 release-gate, 53/53 release-review, and 480/480 core gates.
 - [x] Pass V11/V12 dogfood and independent review Attempt 3 with no findings.
-- [ ] Freeze one exact Revision 71 source.
-- [ ] Pass copied lifecycle, complete verifier, non-consuming rehearsal, and hosted Windows.
-- [ ] Consume one Revision 71 canonical gate and complete fresh all-pass three-domain R2.
-- [ ] Close memory and the milestone, then merge to `main`.
+- [x] Freeze exact Revision 71 commit `841b38a1430ec9b7845dcb11e1104ecbf7f1d75d`.
+- [x] Pass copied lifecycle, complete verifier, and non-consuming rehearsal.
+- [x] Preserve hosted run `30203059470`, retire the source after the host-dependent probe failure,
+  and confirm its protected gate remained unused.
+
+## Revision 72 Release Correction
+
+- [x] Replace the module-dependent hash probe with terminating .NET stream SHA-256.
+- [x] Pass complete mutable verification and independent review Attempt 3.
+- [x] Freeze exact commit `5bc547eab6b22b862e798ad72df0d35aaa64771f`.
+- [x] Pass copied lifecycle, complete verifier, non-consuming rehearsal, and hosted run
+  `30207051835` with exactly three successful Windows jobs.
+- [x] Invoke the protected gate once, preserve external termination `0x40010004`, exact raw
+  streams, and absent receipt, then permanently retire R72.
+
+## Revision 73 Release Correction
+
+- [x] Preserve and authenticate exact R72 hosted and interrupted-attempt evidence.
+- [x] Preserve and classify the accidental exact-R72 replay as invalid qualification.
+- [x] Add a candidate-neutral transport fixture with live and preserved-proof regressions.
+- [x] Preserve Review Attempt 3 and correct its stale stream-capture description.
+- [x] Reconcile all active routing, pass complete mutable verification, and obtain the Attempt 4
+  independent `pass`.
+- [ ] Freeze one exact R73 source and pass copied lifecycle, complete verification,
+  non-consuming rehearsal, and hosted Windows.
+- [ ] Launch one R73 canonical process through the approved background host and require one exact
+  pass receipt without reinvocation.
+- [ ] Require fresh three-domain R2 all-pass fan-in.
+- [ ] Close memory and milestone, merge to `main`, and verify merged `main`.

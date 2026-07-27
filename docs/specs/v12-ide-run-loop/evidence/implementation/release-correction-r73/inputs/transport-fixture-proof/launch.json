@@ -1,0 +1,38 @@
+{
+    "kind":  "swecircuit.transport-probe-launch.v1",
+    "probeId":  "5ab49c21-83e2-48d7-98a1-f065d69e47b2",
+    "requestDigest":  "sha256:f30abc8d6a33f93a97cf27bb1ae6d3741c61c202ed8f7f8f44c195611f244aff",
+    "launchedAtUtc":  "2026-07-27T04:08:53.9062429Z",
+    "launcherProcessId":  5560,
+    "launcherStartTimeUtc":  "2026-07-27T04:08:53.4713135Z",
+    "processId":  16232,
+    "processStartTimeUtc":  "2026-07-27T04:08:53.9003888Z",
+    "hidden":  true,
+    "waitRequested":  false,
+    "command":  {
+                    "executable":  "C:\\Program Files\\nodejs\\node.exe",
+                    "arguments":  [
+                                      "C:\\tmp\\swecircuit-identity-main\\test\\fixtures\\v12-background-host-probe-worker.mjs",
+                                      "C:\\tmp\\swecircuit-r73-transport-5ab49c21\\request.json"
+                                  ]
+                },
+    "source":  {
+                   "runner":  {
+                                  "path":  "C:\\tmp\\swecircuit-identity-main\\test\\fixtures\\run-v12-background-host-probe.mjs",
+                                  "bytes":  12864,
+                                  "digest":  "sha256:fdc1309d94ed63be4f4c1fe9aed36cfd234136f094537baf9a6285c15b11699b"
+                              },
+                   "launcher":  {
+                                    "path":  "C:\\tmp\\swecircuit-identity-main\\test\\fixtures\\v12-background-host-probe-launcher.ps1",
+                                    "bytes":  3000,
+                                    "digest":  "sha256:f3c8721247dbde561b25f2066c5502caffdccaf4ab7af80faa9fea763c522c17"
+                                },
+                   "worker":  {
+                                  "path":  "C:\\tmp\\swecircuit-identity-main\\test\\fixtures\\v12-background-host-probe-worker.mjs",
+                                  "bytes":  3655,
+                                  "digest":  "sha256:59b5bfcd1ce125c963039513bb8a27a40116a9a42c4022632f8d14631f66b8e8"
+                              }
+               },
+    "workerStdoutPath":  "C:\\tmp\\swecircuit-r73-transport-5ab49c21\\worker.stdout.log",
+    "workerStderrPath":  "C:\\tmp\\swecircuit-r73-transport-5ab49c21\\worker.stderr.log"
+}

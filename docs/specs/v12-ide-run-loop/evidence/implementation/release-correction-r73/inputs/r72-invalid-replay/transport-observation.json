@@ -1,0 +1,30 @@
+{
+    "kind":  "swecircuit.background-launch-observation.v1",
+    "candidateCommit":  "5bc547eab6b22b862e798ad72df0d35aaa64771f",
+    "candidateTree":  "e7352a65cd57ad26b56d13562cf41448b7287388",
+    "launch":  {
+                   "processId":  14396,
+                   "hidden":  true,
+                   "waitRequested":  false,
+                   "launchingShellReportedWallDurationMilliseconds":  4400,
+                   "launchingShellExitedBeforeGate":  true
+               },
+    "postShellPoll":  {
+                          "processRunning":  true,
+                          "receiptPresent":  false,
+                          "canonicalStdoutBytes":  306820,
+                          "canonicalStderrBytes":  25923,
+                          "launcherStdoutBytes":  0,
+                          "launcherStderrBytes":  0
+                      },
+    "finalPoll":  {
+                      "processRunning":  false,
+                      "receiptPresent":  true,
+                      "canonicalStdoutBytes":  306820,
+                      "canonicalStderrBytes":  25923,
+                      "launcherStdoutBytes":  13722,
+                      "launcherStderrBytes":  0
+                  },
+    "source":  "Codex task shell responses and preserved external files",
+    "outcome":  "pass"
+}

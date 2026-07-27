@@ -13,11 +13,27 @@ identities under bounded full-SHA-256 aliases and passed immutable local qualifi
 on unavailable `Get-FileHash` supply. Its canonical gate remained unused, and Revision 71 is
 permanently retired.
 
-Revision 72 retains the aliases and replaces that module dependency with a fail-closed .NET stream
-SHA-256 probe. Two independent reviews exposed and drove correction of stale loop-state and active
-status drift before freeze. Candidate-addressed external evidence determines the live gate. Release
-requires exact freeze, immutable qualification, hosted Windows, canonical, fresh R2, milestone,
-and merge evidence. ADR 0006 keeps v0.1 Windows-only; `releaseReady: false`.
+Revision 72 commit `5bc547eab6b22b862e798ad72df0d35aaa64771f` then passed mutable,
+immutable, disposable-rehearsal, and hosted Windows qualification; hosted run `30207051835` had
+exactly three passing jobs and both kernels passed 482/482 core tests. Its protected gate was
+invoked exactly once. The external IDE host terminated it with `0x40010004`
+`DBG_TERMINATE_PROCESS` after 482/482 core pass and before lifecycle completion, so no receipt was
+published. Revision 72 is permanently retired.
+
+Revision 73 is active and preserves those exact bytes. The accidental exact-R72 replay is
+preserved with `releaseQualificationValid: false`; it is not transport or release qualification.
+A dedicated candidate-neutral fixture proves the launch-and-poll transport by cross-binding one
+nonce, PID, process start time, launcher exit, timestamped polls, post-exit heartbeat, and one pass
+receipt. Independent review attempt 1 returned `block` on replay classification, evidence
+authentication, and stale routing. Attempt 2 returned `block` on stream preservation, semantic
+continuity, invalid-proof wording, and ignored proof files. Attempt 3 returned `block` on one stale
+sentence describing the corrected stream capture. All findings are corrected, and Attempt 4
+returned `pass` with no unresolved finding.
+Candidate-addressed external evidence determines
+the live gate. R73 has not frozen
+and its protected gate has not been invoked. Release still requires exact freeze, immutable
+qualification, hosted Windows, canonical, fresh R2, milestone, and merge evidence. ADR 0006 keeps
+v0.1 Windows-only; `releaseReady: false`.
 
 ## Contract Tests
 
@@ -59,18 +75,16 @@ and merge evidence. ADR 0006 keeps v0.1 Windows-only; `releaseReady: false`.
 
 ## Current Evidence
 
-- Revision 60: exact local and hosted checks passed; its one-shot canonical gate failed and the source is permanently retired.
-- Revision 61: exact local and hosted checks passed; its old-bound rehearsal failed and the source is retired with its one-shot unused.
-- Revision 62: exact copied lifecycle passed; full and hosted V11 identity checks failed; one-shot unused and source retired.
-- Revision 63: exact local and six hosted kernel checks passed; hosted whitespace failed; one-shot unused and source retired.
-- Revision 64: exact copied lifecycle, complete verification, and all seven hosted jobs passed; the non-consuming exact-candidate rehearsal failed at the 30-minute copied-gate bound; one-shot unused and source retired.
-- Revision 65: exact evidence decoding and path-headroom regression pass; focused release boundary 71/71 and every broad non-lifecycle gate `pass`.
-- Revision 68: exact local and partial hosted evidence is preserved; the source is retired.
-- Revision 69: exact copied lifecycle passes 2/2; the complete verifier rejects the stale README
-  binding after 476/476 core and 2/2 lifecycle tests; canonical gate unused and source retired.
-- Revision 70: restored README identity plus V11 and V12 dogfood pass.
-- Focused, broad, independent, exact-candidate, hosted, canonical, fresh R2, and merge checks
-  remain independent gates; `releaseReady: false`.
+- Revision 70: exact local, hosted Windows, and canonical pass; fresh R2 non-pass; permanently
+  retired.
+- Revision 71: exact local and rehearsal pass; hosted probe failure; protected gate unused;
+  permanently retired.
+- Revision 72: exact local, rehearsal, and hosted Windows pass; only protected invocation
+  externally terminated without a receipt; permanently retired.
+- Revision 73: candidate-neutral transport fixture passes; independent review attempts 1 through 3
+  are preserved `block` outcomes; Attempt 4 passes after all recorded findings are corrected.
+- Candidate-addressed external evidence is authoritative. R73 has not frozen and its protected
+  gate has not been invoked; `releaseReady: false`.
 
 ## Revision 31 Long-Path Correction Gate
 
@@ -251,4 +265,37 @@ and merge evidence. ADR 0006 keeps v0.1 Windows-only; `releaseReady: false`.
 - Independent review Attempt 3: `pass`; no findings remain in the exact mutable correction delta.
 - Complete mutable qualification: pass, including 482/482 core tests, checker matrix, build, V11
   specialist dogfood, and deterministic V12 run-loop dogfood.
+- Exact freeze, immutable qualification, hosted Windows, canonical, fresh R2, and merge remain.
+
+## Revision 73 Host-Interruption Correction
+
+- Exact R72 mutable, immutable, rehearsal, and hosted qualification: pass.
+- Hosted run `30207051835`: exactly three Windows jobs, all pass.
+- R72 protected invocation count: one.
+- External result: `0x40010004` `DBG_TERMINATE_PROCESS`.
+- Canonical stdout: 482/482 core pass, then copied lifecycle entry.
+- Canonical receipt: absent; R72 permanently retired.
+- Exact stdout, stderr, hosted metadata, and all three hosted logs: preserved and authenticated.
+- Accidental exact-R72 replay: mechanically pass, release qualification invalid.
+- Candidate-neutral transport probe: pass.
+- Probe identity: `5ab49c21-83e2-48d7-98a1-f065d69e47b2`.
+- Launcher exit: about 507 ms with no receipt.
+- Post-exit heartbeat, 20 receipt-free polls, one final poll, and one pass receipt: same nonce, PID,
+  process start time, request digest, and launch digest.
+- First fixture attempt with inherited launcher pipes: rejected; the corrected runner captures
+  launcher output through dedicated file handles while the worker owns separate redirected streams.
+- Independent review attempt 1: `block`; replay, authentication, and stale-routing findings are
+  preserved and corrected.
+- Independent review attempt 2: `block`; stream preservation, invalid-proof wording, semantic
+  evidence-graph, and ignored-file findings are preserved and corrected.
+- Independent review attempt 3: `block`; one stale stream-capture description is preserved and
+  corrected.
+- Independent review attempt 4: `pass`; all prior findings are resolved and no unresolved finding
+  remains.
+- Invalid concurrent mutable sweep: core and two build-mutating dogfood commands shared `dist/`;
+  partial generated output stopped the core process at 454/455 and is not qualification evidence.
+- Clean sequential build and complete core suite: 487/487 pass.
+- Sequential V11 and V12 dogfood: pass.
+- R73 product/runtime delta: none.
+- Complete mutable qualification and fresh independent review: pass.
 - Exact freeze, immutable qualification, hosted Windows, canonical, fresh R2, and merge remain.

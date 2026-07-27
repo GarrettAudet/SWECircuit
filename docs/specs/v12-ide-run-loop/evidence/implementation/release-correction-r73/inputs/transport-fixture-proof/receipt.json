@@ -1,0 +1,14 @@
+{
+  "kind": "swecircuit.transport-probe-receipt.v1",
+  "probeId": "5ab49c21-83e2-48d7-98a1-f065d69e47b2",
+  "processId": 16232,
+  "processStartTimeUtc": "2026-07-27T04:08:53.9003888Z",
+  "requestDigest": "sha256:f30abc8d6a33f93a97cf27bb1ae6d3741c61c202ed8f7f8f44c195611f244aff",
+  "launchDigest": "sha256:193448485a9fb000fb6feef2b2f298d5e8f0440c9a0b62ad70dbd3e5aa9c6266",
+  "workerDigest": "sha256:59b5bfcd1ce125c963039513bb8a27a40116a9a42c4022632f8d14631f66b8e8",
+  "startedAtUtc": "2026-07-27T04:08:54.026Z",
+  "completedAtUtc": "2026-07-27T04:08:58.127Z",
+  "heartbeatCount": 21,
+  "result": "pass",
+  "exitCode": 0
+}
