@@ -1,0 +1,17 @@
+{
+  "outcome": "pass",
+  "agentId": "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4",
+  "workflowOutcome": "pass",
+  "rawBytes": 3509,
+  "rawDigest": "sha256:6deb6c654a2edf186b82bbe1d1ef01199762cf07a95871101978cd6d53b45397",
+  "semanticDigest": "sha256:d347d5e8791f2214cabf508196eafa22197b0bf964e63e776a89353b3ac26739",
+  "artifactBindings": [
+    {
+      "name": "run-view-implementation.md",
+      "mediaType": "text/markdown",
+      "bytes": 2050,
+      "digest": "sha256:ce77c1cf5a3c3f3bf809e84a693c8e6f41e41760ddd6b9024b31439077e0c9c7"
+    }
+  ],
+  "contentDigest": "sha256:26e7fad508450885d49c32d8092554239cd5d77d17e03cdee4af880e6bb45f20"
+}

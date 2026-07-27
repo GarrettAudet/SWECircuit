@@ -162,6 +162,8 @@ Unreleased V10 adds the provider-neutral executeWorkPacket library boundary with
 Unreleased V11 adds `swecircuit/specialist/v1alpha1`, candidate analysis, deterministic AgentBlueprint compilation, reproducible package rendering and two-digest verification, strict raw handoff verification, and dependency-complete fan-in assessment. It adds `SC4301` through `SC4313`; the diagnostic catalog advances to 1.4.0. The six project artifact kinds and `swecircuit/v1alpha1` event vocabulary do not change.
 
 Unreleased V12 adds `swecircuit/specialist-run/v1alpha1`, four pure specialist run operations, immutable session and inspection values, exact raw-handoff retention, dependency eligibility, terminal non-`pass` routing, and complete-roster integration readiness. It adds `SC4401` through `SC4405`; the diagnostic catalog advances to 1.5.0. Every V11 export and identity remains unchanged, and core still performs no host effect.
+
+Unreleased V14 adds deterministic runtime assignment and an IDE-neutral adaptive run boundary. It adds `SC4501` through `SC4510` and `SC4601` through `SC4610`; the diagnostic catalog advances to 1.6.0. Core projects native host commands and records host evidence without claiming host effects.
 ## Diagnostics
 
 diagnostic-catalog.json is normative. Codes, rules, severities, and exit classes are stable for v1alpha1.

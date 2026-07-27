@@ -1,0 +1,17 @@
+{
+  "outcome": "pass",
+  "agentId": "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+  "workflowOutcome": "pass",
+  "rawBytes": 6437,
+  "rawDigest": "sha256:9792233440834c4adbc3554a8b359c35d7fc942ea0630f30e7df54bde94cbd21",
+  "semanticDigest": "sha256:acd788e6d8218c517f865f42ed5f218dac9060d2d86d39d1a29eabf06c7c963c",
+  "artifactBindings": [
+    {
+      "name": "adaptive-controller-implementation.md",
+      "mediaType": "text/markdown",
+      "bytes": 4094,
+      "digest": "sha256:fb646dd97f2f0328963845258b446613f4e88ce4f96347acabf8aab49fa95bf3"
+    }
+  ],
+  "contentDigest": "sha256:d617f3810cf3c8ea1cadf4067b3205e54c7ca455a59973f63ddcd0bf3412bd48"
+}

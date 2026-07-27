@@ -17,7 +17,9 @@
     "./schemas/specialist-handoff.schema.json": "./schemas/v1alpha1/specialist-handoff.schema.json",
     "./schemas/specialist-run.schema.json": "./schemas/v1alpha1/specialist-run.schema.json",
     "./schemas/runtime-routing.schema.json": "./schemas/v1alpha1/runtime-routing.schema.json",
-    "./schemas/v1alpha1/runtime-routing.schema.json": "./schemas/v1alpha1/runtime-routing.schema.json"
+    "./schemas/v1alpha1/runtime-routing.schema.json": "./schemas/v1alpha1/runtime-routing.schema.json",
+    "./schemas/adaptive-run.schema.json": "./schemas/v1alpha1/adaptive-run.schema.json",
+    "./schemas/v1alpha1/adaptive-run.schema.json": "./schemas/v1alpha1/adaptive-run.schema.json"
   },
   "files": [
     "dist",

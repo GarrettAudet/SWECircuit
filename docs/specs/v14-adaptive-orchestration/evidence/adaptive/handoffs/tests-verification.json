@@ -1,0 +1,17 @@
+{
+  "outcome": "pass",
+  "agentId": "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467",
+  "workflowOutcome": "pass",
+  "rawBytes": 5179,
+  "rawDigest": "sha256:d28db56cdcd1ef0884962b692227b5d32cd7c239f67a8ab4a388e41d98cb220e",
+  "semanticDigest": "sha256:8016e9f239dbf7921729d3ede42d916db998eafe8f5cdc14eff97b8118dbcd26",
+  "artifactBindings": [
+    {
+      "name": "adaptive-test-contract.md",
+      "mediaType": "text/markdown",
+      "bytes": 3087,
+      "digest": "sha256:a625c5f122a61cc0f63ad9a10cb94ac2ea899e7f7bb23601939b800ac67f88c2"
+    }
+  ],
+  "contentDigest": "sha256:035e56d92e9b443bf44689b942c897997b5475922de2ed0b1ddc22c4c42ac551"
+}

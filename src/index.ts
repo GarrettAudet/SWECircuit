@@ -1,6 +1,53 @@
 import { Ajv2020 } from "ajv/dist/2020.js";
 import { parseTree } from "jsonc-parser";
 
+export { inspectAdaptiveRunSession } from "./adaptive-run-inspection.js";
+export { ADAPTIVE_RUN_SCHEMA_SOURCE } from "./adaptive-run-schema-data.js";
+export {
+  createAdaptiveRunSession,
+  projectAdaptiveLaunchCommand,
+  restoreAdaptiveRunSession,
+} from "./adaptive-run-session.js";
+export {
+  adaptiveMaterializationExpectedDigest,
+  recordAdaptiveHostEvent,
+} from "./adaptive-run-transition.js";
+export type {
+  AdaptiveAgentInspection,
+  AdaptiveAssignmentInspection,
+  AdaptiveExecutionMode,
+  AdaptiveHostEvent,
+  AdaptiveHostEventBase,
+  AdaptiveNativeInspection,
+  AdaptiveNextAction,
+  AdaptiveRoute,
+  AdaptiveRouteReason,
+  AdaptiveRunAcceptedEvent,
+  AdaptiveRunApiVersion,
+  AdaptiveRunExpectation,
+  AdaptiveRunInspection,
+  AdaptiveRunPredecessor,
+  AdaptiveRunSession,
+  AdaptiveTruthClass,
+  HostAdapterFailure,
+  HostContextDelivery,
+  HostEvidenceBinding,
+  HostLaunchAuthorization,
+  HostLaunchCommand,
+  HostLifecycleObservation,
+  HostLifecycleStatus,
+  HostMaterializationClaim,
+  HostMaterializationField,
+  HostMaterializationFieldName,
+  HostResultCapture,
+  HostSteeringAuthorization,
+  RunView,
+  RunViewStatus,
+} from "./adaptive-run-types.js";
+export {
+  renderAdaptiveRunView,
+  renderAdaptiveRunViewMarkdown,
+} from "./adaptive-run-view.js";
 export {
   ADAPTIVE_RUN_API_VERSION,
   ADAPTIVE_RUN_LIMITS,

@@ -2669,7 +2669,6 @@ test("active release status avoids volatile candidate-state drift and preserves 
 
 test("live release routing delegates volatile state to candidate-addressed evidence", () => {
   const liveSections = [
-    ["docs/memory/active-context.md", ["Current Focus", "Current Stage", "Next Likely Work"]],
     ["docs/specs/v12-ide-run-loop/plan.md", ["Status"]],
     [
       "docs/milestones/v12.md",
@@ -2696,7 +2695,6 @@ test("live release routing delegates volatile state to candidate-addressed evide
   }
 
   for (const [path, heading] of [
-    ["docs/memory/active-context.md", "Current Stage"],
     ["docs/specs/v12-ide-run-loop/plan.md", "Status"],
     ["docs/milestones/v12.md", "Status"],
     ["docs/specs/v12-ide-run-loop/review.md", "Current Outcome"],

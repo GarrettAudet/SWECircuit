@@ -1,5 +1,5 @@
 {
-  "version": "1.5.0",
+  "version": "1.6.0",
   "diagnosticShape": {
     "required": ["code", "severity", "artifact", "pointer", "rule", "message"],
     "optional": ["hint"],
@@ -559,6 +559,126 @@
     {
       "code": "SC4405",
       "rule": "specialist.run.session-routed",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4501",
+      "rule": "runtime.routing.schema-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4502",
+      "rule": "runtime.routing.limit-exceeded",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4503",
+      "rule": "runtime.routing.demand-policy-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4504",
+      "rule": "runtime.routing.supply-binding-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4505",
+      "rule": "runtime.routing.specialist-binding-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4506",
+      "rule": "runtime.routing.no-feasible-vector",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4507",
+      "rule": "runtime.routing.bounded-search-empty",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4508",
+      "rule": "runtime.routing.override-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4509",
+      "rule": "runtime.routing.expectation-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4510",
+      "rule": "runtime.routing.digest-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4601",
+      "rule": "adaptive.run.schema-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4602",
+      "rule": "adaptive.run.limit-exceeded",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4603",
+      "rule": "adaptive.run.expectation-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4604",
+      "rule": "adaptive.run.transition-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4605",
+      "rule": "adaptive.run.event-conflict",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4606",
+      "rule": "adaptive.run.materialization-mismatch",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4607",
+      "rule": "adaptive.run.result-binding-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4608",
+      "rule": "adaptive.run.restore-invalid",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4609",
+      "rule": "adaptive.run.terminal",
+      "severity": "error",
+      "exitClass": 2
+    },
+    {
+      "code": "SC4610",
+      "rule": "adaptive.run.successor-invalid",
       "severity": "error",
       "exitClass": 2
     },

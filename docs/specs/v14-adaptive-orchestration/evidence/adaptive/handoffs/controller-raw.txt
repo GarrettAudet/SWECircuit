@@ -1,0 +1,49 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v14.adaptive-orchestration.adaptive-wave",
+    "revision": 1,
+    "digest": "sha256:c9de077db1b183e98d8333b2318c64b223c05ba44533de5e36c11d6c8d9e24f9"
+  },
+  "agent": {
+    "id": "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+    "blueprintDigest": "sha256:52e29224d7cc8d3fc96400a7503e36c980a14056a38edc8c705393ada2903138"
+  },
+  "compilationDigest": "sha256:05bd6bb76d8c7d0f9a3df274a7294ac3615026cb211f76bd24a21d45f6b4d3c8",
+  "summary": "Implemented the scoped pure V14 adaptive controller, closed schemas, immutable session creation and restore, dependency-safe command projection, six-kind raw host-event protocol, V12 result settlement, typed routing, lineage limits, and fail-closed validation.",
+  "workUnitsCompleted": [
+    "implement.adaptive-controller"
+  ],
+  "artifacts": [
+    {
+      "name": "adaptive-controller-implementation.md",
+      "mediaType": "text/markdown",
+      "content": "# Adaptive Controller Implementation\n\n## Source Verification\n\n- Detached worktree HEAD remained `8594aa46c44bf24a69c22eed91fab6314dad0cb5`.\n- All 14 declared repository context files matched their approved raw byte counts and SHA-256 digests before implementation.\n- Approved compilation, package, and blueprint identities were preserved.\n\n## Implemented Surface\n\n- Closed adaptive run types, limits, expectations, predecessor lineage, launch commands, six host-event kinds, accepted-event storage, sessions, inspections, and typed routes.\n- Assignment, package, inventory, adapter, host, workspace, blueprint, and expectation binding.\n- Dependency-safe launch-command projection with least-authority tools, skills, isolation, permissions, and context delivery.\n- Exact raw UTF-8 host-event retention using canonical base64, raw byte count, raw SHA-256 identity, serialized sequence, and prior-event chaining.\n- Launch authorization, materialization, lifecycle, steering, adapter-failure, and exact result-capture transitions.\n- V12 handoff settlement only through a valid `HostResultCapture` referencing authorization, materialization, terminal completed lifecycle, and every steering event.\n- Deterministic route precedence for materialization blocks, uncertain effects and diagnosis, verified non-pass outcomes, user stops, and all-pass settlement.\n- Immutable session digests, strict restore with complete event replay, published limits, structural successor lineage checks, idempotent exact duplicate events, and fail-closed diagnostics.\n- Core values remain projections and attestations; the implementation does not claim launch, observation, permission enforcement, stopping, persistence, integration, or merge effects.\n\n## Files\n\n- `src/adaptive-run-types.ts`: 9187 bytes, `sha256:a8780c658479be6cd571e7b651dafa6d54adccb330d1e71e879875b918b83852`\n- `src/adaptive-run-schema-data.ts`: 11447 bytes, `sha256:ce7d78cd63aedf33dfd43b0790a9863ad8ad203f69ad24b97182103fb71536b8`\n- `src/adaptive-run-schema.ts`: 3767 bytes, `sha256:44eb8d095a88b7925cf9d9f2af56ca7cba47393a8c73d3206699eea3a3ba5e27`\n- `src/adaptive-run-session.ts`: 24559 bytes, `sha256:1b2a089f33a9a7248475d3245eec01df9f2136a242b353d26741140ca392c938`\n- `src/adaptive-run-transition.ts`: 28550 bytes, `sha256:5ab956ddebed06dacd715320f511e3854bf8073de59041bb8a1fce3db03074d5`\n- `schemas/v1alpha1/adaptive-run.schema.json`: 45975 bytes, `sha256:cac7fe3f3acbecfdbe540d33bc22f04485e82f86f7e487c822fe92b8cb532355`\n\n## Checks\n\n- `npm.cmd run typecheck`: pass.\n- Targeted Biome format, lint, and import-order check over all six scoped files: pass with no pending fixes.\n- Adaptive schema source and JSON semantic parity: pass.\n- Six unique closed host-event schemas: pass.\n- AJV 2020 strict schema compilation with bounded external-reference stubs: pass.\n- Final Git status showed only the six declared untracked output files; HEAD was unchanged.\n\n## Host Materialization Facts\n\n- The existing host-owned `node_modules` junction was used; no dependency installation or network access occurred.\n- Typecheck reported TypeScript `7.0.2` from the host binding with `supplied: false`.\n- No native agent, runtime, permission, persistence, integration, or merge effect was performed or inferred.\n\n## Assumptions And Risks\n\n- Materialization-field expected digests use deterministic field-specific domains because the normative contract defines exact expected-digest comparison but does not publish those non-content digest domains.\n- Repository context uses `authorized_filesystem_read` only when both the context read scope and a blueprint filesystem-read permission cover the locator path; all other delivery is `host_context`.\n- Successor lineage is structurally bounded from the supplied expectation because predecessor session bytes are not an input to session creation.\n- Cross-unit exports, shared diagnostic registration, packed-consumer checks, behavioral fixtures, and full integration tests remain integration-owner work and were not run or modified in this work unit.\n- This handoff does not claim integration or release readiness."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.adaptive-controller",
+      "requirementId": "evidence.adaptive-controller.produce",
+      "kind": "artifact",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "adaptive-controller-implementation.md"
+    }
+  ],
+  "assumptions": [
+    "Materialization-field expected digests use deterministic field-specific domains because the normative contract does not publish domains for those non-content digests.",
+    "Predecessor lineage validation is structural because predecessor session bytes are not an input to adaptive session creation."
+  ],
+  "risks": [
+    "Cross-unit exports, shared diagnostics, packed-consumer verification, behavioral fixtures, and full integration tests remain outside this work unit.",
+    "The implementation is not integrated or release-ready based on this specialist handoff alone."
+  ],
+  "followUps": [
+    "Integrate the six scoped files with the adjacent exports, diagnostics, inspection, RunView, adapter, and test work units.",
+    "Review the materialization-field digest-domain convention and run the complete repository and packed-consumer gates on the integrated candidate."
+  ]
+}

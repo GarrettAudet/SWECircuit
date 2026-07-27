@@ -1,0 +1,41 @@
+{
+  "outcome": "pass",
+  "selected": {
+    "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db": [
+      "profile.codex.sol",
+      "effort.high"
+    ],
+    "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4": [
+      "profile.codex.terra",
+      "effort.medium"
+    ],
+    "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467": [
+      "profile.codex.terra",
+      "effort.high"
+    ]
+  },
+  "expected": {
+    "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db": [
+      "profile.codex.sol",
+      "effort.high"
+    ],
+    "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4": [
+      "profile.codex.terra",
+      "effort.medium"
+    ],
+    "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467": [
+      "profile.codex.terra",
+      "effort.high"
+    ]
+  },
+  "bootstrapAgreement": true,
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_assignment_vector_search",
+    "potentialVectors": 6,
+    "evaluatedVectors": 6,
+    "feasibleVectors": 6,
+    "contentDigest": "sha256:6e2b39c979aba1de38f358f0c007cc2c4b5f51242612a3a81626f5b4a0ccb090"
+  },
+  "compilationDigest": "sha256:bc22c1fc97aa5abf57170aec977188e4d1f785abb4e9b9886da923b5564796dd"
+}
