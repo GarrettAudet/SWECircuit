@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "exitCode": 0,
+  "diagnostics": [],
+  "value": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "VerifiedSpecialistHandoff",
+    "handoff": {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "SpecialistAgentHandoff",
+      "outcome": "pass",
+      "destination": "codex.main",
+      "goal": {
+        "id": "v14.adaptive-orchestration.vertical-slice",
+        "revision": 1,
+        "digest": "sha256:3d6f58596ed4a07b75469a13e4ef0c8088f85ac51b7d02fda27cd026b8155c9a"
+      },
+      "agent": {
+        "id": "agent.40a1f03c545884055177cf4a6326f71f064dbbed0a4bcf90f6299ebb21242547",
+        "blueprintDigest": "sha256:b63e68eb472da944096425062eda7ad7e65c9a5983a53be74de5d7ea6626e487"
+      },
+      "compilationDigest": "sha256:ef1a9ec09a789eed249090a49800d10c9670dfbbfb9703e5691fa24996bed614",
+      "summary": "Implemented the closed V14 provider-neutral runtime-routing types, strict schema, validation, demand derivation, row evaluation, deterministic assignment-vector search, override, and verification operations in corrected launch attempt 2.",
+      "workUnitsCompleted": [
+        "implement.runtime-routing"
+      ],
+      "artifacts": [
+        {
+          "name": "runtime-routing-implementation.md",
+          "mediaType": "text/markdown",
+          "content": "# Runtime Routing Implementation\n\nOutcome: pass for work unit `implement.runtime-routing`. This does not claim integration or release readiness.\n\n## Context delivery\n\nThe initial native-workspace attempt was stopped because its V12 source hashes did not match the generated contract. A transient `runtime-routing-types.ts` created in the integration worktree before the first host correction was removed. Corrected launch attempt 2 bound the task exclusively to `C:\\tmp\\swecircuit-v14-routing-agent`. `git rev-parse HEAD` returned `933d23209914afde8f7819291a38ffc382b91873`, and all eleven declared source files matched their approved SHA-256 digests and byte counts.\n\n## Files changed\n\n- `src/runtime-routing-types.ts` (10584 bytes, `sha256:42a24d5fc00883efe6464957f1f9d83b799ba79deb496cf6d8d22d99469ef964`)\n- `src/runtime-routing-schema-data.ts` (23237 bytes, `sha256:6f7b82a5ec091001e3faeba52f67acfe19638f3b4fcafe09d049f79134f188cd`)\n- `src/runtime-routing-schema.ts` (3397 bytes, `sha256:56d335c0d52b7eb4a9bb932bb2b1385d2efbd0c7091d8b9fe84bc246c4f25cb7`)\n- `src/runtime-routing.ts` (44372 bytes, `sha256:684f17520054c68c0913053568166f2935bd61bb8db38b3e071406152cae0e4c`)\n- `schemas/v1alpha1/runtime-routing.schema.json` (24268 bytes, `sha256:8009f4d7506adc433447ad4c9d5624eb19baed766d6a9bf29f80b23dbae743de`)\n\nNo other isolated-worktree file was edited, and Git was not mutated.\n\n## Implementation\n\nAdded the routing API version, limits, and complete public routing model. Added a strict Draft 2020-12 schema with 34 closed definitions and focused Ajv validators. Implemented bounded snapshots, unsafe-text and secret rejection, UTF-8 byte limits, policy and supply cross-validation, exact demand derivation, complete ordered row rejections, checked comparator totals, exact or bounded beam vector search, producer/checker independence gates, canonical digest construction, owner override revalidation, and expectation-bound compilation verification. U+001F is confined to internal comparison keys and never serialized.\n\n## Verification\n\n- Initial `npm.cmd run typecheck`: could not start because the isolated worktree lacked TypeScript dependencies. This was recorded as a host materialization failure.\n- After host dependency materialization, typecheck reported the snapshot failure discriminator, widened search literals, and generic `OperationResult<null>` inference. All were fixed within `src/runtime-routing.ts`.\n- Final `npm.cmd run typecheck`: pass using TypeScript 7.0.2.\n- `npm.cmd run lint`: exit 0; repository baseline produced existing warnings and infos.\n- Exact-file `biome check`: exit 0 with no errors; retained defensive non-null warnings and the baseline-pattern `String.raw` info.\n- Node syntax checks: pass for all four TypeScript files.\n- Schema source/file semantic parity: pass.\n- Schema local-reference validation: all 34 definitions resolve.\n"
+        }
+      ],
+      "evidence": [
+        {
+          "criterionId": "criterion.routing",
+          "requirementId": "evidence.routing.produce",
+          "kind": "artifact",
+          "duty": "produce",
+          "status": "pass",
+          "artifact": "runtime-routing-implementation.md"
+        }
+      ],
+      "assumptions": [
+        "The unnamed RuntimeVectorComparator shape follows the normative ordered comparator using corresponding aggregate totals and a collision-safe serialized canonical identity.",
+        "HostCapabilityInventory.catalogRevision remains an opaque host catalog revision because RuntimeCalibrationCatalog exposes no corresponding catalogRevision field.",
+        "Routing diagnostics are constructed locally because the shared diagnostics registry is outside this specialist's exclusive write scope."
+      ],
+      "risks": [
+        "The normative contract names RuntimeVectorComparator without declaring its exact interface, so integration review must confirm the aggregate field names.",
+        "Biome reports defensive non-null assertion warnings in paths guarded by preceding schema and cross-reference validation.",
+        "No external behavioral fixture was added because tests are outside this specialist's write scope."
+      ],
+      "followUps": [
+        "The integration owner should wire public exports and any shared diagnostic registration through separately authorized files.",
+        "Run routing behavior, packed-consumer, regression, and canonical full verification after integration."
+      ]
+    },
+    "rawBytes": 5423,
+    "rawDigest": "sha256:024adc9db0487f327142c64d4c99af345b32cd9dd441334d0d87d733599e3490",
+    "semanticDigest": "sha256:b2f6a64d17664f7f78b540faee205e6fd1dd4def68053d38d93b35dac33cfc78",
+    "artifactBindings": [
+      {
+        "name": "runtime-routing-implementation.md",
+        "mediaType": "text/markdown",
+        "bytes": 2873,
+        "digest": "sha256:8898758969c35d9ffc1bc0304897f34563ad532eab68329f74a972be9510b172"
+      }
+    ],
+    "contentDigest": "sha256:bccb9c856c2adb98234fde850c7ee93809af38a02302369c5f074dbe743764c4"
+  }
+}

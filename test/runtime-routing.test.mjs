@@ -2,9 +2,9 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import {
-  RUNTIME_ROUTING_LIMITS,
   applyRuntimeAssignmentOverride,
   compileRuntimeAssignments,
+  RUNTIME_ROUTING_LIMITS,
   verifyRuntimeAssignmentCompilation,
 } from "swecircuit";
 
@@ -70,8 +70,14 @@ test("runtime routing derives demand and selects a deterministic exact vector", 
 
   assert.deepEqual(second, first);
   assert.equal(first.demands.length, 2);
-  assert.equal(first.demands.every((demand) => demand.contextBytes === 1024), true);
-  assert.equal(first.demands.every((demand) => demand.requiredTools.includes("tool.alpha")), true);
+  assert.equal(
+    first.demands.every((demand) => demand.contextBytes === 1024),
+    true,
+  );
+  assert.equal(
+    first.demands.every((demand) => demand.requiredTools.includes("tool.alpha")),
+    true,
+  );
   assert.equal(first.search.mode, "exact");
   assert.equal(first.search.claim, "exhaustive_assignment_vector_search");
   assert.equal(first.search.potentialVectors, 9);
@@ -82,14 +88,17 @@ test("runtime routing derives demand and selects a deterministic exact vector", 
     "row.checker.domain-b",
     "row.producer.domain-a",
   ]);
-  assert.equal(verifyRuntimeAssignmentCompilation(first, {
-    compilationDigest: fixture.request.packageExpectation.compilationDigest,
-    packageDigest: fixture.request.packageExpectation.packageDigest,
-    policyDigest: first.policyDigest,
-    calibrationDigest: first.calibrationDigest,
-    inventoryDigest: first.inventoryDigest,
-    assignmentDigest: first.contentDigest,
-  }).ok, true);
+  assert.equal(
+    verifyRuntimeAssignmentCompilation(first, {
+      compilationDigest: fixture.request.packageExpectation.compilationDigest,
+      packageDigest: fixture.request.packageExpectation.packageDigest,
+      policyDigest: first.policyDigest,
+      calibrationDigest: first.calibrationDigest,
+      inventoryDigest: first.inventoryDigest,
+      assignmentDigest: first.contentDigest,
+    }).ok,
+    true,
+  );
 });
 
 test("runtime routing accumulates every hard-gate rejection in closed order", () => {
@@ -237,7 +246,9 @@ test("runtime routing applies the vector comparator order and canonical tie-brea
 test("runtime routing accepts only a feasible one-row owner override", () => {
   const fixture = makeRoutingFixture();
   const base = compileFixture(fixture);
-  const producer = base.selected.rows.find((entry) => entry.profileId.startsWith("profile.producer."));
+  const producer = base.selected.rows.find((entry) =>
+    entry.profileId.startsWith("profile.producer."),
+  );
   assert.notEqual(producer, undefined);
   const validOverride = {
     apiVersion: fixture.request.apiVersion,

@@ -34,3 +34,24 @@ explicit read-only context. Specialists were told to:
 
 This correction does not change either approved package digest. It changes only the external
 host's context-delivery behavior.
+## Attempt 2
+
+The host created one clean detached worktree per root specialist at baseline `933d232`:
+
+- `C:\tmp\swecircuit-v14-routing-agent`
+- `C:\tmp\swecircuit-v14-tests-agent`
+- `C:\tmp\swecircuit-v14-adapter-agent`
+
+Independent host verification matched 11 routing, 9 test, and 5 adapter repository sources to
+their approved raw byte counts and SHA-256 digests. The result is preserved in
+`worktree-binding-verification.json`.
+
+Detached worktrees did not contain dependency materialization. The first routing typecheck failed
+before compilation because `node_modules/typescript/bin/tsc` was absent. The host supplied the
+repository's existing dependency tree as ignored Windows junctions in the routing and test
+worktrees; no dependency was installed or changed.
+
+The adapter specialist then emitted a verified `pass`. The test-author specialist emitted a
+verified `block`: its independent files and syntax checks completed, but executable verification
+requires the routing producer. The block is preserved and is not accepted as successful evidence.
+A successor verification step must execute the tests after integration.

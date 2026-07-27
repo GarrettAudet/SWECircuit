@@ -22,7 +22,11 @@ test("the packed public runtime-routing surface exports every normative operatio
     "renderAdaptiveRunView",
     "renderAdaptiveRunViewMarkdown",
   ]) {
-    assert.equal(typeof swecircuit[operation], "function", `${operation} must be publicly callable`);
+    assert.equal(
+      typeof swecircuit[operation],
+      "function",
+      `${operation} must be publicly callable`,
+    );
   }
 });
 

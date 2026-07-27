@@ -1,0 +1,704 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json",
+  "title": "SWECircuit Runtime Routing v1alpha1",
+  "description": "Closed provider-neutral runtime demand, calibration, assignment, override, and verification values.",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/compilation" },
+    { "$ref": "#/$defs/override" },
+    { "$ref": "#/$defs/expectation" }
+  ],
+  "$defs": {
+    "identifier": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "text": { "type": "string", "minLength": 1, "maxLength": 16384 },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "revision": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+    "rank": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+    "logicalSet": {
+      "type": "array",
+      "maxItems": 256,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/identifier" }
+    },
+    "tier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "rank"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "rank": { "type": "integer", "minimum": 0, "maximum": 15 }
+      }
+    },
+    "capabilityRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capabilityId",
+        "minimumQualityTier",
+        "minimumReasoningTier",
+        "requiredTools",
+        "requiredSkills",
+        "requiredIsolationFeatures",
+        "requiredPermissionFeatures"
+      ],
+      "properties": {
+        "capabilityId": { "$ref": "#/$defs/identifier" },
+        "minimumQualityTier": { "$ref": "#/$defs/identifier" },
+        "minimumReasoningTier": { "$ref": "#/$defs/identifier" },
+        "requiredTools": { "$ref": "#/$defs/logicalSet" },
+        "requiredSkills": { "$ref": "#/$defs/logicalSet" },
+        "requiredIsolationFeatures": { "$ref": "#/$defs/logicalSet" },
+        "requiredPermissionFeatures": { "$ref": "#/$defs/logicalSet" }
+      }
+    },
+    "evidenceRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "duty", "minimumQualityTier", "minimumReasoningTier"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "artifact",
+            "command",
+            "test",
+            "review",
+            "decision",
+            "commit",
+            "digest",
+            "handoff",
+            "memory"
+          ]
+        },
+        "duty": { "enum": ["produce", "verify", "review"] },
+        "minimumQualityTier": { "$ref": "#/$defs/identifier" },
+        "minimumReasoningTier": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "permissionRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "requiredIsolationFeatures", "requiredPermissionFeatures"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "filesystem.read",
+            "filesystem.write",
+            "network.connect",
+            "process.spawn",
+            "secrets.read"
+          ]
+        },
+        "requiredIsolationFeatures": { "$ref": "#/$defs/logicalSet" },
+        "requiredPermissionFeatures": { "$ref": "#/$defs/logicalSet" }
+      }
+    },
+    "observability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "effort",
+        "tools",
+        "skills",
+        "isolation",
+        "permissions",
+        "workspace",
+        "context"
+      ],
+      "properties": {
+        "model": { "$ref": "#/$defs/observationRequirement" },
+        "effort": { "$ref": "#/$defs/observationRequirement" },
+        "tools": { "$ref": "#/$defs/observationRequirement" },
+        "skills": { "$ref": "#/$defs/observationRequirement" },
+        "isolation": { "$ref": "#/$defs/observationRequirement" },
+        "permissions": { "$ref": "#/$defs/observationRequirement" },
+        "workspace": { "$ref": "#/$defs/observationRequirement" },
+        "context": { "$ref": "#/$defs/observationRequirement" }
+      }
+    },
+    "observationRequirement": { "enum": ["observed", "host_attestation_allowed"] },
+    "observationMode": { "enum": ["observed", "host_attested_unobservable", "unavailable"] },
+    "observationModes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "effort",
+        "tools",
+        "skills",
+        "isolation",
+        "permissions",
+        "workspace",
+        "context"
+      ],
+      "properties": {
+        "model": { "$ref": "#/$defs/observationMode" },
+        "effort": { "$ref": "#/$defs/observationMode" },
+        "tools": { "$ref": "#/$defs/observationMode" },
+        "skills": { "$ref": "#/$defs/observationMode" },
+        "isolation": { "$ref": "#/$defs/observationMode" },
+        "permissions": { "$ref": "#/$defs/observationMode" },
+        "workspace": { "$ref": "#/$defs/observationMode" },
+        "context": { "$ref": "#/$defs/observationMode" }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiVersion",
+        "kind",
+        "id",
+        "revision",
+        "qualityTiers",
+        "reasoningTiers",
+        "capabilityRules",
+        "evidenceRules",
+        "permissionRules",
+        "observability",
+        "search"
+      ],
+      "properties": {
+        "apiVersion": { "const": "swecircuit/runtime-routing/v1alpha1" },
+        "kind": { "const": "RuntimeDemandPolicy" },
+        "id": { "$ref": "#/$defs/identifier" },
+        "revision": { "$ref": "#/$defs/revision" },
+        "qualityTiers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": { "$ref": "#/$defs/tier" }
+        },
+        "reasoningTiers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": { "$ref": "#/$defs/tier" }
+        },
+        "capabilityRules": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/capabilityRule" }
+        },
+        "evidenceRules": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/evidenceRule" }
+        },
+        "permissionRules": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/permissionRule" }
+        },
+        "observability": { "$ref": "#/$defs/observability" },
+        "search": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["exactVectorLimit", "boundedBeamWidth"],
+          "properties": {
+            "exactVectorLimit": { "type": "integer", "minimum": 1, "maximum": 200000 },
+            "boundedBeamWidth": { "type": "integer", "minimum": 1, "maximum": 512 }
+          }
+        }
+      }
+    },
+    "calibratedCapability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capabilityId", "qualityTier"],
+      "properties": {
+        "capabilityId": { "$ref": "#/$defs/identifier" },
+        "qualityTier": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "calibrationEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "locator", "digest", "bytes"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "kind": { "enum": ["benchmark", "host_contract", "owner_assessment"] },
+        "locator": { "$ref": "#/$defs/text" },
+        "digest": { "$ref": "#/$defs/digest" },
+        "bytes": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 }
+      }
+    },
+    "calibrationRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "profileId",
+        "effortId",
+        "effortRank",
+        "runtimeFamily",
+        "independenceDomain",
+        "reasoningTier",
+        "capabilities",
+        "contextLimitBytes",
+        "tools",
+        "skills",
+        "isolationFeatures",
+        "permissionFeatures",
+        "observationModes",
+        "costRank",
+        "latencyRank",
+        "evidence"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "profileId": { "$ref": "#/$defs/identifier" },
+        "effortId": { "$ref": "#/$defs/identifier" },
+        "effortRank": { "$ref": "#/$defs/rank" },
+        "runtimeFamily": { "$ref": "#/$defs/identifier" },
+        "independenceDomain": { "$ref": "#/$defs/identifier" },
+        "reasoningTier": { "$ref": "#/$defs/identifier" },
+        "capabilities": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/calibratedCapability" }
+        },
+        "contextLimitBytes": { "type": "integer", "minimum": 0, "maximum": 134217728 },
+        "tools": { "$ref": "#/$defs/logicalSet" },
+        "skills": { "$ref": "#/$defs/logicalSet" },
+        "isolationFeatures": { "$ref": "#/$defs/logicalSet" },
+        "permissionFeatures": { "$ref": "#/$defs/logicalSet" },
+        "observationModes": { "$ref": "#/$defs/observationModes" },
+        "costRank": { "$ref": "#/$defs/rank" },
+        "latencyRank": { "$ref": "#/$defs/rank" },
+        "evidence": {
+          "type": "array",
+          "maxItems": 512,
+          "items": { "$ref": "#/$defs/calibrationEvidence" }
+        }
+      }
+    },
+    "calibration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiVersion",
+        "kind",
+        "id",
+        "revision",
+        "assessedBy",
+        "adapterId",
+        "adapterRevision",
+        "runtimeRows"
+      ],
+      "properties": {
+        "apiVersion": { "const": "swecircuit/runtime-routing/v1alpha1" },
+        "kind": { "const": "RuntimeCalibrationCatalog" },
+        "id": { "$ref": "#/$defs/identifier" },
+        "revision": { "$ref": "#/$defs/revision" },
+        "assessedBy": { "$ref": "#/$defs/identifier" },
+        "adapterId": { "$ref": "#/$defs/identifier" },
+        "adapterRevision": { "$ref": "#/$defs/identifier" },
+        "runtimeRows": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 192,
+          "items": { "$ref": "#/$defs/calibrationRow" }
+        }
+      }
+    },
+    "inventoryRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["calibrationRowId", "availability", "availabilityReason"],
+      "properties": {
+        "calibrationRowId": { "$ref": "#/$defs/identifier" },
+        "availability": { "enum": ["available", "unavailable"] },
+        "availabilityReason": { "$ref": "#/$defs/text" }
+      }
+    },
+    "inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiVersion",
+        "kind",
+        "id",
+        "revision",
+        "hostId",
+        "adapterId",
+        "adapterRevision",
+        "catalogRevision",
+        "completeness",
+        "maxConcurrentAgents",
+        "rows"
+      ],
+      "properties": {
+        "apiVersion": { "const": "swecircuit/runtime-routing/v1alpha1" },
+        "kind": { "const": "HostCapabilityInventory" },
+        "id": { "$ref": "#/$defs/identifier" },
+        "revision": { "$ref": "#/$defs/revision" },
+        "hostId": { "$ref": "#/$defs/identifier" },
+        "adapterId": { "$ref": "#/$defs/identifier" },
+        "adapterRevision": { "$ref": "#/$defs/identifier" },
+        "catalogRevision": { "$ref": "#/$defs/identifier" },
+        "completeness": { "enum": ["complete_host_catalog", "declared_subset"] },
+        "maxConcurrentAgents": { "type": "integer", "minimum": 1, "maximum": 16 },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 192,
+          "items": { "$ref": "#/$defs/inventoryRow" }
+        }
+      }
+    },
+    "packageExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compilationDigest", "packageDigest"],
+      "properties": {
+        "compilationDigest": { "$ref": "#/$defs/digest" },
+        "packageDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiVersion",
+        "kind",
+        "compilation",
+        "packageExpectation",
+        "policy",
+        "calibration",
+        "inventory"
+      ],
+      "properties": {
+        "apiVersion": { "const": "swecircuit/runtime-routing/v1alpha1" },
+        "kind": { "const": "CompileRuntimeAssignmentsRequest" },
+        "compilation": { "type": "object" },
+        "packageExpectation": { "$ref": "#/$defs/packageExpectation" },
+        "policy": { "$ref": "#/$defs/policy" },
+        "calibration": { "$ref": "#/$defs/calibration" },
+        "inventory": { "$ref": "#/$defs/inventory" }
+      }
+    },
+    "demandCapability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capabilityId", "minimumQualityTier"],
+      "properties": {
+        "capabilityId": { "$ref": "#/$defs/identifier" },
+        "minimumQualityTier": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "demand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agentId",
+        "blueprintDigest",
+        "requiredCapabilities",
+        "minimumReasoningTier",
+        "contextBytes",
+        "requiredTools",
+        "requiredSkills",
+        "requiredIsolationFeatures",
+        "requiredPermissionFeatures",
+        "observability",
+        "producerAgentIds",
+        "checkerAgentIds",
+        "contentDigest"
+      ],
+      "properties": {
+        "agentId": { "$ref": "#/$defs/identifier" },
+        "blueprintDigest": { "$ref": "#/$defs/digest" },
+        "requiredCapabilities": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/demandCapability" }
+        },
+        "minimumReasoningTier": { "$ref": "#/$defs/identifier" },
+        "contextBytes": { "type": "integer", "minimum": 0, "maximum": 134217728 },
+        "requiredTools": { "$ref": "#/$defs/logicalSet" },
+        "requiredSkills": { "$ref": "#/$defs/logicalSet" },
+        "requiredIsolationFeatures": { "$ref": "#/$defs/logicalSet" },
+        "requiredPermissionFeatures": { "$ref": "#/$defs/logicalSet" },
+        "observability": { "$ref": "#/$defs/observability" },
+        "producerAgentIds": { "$ref": "#/$defs/logicalSet" },
+        "checkerAgentIds": { "$ref": "#/$defs/logicalSet" },
+        "contentDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "rowComparator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "costRank",
+        "latencyRank",
+        "qualityExcess",
+        "reasoningExcess",
+        "contextExcessBytes",
+        "toolExcess",
+        "skillExcess",
+        "effortRank",
+        "canonicalIdentity"
+      ],
+      "properties": {
+        "costRank": { "$ref": "#/$defs/rank" },
+        "latencyRank": { "$ref": "#/$defs/rank" },
+        "qualityExcess": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "reasoningExcess": { "type": "integer", "minimum": 0, "maximum": 15 },
+        "contextExcessBytes": { "type": "integer", "minimum": 0, "maximum": 134217728 },
+        "toolExcess": { "type": "integer", "minimum": 0, "maximum": 256 },
+        "skillExcess": { "type": "integer", "minimum": 0, "maximum": 256 },
+        "effortRank": { "$ref": "#/$defs/rank" },
+        "canonicalIdentity": { "$ref": "#/$defs/text" }
+      }
+    },
+    "rowEvaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agentId",
+        "calibrationRowId",
+        "profileId",
+        "effortId",
+        "eligible",
+        "rejectionCodes",
+        "unmetRequirementIds",
+        "comparator",
+        "contentDigest"
+      ],
+      "properties": {
+        "agentId": { "$ref": "#/$defs/identifier" },
+        "calibrationRowId": { "$ref": "#/$defs/identifier" },
+        "profileId": { "$ref": "#/$defs/identifier" },
+        "effortId": { "$ref": "#/$defs/identifier" },
+        "eligible": { "type": "boolean" },
+        "rejectionCodes": {
+          "type": "array",
+          "maxItems": 9,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "unavailable",
+              "quality_tier",
+              "reasoning_tier",
+              "context_capacity",
+              "required_tool",
+              "required_skill",
+              "isolation_feature",
+              "permission_feature",
+              "observation_mode"
+            ]
+          }
+        },
+        "unmetRequirementIds": { "$ref": "#/$defs/logicalSet" },
+        "comparator": { "oneOf": [{ "$ref": "#/$defs/rowComparator" }, { "type": "null" }] },
+        "contentDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "vectorComparator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "totalCostRank",
+        "maximumLatencyRank",
+        "totalLatencyRank",
+        "totalQualityExcess",
+        "totalReasoningExcess",
+        "totalContextExcessBytes",
+        "totalToolExcess",
+        "totalSkillExcess",
+        "totalEffortRank",
+        "canonicalIdentity"
+      ],
+      "properties": {
+        "totalCostRank": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "maximumLatencyRank": { "$ref": "#/$defs/rank" },
+        "totalLatencyRank": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "totalQualityExcess": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "totalReasoningExcess": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "totalContextExcessBytes": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "totalToolExcess": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "totalSkillExcess": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "totalEffortRank": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "canonicalIdentity": { "$ref": "#/$defs/text" }
+      }
+    },
+    "assignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agentId",
+        "blueprintDigest",
+        "calibrationRowId",
+        "profileId",
+        "effortId",
+        "independenceDomain",
+        "requiredTools",
+        "requiredSkills",
+        "requiredIsolationFeatures",
+        "requiredPermissionFeatures",
+        "observability"
+      ],
+      "properties": {
+        "agentId": { "$ref": "#/$defs/identifier" },
+        "blueprintDigest": { "$ref": "#/$defs/digest" },
+        "calibrationRowId": { "$ref": "#/$defs/identifier" },
+        "profileId": { "$ref": "#/$defs/identifier" },
+        "effortId": { "$ref": "#/$defs/identifier" },
+        "independenceDomain": { "$ref": "#/$defs/identifier" },
+        "requiredTools": { "$ref": "#/$defs/logicalSet" },
+        "requiredSkills": { "$ref": "#/$defs/logicalSet" },
+        "requiredIsolationFeatures": { "$ref": "#/$defs/logicalSet" },
+        "requiredPermissionFeatures": { "$ref": "#/$defs/logicalSet" },
+        "observability": { "$ref": "#/$defs/observability" }
+      }
+    },
+    "search": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "claim",
+        "potentialVectors",
+        "evaluatedVectors",
+        "feasibleVectors",
+        "contentDigest"
+      ],
+      "properties": {
+        "mode": { "enum": ["exact", "bounded"] },
+        "claim": {
+          "enum": ["exhaustive_assignment_vector_search", "bounded_evaluated_set_no_global_optimum"]
+        },
+        "potentialVectors": {
+          "oneOf": [
+            { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+            { "const": "exceeds_safe_integer" }
+          ]
+        },
+        "evaluatedVectors": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "feasibleVectors": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "contentDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "override": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiVersion",
+        "kind",
+        "predecessorAssignmentDigest",
+        "agentId",
+        "replacementCalibrationRowId",
+        "requestedBy",
+        "rationale"
+      ],
+      "properties": {
+        "apiVersion": { "const": "swecircuit/runtime-routing/v1alpha1" },
+        "kind": { "const": "RuntimeAssignmentOverride" },
+        "predecessorAssignmentDigest": { "$ref": "#/$defs/digest" },
+        "agentId": { "$ref": "#/$defs/identifier" },
+        "replacementCalibrationRowId": { "$ref": "#/$defs/identifier" },
+        "requestedBy": { "$ref": "#/$defs/identifier" },
+        "rationale": { "$ref": "#/$defs/text" }
+      }
+    },
+    "vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rows", "comparator", "selectionReason", "contentDigest"],
+      "properties": {
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": { "$ref": "#/$defs/assignment" }
+        },
+        "comparator": { "$ref": "#/$defs/vectorComparator" },
+        "selectionReason": {
+          "enum": ["lowest_exact_vector", "lowest_bounded_evaluated_vector", "owner_override"]
+        },
+        "contentDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "compilation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "apiVersion",
+        "kind",
+        "goalId",
+        "goalRevision",
+        "goalDigest",
+        "compilationDigest",
+        "packageDigest",
+        "policy",
+        "policyDigest",
+        "calibration",
+        "calibrationDigest",
+        "inventory",
+        "inventoryDigest",
+        "demands",
+        "evaluations",
+        "search",
+        "selected",
+        "predecessorAssignmentDigest",
+        "override",
+        "contentDigest"
+      ],
+      "properties": {
+        "apiVersion": { "const": "swecircuit/runtime-routing/v1alpha1" },
+        "kind": { "const": "RuntimeAssignmentCompilation" },
+        "goalId": { "$ref": "#/$defs/identifier" },
+        "goalRevision": { "$ref": "#/$defs/revision" },
+        "goalDigest": { "$ref": "#/$defs/digest" },
+        "compilationDigest": { "$ref": "#/$defs/digest" },
+        "packageDigest": { "$ref": "#/$defs/digest" },
+        "policy": { "$ref": "#/$defs/policy" },
+        "policyDigest": { "$ref": "#/$defs/digest" },
+        "calibration": { "$ref": "#/$defs/calibration" },
+        "calibrationDigest": { "$ref": "#/$defs/digest" },
+        "inventory": { "$ref": "#/$defs/inventory" },
+        "inventoryDigest": { "$ref": "#/$defs/digest" },
+        "demands": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": { "$ref": "#/$defs/demand" }
+        },
+        "evaluations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3072,
+          "items": { "$ref": "#/$defs/rowEvaluation" }
+        },
+        "search": { "$ref": "#/$defs/search" },
+        "selected": { "$ref": "#/$defs/vector" },
+        "predecessorAssignmentDigest": {
+          "oneOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }]
+        },
+        "override": { "oneOf": [{ "$ref": "#/$defs/override" }, { "type": "null" }] },
+        "contentDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "expectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compilationDigest",
+        "packageDigest",
+        "policyDigest",
+        "calibrationDigest",
+        "inventoryDigest",
+        "assignmentDigest"
+      ],
+      "properties": {
+        "compilationDigest": { "$ref": "#/$defs/digest" },
+        "packageDigest": { "$ref": "#/$defs/digest" },
+        "policyDigest": { "$ref": "#/$defs/digest" },
+        "calibrationDigest": { "$ref": "#/$defs/digest" },
+        "inventoryDigest": { "$ref": "#/$defs/digest" },
+        "assignmentDigest": { "$ref": "#/$defs/digest" }
+      }
+    }
+  }
+}

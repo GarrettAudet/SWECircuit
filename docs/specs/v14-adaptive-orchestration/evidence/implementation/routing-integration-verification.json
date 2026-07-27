@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/integration-verification/v0alpha0",
+  "kind": "RuntimeRoutingIntegrationVerification",
+  "outcome": "pass",
+  "producer": {
+    "agentId": "agent.40a1f03c545884055177cf4a6326f71f064dbbed0a4bcf90f6299ebb21242547",
+    "rawResultBytes": 5423,
+    "rawResultDigest": "sha256:024adc9db0487f327142c64d4c99af345b32cd9dd441334d0d87d733599e3490",
+    "handoffOutcome": "pass",
+    "handoffVerification": "pass"
+  },
+  "checks": [
+    {
+      "command": "npm.cmd run typecheck",
+      "outcome": "pass"
+    },
+    {
+      "command": "npm.cmd run build",
+      "outcome": "pass"
+    },
+    {
+      "command": "node --test test\\runtime-routing.test.mjs",
+      "tests": 7,
+      "passed": 7,
+      "failed": 0,
+      "outcome": "pass"
+    }
+  ],
+  "diagnosis": {
+    "initialFailure": "A literal null request returned SC4502 instead of SC4501.",
+    "rootCause": "The routing snapshot wrapper used null both as valid JSON and as its failure sentinel.",
+    "fix": "Snapshot availability is now explicit, so valid null reaches closed schema validation.",
+    "regressionCoverage": "runtime routing fails closed for malformed requests and published limits"
+  },
+  "deferred": [
+    {
+      "command": "node --test test\\runtime-routing-schema.test.mjs",
+      "status": "pending",
+      "reason": "The full V14 surface test also requires adaptive-run, RunView, and adaptive schema exports from the next implementation wave."
+    }
+  ]
+}
