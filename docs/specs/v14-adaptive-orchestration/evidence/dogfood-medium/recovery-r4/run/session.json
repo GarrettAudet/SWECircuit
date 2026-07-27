@@ -1,0 +1,794 @@
+{
+  "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+  "kind": "AdaptiveRunSession",
+  "expectation": {
+    "compilationDigest": "sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494",
+    "packageDigest": "sha256:6289f905bcd05da0d5b78938331713c45927bdeacb812173832993178b18b995",
+    "policyDigest": "sha256:081af08693da6498f0f4305352cb8734f20459e87baa194775264585ef417db2",
+    "calibrationDigest": "sha256:2350c42c6528b2fa183f63aa9f69b78cb1a4ebc217a62fdfed9470b00b426036",
+    "inventoryDigest": "sha256:b5533fe09c18b71b10f810510b33edbd546ba274a7f910e46893d6e5ef041269",
+    "assignmentDigest": "sha256:bba5eb670726bec61876346501016fdd9e6c25776377bb36b5bcc1cf2aab17cc",
+    "runId": "run.v14.impact-planner.medium.r4",
+    "runRevision": 4,
+    "predecessorRun": {
+      "runId": "run.v14.impact-planner.medium.r3",
+      "sessionDigest": "sha256:2339fdd2f8c282ef4c4bff209f11ec2d985900c44f228e2ddf9a039bd857688e",
+      "terminalOutcome": "fix",
+      "evidenceDigest": "sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c"
+    },
+    "workspaceBaselineDigest": "sha256:709cb0627e1fc1659d3886b3b30ed97c14d20ecacfee394058f4d39469531762",
+    "authorizedHostId": "codex-desktop.windows",
+    "authorizedAdapterId": "codex-desktop",
+    "authorizedAdapterRevision": "v14-alpha",
+    "authorizationIssuerId": "repository-owner-via-standing-release-authorization",
+    "maxHostEvents": 160,
+    "lineageDepth": 3,
+    "maxLineageDepth": 8
+  },
+  "assignment": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeAssignmentCompilation",
+    "goalId": "v14.dogfood.impact-planner",
+    "goalRevision": 4,
+    "goalDigest": "sha256:288d225158594799926f3caf92f4d18a2dd62efbccbc920a614827c32d4994df",
+    "compilationDigest": "sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494",
+    "packageDigest": "sha256:6289f905bcd05da0d5b78938331713c45927bdeacb812173832993178b18b995",
+    "policy": {
+      "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+      "kind": "RuntimeDemandPolicy",
+      "id": "policy.v14.impact-planner.recovery-r4",
+      "revision": 1,
+      "qualityTiers": [
+        {
+          "id": "quality.low",
+          "rank": 0
+        },
+        {
+          "id": "quality.balanced",
+          "rank": 1
+        },
+        {
+          "id": "quality.frontier",
+          "rank": 2
+        }
+      ],
+      "reasoningTiers": [
+        {
+          "id": "reasoning.medium",
+          "rank": 0
+        },
+        {
+          "id": "reasoning.high",
+          "rank": 1
+        }
+      ],
+      "capabilityRules": [
+        {
+          "capabilityId": "repair.impact-planner-accessibility",
+          "minimumQualityTier": "quality.balanced",
+          "minimumReasoningTier": "reasoning.high",
+          "requiredTools": [
+            "node",
+            "npm.cmd",
+            "rg"
+          ],
+          "requiredSkills": [],
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ]
+        }
+      ],
+      "evidenceRules": [
+        {
+          "kind": "test",
+          "duty": "produce",
+          "minimumQualityTier": "quality.balanced",
+          "minimumReasoningTier": "reasoning.high"
+        }
+      ],
+      "permissionRules": [
+        {
+          "kind": "filesystem.read",
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.filesystem.read"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.filesystem.write"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.process.spawn"
+          ]
+        }
+      ],
+      "observability": {
+        "model": "observed",
+        "effort": "observed",
+        "tools": "observed",
+        "skills": "observed",
+        "isolation": "observed",
+        "permissions": "observed",
+        "workspace": "observed",
+        "context": "observed"
+      },
+      "search": {
+        "exactVectorLimit": 200000,
+        "boundedBeamWidth": 64
+      }
+    },
+    "policyDigest": "sha256:081af08693da6498f0f4305352cb8734f20459e87baa194775264585ef417db2",
+    "calibration": {
+      "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+      "kind": "RuntimeCalibrationCatalog",
+      "id": "calibration.codex-desktop.impact-planner.recovery-r4",
+      "revision": 1,
+      "assessedBy": "repository-owner-via-standing-release-authorization",
+      "adapterId": "codex-desktop",
+      "adapterRevision": "v14-alpha",
+      "runtimeRows": [
+        {
+          "id": "row.gpt55.high",
+          "profileId": "profile.codex.gpt55",
+          "effortId": "effort.high",
+          "effortRank": 2,
+          "runtimeFamily": "profile.codex.gpt55",
+          "independenceDomain": "profile.codex.gpt55",
+          "reasoningTier": "reasoning.high",
+          "capabilities": [
+            {
+              "capabilityId": "repair.impact-planner-accessibility",
+              "qualityTier": "quality.frontier"
+            }
+          ],
+          "contextLimitBytes": 2000000,
+          "tools": [
+            "node",
+            "npm.cmd",
+            "rg"
+          ],
+          "skills": [],
+          "isolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "permissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observationModes": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          },
+          "costRank": 4,
+          "latencyRank": 4,
+          "evidence": [
+            {
+              "id": "evidence.row.gpt55.high",
+              "kind": "owner_assessment",
+              "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+              "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+              "bytes": 1358
+            }
+          ]
+        },
+        {
+          "id": "row.luna.medium",
+          "profileId": "profile.codex.luna",
+          "effortId": "effort.medium",
+          "effortRank": 1,
+          "runtimeFamily": "profile.codex.luna",
+          "independenceDomain": "profile.codex.luna",
+          "reasoningTier": "reasoning.medium",
+          "capabilities": [
+            {
+              "capabilityId": "repair.impact-planner-accessibility",
+              "qualityTier": "quality.low"
+            }
+          ],
+          "contextLimitBytes": 2000000,
+          "tools": [
+            "node",
+            "rg"
+          ],
+          "skills": [],
+          "isolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "permissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observationModes": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          },
+          "costRank": 0,
+          "latencyRank": 0,
+          "evidence": [
+            {
+              "id": "evidence.row.luna.medium",
+              "kind": "owner_assessment",
+              "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+              "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+              "bytes": 1358
+            }
+          ]
+        },
+        {
+          "id": "row.sol.high",
+          "profileId": "profile.codex.sol",
+          "effortId": "effort.high",
+          "effortRank": 2,
+          "runtimeFamily": "profile.codex.sol",
+          "independenceDomain": "profile.codex.sol",
+          "reasoningTier": "reasoning.high",
+          "capabilities": [
+            {
+              "capabilityId": "repair.impact-planner-accessibility",
+              "qualityTier": "quality.frontier"
+            }
+          ],
+          "contextLimitBytes": 2000000,
+          "tools": [
+            "node",
+            "npm.cmd",
+            "rg"
+          ],
+          "skills": [],
+          "isolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "permissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observationModes": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          },
+          "costRank": 3,
+          "latencyRank": 3,
+          "evidence": [
+            {
+              "id": "evidence.row.sol.high",
+              "kind": "owner_assessment",
+              "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+              "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+              "bytes": 1358
+            }
+          ]
+        },
+        {
+          "id": "row.terra.high",
+          "profileId": "profile.codex.terra",
+          "effortId": "effort.high",
+          "effortRank": 2,
+          "runtimeFamily": "profile.codex.terra",
+          "independenceDomain": "profile.codex.terra",
+          "reasoningTier": "reasoning.high",
+          "capabilities": [
+            {
+              "capabilityId": "repair.impact-planner-accessibility",
+              "qualityTier": "quality.balanced"
+            }
+          ],
+          "contextLimitBytes": 2000000,
+          "tools": [
+            "node",
+            "npm.cmd",
+            "rg"
+          ],
+          "skills": [],
+          "isolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "permissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observationModes": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          },
+          "costRank": 2,
+          "latencyRank": 2,
+          "evidence": [
+            {
+              "id": "evidence.row.terra.high",
+              "kind": "owner_assessment",
+              "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+              "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+              "bytes": 1358
+            }
+          ]
+        },
+        {
+          "id": "row.terra.medium",
+          "profileId": "profile.codex.terra",
+          "effortId": "effort.medium",
+          "effortRank": 1,
+          "runtimeFamily": "profile.codex.terra",
+          "independenceDomain": "profile.codex.terra",
+          "reasoningTier": "reasoning.medium",
+          "capabilities": [
+            {
+              "capabilityId": "repair.impact-planner-accessibility",
+              "qualityTier": "quality.balanced"
+            }
+          ],
+          "contextLimitBytes": 2000000,
+          "tools": [
+            "node",
+            "rg"
+          ],
+          "skills": [],
+          "isolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "permissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observationModes": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          },
+          "costRank": 1,
+          "latencyRank": 1,
+          "evidence": [
+            {
+              "id": "evidence.row.terra.medium",
+              "kind": "owner_assessment",
+              "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+              "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+              "bytes": 1358
+            }
+          ]
+        }
+      ]
+    },
+    "calibrationDigest": "sha256:2350c42c6528b2fa183f63aa9f69b78cb1a4ebc217a62fdfed9470b00b426036",
+    "inventory": {
+      "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+      "kind": "HostCapabilityInventory",
+      "id": "inventory.codex-desktop.impact-planner.recovery-r4",
+      "revision": 1,
+      "hostId": "codex-desktop.windows",
+      "adapterId": "codex-desktop",
+      "adapterRevision": "v14-alpha",
+      "catalogRevision": "multi-agent-tool-schema.2026-07-27",
+      "completeness": "declared_subset",
+      "maxConcurrentAgents": 1,
+      "rows": [
+        {
+          "calibrationRowId": "row.gpt55.high",
+          "availability": "available",
+          "availabilityReason": "Exposed by the current native multi-agent host tool."
+        },
+        {
+          "calibrationRowId": "row.luna.medium",
+          "availability": "available",
+          "availabilityReason": "Exposed by the current native multi-agent host tool."
+        },
+        {
+          "calibrationRowId": "row.sol.high",
+          "availability": "available",
+          "availabilityReason": "Exposed by the current native multi-agent host tool."
+        },
+        {
+          "calibrationRowId": "row.terra.high",
+          "availability": "available",
+          "availabilityReason": "Exposed by the current native multi-agent host tool."
+        },
+        {
+          "calibrationRowId": "row.terra.medium",
+          "availability": "available",
+          "availabilityReason": "Exposed by the current native multi-agent host tool."
+        }
+      ]
+    },
+    "inventoryDigest": "sha256:b5533fe09c18b71b10f810510b33edbd546ba274a7f910e46893d6e5ef041269",
+    "demands": [
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "blueprintDigest": "sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba",
+        "requiredCapabilities": [
+          {
+            "capabilityId": "repair.impact-planner-accessibility",
+            "minimumQualityTier": "quality.balanced"
+          }
+        ],
+        "minimumReasoningTier": "reasoning.high",
+        "contextBytes": 60258,
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "producerAgentIds": [],
+        "checkerAgentIds": [],
+        "contentDigest": "sha256:4ccc713b112282970c4bb0bb0fa362ec6af088e2ac9c78650215fd43765faf60"
+      }
+    ],
+    "evaluations": [
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "calibrationRowId": "row.gpt55.high",
+        "profileId": "profile.codex.gpt55",
+        "effortId": "effort.high",
+        "eligible": true,
+        "rejectionCodes": [],
+        "unmetRequirementIds": [],
+        "comparator": {
+          "costRank": 4,
+          "latencyRank": 4,
+          "qualityExcess": 1,
+          "reasoningExcess": 0,
+          "contextExcessBytes": 1939742,
+          "toolExcess": 0,
+          "skillExcess": 0,
+          "effortRank": 2,
+          "canonicalIdentity": "[\"profile.codex.gpt55\",\"effort.high\"]"
+        },
+        "contentDigest": "sha256:d103753f9dbb1487d3ace4b80f84e2315d63d8d84ea0341d44503706507b4875"
+      },
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "calibrationRowId": "row.luna.medium",
+        "profileId": "profile.codex.luna",
+        "effortId": "effort.medium",
+        "eligible": false,
+        "rejectionCodes": [
+          "quality_tier",
+          "reasoning_tier",
+          "required_tool"
+        ],
+        "unmetRequirementIds": [
+          "capability:repair.impact-planner-accessibility",
+          "reasoning:reasoning.high",
+          "tool:npm.cmd"
+        ],
+        "comparator": null,
+        "contentDigest": "sha256:66b4d9a601e5c22e263d84064516f4f0b2a37523152e82fa12cf5e47849f6cd4"
+      },
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "calibrationRowId": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "eligible": true,
+        "rejectionCodes": [],
+        "unmetRequirementIds": [],
+        "comparator": {
+          "costRank": 3,
+          "latencyRank": 3,
+          "qualityExcess": 1,
+          "reasoningExcess": 0,
+          "contextExcessBytes": 1939742,
+          "toolExcess": 0,
+          "skillExcess": 0,
+          "effortRank": 2,
+          "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+        },
+        "contentDigest": "sha256:bec2be6fe45c9fcc5507ddb20329acf4a88ed12a02b22a13bb6da8982beac094"
+      },
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "calibrationRowId": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "eligible": true,
+        "rejectionCodes": [],
+        "unmetRequirementIds": [],
+        "comparator": {
+          "costRank": 2,
+          "latencyRank": 2,
+          "qualityExcess": 0,
+          "reasoningExcess": 0,
+          "contextExcessBytes": 1939742,
+          "toolExcess": 0,
+          "skillExcess": 0,
+          "effortRank": 2,
+          "canonicalIdentity": "[\"profile.codex.terra\",\"effort.high\"]"
+        },
+        "contentDigest": "sha256:ff56b039d6f2b08cd92f5d77ebd2ba47dcc5a05edf4c3db9de9773fff2fedfef"
+      },
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "calibrationRowId": "row.terra.medium",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.medium",
+        "eligible": false,
+        "rejectionCodes": [
+          "reasoning_tier",
+          "required_tool"
+        ],
+        "unmetRequirementIds": [
+          "reasoning:reasoning.high",
+          "tool:npm.cmd"
+        ],
+        "comparator": null,
+        "contentDigest": "sha256:6bb23e274e83c27bbbbe9e8814b2d6f90a057107f91eac4bbe129708aabefbd8"
+      }
+    ],
+    "search": {
+      "mode": "exact",
+      "claim": "exhaustive_assignment_vector_search",
+      "potentialVectors": 3,
+      "evaluatedVectors": 3,
+      "feasibleVectors": 3,
+      "contentDigest": "sha256:55c912bac164187982e34c0b293795ec59eb34390bf9914ccfe909ca41bbd3fb"
+    },
+    "selected": {
+      "rows": [
+        {
+          "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+          "blueprintDigest": "sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba",
+          "calibrationRowId": "row.terra.high",
+          "profileId": "profile.codex.terra",
+          "effortId": "effort.high",
+          "independenceDomain": "profile.codex.terra",
+          "requiredTools": [
+            "node",
+            "npm.cmd",
+            "rg"
+          ],
+          "requiredSkills": [],
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observability": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          }
+        }
+      ],
+      "comparator": {
+        "totalCostRank": 2,
+        "maximumLatencyRank": 2,
+        "totalLatencyRank": 2,
+        "totalQualityExcess": 0,
+        "totalReasoningExcess": 0,
+        "totalContextExcessBytes": 1939742,
+        "totalToolExcess": 0,
+        "totalSkillExcess": 0,
+        "totalEffortRank": 2,
+        "canonicalIdentity": "[\"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136=profile.codex.terra/effort.high\"]"
+      },
+      "selectionReason": "lowest_exact_vector",
+      "contentDigest": "sha256:95dd7cc2902f1a605da70f000dcd1b75ac79f095216ed459a1e25f0f3a401201"
+    },
+    "predecessorAssignmentDigest": null,
+    "override": null,
+    "contentDigest": "sha256:bba5eb670726bec61876346501016fdd9e6c25776377bb36b5bcc1cf2aab17cc"
+  },
+  "specialistRun": {
+    "apiVersion": "swecircuit/specialist-run/v1alpha1",
+    "kind": "SpecialistRunSession",
+    "goal": {
+      "id": "v14.dogfood.impact-planner",
+      "revision": 4,
+      "digest": "sha256:288d225158594799926f3caf92f4d18a2dd62efbccbc920a614827c32d4994df",
+      "integrationOwner": "codex.main"
+    },
+    "compilationDigest": "sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494",
+    "packageDigest": "sha256:6289f905bcd05da0d5b78938331713c45927bdeacb812173832993178b18b995",
+    "selectedCandidateId": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+    "package": {
+      "compilationDigest": "sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494",
+      "packageDigest": "sha256:6289f905bcd05da0d5b78938331713c45927bdeacb812173832993178b18b995",
+      "manifest": {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "SpecialistPackageManifest",
+        "goalId": "v14.dogfood.impact-planner",
+        "goalRevision": 4,
+        "fileDigestAlgorithm": "sha256",
+        "fileDigestScope": "raw-file-bytes",
+        "compilationDigest": "sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494",
+        "selectedCandidateId": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+        "launchWaves": [
+          {
+            "start": 0,
+            "agentIds": [
+              "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136"
+            ]
+          }
+        ],
+        "compilationFile": "compilation.json",
+        "compilationFileDigest": "sha256:14d736666e6b5d1f34ca89b13fab86cb41d2868a96d55a38a5f4373e578fb33e",
+        "compilationFileBytes": 34679,
+        "agents": [
+          {
+            "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+            "blueprintDigest": "sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba",
+            "contractFile": "agents/agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136.md",
+            "contractDigest": "sha256:f839570fd09cbd430efe62cb2ff65f49e493388c2d2b0850e880472930fee076",
+            "contractBytes": 12819
+          }
+        ],
+        "integrationFile": "integration.md",
+        "integrationDigest": "sha256:ea80cf3ac8dbec9743b7f1a9fd640bf7dd4c190b66bdd9ba3903a71119d8be03",
+        "integrationBytes": 3150,
+        "contentDigest": "sha256:0de3342818b18a9567589092b1620abf1d1715bb36bb46c11b1861f9c736f73b"
+      },
+      "files": [
+        {
+          "path": "agents/agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136.md",
+          "mediaType": "text/markdown",
+          "bytes": 12819,
+          "digest": "sha256:f839570fd09cbd430efe62cb2ff65f49e493388c2d2b0850e880472930fee076",
+          "content": "# Specialist Contract: agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\n\nCompilation: `sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494`\nBlueprint: `sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba`\n\nThis is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.\n\n## Operating Rules\n\n1. Verify every delivered context item against its declared raw SHA-256 digest and byte count before using it.\n2. Work only on the listed work units, Modules, scopes, capabilities, and permissions.\n3. Respect agent dependencies and stop when a stop condition or undeclared decision is reached.\n4. Produce every assigned evidence duty and every required handoff field.\n5. Report assumptions, risks, failed attempts, and follow-up work; do not silently expand scope.\n\nManifest file digests use standard SHA-256 over the exact file bytes. Compilation, blueprint, manifest, and package identities are SWECircuit domain-separated digests and must be verified through the package verifier or another implementation of the published contract.\n\n## Blueprint\n\n```json\n{\n  \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n  \"kind\": \"AgentBlueprint\",\n  \"id\": \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\",\n  \"goalId\": \"v14.dogfood.impact-planner\",\n  \"goalRevision\": 4,\n  \"goalDigest\": \"sha256:288d225158594799926f3caf92f4d18a2dd62efbccbc920a614827c32d4994df\",\n  \"candidateId\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n  \"workUnitIds\": [\n    \"fix.changed-row-accessibility\"\n  ],\n  \"objectives\": [\n    {\n      \"workUnitId\": \"fix.changed-row-accessibility\",\n      \"objective\": \"Align the runtime changed-component row class with the accessible stylesheet and lock it with a regression test.\"\n    }\n  ],\n  \"modules\": [\n    {\n      \"id\": \"fix.changed-row-accessibility\",\n      \"action\": \"Replace changed-row with changed-item, add a focused source/CSS binding assertion, and run all app tests and syntax checks.\",\n      \"inputPorts\": [\n        {\n          \"name\": \"finding\",\n          \"artifactType\": \"ImpactPlannerReviewFinding\"\n        }\n      ],\n      \"outputPorts\": [\n        {\n          \"name\": \"handoff\",\n          \"artifactType\": \"impact-accessibility-fix.md\"\n        }\n      ]\n    }\n  ],\n  \"dependencies\": [],\n  \"contextUses\": [\n    {\n      \"sourceId\": \"context.agent-contract\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:AGENTS.md\",\n      \"digest\": \"sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b\",\n      \"bytes\": 18686,\n      \"purposes\": [\n        \"Apply and verify the exact reviewed accessibility correction.\"\n      ],\n      \"workUnitIds\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"readScope\": \"AGENTS.md\"\n    },\n    {\n      \"sourceId\": \"context.app-contract\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n      \"digest\": \"sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72\",\n      \"bytes\": 5191,\n      \"purposes\": [\n        \"Apply and verify the exact reviewed accessibility correction.\"\n      ],\n      \"workUnitIds\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\"\n    },\n    {\n      \"sourceId\": \"context.app-source\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:examples/impact-planner/src/app.js\",\n      \"digest\": \"sha256:d223d0e29c3a84eeb79dc600e5df4cabccd184db0f50193237ca84a1f565327e\",\n      \"bytes\": 14039,\n      \"purposes\": [\n        \"Apply and verify the exact reviewed accessibility correction.\"\n      ],\n      \"workUnitIds\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"readScope\": \"examples/impact-planner/src/app.js\"\n    },\n    {\n      \"sourceId\": \"context.integration-tests\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:examples/impact-planner/test/integration.test.mjs\",\n      \"digest\": \"sha256:aeef0c8a26f9ab6c87f41848bc84f369e1047e4ac1d502c20d1984b2802856e9\",\n      \"bytes\": 4266,\n      \"purposes\": [\n        \"Apply and verify the exact reviewed accessibility correction.\"\n      ],\n      \"workUnitIds\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"readScope\": \"examples/impact-planner/test/integration.test.mjs\"\n    },\n    {\n      \"sourceId\": \"context.interface-tests\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:examples/impact-planner/test/interface.test.mjs\",\n      \"digest\": \"sha256:f1214d4792a64d06cb3c8f4d61689afc7ac64911906bfa9009fb759cbb457639\",\n      \"bytes\": 1659,\n      \"purposes\": [\n        \"Apply and verify the exact reviewed accessibility correction.\"\n      ],\n      \"workUnitIds\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"readScope\": \"examples/impact-planner/test/interface.test.mjs\"\n    },\n    {\n      \"sourceId\": \"context.predecessor\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n      \"digest\": \"sha256:a4ab00c2113c95fd0f0f2f76bb27ccfa86a633e13bdd3ad67f4cf0ca1e42df1b\",\n      \"bytes\": 1188,\n      \"purposes\": [\n        \"Apply and verify the exact reviewed accessibility correction.\"\n      ],\n      \"workUnitIds\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\"\n    },\n    {\n      \"sourceId\": \"context.recovery-goal\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n      \"digest\": \"sha256:f9e408e61368186342656cbb1956ba05b7b337953027306245f15c8d34b35818\",\n      \"bytes\": 1450,\n      \"purposes\": [\n        \"Apply and verify the exact reviewed accessibility correction.\"\n      ],\n      \"workUnitIds\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\"\n    },\n    {\n      \"sourceId\": \"context.review-finding\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n      \"digest\": \"sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c\",\n      \"bytes\": 5668,\n      \"purposes\": [\n        \"Apply and verify the exact reviewed accessibility correction.\"\n      ],\n      \"workUnitIds\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\"\n    },\n    {\n      \"sourceId\": \"context.styles\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:examples/impact-planner/styles.css\",\n      \"digest\": \"sha256:91977a2fdaaabe76c0fb6c7fd55ec9ddd8373318b1f443e648809d8d74587a5d\",\n      \"bytes\": 8111,\n      \"purposes\": [\n        \"Apply and verify the exact reviewed accessibility correction.\"\n      ],\n      \"workUnitIds\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"readScope\": \"examples/impact-planner/styles.css\"\n    }\n  ],\n  \"authority\": {\n    \"requiredCapabilities\": [\n      \"repair.impact-planner-accessibility\"\n    ],\n    \"scope\": {\n      \"read\": [\n        \"AGENTS.md\",\n        \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n        \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n        \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n        \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n        \"examples/impact-planner/src/app.js\",\n        \"examples/impact-planner/styles.css\",\n        \"examples/impact-planner/test/integration.test.mjs\",\n        \"examples/impact-planner/test/interface.test.mjs\"\n      ],\n      \"write\": [\n        \"examples/impact-planner/src/app.js\",\n        \"examples/impact-planner/test/integration.test.mjs\"\n      ],\n      \"conflictZones\": []\n    },\n    \"permissions\": [\n      {\n        \"kind\": \"filesystem.read\",\n        \"scopes\": [\n          \"AGENTS.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n          \"examples/impact-planner/src/app.js\",\n          \"examples/impact-planner/styles.css\",\n          \"examples/impact-planner/test/integration.test.mjs\",\n          \"examples/impact-planner/test/interface.test.mjs\"\n        ]\n      },\n      {\n        \"kind\": \"filesystem.write\",\n        \"scopes\": [\n          \"examples/impact-planner/src/app.js\",\n          \"examples/impact-planner/test/integration.test.mjs\"\n        ]\n      },\n      {\n        \"kind\": \"process.spawn\",\n        \"scopes\": [\n          \"node\",\n          \"npm.cmd\",\n          \"rg\"\n        ]\n      }\n    ],\n    \"forbiddenEffects\": [\n      \"Do not access the network, secrets, external services, or undeclared paths.\",\n      \"Do not install dependencies, mutate Git, merge, update memory, or alter styles.\",\n      \"Do not modify files outside app.js and integration.test.mjs.\"\n    ]\n  },\n  \"evidenceDuties\": [\n    {\n      \"criterionId\": \"criterion.changed-row-binding\",\n      \"criterion\": \"Runtime change-set rows use the exact accessible stylesheet class and focused regression coverage prevents drift.\",\n      \"requirementId\": \"evidence.changed-row-fix.produce\",\n      \"kind\": \"test\",\n      \"duty\": \"produce\",\n      \"description\": \"Apply the exact class correction, add the runtime-to-stylesheet binding assertion, and pass the complete app suite.\",\n      \"independentFromProducer\": false\n    }\n  ],\n  \"handoff\": {\n    \"destination\": \"codex.main\",\n    \"artifacts\": [\n      \"impact-accessibility-fix.md\"\n    ],\n    \"requiredFields\": [\n      \"apiVersion\",\n      \"kind\",\n      \"outcome\",\n      \"destination\",\n      \"goal\",\n      \"agent\",\n      \"compilationDigest\",\n      \"summary\",\n      \"workUnitsCompleted\",\n      \"artifacts\",\n      \"evidence\",\n      \"assumptions\",\n      \"risks\",\n      \"followUps\"\n    ]\n  },\n  \"stopConditions\": [\n    \"Do not modify files outside the declared write scope.\",\n    \"Do not weaken or remove existing tests.\",\n    \"Return non-pass if the focused assertion or complete suite does not pass.\"\n  ],\n  \"contentDigest\": \"sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba\"\n}\n```\n\n## Required Handoff Envelope\n\nReturn one strict UTF-8 JSON object with exactly the shape below. Replace the summary and artifact content, but do not add keys or substitute the blueprint evidence-duty shape.\n\n- Artifact content is always a string, including for application/json.\n- Evidence entries contain exactly criterionId, requirementId, kind, duty, status, and artifact.\n- A pass must list every owned work unit, exact artifact name, and exact evidence duty. A non-pass outcome lists only work actually completed and preserves bounded failure evidence.\n- If a stop condition explicitly requires a stricter custom envelope, the host must provide that closed schema; it must retain the standard goal, agent, compilation, artifact, evidence, and outcome bindings shown here.\n\n```json\n{\n  \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n  \"kind\": \"SpecialistAgentHandoff\",\n  \"outcome\": \"pass\",\n  \"destination\": \"codex.main\",\n  \"goal\": {\n    \"id\": \"v14.dogfood.impact-planner\",\n    \"revision\": 4,\n    \"digest\": \"sha256:288d225158594799926f3caf92f4d18a2dd62efbccbc920a614827c32d4994df\"\n  },\n  \"agent\": {\n    \"id\": \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\",\n    \"blueprintDigest\": \"sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba\"\n  },\n  \"compilationDigest\": \"sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494\",\n  \"summary\": \"Replace with a concise result summary.\",\n  \"workUnitsCompleted\": [\n    \"fix.changed-row-accessibility\"\n  ],\n  \"artifacts\": [\n    {\n      \"name\": \"impact-accessibility-fix.md\",\n      \"mediaType\": \"text/markdown\",\n      \"content\": \"Replace with the complete artifact content.\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"criterionId\": \"criterion.changed-row-binding\",\n      \"requirementId\": \"evidence.changed-row-fix.produce\",\n      \"kind\": \"test\",\n      \"duty\": \"produce\",\n      \"status\": \"pass\",\n      \"artifact\": \"impact-accessibility-fix.md\"\n    }\n  ],\n  \"assumptions\": [],\n  \"risks\": [],\n  \"followUps\": []\n}\n```\n"
+        },
+        {
+          "path": "compilation.json",
+          "mediaType": "application/json",
+          "bytes": 34679,
+          "digest": "sha256:14d736666e6b5d1f34ca89b13fab86cb41d2868a96d55a38a5f4373e578fb33e",
+          "content": "{\n  \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n  \"kind\": \"AgentBlueprintCompilation\",\n  \"goal\": {\n    \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n    \"kind\": \"GoalContract\",\n    \"id\": \"v14.dogfood.impact-planner\",\n    \"revision\": 4,\n    \"objective\": \"Correct the verified changed-row accessibility binding with the smallest causal source and regression-test change.\",\n    \"integrationOwner\": \"codex.main\",\n    \"assumptions\": [],\n    \"unresolvedDecisions\": [],\n    \"acceptanceCriteria\": [\n      {\n        \"id\": \"criterion.changed-row-binding\",\n        \"description\": \"Runtime change-set rows use the exact accessible stylesheet class and focused regression coverage prevents drift.\",\n        \"evidenceRequirements\": [\n          {\n            \"id\": \"evidence.changed-row-fix.produce\",\n            \"kind\": \"test\",\n            \"duty\": \"produce\",\n            \"description\": \"Apply the exact class correction, add the runtime-to-stylesheet binding assertion, and pass the complete app suite.\",\n            \"independentFromProducer\": false\n          }\n        ]\n      }\n    ],\n    \"contextSources\": [\n      {\n        \"id\": \"context.agent-contract\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:AGENTS.md\",\n        \"digest\": \"sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b\",\n        \"bytes\": 18686,\n        \"description\": \"Exact revision-4 source for AGENTS.md.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"AGENTS.md\"\n      },\n      {\n        \"id\": \"context.app-contract\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n        \"digest\": \"sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72\",\n        \"bytes\": 5191,\n        \"description\": \"Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\"\n      },\n      {\n        \"id\": \"context.app-source\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/impact-planner/src/app.js\",\n        \"digest\": \"sha256:d223d0e29c3a84eeb79dc600e5df4cabccd184db0f50193237ca84a1f565327e\",\n        \"bytes\": 14039,\n        \"description\": \"Exact revision-4 source for examples/impact-planner/src/app.js.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"examples/impact-planner/src/app.js\"\n      },\n      {\n        \"id\": \"context.integration-tests\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/impact-planner/test/integration.test.mjs\",\n        \"digest\": \"sha256:aeef0c8a26f9ab6c87f41848bc84f369e1047e4ac1d502c20d1984b2802856e9\",\n        \"bytes\": 4266,\n        \"description\": \"Exact revision-4 source for examples/impact-planner/test/integration.test.mjs.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"examples/impact-planner/test/integration.test.mjs\"\n      },\n      {\n        \"id\": \"context.interface-tests\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/impact-planner/test/interface.test.mjs\",\n        \"digest\": \"sha256:f1214d4792a64d06cb3c8f4d61689afc7ac64911906bfa9009fb759cbb457639\",\n        \"bytes\": 1659,\n        \"description\": \"Exact revision-4 source for examples/impact-planner/test/interface.test.mjs.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"examples/impact-planner/test/interface.test.mjs\"\n      },\n      {\n        \"id\": \"context.predecessor\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n        \"digest\": \"sha256:a4ab00c2113c95fd0f0f2f76bb27ccfa86a633e13bdd3ad67f4cf0ca1e42df1b\",\n        \"bytes\": 1188,\n        \"description\": \"Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\"\n      },\n      {\n        \"id\": \"context.recovery-goal\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n        \"digest\": \"sha256:f9e408e61368186342656cbb1956ba05b7b337953027306245f15c8d34b35818\",\n        \"bytes\": 1450,\n        \"description\": \"Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\"\n      },\n      {\n        \"id\": \"context.review-finding\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n        \"digest\": \"sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c\",\n        \"bytes\": 5668,\n        \"description\": \"Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\"\n      },\n      {\n        \"id\": \"context.styles\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/impact-planner/styles.css\",\n        \"digest\": \"sha256:91977a2fdaaabe76c0fb6c7fd55ec9ddd8373318b1f443e648809d8d74587a5d\",\n        \"bytes\": 8111,\n        \"description\": \"Exact revision-4 source for examples/impact-planner/styles.css.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"examples/impact-planner/styles.css\"\n      }\n    ],\n    \"authority\": {\n      \"allowedModules\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"allowedCapabilities\": [\n        \"repair.impact-planner-accessibility\"\n      ],\n      \"permissionCeiling\": [\n        {\n          \"kind\": \"filesystem.read\",\n          \"scopes\": [\n            \"AGENTS.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n            \"examples/impact-planner/src/app.js\",\n            \"examples/impact-planner/styles.css\",\n            \"examples/impact-planner/test/integration.test.mjs\",\n            \"examples/impact-planner/test/interface.test.mjs\"\n          ]\n        },\n        {\n          \"kind\": \"filesystem.write\",\n          \"scopes\": [\n            \"examples/impact-planner/src/app.js\",\n            \"examples/impact-planner/test/integration.test.mjs\"\n          ]\n        },\n        {\n          \"kind\": \"process.spawn\",\n          \"scopes\": [\n            \"node\",\n            \"npm.cmd\",\n            \"rg\"\n          ]\n        }\n      ],\n      \"forbiddenEffects\": [\n        \"Do not access the network, secrets, external services, or undeclared paths.\",\n        \"Do not install dependencies, mutate Git, merge, update memory, or alter styles.\",\n        \"Do not modify files outside app.js and integration.test.mjs.\"\n      ],\n      \"maxAgents\": 1,\n      \"maxConcurrency\": 1\n    },\n    \"optimization\": {\n      \"agentStartupCost\": 1,\n      \"handoffCost\": 1\n    },\n    \"workUnits\": [\n      {\n        \"id\": \"fix.changed-row-accessibility\",\n        \"objective\": \"Align the runtime changed-component row class with the accessible stylesheet and lock it with a regression test.\",\n        \"weight\": 2,\n        \"module\": {\n          \"id\": \"fix.changed-row-accessibility\",\n          \"action\": \"Replace changed-row with changed-item, add a focused source/CSS binding assertion, and run all app tests and syntax checks.\",\n          \"inputPorts\": [\n            {\n              \"name\": \"finding\",\n              \"artifactType\": \"ImpactPlannerReviewFinding\"\n            }\n          ],\n          \"outputPorts\": [\n            {\n              \"name\": \"handoff\",\n              \"artifactType\": \"impact-accessibility-fix.md\"\n            }\n          ]\n        },\n        \"dependencies\": [],\n        \"requiredCapabilities\": [\n          \"repair.impact-planner-accessibility\"\n        ],\n        \"contextUses\": [\n          {\n            \"sourceId\": \"context.agent-contract\",\n            \"purpose\": \"Apply and verify the exact reviewed accessibility correction.\"\n          },\n          {\n            \"sourceId\": \"context.app-contract\",\n            \"purpose\": \"Apply and verify the exact reviewed accessibility correction.\"\n          },\n          {\n            \"sourceId\": \"context.app-source\",\n            \"purpose\": \"Apply and verify the exact reviewed accessibility correction.\"\n          },\n          {\n            \"sourceId\": \"context.integration-tests\",\n            \"purpose\": \"Apply and verify the exact reviewed accessibility correction.\"\n          },\n          {\n            \"sourceId\": \"context.interface-tests\",\n            \"purpose\": \"Apply and verify the exact reviewed accessibility correction.\"\n          },\n          {\n            \"sourceId\": \"context.predecessor\",\n            \"purpose\": \"Apply and verify the exact reviewed accessibility correction.\"\n          },\n          {\n            \"sourceId\": \"context.recovery-goal\",\n            \"purpose\": \"Apply and verify the exact reviewed accessibility correction.\"\n          },\n          {\n            \"sourceId\": \"context.review-finding\",\n            \"purpose\": \"Apply and verify the exact reviewed accessibility correction.\"\n          },\n          {\n            \"sourceId\": \"context.styles\",\n            \"purpose\": \"Apply and verify the exact reviewed accessibility correction.\"\n          }\n        ],\n        \"scope\": {\n          \"read\": [\n            \"AGENTS.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n            \"examples/impact-planner/src/app.js\",\n            \"examples/impact-planner/styles.css\",\n            \"examples/impact-planner/test/integration.test.mjs\",\n            \"examples/impact-planner/test/interface.test.mjs\"\n          ],\n          \"write\": [\n            \"examples/impact-planner/src/app.js\",\n            \"examples/impact-planner/test/integration.test.mjs\"\n          ],\n          \"conflictZones\": []\n        },\n        \"permissions\": [\n          {\n            \"kind\": \"filesystem.read\",\n            \"scopes\": [\n              \"AGENTS.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n              \"examples/impact-planner/src/app.js\",\n              \"examples/impact-planner/styles.css\",\n              \"examples/impact-planner/test/integration.test.mjs\",\n              \"examples/impact-planner/test/interface.test.mjs\"\n            ]\n          },\n          {\n            \"kind\": \"filesystem.write\",\n            \"scopes\": [\n              \"examples/impact-planner/src/app.js\",\n              \"examples/impact-planner/test/integration.test.mjs\"\n            ]\n          },\n          {\n            \"kind\": \"process.spawn\",\n            \"scopes\": [\n              \"node\",\n              \"npm.cmd\",\n              \"rg\"\n            ]\n          }\n        ],\n        \"evidenceRequirementIds\": [\n          \"evidence.changed-row-fix.produce\"\n        ],\n        \"handoffArtifacts\": [\n          \"impact-accessibility-fix.md\"\n        ],\n        \"stopConditions\": [\n          \"Do not modify files outside the declared write scope.\",\n          \"Do not weaken or remove existing tests.\",\n          \"Return non-pass if the focused assertion or complete suite does not pass.\"\n        ]\n      }\n    ]\n  },\n  \"goalDigest\": \"sha256:288d225158594799926f3caf92f4d18a2dd62efbccbc920a614827c32d4994df\",\n  \"proposedCandidates\": [\n    {\n      \"id\": \"candidate.impact-planner.accessibility-fix\",\n      \"groups\": [\n        [\n          \"fix.changed-row-accessibility\"\n        ]\n      ]\n    }\n  ],\n  \"proposalEvaluations\": [\n    {\n      \"id\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n      \"partition\": [\n        [\n          \"fix.changed-row-accessibility\"\n        ]\n      ],\n      \"origins\": [\n        \"serial_baseline\",\n        \"exact_search\",\n        \"proposed\"\n      ],\n      \"proposalIds\": [\n        \"candidate.impact-planner.accessibility-fix\"\n      ],\n      \"eligible\": true,\n      \"rejectionCodes\": [],\n      \"metrics\": {\n        \"agentCount\": 1,\n        \"projectedMakespan\": 3,\n        \"peakConcurrency\": 1,\n        \"conflictPairs\": 0,\n        \"handoffCount\": 0,\n        \"duplicatedContextBytes\": 0,\n        \"duplicatedPermissionScopes\": 0,\n        \"totalWorkWeight\": 2,\n        \"totalStartupCost\": 1,\n        \"totalHandoffCost\": 0\n      },\n      \"schedule\": [\n        {\n          \"agentId\": \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\",\n          \"start\": 0,\n          \"finish\": 3\n        }\n      ],\n      \"contentDigest\": \"sha256:1c19889741dd2eec5ff7d5620bc9a55ec193c998aaf1219a758617d39197d0b8\"\n    }\n  ],\n  \"authority\": {\n    \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n    \"kind\": \"TaskAuthorityProjection\",\n    \"goalId\": \"v14.dogfood.impact-planner\",\n    \"goalRevision\": 4,\n    \"allowedModules\": [\n      \"fix.changed-row-accessibility\"\n    ],\n    \"allowedCapabilities\": [\n      \"repair.impact-planner-accessibility\"\n    ],\n    \"contextSources\": [\n      {\n        \"id\": \"context.agent-contract\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:AGENTS.md\",\n        \"digest\": \"sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b\",\n        \"bytes\": 18686,\n        \"description\": \"Exact revision-4 source for AGENTS.md.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"AGENTS.md\"\n      },\n      {\n        \"id\": \"context.app-contract\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n        \"digest\": \"sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72\",\n        \"bytes\": 5191,\n        \"description\": \"Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\"\n      },\n      {\n        \"id\": \"context.app-source\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/impact-planner/src/app.js\",\n        \"digest\": \"sha256:d223d0e29c3a84eeb79dc600e5df4cabccd184db0f50193237ca84a1f565327e\",\n        \"bytes\": 14039,\n        \"description\": \"Exact revision-4 source for examples/impact-planner/src/app.js.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"examples/impact-planner/src/app.js\"\n      },\n      {\n        \"id\": \"context.integration-tests\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/impact-planner/test/integration.test.mjs\",\n        \"digest\": \"sha256:aeef0c8a26f9ab6c87f41848bc84f369e1047e4ac1d502c20d1984b2802856e9\",\n        \"bytes\": 4266,\n        \"description\": \"Exact revision-4 source for examples/impact-planner/test/integration.test.mjs.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"examples/impact-planner/test/integration.test.mjs\"\n      },\n      {\n        \"id\": \"context.interface-tests\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/impact-planner/test/interface.test.mjs\",\n        \"digest\": \"sha256:f1214d4792a64d06cb3c8f4d61689afc7ac64911906bfa9009fb759cbb457639\",\n        \"bytes\": 1659,\n        \"description\": \"Exact revision-4 source for examples/impact-planner/test/interface.test.mjs.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"examples/impact-planner/test/interface.test.mjs\"\n      },\n      {\n        \"id\": \"context.predecessor\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n        \"digest\": \"sha256:a4ab00c2113c95fd0f0f2f76bb27ccfa86a633e13bdd3ad67f4cf0ca1e42df1b\",\n        \"bytes\": 1188,\n        \"description\": \"Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\"\n      },\n      {\n        \"id\": \"context.recovery-goal\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n        \"digest\": \"sha256:f9e408e61368186342656cbb1956ba05b7b337953027306245f15c8d34b35818\",\n        \"bytes\": 1450,\n        \"description\": \"Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\"\n      },\n      {\n        \"id\": \"context.review-finding\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n        \"digest\": \"sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c\",\n        \"bytes\": 5668,\n        \"description\": \"Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\"\n      },\n      {\n        \"id\": \"context.styles\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/impact-planner/styles.css\",\n        \"digest\": \"sha256:91977a2fdaaabe76c0fb6c7fd55ec9ddd8373318b1f443e648809d8d74587a5d\",\n        \"bytes\": 8111,\n        \"description\": \"Exact revision-4 source for examples/impact-planner/styles.css.\",\n        \"allowedWorkUnits\": [\n          \"fix.changed-row-accessibility\"\n        ],\n        \"readScope\": \"examples/impact-planner/styles.css\"\n      }\n    ],\n    \"permissionCeiling\": [\n      {\n        \"kind\": \"filesystem.read\",\n        \"scopes\": [\n          \"AGENTS.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n          \"examples/impact-planner/src/app.js\",\n          \"examples/impact-planner/styles.css\",\n          \"examples/impact-planner/test/integration.test.mjs\",\n          \"examples/impact-planner/test/interface.test.mjs\"\n        ]\n      },\n      {\n        \"kind\": \"filesystem.write\",\n        \"scopes\": [\n          \"examples/impact-planner/src/app.js\",\n          \"examples/impact-planner/test/integration.test.mjs\"\n        ]\n      },\n      {\n        \"kind\": \"process.spawn\",\n        \"scopes\": [\n          \"node\",\n          \"npm.cmd\",\n          \"rg\"\n        ]\n      }\n    ],\n    \"forbiddenEffects\": [\n      \"Do not access the network, secrets, external services, or undeclared paths.\",\n      \"Do not install dependencies, mutate Git, merge, update memory, or alter styles.\",\n      \"Do not modify files outside app.js and integration.test.mjs.\"\n    ],\n    \"maxAgents\": 1,\n    \"maxConcurrency\": 1,\n    \"contentDigest\": \"sha256:76830b7b08508cbe72ca225648bc325d58cd81d62d9d5b5aa4b607ce326057c8\"\n  },\n  \"search\": {\n    \"mode\": \"exact\",\n    \"claim\": \"exhaustive_partition_search_fixed_scheduler\",\n    \"workUnitCount\": 1,\n    \"evaluatedCandidates\": 1,\n    \"eligibleCandidates\": 1,\n    \"retainedAlternatives\": 0,\n    \"evaluationSetDigest\": \"sha256:a41b69b3bb17adaa9bb6c0f164bc1039868a98d0077a690a9d041fd4db9d8408\"\n  },\n  \"serialBaseline\": {\n    \"id\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n    \"partition\": [\n      [\n        \"fix.changed-row-accessibility\"\n      ]\n    ],\n    \"origins\": [\n      \"serial_baseline\",\n      \"exact_search\",\n      \"proposed\"\n    ],\n    \"proposalIds\": [\n      \"candidate.impact-planner.accessibility-fix\"\n    ],\n    \"eligible\": true,\n    \"rejectionCodes\": [],\n    \"metrics\": {\n      \"agentCount\": 1,\n      \"projectedMakespan\": 3,\n      \"peakConcurrency\": 1,\n      \"conflictPairs\": 0,\n      \"handoffCount\": 0,\n      \"duplicatedContextBytes\": 0,\n      \"duplicatedPermissionScopes\": 0,\n      \"totalWorkWeight\": 2,\n      \"totalStartupCost\": 1,\n      \"totalHandoffCost\": 0\n    },\n    \"schedule\": [\n      {\n        \"agentId\": \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\",\n        \"start\": 0,\n        \"finish\": 3\n      }\n    ],\n    \"contentDigest\": \"sha256:1c19889741dd2eec5ff7d5620bc9a55ec193c998aaf1219a758617d39197d0b8\"\n  },\n  \"selected\": {\n    \"id\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n    \"partition\": [\n      [\n        \"fix.changed-row-accessibility\"\n      ]\n    ],\n    \"origins\": [\n      \"serial_baseline\",\n      \"exact_search\",\n      \"proposed\"\n    ],\n    \"proposalIds\": [\n      \"candidate.impact-planner.accessibility-fix\"\n    ],\n    \"eligible\": true,\n    \"rejectionCodes\": [],\n    \"metrics\": {\n      \"agentCount\": 1,\n      \"projectedMakespan\": 3,\n      \"peakConcurrency\": 1,\n      \"conflictPairs\": 0,\n      \"handoffCount\": 0,\n      \"duplicatedContextBytes\": 0,\n      \"duplicatedPermissionScopes\": 0,\n      \"totalWorkWeight\": 2,\n      \"totalStartupCost\": 1,\n      \"totalHandoffCost\": 0\n    },\n    \"schedule\": [\n      {\n        \"agentId\": \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\",\n        \"start\": 0,\n        \"finish\": 3\n      }\n    ],\n    \"contentDigest\": \"sha256:1c19889741dd2eec5ff7d5620bc9a55ec193c998aaf1219a758617d39197d0b8\"\n  },\n  \"selectionReason\": {\n    \"kind\": \"serial_selected\",\n    \"decisiveField\": \"serial_baseline\",\n    \"selectedValue\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n    \"serialValue\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n    \"serialRejectionCodes\": []\n  },\n  \"alternatives\": [],\n  \"blueprints\": [\n    {\n      \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n      \"kind\": \"AgentBlueprint\",\n      \"id\": \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\",\n      \"goalId\": \"v14.dogfood.impact-planner\",\n      \"goalRevision\": 4,\n      \"goalDigest\": \"sha256:288d225158594799926f3caf92f4d18a2dd62efbccbc920a614827c32d4994df\",\n      \"candidateId\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n      \"workUnitIds\": [\n        \"fix.changed-row-accessibility\"\n      ],\n      \"objectives\": [\n        {\n          \"workUnitId\": \"fix.changed-row-accessibility\",\n          \"objective\": \"Align the runtime changed-component row class with the accessible stylesheet and lock it with a regression test.\"\n        }\n      ],\n      \"modules\": [\n        {\n          \"id\": \"fix.changed-row-accessibility\",\n          \"action\": \"Replace changed-row with changed-item, add a focused source/CSS binding assertion, and run all app tests and syntax checks.\",\n          \"inputPorts\": [\n            {\n              \"name\": \"finding\",\n              \"artifactType\": \"ImpactPlannerReviewFinding\"\n            }\n          ],\n          \"outputPorts\": [\n            {\n              \"name\": \"handoff\",\n              \"artifactType\": \"impact-accessibility-fix.md\"\n            }\n          ]\n        }\n      ],\n      \"dependencies\": [],\n      \"contextUses\": [\n        {\n          \"sourceId\": \"context.agent-contract\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:AGENTS.md\",\n          \"digest\": \"sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b\",\n          \"bytes\": 18686,\n          \"purposes\": [\n            \"Apply and verify the exact reviewed accessibility correction.\"\n          ],\n          \"workUnitIds\": [\n            \"fix.changed-row-accessibility\"\n          ],\n          \"readScope\": \"AGENTS.md\"\n        },\n        {\n          \"sourceId\": \"context.app-contract\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n          \"digest\": \"sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72\",\n          \"bytes\": 5191,\n          \"purposes\": [\n            \"Apply and verify the exact reviewed accessibility correction.\"\n          ],\n          \"workUnitIds\": [\n            \"fix.changed-row-accessibility\"\n          ],\n          \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\"\n        },\n        {\n          \"sourceId\": \"context.app-source\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:examples/impact-planner/src/app.js\",\n          \"digest\": \"sha256:d223d0e29c3a84eeb79dc600e5df4cabccd184db0f50193237ca84a1f565327e\",\n          \"bytes\": 14039,\n          \"purposes\": [\n            \"Apply and verify the exact reviewed accessibility correction.\"\n          ],\n          \"workUnitIds\": [\n            \"fix.changed-row-accessibility\"\n          ],\n          \"readScope\": \"examples/impact-planner/src/app.js\"\n        },\n        {\n          \"sourceId\": \"context.integration-tests\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:examples/impact-planner/test/integration.test.mjs\",\n          \"digest\": \"sha256:aeef0c8a26f9ab6c87f41848bc84f369e1047e4ac1d502c20d1984b2802856e9\",\n          \"bytes\": 4266,\n          \"purposes\": [\n            \"Apply and verify the exact reviewed accessibility correction.\"\n          ],\n          \"workUnitIds\": [\n            \"fix.changed-row-accessibility\"\n          ],\n          \"readScope\": \"examples/impact-planner/test/integration.test.mjs\"\n        },\n        {\n          \"sourceId\": \"context.interface-tests\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:examples/impact-planner/test/interface.test.mjs\",\n          \"digest\": \"sha256:f1214d4792a64d06cb3c8f4d61689afc7ac64911906bfa9009fb759cbb457639\",\n          \"bytes\": 1659,\n          \"purposes\": [\n            \"Apply and verify the exact reviewed accessibility correction.\"\n          ],\n          \"workUnitIds\": [\n            \"fix.changed-row-accessibility\"\n          ],\n          \"readScope\": \"examples/impact-planner/test/interface.test.mjs\"\n        },\n        {\n          \"sourceId\": \"context.predecessor\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n          \"digest\": \"sha256:a4ab00c2113c95fd0f0f2f76bb27ccfa86a633e13bdd3ad67f4cf0ca1e42df1b\",\n          \"bytes\": 1188,\n          \"purposes\": [\n            \"Apply and verify the exact reviewed accessibility correction.\"\n          ],\n          \"workUnitIds\": [\n            \"fix.changed-row-accessibility\"\n          ],\n          \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\"\n        },\n        {\n          \"sourceId\": \"context.recovery-goal\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n          \"digest\": \"sha256:f9e408e61368186342656cbb1956ba05b7b337953027306245f15c8d34b35818\",\n          \"bytes\": 1450,\n          \"purposes\": [\n            \"Apply and verify the exact reviewed accessibility correction.\"\n          ],\n          \"workUnitIds\": [\n            \"fix.changed-row-accessibility\"\n          ],\n          \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\"\n        },\n        {\n          \"sourceId\": \"context.review-finding\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n          \"digest\": \"sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c\",\n          \"bytes\": 5668,\n          \"purposes\": [\n            \"Apply and verify the exact reviewed accessibility correction.\"\n          ],\n          \"workUnitIds\": [\n            \"fix.changed-row-accessibility\"\n          ],\n          \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\"\n        },\n        {\n          \"sourceId\": \"context.styles\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:examples/impact-planner/styles.css\",\n          \"digest\": \"sha256:91977a2fdaaabe76c0fb6c7fd55ec9ddd8373318b1f443e648809d8d74587a5d\",\n          \"bytes\": 8111,\n          \"purposes\": [\n            \"Apply and verify the exact reviewed accessibility correction.\"\n          ],\n          \"workUnitIds\": [\n            \"fix.changed-row-accessibility\"\n          ],\n          \"readScope\": \"examples/impact-planner/styles.css\"\n        }\n      ],\n      \"authority\": {\n        \"requiredCapabilities\": [\n          \"repair.impact-planner-accessibility\"\n        ],\n        \"scope\": {\n          \"read\": [\n            \"AGENTS.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n            \"examples/impact-planner/src/app.js\",\n            \"examples/impact-planner/styles.css\",\n            \"examples/impact-planner/test/integration.test.mjs\",\n            \"examples/impact-planner/test/interface.test.mjs\"\n          ],\n          \"write\": [\n            \"examples/impact-planner/src/app.js\",\n            \"examples/impact-planner/test/integration.test.mjs\"\n          ],\n          \"conflictZones\": []\n        },\n        \"permissions\": [\n          {\n            \"kind\": \"filesystem.read\",\n            \"scopes\": [\n              \"AGENTS.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json\",\n              \"examples/impact-planner/src/app.js\",\n              \"examples/impact-planner/styles.css\",\n              \"examples/impact-planner/test/integration.test.mjs\",\n              \"examples/impact-planner/test/interface.test.mjs\"\n            ]\n          },\n          {\n            \"kind\": \"filesystem.write\",\n            \"scopes\": [\n              \"examples/impact-planner/src/app.js\",\n              \"examples/impact-planner/test/integration.test.mjs\"\n            ]\n          },\n          {\n            \"kind\": \"process.spawn\",\n            \"scopes\": [\n              \"node\",\n              \"npm.cmd\",\n              \"rg\"\n            ]\n          }\n        ],\n        \"forbiddenEffects\": [\n          \"Do not access the network, secrets, external services, or undeclared paths.\",\n          \"Do not install dependencies, mutate Git, merge, update memory, or alter styles.\",\n          \"Do not modify files outside app.js and integration.test.mjs.\"\n        ]\n      },\n      \"evidenceDuties\": [\n        {\n          \"criterionId\": \"criterion.changed-row-binding\",\n          \"criterion\": \"Runtime change-set rows use the exact accessible stylesheet class and focused regression coverage prevents drift.\",\n          \"requirementId\": \"evidence.changed-row-fix.produce\",\n          \"kind\": \"test\",\n          \"duty\": \"produce\",\n          \"description\": \"Apply the exact class correction, add the runtime-to-stylesheet binding assertion, and pass the complete app suite.\",\n          \"independentFromProducer\": false\n        }\n      ],\n      \"handoff\": {\n        \"destination\": \"codex.main\",\n        \"artifacts\": [\n          \"impact-accessibility-fix.md\"\n        ],\n        \"requiredFields\": [\n          \"apiVersion\",\n          \"kind\",\n          \"outcome\",\n          \"destination\",\n          \"goal\",\n          \"agent\",\n          \"compilationDigest\",\n          \"summary\",\n          \"workUnitsCompleted\",\n          \"artifacts\",\n          \"evidence\",\n          \"assumptions\",\n          \"risks\",\n          \"followUps\"\n        ]\n      },\n      \"stopConditions\": [\n        \"Do not modify files outside the declared write scope.\",\n        \"Do not weaken or remove existing tests.\",\n        \"Return non-pass if the focused assertion or complete suite does not pass.\"\n      ],\n      \"contentDigest\": \"sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba\"\n    }\n  ],\n  \"launchWaves\": [\n    {\n      \"start\": 0,\n      \"agentIds\": [\n        \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\"\n      ]\n    }\n  ],\n  \"contentDigest\": \"sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494\"\n}\n"
+        },
+        {
+          "path": "integration.md",
+          "mediaType": "text/markdown",
+          "bytes": 3150,
+          "digest": "sha256:ea80cf3ac8dbec9743b7f1a9fd640bf7dd4c190b66bdd9ba3903a71119d8be03",
+          "content": "# Specialist Integration Contract\n\nCompilation: `sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494`\n\nThe integration owner launches only the contracts bound to this compilation, preserves each raw handoff, verifies required evidence, resolves declared dependencies in order, and returns to clarification or redesign when a specialist crosses its boundary.\n\n## Integration Gates\n\n1. Confirm every emitted file matches its manifest-listed raw SHA-256 digest and byte count, and every agent contract carries this compilation digest and its manifest-listed blueprint digest.\n2. Launch agents only when their dependency wave is ready and external workspace isolation is adequate.\n3. Reject undeclared files, authority, context, decisions, or evidence substitutions.\n4. Fan in handoffs through the declared integration owner; do not let one specialist silently approve its own independent duty.\n5. Run feature-level verification and review before merge, then promote only source-linked durable learning.\n\n## Compiled Plan\n\n```json\n{\n  \"compilationDigest\": \"sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494\",\n  \"goalId\": \"v14.dogfood.impact-planner\",\n  \"goalRevision\": 4,\n  \"assumptions\": [],\n  \"unresolvedDecisions\": [],\n  \"search\": {\n    \"mode\": \"exact\",\n    \"claim\": \"exhaustive_partition_search_fixed_scheduler\",\n    \"workUnitCount\": 1,\n    \"evaluatedCandidates\": 1,\n    \"eligibleCandidates\": 1,\n    \"retainedAlternatives\": 0,\n    \"evaluationSetDigest\": \"sha256:a41b69b3bb17adaa9bb6c0f164bc1039868a98d0077a690a9d041fd4db9d8408\"\n  },\n  \"selectedCandidateId\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n  \"selectedMetrics\": {\n    \"agentCount\": 1,\n    \"projectedMakespan\": 3,\n    \"peakConcurrency\": 1,\n    \"conflictPairs\": 0,\n    \"handoffCount\": 0,\n    \"duplicatedContextBytes\": 0,\n    \"duplicatedPermissionScopes\": 0,\n    \"totalWorkWeight\": 2,\n    \"totalStartupCost\": 1,\n    \"totalHandoffCost\": 0\n  },\n  \"selectionReason\": {\n    \"kind\": \"serial_selected\",\n    \"decisiveField\": \"serial_baseline\",\n    \"selectedValue\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n    \"serialValue\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n    \"serialRejectionCodes\": []\n  },\n  \"serialBaseline\": {\n    \"id\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n    \"eligible\": true,\n    \"rejectionCodes\": [],\n    \"metrics\": {\n      \"agentCount\": 1,\n      \"projectedMakespan\": 3,\n      \"peakConcurrency\": 1,\n      \"conflictPairs\": 0,\n      \"handoffCount\": 0,\n      \"duplicatedContextBytes\": 0,\n      \"duplicatedPermissionScopes\": 0,\n      \"totalWorkWeight\": 2,\n      \"totalStartupCost\": 1,\n      \"totalHandoffCost\": 0\n    }\n  },\n  \"launchWaves\": [\n    {\n      \"start\": 0,\n      \"agentIds\": [\n        \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\"\n      ]\n    }\n  ],\n  \"blueprintDigests\": [\n    {\n      \"agentId\": \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\",\n      \"digest\": \"sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba\"\n    }\n  ]\n}\n```\n"
+        },
+        {
+          "path": "manifest.json",
+          "mediaType": "application/json",
+          "bytes": 1479,
+          "digest": "sha256:3b55027cc13919f185e8ee7abeacee6d7a62444b2743632b837179ebcdca3104",
+          "content": "{\n  \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n  \"kind\": \"SpecialistPackageManifest\",\n  \"goalId\": \"v14.dogfood.impact-planner\",\n  \"goalRevision\": 4,\n  \"fileDigestAlgorithm\": \"sha256\",\n  \"fileDigestScope\": \"raw-file-bytes\",\n  \"compilationDigest\": \"sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494\",\n  \"selectedCandidateId\": \"team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88\",\n  \"launchWaves\": [\n    {\n      \"start\": 0,\n      \"agentIds\": [\n        \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\"\n      ]\n    }\n  ],\n  \"compilationFile\": \"compilation.json\",\n  \"compilationFileDigest\": \"sha256:14d736666e6b5d1f34ca89b13fab86cb41d2868a96d55a38a5f4373e578fb33e\",\n  \"compilationFileBytes\": 34679,\n  \"agents\": [\n    {\n      \"agentId\": \"agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136\",\n      \"blueprintDigest\": \"sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba\",\n      \"contractFile\": \"agents/agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136.md\",\n      \"contractDigest\": \"sha256:f839570fd09cbd430efe62cb2ff65f49e493388c2d2b0850e880472930fee076\",\n      \"contractBytes\": 12819\n    }\n  ],\n  \"integrationFile\": \"integration.md\",\n  \"integrationDigest\": \"sha256:ea80cf3ac8dbec9743b7f1a9fd640bf7dd4c190b66bdd9ba3903a71119d8be03\",\n  \"integrationBytes\": 3150,\n  \"contentDigest\": \"sha256:0de3342818b18a9567589092b1620abf1d1715bb36bb46c11b1861f9c736f73b\"\n}\n"
+        }
+      ]
+    },
+    "acceptedHandoffs": [
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "blueprintDigest": "sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba",
+        "outcome": "pass",
+        "rawEncoding": "base64",
+        "rawBytes": 1973,
+        "rawDigest": "sha256:46c5cef76c3adfe88951424beccecc47538d675bc8fe00c32c531e9213da5574",
+        "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9zcGVjaWFsaXN0L3YxYWxwaGExIiwia2luZCI6IlNwZWNpYWxpc3RBZ2VudEhhbmRvZmYiLCJvdXRjb21lIjoicGFzcyIsImRlc3RpbmF0aW9uIjoiY29kZXgubWFpbiIsImdvYWwiOnsiaWQiOiJ2MTQuZG9nZm9vZC5pbXBhY3QtcGxhbm5lciIsInJldmlzaW9uIjo0LCJkaWdlc3QiOiJzaGEyNTY6Mjg4ZDIyNTE1ODU5NDc5OTkyNmYzY2FmOTJmNGQxOGEyZGQ2MmVmYmNjYmM5MjBhNjE0ODI3YzMyZDQ5OTRkZiJ9LCJhZ2VudCI6eyJpZCI6ImFnZW50LjZhZGUyYjViM2NhMjY3ODVhMWZjM2VhZmI3YWM4NjUwMzY2OWUwMTg5NzZiOTU1NTUyOGFlZTY0ODkzNDExMzYiLCJibHVlcHJpbnREaWdlc3QiOiJzaGEyNTY6MzU2ZTBhNDA1MjgyN2Y4MmM4OWQyZjM0YzRmZGE4ZDk3MDM2YmRiMWNlNjAzYTUxNWI0ZDRhNTcxNWMxYWFiYSJ9LCJjb21waWxhdGlvbkRpZ2VzdCI6InNoYTI1Njo5NWI0MmY2ZDg5YTdlODgyZDkxN2Q4ZTE1YzAwYWVmMTNjZDgyNDZiNjUyNjQ3YmU1YTY5ODNmZmVhNDcwNDk0Iiwic3VtbWFyeSI6IlZlcmlmaWVkIGFsbCBkZWNsYXJlZCBjb250ZXh0IGlkZW50aXRpZXMgYmVmb3JlIHVzZSwgYWxpZ25lZCBjaGFuZ2VkLWNvbXBvbmVudCBydW50aW1lIHJvd3Mgd2l0aCB0aGUgYWNjZXNzaWJsZSBjaGFuZ2VkLWl0ZW0gc3R5bGVzaGVldCBzZWxlY3RvciwgYW5kIGFkZGVkIGZvY3VzZWQgc291cmNlLXRvLXN0eWxlc2hlZXQgYmluZGluZyBjb3ZlcmFnZS4iLCJ3b3JrVW5pdHNDb21wbGV0ZWQiOlsiZml4LmNoYW5nZWQtcm93LWFjY2Vzc2liaWxpdHkiXSwiYXJ0aWZhY3RzIjpbeyJuYW1lIjoiaW1wYWN0LWFjY2Vzc2liaWxpdHktZml4Lm1kIiwibWVkaWFUeXBlIjoidGV4dC9tYXJrZG93biIsImNvbnRlbnQiOiIjIEltcGFjdCBQbGFubmVyIEFjY2Vzc2liaWxpdHkgRml4XG5cbk91dGNvbWU6IHBhc3NcblxuIyMgQ29udGV4dCBJZGVudGl0eVxuXG5WZXJpZmllZCBhbGwgbmluZSBkZWNsYXJlZCBjb250ZXh0IGl0ZW1zIGFnYWluc3QgdGhlaXIgZXhhY3QgcmF3IFNIQS0yNTYgZGlnZXN0cyBhbmQgYnl0ZSBjb3VudHMgYmVmb3JlIHVzZS4gQWxsIG1hdGNoZWQuXG5cbiMjIENvcnJlY3Rpb25cblxuVXBkYXRlZCBgZXhhbXBsZXMvaW1wYWN0LXBsYW5uZXIvc3JjL2FwcC5qc2Agc28gY2hhbmdlZC1jb21wb25lbnQgbGlzdCByb3dzIHVzZSBgY2hhbmdlZC1pdGVtYCwgdGhlIGV4aXN0aW5nIGFjY2Vzc2libGUgc3R5bGVzaGVldCBzZWxlY3Rvci4gQWRkZWQgYSBmb2N1c2VkIGludGVncmF0aW9uIHJlZ3Jlc3Npb24gdGVzdCB0aGF0IHJlYWRzIGJvdGggcnVudGltZSBzb3VyY2UgYW5kIHN0eWxlc2hlZXQsIGFzc2VydHMgdGhlIGVtaXR0ZWQgY2xhc3MgaXMgYGNoYW5nZWQtaXRlbWAsIGFuZCBhc3NlcnRzIHRoZSBjb3JyZXNwb25kaW5nIHNlbGVjdG9yIGV4aXN0cyBpbiBgc3R5bGVzLmNzc2AuXG5cbiMjIFZlcmlmaWNhdGlvblxuXG4tIGBub2RlIC0tdGVzdCB0ZXN0L2ludGVncmF0aW9uLnRlc3QubWpzYDogcGFzc2VkIDYgb2YgNiB0ZXN0cy5cbi0gYG5wbS5jbWQgdGVzdGA6IHBhc3NlZCAyMyBvZiAyMyB0ZXN0cy5cbi0gYG5wbS5jbWQgcnVuIGNoZWNrYDogcGFzc2VkIHN5bnRheCBjaGVja3MgZm9yIHRoZSBjb21wbGV0ZSBhcHAgc3VpdGUuXG5cbk9ubHkgdGhlIGRlY2xhcmVkIHNvdXJjZSBhbmQgaW50ZWdyYXRpb24tdGVzdCBmaWxlcyB3ZXJlIG1vZGlmaWVkLiJ9XSwiZXZpZGVuY2UiOlt7ImNyaXRlcmlvbklkIjoiY3JpdGVyaW9uLmNoYW5nZWQtcm93LWJpbmRpbmciLCJyZXF1aXJlbWVudElkIjoiZXZpZGVuY2UuY2hhbmdlZC1yb3ctZml4LnByb2R1Y2UiLCJraW5kIjoidGVzdCIsImR1dHkiOiJwcm9kdWNlIiwic3RhdHVzIjoicGFzcyIsImFydGlmYWN0IjoiaW1wYWN0LWFjY2Vzc2liaWxpdHktZml4Lm1kIn1dLCJhc3N1bXB0aW9ucyI6W10sInJpc2tzIjpbXSwiZm9sbG93VXBzIjpbXX0="
+      }
+    ],
+    "contentDigest": "sha256:5250749d13256d1e8cfefa0cb0443818dcbb3672e133b9c040033e6035e7ec25"
+  },
+  "hostEvents": [
+    {
+      "sequence": 1,
+      "kind": "HostLaunchAuthorization",
+      "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "attemptId": "attempt.agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "rawEncoding": "base64",
+      "rawBytes": 4611,
+      "rawDigest": "sha256:21db473893d4c721cc00edaacd831e025f2f60673fe26290aa4372fa6c955386",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdExhdW5jaEF1dGhvcml6YXRpb24iLCJydW5JZCI6InJ1bi52MTQuaW1wYWN0LXBsYW5uZXIubWVkaXVtLnI0IiwicnVuUmV2aXNpb24iOjQsInNlcXVlbmNlIjoxLCJwcmlvckV2ZW50RGlnZXN0IjpudWxsLCJhZ2VudElkIjoiYWdlbnQuNmFkZTJiNWIzY2EyNjc4NWExZmMzZWFmYjdhYzg2NTAzNjY5ZTAxODk3NmI5NTU1NTI4YWVlNjQ4OTM0MTEzNiIsImJsdWVwcmludERpZ2VzdCI6InNoYTI1NjozNTZlMGE0MDUyODI3ZjgyYzg5ZDJmMzRjNGZkYThkOTcwMzZiZGIxY2U2MDNhNTE1YjRkNGE1NzE1YzFhYWJhIiwiYXNzaWdubWVudERpZ2VzdCI6InNoYTI1NjpiYmE1ZWI2NzA3MjZiZWM2MTg3NjM0NjUwMTAxNmZkZDllNmMyNTc3NjM3N2JiMzZiNWJjYzFjZjJhYWIxN2NjIiwiaG9zdElkIjoiY29kZXgtZGVza3RvcC53aW5kb3dzIiwiYWRhcHRlcklkIjoiY29kZXgtZGVza3RvcCIsImFkYXB0ZXJSZXZpc2lvbiI6InYxNC1hbHBoYSIsImF0dGVzdGVkQnkiOiJyZXBvc2l0b3J5LW93bmVyLXZpYS1zdGFuZGluZy1yZWxlYXNlLWF1dGhvcml6YXRpb24iLCJhdHRlbXB0SWQiOiJhdHRlbXB0LmFnZW50LjZhZGUyYjViM2NhMjY3ODVhMWZjM2VhZmI3YWM4NjUwMzY2OWUwMTg5NzZiOTU1NTUyOGFlZTY0ODkzNDExMzYiLCJhdXRob3JpemF0aW9uSWQiOiJhdXRob3JpemF0aW9uLmFnZW50LjZhZGUyYjViM2NhMjY3ODVhMWZjM2VhZmI3YWM4NjUwMzY2OWUwMTg5NzZiOTU1NTUyOGFlZTY0ODkzNDExMzYiLCJ3b3Jrc3BhY2VCYXNlbGluZURpZ2VzdCI6InNoYTI1Njo3MDljYjA2MjdlMWZjMTY1OWQzODg2YjNiMzBlZDk3YzE0ZDIwZWNhY2ZlZTM5NDA1OGY0ZDM5NDY5NTMxNzYyIiwiY29tbWFuZCI6eyJhZ2VudENvbnRyYWN0UGF0aCI6ImFnZW50cy9hZ2VudC42YWRlMmI1YjNjYTI2Nzg1YTFmYzNlYWZiN2FjODY1MDM2NjllMDE4OTc2Yjk1NTU1MjhhZWU2NDg5MzQxMTM2Lm1kIiwiYWdlbnRDb250cmFjdERpZ2VzdCI6InNoYTI1NjpmODM5NTcwZmQwOWNiZDQzMGVmZTYyY2IyZmY2NWY0OWU0OTMzODhjMmQyYjA4NTBlODgwNDcyOTMwZmVlMDc2IiwiYWdlbnRDb250cmFjdEJ5dGVzIjoxMjgxOSwiY29udGV4dFNvdXJjZXMiOlt7InNvdXJjZUlkIjoiY29udGV4dC5hZ2VudC1jb250cmFjdCIsImxvY2F0b3IiOiJwYXRoOkFHRU5UUy5tZCIsImRpZ2VzdCI6InNoYTI1NjoxY2JlOTVlZTU2ZWE2OGRhMGU5YTNkYmRkYWUwZmMwMTIwYmFmODNjNTU5NGE5MWU4ODUzZDBjNWJkNWQ1NjliIiwiYnl0ZXMiOjE4Njg2LCJkZWxpdmVyeSI6ImF1dGhvcml6ZWRfZmlsZXN5c3RlbV9yZWFkIn0seyJzb3VyY2VJZCI6ImNvbnRleHQuYXBwLWNvbnRyYWN0IiwibG9jYXRvciI6InBhdGg6ZG9jcy9zcGVjcy92MTQtYWRhcHRpdmUtb3JjaGVzdHJhdGlvbi9ldmlkZW5jZS9kb2dmb29kLW1lZGl1bS9hcHAtY29udHJhY3QubWQiLCJkaWdlc3QiOiJzaGEyNTY6YmVlZDFiYjE1Y2NlNjRlOWJiMWQ1ODVjMjBhNjg2M2IzNTlkNGZlMWU4ODZjMTEwMWY4YThjMTEyNTFhZmU3MiIsImJ5dGVzIjo1MTkxLCJkZWxpdmVyeSI6ImF1dGhvcml6ZWRfZmlsZXN5c3RlbV9yZWFkIn0seyJzb3VyY2VJZCI6ImNvbnRleHQuYXBwLXNvdXJjZSIsImxvY2F0b3IiOiJwYXRoOmV4YW1wbGVzL2ltcGFjdC1wbGFubmVyL3NyYy9hcHAuanMiLCJkaWdlc3QiOiJzaGEyNTY6ZDIyM2QwZTI5YzNhODRlZWI3OWRjNjAwZTVkZjRjYWJjY2QxODRkYjBmNTAxOTMyMzdjYTg0YTFmNTY1MzI3ZSIsImJ5dGVzIjoxNDAzOSwiZGVsaXZlcnkiOiJhdXRob3JpemVkX2ZpbGVzeXN0ZW1fcmVhZCJ9LHsic291cmNlSWQiOiJjb250ZXh0LmludGVncmF0aW9uLXRlc3RzIiwibG9jYXRvciI6InBhdGg6ZXhhbXBsZXMvaW1wYWN0LXBsYW5uZXIvdGVzdC9pbnRlZ3JhdGlvbi50ZXN0Lm1qcyIsImRpZ2VzdCI6InNoYTI1NjphZWVmMGM4YTI2ZjlhYjZjODdmNDE4NDhiYzg0ZjM2OWUxMDQ3ZTRhYzFkNTAyYzIwZDE5ODRiMjgwMjg1NmU5IiwiYnl0ZXMiOjQyNjYsImRlbGl2ZXJ5IjoiYXV0aG9yaXplZF9maWxlc3lzdGVtX3JlYWQifSx7InNvdXJjZUlkIjoiY29udGV4dC5pbnRlcmZhY2UtdGVzdHMiLCJsb2NhdG9yIjoicGF0aDpleGFtcGxlcy9pbXBhY3QtcGxhbm5lci90ZXN0L2ludGVyZmFjZS50ZXN0Lm1qcyIsImRpZ2VzdCI6InNoYTI1NjpmMTIxNGQ0NzkyYTY0ZDA2Y2IzYzhmNGQ2MTY4OWFmYzdhYzY0OTExOTA2YmZhOTAwOWZiNzU5Y2JiNDU3NjM5IiwiYnl0ZXMiOjE2NTksImRlbGl2ZXJ5IjoiYXV0aG9yaXplZF9maWxlc3lzdGVtX3JlYWQifSx7InNvdXJjZUlkIjoiY29udGV4dC5wcmVkZWNlc3NvciIsImxvY2F0b3IiOiJwYXRoOmRvY3Mvc3BlY3MvdjE0LWFkYXB0aXZlLW9yY2hlc3RyYXRpb24vZXZpZGVuY2UvZG9nZm9vZC1tZWRpdW0vcmVjb3ZlcnktcjQvcHJlZGVjZXNzb3IuanNvbiIsImRpZ2VzdCI6InNoYTI1NjphNGFiMDBjMjExM2M5NWZkMGYwZjJmNzZiYjI3Y2NmYTg2YTYzM2UxM2JkZDNhZDY3ZjRjZjBjYTFlNDJkZjFiIiwiYnl0ZXMiOjExODgsImRlbGl2ZXJ5IjoiYXV0aG9yaXplZF9maWxlc3lzdGVtX3JlYWQifSx7InNvdXJjZUlkIjoiY29udGV4dC5yZWNvdmVyeS1nb2FsIiwibG9jYXRvciI6InBhdGg6ZG9jcy9zcGVjcy92MTQtYWRhcHRpdmUtb3JjaGVzdHJhdGlvbi9ldmlkZW5jZS9kb2dmb29kLW1lZGl1bS9yZWNvdmVyeS1yNC9nb2FsLm1kIiwiZGlnZXN0Ijoic2hhMjU2OmY5ZTQwOGU2MTM2ODE4NjM0MjY1NmNiYjE5NTZiYTA1YjdiMzM3OTUzMDI3MzA2MjQ1ZjE1YzhkMzRiMzU4MTgiLCJieXRlcyI6MTQ1MCwiZGVsaXZlcnkiOiJhdXRob3JpemVkX2ZpbGVzeXN0ZW1fcmVhZCJ9LHsic291cmNlSWQiOiJjb250ZXh0LnJldmlldy1maW5kaW5nIiwibG9jYXRvciI6InBhdGg6ZG9jcy9zcGVjcy92MTQtYWRhcHRpdmUtb3JjaGVzdHJhdGlvbi9ldmlkZW5jZS9kb2dmb29kLW1lZGl1bS9yZWNvdmVyeS1yMy9oYW5kb2Zmcy9yZXZpZXctcmF3Lmpzb24iLCJkaWdlc3QiOiJzaGEyNTY6MzA5NmYwMDJlMjNiOWI1OWIyYTBmN2ZjZTk5OGI3ZmI1NDJkNTY2ZmZmZmZjMjk5MTdlMjgyYWIzMGQwZGQzYyIsImJ5dGVzIjo1NjY4LCJkZWxpdmVyeSI6ImF1dGhvcml6ZWRfZmlsZXN5c3RlbV9yZWFkIn0seyJzb3VyY2VJZCI6ImNvbnRleHQuc3R5bGVzIiwibG9jYXRvciI6InBhdGg6ZXhhbXBsZXMvaW1wYWN0LXBsYW5uZXIvc3R5bGVzLmNzcyIsImRpZ2VzdCI6InNoYTI1Njo5MTk3N2EyZmRhYWFiZTc2YzBmYjZjN2ZkNTVlYzlkZGQ4MzczMzE4YjFmNDQzZTY0ODgwOWQ4ZDc0NTg3YTVkIiwiYnl0ZXMiOjgxMTEsImRlbGl2ZXJ5IjoiYXV0aG9yaXplZF9maWxlc3lzdGVtX3JlYWQifV0sInByb2ZpbGVJZCI6InByb2ZpbGUuY29kZXgudGVycmEiLCJlZmZvcnRJZCI6ImVmZm9ydC5oaWdoIiwidG9vbHMiOlsibm9kZSIsIm5wbS5jbWQiLCJyZyJdLCJza2lsbHMiOltdLCJpc29sYXRpb25GZWF0dXJlcyI6WyJpc29sYXRpb24uc2NvcGVkLXdvcmt0cmVlIl0sInBlcm1pc3Npb25zIjpbeyJraW5kIjoiZmlsZXN5c3RlbS5yZWFkIiwic2NvcGVzIjpbIkFHRU5UUy5tZCIsImRvY3Mvc3BlY3MvdjE0LWFkYXB0aXZlLW9yY2hlc3RyYXRpb24vZXZpZGVuY2UvZG9nZm9vZC1tZWRpdW0vYXBwLWNvbnRyYWN0Lm1kIiwiZG9jcy9zcGVjcy92MTQtYWRhcHRpdmUtb3JjaGVzdHJhdGlvbi9ldmlkZW5jZS9kb2dmb29kLW1lZGl1bS9yZWNvdmVyeS1yMy9oYW5kb2Zmcy9yZXZpZXctcmF3Lmpzb24iLCJkb2NzL3NwZWNzL3YxNC1hZGFwdGl2ZS1vcmNoZXN0cmF0aW9uL2V2aWRlbmNlL2RvZ2Zvb2QtbWVkaXVtL3JlY292ZXJ5LXI0L2dvYWwubWQiLCJkb2NzL3NwZWNzL3YxNC1hZGFwdGl2ZS1vcmNoZXN0cmF0aW9uL2V2aWRlbmNlL2RvZ2Zvb2QtbWVkaXVtL3JlY292ZXJ5LXI0L3ByZWRlY2Vzc29yLmpzb24iLCJleGFtcGxlcy9pbXBhY3QtcGxhbm5lci9zcmMvYXBwLmpzIiwiZXhhbXBsZXMvaW1wYWN0LXBsYW5uZXIvc3R5bGVzLmNzcyIsImV4YW1wbGVzL2ltcGFjdC1wbGFubmVyL3Rlc3QvaW50ZWdyYXRpb24udGVzdC5tanMiLCJleGFtcGxlcy9pbXBhY3QtcGxhbm5lci90ZXN0L2ludGVyZmFjZS50ZXN0Lm1qcyJdfSx7ImtpbmQiOiJmaWxlc3lzdGVtLndyaXRlIiwic2NvcGVzIjpbImV4YW1wbGVzL2ltcGFjdC1wbGFubmVyL3NyYy9hcHAuanMiLCJleGFtcGxlcy9pbXBhY3QtcGxhbm5lci90ZXN0L2ludGVncmF0aW9uLnRlc3QubWpzIl19LHsia2luZCI6InByb2Nlc3Muc3Bhd24iLCJzY29wZXMiOlsibm9kZSIsIm5wbS5jbWQiLCJyZyJdfV0sIm9ic2VydmFiaWxpdHkiOnsibW9kZWwiOiJvYnNlcnZlZCIsImVmZm9ydCI6Im9ic2VydmVkIiwidG9vbHMiOiJvYnNlcnZlZCIsInNraWxscyI6Im9ic2VydmVkIiwiaXNvbGF0aW9uIjoib2JzZXJ2ZWQiLCJwZXJtaXNzaW9ucyI6Im9ic2VydmVkIiwid29ya3NwYWNlIjoib2JzZXJ2ZWQiLCJjb250ZXh0Ijoib2JzZXJ2ZWQifSwiY29udGVudERpZ2VzdCI6InNoYTI1NjozN2YzZjA2N2YzZTk4Yzg5MDI4MmRkYThkMTdmNTgxNjNhZTJhMDljOTM3ZTAyOGIxN2MxY2JkNDVjNGZiOTQxIn19"
+    },
+    {
+      "sequence": 2,
+      "kind": "HostMaterializationClaim",
+      "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "attemptId": "attempt.agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "rawEncoding": "base64",
+      "rawBytes": 2691,
+      "rawDigest": "sha256:d0b3ede5946f7243a1d8d0b77b82e3cc9bf8087e064b812c41129eae8ee97fab",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdE1hdGVyaWFsaXphdGlvbkNsYWltIiwicnVuSWQiOiJydW4udjE0LmltcGFjdC1wbGFubmVyLm1lZGl1bS5yNCIsInJ1blJldmlzaW9uIjo0LCJzZXF1ZW5jZSI6MiwicHJpb3JFdmVudERpZ2VzdCI6InNoYTI1NjoyMWRiNDczODkzZDRjNzIxY2MwMGVkYWFjZDgzMWUwMjVmMmY2MDY3M2ZlMjYyOTBhYTQzNzJmYTZjOTU1Mzg2IiwiYWdlbnRJZCI6ImFnZW50LjZhZGUyYjViM2NhMjY3ODVhMWZjM2VhZmI3YWM4NjUwMzY2OWUwMTg5NzZiOTU1NTUyOGFlZTY0ODkzNDExMzYiLCJibHVlcHJpbnREaWdlc3QiOiJzaGEyNTY6MzU2ZTBhNDA1MjgyN2Y4MmM4OWQyZjM0YzRmZGE4ZDk3MDM2YmRiMWNlNjAzYTUxNWI0ZDRhNTcxNWMxYWFiYSIsImFzc2lnbm1lbnREaWdlc3QiOiJzaGEyNTY6YmJhNWViNjcwNzI2YmVjNjE4NzYzNDY1MDEwMTZmZGQ5ZTZjMjU3NzYzNzdiYjM2YjViY2MxY2YyYWFiMTdjYyIsImhvc3RJZCI6ImNvZGV4LWRlc2t0b3Aud2luZG93cyIsImFkYXB0ZXJJZCI6ImNvZGV4LWRlc2t0b3AiLCJhZGFwdGVyUmV2aXNpb24iOiJ2MTQtYWxwaGEiLCJhdHRlc3RlZEJ5IjoiYWRhcHRlci5jb2RleC1kZXNrdG9wLnYxNC1hbHBoYSIsImF0dGVtcHRJZCI6ImF0dGVtcHQuYWdlbnQuNmFkZTJiNWIzY2EyNjc4NWExZmMzZWFmYjdhYzg2NTAzNjY5ZTAxODk3NmI5NTU1NTI4YWVlNjQ4OTM0MTEzNiIsImF1dGhvcml6YXRpb25FdmVudERpZ2VzdCI6InNoYTI1NjoyMWRiNDczODkzZDRjNzIxY2MwMGVkYWFjZDgzMWUwMjVmMmY2MDY3M2ZlMjYyOTBhYTQzNzJmYTZjOTU1Mzg2IiwibmF0aXZlSGFuZGxlIjoiMDE5ZmE1OGYtZDE3NC03NDMxLTlhMmUtMjgyOTkzMjVkOGE4IiwiZmllbGRzIjpbeyJmaWVsZCI6Im1vZGVsIiwic3RhdHVzIjoib2JzZXJ2ZWQiLCJleHBlY3RlZERpZ2VzdCI6InNoYTI1Njo4OWUxYjYxOWQxMWFlN2U3YTAzNGY3OWY5NzNlNTA3OWUxZjEzY2RkZmVmNTRlMmNkZTA2Njk1NTMxMmY3NjAyIiwib2JzZXJ2ZWREaWdlc3QiOiJzaGEyNTY6ODllMWI2MTlkMTFhZTdlN2EwMzRmNzlmOTczZTUwNzllMWYxM2NkZGZlZjU0ZTJjZGUwNjY5NTUzMTJmNzYwMiJ9LHsiZmllbGQiOiJlZmZvcnQiLCJzdGF0dXMiOiJvYnNlcnZlZCIsImV4cGVjdGVkRGlnZXN0Ijoic2hhMjU2OjRhYWU4OWMzOGY1YTBkYmNmZjY5NTg5ZWU0YjE1Yjg3ZDYwN2UzNDdiN2Q0MjQzMDIwNWZjYjAwMTM2NmMzNGEiLCJvYnNlcnZlZERpZ2VzdCI6InNoYTI1Njo0YWFlODljMzhmNWEwZGJjZmY2OTU4OWVlNGIxNWI4N2Q2MDdlMzQ3YjdkNDI0MzAyMDVmY2IwMDEzNjZjMzRhIn0seyJmaWVsZCI6InRvb2xzIiwic3RhdHVzIjoib2JzZXJ2ZWQiLCJleHBlY3RlZERpZ2VzdCI6InNoYTI1NjplMGZmZDU0MTFiODU0YjczMjQwZGRkMmM4YjhmYzk3ZjRkZGM1ZTM2OThhY2U1MDk2NzExMmViNThhYWZlMjMxIiwib2JzZXJ2ZWREaWdlc3QiOiJzaGEyNTY6ZTBmZmQ1NDExYjg1NGI3MzI0MGRkZDJjOGI4ZmM5N2Y0ZGRjNWUzNjk4YWNlNTA5NjcxMTJlYjU4YWFmZTIzMSJ9LHsiZmllbGQiOiJza2lsbHMiLCJzdGF0dXMiOiJvYnNlcnZlZCIsImV4cGVjdGVkRGlnZXN0Ijoic2hhMjU2OmJlMzBiMDM0ODRhZmUwNTU2YzA2MDZiNDA3ODY1MWE0M2RlN2U4ZjI3ZTgyODdhZDhmZDUzM2I5YWM2N2ZkYWYiLCJvYnNlcnZlZERpZ2VzdCI6InNoYTI1NjpiZTMwYjAzNDg0YWZlMDU1NmMwNjA2YjQwNzg2NTFhNDNkZTdlOGYyN2U4Mjg3YWQ4ZmQ1MzNiOWFjNjdmZGFmIn0seyJmaWVsZCI6Imlzb2xhdGlvbiIsInN0YXR1cyI6Im9ic2VydmVkIiwiZXhwZWN0ZWREaWdlc3QiOiJzaGEyNTY6YjEzMmM0MGY2NjZkMzI0ZjU4MGIyNzkwMGE3YjBiNjRlZDY1OTQ4NWUwNDY0OTUyNmUyZTlkMjA5M2NiMDZjMyIsIm9ic2VydmVkRGlnZXN0Ijoic2hhMjU2OmIxMzJjNDBmNjY2ZDMyNGY1ODBiMjc5MDBhN2IwYjY0ZWQ2NTk0ODVlMDQ2NDk1MjZlMmU5ZDIwOTNjYjA2YzMifSx7ImZpZWxkIjoicGVybWlzc2lvbnMiLCJzdGF0dXMiOiJvYnNlcnZlZCIsImV4cGVjdGVkRGlnZXN0Ijoic2hhMjU2OjI1YzY4OTYzMTUzMmM1MGYzMTY4Y2ZkMzljMDQ2MzBmMGY1ZmRjMzUyNDRlOGJmMTQ4MWUwNDY4ODlmYzdjZmMiLCJvYnNlcnZlZERpZ2VzdCI6InNoYTI1NjoyNWM2ODk2MzE1MzJjNTBmMzE2OGNmZDM5YzA0NjMwZjBmNWZkYzM1MjQ0ZThiZjE0ODFlMDQ2ODg5ZmM3Y2ZjIn0seyJmaWVsZCI6IndvcmtzcGFjZSIsInN0YXR1cyI6Im9ic2VydmVkIiwiZXhwZWN0ZWREaWdlc3QiOiJzaGEyNTY6YzU1MWUzY2NkODZjYWE5YzIyMDViYjU2ZTg5N2Y4YWVmNGM0ZDNhYjQwMzZkMGI4YmU4NzBjNTQyNjAwZDU1NyIsIm9ic2VydmVkRGlnZXN0Ijoic2hhMjU2OmM1NTFlM2NjZDg2Y2FhOWMyMjA1YmI1NmU4OTdmOGFlZjRjNGQzYWI0MDM2ZDBiOGJlODcwYzU0MjYwMGQ1NTcifSx7ImZpZWxkIjoiY29udGV4dCIsInN0YXR1cyI6Im9ic2VydmVkIiwiZXhwZWN0ZWREaWdlc3QiOiJzaGEyNTY6N2QwY2VmZWEyMjQ4MzAwMzZiNTIzMThkOTdiY2YzYjVjZThjOTQ3YWNjMTZlN2Q1M2Y4YmY3ZDgxNDJjZDEzMCIsIm9ic2VydmVkRGlnZXN0Ijoic2hhMjU2OjdkMGNlZmVhMjI0ODMwMDM2YjUyMzE4ZDk3YmNmM2I1Y2U4Yzk0N2FjYzE2ZTdkNTNmOGJmN2Q4MTQyY2QxMzAifV19"
+    },
+    {
+      "sequence": 3,
+      "kind": "HostLifecycleObservation",
+      "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "attemptId": "attempt.agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "rawEncoding": "base64",
+      "rawBytes": 1038,
+      "rawDigest": "sha256:8eb842ddc5a2e31ac54f6523382c701479b4f31753ce80ec1493e127f604299b",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdExpZmVjeWNsZU9ic2VydmF0aW9uIiwicnVuSWQiOiJydW4udjE0LmltcGFjdC1wbGFubmVyLm1lZGl1bS5yNCIsInJ1blJldmlzaW9uIjo0LCJzZXF1ZW5jZSI6MywicHJpb3JFdmVudERpZ2VzdCI6InNoYTI1NjpkMGIzZWRlNTk0NmY3MjQzYTFkOGQwYjc3YjgyZTNjYzliZjgwODdlMDY0YjgxMmM0MTEyOWVhZThlZTk3ZmFiIiwiYWdlbnRJZCI6ImFnZW50LjZhZGUyYjViM2NhMjY3ODVhMWZjM2VhZmI3YWM4NjUwMzY2OWUwMTg5NzZiOTU1NTUyOGFlZTY0ODkzNDExMzYiLCJibHVlcHJpbnREaWdlc3QiOiJzaGEyNTY6MzU2ZTBhNDA1MjgyN2Y4MmM4OWQyZjM0YzRmZGE4ZDk3MDM2YmRiMWNlNjAzYTUxNWI0ZDRhNTcxNWMxYWFiYSIsImFzc2lnbm1lbnREaWdlc3QiOiJzaGEyNTY6YmJhNWViNjcwNzI2YmVjNjE4NzYzNDY1MDEwMTZmZGQ5ZTZjMjU3NzYzNzdiYjM2YjViY2MxY2YyYWFiMTdjYyIsImhvc3RJZCI6ImNvZGV4LWRlc2t0b3Aud2luZG93cyIsImFkYXB0ZXJJZCI6ImNvZGV4LWRlc2t0b3AiLCJhZGFwdGVyUmV2aXNpb24iOiJ2MTQtYWxwaGEiLCJhdHRlc3RlZEJ5IjoiYWRhcHRlci5jb2RleC1kZXNrdG9wLnYxNC1hbHBoYSIsImF0dGVtcHRJZCI6ImF0dGVtcHQuYWdlbnQuNmFkZTJiNWIzY2EyNjc4NWExZmMzZWFmYjdhYzg2NTAzNjY5ZTAxODk3NmI5NTU1NTI4YWVlNjQ4OTM0MTEzNiIsImF1dGhvcml6YXRpb25FdmVudERpZ2VzdCI6InNoYTI1NjoyMWRiNDczODkzZDRjNzIxY2MwMGVkYWFjZDgzMWUwMjVmMmY2MDY3M2ZlMjYyOTBhYTQzNzJmYTZjOTU1Mzg2IiwibWF0ZXJpYWxpemF0aW9uRXZlbnREaWdlc3QiOiJzaGEyNTY6ZDBiM2VkZTU5NDZmNzI0M2ExZDhkMGI3N2I4MmUzY2M5YmY4MDg3ZTA2NGI4MTJjNDExMjllYWU4ZWU5N2ZhYiIsIm5hdGl2ZUhhbmRsZSI6IjAxOWZhNThmLWQxNzQtNzQzMS05YTJlLTI4Mjk5MzI1ZDhhOCIsInN0YXR1cyI6InJ1bm5pbmciLCJldmlkZW5jZSI6W119"
+    },
+    {
+      "sequence": 4,
+      "kind": "HostLifecycleObservation",
+      "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "attemptId": "attempt.agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "rawEncoding": "base64",
+      "rawBytes": 1040,
+      "rawDigest": "sha256:626b2289880a2fe1323c16608c5712acfd6bd7f866a1b53280991734d32f2e1a",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdExpZmVjeWNsZU9ic2VydmF0aW9uIiwicnVuSWQiOiJydW4udjE0LmltcGFjdC1wbGFubmVyLm1lZGl1bS5yNCIsInJ1blJldmlzaW9uIjo0LCJzZXF1ZW5jZSI6NCwicHJpb3JFdmVudERpZ2VzdCI6InNoYTI1Njo4ZWI4NDJkZGM1YTJlMzFhYzU0ZjY1MjMzODJjNzAxNDc5YjRmMzE3NTNjZTgwZWMxNDkzZTEyN2Y2MDQyOTliIiwiYWdlbnRJZCI6ImFnZW50LjZhZGUyYjViM2NhMjY3ODVhMWZjM2VhZmI3YWM4NjUwMzY2OWUwMTg5NzZiOTU1NTUyOGFlZTY0ODkzNDExMzYiLCJibHVlcHJpbnREaWdlc3QiOiJzaGEyNTY6MzU2ZTBhNDA1MjgyN2Y4MmM4OWQyZjM0YzRmZGE4ZDk3MDM2YmRiMWNlNjAzYTUxNWI0ZDRhNTcxNWMxYWFiYSIsImFzc2lnbm1lbnREaWdlc3QiOiJzaGEyNTY6YmJhNWViNjcwNzI2YmVjNjE4NzYzNDY1MDEwMTZmZGQ5ZTZjMjU3NzYzNzdiYjM2YjViY2MxY2YyYWFiMTdjYyIsImhvc3RJZCI6ImNvZGV4LWRlc2t0b3Aud2luZG93cyIsImFkYXB0ZXJJZCI6ImNvZGV4LWRlc2t0b3AiLCJhZGFwdGVyUmV2aXNpb24iOiJ2MTQtYWxwaGEiLCJhdHRlc3RlZEJ5IjoiYWRhcHRlci5jb2RleC1kZXNrdG9wLnYxNC1hbHBoYSIsImF0dGVtcHRJZCI6ImF0dGVtcHQuYWdlbnQuNmFkZTJiNWIzY2EyNjc4NWExZmMzZWFmYjdhYzg2NTAzNjY5ZTAxODk3NmI5NTU1NTI4YWVlNjQ4OTM0MTEzNiIsImF1dGhvcml6YXRpb25FdmVudERpZ2VzdCI6InNoYTI1NjoyMWRiNDczODkzZDRjNzIxY2MwMGVkYWFjZDgzMWUwMjVmMmY2MDY3M2ZlMjYyOTBhYTQzNzJmYTZjOTU1Mzg2IiwibWF0ZXJpYWxpemF0aW9uRXZlbnREaWdlc3QiOiJzaGEyNTY6ZDBiM2VkZTU5NDZmNzI0M2ExZDhkMGI3N2I4MmUzY2M5YmY4MDg3ZTA2NGI4MTJjNDExMjllYWU4ZWU5N2ZhYiIsIm5hdGl2ZUhhbmRsZSI6IjAxOWZhNThmLWQxNzQtNzQzMS05YTJlLTI4Mjk5MzI1ZDhhOCIsInN0YXR1cyI6ImNvbXBsZXRlZCIsImV2aWRlbmNlIjpbXX0="
+    },
+    {
+      "sequence": 5,
+      "kind": "HostResultCapture",
+      "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "attemptId": "attempt.agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "rawEncoding": "base64",
+      "rawBytes": 3875,
+      "rawDigest": "sha256:1cb69143b7073016ca6c5aeb2b9ba7b7d755127ab098fb6df501880fc97e8795",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdFJlc3VsdENhcHR1cmUiLCJydW5JZCI6InJ1bi52MTQuaW1wYWN0LXBsYW5uZXIubWVkaXVtLnI0IiwicnVuUmV2aXNpb24iOjQsInNlcXVlbmNlIjo1LCJwcmlvckV2ZW50RGlnZXN0Ijoic2hhMjU2OjYyNmIyMjg5ODgwYTJmZTEzMjNjMTY2MDhjNTcxMmFjZmQ2YmQ3Zjg2NmExYjUzMjgwOTkxNzM0ZDMyZjJlMWEiLCJhZ2VudElkIjoiYWdlbnQuNmFkZTJiNWIzY2EyNjc4NWExZmMzZWFmYjdhYzg2NTAzNjY5ZTAxODk3NmI5NTU1NTI4YWVlNjQ4OTM0MTEzNiIsImJsdWVwcmludERpZ2VzdCI6InNoYTI1NjozNTZlMGE0MDUyODI3ZjgyYzg5ZDJmMzRjNGZkYThkOTcwMzZiZGIxY2U2MDNhNTE1YjRkNGE1NzE1YzFhYWJhIiwiYXNzaWdubWVudERpZ2VzdCI6InNoYTI1NjpiYmE1ZWI2NzA3MjZiZWM2MTg3NjM0NjUwMTAxNmZkZDllNmMyNTc3NjM3N2JiMzZiNWJjYzFjZjJhYWIxN2NjIiwiaG9zdElkIjoiY29kZXgtZGVza3RvcC53aW5kb3dzIiwiYWRhcHRlcklkIjoiY29kZXgtZGVza3RvcCIsImFkYXB0ZXJSZXZpc2lvbiI6InYxNC1hbHBoYSIsImF0dGVzdGVkQnkiOiJhZGFwdGVyLmNvZGV4LWRlc2t0b3AudjE0LWFscGhhIiwiYXR0ZW1wdElkIjoiYXR0ZW1wdC5hZ2VudC42YWRlMmI1YjNjYTI2Nzg1YTFmYzNlYWZiN2FjODY1MDM2NjllMDE4OTc2Yjk1NTU1MjhhZWU2NDg5MzQxMTM2IiwiYXV0aG9yaXphdGlvbkV2ZW50RGlnZXN0Ijoic2hhMjU2OjIxZGI0NzM4OTNkNGM3MjFjYzAwZWRhYWNkODMxZTAyNWYyZjYwNjczZmUyNjI5MGFhNDM3MmZhNmM5NTUzODYiLCJtYXRlcmlhbGl6YXRpb25FdmVudERpZ2VzdCI6InNoYTI1NjpkMGIzZWRlNTk0NmY3MjQzYTFkOGQwYjc3YjgyZTNjYzliZjgwODdlMDY0YjgxMmM0MTEyOWVhZThlZTk3ZmFiIiwidGVybWluYWxMaWZlY3ljbGVFdmVudERpZ2VzdCI6InNoYTI1Njo2MjZiMjI4OTg4MGEyZmUxMzIzYzE2NjA4YzU3MTJhY2ZkNmJkN2Y4NjZhMWI1MzI4MDk5MTczNGQzMmYyZTFhIiwic3RlZXJpbmdFdmVudERpZ2VzdHMiOltdLCJyYXdIYW5kb2ZmRW5jb2RpbmciOiJiYXNlNjQiLCJyYXdIYW5kb2ZmQnl0ZXMiOjE5NzMsInJhd0hhbmRvZmZEaWdlc3QiOiJzaGEyNTY6NDZjNWNlZjc2YzNhZGZlODg5NTE0MjRiZWNjZWNjNDc1MzhkNjc1YmM4ZmUwMGMzMmM1MzFlOTIxM2RhNTU3NCIsInJhd0hhbmRvZmZCYXNlNjQiOiJleUpoY0dsV1pYSnphVzl1SWpvaWMzZGxZMmx5WTNWcGRDOXpjR1ZqYVdGc2FYTjBMM1l4WVd4d2FHRXhJaXdpYTJsdVpDSTZJbE53WldOcFlXeHBjM1JCWjJWdWRFaGhibVJ2Wm1ZaUxDSnZkWFJqYjIxbElqb2ljR0Z6Y3lJc0ltUmxjM1JwYm1GMGFXOXVJam9pWTI5a1pYZ3ViV0ZwYmlJc0ltZHZZV3dpT25zaWFXUWlPaUoyTVRRdVpHOW5abTl2WkM1cGJYQmhZM1F0Y0d4aGJtNWxjaUlzSW5KbGRtbHphVzl1SWpvMExDSmthV2RsYzNRaU9pSnphR0V5TlRZNk1qZzRaREl5TlRFMU9EVTVORGM1T1RreU5tWXpZMkZtT1RKbU5HUXhPR0V5WkdRMk1tVm1ZbU5qWW1NNU1qQmhOakUwT0RJM1l6TXlaRFE1T1RSa1ppSjlMQ0poWjJWdWRDSTZleUpwWkNJNkltRm5aVzUwTGpaaFpHVXlZalZpTTJOaE1qWTNPRFZoTVdaak0yVmhabUkzWVdNNE5qVXdNelkyT1dVd01UZzVOelppT1RVMU5UVXlPR0ZsWlRZME9Ea3pOREV4TXpZaUxDSmliSFZsY0hKcGJuUkVhV2RsYzNRaU9pSnphR0V5TlRZNk16VTJaVEJoTkRBMU1qZ3lOMlk0TW1NNE9XUXlaak0wWXpSbVpHRTRaRGszTURNMlltUmlNV05sTmpBellUVXhOV0kwWkRSaE5UY3hOV014WVdGaVlTSjlMQ0pqYjIxd2FXeGhkR2x2YmtScFoyVnpkQ0k2SW5Ob1lUSTFOam81TldJME1tWTJaRGc1WVRkbE9EZ3laRGt4TjJRNFpURTFZekF3WVdWbU1UTmpaRGd5TkRaaU5qVXlOalEzWW1VMVlUWTVPRE5tWm1WaE5EY3dORGswSWl3aWMzVnRiV0Z5ZVNJNklsWmxjbWxtYVdWa0lHRnNiQ0JrWldOc1lYSmxaQ0JqYjI1MFpYaDBJR2xrWlc1MGFYUnBaWE1nWW1WbWIzSmxJSFZ6WlN3Z1lXeHBaMjVsWkNCamFHRnVaMlZrTFdOdmJYQnZibVZ1ZENCeWRXNTBhVzFsSUhKdmQzTWdkMmwwYUNCMGFHVWdZV05qWlhOemFXSnNaU0JqYUdGdVoyVmtMV2wwWlcwZ2MzUjViR1Z6YUdWbGRDQnpaV3hsWTNSdmNpd2dZVzVrSUdGa1pHVmtJR1p2WTNWelpXUWdjMjkxY21ObExYUnZMWE4wZVd4bGMyaGxaWFFnWW1sdVpHbHVaeUJqYjNabGNtRm5aUzRpTENKM2IzSnJWVzVwZEhORGIyMXdiR1YwWldRaU9sc2labWw0TG1Ob1lXNW5aV1F0Y205M0xXRmpZMlZ6YzJsaWFXeHBkSGtpWFN3aVlYSjBhV1poWTNSeklqcGJleUp1WVcxbElqb2lhVzF3WVdOMExXRmpZMlZ6YzJsaWFXeHBkSGt0Wm1sNExtMWtJaXdpYldWa2FXRlVlWEJsSWpvaWRHVjRkQzl0WVhKclpHOTNiaUlzSW1OdmJuUmxiblFpT2lJaklFbHRjR0ZqZENCUWJHRnVibVZ5SUVGalkyVnpjMmxpYVd4cGRIa2dSbWw0WEc1Y2JrOTFkR052YldVNklIQmhjM05jYmx4dUl5TWdRMjl1ZEdWNGRDQkpaR1Z1ZEdsMGVWeHVYRzVXWlhKcFptbGxaQ0JoYkd3Z2JtbHVaU0JrWldOc1lYSmxaQ0JqYjI1MFpYaDBJR2wwWlcxeklHRm5ZV2x1YzNRZ2RHaGxhWElnWlhoaFkzUWdjbUYzSUZOSVFTMHlOVFlnWkdsblpYTjBjeUJoYm1RZ1lubDBaU0JqYjNWdWRITWdZbVZtYjNKbElIVnpaUzRnUVd4c0lHMWhkR05vWldRdVhHNWNiaU1qSUVOdmNuSmxZM1JwYjI1Y2JseHVWWEJrWVhSbFpDQmdaWGhoYlhCc1pYTXZhVzF3WVdOMExYQnNZVzV1WlhJdmMzSmpMMkZ3Y0M1cWMyQWdjMjhnWTJoaGJtZGxaQzFqYjIxd2IyNWxiblFnYkdsemRDQnliM2R6SUhWelpTQmdZMmhoYm1kbFpDMXBkR1Z0WUN3Z2RHaGxJR1Y0YVhOMGFXNW5JR0ZqWTJWemMybGliR1VnYzNSNWJHVnphR1ZsZENCelpXeGxZM1J2Y2k0Z1FXUmtaV1FnWVNCbWIyTjFjMlZrSUdsdWRHVm5jbUYwYVc5dUlISmxaM0psYzNOcGIyNGdkR1Z6ZENCMGFHRjBJSEpsWVdSeklHSnZkR2dnY25WdWRHbHRaU0J6YjNWeVkyVWdZVzVrSUhOMGVXeGxjMmhsWlhRc0lHRnpjMlZ5ZEhNZ2RHaGxJR1Z0YVhSMFpXUWdZMnhoYzNNZ2FYTWdZR05vWVc1blpXUXRhWFJsYldBc0lHRnVaQ0JoYzNObGNuUnpJSFJvWlNCamIzSnlaWE53YjI1a2FXNW5JSE5sYkdWamRHOXlJR1Y0YVhOMGN5QnBiaUJnYzNSNWJHVnpMbU56YzJBdVhHNWNiaU1qSUZabGNtbG1hV05oZEdsdmJseHVYRzR0SUdCdWIyUmxJQzB0ZEdWemRDQjBaWE4wTDJsdWRHVm5jbUYwYVc5dUxuUmxjM1F1YldwellEb2djR0Z6YzJWa0lEWWdiMllnTmlCMFpYTjBjeTVjYmkwZ1lHNXdiUzVqYldRZ2RHVnpkR0E2SUhCaGMzTmxaQ0F5TXlCdlppQXlNeUIwWlhOMGN5NWNiaTBnWUc1d2JTNWpiV1FnY25WdUlHTm9aV05yWURvZ2NHRnpjMlZrSUhONWJuUmhlQ0JqYUdWamEzTWdabTl5SUhSb1pTQmpiMjF3YkdWMFpTQmhjSEFnYzNWcGRHVXVYRzVjYms5dWJIa2dkR2hsSUdSbFkyeGhjbVZrSUhOdmRYSmpaU0JoYm1RZ2FXNTBaV2R5WVhScGIyNHRkR1Z6ZENCbWFXeGxjeUIzWlhKbElHMXZaR2xtYVdWa0xpSjlYU3dpWlhacFpHVnVZMlVpT2x0N0ltTnlhWFJsY21sdmJrbGtJam9pWTNKcGRHVnlhVzl1TG1Ob1lXNW5aV1F0Y205M0xXSnBibVJwYm1jaUxDSnlaWEYxYVhKbGJXVnVkRWxrSWpvaVpYWnBaR1Z1WTJVdVkyaGhibWRsWkMxeWIzY3RabWw0TG5CeWIyUjFZMlVpTENKcmFXNWtJam9pZEdWemRDSXNJbVIxZEhraU9pSndjbTlrZFdObElpd2ljM1JoZEhWeklqb2ljR0Z6Y3lJc0ltRnlkR2xtWVdOMElqb2lhVzF3WVdOMExXRmpZMlZ6YzJsaWFXeHBkSGt0Wm1sNExtMWtJbjFkTENKaGMzTjFiWEIwYVc5dWN5STZXMTBzSW5KcGMydHpJanBiWFN3aVptOXNiRzkzVlhCeklqcGJYWDA9In0="
+    }
+  ],
+  "contentDigest": "sha256:3e6f281dcf5bd4bfe94c49bbcb9fdcdb80393b48de6963a64db3b6e28881c84d"
+}

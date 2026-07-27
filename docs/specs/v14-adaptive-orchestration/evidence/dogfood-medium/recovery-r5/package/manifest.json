@@ -1,0 +1,47 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v14.dogfood.impact-planner",
+  "goalRevision": 5,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:e30109cf039cbda24cd000f58168458bf26ac76834035758d385be37d51740ab",
+  "selectedCandidateId": "team.78db9d90bf954c572f1cc69e77dbe85f8294308f54bc39c633909eb5bc0b57cc",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449"
+      ]
+    },
+    {
+      "start": 8,
+      "agentIds": [
+        "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:c77077dfdc013dd0a966b1bbe56af87081cc3a9269317f9f045f3e3df3f862b6",
+  "compilationFileBytes": 116401,
+  "agents": [
+    {
+      "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "blueprintDigest": "sha256:01046c82bd97fc3c16e5f68700f838404c8ce57738a3555f782d640159f520be",
+      "contractFile": "agents/agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15.md",
+      "contractDigest": "sha256:9fa32ef4742eac79a84b98bd23537319578f074a8a7061240d8667394d88c21b",
+      "contractBytes": 25799
+    },
+    {
+      "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "blueprintDigest": "sha256:dcc5fec3ae5aa7a38b59e1539b22a9682756f567219052583f36a98ae4bcc9cb",
+      "contractFile": "agents/agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449.md",
+      "contractDigest": "sha256:999331948430e094dbda4ed0ea0d6ac0e36e54f0acea74aa81234eaa6937778c",
+      "contractBytes": 25798
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:e91b19de4a086590eaefd499138ccaa972f371ac70f3fe82b630bfed3a9bb062",
+  "integrationBytes": 3857,
+  "contentDigest": "sha256:194265e3898500d32a13094f180260e86b3a03e11c9e85ea14e30df148d3b03d"
+}

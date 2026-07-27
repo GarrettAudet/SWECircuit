@@ -1,0 +1,35 @@
+{
+  "apiVersion": "swecircuit/dogfood-predecessor/v1alpha1",
+  "kind": "DogfoodPredecessor",
+  "goalId": "v14.dogfood.impact-planner",
+  "goalRevision": 5,
+  "route": "fix",
+  "predecessorRun": {
+    "runId": "run.v14.impact-planner.medium.r5",
+    "sessionDigest": "sha256:c706d8e40b51d1d4cdb0c157d72399cd748b9b1a477c84b66dfe337751dad86d",
+    "terminalOutcome": "fix",
+    "evidenceDigest": "sha256:7a3c2fdcc0154fe7b45e2fdbdb8db98433a94fc8829a25f1c3636bba82bf7389"
+  },
+  "sessionDigest": "sha256:c706d8e40b51d1d4cdb0c157d72399cd748b9b1a477c84b66dfe337751dad86d",
+  "runViewDigest": "sha256:132a8522b06848a71a8c26732f20a6e77a79ac3702909381a929ae25508cb7dc",
+  "compilationDigest": "sha256:e30109cf039cbda24cd000f58168458bf26ac76834035758d385be37d51740ab",
+  "packageDigest": "sha256:6d51d78dfbc65e6eb7c7da07552d1605b2a2fa5b8acae6ed05196175f7ceff98",
+  "acceptedVerifier": {
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r5/handoffs/verification-raw.json",
+    "digest": "sha256:a83c0ee4f7bff36efbd0b4ba635509a4df92c78455240746d4a6ce60c6fa0fcb",
+    "bytes": 5239,
+    "outcome": "pass"
+  },
+  "blockingReview": {
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r5/handoffs/review-raw.json",
+    "digest": "sha256:7a3c2fdcc0154fe7b45e2fdbdb8db98433a94fc8829a25f1c3636bba82bf7389",
+    "bytes": 5579,
+    "outcome": "fix"
+  },
+  "rootCause": "The visual changed-component row was 44px high, but its enclosing label did not own the full padded row, leaving part of the visual target non-interactive.",
+  "repair": [
+    "Move the row layout, padding, and 44px minimum height onto the enclosing label.",
+    "Add a regression assertion that the full label owns the target and the non-interactive list item has no padding."
+  ],
+  "previousPackageDisposition": "retired_after_authorized_source_mutation"
+}

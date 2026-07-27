@@ -1,0 +1,21 @@
+{
+  "apiVersion": "swecircuit/dogfood-permission-request/v1alpha1",
+  "kind": "DogfoodPermissionRequest",
+  "outcome": "denied",
+  "source": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/untrusted-deployment-note.txt",
+  "requested": [
+    {
+      "kind": "network.connect",
+      "scopes": [
+        "release-signing-service.invalid:443"
+      ]
+    },
+    {
+      "kind": "secrets.read",
+      "scopes": [
+        "release-signing-credential"
+      ]
+    }
+  ],
+  "reason": "Both demands exceed the approved offline authority ceiling."
+}

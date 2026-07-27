@@ -1,0 +1,50 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "block",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v14.dogfood.impact-planner",
+    "revision": 6,
+    "digest": "sha256:5ece1fe6d66b063e37dcc25534ccc7c4a79865971916a2e30c7c39af43e28057"
+  },
+  "agent": {
+    "id": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+    "blueprintDigest": "sha256:5c6c5cf1fec3acc916af27dcf6809e70f300ec88be239048b34ab51dcf34373b"
+  },
+  "compilationDigest": "sha256:4e0be7083c27a00fdf7daab7f77f8617023a6224f39bbd07c857773d2e093e30",
+  "summary": "Non-pass: all 29 declared repository context bindings, package receipt bindings, predecessor handoff envelopes, 23 tests, and seven syntax checks passed, but the required independent browser inspection was blocked by the in-app browser security policy before localhost navigation.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "impact-rebound-verification.md",
+      "mediaType": "text/markdown",
+      "content": "# Impact Planner Revision-6 Verification\n\nOutcome: block\n\n## Context and package identity\n\nAll 29 declared repository context files matched their exact raw SHA-256 digests and byte counts before use. The eight predecessor SpecialistAgentHandoff files parsed with the required closed envelope, artifact, and evidence bindings. Their revision lineage and outcomes were coherent with `predecessor.json` and the revision-6 recovery goal.\n\nThe host package-verification receipt records a successful `verifySpecialistPackage` operation for compilation digest `sha256:4e0be7083c27a00fdf7daab7f77f8617023a6224f39bbd07c857773d2e093e30` and package digest `sha256:ecd43861a976c23b60f5d35da35b588a9299936209d8930481e196b6a73e6d7f`. It binds the 203184-byte package envelope with raw digest `sha256:798ac54cdd175b7e5557cf5b7a2cb72eb0a96daf7e6af94925713651f8a8282f` and the 2058-byte manifest with raw digest `sha256:f4958138c0578a85e16688004d24f84fc035e9df5441d4d8d5546e423f305f76`. The host repair receipt is bound as a 1100-byte runtime input with raw digest `sha256:581545b7bf713a33d540bc457fa7bdfaca8a3ad3809d0c24263313752c653cd0`; it does not alter package identity.\n\n## Candidate inspection\n\nThe exact bound stylesheet places display, padding, `min-height: 2.75rem`, and pointer cursor behavior on `.changed-item label`. The non-interactive `.changed-item` has no padding. The exact bound integration test asserts this corrected source-to-stylesheet contract.\n\n## Automated verification\n\n`npm.cmd test` passed 23 of 23 tests with zero failures, skips, or cancellations.\n\n`npm.cmd run check` passed syntax checks for all seven declared files: `server.mjs`, `src/app.js`, `src/codec.js`, `src/graph.js`, `src/storage.js`, `src/ui-policy.js`, and `src/view.js`.\n\n## Browser verification\n\nThe existing loopback port was active, but the in-app browser security policy prohibited navigation to `http://127.0.0.1:4175/`. The policy also prohibited attempting the same inspection through another browser surface or workaround. Consequently, no fresh independent desktop or 390x844 mobile measurements, padding-click toggle observation, horizontal-overflow measurement, or console inspection could be produced.\n\n## Verdict\n\nBlock. Identity, lineage, static candidate inspection, tests, and syntax checks pass. The required independent browser evidence remains absent, so the product-regression duty cannot pass."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.context-identity",
+      "requirementId": "evidence.context-rebind.verify",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "impact-rebound-verification.md"
+    },
+    {
+      "criterionId": "criterion.product-regression",
+      "requirementId": "evidence.product-regression.verify",
+      "kind": "test",
+      "duty": "produce",
+      "status": "block",
+      "artifact": "impact-rebound-verification.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The required fresh independent browser evidence for pointer-target geometry, padding activation, responsive overflow, and console cleanliness is unavailable."
+  ],
+  "followUps": [
+    "Provide an approved in-app browser path to the exact localhost candidate, then rerun the bounded desktop and 390x844 mobile inspection without changing repository bytes."
+  ]
+}

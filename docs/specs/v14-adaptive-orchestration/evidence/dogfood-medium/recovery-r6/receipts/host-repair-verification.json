@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/dogfood-host-verification/v1alpha1",
+  "kind": "DogfoodHostVerificationReceipt",
+  "outcome": "pass",
+  "verifiedBy": "codex.main",
+  "candidate": {
+    "stylesDigest": "sha256:4ac8cb341c336e5cc5bae791383ef71efe41943d8f4a20a9777a4563ad2dfcef",
+    "integrationTestDigest": "sha256:6a4ce668368b704e9eb02ee56441ba06ab5b7b077d492782327e289e7ae69c15"
+  },
+  "automated": {
+    "tests": {
+      "command": "npm.cmd test",
+      "passed": 23,
+      "failed": 0
+    },
+    "syntax": {
+      "command": "npm.cmd run check",
+      "checkedFiles": 7,
+      "outcome": "pass"
+    }
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4175/",
+    "desktop": {
+      "labelWidth": 378.0208435058594,
+      "labelHeight": 44,
+      "labelMinHeight": "44px",
+      "inputWidth": 20,
+      "inputHeight": 20,
+      "paddingClickToggledControl": true
+    },
+    "mobile": {
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "labelWidth": 304,
+      "labelHeight": 44,
+      "labelMinHeight": "44px",
+      "horizontalOverflow": 0
+    },
+    "consoleWarningsOrErrors": []
+  }
+}

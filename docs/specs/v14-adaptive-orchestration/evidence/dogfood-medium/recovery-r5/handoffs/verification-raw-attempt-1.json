@@ -1,0 +1,50 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "fix",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v14.dogfood.impact-planner",
+    "revision": 5,
+    "digest": "sha256:a51c9f47ec54fecad9fd16ebe808c511fd82de4aebac865ebc521585ad286878"
+  },
+  "agent": {
+    "id": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+    "blueprintDigest": "sha256:dcc5fec3ae5aa7a38b59e1539b22a9682756f567219052583f36a98ae4bcc9cb"
+  },
+  "compilationDigest": "sha256:e30109cf039cbda24cd000f58168458bf26ac76834035758d385be37d51740ab",
+  "summary": "Non-pass: all 27 context byte bindings, six predecessor handoff envelopes, recovery lineage, 23 tests, seven syntax checks, security review, and the completed desktop/mobile browser checks passed. Current manifest and package identities remain materially unverified because they were outside delivered read authority and no trusted expected packageDigest or verification receipt was supplied.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "impact-rebound-verification.md",
+      "mediaType": "text/markdown",
+      "content": "# Impact Planner Revision-5 Verification\n\nOutcome: fix\n\n## Context and lineage\n\nAll 27 declared repository contexts matched their exact raw SHA-256 digests and byte counts. All six handoff files parsed as strict SpecialistAgentHandoff envelopes with the expected revisions, outcomes, work units, artifacts, and evidence shapes. Recovery lineage was coherent from the revision-1 codec/interface passes through revision-2 recovery/integration, the revision-3 accessibility finding, and the revision-4 changed-item correction. `predecessor.json` correctly binds the revision-4 run, accepted fix agent/path/digest, retired package disposition, and revision-3 finding.\n\n## Automated verification\n\n`npm.cmd test` passed 23 of 23 tests with zero failures. `npm.cmd run check` passed all seven syntax checks for `server.mjs` and the six source modules.\n\nStatic review confirmed the corrected `changed-item` runtime binding, matching base and forced-colors selectors, reduced-motion source bindings, closed server route allowlist, loopback binding, GET/HEAD restriction, closed CSP, and no application fetch, XMLHttpRequest, WebSocket, eval, document.write, innerHTML, dynamic import, or external URL usage.\n\n## Completed browser evidence\n\nBefore the browser-verification window expired, desktop inspection completed at a 1265 by 720 CSS-pixel content viewport with no document overflow. Five generated changed rows all used `changed-item`, measured approximately 379.35 by 46.29 pixels, and had computed `min-height: 44px`. Visible primary controls measured 44px high.\n\nMobile inspection completed with a 390 by 844 viewport override. The document content width was 375 CSS pixels with zero horizontal overflow and no inspected section outside responsive bounds. Changed rows measured approximately 305.33 by 46.29 pixels, remained within bounds, retained `changed-item`, and retained the 44px computed minimum height. Checkbox glyphs measured 20 by 20 pixels inside the styled rows.\n\nPersistence passed: changing Search Service produced three selected changes and survived reload. Reset confirmation was captured explicitly. Dismissal preserved four components and two selected changes and announced `Reset cancelled.` Acceptance restored the four-component seed with one selected change, and that state survived reload. Final generated rows retained `changed-item`. Browser console inspection returned no debug, informational, warning, or error entries. The viewport override was reset and browser tabs were finalized before expiration. No browser interaction occurred after expiration.\n\n## Materially unverified evidence\n\nThe required current domain-separated compilation, blueprint, manifest, and package identity verification was not completed. Manifest/compilation package files and the verifier implementation were outside the declared read scope, and no trusted expected packageDigest or host verification receipt was delivered. Repeated compilation and blueprint values inside the agent contract do not constitute independent package verification.\n\n## Verdict\n\nNo product, security, accessibility, responsive-layout, persistence, reset, console, test, syntax, context-byte, handoff-envelope, or recovery-lineage failure was found in completed evidence. The result remains non-pass because mandatory current package identity evidence is materially unverified."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.context-identity",
+      "requirementId": "evidence.context-rebind.verify",
+      "kind": "test",
+      "duty": "produce",
+      "status": "fix",
+      "artifact": "impact-rebound-verification.md"
+    },
+    {
+      "criterionId": "criterion.product-regression",
+      "requirementId": "evidence.product-regression.verify",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "impact-rebound-verification.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The current compilation, blueprint, manifest, and package identity pair has not been independently reconstructed and verified against a trusted expected packageDigest."
+  ],
+  "followUps": [
+    "Deliver a trusted expected packageDigest and package-verification receipt, or revise authority to include the exact manifest, compilation, package files, and verifier implementation, then rerun the read-only identity verification."
+  ]
+}

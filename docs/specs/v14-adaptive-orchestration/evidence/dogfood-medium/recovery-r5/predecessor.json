@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "predecessorRun": {
+    "runId": "run.v14.impact-planner.medium.r4",
+    "sessionDigest": "sha256:3e6f281dcf5bd4bfe94c49bbcb9fdcdb80393b48de6963a64db3b6e28881c84d",
+    "terminalOutcome": "pass",
+    "evidenceDigest": "sha256:46c5cef76c3adfe88951424beccecc47538d675bc8fe00c32c531e9213da5574"
+  },
+  "runViewDigest": "sha256:94bee20bae95b05e119fedcaa61344d9b9d4d8eb574247ca29ec6e88d52fb068",
+  "packageDisposition": "retired_after_authorized_source_mutation",
+  "acceptedFixHandoff": {
+    "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/handoffs/fix-raw.json",
+    "sha256": "46c5cef76c3adfe88951424beccecc47538d675bc8fe00c32c531e9213da5574"
+  },
+  "priorReviewFinding": {
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+    "sha256": "3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c",
+    "result": "verified_fix"
+  }
+}

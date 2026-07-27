@@ -1,0 +1,25 @@
+{
+  "apiVersion": "swecircuit/dogfood-package-verification-receipt/v1alpha1",
+  "kind": "DogfoodPackageVerificationReceipt",
+  "outcome": "pass",
+  "verifiedBy": "codex.main",
+  "verifier": {
+    "operation": "verifySpecialistPackage",
+    "specialistApiVersion": "swecircuit/specialist/v1alpha1"
+  },
+  "expectation": {
+    "compilationDigest": "sha256:4e0be7083c27a00fdf7daab7f77f8617023a6224f39bbd07c857773d2e093e30",
+    "packageDigest": "sha256:ecd43861a976c23b60f5d35da35b588a9299936209d8930481e196b6a73e6d7f"
+  },
+  "packageEnvelope": {
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r6/package-envelope.json",
+    "digest": "sha256:798ac54cdd175b7e5557cf5b7a2cb72eb0a96daf7e6af94925713651f8a8282f",
+    "bytes": 203184
+  },
+  "manifest": {
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r6/package/manifest.json",
+    "digest": "sha256:f4958138c0578a85e16688004d24f84fc035e9df5441d4d8d5546e423f305f76",
+    "bytes": 2058
+  },
+  "candidateLaunchApproved": false
+}

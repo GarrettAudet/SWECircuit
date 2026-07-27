@@ -1,0 +1,1313 @@
+{
+  "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+  "kind": "AdaptiveRunInspection",
+  "runId": "run.v14.impact-planner.medium.r2",
+  "runRevision": 2,
+  "sessionDigest": "sha256:923e6404196daa8b5320ab8e9049e803f6af15e6132352849810bc83c19e0cdd",
+  "assignmentDigest": "sha256:0dd10500e4b4101d25287e6692b7677cc1a28bde261e4b2c84b85d635fd3ce28",
+  "compilationDigest": "sha256:8843d3af923c5fc16327ab9face168bc4f175314ab778ee71cd6d8e520567880",
+  "packageDigest": "sha256:b389428d7acf489b82ff79b3f0c0e2b4248abdc595f47c48ed832ba0704086a3",
+  "stage": "needs_attention",
+  "executionMode": {
+    "selectedCandidateId": "team.eb0acfad4810198a1e55eceed8c8370599a1ed10cc8c30f67be9ff7c81ba1d79",
+    "selectedAgentCount": 3,
+    "serialBaselineMetrics": {
+      "agentCount": 1,
+      "projectedMakespan": 14,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 13,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "selectedMetrics": {
+      "agentCount": 3,
+      "projectedMakespan": 18,
+      "peakConcurrency": 1,
+      "conflictPairs": 3,
+      "handoffCount": 2,
+      "duplicatedContextBytes": 94162,
+      "duplicatedPermissionScopes": 31,
+      "totalWorkWeight": 13,
+      "totalStartupCost": 3,
+      "totalHandoffCost": 2
+    },
+    "selectionReason": {
+      "kind": "serial_ineligible",
+      "decisiveField": "evidence_independence",
+      "selectedValue": "eligible",
+      "serialValue": "ineligible",
+      "serialRejectionCodes": [
+        "evidence_independence"
+      ]
+    },
+    "launchWaves": [
+      {
+        "start": 0,
+        "agentIds": [
+          "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e"
+        ]
+      },
+      {
+        "start": 4,
+        "agentIds": [
+          "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a"
+        ]
+      },
+      {
+        "start": 13,
+        "agentIds": [
+          "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf"
+        ]
+      }
+    ],
+    "truth": "kernel_derived"
+  },
+  "agents": [
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "blueprintDigest": "sha256:b3653a26444139f73caabd1939175149674a9d48bd2a3f356fc46ded29c811cc",
+      "modules": [
+        {
+          "id": "integrate.impact-planner",
+          "action": "Verify the dependency handoff, wire state and events, add server and tests, run the full suite, and perform a bounded browser-skill observation.",
+          "inputPorts": [
+            {
+              "name": "successor",
+              "artifactType": "ImpactPlannerRecoveryContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "handoff",
+              "artifactType": "impact-successor-integration-handoff.md"
+            }
+          ]
+        }
+      ],
+      "workUnitIds": [
+        "integrate.impact-planner"
+      ],
+      "dependencies": [
+        "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e"
+      ],
+      "assignment": {
+        "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+        "blueprintDigest": "sha256:b3653a26444139f73caabd1939175149674a9d48bd2a3f356fc46ded29c811cc",
+        "calibrationRowId": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.sol",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [
+          "skill.browser.control-in-app-browser"
+        ],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "alternatives": [],
+        "rejectedAlternatives": [
+          {
+            "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+            "calibrationRowId": "row.gpt55.high",
+            "profileId": "profile.codex.gpt55",
+            "effortId": "effort.high",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "required_skill"
+            ],
+            "unmetRequirementIds": [
+              "capability:integrate.impact-planner",
+              "skill:skill.browser.control-in-app-browser"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:7d2187d1657cc8c106edcdfdef065ea0f67f18b3ed470d4e64bea4c4b8fa23a7"
+          },
+          {
+            "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+            "calibrationRowId": "row.luna.medium",
+            "profileId": "profile.codex.luna",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "reasoning_tier",
+              "required_tool",
+              "required_skill"
+            ],
+            "unmetRequirementIds": [
+              "capability:integrate.impact-planner",
+              "reasoning:reasoning.high",
+              "tool:npm.cmd",
+              "skill:skill.browser.control-in-app-browser"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:20bb619a066b9f74538b02b1150054eca2f962bca58d8f83161bc4dfd95b80fc"
+          },
+          {
+            "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+            "calibrationRowId": "row.terra.high",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.high",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "required_skill"
+            ],
+            "unmetRequirementIds": [
+              "capability:integrate.impact-planner",
+              "skill:skill.browser.control-in-app-browser"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:686bc4a6e0c9d62c501e492b20bf3f1b596fbf9c16fbcd344fee2642fd5e3fbc"
+          },
+          {
+            "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+            "calibrationRowId": "row.terra.medium",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "reasoning_tier",
+              "required_tool",
+              "required_skill"
+            ],
+            "unmetRequirementIds": [
+              "capability:integrate.impact-planner",
+              "reasoning:reasoning.high",
+              "tool:npm.cmd",
+              "skill:skill.browser.control-in-app-browser"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:09344c6a7717f6114d76524676c895cf4146bbebb6b7e576f1cbbe19b0be3114"
+          }
+        ],
+        "selectionReason": "lowest_exact_vector",
+        "override": null,
+        "truth": "kernel_derived"
+      },
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "status": "settled",
+      "native": {
+        "status": "settled",
+        "truth": "specialist_verified",
+        "authorization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostLaunchAuthorization",
+          "runId": "run.v14.impact-planner.medium.r2",
+          "runRevision": 2,
+          "sequence": 6,
+          "priorEventDigest": "sha256:654ba42ec3d29cef6cde3100516f8019eed828858e600af71e471efccb288572",
+          "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+          "blueprintDigest": "sha256:b3653a26444139f73caabd1939175149674a9d48bd2a3f356fc46ded29c811cc",
+          "assignmentDigest": "sha256:0dd10500e4b4101d25287e6692b7677cc1a28bde261e4b2c84b85d635fd3ce28",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "repository-owner-via-standing-release-authorization",
+          "attemptId": "attempt.agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+          "authorizationId": "authorization.agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+          "workspaceBaselineDigest": "sha256:25dbc0c6a68aa571802ade06d2cb1198812280e484c82ec649b89e7deec700bd",
+          "command": {
+            "agentContractPath": "agents/agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a.md",
+            "agentContractDigest": "sha256:98ef85effae9886c5743d7f82e6df95135bc0ac6b2a22ad43e486a33aad492f8",
+            "agentContractBytes": 16435,
+            "contextSources": [
+              {
+                "sourceId": "context.agent-contract",
+                "locator": "path:AGENTS.md",
+                "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+                "bytes": 18686,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app-contract",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+                "bytes": 5191,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.codec-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+                "digest": "sha256:2843a8dd0a635fd55fc950273d7ce8e87821cfaa92ddd3145dde9f7f52f77a05",
+                "bytes": 1521,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.graph-fix-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+                "digest": "sha256:44f46604659d16de5cfc003f8afd88aafb91c6166292d93970fd1a5b82391094",
+                "bytes": 1709,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.interface-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+                "digest": "sha256:477a0219e170eeb9336bc81b6cb35a96c610fd555e5c06c93bfecb2a7878cf22",
+                "bytes": 1911,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.predecessor",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+                "digest": "sha256:d04408228509314f89ded3da1cbeaba79ca51b2c206de60294fcc1aa2eef4a8b",
+                "bytes": 1555,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.release-app-pattern",
+                "locator": "path:examples/release-board/src/app.js",
+                "digest": "sha256:aa57eafe2939a90b88e052f0dd33a900a0e30efb3aa4dc41678a92d736968ab8",
+                "bytes": 8835,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.release-server-pattern",
+                "locator": "path:examples/release-board/server.mjs",
+                "digest": "sha256:8290ac09821974a595117e911fd4aadcdc3e38ad8e97909c65b807d6505088f9",
+                "bytes": 3269,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.release-test-pattern",
+                "locator": "path:examples/release-board/test/integration.test.mjs",
+                "digest": "sha256:7ab311070e33237d6b014d88f7bbcb8a74bacf66b962f12a7c975f30d1e047e0",
+                "bytes": 2502,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.successor-goal",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+                "digest": "sha256:2372b790622913c8fe27999412bf8e1435d034c9255bd7e7f7d4f4b39d253f8e",
+                "bytes": 1988,
+                "delivery": "authorized_filesystem_read"
+              }
+            ],
+            "profileId": "profile.codex.sol",
+            "effortId": "effort.high",
+            "tools": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ],
+            "skills": [
+              "skill.browser.control-in-app-browser"
+            ],
+            "isolationFeatures": [
+              "isolation.scoped-worktree"
+            ],
+            "permissions": [
+              {
+                "kind": "filesystem.read",
+                "scopes": [
+                  "AGENTS.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+                  "examples/impact-planner/index.html",
+                  "examples/impact-planner/src/codec.js",
+                  "examples/impact-planner/src/graph.js",
+                  "examples/impact-planner/src/storage.js",
+                  "examples/impact-planner/src/view.js",
+                  "examples/impact-planner/styles.css",
+                  "examples/impact-planner/test/codec.test.mjs",
+                  "examples/impact-planner/test/graph.test.mjs",
+                  "examples/impact-planner/test/interface.test.mjs",
+                  "examples/impact-planner/test/storage.test.mjs",
+                  "examples/release-board/server.mjs",
+                  "examples/release-board/src/app.js",
+                  "examples/release-board/test/integration.test.mjs"
+                ]
+              },
+              {
+                "kind": "filesystem.write",
+                "scopes": [
+                  "examples/impact-planner/README.md",
+                  "examples/impact-planner/package.json",
+                  "examples/impact-planner/server.mjs",
+                  "examples/impact-planner/src/app.js",
+                  "examples/impact-planner/src/ui-policy.js",
+                  "examples/impact-planner/test/integration.test.mjs",
+                  "examples/impact-planner/test/server.test.mjs"
+                ]
+              },
+              {
+                "kind": "process.spawn",
+                "scopes": [
+                  "node",
+                  "npm.cmd",
+                  "rg"
+                ]
+              }
+            ],
+            "observability": {
+              "model": "observed",
+              "effort": "observed",
+              "tools": "observed",
+              "skills": "observed",
+              "isolation": "observed",
+              "permissions": "observed",
+              "workspace": "observed",
+              "context": "observed"
+            },
+            "contentDigest": "sha256:374f1bd6f807385738bc8a6d91695607a976b9b9f898b5f2760c66f03b044922"
+          }
+        },
+        "materialization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostMaterializationClaim",
+          "runId": "run.v14.impact-planner.medium.r2",
+          "runRevision": 2,
+          "sequence": 7,
+          "priorEventDigest": "sha256:f3ecea682f47440d4c22dd330b89b2c62862519c75073c073433cce8c95dfcd8",
+          "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+          "blueprintDigest": "sha256:b3653a26444139f73caabd1939175149674a9d48bd2a3f356fc46ded29c811cc",
+          "assignmentDigest": "sha256:0dd10500e4b4101d25287e6692b7677cc1a28bde261e4b2c84b85d635fd3ce28",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "adapter.codex-desktop.v14-alpha",
+          "attemptId": "attempt.agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+          "authorizationEventDigest": "sha256:f3ecea682f47440d4c22dd330b89b2c62862519c75073c073433cce8c95dfcd8",
+          "nativeHandle": "019fa55f-e379-7513-be1d-68032cde0991",
+          "fields": [
+            {
+              "field": "model",
+              "status": "observed",
+              "expectedDigest": "sha256:7b2cd60d38d1f61cec99905cc37b2a7ce72dbc5abc683ef9efde74661261b56c",
+              "observedDigest": "sha256:7b2cd60d38d1f61cec99905cc37b2a7ce72dbc5abc683ef9efde74661261b56c"
+            },
+            {
+              "field": "effort",
+              "status": "observed",
+              "expectedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a",
+              "observedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a"
+            },
+            {
+              "field": "tools",
+              "status": "observed",
+              "expectedDigest": "sha256:e0ffd5411b854b73240ddd2c8b8fc97f4ddc5e3698ace50967112eb58aafe231",
+              "observedDigest": "sha256:e0ffd5411b854b73240ddd2c8b8fc97f4ddc5e3698ace50967112eb58aafe231"
+            },
+            {
+              "field": "skills",
+              "status": "observed",
+              "expectedDigest": "sha256:f4ed29a2b04ed9dd46307392ab2cb91a667883692b33bcd5e218efdc9d5ab19b",
+              "observedDigest": "sha256:f4ed29a2b04ed9dd46307392ab2cb91a667883692b33bcd5e218efdc9d5ab19b"
+            },
+            {
+              "field": "isolation",
+              "status": "observed",
+              "expectedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3",
+              "observedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3"
+            },
+            {
+              "field": "permissions",
+              "status": "observed",
+              "expectedDigest": "sha256:605c630aa22b34f0ca85ca780d71c2d4ffaf395730e3ccbfc541dc6d0e6c52e1",
+              "observedDigest": "sha256:605c630aa22b34f0ca85ca780d71c2d4ffaf395730e3ccbfc541dc6d0e6c52e1"
+            },
+            {
+              "field": "workspace",
+              "status": "observed",
+              "expectedDigest": "sha256:133aa902c8c61beb66ddc2c8fe30074764ef4c90d5aa697524585356c0bdeaee",
+              "observedDigest": "sha256:133aa902c8c61beb66ddc2c8fe30074764ef4c90d5aa697524585356c0bdeaee"
+            },
+            {
+              "field": "context",
+              "status": "observed",
+              "expectedDigest": "sha256:4b9ffaef1125412278d83c91d95faf8d8def7771e3b9ffd18cdbf611f590872b",
+              "observedDigest": "sha256:4b9ffaef1125412278d83c91d95faf8d8def7771e3b9ffd18cdbf611f590872b"
+            }
+          ]
+        }
+      },
+      "acceptedEvidence": {
+        "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+        "blueprintDigest": "sha256:b3653a26444139f73caabd1939175149674a9d48bd2a3f356fc46ded29c811cc",
+        "outcome": "pass",
+        "rawBytes": 3156,
+        "rawDigest": "sha256:7b7aadc71bd083d27a900548179db2a025e3417a1eb304b330d3f07779d315db",
+        "semanticDigest": "sha256:6b1b5429b26e0e7531106c79636a7c0503e98240dc0a5a4c1242622011ee60de",
+        "artifacts": [
+          {
+            "name": "impact-successor-integration-handoff.md",
+            "mediaType": "text/markdown",
+            "bytes": 1537,
+            "digest": "sha256:f3542223f0d54d755494ca3b643667aa2f282e39f4b090a14b3b2afae46f7af2"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.graph-recovery",
+            "requirementId": "evidence.graph-recovery.integrate",
+            "kind": "handoff",
+            "duty": "verify",
+            "status": "pass",
+            "artifact": "impact-successor-integration-handoff.md"
+          },
+          {
+            "criterionId": "criterion.successor-integration",
+            "requirementId": "evidence.successor-integration.produce",
+            "kind": "test",
+            "duty": "produce",
+            "status": "pass",
+            "artifact": "impact-successor-integration-handoff.md"
+          }
+        ]
+      },
+      "truth": "specialist_verified",
+      "route": null
+    },
+    {
+      "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+      "blueprintDigest": "sha256:83986bc64bf4d8db91d5133e3e9e4b08c306fcfcb15a682020bf41ca0ca4a1cb",
+      "modules": [
+        {
+          "id": "review.impact-planner",
+          "action": "Run the complete suite, inspect every acceptance boundary and predecessor binding, and report material findings before verdict.",
+          "inputPorts": [
+            {
+              "name": "successor",
+              "artifactType": "ImpactPlannerRecoveryContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "handoff",
+              "artifactType": "impact-successor-review.md"
+            }
+          ]
+        }
+      ],
+      "workUnitIds": [
+        "review.impact-planner"
+      ],
+      "dependencies": [
+        "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a"
+      ],
+      "assignment": {
+        "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+        "blueprintDigest": "sha256:83986bc64bf4d8db91d5133e3e9e4b08c306fcfcb15a682020bf41ca0ca4a1cb",
+        "calibrationRowId": "row.gpt55.high",
+        "profileId": "profile.codex.gpt55",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.gpt55",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "alternatives": [
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "calibrationRowId": "row.sol.high",
+            "profileId": "profile.codex.sol",
+            "effortId": "effort.high",
+            "eligible": true,
+            "rejectionCodes": [],
+            "unmetRequirementIds": [],
+            "comparator": {
+              "costRank": 3,
+              "latencyRank": 3,
+              "qualityExcess": 0,
+              "reasoningExcess": 0,
+              "contextExcessBytes": 1934967,
+              "toolExcess": 0,
+              "skillExcess": 1,
+              "effortRank": 2,
+              "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+            },
+            "contentDigest": "sha256:4d7bdabb14419a232d1aec4e6ff27574e0e45762ca7c53e4584d049f7463a2c2"
+          }
+        ],
+        "rejectedAlternatives": [
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "calibrationRowId": "row.luna.medium",
+            "profileId": "profile.codex.luna",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "reasoning_tier",
+              "required_tool"
+            ],
+            "unmetRequirementIds": [
+              "capability:review.impact-planner",
+              "reasoning:reasoning.high",
+              "tool:npm.cmd"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:8c39d6b6a35c23300dc1fbe0ea401c90d2a8a8c0ad7dc80cc83be0cce3f9cab6"
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "calibrationRowId": "row.terra.high",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.high",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier"
+            ],
+            "unmetRequirementIds": [
+              "capability:review.impact-planner"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:012e4b52b97a644b23c5fe65166e4055f01ba28e99e4f37e8e275598f49ce183"
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "calibrationRowId": "row.terra.medium",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "reasoning_tier",
+              "required_tool"
+            ],
+            "unmetRequirementIds": [
+              "capability:review.impact-planner",
+              "reasoning:reasoning.high",
+              "tool:npm.cmd"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:f914588f2959cd50327e1478cd523f5e7b42eacc495be6f667e64c4e221c40ab"
+          }
+        ],
+        "selectionReason": "lowest_exact_vector",
+        "override": null,
+        "truth": "kernel_derived"
+      },
+      "profileId": "profile.codex.gpt55",
+      "effortId": "effort.high",
+      "status": "settled",
+      "native": {
+        "status": "settled",
+        "truth": "specialist_verified",
+        "authorization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostLaunchAuthorization",
+          "runId": "run.v14.impact-planner.medium.r2",
+          "runRevision": 2,
+          "sequence": 11,
+          "priorEventDigest": "sha256:e86a11ddb7a83d54b625fffbab684bbe33400d00b5a650826aae6153dbf3b651",
+          "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+          "blueprintDigest": "sha256:83986bc64bf4d8db91d5133e3e9e4b08c306fcfcb15a682020bf41ca0ca4a1cb",
+          "assignmentDigest": "sha256:0dd10500e4b4101d25287e6692b7677cc1a28bde261e4b2c84b85d635fd3ce28",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "repository-owner-via-standing-release-authorization",
+          "attemptId": "attempt.agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+          "authorizationId": "authorization.agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+          "workspaceBaselineDigest": "sha256:25dbc0c6a68aa571802ade06d2cb1198812280e484c82ec649b89e7deec700bd",
+          "command": {
+            "agentContractPath": "agents/agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf.md",
+            "agentContractDigest": "sha256:1592a492bb7ec5cf928499d9028912e21f18b71ffd25d35a876576f141c33203",
+            "agentContractBytes": 17165,
+            "contextSources": [
+              {
+                "sourceId": "context.agent-contract",
+                "locator": "path:AGENTS.md",
+                "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+                "bytes": 18686,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app-contract",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+                "bytes": 5191,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.codec-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+                "digest": "sha256:2843a8dd0a635fd55fc950273d7ce8e87821cfaa92ddd3145dde9f7f52f77a05",
+                "bytes": 1521,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.graph-fix-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+                "digest": "sha256:44f46604659d16de5cfc003f8afd88aafb91c6166292d93970fd1a5b82391094",
+                "bytes": 1709,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.graph-source",
+                "locator": "path:examples/impact-planner/src/graph.js",
+                "digest": "sha256:4b0b88f4b4620e72ac102c36867fd90a3eb71086b4140360774f02698984b091",
+                "bytes": 11768,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.graph-tests",
+                "locator": "path:examples/impact-planner/test/graph.test.mjs",
+                "digest": "sha256:0bf8b1dba85db54db618026b42b25d9e191289f99db0ab21975961f1986823bc",
+                "bytes": 6098,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.interface-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+                "digest": "sha256:477a0219e170eeb9336bc81b6cb35a96c610fd555e5c06c93bfecb2a7878cf22",
+                "bytes": 1911,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.predecessor",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+                "digest": "sha256:d04408228509314f89ded3da1cbeaba79ca51b2c206de60294fcc1aa2eef4a8b",
+                "bytes": 1555,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.release-app-pattern",
+                "locator": "path:examples/release-board/src/app.js",
+                "digest": "sha256:aa57eafe2939a90b88e052f0dd33a900a0e30efb3aa4dc41678a92d736968ab8",
+                "bytes": 8835,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.release-server-pattern",
+                "locator": "path:examples/release-board/server.mjs",
+                "digest": "sha256:8290ac09821974a595117e911fd4aadcdc3e38ad8e97909c65b807d6505088f9",
+                "bytes": 3269,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.release-test-pattern",
+                "locator": "path:examples/release-board/test/integration.test.mjs",
+                "digest": "sha256:7ab311070e33237d6b014d88f7bbcb8a74bacf66b962f12a7c975f30d1e047e0",
+                "bytes": 2502,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.successor-goal",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+                "digest": "sha256:2372b790622913c8fe27999412bf8e1435d034c9255bd7e7f7d4f4b39d253f8e",
+                "bytes": 1988,
+                "delivery": "authorized_filesystem_read"
+              }
+            ],
+            "profileId": "profile.codex.gpt55",
+            "effortId": "effort.high",
+            "tools": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ],
+            "skills": [],
+            "isolationFeatures": [
+              "isolation.scoped-worktree"
+            ],
+            "permissions": [
+              {
+                "kind": "filesystem.read",
+                "scopes": [
+                  "AGENTS.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+                  "examples/impact-planner/README.md",
+                  "examples/impact-planner/index.html",
+                  "examples/impact-planner/package.json",
+                  "examples/impact-planner/server.mjs",
+                  "examples/impact-planner/src/app.js",
+                  "examples/impact-planner/src/codec.js",
+                  "examples/impact-planner/src/graph.js",
+                  "examples/impact-planner/src/storage.js",
+                  "examples/impact-planner/src/ui-policy.js",
+                  "examples/impact-planner/src/view.js",
+                  "examples/impact-planner/styles.css",
+                  "examples/impact-planner/test/codec.test.mjs",
+                  "examples/impact-planner/test/graph.test.mjs",
+                  "examples/impact-planner/test/integration.test.mjs",
+                  "examples/impact-planner/test/interface.test.mjs",
+                  "examples/impact-planner/test/server.test.mjs",
+                  "examples/impact-planner/test/storage.test.mjs",
+                  "examples/release-board/server.mjs",
+                  "examples/release-board/src/app.js",
+                  "examples/release-board/test/integration.test.mjs"
+                ]
+              },
+              {
+                "kind": "process.spawn",
+                "scopes": [
+                  "node",
+                  "npm.cmd",
+                  "rg"
+                ]
+              }
+            ],
+            "observability": {
+              "model": "observed",
+              "effort": "observed",
+              "tools": "observed",
+              "skills": "observed",
+              "isolation": "observed",
+              "permissions": "observed",
+              "workspace": "observed",
+              "context": "observed"
+            },
+            "contentDigest": "sha256:876301bd1acf7e25ebd39fe98240e004a07ef5c6abb0e50fef55452bf235e5fd"
+          }
+        },
+        "materialization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostMaterializationClaim",
+          "runId": "run.v14.impact-planner.medium.r2",
+          "runRevision": 2,
+          "sequence": 12,
+          "priorEventDigest": "sha256:26b674c74ce64a85f93b36b3c00d77bd422b01c291eb05081298f7b67be169b5",
+          "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+          "blueprintDigest": "sha256:83986bc64bf4d8db91d5133e3e9e4b08c306fcfcb15a682020bf41ca0ca4a1cb",
+          "assignmentDigest": "sha256:0dd10500e4b4101d25287e6692b7677cc1a28bde261e4b2c84b85d635fd3ce28",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "adapter.codex-desktop.v14-alpha",
+          "attemptId": "attempt.agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+          "authorizationEventDigest": "sha256:26b674c74ce64a85f93b36b3c00d77bd422b01c291eb05081298f7b67be169b5",
+          "nativeHandle": "019fa567-61fc-7e33-897c-c3b1d8a92cf0",
+          "fields": [
+            {
+              "field": "model",
+              "status": "observed",
+              "expectedDigest": "sha256:3c3f6baccd1971bc7a1ab1ba0ec6f0f024e80fba95ba197bb49426b881800ed5",
+              "observedDigest": "sha256:3c3f6baccd1971bc7a1ab1ba0ec6f0f024e80fba95ba197bb49426b881800ed5"
+            },
+            {
+              "field": "effort",
+              "status": "observed",
+              "expectedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a",
+              "observedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a"
+            },
+            {
+              "field": "tools",
+              "status": "observed",
+              "expectedDigest": "sha256:e0ffd5411b854b73240ddd2c8b8fc97f4ddc5e3698ace50967112eb58aafe231",
+              "observedDigest": "sha256:e0ffd5411b854b73240ddd2c8b8fc97f4ddc5e3698ace50967112eb58aafe231"
+            },
+            {
+              "field": "skills",
+              "status": "observed",
+              "expectedDigest": "sha256:be30b03484afe0556c0606b4078651a43de7e8f27e8287ad8fd533b9ac67fdaf",
+              "observedDigest": "sha256:be30b03484afe0556c0606b4078651a43de7e8f27e8287ad8fd533b9ac67fdaf"
+            },
+            {
+              "field": "isolation",
+              "status": "observed",
+              "expectedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3",
+              "observedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3"
+            },
+            {
+              "field": "permissions",
+              "status": "observed",
+              "expectedDigest": "sha256:a586d5f9b225d0eaa04a83a66bb10dbaa6c2c08de82a395cc2006a8061382f7e",
+              "observedDigest": "sha256:a586d5f9b225d0eaa04a83a66bb10dbaa6c2c08de82a395cc2006a8061382f7e"
+            },
+            {
+              "field": "workspace",
+              "status": "observed",
+              "expectedDigest": "sha256:133aa902c8c61beb66ddc2c8fe30074764ef4c90d5aa697524585356c0bdeaee",
+              "observedDigest": "sha256:133aa902c8c61beb66ddc2c8fe30074764ef4c90d5aa697524585356c0bdeaee"
+            },
+            {
+              "field": "context",
+              "status": "observed",
+              "expectedDigest": "sha256:89e99dcb267b0ec1bb2cbd6f13658b5a6e5bc62908ef95a822144c1f42afb941",
+              "observedDigest": "sha256:89e99dcb267b0ec1bb2cbd6f13658b5a6e5bc62908ef95a822144c1f42afb941"
+            }
+          ]
+        }
+      },
+      "acceptedEvidence": {
+        "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+        "blueprintDigest": "sha256:83986bc64bf4d8db91d5133e3e9e4b08c306fcfcb15a682020bf41ca0ca4a1cb",
+        "outcome": "fix",
+        "rawBytes": 5056,
+        "rawDigest": "sha256:7e334de2d4a3008b9675cde6f86f734d1631efe45010ed46427a1a138b428cb6",
+        "semanticDigest": "sha256:6b79f0df6cf725cc96564a85c7c7e03e6cb1ca9810d581c96c53d61ad39352b9",
+        "artifacts": [
+          {
+            "name": "impact-successor-review.md",
+            "mediaType": "text/markdown",
+            "bytes": 3207,
+            "digest": "sha256:9d01516ef6bb9eb51f0ded74e2f4e0f306217b15fee398810b099072d073ebf2"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.graph-recovery",
+            "requirementId": "evidence.graph-recovery.review",
+            "kind": "review",
+            "duty": "review",
+            "status": "fix",
+            "artifact": "impact-successor-review.md"
+          },
+          {
+            "criterionId": "criterion.successor-integration",
+            "requirementId": "evidence.successor-integration.review",
+            "kind": "review",
+            "duty": "review",
+            "status": "fix",
+            "artifact": "impact-successor-review.md"
+          }
+        ]
+      },
+      "truth": "specialist_verified",
+      "route": {
+        "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+        "outcome": "fix",
+        "reason": "specialist_non_pass",
+        "sourceDigests": [
+          "sha256:7e334de2d4a3008b9675cde6f86f734d1631efe45010ed46427a1a138b428cb6"
+        ],
+        "truth": "specialist_verified"
+      }
+    },
+    {
+      "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+      "blueprintDigest": "sha256:1b12710386ad0bea720de6fe7a3cdc16e21130b3cd5a5220ff4e5896be627a7a",
+      "modules": [
+        {
+          "id": "fix.impact-graph",
+          "action": "Return accumulated top-level exact-key errors before canonical validation; preserve all tests and rerun the scoped suite.",
+          "inputPorts": [
+            {
+              "name": "successor",
+              "artifactType": "ImpactPlannerRecoveryContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "handoff",
+              "artifactType": "impact-graph-recovery-handoff.md"
+            }
+          ]
+        }
+      ],
+      "workUnitIds": [
+        "fix.impact-graph"
+      ],
+      "dependencies": [],
+      "assignment": {
+        "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+        "blueprintDigest": "sha256:1b12710386ad0bea720de6fe7a3cdc16e21130b3cd5a5220ff4e5896be627a7a",
+        "calibrationRowId": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.terra",
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "alternatives": [
+          {
+            "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+            "calibrationRowId": "row.gpt55.high",
+            "profileId": "profile.codex.gpt55",
+            "effortId": "effort.high",
+            "eligible": true,
+            "rejectionCodes": [],
+            "unmetRequirementIds": [],
+            "comparator": {
+              "costRank": 4,
+              "latencyRank": 4,
+              "qualityExcess": 1,
+              "reasoningExcess": 0,
+              "contextExcessBytes": 1953005,
+              "toolExcess": 1,
+              "skillExcess": 0,
+              "effortRank": 2,
+              "canonicalIdentity": "[\"profile.codex.gpt55\",\"effort.high\"]"
+            },
+            "contentDigest": "sha256:f95750a25a3217ec027ae042ecad15c919897387b72ea359eb240d3f1ef1bf97"
+          },
+          {
+            "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+            "calibrationRowId": "row.sol.high",
+            "profileId": "profile.codex.sol",
+            "effortId": "effort.high",
+            "eligible": true,
+            "rejectionCodes": [],
+            "unmetRequirementIds": [],
+            "comparator": {
+              "costRank": 3,
+              "latencyRank": 3,
+              "qualityExcess": 1,
+              "reasoningExcess": 0,
+              "contextExcessBytes": 1953005,
+              "toolExcess": 1,
+              "skillExcess": 1,
+              "effortRank": 2,
+              "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+            },
+            "contentDigest": "sha256:932a20fad5911b7ff6d972484f7e445b6a3381abbb8a25253d3c46dbec87f8a3"
+          }
+        ],
+        "rejectedAlternatives": [
+          {
+            "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+            "calibrationRowId": "row.luna.medium",
+            "profileId": "profile.codex.luna",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "reasoning_tier"
+            ],
+            "unmetRequirementIds": [
+              "capability:repair.impact-graph-evidence",
+              "reasoning:reasoning.high"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:68ce355ba497e837b8658783bdd7e9311b801ce7b65d8c0b9ed542abc215698a"
+          },
+          {
+            "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+            "calibrationRowId": "row.terra.medium",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "reasoning_tier"
+            ],
+            "unmetRequirementIds": [
+              "reasoning:reasoning.high"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:32911e06fcdaad740fe260bcb2577badbeaba424315229a22bb8bc79b7d1d86a"
+          }
+        ],
+        "selectionReason": "lowest_exact_vector",
+        "override": null,
+        "truth": "kernel_derived"
+      },
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "status": "settled",
+      "native": {
+        "status": "settled",
+        "truth": "specialist_verified",
+        "authorization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostLaunchAuthorization",
+          "runId": "run.v14.impact-planner.medium.r2",
+          "runRevision": 2,
+          "sequence": 1,
+          "priorEventDigest": null,
+          "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+          "blueprintDigest": "sha256:1b12710386ad0bea720de6fe7a3cdc16e21130b3cd5a5220ff4e5896be627a7a",
+          "assignmentDigest": "sha256:0dd10500e4b4101d25287e6692b7677cc1a28bde261e4b2c84b85d635fd3ce28",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "repository-owner-via-standing-release-authorization",
+          "attemptId": "attempt.agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+          "authorizationId": "authorization.agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+          "workspaceBaselineDigest": "sha256:25dbc0c6a68aa571802ade06d2cb1198812280e484c82ec649b89e7deec700bd",
+          "command": {
+            "agentContractPath": "agents/agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e.md",
+            "agentContractDigest": "sha256:6e4e98d93ea1b77833fcc18f210c04b047092b5fd174e5bb6c3d08e7b0ad1a27",
+            "agentContractBytes": 11682,
+            "contextSources": [
+              {
+                "sourceId": "context.agent-contract",
+                "locator": "path:AGENTS.md",
+                "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+                "bytes": 18686,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app-contract",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+                "bytes": 5191,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.graph-fix-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+                "digest": "sha256:44f46604659d16de5cfc003f8afd88aafb91c6166292d93970fd1a5b82391094",
+                "bytes": 1709,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.graph-source",
+                "locator": "path:examples/impact-planner/src/graph.js",
+                "digest": "sha256:4b0b88f4b4620e72ac102c36867fd90a3eb71086b4140360774f02698984b091",
+                "bytes": 11768,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.graph-tests",
+                "locator": "path:examples/impact-planner/test/graph.test.mjs",
+                "digest": "sha256:0bf8b1dba85db54db618026b42b25d9e191289f99db0ab21975961f1986823bc",
+                "bytes": 6098,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.predecessor",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+                "digest": "sha256:d04408228509314f89ded3da1cbeaba79ca51b2c206de60294fcc1aa2eef4a8b",
+                "bytes": 1555,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.successor-goal",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+                "digest": "sha256:2372b790622913c8fe27999412bf8e1435d034c9255bd7e7f7d4f4b39d253f8e",
+                "bytes": 1988,
+                "delivery": "authorized_filesystem_read"
+              }
+            ],
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.high",
+            "tools": [
+              "node",
+              "rg"
+            ],
+            "skills": [],
+            "isolationFeatures": [
+              "isolation.scoped-worktree"
+            ],
+            "permissions": [
+              {
+                "kind": "filesystem.read",
+                "scopes": [
+                  "AGENTS.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+                  "examples/impact-planner/src/graph.js",
+                  "examples/impact-planner/test/graph.test.mjs"
+                ]
+              },
+              {
+                "kind": "filesystem.write",
+                "scopes": [
+                  "examples/impact-planner/src/graph.js",
+                  "examples/impact-planner/test/graph.test.mjs"
+                ]
+              },
+              {
+                "kind": "process.spawn",
+                "scopes": [
+                  "node"
+                ]
+              }
+            ],
+            "observability": {
+              "model": "observed",
+              "effort": "observed",
+              "tools": "observed",
+              "skills": "observed",
+              "isolation": "observed",
+              "permissions": "observed",
+              "workspace": "observed",
+              "context": "observed"
+            },
+            "contentDigest": "sha256:bbf80afadce3bcea59f970e0f0c1a9254f675b0582330a78139fb3297166a3d4"
+          }
+        },
+        "materialization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostMaterializationClaim",
+          "runId": "run.v14.impact-planner.medium.r2",
+          "runRevision": 2,
+          "sequence": 2,
+          "priorEventDigest": "sha256:63be69d346adb65f3188beab8e29c94121c0caa831efa69e09e3cafffd04a44b",
+          "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+          "blueprintDigest": "sha256:1b12710386ad0bea720de6fe7a3cdc16e21130b3cd5a5220ff4e5896be627a7a",
+          "assignmentDigest": "sha256:0dd10500e4b4101d25287e6692b7677cc1a28bde261e4b2c84b85d635fd3ce28",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "adapter.codex-desktop.v14-alpha",
+          "attemptId": "attempt.agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+          "authorizationEventDigest": "sha256:63be69d346adb65f3188beab8e29c94121c0caa831efa69e09e3cafffd04a44b",
+          "nativeHandle": "019fa55c-ff45-74f2-b90c-b2ebb29297b5",
+          "fields": [
+            {
+              "field": "model",
+              "status": "observed",
+              "expectedDigest": "sha256:89e1b619d11ae7e7a034f79f973e5079e1f13cddfef54e2cde066955312f7602",
+              "observedDigest": "sha256:89e1b619d11ae7e7a034f79f973e5079e1f13cddfef54e2cde066955312f7602"
+            },
+            {
+              "field": "effort",
+              "status": "observed",
+              "expectedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a",
+              "observedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a"
+            },
+            {
+              "field": "tools",
+              "status": "observed",
+              "expectedDigest": "sha256:5072445f948663dba9eeaf8a7dd51926b611a350dbe000c0f75a85d07c8e7c6d",
+              "observedDigest": "sha256:5072445f948663dba9eeaf8a7dd51926b611a350dbe000c0f75a85d07c8e7c6d"
+            },
+            {
+              "field": "skills",
+              "status": "observed",
+              "expectedDigest": "sha256:be30b03484afe0556c0606b4078651a43de7e8f27e8287ad8fd533b9ac67fdaf",
+              "observedDigest": "sha256:be30b03484afe0556c0606b4078651a43de7e8f27e8287ad8fd533b9ac67fdaf"
+            },
+            {
+              "field": "isolation",
+              "status": "observed",
+              "expectedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3",
+              "observedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3"
+            },
+            {
+              "field": "permissions",
+              "status": "observed",
+              "expectedDigest": "sha256:ab33a95f0c4132aeded9cd3536f086c352ba9c5c9b778b84c21340cde7f2c35f",
+              "observedDigest": "sha256:ab33a95f0c4132aeded9cd3536f086c352ba9c5c9b778b84c21340cde7f2c35f"
+            },
+            {
+              "field": "workspace",
+              "status": "observed",
+              "expectedDigest": "sha256:133aa902c8c61beb66ddc2c8fe30074764ef4c90d5aa697524585356c0bdeaee",
+              "observedDigest": "sha256:133aa902c8c61beb66ddc2c8fe30074764ef4c90d5aa697524585356c0bdeaee"
+            },
+            {
+              "field": "context",
+              "status": "observed",
+              "expectedDigest": "sha256:817c279332fc05372bddbea398ad166817bd4e4bd0977f30875ef515adf979ca",
+              "observedDigest": "sha256:817c279332fc05372bddbea398ad166817bd4e4bd0977f30875ef515adf979ca"
+            }
+          ]
+        }
+      },
+      "acceptedEvidence": {
+        "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+        "blueprintDigest": "sha256:1b12710386ad0bea720de6fe7a3cdc16e21130b3cd5a5220ff4e5896be627a7a",
+        "outcome": "pass",
+        "rawBytes": 2255,
+        "rawDigest": "sha256:6ae0c6edf99d47584ba6ad12f7828b1ac7aeee3984fc387cecceadf999d5eb89",
+        "semanticDigest": "sha256:a92322cc9c615df5b4484e18b19d6f5f05e68ef9928564cbb285c34b57924d11",
+        "artifacts": [
+          {
+            "name": "impact-graph-recovery-handoff.md",
+            "mediaType": "text/markdown",
+            "bytes": 1124,
+            "digest": "sha256:2ea74ffcc50865c4fa8654f237e428200a776d183ebea99fc28deadc873e63ca"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.graph-recovery",
+            "requirementId": "evidence.graph-recovery.produce",
+            "kind": "test",
+            "duty": "produce",
+            "status": "pass",
+            "artifact": "impact-graph-recovery-handoff.md"
+          }
+        ]
+      },
+      "truth": "specialist_verified",
+      "route": null
+    }
+  ],
+  "routes": [
+    {
+      "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+      "outcome": "fix",
+      "reason": "specialist_non_pass",
+      "sourceDigests": [
+        "sha256:7e334de2d4a3008b9675cde6f86f734d1631efe45010ed46427a1a138b428cb6"
+      ],
+      "truth": "specialist_verified"
+    }
+  ],
+  "nextActions": [
+    {
+      "id": "create-successor-run",
+      "kind": "create_successor_run",
+      "actor": "integration_owner",
+      "availability": "enabled",
+      "reasonCode": "specialist_non_pass",
+      "sourceDigests": [
+        "sha256:7e334de2d4a3008b9675cde6f86f734d1631efe45010ed46427a1a138b428cb6"
+      ]
+    }
+  ],
+  "integrationReady": false,
+  "contentDigest": "sha256:0362214f572a2fb6e5f40ef39f2ab8fd3c662a80eaf373577871d4456d5276fc"
+}

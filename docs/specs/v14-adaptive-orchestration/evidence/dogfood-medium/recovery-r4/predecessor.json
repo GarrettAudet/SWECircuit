@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "predecessorRun": {
+    "runId": "run.v14.impact-planner.medium.r3",
+    "sessionDigest": "sha256:2339fdd2f8c282ef4c4bff209f11ec2d985900c44f228e2ddf9a039bd857688e",
+    "terminalOutcome": "fix",
+    "evidenceDigest": "sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c"
+  },
+  "runViewDigest": "sha256:fdff2857efd0ea54009453587dd9328092006aa510247ba3e5cefdfaa0b937e8",
+  "failureClass": "runtime_style_binding_mismatch",
+  "confirmedCause": "app.js emits changed-row while the accessible interactive-row stylesheet contract targets changed-item.",
+  "acceptedPassHandoffs": [
+    {
+      "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/verification-raw.json",
+      "sha256": "79ed0c5e5a11d372b617cc69ba08304368853858b6531f37f3a52ba29a15e4f3"
+    }
+  ],
+  "reviewFinding": {
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+    "sha256": "3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c",
+    "result": "verified_fix"
+  }
+}

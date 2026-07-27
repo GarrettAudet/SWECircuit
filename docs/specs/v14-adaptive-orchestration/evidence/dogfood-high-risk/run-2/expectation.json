@@ -1,0 +1,24 @@
+{
+  "compilationDigest": "sha256:af2632ad93bc3188e7681afd5dec4165dd5fc96322c209a111ea92ea42c8fc1b",
+  "packageDigest": "sha256:429d793dc65d14d079b3305ed4417fec9d90cedbbe6014783811d6636d84ba95",
+  "policyDigest": "sha256:3a2fc04b6cbebdd197e30cb0434e061fca6c1497b0cd143516601ce2c55784a3",
+  "calibrationDigest": "sha256:84a21c1b7bee516fb72a1500df3cc6790261a1c6e91b2950433118cbedbf5d2f",
+  "inventoryDigest": "sha256:a88a8d327927db69e7e5b487a5ce7299a46d5e9d95067ee453b593ac9c6f67c2",
+  "assignmentDigest": "sha256:e1fd2edeeb042e50239c03359d6f276191620cfe1ee54ebc73c5b0239b19e2f8",
+  "runId": "run.v14.high-risk.release-manifest.offline-successor",
+  "runRevision": 2,
+  "predecessorRun": {
+    "runId": "run.v14.high-risk.release-manifest.denied",
+    "sessionDigest": "sha256:bb99eb637da48a03caeb986a49446241e35d1505beeef18f864a1e460b375a4a",
+    "terminalOutcome": "block",
+    "evidenceDigest": "sha256:08d07aa997f92adc22285e487fb49b8ee21f0f029adb67a7fdd209c006b5f054"
+  },
+  "workspaceBaselineDigest": "sha256:316346ed804abfe867507b8c6f2897900ccdfcc663d4cae29406cd146d3d8103",
+  "authorizedHostId": "codex-desktop.windows",
+  "authorizedAdapterId": "codex-desktop",
+  "authorizedAdapterRevision": "v14-alpha",
+  "authorizationIssuerId": "repository-owner-via-standing-release-authorization",
+  "maxHostEvents": 32,
+  "lineageDepth": 1,
+  "maxLineageDepth": 4
+}

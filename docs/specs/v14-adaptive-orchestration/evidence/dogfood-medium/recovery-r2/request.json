@@ -1,0 +1,780 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v14.dogfood.impact-planner",
+    "revision": 2,
+    "objective": "Recover the verified graph failure, reuse exact predecessor pass outputs, integrate the Impact Planner, and independently review the successor result.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.predecessor-pass-reuse",
+        "statement": "Codec and interface source files remain the exact outputs described by their verified predecessor PASS handoffs.",
+        "rationale": "The successor binds both handoffs and source files and avoids rerunning successful work."
+      },
+      {
+        "id": "assumption.causal-fix",
+        "statement": "The graph defect is localized to returning accumulated top-level exact-key errors before canonical validation.",
+        "rationale": "The failing test and verified FIX handoff identify one reproducible causal condition."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.graph-recovery",
+        "description": "The smallest graph correction closes unknown-key validation and all scoped graph tests pass.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.graph-recovery.produce",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Apply and verify the causal graph correction without weakening regression coverage.",
+            "independentFromProducer": false
+          },
+          {
+            "id": "evidence.graph-recovery.integrate",
+            "kind": "handoff",
+            "duty": "verify",
+            "description": "Independently verify the exact graph recovery handoff before integration starts.",
+            "independentFromProducer": true
+          },
+          {
+            "id": "evidence.graph-recovery.review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independently review the graph correction and complete graph suite.",
+            "independentFromProducer": true
+          }
+        ]
+      },
+      {
+        "id": "criterion.successor-integration",
+        "description": "Exact predecessor pass outputs and corrected graph output integrate into the complete offline application.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.successor-integration.produce",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Produce the complete integrated app, passing suite, and bounded browser observation.",
+            "independentFromProducer": false
+          },
+          {
+            "id": "evidence.successor-integration.review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independently review acceptance, security, accessibility, integration, and evidence.",
+            "independentFromProducer": true
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.successor-goal",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+        "digest": "sha256:2372b790622913c8fe27999412bf8e1435d034c9255bd7e7f7d4f4b39d253f8e",
+        "bytes": 1988,
+        "description": "Closed successor objective and recovery acceptance criteria.",
+        "allowedWorkUnits": [
+          "fix.impact-graph",
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md"
+      },
+      {
+        "id": "context.predecessor",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+        "digest": "sha256:d04408228509314f89ded3da1cbeaba79ca51b2c206de60294fcc1aa2eef4a8b",
+        "bytes": 1555,
+        "description": "Exact predecessor run, route, handoff, and lineage identities.",
+        "allowedWorkUnits": [
+          "fix.impact-graph",
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json"
+      },
+      {
+        "id": "context.app-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+        "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+        "bytes": 5191,
+        "description": "Original closed application and handoff contract.",
+        "allowedWorkUnits": [
+          "fix.impact-graph",
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+      },
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+        "bytes": 18686,
+        "description": "Repository authority, recovery, verification, and memory invariants.",
+        "allowedWorkUnits": [
+          "fix.impact-graph",
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.graph-source",
+        "kind": "repository",
+        "locator": "path:examples/impact-planner/src/graph.js",
+        "digest": "sha256:4b0b88f4b4620e72ac102c36867fd90a3eb71086b4140360774f02698984b091",
+        "bytes": 11768,
+        "description": "Failed graph implementation requiring the smallest causal correction.",
+        "allowedWorkUnits": [
+          "fix.impact-graph",
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "examples/impact-planner/src/graph.js"
+      },
+      {
+        "id": "context.graph-tests",
+        "kind": "repository",
+        "locator": "path:examples/impact-planner/test/graph.test.mjs",
+        "digest": "sha256:0bf8b1dba85db54db618026b42b25d9e191289f99db0ab21975961f1986823bc",
+        "bytes": 6098,
+        "description": "Graph regression suite containing the failing unknown-key assertion.",
+        "allowedWorkUnits": [
+          "fix.impact-graph",
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "examples/impact-planner/test/graph.test.mjs"
+      },
+      {
+        "id": "context.graph-fix-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+        "digest": "sha256:44f46604659d16de5cfc003f8afd88aafb91c6166292d93970fd1a5b82391094",
+        "bytes": 1709,
+        "description": "Verified predecessor FIX evidence and proposed causal correction.",
+        "allowedWorkUnits": [
+          "fix.impact-graph",
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json"
+      },
+      {
+        "id": "context.codec-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+        "digest": "sha256:2843a8dd0a635fd55fc950273d7ce8e87821cfaa92ddd3145dde9f7f52f77a05",
+        "bytes": 1521,
+        "description": "Verified predecessor codec PASS handoff.",
+        "allowedWorkUnits": [
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json"
+      },
+      {
+        "id": "context.interface-handoff",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+        "digest": "sha256:477a0219e170eeb9336bc81b6cb35a96c610fd555e5c06c93bfecb2a7878cf22",
+        "bytes": 1911,
+        "description": "Verified predecessor interface PASS handoff.",
+        "allowedWorkUnits": [
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json"
+      },
+      {
+        "id": "context.release-app-pattern",
+        "kind": "repository",
+        "locator": "path:examples/release-board/src/app.js",
+        "digest": "sha256:aa57eafe2939a90b88e052f0dd33a900a0e30efb3aa4dc41678a92d736968ab8",
+        "bytes": 8835,
+        "description": "Current bounded local-state integration pattern.",
+        "allowedWorkUnits": [
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "examples/release-board/src/app.js"
+      },
+      {
+        "id": "context.release-server-pattern",
+        "kind": "repository",
+        "locator": "path:examples/release-board/server.mjs",
+        "digest": "sha256:8290ac09821974a595117e911fd4aadcdc3e38ad8e97909c65b807d6505088f9",
+        "bytes": 3269,
+        "description": "Current local server and closed-network policy pattern.",
+        "allowedWorkUnits": [
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "examples/release-board/server.mjs"
+      },
+      {
+        "id": "context.release-test-pattern",
+        "kind": "repository",
+        "locator": "path:examples/release-board/test/integration.test.mjs",
+        "digest": "sha256:7ab311070e33237d6b014d88f7bbcb8a74bacf66b962f12a7c975f30d1e047e0",
+        "bytes": 2502,
+        "description": "Current integration and server test pattern.",
+        "allowedWorkUnits": [
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "readScope": "examples/release-board/test/integration.test.mjs"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "fix.impact-graph",
+        "integrate.impact-planner",
+        "review.impact-planner"
+      ],
+      "allowedCapabilities": [
+        "integrate.impact-planner",
+        "repair.impact-graph-evidence",
+        "review.impact-planner"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "AGENTS.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+            "examples/impact-planner/README.md",
+            "examples/impact-planner/index.html",
+            "examples/impact-planner/package.json",
+            "examples/impact-planner/server.mjs",
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/src/codec.js",
+            "examples/impact-planner/src/graph.js",
+            "examples/impact-planner/src/storage.js",
+            "examples/impact-planner/src/ui-policy.js",
+            "examples/impact-planner/src/view.js",
+            "examples/impact-planner/styles.css",
+            "examples/impact-planner/test/codec.test.mjs",
+            "examples/impact-planner/test/graph.test.mjs",
+            "examples/impact-planner/test/integration.test.mjs",
+            "examples/impact-planner/test/interface.test.mjs",
+            "examples/impact-planner/test/server.test.mjs",
+            "examples/impact-planner/test/storage.test.mjs",
+            "examples/release-board/server.mjs",
+            "examples/release-board/src/app.js",
+            "examples/release-board/test/integration.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "examples/impact-planner/README.md",
+            "examples/impact-planner/package.json",
+            "examples/impact-planner/server.mjs",
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/src/graph.js",
+            "examples/impact-planner/src/ui-policy.js",
+            "examples/impact-planner/test/graph.test.mjs",
+            "examples/impact-planner/test/integration.test.mjs",
+            "examples/impact-planner/test/server.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm.cmd",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not access the network, secrets, external services, or undeclared repository paths.",
+        "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory.",
+        "Do not modify predecessor codec or interface outputs."
+      ],
+      "maxAgents": 3,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.impact-graph",
+        "objective": "Apply the exact causal graph validation correction and prove all graph tests pass.",
+        "weight": 2,
+        "module": {
+          "id": "fix.impact-graph",
+          "action": "Return accumulated top-level exact-key errors before canonical validation; preserve all tests and rerun the scoped suite.",
+          "inputPorts": [
+            {
+              "name": "successor",
+              "artifactType": "ImpactPlannerRecoveryContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "handoff",
+              "artifactType": "impact-graph-recovery-handoff.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "repair.impact-graph-evidence"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.successor-goal",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.predecessor",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.app-contract",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.graph-source",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.graph-tests",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.graph-fix-handoff",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          }
+        ],
+        "scope": {
+          "read": [
+            "AGENTS.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+            "examples/impact-planner/src/graph.js",
+            "examples/impact-planner/test/graph.test.mjs"
+          ],
+          "write": [
+            "examples/impact-planner/src/graph.js",
+            "examples/impact-planner/test/graph.test.mjs"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/test/graph.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/test/graph.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.graph-recovery.produce"
+        ],
+        "handoffArtifacts": [
+          "impact-graph-recovery-handoff.md"
+        ],
+        "stopConditions": [
+          "Do not widen or reinterpret the original product contract.",
+          "Do not modify files outside the declared write scope.",
+          "Do not access the network or secrets, install dependencies, mutate Git, merge, or update memory.",
+          "Use the smallest causal correction and preserve the failing regression assertion.",
+          "A dependent unit starts only after exact transitive handoff assessment is integration-ready.",
+          "Return non-pass when required evidence cannot be produced."
+        ]
+      },
+      {
+        "id": "integrate.impact-planner",
+        "objective": "Integrate the corrected graph with exact predecessor codec and interface outputs into the complete app.",
+        "weight": 7,
+        "module": {
+          "id": "integrate.impact-planner",
+          "action": "Verify the dependency handoff, wire state and events, add server and tests, run the full suite, and perform a bounded browser-skill observation.",
+          "inputPorts": [
+            {
+              "name": "successor",
+              "artifactType": "ImpactPlannerRecoveryContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "handoff",
+              "artifactType": "impact-successor-integration-handoff.md"
+            }
+          ]
+        },
+        "dependencies": [
+          "fix.impact-graph"
+        ],
+        "requiredCapabilities": [
+          "integrate.impact-planner"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.successor-goal",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.predecessor",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.app-contract",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.graph-fix-handoff",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.codec-handoff",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.interface-handoff",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.release-app-pattern",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.release-server-pattern",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.release-test-pattern",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          }
+        ],
+        "scope": {
+          "read": [
+            "AGENTS.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+            "examples/impact-planner/index.html",
+            "examples/impact-planner/src/codec.js",
+            "examples/impact-planner/src/graph.js",
+            "examples/impact-planner/src/storage.js",
+            "examples/impact-planner/src/view.js",
+            "examples/impact-planner/styles.css",
+            "examples/impact-planner/test/codec.test.mjs",
+            "examples/impact-planner/test/graph.test.mjs",
+            "examples/impact-planner/test/interface.test.mjs",
+            "examples/impact-planner/test/storage.test.mjs",
+            "examples/release-board/server.mjs",
+            "examples/release-board/src/app.js",
+            "examples/release-board/test/integration.test.mjs"
+          ],
+          "write": [
+            "examples/impact-planner/README.md",
+            "examples/impact-planner/package.json",
+            "examples/impact-planner/server.mjs",
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/src/ui-policy.js",
+            "examples/impact-planner/test/integration.test.mjs",
+            "examples/impact-planner/test/server.test.mjs"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+              "examples/impact-planner/index.html",
+              "examples/impact-planner/src/codec.js",
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/src/storage.js",
+              "examples/impact-planner/src/view.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/codec.test.mjs",
+              "examples/impact-planner/test/graph.test.mjs",
+              "examples/impact-planner/test/interface.test.mjs",
+              "examples/impact-planner/test/storage.test.mjs",
+              "examples/release-board/server.mjs",
+              "examples/release-board/src/app.js",
+              "examples/release-board/test/integration.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "examples/impact-planner/README.md",
+              "examples/impact-planner/package.json",
+              "examples/impact-planner/server.mjs",
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/src/ui-policy.js",
+              "examples/impact-planner/test/integration.test.mjs",
+              "examples/impact-planner/test/server.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.graph-recovery.integrate",
+          "evidence.successor-integration.produce"
+        ],
+        "handoffArtifacts": [
+          "impact-successor-integration-handoff.md"
+        ],
+        "stopConditions": [
+          "Do not widen or reinterpret the original product contract.",
+          "Do not modify files outside the declared write scope.",
+          "Do not access the network or secrets, install dependencies, mutate Git, merge, or update memory.",
+          "Use the smallest causal correction and preserve the failing regression assertion.",
+          "A dependent unit starts only after exact transitive handoff assessment is integration-ready.",
+          "Return non-pass when required evidence cannot be produced."
+        ]
+      },
+      {
+        "id": "review.impact-planner",
+        "objective": "Independently review the exact successor implementation and all recovery evidence.",
+        "weight": 4,
+        "module": {
+          "id": "review.impact-planner",
+          "action": "Run the complete suite, inspect every acceptance boundary and predecessor binding, and report material findings before verdict.",
+          "inputPorts": [
+            {
+              "name": "successor",
+              "artifactType": "ImpactPlannerRecoveryContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "handoff",
+              "artifactType": "impact-successor-review.md"
+            }
+          ]
+        },
+        "dependencies": [
+          "integrate.impact-planner"
+        ],
+        "requiredCapabilities": [
+          "review.impact-planner"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.successor-goal",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.predecessor",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.app-contract",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.graph-source",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.graph-tests",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.graph-fix-handoff",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.codec-handoff",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.interface-handoff",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.release-app-pattern",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.release-server-pattern",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          },
+          {
+            "sourceId": "context.release-test-pattern",
+            "purpose": "Correct, integrate, or independently review the exact successor run."
+          }
+        ],
+        "scope": {
+          "read": [
+            "AGENTS.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+            "examples/impact-planner/README.md",
+            "examples/impact-planner/index.html",
+            "examples/impact-planner/package.json",
+            "examples/impact-planner/server.mjs",
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/src/codec.js",
+            "examples/impact-planner/src/graph.js",
+            "examples/impact-planner/src/storage.js",
+            "examples/impact-planner/src/ui-policy.js",
+            "examples/impact-planner/src/view.js",
+            "examples/impact-planner/styles.css",
+            "examples/impact-planner/test/codec.test.mjs",
+            "examples/impact-planner/test/graph.test.mjs",
+            "examples/impact-planner/test/integration.test.mjs",
+            "examples/impact-planner/test/interface.test.mjs",
+            "examples/impact-planner/test/server.test.mjs",
+            "examples/impact-planner/test/storage.test.mjs",
+            "examples/release-board/server.mjs",
+            "examples/release-board/src/app.js",
+            "examples/release-board/test/integration.test.mjs"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/graph-raw-attempt-2.json",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/goal.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/predecessor.json",
+              "examples/impact-planner/README.md",
+              "examples/impact-planner/index.html",
+              "examples/impact-planner/package.json",
+              "examples/impact-planner/server.mjs",
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/src/codec.js",
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/src/storage.js",
+              "examples/impact-planner/src/ui-policy.js",
+              "examples/impact-planner/src/view.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/codec.test.mjs",
+              "examples/impact-planner/test/graph.test.mjs",
+              "examples/impact-planner/test/integration.test.mjs",
+              "examples/impact-planner/test/interface.test.mjs",
+              "examples/impact-planner/test/server.test.mjs",
+              "examples/impact-planner/test/storage.test.mjs",
+              "examples/release-board/server.mjs",
+              "examples/release-board/src/app.js",
+              "examples/release-board/test/integration.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.graph-recovery.review",
+          "evidence.successor-integration.review"
+        ],
+        "handoffArtifacts": [
+          "impact-successor-review.md"
+        ],
+        "stopConditions": [
+          "Do not widen or reinterpret the original product contract.",
+          "Do not modify files outside the declared write scope.",
+          "Do not access the network or secrets, install dependencies, mutate Git, merge, or update memory.",
+          "Use the smallest causal correction and preserve the failing regression assertion.",
+          "A dependent unit starts only after exact transitive handoff assessment is integration-ready.",
+          "Return non-pass when required evidence cannot be produced."
+        ]
+      }
+    ]
+  },
+  "proposedCandidates": [
+    {
+      "id": "candidate.impact-planner.successor-three-stage",
+      "groups": [
+        [
+          "fix.impact-graph"
+        ],
+        [
+          "integrate.impact-planner"
+        ],
+        [
+          "review.impact-planner"
+        ]
+      ]
+    }
+  ]
+}

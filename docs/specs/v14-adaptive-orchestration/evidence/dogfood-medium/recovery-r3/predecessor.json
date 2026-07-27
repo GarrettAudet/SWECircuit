@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "predecessorRun": {
+    "runId": "run.v14.impact-planner.medium.r2",
+    "sessionDigest": "sha256:923e6404196daa8b5320ab8e9049e803f6af15e6132352849810bc83c19e0cdd",
+    "terminalOutcome": "fix",
+    "evidenceDigest": "sha256:7e334de2d4a3008b9675cde6f86f734d1631efe45010ed46427a1a138b428cb6"
+  },
+  "runViewDigest": "sha256:f76c0ef0da518113c9fde7cb25c69cad0fd8d71d222998129d3ff40ac8eb6d33",
+  "failureClass": "stale_context_identity",
+  "confirmedCause": "The revision-2 package bound graph.js before the graph recovery agent changed it, so downstream context identity no longer matched the corrected candidate.",
+  "acceptedPassHandoffs": [
+    {
+      "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+      "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/graph-recovery-raw.json",
+      "sha256": "6ae0c6edf99d47584ba6ad12f7828b1ac7aeee3984fc387cecceadf999d5eb89"
+    },
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/integration-raw.json",
+      "sha256": "7b7aadc71bd083d27a900548179db2a025e3417a1eb304b330d3f07779d315db"
+    }
+  ],
+  "reviewAttempts": [
+    {
+      "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/review-raw.json",
+      "sha256": "1cc4b14bb43130d7c199979649a5ec52b3ea47c717bb24c5d5173ef2637f36e0",
+      "result": "rejected_SC4310_SC4607"
+    },
+    {
+      "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/review-raw-attempt-2.json",
+      "sha256": "7e334de2d4a3008b9675cde6f86f734d1631efe45010ed46427a1a138b428cb6",
+      "result": "verified_fix"
+    }
+  ]
+}

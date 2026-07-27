@@ -1,0 +1,116 @@
+{
+  "outcome": "pass",
+  "unsafeCompilation": {
+    "rejected": true,
+    "diagnostics": [
+      {
+        "code": "SC4303",
+        "severity": "error",
+        "artifact": "specialist-request.json",
+        "pointer": "/workUnits/0/permissions/1",
+        "rule": "specialist.authority.exceeded",
+        "message": "A specialist work unit exceeds the owner-declared authority ceiling.",
+        "hint": "Narrow its Module, capability, context, scope, or permission demand."
+      },
+      {
+        "code": "SC4303",
+        "severity": "error",
+        "artifact": "specialist-request.json",
+        "pointer": "/workUnits/0/permissions/3",
+        "rule": "specialist.authority.exceeded",
+        "message": "A specialist work unit exceeds the owner-declared authority ceiling.",
+        "hint": "Narrow its Module, capability, context, scope, or permission demand."
+      }
+    ]
+  },
+  "safeCompilation": {
+    "compilationDigest": "sha256:af2632ad93bc3188e7681afd5dec4165dd5fc96322c209a111ea92ea42c8fc1b",
+    "packageDigest": "sha256:429d793dc65d14d079b3305ed4417fec9d90cedbbe6014783811d6636d84ba95"
+  },
+  "routing": {
+    "search": {
+      "mode": "exact",
+      "claim": "exhaustive_assignment_vector_search",
+      "potentialVectors": 2,
+      "evaluatedVectors": 2,
+      "feasibleVectors": 2,
+      "contentDigest": "sha256:0fce2bb248df4f2d8de77fc23d5c74d7294c94447f5f982c28aeab6a3986d02d"
+    },
+    "leastCostSelection": {
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high"
+    },
+    "rejectedWeakOverride": {
+      "calibrationRowId": "row.luna.medium",
+      "diagnosticCodes": [
+        "SC4508"
+      ]
+    },
+    "approvedOverride": {
+      "calibrationRowId": "row.gpt55.high",
+      "profileId": "profile.codex.gpt55",
+      "effortId": "effort.high",
+      "assignmentDigest": "sha256:e1fd2edeeb042e50239c03359d6f276191620cfe1ee54ebc73c5b0239b19e2f8"
+    }
+  },
+  "deniedRun": {
+    "runId": "run.v14.high-risk.release-manifest.denied",
+    "permissionRequest": {
+      "id": "evidence.permission.denial",
+      "kind": "status",
+      "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/run-1/permission-request.json",
+      "digest": "sha256:9a694955346c8a073bf935a1bdd26d164692ff793e5ff31f2fa517015c8917ea",
+      "bytes": 560
+    },
+    "sessionDigest": "sha256:bb99eb637da48a03caeb986a49446241e35d1505beeef18f864a1e460b375a4a",
+    "runViewDigest": "sha256:237a51177379d948f10c4b710ed2593c5f58cdb9c9f8604c4e81c9319be9b12d",
+    "integrationReady": false,
+    "routes": [
+      {
+        "agentId": "agent.2a9d1bf0a548bb60aa0d6b6d4c07bde65de131730081a946e43993b9926a0bd6",
+        "outcome": "block",
+        "reason": "specialist_non_pass",
+        "sourceDigests": [
+          "sha256:0dec8efc4993c4d72c643a676cd78bcc88b81c26ba135a12eca3af2dc1f6d1c0"
+        ],
+        "truth": "specialist_verified"
+      }
+    ],
+    "steeringEvents": 1
+  },
+  "successorRun": {
+    "runId": "run.v14.high-risk.release-manifest.offline-successor",
+    "predecessorRun": {
+      "runId": "run.v14.high-risk.release-manifest.denied",
+      "sessionDigest": "sha256:bb99eb637da48a03caeb986a49446241e35d1505beeef18f864a1e460b375a4a",
+      "terminalOutcome": "block",
+      "evidenceDigest": "sha256:08d07aa997f92adc22285e487fb49b8ee21f0f029adb67a7fdd209c006b5f054"
+    },
+    "sessionDigest": "sha256:a8fae18ceb3822b83d0bfa6e26040946da109445030ca47eb71a0c096bfd59e2",
+    "runViewDigest": "sha256:d616256bf045929fd7e1a90e16ce6ca7eb0fad5619f8858fa82c52a66c324ed4",
+    "integrationReady": true,
+    "routes": [
+      {
+        "agentId": null,
+        "outcome": "pass",
+        "reason": "all_handoffs_pass",
+        "sourceDigests": [
+          "sha256:d31d05b6ca9124c29c29b2a9ea30043b227f2ad9604d08ebf4f795e7a57979f2"
+        ],
+        "truth": "specialist_verified"
+      }
+    ],
+    "verifiedHandoff": {
+      "rawBytes": 1171,
+      "rawDigest": "sha256:d31d05b6ca9124c29c29b2a9ea30043b227f2ad9604d08ebf4f795e7a57979f2",
+      "semanticDigest": "sha256:9aa45250be6f75542c9f46a83f9eb3fcceb0f737a3ee9e5bd082cffd485c1589"
+    },
+    "assessmentDigest": "sha256:07e8ff56ad412d3971b24c3093e9a72d2bdfca71a579e7f8ced6f9f7dd49bce2"
+  },
+  "tamperCheck": {
+    "rejected": true,
+    "diagnosticCodes": [
+      "SC4311"
+    ]
+  }
+}

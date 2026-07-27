@@ -1,0 +1,144 @@
+{
+  "outcome": "pass",
+  "serialBaseline": {
+    "id": "team.6a31c2693a76c78a280fda3c1df8c84fd741fa8a7c66ae40154e93577da23f91",
+    "partition": [
+      [
+        "review.impact-planner-rebound",
+        "verify.impact-planner-rebound"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": false,
+    "rejectionCodes": [
+      "evidence_independence"
+    ],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 12,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 11,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.fe4a4cba52da998cb2038d257e18b52dffe5e9b87dcb887045f582a5d7c23535",
+        "start": 0,
+        "finish": 12
+      }
+    ],
+    "contentDigest": "sha256:1d7144b68ff4a68f0d2ec4aa26457db0cb74a3f37748df79f135a6257d017795"
+  },
+  "selected": {
+    "id": "team.78db9d90bf954c572f1cc69e77dbe85f8294308f54bc39c633909eb5bc0b57cc",
+    "partition": [
+      [
+        "review.impact-planner-rebound"
+      ],
+      [
+        "verify.impact-planner-rebound"
+      ]
+    ],
+    "origins": [
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.impact-planner.rebound-two-stage"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 2,
+      "projectedMakespan": 14,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 1,
+      "duplicatedContextBytes": 114868,
+      "duplicatedPermissionScopes": 30,
+      "totalWorkWeight": 11,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 1
+    },
+    "schedule": [
+      {
+        "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+        "start": 0,
+        "finish": 7
+      },
+      {
+        "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+        "start": 8,
+        "finish": 14
+      }
+    ],
+    "contentDigest": "sha256:ba2712650ad0f8ea087420c42e64e5e86a963d95ea68081b770b52eb40da1bb2"
+  },
+  "selectionReason": {
+    "kind": "serial_ineligible",
+    "decisiveField": "evidence_independence",
+    "selectedValue": "eligible",
+    "serialValue": "ineligible",
+    "serialRejectionCodes": [
+      "evidence_independence"
+    ]
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 2,
+    "evaluatedCandidates": 2,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 1,
+    "evaluationSetDigest": "sha256:b0b63956b42946d468648f89cab1768d35d7abd8dae4cf554d749fece36a48d5"
+  },
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449"
+      ]
+    },
+    {
+      "start": 8,
+      "agentIds": [
+        "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "workUnitIds": [
+        "review.impact-planner-rebound"
+      ],
+      "dependencies": [
+        "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449"
+      ],
+      "contentDigest": "sha256:01046c82bd97fc3c16e5f68700f838404c8ce57738a3555f782d640159f520be",
+      "contractFile": "agents/agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15.md"
+    },
+    {
+      "id": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "workUnitIds": [
+        "verify.impact-planner-rebound"
+      ],
+      "dependencies": [],
+      "contentDigest": "sha256:dcc5fec3ae5aa7a38b59e1539b22a9682756f567219052583f36a98ae4bcc9cb",
+      "contractFile": "agents/agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449.md"
+    }
+  ],
+  "expectation": {
+    "compilationDigest": "sha256:e30109cf039cbda24cd000f58168458bf26ac76834035758d385be37d51740ab",
+    "packageDigest": "sha256:6d51d78dfbc65e6eb7c7da07552d1605b2a2fa5b8acae6ed05196175f7ceff98"
+  }
+}

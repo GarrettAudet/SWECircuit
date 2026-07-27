@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v14.dogfood.impact-planner",
+    "revision": 5,
+    "digest": "sha256:a51c9f47ec54fecad9fd16ebe808c511fd82de4aebac865ebc521585ad286878"
+  },
+  "agent": {
+    "id": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+    "blueprintDigest": "sha256:dcc5fec3ae5aa7a38b59e1539b22a9682756f567219052583f36a98ae4bcc9cb"
+  },
+  "compilationDigest": "sha256:e30109cf039cbda24cd000f58168458bf26ac76834035758d385be37d51740ab",
+  "summary": "Pass: the trusted host package-verification receipt closes the sole prior evidence gap. All 27 context byte bindings, package identity, six predecessor handoff envelopes, recovery lineage, 23 tests, seven syntax checks, security review, and completed desktop/mobile browser checks passed.",
+  "workUnitsCompleted": [
+    "verify.impact-planner-rebound"
+  ],
+  "artifacts": [
+    {
+      "name": "impact-rebound-verification.md",
+      "mediaType": "text/markdown",
+      "content": "# Impact Planner Revision-5 Verification\n\nOutcome: pass\n\n## Package identity\n\nThe trusted host-delivered DogfoodPackageVerificationReceipt records a successful `verifySpecialistPackage` operation against compilation digest `sha256:e30109cf039cbda24cd000f58168458bf26ac76834035758d385be37d51740ab` and package digest `sha256:6d51d78dfbc65e6eb7c7da07552d1605b2a2fa5b8acae6ed05196175f7ceff98`. It binds the exact 189968-byte package envelope with raw digest `sha256:f967ddc9018315743677722de78739647e72bc69e2ff7cff847fff5327ffb9b1` and the exact 2058-byte manifest with raw digest `sha256:323b7b96d7c6ebd91af917b1ec6c0ecfd9084beab0dcc05dd203baf7bb0fed0e`. This trusted runtime input closes the prior package-identity evidence gap without altering package identity.\n\n## Context and lineage\n\nAll 27 declared repository contexts matched their exact raw SHA-256 digests and byte counts. All six handoff files parsed as strict SpecialistAgentHandoff envelopes with the expected revisions, outcomes, work units, artifacts, and evidence shapes. Recovery lineage was coherent from the revision-1 codec/interface passes through revision-2 recovery/integration, the revision-3 accessibility finding, and the revision-4 changed-item correction. `predecessor.json` correctly binds the revision-4 run, accepted fix agent/path/digest, retired package disposition, and revision-3 finding.\n\n## Automated verification\n\n`npm.cmd test` passed 23 of 23 tests with zero failures. `npm.cmd run check` passed all seven syntax checks for `server.mjs` and the six source modules.\n\nStatic review confirmed the corrected `changed-item` runtime binding, matching base and forced-colors selectors, reduced-motion source bindings, closed server route allowlist, loopback binding, GET/HEAD restriction, closed CSP, and no application fetch, XMLHttpRequest, WebSocket, eval, document.write, innerHTML, dynamic import, or external URL usage.\n\n## Browser verification\n\nDesktop inspection completed at a 1265 by 720 CSS-pixel content viewport with no document overflow. Five generated changed rows all used `changed-item`, measured approximately 379.35 by 46.29 pixels, and had computed `min-height: 44px`. Visible primary controls measured 44px high.\n\nMobile inspection completed with a 390 by 844 viewport override. The document content width was 375 CSS pixels with zero horizontal overflow and no inspected section outside responsive bounds. Changed rows measured approximately 305.33 by 46.29 pixels, remained within bounds, retained `changed-item`, and retained the 44px computed minimum height. Checkbox glyphs measured 20 by 20 pixels inside the styled rows.\n\nPersistence passed: changing Search Service produced three selected changes and survived reload. Reset confirmation was captured explicitly. Dismissal preserved four components and two selected changes and announced `Reset cancelled.` Acceptance restored the four-component seed with one selected change, and that state survived reload. Final generated rows retained `changed-item`. Browser console inspection returned no debug, informational, warning, or error entries. The viewport override was reset and browser tabs were finalized before expiration. Browser checks and tests were not rerun after the verification window expired.\n\n## Verdict\n\nPass. Package identity, context identity, predecessor handoffs, recovery lineage, product behavior, security, accessibility, responsive layout, persistence, reset confirmation, console output, tests, and syntax checks are verified with no material findings."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.context-identity",
+      "requirementId": "evidence.context-rebind.verify",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "impact-rebound-verification.md"
+    },
+    {
+      "criterionId": "criterion.product-regression",
+      "requirementId": "evidence.product-regression.verify",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "impact-rebound-verification.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}

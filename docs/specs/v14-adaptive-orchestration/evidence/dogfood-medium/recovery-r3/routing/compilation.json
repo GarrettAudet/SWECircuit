@@ -1,0 +1,821 @@
+{
+  "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+  "kind": "RuntimeAssignmentCompilation",
+  "goalId": "v14.dogfood.impact-planner",
+  "goalRevision": 3,
+  "goalDigest": "sha256:ee3e1a99fc2542640deaeccac2bc6b2bd837c9da933144a67828a0adf5ba39b9",
+  "compilationDigest": "sha256:4071f52ea4d8eb81c53265668f2fecbbd8be123918ac860f96bd1ad4059c3828",
+  "packageDigest": "sha256:61645edc1ab11e77742db6b72bfdebee0922cfc9af02ec594a21f32bd6c15780",
+  "policy": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeDemandPolicy",
+    "id": "policy.v14.impact-planner.recovery-r3",
+    "revision": 1,
+    "qualityTiers": [
+      {
+        "id": "quality.low",
+        "rank": 0
+      },
+      {
+        "id": "quality.balanced",
+        "rank": 1
+      },
+      {
+        "id": "quality.frontier",
+        "rank": 2
+      }
+    ],
+    "reasoningTiers": [
+      {
+        "id": "reasoning.medium",
+        "rank": 0
+      },
+      {
+        "id": "reasoning.high",
+        "rank": 1
+      }
+    ],
+    "capabilityRules": [
+      {
+        "capabilityId": "review.impact-planner.rebound",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ]
+      },
+      {
+        "capabilityId": "verify.impact-planner.rebound",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [
+          "skill.browser.control-in-app-browser"
+        ],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ]
+      }
+    ],
+    "evidenceRules": [
+      {
+        "kind": "test",
+        "duty": "produce",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high"
+      },
+      {
+        "kind": "review",
+        "duty": "review",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high"
+      }
+    ],
+    "permissionRules": [
+      {
+        "kind": "filesystem.read",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.process.spawn"
+        ]
+      }
+    ],
+    "observability": {
+      "model": "observed",
+      "effort": "observed",
+      "tools": "observed",
+      "skills": "observed",
+      "isolation": "observed",
+      "permissions": "observed",
+      "workspace": "observed",
+      "context": "observed"
+    },
+    "search": {
+      "exactVectorLimit": 200000,
+      "boundedBeamWidth": 64
+    }
+  },
+  "policyDigest": "sha256:bb2539d369c9565ce38b8cf6726bb7e71771c0353d09bb17610f7e237c48a854",
+  "calibration": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeCalibrationCatalog",
+    "id": "calibration.codex-desktop.impact-planner.recovery-r3",
+    "revision": 1,
+    "assessedBy": "repository-owner-via-standing-release-authorization",
+    "adapterId": "codex-desktop",
+    "adapterRevision": "v14-alpha",
+    "runtimeRows": [
+      {
+        "id": "row.gpt55.high",
+        "profileId": "profile.codex.gpt55",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.gpt55",
+        "independenceDomain": "profile.codex.gpt55",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "review.impact-planner.rebound",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "verify.impact-planner.rebound",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 4,
+        "latencyRank": 4,
+        "evidence": [
+          {
+            "id": "evidence.row.gpt55.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.luna.medium",
+        "profileId": "profile.codex.luna",
+        "effortId": "effort.medium",
+        "effortRank": 1,
+        "runtimeFamily": "profile.codex.luna",
+        "independenceDomain": "profile.codex.luna",
+        "reasoningTier": "reasoning.medium",
+        "capabilities": [
+          {
+            "capabilityId": "review.impact-planner.rebound",
+            "qualityTier": "quality.low"
+          },
+          {
+            "capabilityId": "verify.impact-planner.rebound",
+            "qualityTier": "quality.low"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 0,
+        "latencyRank": 0,
+        "evidence": [
+          {
+            "id": "evidence.row.luna.medium",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.sol",
+        "independenceDomain": "profile.codex.sol",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "review.impact-planner.rebound",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "verify.impact-planner.rebound",
+            "qualityTier": "quality.frontier"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "skills": [
+          "skill.browser.control-in-app-browser"
+        ],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 3,
+        "latencyRank": 3,
+        "evidence": [
+          {
+            "id": "evidence.row.sol.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.terra",
+        "independenceDomain": "profile.codex.terra",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "review.impact-planner.rebound",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "verify.impact-planner.rebound",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 2,
+        "latencyRank": 2,
+        "evidence": [
+          {
+            "id": "evidence.row.terra.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.terra.medium",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.medium",
+        "effortRank": 1,
+        "runtimeFamily": "profile.codex.terra",
+        "independenceDomain": "profile.codex.terra",
+        "reasoningTier": "reasoning.medium",
+        "capabilities": [
+          {
+            "capabilityId": "review.impact-planner.rebound",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "verify.impact-planner.rebound",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 1,
+        "latencyRank": 1,
+        "evidence": [
+          {
+            "id": "evidence.row.terra.medium",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      }
+    ]
+  },
+  "calibrationDigest": "sha256:2aed1ae298fa433073c34d54a4f9ee836277b07ef4a8879beb68f02a5a34119b",
+  "inventory": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "HostCapabilityInventory",
+    "id": "inventory.codex-desktop.impact-planner.recovery-r3",
+    "revision": 1,
+    "hostId": "codex-desktop.windows",
+    "adapterId": "codex-desktop",
+    "adapterRevision": "v14-alpha",
+    "catalogRevision": "multi-agent-tool-schema.2026-07-27",
+    "completeness": "declared_subset",
+    "maxConcurrentAgents": 1,
+    "rows": [
+      {
+        "calibrationRowId": "row.gpt55.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.luna.medium",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.sol.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.terra.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.terra.medium",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      }
+    ]
+  },
+  "inventoryDigest": "sha256:bb5af52387a2f2baea0baab9cb05a52f9d3a098f8a4d176f30ec08a56c5b69b3",
+  "demands": [
+    {
+      "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "blueprintDigest": "sha256:3876140aa8becf234de4edd1569a9064c51f134e285c80b3daa674170fef5761",
+      "requiredCapabilities": [
+        {
+          "capabilityId": "review.impact-planner.rebound",
+          "minimumQualityTier": "quality.frontier"
+        }
+      ],
+      "minimumReasoningTier": "reasoning.high",
+      "contextBytes": 112843,
+      "requiredTools": [
+        "node",
+        "npm.cmd",
+        "rg"
+      ],
+      "requiredSkills": [],
+      "requiredIsolationFeatures": [
+        "isolation.scoped-worktree"
+      ],
+      "requiredPermissionFeatures": [
+        "permission.filesystem.read",
+        "permission.process.spawn"
+      ],
+      "observability": {
+        "model": "observed",
+        "effort": "observed",
+        "tools": "observed",
+        "skills": "observed",
+        "isolation": "observed",
+        "permissions": "observed",
+        "workspace": "observed",
+        "context": "observed"
+      },
+      "producerAgentIds": [
+        "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449"
+      ],
+      "checkerAgentIds": [],
+      "contentDigest": "sha256:12e8e116c56a45e53bc582e44dc7bd2e03ecabbe1016190f7bea6b17a32320c3"
+    },
+    {
+      "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "blueprintDigest": "sha256:44c65782144b62af4c6a44c367195924a65bcc06d7c9256eb13ccaa34e3b0eac",
+      "requiredCapabilities": [
+        {
+          "capabilityId": "verify.impact-planner.rebound",
+          "minimumQualityTier": "quality.frontier"
+        }
+      ],
+      "minimumReasoningTier": "reasoning.high",
+      "contextBytes": 112843,
+      "requiredTools": [
+        "node",
+        "npm.cmd",
+        "rg"
+      ],
+      "requiredSkills": [
+        "skill.browser.control-in-app-browser"
+      ],
+      "requiredIsolationFeatures": [
+        "isolation.scoped-worktree"
+      ],
+      "requiredPermissionFeatures": [
+        "permission.filesystem.read",
+        "permission.process.spawn"
+      ],
+      "observability": {
+        "model": "observed",
+        "effort": "observed",
+        "tools": "observed",
+        "skills": "observed",
+        "isolation": "observed",
+        "permissions": "observed",
+        "workspace": "observed",
+        "context": "observed"
+      },
+      "producerAgentIds": [],
+      "checkerAgentIds": [
+        "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15"
+      ],
+      "contentDigest": "sha256:4a4033c580a0a2d2111411177fbf8139c4db9f9da365c850a9bc49e032177568"
+    }
+  ],
+  "evaluations": [
+    {
+      "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "calibrationRowId": "row.gpt55.high",
+      "profileId": "profile.codex.gpt55",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 4,
+        "latencyRank": 4,
+        "qualityExcess": 0,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 1887157,
+        "toolExcess": 0,
+        "skillExcess": 0,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.gpt55\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:916c545c9614d2899c1ea3cb989f642160ab196c8e21d30bc194e9110d1761ef"
+    },
+    {
+      "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "calibrationRowId": "row.luna.medium",
+      "profileId": "profile.codex.luna",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "reasoning_tier",
+        "required_tool"
+      ],
+      "unmetRequirementIds": [
+        "capability:review.impact-planner.rebound",
+        "reasoning:reasoning.high",
+        "tool:npm.cmd"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:679977bae11b6d55e68b7b159e3f8c25f371574c9b64632510b2944a2b92c7b5"
+    },
+    {
+      "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "calibrationRowId": "row.sol.high",
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 3,
+        "latencyRank": 3,
+        "qualityExcess": 0,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 1887157,
+        "toolExcess": 0,
+        "skillExcess": 1,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:8fb8d5bbd58e0fb0a6d7decfc5b8b835be936dcff6a4c78e66b53c5efbf2090b"
+    },
+    {
+      "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "calibrationRowId": "row.terra.high",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier"
+      ],
+      "unmetRequirementIds": [
+        "capability:review.impact-planner.rebound"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:e2b466a32cf0a95c534d0348e1799dfef6ad6f96e5346be9557cdd4361c1addd"
+    },
+    {
+      "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "calibrationRowId": "row.terra.medium",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "reasoning_tier",
+        "required_tool"
+      ],
+      "unmetRequirementIds": [
+        "capability:review.impact-planner.rebound",
+        "reasoning:reasoning.high",
+        "tool:npm.cmd"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:8c64783ea9dc91dcf12f1eb5c55e3cc276d2a3d9a04b370eb4a419ce333644b6"
+    },
+    {
+      "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "calibrationRowId": "row.gpt55.high",
+      "profileId": "profile.codex.gpt55",
+      "effortId": "effort.high",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "required_skill"
+      ],
+      "unmetRequirementIds": [
+        "capability:verify.impact-planner.rebound",
+        "skill:skill.browser.control-in-app-browser"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:1ed55a1954c39a1745e8bfff896ef66c965d36950a07060ecb0d3b8309894c5d"
+    },
+    {
+      "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "calibrationRowId": "row.luna.medium",
+      "profileId": "profile.codex.luna",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "reasoning_tier",
+        "required_tool",
+        "required_skill"
+      ],
+      "unmetRequirementIds": [
+        "capability:verify.impact-planner.rebound",
+        "reasoning:reasoning.high",
+        "tool:npm.cmd",
+        "skill:skill.browser.control-in-app-browser"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:b9da53051a976d2c13131da76d55cc9522698b40ff6872510521faef40608604"
+    },
+    {
+      "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "calibrationRowId": "row.sol.high",
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 3,
+        "latencyRank": 3,
+        "qualityExcess": 0,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 1887157,
+        "toolExcess": 0,
+        "skillExcess": 0,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:99d117356022e6397091e72deead4ee4b61e50eba3bac2f5ec4dc359a550edba"
+    },
+    {
+      "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "calibrationRowId": "row.terra.high",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "required_skill"
+      ],
+      "unmetRequirementIds": [
+        "capability:verify.impact-planner.rebound",
+        "skill:skill.browser.control-in-app-browser"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:0cd2743c5150eeec06352166c992a5b866d72fde10477dc0b700413c1989d474"
+    },
+    {
+      "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "calibrationRowId": "row.terra.medium",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "reasoning_tier",
+        "required_tool",
+        "required_skill"
+      ],
+      "unmetRequirementIds": [
+        "capability:verify.impact-planner.rebound",
+        "reasoning:reasoning.high",
+        "tool:npm.cmd",
+        "skill:skill.browser.control-in-app-browser"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:4089b392fce990583a0afa86bf5600a07ddb47d6d611218684eec45245b2371b"
+    }
+  ],
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_assignment_vector_search",
+    "potentialVectors": 2,
+    "evaluatedVectors": 2,
+    "feasibleVectors": 1,
+    "contentDigest": "sha256:0e6bffe17e81a9cb0ccf331aa15ac401e0d5aa308b0ab4100cc07037554606cc"
+  },
+  "selected": {
+    "rows": [
+      {
+        "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+        "blueprintDigest": "sha256:3876140aa8becf234de4edd1569a9064c51f134e285c80b3daa674170fef5761",
+        "calibrationRowId": "row.gpt55.high",
+        "profileId": "profile.codex.gpt55",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.gpt55",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        }
+      },
+      {
+        "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+        "blueprintDigest": "sha256:44c65782144b62af4c6a44c367195924a65bcc06d7c9256eb13ccaa34e3b0eac",
+        "calibrationRowId": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.sol",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [
+          "skill.browser.control-in-app-browser"
+        ],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        }
+      }
+    ],
+    "comparator": {
+      "totalCostRank": 7,
+      "maximumLatencyRank": 4,
+      "totalLatencyRank": 7,
+      "totalQualityExcess": 0,
+      "totalReasoningExcess": 0,
+      "totalContextExcessBytes": 3774314,
+      "totalToolExcess": 0,
+      "totalSkillExcess": 0,
+      "totalEffortRank": 4,
+      "canonicalIdentity": "[\"agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15=profile.codex.gpt55/effort.high\",\"agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449=profile.codex.sol/effort.high\"]"
+    },
+    "selectionReason": "lowest_exact_vector",
+    "contentDigest": "sha256:33c7c4af3bd7744afb93ab29ed669df53a95fb2406a6e5896153de4d5e034619"
+  },
+  "predecessorAssignmentDigest": null,
+  "override": null,
+  "contentDigest": "sha256:fbec6c8ec5102daf0cf0ce55c11b9c986fa3e7bd2ef26b927e86543d1628c54d"
+}

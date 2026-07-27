@@ -1,0 +1,125 @@
+{
+  "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136": {
+    "agentContractPath": "agents/agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136.md",
+    "agentContractDigest": "sha256:f839570fd09cbd430efe62cb2ff65f49e493388c2d2b0850e880472930fee076",
+    "agentContractBytes": 12819,
+    "contextSources": [
+      {
+        "sourceId": "context.agent-contract",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+        "bytes": 18686,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.app-contract",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+        "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+        "bytes": 5191,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.app-source",
+        "locator": "path:examples/impact-planner/src/app.js",
+        "digest": "sha256:d223d0e29c3a84eeb79dc600e5df4cabccd184db0f50193237ca84a1f565327e",
+        "bytes": 14039,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.integration-tests",
+        "locator": "path:examples/impact-planner/test/integration.test.mjs",
+        "digest": "sha256:aeef0c8a26f9ab6c87f41848bc84f369e1047e4ac1d502c20d1984b2802856e9",
+        "bytes": 4266,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.interface-tests",
+        "locator": "path:examples/impact-planner/test/interface.test.mjs",
+        "digest": "sha256:f1214d4792a64d06cb3c8f4d61689afc7ac64911906bfa9009fb759cbb457639",
+        "bytes": 1659,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.predecessor",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+        "digest": "sha256:a4ab00c2113c95fd0f0f2f76bb27ccfa86a633e13bdd3ad67f4cf0ca1e42df1b",
+        "bytes": 1188,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.recovery-goal",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+        "digest": "sha256:f9e408e61368186342656cbb1956ba05b7b337953027306245f15c8d34b35818",
+        "bytes": 1450,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.review-finding",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+        "digest": "sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c",
+        "bytes": 5668,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.styles",
+        "locator": "path:examples/impact-planner/styles.css",
+        "digest": "sha256:91977a2fdaaabe76c0fb6c7fd55ec9ddd8373318b1f443e648809d8d74587a5d",
+        "bytes": 8111,
+        "delivery": "authorized_filesystem_read"
+      }
+    ],
+    "profileId": "profile.codex.terra",
+    "effortId": "effort.high",
+    "tools": [
+      "node",
+      "npm.cmd",
+      "rg"
+    ],
+    "skills": [],
+    "isolationFeatures": [
+      "isolation.scoped-worktree"
+    ],
+    "permissions": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "AGENTS.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+          "examples/impact-planner/src/app.js",
+          "examples/impact-planner/styles.css",
+          "examples/impact-planner/test/integration.test.mjs",
+          "examples/impact-planner/test/interface.test.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "examples/impact-planner/src/app.js",
+          "examples/impact-planner/test/integration.test.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ]
+      }
+    ],
+    "observability": {
+      "model": "observed",
+      "effort": "observed",
+      "tools": "observed",
+      "skills": "observed",
+      "isolation": "observed",
+      "permissions": "observed",
+      "workspace": "observed",
+      "context": "observed"
+    },
+    "contentDigest": "sha256:37f3f067f3e98c890282dda8d17f58163ae2a09c937e028b17c1cbd45c4fb941"
+  }
+}

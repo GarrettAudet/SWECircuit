@@ -1,0 +1,3765 @@
+{
+  "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+  "kind": "CompileRuntimeAssignmentsRequest",
+  "compilation": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "AgentBlueprintCompilation",
+    "goal": {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "GoalContract",
+      "id": "v14.dogfood.impact-planner",
+      "revision": 1,
+      "objective": "Build, integrate, and independently review the medium offline Impact Planner through dependency-safe native Codex Desktop specialists.",
+      "integrationOwner": "codex.main",
+      "assumptions": [
+        {
+          "id": "assumption.host-skill",
+          "statement": "The Codex Desktop host can deliver the installed in-app browser skill to the integration agent.",
+          "rationale": "The current host exposes skill items and the browser skill is installed."
+        },
+        {
+          "id": "assumption.owner-boundary",
+          "statement": "The main IDE agent remains the sole release and memory owner after independent review.",
+          "rationale": "Native specialists have bounded implementation or read-only review authority."
+        },
+        {
+          "id": "assumption.product-choice",
+          "statement": "Impact Planner is the medium task selected to exercise graph semantics, safe data exchange, interface work, dependency fan-in, and independent review.",
+          "rationale": "Its modules are independently implementable but require a real dependency-bound integration wave."
+        }
+      ],
+      "unresolvedDecisions": [],
+      "acceptanceCriteria": [
+        {
+          "id": "criterion.codec",
+          "description": "Versioned import, export, and persistence reject unsafe input and preserve valid state.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.codec.produce",
+              "kind": "test",
+              "duty": "produce",
+              "description": "Produce codec and storage modules with adversarial tests.",
+              "independentFromProducer": false
+            },
+            {
+              "id": "evidence.codec.review",
+              "kind": "review",
+              "duty": "review",
+              "description": "Independently review structural validation, byte limits, unsafe keys, and storage failure handling.",
+              "independentFromProducer": true
+            }
+          ]
+        },
+        {
+          "id": "criterion.graph",
+          "description": "Graph validation and impact analysis are immutable, deterministic, cycle-safe, and completely tested.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.graph.produce",
+              "kind": "test",
+              "duty": "produce",
+              "description": "Produce the graph module and passing deterministic Node tests.",
+              "independentFromProducer": false
+            },
+            {
+              "id": "evidence.graph.review",
+              "kind": "review",
+              "duty": "review",
+              "description": "Independently review graph correctness, determinism, edge cases, and tests.",
+              "independentFromProducer": true
+            }
+          ]
+        },
+        {
+          "id": "criterion.integration",
+          "description": "Verified producer outputs integrate into one offline application with browser-observable acceptance behavior.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.integration.produce",
+              "kind": "test",
+              "duty": "produce",
+              "description": "Integrate all producer modules and provide passing integration and server tests plus browser observations.",
+              "independentFromProducer": false
+            },
+            {
+              "id": "evidence.integration.review",
+              "kind": "review",
+              "duty": "review",
+              "description": "Independently review the complete application, test evidence, host boundary, and acceptance alignment.",
+              "independentFromProducer": true
+            }
+          ]
+        },
+        {
+          "id": "criterion.interface",
+          "description": "The static interface and view projection are semantic, keyboard-operable, responsive, and integration-ready.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.interface.produce",
+              "kind": "test",
+              "duty": "produce",
+              "description": "Produce the complete interface, view projection, and static contract tests.",
+              "independentFromProducer": false
+            },
+            {
+              "id": "evidence.interface.review",
+              "kind": "review",
+              "duty": "review",
+              "description": "Independently review accessibility, responsive constraints, integration hooks, and rendering behavior.",
+              "independentFromProducer": true
+            }
+          ]
+        }
+      ],
+      "contextSources": [
+        {
+          "id": "context.agent-contract",
+          "kind": "repository",
+          "locator": "path:AGENTS.md",
+          "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+          "bytes": 18686,
+          "description": "Repository workflow, authority, verification, and memory invariants.",
+          "allowedWorkUnits": [
+            "implement.impact-codec-storage",
+            "implement.impact-graph",
+            "implement.impact-interface",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "AGENTS.md"
+        },
+        {
+          "id": "context.app-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+          "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+          "bytes": 5191,
+          "description": "Closed graph, codec, interface, integration, and handoff contract.",
+          "allowedWorkUnits": [
+            "implement.impact-codec-storage",
+            "implement.impact-graph",
+            "implement.impact-interface",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+        },
+        {
+          "id": "context.app-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/src/app.js",
+          "digest": "sha256:aa57eafe2939a90b88e052f0dd33a900a0e30efb3aa4dc41678a92d736968ab8",
+          "bytes": 8835,
+          "description": "Current local state and event-integration pattern.",
+          "allowedWorkUnits": [
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/src/app.js"
+        },
+        {
+          "id": "context.codec-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/src/storage.js",
+          "digest": "sha256:336387b9336e285f6c0c30dec135f8fcc2123551ad88658197a51b71c91123bc",
+          "bytes": 879,
+          "description": "Current fail-safe local serialization pattern.",
+          "allowedWorkUnits": [
+            "implement.impact-codec-storage",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/src/storage.js"
+        },
+        {
+          "id": "context.codec-test-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/test/storage.test.mjs",
+          "digest": "sha256:55e112505cc659bfcca0c2ef16e1a6d152edb2034097e664d45940164cbb3d3b",
+          "bytes": 1445,
+          "description": "Current storage test pattern.",
+          "allowedWorkUnits": [
+            "implement.impact-codec-storage",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/test/storage.test.mjs"
+        },
+        {
+          "id": "context.domain-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/src/model.js",
+          "digest": "sha256:f46bfb3b973ec0e0bac324fbdf6d6ada07666c45be111d81a90d97dfa26b1196",
+          "bytes": 4621,
+          "description": "Current immutable dependency-free domain pattern.",
+          "allowedWorkUnits": [
+            "implement.impact-graph",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/src/model.js"
+        },
+        {
+          "id": "context.domain-test-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/test/model.test.mjs",
+          "digest": "sha256:541603f0aee9fd721b1b4bb69c55b661245bb3c744c42963dbd3f014d664b3f6",
+          "bytes": 3529,
+          "description": "Current deterministic Node domain-test pattern.",
+          "allowedWorkUnits": [
+            "implement.impact-graph",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/test/model.test.mjs"
+        },
+        {
+          "id": "context.goal",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+          "digest": "sha256:b743d3a9730558f644e0469eb696c9ecda64cabbb9305c9dc9d58ee817f736f0",
+          "bytes": 3209,
+          "description": "Closed medium-dogfood product goal and acceptance criteria.",
+          "allowedWorkUnits": [
+            "implement.impact-codec-storage",
+            "implement.impact-graph",
+            "implement.impact-interface",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md"
+        },
+        {
+          "id": "context.integration-test-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/test/integration.test.mjs",
+          "digest": "sha256:7ab311070e33237d6b014d88f7bbcb8a74bacf66b962f12a7c975f30d1e047e0",
+          "bytes": 2502,
+          "description": "Current static-shell and server integration-test pattern.",
+          "allowedWorkUnits": [
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/test/integration.test.mjs"
+        },
+        {
+          "id": "context.interface-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/index.html",
+          "digest": "sha256:9f77c3eaddae6f76b88d44f72a4f6700778d1ab107f94a5c09718e1dc6c697b4",
+          "bytes": 6150,
+          "description": "Current semantic static application shell.",
+          "allowedWorkUnits": [
+            "implement.impact-interface",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/index.html"
+        },
+        {
+          "id": "context.server-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/server.mjs",
+          "digest": "sha256:8290ac09821974a595117e911fd4aadcdc3e38ad8e97909c65b807d6505088f9",
+          "bytes": 3269,
+          "description": "Current local server and closed-network CSP pattern.",
+          "allowedWorkUnits": [
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/server.mjs"
+        },
+        {
+          "id": "context.style-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/styles.css",
+          "digest": "sha256:34d389557986ae708bc9b90521b812822ce0e1901a8aa6828bb572a2bb3fd8ac",
+          "bytes": 9567,
+          "description": "Current responsive operational interface styling.",
+          "allowedWorkUnits": [
+            "implement.impact-interface",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/styles.css"
+        }
+      ],
+      "authority": {
+        "allowedModules": [
+          "implement.impact-codec-storage",
+          "implement.impact-graph",
+          "implement.impact-interface",
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "allowedCapabilities": [
+          "implement.accessible-impact-interface",
+          "implement.impact-graph",
+          "implement.safe-workspace-codec",
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ],
+        "permissionCeiling": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/impact-planner/README.md",
+              "examples/impact-planner/index.html",
+              "examples/impact-planner/package.json",
+              "examples/impact-planner/server.mjs",
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/src/codec.js",
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/src/storage.js",
+              "examples/impact-planner/src/ui-policy.js",
+              "examples/impact-planner/src/view.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/codec.test.mjs",
+              "examples/impact-planner/test/graph.test.mjs",
+              "examples/impact-planner/test/integration.test.mjs",
+              "examples/impact-planner/test/interface.test.mjs",
+              "examples/impact-planner/test/server.test.mjs",
+              "examples/impact-planner/test/storage.test.mjs",
+              "examples/release-board/index.html",
+              "examples/release-board/server.mjs",
+              "examples/release-board/src/app.js",
+              "examples/release-board/src/model.js",
+              "examples/release-board/src/storage.js",
+              "examples/release-board/styles.css",
+              "examples/release-board/test/integration.test.mjs",
+              "examples/release-board/test/model.test.mjs",
+              "examples/release-board/test/storage.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "examples/impact-planner/README.md",
+              "examples/impact-planner/index.html",
+              "examples/impact-planner/package.json",
+              "examples/impact-planner/server.mjs",
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/src/codec.js",
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/src/storage.js",
+              "examples/impact-planner/src/ui-policy.js",
+              "examples/impact-planner/src/view.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/codec.test.mjs",
+              "examples/impact-planner/test/graph.test.mjs",
+              "examples/impact-planner/test/integration.test.mjs",
+              "examples/impact-planner/test/interface.test.mjs",
+              "examples/impact-planner/test/server.test.mjs",
+              "examples/impact-planner/test/storage.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access the network, secrets, external services, or undeclared repository paths.",
+          "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory.",
+          "Do not widen a dependency, permission, runtime, skill, or evidence contract after approval."
+        ],
+        "maxAgents": 5,
+        "maxConcurrency": 3
+      },
+      "optimization": {
+        "agentStartupCost": 1,
+        "handoffCost": 1
+      },
+      "workUnits": [
+        {
+          "id": "implement.impact-codec-storage",
+          "objective": "Implement safe versioned workspace import, deterministic export, persistence, and adversarial tests.",
+          "weight": 6,
+          "module": {
+            "id": "implement.impact-codec-storage",
+            "action": "Implement exact structural validation, byte and count limits, unsafe-key rejection, deterministic JSON, fail-safe storage, and tests.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ImpactPlannerContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "handoff",
+                "artifactType": "impact-codec-handoff.md"
+              }
+            ]
+          },
+          "dependencies": [],
+          "requiredCapabilities": [
+            "implement.safe-workspace-codec"
+          ],
+          "contextUses": [
+            {
+              "sourceId": "context.agent-contract",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.app-contract",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.codec-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.codec-test-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.goal",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            }
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/release-board/src/storage.js",
+              "examples/release-board/test/storage.test.mjs"
+            ],
+            "write": [
+              "examples/impact-planner/src/codec.js",
+              "examples/impact-planner/src/storage.js",
+              "examples/impact-planner/test/codec.test.mjs",
+              "examples/impact-planner/test/storage.test.mjs"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+                "examples/release-board/src/storage.js",
+                "examples/release-board/test/storage.test.mjs"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/impact-planner/src/codec.js",
+                "examples/impact-planner/src/storage.js",
+                "examples/impact-planner/test/codec.test.mjs",
+                "examples/impact-planner/test/storage.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node"
+              ]
+            }
+          ],
+          "evidenceRequirementIds": [
+            "evidence.codec.produce"
+          ],
+          "handoffArtifacts": [
+            "impact-codec-handoff.md"
+          ],
+          "stopConditions": [
+            "A dependent unit must not start until every required handoff verifies and assesses integration-ready.",
+            "Do not install dependencies, access the network or secrets, mutate Git, merge, or update memory.",
+            "Do not modify files outside the declared write scope.",
+            "Return a non-pass outcome when required evidence cannot be produced.",
+            "Stop if the closed product goal conflicts with the application contract."
+          ]
+        },
+        {
+          "id": "implement.impact-graph",
+          "objective": "Implement deterministic graph validation, immutable component transitions, transitive impact paths, and risk analysis.",
+          "weight": 8,
+          "module": {
+            "id": "implement.impact-graph",
+            "action": "Implement the exact graph contract, cycle diagnostics, lexicographic shortest paths, risk formula, and exhaustive deterministic tests.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ImpactPlannerContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "handoff",
+                "artifactType": "impact-graph-handoff.md"
+              }
+            ]
+          },
+          "dependencies": [],
+          "requiredCapabilities": [
+            "implement.impact-graph"
+          ],
+          "contextUses": [
+            {
+              "sourceId": "context.agent-contract",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.app-contract",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.domain-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.domain-test-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.goal",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            }
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/release-board/src/model.js",
+              "examples/release-board/test/model.test.mjs"
+            ],
+            "write": [
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/test/graph.test.mjs"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+                "examples/release-board/src/model.js",
+                "examples/release-board/test/model.test.mjs"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/impact-planner/src/graph.js",
+                "examples/impact-planner/test/graph.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node"
+              ]
+            }
+          ],
+          "evidenceRequirementIds": [
+            "evidence.graph.produce"
+          ],
+          "handoffArtifacts": [
+            "impact-graph-handoff.md"
+          ],
+          "stopConditions": [
+            "A dependent unit must not start until every required handoff verifies and assesses integration-ready.",
+            "Do not install dependencies, access the network or secrets, mutate Git, merge, or update memory.",
+            "Do not modify files outside the declared write scope.",
+            "Return a non-pass outcome when required evidence cannot be produced.",
+            "Stop if the closed product goal conflicts with the application contract."
+          ]
+        },
+        {
+          "id": "implement.impact-interface",
+          "objective": "Implement the complete semantic Impact Planner shell, responsive styling, DOM projection helpers, and static tests.",
+          "weight": 6,
+          "module": {
+            "id": "implement.impact-interface",
+            "action": "Implement every stable integration hook and render function while preserving keyboard, focus, error, responsive, and reduced-motion requirements.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ImpactPlannerContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "handoff",
+                "artifactType": "impact-interface-handoff.md"
+              }
+            ]
+          },
+          "dependencies": [],
+          "requiredCapabilities": [
+            "implement.accessible-impact-interface"
+          ],
+          "contextUses": [
+            {
+              "sourceId": "context.agent-contract",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.app-contract",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.goal",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.interface-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.style-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            }
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/release-board/index.html",
+              "examples/release-board/styles.css"
+            ],
+            "write": [
+              "examples/impact-planner/index.html",
+              "examples/impact-planner/src/view.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/interface.test.mjs"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+                "examples/release-board/index.html",
+                "examples/release-board/styles.css"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/impact-planner/index.html",
+                "examples/impact-planner/src/view.js",
+                "examples/impact-planner/styles.css",
+                "examples/impact-planner/test/interface.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node"
+              ]
+            }
+          ],
+          "evidenceRequirementIds": [
+            "evidence.interface.produce"
+          ],
+          "handoffArtifacts": [
+            "impact-interface-handoff.md"
+          ],
+          "stopConditions": [
+            "A dependent unit must not start until every required handoff verifies and assesses integration-ready.",
+            "Do not install dependencies, access the network or secrets, mutate Git, merge, or update memory.",
+            "Do not modify files outside the declared write scope.",
+            "Return a non-pass outcome when required evidence cannot be produced.",
+            "Stop if the closed product goal conflicts with the application contract."
+          ]
+        },
+        {
+          "id": "integrate.impact-planner",
+          "objective": "Integrate the three verified producer modules into the complete offline application and observe its primary browser workflow.",
+          "weight": 7,
+          "module": {
+            "id": "integrate.impact-planner",
+            "action": "Consume exact verified dependency handoffs, wire state and events, implement the local server and integration tests, then use the delivered browser skill for a bounded smoke observation.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ImpactPlannerContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "handoff",
+                "artifactType": "impact-integration-handoff.md"
+              }
+            ]
+          },
+          "dependencies": [
+            "implement.impact-codec-storage",
+            "implement.impact-graph",
+            "implement.impact-interface"
+          ],
+          "requiredCapabilities": [
+            "integrate.impact-planner"
+          ],
+          "contextUses": [
+            {
+              "sourceId": "context.agent-contract",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.app-contract",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.app-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.goal",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.integration-test-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.server-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            }
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/impact-planner/index.html",
+              "examples/impact-planner/src/codec.js",
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/src/storage.js",
+              "examples/impact-planner/src/view.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/codec.test.mjs",
+              "examples/impact-planner/test/graph.test.mjs",
+              "examples/impact-planner/test/interface.test.mjs",
+              "examples/impact-planner/test/storage.test.mjs",
+              "examples/release-board/server.mjs",
+              "examples/release-board/src/app.js",
+              "examples/release-board/test/integration.test.mjs"
+            ],
+            "write": [
+              "examples/impact-planner/README.md",
+              "examples/impact-planner/package.json",
+              "examples/impact-planner/server.mjs",
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/src/ui-policy.js",
+              "examples/impact-planner/test/integration.test.mjs",
+              "examples/impact-planner/test/server.test.mjs"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+                "examples/impact-planner/index.html",
+                "examples/impact-planner/src/codec.js",
+                "examples/impact-planner/src/graph.js",
+                "examples/impact-planner/src/storage.js",
+                "examples/impact-planner/src/view.js",
+                "examples/impact-planner/styles.css",
+                "examples/impact-planner/test/codec.test.mjs",
+                "examples/impact-planner/test/graph.test.mjs",
+                "examples/impact-planner/test/interface.test.mjs",
+                "examples/impact-planner/test/storage.test.mjs",
+                "examples/release-board/server.mjs",
+                "examples/release-board/src/app.js",
+                "examples/release-board/test/integration.test.mjs"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/impact-planner/README.md",
+                "examples/impact-planner/package.json",
+                "examples/impact-planner/server.mjs",
+                "examples/impact-planner/src/app.js",
+                "examples/impact-planner/src/ui-policy.js",
+                "examples/impact-planner/test/integration.test.mjs",
+                "examples/impact-planner/test/server.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node",
+                "npm.cmd",
+                "rg"
+              ]
+            }
+          ],
+          "evidenceRequirementIds": [
+            "evidence.integration.produce"
+          ],
+          "handoffArtifacts": [
+            "impact-integration-handoff.md"
+          ],
+          "stopConditions": [
+            "A dependent unit must not start until every required handoff verifies and assesses integration-ready.",
+            "Do not install dependencies, access the network or secrets, mutate Git, merge, or update memory.",
+            "Do not modify files outside the declared write scope.",
+            "Return a non-pass outcome when required evidence cannot be produced.",
+            "Stop if the closed product goal conflicts with the application contract.",
+            "Stop if the host cannot deliver required skills: skill.browser.control-in-app-browser."
+          ]
+        },
+        {
+          "id": "review.impact-planner",
+          "objective": "Independently review the exact integrated Impact Planner and all producer evidence without editing it.",
+          "weight": 4,
+          "module": {
+            "id": "review.impact-planner",
+            "action": "Run the complete suite and inspect graph, codec, storage, accessibility, browser, security, integration, and evidence behavior; report findings first.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ImpactPlannerContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "handoff",
+                "artifactType": "impact-planner-review.md"
+              }
+            ]
+          },
+          "dependencies": [
+            "integrate.impact-planner"
+          ],
+          "requiredCapabilities": [
+            "review.impact-planner"
+          ],
+          "contextUses": [
+            {
+              "sourceId": "context.agent-contract",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.app-contract",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.app-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.codec-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.codec-test-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.domain-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.domain-test-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.goal",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.integration-test-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.interface-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.server-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            },
+            {
+              "sourceId": "context.style-pattern",
+              "purpose": "Produce, integrate, or independently review the closed Impact Planner module."
+            }
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/impact-planner/README.md",
+              "examples/impact-planner/index.html",
+              "examples/impact-planner/package.json",
+              "examples/impact-planner/server.mjs",
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/src/codec.js",
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/src/storage.js",
+              "examples/impact-planner/src/ui-policy.js",
+              "examples/impact-planner/src/view.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/codec.test.mjs",
+              "examples/impact-planner/test/graph.test.mjs",
+              "examples/impact-planner/test/integration.test.mjs",
+              "examples/impact-planner/test/interface.test.mjs",
+              "examples/impact-planner/test/server.test.mjs",
+              "examples/impact-planner/test/storage.test.mjs",
+              "examples/release-board/index.html",
+              "examples/release-board/server.mjs",
+              "examples/release-board/src/app.js",
+              "examples/release-board/src/model.js",
+              "examples/release-board/src/storage.js",
+              "examples/release-board/styles.css",
+              "examples/release-board/test/integration.test.mjs",
+              "examples/release-board/test/model.test.mjs",
+              "examples/release-board/test/storage.test.mjs"
+            ],
+            "write": [],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+                "examples/impact-planner/README.md",
+                "examples/impact-planner/index.html",
+                "examples/impact-planner/package.json",
+                "examples/impact-planner/server.mjs",
+                "examples/impact-planner/src/app.js",
+                "examples/impact-planner/src/codec.js",
+                "examples/impact-planner/src/graph.js",
+                "examples/impact-planner/src/storage.js",
+                "examples/impact-planner/src/ui-policy.js",
+                "examples/impact-planner/src/view.js",
+                "examples/impact-planner/styles.css",
+                "examples/impact-planner/test/codec.test.mjs",
+                "examples/impact-planner/test/graph.test.mjs",
+                "examples/impact-planner/test/integration.test.mjs",
+                "examples/impact-planner/test/interface.test.mjs",
+                "examples/impact-planner/test/server.test.mjs",
+                "examples/impact-planner/test/storage.test.mjs",
+                "examples/release-board/index.html",
+                "examples/release-board/server.mjs",
+                "examples/release-board/src/app.js",
+                "examples/release-board/src/model.js",
+                "examples/release-board/src/storage.js",
+                "examples/release-board/styles.css",
+                "examples/release-board/test/integration.test.mjs",
+                "examples/release-board/test/model.test.mjs",
+                "examples/release-board/test/storage.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node",
+                "npm.cmd",
+                "rg"
+              ]
+            }
+          ],
+          "evidenceRequirementIds": [
+            "evidence.codec.review",
+            "evidence.graph.review",
+            "evidence.integration.review",
+            "evidence.interface.review"
+          ],
+          "handoffArtifacts": [
+            "impact-planner-review.md"
+          ],
+          "stopConditions": [
+            "A dependent unit must not start until every required handoff verifies and assesses integration-ready.",
+            "Do not install dependencies, access the network or secrets, mutate Git, merge, or update memory.",
+            "Do not modify files outside the declared write scope.",
+            "Return a non-pass outcome when required evidence cannot be produced.",
+            "Stop if the closed product goal conflicts with the application contract."
+          ]
+        }
+      ]
+    },
+    "goalDigest": "sha256:adf1218aaef8c78c4104719b2b6bd15473309e3586f8f360809255679501a35b",
+    "proposedCandidates": [
+      {
+        "id": "candidate.impact-planner.parallel-roots-integration-review",
+        "groups": [
+          [
+            "implement.impact-codec-storage"
+          ],
+          [
+            "implement.impact-graph"
+          ],
+          [
+            "implement.impact-interface"
+          ],
+          [
+            "integrate.impact-planner"
+          ],
+          [
+            "review.impact-planner"
+          ]
+        ]
+      }
+    ],
+    "proposalEvaluations": [
+      {
+        "id": "team.ab364ab84deeff1ac9bc988bfeac517d1424b37a15be1aa865a7ad7a50bd9b03",
+        "partition": [
+          [
+            "implement.impact-codec-storage"
+          ],
+          [
+            "implement.impact-graph"
+          ],
+          [
+            "implement.impact-interface"
+          ],
+          [
+            "integrate.impact-planner"
+          ],
+          [
+            "review.impact-planner"
+          ]
+        ],
+        "origins": [
+          "exact_search",
+          "proposed"
+        ],
+        "proposalIds": [
+          "candidate.impact-planner.parallel-roots-integration-review"
+        ],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 5,
+          "projectedMakespan": 24,
+          "peakConcurrency": 3,
+          "conflictPairs": 7,
+          "handoffCount": 4,
+          "duplicatedContextBytes": 149141,
+          "duplicatedPermissionScopes": 37,
+          "totalWorkWeight": 31,
+          "totalStartupCost": 5,
+          "totalHandoffCost": 4
+        },
+        "schedule": [
+          {
+            "agentId": "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+            "start": 0,
+            "finish": 7
+          },
+          {
+            "agentId": "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+            "start": 0,
+            "finish": 7
+          },
+          {
+            "agentId": "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5",
+            "start": 0,
+            "finish": 9
+          },
+          {
+            "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+            "start": 10,
+            "finish": 18
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "start": 19,
+            "finish": 24
+          }
+        ],
+        "contentDigest": "sha256:a1dc6811c5735e4ffd5a89733e21ed9c01fbf6454178a2a763da69ecd9c29866"
+      }
+    ],
+    "authority": {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "TaskAuthorityProjection",
+      "goalId": "v14.dogfood.impact-planner",
+      "goalRevision": 1,
+      "allowedModules": [
+        "implement.impact-codec-storage",
+        "implement.impact-graph",
+        "implement.impact-interface",
+        "integrate.impact-planner",
+        "review.impact-planner"
+      ],
+      "allowedCapabilities": [
+        "implement.accessible-impact-interface",
+        "implement.impact-graph",
+        "implement.safe-workspace-codec",
+        "integrate.impact-planner",
+        "review.impact-planner"
+      ],
+      "contextSources": [
+        {
+          "id": "context.agent-contract",
+          "kind": "repository",
+          "locator": "path:AGENTS.md",
+          "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+          "bytes": 18686,
+          "description": "Repository workflow, authority, verification, and memory invariants.",
+          "allowedWorkUnits": [
+            "implement.impact-codec-storage",
+            "implement.impact-graph",
+            "implement.impact-interface",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "AGENTS.md"
+        },
+        {
+          "id": "context.app-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+          "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+          "bytes": 5191,
+          "description": "Closed graph, codec, interface, integration, and handoff contract.",
+          "allowedWorkUnits": [
+            "implement.impact-codec-storage",
+            "implement.impact-graph",
+            "implement.impact-interface",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+        },
+        {
+          "id": "context.app-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/src/app.js",
+          "digest": "sha256:aa57eafe2939a90b88e052f0dd33a900a0e30efb3aa4dc41678a92d736968ab8",
+          "bytes": 8835,
+          "description": "Current local state and event-integration pattern.",
+          "allowedWorkUnits": [
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/src/app.js"
+        },
+        {
+          "id": "context.codec-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/src/storage.js",
+          "digest": "sha256:336387b9336e285f6c0c30dec135f8fcc2123551ad88658197a51b71c91123bc",
+          "bytes": 879,
+          "description": "Current fail-safe local serialization pattern.",
+          "allowedWorkUnits": [
+            "implement.impact-codec-storage",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/src/storage.js"
+        },
+        {
+          "id": "context.codec-test-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/test/storage.test.mjs",
+          "digest": "sha256:55e112505cc659bfcca0c2ef16e1a6d152edb2034097e664d45940164cbb3d3b",
+          "bytes": 1445,
+          "description": "Current storage test pattern.",
+          "allowedWorkUnits": [
+            "implement.impact-codec-storage",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/test/storage.test.mjs"
+        },
+        {
+          "id": "context.domain-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/src/model.js",
+          "digest": "sha256:f46bfb3b973ec0e0bac324fbdf6d6ada07666c45be111d81a90d97dfa26b1196",
+          "bytes": 4621,
+          "description": "Current immutable dependency-free domain pattern.",
+          "allowedWorkUnits": [
+            "implement.impact-graph",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/src/model.js"
+        },
+        {
+          "id": "context.domain-test-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/test/model.test.mjs",
+          "digest": "sha256:541603f0aee9fd721b1b4bb69c55b661245bb3c744c42963dbd3f014d664b3f6",
+          "bytes": 3529,
+          "description": "Current deterministic Node domain-test pattern.",
+          "allowedWorkUnits": [
+            "implement.impact-graph",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/test/model.test.mjs"
+        },
+        {
+          "id": "context.goal",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+          "digest": "sha256:b743d3a9730558f644e0469eb696c9ecda64cabbb9305c9dc9d58ee817f736f0",
+          "bytes": 3209,
+          "description": "Closed medium-dogfood product goal and acceptance criteria.",
+          "allowedWorkUnits": [
+            "implement.impact-codec-storage",
+            "implement.impact-graph",
+            "implement.impact-interface",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md"
+        },
+        {
+          "id": "context.integration-test-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/test/integration.test.mjs",
+          "digest": "sha256:7ab311070e33237d6b014d88f7bbcb8a74bacf66b962f12a7c975f30d1e047e0",
+          "bytes": 2502,
+          "description": "Current static-shell and server integration-test pattern.",
+          "allowedWorkUnits": [
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/test/integration.test.mjs"
+        },
+        {
+          "id": "context.interface-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/index.html",
+          "digest": "sha256:9f77c3eaddae6f76b88d44f72a4f6700778d1ab107f94a5c09718e1dc6c697b4",
+          "bytes": 6150,
+          "description": "Current semantic static application shell.",
+          "allowedWorkUnits": [
+            "implement.impact-interface",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/index.html"
+        },
+        {
+          "id": "context.server-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/server.mjs",
+          "digest": "sha256:8290ac09821974a595117e911fd4aadcdc3e38ad8e97909c65b807d6505088f9",
+          "bytes": 3269,
+          "description": "Current local server and closed-network CSP pattern.",
+          "allowedWorkUnits": [
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/server.mjs"
+        },
+        {
+          "id": "context.style-pattern",
+          "kind": "repository",
+          "locator": "path:examples/release-board/styles.css",
+          "digest": "sha256:34d389557986ae708bc9b90521b812822ce0e1901a8aa6828bb572a2bb3fd8ac",
+          "bytes": 9567,
+          "description": "Current responsive operational interface styling.",
+          "allowedWorkUnits": [
+            "implement.impact-interface",
+            "integrate.impact-planner",
+            "review.impact-planner"
+          ],
+          "readScope": "examples/release-board/styles.css"
+        }
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "AGENTS.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+            "examples/impact-planner/README.md",
+            "examples/impact-planner/index.html",
+            "examples/impact-planner/package.json",
+            "examples/impact-planner/server.mjs",
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/src/codec.js",
+            "examples/impact-planner/src/graph.js",
+            "examples/impact-planner/src/storage.js",
+            "examples/impact-planner/src/ui-policy.js",
+            "examples/impact-planner/src/view.js",
+            "examples/impact-planner/styles.css",
+            "examples/impact-planner/test/codec.test.mjs",
+            "examples/impact-planner/test/graph.test.mjs",
+            "examples/impact-planner/test/integration.test.mjs",
+            "examples/impact-planner/test/interface.test.mjs",
+            "examples/impact-planner/test/server.test.mjs",
+            "examples/impact-planner/test/storage.test.mjs",
+            "examples/release-board/index.html",
+            "examples/release-board/server.mjs",
+            "examples/release-board/src/app.js",
+            "examples/release-board/src/model.js",
+            "examples/release-board/src/storage.js",
+            "examples/release-board/styles.css",
+            "examples/release-board/test/integration.test.mjs",
+            "examples/release-board/test/model.test.mjs",
+            "examples/release-board/test/storage.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "examples/impact-planner/README.md",
+            "examples/impact-planner/index.html",
+            "examples/impact-planner/package.json",
+            "examples/impact-planner/server.mjs",
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/src/codec.js",
+            "examples/impact-planner/src/graph.js",
+            "examples/impact-planner/src/storage.js",
+            "examples/impact-planner/src/ui-policy.js",
+            "examples/impact-planner/src/view.js",
+            "examples/impact-planner/styles.css",
+            "examples/impact-planner/test/codec.test.mjs",
+            "examples/impact-planner/test/graph.test.mjs",
+            "examples/impact-planner/test/integration.test.mjs",
+            "examples/impact-planner/test/interface.test.mjs",
+            "examples/impact-planner/test/server.test.mjs",
+            "examples/impact-planner/test/storage.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm.cmd",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not access the network, secrets, external services, or undeclared repository paths.",
+        "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory.",
+        "Do not widen a dependency, permission, runtime, skill, or evidence contract after approval."
+      ],
+      "maxAgents": 5,
+      "maxConcurrency": 3,
+      "contentDigest": "sha256:45b0269aa201d6a41f3fce297b42ab0eef80755dc23e119b5b24fdc7df61b8b3"
+    },
+    "search": {
+      "mode": "exact",
+      "claim": "exhaustive_partition_search_fixed_scheduler",
+      "workUnitCount": 5,
+      "evaluatedCandidates": 52,
+      "eligibleCandidates": 15,
+      "retainedAlternatives": 8,
+      "evaluationSetDigest": "sha256:74d4b9fa1da1028bf4cfe3283b8f2eff6969836105bb3ec0f84a1c57aab4a5a8"
+    },
+    "serialBaseline": {
+      "id": "team.da489f7d7ece20c7df8f244136f4542c8b8f92cd7dc001e1c195a6fd81f74b57",
+      "partition": [
+        [
+          "implement.impact-codec-storage",
+          "implement.impact-graph",
+          "implement.impact-interface",
+          "integrate.impact-planner",
+          "review.impact-planner"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": false,
+      "rejectionCodes": [
+        "evidence_independence"
+      ],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 32,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 31,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.05836bd322b81896e25c4c556b41a9a712aed6ce45b5e39bdaef870a16fb90b5",
+          "start": 0,
+          "finish": 32
+        }
+      ],
+      "contentDigest": "sha256:a4dd5ad43c65d600f02643b459057766ebbbb718a3a29697a392019f11b22b60"
+    },
+    "selected": {
+      "id": "team.ab364ab84deeff1ac9bc988bfeac517d1424b37a15be1aa865a7ad7a50bd9b03",
+      "partition": [
+        [
+          "implement.impact-codec-storage"
+        ],
+        [
+          "implement.impact-graph"
+        ],
+        [
+          "implement.impact-interface"
+        ],
+        [
+          "integrate.impact-planner"
+        ],
+        [
+          "review.impact-planner"
+        ]
+      ],
+      "origins": [
+        "exact_search",
+        "proposed"
+      ],
+      "proposalIds": [
+        "candidate.impact-planner.parallel-roots-integration-review"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 5,
+        "projectedMakespan": 24,
+        "peakConcurrency": 3,
+        "conflictPairs": 7,
+        "handoffCount": 4,
+        "duplicatedContextBytes": 149141,
+        "duplicatedPermissionScopes": 37,
+        "totalWorkWeight": 31,
+        "totalStartupCost": 5,
+        "totalHandoffCost": 4
+      },
+      "schedule": [
+        {
+          "agentId": "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+          "start": 0,
+          "finish": 7
+        },
+        {
+          "agentId": "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+          "start": 0,
+          "finish": 7
+        },
+        {
+          "agentId": "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+          "start": 10,
+          "finish": 18
+        },
+        {
+          "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+          "start": 19,
+          "finish": 24
+        }
+      ],
+      "contentDigest": "sha256:a1dc6811c5735e4ffd5a89733e21ed9c01fbf6454178a2a763da69ecd9c29866"
+    },
+    "selectionReason": {
+      "kind": "serial_ineligible",
+      "decisiveField": "evidence_independence",
+      "selectedValue": "eligible",
+      "serialValue": "ineligible",
+      "serialRejectionCodes": [
+        "evidence_independence"
+      ]
+    },
+    "alternatives": [
+      {
+        "id": "team.04089ee3ff5b7ef972ce523cf1a778beb91a5bb41d224202041b8cce4dba3cdd",
+        "partition": [
+          [
+            "implement.impact-codec-storage",
+            "implement.impact-interface"
+          ],
+          [
+            "implement.impact-graph"
+          ],
+          [
+            "integrate.impact-planner"
+          ],
+          [
+            "review.impact-planner"
+          ]
+        ],
+        "origins": [
+          "exact_search"
+        ],
+        "proposalIds": [],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 4,
+          "projectedMakespan": 28,
+          "peakConcurrency": 2,
+          "conflictPairs": 5,
+          "handoffCount": 3,
+          "duplicatedContextBytes": 122055,
+          "duplicatedPermissionScopes": 33,
+          "totalWorkWeight": 31,
+          "totalStartupCost": 4,
+          "totalHandoffCost": 3
+        },
+        "schedule": [
+          {
+            "agentId": "agent.10eef8d9d59d07a7286a997f4290e19bf62de67dc103a0d0f7dabce1a02cca5a",
+            "start": 0,
+            "finish": 13
+          },
+          {
+            "agentId": "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5",
+            "start": 0,
+            "finish": 9
+          },
+          {
+            "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+            "start": 14,
+            "finish": 22
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "start": 23,
+            "finish": 28
+          }
+        ],
+        "contentDigest": "sha256:203b1cc1db418d85b08b13c8fb04394a7f010cb1dc5914233b7332eac48de5b4"
+      },
+      {
+        "id": "team.2395012a513ea2e7fd6fde538dbce762a455feeebb728e55e0a49505a4346d0f",
+        "partition": [
+          [
+            "implement.impact-codec-storage",
+            "implement.impact-graph"
+          ],
+          [
+            "implement.impact-interface"
+          ],
+          [
+            "integrate.impact-planner"
+          ],
+          [
+            "review.impact-planner"
+          ]
+        ],
+        "origins": [
+          "exact_search"
+        ],
+        "proposalIds": [],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 4,
+          "projectedMakespan": 30,
+          "peakConcurrency": 2,
+          "conflictPairs": 5,
+          "handoffCount": 3,
+          "duplicatedContextBytes": 122055,
+          "duplicatedPermissionScopes": 33,
+          "totalWorkWeight": 31,
+          "totalStartupCost": 4,
+          "totalHandoffCost": 3
+        },
+        "schedule": [
+          {
+            "agentId": "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+            "start": 0,
+            "finish": 7
+          },
+          {
+            "agentId": "agent.b01b7dc5c73784b9175b536bc19060327c62699e1a0d6835509c3993dc9cd28f",
+            "start": 0,
+            "finish": 15
+          },
+          {
+            "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+            "start": 16,
+            "finish": 24
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "start": 25,
+            "finish": 30
+          }
+        ],
+        "contentDigest": "sha256:2d51fa22623fdc25cdbd7d5b4bfc1725c24725f051eb3baad8e0abc524635b9d"
+      },
+      {
+        "id": "team.1fddd0bf75865726126eb01ca647ce1d6b4097f82e02256b86abe5df74b68270",
+        "partition": [
+          [
+            "implement.impact-codec-storage",
+            "integrate.impact-planner"
+          ],
+          [
+            "implement.impact-graph"
+          ],
+          [
+            "implement.impact-interface"
+          ],
+          [
+            "review.impact-planner"
+          ]
+        ],
+        "origins": [
+          "exact_search"
+        ],
+        "proposalIds": [],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 4,
+          "projectedMakespan": 30,
+          "peakConcurrency": 2,
+          "conflictPairs": 5,
+          "handoffCount": 3,
+          "duplicatedContextBytes": 122055,
+          "duplicatedPermissionScopes": 33,
+          "totalWorkWeight": 31,
+          "totalStartupCost": 4,
+          "totalHandoffCost": 3
+        },
+        "schedule": [
+          {
+            "agentId": "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+            "start": 0,
+            "finish": 7
+          },
+          {
+            "agentId": "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5",
+            "start": 0,
+            "finish": 9
+          },
+          {
+            "agentId": "agent.13304a60d7e0835310567abc80d7bdc4d5c0fe0f09469fc26991f25648fdc683",
+            "start": 10,
+            "finish": 24
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "start": 25,
+            "finish": 30
+          }
+        ],
+        "contentDigest": "sha256:d83bfdb88cc86a61ca3c9663a119116fdf0586df767b4d5f4d151b12d43b6c1b"
+      },
+      {
+        "id": "team.d95421b71aef2ccaf64ff74f7e3747b54ebd427555d5eacf178fb973208e056d",
+        "partition": [
+          [
+            "implement.impact-codec-storage"
+          ],
+          [
+            "implement.impact-graph",
+            "implement.impact-interface"
+          ],
+          [
+            "integrate.impact-planner"
+          ],
+          [
+            "review.impact-planner"
+          ]
+        ],
+        "origins": [
+          "exact_search"
+        ],
+        "proposalIds": [],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 4,
+          "projectedMakespan": 30,
+          "peakConcurrency": 2,
+          "conflictPairs": 5,
+          "handoffCount": 3,
+          "duplicatedContextBytes": 122055,
+          "duplicatedPermissionScopes": 33,
+          "totalWorkWeight": 31,
+          "totalStartupCost": 4,
+          "totalHandoffCost": 3
+        },
+        "schedule": [
+          {
+            "agentId": "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+            "start": 0,
+            "finish": 7
+          },
+          {
+            "agentId": "agent.7e181e04e9793df18f9c5d9d7fcf9779a721f9e533c7145f6e74a83e7d172c6e",
+            "start": 0,
+            "finish": 15
+          },
+          {
+            "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+            "start": 16,
+            "finish": 24
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "start": 25,
+            "finish": 30
+          }
+        ],
+        "contentDigest": "sha256:d91d9411e86d46f53328f3995d717c2103f44a7ade5df674c96f0974516f9adc"
+      },
+      {
+        "id": "team.e02f26047e8f04c34af6279bacb1b1fe06100872ccb5b4867c0c54346df1529a",
+        "partition": [
+          [
+            "implement.impact-codec-storage"
+          ],
+          [
+            "implement.impact-graph",
+            "integrate.impact-planner"
+          ],
+          [
+            "implement.impact-interface"
+          ],
+          [
+            "review.impact-planner"
+          ]
+        ],
+        "origins": [
+          "exact_search"
+        ],
+        "proposalIds": [],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 4,
+          "projectedMakespan": 30,
+          "peakConcurrency": 2,
+          "conflictPairs": 5,
+          "handoffCount": 3,
+          "duplicatedContextBytes": 122055,
+          "duplicatedPermissionScopes": 33,
+          "totalWorkWeight": 31,
+          "totalStartupCost": 4,
+          "totalHandoffCost": 3
+        },
+        "schedule": [
+          {
+            "agentId": "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+            "start": 0,
+            "finish": 7
+          },
+          {
+            "agentId": "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+            "start": 0,
+            "finish": 7
+          },
+          {
+            "agentId": "agent.da2327a5c380071c2b7dae2541492fb817ce7185d84d9bae523d94855aacf445",
+            "start": 8,
+            "finish": 24
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "start": 25,
+            "finish": 30
+          }
+        ],
+        "contentDigest": "sha256:f35edf4c8bb2f23e7967cecf527a0e759ef6ad967c3ac1f400a50950936b0622"
+      },
+      {
+        "id": "team.d890f02090628ea1fff69649e012398b8258cc20a3da6ae820e90ac06a1bb192",
+        "partition": [
+          [
+            "implement.impact-codec-storage"
+          ],
+          [
+            "implement.impact-graph"
+          ],
+          [
+            "implement.impact-interface",
+            "integrate.impact-planner"
+          ],
+          [
+            "review.impact-planner"
+          ]
+        ],
+        "origins": [
+          "exact_search"
+        ],
+        "proposalIds": [],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 4,
+          "projectedMakespan": 30,
+          "peakConcurrency": 2,
+          "conflictPairs": 5,
+          "handoffCount": 3,
+          "duplicatedContextBytes": 122055,
+          "duplicatedPermissionScopes": 33,
+          "totalWorkWeight": 31,
+          "totalStartupCost": 4,
+          "totalHandoffCost": 3
+        },
+        "schedule": [
+          {
+            "agentId": "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+            "start": 0,
+            "finish": 7
+          },
+          {
+            "agentId": "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5",
+            "start": 0,
+            "finish": 9
+          },
+          {
+            "agentId": "agent.3a6aef5a570fa935e831144df7e0650fd7066705f3cb934f45438e4f89f5f369",
+            "start": 10,
+            "finish": 24
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "start": 25,
+            "finish": 30
+          }
+        ],
+        "contentDigest": "sha256:b8480e97b602f05323d7b298d4832ef036ca73127a6c88f921c0b4218b9e04e6"
+      },
+      {
+        "id": "team.e9c9d0d19b4554bc6bd546387c210782132624a5878b25cdbd09832616bc5cb3",
+        "partition": [
+          [
+            "implement.impact-codec-storage",
+            "implement.impact-graph",
+            "implement.impact-interface",
+            "integrate.impact-planner"
+          ],
+          [
+            "review.impact-planner"
+          ]
+        ],
+        "origins": [
+          "exact_search"
+        ],
+        "proposalIds": [],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 2,
+          "projectedMakespan": 34,
+          "peakConcurrency": 1,
+          "conflictPairs": 1,
+          "handoffCount": 1,
+          "duplicatedContextBytes": 67883,
+          "duplicatedPermissionScopes": 25,
+          "totalWorkWeight": 31,
+          "totalStartupCost": 2,
+          "totalHandoffCost": 1
+        },
+        "schedule": [
+          {
+            "agentId": "agent.8e6a6d671e38bf0a6858df237f31fe5b2383492da0238a0ce857195c8f66cc88",
+            "start": 0,
+            "finish": 28
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "start": 29,
+            "finish": 34
+          }
+        ],
+        "contentDigest": "sha256:50480714b486ef862b383d40625b5f850229d9e98fe874e5518b788c7deeb058"
+      },
+      {
+        "id": "team.ad5ed4ad2cc1c380fc0548dfbf63d3fd04c9efb5a7fce24397994d68cf7460d8",
+        "partition": [
+          [
+            "implement.impact-codec-storage",
+            "implement.impact-graph",
+            "implement.impact-interface"
+          ],
+          [
+            "integrate.impact-planner"
+          ],
+          [
+            "review.impact-planner"
+          ]
+        ],
+        "origins": [
+          "exact_search"
+        ],
+        "proposalIds": [],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 3,
+          "projectedMakespan": 36,
+          "peakConcurrency": 1,
+          "conflictPairs": 3,
+          "handoffCount": 2,
+          "duplicatedContextBytes": 94969,
+          "duplicatedPermissionScopes": 29,
+          "totalWorkWeight": 31,
+          "totalStartupCost": 3,
+          "totalHandoffCost": 2
+        },
+        "schedule": [
+          {
+            "agentId": "agent.e815a34aef15800411642041a996ee19f1aca44c43ed807c01ebe64a4d5ea53f",
+            "start": 0,
+            "finish": 21
+          },
+          {
+            "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+            "start": 22,
+            "finish": 30
+          },
+          {
+            "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+            "start": 31,
+            "finish": 36
+          }
+        ],
+        "contentDigest": "sha256:84b103378b6a215b721ad8f0c4ff150fccbf940731b45fa4519097b79cc84feb"
+      }
+    ],
+    "blueprints": [
+      {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "AgentBlueprint",
+        "id": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+        "goalId": "v14.dogfood.impact-planner",
+        "goalRevision": 1,
+        "goalDigest": "sha256:adf1218aaef8c78c4104719b2b6bd15473309e3586f8f360809255679501a35b",
+        "candidateId": "team.ab364ab84deeff1ac9bc988bfeac517d1424b37a15be1aa865a7ad7a50bd9b03",
+        "workUnitIds": [
+          "integrate.impact-planner"
+        ],
+        "objectives": [
+          {
+            "workUnitId": "integrate.impact-planner",
+            "objective": "Integrate the three verified producer modules into the complete offline application and observe its primary browser workflow."
+          }
+        ],
+        "modules": [
+          {
+            "id": "integrate.impact-planner",
+            "action": "Consume exact verified dependency handoffs, wire state and events, implement the local server and integration tests, then use the delivered browser skill for a bounded smoke observation.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ImpactPlannerContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "handoff",
+                "artifactType": "impact-integration-handoff.md"
+              }
+            ]
+          }
+        ],
+        "dependencies": [
+          "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+          "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+          "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "kind": "repository",
+            "locator": "path:AGENTS.md",
+            "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+            "bytes": 18686,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "integrate.impact-planner"
+            ],
+            "readScope": "AGENTS.md"
+          },
+          {
+            "sourceId": "context.app-contract",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+            "bytes": 5191,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "integrate.impact-planner"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+          },
+          {
+            "sourceId": "context.app-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/src/app.js",
+            "digest": "sha256:aa57eafe2939a90b88e052f0dd33a900a0e30efb3aa4dc41678a92d736968ab8",
+            "bytes": 8835,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "integrate.impact-planner"
+            ],
+            "readScope": "examples/release-board/src/app.js"
+          },
+          {
+            "sourceId": "context.goal",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+            "digest": "sha256:b743d3a9730558f644e0469eb696c9ecda64cabbb9305c9dc9d58ee817f736f0",
+            "bytes": 3209,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "integrate.impact-planner"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md"
+          },
+          {
+            "sourceId": "context.integration-test-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/test/integration.test.mjs",
+            "digest": "sha256:7ab311070e33237d6b014d88f7bbcb8a74bacf66b962f12a7c975f30d1e047e0",
+            "bytes": 2502,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "integrate.impact-planner"
+            ],
+            "readScope": "examples/release-board/test/integration.test.mjs"
+          },
+          {
+            "sourceId": "context.server-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/server.mjs",
+            "digest": "sha256:8290ac09821974a595117e911fd4aadcdc3e38ad8e97909c65b807d6505088f9",
+            "bytes": 3269,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "integrate.impact-planner"
+            ],
+            "readScope": "examples/release-board/server.mjs"
+          }
+        ],
+        "authority": {
+          "requiredCapabilities": [
+            "integrate.impact-planner"
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/impact-planner/index.html",
+              "examples/impact-planner/src/codec.js",
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/src/storage.js",
+              "examples/impact-planner/src/view.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/codec.test.mjs",
+              "examples/impact-planner/test/graph.test.mjs",
+              "examples/impact-planner/test/interface.test.mjs",
+              "examples/impact-planner/test/storage.test.mjs",
+              "examples/release-board/server.mjs",
+              "examples/release-board/src/app.js",
+              "examples/release-board/test/integration.test.mjs"
+            ],
+            "write": [
+              "examples/impact-planner/README.md",
+              "examples/impact-planner/package.json",
+              "examples/impact-planner/server.mjs",
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/src/ui-policy.js",
+              "examples/impact-planner/test/integration.test.mjs",
+              "examples/impact-planner/test/server.test.mjs"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+                "examples/impact-planner/index.html",
+                "examples/impact-planner/src/codec.js",
+                "examples/impact-planner/src/graph.js",
+                "examples/impact-planner/src/storage.js",
+                "examples/impact-planner/src/view.js",
+                "examples/impact-planner/styles.css",
+                "examples/impact-planner/test/codec.test.mjs",
+                "examples/impact-planner/test/graph.test.mjs",
+                "examples/impact-planner/test/interface.test.mjs",
+                "examples/impact-planner/test/storage.test.mjs",
+                "examples/release-board/server.mjs",
+                "examples/release-board/src/app.js",
+                "examples/release-board/test/integration.test.mjs"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/impact-planner/README.md",
+                "examples/impact-planner/package.json",
+                "examples/impact-planner/server.mjs",
+                "examples/impact-planner/src/app.js",
+                "examples/impact-planner/src/ui-policy.js",
+                "examples/impact-planner/test/integration.test.mjs",
+                "examples/impact-planner/test/server.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node",
+                "npm.cmd",
+                "rg"
+              ]
+            }
+          ],
+          "forbiddenEffects": [
+            "Do not access the network, secrets, external services, or undeclared repository paths.",
+            "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory.",
+            "Do not widen a dependency, permission, runtime, skill, or evidence contract after approval."
+          ]
+        },
+        "evidenceDuties": [
+          {
+            "criterionId": "criterion.integration",
+            "criterion": "Verified producer outputs integrate into one offline application with browser-observable acceptance behavior.",
+            "requirementId": "evidence.integration.produce",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Integrate all producer modules and provide passing integration and server tests plus browser observations.",
+            "independentFromProducer": false
+          }
+        ],
+        "handoff": {
+          "destination": "codex.main",
+          "artifacts": [
+            "impact-integration-handoff.md"
+          ],
+          "requiredFields": [
+            "apiVersion",
+            "kind",
+            "outcome",
+            "destination",
+            "goal",
+            "agent",
+            "compilationDigest",
+            "summary",
+            "workUnitsCompleted",
+            "artifacts",
+            "evidence",
+            "assumptions",
+            "risks",
+            "followUps"
+          ]
+        },
+        "stopConditions": [
+          "A dependent unit must not start until every required handoff verifies and assesses integration-ready.",
+          "Do not install dependencies, access the network or secrets, mutate Git, merge, or update memory.",
+          "Do not modify files outside the declared write scope.",
+          "Return a non-pass outcome when required evidence cannot be produced.",
+          "Stop if the closed product goal conflicts with the application contract.",
+          "Stop if the host cannot deliver required skills: skill.browser.control-in-app-browser."
+        ],
+        "contentDigest": "sha256:38a4d264698e6726b0ee5c478736ba0e24f23c4755a027f157a7703eabe8eb92"
+      },
+      {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "AgentBlueprint",
+        "id": "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+        "goalId": "v14.dogfood.impact-planner",
+        "goalRevision": 1,
+        "goalDigest": "sha256:adf1218aaef8c78c4104719b2b6bd15473309e3586f8f360809255679501a35b",
+        "candidateId": "team.ab364ab84deeff1ac9bc988bfeac517d1424b37a15be1aa865a7ad7a50bd9b03",
+        "workUnitIds": [
+          "implement.impact-codec-storage"
+        ],
+        "objectives": [
+          {
+            "workUnitId": "implement.impact-codec-storage",
+            "objective": "Implement safe versioned workspace import, deterministic export, persistence, and adversarial tests."
+          }
+        ],
+        "modules": [
+          {
+            "id": "implement.impact-codec-storage",
+            "action": "Implement exact structural validation, byte and count limits, unsafe-key rejection, deterministic JSON, fail-safe storage, and tests.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ImpactPlannerContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "handoff",
+                "artifactType": "impact-codec-handoff.md"
+              }
+            ]
+          }
+        ],
+        "dependencies": [],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "kind": "repository",
+            "locator": "path:AGENTS.md",
+            "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+            "bytes": 18686,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-codec-storage"
+            ],
+            "readScope": "AGENTS.md"
+          },
+          {
+            "sourceId": "context.app-contract",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+            "bytes": 5191,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-codec-storage"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+          },
+          {
+            "sourceId": "context.codec-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/src/storage.js",
+            "digest": "sha256:336387b9336e285f6c0c30dec135f8fcc2123551ad88658197a51b71c91123bc",
+            "bytes": 879,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-codec-storage"
+            ],
+            "readScope": "examples/release-board/src/storage.js"
+          },
+          {
+            "sourceId": "context.codec-test-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/test/storage.test.mjs",
+            "digest": "sha256:55e112505cc659bfcca0c2ef16e1a6d152edb2034097e664d45940164cbb3d3b",
+            "bytes": 1445,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-codec-storage"
+            ],
+            "readScope": "examples/release-board/test/storage.test.mjs"
+          },
+          {
+            "sourceId": "context.goal",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+            "digest": "sha256:b743d3a9730558f644e0469eb696c9ecda64cabbb9305c9dc9d58ee817f736f0",
+            "bytes": 3209,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-codec-storage"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md"
+          }
+        ],
+        "authority": {
+          "requiredCapabilities": [
+            "implement.safe-workspace-codec"
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/release-board/src/storage.js",
+              "examples/release-board/test/storage.test.mjs"
+            ],
+            "write": [
+              "examples/impact-planner/src/codec.js",
+              "examples/impact-planner/src/storage.js",
+              "examples/impact-planner/test/codec.test.mjs",
+              "examples/impact-planner/test/storage.test.mjs"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+                "examples/release-board/src/storage.js",
+                "examples/release-board/test/storage.test.mjs"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/impact-planner/src/codec.js",
+                "examples/impact-planner/src/storage.js",
+                "examples/impact-planner/test/codec.test.mjs",
+                "examples/impact-planner/test/storage.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node"
+              ]
+            }
+          ],
+          "forbiddenEffects": [
+            "Do not access the network, secrets, external services, or undeclared repository paths.",
+            "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory.",
+            "Do not widen a dependency, permission, runtime, skill, or evidence contract after approval."
+          ]
+        },
+        "evidenceDuties": [
+          {
+            "criterionId": "criterion.codec",
+            "criterion": "Versioned import, export, and persistence reject unsafe input and preserve valid state.",
+            "requirementId": "evidence.codec.produce",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Produce codec and storage modules with adversarial tests.",
+            "independentFromProducer": false
+          }
+        ],
+        "handoff": {
+          "destination": "codex.main",
+          "artifacts": [
+            "impact-codec-handoff.md"
+          ],
+          "requiredFields": [
+            "apiVersion",
+            "kind",
+            "outcome",
+            "destination",
+            "goal",
+            "agent",
+            "compilationDigest",
+            "summary",
+            "workUnitsCompleted",
+            "artifacts",
+            "evidence",
+            "assumptions",
+            "risks",
+            "followUps"
+          ]
+        },
+        "stopConditions": [
+          "A dependent unit must not start until every required handoff verifies and assesses integration-ready.",
+          "Do not install dependencies, access the network or secrets, mutate Git, merge, or update memory.",
+          "Do not modify files outside the declared write scope.",
+          "Return a non-pass outcome when required evidence cannot be produced.",
+          "Stop if the closed product goal conflicts with the application contract."
+        ],
+        "contentDigest": "sha256:38a4b7a0a353554a919890565157d1e9df46c4dd9e3167e2738facfbd70e5974"
+      },
+      {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "AgentBlueprint",
+        "id": "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+        "goalId": "v14.dogfood.impact-planner",
+        "goalRevision": 1,
+        "goalDigest": "sha256:adf1218aaef8c78c4104719b2b6bd15473309e3586f8f360809255679501a35b",
+        "candidateId": "team.ab364ab84deeff1ac9bc988bfeac517d1424b37a15be1aa865a7ad7a50bd9b03",
+        "workUnitIds": [
+          "implement.impact-interface"
+        ],
+        "objectives": [
+          {
+            "workUnitId": "implement.impact-interface",
+            "objective": "Implement the complete semantic Impact Planner shell, responsive styling, DOM projection helpers, and static tests."
+          }
+        ],
+        "modules": [
+          {
+            "id": "implement.impact-interface",
+            "action": "Implement every stable integration hook and render function while preserving keyboard, focus, error, responsive, and reduced-motion requirements.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ImpactPlannerContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "handoff",
+                "artifactType": "impact-interface-handoff.md"
+              }
+            ]
+          }
+        ],
+        "dependencies": [],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "kind": "repository",
+            "locator": "path:AGENTS.md",
+            "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+            "bytes": 18686,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-interface"
+            ],
+            "readScope": "AGENTS.md"
+          },
+          {
+            "sourceId": "context.app-contract",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+            "bytes": 5191,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-interface"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+          },
+          {
+            "sourceId": "context.goal",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+            "digest": "sha256:b743d3a9730558f644e0469eb696c9ecda64cabbb9305c9dc9d58ee817f736f0",
+            "bytes": 3209,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-interface"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md"
+          },
+          {
+            "sourceId": "context.interface-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/index.html",
+            "digest": "sha256:9f77c3eaddae6f76b88d44f72a4f6700778d1ab107f94a5c09718e1dc6c697b4",
+            "bytes": 6150,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-interface"
+            ],
+            "readScope": "examples/release-board/index.html"
+          },
+          {
+            "sourceId": "context.style-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/styles.css",
+            "digest": "sha256:34d389557986ae708bc9b90521b812822ce0e1901a8aa6828bb572a2bb3fd8ac",
+            "bytes": 9567,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-interface"
+            ],
+            "readScope": "examples/release-board/styles.css"
+          }
+        ],
+        "authority": {
+          "requiredCapabilities": [
+            "implement.accessible-impact-interface"
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/release-board/index.html",
+              "examples/release-board/styles.css"
+            ],
+            "write": [
+              "examples/impact-planner/index.html",
+              "examples/impact-planner/src/view.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/interface.test.mjs"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+                "examples/release-board/index.html",
+                "examples/release-board/styles.css"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/impact-planner/index.html",
+                "examples/impact-planner/src/view.js",
+                "examples/impact-planner/styles.css",
+                "examples/impact-planner/test/interface.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node"
+              ]
+            }
+          ],
+          "forbiddenEffects": [
+            "Do not access the network, secrets, external services, or undeclared repository paths.",
+            "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory.",
+            "Do not widen a dependency, permission, runtime, skill, or evidence contract after approval."
+          ]
+        },
+        "evidenceDuties": [
+          {
+            "criterionId": "criterion.interface",
+            "criterion": "The static interface and view projection are semantic, keyboard-operable, responsive, and integration-ready.",
+            "requirementId": "evidence.interface.produce",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Produce the complete interface, view projection, and static contract tests.",
+            "independentFromProducer": false
+          }
+        ],
+        "handoff": {
+          "destination": "codex.main",
+          "artifacts": [
+            "impact-interface-handoff.md"
+          ],
+          "requiredFields": [
+            "apiVersion",
+            "kind",
+            "outcome",
+            "destination",
+            "goal",
+            "agent",
+            "compilationDigest",
+            "summary",
+            "workUnitsCompleted",
+            "artifacts",
+            "evidence",
+            "assumptions",
+            "risks",
+            "followUps"
+          ]
+        },
+        "stopConditions": [
+          "A dependent unit must not start until every required handoff verifies and assesses integration-ready.",
+          "Do not install dependencies, access the network or secrets, mutate Git, merge, or update memory.",
+          "Do not modify files outside the declared write scope.",
+          "Return a non-pass outcome when required evidence cannot be produced.",
+          "Stop if the closed product goal conflicts with the application contract."
+        ],
+        "contentDigest": "sha256:776c871f6a04c47ea2a7a737d4e9bc214af672b74849cc504a11b4e9cc5c661c"
+      },
+      {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "AgentBlueprint",
+        "id": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+        "goalId": "v14.dogfood.impact-planner",
+        "goalRevision": 1,
+        "goalDigest": "sha256:adf1218aaef8c78c4104719b2b6bd15473309e3586f8f360809255679501a35b",
+        "candidateId": "team.ab364ab84deeff1ac9bc988bfeac517d1424b37a15be1aa865a7ad7a50bd9b03",
+        "workUnitIds": [
+          "review.impact-planner"
+        ],
+        "objectives": [
+          {
+            "workUnitId": "review.impact-planner",
+            "objective": "Independently review the exact integrated Impact Planner and all producer evidence without editing it."
+          }
+        ],
+        "modules": [
+          {
+            "id": "review.impact-planner",
+            "action": "Run the complete suite and inspect graph, codec, storage, accessibility, browser, security, integration, and evidence behavior; report findings first.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ImpactPlannerContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "handoff",
+                "artifactType": "impact-planner-review.md"
+              }
+            ]
+          }
+        ],
+        "dependencies": [
+          "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "kind": "repository",
+            "locator": "path:AGENTS.md",
+            "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+            "bytes": 18686,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "AGENTS.md"
+          },
+          {
+            "sourceId": "context.app-contract",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+            "bytes": 5191,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+          },
+          {
+            "sourceId": "context.app-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/src/app.js",
+            "digest": "sha256:aa57eafe2939a90b88e052f0dd33a900a0e30efb3aa4dc41678a92d736968ab8",
+            "bytes": 8835,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "examples/release-board/src/app.js"
+          },
+          {
+            "sourceId": "context.codec-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/src/storage.js",
+            "digest": "sha256:336387b9336e285f6c0c30dec135f8fcc2123551ad88658197a51b71c91123bc",
+            "bytes": 879,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "examples/release-board/src/storage.js"
+          },
+          {
+            "sourceId": "context.codec-test-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/test/storage.test.mjs",
+            "digest": "sha256:55e112505cc659bfcca0c2ef16e1a6d152edb2034097e664d45940164cbb3d3b",
+            "bytes": 1445,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "examples/release-board/test/storage.test.mjs"
+          },
+          {
+            "sourceId": "context.domain-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/src/model.js",
+            "digest": "sha256:f46bfb3b973ec0e0bac324fbdf6d6ada07666c45be111d81a90d97dfa26b1196",
+            "bytes": 4621,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "examples/release-board/src/model.js"
+          },
+          {
+            "sourceId": "context.domain-test-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/test/model.test.mjs",
+            "digest": "sha256:541603f0aee9fd721b1b4bb69c55b661245bb3c744c42963dbd3f014d664b3f6",
+            "bytes": 3529,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "examples/release-board/test/model.test.mjs"
+          },
+          {
+            "sourceId": "context.goal",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+            "digest": "sha256:b743d3a9730558f644e0469eb696c9ecda64cabbb9305c9dc9d58ee817f736f0",
+            "bytes": 3209,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md"
+          },
+          {
+            "sourceId": "context.integration-test-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/test/integration.test.mjs",
+            "digest": "sha256:7ab311070e33237d6b014d88f7bbcb8a74bacf66b962f12a7c975f30d1e047e0",
+            "bytes": 2502,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "examples/release-board/test/integration.test.mjs"
+          },
+          {
+            "sourceId": "context.interface-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/index.html",
+            "digest": "sha256:9f77c3eaddae6f76b88d44f72a4f6700778d1ab107f94a5c09718e1dc6c697b4",
+            "bytes": 6150,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "examples/release-board/index.html"
+          },
+          {
+            "sourceId": "context.server-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/server.mjs",
+            "digest": "sha256:8290ac09821974a595117e911fd4aadcdc3e38ad8e97909c65b807d6505088f9",
+            "bytes": 3269,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "examples/release-board/server.mjs"
+          },
+          {
+            "sourceId": "context.style-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/styles.css",
+            "digest": "sha256:34d389557986ae708bc9b90521b812822ce0e1901a8aa6828bb572a2bb3fd8ac",
+            "bytes": 9567,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "review.impact-planner"
+            ],
+            "readScope": "examples/release-board/styles.css"
+          }
+        ],
+        "authority": {
+          "requiredCapabilities": [
+            "review.impact-planner"
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/impact-planner/README.md",
+              "examples/impact-planner/index.html",
+              "examples/impact-planner/package.json",
+              "examples/impact-planner/server.mjs",
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/src/codec.js",
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/src/storage.js",
+              "examples/impact-planner/src/ui-policy.js",
+              "examples/impact-planner/src/view.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/codec.test.mjs",
+              "examples/impact-planner/test/graph.test.mjs",
+              "examples/impact-planner/test/integration.test.mjs",
+              "examples/impact-planner/test/interface.test.mjs",
+              "examples/impact-planner/test/server.test.mjs",
+              "examples/impact-planner/test/storage.test.mjs",
+              "examples/release-board/index.html",
+              "examples/release-board/server.mjs",
+              "examples/release-board/src/app.js",
+              "examples/release-board/src/model.js",
+              "examples/release-board/src/storage.js",
+              "examples/release-board/styles.css",
+              "examples/release-board/test/integration.test.mjs",
+              "examples/release-board/test/model.test.mjs",
+              "examples/release-board/test/storage.test.mjs"
+            ],
+            "write": [],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+                "examples/impact-planner/README.md",
+                "examples/impact-planner/index.html",
+                "examples/impact-planner/package.json",
+                "examples/impact-planner/server.mjs",
+                "examples/impact-planner/src/app.js",
+                "examples/impact-planner/src/codec.js",
+                "examples/impact-planner/src/graph.js",
+                "examples/impact-planner/src/storage.js",
+                "examples/impact-planner/src/ui-policy.js",
+                "examples/impact-planner/src/view.js",
+                "examples/impact-planner/styles.css",
+                "examples/impact-planner/test/codec.test.mjs",
+                "examples/impact-planner/test/graph.test.mjs",
+                "examples/impact-planner/test/integration.test.mjs",
+                "examples/impact-planner/test/interface.test.mjs",
+                "examples/impact-planner/test/server.test.mjs",
+                "examples/impact-planner/test/storage.test.mjs",
+                "examples/release-board/index.html",
+                "examples/release-board/server.mjs",
+                "examples/release-board/src/app.js",
+                "examples/release-board/src/model.js",
+                "examples/release-board/src/storage.js",
+                "examples/release-board/styles.css",
+                "examples/release-board/test/integration.test.mjs",
+                "examples/release-board/test/model.test.mjs",
+                "examples/release-board/test/storage.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node",
+                "npm.cmd",
+                "rg"
+              ]
+            }
+          ],
+          "forbiddenEffects": [
+            "Do not access the network, secrets, external services, or undeclared repository paths.",
+            "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory.",
+            "Do not widen a dependency, permission, runtime, skill, or evidence contract after approval."
+          ]
+        },
+        "evidenceDuties": [
+          {
+            "criterionId": "criterion.codec",
+            "criterion": "Versioned import, export, and persistence reject unsafe input and preserve valid state.",
+            "requirementId": "evidence.codec.review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independently review structural validation, byte limits, unsafe keys, and storage failure handling.",
+            "independentFromProducer": true
+          },
+          {
+            "criterionId": "criterion.graph",
+            "criterion": "Graph validation and impact analysis are immutable, deterministic, cycle-safe, and completely tested.",
+            "requirementId": "evidence.graph.review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independently review graph correctness, determinism, edge cases, and tests.",
+            "independentFromProducer": true
+          },
+          {
+            "criterionId": "criterion.integration",
+            "criterion": "Verified producer outputs integrate into one offline application with browser-observable acceptance behavior.",
+            "requirementId": "evidence.integration.review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independently review the complete application, test evidence, host boundary, and acceptance alignment.",
+            "independentFromProducer": true
+          },
+          {
+            "criterionId": "criterion.interface",
+            "criterion": "The static interface and view projection are semantic, keyboard-operable, responsive, and integration-ready.",
+            "requirementId": "evidence.interface.review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independently review accessibility, responsive constraints, integration hooks, and rendering behavior.",
+            "independentFromProducer": true
+          }
+        ],
+        "handoff": {
+          "destination": "codex.main",
+          "artifacts": [
+            "impact-planner-review.md"
+          ],
+          "requiredFields": [
+            "apiVersion",
+            "kind",
+            "outcome",
+            "destination",
+            "goal",
+            "agent",
+            "compilationDigest",
+            "summary",
+            "workUnitsCompleted",
+            "artifacts",
+            "evidence",
+            "assumptions",
+            "risks",
+            "followUps"
+          ]
+        },
+        "stopConditions": [
+          "A dependent unit must not start until every required handoff verifies and assesses integration-ready.",
+          "Do not install dependencies, access the network or secrets, mutate Git, merge, or update memory.",
+          "Do not modify files outside the declared write scope.",
+          "Return a non-pass outcome when required evidence cannot be produced.",
+          "Stop if the closed product goal conflicts with the application contract."
+        ],
+        "contentDigest": "sha256:8e7b39fbd6667a60028635127fd5deb7bda962a93510853235e830acfbd523c1"
+      },
+      {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "AgentBlueprint",
+        "id": "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5",
+        "goalId": "v14.dogfood.impact-planner",
+        "goalRevision": 1,
+        "goalDigest": "sha256:adf1218aaef8c78c4104719b2b6bd15473309e3586f8f360809255679501a35b",
+        "candidateId": "team.ab364ab84deeff1ac9bc988bfeac517d1424b37a15be1aa865a7ad7a50bd9b03",
+        "workUnitIds": [
+          "implement.impact-graph"
+        ],
+        "objectives": [
+          {
+            "workUnitId": "implement.impact-graph",
+            "objective": "Implement deterministic graph validation, immutable component transitions, transitive impact paths, and risk analysis."
+          }
+        ],
+        "modules": [
+          {
+            "id": "implement.impact-graph",
+            "action": "Implement the exact graph contract, cycle diagnostics, lexicographic shortest paths, risk formula, and exhaustive deterministic tests.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ImpactPlannerContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "handoff",
+                "artifactType": "impact-graph-handoff.md"
+              }
+            ]
+          }
+        ],
+        "dependencies": [],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "kind": "repository",
+            "locator": "path:AGENTS.md",
+            "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+            "bytes": 18686,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-graph"
+            ],
+            "readScope": "AGENTS.md"
+          },
+          {
+            "sourceId": "context.app-contract",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+            "bytes": 5191,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-graph"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+          },
+          {
+            "sourceId": "context.domain-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/src/model.js",
+            "digest": "sha256:f46bfb3b973ec0e0bac324fbdf6d6ada07666c45be111d81a90d97dfa26b1196",
+            "bytes": 4621,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-graph"
+            ],
+            "readScope": "examples/release-board/src/model.js"
+          },
+          {
+            "sourceId": "context.domain-test-pattern",
+            "kind": "repository",
+            "locator": "path:examples/release-board/test/model.test.mjs",
+            "digest": "sha256:541603f0aee9fd721b1b4bb69c55b661245bb3c744c42963dbd3f014d664b3f6",
+            "bytes": 3529,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-graph"
+            ],
+            "readScope": "examples/release-board/test/model.test.mjs"
+          },
+          {
+            "sourceId": "context.goal",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+            "digest": "sha256:b743d3a9730558f644e0469eb696c9ecda64cabbb9305c9dc9d58ee817f736f0",
+            "bytes": 3209,
+            "purposes": [
+              "Produce, integrate, or independently review the closed Impact Planner module."
+            ],
+            "workUnitIds": [
+              "implement.impact-graph"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md"
+          }
+        ],
+        "authority": {
+          "requiredCapabilities": [
+            "implement.impact-graph"
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+              "examples/release-board/src/model.js",
+              "examples/release-board/test/model.test.mjs"
+            ],
+            "write": [
+              "examples/impact-planner/src/graph.js",
+              "examples/impact-planner/test/graph.test.mjs"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/goal.md",
+                "examples/release-board/src/model.js",
+                "examples/release-board/test/model.test.mjs"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/impact-planner/src/graph.js",
+                "examples/impact-planner/test/graph.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node"
+              ]
+            }
+          ],
+          "forbiddenEffects": [
+            "Do not access the network, secrets, external services, or undeclared repository paths.",
+            "Do not install dependencies, mutate Git, merge, update milestones, or update durable memory.",
+            "Do not widen a dependency, permission, runtime, skill, or evidence contract after approval."
+          ]
+        },
+        "evidenceDuties": [
+          {
+            "criterionId": "criterion.graph",
+            "criterion": "Graph validation and impact analysis are immutable, deterministic, cycle-safe, and completely tested.",
+            "requirementId": "evidence.graph.produce",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Produce the graph module and passing deterministic Node tests.",
+            "independentFromProducer": false
+          }
+        ],
+        "handoff": {
+          "destination": "codex.main",
+          "artifacts": [
+            "impact-graph-handoff.md"
+          ],
+          "requiredFields": [
+            "apiVersion",
+            "kind",
+            "outcome",
+            "destination",
+            "goal",
+            "agent",
+            "compilationDigest",
+            "summary",
+            "workUnitsCompleted",
+            "artifacts",
+            "evidence",
+            "assumptions",
+            "risks",
+            "followUps"
+          ]
+        },
+        "stopConditions": [
+          "A dependent unit must not start until every required handoff verifies and assesses integration-ready.",
+          "Do not install dependencies, access the network or secrets, mutate Git, merge, or update memory.",
+          "Do not modify files outside the declared write scope.",
+          "Return a non-pass outcome when required evidence cannot be produced.",
+          "Stop if the closed product goal conflicts with the application contract."
+        ],
+        "contentDigest": "sha256:e26ba470db59115a43cac0bdf7dbdfed4130f857c48ae57339abbf26ae374622"
+      }
+    ],
+    "launchWaves": [
+      {
+        "start": 0,
+        "agentIds": [
+          "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+          "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+          "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5"
+        ]
+      },
+      {
+        "start": 10,
+        "agentIds": [
+          "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a"
+        ]
+      },
+      {
+        "start": 19,
+        "agentIds": [
+          "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf"
+        ]
+      }
+    ],
+    "contentDigest": "sha256:76349da2c25d1f8160d30dbb5b2b9de61582f24d511765a1c9cbb738749741f9"
+  },
+  "packageExpectation": {
+    "compilationDigest": "sha256:76349da2c25d1f8160d30dbb5b2b9de61582f24d511765a1c9cbb738749741f9",
+    "packageDigest": "sha256:32fc13a415e3590387ca0aee527b29c8f24a0380af552a27366f6d6046938972"
+  },
+  "policy": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeDemandPolicy",
+    "id": "policy.v14.impact-planner",
+    "revision": 1,
+    "qualityTiers": [
+      {
+        "id": "quality.low",
+        "rank": 0
+      },
+      {
+        "id": "quality.balanced",
+        "rank": 1
+      },
+      {
+        "id": "quality.frontier",
+        "rank": 2
+      }
+    ],
+    "reasoningTiers": [
+      {
+        "id": "reasoning.medium",
+        "rank": 0
+      },
+      {
+        "id": "reasoning.high",
+        "rank": 1
+      }
+    ],
+    "capabilityRules": [
+      {
+        "capabilityId": "implement.accessible-impact-interface",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.medium",
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ]
+      },
+      {
+        "capabilityId": "implement.impact-graph",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.high",
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ]
+      },
+      {
+        "capabilityId": "implement.safe-workspace-codec",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.medium",
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ]
+      },
+      {
+        "capabilityId": "integrate.impact-planner",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [
+          "skill.browser.control-in-app-browser"
+        ],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ]
+      },
+      {
+        "capabilityId": "review.impact-planner",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ]
+      }
+    ],
+    "evidenceRules": [
+      {
+        "kind": "test",
+        "duty": "produce",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.medium"
+      },
+      {
+        "kind": "review",
+        "duty": "review",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high"
+      }
+    ],
+    "permissionRules": [
+      {
+        "kind": "filesystem.read",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.write"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.process.spawn"
+        ]
+      }
+    ],
+    "observability": {
+      "model": "observed",
+      "effort": "observed",
+      "tools": "observed",
+      "skills": "observed",
+      "isolation": "observed",
+      "permissions": "observed",
+      "workspace": "observed",
+      "context": "observed"
+    },
+    "search": {
+      "exactVectorLimit": 200000,
+      "boundedBeamWidth": 64
+    }
+  },
+  "calibration": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeCalibrationCatalog",
+    "id": "calibration.codex-desktop.impact-planner",
+    "revision": 1,
+    "assessedBy": "repository-owner-via-standing-release-authorization",
+    "adapterId": "codex-desktop",
+    "adapterRevision": "v14-alpha",
+    "runtimeRows": [
+      {
+        "id": "row.gpt55.high",
+        "profileId": "profile.codex.gpt55",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.gpt55",
+        "independenceDomain": "profile.codex.gpt55",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "implement.accessible-impact-interface",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "implement.impact-graph",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "implement.safe-workspace-codec",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "integrate.impact-planner",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "review.impact-planner",
+            "qualityTier": "quality.frontier"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 4,
+        "latencyRank": 4,
+        "evidence": [
+          {
+            "id": "evidence.row.gpt55.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.luna.medium",
+        "profileId": "profile.codex.luna",
+        "effortId": "effort.medium",
+        "effortRank": 1,
+        "runtimeFamily": "profile.codex.luna",
+        "independenceDomain": "profile.codex.luna",
+        "reasoningTier": "reasoning.medium",
+        "capabilities": [
+          {
+            "capabilityId": "implement.accessible-impact-interface",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "implement.impact-graph",
+            "qualityTier": "quality.low"
+          },
+          {
+            "capabilityId": "implement.safe-workspace-codec",
+            "qualityTier": "quality.low"
+          },
+          {
+            "capabilityId": "integrate.impact-planner",
+            "qualityTier": "quality.low"
+          },
+          {
+            "capabilityId": "review.impact-planner",
+            "qualityTier": "quality.low"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 0,
+        "latencyRank": 0,
+        "evidence": [
+          {
+            "id": "evidence.row.luna.medium",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.sol",
+        "independenceDomain": "profile.codex.sol",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "implement.accessible-impact-interface",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "implement.impact-graph",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "implement.safe-workspace-codec",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "integrate.impact-planner",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "review.impact-planner",
+            "qualityTier": "quality.frontier"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "skills": [
+          "skill.browser.control-in-app-browser"
+        ],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 3,
+        "latencyRank": 3,
+        "evidence": [
+          {
+            "id": "evidence.row.sol.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.terra",
+        "independenceDomain": "profile.codex.terra",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "implement.accessible-impact-interface",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "implement.impact-graph",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "implement.safe-workspace-codec",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "integrate.impact-planner",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "review.impact-planner",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 2,
+        "latencyRank": 2,
+        "evidence": [
+          {
+            "id": "evidence.row.terra.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.terra.medium",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.medium",
+        "effortRank": 1,
+        "runtimeFamily": "profile.codex.terra",
+        "independenceDomain": "profile.codex.terra",
+        "reasoningTier": "reasoning.medium",
+        "capabilities": [
+          {
+            "capabilityId": "implement.accessible-impact-interface",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "implement.impact-graph",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "implement.safe-workspace-codec",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "integrate.impact-planner",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "review.impact-planner",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 1,
+        "latencyRank": 1,
+        "evidence": [
+          {
+            "id": "evidence.row.terra.medium",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      }
+    ]
+  },
+  "inventory": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "HostCapabilityInventory",
+    "id": "inventory.codex-desktop.impact-planner",
+    "revision": 1,
+    "hostId": "codex-desktop.windows",
+    "adapterId": "codex-desktop",
+    "adapterRevision": "v14-alpha",
+    "catalogRevision": "multi-agent-tool-schema.2026-07-27",
+    "completeness": "declared_subset",
+    "maxConcurrentAgents": 3,
+    "rows": [
+      {
+        "calibrationRowId": "row.gpt55.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.luna.medium",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.sol.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.terra.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.terra.medium",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      }
+    ]
+  }
+}

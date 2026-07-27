@@ -1,0 +1,28 @@
+{
+  "outcome": "pass",
+  "selected": [
+    {
+      "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "workUnitIds": [
+        "fix.changed-row-accessibility"
+      ],
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "requiredTools": [
+        "node",
+        "npm.cmd",
+        "rg"
+      ],
+      "requiredSkills": []
+    }
+  ],
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_assignment_vector_search",
+    "potentialVectors": 3,
+    "evaluatedVectors": 3,
+    "feasibleVectors": 3,
+    "contentDigest": "sha256:55c912bac164187982e34c0b293795ec59eb34390bf9914ccfe909ca41bbd3fb"
+  },
+  "compilationDigest": "sha256:bba5eb670726bec61876346501016fdd9e6c25776377bb36b5bcc1cf2aab17cc"
+}

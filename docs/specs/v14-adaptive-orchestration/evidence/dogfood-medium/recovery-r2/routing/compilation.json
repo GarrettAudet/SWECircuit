@@ -1,0 +1,1055 @@
+{
+  "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+  "kind": "RuntimeAssignmentCompilation",
+  "goalId": "v14.dogfood.impact-planner",
+  "goalRevision": 2,
+  "goalDigest": "sha256:ecc1544e5cc171885048880de632fed64d8de5e786b63f6334b3a4c4ea412144",
+  "compilationDigest": "sha256:8843d3af923c5fc16327ab9face168bc4f175314ab778ee71cd6d8e520567880",
+  "packageDigest": "sha256:b389428d7acf489b82ff79b3f0c0e2b4248abdc595f47c48ed832ba0704086a3",
+  "policy": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeDemandPolicy",
+    "id": "policy.v14.impact-planner.recovery-r2",
+    "revision": 1,
+    "qualityTiers": [
+      {
+        "id": "quality.low",
+        "rank": 0
+      },
+      {
+        "id": "quality.balanced",
+        "rank": 1
+      },
+      {
+        "id": "quality.frontier",
+        "rank": 2
+      }
+    ],
+    "reasoningTiers": [
+      {
+        "id": "reasoning.medium",
+        "rank": 0
+      },
+      {
+        "id": "reasoning.high",
+        "rank": 1
+      }
+    ],
+    "capabilityRules": [
+      {
+        "capabilityId": "integrate.impact-planner",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [
+          "skill.browser.control-in-app-browser"
+        ],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ]
+      },
+      {
+        "capabilityId": "repair.impact-graph-evidence",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.high",
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ]
+      },
+      {
+        "capabilityId": "review.impact-planner",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ]
+      }
+    ],
+    "evidenceRules": [
+      {
+        "kind": "test",
+        "duty": "produce",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.medium"
+      },
+      {
+        "kind": "handoff",
+        "duty": "verify",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high"
+      },
+      {
+        "kind": "review",
+        "duty": "review",
+        "minimumQualityTier": "quality.frontier",
+        "minimumReasoningTier": "reasoning.high"
+      }
+    ],
+    "permissionRules": [
+      {
+        "kind": "filesystem.read",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.write"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.process.spawn"
+        ]
+      }
+    ],
+    "observability": {
+      "model": "observed",
+      "effort": "observed",
+      "tools": "observed",
+      "skills": "observed",
+      "isolation": "observed",
+      "permissions": "observed",
+      "workspace": "observed",
+      "context": "observed"
+    },
+    "search": {
+      "exactVectorLimit": 200000,
+      "boundedBeamWidth": 64
+    }
+  },
+  "policyDigest": "sha256:ac2f023bdbf77e4ac6503659c37afa55438e5f6631aab0b73e6e29b6b6580e97",
+  "calibration": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeCalibrationCatalog",
+    "id": "calibration.codex-desktop.impact-planner.recovery-r2",
+    "revision": 1,
+    "assessedBy": "repository-owner-via-standing-release-authorization",
+    "adapterId": "codex-desktop",
+    "adapterRevision": "v14-alpha",
+    "runtimeRows": [
+      {
+        "id": "row.gpt55.high",
+        "profileId": "profile.codex.gpt55",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.gpt55",
+        "independenceDomain": "profile.codex.gpt55",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "integrate.impact-planner",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "repair.impact-graph-evidence",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "review.impact-planner",
+            "qualityTier": "quality.frontier"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 4,
+        "latencyRank": 4,
+        "evidence": [
+          {
+            "id": "evidence.row.gpt55.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.luna.medium",
+        "profileId": "profile.codex.luna",
+        "effortId": "effort.medium",
+        "effortRank": 1,
+        "runtimeFamily": "profile.codex.luna",
+        "independenceDomain": "profile.codex.luna",
+        "reasoningTier": "reasoning.medium",
+        "capabilities": [
+          {
+            "capabilityId": "integrate.impact-planner",
+            "qualityTier": "quality.low"
+          },
+          {
+            "capabilityId": "repair.impact-graph-evidence",
+            "qualityTier": "quality.low"
+          },
+          {
+            "capabilityId": "review.impact-planner",
+            "qualityTier": "quality.low"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 0,
+        "latencyRank": 0,
+        "evidence": [
+          {
+            "id": "evidence.row.luna.medium",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.sol",
+        "independenceDomain": "profile.codex.sol",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "integrate.impact-planner",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "repair.impact-graph-evidence",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "review.impact-planner",
+            "qualityTier": "quality.frontier"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "skills": [
+          "skill.browser.control-in-app-browser"
+        ],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 3,
+        "latencyRank": 3,
+        "evidence": [
+          {
+            "id": "evidence.row.sol.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.terra",
+        "independenceDomain": "profile.codex.terra",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "integrate.impact-planner",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "repair.impact-graph-evidence",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "review.impact-planner",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 2,
+        "latencyRank": 2,
+        "evidence": [
+          {
+            "id": "evidence.row.terra.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      },
+      {
+        "id": "row.terra.medium",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.medium",
+        "effortRank": 1,
+        "runtimeFamily": "profile.codex.terra",
+        "independenceDomain": "profile.codex.terra",
+        "reasoningTier": "reasoning.medium",
+        "capabilities": [
+          {
+            "capabilityId": "integrate.impact-planner",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "repair.impact-graph-evidence",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "review.impact-planner",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 2000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 1,
+        "latencyRank": 1,
+        "evidence": [
+          {
+            "id": "evidence.row.terra.medium",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/runtime-plan.json",
+            "digest": "sha256:c5bde6c7d241a1f78e345c9f75546ad5f8cb78aafe4648a93a31f1d120ca8fb8",
+            "bytes": 1358
+          }
+        ]
+      }
+    ]
+  },
+  "calibrationDigest": "sha256:79b81306e2ab5e3c0b1866d83666564dc0c3f6e59faeed144a2738231394d9c3",
+  "inventory": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "HostCapabilityInventory",
+    "id": "inventory.codex-desktop.impact-planner.recovery-r2",
+    "revision": 1,
+    "hostId": "codex-desktop.windows",
+    "adapterId": "codex-desktop",
+    "adapterRevision": "v14-alpha",
+    "catalogRevision": "multi-agent-tool-schema.2026-07-27",
+    "completeness": "declared_subset",
+    "maxConcurrentAgents": 1,
+    "rows": [
+      {
+        "calibrationRowId": "row.gpt55.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.luna.medium",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.sol.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.terra.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.terra.medium",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      }
+    ]
+  },
+  "inventoryDigest": "sha256:11b759420c1e18d8381bbfdc51c75e07b49ea53d6c1027f113ef4689d1548819",
+  "demands": [
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "blueprintDigest": "sha256:b3653a26444139f73caabd1939175149674a9d48bd2a3f356fc46ded29c811cc",
+      "requiredCapabilities": [
+        {
+          "capabilityId": "integrate.impact-planner",
+          "minimumQualityTier": "quality.frontier"
+        }
+      ],
+      "minimumReasoningTier": "reasoning.high",
+      "contextBytes": 47167,
+      "requiredTools": [
+        "node",
+        "npm.cmd",
+        "rg"
+      ],
+      "requiredSkills": [
+        "skill.browser.control-in-app-browser"
+      ],
+      "requiredIsolationFeatures": [
+        "isolation.scoped-worktree"
+      ],
+      "requiredPermissionFeatures": [
+        "permission.filesystem.read",
+        "permission.filesystem.write",
+        "permission.process.spawn"
+      ],
+      "observability": {
+        "model": "observed",
+        "effort": "observed",
+        "tools": "observed",
+        "skills": "observed",
+        "isolation": "observed",
+        "permissions": "observed",
+        "workspace": "observed",
+        "context": "observed"
+      },
+      "producerAgentIds": [
+        "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e"
+      ],
+      "checkerAgentIds": [
+        "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf"
+      ],
+      "contentDigest": "sha256:3dee294636e1850f548c737ece985d65f23278ce83049a90a7a634b4d57c5354"
+    },
+    {
+      "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+      "blueprintDigest": "sha256:83986bc64bf4d8db91d5133e3e9e4b08c306fcfcb15a682020bf41ca0ca4a1cb",
+      "requiredCapabilities": [
+        {
+          "capabilityId": "review.impact-planner",
+          "minimumQualityTier": "quality.frontier"
+        }
+      ],
+      "minimumReasoningTier": "reasoning.high",
+      "contextBytes": 65033,
+      "requiredTools": [
+        "node",
+        "npm.cmd",
+        "rg"
+      ],
+      "requiredSkills": [],
+      "requiredIsolationFeatures": [
+        "isolation.scoped-worktree"
+      ],
+      "requiredPermissionFeatures": [
+        "permission.filesystem.read",
+        "permission.filesystem.write",
+        "permission.process.spawn"
+      ],
+      "observability": {
+        "model": "observed",
+        "effort": "observed",
+        "tools": "observed",
+        "skills": "observed",
+        "isolation": "observed",
+        "permissions": "observed",
+        "workspace": "observed",
+        "context": "observed"
+      },
+      "producerAgentIds": [
+        "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+        "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e"
+      ],
+      "checkerAgentIds": [],
+      "contentDigest": "sha256:c7700205489e3c6c30cd79a27e835a6421b8647b4b28700985c7180f7abda37e"
+    },
+    {
+      "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+      "blueprintDigest": "sha256:1b12710386ad0bea720de6fe7a3cdc16e21130b3cd5a5220ff4e5896be627a7a",
+      "requiredCapabilities": [
+        {
+          "capabilityId": "repair.impact-graph-evidence",
+          "minimumQualityTier": "quality.balanced"
+        }
+      ],
+      "minimumReasoningTier": "reasoning.high",
+      "contextBytes": 46995,
+      "requiredTools": [
+        "node",
+        "rg"
+      ],
+      "requiredSkills": [],
+      "requiredIsolationFeatures": [
+        "isolation.scoped-worktree"
+      ],
+      "requiredPermissionFeatures": [
+        "permission.filesystem.read",
+        "permission.filesystem.write",
+        "permission.process.spawn"
+      ],
+      "observability": {
+        "model": "observed",
+        "effort": "observed",
+        "tools": "observed",
+        "skills": "observed",
+        "isolation": "observed",
+        "permissions": "observed",
+        "workspace": "observed",
+        "context": "observed"
+      },
+      "producerAgentIds": [],
+      "checkerAgentIds": [
+        "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+        "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf"
+      ],
+      "contentDigest": "sha256:06501a3fe23557217af328baaaf3e98bb89c2ba2bbff610798ad72af5958da4e"
+    }
+  ],
+  "evaluations": [
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "calibrationRowId": "row.gpt55.high",
+      "profileId": "profile.codex.gpt55",
+      "effortId": "effort.high",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "required_skill"
+      ],
+      "unmetRequirementIds": [
+        "capability:integrate.impact-planner",
+        "skill:skill.browser.control-in-app-browser"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:7d2187d1657cc8c106edcdfdef065ea0f67f18b3ed470d4e64bea4c4b8fa23a7"
+    },
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "calibrationRowId": "row.luna.medium",
+      "profileId": "profile.codex.luna",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "reasoning_tier",
+        "required_tool",
+        "required_skill"
+      ],
+      "unmetRequirementIds": [
+        "capability:integrate.impact-planner",
+        "reasoning:reasoning.high",
+        "tool:npm.cmd",
+        "skill:skill.browser.control-in-app-browser"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:20bb619a066b9f74538b02b1150054eca2f962bca58d8f83161bc4dfd95b80fc"
+    },
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "calibrationRowId": "row.sol.high",
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 3,
+        "latencyRank": 3,
+        "qualityExcess": 0,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 1952833,
+        "toolExcess": 0,
+        "skillExcess": 0,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:79b0ddb79f06729066463d4c58a5170ccb3348bb80989a735676039eca919243"
+    },
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "calibrationRowId": "row.terra.high",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "required_skill"
+      ],
+      "unmetRequirementIds": [
+        "capability:integrate.impact-planner",
+        "skill:skill.browser.control-in-app-browser"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:686bc4a6e0c9d62c501e492b20bf3f1b596fbf9c16fbcd344fee2642fd5e3fbc"
+    },
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "calibrationRowId": "row.terra.medium",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "reasoning_tier",
+        "required_tool",
+        "required_skill"
+      ],
+      "unmetRequirementIds": [
+        "capability:integrate.impact-planner",
+        "reasoning:reasoning.high",
+        "tool:npm.cmd",
+        "skill:skill.browser.control-in-app-browser"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:09344c6a7717f6114d76524676c895cf4146bbebb6b7e576f1cbbe19b0be3114"
+    },
+    {
+      "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+      "calibrationRowId": "row.gpt55.high",
+      "profileId": "profile.codex.gpt55",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 4,
+        "latencyRank": 4,
+        "qualityExcess": 0,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 1934967,
+        "toolExcess": 0,
+        "skillExcess": 0,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.gpt55\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:128009379cd51d1339d6b394d7b04d7b9a697390cbf9fb537568511dd71963c9"
+    },
+    {
+      "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+      "calibrationRowId": "row.luna.medium",
+      "profileId": "profile.codex.luna",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "reasoning_tier",
+        "required_tool"
+      ],
+      "unmetRequirementIds": [
+        "capability:review.impact-planner",
+        "reasoning:reasoning.high",
+        "tool:npm.cmd"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:8c39d6b6a35c23300dc1fbe0ea401c90d2a8a8c0ad7dc80cc83be0cce3f9cab6"
+    },
+    {
+      "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+      "calibrationRowId": "row.sol.high",
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 3,
+        "latencyRank": 3,
+        "qualityExcess": 0,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 1934967,
+        "toolExcess": 0,
+        "skillExcess": 1,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:4d7bdabb14419a232d1aec4e6ff27574e0e45762ca7c53e4584d049f7463a2c2"
+    },
+    {
+      "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+      "calibrationRowId": "row.terra.high",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier"
+      ],
+      "unmetRequirementIds": [
+        "capability:review.impact-planner"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:012e4b52b97a644b23c5fe65166e4055f01ba28e99e4f37e8e275598f49ce183"
+    },
+    {
+      "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+      "calibrationRowId": "row.terra.medium",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "reasoning_tier",
+        "required_tool"
+      ],
+      "unmetRequirementIds": [
+        "capability:review.impact-planner",
+        "reasoning:reasoning.high",
+        "tool:npm.cmd"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:f914588f2959cd50327e1478cd523f5e7b42eacc495be6f667e64c4e221c40ab"
+    },
+    {
+      "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+      "calibrationRowId": "row.gpt55.high",
+      "profileId": "profile.codex.gpt55",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 4,
+        "latencyRank": 4,
+        "qualityExcess": 1,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 1953005,
+        "toolExcess": 1,
+        "skillExcess": 0,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.gpt55\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:f95750a25a3217ec027ae042ecad15c919897387b72ea359eb240d3f1ef1bf97"
+    },
+    {
+      "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+      "calibrationRowId": "row.luna.medium",
+      "profileId": "profile.codex.luna",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "reasoning_tier"
+      ],
+      "unmetRequirementIds": [
+        "capability:repair.impact-graph-evidence",
+        "reasoning:reasoning.high"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:68ce355ba497e837b8658783bdd7e9311b801ce7b65d8c0b9ed542abc215698a"
+    },
+    {
+      "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+      "calibrationRowId": "row.sol.high",
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 3,
+        "latencyRank": 3,
+        "qualityExcess": 1,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 1953005,
+        "toolExcess": 1,
+        "skillExcess": 1,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:932a20fad5911b7ff6d972484f7e445b6a3381abbb8a25253d3c46dbec87f8a3"
+    },
+    {
+      "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+      "calibrationRowId": "row.terra.high",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 2,
+        "latencyRank": 2,
+        "qualityExcess": 1,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 1953005,
+        "toolExcess": 1,
+        "skillExcess": 0,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.terra\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:928c7bcd97785fa15bac96da4f702fb447d79a9646758d86db0dbfd7e81fb470"
+    },
+    {
+      "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+      "calibrationRowId": "row.terra.medium",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "reasoning_tier"
+      ],
+      "unmetRequirementIds": [
+        "reasoning:reasoning.high"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:32911e06fcdaad740fe260bcb2577badbeaba424315229a22bb8bc79b7d1d86a"
+    }
+  ],
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_assignment_vector_search",
+    "potentialVectors": 6,
+    "evaluatedVectors": 6,
+    "feasibleVectors": 1,
+    "contentDigest": "sha256:7a1c6e6c79af48d669e8bfe80cd894ddf933db71ac5428382fe8c3625d356e35"
+  },
+  "selected": {
+    "rows": [
+      {
+        "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+        "blueprintDigest": "sha256:b3653a26444139f73caabd1939175149674a9d48bd2a3f356fc46ded29c811cc",
+        "calibrationRowId": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.sol",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [
+          "skill.browser.control-in-app-browser"
+        ],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        }
+      },
+      {
+        "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+        "blueprintDigest": "sha256:83986bc64bf4d8db91d5133e3e9e4b08c306fcfcb15a682020bf41ca0ca4a1cb",
+        "calibrationRowId": "row.gpt55.high",
+        "profileId": "profile.codex.gpt55",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.gpt55",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        }
+      },
+      {
+        "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+        "blueprintDigest": "sha256:1b12710386ad0bea720de6fe7a3cdc16e21130b3cd5a5220ff4e5896be627a7a",
+        "calibrationRowId": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.terra",
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        }
+      }
+    ],
+    "comparator": {
+      "totalCostRank": 9,
+      "maximumLatencyRank": 4,
+      "totalLatencyRank": 9,
+      "totalQualityExcess": 1,
+      "totalReasoningExcess": 0,
+      "totalContextExcessBytes": 5840805,
+      "totalToolExcess": 1,
+      "totalSkillExcess": 0,
+      "totalEffortRank": 6,
+      "canonicalIdentity": "[\"agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a=profile.codex.sol/effort.high\",\"agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf=profile.codex.gpt55/effort.high\",\"agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e=profile.codex.terra/effort.high\"]"
+    },
+    "selectionReason": "lowest_exact_vector",
+    "contentDigest": "sha256:38c6c917907b5c1b1323ea843d63290585d85de19b9af860e80a44267eda1a61"
+  },
+  "predecessorAssignmentDigest": null,
+  "override": null,
+  "contentDigest": "sha256:0dd10500e4b4101d25287e6692b7677cc1a28bde261e4b2c84b85d635fd3ce28"
+}

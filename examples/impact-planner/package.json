@@ -1,0 +1,11 @@
+{
+  "name": "@swecircuit/impact-planner-example",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/codec.test.mjs test/graph.test.mjs test/storage.test.mjs test/interface.test.mjs test/integration.test.mjs test/server.test.mjs",
+    "check": "node --check server.mjs && node --check src/app.js && node --check src/codec.js && node --check src/graph.js && node --check src/storage.js && node --check src/ui-policy.js && node --check src/view.js"
+  }
+}

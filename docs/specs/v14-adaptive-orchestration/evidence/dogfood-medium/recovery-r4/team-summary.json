@@ -1,0 +1,118 @@
+{
+  "outcome": "pass",
+  "serialBaseline": {
+    "id": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+    "partition": [
+      [
+        "fix.changed-row-accessibility"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.impact-planner.accessibility-fix"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 3,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 2,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "start": 0,
+        "finish": 3
+      }
+    ],
+    "contentDigest": "sha256:1c19889741dd2eec5ff7d5620bc9a55ec193c998aaf1219a758617d39197d0b8"
+  },
+  "selected": {
+    "id": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+    "partition": [
+      [
+        "fix.changed-row-accessibility"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.impact-planner.accessibility-fix"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 3,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 2,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "start": 0,
+        "finish": 3
+      }
+    ],
+    "contentDigest": "sha256:1c19889741dd2eec5ff7d5620bc9a55ec193c998aaf1219a758617d39197d0b8"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+    "serialValue": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+    "serialRejectionCodes": []
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:a41b69b3bb17adaa9bb6c0f164bc1039868a98d0077a690a9d041fd4db9d8408"
+  },
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "workUnitIds": [
+        "fix.changed-row-accessibility"
+      ],
+      "dependencies": [],
+      "contentDigest": "sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba",
+      "contractFile": "agents/agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136.md"
+    }
+  ],
+  "expectation": {
+    "compilationDigest": "sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494",
+    "packageDigest": "sha256:6289f905bcd05da0d5b78938331713c45927bdeacb812173832993178b18b995"
+  }
+}

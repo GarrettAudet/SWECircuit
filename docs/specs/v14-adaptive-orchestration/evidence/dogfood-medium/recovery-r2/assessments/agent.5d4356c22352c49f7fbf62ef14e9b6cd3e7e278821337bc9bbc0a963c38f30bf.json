@@ -1,0 +1,61 @@
+{
+  "outcome": "pass",
+  "targetAgentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+  "sourcePaths": [
+    "docs\\specs\\v14-adaptive-orchestration\\evidence\\dogfood-medium\\recovery-r2\\handoffs\\graph-recovery-raw.json",
+    "docs\\specs\\v14-adaptive-orchestration\\evidence\\dogfood-medium\\recovery-r2\\handoffs\\integration-raw.json"
+  ],
+  "verified": [
+    {
+      "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+      "outcome": "pass",
+      "rawBytes": 2255,
+      "rawDigest": "sha256:6ae0c6edf99d47584ba6ad12f7828b1ac7aeee3984fc387cecceadf999d5eb89",
+      "semanticDigest": "sha256:a92322cc9c615df5b4484e18b19d6f5f05e68ef9928564cbb285c34b57924d11"
+    },
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "outcome": "pass",
+      "rawBytes": 3156,
+      "rawDigest": "sha256:7b7aadc71bd083d27a900548179db2a025e3417a1eb304b330d3f07779d315db",
+      "semanticDigest": "sha256:6b1b5429b26e0e7531106c79636a7c0503e98240dc0a5a4c1242622011ee60de"
+    }
+  ],
+  "assessment": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "SpecialistHandoffSetAssessment",
+    "goalId": "v14.dogfood.impact-planner",
+    "goalRevision": 2,
+    "goalDigest": "sha256:ecc1544e5cc171885048880de632fed64d8de5e786b63f6334b3a4c4ea412144",
+    "compilationDigest": "sha256:8843d3af923c5fc16327ab9face168bc4f175314ab778ee71cd6d8e520567880",
+    "packageDigest": "sha256:b389428d7acf489b82ff79b3f0c0e2b4248abdc595f47c48ed832ba0704086a3",
+    "targetAgentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+    "requiredAgentIds": [
+      "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e"
+    ],
+    "receivedAgentIds": [
+      "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e"
+    ],
+    "missingAgentIds": [],
+    "handoffs": [
+      {
+        "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+        "outcome": "pass",
+        "rawBytes": 3156,
+        "rawDigest": "sha256:7b7aadc71bd083d27a900548179db2a025e3417a1eb304b330d3f07779d315db",
+        "semanticDigest": "sha256:6b1b5429b26e0e7531106c79636a7c0503e98240dc0a5a4c1242622011ee60de"
+      },
+      {
+        "agentId": "agent.5dac52676545c6525a7a600380bfd9d5af9c09ccfa6f57b381897212bbb96f0e",
+        "outcome": "pass",
+        "rawBytes": 2255,
+        "rawDigest": "sha256:6ae0c6edf99d47584ba6ad12f7828b1ac7aeee3984fc387cecceadf999d5eb89",
+        "semanticDigest": "sha256:a92322cc9c615df5b4484e18b19d6f5f05e68ef9928564cbb285c34b57924d11"
+      }
+    ],
+    "integrationReady": true,
+    "contentDigest": "sha256:6834e2eff1c7deabd85d39e19c02b47b06e0165f28f7c4fea77010eae47f2b96"
+  }
+}

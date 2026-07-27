@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v14.dogfood.impact-planner",
+    "revision": 6,
+    "digest": "sha256:5ece1fe6d66b063e37dcc25534ccc7c4a79865971916a2e30c7c39af43e28057"
+  },
+  "agent": {
+    "id": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+    "blueprintDigest": "sha256:5c6c5cf1fec3acc916af27dcf6809e70f300ec88be239048b34ab51dcf34373b"
+  },
+  "compilationDigest": "sha256:4e0be7083c27a00fdf7daab7f77f8617023a6224f39bbd07c857773d2e093e30",
+  "summary": "Pass: all 29 context bindings, package identity, predecessor handoffs, 23 tests, seven syntax checks, and independent desktop/mobile browser checks passed. Every changed-component label measured 44px high, padding clicks outside the 20px checkbox toggled controls, horizontal overflow was zero, and no console warnings or errors were present.",
+  "workUnitsCompleted": [
+    "verify.impact-planner-rebound"
+  ],
+  "artifacts": [
+    {
+      "name": "impact-rebound-verification.md",
+      "mediaType": "text/markdown",
+      "content": "# Impact Planner Revision-6 Verification\n\nOutcome: pass\n\n## Context and package identity\n\nAll 29 declared repository context files matched their exact raw SHA-256 digests and byte counts before use. The eight predecessor SpecialistAgentHandoff files parsed with the required closed envelope, artifact, and evidence bindings. Their revision lineage and outcomes were coherent with `predecessor.json` and the revision-6 recovery goal.\n\nThe host package-verification receipt records a successful `verifySpecialistPackage` operation for compilation digest `sha256:4e0be7083c27a00fdf7daab7f77f8617023a6224f39bbd07c857773d2e093e30` and package digest `sha256:ecd43861a976c23b60f5d35da35b588a9299936209d8930481e196b6a73e6d7f`. It binds the 203184-byte package envelope with raw digest `sha256:798ac54cdd175b7e5557cf5b7a2cb72eb0a96daf7e6af94925713651f8a8282f` and the 2058-byte manifest with raw digest `sha256:f4958138c0578a85e16688004d24f84fc035e9df5441d4d8d5546e423f305f76`. The host repair receipt is bound as a 1100-byte runtime input with raw digest `sha256:581545b7bf713a33d540bc457fa7bdfaca8a3ad3809d0c24263313752c653cd0`; it does not alter package identity.\n\n## Candidate inspection\n\nThe exact bound stylesheet places display, padding, `min-height: 2.75rem`, and pointer behavior on `.changed-item label`. The non-interactive `.changed-item` has no padding. The exact bound integration test asserts this corrected source-to-stylesheet contract.\n\n## Automated verification\n\n`npm.cmd test` passed 23 of 23 tests with zero failures, skips, or cancellations.\n\n`npm.cmd run check` passed syntax checks for all seven declared files: `server.mjs`, `src/app.js`, `src/codec.js`, `src/graph.js`, `src/storage.js`, `src/ui-policy.js`, and `src/view.js`.\n\n## Browser verification\n\nThe exact bound candidate was inspected at `http://localhost:4175/` in the in-app browser.\n\nDesktop used a 1280x800 viewport override with a 1265px document client width. All four changed-component labels measured approximately 378.02px wide by exactly 44px high, with computed `min-height: 44px`. Checkbox glyphs measured 20px by 20px. A click six pixels inside the right label edge, outside the checkbox bounds, toggled Public API from unchecked to checked. Document horizontal overflow was zero.\n\nMobile used the required 390x844 viewport override with a 375px document client width. All four labels measured 304px wide by exactly 44px high, with computed `min-height: 44px`. Checkbox glyphs remained 20px by 20px. A click six pixels inside the right edge of the Operations Dashboard label, outside the checkbox bounds, toggled it from unchecked to checked. Document horizontal overflow was zero.\n\nConsole inspection after both viewport checks and interactions returned no warnings or errors. The viewport override was reset and browser tabs were finalized.\n\n## Verdict\n\nPass. Package identity, context identity, predecessor handoffs, recovery lineage, corrected pointer-target ownership, complete automated verification, desktop and mobile target geometry, padding activation, responsive overflow, and console cleanliness are verified with no material finding."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.context-identity",
+      "requirementId": "evidence.context-rebind.verify",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "impact-rebound-verification.md"
+    },
+    {
+      "criterionId": "criterion.product-regression",
+      "requirementId": "evidence.product-regression.verify",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "impact-rebound-verification.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}

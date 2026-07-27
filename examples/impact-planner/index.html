@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Impact Planner</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-inner">
+        <div>
+          <p class="workspace-label">Local workspace</p>
+          <h1>Impact planner</h1>
+        </div>
+        <div class="header-actions" aria-label="Workspace actions">
+          <button class="button button-secondary" id="import-button" type="button">Import</button>
+          <button class="button button-secondary" id="export-button" type="button">Export</button>
+          <button class="button button-primary" id="reset-button" type="button">Reset</button>
+          <input id="import-file" type="file" accept="application/json,.json" class="visually-hidden">
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="summary-section" aria-labelledby="impact-heading">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Change analysis</p>
+            <h2 id="impact-heading">Impact summary</h2>
+          </div>
+          <p class="risk-level" id="impact-summary" data-level="low">0 components affected - low risk</p>
+        </div>
+        <div class="summary-metrics" aria-label="Impact summary metrics">
+          <div><span class="metric-label">Changed</span><strong id="changed-count">0</strong></div>
+          <div><span class="metric-label">Affected</span><strong id="affected-count">0</strong></div>
+          <div><span class="metric-label">Risk score</span><strong id="risk-score">0</strong></div>
+        </div>
+      </section>
+
+      <section class="workspace-grid" aria-label="Impact planner workspace">
+        <div class="panel component-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-kicker">System model</p>
+              <h2>Components</h2>
+            </div>
+            <span class="panel-count" id="component-count">0</span>
+          </div>
+          <form id="component-form" class="component-form">
+            <div class="form-field">
+              <label for="component-id">Identifier</label>
+              <input id="component-id" name="id" type="text" maxlength="32" pattern="[a-z0-9-]+" autocomplete="off" required>
+            </div>
+            <div class="form-field">
+              <label for="component-name">Name</label>
+              <input id="component-name" name="name" type="text" maxlength="120" autocomplete="off" required>
+            </div>
+            <div class="form-field">
+              <label for="component-owner">Owner</label>
+              <input id="component-owner" name="owner" type="text" maxlength="120" autocomplete="organization" required>
+            </div>
+            <div class="form-field">
+              <label for="component-criticality">Criticality</label>
+              <select id="component-criticality" name="criticality">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+            <div class="form-field form-field-wide">
+              <label for="component-dependencies">Dependencies <span class="optional-label">Optional, comma separated</span></label>
+              <input id="component-dependencies" name="dependsOn" type="text" autocomplete="off">
+            </div>
+            <button class="button button-primary form-submit" type="submit">Save component</button>
+          </form>
+          <div class="error-summary" id="error-summary" role="alert" aria-live="assertive" hidden></div>
+          <div class="empty-state" id="component-empty" hidden>
+            <h3>No components yet</h3>
+            <p>Add the first component to begin mapping impact.</p>
+          </div>
+          <ul class="component-list" id="component-list" aria-label="Components"></ul>
+        </div>
+
+        <div class="panel changed-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-kicker">Change set</p>
+              <h2>Changed components</h2>
+            </div>
+          </div>
+          <p class="panel-intro">Select components included in the change.</p>
+          <div class="empty-state" id="changed-empty" hidden>
+            <h3>Nothing selected</h3>
+            <p>Choose one or more changed components.</p>
+          </div>
+          <ul class="changed-list" id="changed-list" aria-label="Changed components"></ul>
+        </div>
+      </section>
+
+      <section class="panel impact-panel" aria-labelledby="impact-table-heading">
+        <div class="panel-heading">
+          <div>
+            <p class="section-kicker">Dependency paths</p>
+            <h2 id="impact-table-heading">Affected components</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <caption class="visually-hidden">Components affected by the selected changes</caption>
+            <thead><tr><th scope="col">Component</th><th scope="col">Criticality</th><th scope="col">Distance</th><th scope="col">Path</th><th scope="col">Reason</th></tr></thead>
+            <tbody id="impact-table-body"></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="impact-empty">
+          <h3>No impact calculated</h3>
+          <p>Select a changed component to see its dependency paths.</p>
+        </div>
+      </section>
+    </main>
+
+    <template id="component-template">
+      <li class="component-row" data-component-id="">
+        <div class="component-main">
+          <h3 data-component-name></h3>
+          <p class="component-meta"><span data-component-id-label></span><span aria-hidden="true">/</span><span data-component-owner></span><span aria-hidden="true">/</span><span data-component-criticality></span></p>
+          <p class="component-dependencies" data-component-dependencies></p>
+        </div>
+        <div class="row-actions" aria-label="Component actions">
+          <button class="button button-secondary" type="button" data-action="edit">Edit</button>
+          <button class="button button-quiet" type="button" data-action="delete">Delete</button>
+        </div>
+      </li>
+    </template>
+
+    <div class="visually-hidden" id="announcement" role="status" aria-live="polite"></div>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>

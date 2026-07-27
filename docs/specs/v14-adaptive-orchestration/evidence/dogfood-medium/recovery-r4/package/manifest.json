@@ -1,0 +1,34 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v14.dogfood.impact-planner",
+  "goalRevision": 4,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494",
+  "selectedCandidateId": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:14d736666e6b5d1f34ca89b13fab86cb41d2868a96d55a38a5f4373e578fb33e",
+  "compilationFileBytes": 34679,
+  "agents": [
+    {
+      "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "blueprintDigest": "sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba",
+      "contractFile": "agents/agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136.md",
+      "contractDigest": "sha256:f839570fd09cbd430efe62cb2ff65f49e493388c2d2b0850e880472930fee076",
+      "contractBytes": 12819
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:ea80cf3ac8dbec9743b7f1a9fd640bf7dd4c190b66bdd9ba3903a71119d8be03",
+  "integrationBytes": 3150,
+  "contentDigest": "sha256:0de3342818b18a9567589092b1620abf1d1715bb36bb46c11b1861f9c736f73b"
+}

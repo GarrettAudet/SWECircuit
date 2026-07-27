@@ -1,0 +1,76 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v14.dogfood.impact-planner",
+  "goalRevision": 1,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:76349da2c25d1f8160d30dbb5b2b9de61582f24d511765a1c9cbb738749741f9",
+  "selectedCandidateId": "team.ab364ab84deeff1ac9bc988bfeac517d1424b37a15be1aa865a7ad7a50bd9b03",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+        "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+        "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5"
+      ]
+    },
+    {
+      "start": 10,
+      "agentIds": [
+        "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a"
+      ]
+    },
+    {
+      "start": 19,
+      "agentIds": [
+        "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:d850371b810bfb75bb4deaac6e9b5b7effb9e0ca84a6a66e7086f4884679ecde",
+  "compilationFileBytes": 120351,
+  "agents": [
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "blueprintDigest": "sha256:38a4d264698e6726b0ee5c478736ba0e24f23c4755a027f157a7703eabe8eb92",
+      "contractFile": "agents/agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a.md",
+      "contractDigest": "sha256:e01ac444e3b2ef8c189ecab136ac8a1c6bb555ece58ab5e054a7905282e1ef34",
+      "contractBytes": 12745
+    },
+    {
+      "agentId": "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+      "blueprintDigest": "sha256:38a4b7a0a353554a919890565157d1e9df46c4dd9e3167e2738facfbd70e5974",
+      "contractFile": "agents/agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00.md",
+      "contractDigest": "sha256:d356ba8b93570d7085f066dfda4d0efe6fe940f770c064277f6677fc8dbc0989",
+      "contractBytes": 10313
+    },
+    {
+      "agentId": "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+      "blueprintDigest": "sha256:776c871f6a04c47ea2a7a737d4e9bc214af672b74849cc504a11b4e9cc5c661c",
+      "contractFile": "agents/agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975.md",
+      "contractDigest": "sha256:e03523c1027a3267b533fd2df0760d627f23159d81a55fb7d640e52daa4d7368",
+      "contractBytes": 10298
+    },
+    {
+      "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+      "blueprintDigest": "sha256:8e7b39fbd6667a60028635127fd5deb7bda962a93510853235e830acfbd523c1",
+      "contractFile": "agents/agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf.md",
+      "contractDigest": "sha256:26b8238e7a6cca8b1787f6675877ba480dace8e108303b50b8606b11655041f3",
+      "contractBytes": 17854
+    },
+    {
+      "agentId": "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5",
+      "blueprintDigest": "sha256:e26ba470db59115a43cac0bdf7dbdfed4130f857c48ae57339abbf26ae374622",
+      "contractFile": "agents/agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5.md",
+      "contractDigest": "sha256:7ef2d1dd549c7331d63c38f6f43978cb10e5fc4a4758b688fb3b69b5359ebe98",
+      "contractBytes": 10040
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:f7ae5d3b26c572f7be350471ce0ef6419f6cf4d5f4b89a29ca421f2d410fb91d",
+  "integrationBytes": 5215,
+  "contentDigest": "sha256:a6c8fd6c32a60de465f7bd6f87a69afdae08ddbfc8f9bc568e56a63f12b3afd0"
+}

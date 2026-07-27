@@ -1,0 +1,83 @@
+{
+  "outcome": "pass",
+  "selected": [
+    {
+      "agentId": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+      "workUnitIds": [
+        "integrate.impact-planner"
+      ],
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "requiredTools": [
+        "node",
+        "npm.cmd",
+        "rg"
+      ],
+      "requiredSkills": [
+        "skill.browser.control-in-app-browser"
+      ]
+    },
+    {
+      "agentId": "agent.07613e646cfa8543c304a420d97456c1bcd0b0ca1c7387fe9bce0949b6961f00",
+      "workUnitIds": [
+        "implement.impact-codec-storage"
+      ],
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.medium",
+      "requiredTools": [
+        "node",
+        "rg"
+      ],
+      "requiredSkills": []
+    },
+    {
+      "agentId": "agent.38e222c902c45d5719849945570fcf6ca6f293434f31bcb0722fba0fb6c3d975",
+      "workUnitIds": [
+        "implement.impact-interface"
+      ],
+      "profileId": "profile.codex.luna",
+      "effortId": "effort.medium",
+      "requiredTools": [
+        "node",
+        "rg"
+      ],
+      "requiredSkills": []
+    },
+    {
+      "agentId": "agent.5d4356c22352c49f7fbf62ef14e9b6cd3e7e278821337bc9bbc0a963c38f30bf",
+      "workUnitIds": [
+        "review.impact-planner"
+      ],
+      "profileId": "profile.codex.gpt55",
+      "effortId": "effort.high",
+      "requiredTools": [
+        "node",
+        "npm.cmd",
+        "rg"
+      ],
+      "requiredSkills": []
+    },
+    {
+      "agentId": "agent.9150f32977cbe68915155d99b73818003d6d1d1540bb7f6d8b5e409011d882b5",
+      "workUnitIds": [
+        "implement.impact-graph"
+      ],
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "requiredTools": [
+        "node",
+        "rg"
+      ],
+      "requiredSkills": []
+    }
+  ],
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_assignment_vector_search",
+    "potentialVectors": 120,
+    "evaluatedVectors": 120,
+    "feasibleVectors": 24,
+    "contentDigest": "sha256:22378b9cea5f8437690ca3ceea669d09552591dd91e872c5c9bbc7c791ccf7a6"
+  },
+  "compilationDigest": "sha256:1f4d3afb49ea280f35dad7a905e3a29848d1d0568405761d878fe1905dbd5d9b"
+}

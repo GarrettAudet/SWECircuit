@@ -1,0 +1,19 @@
+{
+  "compilationDigest": "sha256:76349da2c25d1f8160d30dbb5b2b9de61582f24d511765a1c9cbb738749741f9",
+  "packageDigest": "sha256:32fc13a415e3590387ca0aee527b29c8f24a0380af552a27366f6d6046938972",
+  "policyDigest": "sha256:6e2d33332d900403e7620f52bd92aabbcac74da99295ea3f9257c826a60adb19",
+  "calibrationDigest": "sha256:e1b5106151e0f5e64e2374fd995ed1302d703bf00cf6493de748086dbcf978d8",
+  "inventoryDigest": "sha256:c15d01f6d88804b18f093e7afa7bd620600278534d692b3c333dcbf8d2d7760f",
+  "assignmentDigest": "sha256:1f4d3afb49ea280f35dad7a905e3a29848d1d0568405761d878fe1905dbd5d9b",
+  "runId": "run.v14.impact-planner.medium",
+  "runRevision": 1,
+  "predecessorRun": null,
+  "workspaceBaselineDigest": "sha256:df5ca457fde1db287ebde21dbfe23804975879f9b99a953c6e3fb41bdd5baf4e",
+  "authorizedHostId": "codex-desktop.windows",
+  "authorizedAdapterId": "codex-desktop",
+  "authorizedAdapterRevision": "v14-alpha",
+  "authorizationIssuerId": "repository-owner-via-standing-release-authorization",
+  "maxHostEvents": 160,
+  "lineageDepth": 0,
+  "maxLineageDepth": 8
+}

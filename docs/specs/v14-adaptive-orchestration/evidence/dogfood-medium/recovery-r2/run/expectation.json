@@ -1,0 +1,24 @@
+{
+  "compilationDigest": "sha256:8843d3af923c5fc16327ab9face168bc4f175314ab778ee71cd6d8e520567880",
+  "packageDigest": "sha256:b389428d7acf489b82ff79b3f0c0e2b4248abdc595f47c48ed832ba0704086a3",
+  "policyDigest": "sha256:ac2f023bdbf77e4ac6503659c37afa55438e5f6631aab0b73e6e29b6b6580e97",
+  "calibrationDigest": "sha256:79b81306e2ab5e3c0b1866d83666564dc0c3f6e59faeed144a2738231394d9c3",
+  "inventoryDigest": "sha256:11b759420c1e18d8381bbfdc51c75e07b49ea53d6c1027f113ef4689d1548819",
+  "assignmentDigest": "sha256:0dd10500e4b4101d25287e6692b7677cc1a28bde261e4b2c84b85d635fd3ce28",
+  "runId": "run.v14.impact-planner.medium.r2",
+  "runRevision": 2,
+  "predecessorRun": {
+    "runId": "run.v14.impact-planner.medium",
+    "sessionDigest": "sha256:a9af647c4e950289b3c020d7ea9e7f5a40f99d2895ff8eac6dc76e03fa68d0cc",
+    "terminalOutcome": "fix",
+    "evidenceDigest": "sha256:44f46604659d16de5cfc003f8afd88aafb91c6166292d93970fd1a5b82391094"
+  },
+  "workspaceBaselineDigest": "sha256:25dbc0c6a68aa571802ade06d2cb1198812280e484c82ec649b89e7deec700bd",
+  "authorizedHostId": "codex-desktop.windows",
+  "authorizedAdapterId": "codex-desktop",
+  "authorizedAdapterRevision": "v14-alpha",
+  "authorizationIssuerId": "repository-owner-via-standing-release-authorization",
+  "maxHostEvents": 160,
+  "lineageDepth": 1,
+  "maxLineageDepth": 8
+}

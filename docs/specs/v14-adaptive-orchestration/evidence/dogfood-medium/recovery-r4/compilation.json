@@ -1,0 +1,893 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v14.dogfood.impact-planner",
+    "revision": 4,
+    "objective": "Correct the verified changed-row accessibility binding with the smallest causal source and regression-test change.",
+    "integrationOwner": "codex.main",
+    "assumptions": [],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.changed-row-binding",
+        "description": "Runtime change-set rows use the exact accessible stylesheet class and focused regression coverage prevents drift.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.changed-row-fix.produce",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Apply the exact class correction, add the runtime-to-stylesheet binding assertion, and pass the complete app suite.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+        "bytes": 18686,
+        "description": "Exact revision-4 source for AGENTS.md.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.app-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+        "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+        "bytes": 5191,
+        "description": "Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+      },
+      {
+        "id": "context.app-source",
+        "kind": "repository",
+        "locator": "path:examples/impact-planner/src/app.js",
+        "digest": "sha256:d223d0e29c3a84eeb79dc600e5df4cabccd184db0f50193237ca84a1f565327e",
+        "bytes": 14039,
+        "description": "Exact revision-4 source for examples/impact-planner/src/app.js.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "examples/impact-planner/src/app.js"
+      },
+      {
+        "id": "context.integration-tests",
+        "kind": "repository",
+        "locator": "path:examples/impact-planner/test/integration.test.mjs",
+        "digest": "sha256:aeef0c8a26f9ab6c87f41848bc84f369e1047e4ac1d502c20d1984b2802856e9",
+        "bytes": 4266,
+        "description": "Exact revision-4 source for examples/impact-planner/test/integration.test.mjs.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "examples/impact-planner/test/integration.test.mjs"
+      },
+      {
+        "id": "context.interface-tests",
+        "kind": "repository",
+        "locator": "path:examples/impact-planner/test/interface.test.mjs",
+        "digest": "sha256:f1214d4792a64d06cb3c8f4d61689afc7ac64911906bfa9009fb759cbb457639",
+        "bytes": 1659,
+        "description": "Exact revision-4 source for examples/impact-planner/test/interface.test.mjs.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "examples/impact-planner/test/interface.test.mjs"
+      },
+      {
+        "id": "context.predecessor",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+        "digest": "sha256:a4ab00c2113c95fd0f0f2f76bb27ccfa86a633e13bdd3ad67f4cf0ca1e42df1b",
+        "bytes": 1188,
+        "description": "Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json"
+      },
+      {
+        "id": "context.recovery-goal",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+        "digest": "sha256:f9e408e61368186342656cbb1956ba05b7b337953027306245f15c8d34b35818",
+        "bytes": 1450,
+        "description": "Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md"
+      },
+      {
+        "id": "context.review-finding",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+        "digest": "sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c",
+        "bytes": 5668,
+        "description": "Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json"
+      },
+      {
+        "id": "context.styles",
+        "kind": "repository",
+        "locator": "path:examples/impact-planner/styles.css",
+        "digest": "sha256:91977a2fdaaabe76c0fb6c7fd55ec9ddd8373318b1f443e648809d8d74587a5d",
+        "bytes": 8111,
+        "description": "Exact revision-4 source for examples/impact-planner/styles.css.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "examples/impact-planner/styles.css"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "fix.changed-row-accessibility"
+      ],
+      "allowedCapabilities": [
+        "repair.impact-planner-accessibility"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "AGENTS.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/styles.css",
+            "examples/impact-planner/test/integration.test.mjs",
+            "examples/impact-planner/test/interface.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/test/integration.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm.cmd",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not access the network, secrets, external services, or undeclared paths.",
+        "Do not install dependencies, mutate Git, merge, update memory, or alter styles.",
+        "Do not modify files outside app.js and integration.test.mjs."
+      ],
+      "maxAgents": 1,
+      "maxConcurrency": 1
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "fix.changed-row-accessibility",
+        "objective": "Align the runtime changed-component row class with the accessible stylesheet and lock it with a regression test.",
+        "weight": 2,
+        "module": {
+          "id": "fix.changed-row-accessibility",
+          "action": "Replace changed-row with changed-item, add a focused source/CSS binding assertion, and run all app tests and syntax checks.",
+          "inputPorts": [
+            {
+              "name": "finding",
+              "artifactType": "ImpactPlannerReviewFinding"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "handoff",
+              "artifactType": "impact-accessibility-fix.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "repair.impact-planner-accessibility"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "purpose": "Apply and verify the exact reviewed accessibility correction."
+          },
+          {
+            "sourceId": "context.app-contract",
+            "purpose": "Apply and verify the exact reviewed accessibility correction."
+          },
+          {
+            "sourceId": "context.app-source",
+            "purpose": "Apply and verify the exact reviewed accessibility correction."
+          },
+          {
+            "sourceId": "context.integration-tests",
+            "purpose": "Apply and verify the exact reviewed accessibility correction."
+          },
+          {
+            "sourceId": "context.interface-tests",
+            "purpose": "Apply and verify the exact reviewed accessibility correction."
+          },
+          {
+            "sourceId": "context.predecessor",
+            "purpose": "Apply and verify the exact reviewed accessibility correction."
+          },
+          {
+            "sourceId": "context.recovery-goal",
+            "purpose": "Apply and verify the exact reviewed accessibility correction."
+          },
+          {
+            "sourceId": "context.review-finding",
+            "purpose": "Apply and verify the exact reviewed accessibility correction."
+          },
+          {
+            "sourceId": "context.styles",
+            "purpose": "Apply and verify the exact reviewed accessibility correction."
+          }
+        ],
+        "scope": {
+          "read": [
+            "AGENTS.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/styles.css",
+            "examples/impact-planner/test/integration.test.mjs",
+            "examples/impact-planner/test/interface.test.mjs"
+          ],
+          "write": [
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/test/integration.test.mjs"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/integration.test.mjs",
+              "examples/impact-planner/test/interface.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/test/integration.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.changed-row-fix.produce"
+        ],
+        "handoffArtifacts": [
+          "impact-accessibility-fix.md"
+        ],
+        "stopConditions": [
+          "Do not modify files outside the declared write scope.",
+          "Do not weaken or remove existing tests.",
+          "Return non-pass if the focused assertion or complete suite does not pass."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:288d225158594799926f3caf92f4d18a2dd62efbccbc920a614827c32d4994df",
+  "proposedCandidates": [
+    {
+      "id": "candidate.impact-planner.accessibility-fix",
+      "groups": [
+        [
+          "fix.changed-row-accessibility"
+        ]
+      ]
+    }
+  ],
+  "proposalEvaluations": [
+    {
+      "id": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+      "partition": [
+        [
+          "fix.changed-row-accessibility"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search",
+        "proposed"
+      ],
+      "proposalIds": [
+        "candidate.impact-planner.accessibility-fix"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 3,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 2,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+          "start": 0,
+          "finish": 3
+        }
+      ],
+      "contentDigest": "sha256:1c19889741dd2eec5ff7d5620bc9a55ec193c998aaf1219a758617d39197d0b8"
+    }
+  ],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v14.dogfood.impact-planner",
+    "goalRevision": 4,
+    "allowedModules": [
+      "fix.changed-row-accessibility"
+    ],
+    "allowedCapabilities": [
+      "repair.impact-planner-accessibility"
+    ],
+    "contextSources": [
+      {
+        "id": "context.agent-contract",
+        "kind": "repository",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+        "bytes": 18686,
+        "description": "Exact revision-4 source for AGENTS.md.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "AGENTS.md"
+      },
+      {
+        "id": "context.app-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+        "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+        "bytes": 5191,
+        "description": "Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+      },
+      {
+        "id": "context.app-source",
+        "kind": "repository",
+        "locator": "path:examples/impact-planner/src/app.js",
+        "digest": "sha256:d223d0e29c3a84eeb79dc600e5df4cabccd184db0f50193237ca84a1f565327e",
+        "bytes": 14039,
+        "description": "Exact revision-4 source for examples/impact-planner/src/app.js.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "examples/impact-planner/src/app.js"
+      },
+      {
+        "id": "context.integration-tests",
+        "kind": "repository",
+        "locator": "path:examples/impact-planner/test/integration.test.mjs",
+        "digest": "sha256:aeef0c8a26f9ab6c87f41848bc84f369e1047e4ac1d502c20d1984b2802856e9",
+        "bytes": 4266,
+        "description": "Exact revision-4 source for examples/impact-planner/test/integration.test.mjs.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "examples/impact-planner/test/integration.test.mjs"
+      },
+      {
+        "id": "context.interface-tests",
+        "kind": "repository",
+        "locator": "path:examples/impact-planner/test/interface.test.mjs",
+        "digest": "sha256:f1214d4792a64d06cb3c8f4d61689afc7ac64911906bfa9009fb759cbb457639",
+        "bytes": 1659,
+        "description": "Exact revision-4 source for examples/impact-planner/test/interface.test.mjs.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "examples/impact-planner/test/interface.test.mjs"
+      },
+      {
+        "id": "context.predecessor",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+        "digest": "sha256:a4ab00c2113c95fd0f0f2f76bb27ccfa86a633e13bdd3ad67f4cf0ca1e42df1b",
+        "bytes": 1188,
+        "description": "Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json"
+      },
+      {
+        "id": "context.recovery-goal",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+        "digest": "sha256:f9e408e61368186342656cbb1956ba05b7b337953027306245f15c8d34b35818",
+        "bytes": 1450,
+        "description": "Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md"
+      },
+      {
+        "id": "context.review-finding",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+        "digest": "sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c",
+        "bytes": 5668,
+        "description": "Exact revision-4 source for docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json"
+      },
+      {
+        "id": "context.styles",
+        "kind": "repository",
+        "locator": "path:examples/impact-planner/styles.css",
+        "digest": "sha256:91977a2fdaaabe76c0fb6c7fd55ec9ddd8373318b1f443e648809d8d74587a5d",
+        "bytes": 8111,
+        "description": "Exact revision-4 source for examples/impact-planner/styles.css.",
+        "allowedWorkUnits": [
+          "fix.changed-row-accessibility"
+        ],
+        "readScope": "examples/impact-planner/styles.css"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "AGENTS.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+          "examples/impact-planner/src/app.js",
+          "examples/impact-planner/styles.css",
+          "examples/impact-planner/test/integration.test.mjs",
+          "examples/impact-planner/test/interface.test.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "examples/impact-planner/src/app.js",
+          "examples/impact-planner/test/integration.test.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not access the network, secrets, external services, or undeclared paths.",
+      "Do not install dependencies, mutate Git, merge, update memory, or alter styles.",
+      "Do not modify files outside app.js and integration.test.mjs."
+    ],
+    "maxAgents": 1,
+    "maxConcurrency": 1,
+    "contentDigest": "sha256:76830b7b08508cbe72ca225648bc325d58cd81d62d9d5b5aa4b607ce326057c8"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 1,
+    "evaluatedCandidates": 1,
+    "eligibleCandidates": 1,
+    "retainedAlternatives": 0,
+    "evaluationSetDigest": "sha256:a41b69b3bb17adaa9bb6c0f164bc1039868a98d0077a690a9d041fd4db9d8408"
+  },
+  "serialBaseline": {
+    "id": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+    "partition": [
+      [
+        "fix.changed-row-accessibility"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.impact-planner.accessibility-fix"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 3,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 2,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "start": 0,
+        "finish": 3
+      }
+    ],
+    "contentDigest": "sha256:1c19889741dd2eec5ff7d5620bc9a55ec193c998aaf1219a758617d39197d0b8"
+  },
+  "selected": {
+    "id": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+    "partition": [
+      [
+        "fix.changed-row-accessibility"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.impact-planner.accessibility-fix"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 3,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 2,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+        "start": 0,
+        "finish": 3
+      }
+    ],
+    "contentDigest": "sha256:1c19889741dd2eec5ff7d5620bc9a55ec193c998aaf1219a758617d39197d0b8"
+  },
+  "selectionReason": {
+    "kind": "serial_selected",
+    "decisiveField": "serial_baseline",
+    "selectedValue": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+    "serialValue": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+    "serialRejectionCodes": []
+  },
+  "alternatives": [],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136",
+      "goalId": "v14.dogfood.impact-planner",
+      "goalRevision": 4,
+      "goalDigest": "sha256:288d225158594799926f3caf92f4d18a2dd62efbccbc920a614827c32d4994df",
+      "candidateId": "team.925acbb1de6b014f4dca19b61305f2161591d3f263127b98412f3293e6340e88",
+      "workUnitIds": [
+        "fix.changed-row-accessibility"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "fix.changed-row-accessibility",
+          "objective": "Align the runtime changed-component row class with the accessible stylesheet and lock it with a regression test."
+        }
+      ],
+      "modules": [
+        {
+          "id": "fix.changed-row-accessibility",
+          "action": "Replace changed-row with changed-item, add a focused source/CSS binding assertion, and run all app tests and syntax checks.",
+          "inputPorts": [
+            {
+              "name": "finding",
+              "artifactType": "ImpactPlannerReviewFinding"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "handoff",
+              "artifactType": "impact-accessibility-fix.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.agent-contract",
+          "kind": "repository",
+          "locator": "path:AGENTS.md",
+          "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+          "bytes": 18686,
+          "purposes": [
+            "Apply and verify the exact reviewed accessibility correction."
+          ],
+          "workUnitIds": [
+            "fix.changed-row-accessibility"
+          ],
+          "readScope": "AGENTS.md"
+        },
+        {
+          "sourceId": "context.app-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+          "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+          "bytes": 5191,
+          "purposes": [
+            "Apply and verify the exact reviewed accessibility correction."
+          ],
+          "workUnitIds": [
+            "fix.changed-row-accessibility"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md"
+        },
+        {
+          "sourceId": "context.app-source",
+          "kind": "repository",
+          "locator": "path:examples/impact-planner/src/app.js",
+          "digest": "sha256:d223d0e29c3a84eeb79dc600e5df4cabccd184db0f50193237ca84a1f565327e",
+          "bytes": 14039,
+          "purposes": [
+            "Apply and verify the exact reviewed accessibility correction."
+          ],
+          "workUnitIds": [
+            "fix.changed-row-accessibility"
+          ],
+          "readScope": "examples/impact-planner/src/app.js"
+        },
+        {
+          "sourceId": "context.integration-tests",
+          "kind": "repository",
+          "locator": "path:examples/impact-planner/test/integration.test.mjs",
+          "digest": "sha256:aeef0c8a26f9ab6c87f41848bc84f369e1047e4ac1d502c20d1984b2802856e9",
+          "bytes": 4266,
+          "purposes": [
+            "Apply and verify the exact reviewed accessibility correction."
+          ],
+          "workUnitIds": [
+            "fix.changed-row-accessibility"
+          ],
+          "readScope": "examples/impact-planner/test/integration.test.mjs"
+        },
+        {
+          "sourceId": "context.interface-tests",
+          "kind": "repository",
+          "locator": "path:examples/impact-planner/test/interface.test.mjs",
+          "digest": "sha256:f1214d4792a64d06cb3c8f4d61689afc7ac64911906bfa9009fb759cbb457639",
+          "bytes": 1659,
+          "purposes": [
+            "Apply and verify the exact reviewed accessibility correction."
+          ],
+          "workUnitIds": [
+            "fix.changed-row-accessibility"
+          ],
+          "readScope": "examples/impact-planner/test/interface.test.mjs"
+        },
+        {
+          "sourceId": "context.predecessor",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+          "digest": "sha256:a4ab00c2113c95fd0f0f2f76bb27ccfa86a633e13bdd3ad67f4cf0ca1e42df1b",
+          "bytes": 1188,
+          "purposes": [
+            "Apply and verify the exact reviewed accessibility correction."
+          ],
+          "workUnitIds": [
+            "fix.changed-row-accessibility"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json"
+        },
+        {
+          "sourceId": "context.recovery-goal",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+          "digest": "sha256:f9e408e61368186342656cbb1956ba05b7b337953027306245f15c8d34b35818",
+          "bytes": 1450,
+          "purposes": [
+            "Apply and verify the exact reviewed accessibility correction."
+          ],
+          "workUnitIds": [
+            "fix.changed-row-accessibility"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md"
+        },
+        {
+          "sourceId": "context.review-finding",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+          "digest": "sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c",
+          "bytes": 5668,
+          "purposes": [
+            "Apply and verify the exact reviewed accessibility correction."
+          ],
+          "workUnitIds": [
+            "fix.changed-row-accessibility"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json"
+        },
+        {
+          "sourceId": "context.styles",
+          "kind": "repository",
+          "locator": "path:examples/impact-planner/styles.css",
+          "digest": "sha256:91977a2fdaaabe76c0fb6c7fd55ec9ddd8373318b1f443e648809d8d74587a5d",
+          "bytes": 8111,
+          "purposes": [
+            "Apply and verify the exact reviewed accessibility correction."
+          ],
+          "workUnitIds": [
+            "fix.changed-row-accessibility"
+          ],
+          "readScope": "examples/impact-planner/styles.css"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "repair.impact-planner-accessibility"
+        ],
+        "scope": {
+          "read": [
+            "AGENTS.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/styles.css",
+            "examples/impact-planner/test/integration.test.mjs",
+            "examples/impact-planner/test/interface.test.mjs"
+          ],
+          "write": [
+            "examples/impact-planner/src/app.js",
+            "examples/impact-planner/test/integration.test.mjs"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/goal.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/predecessor.json",
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/styles.css",
+              "examples/impact-planner/test/integration.test.mjs",
+              "examples/impact-planner/test/interface.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "examples/impact-planner/src/app.js",
+              "examples/impact-planner/test/integration.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access the network, secrets, external services, or undeclared paths.",
+          "Do not install dependencies, mutate Git, merge, update memory, or alter styles.",
+          "Do not modify files outside app.js and integration.test.mjs."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.changed-row-binding",
+          "criterion": "Runtime change-set rows use the exact accessible stylesheet class and focused regression coverage prevents drift.",
+          "requirementId": "evidence.changed-row-fix.produce",
+          "kind": "test",
+          "duty": "produce",
+          "description": "Apply the exact class correction, add the runtime-to-stylesheet binding assertion, and pass the complete app suite.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "impact-accessibility-fix.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not modify files outside the declared write scope.",
+        "Do not weaken or remove existing tests.",
+        "Return non-pass if the focused assertion or complete suite does not pass."
+      ],
+      "contentDigest": "sha256:356e0a4052827f82c89d2f34c4fda8d97036bdb1ce603a515b4d4a5715c1aaba"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.6ade2b5b3ca26785a1fc3eafb7ac86503669e018976b9555528aee6489341136"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:95b42f6d89a7e882d917d8e15c00aef13cd8246b652647be5a6983ffea470494"
+}

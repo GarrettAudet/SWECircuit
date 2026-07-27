@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "capturedOn": "2026-07-27",
+  "host": "Windows Codex Desktop",
+  "catalogRevision": "multi-agent-tool-schema.2026-07-27",
+  "profiles": [
+    {
+      "profileId": "profile.codex.luna",
+      "model": "gpt-5.6-luna",
+      "efforts": ["medium"],
+      "purpose": "Fast, bounded interface work."
+    },
+    {
+      "profileId": "profile.codex.terra",
+      "model": "gpt-5.6-terra",
+      "efforts": ["medium", "high"],
+      "purpose": "Balanced domain, codec, and graph work."
+    },
+    {
+      "profileId": "profile.codex.sol",
+      "model": "gpt-5.6-sol",
+      "efforts": ["high"],
+      "purpose": "Frontier integration and browser-skill work."
+    },
+    {
+      "profileId": "profile.codex.gpt55",
+      "model": "gpt-5.5",
+      "efforts": ["high"],
+      "purpose": "Independent frontier review in a distinct runtime domain."
+    }
+  ],
+  "skillBindings": [
+    {
+      "id": "skill.browser.control-in-app-browser",
+      "hostSkill": "browser:control-in-app-browser",
+      "delivery": "Explicit skill item on the native integration-agent launch."
+    }
+  ],
+  "notes": [
+    "Ranks are owner-reviewed ordinal routing inputs, not provider price claims.",
+    "Only profiles exposed by the current host tool are declared available.",
+    "The independent reviewer must not share a runtime domain with any producer."
+  ]
+}

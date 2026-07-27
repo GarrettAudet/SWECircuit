@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v14.dogfood.impact-planner",
+    "revision": 2,
+    "digest": "sha256:ecc1544e5cc171885048880de632fed64d8de5e786b63f6334b3a4c4ea412144"
+  },
+  "agent": {
+    "id": "agent.0708f119bcd868c6288d7ac612fd7b0ba9c23133ea7ef53380e7cabca55e097a",
+    "blueprintDigest": "sha256:b3653a26444139f73caabd1939175149674a9d48bd2a3f356fc46ded29c811cc"
+  },
+  "compilationDigest": "sha256:8843d3af923c5fc16327ab9face168bc4f175314ab778ee71cd6d8e520567880",
+  "summary": "Verified the corrected graph recovery, integrated the complete offline Impact Planner in the seven authorized files, and passed all tests, syntax checks, and bounded localhost browser observations.",
+  "workUnitsCompleted": [
+    "integrate.impact-planner"
+  ],
+  "artifacts": [
+    {
+      "name": "impact-successor-integration-handoff.md",
+      "mediaType": "text/markdown",
+      "content": "Verified all declared context digests and byte counts, the host-delivered pass handoff binding, and the corrected graph with 6/6 graph tests passing. Added README.md, package.json, server.mjs, src/app.js, src/ui-policy.js, test/integration.test.mjs, and test/server.test.mjs without modifying graph, codec, storage, interface, predecessor, Git, dependency, or memory files. The application now seeds only absent storage, validates every mutation through codec and graph contracts, preserves state on validation failure, distinguishes persistence failure, supports component editing and deletion, immediate change-set analysis, validated local import, deterministic JSON export, confirmed reset, announcements, reduced-motion scrolling, and focus recovery. The local server exposes only declared assets on 127.0.0.1:4175 and applies the required closed CSP. `npm.cmd test` passed 22/22 across graph, codec, storage, interface, integration, and server suites. `npm.cmd run check` passed syntax checks for the server and every source module. In the routed in-app browser at localhost, observed the seeded four-component workspace with one changed and four affected components at score 13; toggling Public API produced two changed components, score 16, and the expected announcement; adding Search Service produced five components, preserved its API dependency, announced success, and restored identifier focus; confirmed reset returned to four components and one changed component. Browser console inspection reported no warnings or errors."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.graph-recovery",
+      "requirementId": "evidence.graph-recovery.integrate",
+      "kind": "handoff",
+      "duty": "verify",
+      "status": "pass",
+      "artifact": "impact-successor-integration-handoff.md"
+    },
+    {
+      "criterionId": "criterion.successor-integration",
+      "requirementId": "evidence.successor-integration.produce",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "impact-successor-integration-handoff.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}

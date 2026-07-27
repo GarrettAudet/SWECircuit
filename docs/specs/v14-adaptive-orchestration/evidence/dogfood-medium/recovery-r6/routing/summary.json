@@ -1,0 +1,44 @@
+{
+  "outcome": "pass",
+  "selected": [
+    {
+      "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "workUnitIds": [
+        "review.impact-planner-rebound"
+      ],
+      "profileId": "profile.codex.gpt55",
+      "effortId": "effort.high",
+      "requiredTools": [
+        "node",
+        "npm.cmd",
+        "rg"
+      ],
+      "requiredSkills": []
+    },
+    {
+      "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "workUnitIds": [
+        "verify.impact-planner-rebound"
+      ],
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "requiredTools": [
+        "node",
+        "npm.cmd",
+        "rg"
+      ],
+      "requiredSkills": [
+        "skill.browser.control-in-app-browser"
+      ]
+    }
+  ],
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_assignment_vector_search",
+    "potentialVectors": 2,
+    "evaluatedVectors": 2,
+    "feasibleVectors": 1,
+    "contentDigest": "sha256:0e6bffe17e81a9cb0ccf331aa15ac401e0d5aa308b0ab4100cc07037554606cc"
+  },
+  "compilationDigest": "sha256:621c263f03d87bbfb09aad1643a8f5ae3df427569f0b1123da5430ce5d50431e"
+}

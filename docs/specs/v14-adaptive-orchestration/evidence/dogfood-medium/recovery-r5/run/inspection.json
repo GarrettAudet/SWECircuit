@@ -1,0 +1,1159 @@
+{
+  "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+  "kind": "AdaptiveRunInspection",
+  "runId": "run.v14.impact-planner.medium.r5",
+  "runRevision": 5,
+  "sessionDigest": "sha256:c706d8e40b51d1d4cdb0c157d72399cd748b9b1a477c84b66dfe337751dad86d",
+  "assignmentDigest": "sha256:37ba2fce5407d5347c29e2dbb7b78ea91332da4373662cf5059efd4eb865783e",
+  "compilationDigest": "sha256:e30109cf039cbda24cd000f58168458bf26ac76834035758d385be37d51740ab",
+  "packageDigest": "sha256:6d51d78dfbc65e6eb7c7da07552d1605b2a2fa5b8acae6ed05196175f7ceff98",
+  "stage": "needs_attention",
+  "executionMode": {
+    "selectedCandidateId": "team.78db9d90bf954c572f1cc69e77dbe85f8294308f54bc39c633909eb5bc0b57cc",
+    "selectedAgentCount": 2,
+    "serialBaselineMetrics": {
+      "agentCount": 1,
+      "projectedMakespan": 12,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 11,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "selectedMetrics": {
+      "agentCount": 2,
+      "projectedMakespan": 14,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 1,
+      "duplicatedContextBytes": 114868,
+      "duplicatedPermissionScopes": 30,
+      "totalWorkWeight": 11,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 1
+    },
+    "selectionReason": {
+      "kind": "serial_ineligible",
+      "decisiveField": "evidence_independence",
+      "selectedValue": "eligible",
+      "serialValue": "ineligible",
+      "serialRejectionCodes": [
+        "evidence_independence"
+      ]
+    },
+    "launchWaves": [
+      {
+        "start": 0,
+        "agentIds": [
+          "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449"
+        ]
+      },
+      {
+        "start": 8,
+        "agentIds": [
+          "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15"
+        ]
+      }
+    ],
+    "truth": "kernel_derived"
+  },
+  "agents": [
+    {
+      "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "blueprintDigest": "sha256:01046c82bd97fc3c16e5f68700f838404c8ce57738a3555f782d640159f520be",
+      "modules": [
+        {
+          "id": "review.impact-planner-rebound",
+          "action": "Recompute context identities, run the complete suite, inspect all acceptance boundaries, and report material findings before verdict.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ImpactPlannerReboundContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "handoff",
+              "artifactType": "impact-rebound-review.md"
+            }
+          ]
+        }
+      ],
+      "workUnitIds": [
+        "review.impact-planner-rebound"
+      ],
+      "dependencies": [
+        "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449"
+      ],
+      "assignment": {
+        "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+        "blueprintDigest": "sha256:01046c82bd97fc3c16e5f68700f838404c8ce57738a3555f782d640159f520be",
+        "calibrationRowId": "row.gpt55.high",
+        "profileId": "profile.codex.gpt55",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.gpt55",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "alternatives": [
+          {
+            "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+            "calibrationRowId": "row.sol.high",
+            "profileId": "profile.codex.sol",
+            "effortId": "effort.high",
+            "eligible": true,
+            "rejectionCodes": [],
+            "unmetRequirementIds": [],
+            "comparator": {
+              "costRank": 3,
+              "latencyRank": 3,
+              "qualityExcess": 0,
+              "reasoningExcess": 0,
+              "contextExcessBytes": 1885132,
+              "toolExcess": 0,
+              "skillExcess": 1,
+              "effortRank": 2,
+              "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+            },
+            "contentDigest": "sha256:6d6d0bd87c5207f34c0fc522518749d8ac1376b3e231ff8d7c4534fae9df0cba"
+          }
+        ],
+        "rejectedAlternatives": [
+          {
+            "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+            "calibrationRowId": "row.luna.medium",
+            "profileId": "profile.codex.luna",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "reasoning_tier",
+              "required_tool"
+            ],
+            "unmetRequirementIds": [
+              "capability:review.impact-planner.rebound",
+              "reasoning:reasoning.high",
+              "tool:npm.cmd"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:679977bae11b6d55e68b7b159e3f8c25f371574c9b64632510b2944a2b92c7b5"
+          },
+          {
+            "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+            "calibrationRowId": "row.terra.high",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.high",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier"
+            ],
+            "unmetRequirementIds": [
+              "capability:review.impact-planner.rebound"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:e2b466a32cf0a95c534d0348e1799dfef6ad6f96e5346be9557cdd4361c1addd"
+          },
+          {
+            "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+            "calibrationRowId": "row.terra.medium",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "reasoning_tier",
+              "required_tool"
+            ],
+            "unmetRequirementIds": [
+              "capability:review.impact-planner.rebound",
+              "reasoning:reasoning.high",
+              "tool:npm.cmd"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:8c64783ea9dc91dcf12f1eb5c55e3cc276d2a3d9a04b370eb4a419ce333644b6"
+          }
+        ],
+        "selectionReason": "lowest_exact_vector",
+        "override": null,
+        "truth": "kernel_derived"
+      },
+      "profileId": "profile.codex.gpt55",
+      "effortId": "effort.high",
+      "status": "settled",
+      "native": {
+        "status": "settled",
+        "truth": "specialist_verified",
+        "authorization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostLaunchAuthorization",
+          "runId": "run.v14.impact-planner.medium.r5",
+          "runRevision": 5,
+          "sequence": 6,
+          "priorEventDigest": "sha256:09f01c846f42bbf574884e61c58b0a491a954ac94ff42987b6e9f36087c6bf01",
+          "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+          "blueprintDigest": "sha256:01046c82bd97fc3c16e5f68700f838404c8ce57738a3555f782d640159f520be",
+          "assignmentDigest": "sha256:37ba2fce5407d5347c29e2dbb7b78ea91332da4373662cf5059efd4eb865783e",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "repository-owner-via-standing-release-authorization",
+          "attemptId": "attempt.agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+          "authorizationId": "authorization.agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+          "workspaceBaselineDigest": "sha256:b8b5c19bca983506cf620345d8ce6ce47d48d1b2147a9ec0a6e370e5e45acb62",
+          "command": {
+            "agentContractPath": "agents/agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15.md",
+            "agentContractDigest": "sha256:9fa32ef4742eac79a84b98bd23537319578f074a8a7061240d8667394d88c21b",
+            "agentContractBytes": 25799,
+            "contextSources": [
+              {
+                "sourceId": "context.accessibility-fix-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/handoffs/fix-raw.json",
+                "digest": "sha256:46c5cef76c3adfe88951424beccecc47538d675bc8fe00c32c531e9213da5574",
+                "bytes": 1973,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.agent-contract",
+                "locator": "path:AGENTS.md",
+                "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+                "bytes": 18686,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app-contract",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+                "bytes": 5191,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.01",
+                "locator": "path:examples/impact-planner/README.md",
+                "digest": "sha256:9f11734140d8bb0c20521f6714fc5ab22fb85a7a0121b9f499b3f455c8528450",
+                "bytes": 494,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.02",
+                "locator": "path:examples/impact-planner/index.html",
+                "digest": "sha256:6ba88bced09e9a58c9d05ca0c4f2f132d68174f112b80542154baa4756039a23",
+                "bytes": 6598,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.03",
+                "locator": "path:examples/impact-planner/package.json",
+                "digest": "sha256:f5f855bcd01bae085e13e5ece09a2d6d6e43ba0cf018ed596b607976c1439d69",
+                "bytes": 540,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.04",
+                "locator": "path:examples/impact-planner/server.mjs",
+                "digest": "sha256:807b379c04ef03e72abd98d9a96735c22b7b85908d7b59516d177156208a0aba",
+                "bytes": 3522,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.05",
+                "locator": "path:examples/impact-planner/src/app.js",
+                "digest": "sha256:dc35c8404e2958250a4b246514aad73588cb20af683265c032132583b12f729f",
+                "bytes": 14040,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.06",
+                "locator": "path:examples/impact-planner/src/codec.js",
+                "digest": "sha256:4a613cdeef1c82b0ade5929d2a66493dcb431f93d7d7749826fa0244510e5610",
+                "bytes": 4475,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.07",
+                "locator": "path:examples/impact-planner/src/graph.js",
+                "digest": "sha256:60014b0c2b931de0e034201f59a0efdfa491e80e55c913c3b9628587def6fedc",
+                "bytes": 11789,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.08",
+                "locator": "path:examples/impact-planner/src/storage.js",
+                "digest": "sha256:22bca8aa4139bcc3386b3e68f1fc94685cb88b304cf1cd78eec808e01b8e04e6",
+                "bytes": 813,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.09",
+                "locator": "path:examples/impact-planner/src/ui-policy.js",
+                "digest": "sha256:4d3b000949c011c804cf798f8184523f52a4753264dab41a8125b8ba84ed06bb",
+                "bytes": 730,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.10",
+                "locator": "path:examples/impact-planner/src/view.js",
+                "digest": "sha256:48b13d7dcbf6d3d4edf4e2bc1d8a112bf277e904c096eba100a8ec446ca270d7",
+                "bytes": 2828,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.11",
+                "locator": "path:examples/impact-planner/styles.css",
+                "digest": "sha256:91977a2fdaaabe76c0fb6c7fd55ec9ddd8373318b1f443e648809d8d74587a5d",
+                "bytes": 8111,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.12",
+                "locator": "path:examples/impact-planner/test/codec.test.mjs",
+                "digest": "sha256:554ad109e9dab07d4c753d001ee7babefde772993ffde9723a1484e186a8e03d",
+                "bytes": 1799,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.13",
+                "locator": "path:examples/impact-planner/test/graph.test.mjs",
+                "digest": "sha256:0bf8b1dba85db54db618026b42b25d9e191289f99db0ab21975961f1986823bc",
+                "bytes": 6098,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.14",
+                "locator": "path:examples/impact-planner/test/integration.test.mjs",
+                "digest": "sha256:26cf0fa7dc544838560b0c8f43292d9e28c3534dc4d1d51cb52b87ce10714b8f",
+                "bytes": 4778,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.15",
+                "locator": "path:examples/impact-planner/test/interface.test.mjs",
+                "digest": "sha256:f1214d4792a64d06cb3c8f4d61689afc7ac64911906bfa9009fb759cbb457639",
+                "bytes": 1659,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.16",
+                "locator": "path:examples/impact-planner/test/server.test.mjs",
+                "digest": "sha256:8e32fd366826e9627855dbf784ee8e374ed6c81666b75cb4e946f91cb8c911d8",
+                "bytes": 2184,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.17",
+                "locator": "path:examples/impact-planner/test/storage.test.mjs",
+                "digest": "sha256:8bb2d340e0313783d61ba9ec7283d11bb634a7cbf6d89208194cd2c3ce6de7db",
+                "bytes": 1101,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.codec-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+                "digest": "sha256:2843a8dd0a635fd55fc950273d7ce8e87821cfaa92ddd3145dde9f7f52f77a05",
+                "bytes": 1521,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.graph-recovery-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/graph-recovery-raw.json",
+                "digest": "sha256:6ae0c6edf99d47584ba6ad12f7828b1ac7aeee3984fc387cecceadf999d5eb89",
+                "bytes": 2255,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.integration-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/integration-raw.json",
+                "digest": "sha256:7b7aadc71bd083d27a900548179db2a025e3417a1eb304b330d3f07779d315db",
+                "bytes": 3156,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.interface-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+                "digest": "sha256:477a0219e170eeb9336bc81b6cb35a96c610fd555e5c06c93bfecb2a7878cf22",
+                "bytes": 1911,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.predecessor",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r5/predecessor.json",
+                "digest": "sha256:b8f0a061f0e7552c92af58b686ff7764b5a7b6ebc9c66f74348e5ceaa79198ea",
+                "bytes": 1054,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.recovery-goal",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r5/goal.md",
+                "digest": "sha256:4f8485ced2407b9152e18e7a0c34eb1fd03920b2e9122bb443de79412f534be8",
+                "bytes": 1894,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.review-fix-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+                "digest": "sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c",
+                "bytes": 5668,
+                "delivery": "authorized_filesystem_read"
+              }
+            ],
+            "profileId": "profile.codex.gpt55",
+            "effortId": "effort.high",
+            "tools": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ],
+            "skills": [],
+            "isolationFeatures": [
+              "isolation.scoped-worktree"
+            ],
+            "permissions": [
+              {
+                "kind": "filesystem.read",
+                "scopes": [
+                  "AGENTS.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/graph-recovery-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/integration-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/handoffs/fix-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r5/goal.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r5/predecessor.json",
+                  "examples/impact-planner/README.md",
+                  "examples/impact-planner/index.html",
+                  "examples/impact-planner/package.json",
+                  "examples/impact-planner/server.mjs",
+                  "examples/impact-planner/src/app.js",
+                  "examples/impact-planner/src/codec.js",
+                  "examples/impact-planner/src/graph.js",
+                  "examples/impact-planner/src/storage.js",
+                  "examples/impact-planner/src/ui-policy.js",
+                  "examples/impact-planner/src/view.js",
+                  "examples/impact-planner/styles.css",
+                  "examples/impact-planner/test/codec.test.mjs",
+                  "examples/impact-planner/test/graph.test.mjs",
+                  "examples/impact-planner/test/integration.test.mjs",
+                  "examples/impact-planner/test/interface.test.mjs",
+                  "examples/impact-planner/test/server.test.mjs",
+                  "examples/impact-planner/test/storage.test.mjs"
+                ]
+              },
+              {
+                "kind": "process.spawn",
+                "scopes": [
+                  "node",
+                  "npm.cmd",
+                  "rg"
+                ]
+              }
+            ],
+            "observability": {
+              "model": "observed",
+              "effort": "observed",
+              "tools": "observed",
+              "skills": "observed",
+              "isolation": "observed",
+              "permissions": "observed",
+              "workspace": "observed",
+              "context": "observed"
+            },
+            "contentDigest": "sha256:c953afb181478a83541c2d9f21a6645c6ce1b0b4fe28b2ea1e25916790b915ff"
+          }
+        },
+        "materialization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostMaterializationClaim",
+          "runId": "run.v14.impact-planner.medium.r5",
+          "runRevision": 5,
+          "sequence": 7,
+          "priorEventDigest": "sha256:a657644b03f5d136cd71aba4ccf0827caec9c7ecad8f6c742dd061a491dfbe96",
+          "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+          "blueprintDigest": "sha256:01046c82bd97fc3c16e5f68700f838404c8ce57738a3555f782d640159f520be",
+          "assignmentDigest": "sha256:37ba2fce5407d5347c29e2dbb7b78ea91332da4373662cf5059efd4eb865783e",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "adapter.codex-desktop.v14-alpha",
+          "attemptId": "attempt.agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+          "authorizationEventDigest": "sha256:a657644b03f5d136cd71aba4ccf0827caec9c7ecad8f6c742dd061a491dfbe96",
+          "nativeHandle": "019fa59e-dcdd-7e03-92ce-f15de2c58f9c",
+          "fields": [
+            {
+              "field": "model",
+              "status": "observed",
+              "expectedDigest": "sha256:3c3f6baccd1971bc7a1ab1ba0ec6f0f024e80fba95ba197bb49426b881800ed5",
+              "observedDigest": "sha256:3c3f6baccd1971bc7a1ab1ba0ec6f0f024e80fba95ba197bb49426b881800ed5"
+            },
+            {
+              "field": "effort",
+              "status": "observed",
+              "expectedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a",
+              "observedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a"
+            },
+            {
+              "field": "tools",
+              "status": "observed",
+              "expectedDigest": "sha256:e0ffd5411b854b73240ddd2c8b8fc97f4ddc5e3698ace50967112eb58aafe231",
+              "observedDigest": "sha256:e0ffd5411b854b73240ddd2c8b8fc97f4ddc5e3698ace50967112eb58aafe231"
+            },
+            {
+              "field": "skills",
+              "status": "observed",
+              "expectedDigest": "sha256:be30b03484afe0556c0606b4078651a43de7e8f27e8287ad8fd533b9ac67fdaf",
+              "observedDigest": "sha256:be30b03484afe0556c0606b4078651a43de7e8f27e8287ad8fd533b9ac67fdaf"
+            },
+            {
+              "field": "isolation",
+              "status": "observed",
+              "expectedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3",
+              "observedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3"
+            },
+            {
+              "field": "permissions",
+              "status": "observed",
+              "expectedDigest": "sha256:c8559962749d9e67f702e0328de72489c48b561a6efc3346f500a7bc45522dc9",
+              "observedDigest": "sha256:c8559962749d9e67f702e0328de72489c48b561a6efc3346f500a7bc45522dc9"
+            },
+            {
+              "field": "workspace",
+              "status": "observed",
+              "expectedDigest": "sha256:c783cf1ed831a1164be656f58c75b90d7660db9158fd3d3fc0a998cdb2924383",
+              "observedDigest": "sha256:c783cf1ed831a1164be656f58c75b90d7660db9158fd3d3fc0a998cdb2924383"
+            },
+            {
+              "field": "context",
+              "status": "observed",
+              "expectedDigest": "sha256:fead9f46fe5a68748fe9607a4b08bf35678cb69bdc9174c0a8d7d530f300db11",
+              "observedDigest": "sha256:fead9f46fe5a68748fe9607a4b08bf35678cb69bdc9174c0a8d7d530f300db11"
+            }
+          ]
+        }
+      },
+      "acceptedEvidence": {
+        "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+        "blueprintDigest": "sha256:01046c82bd97fc3c16e5f68700f838404c8ce57738a3555f782d640159f520be",
+        "outcome": "fix",
+        "rawBytes": 5579,
+        "rawDigest": "sha256:7a3c2fdcc0154fe7b45e2fdbdb8db98433a94fc8829a25f1c3636bba82bf7389",
+        "semanticDigest": "sha256:abcc8846d09263c3b8cb1d9ebcb1d4def4ceb50ab9918d3539697c245712fda6",
+        "artifacts": [
+          {
+            "name": "impact-rebound-review.md",
+            "mediaType": "text/markdown",
+            "bytes": 3855,
+            "digest": "sha256:550f46aca21171dcb8a8c4aba829f4585405ab02a0ac40d04b147e466d5c01ef"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.context-identity",
+            "requirementId": "evidence.context-rebind.review",
+            "kind": "review",
+            "duty": "review",
+            "status": "pass",
+            "artifact": "impact-rebound-review.md"
+          },
+          {
+            "criterionId": "criterion.product-regression",
+            "requirementId": "evidence.product-regression.review",
+            "kind": "review",
+            "duty": "review",
+            "status": "fix",
+            "artifact": "impact-rebound-review.md"
+          }
+        ]
+      },
+      "truth": "specialist_verified",
+      "route": {
+        "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+        "outcome": "fix",
+        "reason": "specialist_non_pass",
+        "sourceDigests": [
+          "sha256:7a3c2fdcc0154fe7b45e2fdbdb8db98433a94fc8829a25f1c3636bba82bf7389"
+        ],
+        "truth": "specialist_verified"
+      }
+    },
+    {
+      "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+      "blueprintDigest": "sha256:dcc5fec3ae5aa7a38b59e1539b22a9682756f567219052583f36a98ae4bcc9cb",
+      "modules": [
+        {
+          "id": "verify.impact-planner-rebound",
+          "action": "Check every declared digest and byte count, verify predecessor handoffs, run all tests and syntax checks, and inspect the critical localhost browser path.",
+          "inputPorts": [
+            {
+              "name": "candidate",
+              "artifactType": "ImpactPlannerReboundContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "handoff",
+              "artifactType": "impact-rebound-verification.md"
+            }
+          ]
+        }
+      ],
+      "workUnitIds": [
+        "verify.impact-planner-rebound"
+      ],
+      "dependencies": [],
+      "assignment": {
+        "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+        "blueprintDigest": "sha256:dcc5fec3ae5aa7a38b59e1539b22a9682756f567219052583f36a98ae4bcc9cb",
+        "calibrationRowId": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.sol",
+        "requiredTools": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ],
+        "requiredSkills": [
+          "skill.browser.control-in-app-browser"
+        ],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "alternatives": [],
+        "rejectedAlternatives": [
+          {
+            "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+            "calibrationRowId": "row.gpt55.high",
+            "profileId": "profile.codex.gpt55",
+            "effortId": "effort.high",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "required_skill"
+            ],
+            "unmetRequirementIds": [
+              "capability:verify.impact-planner.rebound",
+              "skill:skill.browser.control-in-app-browser"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:1ed55a1954c39a1745e8bfff896ef66c965d36950a07060ecb0d3b8309894c5d"
+          },
+          {
+            "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+            "calibrationRowId": "row.luna.medium",
+            "profileId": "profile.codex.luna",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "reasoning_tier",
+              "required_tool",
+              "required_skill"
+            ],
+            "unmetRequirementIds": [
+              "capability:verify.impact-planner.rebound",
+              "reasoning:reasoning.high",
+              "tool:npm.cmd",
+              "skill:skill.browser.control-in-app-browser"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:b9da53051a976d2c13131da76d55cc9522698b40ff6872510521faef40608604"
+          },
+          {
+            "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+            "calibrationRowId": "row.terra.high",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.high",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "required_skill"
+            ],
+            "unmetRequirementIds": [
+              "capability:verify.impact-planner.rebound",
+              "skill:skill.browser.control-in-app-browser"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:0cd2743c5150eeec06352166c992a5b866d72fde10477dc0b700413c1989d474"
+          },
+          {
+            "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+            "calibrationRowId": "row.terra.medium",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "reasoning_tier",
+              "required_tool",
+              "required_skill"
+            ],
+            "unmetRequirementIds": [
+              "capability:verify.impact-planner.rebound",
+              "reasoning:reasoning.high",
+              "tool:npm.cmd",
+              "skill:skill.browser.control-in-app-browser"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:4089b392fce990583a0afa86bf5600a07ddb47d6d611218684eec45245b2371b"
+          }
+        ],
+        "selectionReason": "lowest_exact_vector",
+        "override": null,
+        "truth": "kernel_derived"
+      },
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "status": "settled",
+      "native": {
+        "status": "settled",
+        "truth": "specialist_verified",
+        "authorization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostLaunchAuthorization",
+          "runId": "run.v14.impact-planner.medium.r5",
+          "runRevision": 5,
+          "sequence": 1,
+          "priorEventDigest": null,
+          "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+          "blueprintDigest": "sha256:dcc5fec3ae5aa7a38b59e1539b22a9682756f567219052583f36a98ae4bcc9cb",
+          "assignmentDigest": "sha256:37ba2fce5407d5347c29e2dbb7b78ea91332da4373662cf5059efd4eb865783e",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "repository-owner-via-standing-release-authorization",
+          "attemptId": "attempt.agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+          "authorizationId": "authorization.agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+          "workspaceBaselineDigest": "sha256:b8b5c19bca983506cf620345d8ce6ce47d48d1b2147a9ec0a6e370e5e45acb62",
+          "command": {
+            "agentContractPath": "agents/agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449.md",
+            "agentContractDigest": "sha256:999331948430e094dbda4ed0ea0d6ac0e36e54f0acea74aa81234eaa6937778c",
+            "agentContractBytes": 25798,
+            "contextSources": [
+              {
+                "sourceId": "context.accessibility-fix-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/handoffs/fix-raw.json",
+                "digest": "sha256:46c5cef76c3adfe88951424beccecc47538d675bc8fe00c32c531e9213da5574",
+                "bytes": 1973,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.agent-contract",
+                "locator": "path:AGENTS.md",
+                "digest": "sha256:1cbe95ee56ea68da0e9a3dbddae0fc0120baf83c5594a91e8853d0c5bd5d569b",
+                "bytes": 18686,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app-contract",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                "digest": "sha256:beed1bb15cce64e9bb1d585c20a6863b359d4fe1e886c1101f8a8c11251afe72",
+                "bytes": 5191,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.01",
+                "locator": "path:examples/impact-planner/README.md",
+                "digest": "sha256:9f11734140d8bb0c20521f6714fc5ab22fb85a7a0121b9f499b3f455c8528450",
+                "bytes": 494,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.02",
+                "locator": "path:examples/impact-planner/index.html",
+                "digest": "sha256:6ba88bced09e9a58c9d05ca0c4f2f132d68174f112b80542154baa4756039a23",
+                "bytes": 6598,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.03",
+                "locator": "path:examples/impact-planner/package.json",
+                "digest": "sha256:f5f855bcd01bae085e13e5ece09a2d6d6e43ba0cf018ed596b607976c1439d69",
+                "bytes": 540,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.04",
+                "locator": "path:examples/impact-planner/server.mjs",
+                "digest": "sha256:807b379c04ef03e72abd98d9a96735c22b7b85908d7b59516d177156208a0aba",
+                "bytes": 3522,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.05",
+                "locator": "path:examples/impact-planner/src/app.js",
+                "digest": "sha256:dc35c8404e2958250a4b246514aad73588cb20af683265c032132583b12f729f",
+                "bytes": 14040,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.06",
+                "locator": "path:examples/impact-planner/src/codec.js",
+                "digest": "sha256:4a613cdeef1c82b0ade5929d2a66493dcb431f93d7d7749826fa0244510e5610",
+                "bytes": 4475,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.07",
+                "locator": "path:examples/impact-planner/src/graph.js",
+                "digest": "sha256:60014b0c2b931de0e034201f59a0efdfa491e80e55c913c3b9628587def6fedc",
+                "bytes": 11789,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.08",
+                "locator": "path:examples/impact-planner/src/storage.js",
+                "digest": "sha256:22bca8aa4139bcc3386b3e68f1fc94685cb88b304cf1cd78eec808e01b8e04e6",
+                "bytes": 813,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.09",
+                "locator": "path:examples/impact-planner/src/ui-policy.js",
+                "digest": "sha256:4d3b000949c011c804cf798f8184523f52a4753264dab41a8125b8ba84ed06bb",
+                "bytes": 730,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.10",
+                "locator": "path:examples/impact-planner/src/view.js",
+                "digest": "sha256:48b13d7dcbf6d3d4edf4e2bc1d8a112bf277e904c096eba100a8ec446ca270d7",
+                "bytes": 2828,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.11",
+                "locator": "path:examples/impact-planner/styles.css",
+                "digest": "sha256:91977a2fdaaabe76c0fb6c7fd55ec9ddd8373318b1f443e648809d8d74587a5d",
+                "bytes": 8111,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.12",
+                "locator": "path:examples/impact-planner/test/codec.test.mjs",
+                "digest": "sha256:554ad109e9dab07d4c753d001ee7babefde772993ffde9723a1484e186a8e03d",
+                "bytes": 1799,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.13",
+                "locator": "path:examples/impact-planner/test/graph.test.mjs",
+                "digest": "sha256:0bf8b1dba85db54db618026b42b25d9e191289f99db0ab21975961f1986823bc",
+                "bytes": 6098,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.14",
+                "locator": "path:examples/impact-planner/test/integration.test.mjs",
+                "digest": "sha256:26cf0fa7dc544838560b0c8f43292d9e28c3534dc4d1d51cb52b87ce10714b8f",
+                "bytes": 4778,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.15",
+                "locator": "path:examples/impact-planner/test/interface.test.mjs",
+                "digest": "sha256:f1214d4792a64d06cb3c8f4d61689afc7ac64911906bfa9009fb759cbb457639",
+                "bytes": 1659,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.16",
+                "locator": "path:examples/impact-planner/test/server.test.mjs",
+                "digest": "sha256:8e32fd366826e9627855dbf784ee8e374ed6c81666b75cb4e946f91cb8c911d8",
+                "bytes": 2184,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app.17",
+                "locator": "path:examples/impact-planner/test/storage.test.mjs",
+                "digest": "sha256:8bb2d340e0313783d61ba9ec7283d11bb634a7cbf6d89208194cd2c3ce6de7db",
+                "bytes": 1101,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.codec-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+                "digest": "sha256:2843a8dd0a635fd55fc950273d7ce8e87821cfaa92ddd3145dde9f7f52f77a05",
+                "bytes": 1521,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.graph-recovery-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/graph-recovery-raw.json",
+                "digest": "sha256:6ae0c6edf99d47584ba6ad12f7828b1ac7aeee3984fc387cecceadf999d5eb89",
+                "bytes": 2255,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.integration-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/integration-raw.json",
+                "digest": "sha256:7b7aadc71bd083d27a900548179db2a025e3417a1eb304b330d3f07779d315db",
+                "bytes": 3156,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.interface-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+                "digest": "sha256:477a0219e170eeb9336bc81b6cb35a96c610fd555e5c06c93bfecb2a7878cf22",
+                "bytes": 1911,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.predecessor",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r5/predecessor.json",
+                "digest": "sha256:b8f0a061f0e7552c92af58b686ff7764b5a7b6ebc9c66f74348e5ceaa79198ea",
+                "bytes": 1054,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.recovery-goal",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r5/goal.md",
+                "digest": "sha256:4f8485ced2407b9152e18e7a0c34eb1fd03920b2e9122bb443de79412f534be8",
+                "bytes": 1894,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.review-fix-handoff",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+                "digest": "sha256:3096f002e23b9b59b2a0f7fce998b7fb542d566fffffc29917e282ab30d0dd3c",
+                "bytes": 5668,
+                "delivery": "authorized_filesystem_read"
+              }
+            ],
+            "profileId": "profile.codex.sol",
+            "effortId": "effort.high",
+            "tools": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ],
+            "skills": [
+              "skill.browser.control-in-app-browser"
+            ],
+            "isolationFeatures": [
+              "isolation.scoped-worktree"
+            ],
+            "permissions": [
+              {
+                "kind": "filesystem.read",
+                "scopes": [
+                  "AGENTS.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/app-contract.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/codec-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/handoffs/interface-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/graph-recovery-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r2/handoffs/integration-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r3/handoffs/review-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r4/handoffs/fix-raw.json",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r5/goal.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-medium/recovery-r5/predecessor.json",
+                  "examples/impact-planner/README.md",
+                  "examples/impact-planner/index.html",
+                  "examples/impact-planner/package.json",
+                  "examples/impact-planner/server.mjs",
+                  "examples/impact-planner/src/app.js",
+                  "examples/impact-planner/src/codec.js",
+                  "examples/impact-planner/src/graph.js",
+                  "examples/impact-planner/src/storage.js",
+                  "examples/impact-planner/src/ui-policy.js",
+                  "examples/impact-planner/src/view.js",
+                  "examples/impact-planner/styles.css",
+                  "examples/impact-planner/test/codec.test.mjs",
+                  "examples/impact-planner/test/graph.test.mjs",
+                  "examples/impact-planner/test/integration.test.mjs",
+                  "examples/impact-planner/test/interface.test.mjs",
+                  "examples/impact-planner/test/server.test.mjs",
+                  "examples/impact-planner/test/storage.test.mjs"
+                ]
+              },
+              {
+                "kind": "process.spawn",
+                "scopes": [
+                  "node",
+                  "npm.cmd",
+                  "rg"
+                ]
+              }
+            ],
+            "observability": {
+              "model": "observed",
+              "effort": "observed",
+              "tools": "observed",
+              "skills": "observed",
+              "isolation": "observed",
+              "permissions": "observed",
+              "workspace": "observed",
+              "context": "observed"
+            },
+            "contentDigest": "sha256:7b5c55bf392646c6b802d6acdc80b1648a82070bf75a6718a62abac50faa8d49"
+          }
+        },
+        "materialization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostMaterializationClaim",
+          "runId": "run.v14.impact-planner.medium.r5",
+          "runRevision": 5,
+          "sequence": 2,
+          "priorEventDigest": "sha256:9b4a01984455a7b2754cee1cd4640fb593d68053634b874db7f57b753facc1be",
+          "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+          "blueprintDigest": "sha256:dcc5fec3ae5aa7a38b59e1539b22a9682756f567219052583f36a98ae4bcc9cb",
+          "assignmentDigest": "sha256:37ba2fce5407d5347c29e2dbb7b78ea91332da4373662cf5059efd4eb865783e",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "adapter.codex-desktop.v14-alpha",
+          "attemptId": "attempt.agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+          "authorizationEventDigest": "sha256:9b4a01984455a7b2754cee1cd4640fb593d68053634b874db7f57b753facc1be",
+          "nativeHandle": "019fa594-9a3a-7740-885b-b2e6d64e7017",
+          "fields": [
+            {
+              "field": "model",
+              "status": "observed",
+              "expectedDigest": "sha256:7b2cd60d38d1f61cec99905cc37b2a7ce72dbc5abc683ef9efde74661261b56c",
+              "observedDigest": "sha256:7b2cd60d38d1f61cec99905cc37b2a7ce72dbc5abc683ef9efde74661261b56c"
+            },
+            {
+              "field": "effort",
+              "status": "observed",
+              "expectedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a",
+              "observedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a"
+            },
+            {
+              "field": "tools",
+              "status": "observed",
+              "expectedDigest": "sha256:e0ffd5411b854b73240ddd2c8b8fc97f4ddc5e3698ace50967112eb58aafe231",
+              "observedDigest": "sha256:e0ffd5411b854b73240ddd2c8b8fc97f4ddc5e3698ace50967112eb58aafe231"
+            },
+            {
+              "field": "skills",
+              "status": "observed",
+              "expectedDigest": "sha256:f4ed29a2b04ed9dd46307392ab2cb91a667883692b33bcd5e218efdc9d5ab19b",
+              "observedDigest": "sha256:f4ed29a2b04ed9dd46307392ab2cb91a667883692b33bcd5e218efdc9d5ab19b"
+            },
+            {
+              "field": "isolation",
+              "status": "observed",
+              "expectedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3",
+              "observedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3"
+            },
+            {
+              "field": "permissions",
+              "status": "observed",
+              "expectedDigest": "sha256:c8559962749d9e67f702e0328de72489c48b561a6efc3346f500a7bc45522dc9",
+              "observedDigest": "sha256:c8559962749d9e67f702e0328de72489c48b561a6efc3346f500a7bc45522dc9"
+            },
+            {
+              "field": "workspace",
+              "status": "observed",
+              "expectedDigest": "sha256:c783cf1ed831a1164be656f58c75b90d7660db9158fd3d3fc0a998cdb2924383",
+              "observedDigest": "sha256:c783cf1ed831a1164be656f58c75b90d7660db9158fd3d3fc0a998cdb2924383"
+            },
+            {
+              "field": "context",
+              "status": "observed",
+              "expectedDigest": "sha256:fead9f46fe5a68748fe9607a4b08bf35678cb69bdc9174c0a8d7d530f300db11",
+              "observedDigest": "sha256:fead9f46fe5a68748fe9607a4b08bf35678cb69bdc9174c0a8d7d530f300db11"
+            }
+          ]
+        }
+      },
+      "acceptedEvidence": {
+        "agentId": "agent.fab1780533167118ec8ed511ca19837e69a7c0dc4f67876a2180941c670c3449",
+        "blueprintDigest": "sha256:dcc5fec3ae5aa7a38b59e1539b22a9682756f567219052583f36a98ae4bcc9cb",
+        "outcome": "pass",
+        "rawBytes": 5239,
+        "rawDigest": "sha256:a83c0ee4f7bff36efbd0b4ba635509a4df92c78455240746d4a6ce60c6fa0fcb",
+        "semanticDigest": "sha256:c8a0637c3496c45370eaf3a63bbba004d79b815cc529da0d5c9c66677146e315",
+        "artifacts": [
+          {
+            "name": "impact-rebound-verification.md",
+            "mediaType": "text/markdown",
+            "bytes": 3533,
+            "digest": "sha256:9b927e29b37b3f6acba715cdfcbd8726d65f4ef877a193ae4f90a14fede58ba4"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.context-identity",
+            "requirementId": "evidence.context-rebind.verify",
+            "kind": "test",
+            "duty": "produce",
+            "status": "pass",
+            "artifact": "impact-rebound-verification.md"
+          },
+          {
+            "criterionId": "criterion.product-regression",
+            "requirementId": "evidence.product-regression.verify",
+            "kind": "test",
+            "duty": "produce",
+            "status": "pass",
+            "artifact": "impact-rebound-verification.md"
+          }
+        ]
+      },
+      "truth": "specialist_verified",
+      "route": null
+    }
+  ],
+  "routes": [
+    {
+      "agentId": "agent.7f2dd382095753b9cd6f754faaa9fd41ec9f916a3aa841c4d6aa5fec1ff23f15",
+      "outcome": "fix",
+      "reason": "specialist_non_pass",
+      "sourceDigests": [
+        "sha256:7a3c2fdcc0154fe7b45e2fdbdb8db98433a94fc8829a25f1c3636bba82bf7389"
+      ],
+      "truth": "specialist_verified"
+    }
+  ],
+  "nextActions": [
+    {
+      "id": "create-successor-run",
+      "kind": "create_successor_run",
+      "actor": "integration_owner",
+      "availability": "enabled",
+      "reasonCode": "specialist_non_pass",
+      "sourceDigests": [
+        "sha256:7a3c2fdcc0154fe7b45e2fdbdb8db98433a94fc8829a25f1c3636bba82bf7389"
+      ]
+    }
+  ],
+  "integrationReady": false,
+  "contentDigest": "sha256:886fb945d0fe8a86a53aa4c9a3f6affa7f68b2a58416ca98271f8c9fa56dd0f7"
+}
