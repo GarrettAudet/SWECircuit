@@ -1,0 +1,556 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistCompilationRequest",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v13.dogfood.triage-board",
+    "revision": 1,
+    "objective": "Build and independently verify the dependency-free Triage Board through a visible V12 IDE run.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.chromium-local-storage",
+        "statement": "A current Chromium browser and browser local storage are available.",
+        "rationale": "The bounded dogfood target is a local desktop application."
+      },
+      {
+        "id": "assumption.external-host",
+        "statement": "The external host supplies native subagents and enforces the compiled boundaries.",
+        "rationale": "Runtime supply and enforcement remain outside the V12 kernel."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.domain",
+        "description": "Domain and persistence behavior is implemented with deterministic evidence.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.domain.produce",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Produce domain and persistence implementation plus passing unit tests.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.ui",
+        "description": "The semantic responsive interface is implemented with inspectable evidence.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.ui.produce",
+            "kind": "artifact",
+            "duty": "produce",
+            "description": "Produce the semantic HTML and responsive CSS interface.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.integrated-quality",
+        "description": "The integrated application is tested and independently reviewed.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.integration.produce",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Produce the integrated controller, runnable example, and combined verification.",
+            "independentFromProducer": false
+          },
+          {
+            "id": "evidence.integration.review",
+            "kind": "review",
+            "duty": "review",
+            "description": "Independently review the complete integrated application and execution evidence.",
+            "independentFromProducer": true
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.v13-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v13-dogfood-validation/spec.md",
+        "digest": "sha256:7874343e2b81af39e7b26777a22152d1fb7a26b4faa8da939f48fa7acdbc9e69",
+        "bytes": 4048,
+        "description": "Closed V13 dogfood product specification.",
+        "allowedWorkUnits": [
+          "implement.domain",
+          "implement.ui",
+          "integrate.application",
+          "review.application"
+        ],
+        "readScope": "docs/specs/v13-dogfood-validation/spec.md"
+      },
+      {
+        "id": "context.v13-app-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v13-dogfood-validation/app-contract.md",
+        "digest": "sha256:7de25a4a431f9ecc67628c3fc84723da4d9f8ca1266c06e7cc65752cb63b02c6",
+        "bytes": 2466,
+        "description": "Owner-approved Triage Board application contract.",
+        "allowedWorkUnits": [
+          "implement.domain",
+          "implement.ui",
+          "integrate.application",
+          "review.application"
+        ],
+        "readScope": "docs/specs/v13-dogfood-validation/app-contract.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "dogfood.domain",
+        "dogfood.ui",
+        "dogfood.integration",
+        "dogfood.review"
+      ],
+      "allowedCapabilities": [
+        "implement.javascript-domain",
+        "design.accessible-operational-ui",
+        "integrate.browser-application",
+        "review.application-quality"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/specs/v13-dogfood-validation/app-contract.md",
+            "docs/specs/v13-dogfood-validation/spec.md",
+            "examples/triage-board/README.md",
+            "examples/triage-board/index.html",
+            "examples/triage-board/package.json",
+            "examples/triage-board/server.mjs",
+            "examples/triage-board/src/app.js",
+            "examples/triage-board/src/model.js",
+            "examples/triage-board/src/storage.js",
+            "examples/triage-board/styles.css",
+            "examples/triage-board/test/model.test.mjs",
+            "examples/triage-board/test/storage.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/implement-domain.json",
+            "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/implement-ui.json",
+            "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/integrate-application.json",
+            "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/review-application.json",
+            "examples/triage-board/README.md",
+            "examples/triage-board/index.html",
+            "examples/triage-board/package.json",
+            "examples/triage-board/server.mjs",
+            "examples/triage-board/src/app.js",
+            "examples/triage-board/src/model.js",
+            "examples/triage-board/src/storage.js",
+            "examples/triage-board/styles.css",
+            "examples/triage-board/test/model.test.mjs",
+            "examples/triage-board/test/storage.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not access a network, secret, external service, or undeclared repository path.",
+        "Do not install dependencies, mutate Git, merge, or update durable memory.",
+        "Do not change the product specification or application contract."
+      ],
+      "maxAgents": 4,
+      "maxConcurrency": 2
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "implement.domain",
+        "objective": "Implement the closed issue domain, storage boundary, and deterministic Node tests.",
+        "weight": 8,
+        "module": {
+          "id": "dogfood.domain",
+          "action": "Implement validated pure issue operations and defensive persistence with deterministic tests.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "TriageBoardContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "DomainImplementation"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "implement.javascript-domain"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v13-spec",
+            "purpose": "Implement or verify the exact accepted product behavior."
+          },
+          {
+            "sourceId": "context.v13-app-contract",
+            "purpose": "Respect the approved module, schema, scope, and verification contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v13-dogfood-validation/spec.md",
+            "docs/specs/v13-dogfood-validation/app-contract.md"
+          ],
+          "write": [
+            "examples/triage-board/src/model.js",
+            "examples/triage-board/src/storage.js",
+            "examples/triage-board/test/model.test.mjs",
+            "examples/triage-board/test/storage.test.mjs",
+            "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/implement-domain.json"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v13-dogfood-validation/spec.md",
+              "docs/specs/v13-dogfood-validation/app-contract.md"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "examples/triage-board/src/model.js",
+              "examples/triage-board/src/storage.js",
+              "examples/triage-board/test/model.test.mjs",
+              "examples/triage-board/test/storage.test.mjs",
+              "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/implement-domain.json"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.domain.produce"
+        ],
+        "handoffArtifacts": [
+          "domain-evidence.md"
+        ],
+        "stopConditions": [
+          "Stop if the requested behavior conflicts with the bound product or application contract.",
+          "Stop before reading, writing, installing, or executing anything outside declared authority.",
+          "Return a non-pass workflow outcome when required evidence cannot be produced."
+        ]
+      },
+      {
+        "id": "implement.ui",
+        "objective": "Implement the semantic, responsive, accessible operational interface without application logic.",
+        "weight": 7,
+        "module": {
+          "id": "dogfood.ui",
+          "action": "Create semantic HTML and restrained responsive CSS for the approved application states.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "TriageBoardContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "PresentationImplementation"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "design.accessible-operational-ui"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v13-spec",
+            "purpose": "Implement or verify the exact accepted product behavior."
+          },
+          {
+            "sourceId": "context.v13-app-contract",
+            "purpose": "Respect the approved module, schema, scope, and verification contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v13-dogfood-validation/spec.md",
+            "docs/specs/v13-dogfood-validation/app-contract.md"
+          ],
+          "write": [
+            "examples/triage-board/index.html",
+            "examples/triage-board/styles.css",
+            "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/implement-ui.json"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v13-dogfood-validation/spec.md",
+              "docs/specs/v13-dogfood-validation/app-contract.md"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "examples/triage-board/index.html",
+              "examples/triage-board/styles.css",
+              "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/implement-ui.json"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.ui.produce"
+        ],
+        "handoffArtifacts": [
+          "ui-evidence.md"
+        ],
+        "stopConditions": [
+          "Stop if the requested behavior conflicts with the bound product or application contract.",
+          "Stop before reading, writing, installing, or executing anything outside declared authority.",
+          "Return a non-pass workflow outcome when required evidence cannot be produced."
+        ]
+      },
+      {
+        "id": "integrate.application",
+        "objective": "Integrate the approved domain and presentation outputs into a runnable browser application.",
+        "weight": 5,
+        "module": {
+          "id": "dogfood.integration",
+          "action": "Bind the browser controller, runnable metadata, persistence, and combined verification without modifying dependency outputs.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "DomainAndPresentationImplementation"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IntegratedTriageBoard"
+            }
+          ]
+        },
+        "dependencies": [
+          "implement.domain",
+          "implement.ui"
+        ],
+        "requiredCapabilities": [
+          "integrate.browser-application"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v13-spec",
+            "purpose": "Implement or verify the exact accepted product behavior."
+          },
+          {
+            "sourceId": "context.v13-app-contract",
+            "purpose": "Respect the approved module, schema, scope, and verification contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v13-dogfood-validation/spec.md",
+            "docs/specs/v13-dogfood-validation/app-contract.md",
+            "examples/triage-board/src/model.js",
+            "examples/triage-board/src/storage.js",
+            "examples/triage-board/test/model.test.mjs",
+            "examples/triage-board/test/storage.test.mjs",
+            "examples/triage-board/index.html",
+            "examples/triage-board/styles.css"
+          ],
+          "write": [
+            "examples/triage-board/src/app.js",
+            "examples/triage-board/package.json",
+            "examples/triage-board/server.mjs",
+            "examples/triage-board/README.md",
+            "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/integrate-application.json"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v13-dogfood-validation/spec.md",
+              "docs/specs/v13-dogfood-validation/app-contract.md",
+              "examples/triage-board/src/model.js",
+              "examples/triage-board/src/storage.js",
+              "examples/triage-board/test/model.test.mjs",
+              "examples/triage-board/test/storage.test.mjs",
+              "examples/triage-board/index.html",
+              "examples/triage-board/styles.css"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "examples/triage-board/src/app.js",
+              "examples/triage-board/package.json",
+              "examples/triage-board/server.mjs",
+              "examples/triage-board/README.md",
+              "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/integrate-application.json"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.integration.produce"
+        ],
+        "handoffArtifacts": [
+          "integration-evidence.md"
+        ],
+        "stopConditions": [
+          "Stop if the requested behavior conflicts with the bound product or application contract.",
+          "Stop before reading, writing, installing, or executing anything outside declared authority.",
+          "Return a non-pass workflow outcome when required evidence cannot be produced."
+        ]
+      },
+      {
+        "id": "review.application",
+        "objective": "Independently review the complete application for correctness, accessibility, scope, and evidence gaps.",
+        "weight": 4,
+        "module": {
+          "id": "dogfood.review",
+          "action": "Review the integrated application and test evidence without modifying producer outputs.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "IntegratedTriageBoard"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "IndependentApplicationReview"
+            }
+          ]
+        },
+        "dependencies": [
+          "integrate.application"
+        ],
+        "requiredCapabilities": [
+          "review.application-quality"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v13-spec",
+            "purpose": "Implement or verify the exact accepted product behavior."
+          },
+          {
+            "sourceId": "context.v13-app-contract",
+            "purpose": "Respect the approved module, schema, scope, and verification contract."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v13-dogfood-validation/spec.md",
+            "docs/specs/v13-dogfood-validation/app-contract.md",
+            "examples/triage-board/src/model.js",
+            "examples/triage-board/src/storage.js",
+            "examples/triage-board/test/model.test.mjs",
+            "examples/triage-board/test/storage.test.mjs",
+            "examples/triage-board/index.html",
+            "examples/triage-board/styles.css",
+            "examples/triage-board/src/app.js",
+            "examples/triage-board/package.json",
+            "examples/triage-board/server.mjs",
+            "examples/triage-board/README.md"
+          ],
+          "write": [
+            "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/review-application.json"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v13-dogfood-validation/spec.md",
+              "docs/specs/v13-dogfood-validation/app-contract.md",
+              "examples/triage-board/src/model.js",
+              "examples/triage-board/src/storage.js",
+              "examples/triage-board/test/model.test.mjs",
+              "examples/triage-board/test/storage.test.mjs",
+              "examples/triage-board/index.html",
+              "examples/triage-board/styles.css",
+              "examples/triage-board/src/app.js",
+              "examples/triage-board/package.json",
+              "examples/triage-board/server.mjs",
+              "examples/triage-board/README.md"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/review-application.json"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.integration.review"
+        ],
+        "handoffArtifacts": [
+          "review-evidence.md"
+        ],
+        "stopConditions": [
+          "Stop if the requested behavior conflicts with the bound product or application contract.",
+          "Stop before reading, writing, installing, or executing anything outside declared authority.",
+          "Return a non-pass workflow outcome when required evidence cannot be produced."
+        ]
+      }
+    ]
+  },
+  "proposedCandidates": [
+    {
+      "id": "candidate.v13.atomic-specialists",
+      "groups": [
+        [
+          "implement.domain"
+        ],
+        [
+          "implement.ui"
+        ],
+        [
+          "integrate.application"
+        ],
+        [
+          "review.application"
+        ]
+      ]
+    }
+  ]
+}

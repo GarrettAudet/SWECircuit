@@ -1,0 +1,8 @@
+{
+  "apiVersion": "swecircuit/dogfood-approval/v1alpha1",
+  "kind": "DogfoodPackageApproval",
+  "approvedBy": "integration-owner",
+  "decision": "approve",
+  "compilationDigest": "sha256:256d6b31b1a6301240230a6a0ee606a30682caeb02e45e24c53edf334d283b82",
+  "packageDigest": "sha256:2fe0cfb24e45b47a847b3d4f2213c7f29a8ed4fa94a99feed8294d1789f98bcb"
+}
