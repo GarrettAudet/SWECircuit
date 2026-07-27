@@ -1,0 +1,47 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "block",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v14.adaptive-orchestration.vertical-slice",
+    "revision": 1,
+    "digest": "sha256:3d6f58596ed4a07b75469a13e4ef0c8088f85ac51b7d02fda27cd026b8155c9a"
+  },
+  "agent": {
+    "id": "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c",
+    "blueprintDigest": "sha256:3f96a365a04460cb754034e9f30e8ab80f8b814a163c9444003d366da9125149"
+  },
+  "compilationDigest": "sha256:ef1a9ec09a789eed249090a49800d10c9670dfbbfb9703e5691fa24996bed614",
+  "summary": "Created independent V14 Revision 2 runtime-routing fixtures and tests. Syntax and assigned-scope checks passed; executable verification is blocked pending integration of the routing producer.",
+  "workUnitsCompleted": [
+    "test.runtime-routing"
+  ],
+  "artifacts": [
+    {
+      "name": "runtime-routing-test-evidence.md",
+      "mediaType": "text/markdown",
+      "content": "# Runtime-routing test evidence\n\nOutcome: block\n\nFiles created:\n- test/helpers/runtime-routing-fixture.mjs\n- test/runtime-routing.test.mjs\n- test/runtime-routing-schema.test.mjs\n\nTest matrix:\n- Deterministic demand derivation, exact-vector selection, trusted verification, and property-order stability.\n- All closed row gates: unavailable, quality, reasoning, context, tools, skills, isolation, permissions, and observation mode.\n- Full-roster producer/checker independence.\n- Exact versus bounded vector-search claims.\n- Comparator precedence and canonical vector-identity tie-break.\n- Feasible and infeasible one-row owner overrides.\n- Closed schema behavior, malformed input, published limits, public operations, and packaged schema exports.\n\nVerification:\n- PASS: git rev-parse HEAD returned 933d23209914afde8f7819291a38ffc382b91873.\n- PASS: all nine declared context byte counts and SHA-256 digests matched.\n- PASS: node --check completed for all three assigned files.\n- PASS: git diff --check completed without findings.\n- PENDING: executable tests require the V14 routing producer during integration.\n\nAttempts:\n- Attempt 1 blocked due host workspace mismatch.\n- Attempt 2 used the exact isolated detached worktree at C:\\tmp\\swecircuit-v14-tests-agent.\n\nRisks:\n- Runtime behavior has not yet been executed against the integrated V14 implementation.\n- The schema test assumes the contract's two schema-source constants use the conventional RUNTIME_ROUTING_SCHEMA_SOURCE and ADAPTIVE_RUN_SCHEMA_SOURCE names; Revision 2 requires source constants but does not state their exact identifiers.\n\nNo release-readiness claim is made.\n"
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.routing",
+      "requirementId": "evidence.routing.verify",
+      "kind": "test",
+      "duty": "verify",
+      "status": "block",
+      "artifact": "runtime-routing-test-evidence.md"
+    }
+  ],
+  "assumptions": [
+    "The integrated public package will expose the V14 operations and JSON schema package exports exactly as specified by the normative contract."
+  ],
+  "risks": [
+    "Executable verification remains pending until the routing producer is integrated.",
+    "Schema-source constant identifiers are a conventional-name interpretation of an otherwise unnamed contract requirement."
+  ],
+  "followUps": [
+    "Run the two runtime-routing test files after integrating the V14 routing producer and resolve any contract mismatches."
+  ]
+}
