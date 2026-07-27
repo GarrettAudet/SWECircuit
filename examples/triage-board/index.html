@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue Triage Board</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="app-identity">
+          <p class="workspace-label">Local workspace</p>
+          <h1>Issue triage</h1>
+        </div>
+        <div class="header-actions" aria-label="Board actions">
+          <label class="file-action button button-secondary">
+            <span>Import</span>
+            <input
+              class="visually-hidden file-action-input"
+              id="import-file"
+              name="import-file"
+              type="file"
+              accept=".json,application/json"
+              aria-label="Import issues from JSON"
+            >
+          </label>
+          <button class="button button-secondary" id="export-button" type="button">
+            Export
+          </button>
+          <button class="button button-primary" id="create-issue-button" type="button">
+            New issue
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="toolbar" aria-label="Issue filters">
+        <div class="search-field">
+          <label for="issue-search">Search issues</label>
+          <input
+            id="issue-search"
+            name="search"
+            type="search"
+            placeholder="Title or details"
+            autocomplete="off"
+          >
+        </div>
+
+        <div class="filter-field">
+          <label for="status-filter">Status</label>
+          <select id="status-filter" name="status">
+            <option value="">All statuses</option>
+            <option value="backlog">Backlog</option>
+            <option value="in_progress">In progress</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label for="priority-filter">Priority</label>
+          <select id="priority-filter" name="priority">
+            <option value="">All priorities</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+
+        <div class="filter-summary">
+          <p id="filter-summary" aria-live="polite">Showing all issues</p>
+          <button class="button button-quiet" id="clear-filters-button" type="button" disabled>
+            Clear filters
+          </button>
+        </div>
+      </section>
+
+      <section class="board" aria-label="Issues by status">
+        <section class="lane lane-backlog" data-status="backlog" aria-labelledby="backlog-heading">
+          <header class="lane-header">
+            <div>
+              <p class="lane-kicker">Queued</p>
+              <h2 id="backlog-heading">Backlog</h2>
+            </div>
+            <span class="lane-count" id="backlog-count" aria-label="0 backlog issues">0</span>
+          </header>
+          <ul class="issue-list" id="backlog-list" aria-labelledby="backlog-heading"></ul>
+        </section>
+
+        <section
+          class="lane lane-in-progress"
+          data-status="in_progress"
+          aria-labelledby="in-progress-heading"
+        >
+          <header class="lane-header">
+            <div>
+              <p class="lane-kicker">Active</p>
+              <h2 id="in-progress-heading">In progress</h2>
+            </div>
+            <span class="lane-count" id="in-progress-count" aria-label="0 in-progress issues">
+              0
+            </span>
+          </header>
+          <ul
+            class="issue-list"
+            id="in-progress-list"
+            aria-labelledby="in-progress-heading"
+          ></ul>
+        </section>
+
+        <section class="lane lane-done" data-status="done" aria-labelledby="done-heading">
+          <header class="lane-header">
+            <div>
+              <p class="lane-kicker">Resolved</p>
+              <h2 id="done-heading">Done</h2>
+            </div>
+            <span class="lane-count" id="done-count" aria-label="0 done issues">0</span>
+          </header>
+          <ul class="issue-list" id="done-list" aria-labelledby="done-heading"></ul>
+        </section>
+      </section>
+
+      <section class="empty-state" id="empty-state" aria-labelledby="empty-state-title" hidden>
+        <h2 id="empty-state-title">No issues found</h2>
+        <p id="empty-state-message">Create an issue or adjust the active filters.</p>
+        <button class="button button-primary" id="empty-state-action" type="button">
+          New issue
+        </button>
+      </section>
+    </main>
+
+    <dialog class="issue-dialog" id="issue-dialog" aria-labelledby="issue-dialog-title">
+      <form id="issue-form">
+        <header class="dialog-header">
+          <div>
+            <p class="dialog-kicker">Issue details</p>
+            <h2 id="issue-dialog-title">New issue</h2>
+          </div>
+          <button
+            class="icon-button"
+            id="close-dialog-button"
+            type="button"
+            aria-label="Close issue dialog"
+            title="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </header>
+
+        <div class="dialog-body">
+          <input id="issue-id" name="id" type="hidden">
+
+          <p class="form-error" id="issue-form-error" role="alert" hidden></p>
+
+          <div class="form-field">
+            <label for="issue-title">Title</label>
+            <input
+              id="issue-title"
+              name="title"
+              type="text"
+              maxlength="120"
+              autocomplete="off"
+              required
+              autofocus
+            >
+          </div>
+
+          <div class="form-field">
+            <label for="issue-details">
+              Details
+              <span class="optional-label">Optional</span>
+            </label>
+            <textarea id="issue-details" name="details" maxlength="1000" rows="5"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="issue-priority">Priority</label>
+              <select id="issue-priority" name="priority" required>
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="issue-status">Status</label>
+              <select id="issue-status" name="status" required>
+                <option value="backlog" selected>Backlog</option>
+                <option value="in_progress">In progress</option>
+                <option value="done">Done</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <footer class="dialog-footer">
+          <button
+            class="button button-danger dialog-delete"
+            id="delete-issue-button"
+            type="button"
+            hidden
+          >
+            Delete
+          </button>
+          <div class="dialog-commands">
+            <button class="button button-secondary" id="cancel-dialog-button" type="button">
+              Cancel
+            </button>
+            <button class="button button-primary" type="submit">Save issue</button>
+          </div>
+        </footer>
+      </form>
+    </dialog>
+
+    <div class="visually-hidden" id="app-live-region" role="status" aria-live="polite"></div>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>

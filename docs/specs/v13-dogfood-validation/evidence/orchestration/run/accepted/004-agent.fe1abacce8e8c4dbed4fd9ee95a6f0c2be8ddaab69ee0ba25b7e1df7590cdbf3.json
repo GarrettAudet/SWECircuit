@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v13.dogfood.triage-board",
+    "revision": 1,
+    "digest": "sha256:e242f31b9c539806d821c561c6ddb68cb98ca208fbcc6d3f766df0f2adbabddf"
+  },
+  "agent": {
+    "id": "agent.fe1abacce8e8c4dbed4fd9ee95a6f0c2be8ddaab69ee0ba25b7e1df7590cdbf3",
+    "blueprintDigest": "sha256:5455e7b69c4fb177b3ddc3d31f8acfbc3c33a6e62cea04a5191c58d3210699fa"
+  },
+  "compilationDigest": "sha256:256d6b31b1a6301240230a6a0ee606a30682caeb02e45e24c53edf334d283b82",
+  "summary": "Independent final review passes: all previous material findings are resolved in current source and tests, and the exact host-bound browser evidence closes the prior journey, responsive, console, focus, and contrast evidence gap.",
+  "workUnitsCompleted": [
+    "review.application"
+  ],
+  "artifacts": [
+    {
+      "name": "review-evidence.md",
+      "mediaType": "text/markdown",
+      "content": "# Independent Application Review\n\nOutcome: `pass`\n\n## Findings\n\nNo unresolved material correctness, accessibility, responsive, scope, test-sufficiency, security, or evidence finding remains.\n\n## Previous Findings Rechecked\n\n1. **Calendar-invalid timestamps: resolved.** `examples/triage-board/src/model.js:50` now performs leap-year, month-length, clock, offset, and parse validation. `examples/triage-board/test/model.test.mjs:42` covers impossible month lengths and invalid leap days, `examples/triage-board/test/model.test.mjs:56` covers valid leap days and offsets, and `examples/triage-board/test/model.test.mjs:113` covers malformed import envelopes and impossible imported dates. An independent authorized Node probe rejected `2026-02-31T12:00:00Z`, `2026-04-31T12:00:00-07:00`, and `2025-02-29T12:00:00+05:30` through `parseIssueCollection`.\n\n2. **Browser evidence gap: resolved.** The external host supplied the exact browser report as runtime input, bound at 2643 bytes and raw SHA-256 `c184de4a3895b13c7d737a5fec388ab5dea168a0b9994bdaf193ec23cf3cfba4`, plus exact desktop and mobile captures. The report covers seeded startup, create, move, edit, native-confirmed delete, replacement creation, reload persistence, search, clear filters, export feedback, required-title rejection, cancel non-mutation, desktop/mobile dimensions and overflow, focus behavior and contrast, zero browser console errors or warnings, and server GET/HEAD/404/405/CSP behavior. This substantiates the browser duties in `docs/specs/v13-dogfood-validation/app-contract.md:74` and AC1-AC5.\n\n3. **Keyboard focus loss: resolved.** `examples/triage-board/src/app.js:196` models stable logical focus targets; `restoreFocus` resolves regenerated issue actions with a stable fallback. Create/edit set the post-render Edit target, move restores the moved issue's Edit action, and delete selects a nearby surviving Edit action before mutation. The bound browser report confirms focus on the new issue Edit action, the moved issue Edit action, the renamed issue Edit action, and a nearby surviving Edit action after delete.\n\n4. **Focus and placeholder contrast: resolved.** `examples/triage-board/styles.css:17` now uses focus `#a15c00`, independently measured at 5.19:1 on white and 4.79:1 on the canvas. `examples/triage-board/styles.css:99` now uses placeholder `#65727d`, independently measured at 4.93:1 on white. The browser report records a minimum adjacent focus contrast of 4.35:1.\n\n## Complete Review\n\nThe implementation remains inside `examples/triage-board/`, has no runtime dependencies or external requests, and preserves the published model/storage interfaces and strict persisted envelope. Create, update, move, delete, filtering, counts, local persistence, export, and import all route through validated domain operations. Import parses and validates before `applyValidCollection`, so malformed or duplicate input cannot replace current state. User-controlled fields are inserted with `textContent`; targeted static checks found no unsafe HTML sink, dynamic code execution, or browser network API. The loopback server retains its route allowlist, MIME types, CSP with `connect-src 'none'`, `nosniff`, no-referrer policy, and method handling.\n\nThe semantic shell, dialog labels, live regions, native validation, destructive confirmation, focus restoration, visible focus styles, responsive grids, and 20rem minimum remain coherent. The supplied desktop capture shows the complete three-lane operational board without overlap. The supplied mobile capture and report show stacked controls and lanes, 44px header targets, header actions inside x=16..358.67, and no horizontal overflow at the measured 390/375/375 inner/client/scroll widths.\n\nThe host security policy correctly rejected attaching a generated local JSON fixture and was not bypassed. Consequently, the native browser file-selection path was not executed in that run. This is not material to acceptance because 13 deterministic tests cover schema round-trip, malformed envelopes, duplicate IDs, impossible dates, and persistence, while source review confirms the import handler reads the selected file, validates before mutation, announces failure, and clears the input in `finally`.\n\n## Verification\n\n- Bound context verification passed: `app-contract.md` is 2466 bytes with raw SHA-256 `7de25a4a431f9ecc67628c3fc84723da4d9f8ca1266c06e7cc65752cb63b02c6`; `spec.md` is 4048 bytes with raw SHA-256 `7874343e2b81af39e7b26777a22152d1fb7a26b4faa8da939f48fa7acdbc9e69`.\n- Corrected dependency assessment accepted as exact and integration-ready: `sha256:73e5179d3ac060f5f2b05cc9a223b270330f01904fcc422ad63eee69d28ec78a`; domain raw `sha256:9805d1c4bd239caff328b6181da73031eb8194e9b9ee04b350f6ba0ea715772b`; UI raw `sha256:96cb56428bf3250ca57981a63bc6367f1446ddb986098e603b109285d5292402`; integration raw `sha256:4eb7e264bba06a277c386a2ef29054e5e95e027403a637a0dc56fa2ffca13508`.\n- Browser runtime report binding: 2643 bytes, raw SHA-256 `c184de4a3895b13c7d737a5fec388ab5dea168a0b9994bdaf193ec23cf3cfba4`.\n- Attached capture bindings: desktop 45355 bytes, raw SHA-256 `4a8aea301563ef23d618ee3347e3388abb524e47a46951c2e705801b71fb5e4c`; mobile 35713 bytes, raw SHA-256 `d656c0d799b3ad50e8e5a642808a854ecf1291fc9baca9857a4bda403da24615`.\n- `node --test test/model.test.mjs test/storage.test.mjs`: 13 tests passed, 0 failed.\n- `node --check src/app.js`, `node --check src/model.js`, `node --check src/storage.js`, and `node --check server.mjs`: passed.\n- Independent impossible-date probe: all three malformed timestamps rejected.\n- Independent contrast probe: focus 5.19:1 on white and 4.79:1 on canvas; placeholder 4.93:1 on white.\n- Targeted unsafe-sink, dynamic-code, and browser-network `rg`: no matches.\n\n## Changed Files\n\n- `docs/specs/v13-dogfood-validation/evidence/orchestration/handoffs/review-application.json` only."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.integrated-quality",
+      "requirementId": "evidence.integration.review",
+      "kind": "review",
+      "duty": "review",
+      "status": "pass",
+      "artifact": "review-evidence.md"
+    }
+  ],
+  "assumptions": [
+    "The exact dependency assessment, raw handoff digests, browser report binding, report assertions, and attached capture bindings are trusted runtime inputs supplied and verified by the external host; they were not widened into repository read authority."
+  ],
+  "risks": [
+    "The browser run did not exercise native file selection because host security policy rejected the generated fixture; deterministic schema and persistence tests plus direct import-handler review reduce the remaining risk to non-material."
+  ],
+  "followUps": [
+    "Exercise one valid and one malformed file through the native browser picker when an approved fixture-delivery path is available; this is non-blocking follow-up evidence."
+  ]
+}

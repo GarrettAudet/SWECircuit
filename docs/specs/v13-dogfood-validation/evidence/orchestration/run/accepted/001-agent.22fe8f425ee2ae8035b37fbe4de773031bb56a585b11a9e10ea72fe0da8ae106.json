@@ -1,0 +1,40 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v13.dogfood.triage-board",
+    "revision": 1,
+    "digest": "sha256:e242f31b9c539806d821c561c6ddb68cb98ca208fbcc6d3f766df0f2adbabddf"
+  },
+  "agent": {
+    "id": "agent.22fe8f425ee2ae8035b37fbe4de773031bb56a585b11a9e10ea72fe0da8ae106",
+    "blueprintDigest": "sha256:5ef115b4d2171e62fe8cd3263e4e644f1e638f8c2518251b2b76b71db753c56c"
+  },
+  "compilationDigest": "sha256:256d6b31b1a6301240230a6a0ee606a30682caeb02e45e24c53edf334d283b82",
+  "summary": "Implemented the issue domain and storage boundary, then corrected ISO-8601 validation to reject impossible calendar dates with deterministic regressions.",
+  "workUnitsCompleted": [
+    "implement.domain"
+  ],
+  "artifacts": [
+    {
+      "name": "domain-evidence.md",
+      "mediaType": "text/markdown",
+      "content": "# Domain Implementation Evidence\n\n## Context Authentication\n\n- `docs/specs/v13-dogfood-validation/app-contract.md`: 2,466 bytes, `sha256:7de25a4a431f9ecc67628c3fc84723da4d9f8ca1266c06e7cc65752cb63b02c6` (matched blueprint binding).\n- `docs/specs/v13-dogfood-validation/spec.md`: 4,048 bytes, `sha256:7874343e2b81af39e7b26777a22152d1fb7a26b4faa8da939f48fa7acdbc9e69` (matched blueprint binding).\n\n## Implementation\n\n- Added pure issue creation, mutation, validation, filtering, grouping, JSON serialization/parsing, and deterministic seed generation.\n- Enforced the closed issue and collection schemas, including unknown-field, duplicate-id, enum, calendar-exact date, and length rejection.\n- Validated the written ISO-8601 year, month, day, clock, and offset components before `Date.parse`, preserving valid Gregorian leap days and supported `Z`, positive-offset, and negative-offset forms.\n- Added defensive local-storage load/save behavior: malformed reads produce an empty collection and failed writes return `false`; validation occurs before writing.\n\n## Independent Review Fix\n\nThe reviewed defect was reproduced conceptually at the validation boundary: `Date.parse` can normalize impossible month/day combinations. Regression coverage now rejects February 31, April 31, non-leap February 29, and the non-leap century year 1900; it accepts leap days in 2024 and 2000 with UTC and timezone offsets. Imported collections exercise the same boundary and reject malformed envelopes.\n\n## Verification\n\nCommand: `node --test examples/triage-board/test/model.test.mjs examples/triage-board/test/storage.test.mjs`\n\nResult: 13 passed, 0 failed, 0 skipped.\n\nCoverage includes schema validation, calendar-exact ISO-8601 timestamps, valid and invalid leap days, timezone offsets, deterministic creation and updates, filtering, grouping, collection import/export, malformed imported envelopes, empty and malformed storage, valid persistence, and failed writes."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.domain",
+      "requirementId": "evidence.domain.produce",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "domain-evidence.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": []
+}

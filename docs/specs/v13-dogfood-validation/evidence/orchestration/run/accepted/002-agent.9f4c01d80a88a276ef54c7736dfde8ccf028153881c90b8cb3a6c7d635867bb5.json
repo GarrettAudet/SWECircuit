@@ -1,0 +1,46 @@
+{
+    "apiVersion":  "swecircuit/specialist/v1alpha1",
+    "kind":  "SpecialistAgentHandoff",
+    "outcome":  "pass",
+    "destination":  "codex.main",
+    "goal":  {
+                 "id":  "v13.dogfood.triage-board",
+                 "revision":  1,
+                 "digest":  "sha256:e242f31b9c539806d821c561c6ddb68cb98ca208fbcc6d3f766df0f2adbabddf"
+             },
+    "agent":  {
+                  "id":  "agent.9f4c01d80a88a276ef54c7736dfde8ccf028153881c90b8cb3a6c7d635867bb5",
+                  "blueprintDigest":  "sha256:370d388153979d827db61294d736453bd717718cbcae4b6bfbaafb09ba6e91e2"
+              },
+    "compilationDigest":  "sha256:256d6b31b1a6301240230a6a0ee606a30682caeb02e45e24c53edf334d283b82",
+    "summary":  "Implemented and corrected the semantic, responsive, accessible triage-board presentation shell, including mobile intrinsic-width and independently reviewed color-contrast fixes, without application state or persistence logic.",
+    "workUnitsCompleted":  [
+                               "implement.ui"
+                           ],
+    "artifacts":  [
+                      {
+                          "name":  "ui-evidence.md",
+                          "mediaType":  "text/markdown",
+                          "content":  "# UI implementation evidence\n\n## Produced interface\n\n- `examples/triage-board/index.html` provides the semantic application header, compact import/export/create actions, labeled search and filter controls, three status lanes with counts, an empty state, a native issue dialog and validated form, error feedback, and an accessible polite live region.\n- `examples/triage-board/styles.css` provides a restrained multi-color operational palette, compact controls, stable desktop lanes, single-column mobile layouts, visible keyboard focus, forced-colors support, and reduced-motion handling.\n- The HTML references the declared browser module entry point but contains no inline application state, event handling, storage, persistence, or network logic.\n\n## Responsive defect diagnosis and correction\n\n- Browser replay at 390x844 showed Import occupying roughly 250px, Export clipped to the right, and the spanning New issue action also exceeding the viewport. This proved that the two-row breakpoint alone did not constrain the action group\u0027s used width.\n- The failed first correction left `input[type=file]` as a full-size absolutely positioned replaced element (`inset: 0; width: 100%; height: 100%`) and left the mobile action group as a growing/shrinking `flex: 1 1 100%` item. That combination retained an intrinsic-width path instead of establishing a closed content-width boundary.\n- The native file input is now a 1px, absolutely positioned, clipped-but-focusable control using the existing visually-hidden utility. Its wrapping label remains the visible `Import` action, clicking the label still invokes the native picker, and `:focus-within` preserves a visible keyboard focus ring. The replaced input no longer contributes a full-size box.\n- At mobile widths, the header and action group now have explicit 100% used widths with zero minimum inline size and 100% maximum inline size. The action group uses `flex: 0 0 100%` plus `contain: inline-size`; every direct action has zero minimum and 100% maximum inline size. Grid items stretch naturally rather than receiving cyclic `width: 100%` declarations. No overflow is hidden.\n- Desktop retains the original flex action row. Through 42rem, controls keep a 2.75rem (44px) minimum touch height. Through 30rem, Import and Export occupy two equal columns and New issue spans a full second row.\n\n## 390px sizing proof\n\n- A 390px border-box header with 16px side padding has a 358px content box.\n- The non-growing action grid is exactly 358px. With one 8px gap, its two `minmax(0, 1fr)` tracks are 175px each.\n- Import and Export therefore each remain within 175px first-row tracks; New issue spans the exact 358px second row.\n- The clipped 1px file input is out of flow and cannot enlarge the label, grid tracks, action group, or header.\n\n## Inspection evidence\n\n- Both UI files are strict UTF-8 without BOM and use LF with no TAB, CR, or CRLF bytes.\n- All HTML IDs are unique, every label/ARIA reference resolves, and the import control retains native keyboard focus with a visible parent focus state.\n- Static checks confirm the old full-size file-input rule is absent; header/action used widths and descendant maximum inline sizes are bounded; the 390px tracks resolve to 175px and 358px; and no header/action rule hides overflow.\n- Desktop flex presentation, three status lanes, dialog/form/alert/live-region structures, balanced CSS, and the no-state/no-network presentation boundary remain intact.\n## Contrast correction\n\n- Independent review measured the former focus token `#d88700` at 2.84:1 on white and 2.62:1 on the canvas, below the 3:1 non-text contrast threshold. It measured the former placeholder `#788590` at 3.78:1 on white, below the 4.5:1 text threshold.\n- The restrained amber focus token is now `#a15c00`. Calculated from sRGB relative luminance, it measures 5.19:1 on white (`#ffffff`), 4.79:1 on the canvas (`#f4f6f8`), 4.61:1 on the subtle lane surface (`#eef2f4`), 4.96:1 on the dialog footer (`#f8fafb`), 4.87:1 on the secondary hover surface (`#f6f8f9`), 4.35:1 on the primary-soft hover surface (`#dcefed`), and 4.91:1 on the danger-soft surface (`#fff7f6`). Every relevant adjacent surface exceeds 3:1.\n- The neutral placeholder is now `#65727d`, measuring 4.93:1 against the white input and textarea background. It exceeds 4.5:1 while remaining visually subordinate to entered text and field labels.\n- Both native `:focus-visible` controls and the import action\u0027s `:focus-within` state still use `outline: 3px solid var(--focus)` with a 2px offset. The 390px inline-size containment, two-column narrow action grid, 44px mobile action targets, and no-overflow-clipping assertions remain unchanged and pass."
+                      }
+                  ],
+    "evidence":  [
+                     {
+                         "criterionId":  "criterion.ui",
+                         "requirementId":  "evidence.ui.produce",
+                         "kind":  "artifact",
+                         "duty":  "produce",
+                         "status":  "pass",
+                         "artifact":  "ui-evidence.md"
+                     }
+                 ],
+    "assumptions":  [
+
+                    ],
+    "risks":  [
+                  "The final fresh-navigation computed-layout replay remains an external browser verification step; the static sizing audit now removes and bounds every identified intrinsic-width path."
+              ],
+    "followUps":  [
+                      "Replay the exact 390x844 fresh-navigation browser check and confirm Import and Export remain in 175px tracks while New issue remains inside the 358px header content box."
+                  ]
+}

@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v13.dogfood.triage-board",
+    "revision": 1,
+    "digest": "sha256:e242f31b9c539806d821c561c6ddb68cb98ca208fbcc6d3f766df0f2adbabddf"
+  },
+  "agent": {
+    "id": "agent.3d688f99658a89b95473b010617ce56bbff4e5bafb0c9f2d9580f842a52496ef",
+    "blueprintDigest": "sha256:a58ac2f1da1c9247b437ebed417510598a48370b456ed829f3d88f3162bb0b5d"
+  },
+  "compilationDigest": "sha256:256d6b31b1a6301240230a6a0ee606a30682caeb02e45e24c53edf334d283b82",
+  "summary": "Fixed render-driven focus loss with deterministic logical focus restoration after move, save, and delete; all corrected-root tests and focused integration checks pass.",
+  "workUnitsCompleted": [
+    "integrate.application"
+  ],
+  "artifacts": [
+    {
+      "name": "integration-evidence.md",
+      "mediaType": "text/markdown",
+      "content": "# Integration Evidence\n\n## Scope And Identity\n\n- Completed the independent-review `fix` for work unit `integrate.application` under agent `agent.3d688f99658a89b95473b010617ce56bbff4e5bafb0c9f2d9580f842a52496ef`.\n- Preserved compilation digest `sha256:256d6b31b1a6301240230a6a0ee606a30682caeb02e45e24c53edf334d283b82`, blueprint digest `sha256:a58ac2f1da1c9247b437ebed417510598a48370b456ed829f3d88f3162bb0b5d`, goal identity, evidence-duty shape, and the complete compiled handoff envelope.\n- The host supplied corrected-root assessment digest `sha256:5e600499e1d254a40748ddd8345e8159e13729954e0a357568c1d414d1ff2bce` with `integrationReady: true`, domain raw handoff digest `sha256:9805d1c4bd239caff328b6181da73031eb8194e9b9ee04b350f6ba0ea715772b`, and UI raw handoff digest `sha256:96cb56428bf3250ca57981a63bc6367f1446ddb986098e603b109285d5292402`.\n- Re-inspected the corrected authorized outputs without modifying them. Current raw file identities include `model.js` at `sha256:f9f7bb99b2ba27ef64bd28d88b4465c2852a4aeb6a7e0a8b7375222843fac59f`, `storage.js` at `sha256:948a6758beea65b6f5a4f0c42a786b5f4e147d63478f146bd6f14635376634a8`, `index.html` at `sha256:ed5b1954785578b744f6782f7586553f5d9b6bcebfa93abee395a9a33b3da1ce`, and `styles.css` at `sha256:c3bce35a60880b228b2ef2ab19ac9c7c7e21da50d6d8372e1b8810a3548adadc`.\n- Changed only `examples/triage-board/src/app.js` and this handoff. Domain, storage, tests, HTML, CSS, package metadata, server, README, Git, and durable memory were not modified.\n\n## Diagnosis\n\n- Reproduced the review defect: every `render()` calls `replaceChildren`, which disconnects all existing issue actions.\n- Move previously left focus on the disconnected move button. Edit/save and delete rendered before dialog close, so the stored return-focus element failed its `isConnected` guard and no deterministic replacement received focus.\n- Classified the root cause as stale DOM identity retained across a complete render, not a domain, storage, HTML, or CSS defect.\n\n## Fix\n\n- Replaced the stale-node assumption with an internal logical focus descriptor containing stable issue ID and action identity. No presentation state or markup was added.\n- Move, edit/save, and create/save resolve the post-render Edit action for the affected issue and focus that newly rendered control.\n- Delete captures the next visible issue Edit action before mutation, then the previous visible action when no next action exists. If no logical issue action remains, Clear filters is used when active; otherwise New issue is focused.\n- Dialog cancellation still restores its initiating action through the same logical resolution, with connected global controls preserved directly.\n- Fixed `src/app.js` is 17,435 exact bytes with raw SHA-256 `bf5465620e9b4c2bd02c3acc1c2f0dfc0a064777e4be0708024a37c0d27e451e`.\n\n## Verification\n\n- `node --test test/model.test.mjs test/storage.test.mjs`: PASS, 13 tests passed, 0 failed against the corrected domain root.\n- `node --check src/app.js`: PASS.\n- `node --check server.mjs`: PASS.\n- Dependency-free logical-focus integration harness: PASS. It proved original actions became disconnected and verified the new focus target after move, edit/save, create/save, deletion with a next issue, and deletion of the final issue.\n- Corrected-root static contract audit: PASS. Focus restoration hooks are present; controller imports remain exactly `./model.js` and `./storage.js`; all required UI IDs remain present; integration files remain UTF-8/LF with no BOM; package metadata remains private ESM with zero dependencies.\n- Corrected-root in-process static-server audit: PASS for the fixed controller and corrected HTML/CSS, GET, HEAD, 404, 405, JavaScript MIME type, and restrictive CSP without binding a socket.\n\n## Execution Boundaries\n\n- No network access, dependency installation, secret access, external service, Git mutation, durable-memory update, domain/UI write, or undeclared product change occurred.\n- The host-authenticated handoff and assessment digests were accepted as runtime assertions; dependency files inside the specialist read scope were inspected directly.\n- `apply_patch` was rejected before reading or changing `app.js` by the Windows sandbox refresh helper. The exact asserted transformation was then applied through the authorized Node process with required file-write access.\n- Independent browser re-review remains the downstream confirmation gate; this handoff does not misrepresent the Node-based focus harness as browser-runtime evidence."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.integrated-quality",
+      "requirementId": "evidence.integration.produce",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "integration-evidence.md"
+    }
+  ],
+  "assumptions": [
+    "The host-authenticated corrected-root assessment digest sha256:5e600499e1d254a40748ddd8345e8159e13729954e0a357568c1d414d1ff2bce, domain raw digest sha256:9805d1c4bd239caff328b6181da73031eb8194e9b9ee04b350f6ba0ea715772b, and UI raw digest sha256:96cb56428bf3250ca57981a63bc6367f1446ddb986098e603b109285d5292402 are the authorized dependency assertions."
+  ],
+  "risks": [
+    "The deterministic Node focus harness covers the reported lifecycle defect, but independent browser re-review must confirm visible focus behavior in the target Chromium runtime."
+  ],
+  "followUps": [
+    "Re-run independent browser keyboard review against this exact fixed assembly and verify this regenerated raw handoff before integration approval."
+  ]
+}

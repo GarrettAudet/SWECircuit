@@ -60,6 +60,30 @@ Do not fan out work until each unit has objective, scope boundary, likely files,
 
 Parallel agents can explore and implement slices, but one owner must integrate, verify, review, and record lessons across the full change.
 
+### Adaptive Rigor
+
+Use the smallest rail that preserves the goal's actual quality gates. A small, low-risk goal should
+default to one implementation owner plus independent verification; add specialists only when
+parallel value, capability boundaries, or required independence justify their coordination cost.
+
+### Reviewer Evidence Bundle
+
+Give an independent reviewer the exact digest-bound product, command, browser, and dependency
+evidence it is expected to judge. Repository read access does not prove that runtime evidence was
+delivered.
+
+### Rejected Handoff Repair
+
+When the production verifier rejects a handoff, preserve the rejection and route it to the exact
+producer. Do not infer success from prose or accept replacement evidence until the canonical raw
+handoff passes verification.
+
+### Immutable Launch Input
+
+After approval, do not mutate a context source used to reconstruct the package. Keep progress and
+completion in a separate run or milestone record, or bind an immutable snapshot; otherwise create a
+new candidate and replay every affected gate.
+
 ### Modular Framework Kernel
 
 Keep the core workflow file-based and stable, then use modules and optional adapters to plug in best-in-class practices only when they solve a real problem.

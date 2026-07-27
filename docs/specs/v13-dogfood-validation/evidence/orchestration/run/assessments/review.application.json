@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistHandoffSetAssessment",
+  "goalId": "v13.dogfood.triage-board",
+  "goalRevision": 1,
+  "goalDigest": "sha256:e242f31b9c539806d821c561c6ddb68cb98ca208fbcc6d3f766df0f2adbabddf",
+  "compilationDigest": "sha256:256d6b31b1a6301240230a6a0ee606a30682caeb02e45e24c53edf334d283b82",
+  "packageDigest": "sha256:2fe0cfb24e45b47a847b3d4f2213c7f29a8ed4fa94a99feed8294d1789f98bcb",
+  "targetAgentId": "agent.fe1abacce8e8c4dbed4fd9ee95a6f0c2be8ddaab69ee0ba25b7e1df7590cdbf3",
+  "requiredAgentIds": [
+    "agent.22fe8f425ee2ae8035b37fbe4de773031bb56a585b11a9e10ea72fe0da8ae106",
+    "agent.3d688f99658a89b95473b010617ce56bbff4e5bafb0c9f2d9580f842a52496ef",
+    "agent.9f4c01d80a88a276ef54c7736dfde8ccf028153881c90b8cb3a6c7d635867bb5"
+  ],
+  "receivedAgentIds": [
+    "agent.22fe8f425ee2ae8035b37fbe4de773031bb56a585b11a9e10ea72fe0da8ae106",
+    "agent.3d688f99658a89b95473b010617ce56bbff4e5bafb0c9f2d9580f842a52496ef",
+    "agent.9f4c01d80a88a276ef54c7736dfde8ccf028153881c90b8cb3a6c7d635867bb5"
+  ],
+  "missingAgentIds": [],
+  "handoffs": [
+    {
+      "agentId": "agent.22fe8f425ee2ae8035b37fbe4de773031bb56a585b11a9e10ea72fe0da8ae106",
+      "outcome": "pass",
+      "rawBytes": 3214,
+      "rawDigest": "sha256:9805d1c4bd239caff328b6181da73031eb8194e9b9ee04b350f6ba0ea715772b",
+      "semanticDigest": "sha256:4276891e3f4615719c67fde5ba5e80585c204ca0e277f67a9711f2274d7184e1"
+    },
+    {
+      "agentId": "agent.3d688f99658a89b95473b010617ce56bbff4e5bafb0c9f2d9580f842a52496ef",
+      "outcome": "pass",
+      "rawBytes": 6535,
+      "rawDigest": "sha256:4eb7e264bba06a277c386a2ef29054e5e95e027403a637a0dc56fa2ffca13508",
+      "semanticDigest": "sha256:ec11196eddc5e2827f0cdfae1e95dffa6b9dc3d36b9ac3992491059c0be71028"
+    },
+    {
+      "agentId": "agent.9f4c01d80a88a276ef54c7736dfde8ccf028153881c90b8cb3a6c7d635867bb5",
+      "outcome": "pass",
+      "rawBytes": 6953,
+      "rawDigest": "sha256:96cb56428bf3250ca57981a63bc6367f1446ddb986098e603b109285d5292402",
+      "semanticDigest": "sha256:e5e5c346e4e38e3435ff21ef2807e54356253cbbc270d2adfb0b9a106fe94c8c"
+    }
+  ],
+  "integrationReady": true,
+  "contentDigest": "sha256:73e5179d3ac060f5f2b05cc9a223b270330f01904fcc422ad63eee69d28ec78a"
+}

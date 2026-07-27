@@ -2,19 +2,19 @@
 
 ## Current Focus
 
-V12 IDE Run Loop Revision 73 source candidate `a645f985dbb7b05f5b3656cd138968c456887568` has completed release qualification on
-`codex/v12-ide-run-loop`. Copied lifecycle, complete verification, non-consuming rehearsal,
-hosted Windows run `30239349407`, and its one protected canonical invocation pass. Fresh R2
-product/API/IDE, lifecycle/correctness, and security/trace/authority handoffs all verify `pass`;
-the complete exact-byte fan-in records `releaseReady: true`. The owner approved merge. ADR 0006
-keeps v0.1 Windows-only; macOS and Linux remain unsupported.
+V13 has dogfooded the released V12 Revision 73 run loop against a real dependency-free issue-triage
+application on `codex/v13-dogfood-validation`. Four task-shaped specialists implemented domain,
+UI, integration, and independent-review work; two root units ran in parallel, dependency gates
+controlled fan-in, browser and deterministic verification routed defects back to their owners,
+and the final exact handoff set reached `integrationReady: true` with an independent `pass`.
 
 ## Current Stage
 
-Revision 73 is in `memory update -> publication`. Candidate-addressed external evidence
-preserves the exact R73 source, canonical host chain, raw R2 handoffs, final verifier report,
-milestone, and retrieval links. The integration owner will fast-forward the approved branch to
-`main` and confirm merged-main CI.
+V13 is in `memory update -> branch freeze -> owner review`. The feature package, executable app,
+raw specialist handoffs, final run session, command and browser evidence, independent review, and
+milestone are preserved. The branch is not merged; V12 Revision 73 remains the stable `main`
+baseline, and its candidate-addressed external evidence remains authoritative, until the owner
+approves V13.
 
 External IDE hosts still own provider/model/effort selection, skills, tools, spawning, workspace
 and process isolation, permission enforcement, execution, persistence, integration effects, merge,
@@ -48,6 +48,24 @@ readiness, routing, and immutable run state.
 
 ## Recently Learned
 
+- Task-shaped contracts and model routing are separate capabilities. V13 manually assigned one
+  Terra/high and three Sol/high specialists; no host inventory or least-sufficient optimization
+  proved those assignments economical.
+- A launch specification cannot also be a mutable completion dashboard. V13's final replay rejected a
+  4,048-to-4,122-byte source change; restoring the approved source and keeping completion in the
+  milestone preserved the original package and exact evidence chain.
+- Exact work-unit contracts, dependency gates, raw handoffs, and one integration owner worked on a
+  real application: two roots ran concurrently, no write conflicts occurred, and every correction
+  returned to the responsible specialist.
+- Small goals need adaptive rigor. V13 took about 67 wall-clock minutes and more than 12 manual
+  lifecycle operations, so the full four-agent rail is correct but disproportionate for a tiny app.
+- A reviewer must receive the exact product, command, and browser evidence it is expected to judge
+  as an explicit compiled or runtime input; repository access alone is not an evidence bundle.
+- Rejecting a non-canonical reviewer status before acceptance is useful behavior. Route the schema
+  failure to the same producer, preserve the rejection, and accept only the repaired raw handoff.
+- Browser-host policy can block fixture upload even when the product path is correct. Record the
+  blocked observation promptly, cover the behavior deterministically, and avoid repeated bypass
+  attempts.
 - Model and effort routing can remain a host policy: generated specialist contracts stay portable while the IDE assigns a cheaper bounded verifier and a frontier semantic reviewer according to task demand.
 - A calibrated runtime estimate is not a release verdict: Revision 27's aggregate gate landed within its forecast, while the subsequent independent review still found material execution-binding gaps.
 - Toolchain entrypoint selection plus pre/post identity checks do not prove atomic execution against a same-authority writer or authenticate transitive compiler dependencies; external hosts must isolate the toolchain supply they trust.
@@ -176,8 +194,11 @@ readiness, routing, and immutable run state.
 
 ## Next Likely Work
 
-- Publish the approved R73 evidence closeout to `main` and confirm merged-main Windows CI.
-- Dogfood the released Revision 73 run loop as the baseline for the next version.
+- Commit and publish the V13 dogfood branch for owner review; merge only after explicit approval.
+- Make V14 an adaptive quick rail: automate compile, launch, accept, assess, inspect, evidence
+  delivery, and status projection while retaining the same fail-closed contracts.
+- Add a compact RunView projection so an IDE can show modules, agents, dependencies, files,
+  outcomes, evidence, and the next owner action without exposing lifecycle ceremony.
 - Design the deferred provider-neutral host configuration and runtime-assignment layer without
   moving model, tool, spawning, isolation, or execution effects into core.
-- Never invoke or release Revisions 60 through 72.
+- Keep V12 Revision 73 as the `main` baseline until V13 receives owner approval.
