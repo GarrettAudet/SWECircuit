@@ -1,0 +1,721 @@
+{
+  "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+  "kind": "RuntimeAssignmentCompilation",
+  "goalId": "v14.dogfood.release-board",
+  "goalRevision": 1,
+  "goalDigest": "sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f",
+  "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+  "packageDigest": "sha256:e6a44c03a2b826065b8dc60d64b2eb3900ceaef41bfdd0d7335ae99916d3a92c",
+  "policy": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeDemandPolicy",
+    "id": "policy.v14.release-board",
+    "revision": 1,
+    "qualityTiers": [
+      {
+        "id": "quality.low",
+        "rank": 0
+      },
+      {
+        "id": "quality.balanced",
+        "rank": 1
+      },
+      {
+        "id": "quality.frontier",
+        "rank": 2
+      }
+    ],
+    "reasoningTiers": [
+      {
+        "id": "reasoning.medium",
+        "rank": 0
+      },
+      {
+        "id": "reasoning.high",
+        "rank": 1
+      }
+    ],
+    "capabilityRules": [
+      {
+        "capabilityId": "implement.release-board-domain",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.high",
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ]
+      },
+      {
+        "capabilityId": "implement.release-board-interface",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.medium",
+        "requiredTools": [
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write"
+        ]
+      }
+    ],
+    "evidenceRules": [
+      {
+        "kind": "artifact",
+        "duty": "produce",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.medium"
+      },
+      {
+        "kind": "test",
+        "duty": "produce",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.high"
+      }
+    ],
+    "permissionRules": [
+      {
+        "kind": "filesystem.read",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.write"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.process.spawn"
+        ]
+      }
+    ],
+    "observability": {
+      "model": "observed",
+      "effort": "observed",
+      "tools": "observed",
+      "skills": "observed",
+      "isolation": "observed",
+      "permissions": "observed",
+      "workspace": "observed",
+      "context": "observed"
+    },
+    "search": {
+      "exactVectorLimit": 64,
+      "boundedBeamWidth": 8
+    }
+  },
+  "policyDigest": "sha256:012bda2933385269d81835ade47cf08eb0eb10dd435660788c07c071f84bde28",
+  "calibration": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeCalibrationCatalog",
+    "id": "calibration.codex-desktop.release-board",
+    "revision": 1,
+    "assessedBy": "repository-owner-via-standing-release-authorization",
+    "adapterId": "codex-desktop",
+    "adapterRevision": "v14-alpha",
+    "runtimeRows": [
+      {
+        "id": "row.luna.medium",
+        "profileId": "profile.codex.luna",
+        "effortId": "effort.medium",
+        "effortRank": 1,
+        "runtimeFamily": "profile.codex.luna",
+        "independenceDomain": "profile.codex.luna",
+        "reasoningTier": "reasoning.medium",
+        "capabilities": [
+          {
+            "capabilityId": "implement.release-board-domain",
+            "qualityTier": "quality.low"
+          },
+          {
+            "capabilityId": "implement.release-board-interface",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 1000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 0,
+        "latencyRank": 0,
+        "evidence": [
+          {
+            "id": "evidence.row.luna.medium",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+            "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "id": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.sol",
+        "independenceDomain": "profile.codex.sol",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "implement.release-board-domain",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "implement.release-board-interface",
+            "qualityTier": "quality.frontier"
+          }
+        ],
+        "contextLimitBytes": 1000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 3,
+        "latencyRank": 3,
+        "evidence": [
+          {
+            "id": "evidence.row.sol.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+            "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "id": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.terra",
+        "independenceDomain": "profile.codex.terra",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "implement.release-board-domain",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "implement.release-board-interface",
+            "qualityTier": "quality.frontier"
+          }
+        ],
+        "contextLimitBytes": 1000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 2,
+        "latencyRank": 2,
+        "evidence": [
+          {
+            "id": "evidence.row.terra.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+            "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "id": "row.terra.medium",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.medium",
+        "effortRank": 1,
+        "runtimeFamily": "profile.codex.terra",
+        "independenceDomain": "profile.codex.terra",
+        "reasoningTier": "reasoning.medium",
+        "capabilities": [
+          {
+            "capabilityId": "implement.release-board-domain",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "implement.release-board-interface",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 1000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 1,
+        "latencyRank": 1,
+        "evidence": [
+          {
+            "id": "evidence.row.terra.medium",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+            "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+            "bytes": 803
+          }
+        ]
+      }
+    ]
+  },
+  "calibrationDigest": "sha256:95ee8846d4b8d0b8a65bd319dc2fca253f76b979a11a255a3e5d65d38072b316",
+  "inventory": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "HostCapabilityInventory",
+    "id": "inventory.codex-desktop.release-board",
+    "revision": 1,
+    "hostId": "codex-desktop.windows",
+    "adapterId": "codex-desktop",
+    "adapterRevision": "v14-alpha",
+    "catalogRevision": "multi-agent-tool-schema.2026-07-27",
+    "completeness": "declared_subset",
+    "maxConcurrentAgents": 2,
+    "rows": [
+      {
+        "calibrationRowId": "row.luna.medium",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.sol.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.terra.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.terra.medium",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      }
+    ]
+  },
+  "inventoryDigest": "sha256:cb1d2dfcd992ad6184cbec30679ee1cf7f45c12067d5221efabb6a7491b5682a",
+  "demands": [
+    {
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+      "requiredCapabilities": [
+        {
+          "capabilityId": "implement.release-board-interface",
+          "minimumQualityTier": "quality.balanced"
+        }
+      ],
+      "minimumReasoningTier": "reasoning.medium",
+      "contextBytes": 40686,
+      "requiredTools": [
+        "rg"
+      ],
+      "requiredSkills": [],
+      "requiredIsolationFeatures": [
+        "isolation.scoped-worktree"
+      ],
+      "requiredPermissionFeatures": [
+        "permission.filesystem.read",
+        "permission.filesystem.write"
+      ],
+      "observability": {
+        "model": "observed",
+        "effort": "observed",
+        "tools": "observed",
+        "skills": "observed",
+        "isolation": "observed",
+        "permissions": "observed",
+        "workspace": "observed",
+        "context": "observed"
+      },
+      "producerAgentIds": [],
+      "checkerAgentIds": [],
+      "contentDigest": "sha256:6917cc3914bf4c4afbf68ba9f3cead21ae02392e9338f990c96a14bd5a3e76bf"
+    },
+    {
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+      "requiredCapabilities": [
+        {
+          "capabilityId": "implement.release-board-domain",
+          "minimumQualityTier": "quality.balanced"
+        }
+      ],
+      "minimumReasoningTier": "reasoning.high",
+      "contextBytes": 37024,
+      "requiredTools": [
+        "node",
+        "rg"
+      ],
+      "requiredSkills": [],
+      "requiredIsolationFeatures": [
+        "isolation.scoped-worktree"
+      ],
+      "requiredPermissionFeatures": [
+        "permission.filesystem.read",
+        "permission.filesystem.write",
+        "permission.process.spawn"
+      ],
+      "observability": {
+        "model": "observed",
+        "effort": "observed",
+        "tools": "observed",
+        "skills": "observed",
+        "isolation": "observed",
+        "permissions": "observed",
+        "workspace": "observed",
+        "context": "observed"
+      },
+      "producerAgentIds": [],
+      "checkerAgentIds": [],
+      "contentDigest": "sha256:c98f3f26bfe47e79e9dfd47382a4658bee86b8d59fded3b205c399383e6bbe95"
+    }
+  ],
+  "evaluations": [
+    {
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "calibrationRowId": "row.luna.medium",
+      "profileId": "profile.codex.luna",
+      "effortId": "effort.medium",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 0,
+        "latencyRank": 0,
+        "qualityExcess": 0,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 959314,
+        "toolExcess": 1,
+        "skillExcess": 0,
+        "effortRank": 1,
+        "canonicalIdentity": "[\"profile.codex.luna\",\"effort.medium\"]"
+      },
+      "contentDigest": "sha256:89903e8f23ce5d8e10f0df5d40e7d64ee162ee635766181c99e18219589f0d82"
+    },
+    {
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "calibrationRowId": "row.sol.high",
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 3,
+        "latencyRank": 3,
+        "qualityExcess": 1,
+        "reasoningExcess": 1,
+        "contextExcessBytes": 959314,
+        "toolExcess": 1,
+        "skillExcess": 0,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:265a80a4861ceffcae260e2d44b6cd44c0f18b3a97eedba9460aec7da35e12b1"
+    },
+    {
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "calibrationRowId": "row.terra.high",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 2,
+        "latencyRank": 2,
+        "qualityExcess": 1,
+        "reasoningExcess": 1,
+        "contextExcessBytes": 959314,
+        "toolExcess": 1,
+        "skillExcess": 0,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.terra\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:7717f2917b13f0fa081b85340d7f4ffd3bb0cf6d29f3243e16e3aa97bed03386"
+    },
+    {
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "calibrationRowId": "row.terra.medium",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.medium",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 1,
+        "latencyRank": 1,
+        "qualityExcess": 0,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 959314,
+        "toolExcess": 1,
+        "skillExcess": 0,
+        "effortRank": 1,
+        "canonicalIdentity": "[\"profile.codex.terra\",\"effort.medium\"]"
+      },
+      "contentDigest": "sha256:13d2e5c3a1e1994fc8c1ecfc45fb6526840eb5b5a34a1e1d794bc0608cc5665e"
+    },
+    {
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "calibrationRowId": "row.luna.medium",
+      "profileId": "profile.codex.luna",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "quality_tier",
+        "reasoning_tier"
+      ],
+      "unmetRequirementIds": [
+        "capability:implement.release-board-domain",
+        "reasoning:reasoning.high"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:f21ef7e17c5bd81f20d2b44f25bee86e7601bba23cddf1d48170e7229d060e8f"
+    },
+    {
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "calibrationRowId": "row.sol.high",
+      "profileId": "profile.codex.sol",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 3,
+        "latencyRank": 3,
+        "qualityExcess": 1,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 962976,
+        "toolExcess": 0,
+        "skillExcess": 0,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:92a0497fb0c3c8151526bdb8efe1be3fef3034a1629ad06ec100959a44fa2ff7"
+    },
+    {
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "calibrationRowId": "row.terra.high",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "eligible": true,
+      "rejectionCodes": [],
+      "unmetRequirementIds": [],
+      "comparator": {
+        "costRank": 2,
+        "latencyRank": 2,
+        "qualityExcess": 0,
+        "reasoningExcess": 0,
+        "contextExcessBytes": 962976,
+        "toolExcess": 0,
+        "skillExcess": 0,
+        "effortRank": 2,
+        "canonicalIdentity": "[\"profile.codex.terra\",\"effort.high\"]"
+      },
+      "contentDigest": "sha256:728640a565418dbaf5401dfef815386031438d6f96328546c3669d5688f3cdfd"
+    },
+    {
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "calibrationRowId": "row.terra.medium",
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.medium",
+      "eligible": false,
+      "rejectionCodes": [
+        "reasoning_tier"
+      ],
+      "unmetRequirementIds": [
+        "reasoning:reasoning.high"
+      ],
+      "comparator": null,
+      "contentDigest": "sha256:75fe670b948dbc827e35a32f779d25d18c916a4f276bf47b1cd6436996a77be9"
+    }
+  ],
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_assignment_vector_search",
+    "potentialVectors": 8,
+    "evaluatedVectors": 8,
+    "feasibleVectors": 8,
+    "contentDigest": "sha256:7458d19736e83289f641204fc2dfed721c22bb10cf957b52b8bcb91455cfaa3a"
+  },
+  "selected": {
+    "rows": [
+      {
+        "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+        "calibrationRowId": "row.luna.medium",
+        "profileId": "profile.codex.luna",
+        "effortId": "effort.medium",
+        "independenceDomain": "profile.codex.luna",
+        "requiredTools": [
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        }
+      },
+      {
+        "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+        "calibrationRowId": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.terra",
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        }
+      }
+    ],
+    "comparator": {
+      "totalCostRank": 2,
+      "maximumLatencyRank": 2,
+      "totalLatencyRank": 2,
+      "totalQualityExcess": 0,
+      "totalReasoningExcess": 0,
+      "totalContextExcessBytes": 1922290,
+      "totalToolExcess": 1,
+      "totalSkillExcess": 0,
+      "totalEffortRank": 3,
+      "canonicalIdentity": "[\"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228=profile.codex.luna/effort.medium\",\"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063=profile.codex.terra/effort.high\"]"
+    },
+    "selectionReason": "lowest_exact_vector",
+    "contentDigest": "sha256:f3d6c2b2d09bbd7cbeac994ec3c85c7c75134d590896107040af9628a048275f"
+  },
+  "predecessorAssignmentDigest": null,
+  "override": null,
+  "contentDigest": "sha256:79d960f5b41366f01ac762fe5b487cfd2947d8ac802b4e2b6116da7346e2e635"
+}

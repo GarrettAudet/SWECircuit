@@ -23,7 +23,15 @@ An external IDE host dispatches agents, enforces permissions, executes tools, in
 
 ## Start Here
 
-Requires Node.js 22.14 or newer.
+In Codex Desktop, open this repository and send:
+
+> Use IDECircuit to build [your goal].
+
+`AGENTS.md` routes the request through clarification, architecture, work-unit compilation,
+least-sufficient runtime assignment, native parallel specialists, verified integration, review,
+and memory. The current reference host is Windows Codex Desktop.
+
+To inspect the portable core locally, use Node.js 22.14 or newer:
 
 ```powershell
 npm ci
@@ -33,15 +41,23 @@ node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl
 npm run example:specialist
 ```
 
-The CLI commands validate and inspect the minimal project. The specialist example compiles and verifies a two-specialist package in memory. It writes no files and launches no agents. See its [source](examples/specialist-compiler/) and the [IDE kickoff](docs/ide/specialist-agent-kickoff.md).
+The CLI commands validate and inspect the minimal project. The specialist example compiles and verifies a two-specialist package in memory. It writes no files and launches no agents.
+
+The [Release Board dogfood](examples/release-board/) records a real two-agent Windows run with
+different model and effort assignments, verified fan-in, tests, and browser QA.
 
 Maintainers run `npm run verify` for the complete repository gate.
 
 ## Status
 
-V11 is the stable baseline. It compiles deterministic, approval-bound specialist packages and verifies raw handoffs without executing agents. See the [V11 milestone](docs/milestones/v11.md) and [compiler contract](docs/specs/v11-specialist-compiler/specialist-compiler-contract.md).
+V14 has a working Windows alpha: deterministic runtime routing, an adaptive run controller,
+RunView, a Codex Desktop adapter boundary, and one native small-goal dogfood. Medium and high-risk
+dogfoods plus exact-candidate release qualification remain before a general release.
 
-V12 is in release review. It adds a portable, immutable run session that exposes dependency-eligible work, accepts exact verified handoffs, survives restart, and reports when integration may begin. It still performs no host effects. See the [V12 milestone](docs/milestones/v12.md).
+V11 is the stable baseline. It compiles deterministic, approval-bound specialist packages and
+verifies raw handoffs without executing agents. V12 adds the immutable run session used by V14.
+See the [V14 milestone](docs/milestones/v14.md) and
+[small dogfood evidence](docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/verification.md).
 
 V10's bounded injected-executor boundary remains available for one host-selected work packet: [minimal example](examples/minimal/) | [executor contract](docs/framework/executor-boundary.md).
 

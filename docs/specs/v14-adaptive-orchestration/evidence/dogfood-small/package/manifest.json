@@ -1,0 +1,42 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v14.dogfood.release-board",
+  "goalRevision": 1,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+  "selectedCandidateId": "team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:0733a43dd7122badddb1b5cb63ed714d0513c418596d56c4c9d4192f25209a5c",
+  "compilationFileBytes": 45256,
+  "agents": [
+    {
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+      "contractFile": "agents/agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228.md",
+      "contractDigest": "sha256:26212b0eb9373560e8cf851a586bac8642ebaa80dd0bbdbdec0cf74877d6c8bf",
+      "contractBytes": 9719
+    },
+    {
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+      "contractFile": "agents/agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063.md",
+      "contractDigest": "sha256:0a694841df21d69a5346bbd2646917c8f3f15b185bdd6e4c205ce6061d18252a",
+      "contractBytes": 11209
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:ad181bd04d255d37d048ecb393c2fbde2903ef521a3eeccb50ff3c647d17e694",
+  "integrationBytes": 3894,
+  "contentDigest": "sha256:652637aa158734df149063f3b789a31c61a00876fec53ddcfafed3a93af5f031"
+}

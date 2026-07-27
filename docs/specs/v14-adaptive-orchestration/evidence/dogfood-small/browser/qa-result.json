@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "capturedOn": "2026-07-27",
+  "target": "http://127.0.0.1:4174/",
+  "sourceFiles": [
+    {
+      "path": "examples/release-board/package.json",
+      "sha256": "8d53092a62ddcc6b1fe9c957ad62d73a94c4d7c9019b77dda2d1d2fdc16d28b3"
+    },
+    {
+      "path": "examples/release-board/index.html",
+      "sha256": "9f77c3eaddae6f76b88d44f72a4f6700778d1ab107f94a5c09718e1dc6c697b4"
+    },
+    {
+      "path": "examples/release-board/styles.css",
+      "sha256": "34d389557986ae708bc9b90521b812822ce0e1901a8aa6828bb572a2bb3fd8ac"
+    },
+    {
+      "path": "examples/release-board/server.mjs",
+      "sha256": "8290ac09821974a595117e911fd4aadcdc3e38ad8e97909c65b807d6505088f9"
+    },
+    {
+      "path": "examples/release-board/src/app.js",
+      "sha256": "aa57eafe2939a90b88e052f0dd33a900a0e30efb3aa4dc41678a92d736968ab8"
+    },
+    {
+      "path": "examples/release-board/src/model.js",
+      "sha256": "f46bfb3b973ec0e0bac324fbdf6d6ada07666c45be111d81a90d97dfa26b1196"
+    },
+    {
+      "path": "examples/release-board/src/storage.js",
+      "sha256": "336387b9336e285f6c0c30dec135f8fcc2123551ad88658197a51b71c91123bc"
+    },
+    {
+      "path": "examples/release-board/src/ui-policy.js",
+      "sha256": "c92f4f1b825c4c83a0b24384ba94ca71daeaac6e3837f48543edcd5b4ac244d8"
+    }
+  ],
+  "assertions": [
+    { "id": "add_check", "status": "pass" },
+    { "id": "status_transition", "status": "pass" },
+    { "id": "filter_passed", "status": "pass" },
+    { "id": "reload_persistence", "status": "pass" },
+    { "id": "delete_check", "status": "pass" },
+    { "id": "delete_focus_recovery", "status": "pass" },
+    { "id": "add_shortcut_focus", "status": "pass" },
+    { "id": "reduced_motion_branch", "status": "pass" },
+    { "id": "no_horizontal_overflow", "status": "pass" },
+    { "id": "console_clean", "status": "pass" }
+  ],
+  "desktop": {
+    "requestedWidth": 1280,
+    "requestedHeight": 900,
+    "observedInnerWidth": 1280,
+    "observedMainWidth": 1216
+  },
+  "mobile": {
+    "requestedWidth": 390,
+    "requestedHeight": 844,
+    "observedClientWidth": 375,
+    "observedScrollWidth": 375,
+    "prefersReducedMotion": true,
+    "addShortcutFocused": "check-title"
+  },
+  "console": {
+    "warnings": 0,
+    "errors": 0
+  },
+  "screenshots": [
+    {
+      "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/browser/release-board-desktop.png",
+      "sha256": "c0a55acf1ad42162df0a06e994a9bf3340761bf296a6d62edc746a54e64b9ead"
+    },
+    {
+      "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/browser/release-board-mobile.png",
+      "sha256": "7f311db65f98f63f5e4089597f7615a4c3a0f490570d6bb897a29bc910d9a0ec"
+    },
+    {
+      "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/browser/release-board-mobile-form.png",
+      "sha256": "18a6ecd30f91e4b072aefc92294c401b6eedb8f0f37a89012e98169a11240429"
+    }
+  ]
+}

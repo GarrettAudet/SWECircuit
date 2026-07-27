@@ -1,0 +1,773 @@
+{
+  "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+  "kind": "AdaptiveRunInspection",
+  "runId": "run.v14.release-board.small",
+  "runRevision": 1,
+  "sessionDigest": "sha256:bf0a05f86b0c921ee9ed35f04f4286b9ea2310a4b910311b2c37cc6b9045ead2",
+  "assignmentDigest": "sha256:79d960f5b41366f01ac762fe5b487cfd2947d8ac802b4e2b6116da7346e2e635",
+  "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+  "packageDigest": "sha256:e6a44c03a2b826065b8dc60d64b2eb3900ceaef41bfdd0d7335ae99916d3a92c",
+  "stage": "integration_ready",
+  "executionMode": {
+    "selectedCandidateId": "team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a",
+    "selectedAgentCount": 2,
+    "serialBaselineMetrics": {
+      "agentCount": 1,
+      "projectedMakespan": 12,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 11,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "selectedMetrics": {
+      "agentCount": 2,
+      "projectedMakespan": 7,
+      "peakConcurrency": 2,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 20742,
+      "duplicatedPermissionScopes": 3,
+      "totalWorkWeight": 11,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 0
+    },
+    "selectionReason": {
+      "kind": "lower_metric",
+      "decisiveField": "projectedMakespan",
+      "selectedValue": 7,
+      "serialValue": 12,
+      "serialRejectionCodes": []
+    },
+    "launchWaves": [
+      {
+        "start": 0,
+        "agentIds": [
+          "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+          "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063"
+        ]
+      }
+    ],
+    "truth": "kernel_derived"
+  },
+  "agents": [
+    {
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+      "modules": [
+        {
+          "id": "implement.release-board-interface",
+          "action": "Create the required form, summary, filters, list, template, live region, responsive layout, and visible focus states.",
+          "inputPorts": [
+            {
+              "name": "contract",
+              "artifactType": "ReleaseBoardContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "implementation",
+              "artifactType": "release-board-interface-handoff.md"
+            }
+          ]
+        }
+      ],
+      "workUnitIds": [
+        "implement.release-board-interface"
+      ],
+      "dependencies": [],
+      "assignment": {
+        "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+        "calibrationRowId": "row.luna.medium",
+        "profileId": "profile.codex.luna",
+        "effortId": "effort.medium",
+        "independenceDomain": "profile.codex.luna",
+        "requiredTools": [
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "alternatives": [
+          {
+            "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+            "calibrationRowId": "row.sol.high",
+            "profileId": "profile.codex.sol",
+            "effortId": "effort.high",
+            "eligible": true,
+            "rejectionCodes": [],
+            "unmetRequirementIds": [],
+            "comparator": {
+              "costRank": 3,
+              "latencyRank": 3,
+              "qualityExcess": 1,
+              "reasoningExcess": 1,
+              "contextExcessBytes": 959314,
+              "toolExcess": 1,
+              "skillExcess": 0,
+              "effortRank": 2,
+              "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+            },
+            "contentDigest": "sha256:265a80a4861ceffcae260e2d44b6cd44c0f18b3a97eedba9460aec7da35e12b1"
+          },
+          {
+            "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+            "calibrationRowId": "row.terra.high",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.high",
+            "eligible": true,
+            "rejectionCodes": [],
+            "unmetRequirementIds": [],
+            "comparator": {
+              "costRank": 2,
+              "latencyRank": 2,
+              "qualityExcess": 1,
+              "reasoningExcess": 1,
+              "contextExcessBytes": 959314,
+              "toolExcess": 1,
+              "skillExcess": 0,
+              "effortRank": 2,
+              "canonicalIdentity": "[\"profile.codex.terra\",\"effort.high\"]"
+            },
+            "contentDigest": "sha256:7717f2917b13f0fa081b85340d7f4ffd3bb0cf6d29f3243e16e3aa97bed03386"
+          },
+          {
+            "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+            "calibrationRowId": "row.terra.medium",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.medium",
+            "eligible": true,
+            "rejectionCodes": [],
+            "unmetRequirementIds": [],
+            "comparator": {
+              "costRank": 1,
+              "latencyRank": 1,
+              "qualityExcess": 0,
+              "reasoningExcess": 0,
+              "contextExcessBytes": 959314,
+              "toolExcess": 1,
+              "skillExcess": 0,
+              "effortRank": 1,
+              "canonicalIdentity": "[\"profile.codex.terra\",\"effort.medium\"]"
+            },
+            "contentDigest": "sha256:13d2e5c3a1e1994fc8c1ecfc45fb6526840eb5b5a34a1e1d794bc0608cc5665e"
+          }
+        ],
+        "rejectedAlternatives": [],
+        "selectionReason": "lowest_exact_vector",
+        "override": null,
+        "truth": "kernel_derived"
+      },
+      "profileId": "profile.codex.luna",
+      "effortId": "effort.medium",
+      "status": "settled",
+      "native": {
+        "status": "settled",
+        "truth": "specialist_verified",
+        "authorization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostLaunchAuthorization",
+          "runId": "run.v14.release-board.small",
+          "runRevision": 1,
+          "sequence": 1,
+          "priorEventDigest": null,
+          "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+          "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+          "assignmentDigest": "sha256:79d960f5b41366f01ac762fe5b487cfd2947d8ac802b4e2b6116da7346e2e635",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "repository-owner-via-standing-release-authorization",
+          "attemptId": "attempt.agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+          "authorizationId": "authorization.agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+          "workspaceBaselineDigest": "sha256:5ec2530421b39d079397c2d50f7bffd85ef92c449aec669739b947d9ea815a55",
+          "command": {
+            "agentContractPath": "agents/agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228.md",
+            "agentContractDigest": "sha256:26212b0eb9373560e8cf851a586bac8642ebaa80dd0bbdbdec0cf74877d6c8bf",
+            "agentContractBytes": 9719,
+            "contextSources": [
+              {
+                "sourceId": "context.agent-contract",
+                "locator": "path:AGENTS.md",
+                "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+                "bytes": 16695,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app-contract",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+                "digest": "sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50",
+                "bytes": 2437,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.goal",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+                "digest": "sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777",
+                "bytes": 1610,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.interface-pattern",
+                "locator": "path:examples/triage-board/index.html",
+                "digest": "sha256:ed5b1954785578b744f6782f7586553f5d9b6bcebfa93abee395a9a33b3da1ce",
+                "bytes": 7712,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.style-pattern",
+                "locator": "path:examples/triage-board/styles.css",
+                "digest": "sha256:c3bce35a60880b228b2ef2ab19ac9c7c7e21da50d6d8372e1b8810a3548adadc",
+                "bytes": 12232,
+                "delivery": "authorized_filesystem_read"
+              }
+            ],
+            "profileId": "profile.codex.luna",
+            "effortId": "effort.medium",
+            "tools": [
+              "rg"
+            ],
+            "skills": [],
+            "isolationFeatures": [
+              "isolation.scoped-worktree"
+            ],
+            "permissions": [
+              {
+                "kind": "filesystem.read",
+                "scopes": [
+                  "AGENTS.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+                  "examples/triage-board/index.html",
+                  "examples/triage-board/styles.css"
+                ]
+              },
+              {
+                "kind": "filesystem.write",
+                "scopes": [
+                  "examples/release-board/index.html",
+                  "examples/release-board/styles.css"
+                ]
+              }
+            ],
+            "observability": {
+              "model": "observed",
+              "effort": "observed",
+              "tools": "observed",
+              "skills": "observed",
+              "isolation": "observed",
+              "permissions": "observed",
+              "workspace": "observed",
+              "context": "observed"
+            },
+            "contentDigest": "sha256:753876b240c0b20ff9162a5e3051931e3a2c5aae6fdcb476e3d4ad02c00c6693"
+          }
+        },
+        "materialization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostMaterializationClaim",
+          "runId": "run.v14.release-board.small",
+          "runRevision": 1,
+          "sequence": 2,
+          "priorEventDigest": "sha256:9696d2790fa1299784e7a893786a14980d33484ca2149fbd9b3a82b930d589af",
+          "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+          "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+          "assignmentDigest": "sha256:79d960f5b41366f01ac762fe5b487cfd2947d8ac802b4e2b6116da7346e2e635",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "adapter.codex-desktop.v14-alpha",
+          "attemptId": "attempt.agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+          "authorizationEventDigest": "sha256:9696d2790fa1299784e7a893786a14980d33484ca2149fbd9b3a82b930d589af",
+          "nativeHandle": "019fa51c-5b66-7263-ac34-4ddc4414afe5",
+          "fields": [
+            {
+              "field": "model",
+              "status": "observed",
+              "expectedDigest": "sha256:b852c3ed54e4c86699e04cfe93da05be80d88d47aec4d6bdcdb5b9feb0d4b341",
+              "observedDigest": "sha256:b852c3ed54e4c86699e04cfe93da05be80d88d47aec4d6bdcdb5b9feb0d4b341"
+            },
+            {
+              "field": "effort",
+              "status": "observed",
+              "expectedDigest": "sha256:ea86583b0d4af6d747ef5437125361b73c9cf8ed90539916ed954c0be1c0e4be",
+              "observedDigest": "sha256:ea86583b0d4af6d747ef5437125361b73c9cf8ed90539916ed954c0be1c0e4be"
+            },
+            {
+              "field": "tools",
+              "status": "observed",
+              "expectedDigest": "sha256:d6c839b0f2bc6c15e27ff631b9af20f354f597bac30c0eafdad500f8ee25ab5d",
+              "observedDigest": "sha256:d6c839b0f2bc6c15e27ff631b9af20f354f597bac30c0eafdad500f8ee25ab5d"
+            },
+            {
+              "field": "skills",
+              "status": "observed",
+              "expectedDigest": "sha256:be30b03484afe0556c0606b4078651a43de7e8f27e8287ad8fd533b9ac67fdaf",
+              "observedDigest": "sha256:be30b03484afe0556c0606b4078651a43de7e8f27e8287ad8fd533b9ac67fdaf"
+            },
+            {
+              "field": "isolation",
+              "status": "observed",
+              "expectedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3",
+              "observedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3"
+            },
+            {
+              "field": "permissions",
+              "status": "observed",
+              "expectedDigest": "sha256:3083d9661e6d7104e52d3e7213523be328a0efb50c04704479b4d6380d523b25",
+              "observedDigest": "sha256:3083d9661e6d7104e52d3e7213523be328a0efb50c04704479b4d6380d523b25"
+            },
+            {
+              "field": "workspace",
+              "status": "observed",
+              "expectedDigest": "sha256:ff5d61aa337e1585a33501e3e0a6bd8d0a7945158499e81420b0f8df33bb9280",
+              "observedDigest": "sha256:ff5d61aa337e1585a33501e3e0a6bd8d0a7945158499e81420b0f8df33bb9280"
+            },
+            {
+              "field": "context",
+              "status": "observed",
+              "expectedDigest": "sha256:a93f9adde5da34c4c5619b7e3f833cabb10f45026692d860885de1a5175407eb",
+              "observedDigest": "sha256:a93f9adde5da34c4c5619b7e3f833cabb10f45026692d860885de1a5175407eb"
+            }
+          ]
+        }
+      },
+      "acceptedEvidence": {
+        "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+        "outcome": "pass",
+        "rawBytes": 1406,
+        "rawDigest": "sha256:6c2ee349da1d070c9204da1b3e149b08617bf6d2a546002c18a8edb67c9fb055",
+        "semanticDigest": "sha256:595c4f757a8f11ca584bb1384660a4b4686ce144bd454c6813f59317a94e8315",
+        "artifacts": [
+          {
+            "name": "release-board-interface-handoff.md",
+            "mediaType": "text/markdown",
+            "bytes": 316,
+            "digest": "sha256:fc408a70a0878fad52f44daf982a750e5900901786e51337b4905ab4c1ab74d7"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.interface",
+            "requirementId": "evidence.interface.artifact",
+            "kind": "artifact",
+            "duty": "produce",
+            "status": "pass",
+            "artifact": "release-board-interface-handoff.md"
+          }
+        ]
+      },
+      "truth": "specialist_verified",
+      "route": {
+        "agentId": null,
+        "outcome": "pass",
+        "reason": "all_handoffs_pass",
+        "sourceDigests": [
+          "sha256:6c2ee349da1d070c9204da1b3e149b08617bf6d2a546002c18a8edb67c9fb055",
+          "sha256:a484c8c8ea8e442bda2a8ce8748a30d6d1a4c31822f0c003d2fee2299db6966b"
+        ],
+        "truth": "specialist_verified"
+      }
+    },
+    {
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+      "modules": [
+        {
+          "id": "implement.release-board-domain",
+          "action": "Implement the exact check shape, closed filters, readiness summary, immutable transitions, and fail-safe storage parsing.",
+          "inputPorts": [
+            {
+              "name": "contract",
+              "artifactType": "ReleaseBoardContract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "implementation",
+              "artifactType": "release-board-domain-handoff.md"
+            }
+          ]
+        }
+      ],
+      "workUnitIds": [
+        "implement.release-board-domain"
+      ],
+      "dependencies": [],
+      "assignment": {
+        "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+        "calibrationRowId": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "independenceDomain": "profile.codex.terra",
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "alternatives": [
+          {
+            "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+            "calibrationRowId": "row.sol.high",
+            "profileId": "profile.codex.sol",
+            "effortId": "effort.high",
+            "eligible": true,
+            "rejectionCodes": [],
+            "unmetRequirementIds": [],
+            "comparator": {
+              "costRank": 3,
+              "latencyRank": 3,
+              "qualityExcess": 1,
+              "reasoningExcess": 0,
+              "contextExcessBytes": 962976,
+              "toolExcess": 0,
+              "skillExcess": 0,
+              "effortRank": 2,
+              "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+            },
+            "contentDigest": "sha256:92a0497fb0c3c8151526bdb8efe1be3fef3034a1629ad06ec100959a44fa2ff7"
+          }
+        ],
+        "rejectedAlternatives": [
+          {
+            "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+            "calibrationRowId": "row.luna.medium",
+            "profileId": "profile.codex.luna",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "quality_tier",
+              "reasoning_tier"
+            ],
+            "unmetRequirementIds": [
+              "capability:implement.release-board-domain",
+              "reasoning:reasoning.high"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:f21ef7e17c5bd81f20d2b44f25bee86e7601bba23cddf1d48170e7229d060e8f"
+          },
+          {
+            "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+            "calibrationRowId": "row.terra.medium",
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.medium",
+            "eligible": false,
+            "rejectionCodes": [
+              "reasoning_tier"
+            ],
+            "unmetRequirementIds": [
+              "reasoning:reasoning.high"
+            ],
+            "comparator": null,
+            "contentDigest": "sha256:75fe670b948dbc827e35a32f779d25d18c916a4f276bf47b1cd6436996a77be9"
+          }
+        ],
+        "selectionReason": "lowest_exact_vector",
+        "override": null,
+        "truth": "kernel_derived"
+      },
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high",
+      "status": "settled",
+      "native": {
+        "status": "settled",
+        "truth": "specialist_verified",
+        "authorization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostLaunchAuthorization",
+          "runId": "run.v14.release-board.small",
+          "runRevision": 1,
+          "sequence": 4,
+          "priorEventDigest": "sha256:96ffd141011eb8371d4b306f18fd535ee61eaee1ab03a2fa3220151029cd4368",
+          "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+          "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+          "assignmentDigest": "sha256:79d960f5b41366f01ac762fe5b487cfd2947d8ac802b4e2b6116da7346e2e635",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "repository-owner-via-standing-release-authorization",
+          "attemptId": "attempt.agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+          "authorizationId": "authorization.agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+          "workspaceBaselineDigest": "sha256:5ec2530421b39d079397c2d50f7bffd85ef92c449aec669739b947d9ea815a55",
+          "command": {
+            "agentContractPath": "agents/agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063.md",
+            "agentContractDigest": "sha256:0a694841df21d69a5346bbd2646917c8f3f15b185bdd6e4c205ce6061d18252a",
+            "agentContractBytes": 11209,
+            "contextSources": [
+              {
+                "sourceId": "context.agent-contract",
+                "locator": "path:AGENTS.md",
+                "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+                "bytes": 16695,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.app-contract",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+                "digest": "sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50",
+                "bytes": 2437,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.domain-pattern",
+                "locator": "path:examples/triage-board/src/model.js",
+                "digest": "sha256:f9f7bb99b2ba27ef64bd28d88b4465c2852a4aeb6a7e0a8b7375222843fac59f",
+                "bytes": 8237,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.domain-test-pattern",
+                "locator": "path:examples/triage-board/test/model.test.mjs",
+                "digest": "sha256:fcd4b3cbf7603b03d703fe4b3dc55f657189fd48ce76b4ee834feb35492a3b46",
+                "bytes": 5487,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.goal",
+                "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+                "digest": "sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777",
+                "bytes": 1610,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.storage-pattern",
+                "locator": "path:examples/triage-board/src/storage.js",
+                "digest": "sha256:948a6758beea65b6f5a4f0c42a786b5f4e147d63478f146bd6f14635376634a8",
+                "bytes": 769,
+                "delivery": "authorized_filesystem_read"
+              },
+              {
+                "sourceId": "context.storage-test-pattern",
+                "locator": "path:examples/triage-board/test/storage.test.mjs",
+                "digest": "sha256:a57a8e6d4093e38baa1fbad34868639934dc79351380ef910a85faf0c1a80c59",
+                "bytes": 1789,
+                "delivery": "authorized_filesystem_read"
+              }
+            ],
+            "profileId": "profile.codex.terra",
+            "effortId": "effort.high",
+            "tools": [
+              "node",
+              "rg"
+            ],
+            "skills": [],
+            "isolationFeatures": [
+              "isolation.scoped-worktree"
+            ],
+            "permissions": [
+              {
+                "kind": "filesystem.read",
+                "scopes": [
+                  "AGENTS.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+                  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+                  "examples/triage-board/src/model.js",
+                  "examples/triage-board/src/storage.js",
+                  "examples/triage-board/test/model.test.mjs",
+                  "examples/triage-board/test/storage.test.mjs"
+                ]
+              },
+              {
+                "kind": "filesystem.write",
+                "scopes": [
+                  "examples/release-board/src/model.js",
+                  "examples/release-board/src/storage.js",
+                  "examples/release-board/test/model.test.mjs",
+                  "examples/release-board/test/storage.test.mjs"
+                ]
+              },
+              {
+                "kind": "process.spawn",
+                "scopes": [
+                  "node"
+                ]
+              }
+            ],
+            "observability": {
+              "model": "observed",
+              "effort": "observed",
+              "tools": "observed",
+              "skills": "observed",
+              "isolation": "observed",
+              "permissions": "observed",
+              "workspace": "observed",
+              "context": "observed"
+            },
+            "contentDigest": "sha256:a9755764ae9f09f5ef9b54ebf7b9eef87920848632082f9a87a86756a0c93a70"
+          }
+        },
+        "materialization": {
+          "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+          "kind": "HostMaterializationClaim",
+          "runId": "run.v14.release-board.small",
+          "runRevision": 1,
+          "sequence": 5,
+          "priorEventDigest": "sha256:88cc57bfebbbebfa6dee8514c997136c841dbe7112cfa39d5518230f34b449a6",
+          "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+          "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+          "assignmentDigest": "sha256:79d960f5b41366f01ac762fe5b487cfd2947d8ac802b4e2b6116da7346e2e635",
+          "hostId": "codex-desktop.windows",
+          "adapterId": "codex-desktop",
+          "adapterRevision": "v14-alpha",
+          "attestedBy": "adapter.codex-desktop.v14-alpha",
+          "attemptId": "attempt.agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+          "authorizationEventDigest": "sha256:88cc57bfebbbebfa6dee8514c997136c841dbe7112cfa39d5518230f34b449a6",
+          "nativeHandle": "019fa51c-5cd8-7950-b3df-517fa8658a83",
+          "fields": [
+            {
+              "field": "model",
+              "status": "observed",
+              "expectedDigest": "sha256:89e1b619d11ae7e7a034f79f973e5079e1f13cddfef54e2cde066955312f7602",
+              "observedDigest": "sha256:89e1b619d11ae7e7a034f79f973e5079e1f13cddfef54e2cde066955312f7602"
+            },
+            {
+              "field": "effort",
+              "status": "observed",
+              "expectedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a",
+              "observedDigest": "sha256:4aae89c38f5a0dbcff69589ee4b15b87d607e347b7d42430205fcb001366c34a"
+            },
+            {
+              "field": "tools",
+              "status": "observed",
+              "expectedDigest": "sha256:5072445f948663dba9eeaf8a7dd51926b611a350dbe000c0f75a85d07c8e7c6d",
+              "observedDigest": "sha256:5072445f948663dba9eeaf8a7dd51926b611a350dbe000c0f75a85d07c8e7c6d"
+            },
+            {
+              "field": "skills",
+              "status": "observed",
+              "expectedDigest": "sha256:be30b03484afe0556c0606b4078651a43de7e8f27e8287ad8fd533b9ac67fdaf",
+              "observedDigest": "sha256:be30b03484afe0556c0606b4078651a43de7e8f27e8287ad8fd533b9ac67fdaf"
+            },
+            {
+              "field": "isolation",
+              "status": "observed",
+              "expectedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3",
+              "observedDigest": "sha256:b132c40f666d324f580b27900a7b0b64ed659485e04649526e2e9d2093cb06c3"
+            },
+            {
+              "field": "permissions",
+              "status": "observed",
+              "expectedDigest": "sha256:0cd73711b36bfe0c809fac39cf38995afbd61ff1853f42d403b94d045aa9ce21",
+              "observedDigest": "sha256:0cd73711b36bfe0c809fac39cf38995afbd61ff1853f42d403b94d045aa9ce21"
+            },
+            {
+              "field": "workspace",
+              "status": "observed",
+              "expectedDigest": "sha256:ff5d61aa337e1585a33501e3e0a6bd8d0a7945158499e81420b0f8df33bb9280",
+              "observedDigest": "sha256:ff5d61aa337e1585a33501e3e0a6bd8d0a7945158499e81420b0f8df33bb9280"
+            },
+            {
+              "field": "context",
+              "status": "observed",
+              "expectedDigest": "sha256:9efac26c6c16c78681187976f77629512005a460bea9ed3eb9ca1cc15bc93d3e",
+              "observedDigest": "sha256:9efac26c6c16c78681187976f77629512005a460bea9ed3eb9ca1cc15bc93d3e"
+            }
+          ]
+        }
+      },
+      "acceptedEvidence": {
+        "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+        "outcome": "pass",
+        "rawBytes": 1453,
+        "rawDigest": "sha256:a484c8c8ea8e442bda2a8ce8748a30d6d1a4c31822f0c003d2fee2299db6966b",
+        "semanticDigest": "sha256:c1eb3c088286a44174c1a1a43b00e7f16a7ea4be5b8fd070b1fd83dae22bfc24",
+        "artifacts": [
+          {
+            "name": "release-board-domain-handoff.md",
+            "mediaType": "text/markdown",
+            "bytes": 307,
+            "digest": "sha256:2bdf078229ad976325c508070584e2541065b072483ea3ca6d5083d15d7f0ff0"
+          }
+        ],
+        "evidence": [
+          {
+            "criterionId": "criterion.domain",
+            "requirementId": "evidence.domain.tests",
+            "kind": "test",
+            "duty": "produce",
+            "status": "pass",
+            "artifact": "release-board-domain-handoff.md"
+          }
+        ]
+      },
+      "truth": "specialist_verified",
+      "route": {
+        "agentId": null,
+        "outcome": "pass",
+        "reason": "all_handoffs_pass",
+        "sourceDigests": [
+          "sha256:6c2ee349da1d070c9204da1b3e149b08617bf6d2a546002c18a8edb67c9fb055",
+          "sha256:a484c8c8ea8e442bda2a8ce8748a30d6d1a4c31822f0c003d2fee2299db6966b"
+        ],
+        "truth": "specialist_verified"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "agentId": null,
+      "outcome": "pass",
+      "reason": "all_handoffs_pass",
+      "sourceDigests": [
+        "sha256:6c2ee349da1d070c9204da1b3e149b08617bf6d2a546002c18a8edb67c9fb055",
+        "sha256:a484c8c8ea8e442bda2a8ce8748a30d6d1a4c31822f0c003d2fee2299db6966b"
+      ],
+      "truth": "specialist_verified"
+    }
+  ],
+  "nextActions": [
+    {
+      "id": "integrate-and-verify",
+      "kind": "integrate_and_verify",
+      "actor": "integration_owner",
+      "availability": "enabled",
+      "reasonCode": "all_exact_pass_handoffs",
+      "sourceDigests": [
+        "sha256:6c2ee349da1d070c9204da1b3e149b08617bf6d2a546002c18a8edb67c9fb055",
+        "sha256:a484c8c8ea8e442bda2a8ce8748a30d6d1a4c31822f0c003d2fee2299db6966b"
+      ]
+    }
+  ],
+  "integrationReady": true,
+  "contentDigest": "sha256:bd44d789c73181872cadf942288265efacd2e8dca9ebe8c5b59b1976f26c0b2a"
+}

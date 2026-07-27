@@ -1,0 +1,189 @@
+{
+  "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228": {
+    "agentContractPath": "agents/agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228.md",
+    "agentContractDigest": "sha256:26212b0eb9373560e8cf851a586bac8642ebaa80dd0bbdbdec0cf74877d6c8bf",
+    "agentContractBytes": 9719,
+    "contextSources": [
+      {
+        "sourceId": "context.agent-contract",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.app-contract",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+        "digest": "sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50",
+        "bytes": 2437,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.goal",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+        "digest": "sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777",
+        "bytes": 1610,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.interface-pattern",
+        "locator": "path:examples/triage-board/index.html",
+        "digest": "sha256:ed5b1954785578b744f6782f7586553f5d9b6bcebfa93abee395a9a33b3da1ce",
+        "bytes": 7712,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.style-pattern",
+        "locator": "path:examples/triage-board/styles.css",
+        "digest": "sha256:c3bce35a60880b228b2ef2ab19ac9c7c7e21da50d6d8372e1b8810a3548adadc",
+        "bytes": 12232,
+        "delivery": "authorized_filesystem_read"
+      }
+    ],
+    "profileId": "profile.codex.luna",
+    "effortId": "effort.medium",
+    "tools": [
+      "rg"
+    ],
+    "skills": [],
+    "isolationFeatures": [
+      "isolation.scoped-worktree"
+    ],
+    "permissions": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "AGENTS.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+          "examples/triage-board/index.html",
+          "examples/triage-board/styles.css"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "examples/release-board/index.html",
+          "examples/release-board/styles.css"
+        ]
+      }
+    ],
+    "observability": {
+      "model": "observed",
+      "effort": "observed",
+      "tools": "observed",
+      "skills": "observed",
+      "isolation": "observed",
+      "permissions": "observed",
+      "workspace": "observed",
+      "context": "observed"
+    },
+    "contentDigest": "sha256:753876b240c0b20ff9162a5e3051931e3a2c5aae6fdcb476e3d4ad02c00c6693"
+  },
+  "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063": {
+    "agentContractPath": "agents/agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063.md",
+    "agentContractDigest": "sha256:0a694841df21d69a5346bbd2646917c8f3f15b185bdd6e4c205ce6061d18252a",
+    "agentContractBytes": 11209,
+    "contextSources": [
+      {
+        "sourceId": "context.agent-contract",
+        "locator": "path:AGENTS.md",
+        "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+        "bytes": 16695,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.app-contract",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+        "digest": "sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50",
+        "bytes": 2437,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.domain-pattern",
+        "locator": "path:examples/triage-board/src/model.js",
+        "digest": "sha256:f9f7bb99b2ba27ef64bd28d88b4465c2852a4aeb6a7e0a8b7375222843fac59f",
+        "bytes": 8237,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.domain-test-pattern",
+        "locator": "path:examples/triage-board/test/model.test.mjs",
+        "digest": "sha256:fcd4b3cbf7603b03d703fe4b3dc55f657189fd48ce76b4ee834feb35492a3b46",
+        "bytes": 5487,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.goal",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+        "digest": "sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777",
+        "bytes": 1610,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.storage-pattern",
+        "locator": "path:examples/triage-board/src/storage.js",
+        "digest": "sha256:948a6758beea65b6f5a4f0c42a786b5f4e147d63478f146bd6f14635376634a8",
+        "bytes": 769,
+        "delivery": "authorized_filesystem_read"
+      },
+      {
+        "sourceId": "context.storage-test-pattern",
+        "locator": "path:examples/triage-board/test/storage.test.mjs",
+        "digest": "sha256:a57a8e6d4093e38baa1fbad34868639934dc79351380ef910a85faf0c1a80c59",
+        "bytes": 1789,
+        "delivery": "authorized_filesystem_read"
+      }
+    ],
+    "profileId": "profile.codex.terra",
+    "effortId": "effort.high",
+    "tools": [
+      "node",
+      "rg"
+    ],
+    "skills": [],
+    "isolationFeatures": [
+      "isolation.scoped-worktree"
+    ],
+    "permissions": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "AGENTS.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+          "examples/triage-board/src/model.js",
+          "examples/triage-board/src/storage.js",
+          "examples/triage-board/test/model.test.mjs",
+          "examples/triage-board/test/storage.test.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "examples/release-board/src/model.js",
+          "examples/release-board/src/storage.js",
+          "examples/release-board/test/model.test.mjs",
+          "examples/release-board/test/storage.test.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "node"
+        ]
+      }
+    ],
+    "observability": {
+      "model": "observed",
+      "effort": "observed",
+      "tools": "observed",
+      "skills": "observed",
+      "isolation": "observed",
+      "permissions": "observed",
+      "workspace": "observed",
+      "context": "observed"
+    },
+    "contentDigest": "sha256:a9755764ae9f09f5ef9b54ebf7b9eef87920848632082f9a87a86756a0c93a70"
+  }
+}

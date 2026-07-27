@@ -1,0 +1,1634 @@
+{
+  "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+  "kind": "CompileRuntimeAssignmentsRequest",
+  "compilation": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "AgentBlueprintCompilation",
+    "goal": {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "GoalContract",
+      "id": "v14.dogfood.release-board",
+      "revision": 1,
+      "objective": "Build the independent domain and semantic interface modules for a small dependency-free Release Board application, then hand them to one IDE integration owner.",
+      "integrationOwner": "codex.main",
+      "assumptions": [
+        {
+          "id": "assumption.integration-owner",
+          "statement": "The main IDE agent owns event wiring, final verification, browser inspection, and review routing after both roots pass.",
+          "rationale": "The two roots have disjoint writes and the small goal does not justify another implementation specialist."
+        },
+        {
+          "id": "assumption.product-choice",
+          "statement": "Release Board is the low-risk small application chosen to validate the V14 orchestration alpha.",
+          "rationale": "The owner requested a small application dogfood but did not prescribe a product."
+        }
+      ],
+      "unresolvedDecisions": [],
+      "acceptanceCriteria": [
+        {
+          "id": "criterion.domain",
+          "description": "Pure immutable domain and versioned storage operations satisfy the closed check, filter, summary, and invalid-data contract.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.domain.tests",
+              "kind": "test",
+              "duty": "produce",
+              "description": "Produce passing deterministic Node tests with the domain and storage modules.",
+              "independentFromProducer": false
+            }
+          ]
+        },
+        {
+          "id": "criterion.interface",
+          "description": "A semantic responsive interface exposes every required control, state region, focus treatment, and integration hook without application state.",
+          "evidenceRequirements": [
+            {
+              "id": "evidence.interface.artifact",
+              "kind": "artifact",
+              "duty": "produce",
+              "description": "Produce the complete static HTML and CSS interface module.",
+              "independentFromProducer": false
+            }
+          ]
+        }
+      ],
+      "contextSources": [
+        {
+          "id": "context.agent-contract",
+          "kind": "repository",
+          "locator": "path:AGENTS.md",
+          "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+          "bytes": 16695,
+          "description": "Repository operating and handoff invariants.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain",
+            "implement.release-board-interface"
+          ],
+          "readScope": "AGENTS.md"
+        },
+        {
+          "id": "context.app-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+          "digest": "sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50",
+          "bytes": 2437,
+          "description": "Closed module and integration contract.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain",
+            "implement.release-board-interface"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md"
+        },
+        {
+          "id": "context.domain-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/src/model.js",
+          "digest": "sha256:f9f7bb99b2ba27ef64bd28d88b4465c2852a4aeb6a7e0a8b7375222843fac59f",
+          "bytes": 8237,
+          "description": "Current dependency-free immutable domain pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain"
+          ],
+          "readScope": "examples/triage-board/src/model.js"
+        },
+        {
+          "id": "context.domain-test-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/test/model.test.mjs",
+          "digest": "sha256:fcd4b3cbf7603b03d703fe4b3dc55f657189fd48ce76b4ee834feb35492a3b46",
+          "bytes": 5487,
+          "description": "Current Node domain-test pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain"
+          ],
+          "readScope": "examples/triage-board/test/model.test.mjs"
+        },
+        {
+          "id": "context.goal",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+          "digest": "sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777",
+          "bytes": 1610,
+          "description": "Closed product goal and acceptance criteria.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain",
+            "implement.release-board-interface"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md"
+        },
+        {
+          "id": "context.interface-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/index.html",
+          "digest": "sha256:ed5b1954785578b744f6782f7586553f5d9b6bcebfa93abee395a9a33b3da1ce",
+          "bytes": 7712,
+          "description": "Current semantic static-app interface pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-interface"
+          ],
+          "readScope": "examples/triage-board/index.html"
+        },
+        {
+          "id": "context.storage-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/src/storage.js",
+          "digest": "sha256:948a6758beea65b6f5a4f0c42a786b5f4e147d63478f146bd6f14635376634a8",
+          "bytes": 769,
+          "description": "Current pure local-storage serialization pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain"
+          ],
+          "readScope": "examples/triage-board/src/storage.js"
+        },
+        {
+          "id": "context.storage-test-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/test/storage.test.mjs",
+          "digest": "sha256:a57a8e6d4093e38baa1fbad34868639934dc79351380ef910a85faf0c1a80c59",
+          "bytes": 1789,
+          "description": "Current Node storage-test pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain"
+          ],
+          "readScope": "examples/triage-board/test/storage.test.mjs"
+        },
+        {
+          "id": "context.style-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/styles.css",
+          "digest": "sha256:c3bce35a60880b228b2ef2ab19ac9c7c7e21da50d6d8372e1b8810a3548adadc",
+          "bytes": 12232,
+          "description": "Current responsive operational-app styling pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-interface"
+          ],
+          "readScope": "examples/triage-board/styles.css"
+        }
+      ],
+      "authority": {
+        "allowedModules": [
+          "implement.release-board-domain",
+          "implement.release-board-interface"
+        ],
+        "allowedCapabilities": [
+          "implement.release-board-domain",
+          "implement.release-board-interface"
+        ],
+        "permissionCeiling": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+              "examples/release-board/index.html",
+              "examples/release-board/src/model.js",
+              "examples/release-board/src/storage.js",
+              "examples/release-board/styles.css",
+              "examples/release-board/test/model.test.mjs",
+              "examples/release-board/test/storage.test.mjs",
+              "examples/triage-board/index.html",
+              "examples/triage-board/src/model.js",
+              "examples/triage-board/src/storage.js",
+              "examples/triage-board/styles.css",
+              "examples/triage-board/test/model.test.mjs",
+              "examples/triage-board/test/storage.test.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "examples/release-board/index.html",
+              "examples/release-board/src/model.js",
+              "examples/release-board/src/storage.js",
+              "examples/release-board/styles.css",
+              "examples/release-board/test/model.test.mjs",
+              "examples/release-board/test/storage.test.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access the network, secrets, external services, or undeclared repository paths.",
+          "Do not install dependencies, mutate Git, launch descendants, integrate, merge, or update memory."
+        ],
+        "maxAgents": 2,
+        "maxConcurrency": 2
+      },
+      "optimization": {
+        "agentStartupCost": 1,
+        "handoffCost": 1
+      },
+      "workUnits": [
+        {
+          "id": "implement.release-board-domain",
+          "objective": "Implement pure immutable release-check operations, safe versioned serialization, and deterministic Node tests.",
+          "weight": 6,
+          "module": {
+            "id": "implement.release-board-domain",
+            "action": "Implement the exact check shape, closed filters, readiness summary, immutable transitions, and fail-safe storage parsing.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ReleaseBoardContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "implementation",
+                "artifactType": "release-board-domain-handoff.md"
+              }
+            ]
+          },
+          "dependencies": [],
+          "requiredCapabilities": [
+            "implement.release-board-domain"
+          ],
+          "contextUses": [
+            {
+              "sourceId": "context.agent-contract",
+              "purpose": "Produce one disjoint Release Board module."
+            },
+            {
+              "sourceId": "context.app-contract",
+              "purpose": "Produce one disjoint Release Board module."
+            },
+            {
+              "sourceId": "context.domain-pattern",
+              "purpose": "Produce one disjoint Release Board module."
+            },
+            {
+              "sourceId": "context.domain-test-pattern",
+              "purpose": "Produce one disjoint Release Board module."
+            },
+            {
+              "sourceId": "context.goal",
+              "purpose": "Produce one disjoint Release Board module."
+            },
+            {
+              "sourceId": "context.storage-pattern",
+              "purpose": "Produce one disjoint Release Board module."
+            },
+            {
+              "sourceId": "context.storage-test-pattern",
+              "purpose": "Produce one disjoint Release Board module."
+            }
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+              "examples/triage-board/src/model.js",
+              "examples/triage-board/src/storage.js",
+              "examples/triage-board/test/model.test.mjs",
+              "examples/triage-board/test/storage.test.mjs"
+            ],
+            "write": [
+              "examples/release-board/src/model.js",
+              "examples/release-board/src/storage.js",
+              "examples/release-board/test/model.test.mjs",
+              "examples/release-board/test/storage.test.mjs"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+                "examples/triage-board/src/model.js",
+                "examples/triage-board/src/storage.js",
+                "examples/triage-board/test/model.test.mjs",
+                "examples/triage-board/test/storage.test.mjs"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/release-board/src/model.js",
+                "examples/release-board/src/storage.js",
+                "examples/release-board/test/model.test.mjs",
+                "examples/release-board/test/storage.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node"
+              ]
+            }
+          ],
+          "evidenceRequirementIds": [
+            "evidence.domain.tests"
+          ],
+          "handoffArtifacts": [
+            "release-board-domain-handoff.md"
+          ],
+          "stopConditions": [
+            "Do not access the network, install dependencies, mutate Git, merge, or update memory.",
+            "Do not claim browser behavior that was not observed.",
+            "Do not modify files outside the declared write scope.",
+            "Return non-pass when the assigned artifact cannot be produced and verified.",
+            "Stop if the product goal conflicts with the application contract."
+          ]
+        },
+        {
+          "id": "implement.release-board-interface",
+          "objective": "Implement the complete semantic and responsive Release Board HTML and CSS interface without application state.",
+          "weight": 5,
+          "module": {
+            "id": "implement.release-board-interface",
+            "action": "Create the required form, summary, filters, list, template, live region, responsive layout, and visible focus states.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ReleaseBoardContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "implementation",
+                "artifactType": "release-board-interface-handoff.md"
+              }
+            ]
+          },
+          "dependencies": [],
+          "requiredCapabilities": [
+            "implement.release-board-interface"
+          ],
+          "contextUses": [
+            {
+              "sourceId": "context.agent-contract",
+              "purpose": "Produce one disjoint Release Board module."
+            },
+            {
+              "sourceId": "context.app-contract",
+              "purpose": "Produce one disjoint Release Board module."
+            },
+            {
+              "sourceId": "context.goal",
+              "purpose": "Produce one disjoint Release Board module."
+            },
+            {
+              "sourceId": "context.interface-pattern",
+              "purpose": "Produce one disjoint Release Board module."
+            },
+            {
+              "sourceId": "context.style-pattern",
+              "purpose": "Produce one disjoint Release Board module."
+            }
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+              "examples/triage-board/index.html",
+              "examples/triage-board/styles.css"
+            ],
+            "write": [
+              "examples/release-board/index.html",
+              "examples/release-board/styles.css"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+                "examples/triage-board/index.html",
+                "examples/triage-board/styles.css"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/release-board/index.html",
+                "examples/release-board/styles.css"
+              ]
+            }
+          ],
+          "evidenceRequirementIds": [
+            "evidence.interface.artifact"
+          ],
+          "handoffArtifacts": [
+            "release-board-interface-handoff.md"
+          ],
+          "stopConditions": [
+            "Do not access the network, install dependencies, mutate Git, merge, or update memory.",
+            "Do not claim browser behavior that was not observed.",
+            "Do not modify files outside the declared write scope.",
+            "Return non-pass when the assigned artifact cannot be produced and verified.",
+            "Stop if the product goal conflicts with the application contract."
+          ]
+        }
+      ]
+    },
+    "goalDigest": "sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f",
+    "proposedCandidates": [
+      {
+        "id": "candidate.release-board.parallel-roots",
+        "groups": [
+          [
+            "implement.release-board-domain"
+          ],
+          [
+            "implement.release-board-interface"
+          ]
+        ]
+      }
+    ],
+    "proposalEvaluations": [
+      {
+        "id": "team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a",
+        "partition": [
+          [
+            "implement.release-board-domain"
+          ],
+          [
+            "implement.release-board-interface"
+          ]
+        ],
+        "origins": [
+          "exact_search",
+          "proposed"
+        ],
+        "proposalIds": [
+          "candidate.release-board.parallel-roots"
+        ],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 2,
+          "projectedMakespan": 7,
+          "peakConcurrency": 2,
+          "conflictPairs": 0,
+          "handoffCount": 0,
+          "duplicatedContextBytes": 20742,
+          "duplicatedPermissionScopes": 3,
+          "totalWorkWeight": 11,
+          "totalStartupCost": 2,
+          "totalHandoffCost": 0
+        },
+        "schedule": [
+          {
+            "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+            "start": 0,
+            "finish": 6
+          },
+          {
+            "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+            "start": 0,
+            "finish": 7
+          }
+        ],
+        "contentDigest": "sha256:7298ee2364f0c00a729959cabed169d06d2ab7545a99eba651859d5e3104f66f"
+      }
+    ],
+    "authority": {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "TaskAuthorityProjection",
+      "goalId": "v14.dogfood.release-board",
+      "goalRevision": 1,
+      "allowedModules": [
+        "implement.release-board-domain",
+        "implement.release-board-interface"
+      ],
+      "allowedCapabilities": [
+        "implement.release-board-domain",
+        "implement.release-board-interface"
+      ],
+      "contextSources": [
+        {
+          "id": "context.agent-contract",
+          "kind": "repository",
+          "locator": "path:AGENTS.md",
+          "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+          "bytes": 16695,
+          "description": "Repository operating and handoff invariants.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain",
+            "implement.release-board-interface"
+          ],
+          "readScope": "AGENTS.md"
+        },
+        {
+          "id": "context.app-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+          "digest": "sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50",
+          "bytes": 2437,
+          "description": "Closed module and integration contract.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain",
+            "implement.release-board-interface"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md"
+        },
+        {
+          "id": "context.domain-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/src/model.js",
+          "digest": "sha256:f9f7bb99b2ba27ef64bd28d88b4465c2852a4aeb6a7e0a8b7375222843fac59f",
+          "bytes": 8237,
+          "description": "Current dependency-free immutable domain pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain"
+          ],
+          "readScope": "examples/triage-board/src/model.js"
+        },
+        {
+          "id": "context.domain-test-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/test/model.test.mjs",
+          "digest": "sha256:fcd4b3cbf7603b03d703fe4b3dc55f657189fd48ce76b4ee834feb35492a3b46",
+          "bytes": 5487,
+          "description": "Current Node domain-test pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain"
+          ],
+          "readScope": "examples/triage-board/test/model.test.mjs"
+        },
+        {
+          "id": "context.goal",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+          "digest": "sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777",
+          "bytes": 1610,
+          "description": "Closed product goal and acceptance criteria.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain",
+            "implement.release-board-interface"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md"
+        },
+        {
+          "id": "context.interface-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/index.html",
+          "digest": "sha256:ed5b1954785578b744f6782f7586553f5d9b6bcebfa93abee395a9a33b3da1ce",
+          "bytes": 7712,
+          "description": "Current semantic static-app interface pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-interface"
+          ],
+          "readScope": "examples/triage-board/index.html"
+        },
+        {
+          "id": "context.storage-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/src/storage.js",
+          "digest": "sha256:948a6758beea65b6f5a4f0c42a786b5f4e147d63478f146bd6f14635376634a8",
+          "bytes": 769,
+          "description": "Current pure local-storage serialization pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain"
+          ],
+          "readScope": "examples/triage-board/src/storage.js"
+        },
+        {
+          "id": "context.storage-test-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/test/storage.test.mjs",
+          "digest": "sha256:a57a8e6d4093e38baa1fbad34868639934dc79351380ef910a85faf0c1a80c59",
+          "bytes": 1789,
+          "description": "Current Node storage-test pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-domain"
+          ],
+          "readScope": "examples/triage-board/test/storage.test.mjs"
+        },
+        {
+          "id": "context.style-pattern",
+          "kind": "repository",
+          "locator": "path:examples/triage-board/styles.css",
+          "digest": "sha256:c3bce35a60880b228b2ef2ab19ac9c7c7e21da50d6d8372e1b8810a3548adadc",
+          "bytes": 12232,
+          "description": "Current responsive operational-app styling pattern.",
+          "allowedWorkUnits": [
+            "implement.release-board-interface"
+          ],
+          "readScope": "examples/triage-board/styles.css"
+        }
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "AGENTS.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+            "examples/release-board/index.html",
+            "examples/release-board/src/model.js",
+            "examples/release-board/src/storage.js",
+            "examples/release-board/styles.css",
+            "examples/release-board/test/model.test.mjs",
+            "examples/release-board/test/storage.test.mjs",
+            "examples/triage-board/index.html",
+            "examples/triage-board/src/model.js",
+            "examples/triage-board/src/storage.js",
+            "examples/triage-board/styles.css",
+            "examples/triage-board/test/model.test.mjs",
+            "examples/triage-board/test/storage.test.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "examples/release-board/index.html",
+            "examples/release-board/src/model.js",
+            "examples/release-board/src/storage.js",
+            "examples/release-board/styles.css",
+            "examples/release-board/test/model.test.mjs",
+            "examples/release-board/test/storage.test.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not access the network, secrets, external services, or undeclared repository paths.",
+        "Do not install dependencies, mutate Git, launch descendants, integrate, merge, or update memory."
+      ],
+      "maxAgents": 2,
+      "maxConcurrency": 2,
+      "contentDigest": "sha256:167354003f7c8b56b471071c1abe8ee605fe9de872de2c8049a2785ec2360460"
+    },
+    "search": {
+      "mode": "exact",
+      "claim": "exhaustive_partition_search_fixed_scheduler",
+      "workUnitCount": 2,
+      "evaluatedCandidates": 2,
+      "eligibleCandidates": 2,
+      "retainedAlternatives": 1,
+      "evaluationSetDigest": "sha256:aa8a46ec3f147fcc373dc969d9933cdea51768d641c934925205284a782f4d44"
+    },
+    "serialBaseline": {
+      "id": "team.9b0ef6211dc14d9f95126f70e5ca9c35029589f697a3dae1cbe883b5ad46e97c",
+      "partition": [
+        [
+          "implement.release-board-domain",
+          "implement.release-board-interface"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 12,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 11,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.e5562321d325fe402f5cf6a86d1b3d0dbef19cf0e11960ee03e2cd0e4e18245e",
+          "start": 0,
+          "finish": 12
+        }
+      ],
+      "contentDigest": "sha256:099346878b18855b2bf61b3d63fb4b873042c249e74ed20f513e2c63fc2c3bf8"
+    },
+    "selected": {
+      "id": "team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a",
+      "partition": [
+        [
+          "implement.release-board-domain"
+        ],
+        [
+          "implement.release-board-interface"
+        ]
+      ],
+      "origins": [
+        "exact_search",
+        "proposed"
+      ],
+      "proposalIds": [
+        "candidate.release-board.parallel-roots"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 7,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 20742,
+        "duplicatedPermissionScopes": 3,
+        "totalWorkWeight": 11,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+          "start": 0,
+          "finish": 6
+        },
+        {
+          "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+          "start": 0,
+          "finish": 7
+        }
+      ],
+      "contentDigest": "sha256:7298ee2364f0c00a729959cabed169d06d2ab7545a99eba651859d5e3104f66f"
+    },
+    "selectionReason": {
+      "kind": "lower_metric",
+      "decisiveField": "projectedMakespan",
+      "selectedValue": 7,
+      "serialValue": 12,
+      "serialRejectionCodes": []
+    },
+    "alternatives": [
+      {
+        "id": "team.9b0ef6211dc14d9f95126f70e5ca9c35029589f697a3dae1cbe883b5ad46e97c",
+        "partition": [
+          [
+            "implement.release-board-domain",
+            "implement.release-board-interface"
+          ]
+        ],
+        "origins": [
+          "serial_baseline",
+          "exact_search"
+        ],
+        "proposalIds": [],
+        "eligible": true,
+        "rejectionCodes": [],
+        "metrics": {
+          "agentCount": 1,
+          "projectedMakespan": 12,
+          "peakConcurrency": 1,
+          "conflictPairs": 0,
+          "handoffCount": 0,
+          "duplicatedContextBytes": 0,
+          "duplicatedPermissionScopes": 0,
+          "totalWorkWeight": 11,
+          "totalStartupCost": 1,
+          "totalHandoffCost": 0
+        },
+        "schedule": [
+          {
+            "agentId": "agent.e5562321d325fe402f5cf6a86d1b3d0dbef19cf0e11960ee03e2cd0e4e18245e",
+            "start": 0,
+            "finish": 12
+          }
+        ],
+        "contentDigest": "sha256:099346878b18855b2bf61b3d63fb4b873042c249e74ed20f513e2c63fc2c3bf8"
+      }
+    ],
+    "blueprints": [
+      {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "AgentBlueprint",
+        "id": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "goalId": "v14.dogfood.release-board",
+        "goalRevision": 1,
+        "goalDigest": "sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f",
+        "candidateId": "team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a",
+        "workUnitIds": [
+          "implement.release-board-interface"
+        ],
+        "objectives": [
+          {
+            "workUnitId": "implement.release-board-interface",
+            "objective": "Implement the complete semantic and responsive Release Board HTML and CSS interface without application state."
+          }
+        ],
+        "modules": [
+          {
+            "id": "implement.release-board-interface",
+            "action": "Create the required form, summary, filters, list, template, live region, responsive layout, and visible focus states.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ReleaseBoardContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "implementation",
+                "artifactType": "release-board-interface-handoff.md"
+              }
+            ]
+          }
+        ],
+        "dependencies": [],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "kind": "repository",
+            "locator": "path:AGENTS.md",
+            "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+            "bytes": 16695,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-interface"
+            ],
+            "readScope": "AGENTS.md"
+          },
+          {
+            "sourceId": "context.app-contract",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+            "digest": "sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50",
+            "bytes": 2437,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-interface"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md"
+          },
+          {
+            "sourceId": "context.goal",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+            "digest": "sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777",
+            "bytes": 1610,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-interface"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md"
+          },
+          {
+            "sourceId": "context.interface-pattern",
+            "kind": "repository",
+            "locator": "path:examples/triage-board/index.html",
+            "digest": "sha256:ed5b1954785578b744f6782f7586553f5d9b6bcebfa93abee395a9a33b3da1ce",
+            "bytes": 7712,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-interface"
+            ],
+            "readScope": "examples/triage-board/index.html"
+          },
+          {
+            "sourceId": "context.style-pattern",
+            "kind": "repository",
+            "locator": "path:examples/triage-board/styles.css",
+            "digest": "sha256:c3bce35a60880b228b2ef2ab19ac9c7c7e21da50d6d8372e1b8810a3548adadc",
+            "bytes": 12232,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-interface"
+            ],
+            "readScope": "examples/triage-board/styles.css"
+          }
+        ],
+        "authority": {
+          "requiredCapabilities": [
+            "implement.release-board-interface"
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+              "examples/triage-board/index.html",
+              "examples/triage-board/styles.css"
+            ],
+            "write": [
+              "examples/release-board/index.html",
+              "examples/release-board/styles.css"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+                "examples/triage-board/index.html",
+                "examples/triage-board/styles.css"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/release-board/index.html",
+                "examples/release-board/styles.css"
+              ]
+            }
+          ],
+          "forbiddenEffects": [
+            "Do not access the network, secrets, external services, or undeclared repository paths.",
+            "Do not install dependencies, mutate Git, launch descendants, integrate, merge, or update memory."
+          ]
+        },
+        "evidenceDuties": [
+          {
+            "criterionId": "criterion.interface",
+            "criterion": "A semantic responsive interface exposes every required control, state region, focus treatment, and integration hook without application state.",
+            "requirementId": "evidence.interface.artifact",
+            "kind": "artifact",
+            "duty": "produce",
+            "description": "Produce the complete static HTML and CSS interface module.",
+            "independentFromProducer": false
+          }
+        ],
+        "handoff": {
+          "destination": "codex.main",
+          "artifacts": [
+            "release-board-interface-handoff.md"
+          ],
+          "requiredFields": [
+            "apiVersion",
+            "kind",
+            "outcome",
+            "destination",
+            "goal",
+            "agent",
+            "compilationDigest",
+            "summary",
+            "workUnitsCompleted",
+            "artifacts",
+            "evidence",
+            "assumptions",
+            "risks",
+            "followUps"
+          ]
+        },
+        "stopConditions": [
+          "Do not access the network, install dependencies, mutate Git, merge, or update memory.",
+          "Do not claim browser behavior that was not observed.",
+          "Do not modify files outside the declared write scope.",
+          "Return non-pass when the assigned artifact cannot be produced and verified.",
+          "Stop if the product goal conflicts with the application contract."
+        ],
+        "contentDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76"
+      },
+      {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "AgentBlueprint",
+        "id": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "goalId": "v14.dogfood.release-board",
+        "goalRevision": 1,
+        "goalDigest": "sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f",
+        "candidateId": "team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a",
+        "workUnitIds": [
+          "implement.release-board-domain"
+        ],
+        "objectives": [
+          {
+            "workUnitId": "implement.release-board-domain",
+            "objective": "Implement pure immutable release-check operations, safe versioned serialization, and deterministic Node tests."
+          }
+        ],
+        "modules": [
+          {
+            "id": "implement.release-board-domain",
+            "action": "Implement the exact check shape, closed filters, readiness summary, immutable transitions, and fail-safe storage parsing.",
+            "inputPorts": [
+              {
+                "name": "contract",
+                "artifactType": "ReleaseBoardContract"
+              }
+            ],
+            "outputPorts": [
+              {
+                "name": "implementation",
+                "artifactType": "release-board-domain-handoff.md"
+              }
+            ]
+          }
+        ],
+        "dependencies": [],
+        "contextUses": [
+          {
+            "sourceId": "context.agent-contract",
+            "kind": "repository",
+            "locator": "path:AGENTS.md",
+            "digest": "sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9",
+            "bytes": 16695,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-domain"
+            ],
+            "readScope": "AGENTS.md"
+          },
+          {
+            "sourceId": "context.app-contract",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+            "digest": "sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50",
+            "bytes": 2437,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-domain"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md"
+          },
+          {
+            "sourceId": "context.domain-pattern",
+            "kind": "repository",
+            "locator": "path:examples/triage-board/src/model.js",
+            "digest": "sha256:f9f7bb99b2ba27ef64bd28d88b4465c2852a4aeb6a7e0a8b7375222843fac59f",
+            "bytes": 8237,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-domain"
+            ],
+            "readScope": "examples/triage-board/src/model.js"
+          },
+          {
+            "sourceId": "context.domain-test-pattern",
+            "kind": "repository",
+            "locator": "path:examples/triage-board/test/model.test.mjs",
+            "digest": "sha256:fcd4b3cbf7603b03d703fe4b3dc55f657189fd48ce76b4ee834feb35492a3b46",
+            "bytes": 5487,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-domain"
+            ],
+            "readScope": "examples/triage-board/test/model.test.mjs"
+          },
+          {
+            "sourceId": "context.goal",
+            "kind": "repository",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+            "digest": "sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777",
+            "bytes": 1610,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-domain"
+            ],
+            "readScope": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md"
+          },
+          {
+            "sourceId": "context.storage-pattern",
+            "kind": "repository",
+            "locator": "path:examples/triage-board/src/storage.js",
+            "digest": "sha256:948a6758beea65b6f5a4f0c42a786b5f4e147d63478f146bd6f14635376634a8",
+            "bytes": 769,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-domain"
+            ],
+            "readScope": "examples/triage-board/src/storage.js"
+          },
+          {
+            "sourceId": "context.storage-test-pattern",
+            "kind": "repository",
+            "locator": "path:examples/triage-board/test/storage.test.mjs",
+            "digest": "sha256:a57a8e6d4093e38baa1fbad34868639934dc79351380ef910a85faf0c1a80c59",
+            "bytes": 1789,
+            "purposes": [
+              "Produce one disjoint Release Board module."
+            ],
+            "workUnitIds": [
+              "implement.release-board-domain"
+            ],
+            "readScope": "examples/triage-board/test/storage.test.mjs"
+          }
+        ],
+        "authority": {
+          "requiredCapabilities": [
+            "implement.release-board-domain"
+          ],
+          "scope": {
+            "read": [
+              "AGENTS.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+              "examples/triage-board/src/model.js",
+              "examples/triage-board/src/storage.js",
+              "examples/triage-board/test/model.test.mjs",
+              "examples/triage-board/test/storage.test.mjs"
+            ],
+            "write": [
+              "examples/release-board/src/model.js",
+              "examples/release-board/src/storage.js",
+              "examples/release-board/test/model.test.mjs",
+              "examples/release-board/test/storage.test.mjs"
+            ],
+            "conflictZones": []
+          },
+          "permissions": [
+            {
+              "kind": "filesystem.read",
+              "scopes": [
+                "AGENTS.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md",
+                "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md",
+                "examples/triage-board/src/model.js",
+                "examples/triage-board/src/storage.js",
+                "examples/triage-board/test/model.test.mjs",
+                "examples/triage-board/test/storage.test.mjs"
+              ]
+            },
+            {
+              "kind": "filesystem.write",
+              "scopes": [
+                "examples/release-board/src/model.js",
+                "examples/release-board/src/storage.js",
+                "examples/release-board/test/model.test.mjs",
+                "examples/release-board/test/storage.test.mjs"
+              ]
+            },
+            {
+              "kind": "process.spawn",
+              "scopes": [
+                "node"
+              ]
+            }
+          ],
+          "forbiddenEffects": [
+            "Do not access the network, secrets, external services, or undeclared repository paths.",
+            "Do not install dependencies, mutate Git, launch descendants, integrate, merge, or update memory."
+          ]
+        },
+        "evidenceDuties": [
+          {
+            "criterionId": "criterion.domain",
+            "criterion": "Pure immutable domain and versioned storage operations satisfy the closed check, filter, summary, and invalid-data contract.",
+            "requirementId": "evidence.domain.tests",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Produce passing deterministic Node tests with the domain and storage modules.",
+            "independentFromProducer": false
+          }
+        ],
+        "handoff": {
+          "destination": "codex.main",
+          "artifacts": [
+            "release-board-domain-handoff.md"
+          ],
+          "requiredFields": [
+            "apiVersion",
+            "kind",
+            "outcome",
+            "destination",
+            "goal",
+            "agent",
+            "compilationDigest",
+            "summary",
+            "workUnitsCompleted",
+            "artifacts",
+            "evidence",
+            "assumptions",
+            "risks",
+            "followUps"
+          ]
+        },
+        "stopConditions": [
+          "Do not access the network, install dependencies, mutate Git, merge, or update memory.",
+          "Do not claim browser behavior that was not observed.",
+          "Do not modify files outside the declared write scope.",
+          "Return non-pass when the assigned artifact cannot be produced and verified.",
+          "Stop if the product goal conflicts with the application contract."
+        ],
+        "contentDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6"
+      }
+    ],
+    "launchWaves": [
+      {
+        "start": 0,
+        "agentIds": [
+          "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+          "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063"
+        ]
+      }
+    ],
+    "contentDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e"
+  },
+  "packageExpectation": {
+    "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+    "packageDigest": "sha256:e6a44c03a2b826065b8dc60d64b2eb3900ceaef41bfdd0d7335ae99916d3a92c"
+  },
+  "policy": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeDemandPolicy",
+    "id": "policy.v14.release-board",
+    "revision": 1,
+    "qualityTiers": [
+      {
+        "id": "quality.low",
+        "rank": 0
+      },
+      {
+        "id": "quality.balanced",
+        "rank": 1
+      },
+      {
+        "id": "quality.frontier",
+        "rank": 2
+      }
+    ],
+    "reasoningTiers": [
+      {
+        "id": "reasoning.medium",
+        "rank": 0
+      },
+      {
+        "id": "reasoning.high",
+        "rank": 1
+      }
+    ],
+    "capabilityRules": [
+      {
+        "capabilityId": "implement.release-board-domain",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.high",
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ]
+      },
+      {
+        "capabilityId": "implement.release-board-interface",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.medium",
+        "requiredTools": [
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write"
+        ]
+      }
+    ],
+    "evidenceRules": [
+      {
+        "kind": "artifact",
+        "duty": "produce",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.medium"
+      },
+      {
+        "kind": "test",
+        "duty": "produce",
+        "minimumQualityTier": "quality.balanced",
+        "minimumReasoningTier": "reasoning.high"
+      }
+    ],
+    "permissionRules": [
+      {
+        "kind": "filesystem.read",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.write"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.process.spawn"
+        ]
+      }
+    ],
+    "observability": {
+      "model": "observed",
+      "effort": "observed",
+      "tools": "observed",
+      "skills": "observed",
+      "isolation": "observed",
+      "permissions": "observed",
+      "workspace": "observed",
+      "context": "observed"
+    },
+    "search": {
+      "exactVectorLimit": 64,
+      "boundedBeamWidth": 8
+    }
+  },
+  "calibration": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeCalibrationCatalog",
+    "id": "calibration.codex-desktop.release-board",
+    "revision": 1,
+    "assessedBy": "repository-owner-via-standing-release-authorization",
+    "adapterId": "codex-desktop",
+    "adapterRevision": "v14-alpha",
+    "runtimeRows": [
+      {
+        "id": "row.luna.medium",
+        "profileId": "profile.codex.luna",
+        "effortId": "effort.medium",
+        "effortRank": 1,
+        "runtimeFamily": "profile.codex.luna",
+        "independenceDomain": "profile.codex.luna",
+        "reasoningTier": "reasoning.medium",
+        "capabilities": [
+          {
+            "capabilityId": "implement.release-board-domain",
+            "qualityTier": "quality.low"
+          },
+          {
+            "capabilityId": "implement.release-board-interface",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 1000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 0,
+        "latencyRank": 0,
+        "evidence": [
+          {
+            "id": "evidence.row.luna.medium",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+            "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "id": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.sol",
+        "independenceDomain": "profile.codex.sol",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "implement.release-board-domain",
+            "qualityTier": "quality.frontier"
+          },
+          {
+            "capabilityId": "implement.release-board-interface",
+            "qualityTier": "quality.frontier"
+          }
+        ],
+        "contextLimitBytes": 1000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 3,
+        "latencyRank": 3,
+        "evidence": [
+          {
+            "id": "evidence.row.sol.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+            "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "id": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "effortRank": 2,
+        "runtimeFamily": "profile.codex.terra",
+        "independenceDomain": "profile.codex.terra",
+        "reasoningTier": "reasoning.high",
+        "capabilities": [
+          {
+            "capabilityId": "implement.release-board-domain",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "implement.release-board-interface",
+            "qualityTier": "quality.frontier"
+          }
+        ],
+        "contextLimitBytes": 1000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 2,
+        "latencyRank": 2,
+        "evidence": [
+          {
+            "id": "evidence.row.terra.high",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+            "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+            "bytes": 803
+          }
+        ]
+      },
+      {
+        "id": "row.terra.medium",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.medium",
+        "effortRank": 1,
+        "runtimeFamily": "profile.codex.terra",
+        "independenceDomain": "profile.codex.terra",
+        "reasoningTier": "reasoning.medium",
+        "capabilities": [
+          {
+            "capabilityId": "implement.release-board-domain",
+            "qualityTier": "quality.balanced"
+          },
+          {
+            "capabilityId": "implement.release-board-interface",
+            "qualityTier": "quality.balanced"
+          }
+        ],
+        "contextLimitBytes": 1000000,
+        "tools": [
+          "node",
+          "rg"
+        ],
+        "skills": [],
+        "isolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "permissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observationModes": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "costRank": 1,
+        "latencyRank": 1,
+        "evidence": [
+          {
+            "id": "evidence.row.terra.medium",
+            "kind": "owner_assessment",
+            "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+            "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+            "bytes": 803
+          }
+        ]
+      }
+    ]
+  },
+  "inventory": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "HostCapabilityInventory",
+    "id": "inventory.codex-desktop.release-board",
+    "revision": 1,
+    "hostId": "codex-desktop.windows",
+    "adapterId": "codex-desktop",
+    "adapterRevision": "v14-alpha",
+    "catalogRevision": "multi-agent-tool-schema.2026-07-27",
+    "completeness": "declared_subset",
+    "maxConcurrentAgents": 2,
+    "rows": [
+      {
+        "calibrationRowId": "row.luna.medium",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.sol.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.terra.high",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      },
+      {
+        "calibrationRowId": "row.terra.medium",
+        "availability": "available",
+        "availabilityReason": "Exposed by the current native multi-agent host tool."
+      }
+    ]
+  }
+}

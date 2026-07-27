@@ -1,0 +1,19 @@
+{
+  "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+  "packageDigest": "sha256:e6a44c03a2b826065b8dc60d64b2eb3900ceaef41bfdd0d7335ae99916d3a92c",
+  "policyDigest": "sha256:012bda2933385269d81835ade47cf08eb0eb10dd435660788c07c071f84bde28",
+  "calibrationDigest": "sha256:95ee8846d4b8d0b8a65bd319dc2fca253f76b979a11a255a3e5d65d38072b316",
+  "inventoryDigest": "sha256:cb1d2dfcd992ad6184cbec30679ee1cf7f45c12067d5221efabb6a7491b5682a",
+  "assignmentDigest": "sha256:79d960f5b41366f01ac762fe5b487cfd2947d8ac802b4e2b6116da7346e2e635",
+  "runId": "run.v14.release-board.small",
+  "runRevision": 1,
+  "predecessorRun": null,
+  "workspaceBaselineDigest": "sha256:5ec2530421b39d079397c2d50f7bffd85ef92c449aec669739b947d9ea815a55",
+  "authorizedHostId": "codex-desktop.windows",
+  "authorizedAdapterId": "codex-desktop",
+  "authorizedAdapterRevision": "v14-alpha",
+  "authorizationIssuerId": "repository-owner-via-standing-release-authorization",
+  "maxHostEvents": 64,
+  "lineageDepth": 0,
+  "maxLineageDepth": 8
+}

@@ -156,6 +156,34 @@ The compiler is IDE-, API-, model-, and provider-neutral. External hosts still c
 
 Use `docs/specs/v11-specialist-compiler/specialist-compiler-contract.md` and `docs/ide/specialist-agent-kickoff.md` as the active contract. Retrieve `docs/specs/v11-orchestration-planner/` only when working on the deferred runtime layer or auditing why it was split.
 
+## Adaptive Orchestration Rule
+
+When the user asks to use IDECircuit or SWECircuit for a meaningful software goal on Windows Codex
+Desktop, continue from the Specialist Compiler into the V14 adaptive loop:
+
+1. Show the clarified goal, architecture decision, atomic work units, selected team, serial
+   baseline, dependencies, and planned concurrency before native launch.
+2. Derive provider-neutral runtime demand from the exact approved blueprints. Obtain current
+   host-supplied runtime inventory and call `compileRuntimeAssignments`; never put model IDs into
+   specialist semantics or choose a stronger runtime by intuition.
+3. Show each least-sufficient profile and effort, rejected cheaper rows, selection reason, and
+   assignment digest. An owner override must remain feasible and creates a new approval identity.
+4. Create the immutable adaptive run session. Launch only dependency-eligible commands with the
+   exact host model and effort selected for that agent. Preserve native handles and all host
+   observations as exact events; core does not claim those effects.
+5. Preserve each raw handoff, verify it against the approved package and digest pair, assess the
+   complete transitive dependency closure, and route any non-`pass` or malformed result instead
+   of integrating it.
+6. Keep one integration owner. Run feature verification and independent review, render the
+   current RunView, update durable memory, and request owner approval before merge or release.
+
+For small low-risk goals, keep artifacts compact and use the serial baseline when fan-out does not
+improve the fixed objective. The Windows alpha is proven for one small two-agent goal; do not claim
+general release qualification until the remaining V14 dogfood and exact-candidate gates pass.
+
+Use `docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md`,
+`docs/specs/v14-adaptive-orchestration/runtime-routing-contract.md`, and
+`docs/ide/codex-adaptive-run.md` as the active V14 contracts.
 ## Circuit Composition Rule
 
 Use Circuit Composition as the default mental model for meaningful work:

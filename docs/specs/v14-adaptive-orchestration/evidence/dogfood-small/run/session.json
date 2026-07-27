@@ -1,0 +1,964 @@
+{
+  "apiVersion": "swecircuit/adaptive-run/v1alpha1",
+  "kind": "AdaptiveRunSession",
+  "expectation": {
+    "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+    "packageDigest": "sha256:e6a44c03a2b826065b8dc60d64b2eb3900ceaef41bfdd0d7335ae99916d3a92c",
+    "policyDigest": "sha256:012bda2933385269d81835ade47cf08eb0eb10dd435660788c07c071f84bde28",
+    "calibrationDigest": "sha256:95ee8846d4b8d0b8a65bd319dc2fca253f76b979a11a255a3e5d65d38072b316",
+    "inventoryDigest": "sha256:cb1d2dfcd992ad6184cbec30679ee1cf7f45c12067d5221efabb6a7491b5682a",
+    "assignmentDigest": "sha256:79d960f5b41366f01ac762fe5b487cfd2947d8ac802b4e2b6116da7346e2e635",
+    "runId": "run.v14.release-board.small",
+    "runRevision": 1,
+    "predecessorRun": null,
+    "workspaceBaselineDigest": "sha256:5ec2530421b39d079397c2d50f7bffd85ef92c449aec669739b947d9ea815a55",
+    "authorizedHostId": "codex-desktop.windows",
+    "authorizedAdapterId": "codex-desktop",
+    "authorizedAdapterRevision": "v14-alpha",
+    "authorizationIssuerId": "repository-owner-via-standing-release-authorization",
+    "maxHostEvents": 64,
+    "lineageDepth": 0,
+    "maxLineageDepth": 8
+  },
+  "assignment": {
+    "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+    "kind": "RuntimeAssignmentCompilation",
+    "goalId": "v14.dogfood.release-board",
+    "goalRevision": 1,
+    "goalDigest": "sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f",
+    "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+    "packageDigest": "sha256:e6a44c03a2b826065b8dc60d64b2eb3900ceaef41bfdd0d7335ae99916d3a92c",
+    "policy": {
+      "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+      "kind": "RuntimeDemandPolicy",
+      "id": "policy.v14.release-board",
+      "revision": 1,
+      "qualityTiers": [
+        {
+          "id": "quality.low",
+          "rank": 0
+        },
+        {
+          "id": "quality.balanced",
+          "rank": 1
+        },
+        {
+          "id": "quality.frontier",
+          "rank": 2
+        }
+      ],
+      "reasoningTiers": [
+        {
+          "id": "reasoning.medium",
+          "rank": 0
+        },
+        {
+          "id": "reasoning.high",
+          "rank": 1
+        }
+      ],
+      "capabilityRules": [
+        {
+          "capabilityId": "implement.release-board-domain",
+          "minimumQualityTier": "quality.balanced",
+          "minimumReasoningTier": "reasoning.high",
+          "requiredTools": [
+            "node",
+            "rg"
+          ],
+          "requiredSkills": [],
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ]
+        },
+        {
+          "capabilityId": "implement.release-board-interface",
+          "minimumQualityTier": "quality.balanced",
+          "minimumReasoningTier": "reasoning.medium",
+          "requiredTools": [
+            "rg"
+          ],
+          "requiredSkills": [],
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write"
+          ]
+        }
+      ],
+      "evidenceRules": [
+        {
+          "kind": "artifact",
+          "duty": "produce",
+          "minimumQualityTier": "quality.balanced",
+          "minimumReasoningTier": "reasoning.medium"
+        },
+        {
+          "kind": "test",
+          "duty": "produce",
+          "minimumQualityTier": "quality.balanced",
+          "minimumReasoningTier": "reasoning.high"
+        }
+      ],
+      "permissionRules": [
+        {
+          "kind": "filesystem.read",
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.filesystem.read"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.filesystem.write"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.process.spawn"
+          ]
+        }
+      ],
+      "observability": {
+        "model": "observed",
+        "effort": "observed",
+        "tools": "observed",
+        "skills": "observed",
+        "isolation": "observed",
+        "permissions": "observed",
+        "workspace": "observed",
+        "context": "observed"
+      },
+      "search": {
+        "exactVectorLimit": 64,
+        "boundedBeamWidth": 8
+      }
+    },
+    "policyDigest": "sha256:012bda2933385269d81835ade47cf08eb0eb10dd435660788c07c071f84bde28",
+    "calibration": {
+      "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+      "kind": "RuntimeCalibrationCatalog",
+      "id": "calibration.codex-desktop.release-board",
+      "revision": 1,
+      "assessedBy": "repository-owner-via-standing-release-authorization",
+      "adapterId": "codex-desktop",
+      "adapterRevision": "v14-alpha",
+      "runtimeRows": [
+        {
+          "id": "row.luna.medium",
+          "profileId": "profile.codex.luna",
+          "effortId": "effort.medium",
+          "effortRank": 1,
+          "runtimeFamily": "profile.codex.luna",
+          "independenceDomain": "profile.codex.luna",
+          "reasoningTier": "reasoning.medium",
+          "capabilities": [
+            {
+              "capabilityId": "implement.release-board-domain",
+              "qualityTier": "quality.low"
+            },
+            {
+              "capabilityId": "implement.release-board-interface",
+              "qualityTier": "quality.balanced"
+            }
+          ],
+          "contextLimitBytes": 1000000,
+          "tools": [
+            "node",
+            "rg"
+          ],
+          "skills": [],
+          "isolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "permissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observationModes": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          },
+          "costRank": 0,
+          "latencyRank": 0,
+          "evidence": [
+            {
+              "id": "evidence.row.luna.medium",
+              "kind": "owner_assessment",
+              "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+              "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+              "bytes": 803
+            }
+          ]
+        },
+        {
+          "id": "row.sol.high",
+          "profileId": "profile.codex.sol",
+          "effortId": "effort.high",
+          "effortRank": 2,
+          "runtimeFamily": "profile.codex.sol",
+          "independenceDomain": "profile.codex.sol",
+          "reasoningTier": "reasoning.high",
+          "capabilities": [
+            {
+              "capabilityId": "implement.release-board-domain",
+              "qualityTier": "quality.frontier"
+            },
+            {
+              "capabilityId": "implement.release-board-interface",
+              "qualityTier": "quality.frontier"
+            }
+          ],
+          "contextLimitBytes": 1000000,
+          "tools": [
+            "node",
+            "rg"
+          ],
+          "skills": [],
+          "isolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "permissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observationModes": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          },
+          "costRank": 3,
+          "latencyRank": 3,
+          "evidence": [
+            {
+              "id": "evidence.row.sol.high",
+              "kind": "owner_assessment",
+              "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+              "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+              "bytes": 803
+            }
+          ]
+        },
+        {
+          "id": "row.terra.high",
+          "profileId": "profile.codex.terra",
+          "effortId": "effort.high",
+          "effortRank": 2,
+          "runtimeFamily": "profile.codex.terra",
+          "independenceDomain": "profile.codex.terra",
+          "reasoningTier": "reasoning.high",
+          "capabilities": [
+            {
+              "capabilityId": "implement.release-board-domain",
+              "qualityTier": "quality.balanced"
+            },
+            {
+              "capabilityId": "implement.release-board-interface",
+              "qualityTier": "quality.frontier"
+            }
+          ],
+          "contextLimitBytes": 1000000,
+          "tools": [
+            "node",
+            "rg"
+          ],
+          "skills": [],
+          "isolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "permissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observationModes": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          },
+          "costRank": 2,
+          "latencyRank": 2,
+          "evidence": [
+            {
+              "id": "evidence.row.terra.high",
+              "kind": "owner_assessment",
+              "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+              "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+              "bytes": 803
+            }
+          ]
+        },
+        {
+          "id": "row.terra.medium",
+          "profileId": "profile.codex.terra",
+          "effortId": "effort.medium",
+          "effortRank": 1,
+          "runtimeFamily": "profile.codex.terra",
+          "independenceDomain": "profile.codex.terra",
+          "reasoningTier": "reasoning.medium",
+          "capabilities": [
+            {
+              "capabilityId": "implement.release-board-domain",
+              "qualityTier": "quality.balanced"
+            },
+            {
+              "capabilityId": "implement.release-board-interface",
+              "qualityTier": "quality.balanced"
+            }
+          ],
+          "contextLimitBytes": 1000000,
+          "tools": [
+            "node",
+            "rg"
+          ],
+          "skills": [],
+          "isolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "permissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observationModes": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          },
+          "costRank": 1,
+          "latencyRank": 1,
+          "evidence": [
+            {
+              "id": "evidence.row.terra.medium",
+              "kind": "owner_assessment",
+              "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/runtime-plan.json",
+              "digest": "sha256:1b73600b3af223d884e870c25104667f44bc8504047dcd6cf93f4843338361f8",
+              "bytes": 803
+            }
+          ]
+        }
+      ]
+    },
+    "calibrationDigest": "sha256:95ee8846d4b8d0b8a65bd319dc2fca253f76b979a11a255a3e5d65d38072b316",
+    "inventory": {
+      "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+      "kind": "HostCapabilityInventory",
+      "id": "inventory.codex-desktop.release-board",
+      "revision": 1,
+      "hostId": "codex-desktop.windows",
+      "adapterId": "codex-desktop",
+      "adapterRevision": "v14-alpha",
+      "catalogRevision": "multi-agent-tool-schema.2026-07-27",
+      "completeness": "declared_subset",
+      "maxConcurrentAgents": 2,
+      "rows": [
+        {
+          "calibrationRowId": "row.luna.medium",
+          "availability": "available",
+          "availabilityReason": "Exposed by the current native multi-agent host tool."
+        },
+        {
+          "calibrationRowId": "row.sol.high",
+          "availability": "available",
+          "availabilityReason": "Exposed by the current native multi-agent host tool."
+        },
+        {
+          "calibrationRowId": "row.terra.high",
+          "availability": "available",
+          "availabilityReason": "Exposed by the current native multi-agent host tool."
+        },
+        {
+          "calibrationRowId": "row.terra.medium",
+          "availability": "available",
+          "availabilityReason": "Exposed by the current native multi-agent host tool."
+        }
+      ]
+    },
+    "inventoryDigest": "sha256:cb1d2dfcd992ad6184cbec30679ee1cf7f45c12067d5221efabb6a7491b5682a",
+    "demands": [
+      {
+        "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+        "requiredCapabilities": [
+          {
+            "capabilityId": "implement.release-board-interface",
+            "minimumQualityTier": "quality.balanced"
+          }
+        ],
+        "minimumReasoningTier": "reasoning.medium",
+        "contextBytes": 40686,
+        "requiredTools": [
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "producerAgentIds": [],
+        "checkerAgentIds": [],
+        "contentDigest": "sha256:6917cc3914bf4c4afbf68ba9f3cead21ae02392e9338f990c96a14bd5a3e76bf"
+      },
+      {
+        "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+        "requiredCapabilities": [
+          {
+            "capabilityId": "implement.release-board-domain",
+            "minimumQualityTier": "quality.balanced"
+          }
+        ],
+        "minimumReasoningTier": "reasoning.high",
+        "contextBytes": 37024,
+        "requiredTools": [
+          "node",
+          "rg"
+        ],
+        "requiredSkills": [],
+        "requiredIsolationFeatures": [
+          "isolation.scoped-worktree"
+        ],
+        "requiredPermissionFeatures": [
+          "permission.filesystem.read",
+          "permission.filesystem.write",
+          "permission.process.spawn"
+        ],
+        "observability": {
+          "model": "observed",
+          "effort": "observed",
+          "tools": "observed",
+          "skills": "observed",
+          "isolation": "observed",
+          "permissions": "observed",
+          "workspace": "observed",
+          "context": "observed"
+        },
+        "producerAgentIds": [],
+        "checkerAgentIds": [],
+        "contentDigest": "sha256:c98f3f26bfe47e79e9dfd47382a4658bee86b8d59fded3b205c399383e6bbe95"
+      }
+    ],
+    "evaluations": [
+      {
+        "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "calibrationRowId": "row.luna.medium",
+        "profileId": "profile.codex.luna",
+        "effortId": "effort.medium",
+        "eligible": true,
+        "rejectionCodes": [],
+        "unmetRequirementIds": [],
+        "comparator": {
+          "costRank": 0,
+          "latencyRank": 0,
+          "qualityExcess": 0,
+          "reasoningExcess": 0,
+          "contextExcessBytes": 959314,
+          "toolExcess": 1,
+          "skillExcess": 0,
+          "effortRank": 1,
+          "canonicalIdentity": "[\"profile.codex.luna\",\"effort.medium\"]"
+        },
+        "contentDigest": "sha256:89903e8f23ce5d8e10f0df5d40e7d64ee162ee635766181c99e18219589f0d82"
+      },
+      {
+        "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "calibrationRowId": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "eligible": true,
+        "rejectionCodes": [],
+        "unmetRequirementIds": [],
+        "comparator": {
+          "costRank": 3,
+          "latencyRank": 3,
+          "qualityExcess": 1,
+          "reasoningExcess": 1,
+          "contextExcessBytes": 959314,
+          "toolExcess": 1,
+          "skillExcess": 0,
+          "effortRank": 2,
+          "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+        },
+        "contentDigest": "sha256:265a80a4861ceffcae260e2d44b6cd44c0f18b3a97eedba9460aec7da35e12b1"
+      },
+      {
+        "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "calibrationRowId": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "eligible": true,
+        "rejectionCodes": [],
+        "unmetRequirementIds": [],
+        "comparator": {
+          "costRank": 2,
+          "latencyRank": 2,
+          "qualityExcess": 1,
+          "reasoningExcess": 1,
+          "contextExcessBytes": 959314,
+          "toolExcess": 1,
+          "skillExcess": 0,
+          "effortRank": 2,
+          "canonicalIdentity": "[\"profile.codex.terra\",\"effort.high\"]"
+        },
+        "contentDigest": "sha256:7717f2917b13f0fa081b85340d7f4ffd3bb0cf6d29f3243e16e3aa97bed03386"
+      },
+      {
+        "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "calibrationRowId": "row.terra.medium",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.medium",
+        "eligible": true,
+        "rejectionCodes": [],
+        "unmetRequirementIds": [],
+        "comparator": {
+          "costRank": 1,
+          "latencyRank": 1,
+          "qualityExcess": 0,
+          "reasoningExcess": 0,
+          "contextExcessBytes": 959314,
+          "toolExcess": 1,
+          "skillExcess": 0,
+          "effortRank": 1,
+          "canonicalIdentity": "[\"profile.codex.terra\",\"effort.medium\"]"
+        },
+        "contentDigest": "sha256:13d2e5c3a1e1994fc8c1ecfc45fb6526840eb5b5a34a1e1d794bc0608cc5665e"
+      },
+      {
+        "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "calibrationRowId": "row.luna.medium",
+        "profileId": "profile.codex.luna",
+        "effortId": "effort.medium",
+        "eligible": false,
+        "rejectionCodes": [
+          "quality_tier",
+          "reasoning_tier"
+        ],
+        "unmetRequirementIds": [
+          "capability:implement.release-board-domain",
+          "reasoning:reasoning.high"
+        ],
+        "comparator": null,
+        "contentDigest": "sha256:f21ef7e17c5bd81f20d2b44f25bee86e7601bba23cddf1d48170e7229d060e8f"
+      },
+      {
+        "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "calibrationRowId": "row.sol.high",
+        "profileId": "profile.codex.sol",
+        "effortId": "effort.high",
+        "eligible": true,
+        "rejectionCodes": [],
+        "unmetRequirementIds": [],
+        "comparator": {
+          "costRank": 3,
+          "latencyRank": 3,
+          "qualityExcess": 1,
+          "reasoningExcess": 0,
+          "contextExcessBytes": 962976,
+          "toolExcess": 0,
+          "skillExcess": 0,
+          "effortRank": 2,
+          "canonicalIdentity": "[\"profile.codex.sol\",\"effort.high\"]"
+        },
+        "contentDigest": "sha256:92a0497fb0c3c8151526bdb8efe1be3fef3034a1629ad06ec100959a44fa2ff7"
+      },
+      {
+        "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "calibrationRowId": "row.terra.high",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.high",
+        "eligible": true,
+        "rejectionCodes": [],
+        "unmetRequirementIds": [],
+        "comparator": {
+          "costRank": 2,
+          "latencyRank": 2,
+          "qualityExcess": 0,
+          "reasoningExcess": 0,
+          "contextExcessBytes": 962976,
+          "toolExcess": 0,
+          "skillExcess": 0,
+          "effortRank": 2,
+          "canonicalIdentity": "[\"profile.codex.terra\",\"effort.high\"]"
+        },
+        "contentDigest": "sha256:728640a565418dbaf5401dfef815386031438d6f96328546c3669d5688f3cdfd"
+      },
+      {
+        "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "calibrationRowId": "row.terra.medium",
+        "profileId": "profile.codex.terra",
+        "effortId": "effort.medium",
+        "eligible": false,
+        "rejectionCodes": [
+          "reasoning_tier"
+        ],
+        "unmetRequirementIds": [
+          "reasoning:reasoning.high"
+        ],
+        "comparator": null,
+        "contentDigest": "sha256:75fe670b948dbc827e35a32f779d25d18c916a4f276bf47b1cd6436996a77be9"
+      }
+    ],
+    "search": {
+      "mode": "exact",
+      "claim": "exhaustive_assignment_vector_search",
+      "potentialVectors": 8,
+      "evaluatedVectors": 8,
+      "feasibleVectors": 8,
+      "contentDigest": "sha256:7458d19736e83289f641204fc2dfed721c22bb10cf957b52b8bcb91455cfaa3a"
+    },
+    "selected": {
+      "rows": [
+        {
+          "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+          "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+          "calibrationRowId": "row.luna.medium",
+          "profileId": "profile.codex.luna",
+          "effortId": "effort.medium",
+          "independenceDomain": "profile.codex.luna",
+          "requiredTools": [
+            "rg"
+          ],
+          "requiredSkills": [],
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write"
+          ],
+          "observability": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          }
+        },
+        {
+          "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+          "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+          "calibrationRowId": "row.terra.high",
+          "profileId": "profile.codex.terra",
+          "effortId": "effort.high",
+          "independenceDomain": "profile.codex.terra",
+          "requiredTools": [
+            "node",
+            "rg"
+          ],
+          "requiredSkills": [],
+          "requiredIsolationFeatures": [
+            "isolation.scoped-worktree"
+          ],
+          "requiredPermissionFeatures": [
+            "permission.filesystem.read",
+            "permission.filesystem.write",
+            "permission.process.spawn"
+          ],
+          "observability": {
+            "model": "observed",
+            "effort": "observed",
+            "tools": "observed",
+            "skills": "observed",
+            "isolation": "observed",
+            "permissions": "observed",
+            "workspace": "observed",
+            "context": "observed"
+          }
+        }
+      ],
+      "comparator": {
+        "totalCostRank": 2,
+        "maximumLatencyRank": 2,
+        "totalLatencyRank": 2,
+        "totalQualityExcess": 0,
+        "totalReasoningExcess": 0,
+        "totalContextExcessBytes": 1922290,
+        "totalToolExcess": 1,
+        "totalSkillExcess": 0,
+        "totalEffortRank": 3,
+        "canonicalIdentity": "[\"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228=profile.codex.luna/effort.medium\",\"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063=profile.codex.terra/effort.high\"]"
+      },
+      "selectionReason": "lowest_exact_vector",
+      "contentDigest": "sha256:f3d6c2b2d09bbd7cbeac994ec3c85c7c75134d590896107040af9628a048275f"
+    },
+    "predecessorAssignmentDigest": null,
+    "override": null,
+    "contentDigest": "sha256:79d960f5b41366f01ac762fe5b487cfd2947d8ac802b4e2b6116da7346e2e635"
+  },
+  "specialistRun": {
+    "apiVersion": "swecircuit/specialist-run/v1alpha1",
+    "kind": "SpecialistRunSession",
+    "goal": {
+      "id": "v14.dogfood.release-board",
+      "revision": 1,
+      "digest": "sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f",
+      "integrationOwner": "codex.main"
+    },
+    "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+    "packageDigest": "sha256:e6a44c03a2b826065b8dc60d64b2eb3900ceaef41bfdd0d7335ae99916d3a92c",
+    "selectedCandidateId": "team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a",
+    "package": {
+      "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+      "packageDigest": "sha256:e6a44c03a2b826065b8dc60d64b2eb3900ceaef41bfdd0d7335ae99916d3a92c",
+      "manifest": {
+        "apiVersion": "swecircuit/specialist/v1alpha1",
+        "kind": "SpecialistPackageManifest",
+        "goalId": "v14.dogfood.release-board",
+        "goalRevision": 1,
+        "fileDigestAlgorithm": "sha256",
+        "fileDigestScope": "raw-file-bytes",
+        "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+        "selectedCandidateId": "team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a",
+        "launchWaves": [
+          {
+            "start": 0,
+            "agentIds": [
+              "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+              "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063"
+            ]
+          }
+        ],
+        "compilationFile": "compilation.json",
+        "compilationFileDigest": "sha256:0733a43dd7122badddb1b5cb63ed714d0513c418596d56c4c9d4192f25209a5c",
+        "compilationFileBytes": 45256,
+        "agents": [
+          {
+            "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+            "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+            "contractFile": "agents/agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228.md",
+            "contractDigest": "sha256:26212b0eb9373560e8cf851a586bac8642ebaa80dd0bbdbdec0cf74877d6c8bf",
+            "contractBytes": 9719
+          },
+          {
+            "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+            "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+            "contractFile": "agents/agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063.md",
+            "contractDigest": "sha256:0a694841df21d69a5346bbd2646917c8f3f15b185bdd6e4c205ce6061d18252a",
+            "contractBytes": 11209
+          }
+        ],
+        "integrationFile": "integration.md",
+        "integrationDigest": "sha256:ad181bd04d255d37d048ecb393c2fbde2903ef521a3eeccb50ff3c647d17e694",
+        "integrationBytes": 3894,
+        "contentDigest": "sha256:652637aa158734df149063f3b789a31c61a00876fec53ddcfafed3a93af5f031"
+      },
+      "files": [
+        {
+          "path": "agents/agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228.md",
+          "mediaType": "text/markdown",
+          "bytes": 9719,
+          "digest": "sha256:26212b0eb9373560e8cf851a586bac8642ebaa80dd0bbdbdec0cf74877d6c8bf",
+          "content": "# Specialist Contract: agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\n\nCompilation: `sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e`\nBlueprint: `sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76`\n\nThis is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.\n\n## Operating Rules\n\n1. Verify every delivered context item against its declared raw SHA-256 digest and byte count before using it.\n2. Work only on the listed work units, Modules, scopes, capabilities, and permissions.\n3. Respect agent dependencies and stop when a stop condition or undeclared decision is reached.\n4. Produce every assigned evidence duty and every required handoff field.\n5. Report assumptions, risks, failed attempts, and follow-up work; do not silently expand scope.\n\nManifest file digests use standard SHA-256 over the exact file bytes. Compilation, blueprint, manifest, and package identities are SWECircuit domain-separated digests and must be verified through the package verifier or another implementation of the published contract.\n\n## Blueprint\n\n```json\n{\n  \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n  \"kind\": \"AgentBlueprint\",\n  \"id\": \"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\",\n  \"goalId\": \"v14.dogfood.release-board\",\n  \"goalRevision\": 1,\n  \"goalDigest\": \"sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f\",\n  \"candidateId\": \"team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a\",\n  \"workUnitIds\": [\n    \"implement.release-board-interface\"\n  ],\n  \"objectives\": [\n    {\n      \"workUnitId\": \"implement.release-board-interface\",\n      \"objective\": \"Implement the complete semantic and responsive Release Board HTML and CSS interface without application state.\"\n    }\n  ],\n  \"modules\": [\n    {\n      \"id\": \"implement.release-board-interface\",\n      \"action\": \"Create the required form, summary, filters, list, template, live region, responsive layout, and visible focus states.\",\n      \"inputPorts\": [\n        {\n          \"name\": \"contract\",\n          \"artifactType\": \"ReleaseBoardContract\"\n        }\n      ],\n      \"outputPorts\": [\n        {\n          \"name\": \"implementation\",\n          \"artifactType\": \"release-board-interface-handoff.md\"\n        }\n      ]\n    }\n  ],\n  \"dependencies\": [],\n  \"contextUses\": [\n    {\n      \"sourceId\": \"context.agent-contract\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:AGENTS.md\",\n      \"digest\": \"sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9\",\n      \"bytes\": 16695,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-interface\"\n      ],\n      \"readScope\": \"AGENTS.md\"\n    },\n    {\n      \"sourceId\": \"context.app-contract\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n      \"digest\": \"sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50\",\n      \"bytes\": 2437,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-interface\"\n      ],\n      \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\"\n    },\n    {\n      \"sourceId\": \"context.goal\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n      \"digest\": \"sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777\",\n      \"bytes\": 1610,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-interface\"\n      ],\n      \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\"\n    },\n    {\n      \"sourceId\": \"context.interface-pattern\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:examples/triage-board/index.html\",\n      \"digest\": \"sha256:ed5b1954785578b744f6782f7586553f5d9b6bcebfa93abee395a9a33b3da1ce\",\n      \"bytes\": 7712,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-interface\"\n      ],\n      \"readScope\": \"examples/triage-board/index.html\"\n    },\n    {\n      \"sourceId\": \"context.style-pattern\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:examples/triage-board/styles.css\",\n      \"digest\": \"sha256:c3bce35a60880b228b2ef2ab19ac9c7c7e21da50d6d8372e1b8810a3548adadc\",\n      \"bytes\": 12232,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-interface\"\n      ],\n      \"readScope\": \"examples/triage-board/styles.css\"\n    }\n  ],\n  \"authority\": {\n    \"requiredCapabilities\": [\n      \"implement.release-board-interface\"\n    ],\n    \"scope\": {\n      \"read\": [\n        \"AGENTS.md\",\n        \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n        \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n        \"examples/triage-board/index.html\",\n        \"examples/triage-board/styles.css\"\n      ],\n      \"write\": [\n        \"examples/release-board/index.html\",\n        \"examples/release-board/styles.css\"\n      ],\n      \"conflictZones\": []\n    },\n    \"permissions\": [\n      {\n        \"kind\": \"filesystem.read\",\n        \"scopes\": [\n          \"AGENTS.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n          \"examples/triage-board/index.html\",\n          \"examples/triage-board/styles.css\"\n        ]\n      },\n      {\n        \"kind\": \"filesystem.write\",\n        \"scopes\": [\n          \"examples/release-board/index.html\",\n          \"examples/release-board/styles.css\"\n        ]\n      }\n    ],\n    \"forbiddenEffects\": [\n      \"Do not access the network, secrets, external services, or undeclared repository paths.\",\n      \"Do not install dependencies, mutate Git, launch descendants, integrate, merge, or update memory.\"\n    ]\n  },\n  \"evidenceDuties\": [\n    {\n      \"criterionId\": \"criterion.interface\",\n      \"criterion\": \"A semantic responsive interface exposes every required control, state region, focus treatment, and integration hook without application state.\",\n      \"requirementId\": \"evidence.interface.artifact\",\n      \"kind\": \"artifact\",\n      \"duty\": \"produce\",\n      \"description\": \"Produce the complete static HTML and CSS interface module.\",\n      \"independentFromProducer\": false\n    }\n  ],\n  \"handoff\": {\n    \"destination\": \"codex.main\",\n    \"artifacts\": [\n      \"release-board-interface-handoff.md\"\n    ],\n    \"requiredFields\": [\n      \"apiVersion\",\n      \"kind\",\n      \"outcome\",\n      \"destination\",\n      \"goal\",\n      \"agent\",\n      \"compilationDigest\",\n      \"summary\",\n      \"workUnitsCompleted\",\n      \"artifacts\",\n      \"evidence\",\n      \"assumptions\",\n      \"risks\",\n      \"followUps\"\n    ]\n  },\n  \"stopConditions\": [\n    \"Do not access the network, install dependencies, mutate Git, merge, or update memory.\",\n    \"Do not claim browser behavior that was not observed.\",\n    \"Do not modify files outside the declared write scope.\",\n    \"Return non-pass when the assigned artifact cannot be produced and verified.\",\n    \"Stop if the product goal conflicts with the application contract.\"\n  ],\n  \"contentDigest\": \"sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76\"\n}\n```\n\n## Required Handoff Envelope\n\nReturn one strict UTF-8 JSON object with exactly the shape below. Replace the summary and artifact content, but do not add keys or substitute the blueprint evidence-duty shape.\n\n- Artifact content is always a string, including for application/json.\n- Evidence entries contain exactly criterionId, requirementId, kind, duty, status, and artifact.\n- A pass must list every owned work unit, exact artifact name, and exact evidence duty. A non-pass outcome lists only work actually completed and preserves bounded failure evidence.\n- If a stop condition explicitly requires a stricter custom envelope, the host must provide that closed schema; it must retain the standard goal, agent, compilation, artifact, evidence, and outcome bindings shown here.\n\n```json\n{\n  \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n  \"kind\": \"SpecialistAgentHandoff\",\n  \"outcome\": \"pass\",\n  \"destination\": \"codex.main\",\n  \"goal\": {\n    \"id\": \"v14.dogfood.release-board\",\n    \"revision\": 1,\n    \"digest\": \"sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f\"\n  },\n  \"agent\": {\n    \"id\": \"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\",\n    \"blueprintDigest\": \"sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76\"\n  },\n  \"compilationDigest\": \"sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e\",\n  \"summary\": \"Replace with a concise result summary.\",\n  \"workUnitsCompleted\": [\n    \"implement.release-board-interface\"\n  ],\n  \"artifacts\": [\n    {\n      \"name\": \"release-board-interface-handoff.md\",\n      \"mediaType\": \"text/markdown\",\n      \"content\": \"Replace with the complete artifact content.\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"criterionId\": \"criterion.interface\",\n      \"requirementId\": \"evidence.interface.artifact\",\n      \"kind\": \"artifact\",\n      \"duty\": \"produce\",\n      \"status\": \"pass\",\n      \"artifact\": \"release-board-interface-handoff.md\"\n    }\n  ],\n  \"assumptions\": [],\n  \"risks\": [],\n  \"followUps\": []\n}\n```\n"
+        },
+        {
+          "path": "agents/agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063.md",
+          "mediaType": "text/markdown",
+          "bytes": 11209,
+          "digest": "sha256:0a694841df21d69a5346bbd2646917c8f3f15b185bdd6e4c205ce6061d18252a",
+          "content": "# Specialist Contract: agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\n\nCompilation: `sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e`\nBlueprint: `sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6`\n\nThis is the exact provider-neutral task contract approved for this specialist. A host may translate it into runtime-specific instructions, but it must not widen authority, add work, omit evidence, or change the handoff.\n\n## Operating Rules\n\n1. Verify every delivered context item against its declared raw SHA-256 digest and byte count before using it.\n2. Work only on the listed work units, Modules, scopes, capabilities, and permissions.\n3. Respect agent dependencies and stop when a stop condition or undeclared decision is reached.\n4. Produce every assigned evidence duty and every required handoff field.\n5. Report assumptions, risks, failed attempts, and follow-up work; do not silently expand scope.\n\nManifest file digests use standard SHA-256 over the exact file bytes. Compilation, blueprint, manifest, and package identities are SWECircuit domain-separated digests and must be verified through the package verifier or another implementation of the published contract.\n\n## Blueprint\n\n```json\n{\n  \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n  \"kind\": \"AgentBlueprint\",\n  \"id\": \"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\",\n  \"goalId\": \"v14.dogfood.release-board\",\n  \"goalRevision\": 1,\n  \"goalDigest\": \"sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f\",\n  \"candidateId\": \"team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a\",\n  \"workUnitIds\": [\n    \"implement.release-board-domain\"\n  ],\n  \"objectives\": [\n    {\n      \"workUnitId\": \"implement.release-board-domain\",\n      \"objective\": \"Implement pure immutable release-check operations, safe versioned serialization, and deterministic Node tests.\"\n    }\n  ],\n  \"modules\": [\n    {\n      \"id\": \"implement.release-board-domain\",\n      \"action\": \"Implement the exact check shape, closed filters, readiness summary, immutable transitions, and fail-safe storage parsing.\",\n      \"inputPorts\": [\n        {\n          \"name\": \"contract\",\n          \"artifactType\": \"ReleaseBoardContract\"\n        }\n      ],\n      \"outputPorts\": [\n        {\n          \"name\": \"implementation\",\n          \"artifactType\": \"release-board-domain-handoff.md\"\n        }\n      ]\n    }\n  ],\n  \"dependencies\": [],\n  \"contextUses\": [\n    {\n      \"sourceId\": \"context.agent-contract\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:AGENTS.md\",\n      \"digest\": \"sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9\",\n      \"bytes\": 16695,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-domain\"\n      ],\n      \"readScope\": \"AGENTS.md\"\n    },\n    {\n      \"sourceId\": \"context.app-contract\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n      \"digest\": \"sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50\",\n      \"bytes\": 2437,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-domain\"\n      ],\n      \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\"\n    },\n    {\n      \"sourceId\": \"context.domain-pattern\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:examples/triage-board/src/model.js\",\n      \"digest\": \"sha256:f9f7bb99b2ba27ef64bd28d88b4465c2852a4aeb6a7e0a8b7375222843fac59f\",\n      \"bytes\": 8237,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-domain\"\n      ],\n      \"readScope\": \"examples/triage-board/src/model.js\"\n    },\n    {\n      \"sourceId\": \"context.domain-test-pattern\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:examples/triage-board/test/model.test.mjs\",\n      \"digest\": \"sha256:fcd4b3cbf7603b03d703fe4b3dc55f657189fd48ce76b4ee834feb35492a3b46\",\n      \"bytes\": 5487,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-domain\"\n      ],\n      \"readScope\": \"examples/triage-board/test/model.test.mjs\"\n    },\n    {\n      \"sourceId\": \"context.goal\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n      \"digest\": \"sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777\",\n      \"bytes\": 1610,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-domain\"\n      ],\n      \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\"\n    },\n    {\n      \"sourceId\": \"context.storage-pattern\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:examples/triage-board/src/storage.js\",\n      \"digest\": \"sha256:948a6758beea65b6f5a4f0c42a786b5f4e147d63478f146bd6f14635376634a8\",\n      \"bytes\": 769,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-domain\"\n      ],\n      \"readScope\": \"examples/triage-board/src/storage.js\"\n    },\n    {\n      \"sourceId\": \"context.storage-test-pattern\",\n      \"kind\": \"repository\",\n      \"locator\": \"path:examples/triage-board/test/storage.test.mjs\",\n      \"digest\": \"sha256:a57a8e6d4093e38baa1fbad34868639934dc79351380ef910a85faf0c1a80c59\",\n      \"bytes\": 1789,\n      \"purposes\": [\n        \"Produce one disjoint Release Board module.\"\n      ],\n      \"workUnitIds\": [\n        \"implement.release-board-domain\"\n      ],\n      \"readScope\": \"examples/triage-board/test/storage.test.mjs\"\n    }\n  ],\n  \"authority\": {\n    \"requiredCapabilities\": [\n      \"implement.release-board-domain\"\n    ],\n    \"scope\": {\n      \"read\": [\n        \"AGENTS.md\",\n        \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n        \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n        \"examples/triage-board/src/model.js\",\n        \"examples/triage-board/src/storage.js\",\n        \"examples/triage-board/test/model.test.mjs\",\n        \"examples/triage-board/test/storage.test.mjs\"\n      ],\n      \"write\": [\n        \"examples/release-board/src/model.js\",\n        \"examples/release-board/src/storage.js\",\n        \"examples/release-board/test/model.test.mjs\",\n        \"examples/release-board/test/storage.test.mjs\"\n      ],\n      \"conflictZones\": []\n    },\n    \"permissions\": [\n      {\n        \"kind\": \"filesystem.read\",\n        \"scopes\": [\n          \"AGENTS.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n          \"examples/triage-board/src/model.js\",\n          \"examples/triage-board/src/storage.js\",\n          \"examples/triage-board/test/model.test.mjs\",\n          \"examples/triage-board/test/storage.test.mjs\"\n        ]\n      },\n      {\n        \"kind\": \"filesystem.write\",\n        \"scopes\": [\n          \"examples/release-board/src/model.js\",\n          \"examples/release-board/src/storage.js\",\n          \"examples/release-board/test/model.test.mjs\",\n          \"examples/release-board/test/storage.test.mjs\"\n        ]\n      },\n      {\n        \"kind\": \"process.spawn\",\n        \"scopes\": [\n          \"node\"\n        ]\n      }\n    ],\n    \"forbiddenEffects\": [\n      \"Do not access the network, secrets, external services, or undeclared repository paths.\",\n      \"Do not install dependencies, mutate Git, launch descendants, integrate, merge, or update memory.\"\n    ]\n  },\n  \"evidenceDuties\": [\n    {\n      \"criterionId\": \"criterion.domain\",\n      \"criterion\": \"Pure immutable domain and versioned storage operations satisfy the closed check, filter, summary, and invalid-data contract.\",\n      \"requirementId\": \"evidence.domain.tests\",\n      \"kind\": \"test\",\n      \"duty\": \"produce\",\n      \"description\": \"Produce passing deterministic Node tests with the domain and storage modules.\",\n      \"independentFromProducer\": false\n    }\n  ],\n  \"handoff\": {\n    \"destination\": \"codex.main\",\n    \"artifacts\": [\n      \"release-board-domain-handoff.md\"\n    ],\n    \"requiredFields\": [\n      \"apiVersion\",\n      \"kind\",\n      \"outcome\",\n      \"destination\",\n      \"goal\",\n      \"agent\",\n      \"compilationDigest\",\n      \"summary\",\n      \"workUnitsCompleted\",\n      \"artifacts\",\n      \"evidence\",\n      \"assumptions\",\n      \"risks\",\n      \"followUps\"\n    ]\n  },\n  \"stopConditions\": [\n    \"Do not access the network, install dependencies, mutate Git, merge, or update memory.\",\n    \"Do not claim browser behavior that was not observed.\",\n    \"Do not modify files outside the declared write scope.\",\n    \"Return non-pass when the assigned artifact cannot be produced and verified.\",\n    \"Stop if the product goal conflicts with the application contract.\"\n  ],\n  \"contentDigest\": \"sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6\"\n}\n```\n\n## Required Handoff Envelope\n\nReturn one strict UTF-8 JSON object with exactly the shape below. Replace the summary and artifact content, but do not add keys or substitute the blueprint evidence-duty shape.\n\n- Artifact content is always a string, including for application/json.\n- Evidence entries contain exactly criterionId, requirementId, kind, duty, status, and artifact.\n- A pass must list every owned work unit, exact artifact name, and exact evidence duty. A non-pass outcome lists only work actually completed and preserves bounded failure evidence.\n- If a stop condition explicitly requires a stricter custom envelope, the host must provide that closed schema; it must retain the standard goal, agent, compilation, artifact, evidence, and outcome bindings shown here.\n\n```json\n{\n  \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n  \"kind\": \"SpecialistAgentHandoff\",\n  \"outcome\": \"pass\",\n  \"destination\": \"codex.main\",\n  \"goal\": {\n    \"id\": \"v14.dogfood.release-board\",\n    \"revision\": 1,\n    \"digest\": \"sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f\"\n  },\n  \"agent\": {\n    \"id\": \"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\",\n    \"blueprintDigest\": \"sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6\"\n  },\n  \"compilationDigest\": \"sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e\",\n  \"summary\": \"Replace with a concise result summary.\",\n  \"workUnitsCompleted\": [\n    \"implement.release-board-domain\"\n  ],\n  \"artifacts\": [\n    {\n      \"name\": \"release-board-domain-handoff.md\",\n      \"mediaType\": \"text/markdown\",\n      \"content\": \"Replace with the complete artifact content.\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"criterionId\": \"criterion.domain\",\n      \"requirementId\": \"evidence.domain.tests\",\n      \"kind\": \"test\",\n      \"duty\": \"produce\",\n      \"status\": \"pass\",\n      \"artifact\": \"release-board-domain-handoff.md\"\n    }\n  ],\n  \"assumptions\": [],\n  \"risks\": [],\n  \"followUps\": []\n}\n```\n"
+        },
+        {
+          "path": "compilation.json",
+          "mediaType": "application/json",
+          "bytes": 45256,
+          "digest": "sha256:0733a43dd7122badddb1b5cb63ed714d0513c418596d56c4c9d4192f25209a5c",
+          "content": "{\n  \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n  \"kind\": \"AgentBlueprintCompilation\",\n  \"goal\": {\n    \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n    \"kind\": \"GoalContract\",\n    \"id\": \"v14.dogfood.release-board\",\n    \"revision\": 1,\n    \"objective\": \"Build the independent domain and semantic interface modules for a small dependency-free Release Board application, then hand them to one IDE integration owner.\",\n    \"integrationOwner\": \"codex.main\",\n    \"assumptions\": [\n      {\n        \"id\": \"assumption.integration-owner\",\n        \"statement\": \"The main IDE agent owns event wiring, final verification, browser inspection, and review routing after both roots pass.\",\n        \"rationale\": \"The two roots have disjoint writes and the small goal does not justify another implementation specialist.\"\n      },\n      {\n        \"id\": \"assumption.product-choice\",\n        \"statement\": \"Release Board is the low-risk small application chosen to validate the V14 orchestration alpha.\",\n        \"rationale\": \"The owner requested a small application dogfood but did not prescribe a product.\"\n      }\n    ],\n    \"unresolvedDecisions\": [],\n    \"acceptanceCriteria\": [\n      {\n        \"id\": \"criterion.domain\",\n        \"description\": \"Pure immutable domain and versioned storage operations satisfy the closed check, filter, summary, and invalid-data contract.\",\n        \"evidenceRequirements\": [\n          {\n            \"id\": \"evidence.domain.tests\",\n            \"kind\": \"test\",\n            \"duty\": \"produce\",\n            \"description\": \"Produce passing deterministic Node tests with the domain and storage modules.\",\n            \"independentFromProducer\": false\n          }\n        ]\n      },\n      {\n        \"id\": \"criterion.interface\",\n        \"description\": \"A semantic responsive interface exposes every required control, state region, focus treatment, and integration hook without application state.\",\n        \"evidenceRequirements\": [\n          {\n            \"id\": \"evidence.interface.artifact\",\n            \"kind\": \"artifact\",\n            \"duty\": \"produce\",\n            \"description\": \"Produce the complete static HTML and CSS interface module.\",\n            \"independentFromProducer\": false\n          }\n        ]\n      }\n    ],\n    \"contextSources\": [\n      {\n        \"id\": \"context.agent-contract\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:AGENTS.md\",\n        \"digest\": \"sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9\",\n        \"bytes\": 16695,\n        \"description\": \"Repository operating and handoff invariants.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\",\n          \"implement.release-board-interface\"\n        ],\n        \"readScope\": \"AGENTS.md\"\n      },\n      {\n        \"id\": \"context.app-contract\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n        \"digest\": \"sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50\",\n        \"bytes\": 2437,\n        \"description\": \"Closed module and integration contract.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\",\n          \"implement.release-board-interface\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\"\n      },\n      {\n        \"id\": \"context.domain-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/src/model.js\",\n        \"digest\": \"sha256:f9f7bb99b2ba27ef64bd28d88b4465c2852a4aeb6a7e0a8b7375222843fac59f\",\n        \"bytes\": 8237,\n        \"description\": \"Current dependency-free immutable domain pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\"\n        ],\n        \"readScope\": \"examples/triage-board/src/model.js\"\n      },\n      {\n        \"id\": \"context.domain-test-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/test/model.test.mjs\",\n        \"digest\": \"sha256:fcd4b3cbf7603b03d703fe4b3dc55f657189fd48ce76b4ee834feb35492a3b46\",\n        \"bytes\": 5487,\n        \"description\": \"Current Node domain-test pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\"\n        ],\n        \"readScope\": \"examples/triage-board/test/model.test.mjs\"\n      },\n      {\n        \"id\": \"context.goal\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n        \"digest\": \"sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777\",\n        \"bytes\": 1610,\n        \"description\": \"Closed product goal and acceptance criteria.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\",\n          \"implement.release-board-interface\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\"\n      },\n      {\n        \"id\": \"context.interface-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/index.html\",\n        \"digest\": \"sha256:ed5b1954785578b744f6782f7586553f5d9b6bcebfa93abee395a9a33b3da1ce\",\n        \"bytes\": 7712,\n        \"description\": \"Current semantic static-app interface pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-interface\"\n        ],\n        \"readScope\": \"examples/triage-board/index.html\"\n      },\n      {\n        \"id\": \"context.storage-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/src/storage.js\",\n        \"digest\": \"sha256:948a6758beea65b6f5a4f0c42a786b5f4e147d63478f146bd6f14635376634a8\",\n        \"bytes\": 769,\n        \"description\": \"Current pure local-storage serialization pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\"\n        ],\n        \"readScope\": \"examples/triage-board/src/storage.js\"\n      },\n      {\n        \"id\": \"context.storage-test-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/test/storage.test.mjs\",\n        \"digest\": \"sha256:a57a8e6d4093e38baa1fbad34868639934dc79351380ef910a85faf0c1a80c59\",\n        \"bytes\": 1789,\n        \"description\": \"Current Node storage-test pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\"\n        ],\n        \"readScope\": \"examples/triage-board/test/storage.test.mjs\"\n      },\n      {\n        \"id\": \"context.style-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/styles.css\",\n        \"digest\": \"sha256:c3bce35a60880b228b2ef2ab19ac9c7c7e21da50d6d8372e1b8810a3548adadc\",\n        \"bytes\": 12232,\n        \"description\": \"Current responsive operational-app styling pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-interface\"\n        ],\n        \"readScope\": \"examples/triage-board/styles.css\"\n      }\n    ],\n    \"authority\": {\n      \"allowedModules\": [\n        \"implement.release-board-domain\",\n        \"implement.release-board-interface\"\n      ],\n      \"allowedCapabilities\": [\n        \"implement.release-board-domain\",\n        \"implement.release-board-interface\"\n      ],\n      \"permissionCeiling\": [\n        {\n          \"kind\": \"filesystem.read\",\n          \"scopes\": [\n            \"AGENTS.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n            \"examples/release-board/index.html\",\n            \"examples/release-board/src/model.js\",\n            \"examples/release-board/src/storage.js\",\n            \"examples/release-board/styles.css\",\n            \"examples/release-board/test/model.test.mjs\",\n            \"examples/release-board/test/storage.test.mjs\",\n            \"examples/triage-board/index.html\",\n            \"examples/triage-board/src/model.js\",\n            \"examples/triage-board/src/storage.js\",\n            \"examples/triage-board/styles.css\",\n            \"examples/triage-board/test/model.test.mjs\",\n            \"examples/triage-board/test/storage.test.mjs\"\n          ]\n        },\n        {\n          \"kind\": \"filesystem.write\",\n          \"scopes\": [\n            \"examples/release-board/index.html\",\n            \"examples/release-board/src/model.js\",\n            \"examples/release-board/src/storage.js\",\n            \"examples/release-board/styles.css\",\n            \"examples/release-board/test/model.test.mjs\",\n            \"examples/release-board/test/storage.test.mjs\"\n          ]\n        },\n        {\n          \"kind\": \"process.spawn\",\n          \"scopes\": [\n            \"node\"\n          ]\n        }\n      ],\n      \"forbiddenEffects\": [\n        \"Do not access the network, secrets, external services, or undeclared repository paths.\",\n        \"Do not install dependencies, mutate Git, launch descendants, integrate, merge, or update memory.\"\n      ],\n      \"maxAgents\": 2,\n      \"maxConcurrency\": 2\n    },\n    \"optimization\": {\n      \"agentStartupCost\": 1,\n      \"handoffCost\": 1\n    },\n    \"workUnits\": [\n      {\n        \"id\": \"implement.release-board-domain\",\n        \"objective\": \"Implement pure immutable release-check operations, safe versioned serialization, and deterministic Node tests.\",\n        \"weight\": 6,\n        \"module\": {\n          \"id\": \"implement.release-board-domain\",\n          \"action\": \"Implement the exact check shape, closed filters, readiness summary, immutable transitions, and fail-safe storage parsing.\",\n          \"inputPorts\": [\n            {\n              \"name\": \"contract\",\n              \"artifactType\": \"ReleaseBoardContract\"\n            }\n          ],\n          \"outputPorts\": [\n            {\n              \"name\": \"implementation\",\n              \"artifactType\": \"release-board-domain-handoff.md\"\n            }\n          ]\n        },\n        \"dependencies\": [],\n        \"requiredCapabilities\": [\n          \"implement.release-board-domain\"\n        ],\n        \"contextUses\": [\n          {\n            \"sourceId\": \"context.agent-contract\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          },\n          {\n            \"sourceId\": \"context.app-contract\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          },\n          {\n            \"sourceId\": \"context.domain-pattern\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          },\n          {\n            \"sourceId\": \"context.domain-test-pattern\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          },\n          {\n            \"sourceId\": \"context.goal\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          },\n          {\n            \"sourceId\": \"context.storage-pattern\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          },\n          {\n            \"sourceId\": \"context.storage-test-pattern\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          }\n        ],\n        \"scope\": {\n          \"read\": [\n            \"AGENTS.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n            \"examples/triage-board/src/model.js\",\n            \"examples/triage-board/src/storage.js\",\n            \"examples/triage-board/test/model.test.mjs\",\n            \"examples/triage-board/test/storage.test.mjs\"\n          ],\n          \"write\": [\n            \"examples/release-board/src/model.js\",\n            \"examples/release-board/src/storage.js\",\n            \"examples/release-board/test/model.test.mjs\",\n            \"examples/release-board/test/storage.test.mjs\"\n          ],\n          \"conflictZones\": []\n        },\n        \"permissions\": [\n          {\n            \"kind\": \"filesystem.read\",\n            \"scopes\": [\n              \"AGENTS.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n              \"examples/triage-board/src/model.js\",\n              \"examples/triage-board/src/storage.js\",\n              \"examples/triage-board/test/model.test.mjs\",\n              \"examples/triage-board/test/storage.test.mjs\"\n            ]\n          },\n          {\n            \"kind\": \"filesystem.write\",\n            \"scopes\": [\n              \"examples/release-board/src/model.js\",\n              \"examples/release-board/src/storage.js\",\n              \"examples/release-board/test/model.test.mjs\",\n              \"examples/release-board/test/storage.test.mjs\"\n            ]\n          },\n          {\n            \"kind\": \"process.spawn\",\n            \"scopes\": [\n              \"node\"\n            ]\n          }\n        ],\n        \"evidenceRequirementIds\": [\n          \"evidence.domain.tests\"\n        ],\n        \"handoffArtifacts\": [\n          \"release-board-domain-handoff.md\"\n        ],\n        \"stopConditions\": [\n          \"Do not access the network, install dependencies, mutate Git, merge, or update memory.\",\n          \"Do not claim browser behavior that was not observed.\",\n          \"Do not modify files outside the declared write scope.\",\n          \"Return non-pass when the assigned artifact cannot be produced and verified.\",\n          \"Stop if the product goal conflicts with the application contract.\"\n        ]\n      },\n      {\n        \"id\": \"implement.release-board-interface\",\n        \"objective\": \"Implement the complete semantic and responsive Release Board HTML and CSS interface without application state.\",\n        \"weight\": 5,\n        \"module\": {\n          \"id\": \"implement.release-board-interface\",\n          \"action\": \"Create the required form, summary, filters, list, template, live region, responsive layout, and visible focus states.\",\n          \"inputPorts\": [\n            {\n              \"name\": \"contract\",\n              \"artifactType\": \"ReleaseBoardContract\"\n            }\n          ],\n          \"outputPorts\": [\n            {\n              \"name\": \"implementation\",\n              \"artifactType\": \"release-board-interface-handoff.md\"\n            }\n          ]\n        },\n        \"dependencies\": [],\n        \"requiredCapabilities\": [\n          \"implement.release-board-interface\"\n        ],\n        \"contextUses\": [\n          {\n            \"sourceId\": \"context.agent-contract\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          },\n          {\n            \"sourceId\": \"context.app-contract\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          },\n          {\n            \"sourceId\": \"context.goal\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          },\n          {\n            \"sourceId\": \"context.interface-pattern\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          },\n          {\n            \"sourceId\": \"context.style-pattern\",\n            \"purpose\": \"Produce one disjoint Release Board module.\"\n          }\n        ],\n        \"scope\": {\n          \"read\": [\n            \"AGENTS.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n            \"examples/triage-board/index.html\",\n            \"examples/triage-board/styles.css\"\n          ],\n          \"write\": [\n            \"examples/release-board/index.html\",\n            \"examples/release-board/styles.css\"\n          ],\n          \"conflictZones\": []\n        },\n        \"permissions\": [\n          {\n            \"kind\": \"filesystem.read\",\n            \"scopes\": [\n              \"AGENTS.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n              \"examples/triage-board/index.html\",\n              \"examples/triage-board/styles.css\"\n            ]\n          },\n          {\n            \"kind\": \"filesystem.write\",\n            \"scopes\": [\n              \"examples/release-board/index.html\",\n              \"examples/release-board/styles.css\"\n            ]\n          }\n        ],\n        \"evidenceRequirementIds\": [\n          \"evidence.interface.artifact\"\n        ],\n        \"handoffArtifacts\": [\n          \"release-board-interface-handoff.md\"\n        ],\n        \"stopConditions\": [\n          \"Do not access the network, install dependencies, mutate Git, merge, or update memory.\",\n          \"Do not claim browser behavior that was not observed.\",\n          \"Do not modify files outside the declared write scope.\",\n          \"Return non-pass when the assigned artifact cannot be produced and verified.\",\n          \"Stop if the product goal conflicts with the application contract.\"\n        ]\n      }\n    ]\n  },\n  \"goalDigest\": \"sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f\",\n  \"proposedCandidates\": [\n    {\n      \"id\": \"candidate.release-board.parallel-roots\",\n      \"groups\": [\n        [\n          \"implement.release-board-domain\"\n        ],\n        [\n          \"implement.release-board-interface\"\n        ]\n      ]\n    }\n  ],\n  \"proposalEvaluations\": [\n    {\n      \"id\": \"team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a\",\n      \"partition\": [\n        [\n          \"implement.release-board-domain\"\n        ],\n        [\n          \"implement.release-board-interface\"\n        ]\n      ],\n      \"origins\": [\n        \"exact_search\",\n        \"proposed\"\n      ],\n      \"proposalIds\": [\n        \"candidate.release-board.parallel-roots\"\n      ],\n      \"eligible\": true,\n      \"rejectionCodes\": [],\n      \"metrics\": {\n        \"agentCount\": 2,\n        \"projectedMakespan\": 7,\n        \"peakConcurrency\": 2,\n        \"conflictPairs\": 0,\n        \"handoffCount\": 0,\n        \"duplicatedContextBytes\": 20742,\n        \"duplicatedPermissionScopes\": 3,\n        \"totalWorkWeight\": 11,\n        \"totalStartupCost\": 2,\n        \"totalHandoffCost\": 0\n      },\n      \"schedule\": [\n        {\n          \"agentId\": \"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\",\n          \"start\": 0,\n          \"finish\": 6\n        },\n        {\n          \"agentId\": \"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\",\n          \"start\": 0,\n          \"finish\": 7\n        }\n      ],\n      \"contentDigest\": \"sha256:7298ee2364f0c00a729959cabed169d06d2ab7545a99eba651859d5e3104f66f\"\n    }\n  ],\n  \"authority\": {\n    \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n    \"kind\": \"TaskAuthorityProjection\",\n    \"goalId\": \"v14.dogfood.release-board\",\n    \"goalRevision\": 1,\n    \"allowedModules\": [\n      \"implement.release-board-domain\",\n      \"implement.release-board-interface\"\n    ],\n    \"allowedCapabilities\": [\n      \"implement.release-board-domain\",\n      \"implement.release-board-interface\"\n    ],\n    \"contextSources\": [\n      {\n        \"id\": \"context.agent-contract\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:AGENTS.md\",\n        \"digest\": \"sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9\",\n        \"bytes\": 16695,\n        \"description\": \"Repository operating and handoff invariants.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\",\n          \"implement.release-board-interface\"\n        ],\n        \"readScope\": \"AGENTS.md\"\n      },\n      {\n        \"id\": \"context.app-contract\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n        \"digest\": \"sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50\",\n        \"bytes\": 2437,\n        \"description\": \"Closed module and integration contract.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\",\n          \"implement.release-board-interface\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\"\n      },\n      {\n        \"id\": \"context.domain-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/src/model.js\",\n        \"digest\": \"sha256:f9f7bb99b2ba27ef64bd28d88b4465c2852a4aeb6a7e0a8b7375222843fac59f\",\n        \"bytes\": 8237,\n        \"description\": \"Current dependency-free immutable domain pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\"\n        ],\n        \"readScope\": \"examples/triage-board/src/model.js\"\n      },\n      {\n        \"id\": \"context.domain-test-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/test/model.test.mjs\",\n        \"digest\": \"sha256:fcd4b3cbf7603b03d703fe4b3dc55f657189fd48ce76b4ee834feb35492a3b46\",\n        \"bytes\": 5487,\n        \"description\": \"Current Node domain-test pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\"\n        ],\n        \"readScope\": \"examples/triage-board/test/model.test.mjs\"\n      },\n      {\n        \"id\": \"context.goal\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n        \"digest\": \"sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777\",\n        \"bytes\": 1610,\n        \"description\": \"Closed product goal and acceptance criteria.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\",\n          \"implement.release-board-interface\"\n        ],\n        \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\"\n      },\n      {\n        \"id\": \"context.interface-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/index.html\",\n        \"digest\": \"sha256:ed5b1954785578b744f6782f7586553f5d9b6bcebfa93abee395a9a33b3da1ce\",\n        \"bytes\": 7712,\n        \"description\": \"Current semantic static-app interface pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-interface\"\n        ],\n        \"readScope\": \"examples/triage-board/index.html\"\n      },\n      {\n        \"id\": \"context.storage-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/src/storage.js\",\n        \"digest\": \"sha256:948a6758beea65b6f5a4f0c42a786b5f4e147d63478f146bd6f14635376634a8\",\n        \"bytes\": 769,\n        \"description\": \"Current pure local-storage serialization pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\"\n        ],\n        \"readScope\": \"examples/triage-board/src/storage.js\"\n      },\n      {\n        \"id\": \"context.storage-test-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/test/storage.test.mjs\",\n        \"digest\": \"sha256:a57a8e6d4093e38baa1fbad34868639934dc79351380ef910a85faf0c1a80c59\",\n        \"bytes\": 1789,\n        \"description\": \"Current Node storage-test pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-domain\"\n        ],\n        \"readScope\": \"examples/triage-board/test/storage.test.mjs\"\n      },\n      {\n        \"id\": \"context.style-pattern\",\n        \"kind\": \"repository\",\n        \"locator\": \"path:examples/triage-board/styles.css\",\n        \"digest\": \"sha256:c3bce35a60880b228b2ef2ab19ac9c7c7e21da50d6d8372e1b8810a3548adadc\",\n        \"bytes\": 12232,\n        \"description\": \"Current responsive operational-app styling pattern.\",\n        \"allowedWorkUnits\": [\n          \"implement.release-board-interface\"\n        ],\n        \"readScope\": \"examples/triage-board/styles.css\"\n      }\n    ],\n    \"permissionCeiling\": [\n      {\n        \"kind\": \"filesystem.read\",\n        \"scopes\": [\n          \"AGENTS.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n          \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n          \"examples/release-board/index.html\",\n          \"examples/release-board/src/model.js\",\n          \"examples/release-board/src/storage.js\",\n          \"examples/release-board/styles.css\",\n          \"examples/release-board/test/model.test.mjs\",\n          \"examples/release-board/test/storage.test.mjs\",\n          \"examples/triage-board/index.html\",\n          \"examples/triage-board/src/model.js\",\n          \"examples/triage-board/src/storage.js\",\n          \"examples/triage-board/styles.css\",\n          \"examples/triage-board/test/model.test.mjs\",\n          \"examples/triage-board/test/storage.test.mjs\"\n        ]\n      },\n      {\n        \"kind\": \"filesystem.write\",\n        \"scopes\": [\n          \"examples/release-board/index.html\",\n          \"examples/release-board/src/model.js\",\n          \"examples/release-board/src/storage.js\",\n          \"examples/release-board/styles.css\",\n          \"examples/release-board/test/model.test.mjs\",\n          \"examples/release-board/test/storage.test.mjs\"\n        ]\n      },\n      {\n        \"kind\": \"process.spawn\",\n        \"scopes\": [\n          \"node\"\n        ]\n      }\n    ],\n    \"forbiddenEffects\": [\n      \"Do not access the network, secrets, external services, or undeclared repository paths.\",\n      \"Do not install dependencies, mutate Git, launch descendants, integrate, merge, or update memory.\"\n    ],\n    \"maxAgents\": 2,\n    \"maxConcurrency\": 2,\n    \"contentDigest\": \"sha256:167354003f7c8b56b471071c1abe8ee605fe9de872de2c8049a2785ec2360460\"\n  },\n  \"search\": {\n    \"mode\": \"exact\",\n    \"claim\": \"exhaustive_partition_search_fixed_scheduler\",\n    \"workUnitCount\": 2,\n    \"evaluatedCandidates\": 2,\n    \"eligibleCandidates\": 2,\n    \"retainedAlternatives\": 1,\n    \"evaluationSetDigest\": \"sha256:aa8a46ec3f147fcc373dc969d9933cdea51768d641c934925205284a782f4d44\"\n  },\n  \"serialBaseline\": {\n    \"id\": \"team.9b0ef6211dc14d9f95126f70e5ca9c35029589f697a3dae1cbe883b5ad46e97c\",\n    \"partition\": [\n      [\n        \"implement.release-board-domain\",\n        \"implement.release-board-interface\"\n      ]\n    ],\n    \"origins\": [\n      \"serial_baseline\",\n      \"exact_search\"\n    ],\n    \"proposalIds\": [],\n    \"eligible\": true,\n    \"rejectionCodes\": [],\n    \"metrics\": {\n      \"agentCount\": 1,\n      \"projectedMakespan\": 12,\n      \"peakConcurrency\": 1,\n      \"conflictPairs\": 0,\n      \"handoffCount\": 0,\n      \"duplicatedContextBytes\": 0,\n      \"duplicatedPermissionScopes\": 0,\n      \"totalWorkWeight\": 11,\n      \"totalStartupCost\": 1,\n      \"totalHandoffCost\": 0\n    },\n    \"schedule\": [\n      {\n        \"agentId\": \"agent.e5562321d325fe402f5cf6a86d1b3d0dbef19cf0e11960ee03e2cd0e4e18245e\",\n        \"start\": 0,\n        \"finish\": 12\n      }\n    ],\n    \"contentDigest\": \"sha256:099346878b18855b2bf61b3d63fb4b873042c249e74ed20f513e2c63fc2c3bf8\"\n  },\n  \"selected\": {\n    \"id\": \"team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a\",\n    \"partition\": [\n      [\n        \"implement.release-board-domain\"\n      ],\n      [\n        \"implement.release-board-interface\"\n      ]\n    ],\n    \"origins\": [\n      \"exact_search\",\n      \"proposed\"\n    ],\n    \"proposalIds\": [\n      \"candidate.release-board.parallel-roots\"\n    ],\n    \"eligible\": true,\n    \"rejectionCodes\": [],\n    \"metrics\": {\n      \"agentCount\": 2,\n      \"projectedMakespan\": 7,\n      \"peakConcurrency\": 2,\n      \"conflictPairs\": 0,\n      \"handoffCount\": 0,\n      \"duplicatedContextBytes\": 20742,\n      \"duplicatedPermissionScopes\": 3,\n      \"totalWorkWeight\": 11,\n      \"totalStartupCost\": 2,\n      \"totalHandoffCost\": 0\n    },\n    \"schedule\": [\n      {\n        \"agentId\": \"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\",\n        \"start\": 0,\n        \"finish\": 6\n      },\n      {\n        \"agentId\": \"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\",\n        \"start\": 0,\n        \"finish\": 7\n      }\n    ],\n    \"contentDigest\": \"sha256:7298ee2364f0c00a729959cabed169d06d2ab7545a99eba651859d5e3104f66f\"\n  },\n  \"selectionReason\": {\n    \"kind\": \"lower_metric\",\n    \"decisiveField\": \"projectedMakespan\",\n    \"selectedValue\": 7,\n    \"serialValue\": 12,\n    \"serialRejectionCodes\": []\n  },\n  \"alternatives\": [\n    {\n      \"id\": \"team.9b0ef6211dc14d9f95126f70e5ca9c35029589f697a3dae1cbe883b5ad46e97c\",\n      \"partition\": [\n        [\n          \"implement.release-board-domain\",\n          \"implement.release-board-interface\"\n        ]\n      ],\n      \"origins\": [\n        \"serial_baseline\",\n        \"exact_search\"\n      ],\n      \"proposalIds\": [],\n      \"eligible\": true,\n      \"rejectionCodes\": [],\n      \"metrics\": {\n        \"agentCount\": 1,\n        \"projectedMakespan\": 12,\n        \"peakConcurrency\": 1,\n        \"conflictPairs\": 0,\n        \"handoffCount\": 0,\n        \"duplicatedContextBytes\": 0,\n        \"duplicatedPermissionScopes\": 0,\n        \"totalWorkWeight\": 11,\n        \"totalStartupCost\": 1,\n        \"totalHandoffCost\": 0\n      },\n      \"schedule\": [\n        {\n          \"agentId\": \"agent.e5562321d325fe402f5cf6a86d1b3d0dbef19cf0e11960ee03e2cd0e4e18245e\",\n          \"start\": 0,\n          \"finish\": 12\n        }\n      ],\n      \"contentDigest\": \"sha256:099346878b18855b2bf61b3d63fb4b873042c249e74ed20f513e2c63fc2c3bf8\"\n    }\n  ],\n  \"blueprints\": [\n    {\n      \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n      \"kind\": \"AgentBlueprint\",\n      \"id\": \"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\",\n      \"goalId\": \"v14.dogfood.release-board\",\n      \"goalRevision\": 1,\n      \"goalDigest\": \"sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f\",\n      \"candidateId\": \"team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a\",\n      \"workUnitIds\": [\n        \"implement.release-board-interface\"\n      ],\n      \"objectives\": [\n        {\n          \"workUnitId\": \"implement.release-board-interface\",\n          \"objective\": \"Implement the complete semantic and responsive Release Board HTML and CSS interface without application state.\"\n        }\n      ],\n      \"modules\": [\n        {\n          \"id\": \"implement.release-board-interface\",\n          \"action\": \"Create the required form, summary, filters, list, template, live region, responsive layout, and visible focus states.\",\n          \"inputPorts\": [\n            {\n              \"name\": \"contract\",\n              \"artifactType\": \"ReleaseBoardContract\"\n            }\n          ],\n          \"outputPorts\": [\n            {\n              \"name\": \"implementation\",\n              \"artifactType\": \"release-board-interface-handoff.md\"\n            }\n          ]\n        }\n      ],\n      \"dependencies\": [],\n      \"contextUses\": [\n        {\n          \"sourceId\": \"context.agent-contract\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:AGENTS.md\",\n          \"digest\": \"sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9\",\n          \"bytes\": 16695,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-interface\"\n          ],\n          \"readScope\": \"AGENTS.md\"\n        },\n        {\n          \"sourceId\": \"context.app-contract\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n          \"digest\": \"sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50\",\n          \"bytes\": 2437,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-interface\"\n          ],\n          \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\"\n        },\n        {\n          \"sourceId\": \"context.goal\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n          \"digest\": \"sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777\",\n          \"bytes\": 1610,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-interface\"\n          ],\n          \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\"\n        },\n        {\n          \"sourceId\": \"context.interface-pattern\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:examples/triage-board/index.html\",\n          \"digest\": \"sha256:ed5b1954785578b744f6782f7586553f5d9b6bcebfa93abee395a9a33b3da1ce\",\n          \"bytes\": 7712,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-interface\"\n          ],\n          \"readScope\": \"examples/triage-board/index.html\"\n        },\n        {\n          \"sourceId\": \"context.style-pattern\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:examples/triage-board/styles.css\",\n          \"digest\": \"sha256:c3bce35a60880b228b2ef2ab19ac9c7c7e21da50d6d8372e1b8810a3548adadc\",\n          \"bytes\": 12232,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-interface\"\n          ],\n          \"readScope\": \"examples/triage-board/styles.css\"\n        }\n      ],\n      \"authority\": {\n        \"requiredCapabilities\": [\n          \"implement.release-board-interface\"\n        ],\n        \"scope\": {\n          \"read\": [\n            \"AGENTS.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n            \"examples/triage-board/index.html\",\n            \"examples/triage-board/styles.css\"\n          ],\n          \"write\": [\n            \"examples/release-board/index.html\",\n            \"examples/release-board/styles.css\"\n          ],\n          \"conflictZones\": []\n        },\n        \"permissions\": [\n          {\n            \"kind\": \"filesystem.read\",\n            \"scopes\": [\n              \"AGENTS.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n              \"examples/triage-board/index.html\",\n              \"examples/triage-board/styles.css\"\n            ]\n          },\n          {\n            \"kind\": \"filesystem.write\",\n            \"scopes\": [\n              \"examples/release-board/index.html\",\n              \"examples/release-board/styles.css\"\n            ]\n          }\n        ],\n        \"forbiddenEffects\": [\n          \"Do not access the network, secrets, external services, or undeclared repository paths.\",\n          \"Do not install dependencies, mutate Git, launch descendants, integrate, merge, or update memory.\"\n        ]\n      },\n      \"evidenceDuties\": [\n        {\n          \"criterionId\": \"criterion.interface\",\n          \"criterion\": \"A semantic responsive interface exposes every required control, state region, focus treatment, and integration hook without application state.\",\n          \"requirementId\": \"evidence.interface.artifact\",\n          \"kind\": \"artifact\",\n          \"duty\": \"produce\",\n          \"description\": \"Produce the complete static HTML and CSS interface module.\",\n          \"independentFromProducer\": false\n        }\n      ],\n      \"handoff\": {\n        \"destination\": \"codex.main\",\n        \"artifacts\": [\n          \"release-board-interface-handoff.md\"\n        ],\n        \"requiredFields\": [\n          \"apiVersion\",\n          \"kind\",\n          \"outcome\",\n          \"destination\",\n          \"goal\",\n          \"agent\",\n          \"compilationDigest\",\n          \"summary\",\n          \"workUnitsCompleted\",\n          \"artifacts\",\n          \"evidence\",\n          \"assumptions\",\n          \"risks\",\n          \"followUps\"\n        ]\n      },\n      \"stopConditions\": [\n        \"Do not access the network, install dependencies, mutate Git, merge, or update memory.\",\n        \"Do not claim browser behavior that was not observed.\",\n        \"Do not modify files outside the declared write scope.\",\n        \"Return non-pass when the assigned artifact cannot be produced and verified.\",\n        \"Stop if the product goal conflicts with the application contract.\"\n      ],\n      \"contentDigest\": \"sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76\"\n    },\n    {\n      \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n      \"kind\": \"AgentBlueprint\",\n      \"id\": \"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\",\n      \"goalId\": \"v14.dogfood.release-board\",\n      \"goalRevision\": 1,\n      \"goalDigest\": \"sha256:17b787892abba5429003d87548bf40eb8715078f5636e55b46998d13cd959c0f\",\n      \"candidateId\": \"team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a\",\n      \"workUnitIds\": [\n        \"implement.release-board-domain\"\n      ],\n      \"objectives\": [\n        {\n          \"workUnitId\": \"implement.release-board-domain\",\n          \"objective\": \"Implement pure immutable release-check operations, safe versioned serialization, and deterministic Node tests.\"\n        }\n      ],\n      \"modules\": [\n        {\n          \"id\": \"implement.release-board-domain\",\n          \"action\": \"Implement the exact check shape, closed filters, readiness summary, immutable transitions, and fail-safe storage parsing.\",\n          \"inputPorts\": [\n            {\n              \"name\": \"contract\",\n              \"artifactType\": \"ReleaseBoardContract\"\n            }\n          ],\n          \"outputPorts\": [\n            {\n              \"name\": \"implementation\",\n              \"artifactType\": \"release-board-domain-handoff.md\"\n            }\n          ]\n        }\n      ],\n      \"dependencies\": [],\n      \"contextUses\": [\n        {\n          \"sourceId\": \"context.agent-contract\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:AGENTS.md\",\n          \"digest\": \"sha256:a79c80765de711a00aea3787050ffa38bfda78812c925c73325e1a71acd369c9\",\n          \"bytes\": 16695,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-domain\"\n          ],\n          \"readScope\": \"AGENTS.md\"\n        },\n        {\n          \"sourceId\": \"context.app-contract\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n          \"digest\": \"sha256:557460d42eea3249124db49071128638fc28a6039c8b9208cf5427419ee58a50\",\n          \"bytes\": 2437,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-domain\"\n          ],\n          \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\"\n        },\n        {\n          \"sourceId\": \"context.domain-pattern\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:examples/triage-board/src/model.js\",\n          \"digest\": \"sha256:f9f7bb99b2ba27ef64bd28d88b4465c2852a4aeb6a7e0a8b7375222843fac59f\",\n          \"bytes\": 8237,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-domain\"\n          ],\n          \"readScope\": \"examples/triage-board/src/model.js\"\n        },\n        {\n          \"sourceId\": \"context.domain-test-pattern\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:examples/triage-board/test/model.test.mjs\",\n          \"digest\": \"sha256:fcd4b3cbf7603b03d703fe4b3dc55f657189fd48ce76b4ee834feb35492a3b46\",\n          \"bytes\": 5487,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-domain\"\n          ],\n          \"readScope\": \"examples/triage-board/test/model.test.mjs\"\n        },\n        {\n          \"sourceId\": \"context.goal\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n          \"digest\": \"sha256:d92824a12e2f47dfcd441c6711bef71330a8fe2e5e39bb6c75b274e2fe610777\",\n          \"bytes\": 1610,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-domain\"\n          ],\n          \"readScope\": \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\"\n        },\n        {\n          \"sourceId\": \"context.storage-pattern\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:examples/triage-board/src/storage.js\",\n          \"digest\": \"sha256:948a6758beea65b6f5a4f0c42a786b5f4e147d63478f146bd6f14635376634a8\",\n          \"bytes\": 769,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-domain\"\n          ],\n          \"readScope\": \"examples/triage-board/src/storage.js\"\n        },\n        {\n          \"sourceId\": \"context.storage-test-pattern\",\n          \"kind\": \"repository\",\n          \"locator\": \"path:examples/triage-board/test/storage.test.mjs\",\n          \"digest\": \"sha256:a57a8e6d4093e38baa1fbad34868639934dc79351380ef910a85faf0c1a80c59\",\n          \"bytes\": 1789,\n          \"purposes\": [\n            \"Produce one disjoint Release Board module.\"\n          ],\n          \"workUnitIds\": [\n            \"implement.release-board-domain\"\n          ],\n          \"readScope\": \"examples/triage-board/test/storage.test.mjs\"\n        }\n      ],\n      \"authority\": {\n        \"requiredCapabilities\": [\n          \"implement.release-board-domain\"\n        ],\n        \"scope\": {\n          \"read\": [\n            \"AGENTS.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n            \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n            \"examples/triage-board/src/model.js\",\n            \"examples/triage-board/src/storage.js\",\n            \"examples/triage-board/test/model.test.mjs\",\n            \"examples/triage-board/test/storage.test.mjs\"\n          ],\n          \"write\": [\n            \"examples/release-board/src/model.js\",\n            \"examples/release-board/src/storage.js\",\n            \"examples/release-board/test/model.test.mjs\",\n            \"examples/release-board/test/storage.test.mjs\"\n          ],\n          \"conflictZones\": []\n        },\n        \"permissions\": [\n          {\n            \"kind\": \"filesystem.read\",\n            \"scopes\": [\n              \"AGENTS.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/app-contract.md\",\n              \"docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/goal.md\",\n              \"examples/triage-board/src/model.js\",\n              \"examples/triage-board/src/storage.js\",\n              \"examples/triage-board/test/model.test.mjs\",\n              \"examples/triage-board/test/storage.test.mjs\"\n            ]\n          },\n          {\n            \"kind\": \"filesystem.write\",\n            \"scopes\": [\n              \"examples/release-board/src/model.js\",\n              \"examples/release-board/src/storage.js\",\n              \"examples/release-board/test/model.test.mjs\",\n              \"examples/release-board/test/storage.test.mjs\"\n            ]\n          },\n          {\n            \"kind\": \"process.spawn\",\n            \"scopes\": [\n              \"node\"\n            ]\n          }\n        ],\n        \"forbiddenEffects\": [\n          \"Do not access the network, secrets, external services, or undeclared repository paths.\",\n          \"Do not install dependencies, mutate Git, launch descendants, integrate, merge, or update memory.\"\n        ]\n      },\n      \"evidenceDuties\": [\n        {\n          \"criterionId\": \"criterion.domain\",\n          \"criterion\": \"Pure immutable domain and versioned storage operations satisfy the closed check, filter, summary, and invalid-data contract.\",\n          \"requirementId\": \"evidence.domain.tests\",\n          \"kind\": \"test\",\n          \"duty\": \"produce\",\n          \"description\": \"Produce passing deterministic Node tests with the domain and storage modules.\",\n          \"independentFromProducer\": false\n        }\n      ],\n      \"handoff\": {\n        \"destination\": \"codex.main\",\n        \"artifacts\": [\n          \"release-board-domain-handoff.md\"\n        ],\n        \"requiredFields\": [\n          \"apiVersion\",\n          \"kind\",\n          \"outcome\",\n          \"destination\",\n          \"goal\",\n          \"agent\",\n          \"compilationDigest\",\n          \"summary\",\n          \"workUnitsCompleted\",\n          \"artifacts\",\n          \"evidence\",\n          \"assumptions\",\n          \"risks\",\n          \"followUps\"\n        ]\n      },\n      \"stopConditions\": [\n        \"Do not access the network, install dependencies, mutate Git, merge, or update memory.\",\n        \"Do not claim browser behavior that was not observed.\",\n        \"Do not modify files outside the declared write scope.\",\n        \"Return non-pass when the assigned artifact cannot be produced and verified.\",\n        \"Stop if the product goal conflicts with the application contract.\"\n      ],\n      \"contentDigest\": \"sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6\"\n    }\n  ],\n  \"launchWaves\": [\n    {\n      \"start\": 0,\n      \"agentIds\": [\n        \"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\",\n        \"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\"\n      ]\n    }\n  ],\n  \"contentDigest\": \"sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e\"\n}\n"
+        },
+        {
+          "path": "integration.md",
+          "mediaType": "text/markdown",
+          "bytes": 3894,
+          "digest": "sha256:ad181bd04d255d37d048ecb393c2fbde2903ef521a3eeccb50ff3c647d17e694",
+          "content": "# Specialist Integration Contract\n\nCompilation: `sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e`\n\nThe integration owner launches only the contracts bound to this compilation, preserves each raw handoff, verifies required evidence, resolves declared dependencies in order, and returns to clarification or redesign when a specialist crosses its boundary.\n\n## Integration Gates\n\n1. Confirm every emitted file matches its manifest-listed raw SHA-256 digest and byte count, and every agent contract carries this compilation digest and its manifest-listed blueprint digest.\n2. Launch agents only when their dependency wave is ready and external workspace isolation is adequate.\n3. Reject undeclared files, authority, context, decisions, or evidence substitutions.\n4. Fan in handoffs through the declared integration owner; do not let one specialist silently approve its own independent duty.\n5. Run feature-level verification and review before merge, then promote only source-linked durable learning.\n\n## Compiled Plan\n\n```json\n{\n  \"compilationDigest\": \"sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e\",\n  \"goalId\": \"v14.dogfood.release-board\",\n  \"goalRevision\": 1,\n  \"assumptions\": [\n    {\n      \"id\": \"assumption.integration-owner\",\n      \"statement\": \"The main IDE agent owns event wiring, final verification, browser inspection, and review routing after both roots pass.\",\n      \"rationale\": \"The two roots have disjoint writes and the small goal does not justify another implementation specialist.\"\n    },\n    {\n      \"id\": \"assumption.product-choice\",\n      \"statement\": \"Release Board is the low-risk small application chosen to validate the V14 orchestration alpha.\",\n      \"rationale\": \"The owner requested a small application dogfood but did not prescribe a product.\"\n    }\n  ],\n  \"unresolvedDecisions\": [],\n  \"search\": {\n    \"mode\": \"exact\",\n    \"claim\": \"exhaustive_partition_search_fixed_scheduler\",\n    \"workUnitCount\": 2,\n    \"evaluatedCandidates\": 2,\n    \"eligibleCandidates\": 2,\n    \"retainedAlternatives\": 1,\n    \"evaluationSetDigest\": \"sha256:aa8a46ec3f147fcc373dc969d9933cdea51768d641c934925205284a782f4d44\"\n  },\n  \"selectedCandidateId\": \"team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a\",\n  \"selectedMetrics\": {\n    \"agentCount\": 2,\n    \"projectedMakespan\": 7,\n    \"peakConcurrency\": 2,\n    \"conflictPairs\": 0,\n    \"handoffCount\": 0,\n    \"duplicatedContextBytes\": 20742,\n    \"duplicatedPermissionScopes\": 3,\n    \"totalWorkWeight\": 11,\n    \"totalStartupCost\": 2,\n    \"totalHandoffCost\": 0\n  },\n  \"selectionReason\": {\n    \"kind\": \"lower_metric\",\n    \"decisiveField\": \"projectedMakespan\",\n    \"selectedValue\": 7,\n    \"serialValue\": 12,\n    \"serialRejectionCodes\": []\n  },\n  \"serialBaseline\": {\n    \"id\": \"team.9b0ef6211dc14d9f95126f70e5ca9c35029589f697a3dae1cbe883b5ad46e97c\",\n    \"eligible\": true,\n    \"rejectionCodes\": [],\n    \"metrics\": {\n      \"agentCount\": 1,\n      \"projectedMakespan\": 12,\n      \"peakConcurrency\": 1,\n      \"conflictPairs\": 0,\n      \"handoffCount\": 0,\n      \"duplicatedContextBytes\": 0,\n      \"duplicatedPermissionScopes\": 0,\n      \"totalWorkWeight\": 11,\n      \"totalStartupCost\": 1,\n      \"totalHandoffCost\": 0\n    }\n  },\n  \"launchWaves\": [\n    {\n      \"start\": 0,\n      \"agentIds\": [\n        \"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\",\n        \"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\"\n      ]\n    }\n  ],\n  \"blueprintDigests\": [\n    {\n      \"agentId\": \"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\",\n      \"digest\": \"sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76\"\n    },\n    {\n      \"agentId\": \"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\",\n      \"digest\": \"sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6\"\n    }\n  ]\n}\n```\n"
+        },
+        {
+          "path": "manifest.json",
+          "mediaType": "application/json",
+          "bytes": 1997,
+          "digest": "sha256:2fa6640f458ed295aa02fb8a50f9eb265a007b07e39c3e86d78acad807dc5d3d",
+          "content": "{\n  \"apiVersion\": \"swecircuit/specialist/v1alpha1\",\n  \"kind\": \"SpecialistPackageManifest\",\n  \"goalId\": \"v14.dogfood.release-board\",\n  \"goalRevision\": 1,\n  \"fileDigestAlgorithm\": \"sha256\",\n  \"fileDigestScope\": \"raw-file-bytes\",\n  \"compilationDigest\": \"sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e\",\n  \"selectedCandidateId\": \"team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a\",\n  \"launchWaves\": [\n    {\n      \"start\": 0,\n      \"agentIds\": [\n        \"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\",\n        \"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\"\n      ]\n    }\n  ],\n  \"compilationFile\": \"compilation.json\",\n  \"compilationFileDigest\": \"sha256:0733a43dd7122badddb1b5cb63ed714d0513c418596d56c4c9d4192f25209a5c\",\n  \"compilationFileBytes\": 45256,\n  \"agents\": [\n    {\n      \"agentId\": \"agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228\",\n      \"blueprintDigest\": \"sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76\",\n      \"contractFile\": \"agents/agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228.md\",\n      \"contractDigest\": \"sha256:26212b0eb9373560e8cf851a586bac8642ebaa80dd0bbdbdec0cf74877d6c8bf\",\n      \"contractBytes\": 9719\n    },\n    {\n      \"agentId\": \"agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063\",\n      \"blueprintDigest\": \"sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6\",\n      \"contractFile\": \"agents/agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063.md\",\n      \"contractDigest\": \"sha256:0a694841df21d69a5346bbd2646917c8f3f15b185bdd6e4c205ce6061d18252a\",\n      \"contractBytes\": 11209\n    }\n  ],\n  \"integrationFile\": \"integration.md\",\n  \"integrationDigest\": \"sha256:ad181bd04d255d37d048ecb393c2fbde2903ef521a3eeccb50ff3c647d17e694\",\n  \"integrationBytes\": 3894,\n  \"contentDigest\": \"sha256:652637aa158734df149063f3b789a31c61a00876fec53ddcfafed3a93af5f031\"\n}\n"
+        }
+      ]
+    },
+    "acceptedHandoffs": [
+      {
+        "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "blueprintDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+        "outcome": "pass",
+        "rawEncoding": "base64",
+        "rawBytes": 1406,
+        "rawDigest": "sha256:6c2ee349da1d070c9204da1b3e149b08617bf6d2a546002c18a8edb67c9fb055",
+        "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9zcGVjaWFsaXN0L3YxYWxwaGExIiwia2luZCI6IlNwZWNpYWxpc3RBZ2VudEhhbmRvZmYiLCJvdXRjb21lIjoicGFzcyIsImRlc3RpbmF0aW9uIjoiY29kZXgubWFpbiIsImdvYWwiOnsiaWQiOiJ2MTQuZG9nZm9vZC5yZWxlYXNlLWJvYXJkIiwicmV2aXNpb24iOjEsImRpZ2VzdCI6InNoYTI1NjoxN2I3ODc4OTJhYmJhNTQyOTAwM2Q4NzU0OGJmNDBlYjg3MTUwNzhmNTYzNmU1NWI0Njk5OGQxM2NkOTU5YzBmIn0sImFnZW50Ijp7ImlkIjoiYWdlbnQuNzEyZjA2ZDA4YWFjNmZjNjkzZjgyMWYyZGExNjg1MTlkYzFjZDlhOTYzNGViZmE3MWEwOTgyYTkwZmVmNzIyOCIsImJsdWVwcmludERpZ2VzdCI6InNoYTI1NjpjNzY1MWE3YmFlNzE4MzYxMGZlNDExY2IwNmRmYzI0YzBjMGU5MWVkYmI2ZmU5ZGE1NTNiYjU1ZjA4ZDNiZjc2In0sImNvbXBpbGF0aW9uRGlnZXN0Ijoic2hhMjU2OmY0ZjRlOTFmYzFmYzhlYTJiNGNmNTIyNTYzOTVmYTRlMTViMTA5Y2M1ZWJkNGY4YmM2OTBjNDA4YzRiNWViN2UiLCJzdW1tYXJ5IjoiSW1wbGVtZW50ZWQgdGhlIGNvbXBsZXRlIHJlc3BvbnNpdmUgc2VtYW50aWMgUmVsZWFzZSBCb2FyZCBpbnRlcmZhY2Ugd2l0aCByZXF1aXJlZCBjb250cm9scywgaG9va3MsIHRlbXBsYXRlLCBsaXZlIHJlZ2lvbiwgYW5kIGZvY3VzIHRyZWF0bWVudC4iLCJ3b3JrVW5pdHNDb21wbGV0ZWQiOlsiaW1wbGVtZW50LnJlbGVhc2UtYm9hcmQtaW50ZXJmYWNlIl0sImFydGlmYWN0cyI6W3sibmFtZSI6InJlbGVhc2UtYm9hcmQtaW50ZXJmYWNlLWhhbmRvZmYubWQiLCJtZWRpYVR5cGUiOiJ0ZXh0L21hcmtkb3duIiwiY29udGVudCI6IkNoYW5nZWQgZmlsZXM6IGV4YW1wbGVzL3JlbGVhc2UtYm9hcmQvaW5kZXguaHRtbDsgZXhhbXBsZXMvcmVsZWFzZS1ib2FyZC9zdHlsZXMuY3NzLiBWZXJpZmljYXRpb246IGNvbmZpcm1lZCByZXF1aXJlZCBmb3JtLCBzdW1tYXJ5LCBmaWx0ZXJzLCBsaXN0LCBlbXB0eSBzdGF0ZSwgdGVtcGxhdGUsIGxpdmUgcmVnaW9uLCBtb2R1bGUgc2NyaXB0LCBhbmQgZGF0YS1hY3Rpb24gaG9va3M7IGNvbmZpcm1lZCB2aXNpYmxlIDpmb2N1cy12aXNpYmxlIHN0eWxpbmc7IGNvbmZpcm1lZCBubyByZW1vdGUgYXNzZXRzIG9yIGlubGluZSBldmVudCBoYW5kbGVycy4ifV0sImV2aWRlbmNlIjpbeyJjcml0ZXJpb25JZCI6ImNyaXRlcmlvbi5pbnRlcmZhY2UiLCJyZXF1aXJlbWVudElkIjoiZXZpZGVuY2UuaW50ZXJmYWNlLmFydGlmYWN0Iiwia2luZCI6ImFydGlmYWN0IiwiZHV0eSI6InByb2R1Y2UiLCJzdGF0dXMiOiJwYXNzIiwiYXJ0aWZhY3QiOiJyZWxlYXNlLWJvYXJkLWludGVyZmFjZS1oYW5kb2ZmLm1kIn1dLCJhc3N1bXB0aW9ucyI6W10sInJpc2tzIjpbXSwiZm9sbG93VXBzIjpbXX0="
+      },
+      {
+        "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "blueprintDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+        "outcome": "pass",
+        "rawEncoding": "base64",
+        "rawBytes": 1453,
+        "rawDigest": "sha256:a484c8c8ea8e442bda2a8ce8748a30d6d1a4c31822f0c003d2fee2299db6966b",
+        "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9zcGVjaWFsaXN0L3YxYWxwaGExIiwia2luZCI6IlNwZWNpYWxpc3RBZ2VudEhhbmRvZmYiLCJvdXRjb21lIjoicGFzcyIsImRlc3RpbmF0aW9uIjoiY29kZXgubWFpbiIsImdvYWwiOnsiaWQiOiJ2MTQuZG9nZm9vZC5yZWxlYXNlLWJvYXJkIiwicmV2aXNpb24iOjEsImRpZ2VzdCI6InNoYTI1NjoxN2I3ODc4OTJhYmJhNTQyOTAwM2Q4NzU0OGJmNDBlYjg3MTUwNzhmNTYzNmU1NWI0Njk5OGQxM2NkOTU5YzBmIn0sImFnZW50Ijp7ImlkIjoiYWdlbnQuZDYzYzJlNGI2YjVmZGI4ZTM4YmUyOTFhYTMzMzkxMTU2OGJhZjAxNTNhZjE3MjU4MTU2MmM5NjdhMGJkMjA2MyIsImJsdWVwcmludERpZ2VzdCI6InNoYTI1NjpjMDU5ZGRlY2U5YTdiOGI1ODNmMjFiMGI1NGMyYTEyYTkzZDI2YTM2MjI1NTMzZjk4YzczOGZkNWQ2ZmIyNGU2In0sImNvbXBpbGF0aW9uRGlnZXN0Ijoic2hhMjU2OmY0ZjRlOTFmYzFmYzhlYTJiNGNmNTIyNTYzOTVmYTRlMTViMTA5Y2M1ZWJkNGY4YmM2OTBjNDA4YzRiNWViN2UiLCJzdW1tYXJ5IjoiSW1wbGVtZW50ZWQgaW1tdXRhYmxlIFJlbGVhc2UgQm9hcmQgZG9tYWluIG9wZXJhdGlvbnMgYW5kIHZlcnNpb25lZCBmYWlsLXNhZmUgc3RvcmFnZSB3aXRoIGRldGVybWluaXN0aWMgTm9kZSB0ZXN0cy4iLCJ3b3JrVW5pdHNDb21wbGV0ZWQiOlsiaW1wbGVtZW50LnJlbGVhc2UtYm9hcmQtZG9tYWluIl0sImFydGlmYWN0cyI6W3sibmFtZSI6InJlbGVhc2UtYm9hcmQtZG9tYWluLWhhbmRvZmYubWQiLCJtZWRpYVR5cGUiOiJ0ZXh0L21hcmtkb3duIiwiY29udGVudCI6IkNoYW5nZWQgZmlsZXM6IGV4YW1wbGVzL3JlbGVhc2UtYm9hcmQvc3JjL21vZGVsLmpzLCBleGFtcGxlcy9yZWxlYXNlLWJvYXJkL3NyYy9zdG9yYWdlLmpzLCBleGFtcGxlcy9yZWxlYXNlLWJvYXJkL3Rlc3QvbW9kZWwudGVzdC5tanMsIGV4YW1wbGVzL3JlbGVhc2UtYm9hcmQvdGVzdC9zdG9yYWdlLnRlc3QubWpzLiBUZXN0OiBub2RlIC0tdGVzdCBleGFtcGxlcy9yZWxlYXNlLWJvYXJkL3Rlc3QvbW9kZWwudGVzdC5tanMgZXhhbXBsZXMvcmVsZWFzZS1ib2FyZC90ZXN0L3N0b3JhZ2UudGVzdC5tanM7IDggcGFzc2VkLCAwIGZhaWxlZC4ifV0sImV2aWRlbmNlIjpbeyJjcml0ZXJpb25JZCI6ImNyaXRlcmlvbi5kb21haW4iLCJyZXF1aXJlbWVudElkIjoiZXZpZGVuY2UuZG9tYWluLnRlc3RzIiwia2luZCI6InRlc3QiLCJkdXR5IjoicHJvZHVjZSIsInN0YXR1cyI6InBhc3MiLCJhcnRpZmFjdCI6InJlbGVhc2UtYm9hcmQtZG9tYWluLWhhbmRvZmYubWQifV0sImFzc3VtcHRpb25zIjpbIkJvdW5kZWQgc3RyaW5nIGxpbWl0cyB1c2UgMjAwIGNoYXJhY3RlcnMgZm9yIElEcywgMTIwIGZvciB0aXRsZXMsIDgwIGZvciBvd25lcnMsIGFuZCAxMDAwIGZvciBldmlkZW5jZS4iXSwicmlza3MiOltdLCJmb2xsb3dVcHMiOltdfQ=="
+      }
+    ],
+    "contentDigest": "sha256:b9ec6e6289417b7a72c898badf5bbb23c6e13680d99f0c90f55ddf5e676baeff"
+  },
+  "hostEvents": [
+    {
+      "sequence": 1,
+      "kind": "HostLaunchAuthorization",
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "attemptId": "attempt.agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "rawEncoding": "base64",
+      "rawBytes": 3134,
+      "rawDigest": "sha256:9696d2790fa1299784e7a893786a14980d33484ca2149fbd9b3a82b930d589af",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdExhdW5jaEF1dGhvcml6YXRpb24iLCJydW5JZCI6InJ1bi52MTQucmVsZWFzZS1ib2FyZC5zbWFsbCIsInJ1blJldmlzaW9uIjoxLCJzZXF1ZW5jZSI6MSwicHJpb3JFdmVudERpZ2VzdCI6bnVsbCwiYWdlbnRJZCI6ImFnZW50LjcxMmYwNmQwOGFhYzZmYzY5M2Y4MjFmMmRhMTY4NTE5ZGMxY2Q5YTk2MzRlYmZhNzFhMDk4MmE5MGZlZjcyMjgiLCJibHVlcHJpbnREaWdlc3QiOiJzaGEyNTY6Yzc2NTFhN2JhZTcxODM2MTBmZTQxMWNiMDZkZmMyNGMwYzBlOTFlZGJiNmZlOWRhNTUzYmI1NWYwOGQzYmY3NiIsImFzc2lnbm1lbnREaWdlc3QiOiJzaGEyNTY6NzlkOTYwZjViNDEzNjZmMDFhYzc2MmZlNWI0ODdjZmQyOTQ3ZDhhYzgwMmI0ZTJiNjExNmRhNzM0NmUyZTYzNSIsImhvc3RJZCI6ImNvZGV4LWRlc2t0b3Aud2luZG93cyIsImFkYXB0ZXJJZCI6ImNvZGV4LWRlc2t0b3AiLCJhZGFwdGVyUmV2aXNpb24iOiJ2MTQtYWxwaGEiLCJhdHRlc3RlZEJ5IjoicmVwb3NpdG9yeS1vd25lci12aWEtc3RhbmRpbmctcmVsZWFzZS1hdXRob3JpemF0aW9uIiwiYXR0ZW1wdElkIjoiYXR0ZW1wdC5hZ2VudC43MTJmMDZkMDhhYWM2ZmM2OTNmODIxZjJkYTE2ODUxOWRjMWNkOWE5NjM0ZWJmYTcxYTA5ODJhOTBmZWY3MjI4IiwiYXV0aG9yaXphdGlvbklkIjoiYXV0aG9yaXphdGlvbi5hZ2VudC43MTJmMDZkMDhhYWM2ZmM2OTNmODIxZjJkYTE2ODUxOWRjMWNkOWE5NjM0ZWJmYTcxYTA5ODJhOTBmZWY3MjI4Iiwid29ya3NwYWNlQmFzZWxpbmVEaWdlc3QiOiJzaGEyNTY6NWVjMjUzMDQyMWIzOWQwNzkzOTdjMmQ1MGY3YmZmZDg1ZWY5MmM0NDlhZWM2Njk3MzliOTQ3ZDllYTgxNWE1NSIsImNvbW1hbmQiOnsiYWdlbnRDb250cmFjdFBhdGgiOiJhZ2VudHMvYWdlbnQuNzEyZjA2ZDA4YWFjNmZjNjkzZjgyMWYyZGExNjg1MTlkYzFjZDlhOTYzNGViZmE3MWEwOTgyYTkwZmVmNzIyOC5tZCIsImFnZW50Q29udHJhY3REaWdlc3QiOiJzaGEyNTY6MjYyMTJiMGViOTM3MzU2MGU4Y2Y4NTFhNTg2YmFjODY0MmViYWE4MGRkMGJiZGJkZWMwY2Y3NDg3N2Q2YzhiZiIsImFnZW50Q29udHJhY3RCeXRlcyI6OTcxOSwiY29udGV4dFNvdXJjZXMiOlt7InNvdXJjZUlkIjoiY29udGV4dC5hZ2VudC1jb250cmFjdCIsImxvY2F0b3IiOiJwYXRoOkFHRU5UUy5tZCIsImRpZ2VzdCI6InNoYTI1NjphNzljODA3NjVkZTcxMWEwMGFlYTM3ODcwNTBmZmEzOGJmZGE3ODgxMmM5MjVjNzMzMjVlMWE3MWFjZDM2OWM5IiwiYnl0ZXMiOjE2Njk1LCJkZWxpdmVyeSI6ImF1dGhvcml6ZWRfZmlsZXN5c3RlbV9yZWFkIn0seyJzb3VyY2VJZCI6ImNvbnRleHQuYXBwLWNvbnRyYWN0IiwibG9jYXRvciI6InBhdGg6ZG9jcy9zcGVjcy92MTQtYWRhcHRpdmUtb3JjaGVzdHJhdGlvbi9ldmlkZW5jZS9kb2dmb29kLXNtYWxsL2FwcC1jb250cmFjdC5tZCIsImRpZ2VzdCI6InNoYTI1Njo1NTc0NjBkNDJlZWEzMjQ5MTI0ZGI0OTA3MTEyODYzOGZjMjhhNjAzOWM4YjkyMDhjZjU0Mjc0MTllZTU4YTUwIiwiYnl0ZXMiOjI0MzcsImRlbGl2ZXJ5IjoiYXV0aG9yaXplZF9maWxlc3lzdGVtX3JlYWQifSx7InNvdXJjZUlkIjoiY29udGV4dC5nb2FsIiwibG9jYXRvciI6InBhdGg6ZG9jcy9zcGVjcy92MTQtYWRhcHRpdmUtb3JjaGVzdHJhdGlvbi9ldmlkZW5jZS9kb2dmb29kLXNtYWxsL2dvYWwubWQiLCJkaWdlc3QiOiJzaGEyNTY6ZDkyODI0YTEyZTJmNDdkZmNkNDQxYzY3MTFiZWY3MTMzMGE4ZmUyZTVlMzliYjZjNzViMjc0ZTJmZTYxMDc3NyIsImJ5dGVzIjoxNjEwLCJkZWxpdmVyeSI6ImF1dGhvcml6ZWRfZmlsZXN5c3RlbV9yZWFkIn0seyJzb3VyY2VJZCI6ImNvbnRleHQuaW50ZXJmYWNlLXBhdHRlcm4iLCJsb2NhdG9yIjoicGF0aDpleGFtcGxlcy90cmlhZ2UtYm9hcmQvaW5kZXguaHRtbCIsImRpZ2VzdCI6InNoYTI1NjplZDViMTk1NDc4NTU3OGI3NDRmNjc4MmY3NTg2NTUzZjVkOWI2YmNlYmZhOTNhYmVlMzk1YTlhMzNiM2RhMWNlIiwiYnl0ZXMiOjc3MTIsImRlbGl2ZXJ5IjoiYXV0aG9yaXplZF9maWxlc3lzdGVtX3JlYWQifSx7InNvdXJjZUlkIjoiY29udGV4dC5zdHlsZS1wYXR0ZXJuIiwibG9jYXRvciI6InBhdGg6ZXhhbXBsZXMvdHJpYWdlLWJvYXJkL3N0eWxlcy5jc3MiLCJkaWdlc3QiOiJzaGEyNTY6YzNiY2UzNWE2MDg4MGIyMjhiMmVmMmFiMTlhYzljN2M3ZTIxZGE1MGQ2ZDgzNzJlMWI4ODEwYTM1NDhhZGFkYyIsImJ5dGVzIjoxMjIzMiwiZGVsaXZlcnkiOiJhdXRob3JpemVkX2ZpbGVzeXN0ZW1fcmVhZCJ9XSwicHJvZmlsZUlkIjoicHJvZmlsZS5jb2RleC5sdW5hIiwiZWZmb3J0SWQiOiJlZmZvcnQubWVkaXVtIiwidG9vbHMiOlsicmciXSwic2tpbGxzIjpbXSwiaXNvbGF0aW9uRmVhdHVyZXMiOlsiaXNvbGF0aW9uLnNjb3BlZC13b3JrdHJlZSJdLCJwZXJtaXNzaW9ucyI6W3sia2luZCI6ImZpbGVzeXN0ZW0ucmVhZCIsInNjb3BlcyI6WyJBR0VOVFMubWQiLCJkb2NzL3NwZWNzL3YxNC1hZGFwdGl2ZS1vcmNoZXN0cmF0aW9uL2V2aWRlbmNlL2RvZ2Zvb2Qtc21hbGwvYXBwLWNvbnRyYWN0Lm1kIiwiZG9jcy9zcGVjcy92MTQtYWRhcHRpdmUtb3JjaGVzdHJhdGlvbi9ldmlkZW5jZS9kb2dmb29kLXNtYWxsL2dvYWwubWQiLCJleGFtcGxlcy90cmlhZ2UtYm9hcmQvaW5kZXguaHRtbCIsImV4YW1wbGVzL3RyaWFnZS1ib2FyZC9zdHlsZXMuY3NzIl19LHsia2luZCI6ImZpbGVzeXN0ZW0ud3JpdGUiLCJzY29wZXMiOlsiZXhhbXBsZXMvcmVsZWFzZS1ib2FyZC9pbmRleC5odG1sIiwiZXhhbXBsZXMvcmVsZWFzZS1ib2FyZC9zdHlsZXMuY3NzIl19XSwib2JzZXJ2YWJpbGl0eSI6eyJtb2RlbCI6Im9ic2VydmVkIiwiZWZmb3J0Ijoib2JzZXJ2ZWQiLCJ0b29scyI6Im9ic2VydmVkIiwic2tpbGxzIjoib2JzZXJ2ZWQiLCJpc29sYXRpb24iOiJvYnNlcnZlZCIsInBlcm1pc3Npb25zIjoib2JzZXJ2ZWQiLCJ3b3Jrc3BhY2UiOiJvYnNlcnZlZCIsImNvbnRleHQiOiJvYnNlcnZlZCJ9LCJjb250ZW50RGlnZXN0Ijoic2hhMjU2Ojc1Mzg3NmIyNDBjMGIyMGZmOTE2MmE1ZTMwNTE5MzFlM2EyYzVhYWU2ZmRjYjQ3NmUzZDRhZDAyYzAwYzY2OTMifX0="
+    },
+    {
+      "sequence": 2,
+      "kind": "HostMaterializationClaim",
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "attemptId": "attempt.agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "rawEncoding": "base64",
+      "rawBytes": 2686,
+      "rawDigest": "sha256:8d4f3f51282d9ca3ea69c47b757990db76761dddcad60fa4d1b8c8a846846a57",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdE1hdGVyaWFsaXphdGlvbkNsYWltIiwicnVuSWQiOiJydW4udjE0LnJlbGVhc2UtYm9hcmQuc21hbGwiLCJydW5SZXZpc2lvbiI6MSwic2VxdWVuY2UiOjIsInByaW9yRXZlbnREaWdlc3QiOiJzaGEyNTY6OTY5NmQyNzkwZmExMjk5Nzg0ZTdhODkzNzg2YTE0OTgwZDMzNDg0Y2EyMTQ5ZmJkOWIzYTgyYjkzMGQ1ODlhZiIsImFnZW50SWQiOiJhZ2VudC43MTJmMDZkMDhhYWM2ZmM2OTNmODIxZjJkYTE2ODUxOWRjMWNkOWE5NjM0ZWJmYTcxYTA5ODJhOTBmZWY3MjI4IiwiYmx1ZXByaW50RGlnZXN0Ijoic2hhMjU2OmM3NjUxYTdiYWU3MTgzNjEwZmU0MTFjYjA2ZGZjMjRjMGMwZTkxZWRiYjZmZTlkYTU1M2JiNTVmMDhkM2JmNzYiLCJhc3NpZ25tZW50RGlnZXN0Ijoic2hhMjU2Ojc5ZDk2MGY1YjQxMzY2ZjAxYWM3NjJmZTViNDg3Y2ZkMjk0N2Q4YWM4MDJiNGUyYjYxMTZkYTczNDZlMmU2MzUiLCJob3N0SWQiOiJjb2RleC1kZXNrdG9wLndpbmRvd3MiLCJhZGFwdGVySWQiOiJjb2RleC1kZXNrdG9wIiwiYWRhcHRlclJldmlzaW9uIjoidjE0LWFscGhhIiwiYXR0ZXN0ZWRCeSI6ImFkYXB0ZXIuY29kZXgtZGVza3RvcC52MTQtYWxwaGEiLCJhdHRlbXB0SWQiOiJhdHRlbXB0LmFnZW50LjcxMmYwNmQwOGFhYzZmYzY5M2Y4MjFmMmRhMTY4NTE5ZGMxY2Q5YTk2MzRlYmZhNzFhMDk4MmE5MGZlZjcyMjgiLCJhdXRob3JpemF0aW9uRXZlbnREaWdlc3QiOiJzaGEyNTY6OTY5NmQyNzkwZmExMjk5Nzg0ZTdhODkzNzg2YTE0OTgwZDMzNDg0Y2EyMTQ5ZmJkOWIzYTgyYjkzMGQ1ODlhZiIsIm5hdGl2ZUhhbmRsZSI6IjAxOWZhNTFjLTViNjYtNzI2My1hYzM0LTRkZGM0NDE0YWZlNSIsImZpZWxkcyI6W3siZmllbGQiOiJtb2RlbCIsInN0YXR1cyI6Im9ic2VydmVkIiwiZXhwZWN0ZWREaWdlc3QiOiJzaGEyNTY6Yjg1MmMzZWQ1NGU0Yzg2Njk5ZTA0Y2ZlOTNkYTA1YmU4MGQ4OGQ0N2FlYzRkNmJkY2RiNWI5ZmViMGQ0YjM0MSIsIm9ic2VydmVkRGlnZXN0Ijoic2hhMjU2OmI4NTJjM2VkNTRlNGM4NjY5OWUwNGNmZTkzZGEwNWJlODBkODhkNDdhZWM0ZDZiZGNkYjViOWZlYjBkNGIzNDEifSx7ImZpZWxkIjoiZWZmb3J0Iiwic3RhdHVzIjoib2JzZXJ2ZWQiLCJleHBlY3RlZERpZ2VzdCI6InNoYTI1NjplYTg2NTgzYjBkNGFmNmQ3NDdlZjU0MzcxMjUzNjFiNzNjOWNmOGVkOTA1Mzk5MTZlZDk1NGMwYmUxYzBlNGJlIiwib2JzZXJ2ZWREaWdlc3QiOiJzaGEyNTY6ZWE4NjU4M2IwZDRhZjZkNzQ3ZWY1NDM3MTI1MzYxYjczYzljZjhlZDkwNTM5OTE2ZWQ5NTRjMGJlMWMwZTRiZSJ9LHsiZmllbGQiOiJ0b29scyIsInN0YXR1cyI6Im9ic2VydmVkIiwiZXhwZWN0ZWREaWdlc3QiOiJzaGEyNTY6ZDZjODM5YjBmMmJjNmMxNWUyN2ZmNjMxYjlhZjIwZjM1NGY1OTdiYWMzMGMwZWFmZGFkNTAwZjhlZTI1YWI1ZCIsIm9ic2VydmVkRGlnZXN0Ijoic2hhMjU2OmQ2YzgzOWIwZjJiYzZjMTVlMjdmZjYzMWI5YWYyMGYzNTRmNTk3YmFjMzBjMGVhZmRhZDUwMGY4ZWUyNWFiNWQifSx7ImZpZWxkIjoic2tpbGxzIiwic3RhdHVzIjoib2JzZXJ2ZWQiLCJleHBlY3RlZERpZ2VzdCI6InNoYTI1NjpiZTMwYjAzNDg0YWZlMDU1NmMwNjA2YjQwNzg2NTFhNDNkZTdlOGYyN2U4Mjg3YWQ4ZmQ1MzNiOWFjNjdmZGFmIiwib2JzZXJ2ZWREaWdlc3QiOiJzaGEyNTY6YmUzMGIwMzQ4NGFmZTA1NTZjMDYwNmI0MDc4NjUxYTQzZGU3ZThmMjdlODI4N2FkOGZkNTMzYjlhYzY3ZmRhZiJ9LHsiZmllbGQiOiJpc29sYXRpb24iLCJzdGF0dXMiOiJvYnNlcnZlZCIsImV4cGVjdGVkRGlnZXN0Ijoic2hhMjU2OmIxMzJjNDBmNjY2ZDMyNGY1ODBiMjc5MDBhN2IwYjY0ZWQ2NTk0ODVlMDQ2NDk1MjZlMmU5ZDIwOTNjYjA2YzMiLCJvYnNlcnZlZERpZ2VzdCI6InNoYTI1NjpiMTMyYzQwZjY2NmQzMjRmNTgwYjI3OTAwYTdiMGI2NGVkNjU5NDg1ZTA0NjQ5NTI2ZTJlOWQyMDkzY2IwNmMzIn0seyJmaWVsZCI6InBlcm1pc3Npb25zIiwic3RhdHVzIjoib2JzZXJ2ZWQiLCJleHBlY3RlZERpZ2VzdCI6InNoYTI1NjozMDgzZDk2NjFlNmQ3MTA0ZTUyZDNlNzIxMzUyM2JlMzI4YTBlZmI1MGMwNDcwNDQ3OWI0ZDYzODBkNTIzYjI1Iiwib2JzZXJ2ZWREaWdlc3QiOiJzaGEyNTY6MzA4M2Q5NjYxZTZkNzEwNGU1MmQzZTcyMTM1MjNiZTMyOGEwZWZiNTBjMDQ3MDQ0NzliNGQ2MzgwZDUyM2IyNSJ9LHsiZmllbGQiOiJ3b3Jrc3BhY2UiLCJzdGF0dXMiOiJvYnNlcnZlZCIsImV4cGVjdGVkRGlnZXN0Ijoic2hhMjU2OmZmNWQ2MWFhMzM3ZTE1ODVhMzM1MDFlM2UwYTZiZDhkMGE3OTQ1MTU4NDk5ZTgxNDIwYjBmOGRmMzNiYjkyODAiLCJvYnNlcnZlZERpZ2VzdCI6InNoYTI1NjpmZjVkNjFhYTMzN2UxNTg1YTMzNTAxZTNlMGE2YmQ4ZDBhNzk0NTE1ODQ5OWU4MTQyMGIwZjhkZjMzYmI5MjgwIn0seyJmaWVsZCI6ImNvbnRleHQiLCJzdGF0dXMiOiJvYnNlcnZlZCIsImV4cGVjdGVkRGlnZXN0Ijoic2hhMjU2OmE5M2Y5YWRkZTVkYTM0YzRjNTYxOWI3ZTNmODMzY2FiYjEwZjQ1MDI2NjkyZDg2MDg4NWRlMWE1MTc1NDA3ZWIiLCJvYnNlcnZlZERpZ2VzdCI6InNoYTI1NjphOTNmOWFkZGU1ZGEzNGM0YzU2MTliN2UzZjgzM2NhYmIxMGY0NTAyNjY5MmQ4NjA4ODVkZTFhNTE3NTQwN2ViIn1dfQ=="
+    },
+    {
+      "sequence": 3,
+      "kind": "HostLifecycleObservation",
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "attemptId": "attempt.agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "rawEncoding": "base64",
+      "rawBytes": 1033,
+      "rawDigest": "sha256:96ffd141011eb8371d4b306f18fd535ee61eaee1ab03a2fa3220151029cd4368",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdExpZmVjeWNsZU9ic2VydmF0aW9uIiwicnVuSWQiOiJydW4udjE0LnJlbGVhc2UtYm9hcmQuc21hbGwiLCJydW5SZXZpc2lvbiI6MSwic2VxdWVuY2UiOjMsInByaW9yRXZlbnREaWdlc3QiOiJzaGEyNTY6OGQ0ZjNmNTEyODJkOWNhM2VhNjljNDdiNzU3OTkwZGI3Njc2MWRkZGNhZDYwZmE0ZDFiOGM4YTg0Njg0NmE1NyIsImFnZW50SWQiOiJhZ2VudC43MTJmMDZkMDhhYWM2ZmM2OTNmODIxZjJkYTE2ODUxOWRjMWNkOWE5NjM0ZWJmYTcxYTA5ODJhOTBmZWY3MjI4IiwiYmx1ZXByaW50RGlnZXN0Ijoic2hhMjU2OmM3NjUxYTdiYWU3MTgzNjEwZmU0MTFjYjA2ZGZjMjRjMGMwZTkxZWRiYjZmZTlkYTU1M2JiNTVmMDhkM2JmNzYiLCJhc3NpZ25tZW50RGlnZXN0Ijoic2hhMjU2Ojc5ZDk2MGY1YjQxMzY2ZjAxYWM3NjJmZTViNDg3Y2ZkMjk0N2Q4YWM4MDJiNGUyYjYxMTZkYTczNDZlMmU2MzUiLCJob3N0SWQiOiJjb2RleC1kZXNrdG9wLndpbmRvd3MiLCJhZGFwdGVySWQiOiJjb2RleC1kZXNrdG9wIiwiYWRhcHRlclJldmlzaW9uIjoidjE0LWFscGhhIiwiYXR0ZXN0ZWRCeSI6ImFkYXB0ZXIuY29kZXgtZGVza3RvcC52MTQtYWxwaGEiLCJhdHRlbXB0SWQiOiJhdHRlbXB0LmFnZW50LjcxMmYwNmQwOGFhYzZmYzY5M2Y4MjFmMmRhMTY4NTE5ZGMxY2Q5YTk2MzRlYmZhNzFhMDk4MmE5MGZlZjcyMjgiLCJhdXRob3JpemF0aW9uRXZlbnREaWdlc3QiOiJzaGEyNTY6OTY5NmQyNzkwZmExMjk5Nzg0ZTdhODkzNzg2YTE0OTgwZDMzNDg0Y2EyMTQ5ZmJkOWIzYTgyYjkzMGQ1ODlhZiIsIm1hdGVyaWFsaXphdGlvbkV2ZW50RGlnZXN0Ijoic2hhMjU2OjhkNGYzZjUxMjgyZDljYTNlYTY5YzQ3Yjc1Nzk5MGRiNzY3NjFkZGRjYWQ2MGZhNGQxYjhjOGE4NDY4NDZhNTciLCJuYXRpdmVIYW5kbGUiOiIwMTlmYTUxYy01YjY2LTcyNjMtYWMzNC00ZGRjNDQxNGFmZTUiLCJzdGF0dXMiOiJydW5uaW5nIiwiZXZpZGVuY2UiOltdfQ=="
+    },
+    {
+      "sequence": 4,
+      "kind": "HostLaunchAuthorization",
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "attemptId": "attempt.agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "rawEncoding": "base64",
+      "rawBytes": 3929,
+      "rawDigest": "sha256:88cc57bfebbbebfa6dee8514c997136c841dbe7112cfa39d5518230f34b449a6",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdExhdW5jaEF1dGhvcml6YXRpb24iLCJydW5JZCI6InJ1bi52MTQucmVsZWFzZS1ib2FyZC5zbWFsbCIsInJ1blJldmlzaW9uIjoxLCJzZXF1ZW5jZSI6NCwicHJpb3JFdmVudERpZ2VzdCI6InNoYTI1Njo5NmZmZDE0MTAxMWViODM3MWQ0YjMwNmYxOGZkNTM1ZWU2MWVhZWUxYWIwM2EyZmEzMjIwMTUxMDI5Y2Q0MzY4IiwiYWdlbnRJZCI6ImFnZW50LmQ2M2MyZTRiNmI1ZmRiOGUzOGJlMjkxYWEzMzM5MTE1NjhiYWYwMTUzYWYxNzI1ODE1NjJjOTY3YTBiZDIwNjMiLCJibHVlcHJpbnREaWdlc3QiOiJzaGEyNTY6YzA1OWRkZWNlOWE3YjhiNTgzZjIxYjBiNTRjMmExMmE5M2QyNmEzNjIyNTUzM2Y5OGM3MzhmZDVkNmZiMjRlNiIsImFzc2lnbm1lbnREaWdlc3QiOiJzaGEyNTY6NzlkOTYwZjViNDEzNjZmMDFhYzc2MmZlNWI0ODdjZmQyOTQ3ZDhhYzgwMmI0ZTJiNjExNmRhNzM0NmUyZTYzNSIsImhvc3RJZCI6ImNvZGV4LWRlc2t0b3Aud2luZG93cyIsImFkYXB0ZXJJZCI6ImNvZGV4LWRlc2t0b3AiLCJhZGFwdGVyUmV2aXNpb24iOiJ2MTQtYWxwaGEiLCJhdHRlc3RlZEJ5IjoicmVwb3NpdG9yeS1vd25lci12aWEtc3RhbmRpbmctcmVsZWFzZS1hdXRob3JpemF0aW9uIiwiYXR0ZW1wdElkIjoiYXR0ZW1wdC5hZ2VudC5kNjNjMmU0YjZiNWZkYjhlMzhiZTI5MWFhMzMzOTExNTY4YmFmMDE1M2FmMTcyNTgxNTYyYzk2N2EwYmQyMDYzIiwiYXV0aG9yaXphdGlvbklkIjoiYXV0aG9yaXphdGlvbi5hZ2VudC5kNjNjMmU0YjZiNWZkYjhlMzhiZTI5MWFhMzMzOTExNTY4YmFmMDE1M2FmMTcyNTgxNTYyYzk2N2EwYmQyMDYzIiwid29ya3NwYWNlQmFzZWxpbmVEaWdlc3QiOiJzaGEyNTY6NWVjMjUzMDQyMWIzOWQwNzkzOTdjMmQ1MGY3YmZmZDg1ZWY5MmM0NDlhZWM2Njk3MzliOTQ3ZDllYTgxNWE1NSIsImNvbW1hbmQiOnsiYWdlbnRDb250cmFjdFBhdGgiOiJhZ2VudHMvYWdlbnQuZDYzYzJlNGI2YjVmZGI4ZTM4YmUyOTFhYTMzMzkxMTU2OGJhZjAxNTNhZjE3MjU4MTU2MmM5NjdhMGJkMjA2My5tZCIsImFnZW50Q29udHJhY3REaWdlc3QiOiJzaGEyNTY6MGE2OTQ4NDFkZjIxZDY5YTUzNDZiYmQyNjQ2OTE3YzhmM2YxNWIxODViZGQ2ZTRjMjA1Y2U2MDYxZDE4MjUyYSIsImFnZW50Q29udHJhY3RCeXRlcyI6MTEyMDksImNvbnRleHRTb3VyY2VzIjpbeyJzb3VyY2VJZCI6ImNvbnRleHQuYWdlbnQtY29udHJhY3QiLCJsb2NhdG9yIjoicGF0aDpBR0VOVFMubWQiLCJkaWdlc3QiOiJzaGEyNTY6YTc5YzgwNzY1ZGU3MTFhMDBhZWEzNzg3MDUwZmZhMzhiZmRhNzg4MTJjOTI1YzczMzI1ZTFhNzFhY2QzNjljOSIsImJ5dGVzIjoxNjY5NSwiZGVsaXZlcnkiOiJhdXRob3JpemVkX2ZpbGVzeXN0ZW1fcmVhZCJ9LHsic291cmNlSWQiOiJjb250ZXh0LmFwcC1jb250cmFjdCIsImxvY2F0b3IiOiJwYXRoOmRvY3Mvc3BlY3MvdjE0LWFkYXB0aXZlLW9yY2hlc3RyYXRpb24vZXZpZGVuY2UvZG9nZm9vZC1zbWFsbC9hcHAtY29udHJhY3QubWQiLCJkaWdlc3QiOiJzaGEyNTY6NTU3NDYwZDQyZWVhMzI0OTEyNGRiNDkwNzExMjg2MzhmYzI4YTYwMzljOGI5MjA4Y2Y1NDI3NDE5ZWU1OGE1MCIsImJ5dGVzIjoyNDM3LCJkZWxpdmVyeSI6ImF1dGhvcml6ZWRfZmlsZXN5c3RlbV9yZWFkIn0seyJzb3VyY2VJZCI6ImNvbnRleHQuZG9tYWluLXBhdHRlcm4iLCJsb2NhdG9yIjoicGF0aDpleGFtcGxlcy90cmlhZ2UtYm9hcmQvc3JjL21vZGVsLmpzIiwiZGlnZXN0Ijoic2hhMjU2OmY5ZjdiYjk5YjJiYTI3ZWY2NGJkMjhkODhiNDQ2NWMyODUyYTRhZWI2YTdlMGE4YjczNzUyMjI4NDNmYWM1OWYiLCJieXRlcyI6ODIzNywiZGVsaXZlcnkiOiJhdXRob3JpemVkX2ZpbGVzeXN0ZW1fcmVhZCJ9LHsic291cmNlSWQiOiJjb250ZXh0LmRvbWFpbi10ZXN0LXBhdHRlcm4iLCJsb2NhdG9yIjoicGF0aDpleGFtcGxlcy90cmlhZ2UtYm9hcmQvdGVzdC9tb2RlbC50ZXN0Lm1qcyIsImRpZ2VzdCI6InNoYTI1NjpmY2Q0YjNjYmY3NjAzYjAzZDcwM2ZlNGIzZGM1NWY2NTcxODlmZDQ4Y2U3NmI0ZWU4MzRmZWIzNTQ5MmEzYjQ2IiwiYnl0ZXMiOjU0ODcsImRlbGl2ZXJ5IjoiYXV0aG9yaXplZF9maWxlc3lzdGVtX3JlYWQifSx7InNvdXJjZUlkIjoiY29udGV4dC5nb2FsIiwibG9jYXRvciI6InBhdGg6ZG9jcy9zcGVjcy92MTQtYWRhcHRpdmUtb3JjaGVzdHJhdGlvbi9ldmlkZW5jZS9kb2dmb29kLXNtYWxsL2dvYWwubWQiLCJkaWdlc3QiOiJzaGEyNTY6ZDkyODI0YTEyZTJmNDdkZmNkNDQxYzY3MTFiZWY3MTMzMGE4ZmUyZTVlMzliYjZjNzViMjc0ZTJmZTYxMDc3NyIsImJ5dGVzIjoxNjEwLCJkZWxpdmVyeSI6ImF1dGhvcml6ZWRfZmlsZXN5c3RlbV9yZWFkIn0seyJzb3VyY2VJZCI6ImNvbnRleHQuc3RvcmFnZS1wYXR0ZXJuIiwibG9jYXRvciI6InBhdGg6ZXhhbXBsZXMvdHJpYWdlLWJvYXJkL3NyYy9zdG9yYWdlLmpzIiwiZGlnZXN0Ijoic2hhMjU2Ojk0OGE2NzU4YmVlYTY1YjZmNWE0ZjBjNDJhNzg2YjVmNGUxNDdkNjM0NzhmMTQ2YmQ2ZjE0NjM1Mzc2NjM0YTgiLCJieXRlcyI6NzY5LCJkZWxpdmVyeSI6ImF1dGhvcml6ZWRfZmlsZXN5c3RlbV9yZWFkIn0seyJzb3VyY2VJZCI6ImNvbnRleHQuc3RvcmFnZS10ZXN0LXBhdHRlcm4iLCJsb2NhdG9yIjoicGF0aDpleGFtcGxlcy90cmlhZ2UtYm9hcmQvdGVzdC9zdG9yYWdlLnRlc3QubWpzIiwiZGlnZXN0Ijoic2hhMjU2OmE1N2E4ZTZkNDA5M2UzOGJhYTFmYmFkMzQ4Njg2Mzk5MzRkYzc5MzUxMzgwZWY5MTBhODVmYWYwYzFhODBjNTkiLCJieXRlcyI6MTc4OSwiZGVsaXZlcnkiOiJhdXRob3JpemVkX2ZpbGVzeXN0ZW1fcmVhZCJ9XSwicHJvZmlsZUlkIjoicHJvZmlsZS5jb2RleC50ZXJyYSIsImVmZm9ydElkIjoiZWZmb3J0LmhpZ2giLCJ0b29scyI6WyJub2RlIiwicmciXSwic2tpbGxzIjpbXSwiaXNvbGF0aW9uRmVhdHVyZXMiOlsiaXNvbGF0aW9uLnNjb3BlZC13b3JrdHJlZSJdLCJwZXJtaXNzaW9ucyI6W3sia2luZCI6ImZpbGVzeXN0ZW0ucmVhZCIsInNjb3BlcyI6WyJBR0VOVFMubWQiLCJkb2NzL3NwZWNzL3YxNC1hZGFwdGl2ZS1vcmNoZXN0cmF0aW9uL2V2aWRlbmNlL2RvZ2Zvb2Qtc21hbGwvYXBwLWNvbnRyYWN0Lm1kIiwiZG9jcy9zcGVjcy92MTQtYWRhcHRpdmUtb3JjaGVzdHJhdGlvbi9ldmlkZW5jZS9kb2dmb29kLXNtYWxsL2dvYWwubWQiLCJleGFtcGxlcy90cmlhZ2UtYm9hcmQvc3JjL21vZGVsLmpzIiwiZXhhbXBsZXMvdHJpYWdlLWJvYXJkL3NyYy9zdG9yYWdlLmpzIiwiZXhhbXBsZXMvdHJpYWdlLWJvYXJkL3Rlc3QvbW9kZWwudGVzdC5tanMiLCJleGFtcGxlcy90cmlhZ2UtYm9hcmQvdGVzdC9zdG9yYWdlLnRlc3QubWpzIl19LHsia2luZCI6ImZpbGVzeXN0ZW0ud3JpdGUiLCJzY29wZXMiOlsiZXhhbXBsZXMvcmVsZWFzZS1ib2FyZC9zcmMvbW9kZWwuanMiLCJleGFtcGxlcy9yZWxlYXNlLWJvYXJkL3NyYy9zdG9yYWdlLmpzIiwiZXhhbXBsZXMvcmVsZWFzZS1ib2FyZC90ZXN0L21vZGVsLnRlc3QubWpzIiwiZXhhbXBsZXMvcmVsZWFzZS1ib2FyZC90ZXN0L3N0b3JhZ2UudGVzdC5tanMiXX0seyJraW5kIjoicHJvY2Vzcy5zcGF3biIsInNjb3BlcyI6WyJub2RlIl19XSwib2JzZXJ2YWJpbGl0eSI6eyJtb2RlbCI6Im9ic2VydmVkIiwiZWZmb3J0Ijoib2JzZXJ2ZWQiLCJ0b29scyI6Im9ic2VydmVkIiwic2tpbGxzIjoib2JzZXJ2ZWQiLCJpc29sYXRpb24iOiJvYnNlcnZlZCIsInBlcm1pc3Npb25zIjoib2JzZXJ2ZWQiLCJ3b3Jrc3BhY2UiOiJvYnNlcnZlZCIsImNvbnRleHQiOiJvYnNlcnZlZCJ9LCJjb250ZW50RGlnZXN0Ijoic2hhMjU2OmE5NzU1NzY0YWU5ZjA5ZjVlZjliNTRlYmY3YjllZWY4NzkyMDg0ODYzMjA4MmY5YTg3YTg2NzU2YTBjOTNhNzAifX0="
+    },
+    {
+      "sequence": 5,
+      "kind": "HostMaterializationClaim",
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "attemptId": "attempt.agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "rawEncoding": "base64",
+      "rawBytes": 2686,
+      "rawDigest": "sha256:dd17b0643b51b41e84734c28240d134ac3bdd157c6eb6510a10bd114784368bb",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdE1hdGVyaWFsaXphdGlvbkNsYWltIiwicnVuSWQiOiJydW4udjE0LnJlbGVhc2UtYm9hcmQuc21hbGwiLCJydW5SZXZpc2lvbiI6MSwic2VxdWVuY2UiOjUsInByaW9yRXZlbnREaWdlc3QiOiJzaGEyNTY6ODhjYzU3YmZlYmJiZWJmYTZkZWU4NTE0Yzk5NzEzNmM4NDFkYmU3MTEyY2ZhMzlkNTUxODIzMGYzNGI0NDlhNiIsImFnZW50SWQiOiJhZ2VudC5kNjNjMmU0YjZiNWZkYjhlMzhiZTI5MWFhMzMzOTExNTY4YmFmMDE1M2FmMTcyNTgxNTYyYzk2N2EwYmQyMDYzIiwiYmx1ZXByaW50RGlnZXN0Ijoic2hhMjU2OmMwNTlkZGVjZTlhN2I4YjU4M2YyMWIwYjU0YzJhMTJhOTNkMjZhMzYyMjU1MzNmOThjNzM4ZmQ1ZDZmYjI0ZTYiLCJhc3NpZ25tZW50RGlnZXN0Ijoic2hhMjU2Ojc5ZDk2MGY1YjQxMzY2ZjAxYWM3NjJmZTViNDg3Y2ZkMjk0N2Q4YWM4MDJiNGUyYjYxMTZkYTczNDZlMmU2MzUiLCJob3N0SWQiOiJjb2RleC1kZXNrdG9wLndpbmRvd3MiLCJhZGFwdGVySWQiOiJjb2RleC1kZXNrdG9wIiwiYWRhcHRlclJldmlzaW9uIjoidjE0LWFscGhhIiwiYXR0ZXN0ZWRCeSI6ImFkYXB0ZXIuY29kZXgtZGVza3RvcC52MTQtYWxwaGEiLCJhdHRlbXB0SWQiOiJhdHRlbXB0LmFnZW50LmQ2M2MyZTRiNmI1ZmRiOGUzOGJlMjkxYWEzMzM5MTE1NjhiYWYwMTUzYWYxNzI1ODE1NjJjOTY3YTBiZDIwNjMiLCJhdXRob3JpemF0aW9uRXZlbnREaWdlc3QiOiJzaGEyNTY6ODhjYzU3YmZlYmJiZWJmYTZkZWU4NTE0Yzk5NzEzNmM4NDFkYmU3MTEyY2ZhMzlkNTUxODIzMGYzNGI0NDlhNiIsIm5hdGl2ZUhhbmRsZSI6IjAxOWZhNTFjLTVjZDgtNzk1MC1iM2RmLTUxN2ZhODY1OGE4MyIsImZpZWxkcyI6W3siZmllbGQiOiJtb2RlbCIsInN0YXR1cyI6Im9ic2VydmVkIiwiZXhwZWN0ZWREaWdlc3QiOiJzaGEyNTY6ODllMWI2MTlkMTFhZTdlN2EwMzRmNzlmOTczZTUwNzllMWYxM2NkZGZlZjU0ZTJjZGUwNjY5NTUzMTJmNzYwMiIsIm9ic2VydmVkRGlnZXN0Ijoic2hhMjU2Ojg5ZTFiNjE5ZDExYWU3ZTdhMDM0Zjc5Zjk3M2U1MDc5ZTFmMTNjZGRmZWY1NGUyY2RlMDY2OTU1MzEyZjc2MDIifSx7ImZpZWxkIjoiZWZmb3J0Iiwic3RhdHVzIjoib2JzZXJ2ZWQiLCJleHBlY3RlZERpZ2VzdCI6InNoYTI1Njo0YWFlODljMzhmNWEwZGJjZmY2OTU4OWVlNGIxNWI4N2Q2MDdlMzQ3YjdkNDI0MzAyMDVmY2IwMDEzNjZjMzRhIiwib2JzZXJ2ZWREaWdlc3QiOiJzaGEyNTY6NGFhZTg5YzM4ZjVhMGRiY2ZmNjk1ODllZTRiMTViODdkNjA3ZTM0N2I3ZDQyNDMwMjA1ZmNiMDAxMzY2YzM0YSJ9LHsiZmllbGQiOiJ0b29scyIsInN0YXR1cyI6Im9ic2VydmVkIiwiZXhwZWN0ZWREaWdlc3QiOiJzaGEyNTY6NTA3MjQ0NWY5NDg2NjNkYmE5ZWVhZjhhN2RkNTE5MjZiNjExYTM1MGRiZTAwMGMwZjc1YTg1ZDA3YzhlN2M2ZCIsIm9ic2VydmVkRGlnZXN0Ijoic2hhMjU2OjUwNzI0NDVmOTQ4NjYzZGJhOWVlYWY4YTdkZDUxOTI2YjYxMWEzNTBkYmUwMDBjMGY3NWE4NWQwN2M4ZTdjNmQifSx7ImZpZWxkIjoic2tpbGxzIiwic3RhdHVzIjoib2JzZXJ2ZWQiLCJleHBlY3RlZERpZ2VzdCI6InNoYTI1NjpiZTMwYjAzNDg0YWZlMDU1NmMwNjA2YjQwNzg2NTFhNDNkZTdlOGYyN2U4Mjg3YWQ4ZmQ1MzNiOWFjNjdmZGFmIiwib2JzZXJ2ZWREaWdlc3QiOiJzaGEyNTY6YmUzMGIwMzQ4NGFmZTA1NTZjMDYwNmI0MDc4NjUxYTQzZGU3ZThmMjdlODI4N2FkOGZkNTMzYjlhYzY3ZmRhZiJ9LHsiZmllbGQiOiJpc29sYXRpb24iLCJzdGF0dXMiOiJvYnNlcnZlZCIsImV4cGVjdGVkRGlnZXN0Ijoic2hhMjU2OmIxMzJjNDBmNjY2ZDMyNGY1ODBiMjc5MDBhN2IwYjY0ZWQ2NTk0ODVlMDQ2NDk1MjZlMmU5ZDIwOTNjYjA2YzMiLCJvYnNlcnZlZERpZ2VzdCI6InNoYTI1NjpiMTMyYzQwZjY2NmQzMjRmNTgwYjI3OTAwYTdiMGI2NGVkNjU5NDg1ZTA0NjQ5NTI2ZTJlOWQyMDkzY2IwNmMzIn0seyJmaWVsZCI6InBlcm1pc3Npb25zIiwic3RhdHVzIjoib2JzZXJ2ZWQiLCJleHBlY3RlZERpZ2VzdCI6InNoYTI1NjowY2Q3MzcxMWIzNmJmZTBjODA5ZmFjMzljZjM4OTk1YWZiZDYxZmYxODUzZjQyZDQwM2I5NGQwNDVhYTljZTIxIiwib2JzZXJ2ZWREaWdlc3QiOiJzaGEyNTY6MGNkNzM3MTFiMzZiZmUwYzgwOWZhYzM5Y2YzODk5NWFmYmQ2MWZmMTg1M2Y0MmQ0MDNiOTRkMDQ1YWE5Y2UyMSJ9LHsiZmllbGQiOiJ3b3Jrc3BhY2UiLCJzdGF0dXMiOiJvYnNlcnZlZCIsImV4cGVjdGVkRGlnZXN0Ijoic2hhMjU2OmZmNWQ2MWFhMzM3ZTE1ODVhMzM1MDFlM2UwYTZiZDhkMGE3OTQ1MTU4NDk5ZTgxNDIwYjBmOGRmMzNiYjkyODAiLCJvYnNlcnZlZERpZ2VzdCI6InNoYTI1NjpmZjVkNjFhYTMzN2UxNTg1YTMzNTAxZTNlMGE2YmQ4ZDBhNzk0NTE1ODQ5OWU4MTQyMGIwZjhkZjMzYmI5MjgwIn0seyJmaWVsZCI6ImNvbnRleHQiLCJzdGF0dXMiOiJvYnNlcnZlZCIsImV4cGVjdGVkRGlnZXN0Ijoic2hhMjU2OjllZmFjMjZjNmMxNmM3ODY4MTE4Nzk3NmY3NzYyOTUxMjAwNWE0NjBiZWE5ZWQzZWI5Y2ExY2MxNWJjOTNkM2UiLCJvYnNlcnZlZERpZ2VzdCI6InNoYTI1Njo5ZWZhYzI2YzZjMTZjNzg2ODExODc5NzZmNzc2Mjk1MTIwMDVhNDYwYmVhOWVkM2ViOWNhMWNjMTViYzkzZDNlIn1dfQ=="
+    },
+    {
+      "sequence": 6,
+      "kind": "HostLifecycleObservation",
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "attemptId": "attempt.agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "rawEncoding": "base64",
+      "rawBytes": 1033,
+      "rawDigest": "sha256:1aa1f94909712346fb2b79ecc34cb94116149d6c10c78a483674d950a0883813",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdExpZmVjeWNsZU9ic2VydmF0aW9uIiwicnVuSWQiOiJydW4udjE0LnJlbGVhc2UtYm9hcmQuc21hbGwiLCJydW5SZXZpc2lvbiI6MSwic2VxdWVuY2UiOjYsInByaW9yRXZlbnREaWdlc3QiOiJzaGEyNTY6ZGQxN2IwNjQzYjUxYjQxZTg0NzM0YzI4MjQwZDEzNGFjM2JkZDE1N2M2ZWI2NTEwYTEwYmQxMTQ3ODQzNjhiYiIsImFnZW50SWQiOiJhZ2VudC5kNjNjMmU0YjZiNWZkYjhlMzhiZTI5MWFhMzMzOTExNTY4YmFmMDE1M2FmMTcyNTgxNTYyYzk2N2EwYmQyMDYzIiwiYmx1ZXByaW50RGlnZXN0Ijoic2hhMjU2OmMwNTlkZGVjZTlhN2I4YjU4M2YyMWIwYjU0YzJhMTJhOTNkMjZhMzYyMjU1MzNmOThjNzM4ZmQ1ZDZmYjI0ZTYiLCJhc3NpZ25tZW50RGlnZXN0Ijoic2hhMjU2Ojc5ZDk2MGY1YjQxMzY2ZjAxYWM3NjJmZTViNDg3Y2ZkMjk0N2Q4YWM4MDJiNGUyYjYxMTZkYTczNDZlMmU2MzUiLCJob3N0SWQiOiJjb2RleC1kZXNrdG9wLndpbmRvd3MiLCJhZGFwdGVySWQiOiJjb2RleC1kZXNrdG9wIiwiYWRhcHRlclJldmlzaW9uIjoidjE0LWFscGhhIiwiYXR0ZXN0ZWRCeSI6ImFkYXB0ZXIuY29kZXgtZGVza3RvcC52MTQtYWxwaGEiLCJhdHRlbXB0SWQiOiJhdHRlbXB0LmFnZW50LmQ2M2MyZTRiNmI1ZmRiOGUzOGJlMjkxYWEzMzM5MTE1NjhiYWYwMTUzYWYxNzI1ODE1NjJjOTY3YTBiZDIwNjMiLCJhdXRob3JpemF0aW9uRXZlbnREaWdlc3QiOiJzaGEyNTY6ODhjYzU3YmZlYmJiZWJmYTZkZWU4NTE0Yzk5NzEzNmM4NDFkYmU3MTEyY2ZhMzlkNTUxODIzMGYzNGI0NDlhNiIsIm1hdGVyaWFsaXphdGlvbkV2ZW50RGlnZXN0Ijoic2hhMjU2OmRkMTdiMDY0M2I1MWI0MWU4NDczNGMyODI0MGQxMzRhYzNiZGQxNTdjNmViNjUxMGExMGJkMTE0Nzg0MzY4YmIiLCJuYXRpdmVIYW5kbGUiOiIwMTlmYTUxYy01Y2Q4LTc5NTAtYjNkZi01MTdmYTg2NThhODMiLCJzdGF0dXMiOiJydW5uaW5nIiwiZXZpZGVuY2UiOltdfQ=="
+    },
+    {
+      "sequence": 7,
+      "kind": "HostLifecycleObservation",
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "attemptId": "attempt.agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "rawEncoding": "base64",
+      "rawBytes": 1035,
+      "rawDigest": "sha256:212d6b4f357270ea71a0056ea0043eb6dc0aaeb7b614da34e8b87d398b7381cb",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdExpZmVjeWNsZU9ic2VydmF0aW9uIiwicnVuSWQiOiJydW4udjE0LnJlbGVhc2UtYm9hcmQuc21hbGwiLCJydW5SZXZpc2lvbiI6MSwic2VxdWVuY2UiOjcsInByaW9yRXZlbnREaWdlc3QiOiJzaGEyNTY6MWFhMWY5NDkwOTcxMjM0NmZiMmI3OWVjYzM0Y2I5NDExNjE0OWQ2YzEwYzc4YTQ4MzY3NGQ5NTBhMDg4MzgxMyIsImFnZW50SWQiOiJhZ2VudC5kNjNjMmU0YjZiNWZkYjhlMzhiZTI5MWFhMzMzOTExNTY4YmFmMDE1M2FmMTcyNTgxNTYyYzk2N2EwYmQyMDYzIiwiYmx1ZXByaW50RGlnZXN0Ijoic2hhMjU2OmMwNTlkZGVjZTlhN2I4YjU4M2YyMWIwYjU0YzJhMTJhOTNkMjZhMzYyMjU1MzNmOThjNzM4ZmQ1ZDZmYjI0ZTYiLCJhc3NpZ25tZW50RGlnZXN0Ijoic2hhMjU2Ojc5ZDk2MGY1YjQxMzY2ZjAxYWM3NjJmZTViNDg3Y2ZkMjk0N2Q4YWM4MDJiNGUyYjYxMTZkYTczNDZlMmU2MzUiLCJob3N0SWQiOiJjb2RleC1kZXNrdG9wLndpbmRvd3MiLCJhZGFwdGVySWQiOiJjb2RleC1kZXNrdG9wIiwiYWRhcHRlclJldmlzaW9uIjoidjE0LWFscGhhIiwiYXR0ZXN0ZWRCeSI6ImFkYXB0ZXIuY29kZXgtZGVza3RvcC52MTQtYWxwaGEiLCJhdHRlbXB0SWQiOiJhdHRlbXB0LmFnZW50LmQ2M2MyZTRiNmI1ZmRiOGUzOGJlMjkxYWEzMzM5MTE1NjhiYWYwMTUzYWYxNzI1ODE1NjJjOTY3YTBiZDIwNjMiLCJhdXRob3JpemF0aW9uRXZlbnREaWdlc3QiOiJzaGEyNTY6ODhjYzU3YmZlYmJiZWJmYTZkZWU4NTE0Yzk5NzEzNmM4NDFkYmU3MTEyY2ZhMzlkNTUxODIzMGYzNGI0NDlhNiIsIm1hdGVyaWFsaXphdGlvbkV2ZW50RGlnZXN0Ijoic2hhMjU2OmRkMTdiMDY0M2I1MWI0MWU4NDczNGMyODI0MGQxMzRhYzNiZGQxNTdjNmViNjUxMGExMGJkMTE0Nzg0MzY4YmIiLCJuYXRpdmVIYW5kbGUiOiIwMTlmYTUxYy01Y2Q4LTc5NTAtYjNkZi01MTdmYTg2NThhODMiLCJzdGF0dXMiOiJjb21wbGV0ZWQiLCJldmlkZW5jZSI6W119"
+    },
+    {
+      "sequence": 8,
+      "kind": "HostResultCapture",
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "attemptId": "attempt.agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "rawEncoding": "base64",
+      "rawBytes": 3178,
+      "rawDigest": "sha256:da6a7b66be47bf59a85157754646a25dff2f58e2c7258590b6758648c2606445",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdFJlc3VsdENhcHR1cmUiLCJydW5JZCI6InJ1bi52MTQucmVsZWFzZS1ib2FyZC5zbWFsbCIsInJ1blJldmlzaW9uIjoxLCJzZXF1ZW5jZSI6OCwicHJpb3JFdmVudERpZ2VzdCI6InNoYTI1NjoyMTJkNmI0ZjM1NzI3MGVhNzFhMDA1NmVhMDA0M2ViNmRjMGFhZWI3YjYxNGRhMzRlOGI4N2QzOThiNzM4MWNiIiwiYWdlbnRJZCI6ImFnZW50LmQ2M2MyZTRiNmI1ZmRiOGUzOGJlMjkxYWEzMzM5MTE1NjhiYWYwMTUzYWYxNzI1ODE1NjJjOTY3YTBiZDIwNjMiLCJibHVlcHJpbnREaWdlc3QiOiJzaGEyNTY6YzA1OWRkZWNlOWE3YjhiNTgzZjIxYjBiNTRjMmExMmE5M2QyNmEzNjIyNTUzM2Y5OGM3MzhmZDVkNmZiMjRlNiIsImFzc2lnbm1lbnREaWdlc3QiOiJzaGEyNTY6NzlkOTYwZjViNDEzNjZmMDFhYzc2MmZlNWI0ODdjZmQyOTQ3ZDhhYzgwMmI0ZTJiNjExNmRhNzM0NmUyZTYzNSIsImhvc3RJZCI6ImNvZGV4LWRlc2t0b3Aud2luZG93cyIsImFkYXB0ZXJJZCI6ImNvZGV4LWRlc2t0b3AiLCJhZGFwdGVyUmV2aXNpb24iOiJ2MTQtYWxwaGEiLCJhdHRlc3RlZEJ5IjoiYWRhcHRlci5jb2RleC1kZXNrdG9wLnYxNC1hbHBoYSIsImF0dGVtcHRJZCI6ImF0dGVtcHQuYWdlbnQuZDYzYzJlNGI2YjVmZGI4ZTM4YmUyOTFhYTMzMzkxMTU2OGJhZjAxNTNhZjE3MjU4MTU2MmM5NjdhMGJkMjA2MyIsImF1dGhvcml6YXRpb25FdmVudERpZ2VzdCI6InNoYTI1Njo4OGNjNTdiZmViYmJlYmZhNmRlZTg1MTRjOTk3MTM2Yzg0MWRiZTcxMTJjZmEzOWQ1NTE4MjMwZjM0YjQ0OWE2IiwibWF0ZXJpYWxpemF0aW9uRXZlbnREaWdlc3QiOiJzaGEyNTY6ZGQxN2IwNjQzYjUxYjQxZTg0NzM0YzI4MjQwZDEzNGFjM2JkZDE1N2M2ZWI2NTEwYTEwYmQxMTQ3ODQzNjhiYiIsInRlcm1pbmFsTGlmZWN5Y2xlRXZlbnREaWdlc3QiOiJzaGEyNTY6MjEyZDZiNGYzNTcyNzBlYTcxYTAwNTZlYTAwNDNlYjZkYzBhYWViN2I2MTRkYTM0ZThiODdkMzk4YjczODFjYiIsInN0ZWVyaW5nRXZlbnREaWdlc3RzIjpbXSwicmF3SGFuZG9mZkVuY29kaW5nIjoiYmFzZTY0IiwicmF3SGFuZG9mZkJ5dGVzIjoxNDUzLCJyYXdIYW5kb2ZmRGlnZXN0Ijoic2hhMjU2OmE0ODRjOGM4ZWE4ZTQ0MmJkYTJhOGNlODc0OGEzMGQ2ZDFhNGMzMTgyMmYwYzAwM2QyZmVlMjI5OWRiNjk2NmIiLCJyYXdIYW5kb2ZmQmFzZTY0IjoiZXlKaGNHbFdaWEp6YVc5dUlqb2ljM2RsWTJseVkzVnBkQzl6Y0dWamFXRnNhWE4wTDNZeFlXeHdhR0V4SWl3aWEybHVaQ0k2SWxOd1pXTnBZV3hwYzNSQloyVnVkRWhoYm1SdlptWWlMQ0p2ZFhSamIyMWxJam9pY0dGemN5SXNJbVJsYzNScGJtRjBhVzl1SWpvaVkyOWtaWGd1YldGcGJpSXNJbWR2WVd3aU9uc2lhV1FpT2lKMk1UUXVaRzluWm05dlpDNXlaV3hsWVhObExXSnZZWEprSWl3aWNtVjJhWE5wYjI0aU9qRXNJbVJwWjJWemRDSTZJbk5vWVRJMU5qb3hOMkkzT0RjNE9USmhZbUpoTlRReU9UQXdNMlE0TnpVME9HSm1OREJsWWpnM01UVXdOemhtTlRZek5tVTFOV0kwTmprNU9HUXhNMk5rT1RVNVl6Qm1JbjBzSW1GblpXNTBJanA3SW1sa0lqb2lZV2RsYm5RdVpEWXpZekpsTkdJMllqVm1aR0k0WlRNNFltVXlPVEZoWVRNek16a3hNVFUyT0dKaFpqQXhOVE5oWmpFM01qVTRNVFUyTW1NNU5qZGhNR0prTWpBMk15SXNJbUpzZFdWd2NtbHVkRVJwWjJWemRDSTZJbk5vWVRJMU5qcGpNRFU1WkdSbFkyVTVZVGRpT0dJMU9ETm1NakZpTUdJMU5HTXlZVEV5WVRrelpESTJZVE0yTWpJMU5UTXpaams0WXpjek9HWmtOV1EyWm1JeU5HVTJJbjBzSW1OdmJYQnBiR0YwYVc5dVJHbG5aWE4wSWpvaWMyaGhNalUyT21ZMFpqUmxPVEZtWXpGbVl6aGxZVEppTkdObU5USXlOVFl6T1RWbVlUUmxNVFZpTVRBNVkyTTFaV0prTkdZNFltTTJPVEJqTkRBNFl6UmlOV1ZpTjJVaUxDSnpkVzF0WVhKNUlqb2lTVzF3YkdWdFpXNTBaV1FnYVcxdGRYUmhZbXhsSUZKbGJHVmhjMlVnUW05aGNtUWdaRzl0WVdsdUlHOXdaWEpoZEdsdmJuTWdZVzVrSUhabGNuTnBiMjVsWkNCbVlXbHNMWE5oWm1VZ2MzUnZjbUZuWlNCM2FYUm9JR1JsZEdWeWJXbHVhWE4wYVdNZ1RtOWtaU0IwWlhOMGN5NGlMQ0ozYjNKclZXNXBkSE5EYjIxd2JHVjBaV1FpT2xzaWFXMXdiR1Z0Wlc1MExuSmxiR1ZoYzJVdFltOWhjbVF0Wkc5dFlXbHVJbDBzSW1GeWRHbG1ZV04wY3lJNlczc2libUZ0WlNJNkluSmxiR1ZoYzJVdFltOWhjbVF0Wkc5dFlXbHVMV2hoYm1SdlptWXViV1FpTENKdFpXUnBZVlI1Y0dVaU9pSjBaWGgwTDIxaGNtdGtiM2R1SWl3aVkyOXVkR1Z1ZENJNklrTm9ZVzVuWldRZ1ptbHNaWE02SUdWNFlXMXdiR1Z6TDNKbGJHVmhjMlV0WW05aGNtUXZjM0pqTDIxdlpHVnNMbXB6TENCbGVHRnRjR3hsY3k5eVpXeGxZWE5sTFdKdllYSmtMM055WXk5emRHOXlZV2RsTG1wekxDQmxlR0Z0Y0d4bGN5OXlaV3hsWVhObExXSnZZWEprTDNSbGMzUXZiVzlrWld3dWRHVnpkQzV0YW5Nc0lHVjRZVzF3YkdWekwzSmxiR1ZoYzJVdFltOWhjbVF2ZEdWemRDOXpkRzl5WVdkbExuUmxjM1F1YldwekxpQlVaWE4wT2lCdWIyUmxJQzB0ZEdWemRDQmxlR0Z0Y0d4bGN5OXlaV3hsWVhObExXSnZZWEprTDNSbGMzUXZiVzlrWld3dWRHVnpkQzV0YW5NZ1pYaGhiWEJzWlhNdmNtVnNaV0Z6WlMxaWIyRnlaQzkwWlhOMEwzTjBiM0poWjJVdWRHVnpkQzV0YW5NN0lEZ2djR0Z6YzJWa0xDQXdJR1poYVd4bFpDNGlmVjBzSW1WMmFXUmxibU5sSWpwYmV5SmpjbWwwWlhKcGIyNUpaQ0k2SW1OeWFYUmxjbWx2Ymk1a2IyMWhhVzRpTENKeVpYRjFhWEpsYldWdWRFbGtJam9pWlhacFpHVnVZMlV1Wkc5dFlXbHVMblJsYzNSeklpd2lhMmx1WkNJNkluUmxjM1FpTENKa2RYUjVJam9pY0hKdlpIVmpaU0lzSW5OMFlYUjFjeUk2SW5CaGMzTWlMQ0poY25ScFptRmpkQ0k2SW5KbGJHVmhjMlV0WW05aGNtUXRaRzl0WVdsdUxXaGhibVJ2Wm1ZdWJXUWlmVjBzSW1GemMzVnRjSFJwYjI1eklqcGJJa0p2ZFc1a1pXUWdjM1J5YVc1bklHeHBiV2wwY3lCMWMyVWdNakF3SUdOb1lYSmhZM1JsY25NZ1ptOXlJRWxFY3l3Z01USXdJR1p2Y2lCMGFYUnNaWE1zSURnd0lHWnZjaUJ2ZDI1bGNuTXNJR0Z1WkNBeE1EQXdJR1p2Y2lCbGRtbGtaVzVqWlM0aVhTd2ljbWx6YTNNaU9sdGRMQ0ptYjJ4c2IzZFZjSE1pT2x0ZGZRPT0ifQ=="
+    },
+    {
+      "sequence": 9,
+      "kind": "HostLifecycleObservation",
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "attemptId": "attempt.agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "rawEncoding": "base64",
+      "rawBytes": 1035,
+      "rawDigest": "sha256:2a8e8ac93d45638302e6e620f4a66d63753d5bfddbc3550f6ee712ad6fe2134d",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdExpZmVjeWNsZU9ic2VydmF0aW9uIiwicnVuSWQiOiJydW4udjE0LnJlbGVhc2UtYm9hcmQuc21hbGwiLCJydW5SZXZpc2lvbiI6MSwic2VxdWVuY2UiOjksInByaW9yRXZlbnREaWdlc3QiOiJzaGEyNTY6ZGE2YTdiNjZiZTQ3YmY1OWE4NTE1Nzc1NDY0NmEyNWRmZjJmNThlMmM3MjU4NTkwYjY3NTg2NDhjMjYwNjQ0NSIsImFnZW50SWQiOiJhZ2VudC43MTJmMDZkMDhhYWM2ZmM2OTNmODIxZjJkYTE2ODUxOWRjMWNkOWE5NjM0ZWJmYTcxYTA5ODJhOTBmZWY3MjI4IiwiYmx1ZXByaW50RGlnZXN0Ijoic2hhMjU2OmM3NjUxYTdiYWU3MTgzNjEwZmU0MTFjYjA2ZGZjMjRjMGMwZTkxZWRiYjZmZTlkYTU1M2JiNTVmMDhkM2JmNzYiLCJhc3NpZ25tZW50RGlnZXN0Ijoic2hhMjU2Ojc5ZDk2MGY1YjQxMzY2ZjAxYWM3NjJmZTViNDg3Y2ZkMjk0N2Q4YWM4MDJiNGUyYjYxMTZkYTczNDZlMmU2MzUiLCJob3N0SWQiOiJjb2RleC1kZXNrdG9wLndpbmRvd3MiLCJhZGFwdGVySWQiOiJjb2RleC1kZXNrdG9wIiwiYWRhcHRlclJldmlzaW9uIjoidjE0LWFscGhhIiwiYXR0ZXN0ZWRCeSI6ImFkYXB0ZXIuY29kZXgtZGVza3RvcC52MTQtYWxwaGEiLCJhdHRlbXB0SWQiOiJhdHRlbXB0LmFnZW50LjcxMmYwNmQwOGFhYzZmYzY5M2Y4MjFmMmRhMTY4NTE5ZGMxY2Q5YTk2MzRlYmZhNzFhMDk4MmE5MGZlZjcyMjgiLCJhdXRob3JpemF0aW9uRXZlbnREaWdlc3QiOiJzaGEyNTY6OTY5NmQyNzkwZmExMjk5Nzg0ZTdhODkzNzg2YTE0OTgwZDMzNDg0Y2EyMTQ5ZmJkOWIzYTgyYjkzMGQ1ODlhZiIsIm1hdGVyaWFsaXphdGlvbkV2ZW50RGlnZXN0Ijoic2hhMjU2OjhkNGYzZjUxMjgyZDljYTNlYTY5YzQ3Yjc1Nzk5MGRiNzY3NjFkZGRjYWQ2MGZhNGQxYjhjOGE4NDY4NDZhNTciLCJuYXRpdmVIYW5kbGUiOiIwMTlmYTUxYy01YjY2LTcyNjMtYWMzNC00ZGRjNDQxNGFmZTUiLCJzdGF0dXMiOiJjb21wbGV0ZWQiLCJldmlkZW5jZSI6W119"
+    },
+    {
+      "sequence": 10,
+      "kind": "HostResultCapture",
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "attemptId": "attempt.agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "rawEncoding": "base64",
+      "rawBytes": 3115,
+      "rawDigest": "sha256:70efb8b67ef7c631e8f7eec8adc7996a1c3c4b892470b05b3b6bc7e15e38390f",
+      "rawBase64": "eyJhcGlWZXJzaW9uIjoic3dlY2lyY3VpdC9hZGFwdGl2ZS1ydW4vdjFhbHBoYTEiLCJraW5kIjoiSG9zdFJlc3VsdENhcHR1cmUiLCJydW5JZCI6InJ1bi52MTQucmVsZWFzZS1ib2FyZC5zbWFsbCIsInJ1blJldmlzaW9uIjoxLCJzZXF1ZW5jZSI6MTAsInByaW9yRXZlbnREaWdlc3QiOiJzaGEyNTY6MmE4ZThhYzkzZDQ1NjM4MzAyZTZlNjIwZjRhNjZkNjM3NTNkNWJmZGRiYzM1NTBmNmVlNzEyYWQ2ZmUyMTM0ZCIsImFnZW50SWQiOiJhZ2VudC43MTJmMDZkMDhhYWM2ZmM2OTNmODIxZjJkYTE2ODUxOWRjMWNkOWE5NjM0ZWJmYTcxYTA5ODJhOTBmZWY3MjI4IiwiYmx1ZXByaW50RGlnZXN0Ijoic2hhMjU2OmM3NjUxYTdiYWU3MTgzNjEwZmU0MTFjYjA2ZGZjMjRjMGMwZTkxZWRiYjZmZTlkYTU1M2JiNTVmMDhkM2JmNzYiLCJhc3NpZ25tZW50RGlnZXN0Ijoic2hhMjU2Ojc5ZDk2MGY1YjQxMzY2ZjAxYWM3NjJmZTViNDg3Y2ZkMjk0N2Q4YWM4MDJiNGUyYjYxMTZkYTczNDZlMmU2MzUiLCJob3N0SWQiOiJjb2RleC1kZXNrdG9wLndpbmRvd3MiLCJhZGFwdGVySWQiOiJjb2RleC1kZXNrdG9wIiwiYWRhcHRlclJldmlzaW9uIjoidjE0LWFscGhhIiwiYXR0ZXN0ZWRCeSI6ImFkYXB0ZXIuY29kZXgtZGVza3RvcC52MTQtYWxwaGEiLCJhdHRlbXB0SWQiOiJhdHRlbXB0LmFnZW50LjcxMmYwNmQwOGFhYzZmYzY5M2Y4MjFmMmRhMTY4NTE5ZGMxY2Q5YTk2MzRlYmZhNzFhMDk4MmE5MGZlZjcyMjgiLCJhdXRob3JpemF0aW9uRXZlbnREaWdlc3QiOiJzaGEyNTY6OTY5NmQyNzkwZmExMjk5Nzg0ZTdhODkzNzg2YTE0OTgwZDMzNDg0Y2EyMTQ5ZmJkOWIzYTgyYjkzMGQ1ODlhZiIsIm1hdGVyaWFsaXphdGlvbkV2ZW50RGlnZXN0Ijoic2hhMjU2OjhkNGYzZjUxMjgyZDljYTNlYTY5YzQ3Yjc1Nzk5MGRiNzY3NjFkZGRjYWQ2MGZhNGQxYjhjOGE4NDY4NDZhNTciLCJ0ZXJtaW5hbExpZmVjeWNsZUV2ZW50RGlnZXN0Ijoic2hhMjU2OjJhOGU4YWM5M2Q0NTYzODMwMmU2ZTYyMGY0YTY2ZDYzNzUzZDViZmRkYmMzNTUwZjZlZTcxMmFkNmZlMjEzNGQiLCJzdGVlcmluZ0V2ZW50RGlnZXN0cyI6W10sInJhd0hhbmRvZmZFbmNvZGluZyI6ImJhc2U2NCIsInJhd0hhbmRvZmZCeXRlcyI6MTQwNiwicmF3SGFuZG9mZkRpZ2VzdCI6InNoYTI1Njo2YzJlZTM0OWRhMWQwNzBjOTIwNGRhMWIzZTE0OWIwODYxN2JmNmQyYTU0NjAwMmMxOGE4ZWRiNjdjOWZiMDU1IiwicmF3SGFuZG9mZkJhc2U2NCI6ImV5SmhjR2xXWlhKemFXOXVJam9pYzNkbFkybHlZM1ZwZEM5emNHVmphV0ZzYVhOMEwzWXhZV3h3YUdFeElpd2lhMmx1WkNJNklsTndaV05wWVd4cGMzUkJaMlZ1ZEVoaGJtUnZabVlpTENKdmRYUmpiMjFsSWpvaWNHRnpjeUlzSW1SbGMzUnBibUYwYVc5dUlqb2lZMjlrWlhndWJXRnBiaUlzSW1kdllXd2lPbnNpYVdRaU9pSjJNVFF1Wkc5blptOXZaQzV5Wld4bFlYTmxMV0p2WVhKa0lpd2ljbVYyYVhOcGIyNGlPakVzSW1ScFoyVnpkQ0k2SW5Ob1lUSTFOam94TjJJM09EYzRPVEpoWW1KaE5UUXlPVEF3TTJRNE56VTBPR0ptTkRCbFlqZzNNVFV3TnpobU5UWXpObVUxTldJME5qazVPR1F4TTJOa09UVTVZekJtSW4wc0ltRm5aVzUwSWpwN0ltbGtJam9pWVdkbGJuUXVOekV5WmpBMlpEQTRZV0ZqTm1aak5qa3paamd5TVdZeVpHRXhOamcxTVRsa1l6RmpaRGxoT1RZek5HVmlabUUzTVdFd09UZ3lZVGt3Wm1WbU56SXlPQ0lzSW1Kc2RXVndjbWx1ZEVScFoyVnpkQ0k2SW5Ob1lUSTFOanBqTnpZMU1XRTNZbUZsTnpFNE16WXhNR1psTkRFeFkySXdObVJtWXpJMFl6QmpNR1U1TVdWa1ltSTJabVU1WkdFMU5UTmlZalUxWmpBNFpETmlaamMySW4wc0ltTnZiWEJwYkdGMGFXOXVSR2xuWlhOMElqb2ljMmhoTWpVMk9tWTBaalJsT1RGbVl6Rm1ZemhsWVRKaU5HTm1OVEl5TlRZek9UVm1ZVFJsTVRWaU1UQTVZMk0xWldKa05HWTRZbU0yT1RCak5EQTRZelJpTldWaU4yVWlMQ0p6ZFcxdFlYSjVJam9pU1cxd2JHVnRaVzUwWldRZ2RHaGxJR052YlhCc1pYUmxJSEpsYzNCdmJuTnBkbVVnYzJWdFlXNTBhV01nVW1Wc1pXRnpaU0JDYjJGeVpDQnBiblJsY21aaFkyVWdkMmwwYUNCeVpYRjFhWEpsWkNCamIyNTBjbTlzY3l3Z2FHOXZhM01zSUhSbGJYQnNZWFJsTENCc2FYWmxJSEpsWjJsdmJpd2dZVzVrSUdadlkzVnpJSFJ5WldGMGJXVnVkQzRpTENKM2IzSnJWVzVwZEhORGIyMXdiR1YwWldRaU9sc2lhVzF3YkdWdFpXNTBMbkpsYkdWaGMyVXRZbTloY21RdGFXNTBaWEptWVdObElsMHNJbUZ5ZEdsbVlXTjBjeUk2VzNzaWJtRnRaU0k2SW5KbGJHVmhjMlV0WW05aGNtUXRhVzUwWlhKbVlXTmxMV2hoYm1SdlptWXViV1FpTENKdFpXUnBZVlI1Y0dVaU9pSjBaWGgwTDIxaGNtdGtiM2R1SWl3aVkyOXVkR1Z1ZENJNklrTm9ZVzVuWldRZ1ptbHNaWE02SUdWNFlXMXdiR1Z6TDNKbGJHVmhjMlV0WW05aGNtUXZhVzVrWlhndWFIUnRiRHNnWlhoaGJYQnNaWE12Y21Wc1pXRnpaUzFpYjJGeVpDOXpkSGxzWlhNdVkzTnpMaUJXWlhKcFptbGpZWFJwYjI0NklHTnZibVpwY20xbFpDQnlaWEYxYVhKbFpDQm1iM0p0TENCemRXMXRZWEo1TENCbWFXeDBaWEp6TENCc2FYTjBMQ0JsYlhCMGVTQnpkR0YwWlN3Z2RHVnRjR3hoZEdVc0lHeHBkbVVnY21WbmFXOXVMQ0J0YjJSMWJHVWdjMk55YVhCMExDQmhibVFnWkdGMFlTMWhZM1JwYjI0Z2FHOXZhM003SUdOdmJtWnBjbTFsWkNCMmFYTnBZbXhsSURwbWIyTjFjeTEyYVhOcFlteGxJSE4wZVd4cGJtYzdJR052Ym1acGNtMWxaQ0J1YnlCeVpXMXZkR1VnWVhOelpYUnpJRzl5SUdsdWJHbHVaU0JsZG1WdWRDQm9ZVzVrYkdWeWN5NGlmVjBzSW1WMmFXUmxibU5sSWpwYmV5SmpjbWwwWlhKcGIyNUpaQ0k2SW1OeWFYUmxjbWx2Ymk1cGJuUmxjbVpoWTJVaUxDSnlaWEYxYVhKbGJXVnVkRWxrSWpvaVpYWnBaR1Z1WTJVdWFXNTBaWEptWVdObExtRnlkR2xtWVdOMElpd2lhMmx1WkNJNkltRnlkR2xtWVdOMElpd2laSFYwZVNJNkluQnliMlIxWTJVaUxDSnpkR0YwZFhNaU9pSndZWE56SWl3aVlYSjBhV1poWTNRaU9pSnlaV3hsWVhObExXSnZZWEprTFdsdWRHVnlabUZqWlMxb1lXNWtiMlptTG0xa0luMWRMQ0poYzNOMWJYQjBhVzl1Y3lJNlcxMHNJbkpwYzJ0eklqcGJYU3dpWm05c2JHOTNWWEJ6SWpwYlhYMD0ifQ=="
+    }
+  ],
+  "contentDigest": "sha256:bf0a05f86b0c921ee9ed35f04f4286b9ea2310a4b910311b2c37cc6b9045ead2"
+}

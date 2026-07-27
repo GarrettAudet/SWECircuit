@@ -1,0 +1,133 @@
+{
+  "outcome": "pass",
+  "serialBaseline": {
+    "id": "team.9b0ef6211dc14d9f95126f70e5ca9c35029589f697a3dae1cbe883b5ad46e97c",
+    "partition": [
+      [
+        "implement.release-board-domain",
+        "implement.release-board-interface"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 12,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 11,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.e5562321d325fe402f5cf6a86d1b3d0dbef19cf0e11960ee03e2cd0e4e18245e",
+        "start": 0,
+        "finish": 12
+      }
+    ],
+    "contentDigest": "sha256:099346878b18855b2bf61b3d63fb4b873042c249e74ed20f513e2c63fc2c3bf8"
+  },
+  "selected": {
+    "id": "team.c773f72cc9ded5b29f24db957e26f65e4f24ed5c56ec9c24e1ee89f7d5c6c13a",
+    "partition": [
+      [
+        "implement.release-board-domain"
+      ],
+      [
+        "implement.release-board-interface"
+      ]
+    ],
+    "origins": [
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.release-board.parallel-roots"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 2,
+      "projectedMakespan": 7,
+      "peakConcurrency": 2,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 20742,
+      "duplicatedPermissionScopes": 3,
+      "totalWorkWeight": 11,
+      "totalStartupCost": 2,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "start": 0,
+        "finish": 6
+      },
+      {
+        "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+        "start": 0,
+        "finish": 7
+      }
+    ],
+    "contentDigest": "sha256:7298ee2364f0c00a729959cabed169d06d2ab7545a99eba651859d5e3104f66f"
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 7,
+    "serialValue": 12,
+    "serialRejectionCodes": []
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 2,
+    "evaluatedCandidates": 2,
+    "eligibleCandidates": 2,
+    "retainedAlternatives": 1,
+    "evaluationSetDigest": "sha256:aa8a46ec3f147fcc373dc969d9933cdea51768d641c934925205284a782f4d44"
+  },
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+        "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "workUnitIds": [
+        "implement.release-board-interface"
+      ],
+      "dependencies": [],
+      "contentDigest": "sha256:c7651a7bae7183610fe411cb06dfc24c0c0e91edbb6fe9da553bb55f08d3bf76",
+      "contractFile": "agents/agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228.md"
+    },
+    {
+      "id": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "workUnitIds": [
+        "implement.release-board-domain"
+      ],
+      "dependencies": [],
+      "contentDigest": "sha256:c059ddece9a7b8b583f21b0b54c2a12a93d26a36225533f98c738fd5d6fb24e6",
+      "contractFile": "agents/agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063.md"
+    }
+  ],
+  "expectation": {
+    "compilationDigest": "sha256:f4f4e91fc1fc8ea2b4cf52256395fa4e15b109cc5ebd4f8bc690c408c4b5eb7e",
+    "packageDigest": "sha256:e6a44c03a2b826065b8dc60d64b2eb3900ceaef41bfdd0d7335ae99916d3a92c"
+  }
+}

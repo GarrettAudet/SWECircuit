@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "stage": "integrated_and_verified",
+  "integrationOwner": "codex.main",
+  "sourceFanIn": {
+    "runId": "run.v14.release-board.small",
+    "runViewStage": "integration_ready",
+    "nextActionAtFanIn": "integrate_and_verify",
+    "runViewJsonPath": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/run/run-view.json",
+    "runViewJsonSha256": "4f4be05cf0593c1ad3b1c9a9c89dfb6e3e4dfb0e86b5460cef9e9c4d4b039aa9",
+    "runViewMarkdownPath": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/run/run-view.md",
+    "runViewMarkdownSha256": "d25887eb263f59aa08fddebda5d1591218e614112457854040ce9c3b9c985b92",
+    "explanation": "The RunView is immutable pre-integration fan-in evidence, not a post-integration release claim."
+  },
+  "integratedArtifact": {
+    "path": "examples/release-board/",
+    "browserEvidence": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/browser/qa-result.json",
+    "browserEvidenceSha256": "e3dff7c03af0dcf01a1e5da2485e4116fa4436731977d61f2028e8e4477ba8f9"
+  },
+  "verification": [
+    {
+      "command": "npm.cmd test",
+      "workingDirectory": "examples/release-board",
+      "result": "pass",
+      "passed": 14,
+      "failed": 0
+    },
+    {
+      "command": "npm.cmd run check",
+      "workingDirectory": "examples/release-board",
+      "result": "pass"
+    },
+    {
+      "command": "npm.cmd run typecheck",
+      "workingDirectory": ".",
+      "result": "pass"
+    },
+    {
+      "command": "npm.cmd run build",
+      "workingDirectory": ".",
+      "result": "pass"
+    },
+    {
+      "command": "node --test test/runtime-routing.test.mjs test/runtime-routing-schema.test.mjs test/adaptive-run.test.mjs test/adaptive-run-schema.test.mjs",
+      "workingDirectory": ".",
+      "result": "pass",
+      "passed": 26,
+      "failed": 0
+    },
+    {
+      "command": "git diff --check",
+      "workingDirectory": ".",
+      "result": "pass"
+    }
+  ],
+  "currentGate": "independent_review",
+  "releaseAlphaApproved": false
+}

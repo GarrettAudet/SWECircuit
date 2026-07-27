@@ -2,30 +2,27 @@
 
 ## Current Focus
 
-V14 is building the adaptive orchestration layer on `codex/v14-adaptive-orchestration`. The active
-contract separates immutable specialist demand from volatile host runtime supply, filters hard
-quality and authority requirements before deterministic cost optimization, projects native host
-commands without claiming their effects, and renders one source-derived RunView.
+V14 has a working Windows Codex Desktop alpha on `codex/v14-adaptive-orchestration`. The kernel
+compiles least-sufficient runtime assignments from immutable specialist demand and host-supplied
+inventory, records exact host events, exposes dependency-safe controller actions, and renders one
+source-derived RunView without claiming native effects.
 
-V13 is the completed dogfood input. It proved four task-shaped specialists, two parallel roots,
-dependency-controlled fan-in, exact raw handoffs, browser and deterministic correction routing,
-and a final `integrationReady: true` result with independent `pass`.
+The small Release Board dogfood is the active proof: two conflict-free work units, two parallel
+native specialists, Luna/medium and Terra/high assignments, exact failed-handoff rejection and
+correction, verified fan-in, integration, automated tests, source-bound browser QA, and independent
+successor review PASS.
 
 ## Current Stage
 
-V14 is in `intake -> clarify -> spec -> architecture check`. The feature package, proposed ADR
-0007, runtime-routing contract, research snapshot, test plan, and active milestone are present.
-Public TypeScript interfaces remain unfrozen until independent architecture, security, API, and
-usability review passes.
+V14 is in `review -> memory update` for the small Windows alpha. AC1-AC9 and T001-T005 are
+implemented. The small portion of T006 is complete; medium and high-risk dogfoods plus T007 exact
+release qualification remain.
 
-V13 is frozen at commit `f8718e6` on `codex/v13-dogfood-validation` and is the exact dogfood
-baseline for V14. V12 Revision 73 remains the stable `main` release until approved successors are
-merged.
-
-External IDE hosts still own provider/model/effort selection, skills, tools, spawning, workspace
-and process isolation, permission enforcement, execution, persistence, integration effects, merge,
-and memory mutation. SWECircuit core owns deterministic contracts, verification, dependency
-readiness, routing, and immutable run state.
+V12 Revision 73 remains the stable `main` baseline. The V14 branch is not merged and no general
+release claim is made. External IDE hosts still own native model execution, process and workspace
+isolation, permission enforcement, lifecycle observation, persistence effects, integration
+commands, merge, and memory mutation; core verifies contracts, decisions, observations, and
+handoffs.
 
 ## Important Current Constraints
 
@@ -200,11 +197,9 @@ readiness, routing, and immutable run state.
 
 ## Next Likely Work
 
-- Commit and publish the V13 dogfood branch for owner review; merge only after explicit approval.
-- Make V14 an adaptive quick rail: automate compile, launch, accept, assess, inspect, evidence
-  delivery, and status projection while retaining the same fail-closed contracts.
-- Add a compact RunView projection so an IDE can show modules, agents, dependencies, files,
-  outcomes, evidence, and the next owner action without exposing lifecycle ceremony.
-- Design the deferred provider-neutral host configuration and runtime-assignment layer without
-  moving model, tool, spawning, isolation, or execution effects into core.
-- Keep V12 Revision 73 as the `main` baseline until V13 receives owner approval.
+- Preserve the final small-dogfood independent review and freeze a commit.
+- Update V14 review, history ledger, retrieval index, and milestone with the exact candidate.
+- Run one bounded medium dogfood and one high-risk dogfood using the same alpha without adding new
+  architecture unless a reproduced failure requires it.
+- Run exact-candidate verification and hosted Windows CI, then request explicit owner merge
+  approval.

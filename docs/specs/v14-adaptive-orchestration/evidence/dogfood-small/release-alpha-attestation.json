@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "small_windows_alpha_attestation",
+  "integrationRecord": {
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/integration-record.json",
+    "sha256": "c10d1c424a457542a73bc901431866f83042080d738a4ea023db98dbaf5cad9b"
+  },
+  "independentReview": {
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/independent-review.md",
+    "sha256": "7813bf0260c97f29256b3f1a85880862369b632464be15d433f70a27c06bd8f1",
+    "agentId": "019fa528-4af4-7633-b72d-7050ad47af35",
+    "runtime": "gpt-5.6-terra",
+    "effort": "high",
+    "verdict": "pass",
+    "findings": 0
+  },
+  "smallWindowsAlphaUsable": true,
+  "generalV14ReleaseApproved": false,
+  "remainingGates": [
+    "medium_dogfood",
+    "high_risk_dogfood",
+    "immutable_candidate_verification",
+    "hosted_windows_ci",
+    "final_independent_release_review",
+    "owner_merge_approval"
+  ]
+}

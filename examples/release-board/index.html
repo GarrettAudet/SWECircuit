@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Release Board</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="app-identity">
+          <p class="workspace-label">Local workspace</p>
+          <h1>Release board</h1>
+        </div>
+        <button class="button button-primary" id="add-check-button" type="button">
+          Add check
+        </button>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="summary-section" aria-labelledby="summary-heading">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Release readiness</p>
+            <h2 id="summary-heading">Current checks</h2>
+          </div>
+          <p class="readiness" id="readiness-summary" data-ready="false">
+            <span class="readiness-dot" aria-hidden="true"></span>
+            <span id="readiness-label">Not ready</span>
+          </p>
+        </div>
+        <dl class="summary-grid" aria-label="Release check summary">
+          <div class="summary-item">
+            <dt>Total</dt>
+            <dd id="summary-total">0</dd>
+          </div>
+          <div class="summary-item summary-pending">
+            <dt>Pending</dt>
+            <dd id="summary-pending">0</dd>
+          </div>
+          <div class="summary-item summary-passed">
+            <dt>Passed</dt>
+            <dd id="summary-passed">0</dd>
+          </div>
+          <div class="summary-item summary-blocked">
+            <dt>Blocked</dt>
+            <dd id="summary-blocked">0</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="workspace" aria-label="Release checks">
+        <div class="workspace-toolbar">
+          <div>
+            <p class="section-kicker">Work queue</p>
+            <h2>Checks</h2>
+          </div>
+          <div class="filter-control" role="group" aria-label="Filter release checks">
+            <span class="filter-label">Show</span>
+            <div class="filter-options">
+              <button class="filter-button is-active" id="filter-all" type="button" data-filter="all" aria-pressed="true">All</button>
+              <button class="filter-button" id="filter-blocked" type="button" data-filter="blocked" aria-pressed="false">Blocked</button>
+              <button class="filter-button" id="filter-pending" type="button" data-filter="pending" aria-pressed="false">Pending</button>
+              <button class="filter-button" id="filter-passed" type="button" data-filter="passed" aria-pressed="false">Passed</button>
+            </div>
+          </div>
+        </div>
+
+        <ul class="check-list" id="check-list" aria-label="Release checks"></ul>
+        <section class="empty-state" id="empty-state" aria-labelledby="empty-state-title" hidden>
+          <div class="empty-mark" aria-hidden="true">+</div>
+          <h3 id="empty-state-title">No checks match</h3>
+          <p id="empty-state-message">Add a release check or choose another filter.</p>
+          <button class="button button-secondary" id="empty-state-action" type="button">Add check</button>
+        </section>
+      </section>
+
+      <section class="add-panel" aria-labelledby="add-check-heading">
+        <div class="add-panel-heading">
+          <p class="section-kicker">New item</p>
+          <h2 id="add-check-heading">Add a release check</h2>
+          <p>Capture the evidence needed before shipping.</p>
+        </div>
+        <form class="check-form" id="check-form">
+          <div class="form-field form-field-title">
+            <label for="check-title">Title <span class="required-mark" aria-hidden="true">*</span></label>
+            <input id="check-title" name="title" type="text" maxlength="120" autocomplete="off" required>
+          </div>
+          <div class="form-field">
+            <label for="check-owner">Owner <span class="required-mark" aria-hidden="true">*</span></label>
+            <input id="check-owner" name="owner" type="text" maxlength="80" autocomplete="organization" required>
+          </div>
+          <div class="form-field">
+            <label for="check-category">Category</label>
+            <select id="check-category" name="category">
+              <option value="build">Build</option>
+              <option value="test" selected>Test</option>
+              <option value="review">Review</option>
+              <option value="docs">Docs</option>
+            </select>
+          </div>
+          <div class="form-field form-field-evidence">
+            <label for="check-evidence">Evidence <span class="optional-label">Optional</span></label>
+            <textarea id="check-evidence" name="evidence" maxlength="500" rows="2" placeholder="Link, note, or verification detail"></textarea>
+          </div>
+          <button class="button button-primary form-submit" type="submit">Add check</button>
+        </form>
+      </section>
+    </main>
+
+    <template id="check-row-template">
+      <li class="check-row" data-check-id="">
+        <div class="check-row-main">
+          <div class="check-row-heading">
+            <h3 class="check-title" data-check-title></h3>
+            <span class="status-badge" data-check-status></span>
+          </div>
+          <p class="check-meta"><span data-check-owner></span><span class="meta-separator" aria-hidden="true">/</span><span data-check-category></span></p>
+          <p class="check-evidence" data-check-evidence></p>
+        </div>
+        <div class="check-row-actions" aria-label="Check actions">
+          <button class="button button-secondary check-status-button" type="button" data-action="status">Mark passed</button>
+          <button class="button button-quiet check-delete-button" type="button" data-action="delete">Delete</button>
+        </div>
+      </li>
+    </template>
+
+    <div class="visually-hidden" id="app-live-region" role="status" aria-live="polite"></div>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>

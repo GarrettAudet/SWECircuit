@@ -54,5 +54,8 @@ None are planned. macOS and Linux are outside the accepted v0.1 support boundary
 
 ## Verification Evidence
 
-Evidence will be recorded under `docs/specs/v14-adaptive-orchestration/evidence/` and bound to the
-exact release candidate in the V14 milestone.
+The small native dogfood is recorded under
+`docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/`. It binds exact team and runtime
+compilations, native handoffs, immutable session and RunView, integration verification, 15 app and evidence
+tests, source-bound desktop/mobile browser evidence, and independent review. Medium, high-risk,
+hosted-CI, and immutable-candidate evidence remain before general release.

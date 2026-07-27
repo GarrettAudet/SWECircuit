@@ -1,0 +1,30 @@
+{
+  "outcome": "pass",
+  "selected": [
+    {
+      "agentId": "agent.712f06d08aac6fc693f821f2da168519dc1cd9a9634ebfa71a0982a90fef7228",
+      "workUnitIds": [
+        "implement.release-board-interface"
+      ],
+      "profileId": "profile.codex.luna",
+      "effortId": "effort.medium"
+    },
+    {
+      "agentId": "agent.d63c2e4b6b5fdb8e38be291aa333911568baf0153af172581562c967a0bd2063",
+      "workUnitIds": [
+        "implement.release-board-domain"
+      ],
+      "profileId": "profile.codex.terra",
+      "effortId": "effort.high"
+    }
+  ],
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_assignment_vector_search",
+    "potentialVectors": 8,
+    "evaluatedVectors": 8,
+    "feasibleVectors": 8,
+    "contentDigest": "sha256:7458d19736e83289f641204fc2dfed721c22bb10cf957b52b8bcb91455cfaa3a"
+  },
+  "compilationDigest": "sha256:79d960f5b41366f01ac762fe5b487cfd2947d8ac802b4e2b6116da7346e2e635"
+}

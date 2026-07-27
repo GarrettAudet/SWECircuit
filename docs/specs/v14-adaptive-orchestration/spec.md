@@ -70,23 +70,23 @@ capability, authority, context, tool, skill, and independence requirements.
 
 ## Acceptance Criteria
 
-- [ ] **AC1:** Fixed blueprint, demand policy, inventory, and calibration inputs compile to a
+- [x] **AC1:** Fixed blueprint, demand policy, inventory, and calibration inputs compile to a
       byte-stable runtime assignment and digest.
-- [ ] **AC2:** Every selected runtime satisfies all hard requirements; every rejected profile has
+- [x] **AC2:** Every selected runtime satisfies all hard requirements; every rejected profile has
       stable machine-readable reasons.
-- [ ] **AC3:** Among feasible profiles, the selected profile is least costly under the declared
+- [x] **AC3:** Among feasible profiles, the selected profile is least costly under the declared
       ordered policy with a canonical deterministic tie-break.
-- [ ] **AC4:** An empty feasible set fails closed and identifies every unmet hard requirement
+- [x] **AC4:** An empty feasible set fails closed and identifies every unmet hard requirement
       needed for owner or host correction.
-- [ ] **AC5:** Owner override is visible, digest-bound, auditable, and rejected when it would bypass
+- [x] **AC5:** Owner override is visible, digest-bound, auditable, and rejected when it would bypass
       a hard gate or independence constraint.
-- [ ] **AC6:** A launch receipt proves which exact approved assignment the host attempted and what
+- [x] **AC6:** A launch receipt proves which exact approved assignment the host attempted and what
       runtime it observed without asserting that core executed the launch.
-- [ ] **AC7:** The controller exposes only dependency-eligible launches, verified settlements,
+- [x] **AC7:** The controller exposes only dependency-eligible launches, verified settlements,
       typed routes, bounded escalations, and integration/review actions.
-- [ ] **AC8:** Codex Desktop launches at least two differently scoped specialists with different
+- [x] **AC8:** Codex Desktop launches at least two differently scoped specialists with different
       least-sufficient model or effort assignments in a real dogfood run.
-- [ ] **AC9:** RunView reconstructs current state and links exact contracts, files, evidence,
+- [x] **AC9:** RunView reconstructs current state and links exact contracts, files, evidence,
       routing decisions, overrides, and blockers after serialization and restore.
 - [ ] **AC10:** Small, medium, and high-risk dogfoods demonstrate correct decomposition, maximum
       safe parallelism, recovery, verified fan-in, independent review, and memory update.
