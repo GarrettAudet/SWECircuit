@@ -1,0 +1,18 @@
+{
+  "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+  "kind": "HostCapabilityInventory",
+  "id": "codex-desktop.windows.inventory.example",
+  "revision": 1,
+  "hostId": "codex-desktop.windows",
+  "adapterId": "codex-desktop",
+  "adapterRevision": "v14-revision-2",
+  "catalogRevision": "catalog.example.2026-07-27",
+  "completeness": "declared_subset",
+  "maxConcurrentAgents": 1,
+  "rows": [],
+  "notes": [
+    "Populate rows only with model/effort combinations the current host actually exposes.",
+    "An empty or stale required inventory is unavailable and must route block.",
+    "Do not infer catalog completeness or add an automatic fallback."
+  ]
+}

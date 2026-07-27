@@ -1,0 +1,27 @@
+{
+  "apiVersion": "swecircuit/host-worktree-verification/v0alpha0",
+  "kind": "HostWorktreeBindingVerification",
+  "baselineCommit": "933d232",
+  "outcome": "pass",
+  "bindings": [
+    {
+      "workUnitId": "implement.runtime-routing",
+      "root": "C:\\tmp\\swecircuit-v14-routing-agent",
+      "repositorySourcesChecked": 11,
+      "mismatches": []
+    },
+    {
+      "workUnitId": "test.runtime-routing",
+      "root": "C:\\tmp\\swecircuit-v14-tests-agent",
+      "repositorySourcesChecked": 9,
+      "mismatches": []
+    },
+    {
+      "workUnitId": "implement.codex-adapter",
+      "root": "C:\\tmp\\swecircuit-v14-adapter-agent",
+      "repositorySourcesChecked": 5,
+      "mismatches": []
+    }
+  ],
+  "verification": "Every declared repository context source for each root work unit matched its approved raw byte count and SHA-256 digest before corrected launch attempt 2."
+}

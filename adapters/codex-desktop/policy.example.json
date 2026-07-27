@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/runtime-routing/v1alpha1",
+  "kind": "RuntimeDemandPolicy",
+  "id": "codex-desktop.reference-policy",
+  "revision": 1,
+  "qualityTiers": [
+    { "id": "quality.baseline", "rank": 0 }
+  ],
+  "reasoningTiers": [
+    { "id": "reasoning.baseline", "rank": 0 }
+  ],
+  "capabilityRules": [
+    {
+      "capabilityId": "design.codex-host-adapter",
+      "minimumQualityTier": "quality.baseline",
+      "minimumReasoningTier": "reasoning.baseline",
+      "requiredTools": [],
+      "requiredSkills": [],
+      "requiredIsolationFeatures": [],
+      "requiredPermissionFeatures": []
+    }
+  ],
+  "evidenceRules": [
+    {
+      "kind": "artifact",
+      "duty": "produce",
+      "minimumQualityTier": "quality.baseline",
+      "minimumReasoningTier": "reasoning.baseline"
+    }
+  ],
+  "permissionRules": [],
+  "observability": {
+    "model": "host_attestation_allowed",
+    "effort": "host_attestation_allowed",
+    "tools": "host_attestation_allowed",
+    "skills": "host_attestation_allowed",
+    "isolation": "host_attestation_allowed",
+    "permissions": "host_attestation_allowed",
+    "workspace": "host_attestation_allowed",
+    "context": "host_attestation_allowed"
+  },
+  "search": {
+    "exactVectorLimit": 1,
+    "boundedBeamWidth": 1
+  }
+}

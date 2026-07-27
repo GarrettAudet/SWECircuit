@@ -1,0 +1,31 @@
+{
+  "apiVersion": "swecircuit/host-attempt/v0alpha0",
+  "kind": "RejectedHostAttempt",
+  "attempt": 1,
+  "outcome": "block",
+  "accepted": false,
+  "reason": "The native specialist workspace did not match the approved package context.",
+  "agentId": "agent.90b00f68efb412fccdfc402cea99f2161b7516f85a48bbabee453f4bc814288c",
+  "nativeAgentId": "019fa4c5-aa84-77b2-bb44-abe96e1cdedc",
+  "files": [
+    {
+      "originalPath": "test/helpers/runtime-routing-fixture.mjs",
+      "quarantinePath": "test/helpers/runtime-routing-fixture.mjs",
+      "bytes": 5768,
+      "sha256": "957492ac13e6f4c9f2767b05233b336476821bd5d05223222def997cb5b3a6f9"
+    },
+    {
+      "originalPath": "test/runtime-routing-schema.test.mjs",
+      "quarantinePath": "test/runtime-routing-schema.test.mjs",
+      "bytes": 2679,
+      "sha256": "ffe70ce8d8f9239ac3e9f71dd3e113fb9b5c4a1cb4c2026c698c4875334441f2"
+    },
+    {
+      "originalPath": "test/runtime-routing.test.mjs",
+      "quarantinePath": "test/runtime-routing.test.mjs",
+      "bytes": 8968,
+      "sha256": "241bf1c02fe331f2d7059d41d6b98b1bcbdc64a2da54cbc92e28583cfc5f63b0"
+    }
+  ],
+  "handling": "Preserved for diagnosis only. Do not execute, import, copy, or treat these files as verification evidence."
+}

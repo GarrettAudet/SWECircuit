@@ -1,0 +1,59 @@
+**Corrected attempt 2: pass**
+
+Verified in `C:\tmp\swecircuit-v14-adapter-agent`:
+
+- `HEAD`: `933d23209914afde8f7819291a38ffc382b91873`
+- All declared context hashes and byte counts match.
+- Contract SHA-256: `606930a4...631435ce3`, 10,018 bytes.
+- Blueprint digest: `sha256:53a863154b733ff2118aaf5e87282c064d8a5335f865f78953729c4b65a5db8c`
+- Compilation digest: `sha256:ef1a9ec09a789eed249090a49800d10c9670dfbbfb9703e5691fa24996bed614`
+- Exact handoff JSON parses and bindings verify.
+- `git diff --check` passed.
+- Only the four declared files changed.
+
+Files:
+- [README.md](C:\tmp\swecircuit-v14-adapter-agent\adapters\codex-desktop\README.md)
+- [inventory.example.json](C:\tmp\swecircuit-v14-adapter-agent\adapters\codex-desktop\inventory.example.json)
+- [policy.example.json](C:\tmp\swecircuit-v14-adapter-agent\adapters\codex-desktop\policy.example.json)
+- [codex-adaptive-run.md](C:\tmp\swecircuit-v14-adapter-agent\docs\ide\codex-adaptive-run.md)
+
+Implemented exact V14 host events, native lifecycle visibility, fail-closed unavailable bindings, exact result capture, no fallback, and contract-bound handoff values.
+
+```json
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v14.adaptive-orchestration.vertical-slice",
+    "revision": 1,
+    "digest": "sha256:3d6f58596ed4a07b75469a13e4ef0c8088f85ac51b7d02fda27cd026b8155c9a"
+  },
+  "agent": {
+    "id": "agent.73bec6d8f92dc546631e028dfe3d1f26c5dc5f37ff16200a77f024652265d8dd",
+    "blueprintDigest": "sha256:53a863154b733ff2118aaf5e87282c064d8a5335f865f78953729c4b65a5db8c"
+  },
+  "compilationDigest": "sha256:ef1a9ec09a789eed249090a49800d10c9670dfbbfb9703e5691fa24996bed614",
+  "summary": "Implemented the Windows Codex Desktop adapter contract and visible host workflow.",
+  "workUnitsCompleted": ["implement.codex-adapter"],
+  "artifacts": [{
+    "name": "codex-adapter-evidence.md",
+    "mediaType": "text/markdown",
+    "content": "Reference adapter contract implemented in the four declared files."
+  }],
+  "evidence": [{
+    "criterionId": "criterion.adapter",
+    "requirementId": "evidence.adapter.produce",
+    "kind": "artifact",
+    "duty": "produce",
+    "status": "pass",
+    "artifact": "codex-adapter-evidence.md"
+  }],
+  "assumptions": ["Inventory rows must come only from current host observations."],
+  "risks": ["Native host effects remain external to SWECircuit."],
+  "followUps": []
+}
+```
+
+No integration or release readiness is claimed.
