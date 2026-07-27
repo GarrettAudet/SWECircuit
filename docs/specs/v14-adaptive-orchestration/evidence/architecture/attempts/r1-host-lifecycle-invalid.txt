@@ -1,0 +1,1 @@
+{"outcome":"block","reason":"Cannot read the authoritative contract without accessing the filesystem, which the requested constraints prohibit."}
