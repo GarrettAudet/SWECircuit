@@ -2,19 +2,25 @@
 
 ## Current Focus
 
-V13 has dogfooded the released V12 Revision 73 run loop against a real dependency-free issue-triage
-application on `codex/v13-dogfood-validation`. Four task-shaped specialists implemented domain,
-UI, integration, and independent-review work; two root units ran in parallel, dependency gates
-controlled fan-in, browser and deterministic verification routed defects back to their owners,
-and the final exact handoff set reached `integrationReady: true` with an independent `pass`.
+V14 is building the adaptive orchestration layer on `codex/v14-adaptive-orchestration`. The active
+contract separates immutable specialist demand from volatile host runtime supply, filters hard
+quality and authority requirements before deterministic cost optimization, projects native host
+commands without claiming their effects, and renders one source-derived RunView.
+
+V13 is the completed dogfood input. It proved four task-shaped specialists, two parallel roots,
+dependency-controlled fan-in, exact raw handoffs, browser and deterministic correction routing,
+and a final `integrationReady: true` result with independent `pass`.
 
 ## Current Stage
 
-V13 is in `memory update -> branch freeze -> owner review`. The feature package, executable app,
-raw specialist handoffs, final run session, command and browser evidence, independent review, and
-milestone are preserved. The branch is not merged; V12 Revision 73 remains the stable `main`
-baseline, and its candidate-addressed external evidence remains authoritative, until the owner
-approves V13.
+V14 is in `intake -> clarify -> spec -> architecture check`. The feature package, proposed ADR
+0007, runtime-routing contract, research snapshot, test plan, and active milestone are present.
+Public TypeScript interfaces remain unfrozen until independent architecture, security, API, and
+usability review passes.
+
+V13 is frozen at commit `f8718e6` on `codex/v13-dogfood-validation` and is the exact dogfood
+baseline for V14. V12 Revision 73 remains the stable `main` release until approved successors are
+merged.
 
 External IDE hosts still own provider/model/effort selection, skills, tools, spawning, workspace
 and process isolation, permission enforcement, execution, persistence, integration effects, merge,

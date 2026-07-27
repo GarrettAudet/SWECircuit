@@ -1,0 +1,13 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "goalId": "v14.adaptive-orchestration.architecture",
+  "goalRevision": 1,
+  "approvedBy": "repository-owner-via-standing-release-authorization",
+  "decision": "approve",
+  "approvalBasis": "The owner instructed Codex to pursue the final orchestration product through revisions and audits until release-ready. The integration owner reviewed this exact read-only roster and digest pair.",
+  "expectation": {
+    "compilationDigest": "sha256:2af08a1285008a1dacf199674fd8bc80f891c92e65b222d57fd2191873726a5a",
+    "packageDigest": "sha256:04079d416b1f3f1f4b2fa77175a89a56ca99eb272e46daf070ad4797d3733209"
+  }
+}

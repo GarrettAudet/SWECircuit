@@ -1,0 +1,53 @@
+{
+  "apiVersion": "swecircuit/bootstrap-runtime-plan/v1alpha1",
+  "kind": "BootstrapRuntimePlan",
+  "status": "approved",
+  "reason": "V14 deterministic runtime routing does not exist yet. The integration owner selected the least sufficient current Codex runtime for each exact read-only contract and recorded the bootstrap decision before launch.",
+  "compilationDigest": "sha256:2af08a1285008a1dacf199674fd8bc80f891c92e65b222d57fd2191873726a5a",
+  "packageDigest": "sha256:04079d416b1f3f1f4b2fa77175a89a56ca99eb272e46daf070ad4797d3733209",
+  "maxConcurrency": 4,
+  "assignments": [
+    {
+      "agentId": "agent.33a6bc770db6c38d3e4caca84d87b2407f8115dc8b237686067ceaaef0a58f72",
+      "workUnitId": "review.security-evidence",
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "rationale": "High-risk trust, authority, replay, calibration, and false-proof analysis requires frontier semantic reasoning."
+    },
+    {
+      "agentId": "agent.6fa8391587bf1e540419088fba5f4de3c3c3c39e81f2e1047fdcdc5b83c8e3bc",
+      "workUnitId": "review.routing-api",
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "rationale": "Public deterministic API and identity semantics have high blast radius and require exhaustive edge-case reasoning."
+    },
+    {
+      "agentId": "agent.77cbd4624df552772df28ea44ecbcef421c0247e4dfcf21196b2870559246d8d",
+      "workUnitId": "review.product-runview",
+      "model": "gpt-5.6-luna",
+      "reasoningEffort": "medium",
+      "rationale": "A bounded read-only usability walkthrough has explicit criteria and does not require frontier code or security reasoning."
+    },
+    {
+      "agentId": "agent.c36910129ffed3f72f14af4f97aecea0afff330758afa6687ac33180596630cc",
+      "workUnitId": "review.host-lifecycle",
+      "model": "gpt-5.6-terra",
+      "reasoningEffort": "high",
+      "rationale": "Cross-host lifecycle synthesis is complex but bounded by frozen architecture sources and does not require the frontier security tier."
+    }
+  ],
+  "rejectedDefaults": [
+    {
+      "choice": "inherit-parent-for-all",
+      "reason": "Would repeat V13 over-provisioning and would not demonstrate task-specific runtime scoping."
+    },
+    {
+      "choice": "strongest-model-for-all",
+      "reason": "Violates the least-sufficient product objective."
+    },
+    {
+      "choice": "lowest-cost-model-for-all",
+      "reason": "Would not satisfy the risk and semantic complexity of the security and public API reviews."
+    }
+  ]
+}

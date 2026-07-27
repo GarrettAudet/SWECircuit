@@ -1,0 +1,2680 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v14.adaptive-orchestration.architecture",
+    "revision": 1,
+    "objective": "Independently review the V14 adaptive orchestration architecture before any public runtime-routing or host-controller API is frozen.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.calibrated-supply",
+        "statement": "An owner-reviewed host inventory supplies calibrated capability tiers.",
+        "rationale": "Core cannot establish volatile model quality from provider names."
+      },
+      {
+        "id": "assumption.external-effects",
+        "statement": "Core compiles and verifies; host adapters perform and observe native IDE effects.",
+        "rationale": "This preserves the accepted V11 and V12 trust boundary."
+      },
+      {
+        "id": "assumption.windows-first",
+        "statement": "The first effectful reference adapter targets Windows Codex Desktop.",
+        "rationale": "ADR 0006 limits the first release support boundary to Windows."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.host-lifecycle",
+        "description": "The host command, observation, controller, adapter, restore, and escalation boundaries are portable and do not revive the universal scheduler.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.host-lifecycle",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the exact host lifecycle and portability review.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.product-runview",
+        "description": "The one-goal IDE experience, serial baseline, RunView, interventions, and release claims remain simple and understandable.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.product-runview",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the exact product and RunView usability review.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.routing-api",
+        "description": "Runtime demand, inventory, filtering, scoring, override, identity, and public API semantics are deterministic and implementable.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.routing-api",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the exact routing and public API architecture review.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.security-evidence",
+        "description": "Trust, authority, quality calibration, approval, drift, receipt, replay, and evidence semantics fail closed.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.security-evidence",
+            "kind": "review",
+            "duty": "produce",
+            "description": "Preserve the exact security and evidence review.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr-0003",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+        "digest": "sha256:eec8606ebe84bd4cacd4bd5db1952ba2b536e067f9dc78b521ab38d3a526472f",
+        "bytes": 19559,
+        "description": "Deferred universal runtime design and scope warning.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/architecture/decisions/0003-portable-orchestration-control-plane.md"
+      },
+      {
+        "id": "context.adr-0004",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0004-specialist-compiler-first.md",
+        "digest": "sha256:f8f62c11f4b408a1eeac32597f08dd214fffa53ccf155c921045c0ab911ac654",
+        "bytes": 7732,
+        "description": "Accepted specialist compiler and host boundary.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/architecture/decisions/0004-specialist-compiler-first.md"
+      },
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable run-session and dependency eligibility boundary.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/architecture/decisions/0005-immutable-specialist-run-session.md"
+      },
+      {
+        "id": "context.correction-design",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+        "digest": "sha256:89d962f6b1a67911cee1c9b0f0c8dfca676f90aaa123a810e30858615b1ed91d",
+        "bytes": 4159,
+        "description": "Mandatory runtime-layer correction obligations.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v11-orchestration-planner/revision-5-correction-design.md"
+      },
+      {
+        "id": "context.public-api",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Current public kernel exports.",
+        "allowedWorkUnits": [
+          "review.routing-api"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.round-4",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+        "digest": "sha256:4a56f0e52a9f3f05339a1d1677868888242a007d159854f3683baeca54d1969d",
+        "bytes": 12182,
+        "description": "Independent findings against the coupled universal runtime.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v11-orchestration-planner/architecture-review-round-4.md"
+      },
+      {
+        "id": "context.run-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Current immutable run-session public types.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.specialist-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-types.ts",
+        "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+        "bytes": 16047,
+        "description": "Current immutable specialist public types.",
+        "allowedWorkUnits": [
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "src/specialist-types.ts"
+      },
+      {
+        "id": "context.v13-milestone",
+        "kind": "repository",
+        "locator": "path:docs/milestones/v13.md",
+        "digest": "sha256:580de2495e685021571af196859b572c1d59ecc8668fd6c0a5594a7b77d87e24",
+        "bytes": 3693,
+        "description": "V13 product outcome, residual risk, and V14 recommendation.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview"
+        ],
+        "readScope": "docs/milestones/v13.md"
+      },
+      {
+        "id": "context.v13-review",
+        "kind": "repository",
+        "locator": "path:docs/specs/v13-dogfood-validation/review.md",
+        "digest": "sha256:02f0b2bec10209319937de9b212257e27f272ccf18405fcd351d0dde57f6e79a",
+        "bytes": 2052,
+        "description": "Real-application dogfood quality and process findings.",
+        "allowedWorkUnits": [
+          "review.product-runview"
+        ],
+        "readScope": "docs/specs/v13-dogfood-validation/review.md"
+      },
+      {
+        "id": "context.v14-adr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+        "digest": "sha256:2cf9fc58b30cea609e9ef7717a99d16e06ff082b8bb85629c2378931c9f7c73d",
+        "bytes": 5862,
+        "description": "Proposed adaptive host orchestration architecture decision.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md"
+      },
+      {
+        "id": "context.v14-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+        "digest": "sha256:03c1bea8757076ca798f6d18a9354e95f64393b9cef3a906c37979e3072da714",
+        "bytes": 5309,
+        "description": "Proposed runtime routing, controller, receipt, and RunView contract.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md"
+      },
+      {
+        "id": "context.v14-goal",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+        "digest": "sha256:1c3e161883ee7b0f998db6ef2a0d564d5d146879c69b8bd5b4dbf9569b34bdd2",
+        "bytes": 1888,
+        "description": "Immutable owner goal synthesis and closed decisions.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md"
+      },
+      {
+        "id": "context.v14-host-scan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+        "digest": "sha256:867b77b3920f0936e458a41ce693712da65495deaa45665f26e461a4c15050f0",
+        "bytes": 6636,
+        "description": "Dated primary-source host capability synthesis.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md"
+      },
+      {
+        "id": "context.v14-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+        "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+        "bytes": 7229,
+        "description": "Immutable V14 feature specification.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "review.host-lifecycle-portability",
+        "review.product-runview",
+        "review.runtime-routing-api",
+        "review.security-evidence"
+      ],
+      "allowedCapabilities": [
+        "analyze.host-lifecycle-portability",
+        "audit.deterministic-public-api",
+        "audit.orchestration-security",
+        "review.ide-product-usability"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/milestones/v13.md",
+            "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v13-dogfood-validation/review.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+            "src/index.ts",
+            "src/specialist-run-types.ts",
+            "src/specialist-types.ts"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not write files, run commands, access the network, launch descendants, change Git state, or claim host effects."
+      ],
+      "maxAgents": 4,
+      "maxConcurrency": 4
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "review.host-lifecycle",
+        "objective": "Audit host commands, observations, lifecycle, restore, escalation, adapter portability, and the boundary with the deferred universal scheduler.",
+        "weight": 8,
+        "module": {
+          "id": "review.host-lifecycle-portability",
+          "action": "Map launch through settlement and recovery across materially different host shapes, identify hidden effect or liveness claims, and return the smallest sufficient controller obligations.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV14ArchitectureCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "host-lifecycle-review.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "analyze.host-lifecycle-portability"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr-0003",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.adr-0004",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.correction-design",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.round-4",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.run-types",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v13-milestone",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-adr",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-goal",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-host-scan",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/milestones/v13.md",
+            "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+            "src/specialist-run-types.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+              "docs/architecture/decisions/0004-specialist-compiler-first.md",
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/milestones/v13.md",
+              "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+              "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+              "src/specialist-run-types.ts"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.host-lifecycle"
+        ],
+        "handoffArtifacts": [
+          "host-lifecycle-review.md"
+        ],
+        "stopConditions": [
+          "Do not edit files, run commands, access the network, launch descendants, or change Git state.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON object required by the generated contract.",
+          "Stop if a declared source is unavailable or differs from its exact digest and byte binding.",
+          "Use a non-pass outcome when a material defect remains; do not soften a finding into prose."
+        ]
+      },
+      {
+        "id": "review.product-runview",
+        "objective": "Audit whether an ordinary IDE user can understand, invoke, observe, steer, and trust V14 without repeating V13 ceremony or overstating native UI capabilities.",
+        "weight": 5,
+        "module": {
+          "id": "review.product-runview",
+          "action": "Walk the one-goal experience, serial and parallel paths, assignment explanation, override, failure intervention, RunView, and release story; return concise usability corrections.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV14ArchitectureCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "product-runview-review.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "review.ide-product-usability"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.v13-milestone",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v13-review",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-adr",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-goal",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-host-scan",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/milestones/v13.md",
+            "docs/specs/v13-dogfood-validation/review.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/milestones/v13.md",
+              "docs/specs/v13-dogfood-validation/review.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.product-runview"
+        ],
+        "handoffArtifacts": [
+          "product-runview-review.md"
+        ],
+        "stopConditions": [
+          "Do not edit files, run commands, access the network, launch descendants, or change Git state.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON object required by the generated contract.",
+          "Stop if a declared source is unavailable or differs from its exact digest and byte binding.",
+          "Use a non-pass outcome when a material defect remains; do not soften a finding into prose."
+        ]
+      },
+      {
+        "id": "review.routing-api",
+        "objective": "Audit the deterministic demand, inventory, filter, comparator, override, digest, schema, and public API design for implementability and closed semantics.",
+        "weight": 8,
+        "module": {
+          "id": "review.runtime-routing-api",
+          "action": "Trace every proposed type and operation, identify ambiguity or non-determinism, test comparator and identity logic mentally, and return prioritized contract corrections.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV14ArchitectureCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "routing-api-review.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "audit.deterministic-public-api"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr-0004",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.correction-design",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.public-api",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.run-types",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.specialist-types",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-adr",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-goal",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+            "src/index.ts",
+            "src/specialist-run-types.ts",
+            "src/specialist-types.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0004-specialist-compiler-first.md",
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+              "src/index.ts",
+              "src/specialist-run-types.ts",
+              "src/specialist-types.ts"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.routing-api"
+        ],
+        "handoffArtifacts": [
+          "routing-api-review.md"
+        ],
+        "stopConditions": [
+          "Do not edit files, run commands, access the network, launch descendants, or change Git state.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON object required by the generated contract.",
+          "Stop if a declared source is unavailable or differs from its exact digest and byte binding.",
+          "Use a non-pass outcome when a material defect remains; do not soften a finding into prose."
+        ]
+      },
+      {
+        "id": "review.security-evidence",
+        "objective": "Threat-model calibration, authority, approval, inventory drift, launch substitution, receipt identity, replay, escalation, and source-preserving evidence.",
+        "weight": 9,
+        "module": {
+          "id": "review.security-evidence",
+          "action": "Enumerate trust roots and attacker-controlled inputs, reject confused-deputy and false-proof paths, and return concrete schema, ordering, and adversarial-test requirements.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV14ArchitectureCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "security-evidence-review.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "audit.orchestration-security"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr-0003",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.adr-0004",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.adr-0005",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.correction-design",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.round-4",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.run-types",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.specialist-types",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-adr",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-goal",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Review the exact immutable V14 architecture candidate."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+            "src/specialist-run-types.ts",
+            "src/specialist-types.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+              "docs/architecture/decisions/0004-specialist-compiler-first.md",
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+              "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+              "src/specialist-run-types.ts",
+              "src/specialist-types.ts"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.security-evidence"
+        ],
+        "handoffArtifacts": [
+          "security-evidence-review.md"
+        ],
+        "stopConditions": [
+          "Do not edit files, run commands, access the network, launch descendants, or change Git state.",
+          "Return only the concrete closed SpecialistAgentHandoff JSON object required by the generated contract.",
+          "Stop if a declared source is unavailable or differs from its exact digest and byte binding.",
+          "Use a non-pass outcome when a material defect remains; do not soften a finding into prose."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:ada24d46e7f20e173f4b7d486ea995818795f00a3f758f8a8ddeb36c727a666c",
+  "proposedCandidates": [
+    {
+      "id": "candidate.v14.four-independent-reviews",
+      "groups": [
+        [
+          "review.host-lifecycle"
+        ],
+        [
+          "review.product-runview"
+        ],
+        [
+          "review.routing-api"
+        ],
+        [
+          "review.security-evidence"
+        ]
+      ]
+    }
+  ],
+  "proposalEvaluations": [
+    {
+      "id": "team.b99dfd1ff53d4e9ce9dc73381e0ea4641f00bdf736d32b566dd53c2fa3ed3df6",
+      "partition": [
+        [
+          "review.host-lifecycle"
+        ],
+        [
+          "review.product-runview"
+        ],
+        [
+          "review.routing-api"
+        ],
+        [
+          "review.security-evidence"
+        ]
+      ],
+      "origins": [
+        "exact_search",
+        "proposed"
+      ],
+      "proposalIds": [
+        "candidate.v14.four-independent-reviews"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 4,
+        "projectedMakespan": 10,
+        "peakConcurrency": 4,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 169269,
+        "duplicatedPermissionScopes": 25,
+        "totalWorkWeight": 30,
+        "totalStartupCost": 4,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.33a6bc770db6c38d3e4caca84d87b2407f8115dc8b237686067ceaaef0a58f72",
+          "start": 0,
+          "finish": 10
+        },
+        {
+          "agentId": "agent.6fa8391587bf1e540419088fba5f4de3c3c3c39e81f2e1047fdcdc5b83c8e3bc",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.77cbd4624df552772df28ea44ecbcef421c0247e4dfcf21196b2870559246d8d",
+          "start": 0,
+          "finish": 6
+        },
+        {
+          "agentId": "agent.c36910129ffed3f72f14af4f97aecea0afff330758afa6687ac33180596630cc",
+          "start": 0,
+          "finish": 9
+        }
+      ],
+      "contentDigest": "sha256:c590d8d1362f2948a60a0bbc50a19b7c3dcf92ec78f8ba1c2bb598471875cd0f"
+    }
+  ],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v14.adaptive-orchestration.architecture",
+    "goalRevision": 1,
+    "allowedModules": [
+      "review.host-lifecycle-portability",
+      "review.product-runview",
+      "review.runtime-routing-api",
+      "review.security-evidence"
+    ],
+    "allowedCapabilities": [
+      "analyze.host-lifecycle-portability",
+      "audit.deterministic-public-api",
+      "audit.orchestration-security",
+      "review.ide-product-usability"
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr-0003",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+        "digest": "sha256:eec8606ebe84bd4cacd4bd5db1952ba2b536e067f9dc78b521ab38d3a526472f",
+        "bytes": 19559,
+        "description": "Deferred universal runtime design and scope warning.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/architecture/decisions/0003-portable-orchestration-control-plane.md"
+      },
+      {
+        "id": "context.adr-0004",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0004-specialist-compiler-first.md",
+        "digest": "sha256:f8f62c11f4b408a1eeac32597f08dd214fffa53ccf155c921045c0ab911ac654",
+        "bytes": 7732,
+        "description": "Accepted specialist compiler and host boundary.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/architecture/decisions/0004-specialist-compiler-first.md"
+      },
+      {
+        "id": "context.adr-0005",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+        "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+        "bytes": 9031,
+        "description": "Accepted immutable run-session and dependency eligibility boundary.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/architecture/decisions/0005-immutable-specialist-run-session.md"
+      },
+      {
+        "id": "context.correction-design",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+        "digest": "sha256:89d962f6b1a67911cee1c9b0f0c8dfca676f90aaa123a810e30858615b1ed91d",
+        "bytes": 4159,
+        "description": "Mandatory runtime-layer correction obligations.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v11-orchestration-planner/revision-5-correction-design.md"
+      },
+      {
+        "id": "context.public-api",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+        "bytes": 5447,
+        "description": "Current public kernel exports.",
+        "allowedWorkUnits": [
+          "review.routing-api"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.round-4",
+        "kind": "repository",
+        "locator": "path:docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+        "digest": "sha256:4a56f0e52a9f3f05339a1d1677868888242a007d159854f3683baeca54d1969d",
+        "bytes": 12182,
+        "description": "Independent findings against the coupled universal runtime.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v11-orchestration-planner/architecture-review-round-4.md"
+      },
+      {
+        "id": "context.run-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Current immutable run-session public types.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.specialist-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-types.ts",
+        "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+        "bytes": 16047,
+        "description": "Current immutable specialist public types.",
+        "allowedWorkUnits": [
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "src/specialist-types.ts"
+      },
+      {
+        "id": "context.v13-milestone",
+        "kind": "repository",
+        "locator": "path:docs/milestones/v13.md",
+        "digest": "sha256:580de2495e685021571af196859b572c1d59ecc8668fd6c0a5594a7b77d87e24",
+        "bytes": 3693,
+        "description": "V13 product outcome, residual risk, and V14 recommendation.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview"
+        ],
+        "readScope": "docs/milestones/v13.md"
+      },
+      {
+        "id": "context.v13-review",
+        "kind": "repository",
+        "locator": "path:docs/specs/v13-dogfood-validation/review.md",
+        "digest": "sha256:02f0b2bec10209319937de9b212257e27f272ccf18405fcd351d0dde57f6e79a",
+        "bytes": 2052,
+        "description": "Real-application dogfood quality and process findings.",
+        "allowedWorkUnits": [
+          "review.product-runview"
+        ],
+        "readScope": "docs/specs/v13-dogfood-validation/review.md"
+      },
+      {
+        "id": "context.v14-adr",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+        "digest": "sha256:2cf9fc58b30cea609e9ef7717a99d16e06ff082b8bb85629c2378931c9f7c73d",
+        "bytes": 5862,
+        "description": "Proposed adaptive host orchestration architecture decision.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md"
+      },
+      {
+        "id": "context.v14-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+        "digest": "sha256:03c1bea8757076ca798f6d18a9354e95f64393b9cef3a906c37979e3072da714",
+        "bytes": 5309,
+        "description": "Proposed runtime routing, controller, receipt, and RunView contract.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md"
+      },
+      {
+        "id": "context.v14-goal",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+        "digest": "sha256:1c3e161883ee7b0f998db6ef2a0d564d5d146879c69b8bd5b4dbf9569b34bdd2",
+        "bytes": 1888,
+        "description": "Immutable owner goal synthesis and closed decisions.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md"
+      },
+      {
+        "id": "context.v14-host-scan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+        "digest": "sha256:867b77b3920f0936e458a41ce693712da65495deaa45665f26e461a4c15050f0",
+        "bytes": 6636,
+        "description": "Dated primary-source host capability synthesis.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md"
+      },
+      {
+        "id": "context.v14-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+        "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+        "bytes": 7229,
+        "description": "Immutable V14 feature specification.",
+        "allowedWorkUnits": [
+          "review.host-lifecycle",
+          "review.product-runview",
+          "review.routing-api",
+          "review.security-evidence"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+          "docs/architecture/decisions/0004-specialist-compiler-first.md",
+          "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+          "docs/milestones/v13.md",
+          "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+          "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+          "docs/specs/v13-dogfood-validation/review.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+          "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+          "src/index.ts",
+          "src/specialist-run-types.ts",
+          "src/specialist-types.ts"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not write files, run commands, access the network, launch descendants, change Git state, or claim host effects."
+    ],
+    "maxAgents": 4,
+    "maxConcurrency": 4,
+    "contentDigest": "sha256:b23d78f42b9ac54a466e5b7d62a501a55d4b90ae2162fb508beece40aabe1860"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 4,
+    "evaluatedCandidates": 15,
+    "eligibleCandidates": 15,
+    "retainedAlternatives": 8,
+    "evaluationSetDigest": "sha256:390c590c83a8fce82f257e13ed028efa6bfcea0f560c4c44050ff614d69b379e"
+  },
+  "serialBaseline": {
+    "id": "team.3b9e02460f3e4fe94b1df02bc723fb606c957f19bd483edd66c8701c6daf8ec3",
+    "partition": [
+      [
+        "review.host-lifecycle",
+        "review.product-runview",
+        "review.routing-api",
+        "review.security-evidence"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 31,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 30,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.9c6cfdca96891e072c30f40ee0db787e9f558bc7c82dd4fd60da03755aa59d5e",
+        "start": 0,
+        "finish": 31
+      }
+    ],
+    "contentDigest": "sha256:3af2cf6ecadc5fd2224baaf37156dab6168bdcd2c171abee065bc7c6948ca7e7"
+  },
+  "selected": {
+    "id": "team.b99dfd1ff53d4e9ce9dc73381e0ea4641f00bdf736d32b566dd53c2fa3ed3df6",
+    "partition": [
+      [
+        "review.host-lifecycle"
+      ],
+      [
+        "review.product-runview"
+      ],
+      [
+        "review.routing-api"
+      ],
+      [
+        "review.security-evidence"
+      ]
+    ],
+    "origins": [
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.v14.four-independent-reviews"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 4,
+      "projectedMakespan": 10,
+      "peakConcurrency": 4,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 169269,
+      "duplicatedPermissionScopes": 25,
+      "totalWorkWeight": 30,
+      "totalStartupCost": 4,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.33a6bc770db6c38d3e4caca84d87b2407f8115dc8b237686067ceaaef0a58f72",
+        "start": 0,
+        "finish": 10
+      },
+      {
+        "agentId": "agent.6fa8391587bf1e540419088fba5f4de3c3c3c39e81f2e1047fdcdc5b83c8e3bc",
+        "start": 0,
+        "finish": 9
+      },
+      {
+        "agentId": "agent.77cbd4624df552772df28ea44ecbcef421c0247e4dfcf21196b2870559246d8d",
+        "start": 0,
+        "finish": 6
+      },
+      {
+        "agentId": "agent.c36910129ffed3f72f14af4f97aecea0afff330758afa6687ac33180596630cc",
+        "start": 0,
+        "finish": 9
+      }
+    ],
+    "contentDigest": "sha256:c590d8d1362f2948a60a0bbc50a19b7c3dcf92ec78f8ba1c2bb598471875cd0f"
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 10,
+    "serialValue": 31,
+    "serialRejectionCodes": []
+  },
+  "alternatives": [
+    {
+      "id": "team.1187fffab22bbea83e5cb8a53737ba47316c7f5b3177fcaa8574d33a6c1948c6",
+      "partition": [
+        [
+          "review.host-lifecycle",
+          "review.product-runview"
+        ],
+        [
+          "review.routing-api"
+        ],
+        [
+          "review.security-evidence"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 3,
+        "projectedMakespan": 14,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 138652,
+        "duplicatedPermissionScopes": 19,
+        "totalWorkWeight": 30,
+        "totalStartupCost": 3,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.33a6bc770db6c38d3e4caca84d87b2407f8115dc8b237686067ceaaef0a58f72",
+          "start": 0,
+          "finish": 10
+        },
+        {
+          "agentId": "agent.6fa8391587bf1e540419088fba5f4de3c3c3c39e81f2e1047fdcdc5b83c8e3bc",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.cd1a4536c374322cb2703f6186422614579eeb9eca5dd20a1da99732f71ba612",
+          "start": 0,
+          "finish": 14
+        }
+      ],
+      "contentDigest": "sha256:fb63b20506259441b5c353e1bdcfa9c44bf2c5b6f7fa793e793d19ea0837d165"
+    },
+    {
+      "id": "team.b68d26f4e4b4f7a5c5ee8db49793a6a9bbba542d238b1ee2825275c48338011b",
+      "partition": [
+        [
+          "review.host-lifecycle"
+        ],
+        [
+          "review.product-runview",
+          "review.routing-api"
+        ],
+        [
+          "review.security-evidence"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 3,
+        "projectedMakespan": 14,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 148981,
+        "duplicatedPermissionScopes": 21,
+        "totalWorkWeight": 30,
+        "totalStartupCost": 3,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.33a6bc770db6c38d3e4caca84d87b2407f8115dc8b237686067ceaaef0a58f72",
+          "start": 0,
+          "finish": 10
+        },
+        {
+          "agentId": "agent.6973c97e996ed935772fb84ebfed9a392df4fb36a2f7f02d84cc84f7f6b5d29b",
+          "start": 0,
+          "finish": 14
+        },
+        {
+          "agentId": "agent.c36910129ffed3f72f14af4f97aecea0afff330758afa6687ac33180596630cc",
+          "start": 0,
+          "finish": 9
+        }
+      ],
+      "contentDigest": "sha256:8fa03d843790d83af128dc2d393b7f663955fb9b90d5957cf80062e9870bbc29"
+    },
+    {
+      "id": "team.8eeed5ba266b3b98e7bdb8e9ca60db562bdfdd2a1782c9f6ceea9ab5ee8ae0d4",
+      "partition": [
+        [
+          "review.host-lifecycle"
+        ],
+        [
+          "review.product-runview",
+          "review.security-evidence"
+        ],
+        [
+          "review.routing-api"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 3,
+        "projectedMakespan": 15,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 148981,
+        "duplicatedPermissionScopes": 21,
+        "totalWorkWeight": 30,
+        "totalStartupCost": 3,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.202bf1b165c4c704fca77ab60fd1f1b53c9dcdf356df4fbdfa67e0a5e78f86da",
+          "start": 0,
+          "finish": 15
+        },
+        {
+          "agentId": "agent.6fa8391587bf1e540419088fba5f4de3c3c3c39e81f2e1047fdcdc5b83c8e3bc",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.c36910129ffed3f72f14af4f97aecea0afff330758afa6687ac33180596630cc",
+          "start": 0,
+          "finish": 9
+        }
+      ],
+      "contentDigest": "sha256:89cc576131a98a22f7b9f111c2d646b644cb16030afc0713be313b0f8b2d41c6"
+    },
+    {
+      "id": "team.dfedd4c2592992e92c75068d8c26b8438e1b7782ba64abf6fb609dca590c1e3b",
+      "partition": [
+        [
+          "review.host-lifecycle",
+          "review.routing-api"
+        ],
+        [
+          "review.product-runview",
+          "review.security-evidence"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 17,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 103549,
+        "duplicatedPermissionScopes": 13,
+        "totalWorkWeight": 30,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.202bf1b165c4c704fca77ab60fd1f1b53c9dcdf356df4fbdfa67e0a5e78f86da",
+          "start": 0,
+          "finish": 15
+        },
+        {
+          "agentId": "agent.85d691c0fbc0e3b2098e32e9a706b04112f51e1e45dc55d3d93b76592ff11df6",
+          "start": 0,
+          "finish": 17
+        }
+      ],
+      "contentDigest": "sha256:f88718f20ddced0c006af6d8d131b28ea6a024878f58ece2c3b8ef1c53d7ec2b"
+    },
+    {
+      "id": "team.e7e3720a7002cc605f4bf09fdf97305bddfa449315ecf6c85ae02831881f4f83",
+      "partition": [
+        [
+          "review.host-lifecycle",
+          "review.routing-api"
+        ],
+        [
+          "review.product-runview"
+        ],
+        [
+          "review.security-evidence"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 3,
+        "projectedMakespan": 17,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 123837,
+        "duplicatedPermissionScopes": 17,
+        "totalWorkWeight": 30,
+        "totalStartupCost": 3,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.33a6bc770db6c38d3e4caca84d87b2407f8115dc8b237686067ceaaef0a58f72",
+          "start": 0,
+          "finish": 10
+        },
+        {
+          "agentId": "agent.77cbd4624df552772df28ea44ecbcef421c0247e4dfcf21196b2870559246d8d",
+          "start": 0,
+          "finish": 6
+        },
+        {
+          "agentId": "agent.85d691c0fbc0e3b2098e32e9a706b04112f51e1e45dc55d3d93b76592ff11df6",
+          "start": 0,
+          "finish": 17
+        }
+      ],
+      "contentDigest": "sha256:ad900e6e9c26b9b5ccc65b2b3b012341a5380fcd7cb3dd029e286c3e0a70fd31"
+    },
+    {
+      "id": "team.b6c750a579a22fd4c77c1b6c8ded28f8e90e666f779c9516c22b70906487159f",
+      "partition": [
+        [
+          "review.host-lifecycle",
+          "review.security-evidence"
+        ],
+        [
+          "review.product-runview",
+          "review.routing-api"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 18,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 71808,
+        "duplicatedPermissionScopes": 11,
+        "totalWorkWeight": 30,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.6973c97e996ed935772fb84ebfed9a392df4fb36a2f7f02d84cc84f7f6b5d29b",
+          "start": 0,
+          "finish": 14
+        },
+        {
+          "agentId": "agent.97e3b499436398a680f57e2a227a5479035085f7cd76c581f81f04be0acdcd20",
+          "start": 0,
+          "finish": 18
+        }
+      ],
+      "contentDigest": "sha256:cff386107e698f233c061d2df02003e3ad343546663e81e4041052bd519c75b3"
+    },
+    {
+      "id": "team.553b76f21d113666d2c1ab1d302783b362eeebcb51e15ad396bd6d0d95bc2d20",
+      "partition": [
+        [
+          "review.host-lifecycle",
+          "review.product-runview"
+        ],
+        [
+          "review.routing-api",
+          "review.security-evidence"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 18,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 77173,
+        "duplicatedPermissionScopes": 10,
+        "totalWorkWeight": 30,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.77616d0bcde9ff69cf6ca76baaeb9642900a8f2dcb2a7fa715d7afb8c333de9a",
+          "start": 0,
+          "finish": 18
+        },
+        {
+          "agentId": "agent.cd1a4536c374322cb2703f6186422614579eeb9eca5dd20a1da99732f71ba612",
+          "start": 0,
+          "finish": 14
+        }
+      ],
+      "contentDigest": "sha256:4d6ac0787e3f996de2e4458b6f8d8a0be7dcae4c3a73a6a80e3ea4307dc4ff40"
+    },
+    {
+      "id": "team.b6f4335564933795b2c4342487a31b0ca5638008d8288887411477af869f5a4a",
+      "partition": [
+        [
+          "review.host-lifecycle",
+          "review.security-evidence"
+        ],
+        [
+          "review.product-runview"
+        ],
+        [
+          "review.routing-api"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 3,
+        "projectedMakespan": 18,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 92096,
+        "duplicatedPermissionScopes": 15,
+        "totalWorkWeight": 30,
+        "totalStartupCost": 3,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.6fa8391587bf1e540419088fba5f4de3c3c3c39e81f2e1047fdcdc5b83c8e3bc",
+          "start": 0,
+          "finish": 9
+        },
+        {
+          "agentId": "agent.77cbd4624df552772df28ea44ecbcef421c0247e4dfcf21196b2870559246d8d",
+          "start": 0,
+          "finish": 6
+        },
+        {
+          "agentId": "agent.97e3b499436398a680f57e2a227a5479035085f7cd76c581f81f04be0acdcd20",
+          "start": 0,
+          "finish": 18
+        }
+      ],
+      "contentDigest": "sha256:a65196d531b8eee8195b38a2f983471ef2910c509e85142dd5d744e4531f0111"
+    }
+  ],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.33a6bc770db6c38d3e4caca84d87b2407f8115dc8b237686067ceaaef0a58f72",
+      "goalId": "v14.adaptive-orchestration.architecture",
+      "goalRevision": 1,
+      "goalDigest": "sha256:ada24d46e7f20e173f4b7d486ea995818795f00a3f758f8a8ddeb36c727a666c",
+      "candidateId": "team.b99dfd1ff53d4e9ce9dc73381e0ea4641f00bdf736d32b566dd53c2fa3ed3df6",
+      "workUnitIds": [
+        "review.security-evidence"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.security-evidence",
+          "objective": "Threat-model calibration, authority, approval, inventory drift, launch substitution, receipt identity, replay, escalation, and source-preserving evidence."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.security-evidence",
+          "action": "Enumerate trust roots and attacker-controlled inputs, reject confused-deputy and false-proof paths, and return concrete schema, ordering, and adversarial-test requirements.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV14ArchitectureCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "security-evidence-review.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr-0003",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+          "digest": "sha256:eec8606ebe84bd4cacd4bd5db1952ba2b536e067f9dc78b521ab38d3a526472f",
+          "bytes": 19559,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "docs/architecture/decisions/0003-portable-orchestration-control-plane.md"
+        },
+        {
+          "sourceId": "context.adr-0004",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0004-specialist-compiler-first.md",
+          "digest": "sha256:f8f62c11f4b408a1eeac32597f08dd214fffa53ccf155c921045c0ab911ac654",
+          "bytes": 7732,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "docs/architecture/decisions/0004-specialist-compiler-first.md"
+        },
+        {
+          "sourceId": "context.adr-0005",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+          "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+          "bytes": 9031,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "docs/architecture/decisions/0005-immutable-specialist-run-session.md"
+        },
+        {
+          "sourceId": "context.correction-design",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+          "digest": "sha256:89d962f6b1a67911cee1c9b0f0c8dfca676f90aaa123a810e30858615b1ed91d",
+          "bytes": 4159,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "docs/specs/v11-orchestration-planner/revision-5-correction-design.md"
+        },
+        {
+          "sourceId": "context.round-4",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+          "digest": "sha256:4a56f0e52a9f3f05339a1d1677868888242a007d159854f3683baeca54d1969d",
+          "bytes": 12182,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "docs/specs/v11-orchestration-planner/architecture-review-round-4.md"
+        },
+        {
+          "sourceId": "context.run-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.specialist-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-types.ts",
+          "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+          "bytes": 16047,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "src/specialist-types.ts"
+        },
+        {
+          "sourceId": "context.v14-adr",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+          "digest": "sha256:2cf9fc58b30cea609e9ef7717a99d16e06ff082b8bb85629c2378931c9f7c73d",
+          "bytes": 5862,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+          "digest": "sha256:03c1bea8757076ca798f6d18a9354e95f64393b9cef3a906c37979e3072da714",
+          "bytes": 5309,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md"
+        },
+        {
+          "sourceId": "context.v14-goal",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+          "digest": "sha256:1c3e161883ee7b0f998db6ef2a0d564d5d146879c69b8bd5b4dbf9569b34bdd2",
+          "bytes": 1888,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.security-evidence"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "audit.orchestration-security"
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+            "src/specialist-run-types.ts",
+            "src/specialist-types.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+              "docs/architecture/decisions/0004-specialist-compiler-first.md",
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+              "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+              "src/specialist-run-types.ts",
+              "src/specialist-types.ts"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not write files, run commands, access the network, launch descendants, change Git state, or claim host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.security-evidence",
+          "criterion": "Trust, authority, quality calibration, approval, drift, receipt, replay, and evidence semantics fail closed.",
+          "requirementId": "evidence.security-evidence",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Preserve the exact security and evidence review.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "security-evidence-review.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not edit files, run commands, access the network, launch descendants, or change Git state.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON object required by the generated contract.",
+        "Stop if a declared source is unavailable or differs from its exact digest and byte binding.",
+        "Use a non-pass outcome when a material defect remains; do not soften a finding into prose."
+      ],
+      "contentDigest": "sha256:b604e61746c0d9ac6cb6d6a7463565b3184f37bb0444f87ae9e9457657a5c214"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.6fa8391587bf1e540419088fba5f4de3c3c3c39e81f2e1047fdcdc5b83c8e3bc",
+      "goalId": "v14.adaptive-orchestration.architecture",
+      "goalRevision": 1,
+      "goalDigest": "sha256:ada24d46e7f20e173f4b7d486ea995818795f00a3f758f8a8ddeb36c727a666c",
+      "candidateId": "team.b99dfd1ff53d4e9ce9dc73381e0ea4641f00bdf736d32b566dd53c2fa3ed3df6",
+      "workUnitIds": [
+        "review.routing-api"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.routing-api",
+          "objective": "Audit the deterministic demand, inventory, filter, comparator, override, digest, schema, and public API design for implementability and closed semantics."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.runtime-routing-api",
+          "action": "Trace every proposed type and operation, identify ambiguity or non-determinism, test comparator and identity logic mentally, and return prioritized contract corrections.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV14ArchitectureCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "routing-api-review.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr-0004",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0004-specialist-compiler-first.md",
+          "digest": "sha256:f8f62c11f4b408a1eeac32597f08dd214fffa53ccf155c921045c0ab911ac654",
+          "bytes": 7732,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.routing-api"
+          ],
+          "readScope": "docs/architecture/decisions/0004-specialist-compiler-first.md"
+        },
+        {
+          "sourceId": "context.adr-0005",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+          "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+          "bytes": 9031,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.routing-api"
+          ],
+          "readScope": "docs/architecture/decisions/0005-immutable-specialist-run-session.md"
+        },
+        {
+          "sourceId": "context.correction-design",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+          "digest": "sha256:89d962f6b1a67911cee1c9b0f0c8dfca676f90aaa123a810e30858615b1ed91d",
+          "bytes": 4159,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.routing-api"
+          ],
+          "readScope": "docs/specs/v11-orchestration-planner/revision-5-correction-design.md"
+        },
+        {
+          "sourceId": "context.public-api",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:dad28ed18858c3c45ea25a41be953df4942370a1e13793eaecbf7b4570bd6d9f",
+          "bytes": 5447,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.routing-api"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.run-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.routing-api"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.specialist-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-types.ts",
+          "digest": "sha256:f0f1384cdef06972e54800d6fd2c57f08b8ebe8a8703b9178e6c3fa78f53e934",
+          "bytes": 16047,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.routing-api"
+          ],
+          "readScope": "src/specialist-types.ts"
+        },
+        {
+          "sourceId": "context.v14-adr",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+          "digest": "sha256:2cf9fc58b30cea609e9ef7717a99d16e06ff082b8bb85629c2378931c9f7c73d",
+          "bytes": 5862,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.routing-api"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+          "digest": "sha256:03c1bea8757076ca798f6d18a9354e95f64393b9cef3a906c37979e3072da714",
+          "bytes": 5309,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.routing-api"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md"
+        },
+        {
+          "sourceId": "context.v14-goal",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+          "digest": "sha256:1c3e161883ee7b0f998db6ef2a0d564d5d146879c69b8bd5b4dbf9569b34bdd2",
+          "bytes": 1888,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.routing-api"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.routing-api"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "audit.deterministic-public-api"
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+            "src/index.ts",
+            "src/specialist-run-types.ts",
+            "src/specialist-types.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0004-specialist-compiler-first.md",
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+              "src/index.ts",
+              "src/specialist-run-types.ts",
+              "src/specialist-types.ts"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not write files, run commands, access the network, launch descendants, change Git state, or claim host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.routing-api",
+          "criterion": "Runtime demand, inventory, filtering, scoring, override, identity, and public API semantics are deterministic and implementable.",
+          "requirementId": "evidence.routing-api",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Preserve the exact routing and public API architecture review.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "routing-api-review.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not edit files, run commands, access the network, launch descendants, or change Git state.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON object required by the generated contract.",
+        "Stop if a declared source is unavailable or differs from its exact digest and byte binding.",
+        "Use a non-pass outcome when a material defect remains; do not soften a finding into prose."
+      ],
+      "contentDigest": "sha256:74b45aea98e9d08aa636a59536b8ae130af680ee8613f6db788404740af2184e"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.77cbd4624df552772df28ea44ecbcef421c0247e4dfcf21196b2870559246d8d",
+      "goalId": "v14.adaptive-orchestration.architecture",
+      "goalRevision": 1,
+      "goalDigest": "sha256:ada24d46e7f20e173f4b7d486ea995818795f00a3f758f8a8ddeb36c727a666c",
+      "candidateId": "team.b99dfd1ff53d4e9ce9dc73381e0ea4641f00bdf736d32b566dd53c2fa3ed3df6",
+      "workUnitIds": [
+        "review.product-runview"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.product-runview",
+          "objective": "Audit whether an ordinary IDE user can understand, invoke, observe, steer, and trust V14 without repeating V13 ceremony or overstating native UI capabilities."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.product-runview",
+          "action": "Walk the one-goal experience, serial and parallel paths, assignment explanation, override, failure intervention, RunView, and release story; return concise usability corrections.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV14ArchitectureCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "product-runview-review.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.v13-milestone",
+          "kind": "repository",
+          "locator": "path:docs/milestones/v13.md",
+          "digest": "sha256:580de2495e685021571af196859b572c1d59ecc8668fd6c0a5594a7b77d87e24",
+          "bytes": 3693,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.product-runview"
+          ],
+          "readScope": "docs/milestones/v13.md"
+        },
+        {
+          "sourceId": "context.v13-review",
+          "kind": "repository",
+          "locator": "path:docs/specs/v13-dogfood-validation/review.md",
+          "digest": "sha256:02f0b2bec10209319937de9b212257e27f272ccf18405fcd351d0dde57f6e79a",
+          "bytes": 2052,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.product-runview"
+          ],
+          "readScope": "docs/specs/v13-dogfood-validation/review.md"
+        },
+        {
+          "sourceId": "context.v14-adr",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+          "digest": "sha256:2cf9fc58b30cea609e9ef7717a99d16e06ff082b8bb85629c2378931c9f7c73d",
+          "bytes": 5862,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.product-runview"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+          "digest": "sha256:03c1bea8757076ca798f6d18a9354e95f64393b9cef3a906c37979e3072da714",
+          "bytes": 5309,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.product-runview"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md"
+        },
+        {
+          "sourceId": "context.v14-goal",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+          "digest": "sha256:1c3e161883ee7b0f998db6ef2a0d564d5d146879c69b8bd5b4dbf9569b34bdd2",
+          "bytes": 1888,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.product-runview"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md"
+        },
+        {
+          "sourceId": "context.v14-host-scan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+          "digest": "sha256:867b77b3920f0936e458a41ce693712da65495deaa45665f26e461a4c15050f0",
+          "bytes": 6636,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.product-runview"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.product-runview"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "review.ide-product-usability"
+        ],
+        "scope": {
+          "read": [
+            "docs/milestones/v13.md",
+            "docs/specs/v13-dogfood-validation/review.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/milestones/v13.md",
+              "docs/specs/v13-dogfood-validation/review.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not write files, run commands, access the network, launch descendants, change Git state, or claim host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.product-runview",
+          "criterion": "The one-goal IDE experience, serial baseline, RunView, interventions, and release claims remain simple and understandable.",
+          "requirementId": "evidence.product-runview",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Preserve the exact product and RunView usability review.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "product-runview-review.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not edit files, run commands, access the network, launch descendants, or change Git state.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON object required by the generated contract.",
+        "Stop if a declared source is unavailable or differs from its exact digest and byte binding.",
+        "Use a non-pass outcome when a material defect remains; do not soften a finding into prose."
+      ],
+      "contentDigest": "sha256:ed9a77a6ced61a8f38f1aaef8df3c38a76200220f1319a552c93875456c30d75"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.c36910129ffed3f72f14af4f97aecea0afff330758afa6687ac33180596630cc",
+      "goalId": "v14.adaptive-orchestration.architecture",
+      "goalRevision": 1,
+      "goalDigest": "sha256:ada24d46e7f20e173f4b7d486ea995818795f00a3f758f8a8ddeb36c727a666c",
+      "candidateId": "team.b99dfd1ff53d4e9ce9dc73381e0ea4641f00bdf736d32b566dd53c2fa3ed3df6",
+      "workUnitIds": [
+        "review.host-lifecycle"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "review.host-lifecycle",
+          "objective": "Audit host commands, observations, lifecycle, restore, escalation, adapter portability, and the boundary with the deferred universal scheduler."
+        }
+      ],
+      "modules": [
+        {
+          "id": "review.host-lifecycle-portability",
+          "action": "Map launch through settlement and recovery across materially different host shapes, identify hidden effect or liveness claims, and return the smallest sufficient controller obligations.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "FrozenV14ArchitectureCandidate"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "host-lifecycle-review.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr-0003",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+          "digest": "sha256:eec8606ebe84bd4cacd4bd5db1952ba2b536e067f9dc78b521ab38d3a526472f",
+          "bytes": 19559,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/architecture/decisions/0003-portable-orchestration-control-plane.md"
+        },
+        {
+          "sourceId": "context.adr-0004",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0004-specialist-compiler-first.md",
+          "digest": "sha256:f8f62c11f4b408a1eeac32597f08dd214fffa53ccf155c921045c0ab911ac654",
+          "bytes": 7732,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/architecture/decisions/0004-specialist-compiler-first.md"
+        },
+        {
+          "sourceId": "context.adr-0005",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+          "digest": "sha256:bb585b88635787a7f835e5eb503f6e0053bed624db13b21e9a769d8a5e619b14",
+          "bytes": 9031,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/architecture/decisions/0005-immutable-specialist-run-session.md"
+        },
+        {
+          "sourceId": "context.correction-design",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+          "digest": "sha256:89d962f6b1a67911cee1c9b0f0c8dfca676f90aaa123a810e30858615b1ed91d",
+          "bytes": 4159,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/specs/v11-orchestration-planner/revision-5-correction-design.md"
+        },
+        {
+          "sourceId": "context.round-4",
+          "kind": "repository",
+          "locator": "path:docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+          "digest": "sha256:4a56f0e52a9f3f05339a1d1677868888242a007d159854f3683baeca54d1969d",
+          "bytes": 12182,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/specs/v11-orchestration-planner/architecture-review-round-4.md"
+        },
+        {
+          "sourceId": "context.run-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.v13-milestone",
+          "kind": "repository",
+          "locator": "path:docs/milestones/v13.md",
+          "digest": "sha256:580de2495e685021571af196859b572c1d59ecc8668fd6c0a5594a7b77d87e24",
+          "bytes": 3693,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/milestones/v13.md"
+        },
+        {
+          "sourceId": "context.v14-adr",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+          "digest": "sha256:2cf9fc58b30cea609e9ef7717a99d16e06ff082b8bb85629c2378931c9f7c73d",
+          "bytes": 5862,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+          "digest": "sha256:03c1bea8757076ca798f6d18a9354e95f64393b9cef3a906c37979e3072da714",
+          "bytes": 5309,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md"
+        },
+        {
+          "sourceId": "context.v14-goal",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+          "digest": "sha256:1c3e161883ee7b0f998db6ef2a0d564d5d146879c69b8bd5b4dbf9569b34bdd2",
+          "bytes": 1888,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md"
+        },
+        {
+          "sourceId": "context.v14-host-scan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+          "digest": "sha256:867b77b3920f0936e458a41ce693712da65495deaa45665f26e461a4c15050f0",
+          "bytes": 6636,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Review the exact immutable V14 architecture candidate."
+          ],
+          "workUnitIds": [
+            "review.host-lifecycle"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "analyze.host-lifecycle-portability"
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+            "docs/architecture/decisions/0004-specialist-compiler-first.md",
+            "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+            "docs/milestones/v13.md",
+            "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+            "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+            "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+            "src/specialist-run-types.ts"
+          ],
+          "write": [],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0003-portable-orchestration-control-plane.md",
+              "docs/architecture/decisions/0004-specialist-compiler-first.md",
+              "docs/architecture/decisions/0005-immutable-specialist-run-session.md",
+              "docs/milestones/v13.md",
+              "docs/specs/v11-orchestration-planner/architecture-review-round-4.md",
+              "docs/specs/v11-orchestration-planner/revision-5-correction-design.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/adr-0007.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/goal-synthesis.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/host-scan.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/runtime-routing-contract.md",
+              "docs/specs/v14-adaptive-orchestration/evidence/architecture/inputs/spec.md",
+              "src/specialist-run-types.ts"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not write files, run commands, access the network, launch descendants, change Git state, or claim host effects."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.host-lifecycle",
+          "criterion": "The host command, observation, controller, adapter, restore, and escalation boundaries are portable and do not revive the universal scheduler.",
+          "requirementId": "evidence.host-lifecycle",
+          "kind": "review",
+          "duty": "produce",
+          "description": "Preserve the exact host lifecycle and portability review.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "host-lifecycle-review.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not edit files, run commands, access the network, launch descendants, or change Git state.",
+        "Return only the concrete closed SpecialistAgentHandoff JSON object required by the generated contract.",
+        "Stop if a declared source is unavailable or differs from its exact digest and byte binding.",
+        "Use a non-pass outcome when a material defect remains; do not soften a finding into prose."
+      ],
+      "contentDigest": "sha256:523e8c61e65c69b8236749506717e1f51f9399ce01ad63d39f8258e6a34270b0"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.33a6bc770db6c38d3e4caca84d87b2407f8115dc8b237686067ceaaef0a58f72",
+        "agent.6fa8391587bf1e540419088fba5f4de3c3c3c39e81f2e1047fdcdc5b83c8e3bc",
+        "agent.77cbd4624df552772df28ea44ecbcef421c0247e4dfcf21196b2870559246d8d",
+        "agent.c36910129ffed3f72f14af4f97aecea0afff330758afa6687ac33180596630cc"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:2af08a1285008a1dacf199674fd8bc80f891c92e65b222d57fd2191873726a5a"
+}
