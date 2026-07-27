@@ -4,6 +4,23 @@ export const SPECIALIST_API_VERSION = "swecircuit/specialist/v1alpha1" as const;
 
 export const SPECIALIST_RUN_API_VERSION = "swecircuit/specialist-run/v1alpha1" as const;
 
+export const RUNTIME_ROUTING_API_VERSION = "swecircuit/runtime-routing/v1alpha1" as const;
+
+export const RUNTIME_ROUTING_LIMITS = Object.freeze({
+  maxBlueprints: 16,
+  maxPolicyRules: 256,
+  maxCalibrationRows: 192,
+  maxInventoryRows: 192,
+  maxLogicalSetItems: 256,
+  maxEvidenceBindings: 512,
+  maxExactVectors: 200_000,
+  maxBeamWidth: 512,
+  maxIdentifierBytes: 128,
+  maxTextBytes: 16_384,
+  maxContextBytes: 134_217_728,
+  maxCanonicalBytes: 16_777_216,
+} as const);
+
 export const SPECIALIST_RUN_KINDS = Object.freeze([
   "SpecialistRunSession",
   "SpecialistRunInspection",
