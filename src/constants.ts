@@ -21,6 +21,19 @@ export const RUNTIME_ROUTING_LIMITS = Object.freeze({
   maxCanonicalBytes: 16_777_216,
 } as const);
 
+export const ADAPTIVE_RUN_API_VERSION = "swecircuit/adaptive-run/v1alpha1" as const;
+
+export const ADAPTIVE_RUN_LIMITS = Object.freeze({
+  maxHostEvents: 512,
+  maxEventBytes: 1_048_576,
+  maxHostEvidenceBindings: 512,
+  maxSteeringBytes: 16_384,
+  maxLineageDepth: 8,
+  maxSessionBytes: 268_435_456,
+  maxInspectionBytes: 16_777_216,
+  maxRunViewBytes: 16_777_216,
+} as const);
+
 export const SPECIALIST_RUN_KINDS = Object.freeze([
   "SpecialistRunSession",
   "SpecialistRunInspection",

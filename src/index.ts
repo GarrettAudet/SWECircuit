@@ -2,6 +2,8 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 import { parseTree } from "jsonc-parser";
 
 export {
+  ADAPTIVE_RUN_API_VERSION,
+  ADAPTIVE_RUN_LIMITS,
   API_VERSION,
   ARTIFACT_KINDS,
   EVENT_TYPE_VERSION,
