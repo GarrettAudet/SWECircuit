@@ -1,0 +1,38 @@
+{
+  "apiVersion": "swecircuit/dogfood-runtime-plan/v1alpha1",
+  "kind": "DogfoodRuntimePlan",
+  "host": "codex-desktop",
+  "compilationDigest": "sha256:256d6b31b1a6301240230a6a0ee606a30682caeb02e45e24c53edf334d283b82",
+  "packageDigest": "sha256:2fe0cfb24e45b47a847b3d4f2213c7f29a8ed4fa94a99feed8294d1789f98bcb",
+  "maxConcurrency": 2,
+  "assignments": [
+    {
+      "workUnitId": "implement.domain",
+      "agentId": "agent.22fe8f425ee2ae8035b37fbe4de773031bb56a585b11a9e10ea72fe0da8ae106",
+      "model": "gpt-5.6-terra",
+      "reasoningEffort": "high",
+      "rationale": "Bounded deterministic JavaScript and test implementation favors a fast coding specialist."
+    },
+    {
+      "workUnitId": "implement.ui",
+      "agentId": "agent.9f4c01d80a88a276ef54c7736dfde8ccf028153881c90b8cb3a6c7d635867bb5",
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "rationale": "Visual hierarchy, responsive behavior, and accessibility make interface quality the root-wave risk."
+    },
+    {
+      "workUnitId": "integrate.application",
+      "agentId": "agent.3d688f99658a89b95473b010617ce56bbff4e5bafb0c9f2d9580f842a52496ef",
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "rationale": "Cross-module integration and stateful browser behavior require deeper reasoning."
+    },
+    {
+      "workUnitId": "review.application",
+      "agentId": "agent.fe1abacce8e8c4dbed4fd9ee95a6f0c2be8ddaab69ee0ba25b7e1df7590cdbf3",
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "rationale": "Independent correctness and accessibility review is a hard quality gate."
+    }
+  ]
+}
