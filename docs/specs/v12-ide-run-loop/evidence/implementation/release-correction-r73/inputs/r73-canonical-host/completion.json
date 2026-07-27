@@ -1,0 +1,57 @@
+{
+  "kind": "swecircuit.canonical-host-completion.v1",
+  "candidateCommit": "a645f985dbb7b05f5b3656cd138968c456887568",
+  "candidateTree": "f3f873a5236169bd8ea0b32557455c2554041ab0",
+  "processId": 14788,
+  "processStartTimeUtc": "2026-07-27T05:52:19.6522666Z",
+  "outcome": "pass",
+  "invocationCount": 1,
+  "request": {
+    "path": "C:\\tmp\\swecircuit-r73-canonical-host-a645f985\\request.json",
+    "bytes": 1987,
+    "digest": "sha256:4955f49bcc69ab9c45232aa4813c96413f219398bff8318b71c813770f91b6a3"
+  },
+  "launch": {
+    "path": "C:\\tmp\\swecircuit-r73-canonical-host-a645f985\\launch.json",
+    "bytes": 1191,
+    "digest": "sha256:505aaa24f6c0efea889895b85ff8b858800e3748d42275924e427baf2b436437"
+  },
+  "polls": {
+    "path": "C:\\tmp\\swecircuit-r73-canonical-host-a645f985\\polls.json",
+    "bytes": 4516,
+    "digest": "sha256:ecb23dea93e2a293e058a37963d39cb086bd339312c66129994509b5000b9706",
+    "count": 6
+  },
+  "hostStdout": {
+    "path": "C:\\tmp\\swecircuit-r73-canonical-host-a645f985\\canonical-host.stdout.log",
+    "bytes": 13635,
+    "digest": "sha256:e4bb4f322fead4d2cf336a2866279b2f4cc8677e052b1d29e0b893554fae12a4"
+  },
+  "hostStderr": {
+    "path": "C:\\tmp\\swecircuit-r73-canonical-host-a645f985\\canonical-host.stderr.log",
+    "bytes": 0,
+    "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "receipt": {
+    "path": "C:\\tmp\\swecircuit-identity-main\\docs\\specs\\v12-ide-run-loop\\evidence\\release-review-r2\\inputs\\canonical-gates\\a645f985dbb7b05f5b3656cd138968c456887568\\canonical-gate-receipt.json",
+    "bytes": 14108,
+    "digest": "sha256:0320921876a00df3d98c75afb55b8ef54cda5a79a234b4c44560c40801d40bde"
+  },
+  "canonicalStdout": {
+    "path": "C:\\tmp\\swecircuit-identity-main\\docs\\specs\\v12-ide-run-loop\\evidence\\release-review-r2\\inputs\\canonical-gates\\a645f985dbb7b05f5b3656cd138968c456887568\\canonical-gate.stdout.log",
+    "bytes": 307260,
+    "digest": "sha256:8af05db6de7214a2c97a58190de0d2ccbd02c9b9a885bd1696fce1208cb70fb2"
+  },
+  "canonicalStderr": {
+    "path": "C:\\tmp\\swecircuit-identity-main\\docs\\specs\\v12-ide-run-loop\\evidence\\release-review-r2\\inputs\\canonical-gates\\a645f985dbb7b05f5b3656cd138968c456887568\\canonical-gate.stderr.log",
+    "bytes": 25923,
+    "digest": "sha256:916ed20ef7b4f5bb27887bbfdf6eb2c7182eaf5313ead05a8acc4a98e7f7c791"
+  },
+  "candidateSource": {
+    "commit": "a645f985dbb7b05f5b3656cd138968c456887568",
+    "tree": "f3f873a5236169bd8ea0b32557455c2554041ab0",
+    "files": 4698,
+    "bytes": 162491537,
+    "digest": "sha256:25fa1d1e0a51be4414e52be5b5dc7e8bbcc3d6196f5c312b452febcb0ddcc7f8"
+  }
+}

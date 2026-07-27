@@ -1,0 +1,54 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "ReleaseReviewHandoffVerification",
+  "phase": "release-review-r2",
+  "candidateCommit": "a645f985dbb7b05f5b3656cd138968c456887568",
+  "runRoot": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568",
+  "runtimeBindingDigest": "sha256:be354b0022200477b055552c3cd3a26d66173b1f67bd545cc676c576832de355",
+  "stableReconstructionDigest": "sha256:984d0a17bfaf0e068306dc9c617ab5fc3e5061215d7c50c5a617b404aeb5cf35",
+  "phaseAuthorityDigest": "sha256:ee4a2f746a70800e3db29da17115f88fb33a307a2f3a42998aaeb004e0a98292",
+  "compilationDigest": "sha256:c53f05b73aafae0a39b08b4a2c09116ab59c9063c1d2dabb63486ea66aa83160",
+  "packageDigest": "sha256:3dbd23419c4ae9e2dc0dac280f1d5727376c55afe81d0f2b437d0db1a50e5a2f",
+  "expectedAgentIds": [
+    "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+    "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+    "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87"
+  ],
+  "receivedAgentIds": [
+    "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+    "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+    "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87"
+  ],
+  "complete": true,
+  "verifiedHandoffs": [
+    {
+      "file": "security.json",
+      "agentId": "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+      "outcome": "pass",
+      "rawBytes": 8113,
+      "rawDigest": "sha256:15ef2c27b9456701c1f26ca45506485b50bb21dbf01523425199fd3b2b558590",
+      "semanticDigest": "sha256:842a117a7f450a13284911305b336ad157ca4c81d241231a42dc97b7b37d7e69",
+      "contentDigest": "sha256:e590d19d9aeade315a04ce4fe1c2841e8a38e595b9528e76971abe8f2bcad89c"
+    },
+    {
+      "file": "product.json",
+      "agentId": "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+      "outcome": "pass",
+      "rawBytes": 8522,
+      "rawDigest": "sha256:bdefd82ca2cf0cd55912b393f413fa7df79ff844941b46a7c1e351c3a42a2d6f",
+      "semanticDigest": "sha256:45a3c87494051ca3d05edf4f86590ad89627bbf8ae6563d8e65d3f3a8811f690",
+      "contentDigest": "sha256:29d01c993ba9f7209d47a76048c4baffb886a97af1ff52bb94a6cabf6130a219"
+    },
+    {
+      "file": "lifecycle.json",
+      "agentId": "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87",
+      "outcome": "pass",
+      "rawBytes": 8078,
+      "rawDigest": "sha256:aa091b38eb6038bf9d7bae61d09bb4d845efded2a5eac8bb497386424302353c",
+      "semanticDigest": "sha256:b05fb32049fab76a3fb89a1bede118bd4e9bfc6841db1f7f8dd20a4835adef1e",
+      "contentDigest": "sha256:22977a91c1afe4c76673886b481faec8ed2c9ece01b9e94968313e6687c7e60f"
+    }
+  ],
+  "releaseReady": true,
+  "note": "Every exact raw reviewer handoff was verified against this candidate's external-host-declared R2 package pair. A verified non-pass remains a workflow route and cannot authorize release."
+}

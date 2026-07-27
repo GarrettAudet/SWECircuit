@@ -2,14 +2,11 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness
-alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-73 is active; Revisions 70 through 72 are permanently retired. R73 preserves the R72 host
-interruption, rejects its accidental exact replay as qualification, and proves transport through a
-candidate-neutral fixture. Independent review attempts 1 through 3 returned `block`; Attempt 4
-returned `pass` after all recorded findings were corrected. R73 has not frozen and its protected gate has
-not been invoked.
-`releaseReady: false`.
+Revision 73 source candidate `a645f985dbb7b05f5b3656cd138968c456887568` passed immutable lifecycle, complete verification,
+non-consuming rehearsal, hosted Windows, its one protected canonical gate, and complete fresh R2.
+All three independent review domains returned `pass`; exact fan-in records
+`releaseReady: true`. The owner approved merge and the feature package is in publication
+closeout.
 
 ## Task List
 
@@ -23,19 +20,18 @@ not been invoked.
   Verification: product, lifecycle, authority, API, and test obligations map to AC1-AC9 with no blocking decision.
 - [x] T005: Compile and implement disjoint V12 work units.
   Verification: every code or documentation change maps to an exact task-shaped contract and handoff.
-- [ ] T006: Run integrated verification and independent review.
+- [x] T006: Run integrated verification and independent review.
   Verification: focused tests, canonical gate, package consumer, checker matrix, dogfood, and reviewer evidence pass.
-- [ ] T007: Close memory, milestone, publication, and owner merge gate.
+- [x] T007: Close memory, milestone, publication, and owner merge gate.
   Verification: exact candidate, CI, residual risks, and user-facing overview are preserved.
 
 ## Parallelization
 
-T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005 froze
-the shared session foundation, then ran transition and inspection in parallel with disjoint write
-scopes. R73 preserves one integration owner while read-only diagnosis and final-delta review run
-as bounded specialists. After the exact R73 canonical gate passes, fresh R2 fans out concurrently
-across product/API/IDE, lifecycle/correctness, and security/trace authority before one verified
-fan-in.
+T003 ran three read-only architecture analyses in parallel and one dependent synthesis. T005
+froze the shared session foundation, then ran transition and inspection in parallel with disjoint
+write scopes. R73 retained one integration owner while bounded specialists reviewed product/API/IDE,
+lifecycle/correctness, and security/trace/authority concurrently. Their three exact raw handoffs
+were preserved and verified through one complete fan-in before release readiness was accepted.
 
 ## Out Of Scope
 

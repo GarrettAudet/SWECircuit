@@ -1,0 +1,22 @@
+{
+    "kind":  "swecircuit.canonical-host-launch.v1",
+    "candidateCommit":  "a645f985dbb7b05f5b3656cd138968c456887568",
+    "candidateTree":  "f3f873a5236169bd8ea0b32557455c2554041ab0",
+    "requestedAtUtc":  "2026-07-27T05:52:19.6065334Z",
+    "launchedAtUtc":  "2026-07-27T05:52:19.6522535Z",
+    "launcherProcessId":  27864,
+    "launcherStartTimeUtc":  "2026-07-27T05:52:19.1350417Z",
+    "processId":  14788,
+    "processStartTimeUtc":  "2026-07-27T05:52:19.6522666Z",
+    "executable":  "C:\\Program Files\\nodejs\\node.exe",
+    "arguments":  [
+                      "scripts/run-v12-release-gate.mjs",
+                      "a645f985dbb7b05f5b3656cd138968c456887568"
+                  ],
+    "workingDirectory":  "C:\\tmp\\swecircuit-identity-main",
+    "candidateSlot":  "C:\\tmp\\swecircuit-identity-main\\docs\\specs\\v12-ide-run-loop\\evidence\\release-review-r2\\inputs\\canonical-gates\\a645f985dbb7b05f5b3656cd138968c456887568",
+    "stdoutPath":  "C:\\tmp\\swecircuit-r73-canonical-host-a645f985\\canonical-host.stdout.log",
+    "stderrPath":  "C:\\tmp\\swecircuit-r73-canonical-host-a645f985\\canonical-host.stderr.log",
+    "hidden":  true,
+    "waitRequested":  false
+}

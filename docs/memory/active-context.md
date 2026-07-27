@@ -2,31 +2,24 @@
 
 ## Current Focus
 
-V12 IDE Run Loop Revision 73 is active on `codex/v12-ide-run-loop`. Revision 72 commit
-`5bc547eab6b22b862e798ad72df0d35aaa64771f` passed mutable, immutable, disposable rehearsal, and
-hosted qualification. Hosted run `30207051835` had exactly three successful Windows jobs, with
-both kernels passing 482/482 core tests. Its real canonical gate was invoked once and externally
-terminated with `0x40010004` `DBG_TERMINATE_PROCESS` after core pass and copied-lifecycle entry.
-No receipt was published, so Revision 72 is permanently retired. Revision 73 preserves that exact
-evidence. An accidental exact-R72 replay is preserved and rejected as release qualification. A
-dedicated candidate-neutral transport fixture now passes. R73 changes only trace, status, test,
-and evidence bindings. ADR 0006 keeps v0.1 Windows-only; macOS and Linux are unsupported and are
-not release gates. `releaseReady: false`.
+V12 IDE Run Loop Revision 73 source candidate `a645f985dbb7b05f5b3656cd138968c456887568` has completed release qualification on
+`codex/v12-ide-run-loop`. Copied lifecycle, complete verification, non-consuming rehearsal,
+hosted Windows run `30239349407`, and its one protected canonical invocation pass. Fresh R2
+product/API/IDE, lifecycle/correctness, and security/trace/authority handoffs all verify `pass`;
+the complete exact-byte fan-in records `releaseReady: true`. The owner approved merge. ADR 0006
+keeps v0.1 Windows-only; macOS and Linux remain unsupported.
 
 ## Current Stage
 
-Revision 73 is in `verify -> freeze`. Independent review attempts 1 through 3 returned `block`;
-fresh Attempt 4 returned `pass` with no unresolved finding.
-Dedicated probe `5ab49c21-83e2-48d7-98a1-f065d69e47b2` cross-binds one nonce, PID,
-process start time, launch digest, launcher exit, timestamped polls, post-exit heartbeat, receipt,
-completion, and exact launcher and worker streams without receiving a candidate commit. All
-prior findings are corrected; focused and broad mutable checks plus fresh independent review pass.
-Candidate-addressed external evidence is authoritative. R73 has not frozen and its protected gate
-has not been invoked. Exact freeze, copied lifecycle, complete verification, non-consuming
-rehearsal, the three-job hosted Windows matrix, one canonical gate, and fresh R2 remain. The main
-agent is
-integration owner. External IDE hosts still own model and effort selection, skills, tools,
-spawning, isolation, execution, persistence, integration effects, and merge.
+Revision 73 is in `memory update -> publication`. Candidate-addressed external evidence
+preserves the exact R73 source, canonical host chain, raw R2 handoffs, final verifier report,
+milestone, and retrieval links. The integration owner will fast-forward the approved branch to
+`main` and confirm merged-main CI.
+
+External IDE hosts still own provider/model/effort selection, skills, tools, spawning, workspace
+and process isolation, permission enforcement, execution, persistence, integration effects, merge,
+and memory mutation. SWECircuit core owns deterministic contracts, verification, dependency
+readiness, routing, and immutable run state.
 
 ## Important Current Constraints
 
@@ -51,7 +44,7 @@ spawning, isolation, execution, persistence, integration effects, and merge.
 - Logical arrays and candidate partitions are normalized; labels, proposal order, and input insertion order must not influence selected semantics.
 - Every rendered file and launch entry binds the exact compilation digest. Any changed goal, work unit, candidate, or blueprint requires recompilation and a new review.
 - The Round-4 runtime corrections in docs/specs/v11-orchestration-planner/revision-5-correction-design.md remain mandatory input for a later runtime layer.
-- V11 is the current merged baseline. V11.1 changes only the public explanation, deterministic visual, checker guards, and release records; it adds no runtime effect.
+- V12 is the owner-approved release baseline selected for `main`. V11.1 remains the public-identity and concise-README compatibility baseline; it adds no runtime effect.
 
 ## Recently Learned
 
@@ -183,10 +176,8 @@ spawning, isolation, execution, persistence, integration effects, and merge.
 
 ## Next Likely Work
 
-- Freeze one exact R73 commit after the passing Attempt 4 review, then require copied lifecycle,
-  verification, non-consuming rehearsal, Template Check, and Windows Node 22/24.
-- After all prior exact-candidate gates pass, launch the R73 canonical gate once through the
-  reviewed background-host contract and poll without reinvocation.
-- Require one exact pass receipt and fresh three-domain R2 all-pass fan-in, then close milestone
-  and memory, merge to `main`, and verify merged `main`.
+- Publish the approved R73 evidence closeout to `main` and confirm merged-main Windows CI.
+- Dogfood the released Revision 73 run loop as the baseline for the next version.
+- Design the deferred provider-neutral host configuration and runtime-assignment layer without
+  moving model, tool, spawning, isolation, or execution effects into core.
 - Never invoke or release Revisions 60 through 72.

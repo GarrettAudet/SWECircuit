@@ -1,0 +1,56 @@
+{
+  "apiVersion": "swecircuit/run-evidence/v1alpha1",
+  "kind": "SpecialistContractReplan",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "fromRevision": 2,
+    "toRevision": 3
+  },
+  "checkpoint": "5e78e2234c945e330fe7b59f690c3275ae37b300",
+  "route": "split",
+  "trigger": {
+    "agentId": "agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe",
+    "handoffPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r2/handoffs/agent.19b35908f9c3322b40e9b0992c277862c5cb9782588d3e8c7b19083f9a102efe.json",
+    "handoffBytes": 7254,
+    "handoffDigest": "sha256:8db3fea6a6f47fba804f72d454660bafda7ab5d06691d729157e2f8f3aba66be",
+    "outcome": "split",
+    "cause": "The unprimed record operation performed one first-use read of schemas/v1alpha1/common.schema.json through the unchanged V11 handoff validator."
+  },
+  "retainedPartialPaths": [
+    "src/specialist-run-inspection.ts",
+    "src/specialist-run-schema-data.ts",
+    "src/specialist-run-schema.ts",
+    "test/specialist-run-foundation.test.mjs",
+    "test/specialist-run-inspection.test.mjs"
+  ],
+  "newlyAuthorizedPaths": [
+    "src/specialist-handoff-schema-data.ts",
+    "src/specialist-handoff-schema.ts"
+  ],
+  "replacementContract": {
+    "compilationDigest": "sha256:ded9a26906a9a00a5f0b12dc3420e909a91e70ef9a3ee03905ac1676efb40638",
+    "packageDigest": "sha256:19c13189225b8bedd69b03edb2c4c3821aa9d8256e39209f5c10641527dc4d01",
+    "agentId": "agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d",
+    "blueprintDigest": "sha256:382469632b31e57b2ef90c14425a1185be1517b27ba735cba0e9668d45bf4848",
+    "contractPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/package/agents/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.md",
+    "approved": true,
+    "launched": true,
+    "handoffPath": "docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r3/handoffs/agent.4ad07f1bbe6a0d5365c7ff1ecc1ea5a0da2e7cc084d41bf3c1dbda8c0f21339d.json",
+    "handoffBytes": 8095,
+    "handoffDigest": "sha256:89ab112ce3df0a97f64db2994fc792238955b7007a7ce0310b4af39b4340d3df",
+    "outcome": "split",
+    "completed": false,
+    "splitReason": "All four cold operations reach package reconstruction through the unchanged Specialist Compiler schema validator, which reads common.schema.json outside revision-3 authority."
+  },
+  "friction": {
+    "cumulativeReplans": 2,
+    "cumulativeStaleOrInsufficientContractsRetired": 2,
+    "additionalCompilationCalls": 1,
+    "additionalPackageRenderCalls": 1,
+    "additionalPackageVerificationCalls": 1,
+    "additionalApprovalBindings": 1,
+    "additionalApprovalPrompts": 0,
+    "scopePathsAdded": 2,
+    "cachePrimingShortcutsRejected": 1
+  }
+}

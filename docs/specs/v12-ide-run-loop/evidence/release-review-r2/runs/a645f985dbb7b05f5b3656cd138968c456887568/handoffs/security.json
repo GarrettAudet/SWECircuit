@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:8687c7db297d807462925d1962a8d7f7114793769548ad06361ffed8f3ccec63"
+  },
+  "agent": {
+    "id": "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+    "blueprintDigest": "sha256:a8839a8d4e74fc7e5745a82b3f5642d009baa63ae5e0ff4e30be6222a751f87c"
+  },
+  "compilationDigest": "sha256:c53f05b73aafae0a39b08b4a2c09116ab59c9063c1d2dabb63486ea66aa83160",
+  "summary": "PASS: all 224 declared context bindings and the exact approved compilation/package pair authenticated successfully. No release-blocking security, trace, authority, approval-freshness, source-preservation, effect-boundary, or resource-limit finding remains for the exact candidate.",
+  "workUnitsCompleted": [
+    "review.r2.security-trace-authority"
+  ],
+  "artifacts": [
+    {
+      "name": "security-trace-authority-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Findings\n\nNo release-blocking finding was identified in the security, trace, and authority review domain. Severity: none.\n\n# Authentication\n\nAll 224 declared immutable context sources matched their exact byte counts and raw SHA-256 bindings before use. The generated package reconstructed and verified against compilation `sha256:c53f05b73aafae0a39b08b4a2c09116ab59c9063c1d2dabb63486ea66aa83160` and package `sha256:3dbd23419c4ae9e2dc0dac280f1d5727376c55afe81d0f2b437d0db1a50e5a2f`. The candidate manifest binds commit `a645f985dbb7b05f5b3656cd138968c456887568` and tree `f3f873a5236169bd8ea0b32557455c2554041ab0`.\n\nThe candidate-addressed canonical gate receipt at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568/inputs/canonical-gate/canonical-gate-receipt.json` matched 14,108 bytes and `sha256:0320921876a00df3d98c75afb55b8ef54cda5a79a234b4c44560c40801d40bde`. Its raw stdout matched 307,260 bytes and `sha256:8af05db6de7214a2c97a58190de0d2ccbd02c9b9a885bd1696fce1208cb70fb2`; raw stderr matched 25,923 bytes and `sha256:916ed20ef7b4f5bb27887bbfdf6eb2c7182eaf5313ead05a8acc4a98e7f7c791`. The receipt records exit zero, a clean disposable Git context, closed npm inputs, unchanged candidate materialization and dependency closure, and completion of the canonical kernel and installed-package gates.\n\n# Security And Effects\n\nThe R1 lazy-filesystem finding is closed. `src/specialist-run-schema.ts`, preserved at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568/inputs/s/1e37d33e54203104e374b6dff790f3f138debcb9afdd441fb0e99e2e61518794`, compiles from embedded schema source rather than reading a runtime file. `test/specialist-run-foundation.test.mjs`, preserved at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568/inputs/s/4588ad570a2758dc09f2cef5230af3015aa08fcf568182f2319a73f5443ae4d4`, checks exact bundled-schema parity and fresh-process create, restore, inspect, and record behavior with operation-time filesystem access intercepted.\n\nThe session, transition, and inspection implementations preserved at `inputs/s/1a4947650816673cff9bfedc2f60dfed86583a33c896fbb837b1570f2efcf546`, `inputs/s/98a23e49307e44480df30bae1e149397300a60957458f1d0c6fdf0e0b9089a94`, and `inputs/s/918e3b5684b2d3d25de76507d6a65b845ae4ff459ee117be606d6648fd6c2045` fail closed on schema, digest, package-expectation, canonicalization, unsafe-control, lone-surrogate, secret, replay-conflict, dependency, and terminal non-pass violations. Run paths check raw bounds before proportional copies or decoding and preserve exact accepted handoff bytes, lengths, and hashes.\n\nThe R1 aggregate-resource finding is closed. `test/specialist-run-limits.test.mjs`, preserved at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568/inputs/s/e5a067fe312693b5395fddb37d8aa4403dd1dad67d2f39f15aec4fe41b902df0`, constructs a complete 16-agent package with maximum valid handoffs, records independent arrival orders, restores and inspects the resulting session, checks exact raw and base64 ceilings, and derives conservative session and inspection upper bounds below their guards.\n\n# Trace And Authority\n\nThe stale mutable-review finding is closed by the immutable pre-integration snapshot at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568/inputs/pre-integration-review.md`, mapped from `docs/specs/v12-ide-run-loop/review.md` with its candidate object ID, mode, byte count, and digest. Its pre-gate state is not used as current gate evidence; the separate candidate-addressed receipt and raw logs provide that evidence.\n\nThe summary-only-evidence finding is closed. The raw R1 security handoff from `docs/specs/v12-ide-run-loop/evidence/release-review/handoffs/security-trace-authority-fix-attempt-1.json` is preserved at `inputs/s/7891823e1d3c9bc54124662cabbd1e2ccf3b0af367f2aa42cc7d69ded774bbdc`. Correction history preserves revisions 1 through 22, including non-pass routing, exact package and approval bindings, verification reports, and raw handoffs. The R22 producer handoff from `docs/specs/v12-ide-run-loop/evidence/implementation/release-correction-r22/handoffs/agent.8f24670b544882730a1763ac030531997dba8400a9cc3c767eceeb1f7a96212d-pass-attempt-1.json` is preserved at `inputs/s/5d0ff75b64b65f4576745442ed7ce8c28f619714d3a30e059e128bacf8e3f119` and is correctly treated as producer evidence rather than a substitute for this fresh review.\n\nThe V11 Audit-B trust chain is independently replayable from primary bytes: the owner approval is preserved at `inputs/s/47a7ed9eb7ca68d511b92086c15596f630e895937287cad83e9e243a506416fb`, the package-verification receipt at `inputs/s/974ed1be60fe37d9336aebfe8581eb51debb40d310784655f7ab4d7891dfab4b`, the semantic PASS handoff at `inputs/s/57a023472a5629d05db56ffc79486341e52d8fc7521596c13723e19cac541a1c`, and the cross-package launch authorization at `inputs/s/87995156ebc87099f47153e0ad3ab044c6e104c72fcfa8cf135e3e610ba92776`. The authorization binds both digest pairs and the receipt and semantic-handoff byte identities; semantic PASS is not inferred from prose, filenames, or the authorization record alone.\n\nThe authority supplied for this execution names the exact compilation/package pair verified above. Core code does not claim to select actors, establish external approval freshness, launch agents, persist evidence, enforce operating-system or network isolation, integrate results, or merge the candidate. Those remain explicit external-host and integration-owner duties.\n\n# Verdict\n\nOutcome: `pass`. The exact candidate and approved package are release-ready within the security, trace, and authority review domain. No file or Git mutation, network access, descendant launch, repair, or release-gate invocation was performed."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.security-trace-authority",
+      "requirementId": "evidence.r2.security-trace-authority-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "security-trace-authority-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This pass is identity-specific and does not transfer to changed candidate, compilation, package, approval, handoff, receipt, or raw-log bytes.",
+    "Executable provenance, hostile cache or parent state, operating-system and same-user process isolation, network enforcement, persistence, launch, integration, milestone approval, and merge remain external-host responsibilities."
+  ],
+  "followUps": [
+    "Preserve this exact raw UTF-8 handoff and verify it against the approved compilation/package pair before fan-in.",
+    "Require exact verification and pass outcomes from all fresh R2 handoffs before integration-owner acceptance, milestone completion, or merge."
+  ]
+}

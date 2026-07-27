@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:8687c7db297d807462925d1962a8d7f7114793769548ad06361ffed8f3ccec63"
+  },
+  "agent": {
+    "id": "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87",
+    "blueprintDigest": "sha256:42af2f9f419778bb5da7e7a49a8ea8c98fa47d31910dfd0369381e0e09c9420f"
+  },
+  "compilationDigest": "sha256:c53f05b73aafae0a39b08b4a2c09116ab59c9063c1d2dabb63486ea66aa83160",
+  "summary": "PASS: all 196 declared immutable inputs authenticated with exact byte counts and SHA-256 digests. No lifecycle/correctness findings were identified. Candidate a645f985dbb7b05f5b3656cd138968c456887568 is release-ready within this review domain.",
+  "workUnitsCompleted": [
+    "review.r2.lifecycle-correctness"
+  ],
+  "artifacts": [
+    {
+      "name": "lifecycle-correctness-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Findings\n\nSeverity: none. No lifecycle/correctness findings were identified. The exact candidate is release-ready within this review domain.\n\n# Authentication\n\nAll 196 declared immutable context items matched their exact byte counts and raw SHA-256 bindings before use. The candidate manifest at `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568/inputs/candidate.json` matched 296912 bytes and `sha256:c723c2f43cdb2d95acbd759ec023cf3d93b9ea5d7a0e7cd43c16a6c0e3c2c7c8`. It binds candidate `a645f985dbb7b05f5b3656cd138968c456887568` to tree `f3f873a5236169bd8ea0b32557455c2554041ab0` and source digest `sha256:25fa1d1e0a51be4414e52be5b5dc7e8bbcc3d6196f5c312b452febcb0ddcc7f8`.\n\n# Lifecycle Review\n\n- Create and restore: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568/inputs/s/1a4947650816673cff9bfedc2f60dfed86583a33c896fbb837b1570f2efcf546`, original `src/specialist-run-session.ts`, matched `sha256:2a763993ef0d190ff81b8b234081d3dcd8c470faaa3a6c8ae76da114ecb43367`. The implementation validates raw and canonical bounds, exact package and external-expectation bindings, canonical base64 round trips, strict accepted-handoff ordering, dependency closure, raw handoff digests, V11 handoff verification, terminal-route invariants, deterministic reconstruction, and canonical equality. Restored sessions are detached and deeply frozen.\n- Record, replay, and recovery: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568/inputs/s/98a23e49307e44480df30bae1e149397300a60957458f1d0c6fdf0e0b9089a94`, original `src/specialist-run-transition.ts`, matched `sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7`. Exact replay is idempotent; conflicting results, post-route settlement, unsatisfied transitive dependencies, and aggregate overflow close through `SC4403`, `SC4405`, `SC4404`, and `SC4402` respectively. Successor ordering and digest construction are deterministic, and the prior session remains immutable.\n- Inspection, eligibility, fan-in, and routing: snapshot `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568/inputs/s/918e3b5684b2d3d25de76507d6a65b845ae4ff459ee117be606d6648fd6c2045`, original `src/specialist-run-inspection.ts`, matched `sha256:83d46b99d0bd553e36566aa5551b14c945b6177122c2c73f69e41ad6367f30ac`. Eligibility requires the exact transitive dependency closure to be pass-complete. Overall integration readiness requires every selected blueprint, not only sink agents, to pass. Terminal non-pass outcomes map to their exact routes. Evidence is canonically ordered by `requirementId` first and then the complete stable tuple.\n- Public bounds and closed schemas: snapshots `inputs/s/c3e5d79b8158c72a8e4d2112027a3c85b4be09a8bbd67c8387a8246595623f1f`, `inputs/s/e684ade92e878735ed59b386d7f61b1a961f94f0c0690ca552e90f594006cde5`, and `inputs/s/1e37d33e54203104e374b6dff790f3f138debcb9afdd441fb0e99e2e61518794`, originals `src/specialist-run-constants.ts`, `schemas/specialist-run.schema.json`, and `src/specialist-run-schema.ts`, preserve the 16-handoff, 1 MiB raw-handoff, 1398104-byte base64, 64 MiB raw-session, 128 MiB canonical-session, and 64 MiB inspection limits with closed route and operation contracts.\n\n# Verification Evidence\n\n- Exact-boundary coverage at `inputs/s/40d335925e40d1e2ccc91d62604c1c6e19d31f45d8d81c2ec69bc97562deebe9`, original `test/specialist-run-boundaries.test.mjs`, accepts exact limits and rejects one-byte overflow.\n- Aggregate proof at `inputs/s/e5a067fe312693b5395fddb37d8aa4403dd1dad67d2f39f15aec4fe41b902df0`, original `test/specialist-run-limits.test.mjs`, exercises a real 16-agent package with 65 artifacts and a maximum valid 1 MiB raw handoff per agent through record, restore, inspect, and integration readiness while proving constituent ceilings below aggregate guards.\n- Foundation, transition, inspection, adversarial, and schema snapshots at `inputs/s/4588ad570a2758dc09f2cef5230af3015aa08fcf568182f2319a73f5443ae4d4`, `inputs/s/55a94d21f9751566159100f6a9e81aa606d9aef2383628ac238858875d45fec3`, `inputs/s/ddc246bb21aa6182363ac4fd9016bef0b0bcbec3d9b04491886e6ab44a358dbc`, `inputs/s/f1948e3b67137ee096625e2622aec84fbd6561afcd4b5b3a23f5f139284107ea`, and `inputs/s/9be2f33e0ff1eb7c2a611c7ab88844db86a6caeae7a38baacf4e76fbc16cc46a` cover all four pure operations, zero filesystem reads, all DAG shapes and arrival permutations, fresh-process restoration, replay and conflicts, every non-pass route, requirement-first ordering, malformed and substitution attacks, public constants, and closed schemas.\n- Dogfood snapshot `inputs/s/01d138e51353924b73e1466c650cbe03184387bdbd6efad22b7363f28f52fdb6`, original `scripts/dogfood-v12-ide-run-loop.mjs`, matched `sha256:90ef90e8a6692485f64a2f6d688833bcba3934f5ba8941c32caff658fc303a53`. It exercises create, restore, inspect, record, premature-dependency rejection, exact fan-in, replay, restoration equality, terminal routing, and correction lineage without host effects.\n\n# Canonical Gate\n\nThe authoritative receipt at `inputs/canonical-gate/canonical-gate-receipt.json` matched 14108 bytes and `sha256:0320921876a00df3d98c75afb55b8ef54cda5a79a234b4c44560c40801d40bde`. It binds the exact candidate source, reports a clean disposable Git context, unchanged materialization digest, offline dependency execution, exit code 0, and stable runtime identities. Its exact stdout and stderr matched `sha256:8af05db6de7214a2c97a58190de0d2ccbd02c9b9a885bd1696fce1208cb70fb2` and `sha256:916ed20ef7b4f5bb27887bbfdf6eb2c7182eaf5313ead05a8acc4a98e7f7c791`; the logs report 487 core tests and 2 lifecycle tests passing with no failures. The earlier failed receipt is bound to candidate `989e6...` and is historical rather than evidence for this exact candidate.\n\n# Scope And Outcome\n\nNo files or Git state were changed. No network access, descendants, repairs, tests, or release gates were invoked. This independent review used only the authenticated immutable source snapshots, raw handoffs, candidate bindings, and exact canonical-gate evidence. Outcome: `pass` for lifecycle/correctness only."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.lifecycle-correctness",
+      "requirementId": "evidence.r2.lifecycle-correctness-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "lifecycle-correctness-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This pass is limited to lifecycle/correctness. Product/API/IDE, security/trace/authority, and integration-owner release conclusions remain independent."
+  ],
+  "followUps": [
+    "The integration owner must verify this raw handoff against the approved compilation/package digest pair and combine it with the other fresh R2 outcomes before deciding overall release readiness."
+  ]
+}

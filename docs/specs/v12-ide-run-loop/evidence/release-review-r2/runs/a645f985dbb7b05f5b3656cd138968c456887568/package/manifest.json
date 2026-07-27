@@ -1,0 +1,50 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistPackageManifest",
+  "goalId": "v12.ide-run-loop.release-review-r2",
+  "goalRevision": 1,
+  "fileDigestAlgorithm": "sha256",
+  "fileDigestScope": "raw-file-bytes",
+  "compilationDigest": "sha256:c53f05b73aafae0a39b08b4a2c09116ab59c9063c1d2dabb63486ea66aa83160",
+  "selectedCandidateId": "team.6c5b99128b2659b65498546ea6673dfa7069228e1dc9c92815d71f29f4a7de55",
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+        "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+        "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87"
+      ]
+    }
+  ],
+  "compilationFile": "compilation.json",
+  "compilationFileDigest": "sha256:51101eb37555c81e036f1d0f76d656ed5fa71a3e837bad881be9ea56c8847523",
+  "compilationFileBytes": 1772897,
+  "agents": [
+    {
+      "agentId": "agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d",
+      "blueprintDigest": "sha256:a8839a8d4e74fc7e5745a82b3f5642d009baa63ae5e0ff4e30be6222a751f87c",
+      "contractFile": "agents/agent.1e522d86b809d360e459b4afd630c2311033a972b455c615c7eca8bf09b3942d.md",
+      "contractDigest": "sha256:ff15f0142170cb5904672c94ea0387f1ac3433b36e0c6b347422064e7240aa77",
+      "contractBytes": 290907
+    },
+    {
+      "agentId": "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+      "blueprintDigest": "sha256:8f48658942d149425cdc5a81fa192970cb5b1ac128f198cbe80341526055f693",
+      "contractFile": "agents/agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627.md",
+      "contractDigest": "sha256:44e609d8e41c13f0e6b162871ba83444266641066c64b7e8bc86ecfc99afffd7",
+      "contractBytes": 232188
+    },
+    {
+      "agentId": "agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87",
+      "blueprintDigest": "sha256:42af2f9f419778bb5da7e7a49a8ea8c98fa47d31910dfd0369381e0e09c9420f",
+      "contractFile": "agents/agent.ecc4e48122daf47ceda2158ba1125b18174c331dddab51ab4bde4964718c2e87.md",
+      "contractDigest": "sha256:eb2b25ba53609253daaa33d746cd8b3ae3cb83ae815123b5ae062d777940972a",
+      "contractBytes": 257605
+    }
+  ],
+  "integrationFile": "integration.md",
+  "integrationDigest": "sha256:d218b62d121a2e3cc7e1b1eb7b0e168fb618f9cbd8f79487285aee7bf37f1a91",
+  "integrationBytes": 5230,
+  "contentDigest": "sha256:5e52e732fa0278340be2745169274051e2906b18be4d9bfcb8b0d1a24635bc70"
+}

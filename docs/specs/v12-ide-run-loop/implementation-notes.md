@@ -2,16 +2,18 @@
 
 ## Status
 
-Package and handoff verification authenticate artifacts; they do not establish release readiness
-alone. Candidate-addressed external evidence is authoritative for exact-candidate state. Revision
-73 is the only live revision. Revisions 70 through 72 are permanently retired; R72's protected
-invocation was externally terminated and produced no receipt. The accidental exact-R72 replay is
-preserved and rejected as qualification. A dedicated candidate-neutral Windows fixture proves the
-background launch-and-poll transport. Independent review attempts 1 through 3 returned `block`;
-all replay, evidence-authentication, stale-routing, stream-preservation, semantic-continuity,
-index-tracking, and stale-description findings are corrected. Attempt 4 returned `pass` with no
-unresolved finding. R73 has not frozen and its protected gate has not been invoked. Exact
-immutable, hosted, canonical, fresh R2, milestone, and merge gates remain; `releaseReady: false`.
+Package and handoff verification authenticate artifacts. Candidate-addressed external evidence is
+authoritative for exact-candidate release state. Revision 73 source candidate `a645f985dbb7b05f5b3656cd138968c456887568` is frozen.
+It passed copied-production lifecycle verification, the complete repository gate, a
+non-consuming exact-candidate rehearsal, and hosted Windows run
+[30239349407](https://github.com/GarrettAudet/SWECircuit/actions/runs/30239349407).
+Its one protected canonical invocation passed with receipt `sha256:0320921876a00df3d98c75afb55b8ef54cda5a79a234b4c44560c40801d40bde`.
+
+Fresh R2 independently returned `pass` for product/API/IDE, lifecycle/correctness, and
+security/trace/authority. The complete exact-byte fan-in verifies against compilation
+`sha256:c53f05b73aafae0a39b08b4a2c09116ab59c9063c1d2dabb63486ea66aa83160` and package `sha256:3dbd23419c4ae9e2dc0dac280f1d5727376c55afe81d0f2b437d0db1a50e5a2f` and records `releaseReady: true`.
+The owner approved merge. V12 v0.1 is release-ready for Windows; branch publication and
+merged-main CI remain external repository effects.
 
 ## Baseline
 
@@ -413,3 +415,22 @@ worker separate redirected streams, and cross-binds launcher exit, timestamped p
 heartbeat, and receipt to one process identity. Independent review attempts 1 through 3 remain
 preserved `block` outcomes. Attempt 4 independently confirms all findings are corrected and
 returns `pass` with no unresolved finding.
+
+## Revision 73 Release Closeout
+
+Exact source candidate `a645f985dbb7b05f5b3656cd138968c456887568` freezes tree
+`f3f873a5236169bd8ea0b32557455c2554041ab0`, 4,698 files, 162,491,537 bytes, and source digest
+`sha256:25fa1d1e0a51be4414e52be5b5dc7e8bbcc3d6196f5c312b452febcb0ddcc7f8`.
+
+Copied-production lifecycle, complete verification, non-consuming rehearsal, and hosted Windows
+run `30239349407` pass. The canonical host launched the protected gate once, preserved six polls
+and separate host streams, and published exact pass receipt `sha256:0320921876a00df3d98c75afb55b8ef54cda5a79a234b4c44560c40801d40bde`. Its raw canonical
+stdout/stderr are 307,260 / 25,923 bytes at
+`sha256:8af05db6de7214a2c97a58190de0d2ccbd02c9b9a885bd1696fce1208cb70fb2` /
+`sha256:916ed20ef7b4f5bb27887bbfdf6eb2c7182eaf5313ead05a8acc4a98e7f7c791`.
+
+Fresh R2 compiled three independent reviewers at projected makespan 9 versus serial 25.
+Product/API/IDE, lifecycle/correctness, and security/trace/authority returned raw handoffs of
+8,522, 8,078, and 8,113 bytes. Each verifies `pass`; the expected roster is complete; the final
+report under `docs/specs/v12-ide-run-loop/evidence/release-review-r2/runs/a645f985dbb7b05f5b3656cd138968c456887568/handoff-verification.json` records `releaseReady: true`. The owner
+approved merge.

@@ -142,16 +142,12 @@ The first post-correction full-lifecycle invocation is classified as invalid mix
 
 ## Current Outcome
 
-Candidate-addressed external evidence makes Revision 73 the only live revision. Revision 72
-passed every pre-canonical gate, then its only protected invocation was externally terminated
-without a receipt and is permanently retired. The accidental exact-R72 replay is preserved and
-rejected as qualification. A dedicated candidate-neutral transport fixture passes with one
-cross-bound process identity and separate launcher and worker streams. Independent review attempts
-1 through 3 returned `block`; all replay, authentication, active-routing, source-preservation,
-semantic-continuity, index-tracking, and stale-description findings are corrected. Attempt 4
-returned `pass` with no unresolved finding. R73 has not frozen and its protected gate has not been
-invoked. Immutable qualification, hosted Windows, canonical, fresh R2, closeout, and merge gates remain.
-`releaseReady: false`.
+Candidate-addressed external evidence qualifies Revision 73 source `a645f985dbb7b05f5b3656cd138968c456887568`.
+Copied lifecycle, complete repository verification, non-consuming rehearsal, hosted Windows,
+one-shot canonical, and all three fresh R2 domains pass. The exact R2 handoffs authenticate against
+the approved compilation/package pair and the complete verifier records
+`releaseReady: true`. The owner approved merge; only the external branch publication and
+merged-main CI effects remain.
 
 ## Revision 34 Trust-Refresh Outcome
 
@@ -246,29 +242,16 @@ milestone, memory, and merge remain. `releaseReady: false`.
 
 ## Revision 73 Current Review Outcome
 
-Revision 72 passed every pre-canonical gate, including hosted run `30207051835` with exactly three
-successful Windows jobs. Its one protected invocation was externally terminated with
-`0x40010004` after core reached 482/482 pass and copied lifecycle began. Exact raw output survives,
-but no receipt was published. The one-shot rule permanently retires R72.
+Revision 73 source `a645f985dbb7b05f5b3656cd138968c456887568` is the accepted V12 implementation candidate. It changes no
+public runtime behavior beyond the already-reviewed V12 contract and preserves the complete R72
+interruption and invalid-replay history.
 
-R73 is bounded to source-preserving evidence, active status, and executable authentication. It
-does not change product, runtime, public API, schema, package, gate, harness, verifier, or platform
-behavior. The attempted exact-R72 replay mechanically passed but violated the commit-level
-one-shot rule. It is preserved byte-for-byte and classified
-`releaseQualificationValid: false`.
+The exact candidate passed copied lifecycle 2/2, complete verification with 487/487 core and 2/2
+lifecycle tests, non-consuming rehearsal, and hosted Windows run `30239349407`. Its one protected
+canonical invocation passed with receipt `sha256:0320921876a00df3d98c75afb55b8ef54cda5a79a234b4c44560c40801d40bde`.
 
-Dedicated probe `5ab49c21-83e2-48d7-98a1-f065d69e47b2` proves the transport without a
-candidate identity. Its launcher exited after about 507 ms while the receipt was absent; a
-post-exit heartbeat, 20 receipt-free polls, one final poll, and one later pass receipt bind the
-same nonce, PID, process start time, request digest, launch digest, and exact launcher and worker
-streams. Live and preserved-proof regressions authenticate the fixture.
-
-Independent review attempt 1 returned `block` on the replay contradiction, stale active routing,
-and incomplete hosted, interruption, and continuity bindings. Attempt 2 returned `block` on
-launcher stream preservation, invalid-replay wording, incomplete semantic evidence-graph checks,
-and ignored proof files. Attempt 3 returned `block` on one stale test-plan description of the
-corrected dedicated-file launcher capture and separate worker streams. All findings from all three
-attempts are corrected. Attempt 4 independently verified the 11-file proof, 21-poll sequence,
-stream bytes, raw/index identity, unchanged attributes, and active release state, then returned
-`pass` with no unresolved finding. Exact source freeze, immutable qualification, hosted Windows,
-one-shot canonical, fresh all-pass R2, milestone, memory, and merge remain. `releaseReady: false`.
+Fresh source-bound R2 selected three independent specialists. Product/API/IDE,
+lifecycle/correctness, and security/trace/authority each returned exact `pass` handoffs. The
+complete handoff verifier authenticated the expected roster against compilation `sha256:c53f05b73aafae0a39b08b4a2c09116ab59c9063c1d2dabb63486ea66aa83160`
+and package `sha256:3dbd23419c4ae9e2dc0dac280f1d5727376c55afe81d0f2b437d0db1a50e5a2f`, then emitted `releaseReady: true`. No unresolved review finding
+remains. The owner approved merge.

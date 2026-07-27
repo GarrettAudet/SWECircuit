@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "diagnose",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 18,
+    "digest": "sha256:d61decb70b1196e1310d18d1e0d930456b6f001b34ae8c8316f50c2a67024dd4"
+  },
+  "agent": {
+    "id": "agent.579b971343195c283e09c62db402bbd1bcd8f64803c27da0b33a877370e72264",
+    "blueprintDigest": "sha256:afed29d3600ff495c391ef3753a01e07a39d6c006ccd2a84bd515c3d59dc4f81"
+  },
+  "compilationDigest": "sha256:bc3ae4a8e7acbb24f2eb3d628413390c4e9b71da0b3e8030e8117a7935af4755",
+  "summary": "Implemented the six-file Revision 18 parent/child trust boundary, but the required focused test command stalled at the five-minute limit, so a pass cannot be claimed.",
+  "workUnitsCompleted": [],
+  "artifacts": [
+    {
+      "name": "parent-bootstrap-trust-correction-r18.md",
+      "mediaType": "text/markdown",
+      "content": "# Revision 18 Parent-Bootstrap Trust Correction\n\n## Identity\n\n- Compilation: `sha256:bc3ae4a8e7acbb24f2eb3d628413390c4e9b71da0b3e8030e8117a7935af4755`\n- Package: `sha256:e56b776d8b6e291016183151aa8cae0395e054ded227e778f0066139c795954a`\n- Outcome: `diagnose`\n\n## Exact Source Diff\n\n- `scripts/run-v12-release-review.mjs` (new)\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs`\n- `package.json`\n- `test/v12-release-gate.test.mjs`\n- `test/v12-release-review.test.mjs`\n\nNo other tracked source file changed. Pre-existing untracked Revision 17, Revision 18, candidate-retirement, canonical-gate, and candidate-run evidence remained outside the write scope.\n\n## Implemented\n\nThe new built-in-only parent binds exact candidate Git blobs for the parent, harness, and verifier; materializes the complete candidate tree outside repository ancestry; rejects unsafe paths and aliases; validates registry and SRI lock supply; performs offline `npm ci` with lifecycle scripts disabled; builds through candidate-private TypeScript; hashes source, dependency, toolchain, environment, and generated closures; emits a deterministic runtime binding; launches one fresh candidate child; verifies protected closures before and after execution; validates mode-specific outputs; stages bytes privately; performs bounded cleanup; promotes immutable bytes atomically per file; and records a parent execution receipt.\n\nThe harness no longer statically imports generated runtime. It validates the parent context, invocation token, bound tooling, toolchain, environment, source, dependency, and generated closures before dynamically importing candidate-private `dist/index.js`.\n\nThe verifier now has built-in-only static imports. It validates the parent context and exact candidate tooling before dynamically importing the candidate-private harness, which completes runtime validation before supplying specialist verification functions.\n\nThe direct `runtimeBindingDigest` is propagated and compared through the candidate manifest, runtime-binding context, phase metadata, compilation summary, approval, child output, and final handoff-verification report.\n\n`package.json` exposes `release-review:v12` and includes the parent, harness, and verifier in format and lint commands. Both approved test files contain bounded adversarial coverage for direct invocation, static import boundaries, digest mutation, unsafe paths, lock substitution, hardlinks, escaping links, closure mutation, output boundaries, closed environments, cleanup ordering, and immutable promotion.\n\n## Verification Evidence\n\n- `node --check` passed for the parent, harness, verifier, and both focused test files.\n- Final `git diff --check` passed.\n- `npm.cmd run format:check` passed after formatting only the two approved test files.\n- `npm.cmd run lint` passed with informational diagnostics and no errors.\n- `npm.cmd run typecheck` passed.\n- `npm.cmd run build` initially encountered sandbox-denied writes to ignored `dist`; the required escalated rerun passed.\n- The first focused test run completed in 109.7 seconds with 19 passes and five failures: three sandbox `EPERM` failures under `.local/v12-release-gate` and two new assertion defects. Both assertion defects were corrected.\n- The required escalated rerun of `node --test test/v12-release-review.test.mjs test/v12-release-gate.test.mjs` produced no completed result and was terminated at the 304-second command limit.\n\n## Blocking Evidence\n\nThe exact current implementation does not have a bounded passing result for the two required focused test files. The second run exceeded the explicit five-minute ceiling, so Revision 18 cannot truthfully route `pass` even though all remaining static checks succeeded.\n\n## Unfinished Obligations\n\n- Establish which focused test or retained child process caused the elevated run to stall.\n- Obtain bounded passing results for both focused test files against the exact current bytes.\n- Leave full repository, offline release verification, and a fresh candidate R2 run to the integration owner as instructed.\n\n## Next Causal Action\n\nIn a clean writable integration workspace, inspect contract-owned `.local/v12-release-gate` scratch state, apply only its existing bounded cleanup protocol if stale state exists, and run each focused test file separately with a five-minute cap and visible test reporting. Recombine the command only after both files complete independently.\n\n## Residual Host Boundary\n\nThis implementation does not claim protection from hostile same-user processes, compromised executables or operating systems, untrusted cache provisioning, or an IDE that bypasses the parent entrypoint. Those controls remain external-host responsibilities."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.parent-bootstrap-trust.r18",
+      "requirementId": "evidence.fix.parent-bootstrap-trust.r18",
+      "kind": "test",
+      "duty": "produce",
+      "status": "diagnose",
+      "artifact": "parent-bootstrap-trust-correction-r18.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The exact current focused test pair has no passing bounded result because the escalated run timed out after 304 seconds.",
+    "No full candidate R2 run or full offline release verification was launched; those remain integration-owner responsibilities.",
+    "Hostile-process isolation, executable trust, cache provisioning, and external permission enforcement remain outside the repository parent boundary."
+  ],
+  "followUps": [
+    "Run the two focused test files separately in a clean writable integration workspace to localize the stall before attempting the combined command again.",
+    "After focused verification passes, run the integration-owner full repository and offline release checks against the frozen successor candidate."
+  ]
+}

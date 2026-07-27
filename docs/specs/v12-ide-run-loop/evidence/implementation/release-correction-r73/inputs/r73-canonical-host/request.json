@@ -1,0 +1,34 @@
+{
+    "kind":  "swecircuit.canonical-host-request.v1",
+    "candidateCommit":  "a645f985dbb7b05f5b3656cd138968c456887568",
+    "candidateTree":  "f3f873a5236169bd8ea0b32557455c2554041ab0",
+    "requestedAtUtc":  "2026-07-27T05:52:19.6065334Z",
+    "executable":  "C:\\Program Files\\nodejs\\node.exe",
+    "arguments":  [
+                      "scripts/run-v12-release-gate.mjs",
+                      "a645f985dbb7b05f5b3656cd138968c456887568"
+                  ],
+    "workingDirectory":  "C:\\tmp\\swecircuit-identity-main",
+    "candidateSlot":  "C:\\tmp\\swecircuit-identity-main\\docs\\specs\\v12-ide-run-loop\\evidence\\release-review-r2\\inputs\\canonical-gates\\a645f985dbb7b05f5b3656cd138968c456887568",
+    "output":  {
+                   "launch":  "C:\\tmp\\swecircuit-r73-canonical-host-a645f985\\launch.json",
+                   "stdout":  "C:\\tmp\\swecircuit-r73-canonical-host-a645f985\\canonical-host.stdout.log",
+                   "stderr":  "C:\\tmp\\swecircuit-r73-canonical-host-a645f985\\canonical-host.stderr.log"
+               },
+    "qualification":  {
+                          "localLifecycle":  "pass",
+                          "completeVerifier":  "pass",
+                          "rehearsal":  "pass",
+                          "rehearsalResult":  "C:\\tmp\\swecircuit-identity-main\\.local\\r73-rehearsal-diagnosis\\canonical-verify.result.json",
+                          "hostedWindows":  "pass",
+                          "hostedRunId":  30239349407,
+                          "hostedJobCount":  3
+                      },
+    "candidateSource":  {
+                            "commit":  "a645f985dbb7b05f5b3656cd138968c456887568",
+                            "tree":  "f3f873a5236169bd8ea0b32557455c2554041ab0",
+                            "files":  4698,
+                            "bytes":  162491537,
+                            "digest":  "sha256:25fa1d1e0a51be4414e52be5b5dc7e8bbcc3d6196f5c312b452febcb0ddcc7f8"
+                        }
+}

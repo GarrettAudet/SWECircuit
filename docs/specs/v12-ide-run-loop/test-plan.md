@@ -81,10 +81,11 @@ v0.1 Windows-only; `releaseReady: false`.
   permanently retired.
 - Revision 72: exact local, rehearsal, and hosted Windows pass; only protected invocation
   externally terminated without a receipt; permanently retired.
-- Revision 73: candidate-neutral transport fixture passes; independent review attempts 1 through 3
-  are preserved `block` outcomes; Attempt 4 passes after all recorded findings are corrected.
-- Candidate-addressed external evidence is authoritative. R73 has not frozen and its protected
-  gate has not been invoked; `releaseReady: false`.
+- Revision 73 source `a645f985dbb7b05f5b3656cd138968c456887568`: copied lifecycle 2/2, complete verification with 487/487
+  core and 2/2 lifecycle tests, non-consuming rehearsal, hosted Windows run `30239349407`, and
+  one-shot canonical gate all pass.
+- Fresh R2 product/API/IDE, lifecycle/correctness, and security/trace/authority handoffs verify
+  `pass` against the approved digest pair; complete fan-in records `releaseReady: true`.
 
 ## Revision 31 Long-Path Correction Gate
 

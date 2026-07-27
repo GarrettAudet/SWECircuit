@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 8,
+    "digest": "sha256:6e589764ff44ebcfd59cddc3a6b64cb452084c301124bc8c3792aacc9977b098"
+  },
+  "agent": {
+    "id": "agent.bfd8eac4d28210315485602103cca93bb3b7a534be1ddcd493b9ff8bea94921d",
+    "blueprintDigest": "sha256:19975ccdad35ac6506112366a046f1d3c373b560d6e9842f7df6fee73fdd4eaa"
+  },
+  "compilationDigest": "sha256:526cb3c687c60ebc99fc1856b2d3ef7b017dfd14fd9772711669d59d34b18fef",
+  "summary": "Declared only canonical-gate raw logs binary and added exact fail-closed Git attribute enforcement to the release wrapper and both R2 consumption paths; authenticated source bindings, preserved the index, and passed focused byte-integrity verification.",
+  "workUnitsCompleted": [
+    "fix.candidate-evidence-byte-integrity.r8"
+  ],
+  "artifacts": [
+    {
+      "name": "candidate-evidence-byte-integrity-correction-r8.md",
+      "mediaType": "text/markdown",
+      "content": "# Candidate Evidence Byte Integrity Correction R8\n\n## Outcome\n\nPass.\n\n## Authentication\n\n- Authenticated all 17 declared context files against their exact raw SHA-256 digests and byte counts before use; none were missing or mismatched.\n- Candidate-1 receipt remains 1221 bytes at `sha256:4c636e486f36c22b74f12fdd4b4470eb9056f63f64eca05058ae6923976bb15c` with its original failed result.\n- Candidate-1 stdout remains 295768 bytes at `sha256:afb6b266dd504cbf89d2cb55b6f9c5c6872fd5636acef8848e2105257aecef12`.\n- Candidate-1 stderr remains 11763 bytes at `sha256:4381d1a9ce1c36beb8723eadfb3619288935b9d095de672c450121c23dc0dfad`.\n\n## Correction\n\n- `.gitattributes` now declares exactly four canonical-log patterns binary: legacy stdout and stderr plus one candidate-addressed stdout and stderr level under `canonical-gates`.\n- Unrelated logs, receipt JSON, near-miss names, sibling directories, and deeper paths retain the repository's normal `text=auto`, unspecified diff, and unspecified merge policy.\n- `scripts/run-v12-release-gate.mjs` now parses NUL-delimited `git check-attr` output and fails before path reporting, repository inspection, directory creation, or evidence writes unless stdout and stderr report text, diff, and merge unset and the receipt reports the exact normal text policy.\n- `run-release-review.mjs` applies the same closed check in paths mode and in the shared receipt validator used by both R2 preparation and prepared-input revalidation. Source assertions confirmed one wrapper enforcement call, two R2 enforcement calls, and two R2 receipt-validation consumers.\n\n## Git Attribute Evidence\n\n- Both legacy raw logs and both synthetic candidate-addressed raw logs reported text, diff, and merge unset.\n- Legacy and synthetic receipts plus three unrelated log paths reported normal text policy.\n- All four canonical raw paths remained versionable, while three unrelated logs remained ignored.\n- Four and only four canonical binary declarations exist in `.gitattributes`.\n- With the binary declarations temporarily removed, both consumers rejected paths mode with exit code 1. With a temporary candidate-receipt binary declaration, both consumers again rejected with exit code 1. Each test restored `.gitattributes` in a `finally` block to 521 bytes at `sha256:33be9cf5ffcd64e0027b3e11e453d4ae9ec527c665c39afeaf30c3058b7bef37`.\n\n## Raw Byte Proof\n\n- Worktree bytes, staged blobs, would-stage filter results, and checkout-filter output all matched the receipt for stdout and stderr.\n- The proof also passed with `core.autocrlf=true` and `core.eol=crlf`, demonstrating that forced text configuration cannot transform either binary path.\n- Staged stdout blob `90c010939ecf1a8e920a9b6440f0597e7a672267` retained 295768 bytes and the receipt SHA-256.\n- Staged stderr blob `d05fb59c6601024251f255296156b12c1ca577a1` retained 11763 bytes and the receipt SHA-256.\n- No temporary index state was needed. The index bindings for `.gitattributes`, the release wrapper, and the R2 harness remain their authenticated pre-candidate values, and unrelated staged entries were untouched.\n\n## Verification\n\n- Wrapper and R2 paths modes returned byte-equivalent JSON for candidate `0123456789abcdef0123456789abcdef01234567`.\n- Both paths modes rejected malformed candidate identifiers with exit code 1.\n- `node --check` passed for both modified scripts.\n- Focused Biome format and lint passed for the release wrapper.\n- The R2 harness is excluded by the repository Biome path configuration; Biome stdin formatting was byte-identical at 69592 bytes and `sha256:e4248e9d0d5ad0db89d4f1dfd7553fdf65008de7507dea2daf95b02b2e6636a8`, and stdin lint returned zero diagnostics.\n- Scoped `git diff --check` passed.\n- Final paths-mode parity passed after all temporary policy tests and restoration.\n\n## Resulting Bindings\n\n- `.gitattributes`: 521 bytes, `sha256:33be9cf5ffcd64e0027b3e11e453d4ae9ec527c665c39afeaf30c3058b7bef37`.\n- `scripts/run-v12-release-gate.mjs`: 9624 bytes, `sha256:7e2a341e06794d5ec954cdde22bd6bc686cb677ec5fdddc295c0cb9b5c073f84`.\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`: 69592 bytes, `sha256:e4248e9d0d5ad0db89d4f1dfd7553fdf65008de7507dea2daf95b02b2e6636a8`.\n\n## Failed Attempts\n\n- The first authentication command used an invalid inline PowerShell conditional; the corrected command authenticated all 17 sources.\n- Native `apply_patch` failed before mutation because the Windows sandbox helper could not refresh. The first sandboxed precondition-hash fallback was denied at its first write. The contract-authorized escalated fallback then verified all preconditions, wrote only the three declared files, and rebound every result immediately.\n- The first formatter run found one wrapper line-wrap difference. Native patching again failed before mutation, and the first fallback command had a PowerShell quoting parse error before mutation; the corrected guarded fallback applied the formatter result.\n- Initial negative-test harness attempts encountered a PowerShell variable parse error and then promoted the expected Node stderr rejection to a terminating error. The attribute file was restored in `finally`; corrected harnesses subsequently proved both negative cases for both consumers.\n- An initial inline attribute verifier split on a literal escaped NUL, an initial malformed-candidate batch treated the expected nonzero exit as an orchestration failure, and the first malformed-message assertion expected different hyphenation. Corrected assertions passed.\n- Direct Biome path invocations for the R2 harness reported that the configured path is ignored. The first stdin comparison added one newline in its reconstruction; the corrected stdin checks proved byte-identical formatting and zero lint diagnostics.\n\nNo network, commit, merge, branch, canonical-gate run, generated evidence write, out-of-scope write, or index mutation occurred."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.candidate-evidence-byte-integrity.r8",
+      "requirementId": "evidence.candidate-evidence-byte-integrity.r8",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "candidate-evidence-byte-integrity-correction-r8.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The exact candidate-bound canonical gate and full R2 preparation and revalidation remain integration-owner work after candidate freeze; this specialist ran only the contract-bounded focused checks in the staged pre-candidate repository."
+  ],
+  "followUps": [
+    "During integration, stage the exact three corrected worktree files and recheck their staged blobs; this specialist intentionally left the pre-candidate index unchanged.",
+    "After candidate freeze, run the canonical gate once and execute R2 preparation and revalidation against that same candidate commit."
+  ]
+}

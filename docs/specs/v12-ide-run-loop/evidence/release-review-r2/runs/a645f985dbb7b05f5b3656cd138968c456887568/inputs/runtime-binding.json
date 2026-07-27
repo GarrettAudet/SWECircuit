@@ -1,0 +1,145 @@
+{
+  "apiVersion": "swecircuit/release-review-runtime/v1alpha1",
+  "kind": "ReleaseReviewRuntimeBinding",
+  "candidateCommit": "a645f985dbb7b05f5b3656cd138968c456887568",
+  "candidateSource": {
+    "commit": "a645f985dbb7b05f5b3656cd138968c456887568",
+    "tree": "f3f873a5236169bd8ea0b32557455c2554041ab0",
+    "files": 4698,
+    "bytes": 162491537,
+    "digest": "sha256:25fa1d1e0a51be4414e52be5b5dc7e8bbcc3d6196f5c312b452febcb0ddcc7f8"
+  },
+  "tooling": {
+    "parent": {
+      "path": "scripts/run-v12-release-review.mjs",
+      "mediaType": "text/javascript",
+      "mode": "100644",
+      "objectId": "91b1407480568b0a34f705292619a96a42984be2",
+      "bytes": 107250,
+      "digest": "sha256:8eb021b4dd96cefa6af12d7cd4efcc708274add0e38588890f3ef2435294fbc2"
+    },
+    "harness": {
+      "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs",
+      "mediaType": "text/javascript",
+      "mode": "100644",
+      "objectId": "a1ffede8016c911fccc0313f5f77c7d86c061215",
+      "bytes": 160229,
+      "digest": "sha256:eb8a25f813da3787b5eaf94da8000d3dd159380d83c4dbf2734a0eb9f33f72e8"
+    },
+    "verifier": {
+      "path": "docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs",
+      "mediaType": "text/javascript",
+      "mode": "100644",
+      "objectId": "3bbb80d3025f449913584782e4a6c9c42428697e",
+      "bytes": 34263,
+      "digest": "sha256:3a1181f907346c09fb09d5b68fb12f86746775bf606238766daef84a22b6b9e8"
+    }
+  },
+  "lockedSupply": {
+    "lockfile": {
+      "path": "package-lock.json",
+      "bytes": 21014,
+      "digest": "sha256:e93281b52c1e9e8ef7c40406f2955f9e782a7567a10875654f19c2eb7046aa27"
+    },
+    "lockfileVersion": 3,
+    "packages": 38,
+    "supplyDigest": "sha256:6479483b7c7c7d4afba14030c18243ef23390621fc80312a47fe5b8cc0469afc",
+    "installed": {
+      "files": 1224,
+      "directories": 108,
+      "links": 0,
+      "bytes": 116054782,
+      "digest": "sha256:3b0abfaf588845c744c2af7b3ee0b861645e1f78699e6f7bece78047873ab0e7"
+    }
+  },
+  "toolchain": {
+    "node": {
+      "path": "C:\\Program Files\\nodejs\\node.exe",
+      "bytes": 91426304,
+      "digest": "sha256:58e74bf02fc5bbacc41dcb8bef089961cd5bddd37830b87784e4fc624d145d1f",
+      "version": "v24.14.1"
+    },
+    "npm": {
+      "path": "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+      "bytes": 56,
+      "digest": "sha256:3ce7cba6f5128dd5f54c98b6a5036b0f850496878cc2e21044b675fe3c594e3e",
+      "version": "11.11.0"
+    },
+    "git": {
+      "path": "C:\\tmp\\swecircuit-r73-r2-git-full-a645f985\\cmd\\git.exe",
+      "bytes": 46464,
+      "digest": "sha256:37c5725818d602e951ba2563b870d62763322956b73373da4c33a0b566a80bc9",
+      "version": "git version 2.53.0.windows.2"
+    },
+    "typescript": {
+      "path": "node_modules/typescript/bin/tsc",
+      "bytes": 44,
+      "digest": "sha256:2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd",
+      "version": "7.0.2"
+    }
+  },
+  "platform": {
+    "platform": "win32",
+    "architecture": "x64"
+  },
+  "environmentPolicy": {
+    "apiVersion": "swecircuit/release-review-environment/v1alpha1",
+    "inherited": {
+      "APPDATA": "C:\\Users\\garre\\AppData\\Roaming",
+      "COMSPEC": "C:\\WINDOWS\\system32\\cmd.exe",
+      "HOMEDRIVE": "C:",
+      "HOMEPATH": "\\Users\\garre",
+      "LOCALAPPDATA": "C:\\Users\\garre\\AppData\\Local",
+      "PROGRAMDATA": "C:\\ProgramData",
+      "SYSTEMROOT": "C:\\WINDOWS",
+      "USERPROFILE": "C:\\Users\\garre",
+      "WINDIR": "C:\\WINDOWS"
+    },
+    "invocationTemporaryPaths": "external-host-bound-invocation-paths-excluded-from-stable-runtime-identity",
+    "workerEffectiveEnvironment": "complete-case-insensitive-key-and-value-digest",
+    "pathPolicy": "closed-tool-directories",
+    "nodeOptions": "removed",
+    "nodePath": "removed",
+    "npmNetwork": "offline",
+    "npmLifecycleScripts": "disabled",
+    "npmUserConfig": "operation-private-empty-file",
+    "npmGlobalConfig": "operation-private-empty-file",
+    "npmConfiguration": {
+      "apiVersion": "swecircuit/release-review-npm-configuration/v1alpha1",
+      "kind": "ReleaseReviewPrivateNpmConfigurationPolicy",
+      "userConfig": {
+        "bytes": 0,
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "globalConfig": {
+        "bytes": 0,
+        "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distinctPaths": "required-case-insensitively",
+      "containment": "operation-root-outside-repository-candidate-and-cache",
+      "links": "forbidden",
+      "hostConfiguration": "excluded-without-fallback",
+      "pathIdentity": "invocation-only-excluded-from-stable-runtime-binding",
+      "validation": "before-every-parent-spawn-and-by-candidate-worker"
+    },
+    "npmAudit": "disabled",
+    "npmFunding": "disabled",
+    "gitConfiguration": "system-and-global-disabled",
+    "gitPrompt": "disabled",
+    "toolEvidence": "observed-entrypoint-bytes-and-version-only"
+  },
+  "externalDeclarations": {
+    "stableReconstructionDigest": "sha256:984d0a17bfaf0e068306dc9c617ab5fc3e5061215d7c50c5a617b404aeb5cf35",
+    "executableTrust": "external-host-observed-entrypoint-bytes-only",
+    "hostileProcessIsolation": "external-host"
+  },
+  "generatedRuntime": {
+    "entrypoint": "dist/index.js",
+    "files": 132,
+    "directories": 0,
+    "links": 0,
+    "bytes": 805570,
+    "digest": "sha256:30520bd022c682b100fb15680aa0d97e440d803c579210879d87f748207660ca"
+  },
+  "runtimeBindingDigest": "sha256:be354b0022200477b055552c3cd3a26d66173b1f67bd545cc676c576832de355"
+}

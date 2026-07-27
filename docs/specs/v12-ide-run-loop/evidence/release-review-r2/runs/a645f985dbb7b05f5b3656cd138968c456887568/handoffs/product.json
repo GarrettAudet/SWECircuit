@@ -1,0 +1,46 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.release-review-r2",
+    "revision": 1,
+    "digest": "sha256:8687c7db297d807462925d1962a8d7f7114793769548ad06361ffed8f3ccec63"
+  },
+  "agent": {
+    "id": "agent.9d02902b2619661e1f1aa63615008453a5b1811d9efc28fe4341634a2e051627",
+    "blueprintDigest": "sha256:8f48658942d149425cdc5a81fa192970cb5b1ac128f198cbe80341526055f693"
+  },
+  "compilationDigest": "sha256:c53f05b73aafae0a39b08b4a2c09116ab59c9063c1d2dabb63486ea66aa83160",
+  "summary": "Pass: the exact candidate presents one accurate, simple, IDE-neutral path from an externally approved specialist package through visible dependency-safe work, preserved raw handoffs, verified fan-in, and a separate integration-owner closeout.",
+  "workUnitsCompleted": [
+    "review.r2.product-api-ide"
+  ],
+  "artifacts": [
+    {
+      "name": "product-api-ide-release-review-r2.md",
+      "mediaType": "text/markdown",
+      "content": "# Findings\n\nNo High, Medium, or Low product/API/IDE findings.\n\n# Authentication\n\nCandidate `a645f985dbb7b05f5b3656cd138968c456887568` was reviewed only through the immutable R2 inputs. All 180 declared context bindings matched their exact raw SHA-256 digest and byte count before substantive use; zero bindings failed.\n\nThe generated contract matched its package-manifest binding at 232188 bytes and `sha256:44e609d8e41c13f0e6b162871ba83444266641066c64b7e8bc86ecfc99afffd7`. The raw `compilation.json` and `integration.md` bindings also matched at 1772897 bytes / `sha256:51101eb37555c81e036f1d0f76d656ed5fa71a3e837bad881be9ea56c8847523` and 5230 bytes / `sha256:d218a3715539cc79baaa2bbfeff29cc6ed31e3dd7539be3a7bd8c5dfb34f1a91`. The manifest names the approved compilation `sha256:c53f05b73aafae0a39b08b4a2c09116ab59c9063c1d2dabb63486ea66aa83160`; the trusted external package approval supplied for this run is `sha256:3dbd23419c4ae9e2dc0dac280f1d5727376c55afe81d0f2b437d0db1a50e5a2f`.\n\nNo file was edited, staged, or committed. No network access, descendant launch, test, package verifier, or release gate was invoked by this reviewer.\n\n# Product Truth\n\nThe product surface is internally consistent. Snapshot `inputs/s/1fc9e27ee83279cd483a4ae4b3cad74a7b5da7864ebc09878fb76419bfb23019` (original `README.md`) describes the user path, keeps runtime effects outside core, identifies V12 as under release review, and explains the IDECircuit identity while retaining SWECircuit package and schema compatibility paths.\n\nSnapshot `inputs/s/d923b4562076ac920e81c3585e613cf9e827183177b447d9b291ed6f0bdfda21` (original `docs/specs/v12-ide-run-loop/spec.md`) lines 5-33 accurately distinguishes artifact verification from release readiness, makes candidate-addressed external evidence authoritative, and retains `releaseReady: false` in immutable source. Lines 73-81 mark AC1-AC8 complete while correctly leaving AC9 open for exact-candidate canonical evidence and the full independent-review roster. This avoids claiming that this domain review alone releases the candidate.\n\n# Public API And Schema\n\nSnapshot `inputs/s/9362a47a48ccca01e12b04d8ae1b787f16a2557d85aaffbf45b84f005eb63b0c` (original `package.json`) lines 10-18 publishes the root API plus Common, Compiler, Handoff, and Run schema subpaths. Lines 39-44 place typechecking, tests, dogfood, package inspection, and the installed-consumer check in the canonical verification chain.\n\nSnapshot `inputs/s/01d5d348f4ec74cbb4c3693dc8412a736e1b2f548a54c4b82485b227c12658b2` (original `src/index.ts`) lines 12-14 and 56-76 export the Run constants, four operations, and complete public Run type family. The operation implementations preserve the documented shape: create and restore in snapshot `inputs/s/1a4947650816673cff9bfedc2f60dfed86583a33c896fbb837b1570f2efcf546` (original `src/specialist-run-session.ts`) lines 481-553, inspect in snapshot `inputs/s/918e3b5684b2d3d25de76507d6a65b845ae4ff459ee117be606d6648fd6c2045` (original `src/specialist-run-inspection.ts`) lines 277-327, and record in snapshot `inputs/s/98a23e49307e44480df30bae1e149397300a60957458f1d0c6fdf0e0b9089a94` (original `src/specialist-run-transition.ts`) lines 151-229. These operations verify expectations and handoffs, preserve immutable successors, expose terminal non-pass routing, and contain no filesystem or runtime-host effect.\n\n# Installed Consumer\n\nSnapshot `inputs/s/4a6a48aa2a5e9d73d560f7568f12d8ce4e22ae5a00dd946146e9c370092d2513` (original `scripts/fixtures/packed-consumer-host.ts`) imports the four operations, constants, and public types from the installed `swecircuit` root rather than private source paths. The authenticated canonical stdout at `inputs/canonical-gate/canonical-gate.stdout.log` lines 1462-1471 records the offline package inspection and successful installed-package TypeScript host covering compile, render, handoff, restore, fan-in, and approval-bound verification.\n\n# IDE Path\n\nSnapshot `inputs/s/a92fe132dbd90c789f3d631430ee00540572bd76bf8f2903ced82204c9bf1cbe` (original `docs/ide/specialist-agent-kickoff.md`) lines 9-41 exposes a low-ceremony one-message path while retaining focused clarification for blocking decisions. Lines 221-293 require opaque manifest-resolved contracts, the exact four-operation loop, raw UTF-8 handoff preservation, visible terminal routing, restart, and separate integration closeout. Lines 329-337 accurately separate deterministic core behavior from Codex, Claude Code, Cursor, Copilot, CI, and other host adapters. The guide does not assign launch, sandbox, persistence, merge, review, or memory effects to core.\n\n# Dogfood And Candidate Gate\n\nThe authenticated canonical stdout lines 761-764 records a passing implementation-package revision-chain journey using successful revision 4, closing the prior synthetic-only dogfood concern. Lines 1361-1457 preserve the required friction measurements: zero blocking questions, four approved digest pairs consumed, six public Run calls, zero manual contract lookups, explicit non-pass and rejected-transition evidence, serialization and reverification costs, exact resume equality, persistence steps, zero adapter-only translation, external host duties, and two byte-identical reports.\n\nThe canonical receipt at `inputs/canonical-gate/canonical-gate-receipt.json` (original `docs/specs/v12-ide-run-loop/evidence/release-review-r2/inputs/canonical-gates/a645f985dbb7b05f5b3656cd138968c456887568/canonical-gate-receipt.json`) lines 5-18 binds the exact candidate and source digest. Lines 344-358 record `pass`, exit code 0, and exact stdout/stderr bindings. Canonical stdout lines 551-572 records 487/487 core tests and 2/2 lifecycle tests passing; lines 1462-1471 records the package and installed-consumer gates passing.\n\n# Verdict\n\nThe product/API/IDE domain is release-ready for this exact candidate. The corrected surface closes the prior review blockers: dogfood now exercises an authenticated V12 implementation package with measured friction, release-stage prose explicitly defers live state to candidate-addressed external evidence, the public API and schema are packaged, an installed TypeScript consumer passes, and the IDE path remains simple, visible, source-preserving, and provider-neutral. Overall AC9 and release readiness still require verified all-pass fan-in from the complete fresh R2 roster and the separately governed milestone and approval stages."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.review.r2.product-api-ide",
+      "requirementId": "evidence.r2.product-api-ide-release-review",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "product-api-ide-release-review-r2.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "This product/API/IDE pass does not satisfy AC9 by itself; lifecycle/determinism and security/trace/authority remain independently owned R2 review domains.",
+    "The immutable candidate source intentionally retains releaseReady false and delegates live stage truth to candidate-addressed external evidence; later milestone and merge records must preserve that distinction."
+  ],
+  "followUps": [
+    "Verify and assess the complete fresh R2 handoff roster against the approved digest pair, routing any verified non-pass honestly.",
+    "Only after complete all-pass R2 fan-in should the integration owner complete the milestone, owner approval, and merge stages."
+  ]
+}

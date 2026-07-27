@@ -1,0 +1,92 @@
+{
+    "kind":  "swecircuit.canonical-host-polls.v1",
+    "candidateCommit":  "a645f985dbb7b05f5b3656cd138968c456887568",
+    "processId":  14788,
+    "processStartTimeUtc":  "2026-07-27T05:52:19.6522666Z",
+    "polls":  [
+                  {
+                      "kind":  "swecircuit.canonical-host-poll.v1",
+                      "candidateCommit":  "a645f985dbb7b05f5b3656cd138968c456887568",
+                      "processId":  14788,
+                      "processStartTimeUtc":  "2026-07-27T05:52:19.6522666Z",
+                      "polledAtUtc":  "2026-07-27T05:53:15.9902772Z",
+                      "processRunning":  true,
+                      "slotPresent":  true,
+                      "receiptPresent":  false,
+                      "hostStdoutBytes":  0,
+                      "hostStderrBytes":  0,
+                      "slotStdoutBytes":  19317,
+                      "slotStderrBytes":  19096
+                  },
+                  {
+                      "kind":  "swecircuit.canonical-host-poll.v1",
+                      "candidateCommit":  "a645f985dbb7b05f5b3656cd138968c456887568",
+                      "processId":  14788,
+                      "processStartTimeUtc":  "2026-07-27T05:52:19.6522666Z",
+                      "polledAtUtc":  "2026-07-27T05:54:30.7292961Z",
+                      "processRunning":  true,
+                      "slotPresent":  true,
+                      "receiptPresent":  false,
+                      "hostStdoutBytes":  0,
+                      "hostStderrBytes":  0,
+                      "slotStdoutBytes":  39093,
+                      "slotStderrBytes":  19096
+                  },
+                  {
+                      "kind":  "swecircuit.canonical-host-poll.v1",
+                      "candidateCommit":  "a645f985dbb7b05f5b3656cd138968c456887568",
+                      "processId":  14788,
+                      "processStartTimeUtc":  "2026-07-27T05:52:19.6522666Z",
+                      "polledAtUtc":  "2026-07-27T05:56:09.0271357Z",
+                      "processRunning":  true,
+                      "slotPresent":  true,
+                      "receiptPresent":  false,
+                      "hostStdoutBytes":  0,
+                      "hostStderrBytes":  0,
+                      "slotStdoutBytes":  39093,
+                      "slotStderrBytes":  19096
+                  },
+                  {
+                      "kind":  "swecircuit.canonical-host-poll.v1",
+                      "candidateCommit":  "a645f985dbb7b05f5b3656cd138968c456887568",
+                      "processId":  14788,
+                      "processStartTimeUtc":  "2026-07-27T05:52:19.6522666Z",
+                      "polledAtUtc":  "2026-07-27T05:59:22.9650863Z",
+                      "processRunning":  true,
+                      "slotPresent":  true,
+                      "receiptPresent":  false,
+                      "hostStdoutBytes":  0,
+                      "hostStderrBytes":  0,
+                      "slotStdoutBytes":  39093,
+                      "slotStderrBytes":  19096
+                  },
+                  {
+                      "kind":  "swecircuit.canonical-host-poll.v1",
+                      "candidateCommit":  "a645f985dbb7b05f5b3656cd138968c456887568",
+                      "processId":  14788,
+                      "processStartTimeUtc":  "2026-07-27T05:52:19.6522666Z",
+                      "polledAtUtc":  "2026-07-27T06:02:31.0477701Z",
+                      "processRunning":  true,
+                      "slotPresent":  true,
+                      "receiptPresent":  false,
+                      "hostStdoutBytes":  0,
+                      "hostStderrBytes":  0,
+                      "slotStdoutBytes":  39093,
+                      "slotStderrBytes":  19096
+                  },
+                  {
+                      "kind":  "swecircuit.canonical-host-poll.v1",
+                      "candidateCommit":  "a645f985dbb7b05f5b3656cd138968c456887568",
+                      "processId":  14788,
+                      "processStartTimeUtc":  "2026-07-27T05:52:19.6522666Z",
+                      "polledAtUtc":  "2026-07-27T06:04:16.5729006Z",
+                      "processRunning":  false,
+                      "slotPresent":  true,
+                      "receiptPresent":  true,
+                      "hostStdoutBytes":  13635,
+                      "hostStderrBytes":  0,
+                      "slotStdoutBytes":  307260,
+                      "slotStderrBytes":  25923
+                  }
+              ]
+}

@@ -1,0 +1,45 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 5,
+    "digest": "sha256:a49c0bf81ea77606044c6f851e068b9e70d13c1d77330bae7d3314fb98a111d1"
+  },
+  "agent": {
+    "id": "agent.de2c323fce43a7aa17a15ba8f87bfb49433b6e5b44d08850af889dfa8dd92a73",
+    "blueprintDigest": "sha256:b8ff878867be0b3ce8ade47cee92d90abda79ae38265f67d64d8fdc214a95d11"
+  },
+  "compilationDigest": "sha256:fd9c21ca81ddcef94bc1da50faf721238145a9807eae7860a34583c8512c9ff5",
+  "summary": "Pass: the immutable R2 release-review harness now binds the complete correction lineage, rejects unexpected rosters and outcomes, preserves direct primary evidence, and gives the unchanged V12 release-gate wrapper effective canonical format and lint coverage.",
+  "workUnitsCompleted": [
+    "fix.release-evidence.r5"
+  ],
+  "artifacts": [
+    {
+      "name": "release-evidence-correction-r5.md",
+      "mediaType": "text/markdown",
+      "content": "## Authentication\n\nThe approved revision-5 package verified with no diagnostics against compilation `sha256:fd9c21ca81ddcef94bc1da50faf721238145a9807eae7860a34583c8512c9ff5` and package `sha256:c29570501b69f2b791d32890b48bb74d90091e649513d5915c636e1141518717` before and after implementation. All 43 declared context sources matched their exact raw SHA-256 digests and byte counts before use.\n\n## Scoped Changes\n\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`: 63,553 bytes, `sha256:fe0003ae213b171fa79822688c9ac7765ee6e92068bccf9871892295c5d01d45`.\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/verify-release-review-handoffs.mjs`: 6,984 bytes, `sha256:e30bbf7548d6481935d14db57630e4e5bdaa9aff2df56337b957d07acc83d2aa`.\n- `package.json`: 3,723 bytes, `sha256:f395932106ac25216ca753127f7b97b01497090a7c4115732de77784fff2c5ce`.\n\nNo other file was written. All three outputs use LF and contain no CR or TAB bytes. Git state, network access, and descendant execution were untouched.\n\n## Lineage Binding\n\nThe R2 harness now snapshots correction revisions 2 through 5 in addition to revision 1 and verifies exact package expectations, goal revisions, package rosters, report rosters, raw handoffs, outcomes, completion, and readiness. Revision 1 is accepted only as the exact three-PASS partial roster with retired agent `agent.b73ee06f2af37577c9726f116f1c4741a7012982796300e06e11bb243e93eefe` missing. Its exact retirement is bound through the raw revision-2 replan. Revision 2 and revision 3 each require their complete single-agent `split` route. Revision 4 requires its complete `pass`. Revision 5 requires the approved two-agent package and eventual complete two-PASS raw handoff roster.\n\nThe three replans are authenticated by exact raw byte count and digest, then semantically connected to their verified trigger and replacement handoffs: revision 1 to 2 is `redesign` with the expected retired contract, revision 2 to 3 is `split`, and revision 3 to 4 is `split` ending in PASS. Candidate manifests now expose all five revisions and the three replans. Package envelopes, approvals, reports, selected raw handoffs, replans, and all dynamically discovered historical evidence remain direct immutable reviewer snapshots rather than summary-only claims.\n\nThe R2 handoff verifier independently requires the exact release-review goal, the three expected work units, one independent blueprint per work unit, and exact blueprint-to-manifest roster equality. Verified non-PASS review outcomes remain preserved routes and cannot make `releaseReady` true.\n\n## Canonical Coverage\n\n`package.json` includes `scripts/run-v12-release-gate.mjs` exactly once in `format`, `format:check`, and `lint`. Because the repository Biome include set otherwise ignores that newly listed path, `quality:release-gate` performs real stdin-based Biome formatting or linting, and each canonical script invokes the matching write, check, or lint mode. The release-gate wrapper itself remained unchanged at 6,149 bytes and `sha256:70c80d5c3c51e8abc566b26c12b1649675d2fc49268367b13383d0eaf0a0a301`.\n\n## Verification\n\n- Package verification against the approval-bound digest pair: pass before and after edits.\n- Syntax checks for both modified R2 scripts and the unchanged release-gate wrapper: pass.\n- Biome stdin format and lint checks for both modified R2 scripts: pass.\n- `quality:release-gate -- check` and `quality:release-gate -- lint`: pass.\n- Biome package JSON format check: pass.\n- Package-script structural coverage check: format, format-check, lint, and stdin helper all pass.\n- Focused positive lineage execution: revision-1 partial PASS, revision-2 SPLIT, revision-3 SPLIT, revision-4 PASS, implementation verification PASS, release-review-r1 FIX, exact revision-5 package roster, and all three replans passed.\n- Negative checks: an added package agent and a substituted revision-2 PASS outcome were both rejected fail closed.\n- R2 verifier unit probe: the exact three-work-unit roster was accepted and an extra manifest agent was rejected.\n\n## Failed Attempts\n\nNative `apply_patch` failed before mutation because the host sandbox could not refresh the target workspace. The first hash-guarded sandbox write was also denied before mutation. The contract-authorized escalated fallback then wrote only the three declared paths, with a precondition hash before every write and immediate byte verification afterward. An initial strict handoff-directory check rejected historical alias copies; it was corrected to bind the exact report-selected raw roster while preserving every alias as direct snapshot evidence. An initial multi-file Biome probe showed the release-gate path was ignored by configuration, which led to the stdin-based package helper that provides actual coverage.\n\n## Boundary\n\nThe full canonical repository gate was not run because this specialist was restricted to focused local verification and the two host-produced revision-5 raw handoffs and final handoff report do not yet exist. The completed harness intentionally fails closed until that evidence is present."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.release-evidence.r5",
+      "requirementId": "evidence.release-evidence.r5",
+      "kind": "review",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "release-evidence-correction-r5.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    "The complete revision-5 handoff gate remains pending until the external host preserves both exact raw PASS handoffs and generates their approval-bound verification report.",
+    "The full canonical repository gate was outside this specialist's focused verification authority."
+  ],
+  "followUps": [
+    "Preserve and verify both revision-5 raw handoffs, then run the corrected R2 prepare, compile, approval, reviewer fan-in, and canonical candidate gate through the integration owner."
+  ]
+}

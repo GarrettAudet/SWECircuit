@@ -1,0 +1,44 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "SpecialistAgentHandoff",
+  "outcome": "pass",
+  "destination": "codex.main",
+  "goal": {
+    "id": "v12.ide-run-loop.implementation.release-correction",
+    "revision": 15,
+    "digest": "sha256:02f029571c9666185dc15250a85beb77b090f9a34dec69a818a059f26ef97a5d"
+  },
+  "agent": {
+    "id": "agent.329aa25af5f3634c36532f84e7521e3945a46dd0686e41345c2110d11f7aea48",
+    "blueprintDigest": "sha256:fefa3e7beecc2fdb107caaf44b9a2adf3b51e1e64a06b76bf1ee5469360ecd81"
+  },
+  "compilationDigest": "sha256:857c536099f5fd9d01b0981593bef6f2e8b40eba774db7fae21c501e3bd3e83f",
+  "summary": "PASS: Candidate 8's immutable 261-source failure was reproduced, only correction-root navigation duplicates were excluded, all required primary evidence remained selected, the resulting 167-context three-reviewer request compiled successfully, all 10 focused tests passed, and the exact final Biome command exited cleanly without fixes.",
+  "workUnitsCompleted": [
+    "fix.r2-correction-context-bound.r15"
+  ],
+  "artifacts": [
+    {
+      "name": "r2-correction-context-bound-r15.md",
+      "mediaType": "text/markdown",
+      "content": "# Revision 15 R2 Context-Bound Correction\n\n## Authentication\n\nAll thirteen declared context sources matched their exact raw SHA-256 digests and byte counts before work. After verification, all eleven read-only context sources still matched exactly. Only the two authorized output files differed from their declared input bindings.\n\nNative `apply_patch` failed before mutation. The fallback writes required exact precondition hashes, used unique replacement anchors, and immediately verified resulting bytes.\n\n## Changed Files\n\n- `docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs`: 86,706 bytes, `sha256:f019b39dc555afd3663519fb427cf73c9eee2b14cc9b5e769b5a1ebc733ffc7e`.\n- `test/v12-release-gate.test.mjs`: 22,072 bytes, `sha256:9842abebe89689e3465579d662e70ea541722236d64b986bce222d4ce9996c47`.\n\n## Causal Correction\n\nThe R2 source collector now classifies correction navigation duplicates only within discovered correction roots. It excludes files under `inputs/` and root-level `request.json`, `phase-metadata.json`, and `compilation-summary.json`. Existing rendered `package/` exclusion remains unchanged.\n\nCandidate 8's immutable request reproduced 261 context sources and 261 authority read scopes. The corrected collector excludes exactly 94 correction navigation duplicates, retaining 163 candidate sources plus four direct candidate-manifest and canonical-gate contexts, for 167 total contexts.\n\nThe regression proves that every correction revision retains its package envelope, approval, handoff-verification report, and raw handoff. Every available correction replan remains selected. All six security-causal sources remain selected. Canonical-gate receipt, stdout, stderr, candidate manifest, and all non-navigation evidence remain directly reviewable.\n\nThe reconstructed request contains three independent review work units. Every context and filesystem-read scope count is at or below the unchanged limit of 256. `compileAgentBlueprints` succeeds and returns three blueprints.\n\n## Verification\n\n`node --test --test-name-pattern=\"R2 correction review context\" test\\\\v12-release-gate.test.mjs` passed: 1 test, 1 pass, 0 failures, in 69.4 seconds.\n\n`node --test test\\\\v12-release-gate.test.mjs` passed: 10 tests, 10 passes, 0 failures, in 256.4 seconds. This includes candidate materialization, disposable Git context, cleanup, gate pinning, security-source closure, bounded R2 compilation, and malformed-identity rejection.\n\n`npm.cmd exec -- biome check docs/specs/v12-ide-run-loop/evidence/release-review-r2/run-release-review.mjs test/v12-release-gate.test.mjs` exited 0 and reported no fixes applied. Under the repository's configured Biome scope, one eligible file was checked.\n\n`git diff --check` passed for both authorized files.\n\n## State Integrity\n\n`HEAD` remained `0482bf3783e085c6cef3111d63003daa5197eca8`. The branch, index, and pre-existing untracked evidence state were unchanged. The only tracked worktree differences are the two contract-authorized files. No evidence file, compiler limit, candidate output, or Git state was altered."
+    }
+  ],
+  "evidence": [
+    {
+      "criterionId": "criterion.fix.r2-correction-context-bound.r15",
+      "requirementId": "evidence.r2-correction-context-bound.r15",
+      "kind": "test",
+      "duty": "produce",
+      "status": "pass",
+      "artifact": "r2-correction-context-bound-r15.md"
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "followUps": [
+    "Preserve this raw handoff and verify it against the approved Revision 15 package and digest pair.",
+    "Keep Candidate 8 permanently retired and preserve its canonical-gate and failed R2 compilation evidence unchanged.",
+    "The integration owner must run full repository verification, rebuild source-bound trust, freeze a successor commit, run its one-shot exact gate, and perform a fresh candidate-addressed three-reviewer R2 release review."
+  ]
+}
