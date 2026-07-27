@@ -1,0 +1,2521 @@
+{
+  "apiVersion": "swecircuit/specialist/v1alpha1",
+  "kind": "AgentBlueprintCompilation",
+  "goal": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "GoalContract",
+    "id": "v14.adaptive-orchestration.adaptive-wave",
+    "revision": 1,
+    "objective": "Produce the pure adaptive run controller, portable RunView, and independent test contract required to turn approved runtime assignments into a visible IDE-agnostic orchestration loop.",
+    "integrationOwner": "codex.main",
+    "assumptions": [
+      {
+        "id": "assumption.additive",
+        "statement": "Adaptive APIs remain additive to the released V11 and V12 public behavior.",
+        "rationale": "V14 must preserve existing compilation and immutable session contracts."
+      },
+      {
+        "id": "assumption.successor-review",
+        "statement": "This package produces disjoint implementation and test artifacts; executable integration verification and independent review use a successor package over the assembled commit.",
+        "rationale": "A parallel test author cannot truthfully certify implementation bytes that do not exist at launch."
+      }
+    ],
+    "unresolvedDecisions": [],
+    "acceptanceCriteria": [
+      {
+        "id": "criterion.adaptive-controller",
+        "description": "A pure controller validates assignments, emits dependency-safe host commands, records exact host events, settles V12 handoffs, restores state, and routes bounded outcomes.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.adaptive-controller.produce",
+            "kind": "artifact",
+            "duty": "produce",
+            "description": "Produce the closed adaptive controller, event protocol, schema, and session operations.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.adaptive-tests",
+        "description": "An independently authored suite defines lifecycle, restart, event-chain, redaction, RunView, and public-schema expectations before integration.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.adaptive-tests.produce",
+            "kind": "test",
+            "duty": "produce",
+            "description": "Produce the independent executable adaptive and RunView test contract.",
+            "independentFromProducer": false
+          }
+        ]
+      },
+      {
+        "id": "criterion.run-view",
+        "description": "A pure RunView projection exposes modules, assignments, status, dependencies, evidence, routes, blockers, source links, and next action without inventing host facts.",
+        "evidenceRequirements": [
+          {
+            "id": "evidence.run-view.produce",
+            "kind": "artifact",
+            "duty": "produce",
+            "description": "Produce closed JSON and Markdown RunView projections.",
+            "independentFromProducer": false
+          }
+        ]
+      }
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+        "digest": "sha256:2cf9fc58b30cea609e9ef7717a99d16e06ff082b8bb85629c2378931c9f7c73d",
+        "bytes": 5862,
+        "description": "Accepted host and kernel boundary.",
+        "allowedWorkUnits": [
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "docs/architecture/decisions/0007-adaptive-host-orchestration.md"
+      },
+      {
+        "id": "context.canonical-json",
+        "kind": "repository",
+        "locator": "path:src/canonical-json.ts",
+        "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+        "bytes": 7405,
+        "description": "Canonical JSON and digest helpers.",
+        "allowedWorkUnits": [
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/canonical-json.ts"
+      },
+      {
+        "id": "context.constants",
+        "kind": "repository",
+        "locator": "path:src/constants.ts",
+        "digest": "sha256:29d3f446dd83e508c7c77430560242406e930874d5b13f360afcdc67d035a1c6",
+        "bytes": 3046,
+        "description": "Current public versions and resource limits.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/constants.ts"
+      },
+      {
+        "id": "context.diagnostics",
+        "kind": "repository",
+        "locator": "path:src/diagnostics.ts",
+        "digest": "sha256:f5817dc70d945562511c743925b460ca44ad2862324273aaabe322a882379fcb",
+        "bytes": 27787,
+        "description": "Current diagnostic catalog and stable ordering.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/diagnostics.ts"
+      },
+      {
+        "id": "context.index",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:f59c25992681c7b31caad21dfcf5766f74b4902425271f6b55f774a424c66e01",
+        "bytes": 6578,
+        "description": "Current public export surface.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.routing",
+        "kind": "repository",
+        "locator": "path:src/runtime-routing.ts",
+        "digest": "sha256:f127bc11d711153e2eee3de535a80fa968631533b4f9884a9e9730eae15c0a81",
+        "bytes": 44497,
+        "description": "Current canonical validation, diagnostics, and digest patterns.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller"
+        ],
+        "readScope": "src/runtime-routing.ts"
+      },
+      {
+        "id": "context.routing-fixture",
+        "kind": "repository",
+        "locator": "path:test/helpers/runtime-routing-fixture.mjs",
+        "digest": "sha256:d87bf470955a39edb64c0a5345074ea9d3eee4577a9c79aff55ec18ba8428da2",
+        "bytes": 11149,
+        "description": "Current complete assignment fixture.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests"
+        ],
+        "readScope": "test/helpers/runtime-routing-fixture.mjs"
+      },
+      {
+        "id": "context.routing-types",
+        "kind": "repository",
+        "locator": "path:src/runtime-routing-types.ts",
+        "digest": "sha256:24bfc6ccc987fffcfad25bd4a1581c1ce2a4e0dcb6fabce09be98d0b31247f84",
+        "bytes": 10268,
+        "description": "Approved assignment and routing types consumed by the adaptive controller.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/runtime-routing-types.ts"
+      },
+      {
+        "id": "context.v12-fixture",
+        "kind": "repository",
+        "locator": "path:test/helpers/specialist-run-fixture.mjs",
+        "digest": "sha256:2bad9cd515d3c170588799f3eaf4db65b1c257dc8eca58982200653eb3dd1d87",
+        "bytes": 9645,
+        "description": "Current complete V11/V12 package and session fixture.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests"
+        ],
+        "readScope": "test/helpers/specialist-run-fixture.mjs"
+      },
+      {
+        "id": "context.v12-inspection",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-inspection.ts",
+        "digest": "sha256:83d46b99d0bd553e36566aa5551b14c945b6177122c2c73f69e41ad6367f30ac",
+        "bytes": 14484,
+        "description": "V12 pure inspection projection pattern.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.run-view"
+        ],
+        "readScope": "src/specialist-run-inspection.ts"
+      },
+      {
+        "id": "context.v12-schema",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d",
+        "bytes": 3180,
+        "description": "Strict Ajv schema registry pattern.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.v12-session",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-session.ts",
+        "digest": "sha256:2a763993ef0d190ff81b8b234081d3dcd8c470faaa3a6c8ae76da114ecb43367",
+        "bytes": 19225,
+        "description": "V12 session creation and restoration patterns.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller"
+        ],
+        "readScope": "src/specialist-run-session.ts"
+      },
+      {
+        "id": "context.v12-transition",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-transition.ts",
+        "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+        "bytes": 8015,
+        "description": "V12 verified handoff settlement boundary.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller"
+        ],
+        "readScope": "src/specialist-run-transition.ts"
+      },
+      {
+        "id": "context.v12-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Immutable V12 session and inspection types.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.v14-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+        "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+        "bytes": 39536,
+        "description": "Normative V14 Revision 2 contract.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+      },
+      {
+        "id": "context.v14-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+        "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+        "bytes": 7229,
+        "description": "V14 product requirements and acceptance criteria.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+      },
+      {
+        "id": "context.v14-test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/test-plan.md",
+        "digest": "sha256:39021cf79aa086cd6c63ae922253b0d56579c522f2c0cb0c9e89a92d8a0500d8",
+        "bytes": 2687,
+        "description": "V14 acceptance-to-verification mapping.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/test-plan.md"
+      }
+    ],
+    "authority": {
+      "allowedModules": [
+        "author.adaptive-tests",
+        "implement.adaptive-controller",
+        "implement.run-view"
+      ],
+      "allowedCapabilities": [
+        "author.adaptive-contract-tests",
+        "implement.portable-run-view",
+        "implement.pure-adaptive-controller"
+      ],
+      "permissionCeiling": [
+        {
+          "kind": "filesystem.read",
+          "scopes": [
+            "docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "docs/specs/v14-adaptive-orchestration/test-plan.md",
+            "schemas/v1alpha1/adaptive-run.schema.json",
+            "src/adaptive-run-inspection.ts",
+            "src/adaptive-run-schema-data.ts",
+            "src/adaptive-run-schema.ts",
+            "src/adaptive-run-session.ts",
+            "src/adaptive-run-transition.ts",
+            "src/adaptive-run-types.ts",
+            "src/adaptive-run-view.ts",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/adaptive-run-schema.test.mjs",
+            "test/adaptive-run.test.mjs",
+            "test/helpers/adaptive-run-fixture.mjs",
+            "test/helpers/runtime-routing-fixture.mjs",
+            "test/helpers/specialist-run-fixture.mjs"
+          ]
+        },
+        {
+          "kind": "filesystem.write",
+          "scopes": [
+            "schemas/v1alpha1/adaptive-run.schema.json",
+            "src/adaptive-run-inspection.ts",
+            "src/adaptive-run-schema-data.ts",
+            "src/adaptive-run-schema.ts",
+            "src/adaptive-run-session.ts",
+            "src/adaptive-run-transition.ts",
+            "src/adaptive-run-types.ts",
+            "src/adaptive-run-view.ts",
+            "test/adaptive-run-schema.test.mjs",
+            "test/adaptive-run.test.mjs",
+            "test/helpers/adaptive-run-fixture.mjs"
+          ]
+        },
+        {
+          "kind": "process.spawn",
+          "scopes": [
+            "node",
+            "npm.cmd",
+            "rg"
+          ]
+        }
+      ],
+      "forbiddenEffects": [
+        "Do not access the network, secrets, external services, or undeclared repository paths.",
+        "Do not install dependencies, mutate Git, launch native agents, enforce permissions, integrate, merge, or update memory."
+      ],
+      "maxAgents": 3,
+      "maxConcurrency": 3
+    },
+    "optimization": {
+      "agentStartupCost": 1,
+      "handoffCost": 1
+    },
+    "workUnits": [
+      {
+        "id": "author.adaptive-tests",
+        "objective": "Author independent executable tests for the complete adaptive controller, host protocol, restore behavior, RunView, redaction, schema, and packed public surface.",
+        "weight": 8,
+        "module": {
+          "id": "author.adaptive-tests",
+          "action": "Derive tests from Revision 2 without inspecting producer workspaces; syntax-check now and leave execution to the successor integration verifier.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "adaptive-test-contract.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "author.adaptive-contract-tests"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.constants",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.diagnostics",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.routing",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.routing-fixture",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.routing-types",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-fixture",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-inspection",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-schema",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-session",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-transition",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-types",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v14-test-plan",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "docs/specs/v14-adaptive-orchestration/test-plan.md",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/helpers/runtime-routing-fixture.mjs",
+            "test/helpers/specialist-run-fixture.mjs"
+          ],
+          "write": [
+            "test/adaptive-run-schema.test.mjs",
+            "test/adaptive-run.test.mjs",
+            "test/helpers/adaptive-run-fixture.mjs"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "docs/specs/v14-adaptive-orchestration/test-plan.md",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/runtime-routing-types.ts",
+              "src/runtime-routing.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "test/helpers/runtime-routing-fixture.mjs",
+              "test/helpers/specialist-run-fixture.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "test/adaptive-run-schema.test.mjs",
+              "test/adaptive-run.test.mjs",
+              "test/helpers/adaptive-run-fixture.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.adaptive-tests.produce"
+        ],
+        "handoffArtifacts": [
+          "adaptive-test-contract.md"
+        ],
+        "stopConditions": [
+          "Do not access the network, install dependencies, mutate Git, merge, or update memory.",
+          "Do not claim a host effect from a kernel-generated value.",
+          "Do not modify files outside the declared write scope.",
+          "Return non-pass when the assigned artifact cannot be produced from the verified inputs.",
+          "Stop if the normative V14 contract conflicts with V11 compilation or V12 immutable-session behavior."
+        ]
+      },
+      {
+        "id": "implement.adaptive-controller",
+        "objective": "Implement the closed pure adaptive session, host-event protocol, dependency-safe launch command projection, result capture settlement, typed route matrix, bounded successor lineage, and restore operations.",
+        "weight": 12,
+        "module": {
+          "id": "implement.adaptive-controller",
+          "action": "Follow V12 immutable-session and V14 digest domains exactly; preserve raw host-event identity and never claim execution from a host receipt.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "adaptive-controller-implementation.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "implement.pure-adaptive-controller"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.canonical-json",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.constants",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.diagnostics",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.routing",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.routing-types",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-schema",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-session",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-transition",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-types",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v14-test-plan",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "docs/specs/v14-adaptive-orchestration/test-plan.md",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts"
+          ],
+          "write": [
+            "schemas/v1alpha1/adaptive-run.schema.json",
+            "src/adaptive-run-schema-data.ts",
+            "src/adaptive-run-schema.ts",
+            "src/adaptive-run-session.ts",
+            "src/adaptive-run-transition.ts",
+            "src/adaptive-run-types.ts"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "docs/specs/v14-adaptive-orchestration/test-plan.md",
+              "src/canonical-json.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/runtime-routing-types.ts",
+              "src/runtime-routing.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "schemas/v1alpha1/adaptive-run.schema.json",
+              "src/adaptive-run-schema-data.ts",
+              "src/adaptive-run-schema.ts",
+              "src/adaptive-run-session.ts",
+              "src/adaptive-run-transition.ts",
+              "src/adaptive-run-types.ts"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.adaptive-controller.produce"
+        ],
+        "handoffArtifacts": [
+          "adaptive-controller-implementation.md"
+        ],
+        "stopConditions": [
+          "Do not access the network, install dependencies, mutate Git, merge, or update memory.",
+          "Do not claim a host effect from a kernel-generated value.",
+          "Do not modify files outside the declared write scope.",
+          "Return non-pass when the assigned artifact cannot be produced from the verified inputs.",
+          "Stop if the normative V14 contract conflicts with V11 compilation or V12 immutable-session behavior."
+        ]
+      },
+      {
+        "id": "implement.run-view",
+        "objective": "Implement closed adaptive inspection plus concise JSON and Markdown RunView projections from exact source state.",
+        "weight": 7,
+        "module": {
+          "id": "implement.run-view",
+          "action": "Expose provenance classes, serial-versus-parallel rationale, assignments, rejected alternatives, native status, dependencies, evidence, blockers, typed interventions, and source links without host-effect claims.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "run-view-implementation.md"
+            }
+          ]
+        },
+        "dependencies": [],
+        "requiredCapabilities": [
+          "implement.portable-run-view"
+        ],
+        "contextUses": [
+          {
+            "sourceId": "context.adr",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.canonical-json",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.constants",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.diagnostics",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.index",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.routing-types",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-inspection",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v12-types",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v14-contract",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v14-spec",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          },
+          {
+            "sourceId": "context.v14-test-plan",
+            "purpose": "Produce one disjoint V14 adaptive orchestration module."
+          }
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "docs/specs/v14-adaptive-orchestration/test-plan.md",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/runtime-routing-types.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-types.ts"
+          ],
+          "write": [
+            "src/adaptive-run-inspection.ts",
+            "src/adaptive-run-view.ts"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "docs/specs/v14-adaptive-orchestration/test-plan.md",
+              "src/canonical-json.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/runtime-routing-types.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-types.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "src/adaptive-run-inspection.ts",
+              "src/adaptive-run-view.ts"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "evidenceRequirementIds": [
+          "evidence.run-view.produce"
+        ],
+        "handoffArtifacts": [
+          "run-view-implementation.md"
+        ],
+        "stopConditions": [
+          "Do not access the network, install dependencies, mutate Git, merge, or update memory.",
+          "Do not claim a host effect from a kernel-generated value.",
+          "Do not modify files outside the declared write scope.",
+          "Return non-pass when the assigned artifact cannot be produced from the verified inputs.",
+          "Stop if the normative V14 contract conflicts with V11 compilation or V12 immutable-session behavior."
+        ]
+      }
+    ]
+  },
+  "goalDigest": "sha256:c9de077db1b183e98d8333b2318c64b223c05ba44533de5e36c11d6c8d9e24f9",
+  "proposedCandidates": [
+    {
+      "id": "candidate.v14.adaptive-three-way",
+      "groups": [
+        [
+          "author.adaptive-tests"
+        ],
+        [
+          "implement.adaptive-controller"
+        ],
+        [
+          "implement.run-view"
+        ]
+      ]
+    }
+  ],
+  "proposalEvaluations": [
+    {
+      "id": "team.cbe7b6efbbd0a2b36f01330f4b4b258f8b15faf9392f8107f593560756afb4c6",
+      "partition": [
+        [
+          "author.adaptive-tests"
+        ],
+        [
+          "implement.adaptive-controller"
+        ],
+        [
+          "implement.run-view"
+        ]
+      ],
+      "origins": [
+        "exact_search",
+        "proposed"
+      ],
+      "proposalIds": [
+        "candidate.v14.adaptive-three-way"
+      ],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 3,
+        "projectedMakespan": 13,
+        "peakConcurrency": 3,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 305374,
+        "duplicatedPermissionScopes": 29,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 3,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+          "start": 0,
+          "finish": 13
+        },
+        {
+          "agentId": "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4",
+          "start": 0,
+          "finish": 8
+        },
+        {
+          "agentId": "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467",
+          "start": 0,
+          "finish": 9
+        }
+      ],
+      "contentDigest": "sha256:9bbe3b926cf4c582ad3366f72f4054c054d9a25081585934982eab685772b17f"
+    }
+  ],
+  "authority": {
+    "apiVersion": "swecircuit/specialist/v1alpha1",
+    "kind": "TaskAuthorityProjection",
+    "goalId": "v14.adaptive-orchestration.adaptive-wave",
+    "goalRevision": 1,
+    "allowedModules": [
+      "author.adaptive-tests",
+      "implement.adaptive-controller",
+      "implement.run-view"
+    ],
+    "allowedCapabilities": [
+      "author.adaptive-contract-tests",
+      "implement.portable-run-view",
+      "implement.pure-adaptive-controller"
+    ],
+    "contextSources": [
+      {
+        "id": "context.adr",
+        "kind": "repository",
+        "locator": "path:docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+        "digest": "sha256:2cf9fc58b30cea609e9ef7717a99d16e06ff082b8bb85629c2378931c9f7c73d",
+        "bytes": 5862,
+        "description": "Accepted host and kernel boundary.",
+        "allowedWorkUnits": [
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "docs/architecture/decisions/0007-adaptive-host-orchestration.md"
+      },
+      {
+        "id": "context.canonical-json",
+        "kind": "repository",
+        "locator": "path:src/canonical-json.ts",
+        "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+        "bytes": 7405,
+        "description": "Canonical JSON and digest helpers.",
+        "allowedWorkUnits": [
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/canonical-json.ts"
+      },
+      {
+        "id": "context.constants",
+        "kind": "repository",
+        "locator": "path:src/constants.ts",
+        "digest": "sha256:29d3f446dd83e508c7c77430560242406e930874d5b13f360afcdc67d035a1c6",
+        "bytes": 3046,
+        "description": "Current public versions and resource limits.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/constants.ts"
+      },
+      {
+        "id": "context.diagnostics",
+        "kind": "repository",
+        "locator": "path:src/diagnostics.ts",
+        "digest": "sha256:f5817dc70d945562511c743925b460ca44ad2862324273aaabe322a882379fcb",
+        "bytes": 27787,
+        "description": "Current diagnostic catalog and stable ordering.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/diagnostics.ts"
+      },
+      {
+        "id": "context.index",
+        "kind": "repository",
+        "locator": "path:src/index.ts",
+        "digest": "sha256:f59c25992681c7b31caad21dfcf5766f74b4902425271f6b55f774a424c66e01",
+        "bytes": 6578,
+        "description": "Current public export surface.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/index.ts"
+      },
+      {
+        "id": "context.routing",
+        "kind": "repository",
+        "locator": "path:src/runtime-routing.ts",
+        "digest": "sha256:f127bc11d711153e2eee3de535a80fa968631533b4f9884a9e9730eae15c0a81",
+        "bytes": 44497,
+        "description": "Current canonical validation, diagnostics, and digest patterns.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller"
+        ],
+        "readScope": "src/runtime-routing.ts"
+      },
+      {
+        "id": "context.routing-fixture",
+        "kind": "repository",
+        "locator": "path:test/helpers/runtime-routing-fixture.mjs",
+        "digest": "sha256:d87bf470955a39edb64c0a5345074ea9d3eee4577a9c79aff55ec18ba8428da2",
+        "bytes": 11149,
+        "description": "Current complete assignment fixture.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests"
+        ],
+        "readScope": "test/helpers/runtime-routing-fixture.mjs"
+      },
+      {
+        "id": "context.routing-types",
+        "kind": "repository",
+        "locator": "path:src/runtime-routing-types.ts",
+        "digest": "sha256:24bfc6ccc987fffcfad25bd4a1581c1ce2a4e0dcb6fabce09be98d0b31247f84",
+        "bytes": 10268,
+        "description": "Approved assignment and routing types consumed by the adaptive controller.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/runtime-routing-types.ts"
+      },
+      {
+        "id": "context.v12-fixture",
+        "kind": "repository",
+        "locator": "path:test/helpers/specialist-run-fixture.mjs",
+        "digest": "sha256:2bad9cd515d3c170588799f3eaf4db65b1c257dc8eca58982200653eb3dd1d87",
+        "bytes": 9645,
+        "description": "Current complete V11/V12 package and session fixture.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests"
+        ],
+        "readScope": "test/helpers/specialist-run-fixture.mjs"
+      },
+      {
+        "id": "context.v12-inspection",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-inspection.ts",
+        "digest": "sha256:83d46b99d0bd553e36566aa5551b14c945b6177122c2c73f69e41ad6367f30ac",
+        "bytes": 14484,
+        "description": "V12 pure inspection projection pattern.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.run-view"
+        ],
+        "readScope": "src/specialist-run-inspection.ts"
+      },
+      {
+        "id": "context.v12-schema",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-schema.ts",
+        "digest": "sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d",
+        "bytes": 3180,
+        "description": "Strict Ajv schema registry pattern.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller"
+        ],
+        "readScope": "src/specialist-run-schema.ts"
+      },
+      {
+        "id": "context.v12-session",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-session.ts",
+        "digest": "sha256:2a763993ef0d190ff81b8b234081d3dcd8c470faaa3a6c8ae76da114ecb43367",
+        "bytes": 19225,
+        "description": "V12 session creation and restoration patterns.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller"
+        ],
+        "readScope": "src/specialist-run-session.ts"
+      },
+      {
+        "id": "context.v12-transition",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-transition.ts",
+        "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+        "bytes": 8015,
+        "description": "V12 verified handoff settlement boundary.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller"
+        ],
+        "readScope": "src/specialist-run-transition.ts"
+      },
+      {
+        "id": "context.v12-types",
+        "kind": "repository",
+        "locator": "path:src/specialist-run-types.ts",
+        "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+        "bytes": 4222,
+        "description": "Immutable V12 session and inspection types.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "src/specialist-run-types.ts"
+      },
+      {
+        "id": "context.v14-contract",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+        "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+        "bytes": 39536,
+        "description": "Normative V14 Revision 2 contract.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+      },
+      {
+        "id": "context.v14-spec",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+        "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+        "bytes": 7229,
+        "description": "V14 product requirements and acceptance criteria.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+      },
+      {
+        "id": "context.v14-test-plan",
+        "kind": "repository",
+        "locator": "path:docs/specs/v14-adaptive-orchestration/test-plan.md",
+        "digest": "sha256:39021cf79aa086cd6c63ae922253b0d56579c522f2c0cb0c9e89a92d8a0500d8",
+        "bytes": 2687,
+        "description": "V14 acceptance-to-verification mapping.",
+        "allowedWorkUnits": [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ],
+        "readScope": "docs/specs/v14-adaptive-orchestration/test-plan.md"
+      }
+    ],
+    "permissionCeiling": [
+      {
+        "kind": "filesystem.read",
+        "scopes": [
+          "docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+          "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+          "docs/specs/v14-adaptive-orchestration/spec.md",
+          "docs/specs/v14-adaptive-orchestration/test-plan.md",
+          "schemas/v1alpha1/adaptive-run.schema.json",
+          "src/adaptive-run-inspection.ts",
+          "src/adaptive-run-schema-data.ts",
+          "src/adaptive-run-schema.ts",
+          "src/adaptive-run-session.ts",
+          "src/adaptive-run-transition.ts",
+          "src/adaptive-run-types.ts",
+          "src/adaptive-run-view.ts",
+          "src/canonical-json.ts",
+          "src/constants.ts",
+          "src/diagnostics.ts",
+          "src/index.ts",
+          "src/runtime-routing-types.ts",
+          "src/runtime-routing.ts",
+          "src/specialist-run-inspection.ts",
+          "src/specialist-run-schema.ts",
+          "src/specialist-run-session.ts",
+          "src/specialist-run-transition.ts",
+          "src/specialist-run-types.ts",
+          "test/adaptive-run-schema.test.mjs",
+          "test/adaptive-run.test.mjs",
+          "test/helpers/adaptive-run-fixture.mjs",
+          "test/helpers/runtime-routing-fixture.mjs",
+          "test/helpers/specialist-run-fixture.mjs"
+        ]
+      },
+      {
+        "kind": "filesystem.write",
+        "scopes": [
+          "schemas/v1alpha1/adaptive-run.schema.json",
+          "src/adaptive-run-inspection.ts",
+          "src/adaptive-run-schema-data.ts",
+          "src/adaptive-run-schema.ts",
+          "src/adaptive-run-session.ts",
+          "src/adaptive-run-transition.ts",
+          "src/adaptive-run-types.ts",
+          "src/adaptive-run-view.ts",
+          "test/adaptive-run-schema.test.mjs",
+          "test/adaptive-run.test.mjs",
+          "test/helpers/adaptive-run-fixture.mjs"
+        ]
+      },
+      {
+        "kind": "process.spawn",
+        "scopes": [
+          "node",
+          "npm.cmd",
+          "rg"
+        ]
+      }
+    ],
+    "forbiddenEffects": [
+      "Do not access the network, secrets, external services, or undeclared repository paths.",
+      "Do not install dependencies, mutate Git, launch native agents, enforce permissions, integrate, merge, or update memory."
+    ],
+    "maxAgents": 3,
+    "maxConcurrency": 3,
+    "contentDigest": "sha256:b5b87c0cce5e4ddf6bc45a6b6d5d52808bda111244daf0ed5c8928ee04d227a0"
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 3,
+    "evaluatedCandidates": 5,
+    "eligibleCandidates": 5,
+    "retainedAlternatives": 4,
+    "evaluationSetDigest": "sha256:54fb382ced5ce8ef5ce402f0ce273ddc4e646cc4738d33dfe0282b5a056abc07"
+  },
+  "serialBaseline": {
+    "id": "team.40739c4d62f431e2fbb2c85cf5091857712e132194275d0fe82c92057bdd1b9d",
+    "partition": [
+      [
+        "author.adaptive-tests",
+        "implement.adaptive-controller",
+        "implement.run-view"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 28,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 27,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.fdd590cd3227f83e70d6c593d2cce9cf6c6003508f2673d5b453d502fd38dff3",
+        "start": 0,
+        "finish": 28
+      }
+    ],
+    "contentDigest": "sha256:1b3e3dcb60d176228448d83e836e5adb7fc02e620d1623a8df2d0c356c5a53c3"
+  },
+  "selected": {
+    "id": "team.cbe7b6efbbd0a2b36f01330f4b4b258f8b15faf9392f8107f593560756afb4c6",
+    "partition": [
+      [
+        "author.adaptive-tests"
+      ],
+      [
+        "implement.adaptive-controller"
+      ],
+      [
+        "implement.run-view"
+      ]
+    ],
+    "origins": [
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.v14.adaptive-three-way"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 3,
+      "projectedMakespan": 13,
+      "peakConcurrency": 3,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 305374,
+      "duplicatedPermissionScopes": 29,
+      "totalWorkWeight": 27,
+      "totalStartupCost": 3,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+        "start": 0,
+        "finish": 13
+      },
+      {
+        "agentId": "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4",
+        "start": 0,
+        "finish": 8
+      },
+      {
+        "agentId": "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467",
+        "start": 0,
+        "finish": 9
+      }
+    ],
+    "contentDigest": "sha256:9bbe3b926cf4c582ad3366f72f4054c054d9a25081585934982eab685772b17f"
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 13,
+    "serialValue": 28,
+    "serialRejectionCodes": []
+  },
+  "alternatives": [
+    {
+      "id": "team.aa2d50918b81817847c772ca7277e366b4321746d9ea31375749a30ecb759670",
+      "partition": [
+        [
+          "author.adaptive-tests",
+          "implement.run-view"
+        ],
+        [
+          "implement.adaptive-controller"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 16,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 189537,
+        "duplicatedPermissionScopes": 17,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+          "start": 0,
+          "finish": 13
+        },
+        {
+          "agentId": "agent.d2f63e928c79418cc760b93eebc1bb815111096ddc8efdf737cced3d4c568d1e",
+          "start": 0,
+          "finish": 16
+        }
+      ],
+      "contentDigest": "sha256:316b08cdeaa1016caa5f39d2e33eac0118c7e8c4166f5906560308aadce6abfc"
+    },
+    {
+      "id": "team.c00837d3524d677ff0f5426781efc5dab84e929014019edcdc99780398618220",
+      "partition": [
+        [
+          "author.adaptive-tests"
+        ],
+        [
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 20,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 190754,
+        "duplicatedPermissionScopes": 16,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.283561d84cdb535767c54196843cf35af01a8f25ac1fe65221dab7c88fc1015d",
+          "start": 0,
+          "finish": 20
+        },
+        {
+          "agentId": "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467",
+          "start": 0,
+          "finish": 9
+        }
+      ],
+      "contentDigest": "sha256:644257f6728d4369c845aa0d6f721b4901af8d414114d8ee2ec7f3666a03d173"
+    },
+    {
+      "id": "team.8fed12a62b1073bf4d0d64d6f4a8e00a6a0b3627b47a52934bfad2597316d547",
+      "partition": [
+        [
+          "author.adaptive-tests",
+          "implement.adaptive-controller"
+        ],
+        [
+          "implement.run-view"
+        ]
+      ],
+      "origins": [
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 2,
+        "projectedMakespan": 21,
+        "peakConcurrency": 2,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 129104,
+        "duplicatedPermissionScopes": 14,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 2,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.3215ff66575d724ab5629ca5600a681b47a83d7847e1b04e9ac524641b813fd3",
+          "start": 0,
+          "finish": 21
+        },
+        {
+          "agentId": "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4",
+          "start": 0,
+          "finish": 8
+        }
+      ],
+      "contentDigest": "sha256:ee67af2fb0c9945000236aac79249209976731219f4f9d66c7e6f946359ce797"
+    },
+    {
+      "id": "team.40739c4d62f431e2fbb2c85cf5091857712e132194275d0fe82c92057bdd1b9d",
+      "partition": [
+        [
+          "author.adaptive-tests",
+          "implement.adaptive-controller",
+          "implement.run-view"
+        ]
+      ],
+      "origins": [
+        "serial_baseline",
+        "exact_search"
+      ],
+      "proposalIds": [],
+      "eligible": true,
+      "rejectionCodes": [],
+      "metrics": {
+        "agentCount": 1,
+        "projectedMakespan": 28,
+        "peakConcurrency": 1,
+        "conflictPairs": 0,
+        "handoffCount": 0,
+        "duplicatedContextBytes": 0,
+        "duplicatedPermissionScopes": 0,
+        "totalWorkWeight": 27,
+        "totalStartupCost": 1,
+        "totalHandoffCost": 0
+      },
+      "schedule": [
+        {
+          "agentId": "agent.fdd590cd3227f83e70d6c593d2cce9cf6c6003508f2673d5b453d502fd38dff3",
+          "start": 0,
+          "finish": 28
+        }
+      ],
+      "contentDigest": "sha256:1b3e3dcb60d176228448d83e836e5adb7fc02e620d1623a8df2d0c356c5a53c3"
+    }
+  ],
+  "blueprints": [
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+      "goalId": "v14.adaptive-orchestration.adaptive-wave",
+      "goalRevision": 1,
+      "goalDigest": "sha256:c9de077db1b183e98d8333b2318c64b223c05ba44533de5e36c11d6c8d9e24f9",
+      "candidateId": "team.cbe7b6efbbd0a2b36f01330f4b4b258f8b15faf9392f8107f593560756afb4c6",
+      "workUnitIds": [
+        "implement.adaptive-controller"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "implement.adaptive-controller",
+          "objective": "Implement the closed pure adaptive session, host-event protocol, dependency-safe launch command projection, result capture settlement, typed route matrix, bounded successor lineage, and restore operations."
+        }
+      ],
+      "modules": [
+        {
+          "id": "implement.adaptive-controller",
+          "action": "Follow V12 immutable-session and V14 digest domains exactly; preserve raw host-event identity and never claim execution from a host receipt.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "adaptive-controller-implementation.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+          "digest": "sha256:2cf9fc58b30cea609e9ef7717a99d16e06ff082b8bb85629c2378931c9f7c73d",
+          "bytes": 5862,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "docs/architecture/decisions/0007-adaptive-host-orchestration.md"
+        },
+        {
+          "sourceId": "context.canonical-json",
+          "kind": "repository",
+          "locator": "path:src/canonical-json.ts",
+          "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+          "bytes": 7405,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "src/canonical-json.ts"
+        },
+        {
+          "sourceId": "context.constants",
+          "kind": "repository",
+          "locator": "path:src/constants.ts",
+          "digest": "sha256:29d3f446dd83e508c7c77430560242406e930874d5b13f360afcdc67d035a1c6",
+          "bytes": 3046,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "src/constants.ts"
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "kind": "repository",
+          "locator": "path:src/diagnostics.ts",
+          "digest": "sha256:f5817dc70d945562511c743925b460ca44ad2862324273aaabe322a882379fcb",
+          "bytes": 27787,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "src/diagnostics.ts"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:f59c25992681c7b31caad21dfcf5766f74b4902425271f6b55f774a424c66e01",
+          "bytes": 6578,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.routing",
+          "kind": "repository",
+          "locator": "path:src/runtime-routing.ts",
+          "digest": "sha256:f127bc11d711153e2eee3de535a80fa968631533b4f9884a9e9730eae15c0a81",
+          "bytes": 44497,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "src/runtime-routing.ts"
+        },
+        {
+          "sourceId": "context.routing-types",
+          "kind": "repository",
+          "locator": "path:src/runtime-routing-types.ts",
+          "digest": "sha256:24bfc6ccc987fffcfad25bd4a1581c1ce2a4e0dcb6fabce09be98d0b31247f84",
+          "bytes": 10268,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "src/runtime-routing-types.ts"
+        },
+        {
+          "sourceId": "context.v12-schema",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-schema.ts",
+          "digest": "sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d",
+          "bytes": 3180,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "src/specialist-run-schema.ts"
+        },
+        {
+          "sourceId": "context.v12-session",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-session.ts",
+          "digest": "sha256:2a763993ef0d190ff81b8b234081d3dcd8c470faaa3a6c8ae76da114ecb43367",
+          "bytes": 19225,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "src/specialist-run-session.ts"
+        },
+        {
+          "sourceId": "context.v12-transition",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-transition.ts",
+          "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+          "bytes": 8015,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "src/specialist-run-transition.ts"
+        },
+        {
+          "sourceId": "context.v12-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+          "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+          "bytes": 39536,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+        },
+        {
+          "sourceId": "context.v14-test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/test-plan.md",
+          "digest": "sha256:39021cf79aa086cd6c63ae922253b0d56579c522f2c0cb0c9e89a92d8a0500d8",
+          "bytes": 2687,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.adaptive-controller"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/test-plan.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "implement.pure-adaptive-controller"
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "docs/specs/v14-adaptive-orchestration/test-plan.md",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts"
+          ],
+          "write": [
+            "schemas/v1alpha1/adaptive-run.schema.json",
+            "src/adaptive-run-schema-data.ts",
+            "src/adaptive-run-schema.ts",
+            "src/adaptive-run-session.ts",
+            "src/adaptive-run-transition.ts",
+            "src/adaptive-run-types.ts"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "docs/specs/v14-adaptive-orchestration/test-plan.md",
+              "src/canonical-json.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/runtime-routing-types.ts",
+              "src/runtime-routing.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "schemas/v1alpha1/adaptive-run.schema.json",
+              "src/adaptive-run-schema-data.ts",
+              "src/adaptive-run-schema.ts",
+              "src/adaptive-run-session.ts",
+              "src/adaptive-run-transition.ts",
+              "src/adaptive-run-types.ts"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access the network, secrets, external services, or undeclared repository paths.",
+          "Do not install dependencies, mutate Git, launch native agents, enforce permissions, integrate, merge, or update memory."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.adaptive-controller",
+          "criterion": "A pure controller validates assignments, emits dependency-safe host commands, records exact host events, settles V12 handoffs, restores state, and routes bounded outcomes.",
+          "requirementId": "evidence.adaptive-controller.produce",
+          "kind": "artifact",
+          "duty": "produce",
+          "description": "Produce the closed adaptive controller, event protocol, schema, and session operations.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "adaptive-controller-implementation.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not access the network, install dependencies, mutate Git, merge, or update memory.",
+        "Do not claim a host effect from a kernel-generated value.",
+        "Do not modify files outside the declared write scope.",
+        "Return non-pass when the assigned artifact cannot be produced from the verified inputs.",
+        "Stop if the normative V14 contract conflicts with V11 compilation or V12 immutable-session behavior."
+      ],
+      "contentDigest": "sha256:52e29224d7cc8d3fc96400a7503e36c980a14056a38edc8c705393ada2903138"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4",
+      "goalId": "v14.adaptive-orchestration.adaptive-wave",
+      "goalRevision": 1,
+      "goalDigest": "sha256:c9de077db1b183e98d8333b2318c64b223c05ba44533de5e36c11d6c8d9e24f9",
+      "candidateId": "team.cbe7b6efbbd0a2b36f01330f4b4b258f8b15faf9392f8107f593560756afb4c6",
+      "workUnitIds": [
+        "implement.run-view"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "implement.run-view",
+          "objective": "Implement closed adaptive inspection plus concise JSON and Markdown RunView projections from exact source state."
+        }
+      ],
+      "modules": [
+        {
+          "id": "implement.run-view",
+          "action": "Expose provenance classes, serial-versus-parallel rationale, assignments, rejected alternatives, native status, dependencies, evidence, blockers, typed interventions, and source links without host-effect claims.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "run-view-implementation.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.adr",
+          "kind": "repository",
+          "locator": "path:docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+          "digest": "sha256:2cf9fc58b30cea609e9ef7717a99d16e06ff082b8bb85629c2378931c9f7c73d",
+          "bytes": 5862,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "docs/architecture/decisions/0007-adaptive-host-orchestration.md"
+        },
+        {
+          "sourceId": "context.canonical-json",
+          "kind": "repository",
+          "locator": "path:src/canonical-json.ts",
+          "digest": "sha256:6dfb9cb7f7c5be5755b370b82c5230c9e4d3c3a350e6fe0fef3948b1b03d42ac",
+          "bytes": 7405,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "src/canonical-json.ts"
+        },
+        {
+          "sourceId": "context.constants",
+          "kind": "repository",
+          "locator": "path:src/constants.ts",
+          "digest": "sha256:29d3f446dd83e508c7c77430560242406e930874d5b13f360afcdc67d035a1c6",
+          "bytes": 3046,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "src/constants.ts"
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "kind": "repository",
+          "locator": "path:src/diagnostics.ts",
+          "digest": "sha256:f5817dc70d945562511c743925b460ca44ad2862324273aaabe322a882379fcb",
+          "bytes": 27787,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "src/diagnostics.ts"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:f59c25992681c7b31caad21dfcf5766f74b4902425271f6b55f774a424c66e01",
+          "bytes": 6578,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.routing-types",
+          "kind": "repository",
+          "locator": "path:src/runtime-routing-types.ts",
+          "digest": "sha256:24bfc6ccc987fffcfad25bd4a1581c1ce2a4e0dcb6fabce09be98d0b31247f84",
+          "bytes": 10268,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "src/runtime-routing-types.ts"
+        },
+        {
+          "sourceId": "context.v12-inspection",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-inspection.ts",
+          "digest": "sha256:83d46b99d0bd553e36566aa5551b14c945b6177122c2c73f69e41ad6367f30ac",
+          "bytes": 14484,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "src/specialist-run-inspection.ts"
+        },
+        {
+          "sourceId": "context.v12-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+          "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+          "bytes": 39536,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+        },
+        {
+          "sourceId": "context.v14-test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/test-plan.md",
+          "digest": "sha256:39021cf79aa086cd6c63ae922253b0d56579c522f2c0cb0c9e89a92d8a0500d8",
+          "bytes": 2687,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "implement.run-view"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/test-plan.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "implement.portable-run-view"
+        ],
+        "scope": {
+          "read": [
+            "docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "docs/specs/v14-adaptive-orchestration/test-plan.md",
+            "src/canonical-json.ts",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/runtime-routing-types.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-types.ts"
+          ],
+          "write": [
+            "src/adaptive-run-inspection.ts",
+            "src/adaptive-run-view.ts"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/architecture/decisions/0007-adaptive-host-orchestration.md",
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "docs/specs/v14-adaptive-orchestration/test-plan.md",
+              "src/canonical-json.ts",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/runtime-routing-types.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-types.ts"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "src/adaptive-run-inspection.ts",
+              "src/adaptive-run-view.ts"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access the network, secrets, external services, or undeclared repository paths.",
+          "Do not install dependencies, mutate Git, launch native agents, enforce permissions, integrate, merge, or update memory."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.run-view",
+          "criterion": "A pure RunView projection exposes modules, assignments, status, dependencies, evidence, routes, blockers, source links, and next action without inventing host facts.",
+          "requirementId": "evidence.run-view.produce",
+          "kind": "artifact",
+          "duty": "produce",
+          "description": "Produce closed JSON and Markdown RunView projections.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "run-view-implementation.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not access the network, install dependencies, mutate Git, merge, or update memory.",
+        "Do not claim a host effect from a kernel-generated value.",
+        "Do not modify files outside the declared write scope.",
+        "Return non-pass when the assigned artifact cannot be produced from the verified inputs.",
+        "Stop if the normative V14 contract conflicts with V11 compilation or V12 immutable-session behavior."
+      ],
+      "contentDigest": "sha256:22401a0cc61861fa504b90e6fe1df1d1377255811f2c2267d9cd6536ecb79f21"
+    },
+    {
+      "apiVersion": "swecircuit/specialist/v1alpha1",
+      "kind": "AgentBlueprint",
+      "id": "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467",
+      "goalId": "v14.adaptive-orchestration.adaptive-wave",
+      "goalRevision": 1,
+      "goalDigest": "sha256:c9de077db1b183e98d8333b2318c64b223c05ba44533de5e36c11d6c8d9e24f9",
+      "candidateId": "team.cbe7b6efbbd0a2b36f01330f4b4b258f8b15faf9392f8107f593560756afb4c6",
+      "workUnitIds": [
+        "author.adaptive-tests"
+      ],
+      "objectives": [
+        {
+          "workUnitId": "author.adaptive-tests",
+          "objective": "Author independent executable tests for the complete adaptive controller, host protocol, restore behavior, RunView, redaction, schema, and packed public surface."
+        }
+      ],
+      "modules": [
+        {
+          "id": "author.adaptive-tests",
+          "action": "Derive tests from Revision 2 without inspecting producer workspaces; syntax-check now and leave execution to the successor integration verifier.",
+          "inputPorts": [
+            {
+              "name": "input",
+              "artifactType": "V14Revision2Contract"
+            }
+          ],
+          "outputPorts": [
+            {
+              "name": "output",
+              "artifactType": "adaptive-test-contract.md"
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "contextUses": [
+        {
+          "sourceId": "context.constants",
+          "kind": "repository",
+          "locator": "path:src/constants.ts",
+          "digest": "sha256:29d3f446dd83e508c7c77430560242406e930874d5b13f360afcdc67d035a1c6",
+          "bytes": 3046,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "src/constants.ts"
+        },
+        {
+          "sourceId": "context.diagnostics",
+          "kind": "repository",
+          "locator": "path:src/diagnostics.ts",
+          "digest": "sha256:f5817dc70d945562511c743925b460ca44ad2862324273aaabe322a882379fcb",
+          "bytes": 27787,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "src/diagnostics.ts"
+        },
+        {
+          "sourceId": "context.index",
+          "kind": "repository",
+          "locator": "path:src/index.ts",
+          "digest": "sha256:f59c25992681c7b31caad21dfcf5766f74b4902425271f6b55f774a424c66e01",
+          "bytes": 6578,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "src/index.ts"
+        },
+        {
+          "sourceId": "context.routing",
+          "kind": "repository",
+          "locator": "path:src/runtime-routing.ts",
+          "digest": "sha256:f127bc11d711153e2eee3de535a80fa968631533b4f9884a9e9730eae15c0a81",
+          "bytes": 44497,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "src/runtime-routing.ts"
+        },
+        {
+          "sourceId": "context.routing-fixture",
+          "kind": "repository",
+          "locator": "path:test/helpers/runtime-routing-fixture.mjs",
+          "digest": "sha256:d87bf470955a39edb64c0a5345074ea9d3eee4577a9c79aff55ec18ba8428da2",
+          "bytes": 11149,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "test/helpers/runtime-routing-fixture.mjs"
+        },
+        {
+          "sourceId": "context.routing-types",
+          "kind": "repository",
+          "locator": "path:src/runtime-routing-types.ts",
+          "digest": "sha256:24bfc6ccc987fffcfad25bd4a1581c1ce2a4e0dcb6fabce09be98d0b31247f84",
+          "bytes": 10268,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "src/runtime-routing-types.ts"
+        },
+        {
+          "sourceId": "context.v12-fixture",
+          "kind": "repository",
+          "locator": "path:test/helpers/specialist-run-fixture.mjs",
+          "digest": "sha256:2bad9cd515d3c170588799f3eaf4db65b1c257dc8eca58982200653eb3dd1d87",
+          "bytes": 9645,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "test/helpers/specialist-run-fixture.mjs"
+        },
+        {
+          "sourceId": "context.v12-inspection",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-inspection.ts",
+          "digest": "sha256:83d46b99d0bd553e36566aa5551b14c945b6177122c2c73f69e41ad6367f30ac",
+          "bytes": 14484,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "src/specialist-run-inspection.ts"
+        },
+        {
+          "sourceId": "context.v12-schema",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-schema.ts",
+          "digest": "sha256:db55d52355ec661a12e8e5c50981af0658ad1f9ef678f1c729882fa70024691d",
+          "bytes": 3180,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "src/specialist-run-schema.ts"
+        },
+        {
+          "sourceId": "context.v12-session",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-session.ts",
+          "digest": "sha256:2a763993ef0d190ff81b8b234081d3dcd8c470faaa3a6c8ae76da114ecb43367",
+          "bytes": 19225,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "src/specialist-run-session.ts"
+        },
+        {
+          "sourceId": "context.v12-transition",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-transition.ts",
+          "digest": "sha256:64916178302c40741eb53780e42f74af3cba7c886956851a55d6b4582d0cc6c7",
+          "bytes": 8015,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "src/specialist-run-transition.ts"
+        },
+        {
+          "sourceId": "context.v12-types",
+          "kind": "repository",
+          "locator": "path:src/specialist-run-types.ts",
+          "digest": "sha256:01c54b2fc3244f875a4c04e8624d570953e08a6ce1cbbadb8e766117e270a74c",
+          "bytes": 4222,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "src/specialist-run-types.ts"
+        },
+        {
+          "sourceId": "context.v14-contract",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+          "digest": "sha256:bf8538b746a1b4c10ef3e2ee3528311cf3b9659cc6e450f2e93ba8887cd39b6a",
+          "bytes": 39536,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md"
+        },
+        {
+          "sourceId": "context.v14-spec",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/spec.md",
+          "digest": "sha256:fcf5d094f1494b6bd4edd7c5ce7ad8c2a8671f2533daae716aac6c39dedd1478",
+          "bytes": 7229,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/spec.md"
+        },
+        {
+          "sourceId": "context.v14-test-plan",
+          "kind": "repository",
+          "locator": "path:docs/specs/v14-adaptive-orchestration/test-plan.md",
+          "digest": "sha256:39021cf79aa086cd6c63ae922253b0d56579c522f2c0cb0c9e89a92d8a0500d8",
+          "bytes": 2687,
+          "purposes": [
+            "Produce one disjoint V14 adaptive orchestration module."
+          ],
+          "workUnitIds": [
+            "author.adaptive-tests"
+          ],
+          "readScope": "docs/specs/v14-adaptive-orchestration/test-plan.md"
+        }
+      ],
+      "authority": {
+        "requiredCapabilities": [
+          "author.adaptive-contract-tests"
+        ],
+        "scope": {
+          "read": [
+            "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+            "docs/specs/v14-adaptive-orchestration/spec.md",
+            "docs/specs/v14-adaptive-orchestration/test-plan.md",
+            "src/constants.ts",
+            "src/diagnostics.ts",
+            "src/index.ts",
+            "src/runtime-routing-types.ts",
+            "src/runtime-routing.ts",
+            "src/specialist-run-inspection.ts",
+            "src/specialist-run-schema.ts",
+            "src/specialist-run-session.ts",
+            "src/specialist-run-transition.ts",
+            "src/specialist-run-types.ts",
+            "test/helpers/runtime-routing-fixture.mjs",
+            "test/helpers/specialist-run-fixture.mjs"
+          ],
+          "write": [
+            "test/adaptive-run-schema.test.mjs",
+            "test/adaptive-run.test.mjs",
+            "test/helpers/adaptive-run-fixture.mjs"
+          ],
+          "conflictZones": []
+        },
+        "permissions": [
+          {
+            "kind": "filesystem.read",
+            "scopes": [
+              "docs/specs/v14-adaptive-orchestration/adaptive-orchestration-contract.md",
+              "docs/specs/v14-adaptive-orchestration/spec.md",
+              "docs/specs/v14-adaptive-orchestration/test-plan.md",
+              "src/constants.ts",
+              "src/diagnostics.ts",
+              "src/index.ts",
+              "src/runtime-routing-types.ts",
+              "src/runtime-routing.ts",
+              "src/specialist-run-inspection.ts",
+              "src/specialist-run-schema.ts",
+              "src/specialist-run-session.ts",
+              "src/specialist-run-transition.ts",
+              "src/specialist-run-types.ts",
+              "test/helpers/runtime-routing-fixture.mjs",
+              "test/helpers/specialist-run-fixture.mjs"
+            ]
+          },
+          {
+            "kind": "filesystem.write",
+            "scopes": [
+              "test/adaptive-run-schema.test.mjs",
+              "test/adaptive-run.test.mjs",
+              "test/helpers/adaptive-run-fixture.mjs"
+            ]
+          },
+          {
+            "kind": "process.spawn",
+            "scopes": [
+              "node",
+              "npm.cmd",
+              "rg"
+            ]
+          }
+        ],
+        "forbiddenEffects": [
+          "Do not access the network, secrets, external services, or undeclared repository paths.",
+          "Do not install dependencies, mutate Git, launch native agents, enforce permissions, integrate, merge, or update memory."
+        ]
+      },
+      "evidenceDuties": [
+        {
+          "criterionId": "criterion.adaptive-tests",
+          "criterion": "An independently authored suite defines lifecycle, restart, event-chain, redaction, RunView, and public-schema expectations before integration.",
+          "requirementId": "evidence.adaptive-tests.produce",
+          "kind": "test",
+          "duty": "produce",
+          "description": "Produce the independent executable adaptive and RunView test contract.",
+          "independentFromProducer": false
+        }
+      ],
+      "handoff": {
+        "destination": "codex.main",
+        "artifacts": [
+          "adaptive-test-contract.md"
+        ],
+        "requiredFields": [
+          "apiVersion",
+          "kind",
+          "outcome",
+          "destination",
+          "goal",
+          "agent",
+          "compilationDigest",
+          "summary",
+          "workUnitsCompleted",
+          "artifacts",
+          "evidence",
+          "assumptions",
+          "risks",
+          "followUps"
+        ]
+      },
+      "stopConditions": [
+        "Do not access the network, install dependencies, mutate Git, merge, or update memory.",
+        "Do not claim a host effect from a kernel-generated value.",
+        "Do not modify files outside the declared write scope.",
+        "Return non-pass when the assigned artifact cannot be produced from the verified inputs.",
+        "Stop if the normative V14 contract conflicts with V11 compilation or V12 immutable-session behavior."
+      ],
+      "contentDigest": "sha256:aa14fe5aa8df0e90e4c124bd44e9fb1b89655a3d285f6af624930be18d6e3be8"
+    }
+  ],
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+        "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4",
+        "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467"
+      ]
+    }
+  ],
+  "contentDigest": "sha256:05bd6bb76d8c7d0f9a3df274a7294ac3615026cb211f76bd24a21d45f6b4d3c8"
+}

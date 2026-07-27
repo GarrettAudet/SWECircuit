@@ -1,0 +1,11 @@
+{
+  "apiVersion": "swecircuit/review-approval/v1alpha1",
+  "kind": "SpecialistReviewApproval",
+  "approvedBy": "repository-owner-via-standing-release-authorization",
+  "decision": "approve",
+  "basis": "The owner authorized revisions and audits required to reach the full release-ready orchestration goal; the integration owner reviewed this disjoint three-way wave.",
+  "expectation": {
+    "compilationDigest": "sha256:05bd6bb76d8c7d0f9a3df274a7294ac3615026cb211f76bd24a21d45f6b4d3c8",
+    "packageDigest": "sha256:d9cbb6a82e3018a93c9ea1108e94f0ee709d5ff952573c98a2edbeb0d34815e4"
+  }
+}

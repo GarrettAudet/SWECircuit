@@ -1,0 +1,151 @@
+{
+  "serialBaseline": {
+    "id": "team.40739c4d62f431e2fbb2c85cf5091857712e132194275d0fe82c92057bdd1b9d",
+    "partition": [
+      [
+        "author.adaptive-tests",
+        "implement.adaptive-controller",
+        "implement.run-view"
+      ]
+    ],
+    "origins": [
+      "serial_baseline",
+      "exact_search"
+    ],
+    "proposalIds": [],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 1,
+      "projectedMakespan": 28,
+      "peakConcurrency": 1,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 0,
+      "duplicatedPermissionScopes": 0,
+      "totalWorkWeight": 27,
+      "totalStartupCost": 1,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.fdd590cd3227f83e70d6c593d2cce9cf6c6003508f2673d5b453d502fd38dff3",
+        "start": 0,
+        "finish": 28
+      }
+    ],
+    "contentDigest": "sha256:1b3e3dcb60d176228448d83e836e5adb7fc02e620d1623a8df2d0c356c5a53c3"
+  },
+  "selected": {
+    "id": "team.cbe7b6efbbd0a2b36f01330f4b4b258f8b15faf9392f8107f593560756afb4c6",
+    "partition": [
+      [
+        "author.adaptive-tests"
+      ],
+      [
+        "implement.adaptive-controller"
+      ],
+      [
+        "implement.run-view"
+      ]
+    ],
+    "origins": [
+      "exact_search",
+      "proposed"
+    ],
+    "proposalIds": [
+      "candidate.v14.adaptive-three-way"
+    ],
+    "eligible": true,
+    "rejectionCodes": [],
+    "metrics": {
+      "agentCount": 3,
+      "projectedMakespan": 13,
+      "peakConcurrency": 3,
+      "conflictPairs": 0,
+      "handoffCount": 0,
+      "duplicatedContextBytes": 305374,
+      "duplicatedPermissionScopes": 29,
+      "totalWorkWeight": 27,
+      "totalStartupCost": 3,
+      "totalHandoffCost": 0
+    },
+    "schedule": [
+      {
+        "agentId": "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+        "start": 0,
+        "finish": 13
+      },
+      {
+        "agentId": "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4",
+        "start": 0,
+        "finish": 8
+      },
+      {
+        "agentId": "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467",
+        "start": 0,
+        "finish": 9
+      }
+    ],
+    "contentDigest": "sha256:9bbe3b926cf4c582ad3366f72f4054c054d9a25081585934982eab685772b17f"
+  },
+  "selectionReason": {
+    "kind": "lower_metric",
+    "decisiveField": "projectedMakespan",
+    "selectedValue": 13,
+    "serialValue": 28,
+    "serialRejectionCodes": []
+  },
+  "search": {
+    "mode": "exact",
+    "claim": "exhaustive_partition_search_fixed_scheduler",
+    "workUnitCount": 3,
+    "evaluatedCandidates": 5,
+    "eligibleCandidates": 5,
+    "retainedAlternatives": 4,
+    "evaluationSetDigest": "sha256:54fb382ced5ce8ef5ce402f0ce273ddc4e646cc4738d33dfe0282b5a056abc07"
+  },
+  "launchWaves": [
+    {
+      "start": 0,
+      "agentIds": [
+        "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+        "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4",
+        "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+      "workUnitIds": [
+        "implement.adaptive-controller"
+      ],
+      "dependencies": [],
+      "contentDigest": "sha256:52e29224d7cc8d3fc96400a7503e36c980a14056a38edc8c705393ada2903138",
+      "contractFile": "agents/agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db.md"
+    },
+    {
+      "id": "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4",
+      "workUnitIds": [
+        "implement.run-view"
+      ],
+      "dependencies": [],
+      "contentDigest": "sha256:22401a0cc61861fa504b90e6fe1df1d1377255811f2c2267d9cd6536ecb79f21",
+      "contractFile": "agents/agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4.md"
+    },
+    {
+      "id": "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467",
+      "workUnitIds": [
+        "author.adaptive-tests"
+      ],
+      "dependencies": [],
+      "contentDigest": "sha256:aa14fe5aa8df0e90e4c124bd44e9fb1b89655a3d285f6af624930be18d6e3be8",
+      "contractFile": "agents/agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467.md"
+    }
+  ],
+  "expectation": {
+    "compilationDigest": "sha256:05bd6bb76d8c7d0f9a3df274a7294ac3615026cb211f76bd24a21d45f6b4d3c8",
+    "packageDigest": "sha256:d9cbb6a82e3018a93c9ea1108e94f0ee709d5ff952573c98a2edbeb0d34815e4"
+  }
+}

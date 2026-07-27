@@ -1,0 +1,33 @@
+{
+  "apiVersion": "swecircuit/runtime-plan/v0alpha0-bootstrap",
+  "kind": "BootstrapRuntimePlan",
+  "provenance": "manual_bootstrap_before_v14_router_dogfood",
+  "status": "approved",
+  "expectation": {
+    "compilationDigest": "sha256:05bd6bb76d8c7d0f9a3df274a7294ac3615026cb211f76bd24a21d45f6b4d3c8",
+    "packageDigest": "sha256:d9cbb6a82e3018a93c9ea1108e94f0ee709d5ff952573c98a2edbeb0d34815e4"
+  },
+  "assignments": [
+    {
+      "agentId": "agent.95953cd44c0575970b3b29064d34f109e06d3d164888386446d532ba2a4201db",
+      "workUnitId": "implement.adaptive-controller",
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "rationale": "The immutable event-chain controller, V12 settlement boundary, restart behavior, and host-truth guarantees have high semantic complexity and blast radius."
+    },
+    {
+      "agentId": "agent.c4f622940194362296821ae5839d1de09edb0b694ad4d97773f7e20cb6e053d4",
+      "workUnitId": "implement.run-view",
+      "model": "gpt-5.6-terra",
+      "reasoningEffort": "medium",
+      "rationale": "The task is a bounded pure projection over closed types; balanced reasoning is sufficient without the frontier controller model."
+    },
+    {
+      "agentId": "agent.c9de80c185381c0faa0ce5c442028eb1f88aba92ec6aaae0e5abbbe926e02467",
+      "workUnitId": "author.adaptive-tests",
+      "model": "gpt-5.6-terra",
+      "reasoningEffort": "high",
+      "rationale": "Independent adversarial lifecycle and restart test design needs strong reasoning but has a disjoint, low-blast test-only write scope."
+    }
+  ]
+}
