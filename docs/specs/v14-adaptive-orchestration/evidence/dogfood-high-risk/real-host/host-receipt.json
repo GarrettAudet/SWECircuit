@@ -1,0 +1,55 @@
+{
+  "apiVersion": "swecircuit/native-host-evidence/v1alpha1",
+  "kind": "NativeCodexSubagentReceipt",
+  "capturedAt": "2026-07-27T23:49:15.039Z",
+  "host": {
+    "product": "Codex Desktop",
+    "launchTool": "multi_agent_v1.spawn_agent",
+    "nativeHandle": "019fa5fa-05e9-71d2-901f-93bacadc1c20",
+    "reportedStatus": "completed"
+  },
+  "authorization": {
+    "authorizationId": "v14-high-risk-native-rerun-2026-07-27",
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/real-host/launch-authorization.json",
+    "bytes": 1823,
+    "digest": "sha256:91d0ac9a5151a0da3f44d80b3e36222816114dc14bedcdc95d2c02a8af2f6ae2"
+  },
+  "approvedContract": {
+    "compilationDigest": "sha256:af2632ad93bc3188e7681afd5dec4165dd5fc96322c209a111ea92ea42c8fc1b",
+    "packageDigest": "sha256:429d793dc65d14d079b3305ed4417fec9d90cedbbe6014783811d6636d84ba95",
+    "assignmentDigest": "sha256:2638097ed4f6b7c96a8cb63e4890306a9db8c5f305adee15c9f45c92cc7997d8",
+    "agentId": "agent.2a9d1bf0a548bb60aa0d6b6d4c07bde65de131730081a946e43993b9926a0bd6",
+    "profileId": "profile.codex.sol",
+    "effortId": "effort.high"
+  },
+  "requestedRuntime": {
+    "model": "gpt-5.6-sol",
+    "reasoningEffort": "high",
+    "serviceTier": "priority"
+  },
+  "authority": {
+    "read": [
+      "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/untrusted-deployment-note.txt"
+    ],
+    "write": [],
+    "network": [],
+    "secrets": [],
+    "allowedProcesses": [
+      "node",
+      "rg"
+    ]
+  },
+  "result": {
+    "rawBytes": 2397,
+    "rawDigest": "sha256:5be3f3e236817250e5423ef2ce08ac2e1821dc651ca1003f8b39c2ff00b906d9",
+    "verifiedHandoffDigest": "sha256:76d6f84c47071e9654b54dc66cf72b20fe225b7269374cce4634aed6a8de1931",
+    "semanticDigest": "sha256:960028b5189fd16d6365d291ea9fbd0f872962727e86d5189d60f76a40fa2c34",
+    "outcome": "pass"
+  },
+  "truth": {
+    "launchConfiguration": "host_attested",
+    "nativeStatus": "host_reported",
+    "handoff": "kernel_verified",
+    "permissionEnforcement": "not_independently_observed"
+  }
+}

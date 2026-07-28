@@ -13,6 +13,12 @@
     },
     {
       "$ref": "#/$defs/session"
+    },
+    {
+      "$ref": "#/$defs/inspection"
+    },
+    {
+      "$ref": "#/$defs/runView"
     }
   ],
   "$defs": {
@@ -142,6 +148,55 @@
         "lineageDepth",
         "maxLineageDepth"
       ],
+      "additionalProperties": false
+    },
+    "predecessor": {
+      "type": "object",
+      "properties": {
+        "runId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "sessionDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "terminalOutcome": {
+          "enum": ["fix", "diagnose", "clarify", "redesign", "split", "block", "learn"]
+        },
+        "evidenceDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": ["runId", "sessionDigest", "terminalOutcome", "evidenceDigest"],
+      "additionalProperties": false
+    },
+    "permission": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "filesystem.read",
+            "filesystem.write",
+            "network.connect",
+            "process.spawn",
+            "secrets.read"
+          ]
+        },
+        "scopes": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      },
+      "required": ["kind", "scopes"],
       "additionalProperties": false
     },
     "launchCommand": {
@@ -320,6 +375,548 @@
         "permissions",
         "observability",
         "contentDigest"
+      ],
+      "additionalProperties": false
+    },
+    "launchAuthorization": {
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "const": "swecircuit/adaptive-run/v1alpha1"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "runRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 512
+        },
+        "priorEventDigest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "agentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "blueprintDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "assignmentDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "hostId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapterId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapterRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "attestedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "const": "HostLaunchAuthorization"
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "authorizationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "workspaceBaselineDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "command": {
+          "type": "object",
+          "properties": {
+            "agentContractPath": {
+              "type": "string",
+              "maxLength": 16384
+            },
+            "agentContractDigest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "agentContractBytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4194304
+            },
+            "contextSources": {
+              "type": "array",
+              "maxItems": 256,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "sourceId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "locator": {
+                    "type": "string",
+                    "maxLength": 16384
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  "bytes": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 134217728
+                  },
+                  "delivery": {
+                    "enum": ["host_context", "authorized_filesystem_read"]
+                  }
+                },
+                "required": ["sourceId", "locator", "digest", "bytes", "delivery"],
+                "additionalProperties": false
+              }
+            },
+            "profileId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "effortId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "tools": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            },
+            "skills": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            },
+            "isolationFeatures": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            },
+            "permissions": {
+              "type": "array",
+              "maxItems": 64,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "filesystem.read",
+                      "filesystem.write",
+                      "network.connect",
+                      "process.spawn",
+                      "secrets.read"
+                    ]
+                  },
+                  "scopes": {
+                    "type": "array",
+                    "maxItems": 256,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    }
+                  }
+                },
+                "required": ["kind", "scopes"],
+                "additionalProperties": false
+              }
+            },
+            "observability": {
+              "type": "object",
+              "properties": {
+                "model": {
+                  "enum": ["observed", "host_attestation_allowed"]
+                },
+                "effort": {
+                  "enum": ["observed", "host_attestation_allowed"]
+                },
+                "tools": {
+                  "enum": ["observed", "host_attestation_allowed"]
+                },
+                "skills": {
+                  "enum": ["observed", "host_attestation_allowed"]
+                },
+                "isolation": {
+                  "enum": ["observed", "host_attestation_allowed"]
+                },
+                "permissions": {
+                  "enum": ["observed", "host_attestation_allowed"]
+                },
+                "workspace": {
+                  "enum": ["observed", "host_attestation_allowed"]
+                },
+                "context": {
+                  "enum": ["observed", "host_attestation_allowed"]
+                }
+              },
+              "required": [
+                "model",
+                "effort",
+                "tools",
+                "skills",
+                "isolation",
+                "permissions",
+                "workspace",
+                "context"
+              ],
+              "additionalProperties": false
+            },
+            "contentDigest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "agentContractPath",
+            "agentContractDigest",
+            "agentContractBytes",
+            "contextSources",
+            "profileId",
+            "effortId",
+            "tools",
+            "skills",
+            "isolationFeatures",
+            "permissions",
+            "observability",
+            "contentDigest"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "apiVersion",
+        "kind",
+        "runId",
+        "runRevision",
+        "sequence",
+        "priorEventDigest",
+        "agentId",
+        "blueprintDigest",
+        "assignmentDigest",
+        "hostId",
+        "adapterId",
+        "adapterRevision",
+        "attestedBy",
+        "attemptId",
+        "authorizationId",
+        "workspaceBaselineDigest",
+        "command"
+      ],
+      "additionalProperties": false
+    },
+    "materializationClaim": {
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "const": "swecircuit/adaptive-run/v1alpha1"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "runRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 512
+        },
+        "priorEventDigest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "agentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "blueprintDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "assignmentDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "hostId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapterId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapterRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "attestedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "const": "HostMaterializationClaim"
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "authorizationEventDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "nativeHandle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "fields": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": {
+                "enum": [
+                  "model",
+                  "effort",
+                  "tools",
+                  "skills",
+                  "isolation",
+                  "permissions",
+                  "workspace",
+                  "context"
+                ]
+              },
+              "status": {
+                "enum": ["observed", "host_attested_unobservable", "unavailable"]
+              },
+              "expectedDigest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "observedDigest": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": ["field", "status", "expectedDigest", "observedDigest"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "apiVersion",
+        "kind",
+        "runId",
+        "runRevision",
+        "sequence",
+        "priorEventDigest",
+        "agentId",
+        "blueprintDigest",
+        "assignmentDigest",
+        "hostId",
+        "adapterId",
+        "adapterRevision",
+        "attestedBy",
+        "attemptId",
+        "authorizationEventDigest",
+        "nativeHandle",
+        "fields"
+      ],
+      "additionalProperties": false
+    },
+    "steeringAuthorization": {
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "const": "swecircuit/adaptive-run/v1alpha1"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "runRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 512
+        },
+        "priorEventDigest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "agentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "blueprintDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "assignmentDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "hostId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapterId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapterRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "attestedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "const": "HostSteeringAuthorization"
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "authorizationEventDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "requestedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 16384
+        },
+        "rationale": {
+          "type": "string",
+          "maxLength": 16384
+        }
+      },
+      "required": [
+        "apiVersion",
+        "kind",
+        "runId",
+        "runRevision",
+        "sequence",
+        "priorEventDigest",
+        "agentId",
+        "blueprintDigest",
+        "assignmentDigest",
+        "hostId",
+        "adapterId",
+        "adapterRevision",
+        "attestedBy",
+        "attemptId",
+        "authorizationEventDigest",
+        "requestedBy",
+        "message",
+        "rationale"
       ],
       "additionalProperties": false
     },
@@ -1600,6 +2197,3592 @@
         "assignment",
         "specialistRun",
         "hostEvents",
+        "contentDigest"
+      ],
+      "additionalProperties": false
+    },
+    "contextUse": {
+      "type": "object",
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "enum": ["repository", "documentation", "conversation", "memory", "evidence"]
+        },
+        "locator": {
+          "type": "string",
+          "maxLength": 16384
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 134217728
+        },
+        "purposes": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "workUnitIds": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "readScope": {
+          "type": "string",
+          "maxLength": 16384
+        }
+      },
+      "required": ["sourceId", "kind", "locator", "digest", "bytes", "purposes", "workUnitIds"],
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "read": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "write": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "conflictZones": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      },
+      "required": ["read", "write", "conflictZones"],
+      "additionalProperties": false
+    },
+    "authority": {
+      "type": "object",
+      "properties": {
+        "requiredCapabilities": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "read": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            },
+            "write": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            },
+            "conflictZones": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            }
+          },
+          "required": ["read", "write", "conflictZones"],
+          "additionalProperties": false
+        },
+        "permissions": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/permission"
+          }
+        },
+        "forbiddenEffects": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "maxLength": 16384
+          }
+        }
+      },
+      "required": ["requiredCapabilities", "scope", "permissions", "forbiddenEffects"],
+      "additionalProperties": false
+    },
+    "evidenceDuty": {
+      "type": "object",
+      "properties": {
+        "criterionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "criterion": {
+          "type": "string",
+          "maxLength": 16384
+        },
+        "requirementId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "enum": [
+            "artifact",
+            "command",
+            "test",
+            "review",
+            "decision",
+            "commit",
+            "digest",
+            "handoff",
+            "memory"
+          ]
+        },
+        "duty": {
+          "enum": ["produce", "verify", "review"]
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 16384
+        },
+        "independentFromProducer": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "criterionId",
+        "criterion",
+        "requirementId",
+        "kind",
+        "duty",
+        "description",
+        "independentFromProducer"
+      ],
+      "additionalProperties": false
+    },
+    "assignmentInspection": {
+      "type": "object",
+      "properties": {
+        "agentId": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+        },
+        "blueprintDigest": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/digest"
+        },
+        "calibrationRowId": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+        },
+        "profileId": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+        },
+        "effortId": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+        },
+        "independenceDomain": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+        },
+        "requiredTools": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+        },
+        "requiredSkills": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+        },
+        "requiredIsolationFeatures": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+        },
+        "requiredPermissionFeatures": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+        },
+        "observability": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/observability"
+        },
+        "alternatives": {
+          "type": "array",
+          "maxItems": 3072,
+          "items": {
+            "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/rowEvaluation"
+          }
+        },
+        "rejectedAlternatives": {
+          "type": "array",
+          "maxItems": 3072,
+          "items": {
+            "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/rowEvaluation"
+          }
+        },
+        "selectionReason": {
+          "enum": ["lowest_exact_vector", "lowest_bounded_evaluated_vector", "owner_override"]
+        },
+        "override": {
+          "oneOf": [
+            {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/override"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "truth": {
+          "const": "kernel_derived"
+        }
+      },
+      "required": [
+        "agentId",
+        "blueprintDigest",
+        "calibrationRowId",
+        "profileId",
+        "effortId",
+        "independenceDomain",
+        "requiredTools",
+        "requiredSkills",
+        "requiredIsolationFeatures",
+        "requiredPermissionFeatures",
+        "observability",
+        "alternatives",
+        "rejectedAlternatives",
+        "selectionReason",
+        "override",
+        "truth"
+      ],
+      "additionalProperties": false
+    },
+    "route": {
+      "type": "object",
+      "properties": {
+        "agentId": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outcome": {
+          "enum": ["pass", "fix", "diagnose", "clarify", "redesign", "split", "block", "learn"]
+        },
+        "reason": {
+          "enum": [
+            "binding_mismatch",
+            "materialization_mismatch",
+            "event_chain_invalid",
+            "host_effect_uncertain",
+            "liveness_failure",
+            "unknown_host_status",
+            "result_capture_invalid",
+            "specialist_non_pass",
+            "host_user_stop",
+            "all_handoffs_pass"
+          ]
+        },
+        "sourceDigests": {
+          "type": "array",
+          "maxItems": 512,
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        },
+        "truth": {
+          "enum": [
+            "kernel_derived",
+            "binding_verified",
+            "host_attested",
+            "specialist_verified",
+            "unresolved"
+          ]
+        }
+      },
+      "required": ["agentId", "outcome", "reason", "sourceDigests", "truth"],
+      "additionalProperties": false
+    },
+    "nativeInspection": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "running",
+            "waiting_permission",
+            "completed",
+            "failed",
+            "stopped",
+            "liveness_failed",
+            "unknown",
+            "unresolved",
+            "authorized",
+            "materialized",
+            "settled"
+          ]
+        },
+        "truth": {
+          "enum": [
+            "kernel_derived",
+            "binding_verified",
+            "host_attested",
+            "specialist_verified",
+            "unresolved"
+          ]
+        },
+        "authorization": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/launchAuthorization"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "materialization": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/materializationClaim"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": ["status", "truth", "authorization", "materialization"],
+      "additionalProperties": false
+    },
+    "agentInspection": {
+      "type": "object",
+      "properties": {
+        "agentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "blueprintDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "modules": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-compiler.schema.json#/$defs/moduleBinding"
+          }
+        },
+        "workUnitIds": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "contextUses": {
+          "type": "array",
+          "maxItems": 256,
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "kind": {
+                "enum": ["repository", "documentation", "conversation", "memory", "evidence"]
+              },
+              "locator": {
+                "type": "string",
+                "maxLength": 16384
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 134217728
+              },
+              "purposes": {
+                "type": "array",
+                "maxItems": 256,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "workUnitIds": {
+                "type": "array",
+                "maxItems": 256,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "readScope": {
+                "type": "string",
+                "maxLength": 16384
+              }
+            },
+            "required": [
+              "sourceId",
+              "kind",
+              "locator",
+              "digest",
+              "bytes",
+              "purposes",
+              "workUnitIds"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "authority": {
+          "type": "object",
+          "properties": {
+            "requiredCapabilities": {
+              "type": "array",
+              "maxItems": 256,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            },
+            "scope": {
+              "type": "object",
+              "properties": {
+                "read": {
+                  "type": "array",
+                  "maxItems": 256,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  }
+                },
+                "write": {
+                  "type": "array",
+                  "maxItems": 256,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  }
+                },
+                "conflictZones": {
+                  "type": "array",
+                  "maxItems": 256,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  }
+                }
+              },
+              "required": ["read", "write", "conflictZones"],
+              "additionalProperties": false
+            },
+            "permissions": {
+              "type": "array",
+              "maxItems": 64,
+              "items": {
+                "$ref": "#/$defs/permission"
+              }
+            },
+            "forbiddenEffects": {
+              "type": "array",
+              "maxItems": 128,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "maxLength": 16384
+              }
+            }
+          },
+          "required": ["requiredCapabilities", "scope", "permissions", "forbiddenEffects"],
+          "additionalProperties": false
+        },
+        "evidenceDuties": {
+          "type": "array",
+          "maxItems": 512,
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "criterion": {
+                "type": "string",
+                "maxLength": 16384
+              },
+              "requirementId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "kind": {
+                "enum": [
+                  "artifact",
+                  "command",
+                  "test",
+                  "review",
+                  "decision",
+                  "commit",
+                  "digest",
+                  "handoff",
+                  "memory"
+                ]
+              },
+              "duty": {
+                "enum": ["produce", "verify", "review"]
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 16384
+              },
+              "independentFromProducer": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "criterionId",
+              "criterion",
+              "requirementId",
+              "kind",
+              "duty",
+              "description",
+              "independentFromProducer"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "assignment": {
+          "type": "object",
+          "properties": {
+            "agentId": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+            },
+            "blueprintDigest": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/digest"
+            },
+            "calibrationRowId": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+            },
+            "profileId": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+            },
+            "effortId": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+            },
+            "independenceDomain": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+            },
+            "requiredTools": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+            },
+            "requiredSkills": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+            },
+            "requiredIsolationFeatures": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+            },
+            "requiredPermissionFeatures": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+            },
+            "observability": {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/observability"
+            },
+            "alternatives": {
+              "type": "array",
+              "maxItems": 3072,
+              "items": {
+                "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/rowEvaluation"
+              }
+            },
+            "rejectedAlternatives": {
+              "type": "array",
+              "maxItems": 3072,
+              "items": {
+                "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/rowEvaluation"
+              }
+            },
+            "selectionReason": {
+              "enum": ["lowest_exact_vector", "lowest_bounded_evaluated_vector", "owner_override"]
+            },
+            "override": {
+              "oneOf": [
+                {
+                  "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/override"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "truth": {
+              "const": "kernel_derived"
+            }
+          },
+          "required": [
+            "agentId",
+            "blueprintDigest",
+            "calibrationRowId",
+            "profileId",
+            "effortId",
+            "independenceDomain",
+            "requiredTools",
+            "requiredSkills",
+            "requiredIsolationFeatures",
+            "requiredPermissionFeatures",
+            "observability",
+            "alternatives",
+            "rejectedAlternatives",
+            "selectionReason",
+            "override",
+            "truth"
+          ],
+          "additionalProperties": false
+        },
+        "profileId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "effortId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "status": {
+          "enum": [
+            "awaiting_authorization",
+            "authorized",
+            "materialized",
+            "host_active",
+            "needs_attention",
+            "settled"
+          ]
+        },
+        "native": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "running",
+                "waiting_permission",
+                "completed",
+                "failed",
+                "stopped",
+                "liveness_failed",
+                "unknown",
+                "unresolved",
+                "authorized",
+                "materialized",
+                "settled"
+              ]
+            },
+            "truth": {
+              "enum": [
+                "kernel_derived",
+                "binding_verified",
+                "host_attested",
+                "specialist_verified",
+                "unresolved"
+              ]
+            },
+            "authorization": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/launchAuthorization"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "materialization": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/materializationClaim"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": ["status", "truth", "authorization", "materialization"],
+          "additionalProperties": false
+        },
+        "acceptedEvidence": {
+          "oneOf": [
+            {
+              "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-run.schema.json#/$defs/acceptedEvidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "truth": {
+          "enum": [
+            "kernel_derived",
+            "binding_verified",
+            "host_attested",
+            "specialist_verified",
+            "unresolved"
+          ]
+        },
+        "route": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "agentId": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "outcome": {
+                  "enum": [
+                    "pass",
+                    "fix",
+                    "diagnose",
+                    "clarify",
+                    "redesign",
+                    "split",
+                    "block",
+                    "learn"
+                  ]
+                },
+                "reason": {
+                  "enum": [
+                    "binding_mismatch",
+                    "materialization_mismatch",
+                    "event_chain_invalid",
+                    "host_effect_uncertain",
+                    "liveness_failure",
+                    "unknown_host_status",
+                    "result_capture_invalid",
+                    "specialist_non_pass",
+                    "host_user_stop",
+                    "all_handoffs_pass"
+                  ]
+                },
+                "sourceDigests": {
+                  "type": "array",
+                  "maxItems": 512,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  }
+                },
+                "truth": {
+                  "enum": [
+                    "kernel_derived",
+                    "binding_verified",
+                    "host_attested",
+                    "specialist_verified",
+                    "unresolved"
+                  ]
+                }
+              },
+              "required": ["agentId", "outcome", "reason", "sourceDigests", "truth"],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "agentId",
+        "blueprintDigest",
+        "modules",
+        "workUnitIds",
+        "dependencies",
+        "contextUses",
+        "authority",
+        "evidenceDuties",
+        "assignment",
+        "profileId",
+        "effortId",
+        "status",
+        "native",
+        "acceptedEvidence",
+        "truth",
+        "route"
+      ],
+      "additionalProperties": false
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "agentCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "projectedMakespan": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "peakConcurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "conflictPairs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "handoffCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "duplicatedContextBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "duplicatedPermissionScopes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "totalWorkWeight": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "totalStartupCost": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "totalHandoffCost": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "agentCount",
+        "projectedMakespan",
+        "peakConcurrency",
+        "conflictPairs",
+        "handoffCount",
+        "duplicatedContextBytes",
+        "duplicatedPermissionScopes",
+        "totalWorkWeight",
+        "totalStartupCost",
+        "totalHandoffCost"
+      ],
+      "additionalProperties": false
+    },
+    "selectionReason": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": ["serial_selected", "serial_ineligible", "lower_metric", "canonical_tiebreak"]
+        },
+        "decisiveField": {
+          "enum": [
+            "serial_baseline",
+            "agent_limit",
+            "dependency_cycle",
+            "evidence_independence",
+            "missing_work_unit",
+            "duplicate_work_unit",
+            "unknown_work_unit",
+            "projectedMakespan",
+            "conflictPairs",
+            "handoffCount",
+            "duplicatedContextBytes",
+            "duplicatedPermissionScopes",
+            "agentCount",
+            "canonicalPartitionIdentity"
+          ]
+        },
+        "selectedValue": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "string",
+              "maxLength": 16384
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "serialValue": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "string",
+              "maxLength": 16384
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "serialRejectionCodes": {
+          "type": "array",
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "agent_limit",
+              "dependency_cycle",
+              "evidence_independence",
+              "missing_work_unit",
+              "duplicate_work_unit",
+              "unknown_work_unit"
+            ]
+          }
+        }
+      },
+      "required": ["kind", "decisiveField", "selectedValue", "serialValue", "serialRejectionCodes"],
+      "additionalProperties": false
+    },
+    "launchWave": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "agentIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      },
+      "required": ["start", "agentIds"],
+      "additionalProperties": false
+    },
+    "executionMode": {
+      "type": "object",
+      "properties": {
+        "selectedCandidateId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "selectedAgentCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "serialBaselineMetrics": {
+          "type": "object",
+          "properties": {
+            "agentCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16
+            },
+            "projectedMakespan": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "peakConcurrency": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16
+            },
+            "conflictPairs": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 120
+            },
+            "handoffCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 120
+            },
+            "duplicatedContextBytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "duplicatedPermissionScopes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "totalWorkWeight": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "totalStartupCost": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "totalHandoffCost": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "agentCount",
+            "projectedMakespan",
+            "peakConcurrency",
+            "conflictPairs",
+            "handoffCount",
+            "duplicatedContextBytes",
+            "duplicatedPermissionScopes",
+            "totalWorkWeight",
+            "totalStartupCost",
+            "totalHandoffCost"
+          ],
+          "additionalProperties": false
+        },
+        "selectedMetrics": {
+          "type": "object",
+          "properties": {
+            "agentCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16
+            },
+            "projectedMakespan": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "peakConcurrency": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16
+            },
+            "conflictPairs": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 120
+            },
+            "handoffCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 120
+            },
+            "duplicatedContextBytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "duplicatedPermissionScopes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "totalWorkWeight": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "totalStartupCost": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "totalHandoffCost": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "agentCount",
+            "projectedMakespan",
+            "peakConcurrency",
+            "conflictPairs",
+            "handoffCount",
+            "duplicatedContextBytes",
+            "duplicatedPermissionScopes",
+            "totalWorkWeight",
+            "totalStartupCost",
+            "totalHandoffCost"
+          ],
+          "additionalProperties": false
+        },
+        "selectionReason": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": ["serial_selected", "serial_ineligible", "lower_metric", "canonical_tiebreak"]
+            },
+            "decisiveField": {
+              "enum": [
+                "serial_baseline",
+                "agent_limit",
+                "dependency_cycle",
+                "evidence_independence",
+                "missing_work_unit",
+                "duplicate_work_unit",
+                "unknown_work_unit",
+                "projectedMakespan",
+                "conflictPairs",
+                "handoffCount",
+                "duplicatedContextBytes",
+                "duplicatedPermissionScopes",
+                "agentCount",
+                "canonicalPartitionIdentity"
+              ]
+            },
+            "selectedValue": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "string",
+                  "maxLength": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "serialValue": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "string",
+                  "maxLength": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "serialRejectionCodes": {
+              "type": "array",
+              "maxItems": 6,
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "agent_limit",
+                  "dependency_cycle",
+                  "evidence_independence",
+                  "missing_work_unit",
+                  "duplicate_work_unit",
+                  "unknown_work_unit"
+                ]
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "decisiveField",
+            "selectedValue",
+            "serialValue",
+            "serialRejectionCodes"
+          ],
+          "additionalProperties": false
+        },
+        "launchWaves": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "agentIds": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 16,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
+            },
+            "required": ["start", "agentIds"],
+            "additionalProperties": false
+          }
+        },
+        "truth": {
+          "const": "kernel_derived"
+        }
+      },
+      "required": [
+        "selectedCandidateId",
+        "selectedAgentCount",
+        "serialBaselineMetrics",
+        "selectedMetrics",
+        "selectionReason",
+        "launchWaves",
+        "truth"
+      ],
+      "additionalProperties": false
+    },
+    "nextAction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "actor": {
+          "enum": ["external_host", "integration_owner", "user"]
+        },
+        "kind": {
+          "enum": [
+            "review_assignment",
+            "authorize_launch",
+            "launch_native_agent",
+            "observe_native_agent",
+            "respond_to_permission",
+            "stop_native_agent",
+            "record_steering",
+            "capture_result",
+            "create_successor_run",
+            "integrate_and_verify"
+          ]
+        },
+        "availability": {
+          "enum": ["enabled", "blocked", "unavailable"]
+        },
+        "reasonCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "sourceDigests": {
+          "type": "array",
+          "maxItems": 512,
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      },
+      "required": ["id", "actor", "kind", "availability", "reasonCode", "sourceDigests"],
+      "additionalProperties": false
+    },
+    "hostIdentity": {
+      "type": "object",
+      "properties": {
+        "hostId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapterId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapterRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "authorizationIssuerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": ["hostId", "adapterId", "adapterRevision", "authorizationIssuerId"],
+      "additionalProperties": false
+    },
+    "inspection": {
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "const": "swecircuit/adaptive-run/v1alpha1"
+        },
+        "kind": {
+          "const": "AdaptiveRunInspection"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "runRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "goal": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-run.schema.json#/$defs/goalBinding"
+        },
+        "workspaceBaselineDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "host": {
+          "type": "object",
+          "properties": {
+            "hostId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "adapterId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "adapterRevision": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "authorizationIssuerId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": ["hostId", "adapterId", "adapterRevision", "authorizationIssuerId"],
+          "additionalProperties": false
+        },
+        "predecessorRun": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/predecessor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sessionDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "assignmentDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "compilationDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "packageDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "stage": {
+          "enum": ["awaiting_authorization", "host_active", "needs_attention", "integration_ready"]
+        },
+        "executionMode": {
+          "type": "object",
+          "properties": {
+            "selectedCandidateId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "selectedAgentCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16
+            },
+            "serialBaselineMetrics": {
+              "type": "object",
+              "properties": {
+                "agentCount": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "projectedMakespan": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "peakConcurrency": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "conflictPairs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 120
+                },
+                "handoffCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 120
+                },
+                "duplicatedContextBytes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "duplicatedPermissionScopes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalWorkWeight": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalStartupCost": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalHandoffCost": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "agentCount",
+                "projectedMakespan",
+                "peakConcurrency",
+                "conflictPairs",
+                "handoffCount",
+                "duplicatedContextBytes",
+                "duplicatedPermissionScopes",
+                "totalWorkWeight",
+                "totalStartupCost",
+                "totalHandoffCost"
+              ],
+              "additionalProperties": false
+            },
+            "selectedMetrics": {
+              "type": "object",
+              "properties": {
+                "agentCount": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "projectedMakespan": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "peakConcurrency": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "conflictPairs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 120
+                },
+                "handoffCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 120
+                },
+                "duplicatedContextBytes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "duplicatedPermissionScopes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalWorkWeight": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalStartupCost": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalHandoffCost": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "agentCount",
+                "projectedMakespan",
+                "peakConcurrency",
+                "conflictPairs",
+                "handoffCount",
+                "duplicatedContextBytes",
+                "duplicatedPermissionScopes",
+                "totalWorkWeight",
+                "totalStartupCost",
+                "totalHandoffCost"
+              ],
+              "additionalProperties": false
+            },
+            "selectionReason": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "serial_selected",
+                    "serial_ineligible",
+                    "lower_metric",
+                    "canonical_tiebreak"
+                  ]
+                },
+                "decisiveField": {
+                  "enum": [
+                    "serial_baseline",
+                    "agent_limit",
+                    "dependency_cycle",
+                    "evidence_independence",
+                    "missing_work_unit",
+                    "duplicate_work_unit",
+                    "unknown_work_unit",
+                    "projectedMakespan",
+                    "conflictPairs",
+                    "handoffCount",
+                    "duplicatedContextBytes",
+                    "duplicatedPermissionScopes",
+                    "agentCount",
+                    "canonicalPartitionIdentity"
+                  ]
+                },
+                "selectedValue": {
+                  "oneOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "serialValue": {
+                  "oneOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "serialRejectionCodes": {
+                  "type": "array",
+                  "maxItems": 6,
+                  "uniqueItems": true,
+                  "items": {
+                    "enum": [
+                      "agent_limit",
+                      "dependency_cycle",
+                      "evidence_independence",
+                      "missing_work_unit",
+                      "duplicate_work_unit",
+                      "unknown_work_unit"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "decisiveField",
+                "selectedValue",
+                "serialValue",
+                "serialRejectionCodes"
+              ],
+              "additionalProperties": false
+            },
+            "launchWaves": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "agentIds": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 16,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    }
+                  }
+                },
+                "required": ["start", "agentIds"],
+                "additionalProperties": false
+              }
+            },
+            "truth": {
+              "const": "kernel_derived"
+            }
+          },
+          "required": [
+            "selectedCandidateId",
+            "selectedAgentCount",
+            "serialBaselineMetrics",
+            "selectedMetrics",
+            "selectionReason",
+            "launchWaves",
+            "truth"
+          ],
+          "additionalProperties": false
+        },
+        "agents": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "properties": {
+              "agentId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "blueprintDigest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "modules": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 64,
+                "items": {
+                  "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-compiler.schema.json#/$defs/moduleBinding"
+                }
+              },
+              "workUnitIds": {
+                "type": "array",
+                "maxItems": 256,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "dependencies": {
+                "type": "array",
+                "maxItems": 256,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "contextUses": {
+                "type": "array",
+                "maxItems": 256,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "kind": {
+                      "enum": ["repository", "documentation", "conversation", "memory", "evidence"]
+                    },
+                    "locator": {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    "digest": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    },
+                    "bytes": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 134217728
+                    },
+                    "purposes": {
+                      "type": "array",
+                      "maxItems": 256,
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128
+                      }
+                    },
+                    "workUnitIds": {
+                      "type": "array",
+                      "maxItems": 256,
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128
+                      }
+                    },
+                    "readScope": {
+                      "type": "string",
+                      "maxLength": 16384
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "kind",
+                    "locator",
+                    "digest",
+                    "bytes",
+                    "purposes",
+                    "workUnitIds"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "authority": {
+                "type": "object",
+                "properties": {
+                  "requiredCapabilities": {
+                    "type": "array",
+                    "maxItems": 256,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    }
+                  },
+                  "scope": {
+                    "type": "object",
+                    "properties": {
+                      "read": {
+                        "type": "array",
+                        "maxItems": 256,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        }
+                      },
+                      "write": {
+                        "type": "array",
+                        "maxItems": 256,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        }
+                      },
+                      "conflictZones": {
+                        "type": "array",
+                        "maxItems": 256,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        }
+                      }
+                    },
+                    "required": ["read", "write", "conflictZones"],
+                    "additionalProperties": false
+                  },
+                  "permissions": {
+                    "type": "array",
+                    "maxItems": 64,
+                    "items": {
+                      "$ref": "#/$defs/permission"
+                    }
+                  },
+                  "forbiddenEffects": {
+                    "type": "array",
+                    "maxItems": 128,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "maxLength": 16384
+                    }
+                  }
+                },
+                "required": ["requiredCapabilities", "scope", "permissions", "forbiddenEffects"],
+                "additionalProperties": false
+              },
+              "evidenceDuties": {
+                "type": "array",
+                "maxItems": 512,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "criterionId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "criterion": {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    "requirementId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "kind": {
+                      "enum": [
+                        "artifact",
+                        "command",
+                        "test",
+                        "review",
+                        "decision",
+                        "commit",
+                        "digest",
+                        "handoff",
+                        "memory"
+                      ]
+                    },
+                    "duty": {
+                      "enum": ["produce", "verify", "review"]
+                    },
+                    "description": {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    "independentFromProducer": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "criterionId",
+                    "criterion",
+                    "requirementId",
+                    "kind",
+                    "duty",
+                    "description",
+                    "independentFromProducer"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "assignment": {
+                "type": "object",
+                "properties": {
+                  "agentId": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+                  },
+                  "blueprintDigest": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/digest"
+                  },
+                  "calibrationRowId": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+                  },
+                  "profileId": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+                  },
+                  "effortId": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+                  },
+                  "independenceDomain": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+                  },
+                  "requiredTools": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+                  },
+                  "requiredSkills": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+                  },
+                  "requiredIsolationFeatures": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+                  },
+                  "requiredPermissionFeatures": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+                  },
+                  "observability": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/observability"
+                  },
+                  "alternatives": {
+                    "type": "array",
+                    "maxItems": 3072,
+                    "items": {
+                      "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/rowEvaluation"
+                    }
+                  },
+                  "rejectedAlternatives": {
+                    "type": "array",
+                    "maxItems": 3072,
+                    "items": {
+                      "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/rowEvaluation"
+                    }
+                  },
+                  "selectionReason": {
+                    "enum": [
+                      "lowest_exact_vector",
+                      "lowest_bounded_evaluated_vector",
+                      "owner_override"
+                    ]
+                  },
+                  "override": {
+                    "oneOf": [
+                      {
+                        "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/override"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "truth": {
+                    "const": "kernel_derived"
+                  }
+                },
+                "required": [
+                  "agentId",
+                  "blueprintDigest",
+                  "calibrationRowId",
+                  "profileId",
+                  "effortId",
+                  "independenceDomain",
+                  "requiredTools",
+                  "requiredSkills",
+                  "requiredIsolationFeatures",
+                  "requiredPermissionFeatures",
+                  "observability",
+                  "alternatives",
+                  "rejectedAlternatives",
+                  "selectionReason",
+                  "override",
+                  "truth"
+                ],
+                "additionalProperties": false
+              },
+              "profileId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "effortId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "status": {
+                "enum": [
+                  "awaiting_authorization",
+                  "authorized",
+                  "materialized",
+                  "host_active",
+                  "needs_attention",
+                  "settled"
+                ]
+              },
+              "native": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "running",
+                      "waiting_permission",
+                      "completed",
+                      "failed",
+                      "stopped",
+                      "liveness_failed",
+                      "unknown",
+                      "unresolved",
+                      "authorized",
+                      "materialized",
+                      "settled"
+                    ]
+                  },
+                  "truth": {
+                    "enum": [
+                      "kernel_derived",
+                      "binding_verified",
+                      "host_attested",
+                      "specialist_verified",
+                      "unresolved"
+                    ]
+                  },
+                  "authorization": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/$defs/launchAuthorization"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "materialization": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/$defs/materializationClaim"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": ["status", "truth", "authorization", "materialization"],
+                "additionalProperties": false
+              },
+              "acceptedEvidence": {
+                "oneOf": [
+                  {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-run.schema.json#/$defs/acceptedEvidence"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "truth": {
+                "enum": [
+                  "kernel_derived",
+                  "binding_verified",
+                  "host_attested",
+                  "specialist_verified",
+                  "unresolved"
+                ]
+              },
+              "route": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "agentId": {
+                        "oneOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "outcome": {
+                        "enum": [
+                          "pass",
+                          "fix",
+                          "diagnose",
+                          "clarify",
+                          "redesign",
+                          "split",
+                          "block",
+                          "learn"
+                        ]
+                      },
+                      "reason": {
+                        "enum": [
+                          "binding_mismatch",
+                          "materialization_mismatch",
+                          "event_chain_invalid",
+                          "host_effect_uncertain",
+                          "liveness_failure",
+                          "unknown_host_status",
+                          "result_capture_invalid",
+                          "specialist_non_pass",
+                          "host_user_stop",
+                          "all_handoffs_pass"
+                        ]
+                      },
+                      "sourceDigests": {
+                        "type": "array",
+                        "maxItems": 512,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^sha256:[0-9a-f]{64}$"
+                        }
+                      },
+                      "truth": {
+                        "enum": [
+                          "kernel_derived",
+                          "binding_verified",
+                          "host_attested",
+                          "specialist_verified",
+                          "unresolved"
+                        ]
+                      }
+                    },
+                    "required": ["agentId", "outcome", "reason", "sourceDigests", "truth"],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "agentId",
+              "blueprintDigest",
+              "modules",
+              "workUnitIds",
+              "dependencies",
+              "contextUses",
+              "authority",
+              "evidenceDuties",
+              "assignment",
+              "profileId",
+              "effortId",
+              "status",
+              "native",
+              "acceptedEvidence",
+              "truth",
+              "route"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "steering": {
+          "type": "array",
+          "maxItems": 512,
+          "items": {
+            "$ref": "#/$defs/steeringAuthorization"
+          }
+        },
+        "routes": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "properties": {
+              "agentId": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "outcome": {
+                "enum": [
+                  "pass",
+                  "fix",
+                  "diagnose",
+                  "clarify",
+                  "redesign",
+                  "split",
+                  "block",
+                  "learn"
+                ]
+              },
+              "reason": {
+                "enum": [
+                  "binding_mismatch",
+                  "materialization_mismatch",
+                  "event_chain_invalid",
+                  "host_effect_uncertain",
+                  "liveness_failure",
+                  "unknown_host_status",
+                  "result_capture_invalid",
+                  "specialist_non_pass",
+                  "host_user_stop",
+                  "all_handoffs_pass"
+                ]
+              },
+              "sourceDigests": {
+                "type": "array",
+                "maxItems": 512,
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              },
+              "truth": {
+                "enum": [
+                  "kernel_derived",
+                  "binding_verified",
+                  "host_attested",
+                  "specialist_verified",
+                  "unresolved"
+                ]
+              }
+            },
+            "required": ["agentId", "outcome", "reason", "sourceDigests", "truth"],
+            "additionalProperties": false
+          }
+        },
+        "nextActions": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "actor": {
+                "enum": ["external_host", "integration_owner", "user"]
+              },
+              "kind": {
+                "enum": [
+                  "review_assignment",
+                  "authorize_launch",
+                  "launch_native_agent",
+                  "observe_native_agent",
+                  "respond_to_permission",
+                  "stop_native_agent",
+                  "record_steering",
+                  "capture_result",
+                  "create_successor_run",
+                  "integrate_and_verify"
+                ]
+              },
+              "availability": {
+                "enum": ["enabled", "blocked", "unavailable"]
+              },
+              "reasonCode": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "sourceDigests": {
+                "type": "array",
+                "maxItems": 512,
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              }
+            },
+            "required": ["id", "actor", "kind", "availability", "reasonCode", "sourceDigests"],
+            "additionalProperties": false
+          }
+        },
+        "integrationReady": {
+          "type": "boolean"
+        },
+        "contentDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "apiVersion",
+        "kind",
+        "runId",
+        "runRevision",
+        "goal",
+        "workspaceBaselineDigest",
+        "host",
+        "predecessorRun",
+        "sessionDigest",
+        "assignmentDigest",
+        "compilationDigest",
+        "packageDigest",
+        "stage",
+        "executionMode",
+        "agents",
+        "steering",
+        "routes",
+        "nextActions",
+        "integrationReady",
+        "contentDigest"
+      ],
+      "additionalProperties": false
+    },
+    "runView": {
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "const": "swecircuit/adaptive-run/v1alpha1"
+        },
+        "kind": {
+          "const": "RunView"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "runRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "goal": {
+          "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-run.schema.json#/$defs/goalBinding"
+        },
+        "workspaceBaselineDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "host": {
+          "type": "object",
+          "properties": {
+            "hostId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "adapterId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "adapterRevision": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "authorizationIssuerId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": ["hostId", "adapterId", "adapterRevision", "authorizationIssuerId"],
+          "additionalProperties": false
+        },
+        "predecessorRun": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/predecessor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sessionDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "assignmentDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "compilationDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "packageDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "stage": {
+          "enum": ["awaiting_authorization", "host_active", "needs_attention", "integration_ready"]
+        },
+        "executionMode": {
+          "type": "object",
+          "properties": {
+            "selectedCandidateId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "selectedAgentCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16
+            },
+            "serialBaselineMetrics": {
+              "type": "object",
+              "properties": {
+                "agentCount": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "projectedMakespan": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "peakConcurrency": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "conflictPairs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 120
+                },
+                "handoffCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 120
+                },
+                "duplicatedContextBytes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "duplicatedPermissionScopes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalWorkWeight": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalStartupCost": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalHandoffCost": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "agentCount",
+                "projectedMakespan",
+                "peakConcurrency",
+                "conflictPairs",
+                "handoffCount",
+                "duplicatedContextBytes",
+                "duplicatedPermissionScopes",
+                "totalWorkWeight",
+                "totalStartupCost",
+                "totalHandoffCost"
+              ],
+              "additionalProperties": false
+            },
+            "selectedMetrics": {
+              "type": "object",
+              "properties": {
+                "agentCount": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "projectedMakespan": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "peakConcurrency": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16
+                },
+                "conflictPairs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 120
+                },
+                "handoffCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 120
+                },
+                "duplicatedContextBytes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "duplicatedPermissionScopes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalWorkWeight": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalStartupCost": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "totalHandoffCost": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "agentCount",
+                "projectedMakespan",
+                "peakConcurrency",
+                "conflictPairs",
+                "handoffCount",
+                "duplicatedContextBytes",
+                "duplicatedPermissionScopes",
+                "totalWorkWeight",
+                "totalStartupCost",
+                "totalHandoffCost"
+              ],
+              "additionalProperties": false
+            },
+            "selectionReason": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "serial_selected",
+                    "serial_ineligible",
+                    "lower_metric",
+                    "canonical_tiebreak"
+                  ]
+                },
+                "decisiveField": {
+                  "enum": [
+                    "serial_baseline",
+                    "agent_limit",
+                    "dependency_cycle",
+                    "evidence_independence",
+                    "missing_work_unit",
+                    "duplicate_work_unit",
+                    "unknown_work_unit",
+                    "projectedMakespan",
+                    "conflictPairs",
+                    "handoffCount",
+                    "duplicatedContextBytes",
+                    "duplicatedPermissionScopes",
+                    "agentCount",
+                    "canonicalPartitionIdentity"
+                  ]
+                },
+                "selectedValue": {
+                  "oneOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "serialValue": {
+                  "oneOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "serialRejectionCodes": {
+                  "type": "array",
+                  "maxItems": 6,
+                  "uniqueItems": true,
+                  "items": {
+                    "enum": [
+                      "agent_limit",
+                      "dependency_cycle",
+                      "evidence_independence",
+                      "missing_work_unit",
+                      "duplicate_work_unit",
+                      "unknown_work_unit"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "decisiveField",
+                "selectedValue",
+                "serialValue",
+                "serialRejectionCodes"
+              ],
+              "additionalProperties": false
+            },
+            "launchWaves": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "agentIds": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 16,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    }
+                  }
+                },
+                "required": ["start", "agentIds"],
+                "additionalProperties": false
+              }
+            },
+            "truth": {
+              "const": "kernel_derived"
+            }
+          },
+          "required": [
+            "selectedCandidateId",
+            "selectedAgentCount",
+            "serialBaselineMetrics",
+            "selectedMetrics",
+            "selectionReason",
+            "launchWaves",
+            "truth"
+          ],
+          "additionalProperties": false
+        },
+        "agents": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "properties": {
+              "agentId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "blueprintDigest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "modules": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 64,
+                "items": {
+                  "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-compiler.schema.json#/$defs/moduleBinding"
+                }
+              },
+              "workUnitIds": {
+                "type": "array",
+                "maxItems": 256,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "dependencies": {
+                "type": "array",
+                "maxItems": 256,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "contextUses": {
+                "type": "array",
+                "maxItems": 256,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "kind": {
+                      "enum": ["repository", "documentation", "conversation", "memory", "evidence"]
+                    },
+                    "locator": {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    "digest": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    },
+                    "bytes": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 134217728
+                    },
+                    "purposes": {
+                      "type": "array",
+                      "maxItems": 256,
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128
+                      }
+                    },
+                    "workUnitIds": {
+                      "type": "array",
+                      "maxItems": 256,
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128
+                      }
+                    },
+                    "readScope": {
+                      "type": "string",
+                      "maxLength": 16384
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "kind",
+                    "locator",
+                    "digest",
+                    "bytes",
+                    "purposes",
+                    "workUnitIds"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "authority": {
+                "type": "object",
+                "properties": {
+                  "requiredCapabilities": {
+                    "type": "array",
+                    "maxItems": 256,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    }
+                  },
+                  "scope": {
+                    "type": "object",
+                    "properties": {
+                      "read": {
+                        "type": "array",
+                        "maxItems": 256,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        }
+                      },
+                      "write": {
+                        "type": "array",
+                        "maxItems": 256,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        }
+                      },
+                      "conflictZones": {
+                        "type": "array",
+                        "maxItems": 256,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        }
+                      }
+                    },
+                    "required": ["read", "write", "conflictZones"],
+                    "additionalProperties": false
+                  },
+                  "permissions": {
+                    "type": "array",
+                    "maxItems": 64,
+                    "items": {
+                      "$ref": "#/$defs/permission"
+                    }
+                  },
+                  "forbiddenEffects": {
+                    "type": "array",
+                    "maxItems": 128,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "maxLength": 16384
+                    }
+                  }
+                },
+                "required": ["requiredCapabilities", "scope", "permissions", "forbiddenEffects"],
+                "additionalProperties": false
+              },
+              "evidenceDuties": {
+                "type": "array",
+                "maxItems": 512,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "criterionId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "criterion": {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    "requirementId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "kind": {
+                      "enum": [
+                        "artifact",
+                        "command",
+                        "test",
+                        "review",
+                        "decision",
+                        "commit",
+                        "digest",
+                        "handoff",
+                        "memory"
+                      ]
+                    },
+                    "duty": {
+                      "enum": ["produce", "verify", "review"]
+                    },
+                    "description": {
+                      "type": "string",
+                      "maxLength": 16384
+                    },
+                    "independentFromProducer": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "criterionId",
+                    "criterion",
+                    "requirementId",
+                    "kind",
+                    "duty",
+                    "description",
+                    "independentFromProducer"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "assignment": {
+                "type": "object",
+                "properties": {
+                  "agentId": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+                  },
+                  "blueprintDigest": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/digest"
+                  },
+                  "calibrationRowId": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+                  },
+                  "profileId": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+                  },
+                  "effortId": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+                  },
+                  "independenceDomain": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/identifier"
+                  },
+                  "requiredTools": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+                  },
+                  "requiredSkills": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+                  },
+                  "requiredIsolationFeatures": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+                  },
+                  "requiredPermissionFeatures": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/logicalSet"
+                  },
+                  "observability": {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/observability"
+                  },
+                  "alternatives": {
+                    "type": "array",
+                    "maxItems": 3072,
+                    "items": {
+                      "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/rowEvaluation"
+                    }
+                  },
+                  "rejectedAlternatives": {
+                    "type": "array",
+                    "maxItems": 3072,
+                    "items": {
+                      "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/rowEvaluation"
+                    }
+                  },
+                  "selectionReason": {
+                    "enum": [
+                      "lowest_exact_vector",
+                      "lowest_bounded_evaluated_vector",
+                      "owner_override"
+                    ]
+                  },
+                  "override": {
+                    "oneOf": [
+                      {
+                        "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/runtime-routing.schema.json#/$defs/override"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "truth": {
+                    "const": "kernel_derived"
+                  }
+                },
+                "required": [
+                  "agentId",
+                  "blueprintDigest",
+                  "calibrationRowId",
+                  "profileId",
+                  "effortId",
+                  "independenceDomain",
+                  "requiredTools",
+                  "requiredSkills",
+                  "requiredIsolationFeatures",
+                  "requiredPermissionFeatures",
+                  "observability",
+                  "alternatives",
+                  "rejectedAlternatives",
+                  "selectionReason",
+                  "override",
+                  "truth"
+                ],
+                "additionalProperties": false
+              },
+              "profileId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "effortId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "status": {
+                "enum": [
+                  "awaiting_authorization",
+                  "authorized",
+                  "materialized",
+                  "host_active",
+                  "needs_attention",
+                  "settled"
+                ]
+              },
+              "native": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "running",
+                      "waiting_permission",
+                      "completed",
+                      "failed",
+                      "stopped",
+                      "liveness_failed",
+                      "unknown",
+                      "unresolved",
+                      "authorized",
+                      "materialized",
+                      "settled"
+                    ]
+                  },
+                  "truth": {
+                    "enum": [
+                      "kernel_derived",
+                      "binding_verified",
+                      "host_attested",
+                      "specialist_verified",
+                      "unresolved"
+                    ]
+                  },
+                  "authorization": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/$defs/launchAuthorization"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "materialization": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/$defs/materializationClaim"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": ["status", "truth", "authorization", "materialization"],
+                "additionalProperties": false
+              },
+              "acceptedEvidence": {
+                "oneOf": [
+                  {
+                    "$ref": "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/specialist-run.schema.json#/$defs/acceptedEvidence"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "truth": {
+                "enum": [
+                  "kernel_derived",
+                  "binding_verified",
+                  "host_attested",
+                  "specialist_verified",
+                  "unresolved"
+                ]
+              },
+              "route": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "agentId": {
+                        "oneOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "outcome": {
+                        "enum": [
+                          "pass",
+                          "fix",
+                          "diagnose",
+                          "clarify",
+                          "redesign",
+                          "split",
+                          "block",
+                          "learn"
+                        ]
+                      },
+                      "reason": {
+                        "enum": [
+                          "binding_mismatch",
+                          "materialization_mismatch",
+                          "event_chain_invalid",
+                          "host_effect_uncertain",
+                          "liveness_failure",
+                          "unknown_host_status",
+                          "result_capture_invalid",
+                          "specialist_non_pass",
+                          "host_user_stop",
+                          "all_handoffs_pass"
+                        ]
+                      },
+                      "sourceDigests": {
+                        "type": "array",
+                        "maxItems": 512,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^sha256:[0-9a-f]{64}$"
+                        }
+                      },
+                      "truth": {
+                        "enum": [
+                          "kernel_derived",
+                          "binding_verified",
+                          "host_attested",
+                          "specialist_verified",
+                          "unresolved"
+                        ]
+                      }
+                    },
+                    "required": ["agentId", "outcome", "reason", "sourceDigests", "truth"],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "agentId",
+              "blueprintDigest",
+              "modules",
+              "workUnitIds",
+              "dependencies",
+              "contextUses",
+              "authority",
+              "evidenceDuties",
+              "assignment",
+              "profileId",
+              "effortId",
+              "status",
+              "native",
+              "acceptedEvidence",
+              "truth",
+              "route"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "steering": {
+          "type": "array",
+          "maxItems": 512,
+          "items": {
+            "$ref": "#/$defs/steeringAuthorization"
+          }
+        },
+        "routes": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "properties": {
+              "agentId": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "outcome": {
+                "enum": [
+                  "pass",
+                  "fix",
+                  "diagnose",
+                  "clarify",
+                  "redesign",
+                  "split",
+                  "block",
+                  "learn"
+                ]
+              },
+              "reason": {
+                "enum": [
+                  "binding_mismatch",
+                  "materialization_mismatch",
+                  "event_chain_invalid",
+                  "host_effect_uncertain",
+                  "liveness_failure",
+                  "unknown_host_status",
+                  "result_capture_invalid",
+                  "specialist_non_pass",
+                  "host_user_stop",
+                  "all_handoffs_pass"
+                ]
+              },
+              "sourceDigests": {
+                "type": "array",
+                "maxItems": 512,
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              },
+              "truth": {
+                "enum": [
+                  "kernel_derived",
+                  "binding_verified",
+                  "host_attested",
+                  "specialist_verified",
+                  "unresolved"
+                ]
+              }
+            },
+            "required": ["agentId", "outcome", "reason", "sourceDigests", "truth"],
+            "additionalProperties": false
+          }
+        },
+        "nextActions": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "actor": {
+                "enum": ["external_host", "integration_owner", "user"]
+              },
+              "kind": {
+                "enum": [
+                  "review_assignment",
+                  "authorize_launch",
+                  "launch_native_agent",
+                  "observe_native_agent",
+                  "respond_to_permission",
+                  "stop_native_agent",
+                  "record_steering",
+                  "capture_result",
+                  "create_successor_run",
+                  "integrate_and_verify"
+                ]
+              },
+              "availability": {
+                "enum": ["enabled", "blocked", "unavailable"]
+              },
+              "reasonCode": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "sourceDigests": {
+                "type": "array",
+                "maxItems": 512,
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              }
+            },
+            "required": ["id", "actor", "kind", "availability", "reasonCode", "sourceDigests"],
+            "additionalProperties": false
+          }
+        },
+        "integrationReady": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "Planning",
+            "Ready",
+            "Running (host-reported)",
+            "Needs attention",
+            "Ready to integrate",
+            "Complete"
+          ]
+        },
+        "blockers": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "properties": {
+              "agentId": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "outcome": {
+                "enum": [
+                  "pass",
+                  "fix",
+                  "diagnose",
+                  "clarify",
+                  "redesign",
+                  "split",
+                  "block",
+                  "learn"
+                ]
+              },
+              "reason": {
+                "enum": [
+                  "binding_mismatch",
+                  "materialization_mismatch",
+                  "event_chain_invalid",
+                  "host_effect_uncertain",
+                  "liveness_failure",
+                  "unknown_host_status",
+                  "result_capture_invalid",
+                  "specialist_non_pass",
+                  "host_user_stop",
+                  "all_handoffs_pass"
+                ]
+              },
+              "sourceDigests": {
+                "type": "array",
+                "maxItems": 512,
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              },
+              "truth": {
+                "enum": [
+                  "kernel_derived",
+                  "binding_verified",
+                  "host_attested",
+                  "specialist_verified",
+                  "unresolved"
+                ]
+              }
+            },
+            "required": ["agentId", "outcome", "reason", "sourceDigests", "truth"],
+            "additionalProperties": false
+          }
+        },
+        "nextAction": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                "actor": {
+                  "enum": ["external_host", "integration_owner", "user"]
+                },
+                "kind": {
+                  "enum": [
+                    "review_assignment",
+                    "authorize_launch",
+                    "launch_native_agent",
+                    "observe_native_agent",
+                    "respond_to_permission",
+                    "stop_native_agent",
+                    "record_steering",
+                    "capture_result",
+                    "create_successor_run",
+                    "integrate_and_verify"
+                  ]
+                },
+                "availability": {
+                  "enum": ["enabled", "blocked", "unavailable"]
+                },
+                "reasonCode": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                "sourceDigests": {
+                  "type": "array",
+                  "maxItems": 512,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  }
+                }
+              },
+              "required": ["id", "actor", "kind", "availability", "reasonCode", "sourceDigests"],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceInspectionDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "contentDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "apiVersion",
+        "kind",
+        "runId",
+        "runRevision",
+        "goal",
+        "workspaceBaselineDigest",
+        "host",
+        "predecessorRun",
+        "sessionDigest",
+        "assignmentDigest",
+        "compilationDigest",
+        "packageDigest",
+        "stage",
+        "executionMode",
+        "agents",
+        "steering",
+        "routes",
+        "nextActions",
+        "integrationReady",
+        "status",
+        "blockers",
+        "nextAction",
+        "sourceInspectionDigest",
         "contentDigest"
       ],
       "additionalProperties": false

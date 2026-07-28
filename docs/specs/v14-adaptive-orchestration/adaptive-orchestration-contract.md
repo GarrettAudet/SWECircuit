@@ -2,7 +2,7 @@
 
 ## Status
 
-Revision 2 architecture candidate.
+Release candidate contract.
 
 This document is normative for V14. `runtime-routing-contract.md` and Architecture Review R1 are
 preserved as superseded design evidence.
@@ -772,11 +772,66 @@ type AdaptiveTruthClass =
   | "specialist_verified"
   | "unresolved";
 
+interface AdaptiveHostIdentity {
+  readonly hostId: string;
+  readonly adapterId: string;
+  readonly adapterRevision: string;
+  readonly authorizationIssuerId: string;
+}
+
+interface AdaptiveAssignmentInspection extends RuntimeAssignment {
+  readonly alternatives: readonly RuntimeRowEvaluation[];
+  readonly rejectedAlternatives: readonly RuntimeRowEvaluation[];
+  readonly selectionReason: RuntimeAssignmentVector["selectionReason"];
+  readonly override: RuntimeAssignmentOverride | null;
+  readonly truth: "kernel_derived";
+}
+
+interface AdaptiveNativeInspection {
+  readonly status: HostLifecycleStatus | "unresolved" | "authorized" | "materialized" | "settled";
+  readonly truth: AdaptiveTruthClass;
+  readonly authorization: HostLaunchAuthorization | null;
+  readonly materialization: HostMaterializationClaim | null;
+}
+
+interface AdaptiveAgentInspection {
+  readonly agentId: string;
+  readonly blueprintDigest: string;
+  readonly modules: readonly SpecialistModuleBinding[];
+  readonly workUnitIds: readonly string[];
+  readonly dependencies: readonly string[];
+  readonly contextUses: readonly AgentBlueprintContextUse[];
+  readonly authority: AgentBlueprintAuthority;
+  readonly evidenceDuties: readonly AgentBlueprintEvidenceDuty[];
+  readonly assignment: AdaptiveAssignmentInspection;
+  readonly profileId: string;
+  readonly effortId: string;
+  readonly status:
+    | "awaiting_authorization"
+    | "authorized"
+    | "materialized"
+    | "host_active"
+    | "needs_attention"
+    | "settled";
+  readonly native: AdaptiveNativeInspection;
+  readonly acceptedEvidence: SpecialistRunAcceptedEvidence | null;
+  readonly truth: AdaptiveTruthClass;
+  readonly route: AdaptiveRoute | null;
+}
+
 interface AdaptiveRunInspection {
   readonly apiVersion: AdaptiveRunApiVersion;
   readonly kind: "AdaptiveRunInspection";
   readonly runId: string;
   readonly runRevision: number;
+  readonly goal: SpecialistRunGoalBinding;
+  readonly workspaceBaselineDigest: string;
+  readonly host: AdaptiveHostIdentity;
+  readonly predecessorRun: AdaptiveRunPredecessor | null;
+  readonly sessionDigest: string;
+  readonly assignmentDigest: string;
+  readonly compilationDigest: string;
+  readonly packageDigest: string;
   readonly stage:
     | "awaiting_authorization"
     | "host_active"
@@ -784,6 +839,7 @@ interface AdaptiveRunInspection {
     | "integration_ready";
   readonly executionMode: AdaptiveExecutionMode;
   readonly agents: readonly AdaptiveAgentInspection[];
+  readonly steering: readonly HostSteeringAuthorization[];
   readonly routes: readonly AdaptiveRoute[];
   readonly nextActions: readonly AdaptiveNextAction[];
   readonly integrationReady: boolean;
@@ -861,12 +917,44 @@ failed attempt and keeps every V12 session immutable.
 
 ## RunView
 
-`RunView` is a closed deterministic JSON projection of `AdaptiveRunInspection`; Markdown is a pure
-renderer over that JSON.
+```ts
+interface RunView {
+  readonly apiVersion: AdaptiveRunApiVersion;
+  readonly kind: "RunView";
+  readonly runId: string;
+  readonly runRevision: number;
+  readonly goal: SpecialistRunGoalBinding;
+  readonly workspaceBaselineDigest: string;
+  readonly host: AdaptiveHostIdentity;
+  readonly predecessorRun: AdaptiveRunPredecessor | null;
+  readonly stage: AdaptiveRunInspection["stage"];
+  readonly status: RunViewStatus;
+  readonly sessionDigest: string;
+  readonly assignmentDigest: string;
+  readonly compilationDigest: string;
+  readonly packageDigest: string;
+  readonly executionMode: AdaptiveExecutionMode;
+  readonly agents: readonly AdaptiveAgentInspection[];
+  readonly steering: readonly HostSteeringAuthorization[];
+  readonly routes: readonly AdaptiveRoute[];
+  readonly blockers: readonly AdaptiveRoute[];
+  readonly nextAction: AdaptiveNextAction | null;
+  readonly nextActions: readonly AdaptiveNextAction[];
+  readonly integrationReady: boolean;
+  readonly sourceInspectionDigest: string;
+  readonly contentDigest: string;
+}
+```
+
+`RunView` is a closed deterministic JSON projection of `AdaptiveRunInspection`; JSON and Markdown
+renderers both require the exact closed inspection and an independently retained expected
+inspection digest. A serialized `RunView` is an output projection, never a trusted rendering
+input. Unknown nested fields, unsafe controls,
+bidirectional formatting controls, lone surrogates, and stale self-digests fail closed.
 
 The default view shows:
 
-- goal, branch/version, stage, workflow outcome, and next enabled action;
+- goal, workspace version, host identity, predecessor, stage, workflow outcome, and next action;
 - selected serial or parallel mode, serial baseline, selected team metrics, and why fan-out won;
 - each module/work unit, specialist, dependencies, profile, effort, status, and truth class;
 - selected assignment, feasible alternatives, rejected rows, stable reasons, and any override;
@@ -1046,10 +1134,12 @@ export function recordAdaptiveHostEvent(
 
 export function renderAdaptiveRunView(
   inspection: unknown,
+  expectedInspectionDigest: unknown,
 ): OperationResult<RunView>;
 
 export function renderAdaptiveRunViewMarkdown(
-  runView: unknown,
+  inspection: unknown,
+  expectedInspectionDigest: unknown,
 ): OperationResult<string>;
 ```
 
@@ -1091,8 +1181,9 @@ panel.
 
 ## Release Gate
 
-Implementation starts only after independent routing/API, lifecycle/portability,
-security/evidence, and product/RunView reviews accept this exact Revision 2 candidate.
+Implementation began only after independent routing/API, lifecycle/portability,
+security/evidence, and product/RunView reviews accepted Revision 2. Release qualification applies
+the following gates to one exact candidate.
 
 Release then requires:
 

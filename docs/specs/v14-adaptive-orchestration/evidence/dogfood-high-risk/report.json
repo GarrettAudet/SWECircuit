@@ -50,10 +50,11 @@
       "calibrationRowId": "row.gpt55.high",
       "profileId": "profile.codex.gpt55",
       "effortId": "effort.high",
-      "assignmentDigest": "sha256:e1fd2edeeb042e50239c03359d6f276191620cfe1ee54ebc73c5b0239b19e2f8"
+      "assignmentDigest": "sha256:85a644348c28022d5985362901da44c9c13aeb52a320154d15f6afa7566a33a1"
     }
   },
   "deniedRun": {
+    "evidenceClass": "deterministic_adversarial_replay",
     "runId": "run.v14.high-risk.release-manifest.denied",
     "permissionRequest": {
       "id": "evidence.permission.denial",
@@ -62,8 +63,8 @@
       "digest": "sha256:9a694955346c8a073bf935a1bdd26d164692ff793e5ff31f2fa517015c8917ea",
       "bytes": 560
     },
-    "sessionDigest": "sha256:bb99eb637da48a03caeb986a49446241e35d1505beeef18f864a1e460b375a4a",
-    "runViewDigest": "sha256:237a51177379d948f10c4b710ed2593c5f58cdb9c9f8604c4e81c9319be9b12d",
+    "sessionDigest": "sha256:3aea7c2f3f945a419c59d7ffff32a53fea4808098ca5ddb35f7c47412b5a4238",
+    "runViewDigest": "sha256:7a06a02ed03e4c23d2ecfa284fa87bcc02536cd1320cd6a0a481c7aae9950453",
     "integrationReady": false,
     "routes": [
       {
@@ -79,15 +80,16 @@
     "steeringEvents": 1
   },
   "successorRun": {
+    "evidenceClass": "real_native_handoff_replayed_through_kernel",
     "runId": "run.v14.high-risk.release-manifest.offline-successor",
     "predecessorRun": {
       "runId": "run.v14.high-risk.release-manifest.denied",
-      "sessionDigest": "sha256:bb99eb637da48a03caeb986a49446241e35d1505beeef18f864a1e460b375a4a",
+      "sessionDigest": "sha256:3aea7c2f3f945a419c59d7ffff32a53fea4808098ca5ddb35f7c47412b5a4238",
       "terminalOutcome": "block",
-      "evidenceDigest": "sha256:08d07aa997f92adc22285e487fb49b8ee21f0f029adb67a7fdd209c006b5f054"
+      "evidenceDigest": "sha256:5e0d7e856c94f632afe5be0d7de6c290876d05e29966fff0531c438c6b518005"
     },
-    "sessionDigest": "sha256:a8fae18ceb3822b83d0bfa6e26040946da109445030ca47eb71a0c096bfd59e2",
-    "runViewDigest": "sha256:d616256bf045929fd7e1a90e16ce6ca7eb0fad5619f8858fa82c52a66c324ed4",
+    "sessionDigest": "sha256:8c31b59f40ab5fe5e2b20c1c81d1a468b42ac93a6aa7ca1429c3d7745e9a1076",
+    "runViewDigest": "sha256:e7534de08cce0dab93b227d23e3139bebf79fd4a04fc76a14e893936c9dd97fc",
     "integrationReady": true,
     "routes": [
       {
@@ -95,17 +97,62 @@
         "outcome": "pass",
         "reason": "all_handoffs_pass",
         "sourceDigests": [
-          "sha256:d31d05b6ca9124c29c29b2a9ea30043b227f2ad9604d08ebf4f795e7a57979f2"
+          "sha256:5be3f3e236817250e5423ef2ce08ac2e1821dc651ca1003f8b39c2ff00b906d9"
         ],
         "truth": "specialist_verified"
       }
     ],
     "verifiedHandoff": {
-      "rawBytes": 1171,
-      "rawDigest": "sha256:d31d05b6ca9124c29c29b2a9ea30043b227f2ad9604d08ebf4f795e7a57979f2",
-      "semanticDigest": "sha256:9aa45250be6f75542c9f46a83f9eb3fcceb0f737a3ee9e5bd082cffd485c1589"
+      "rawBytes": 2397,
+      "rawDigest": "sha256:5be3f3e236817250e5423ef2ce08ac2e1821dc651ca1003f8b39c2ff00b906d9",
+      "semanticDigest": "sha256:960028b5189fd16d6365d291ea9fbd0f872962727e86d5189d60f76a40fa2c34"
     },
     "assessmentDigest": "sha256:07e8ff56ad412d3971b24c3093e9a72d2bdfca71a579e7f8ced6f9f7dd49bce2"
+  },
+  "nativeHostRun": {
+    "host": {
+      "product": "Codex Desktop",
+      "launchTool": "multi_agent_v1.spawn_agent",
+      "nativeHandle": "019fa5fa-05e9-71d2-901f-93bacadc1c20",
+      "reportedStatus": "completed"
+    },
+    "requestedRuntime": {
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "high",
+      "serviceTier": "priority"
+    },
+    "authority": {
+      "read": [
+        "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/untrusted-deployment-note.txt"
+      ],
+      "write": [],
+      "network": [],
+      "secrets": [],
+      "allowedProcesses": [
+        "node",
+        "rg"
+      ]
+    },
+    "receipt": {
+      "id": "evidence.native-codex-host-receipt",
+      "kind": "configuration",
+      "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/real-host/host-receipt.json",
+      "digest": "sha256:b8d970b5b984d4fc8d332e4f9715f50eefd471220fb4c554b70917ecc2b4ce96",
+      "bytes": 2055
+    },
+    "handoff": {
+      "rawBytes": 2397,
+      "rawDigest": "sha256:5be3f3e236817250e5423ef2ce08ac2e1821dc651ca1003f8b39c2ff00b906d9",
+      "semanticDigest": "sha256:960028b5189fd16d6365d291ea9fbd0f872962727e86d5189d60f76a40fa2c34",
+      "verifiedHandoffDigest": "sha256:76d6f84c47071e9654b54dc66cf72b20fe225b7269374cce4634aed6a8de1931",
+      "outcome": "pass"
+    },
+    "truth": {
+      "launchConfiguration": "host_attested",
+      "nativeStatus": "host_reported",
+      "handoff": "kernel_verified",
+      "permissionEnforcement": "not_independently_observed"
+    }
   },
   "tamperCheck": {
     "rejected": true,

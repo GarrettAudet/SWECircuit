@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed for V14 on 2026-07-27.
+Accepted for the V14 release candidate on 2026-07-27.
 
 ## Context
 

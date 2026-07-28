@@ -4,34 +4,42 @@
 
 **The orchestration layer for agentic IDEs.**
 
-IDECircuit turns one software goal into reviewed work units, task-specific specialist contracts, dependency-safe parallel work, verified integration, and a durable execution trace.
-
-A developer or IDE closes the goal and decomposes it into atomic work units. IDECircuit validates reviewed work units, compares legal specialist teams with a serial baseline, and emits exact contracts. An external IDE host supplies the runtime and may execute dependency-safe contracts in parallel.
+IDECircuit turns one software goal into an architecture, bounded work units, task-specific
+specialists, dependency-safe parallel work, verified integration, and a durable execution trace.
 
 ![A reviewed goal moves through workflow modules; an external host may run approved specialists in parallel, and an integration owner verifies handoffs, merges the change, preserves the trace, and updates memory.](docs/assets/swecircuit-flow.gif)
 
+## Start Here
+
+In Windows Codex Desktop, open this repository and send:
+
+> Use IDECircuit to build [your goal] in [target repository path].
+
+Keep this repository available as the operating workspace and make the target repository writable.
+`AGENTS.md` drives the run. Activation is instruction-based in V14; there is no IDE plugin or
+background service to install.
+
+A developer or IDE closes the goal and decomposes it into atomic work units.
+IDECircuit validates reviewed work units, compares legal specialist teams with a serial baseline, and emits exact contracts.
+
 ## How It Works
 
-1. **Define:** the developer and IDE close product intent, acceptance criteria, modules, evidence, authority, dependencies, and stop conditions.
-2. **Compile:** IDECircuit checks the work graph, compares legal specialist teams with a serial baseline, and emits exact task-specific contracts.
-3. **Dispatch:** An external IDE host selects providers, models, effort, skills, and tools, then may run dependency-safe contracts in parallel.
-4. **Verify:** IDECircuit checks approval-bound packages, exact handoffs, outcomes, and dependency fan-in before integration.
-5. **Integrate and learn:** one owner tests and merges the assembled change, preserves the execution trace, and promotes durable lessons into memory.
+1. **Define:** clarify the goal, acceptance criteria, architecture, authority, and evidence.
+2. **Compile:** create atomic work units and compare legal specialist teams with a serial baseline.
+3. **Route:** choose the least-cost model, effort, skills, and tools that pass every hard gate in
+   the host-supplied inventory.
+4. **Run:** ask the IDE host to launch dependency-eligible specialists with maximum safe
+   parallelism.
+5. **Verify:** validate exact handoffs and dependency fan-in before one owner integrates the work.
+6. **Learn:** preserve the trace, review the result, and promote durable lessons into memory.
+
+IDECircuit compiles a least-cost feasible runtime assignment from reviewed host inventory; an external IDE host materializes the approved profile, model, effort, skills, and tools, then may run dependency-safe contracts in parallel.
 
 IDECircuit Core compiles specialist contracts and verifies approval-bound packages, raw handoffs, dependency fan-in, and immutable run sessions.
 An external IDE host dispatches agents, enforces permissions, executes tools, integrates and merges changes, persists traces, and updates memory.
+RunView keeps that trust boundary visible.
 
-## Start Here
-
-In Codex Desktop, open this repository and send:
-
-> Use IDECircuit to build [your goal].
-
-`AGENTS.md` routes the request through clarification, architecture, work-unit compilation,
-least-sufficient runtime assignment, native parallel specialists, verified integration, review,
-and memory. The current reference host is Windows Codex Desktop.
-
-To inspect the portable core locally, use Node.js 22.14 or newer:
+## Verify
 
 ```powershell
 npm ci
@@ -39,30 +47,29 @@ npm run build
 node dist/cli.js validate --project examples/minimal
 node dist/cli.js inspect --project examples/minimal --trace traces/example.jsonl
 npm run example:specialist
+npm run verify
 ```
 
-The CLI commands validate and inspect the minimal project. The specialist example compiles and verifies a two-specialist package in memory. It writes no files and launches no agents.
+The specialist example compiles and verifies a two-specialist package in memory. It writes no files and launches no agents.
+The canonical gate covers formatting, lint, types, build, core and lifecycle tests, specialist compilation, V14 dogfoods, package contents, and an installed consumer.
 
-The [Release Board dogfood](examples/release-board/) records a real two-agent Windows run with
-different model and effort assignments, verified fan-in, tests, and browser QA.
-
-Maintainers run `npm run verify` for the complete repository gate.
+V10's bounded injected-executor boundary remains available for one host-selected work packet:
+[minimal example](examples/minimal/) | [executor contract](docs/framework/executor-boundary.md).
 
 ## Status
 
-V14 has a working Windows alpha: deterministic runtime routing, an adaptive run controller,
-RunView, a Codex Desktop adapter boundary, and one native small-goal dogfood. Medium and high-risk
-dogfoods plus exact-candidate release qualification remain before a general release.
+V14 is a Windows Codex Desktop release candidate, not a general release. Small, medium, and
+high-risk dogfoods exercise native launch evidence, different runtime tiers, safe parallelism,
+failed handoff recovery, verified fan-in, owner override gates, and tamper rejection. Release
+requires the exact candidate to pass hosted Windows CI, independent audit, and owner-approved
+merge.
 
 V11 is the stable baseline. It compiles deterministic, approval-bound specialist packages and
 verifies raw handoffs without executing agents. V12 adds the immutable run session used by V14.
-See the [V14 milestone](docs/milestones/v14.md) and
-[small dogfood evidence](docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/verification.md).
 
-V10's bounded injected-executor boundary remains available for one host-selected work packet: [minimal example](examples/minimal/) | [executor contract](docs/framework/executor-boundary.md).
-
-IDECircuit is the public product identity. The current 0.x repository URL, npm workspace name, schemas, and generated asset paths retain `SWECircuit` until a compatibility-reviewed migration.
+IDECircuit is the public product identity. The current 0.x repository URL, npm workspace name,
+schemas, and generated asset paths retain `SWECircuit` until a compatibility-reviewed migration.
 
 [Agent contract](AGENTS.md) | [Handbook](docs/ai/handbook.md) | [Framework](docs/framework/) | [Feature specs](docs/specs/) | [Memory](docs/memory/)
 
-[Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Support](SUPPORT.md) | [Changelog](CHANGELOG.md)
+[V14 milestone](docs/milestones/v14.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Support](SUPPORT.md) | [Changelog](CHANGELOG.md)

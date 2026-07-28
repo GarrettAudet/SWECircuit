@@ -13,6 +13,7 @@ import type {
   HostLaunchAuthorization,
   HostLifecycleObservation,
   HostMaterializationClaim,
+  HostSteeringAuthorization,
 } from "./adaptive-run-types.js";
 import { boundedJsonUtf8ByteLength, digestCanonicalJson } from "./canonical-json.js";
 import { ADAPTIVE_RUN_API_VERSION, ADAPTIVE_RUN_LIMITS } from "./constants.js";
@@ -349,6 +350,9 @@ export function inspectAdaptiveRunSession(
           modules: blueprint.modules,
           workUnitIds: blueprint.workUnitIds,
           dependencies: [...blueprint.dependencies].sort(compareText),
+          contextUses: blueprint.contextUses,
+          authority: blueprint.authority,
+          evidenceDuties: blueprint.evidenceDuties,
           assignment: {
             ...row,
             alternatives: evaluations.filter(
@@ -395,6 +399,15 @@ export function inspectAdaptiveRunSession(
       kind: "AdaptiveRunInspection",
       runId: session.expectation.runId,
       runRevision: session.expectation.runRevision,
+      goal: session.specialistRun.goal,
+      workspaceBaselineDigest: session.expectation.workspaceBaselineDigest,
+      host: {
+        hostId: session.expectation.authorizedHostId,
+        adapterId: session.expectation.authorizedAdapterId,
+        adapterRevision: session.expectation.authorizedAdapterRevision,
+        authorizationIssuerId: session.expectation.authorizationIssuerId,
+      },
+      predecessorRun: session.expectation.predecessorRun,
       sessionDigest: session.contentDigest,
       assignmentDigest: session.assignment.contentDigest,
       compilationDigest: session.assignment.compilationDigest,
@@ -410,6 +423,9 @@ export function inspectAdaptiveRunSession(
         truth: "kernel_derived",
       },
       agents,
+      steering: events
+        .filter(({ event }) => event.kind === "HostSteeringAuthorization")
+        .map(({ event }) => event as HostSteeringAuthorization),
       routes,
       nextActions: nextActions(session, specialist.value, events, routes, stage),
       integrationReady: stage === "integration_ready",

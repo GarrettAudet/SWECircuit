@@ -147,8 +147,8 @@
             "id": "evidence.row.gpt55.high",
             "kind": "owner_assessment",
             "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/scenario.md",
-            "digest": "sha256:316346ed804abfe867507b8c6f2897900ccdfcc663d4cae29406cd146d3d8103",
-            "bytes": 1497
+            "digest": "sha256:d78baa84461cb0aaf3004a252ba224553d30b53f3970ae1e0f6c0beac4a19d5b",
+            "bytes": 1496
           }
         ]
       },
@@ -196,8 +196,8 @@
             "id": "evidence.row.luna.medium",
             "kind": "owner_assessment",
             "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/scenario.md",
-            "digest": "sha256:316346ed804abfe867507b8c6f2897900ccdfcc663d4cae29406cd146d3d8103",
-            "bytes": 1497
+            "digest": "sha256:d78baa84461cb0aaf3004a252ba224553d30b53f3970ae1e0f6c0beac4a19d5b",
+            "bytes": 1496
           }
         ]
       },
@@ -245,14 +245,14 @@
             "id": "evidence.row.sol.high",
             "kind": "owner_assessment",
             "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/scenario.md",
-            "digest": "sha256:316346ed804abfe867507b8c6f2897900ccdfcc663d4cae29406cd146d3d8103",
-            "bytes": 1497
+            "digest": "sha256:d78baa84461cb0aaf3004a252ba224553d30b53f3970ae1e0f6c0beac4a19d5b",
+            "bytes": 1496
           }
         ]
       }
     ]
   },
-  "calibrationDigest": "sha256:84a21c1b7bee516fb72a1500df3cc6790261a1c6e91b2950433118cbedbf5d2f",
+  "calibrationDigest": "sha256:32d4b2cf33d8211f71faf4c623fde6523c47bfcb223a7b061bf660258126b223",
   "inventory": {
     "apiVersion": "swecircuit/runtime-routing/v1alpha1",
     "kind": "HostCapabilityInventory",
@@ -439,15 +439,15 @@
     "selectionReason": "owner_override",
     "contentDigest": "sha256:19dbf1fda8f50e7b966e436b66524102755145f75d39b413d64682ccf4eb73c7"
   },
-  "predecessorAssignmentDigest": "sha256:45f5f79ef65d6f1b8e58f877936ad6d44a47097f5da8e4e0ca6e6033a770b993",
+  "predecessorAssignmentDigest": "sha256:2638097ed4f6b7c96a8cb63e4890306a9db8c5f305adee15c9f45c92cc7997d8",
   "override": {
     "apiVersion": "swecircuit/runtime-routing/v1alpha1",
     "kind": "RuntimeAssignmentOverride",
-    "predecessorAssignmentDigest": "sha256:45f5f79ef65d6f1b8e58f877936ad6d44a47097f5da8e4e0ca6e6033a770b993",
+    "predecessorAssignmentDigest": "sha256:2638097ed4f6b7c96a8cb63e4890306a9db8c5f305adee15c9f45c92cc7997d8",
     "agentId": "agent.2a9d1bf0a548bb60aa0d6b6d4c07bde65de131730081a946e43993b9926a0bd6",
     "replacementCalibrationRowId": "row.gpt55.high",
     "requestedBy": "repository-owner",
     "rationale": "Use the alternate qualified frontier reviewer for the high-risk recovery run."
   },
-  "contentDigest": "sha256:e1fd2edeeb042e50239c03359d6f276191620cfe1ee54ebc73c5b0239b19e2f8"
+  "contentDigest": "sha256:85a644348c28022d5985362901da44c9c13aeb52a320154d15f6afa7566a33a1"
 }

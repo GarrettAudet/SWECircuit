@@ -1591,7 +1591,7 @@ if ($activeReadme -match $historicalOverviewPattern) {
 
 $requiredReadmeActiveText = @(
     "IDECircuit validates reviewed work units, compares legal specialist teams with a serial baseline, and emits exact contracts.",
-    "An external IDE host selects providers, models, effort, skills, and tools, then may run dependency-safe contracts in parallel.",
+    "IDECircuit compiles a least-cost feasible runtime assignment from reviewed host inventory; an external IDE host materializes the approved profile, model, effort, skills, and tools, then may run dependency-safe contracts in parallel.",
     "IDECircuit Core compiles specialist contracts and verifies approval-bound packages, raw handoffs, dependency fan-in, and immutable run sessions.",
     "An external IDE host dispatches agents, enforces permissions, executes tools, integrates and merges changes, persists traces, and updates memory.",
     "The specialist example compiles and verifies a two-specialist package in memory. It writes no files and launches no agents.",

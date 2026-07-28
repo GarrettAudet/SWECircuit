@@ -147,8 +147,8 @@
             "id": "evidence.row.gpt55.high",
             "kind": "owner_assessment",
             "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/scenario.md",
-            "digest": "sha256:316346ed804abfe867507b8c6f2897900ccdfcc663d4cae29406cd146d3d8103",
-            "bytes": 1497
+            "digest": "sha256:d78baa84461cb0aaf3004a252ba224553d30b53f3970ae1e0f6c0beac4a19d5b",
+            "bytes": 1496
           }
         ]
       },
@@ -196,8 +196,8 @@
             "id": "evidence.row.luna.medium",
             "kind": "owner_assessment",
             "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/scenario.md",
-            "digest": "sha256:316346ed804abfe867507b8c6f2897900ccdfcc663d4cae29406cd146d3d8103",
-            "bytes": 1497
+            "digest": "sha256:d78baa84461cb0aaf3004a252ba224553d30b53f3970ae1e0f6c0beac4a19d5b",
+            "bytes": 1496
           }
         ]
       },
@@ -245,14 +245,14 @@
             "id": "evidence.row.sol.high",
             "kind": "owner_assessment",
             "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/scenario.md",
-            "digest": "sha256:316346ed804abfe867507b8c6f2897900ccdfcc663d4cae29406cd146d3d8103",
-            "bytes": 1497
+            "digest": "sha256:d78baa84461cb0aaf3004a252ba224553d30b53f3970ae1e0f6c0beac4a19d5b",
+            "bytes": 1496
           }
         ]
       }
     ]
   },
-  "calibrationDigest": "sha256:84a21c1b7bee516fb72a1500df3cc6790261a1c6e91b2950433118cbedbf5d2f",
+  "calibrationDigest": "sha256:32d4b2cf33d8211f71faf4c623fde6523c47bfcb223a7b061bf660258126b223",
   "inventory": {
     "apiVersion": "swecircuit/runtime-routing/v1alpha1",
     "kind": "HostCapabilityInventory",
@@ -441,5 +441,5 @@
   },
   "predecessorAssignmentDigest": null,
   "override": null,
-  "contentDigest": "sha256:45f5f79ef65d6f1b8e58f877936ad6d44a47097f5da8e4e0ca6e6033a770b993"
+  "contentDigest": "sha256:2638097ed4f6b7c96a8cb63e4890306a9db8c5f305adee15c9f45c92cc7997d8"
 }

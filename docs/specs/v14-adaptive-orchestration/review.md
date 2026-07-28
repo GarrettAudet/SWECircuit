@@ -2,56 +2,52 @@
 
 ## Status
 
-Small Windows alpha passed. General V14 release review remains open.
+Release candidate implementation complete; exact-candidate review remains open.
 
 ## Review Outcome
 
-`PASS` for the exact small Release Board dogfood after three independent review attempts.
+`PASS` for the small Windows alpha. General V14 release remains `PENDING` until one immutable
+commit passes canonical verification, hosted Windows CI, and independent exact-commit review.
 
 ## Spec Alignment
 
-AC1-AC9 are implemented. The small portion of AC10 is complete. Medium and high-risk dogfoods,
-exact-candidate qualification, hosted Windows CI, and final release review remain.
-
-## Architecture Alignment
-
-The implementation preserves ADR 0007: specialist demand is provider-neutral, host supply owns
-model and effort identifiers, routing hard-gates quality and authority before cost, core projects
-commands without claiming host effects, V12 owns immutable settlement, and one integration owner
-assembles the result.
+AC1-AC10 and AC12 have executable local evidence. AC11 remains the release gate. V14 preserves the
+portable core/host boundary: the kernel compiles, routes, validates, restores, and verifies; the
+host launches agents, enforces permissions, executes tools, persists evidence, and merges only
+with owner approval.
 
 ## Verification Evidence
 
-- `evidence/dogfood-small/verification.md`
-- `evidence/dogfood-small/integration-record.json`
-- `evidence/dogfood-small/independent-review.md`
-- `evidence/dogfood-small/release-alpha-attestation.json`
-- `evidence/dogfood-small/browser/qa-result.json`
-- Release Board: 14 reviewed tests, then 15 tests including the closeout attestation check
-- V14 focused routing and adaptive tests: 26 passed
-- Previously committed core tests: 513 passed
-- Isolated lifecycle tests: 2 passed
+- Small Release Board: 15/15 application and evidence tests, native multi-profile launch,
+  correction, verified fan-in, browser QA, and independent review.
+- Medium Impact Planner: 23/23 application and evidence tests plus a preserved six-revision
+  dependency, package, host-evidence, and review recovery chain.
+- High risk: unsafe authority rejection, least-sufficient Sol/high routing, invalid override
+  rejection, separate feasible owner override, denied-run recovery, real native Codex handoff,
+  exact kernel verification, and tamper rejection.
+- Release replay: each generated evidence tree remains byte-identical before, between, and after
+  two complete runs.
+- RunView: closed nested schemas, an independently retained inspection digest, and safe-text
+  validation reject forged, widened, bidi, surrogate, stale-digest, and display-markup inputs.
 
-## Findings
+## Prior Independent Findings
 
 | Severity | Finding | Resolution |
 | --- | --- | --- |
-| P1 | RunView proved fan-in but not post-integration completion | Added a separate integration record that binds both exact RunView forms and is revalidated by tests |
-| P2 | Persistence failure could be masked by success feedback | Consolidated action and persistence outcomes into one tested announcement |
-| P2 | Add shortcut ignored reduced-motion preference | Added a tested reduced-motion policy and verified the active reduced-motion browser branch |
-| P2 | Browser evidence was not source-bound | Added exact app and screenshot hashes plus a regression test that recomputes every binding |
-| P2 | Early integration evidence used an ambiguous RunView hash field | Bound JSON and Markdown paths and hashes separately |
-
-Final independent successor review: no findings; `PASS`.
+| P1 | Public files still described an unreleased alpha | Updated README, spec, ADR, contract, milestone, and review state |
+| P1 | RunView accepted self-hashed widened JSON and unsafe bidi text | Added closed schemas, recursive safe-text checks, independently retained digest binding, and markup-neutral rendering |
+| P1 | High-risk proof used synthetic host fixtures | Captured and kernel-verified a pre-authorized real native Codex handoff |
+| P1 | Replay could overwrite stale evidence before comparing it | Added preimage, first replay, and second replay byte/digest equality checks |
+| P2 | RunView omitted goal, host, lineage, scopes, context, evidence, steering, and decisions | Added the fields to inspection, JSON, Markdown, schemas, and fixtures |
 
 ## Residual Risks
 
-- Only the small-goal Windows path is proven.
-- Runtime capability calibration remains host- and owner-supplied.
-- Activation is currently instruction-driven rather than a one-command orchestration CLI.
-- General release still requires medium and high-risk recovery evidence plus hosted qualification.
+- Runtime calibration and permission enforcement remain externally supplied or host-attested.
+- V14 is instruction-driven and has no custom pinned IDE panel.
+- Windows Codex Desktop is the only qualified reference host.
+- Final release status must bind one commit, its hosted checks, and an independent verdict.
 
-## Memory And Docs
+## Merge Gate
 
-The alpha activation path is in `AGENTS.md` and `README.md`. The milestone, active context, history
-ledger, and retrieval index record the bounded small-alpha result without claiming general release.
+Do not merge to `main` until the exact candidate is frozen, every required check is green, the
+independent verdict is `PASS`, and the owner explicitly approves the merge.

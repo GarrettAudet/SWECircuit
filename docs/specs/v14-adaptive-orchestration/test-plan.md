@@ -2,7 +2,7 @@
 
 ## Status
 
-Active.
+Release qualification active.
 
 ## Acceptance Criteria Mapping
 
@@ -54,8 +54,8 @@ None are planned. macOS and Linux are outside the accepted v0.1 support boundary
 
 ## Verification Evidence
 
-The small native dogfood is recorded under
-`docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/`. It binds exact team and runtime
-compilations, native handoffs, immutable session and RunView, integration verification, 15 app and evidence
-tests, source-bound desktop/mobile browser evidence, and independent review. Medium, high-risk,
-hosted-CI, and immutable-candidate evidence remain before general release.
+The release gate replays the small Release Board, medium Impact Planner, and high-risk adversarial
+cases from exact stored evidence. It verifies team and runtime compilations, immutable sessions,
+closed RunView projections, raw handoffs, transitive fan-in, typed recovery, native Codex host
+evidence, owner overrides, tamper rejection, and byte-identical replay. Hosted Windows CI and final
+independent review remain before general release.

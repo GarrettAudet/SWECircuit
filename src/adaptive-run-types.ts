@@ -10,9 +10,13 @@ import type {
 } from "./runtime-routing-types.js";
 import type {
   SpecialistRunAcceptedEvidence,
+  SpecialistRunGoalBinding,
   SpecialistRunSession,
 } from "./specialist-run-types.js";
 import type {
+  AgentBlueprintAuthority,
+  AgentBlueprintContextUse,
+  AgentBlueprintEvidenceDuty,
   SpecialistCandidateMetrics,
   SpecialistLaunchWave,
   SpecialistModuleBinding,
@@ -268,6 +272,9 @@ export interface AdaptiveAgentInspection {
   readonly modules: readonly SpecialistModuleBinding[];
   readonly workUnitIds: readonly string[];
   readonly dependencies: readonly string[];
+  readonly contextUses: readonly AgentBlueprintContextUse[];
+  readonly authority: AgentBlueprintAuthority;
+  readonly evidenceDuties: readonly AgentBlueprintEvidenceDuty[];
   readonly assignment: AdaptiveAssignmentInspection;
   readonly profileId: string;
   readonly effortId: string;
@@ -313,11 +320,22 @@ export interface AdaptiveNextAction {
   readonly sourceDigests: readonly string[];
 }
 
+export interface AdaptiveHostIdentity {
+  readonly hostId: string;
+  readonly adapterId: string;
+  readonly adapterRevision: string;
+  readonly authorizationIssuerId: string;
+}
+
 export interface AdaptiveRunInspection {
   readonly apiVersion: AdaptiveRunApiVersion;
   readonly kind: "AdaptiveRunInspection";
   readonly runId: string;
   readonly runRevision: number;
+  readonly goal: SpecialistRunGoalBinding;
+  readonly workspaceBaselineDigest: string;
+  readonly host: AdaptiveHostIdentity;
+  readonly predecessorRun: AdaptiveRunPredecessor | null;
   readonly sessionDigest: string;
   readonly assignmentDigest: string;
   readonly compilationDigest: string;
@@ -329,6 +347,7 @@ export interface AdaptiveRunInspection {
     | "integration_ready";
   readonly executionMode: AdaptiveExecutionMode;
   readonly agents: readonly AdaptiveAgentInspection[];
+  readonly steering: readonly HostSteeringAuthorization[];
   readonly routes: readonly AdaptiveRoute[];
   readonly nextActions: readonly AdaptiveNextAction[];
   readonly integrationReady: boolean;
@@ -348,6 +367,10 @@ export interface RunView {
   readonly kind: "RunView";
   readonly runId: string;
   readonly runRevision: number;
+  readonly goal: SpecialistRunGoalBinding;
+  readonly workspaceBaselineDigest: string;
+  readonly host: AdaptiveHostIdentity;
+  readonly predecessorRun: AdaptiveRunPredecessor | null;
   readonly stage: AdaptiveRunInspection["stage"];
   readonly status: RunViewStatus;
   readonly sessionDigest: string;
@@ -356,6 +379,7 @@ export interface RunView {
   readonly packageDigest: string;
   readonly executionMode: AdaptiveExecutionMode;
   readonly agents: readonly AdaptiveAgentInspection[];
+  readonly steering: readonly HostSteeringAuthorization[];
   readonly routes: readonly AdaptiveRoute[];
   readonly blockers: readonly AdaptiveRoute[];
   readonly nextAction: AdaptiveNextAction | null;

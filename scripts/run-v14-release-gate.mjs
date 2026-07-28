@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { readFile, readdir } from "node:fs/promises";
+import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -60,6 +60,30 @@ async function readJson(path) {
 function sha256(bytes, prefix = true) {
   const value = createHash("sha256").update(bytes).digest("hex");
   return prefix ? `sha256:${value}` : value;
+}
+
+async function snapshotTree(root) {
+  const rows = [];
+  async function visit(directory) {
+    const entries = (await readdir(directory, { withFileTypes: true })).sort((left, right) =>
+      left.name.localeCompare(right.name),
+    );
+    for (const entry of entries) {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) {
+        await visit(path);
+        continue;
+      }
+      assert.equal(entry.isFile(), true, `unsupported evidence entry: ${path}`);
+      const bytes = await readBytes(path);
+      rows.push([
+        relative(root, path).replaceAll("\\", "/"),
+        { bytes: bytes.byteLength, digest: sha256(bytes) },
+      ]);
+    }
+  }
+  await visit(root);
+  return Object.fromEntries(rows);
 }
 
 function runtimeExpectation(expectation) {
@@ -130,7 +154,7 @@ async function verifyDogfood({
   );
   const runView = requireValue(
     `${label} RunView`,
-    renderAdaptiveRunView(inspection),
+    renderAdaptiveRunView(inspection, inspection.contentDigest),
   );
   assert.deepEqual(inspection, storedInspection, `${label} inspection replay`);
   assert.deepEqual(runView, storedRunView, `${label} RunView replay`);
@@ -267,13 +291,87 @@ async function verifyMediumEvidence(evidenceRoot) {
   assert.deepEqual(hostReceipt.browser.consoleWarningsOrErrors, []);
 }
 
+async function verifyNativeHighRiskEvidence(evidenceRoot, report) {
+  const [
+    specialistPackage,
+    baseAssignment,
+    authorization,
+    authorizationBytes,
+    receipt,
+    prompt,
+    context,
+    rawHandoff,
+  ] = await Promise.all([
+    readJson(join(evidenceRoot, "package-envelope.json")),
+    readJson(join(evidenceRoot, "routing", "base-assignment.json")),
+    readJson(join(evidenceRoot, "real-host", "launch-authorization.json")),
+    readBytes(join(evidenceRoot, "real-host", "launch-authorization.json")),
+    readJson(join(evidenceRoot, "real-host", "host-receipt.json")),
+    readBytes(join(evidenceRoot, "real-host", "launch-prompt.txt")),
+    readBytes(join(evidenceRoot, "untrusted-deployment-note.txt")),
+    readBytes(join(evidenceRoot, "real-host", "specialist-handoff.json")),
+  ]);
+  assert.equal(authorization.candidateLaunchApproved, true);
+  assert.equal(authorization.contract.compilationDigest, specialistPackage.compilationDigest);
+  assert.equal(authorization.contract.packageDigest, specialistPackage.packageDigest);
+  assert.equal(authorization.contract.assignmentDigest, baseAssignment.contentDigest);
+  assert.equal(authorization.runtime.profileId, baseAssignment.selected.rows[0].profileId);
+  assert.equal(authorization.runtime.effortId, baseAssignment.selected.rows[0].effortId);
+  assert.equal(authorization.prompt.bytes, prompt.byteLength);
+  assert.equal(authorization.prompt.digest, sha256(prompt));
+  assert.equal(authorization.context.bytes, context.byteLength);
+  assert.equal(authorization.context.digest, sha256(context));
+  assert.equal(receipt.authorization.bytes, authorizationBytes.byteLength);
+  assert.equal(receipt.authorization.digest, sha256(authorizationBytes));
+  assert.equal(receipt.approvedContract.assignmentDigest, baseAssignment.contentDigest);
+  assert.equal(receipt.result.rawBytes, rawHandoff.byteLength);
+  assert.equal(receipt.result.rawDigest, sha256(rawHandoff));
+
+  const verified = requireValue(
+    "real native high-risk handoff",
+    verifySpecialistHandoff(
+      specialistPackage,
+      {
+        compilationDigest: specialistPackage.compilationDigest,
+        packageDigest: specialistPackage.packageDigest,
+      },
+      rawHandoff,
+    ),
+  );
+  assert.equal(verified.handoff.outcome, "pass");
+  assert.equal(verified.contentDigest, receipt.result.verifiedHandoffDigest);
+  assert.equal(verified.semanticDigest, receipt.result.semanticDigest);
+  assert.equal(report.nativeHostRun.handoff.rawDigest, verified.rawDigest);
+  assert.equal(report.nativeHostRun.handoff.verifiedHandoffDigest, verified.contentDigest);
+  assert.equal(
+    report.nativeHostRun.truth.permissionEnforcement,
+    "not_independently_observed",
+  );
+  return {
+    authorizationDigest: sha256(authorizationBytes),
+    handoffDigest: verified.rawDigest,
+    nativeHandle: receipt.host.nativeHandle,
+    verifiedHandoffDigest: verified.contentDigest,
+  };
+}
 async function verifyHighRiskEvidence(evidenceRoot) {
   const runner = join(evidenceRoot, "run-high-risk-dogfood.mjs");
   const reportPath = join(evidenceRoot, "report.json");
+  const before = await snapshotTree(evidenceRoot);
   run("high-risk dogfood replay 1", process.execPath, [runner]);
   const first = await readBytes(reportPath);
+  assert.deepEqual(
+    await snapshotTree(evidenceRoot),
+    before,
+    "high-risk replay 1 changed committed evidence bytes",
+  );
   run("high-risk dogfood replay 2", process.execPath, [runner]);
   const second = await readBytes(reportPath);
+  assert.deepEqual(
+    await snapshotTree(evidenceRoot),
+    before,
+    "high-risk replay 2 changed committed evidence bytes",
+  );
   assert.equal(sha256(first), sha256(second), "high-risk replay determinism");
 
   const report = JSON.parse(second.toString("utf8"));
@@ -287,14 +385,21 @@ async function verifyHighRiskEvidence(evidenceRoot) {
   assert.equal(report.routing.leastCostSelection.profileId, "profile.codex.sol");
   assert.equal(report.routing.leastCostSelection.effortId, "effort.high");
   assert.deepEqual(report.routing.rejectedWeakOverride.diagnosticCodes, ["SC4508"]);
+  assert.equal(report.deniedRun.evidenceClass, "deterministic_adversarial_replay");
   assert.equal(report.deniedRun.integrationReady, false);
   assert.equal(report.deniedRun.routes[0]?.outcome, "block");
   assert.equal(report.deniedRun.steeringEvents, 1);
+  assert.equal(
+    report.successorRun.evidenceClass,
+    "real_native_handoff_replayed_through_kernel",
+  );
   assert.equal(report.successorRun.integrationReady, true);
   assert.equal(report.successorRun.routes[0]?.outcome, "pass");
   assert.equal(report.tamperCheck.rejected, true);
   assert.deepEqual(report.tamperCheck.diagnosticCodes, ["SC4311"]);
+  const nativeHost = await verifyNativeHighRiskEvidence(evidenceRoot, report);
   return {
+    nativeHost,
     reportDigest: sha256(second),
     successorRunViewDigest: report.successorRun.runViewDigest,
     successorSessionDigest: report.successorRun.sessionDigest,

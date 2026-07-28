@@ -614,8 +614,8 @@
             "id": "evidence.row.gpt55.high",
             "kind": "owner_assessment",
             "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/scenario.md",
-            "digest": "sha256:316346ed804abfe867507b8c6f2897900ccdfcc663d4cae29406cd146d3d8103",
-            "bytes": 1497
+            "digest": "sha256:d78baa84461cb0aaf3004a252ba224553d30b53f3970ae1e0f6c0beac4a19d5b",
+            "bytes": 1496
           }
         ]
       },
@@ -663,8 +663,8 @@
             "id": "evidence.row.luna.medium",
             "kind": "owner_assessment",
             "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/scenario.md",
-            "digest": "sha256:316346ed804abfe867507b8c6f2897900ccdfcc663d4cae29406cd146d3d8103",
-            "bytes": 1497
+            "digest": "sha256:d78baa84461cb0aaf3004a252ba224553d30b53f3970ae1e0f6c0beac4a19d5b",
+            "bytes": 1496
           }
         ]
       },
@@ -712,8 +712,8 @@
             "id": "evidence.row.sol.high",
             "kind": "owner_assessment",
             "locator": "path:docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/scenario.md",
-            "digest": "sha256:316346ed804abfe867507b8c6f2897900ccdfcc663d4cae29406cd146d3d8103",
-            "bytes": 1497
+            "digest": "sha256:d78baa84461cb0aaf3004a252ba224553d30b53f3970ae1e0f6c0beac4a19d5b",
+            "bytes": 1496
           }
         ]
       }

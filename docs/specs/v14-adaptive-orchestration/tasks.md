@@ -2,7 +2,7 @@
 
 ## Status
 
-Active.
+Release qualification active.
 
 ## Tasks
 
@@ -27,7 +27,8 @@ Active.
 - [ ] T006: Dogfood small, medium, and high-risk goals.
   Scope: Real application tasks with serial baselines, routing evidence, timing, interventions,
   failures, recovery, integration, independent review, and memory updates.
-  Verification: Small AC8 evidence passes; medium and high-risk AC10 evidence remain.
+  Verification: The deterministic V14 gate replays all three cases, including real native host
+  evidence, recovery, verified fan-in, byte-stable replay, and tamper rejection.
 - [ ] T007: Complete exact-candidate release qualification.
   Scope: Canonical verification, packed consumer, Windows CI, independent specialist reviews,
   public docs, milestone, changelog, and release gate.

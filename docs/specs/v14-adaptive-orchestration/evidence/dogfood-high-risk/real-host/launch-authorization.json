@@ -1,0 +1,48 @@
+{
+  "apiVersion": "swecircuit/native-host-evidence/v1alpha1",
+  "kind": "NativeCodexLaunchAuthorization",
+  "authorizationId": "v14-high-risk-native-rerun-2026-07-27",
+  "authorizedAt": "2026-07-27T23:46:58.108Z",
+  "authorizedBy": "codex.main-under-standing-release-authorization",
+  "candidateLaunchApproved": true,
+  "host": {
+    "product": "Codex Desktop",
+    "launchTool": "multi_agent_v1.spawn_agent"
+  },
+  "contract": {
+    "compilationDigest": "sha256:af2632ad93bc3188e7681afd5dec4165dd5fc96322c209a111ea92ea42c8fc1b",
+    "packageDigest": "sha256:429d793dc65d14d079b3305ed4417fec9d90cedbbe6014783811d6636d84ba95",
+    "assignmentDigest": "sha256:2638097ed4f6b7c96a8cb63e4890306a9db8c5f305adee15c9f45c92cc7997d8",
+    "agentId": "agent.2a9d1bf0a548bb60aa0d6b6d4c07bde65de131730081a946e43993b9926a0bd6",
+    "blueprintDigest": "sha256:bacceab5b4f1ace8a9cff660bb0deba5fdf4e3551aabe1e821976457c239076a"
+  },
+  "runtime": {
+    "profileId": "profile.codex.sol",
+    "model": "gpt-5.6-sol",
+    "effortId": "effort.high",
+    "reasoningEffort": "high",
+    "serviceTier": "priority"
+  },
+  "prompt": {
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/real-host/launch-prompt.txt",
+    "bytes": 2615,
+    "digest": "sha256:13171add7b36d6b7538756bc10f4cb02c5815d3b1d55bf9d4fc66dab5624b1bc"
+  },
+  "context": {
+    "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/untrusted-deployment-note.txt",
+    "bytes": 287,
+    "digest": "sha256:609688070145d6d7bd56b16581002145279bf38b191ece82f020f70f001e848a"
+  },
+  "authority": {
+    "read": [
+      "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/untrusted-deployment-note.txt"
+    ],
+    "write": [],
+    "network": [],
+    "secrets": [],
+    "allowedProcesses": [
+      "node",
+      "rg"
+    ]
+  }
+}

@@ -4,6 +4,10 @@ import { ADAPTIVE_RUN_SCHEMA_SOURCE } from "./adaptive-run-schema-data.js";
 import type { JsonValue } from "./model.js";
 import { RUNTIME_ROUTING_SCHEMA_SOURCE } from "./runtime-routing-schema-data.js";
 import { SPECIALIST_RUN_SCHEMA_SOURCE } from "./specialist-run-schema-data.js";
+import {
+  COMMON_SCHEMA_SOURCE,
+  SPECIALIST_COMPILER_SCHEMA_SOURCE,
+} from "./specialist-schema-data.js";
 
 const ADAPTIVE_RUN_SCHEMA_ID =
   "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/adaptive-run.schema.json";
@@ -19,6 +23,8 @@ interface AdaptiveRunSchemaRegistry {
   readonly launchCommand: ValidateFunction<unknown>;
   readonly event: ValidateFunction<unknown>;
   readonly session: ValidateFunction<unknown>;
+  readonly inspection: ValidateFunction<unknown>;
+  readonly runView: ValidateFunction<unknown>;
 }
 
 let registry: AdaptiveRunSchemaRegistry | undefined;
@@ -32,7 +38,9 @@ function schemaRegistry(): AdaptiveRunSchemaRegistry {
     strict: true,
     validateFormats: false,
   });
+  ajv.addSchema(JSON.parse(COMMON_SCHEMA_SOURCE) as object);
   ajv.addSchema(JSON.parse(RUNTIME_ROUTING_SCHEMA_SOURCE) as object);
+  ajv.addSchema(JSON.parse(SPECIALIST_COMPILER_SCHEMA_SOURCE) as object);
   ajv.addSchema(JSON.parse(SPECIALIST_RUN_SCHEMA_SOURCE) as object);
   ajv.addSchema(JSON.parse(ADAPTIVE_RUN_SCHEMA_SOURCE) as object);
   const root = ajv.getSchema(ADAPTIVE_RUN_SCHEMA_ID);
@@ -45,6 +53,8 @@ function schemaRegistry(): AdaptiveRunSchemaRegistry {
     launchCommand: ajv.compile({ $ref: `${ADAPTIVE_RUN_SCHEMA_ID}#/$defs/launchCommand` }),
     event: ajv.compile({ $ref: `${ADAPTIVE_RUN_SCHEMA_ID}#/$defs/event` }),
     session: ajv.compile({ $ref: `${ADAPTIVE_RUN_SCHEMA_ID}#/$defs/session` }),
+    inspection: ajv.compile({ $ref: `${ADAPTIVE_RUN_SCHEMA_ID}#/$defs/inspection` }),
+    runView: ajv.compile({ $ref: `${ADAPTIVE_RUN_SCHEMA_ID}#/$defs/runView` }),
   });
   return registry;
 }
@@ -107,4 +117,14 @@ export function validateAdaptiveRunSessionSchema(
   value: JsonValue,
 ): readonly AdaptiveRunSchemaIssue[] {
   return issues(schemaRegistry().session, value);
+}
+
+export function validateAdaptiveRunInspectionSchema(
+  value: JsonValue,
+): readonly AdaptiveRunSchemaIssue[] {
+  return issues(schemaRegistry().inspection, value);
+}
+
+export function validateAdaptiveRunViewSchema(value: JsonValue): readonly AdaptiveRunSchemaIssue[] {
+  return issues(schemaRegistry().runView, value);
 }

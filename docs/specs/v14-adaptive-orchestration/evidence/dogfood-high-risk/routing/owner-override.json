@@ -1,7 +1,7 @@
 {
   "apiVersion": "swecircuit/runtime-routing/v1alpha1",
   "kind": "RuntimeAssignmentOverride",
-  "predecessorAssignmentDigest": "sha256:45f5f79ef65d6f1b8e58f877936ad6d44a47097f5da8e4e0ca6e6033a770b993",
+  "predecessorAssignmentDigest": "sha256:2638097ed4f6b7c96a8cb63e4890306a9db8c5f305adee15c9f45c92cc7997d8",
   "agentId": "agent.2a9d1bf0a548bb60aa0d6b6d4c07bde65de131730081a946e43993b9926a0bd6",
   "replacementCalibrationRowId": "row.gpt55.high",
   "requestedBy": "repository-owner",

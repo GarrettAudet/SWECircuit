@@ -842,7 +842,7 @@ try {
     Assert-CheckerResult "README missing reviewed-work compiler boundary" $missingReviewedWorkFixture $false
 
     $conditionalHostMutations = @(
-        @{ Name = "owner"; Old = "An external IDE host selects providers, models, effort, skills, and tools"; New = "IDECircuit selects providers, models, effort, skills, and tools" },
+        @{ Name = "owner"; Old = "an external IDE host materializes the approved profile, model, effort, skills, and tools"; New = "IDECircuit materializes the approved profile, model, effort, skills, and tools" },
         @{ Name = "conditional"; Old = "then may run dependency-safe contracts in parallel"; New = "then runs dependency-safe contracts in parallel" },
         @{ Name = "dependency-safe"; Old = "dependency-safe contracts"; New = "all contracts" }
     )
@@ -1300,7 +1300,7 @@ try {
     Assert-CheckerResult "README missing runtime boundary" $missingBoundaryFixture $false
 
     $hostResponsibilityAnchors = @(
-        @{ Name = "provider-model"; Text = "selects providers, models, effort, skills, and tools" },
+        @{ Name = "provider-model"; Text = "materializes the approved profile, model, effort, skills, and tools" },
         @{ Name = "dispatch"; Text = "dispatches agents" },
         @{ Name = "permissions"; Text = "enforces permissions" },
         @{ Name = "tools"; Text = "executes tools" },

@@ -2,7 +2,7 @@
 
 ## Status
 
-Active.
+Release candidate; exact-candidate qualification active.
 
 ## Problem
 

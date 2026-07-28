@@ -3,7 +3,7 @@
   "kind": "small_windows_alpha_attestation",
   "integrationRecord": {
     "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/integration-record.json",
-    "sha256": "c10d1c424a457542a73bc901431866f83042080d738a4ea023db98dbaf5cad9b"
+    "sha256": "500720a4288edca864b82ebf27300c7705aac950bffc7f61ffe2a0ddc18112f4"
   },
   "independentReview": {
     "path": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/independent-review.md",

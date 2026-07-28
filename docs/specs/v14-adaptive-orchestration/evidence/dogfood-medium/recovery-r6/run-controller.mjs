@@ -297,10 +297,10 @@ async function saveRun(session, expectation) {
     "inspect adaptive dogfood session",
     inspectAdaptiveRunSession(session, expectation),
   );
-  const runView = requireValue("render adaptive RunView", renderAdaptiveRunView(inspection));
+  const runView = requireValue("render adaptive RunView", renderAdaptiveRunView(inspection, inspection.contentDigest));
   const markdown = requireValue(
     "render adaptive RunView Markdown",
-    renderAdaptiveRunViewMarkdown(runView),
+    renderAdaptiveRunViewMarkdown(inspection, inspection.contentDigest),
   );
   await writeJson(join(RUN, "session.json"), session);
   await writeJson(join(RUN, "inspection.json"), inspection);

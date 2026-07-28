@@ -1,6 +1,12 @@
 # Changelog
 
 ## Unreleased
+
+- Added the V14 adaptive orchestration release candidate: deterministic least-sufficient runtime
+  routing from host supply, immutable host evidence, strict RunView, typed recovery, a Windows
+  Codex Desktop reference boundary, and small/medium/high-risk dogfood gates.
+- Added V12 immutable specialist run sessions for dependency eligibility, exact handoff
+  settlement, restore, inspection, and source-preserving fan-in.
 - Added the V11 provider-neutral Specialist Compiler with deterministic team analysis and selection, exact AgentBlueprint packages, two-digest package verification, closed raw handoff verification, dependency-complete fan-in assessment, and a truthful read-only first-run example.
 
 

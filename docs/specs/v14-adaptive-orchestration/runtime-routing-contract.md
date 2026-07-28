@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed.
+Implemented for the V14 release candidate.
 
 ## Composition
 
@@ -121,15 +121,16 @@ The controller wraps, rather than replaces, V12:
 
 RunView is a deterministic projection with:
 
-- goal, branch, version, stage, outcome, and next action;
+- goal, workspace version, host, predecessor, stage, outcome, and next action;
 - module/work-unit ownership and dependencies;
 - specialist, selected profile/effort, selection reason, override, and native status;
 - read/write scopes and files reported in exact handoffs;
 - evidence duties, accepted evidence, routes, blockers, and remaining gates;
 - source artifact references and digests.
 
-JSON is normative. Markdown is a concise human rendering. Both must survive restore and must not
-include secrets, hidden prompts, or full transcripts by default.
+JSON is normative. Markdown is a concise human rendering. Both are derived only from a closed,
+digest-valid `AdaptiveRunInspection`, must survive restore, reject unsafe display text, and must
+not include secrets, hidden prompts, or full transcripts by default.
 
 ## Host Adapter
 

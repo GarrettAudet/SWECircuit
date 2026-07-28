@@ -335,7 +335,11 @@ test("public support is Windows-only without weakening IDE and provider neutrali
   assert.match(readmeSource, /\[Support\]\(SUPPORT\.md\)/u);
   assert.match(
     readmeSource,
-    /external IDE host selects providers, models, effort, skills, and tools/u,
+    /IDECircuit compiles a least-cost feasible runtime assignment from reviewed host inventory/u,
+  );
+  assert.match(
+    readmeSource,
+    /external IDE host materializes the approved profile, model, effort, skills, and tools/u,
   );
   assert.match(supportSource, /v0\.1 release supports Windows only/u);
   assert.match(supportSource, /macOS and Linux are not release gates/u);

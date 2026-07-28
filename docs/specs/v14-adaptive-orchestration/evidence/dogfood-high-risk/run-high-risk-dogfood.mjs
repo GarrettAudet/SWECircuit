@@ -37,6 +37,10 @@ const SOURCE_PATH =
   "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/untrusted-deployment-note.txt";
 const SCENARIO_PATH =
   "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/scenario.md";
+const NATIVE_HANDOFF_PATH =
+  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/real-host/specialist-handoff.json";
+const NATIVE_RECEIPT_PATH =
+  "docs/specs/v14-adaptive-orchestration/evidence/dogfood-high-risk/real-host/host-receipt.json";
 const UNIT_ID = "review.release-manifest";
 const MODULE_ID = "security.release-manifest-review";
 const CAPABILITY_ID = "security.release-manifest.review";
@@ -379,10 +383,13 @@ function runExpectation(assignment, overrides = {}) {
 }
 
 async function main() {
-  const [sourceBytes, scenarioBytes] = await Promise.all([
-    readFile(join(ROOT, SOURCE_PATH)),
-    readFile(join(ROOT, SCENARIO_PATH)),
-  ]);
+  const [sourceBytes, scenarioBytes, nativeHandoffBytes, nativeReceiptBytes] =
+    await Promise.all([
+      readFile(join(ROOT, SOURCE_PATH)),
+      readFile(join(ROOT, SCENARIO_PATH)),
+      readFile(join(ROOT, NATIVE_HANDOFF_PATH)),
+      readFile(join(ROOT, NATIVE_RECEIPT_PATH)),
+    ]);
 
   const unsafeRequest = specialistRequest({ sourceBytes, revision: 1, unsafe: true });
   const unsafeCompilation = compileAgentBlueprints(unsafeRequest);
@@ -418,6 +425,38 @@ async function main() {
   assert.equal(baseAssignment.search.claim, "exhaustive_assignment_vector_search");
 
   const agentId = compilation.blueprints[0].id;
+  const nativeReceipt = JSON.parse(nativeReceiptBytes.toString("utf8"));
+  const nativeVerifiedHandoff = requireValue(
+    "verify real native high-risk handoff",
+    verifySpecialistHandoff(specialistPackage, packageExpectation, nativeHandoffBytes),
+  );
+  assert.equal(nativeReceipt.host.reportedStatus, "completed");
+  assert.equal(nativeReceipt.approvedContract.compilationDigest, compilation.contentDigest);
+  assert.equal(nativeReceipt.approvedContract.packageDigest, specialistPackage.packageDigest);
+  assert.equal(nativeReceipt.approvedContract.assignmentDigest, baseAssignment.contentDigest);
+  assert.equal(nativeReceipt.approvedContract.agentId, agentId);
+  assert.equal(
+    nativeReceipt.approvedContract.profileId,
+    baseAssignment.selected.rows[0].profileId,
+  );
+  assert.equal(
+    nativeReceipt.approvedContract.effortId,
+    baseAssignment.selected.rows[0].effortId,
+  );
+  assert.equal(nativeReceipt.result.rawBytes, nativeHandoffBytes.byteLength);
+  assert.equal(nativeReceipt.result.rawDigest, digest(nativeHandoffBytes));
+  assert.equal(
+    nativeReceipt.result.verifiedHandoffDigest,
+    nativeVerifiedHandoff.contentDigest,
+  );
+  assert.equal(nativeReceipt.result.semanticDigest, nativeVerifiedHandoff.semanticDigest);
+  const nativeReceiptBinding = {
+    id: "evidence.native-codex-host-receipt",
+    kind: "configuration",
+    locator: `path:${NATIVE_RECEIPT_PATH}`,
+    digest: digest(nativeReceiptBytes),
+    bytes: nativeReceiptBytes.byteLength,
+  };
   const invalidOverride = {
     apiVersion: RUNTIME_ROUTING_API_VERSION,
     kind: "RuntimeAssignmentOverride",
@@ -439,15 +478,18 @@ async function main() {
     replacementCalibrationRowId: "row.gpt55.high",
     rationale: "Use the alternate qualified frontier reviewer for the high-risk recovery run.",
   };
-  const assignment = requireValue(
+  const overrideAssignment = requireValue(
     "apply feasible high-risk owner override",
     applyRuntimeAssignmentOverride(baseAssignment, validOverride),
   );
-  assert.equal(assignment.selected.selectionReason, "owner_override");
-  assert.equal(assignment.selected.rows[0].profileId, "profile.codex.gpt55");
+  assert.equal(overrideAssignment.selected.selectionReason, "owner_override");
+  assert.equal(overrideAssignment.selected.rows[0].profileId, "profile.codex.gpt55");
   requireValue(
     "verify overridden high-risk assignment",
-    verifyRuntimeAssignmentCompilation(assignment, assignmentExpectation(assignment)),
+    verifyRuntimeAssignmentCompilation(
+      overrideAssignment,
+      assignmentExpectation(overrideAssignment),
+    ),
   );
 
   const permissionRequest = {
@@ -477,19 +519,19 @@ async function main() {
   };
 
   const baselineDigest = digest(scenarioBytes);
-  const firstExpectation = runExpectation(assignment, {
+  const firstExpectation = runExpectation(baseAssignment, {
     runId: "run.v14.high-risk.release-manifest.denied",
     runRevision: 1,
     workspaceBaselineDigest: baselineDigest,
   });
   let firstSession = requireValue(
     "create high-risk denied session",
-    createAdaptiveRunSession(assignment, specialistPackage, firstExpectation),
+    createAdaptiveRunSession(baseAssignment, specialistPackage, firstExpectation),
   );
   const firstFixture = {
     compilation,
     specialistPackage,
-    assignment,
+    assignment: baseAssignment,
     expectation: firstExpectation,
     session: firstSession,
   };
@@ -557,11 +599,11 @@ async function main() {
   assert.equal(firstInspection.routes.some((route) => route.outcome === "block"), true);
   const firstView = requireValue(
     "render denied high-risk RunView",
-    renderAdaptiveRunView(firstInspection),
+    renderAdaptiveRunView(firstInspection, firstInspection.contentDigest),
   );
   const firstMarkdown = requireValue(
     "render denied high-risk RunView Markdown",
-    renderAdaptiveRunViewMarkdown(firstView),
+    renderAdaptiveRunViewMarkdown(firstInspection, firstInspection.contentDigest),
   );
   const blockedResult = firstSession.hostEvents.at(-1);
   assert.equal(blockedResult.kind, "HostResultCapture");
@@ -572,7 +614,7 @@ async function main() {
     terminalOutcome: "block",
     evidenceDigest: blockedResult.rawDigest,
   };
-  const successorExpectation = runExpectation(assignment, {
+  const successorExpectation = runExpectation(baseAssignment, {
     runId: "run.v14.high-risk.release-manifest.offline-successor",
     runRevision: 2,
     predecessorRun,
@@ -581,12 +623,12 @@ async function main() {
   });
   let successorSession = requireValue(
     "create high-risk offline successor",
-    createAdaptiveRunSession(assignment, specialistPackage, successorExpectation),
+    createAdaptiveRunSession(baseAssignment, specialistPackage, successorExpectation),
   );
   const successorFixture = {
     compilation,
     specialistPackage,
-    assignment,
+    assignment: baseAssignment,
     expectation: successorExpectation,
     session: successorSession,
   };
@@ -608,12 +650,18 @@ async function main() {
   successorSession = appendEvent(
     successorFixture,
     successorSession,
-    lifecycleEvent(successorFixture, successorSession, agentId, "completed"),
+    lifecycleEvent(successorFixture, successorSession, agentId, "completed", {
+      evidence: [nativeReceiptBinding],
+    }),
   );
   successorSession = appendEvent(
     successorFixture,
     successorSession,
-    resultCaptureEvent(successorFixture, successorSession, agentId, "pass"),
+    resultCaptureEvent(successorFixture, successorSession, agentId, "pass", {
+      rawHandoffBytes: nativeHandoffBytes.byteLength,
+      rawHandoffDigest: digest(nativeHandoffBytes),
+      rawHandoffBase64: Buffer.from(nativeHandoffBytes).toString("base64"),
+    }),
   );
   const successorInspection = requireValue(
     "inspect high-risk offline successor",
@@ -623,11 +671,11 @@ async function main() {
   assert.equal(successorInspection.routes.some((route) => route.outcome === "pass"), true);
   const successorView = requireValue(
     "render high-risk successor RunView",
-    renderAdaptiveRunView(successorInspection),
+    renderAdaptiveRunView(successorInspection, successorInspection.contentDigest),
   );
   const successorMarkdown = requireValue(
     "render high-risk successor RunView Markdown",
-    renderAdaptiveRunViewMarkdown(successorView),
+    renderAdaptiveRunViewMarkdown(successorInspection, successorInspection.contentDigest),
   );
 
   const acceptedResult = successorSession.hostEvents.at(-1);
@@ -652,6 +700,7 @@ async function main() {
     ),
   );
   assert.equal(verifiedHandoff.handoff.outcome, "pass");
+  assert.equal(verifiedHandoff.contentDigest, nativeVerifiedHandoff.contentDigest);
   assert.equal(assessment.integrationReady, true);
 
   const tampered = JSON.parse(Buffer.from(acceptedRaw).toString("utf8"));
@@ -671,7 +720,7 @@ async function main() {
     writeJson(join(EVIDENCE, "routing", "request.json"), routingRequest),
     writeJson(join(EVIDENCE, "routing", "base-assignment.json"), baseAssignment),
     writeJson(join(EVIDENCE, "routing", "owner-override.json"), validOverride),
-    writeJson(join(EVIDENCE, "routing", "assignment.json"), assignment),
+    writeJson(join(EVIDENCE, "routing", "assignment.json"), overrideAssignment),
     writeJson(join(EVIDENCE, "run-1", "expectation.json"), firstExpectation),
     writeJson(join(EVIDENCE, "run-1", "session.json"), firstSession),
     writeJson(join(EVIDENCE, "run-1", "inspection.json"), firstInspection),
@@ -703,12 +752,13 @@ async function main() {
       },
       approvedOverride: {
         calibrationRowId: validOverride.replacementCalibrationRowId,
-        profileId: assignment.selected.rows[0].profileId,
-        effortId: assignment.selected.rows[0].effortId,
-        assignmentDigest: assignment.contentDigest,
+        profileId: overrideAssignment.selected.rows[0].profileId,
+        effortId: overrideAssignment.selected.rows[0].effortId,
+        assignmentDigest: overrideAssignment.contentDigest,
       },
     },
     deniedRun: {
+      evidenceClass: "deterministic_adversarial_replay",
       runId: firstExpectation.runId,
       permissionRequest: permissionBinding,
       sessionDigest: firstSession.contentDigest,
@@ -720,6 +770,7 @@ async function main() {
       ).length,
     },
     successorRun: {
+      evidenceClass: "real_native_handoff_replayed_through_kernel",
       runId: successorExpectation.runId,
       predecessorRun,
       sessionDigest: successorSession.contentDigest,
@@ -732,6 +783,20 @@ async function main() {
         semanticDigest: verifiedHandoff.semanticDigest,
       },
       assessmentDigest: assessment.contentDigest,
+    },
+    nativeHostRun: {
+      host: nativeReceipt.host,
+      requestedRuntime: nativeReceipt.requestedRuntime,
+      authority: nativeReceipt.authority,
+      receipt: nativeReceiptBinding,
+      handoff: {
+        rawBytes: nativeVerifiedHandoff.rawBytes,
+        rawDigest: nativeVerifiedHandoff.rawDigest,
+        semanticDigest: nativeVerifiedHandoff.semanticDigest,
+        verifiedHandoffDigest: nativeVerifiedHandoff.contentDigest,
+        outcome: nativeVerifiedHandoff.handoff.outcome,
+      },
+      truth: nativeReceipt.truth,
     },
     tamperCheck: {
       rejected: true,

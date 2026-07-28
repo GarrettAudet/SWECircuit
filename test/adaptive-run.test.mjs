@@ -12,6 +12,8 @@ import {
   restoreAdaptiveRunSession,
 } from "swecircuit";
 
+import { digestCanonicalJson } from "../dist/canonical-json.js";
+
 import {
   adapterFailureEvent,
   appendEvent,
@@ -29,6 +31,15 @@ import {
   resultCaptureEvent,
   steeringEvent,
 } from "./helpers/adaptive-run-fixture.mjs";
+
+const INSPECTION_DIGEST_DOMAIN = "swecircuit/adaptive-run/inspection/v1alpha1";
+const VIEW_DIGEST_DOMAIN = "swecircuit/adaptive-run/run-view/v1alpha1";
+
+function redigest(candidate, domain) {
+  const { contentDigest: _ignored, ...base } = candidate;
+  candidate.contentDigest = digestCanonicalJson(domain, base);
+  return candidate;
+}
 
 function firstAgent(fixture) {
   return fixture.assignment.selected.rows[0].agentId;
@@ -281,19 +292,103 @@ test("restore rejects substitutions and remains deterministic under JSON key per
   assertOk(restoreAdaptiveRunSession(new TextEncoder().encode(permuted), fixture.expectation));
 });
 
-test("RunView preserves provenance, redacts secrets, source links, interventions, and serialization", () => {
+test("RunView preserves the complete trace and renders only from a validated inspection", () => {
   const fixture = makeAdaptiveFixture();
   const agentId = firstAgent(fixture);
   let session = launchAndMaterialize(fixture, agentId);
   session = appendEvent(fixture, session, steeringEvent(fixture, session, agentId));
   const inspection = assertOk(inspectAdaptiveRunSession(session, fixture.expectation));
-  const view = assertOk(renderAdaptiveRunView(inspection), "render RunView");
-  const markdown = assertOk(renderAdaptiveRunViewMarkdown(view), "render RunView markdown");
+  const view = assertOk(
+    renderAdaptiveRunView(inspection, inspection.contentDigest),
+    "render RunView",
+  );
+  const markdown = assertOk(
+    renderAdaptiveRunViewMarkdown(inspection, inspection.contentDigest),
+    "render RunView markdown",
+  );
   const serialized = JSON.stringify(view);
   assert.equal(serialized.includes("kernel proof"), false);
   assert.equal(serialized.includes(fixture.assignment.contentDigest), true);
-  assert.equal(markdown.includes("host-reported"), true);
-  assert.deepEqual(assertOk(renderAdaptiveRunView(JSON.parse(serialized))), view);
+  assert.equal(view.goal.id, fixture.assignment.goalId);
+  assert.equal(view.workspaceBaselineDigest, fixture.expectation.workspaceBaselineDigest);
+  assert.equal(view.host.hostId, fixture.expectation.authorizedHostId);
+  assert.equal(view.steering.length, 1);
+  assert.deepEqual(view.agents[0].authority, fixture.compilation.blueprints[0].authority);
+  assert.deepEqual(view.agents[0].contextUses, fixture.compilation.blueprints[0].contextUses);
+  assert.deepEqual(view.agents[0].evidenceDuties, fixture.compilation.blueprints[0].evidenceDuties);
+  assert.equal(markdown.includes("Execution Mode"), true);
+  assert.equal(markdown.includes("Agent Contracts"), true);
+  assert.equal(markdown.includes("Host-reported"), true);
+  assert.deepEqual(
+    assertOk(
+      renderAdaptiveRunView(JSON.parse(JSON.stringify(inspection)), inspection.contentDigest),
+    ),
+    view,
+  );
+  assertRejected(
+    renderAdaptiveRunView(JSON.parse(serialized), inspection.contentDigest),
+    "SC4601",
+    "RunView is not a source",
+  );
+});
+
+test("RunView rejects recomputed forgeries, unknown fields, and unsafe display text", () => {
+  const fixture = makeAdaptiveFixture();
+  const inspection = assertOk(inspectAdaptiveRunSession(fixture.session, fixture.expectation));
+  const view = assertOk(renderAdaptiveRunView(inspection, inspection.contentDigest));
+
+  const forgedView = clone(view);
+  forgedView.unknownDisplayClaim = "approved";
+  redigest(forgedView, VIEW_DIGEST_DOMAIN);
+  assertRejected(
+    renderAdaptiveRunView(forgedView, inspection.contentDigest),
+    "SC4601",
+    "recomputed RunView forgery",
+  );
+
+  const allowedFieldForgery = clone(inspection);
+  allowedFieldForgery.host.hostId = "host.forged";
+  redigest(allowedFieldForgery, INSPECTION_DIGEST_DOMAIN);
+  assertRejected(
+    renderAdaptiveRunView(allowedFieldForgery, inspection.contentDigest),
+    "SC4601",
+    "external inspection digest binding",
+  );
+
+  const unknownInspection = clone(inspection);
+  unknownInspection.agents[0].assignment.unknownDecision = "owner_approved";
+  redigest(unknownInspection, INSPECTION_DIGEST_DOMAIN);
+  assertRejected(
+    renderAdaptiveRunView(unknownInspection, unknownInspection.contentDigest),
+    "SC4601",
+    "closed nested inspection",
+  );
+
+  const bidiInspection = clone(inspection);
+  bidiInspection.agents[0].profileId = "safe\u202eevil";
+  redigest(bidiInspection, INSPECTION_DIGEST_DOMAIN);
+  assertRejected(
+    renderAdaptiveRunView(bidiInspection, bidiInspection.contentDigest),
+    "SC4601",
+    "unsafe display text",
+  );
+});
+
+test("RunView Markdown neutralizes embedded markup", () => {
+  const fixture = makeAdaptiveFixture();
+  const agentId = firstAgent(fixture);
+  let session = launchAndMaterialize(fixture, agentId);
+  session = appendEvent(fixture, session, steeringEvent(fixture, session, agentId));
+  const inspection = clone(assertOk(inspectAdaptiveRunSession(session, fixture.expectation)));
+  inspection.steering[0].message =
+    "<img src=x onerror=alert(1)> **approved** [link](https://example.invalid)";
+  redigest(inspection, INSPECTION_DIGEST_DOMAIN);
+
+  const markdown = assertOk(renderAdaptiveRunViewMarkdown(inspection, inspection.contentDigest));
+  assert.equal(markdown.includes("<img"), false);
+  assert.equal(markdown.includes("**approved**"), false);
+  assert.equal(markdown.includes("[link]"), false);
+  assert.equal(markdown.includes("&lt;img"), true);
 });
 
 test("adaptive event, session, and RunView limits reject before unbounded work", () => {

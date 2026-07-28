@@ -7,9 +7,9 @@
     "runViewStage": "integration_ready",
     "nextActionAtFanIn": "integrate_and_verify",
     "runViewJsonPath": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/run/run-view.json",
-    "runViewJsonSha256": "4f4be05cf0593c1ad3b1c9a9c89dfb6e3e4dfb0e86b5460cef9e9c4d4b039aa9",
+    "runViewJsonSha256": "00e35b28ba73fc63a2ebf5419b674e61cbf2c08a7000368553e6b5f3bddfa440",
     "runViewMarkdownPath": "docs/specs/v14-adaptive-orchestration/evidence/dogfood-small/run/run-view.md",
-    "runViewMarkdownSha256": "d25887eb263f59aa08fddebda5d1591218e614112457854040ce9c3b9c985b92",
+    "runViewMarkdownSha256": "5e4e8ba1c156b694d7580c2c977c88c270bdb326a84d2d017516ba0302b47858",
     "explanation": "The RunView is immutable pre-integration fan-in evidence, not a post-integration release claim."
   },
   "integratedArtifact": {

@@ -1,3 +1,5 @@
+import { ADAPTIVE_RUN_PROJECTION_DEFS } from "./adaptive-run-projection-schema-data.js";
+
 const schemaId =
   "https://github.com/GarrettAudet/SWECircuit/schemas/v1alpha1/adaptive-run.schema.json";
 const routingSchemaId =
@@ -435,13 +437,21 @@ const schema = {
     { $ref: "#/$defs/launchCommand" },
     { $ref: "#/$defs/event" },
     { $ref: "#/$defs/session" },
+    { $ref: "#/$defs/inspection" },
+    { $ref: "#/$defs/runView" },
   ],
   $defs: {
     expectation,
+    predecessor,
+    permission,
     launchCommand,
+    launchAuthorization,
+    materializationClaim,
+    steeringAuthorization,
     event,
     acceptedEvent,
     session,
+    ...ADAPTIVE_RUN_PROJECTION_DEFS,
   },
 };
 
